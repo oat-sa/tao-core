@@ -21,26 +21,18 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\tasks;
 
+use common_exception_MissingParameter;
+use common_report_Report as Report;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerAwareTrait;
-use oat\tao\model\resources\ResourceIterator;
-use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
-use oat\tao\model\search\index\IndexIterator;
-use oat\tao\model\search\index\IndexService;
+use oat\tao\model\search\index\IndexIteratorFactory;
 use oat\tao\model\search\Search;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use \common_report_Report as Report;
 
-/**
- * Class UpdateResourceInIndex
- *
- * @author Ilya Yarkavets <ilya@taotesting.com>
- * @package oat\tao\model\search\tasks
- */
 class UpdateClassInIndex implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
 {
     use ServiceLocatorAwareTrait;
@@ -48,20 +40,31 @@ class UpdateClassInIndex implements Action, ServiceLocatorAwareInterface, TaskAw
     use TaskAwareTrait;
     use LoggerAwareTrait;
 
+    /** @var IndexIteratorFactory */
+    private $indexIteratorFactory;
+
+    public function __construct(IndexIteratorFactory $indexIteratorFactory = null)
+    {
+        $this->indexIteratorFactory = $indexIteratorFactory;
+    }
+
+    /**
+     * @param $params
+     *
+     * @return Report
+     *
+     * @throws common_exception_MissingParameter
+     */
     public function __invoke($params): Report
     {
         if (empty($params) || empty($params[0])) {
             throw new common_exception_MissingParameter();
         }
 
-        $iterator = new ResourceIterator($params);
-        $iterator->setServiceLocator($this->getServiceLocator());
-
-        $indexIterator = new IndexIterator($iterator);
-        $indexIterator->setServiceLocator($this->getServiceLocator());
-
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
-        $numberOfIndexed = $searchService->index($indexIterator);
+        $numberOfIndexed = $searchService->index(
+            $this->getIndexIteratorFactory()->make($params)
+        );
 
         $this->logInfo($numberOfIndexed . ' resources have been indexed by ' . static::class);
 
@@ -74,5 +77,14 @@ class UpdateClassInIndex implements Action, ServiceLocatorAwareInterface, TaskAw
         }
 
         return new Report($type, $message);
+    }
+
+    private function getIndexIteratorFactory(): IndexIteratorFactory
+    {
+        if (null === $this->indexIteratorFactory) {
+            $this->indexIteratorFactory = new IndexIteratorFactory($this->getServiceLocator());
+        }
+
+        return $this->indexIteratorFactory;
     }
 }
