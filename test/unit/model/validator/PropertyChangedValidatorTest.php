@@ -101,6 +101,7 @@ class PropertyChangedValidatorTest extends TestCase
     private function createPropertyMock(string $widgetPropertyId = null): core_kernel_classes_Property
     {
         $property = $this->createMock(core_kernel_classes_Property::class);
+        $property->expects($this->any())->method('getUri')->willReturn('');
         $property->expects($this->once())
             ->method('getOnePropertyValue')
             ->with(new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET))
