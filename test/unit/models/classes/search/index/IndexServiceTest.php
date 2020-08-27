@@ -22,6 +22,8 @@
 
 declare(strict_types=1);
 
+namespace oat\tao\test\unit\models\classes\search\index;
+
 use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;

@@ -17,32 +17,20 @@
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  */
-
 declare(strict_types=1);
 
-namespace oat\tao\model\search\index;
+namespace oat\tao\test\unit\models\classes\search\index;
 
-use oat\tao\model\resources\ResourceIterator;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use oat\generis\test\TestCase;
+use oat\tao\model\search\index\IndexIterator;
+use oat\tao\model\search\index\IndexIteratorFactory;
 
-class IndexIteratorFactory
+class IndexIteratorFactoryTest extends TestCase
 {
-    use ServiceLocatorAwareTrait;
-
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function testMakeIterator(): void
     {
-        $this->serviceLocator = $serviceLocator;
-    }
-
-    public function make (array $classes): IndexIterator
-    {
-        $iterator = new ResourceIterator($classes);
-        $iterator->setServiceLocator($this->getServiceLocator());
-
-        $indexIterator = new IndexIterator($iterator);
-        $indexIterator->setServiceLocator($this->getServiceLocator());
-
-        return $indexIterator;
+        $iterator = (new IndexIteratorFactory($this->getServiceLocatorMock()))->make([]);
+        $this->assertInstanceOf(IndexIterator::class, $iterator);
+        $this->assertEquals($this->getServiceLocatorMock(), $iterator->getServiceLocator());
     }
 }
