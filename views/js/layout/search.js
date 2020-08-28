@@ -35,7 +35,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
         container: null,
         searchStore: null,
         init: function () {
-            initSearchStore().then(function () {
+            initSearchStore().then(() => {
                 initializeEvents();
                 manageSearchStoreUpdate();
             });
@@ -53,7 +53,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
     }
 
     /**
-     * Inits search component event on search and results icons click, and enter keypress
+     * Sets event to init searchModal instance on search and results icons click, and enter keypress
      */
     function initializeEvents() {
         searchComponent.container = $('.action-bar .search-area');
@@ -73,18 +73,18 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
     }
 
     /**
-     * Creates a search modal instance and set up searchStoreUpdate listener to update
-     * search component visuals according when search store changes
-     * @param {boolean} updateResults - if datatable results on search modal must be requested to backend, or recover from search store isntead
+     * Creates a searchModal instance and set up searchStoreUpdate listener to update
+     * search component visuals when search store changes
+     * @param {boolean} searchOnInit - if datatable request must be triggered on init, or uset the stored results instead
      */
-    function createSearchModalInstance(query, updateResults = true) {
+    function createSearchModalInstance(query, searchOnInit = true) {
         query = query ? query : $('input', searchComponent.container).val();
         const url = $('.action-bar .search-area').data('url');
         const searchModalInstance = searchModal({
             query: query,
             url: url,
             events: actionManager,
-            updateResults: updateResults
+            searchOnInit: searchOnInit
         });
 
         searchModalInstance.on('searchStoreUpdate', manageSearchStoreUpdate);
@@ -95,8 +95,8 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
      * it is not, clears the store. Then requests stored query and results if still necessary, and updates view
      */
     function manageSearchStoreUpdate() {
-        searchComponent.searchStore.getItem('location').then(storedLocation => {
-            if (storedLocation !== context.shownStructure) {
+        searchComponent.searchStore.getItem('context').then(storedContext => {
+            if (storedContext !== context.shownStructure) {
                 searchComponent.searchStore.clear();
                 updateViewAfterSeachStoreUpdate('');
             } else {
@@ -132,5 +132,6 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
             $resultsCounterContainer.text('');
         }
     }
+
     return searchComponent;
 });
