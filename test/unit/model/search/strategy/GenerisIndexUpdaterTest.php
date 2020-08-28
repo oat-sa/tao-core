@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,25 +20,27 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\search\strategy;
+namespace oat\tao\test\unit\model\search\strategy;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\index\IndexUpdaterInterface;
+use oat\generis\test\TestCase;
+use oat\tao\model\search\strategy\GenerisIndexUpdater;
 
-class GenerisIndexUpdater extends ConfigurableService implements IndexUpdaterInterface
+class GenerisIndexUpdaterTest extends TestCase
 {
-    public function updateProperties(array $properties): void
+    /** @var GenerisIndexUpdater */
+    private $sut;
+
+    public function setUp(): void
     {
-        return;
+        $this->sut = new GenerisIndexUpdater();
+
+        $this->sut->setServiceLocator(
+            $this->getServiceLocatorMock()
+        );
     }
 
-    public function deleteProperty(array $property): void
+    public function testHasClassSupportShouldAlwaysBeFalseForGenerisIndexUpdater(): void
     {
-        return;
-    }
-
-    public function hasClassSupport(string $class): bool
-    {
-        return false;
+        $this->assertFalse($this->sut->hasClassSupport('test'));
     }
 }

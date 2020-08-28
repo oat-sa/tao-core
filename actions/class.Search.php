@@ -98,17 +98,17 @@ class tao_actions_Search extends tao_actions_CommonModule
 
         $totalPages = is_null($rows) ? 1 : ceil($results->getTotalCount() / $rows);
 
-        $results = $results->getArrayCopy();
+        $resultsRaw = $results->getArrayCopy();
 
         $accessibleResultsMap = array_flip(
-            $permissionHelper->filterByPermission($results, PermissionInterface::RIGHT_READ)
+            $permissionHelper->filterByPermission($resultsRaw, PermissionInterface::RIGHT_READ)
         );
 
-        $resultAmount = count($results);
+        $resultAmount = count($resultsRaw);
 
         $response = new StdClass();
         if ($resultAmount > 0) {
-            foreach ($results as $uri) {
+            foreach ($resultsRaw as $uri) {
                 $instance = $this->getResource($uri);
                 $isAccessible = isset($accessibleResultsMap[$uri]);
 
@@ -127,7 +127,7 @@ class tao_actions_Search extends tao_actions_CommonModule
         $response->readonly = array_fill_keys(
             array_keys(
                 array_diff_key(
-                    array_flip($results),
+                    array_flip($resultsRaw),
                     $accessibleResultsMap
                 )
             ),
@@ -136,6 +136,9 @@ class tao_actions_Search extends tao_actions_CommonModule
         $response->success = true;
         $response->page = empty($response->data) ? 0 : $page;
         $response->total = $totalPages;
+
+        $response->totalCount = $results->getTotalCount();
+
         $response->records = $resultAmount;
 
         $this->returnJson($response, 200);
