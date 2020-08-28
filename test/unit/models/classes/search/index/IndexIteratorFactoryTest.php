@@ -29,7 +29,7 @@ class IndexIteratorFactoryTest extends TestCase
 {
     public function testMakeIterator(): void
     {
-        $iterator = (new IndexIteratorFactory($this->getServiceLocatorMock()))->make([]);
+        $iterator = (new IndexIteratorFactory($this->getServiceLocatorMock()))->create([]);
         $this->assertInstanceOf(IndexIterator::class, $iterator);
         $this->assertEquals($this->getServiceLocatorMock(), $iterator->getServiceLocator());
     }

@@ -35,7 +35,7 @@ class IndexIteratorFactory
         $this->serviceLocator = $serviceLocator;
     }
 
-    public function make(array $classes): IndexIterator
+    public function create(array $classes): IndexIterator
     {
         $iterator = new ResourceIterator($classes);
         $iterator->setServiceLocator($this->getServiceLocator());

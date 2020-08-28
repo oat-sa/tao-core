@@ -63,16 +63,16 @@ class UpdateClassInIndex implements Action, ServiceLocatorAwareInterface, TaskAw
         }
 
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
-        $numberOfIndexed = $searchService->index(
-            $this->getIndexIteratorFactory()->make($params)
+        $numberOfIndexedResources = $searchService->index(
+            $this->getIndexIteratorFactory()->create($params)
         );
 
-        $this->logInfo($numberOfIndexed . ' resources have been indexed by ' . static::class);
+        $this->logInfo($numberOfIndexedResources . ' resources have been indexed by ' . static::class);
 
         $type = Report::TYPE_SUCCESS;
         $message = "Documents in index were successfully updated.";
 
-        if ($numberOfIndexed < 1) {
+        if ($numberOfIndexedResources < 1) {
             $type = Report::TYPE_INFO;
             $message = "Zero documents were added/updated in index.";
         }
