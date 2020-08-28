@@ -34,17 +34,22 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
     const searchComponent = {
         container: null,
         searchStore: null,
-        init: function () {
-            initSearchStore().then(() => {
-                initializeEvents();
-                manageSearchStoreUpdate();
-            });
-        }
+        init: init
     };
 
     /**
-     * Create/opens search store and assigns it to searchStore property
-     * @returns {Promise} - promise that will be completed when store is opened
+     * Inits the component
+     */
+    function init() {
+        initSearchStore().then(() => {
+            initializeEvents();
+            manageSearchStoreUpdate();
+        });
+    }
+
+    /**
+     * Creates/opens search store and assigns it to searchStore property
+     * @returns {Promise} - promise that will be resolved when store is opened
      */
     function initSearchStore() {
         return store('search').then(function (store) {
@@ -53,7 +58,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
     }
 
     /**
-     * Sets event to init searchModal instance on search and results icons click, and enter keypress
+     * Sets events to init searchModal instance on search and results icons click, and enter keypress
      */
     function initializeEvents() {
         searchComponent.container = $('.action-bar .search-area');
@@ -62,9 +67,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
         const $resultsBtn = $('button.icon-ul', searchComponent.container);
 
         $searchBtn.off('click').on('click', () => createSearchModalInstance());
-
         $searchInput.off('keypress').on('keypress', e => (e.which === 13 ? createSearchModalInstance() : undefined));
-
         $resultsBtn.off('click').on('click', () => {
             searchComponent.searchStore
                 .getItem('query')
@@ -73,9 +76,9 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
     }
 
     /**
-     * Creates a searchModal instance and set up searchStoreUpdate listener to update
-     * search component visuals when search store changes
-     * @param {boolean} searchOnInit - if datatable request must be triggered on init, or uset the stored results instead
+     * Creates a searchModal instance and set up searchStoreUpdate listener to update search component visuals when search store changes
+     * @param {string} query - query for the searchComponent to be initialized with
+     * @param {boolean} searchOnInit - if datatable request must be triggered on init, or use the stored results instead
      */
     function createSearchModalInstance(query, searchOnInit = true) {
         query = query ? query : $('input', searchComponent.container).val();
