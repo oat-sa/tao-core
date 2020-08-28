@@ -125,7 +125,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
         if (storedSearchResults) {
             $resultsCounter.css('display', 'initial');
             $searchAreaButtonsContainer.css('right', '15px');
-            $resultsCounterContainer.text(storedSearchResults.records > 99 ? '+99' : storedSearchResults.records);
+            $resultsCounterContainer.text(storedSearchResults.totalCount > 99 ? '+99' : storedSearchResults.totalCount);
         } else {
             $searchAreaButtonsContainer.css('right', '30px');
             $resultsCounter.css('display', 'none');
