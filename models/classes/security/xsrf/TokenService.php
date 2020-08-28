@@ -109,16 +109,10 @@ class TokenService extends ConfigurableService
      */
     public function checkToken($token): bool
     {
-        $valid = false;
-        if (is_object($token) && $token instanceof Token) {
-            $token = $token->getValue();
-        }
+        $token = $this->normaliseToken($token);
+        $savedToken = $this->getStore()->getToken($token);
 
-        if (null !== ($savedToken = $this->getStore()->getToken($token)) && !$this->isExpired($savedToken)) {
-            $valid = true;
-        }
-
-        return $valid;
+        return $this->isTokenValid($token, $savedToken);
     }
 
     /**
@@ -131,21 +125,10 @@ class TokenService extends ConfigurableService
      */
     public function checkFormToken($token): bool
     {
-        $valid = false;
-        if (is_object($token) && $token instanceof Token) {
-            $token = $token->getValue();
-        }
-
-        if (!$this->getStore()->hasToken(self::FORM_TOKEN_NAMESPACE)) {
-            return false;
-        }
-
+        $token = $this->normaliseToken($token);
         $savedToken = $savedToken = $this->getStore()->getToken(self::FORM_TOKEN_NAMESPACE);
-        if ($savedToken->getValue() === $token && !$this->isExpired($savedToken)) {
-            $valid = true;
-        }
 
-        return $valid;
+        return $this->isTokenValid($token, $savedToken);
     }
 
     /**
@@ -160,10 +143,7 @@ class TokenService extends ConfigurableService
     {
         $isValid = false;
         $expired = false;
-        if (is_object($token) && $token instanceof Token) {
-            $token = $token->getValue();
-        }
-
+        $token = $this->normaliseToken($token);
         if (($savedToken = $this->getStore()->getToken($token)) === null) {
             return $isValid;
         }
@@ -213,30 +193,8 @@ class TokenService extends ConfigurableService
      */
     public function revokeToken($token): bool
     {
-        if (is_object($token) && $token instanceof Token) {
-            $token = $token->getValue();
-        }
-
+        $token = $this->normaliseToken($token);
         return $this->getStore()->removeToken($token);
-    }
-
-    /**
-     * Gets this session's name for token
-     * @return string
-     */
-    public function getTokenName(): string
-    {
-        /** @var PHPSession $session */
-        $session = PHPSession::singleton();
-
-        if ($session->hasAttribute(TokenStore::TOKEN_NAME)) {
-            $name = $session->getAttribute(TokenStore::TOKEN_NAME);
-        } else {
-            $name = 'tao_' . substr(md5(microtime()), mt_rand(0, 25), 7);
-            $session->setAttribute(TokenStore::TOKEN_NAME, $name);
-        }
-
-        return $name;
     }
 
     /**
@@ -258,7 +216,7 @@ class TokenService extends ConfigurableService
 
         if ($timeLimit > 0) {
             foreach ($tokens as $key =>$token) {
-                if (($token->getCreatedAt() + $timeLimit) > $actualTime) {
+                if ($this->isExpired($token)) {
                     $this->getStore()->removeToken($token->getValue());
                     unset($tokens[$key]);
                 }
@@ -274,8 +232,8 @@ class TokenService extends ConfigurableService
             });
 
             //remove the elements at the beginning to fit the pool size
-            while (count($tokens) >= $poolSize) {
-                array_shift($tokens);
+            for ($i = 0; $i <= count($tokens) - $poolSize; $i++) {
+                $this->getStore()->removeToken($tokens[$i]->getValue());
             }
         }
 
@@ -296,6 +254,10 @@ class TokenService extends ConfigurableService
         $poolSize = self::DEFAULT_POOL_SIZE;
         if ($this->hasOption(self::POOL_SIZE_OPT)) {
             $poolSize = (int)$this->getOption(self::POOL_SIZE_OPT);
+        }
+
+        if ($withForm && $poolSize > 0 && $this->getStore()->hasToken(self::FORM_TOKEN_NAMESPACE)) {
+            $poolSize++;
         }
 
         return $poolSize;
@@ -421,5 +383,28 @@ class TokenService extends ConfigurableService
         return in_array($store, self::CLIENT_STORE_OPTION_VALUES, true)
             ? $store
             : self::DEFAULT_CLIENT_STORE;
+    }
+
+    /**
+     * @param string|Token $token
+     * @return string
+     */
+    private function normaliseToken($token): string
+    {
+        if (is_object($token) && $token instanceof Token) {
+            $token = $token->getValue();
+        }
+
+        return $token;
+    }
+
+    /**
+     * @param string $tokenToCheck
+     * @param Token|null $savedToken
+     * @return bool
+     */
+    private function isTokenValid(string $tokenToCheck, ?Token $savedToken): bool
+    {
+        return $savedToken !== null && $savedToken->getValue() === $tokenToCheck && !$this->isExpired($savedToken);
     }
 }
