@@ -90,7 +90,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
             searchOnInit: searchOnInit
         });
 
-        searchModalInstance.on('searchStoreUpdate', manageSearchStoreUpdate);
+        searchModalInstance.on('search-modal.store-updated', manageSearchStoreUpdate);
     }
 
     /**
