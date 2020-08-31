@@ -28,7 +28,7 @@ class PropertyChangedValidatorTest extends TestCase
 {
     public function testDoNotTriggerIfDoesNotHaveChanges(): void
     {
-        $property = $this->createPropertyMock();
+        $property = $this->createPropertyMock('');
 
         $this->assertFalse(
             (new PropertyChangedValidator())->isPropertyChanged($property, new OldProperty('', $property))
@@ -50,7 +50,7 @@ class PropertyChangedValidatorTest extends TestCase
 
     public function testTriggerIfHaveCurrentPropertyTypeButDoesNotHaveOldPropertyType(): void
     {
-        $property = $this->createPropertyMock();
+        $property = $this->createPropertyMock('');
 
         $this->assertTrue(
             (new PropertyChangedValidator())->isPropertyChanged($property, new OldProperty('', null))
@@ -101,6 +101,7 @@ class PropertyChangedValidatorTest extends TestCase
     private function createPropertyMock(string $widgetPropertyId = null): core_kernel_classes_Property
     {
         $property = $this->createMock(core_kernel_classes_Property::class);
+        $property->expects($this->any())->method('getUri')->willReturn('');
         $property->expects($this->once())
             ->method('getOnePropertyValue')
             ->with(new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET))

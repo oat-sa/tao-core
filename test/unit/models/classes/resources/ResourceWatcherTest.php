@@ -34,8 +34,10 @@ use oat\oatbox\log\LoggerService;
 use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\search\Search;
+use oat\tao\model\search\tasks\UpdateClassInIndex;
 use oat\tao\model\search\tasks\UpdateResourceInIndex;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use Psr\Log\LoggerInterface;
@@ -94,7 +96,11 @@ class ResourceWatcherTest extends TestCase
         $this->mockGetTypesResource($classUri);
 
         $resourceUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
-        $this->mockCreateTaskQueueDispatcher($resourceUri, 'Adding search index for created resource');
+        $this->mockCreateTaskQueueDispatcher(
+            $resourceUri,
+            'Adding search index for created resource',
+            new UpdateResourceInIndex()
+        );
 
         $this->mockGetPropertyOntology($this->once());
 
@@ -126,7 +132,11 @@ class ResourceWatcherTest extends TestCase
         $this->mockGetTypesResource($classUri);
 
         $resourceUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
-        $this->mockCreateTaskQueueDispatcher($resourceUri, 'Adding search index for created resource');
+        $this->mockCreateTaskQueueDispatcher(
+            $resourceUri,
+            'Adding search index for created resource',
+            new UpdateResourceInIndex()
+        );
 
         $this->mockGetPropertyOntology($this->once());
 
@@ -205,11 +215,40 @@ class ResourceWatcherTest extends TestCase
         $this->mockGetTypesResource($classUri);
 
         $resourceUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
-        $this->mockCreateTaskQueueDispatcher($resourceUri, 'Adding/updating search index for updated resource');
+        $this->mockCreateTaskQueueDispatcher(
+            $resourceUri,
+            'Adding/updating search index for updated resource',
+            new UpdateResourceInIndex()
+        );
 
         $this->mockGetPropertyOntology($this->atLeast(2));
 
         $this->mockGetUriResource($resourceUri);
+
+        $this->mockDebugLogger('triggering index update on resourceUpdated event');
+
+        $this->resource->expects($this->once())->method('editPropertyValues');
+
+        $this->sut->catchUpdatedResourceEvent(
+            new ResourceUpdated($this->resource)
+        );
+    }
+
+    public function testCatchUpdatedResourceEvent_mustCreateIndexTaskInCaseClassIsSupportedByIndex(): void
+    {
+        $resourceUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
+        $this->mockCreateTaskQueueDispatcher(
+            $resourceUri,
+            'Adding/updating search index for updated resource',
+            new UpdateClassInIndex()
+        );
+
+        $this->mockGetPropertyOntology($this->atLeast(2));
+
+        $this->resource = $this->createMock(core_kernel_classes_Class::class);
+        $this->resource->expects($this->any())
+            ->method('getUri')
+            ->willReturn($resourceUri);
 
         $this->mockDebugLogger('triggering index update on resourceUpdated event');
 
@@ -275,12 +314,15 @@ class ResourceWatcherTest extends TestCase
             );
     }
 
-    private function mockCreateTaskQueueDispatcher(string $resourceUri, string $taskMessage): void
-    {
+    private function mockCreateTaskQueueDispatcher(
+        string $resourceUri,
+        string $taskMessage,
+        TaskAwareInterface $task
+    ): void {
         $this->queueDispatcher->expects($this->once())
             ->method('createTask')
             ->with(
-                new UpdateResourceInIndex(),
+                $task,
                 [$resourceUri],
                 $taskMessage,
                 null,
