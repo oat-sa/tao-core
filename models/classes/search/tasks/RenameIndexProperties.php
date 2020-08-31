@@ -89,7 +89,9 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
         $this->logInfo('Indexing properties', $indexProperties);
 
         try {
-            $this->getServiceLocator()->get(IndexUpdaterInterface::SERVICE_ID)->updateProperties($indexProperties);
+            /** @var IndexUpdaterInterface $indexUpdater */
+            $indexUpdater = $this->getServiceLocator()->get(IndexUpdaterInterface::SERVICE_ID);
+            $indexUpdater->updatePropertiesName($indexProperties);
         } catch (Throwable $exception) {
             $message = 'Failed during update search index';
             $this->logError($message, (array)$exception);

@@ -26,12 +26,17 @@ use oat\tao\model\search\index\IndexUpdaterInterface;
 
 class GenerisIndexUpdater extends ConfigurableService implements IndexUpdaterInterface
 {
-    public function updateProperties(array $properties): void
+    public function updatePropertiesName(array $properties): void
     {
         return;
     }
 
     public function deleteProperty(array $property): void
+    {
+        return;
+    }
+
+    public function updatePropertyValue(string $typeOrId, array $parentClasses, string $propertyName, array $value): void
     {
         return;
     }

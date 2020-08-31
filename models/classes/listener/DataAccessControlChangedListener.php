@@ -27,6 +27,7 @@ use core_kernel_classes_Resource;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\DataAccessControlChangedEvent;
 use oat\tao\model\search\tasks\UpdateClassInIndex;
+use oat\tao\model\search\tasks\UpdateDataAccessControlInIndex;
 use oat\tao\model\search\tasks\UpdateResourceInIndex;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
@@ -43,16 +44,17 @@ class DataAccessControlChangedListener extends ConfigurableService
         /** @noinspection PhpUnhandledExceptionInspection */
         $resource = new core_kernel_classes_Resource($event->getResourceId());
 
-        if ($resource->isClass()) {
-            if ($event->isRecursive()) {
-                $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-                $queueDispatcher->createTask(new UpdateClassInIndex(), [$resource->getUri()], $taskMessage);
-            }
-
+        if (!$resource->isClass() || $event->isRecursive()) {
+            $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+            $queueDispatcher->createTask(
+                new UpdateDataAccessControlInIndex(),
+                [
+                    $resource->getUri(),
+                    array_keys($event->getAddRemove()['add'] ?? []),
+                ],
+                $taskMessage
+            );
             return;
         }
-
-        $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-        $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], $taskMessage);
     }
 }
