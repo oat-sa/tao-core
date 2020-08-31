@@ -749,8 +749,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                 $status = $this->getClassService()->changeClass($instance, $destinationClass);
                 $response = ['status'      => $status];
             }
-            $this->returnJson($response);
         }
+        $this->returnJson($response);
     }
 
     /**
