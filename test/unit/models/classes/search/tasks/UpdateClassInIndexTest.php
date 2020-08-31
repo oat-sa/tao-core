@@ -71,7 +71,7 @@ class UpdateClassInIndexTest extends TestCase
         $indexIterator = $this->createMock(IndexIterator::class);
 
         $this->indexIterator->expects($this->once())
-            ->method('make')
+            ->method('create')
             ->willReturn(
                 $indexIterator
             );
@@ -99,7 +99,7 @@ class UpdateClassInIndexTest extends TestCase
         $indexIterator = $this->createMock(IndexIterator::class);
 
         $this->indexIterator->expects($this->once())
-            ->method('make')
+            ->method('create')
             ->willReturn(
                 $indexIterator
             );
