@@ -33,13 +33,13 @@ class DataAccessControlChangedEvent implements Event
     private $addRemove;
 
     /** @var bool */
-    private $recursively;
+    private $isRecursive;
 
-    public function __construct(string $resourceId, array $addRemove, bool $recursively = false)
+    public function __construct(string $resourceId, array $addRemove, bool $isRecursive = false)
     {
         $this->resourceId = $resourceId;
         $this->addRemove = $addRemove;
-        $this->recursively = $recursively;
+        $this->isRecursive = $isRecursive;
     }
 
     public function getName(): string
@@ -57,8 +57,8 @@ class DataAccessControlChangedEvent implements Event
         return $this->addRemove;
     }
 
-    public function isRecursively(): bool
+    public function isRecursive(): bool
     {
-        return $this->recursively;
+        return $this->isRecursive;
     }
 }

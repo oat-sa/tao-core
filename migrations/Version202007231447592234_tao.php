@@ -55,11 +55,13 @@ final class Version202007231447592234_tao extends AbstractMigration
     {
         $this->getServiceManager()->unregister(ClassPropertiesChangedListener::SERVICE_ID);
         $this->getServiceManager()->unregister(ClassPropertiesChangedListener::SERVICE_ID);
+        $this->getServiceManager()->unregister(DataAccessControlChangedListener::SERVICE_ID);
 
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
         $eventManager->detach(ClassPropertiesChangedEvent::class, [ClassPropertiesChangedListener::SERVICE_ID, 'renameClassProperties']);
         $eventManager->detach(ClassPropertyRemovedEvent::class, [ClassPropertyRemovedListener::SERVICE_ID, 'removeClassProperty']);
+        $eventManager->detach(DataAccessControlChangedEvent::class, [DataAccessControlChangedListener::SERVICE_ID, 'handleEvent']);
 
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 

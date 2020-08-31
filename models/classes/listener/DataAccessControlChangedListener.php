@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,28 +23,36 @@ declare(strict_types=1);
 
 namespace oat\tao\model\listener;
 
+use core_kernel_classes_Resource;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\event\ClassPropertyRemovedEvent;
-use oat\tao\model\search\tasks\DeleteIndexProperty;
+use oat\tao\model\event\DataAccessControlChangedEvent;
+use oat\tao\model\search\tasks\UpdateClassInIndex;
+use oat\tao\model\search\tasks\UpdateResourceInIndex;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
 class DataAccessControlChangedListener extends ConfigurableService
 {
     const SERVICE_ID = 'tao/DataAccessControlChangedListener';
 
-    public function handleEvent(ClassPropertyRemovedEvent $event): void
+    public function handleEvent(DataAccessControlChangedEvent $event): void
     {
-        $taskMessage = __('Updating search index');
+        $this->getLogger()->debug('triggering index update on DataAccessControlChanged event');
 
-        /** @var QueueDispatcherInterface $queueDispatcher */
+        $taskMessage = __('Adding/updating search index for updated resource');
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $resource = new core_kernel_classes_Resource($event->getResourceId());
+
+        if ($resource->isClass()) {
+            if ($event->isRecursive()) {
+                $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+                $queueDispatcher->createTask(new UpdateClassInIndex(), [$resource->getUri()], $taskMessage);
+            }
+
+            return;
+        }
+
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-        $queueDispatcher->createTask(
-            new DeleteIndexProperty(),
-            [
-                $event->getClass(),
-                $event->getPropertyName()
-            ],
-            $taskMessage
-        );
+        $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], $taskMessage);
     }
 }
