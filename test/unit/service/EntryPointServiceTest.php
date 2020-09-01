@@ -25,9 +25,6 @@ namespace oat\tao\test\unit\service;
 use oat\generis\test\TestCase;
 use oat\tao\model\entryPoint\EntryPointService;
 
-/**
- * @runClassInSeparateProcess
- */
 class EntryPointServiceTest extends TestCase
 {
     /**
@@ -42,6 +39,9 @@ class EntryPointServiceTest extends TestCase
         $this->service = require __DIR__ . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR . 'entrypoint.conf.php';
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testRemoveEntryPoint()
     {
 
