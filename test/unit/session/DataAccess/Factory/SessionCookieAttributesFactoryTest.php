@@ -54,6 +54,7 @@ class SessionCookieAttributesFactoryTest extends TestCase
 
     /**
      * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function testCreate(): void
     {
