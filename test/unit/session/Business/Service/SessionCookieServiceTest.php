@@ -152,6 +152,7 @@ namespace oat\tao\test\unit\session\Business\Service {
          *
          * @dataProvider dataProvider
          * @runInSeparateProcess
+         * @preserveGlobalState disabled
          */
         public function testInitializeSessionCookie(string $domain, int $lifetime): void
         {
@@ -166,6 +167,7 @@ namespace oat\tao\test\unit\session\Business\Service {
          *
          * @dataProvider dataProvider
          * @runInSeparateProcess
+         * @preserveGlobalState disabled
          */
         public function testReInitializeSessionCookie(string $domain, int $lifetime): void
         {
