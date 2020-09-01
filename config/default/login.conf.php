@@ -29,5 +29,4 @@ return [
     'disableAutocomplete' => false,
     'enablePasswordReveal' => false,
     'disableAutofocus' => false,
-    'template' => ['blocks/login.tpl', 'tao'],
 ];
