@@ -80,10 +80,13 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
     function createSearchModalInstance(query, searchOnInit = true) {
         query = query || $('input', searchComponent.container).val();
         const url = searchComponent.container.data('url');
+        const rootClassUri = getRootClassUri();
         const searchModalInstance = searchModal({
-            query: query,
-            url: url,
-            searchOnInit: searchOnInit
+            query,
+            url,
+            searchOnInit,
+            rootClassUri,
+            events: actionManager
         });
 
         searchModalInstance.on('store-updated', manageSearchStoreUpdate);
@@ -132,6 +135,25 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
         } else {
             $searchAreaButtonsContainer.removeClass('has-results-counter');
             $resultsCounterContainer.text('');
+        }
+    }
+
+    function getRootClassUri() {
+        debugger;
+        switch (context.shownStructure) {
+            case 'items':
+                return 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item';
+            case 'tests':
+                return 'http://www.tao.lu/Ontologies/TAOTest.rdf#Test';
+            case 'TestTaker':
+                return 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject';
+            case 'groups':
+                return 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group';
+            case 'delivery':
+            case 'results':
+                return 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery';
+            default:
+            // TODO - class filter must not be present for other possible contexts
         }
     }
 
