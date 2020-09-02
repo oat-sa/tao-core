@@ -34,28 +34,18 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
     const searchComponent = {
         container: null,
         searchStore: null,
-        init: init
+        init() {
+            store('search')
+                .then(store => {
+                    searchComponent.searchStore = store;
+                    initializeEvents();
+                    manageSearchStoreUpdate();
+                })
+                .catch(e => {
+                    actionManager.trigger('error', e);
+                });
+        }
     };
-
-    /**
-     * Inits the component
-     */
-    function init() {
-        initSearchStore().then(() => {
-            initializeEvents();
-            manageSearchStoreUpdate();
-        });
-    }
-
-    /**
-     * Creates/opens search store and assigns it to searchStore property
-     * @returns {Promise} - promise that will be resolved when store is opened
-     */
-    function initSearchStore() {
-        return store('search').then(function (store) {
-            searchComponent.searchStore = store;
-        });
-    }
 
     /**
      * Sets events to init searchModal instance on search and results icons click, and enter keypress
@@ -66,12 +56,19 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
         const $searchInput = $('input', searchComponent.container);
         const $resultsBtn = $('button.icon-ul', searchComponent.container);
 
-        $searchBtn.off('click').on('click', () => createSearchModalInstance());
-        $searchInput.off('keypress').on('keypress', e => (e.which === 13 ? createSearchModalInstance() : undefined));
-        $resultsBtn.off('click').on('click', () => {
+        $searchBtn.off('.searchComponent').on('click.searchComponent', () => createSearchModalInstance());
+
+        $searchInput
+            .off('.searchComponent')
+            .on('keypress.searchComponent', e => (e.which === 13 ? createSearchModalInstance() : undefined));
+
+        $resultsBtn.off('.searchComponent').on('click.searchComponent', () => {
             searchComponent.searchStore
                 .getItem('query')
-                .then(storedSearchQuery => createSearchModalInstance(storedSearchQuery, false));
+                .then(storedSearchQuery => createSearchModalInstance(storedSearchQuery, false))
+                .catch(e => {
+                    actionManager.trigger('error', e);
+                });
         });
     }
 
@@ -81,16 +78,18 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
      * @param {boolean} searchOnInit - if datatable request must be triggered on init, or use the stored results instead
      */
     function createSearchModalInstance(query, searchOnInit = true) {
-        query = query ? query : $('input', searchComponent.container).val();
-        const url = $('.action-bar .search-area').data('url');
+        query = query || $('input', searchComponent.container).val();
+        const url = searchComponent.container.data('url');
         const searchModalInstance = searchModal({
             query: query,
             url: url,
-            events: actionManager,
             searchOnInit: searchOnInit
         });
 
-        searchModalInstance.on('search-modal.store-updated', manageSearchStoreUpdate);
+        searchModalInstance.on('store-updated', manageSearchStoreUpdate);
+        searchModalInstance.on('refresh', uri => {
+            actionManager.trigger('refresh', { uri });
+        });
     }
 
     /**
@@ -98,19 +97,22 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
      * it is not, clears the store. Then requests stored query and results if still necessary, and updates view
      */
     function manageSearchStoreUpdate() {
-        searchComponent.searchStore.getItem('context').then(storedContext => {
-            if (storedContext !== context.shownStructure) {
-                searchComponent.searchStore.clear();
-                updateViewAfterSeachStoreUpdate('');
-            } else {
-                let promises = [];
-                promises.push(searchComponent.searchStore.getItem('query'));
-                promises.push(searchComponent.searchStore.getItem('results'));
-                Promise.all(promises).then(values => {
-                    updateViewAfterSeachStoreUpdate(values[0], values[1]);
-                });
-            }
-        });
+        searchComponent.searchStore
+            .getItem('context')
+            .then(storedContext => {
+                if (storedContext !== context.shownStructure) {
+                    searchComponent.searchStore.clear();
+                    updateViewAfterSeachStoreUpdate('');
+                } else {
+                    let promises = [];
+                    promises.push(searchComponent.searchStore.getItem('query'));
+                    promises.push(searchComponent.searchStore.getItem('results'));
+                    return Promise.all(promises).then(values => {
+                        updateViewAfterSeachStoreUpdate(values[0], values[1]);
+                    });
+                }
+            })
+            .catch(e => actionManager.trigger('error', e));
     }
 
     /**
@@ -119,19 +121,16 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
      * @param {object} storedSearchResults - stored search results dataset, to display number of saved results on .results-counter
      */
     function updateViewAfterSeachStoreUpdate(storedSearchQuery, storedSearchResults) {
-        const $resultsCounter = $('.icon-ul', searchComponent.container);
         const $searchInput = $('input', searchComponent.container);
         const $resultsCounterContainer = $('.results-counter', searchComponent.container);
         const $searchAreaButtonsContainer = $('.search-area-buttons-container', searchComponent.container);
 
         $searchInput.val(storedSearchQuery);
         if (storedSearchResults) {
-            $resultsCounter.css('display', 'initial');
-            $searchAreaButtonsContainer.css('right', '35px');
+            $searchAreaButtonsContainer.addClass('has-results-counter');
             $resultsCounterContainer.text(storedSearchResults.totalCount > 99 ? '+99' : storedSearchResults.totalCount);
         } else {
-            $searchAreaButtonsContainer.css('right', '30px');
-            $resultsCounter.css('display', 'none');
+            $searchAreaButtonsContainer.removeClass('has-results-counter');
             $resultsCounterContainer.text('');
         }
     }
