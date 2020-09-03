@@ -311,14 +311,6 @@ define([
                 action = _.find(actions, {name : actionName});
             }
             return action;
-        },
-
-        /**
-         * Returns the current ResourceContext so can be used outside
-         * the context of common actions executions
-         */
-        getResourceContext: function() {
-            return resourceContext;
         }
     });
 

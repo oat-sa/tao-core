@@ -139,7 +139,6 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
     }
 
     function getRootClassUri() {
-        debugger;
         switch (context.shownStructure) {
             case 'items':
                 return 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item';
@@ -152,6 +151,10 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
             case 'delivery':
             case 'results':
                 return 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery';
+            case 'taoMediaManager':
+                return 'http://www.tao.lu/Ontologies/TAOMedia.rdf#Media';
+            case 'test_center':
+                return 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenter';
             default:
             // TODO - class filter must not be present for other possible contexts
         }
