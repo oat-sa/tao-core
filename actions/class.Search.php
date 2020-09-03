@@ -100,11 +100,11 @@ class tao_actions_Search extends tao_actions_CommonModule
 
         $results = $results->getArrayCopy();
 
-        $accessibleResultsMap = array_flip(
-            $permissionHelper->filterByPermission($results, PermissionInterface::RIGHT_READ)
-        );
-
         $resultAmount = count($results);
+
+        $accessibleResultsMap = $resultAmount ? array_flip(
+            $permissionHelper->filterByPermission($results, PermissionInterface::RIGHT_READ)
+        ) : [];
 
         $response = new StdClass();
         if ($resultAmount > 0) {
