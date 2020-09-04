@@ -26,6 +26,7 @@ use oat\oatbox\log\logger\TaoLog;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\install\seed\SeedSorter;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class tao_install_Setup implements Action
@@ -52,6 +53,7 @@ class tao_install_Setup implements Action
      * @throws common_ext_ExtensionException When a presented parameter is invalid or malformed.
      * @throws InvalidArgumentException
      * @throws tao_install_utils_Exception
+     * @throws ReflectionException
      */
     public function __invoke($params)
     {
@@ -223,8 +225,11 @@ class tao_install_Setup implements Action
         } elseif (!isset($persistences['type'])) {
             throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
         }
-
+        $seedSorter = new SeedSorter();
         foreach ($parameters['configuration'] as $extension => $configs) {
+
+            $configs = $seedSorter->sort($configs);
+
             foreach ($configs as $key => $config) {
                 if (isset($config['type']) && $config['type'] === 'configurableService') {
                     $className = $config['class'];
