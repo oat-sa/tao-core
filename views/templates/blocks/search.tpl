@@ -2,7 +2,10 @@
     title="<?= get_data('searchLabel') ?>"
     data-url="<?= _url('searchParams', 'Search', 'tao', array('rootNode' => get_data('rootNode'))) ?>">
     <input type="text" value="" name="query" placeholder="<?= get_data('searchLabel') ?>">
-    <button class="icon-find" type="button"></button>
+    <span class="search-area-buttons-container">
+        <button class="icon-find" type="button"></button>
+        <button class="icon-ul" type="button" title="Open results"><div class="results-counter"></div></button>
+    </span>
     <span class="icon-help tooltipstered" data-tooltip="~ .tooltip-content:first" data-tooltip-theme="info"></span>
     <div class="tooltip-content" >
         <div>
