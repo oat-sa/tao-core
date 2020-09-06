@@ -56,11 +56,13 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
         const $searchInput = $('input', searchComponent.container);
         const $resultsBtn = $('button.icon-ul', searchComponent.container);
 
-        $searchBtn.off('.searchComponent').on('click.searchComponent', () => createSearchModalInstance());
+        $searchBtn.off('.searchComponent').on('click.searchComponent', createSearchModalInstance);
 
-        $searchInput
-            .off('.searchComponent')
-            .on('keypress.searchComponent', e => (e.which === 13 ? createSearchModalInstance() : undefined));
+        $searchInput.off('.searchComponent').on('keypress.searchComponent', e => {
+            if (e.which === 13) {
+                createSearchModalInstance();
+            }
+        });
 
         $resultsBtn.off('.searchComponent').on('click.searchComponent', () => {
             searchComponent.searchStore
@@ -81,13 +83,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
         query = query || $('input', searchComponent.container).val();
         const url = searchComponent.container.data('url');
         const rootClassUri = getRootClassUri();
-        const searchModalInstance = searchModal({
-            query,
-            url,
-            searchOnInit,
-            rootClassUri,
-            events: actionManager
-        });
+        const searchModalInstance = searchModal({ query, url, searchOnInit, rootClassUri });
 
         searchModalInstance.on('store-updated', manageSearchStoreUpdate);
         searchModalInstance.on('refresh', uri => {
