@@ -66,8 +66,8 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
 
         $resultsBtn.off('.searchComponent').on('click.searchComponent', () => {
             searchComponent.searchStore
-                .getItem('query')
-                .then(storedSearchQuery => createSearchModalInstance(storedSearchQuery, false))
+                .getItem('criterias')
+                .then(storedCriterias => createSearchModalInstance(storedCriterias, false))
                 .catch(e => {
                     actionManager.trigger('error', e);
                 });
@@ -76,14 +76,14 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
 
     /**
      * Creates a searchModal instance and set up searchStoreUpdate listener to update search component visuals when search store changes
-     * @param {string} query - query for the searchComponent to be initialized with
+     * @param {string} criterias - stored criterias for the searchComponent to be initialized with
      * @param {boolean} searchOnInit - if datatable request must be triggered on init, or use the stored results instead
      */
-    function createSearchModalInstance(query, searchOnInit = true) {
-        query = query || $('input', searchComponent.container).val();
+    function createSearchModalInstance(criterias, searchOnInit = true) {
+        criterias = criterias || { search: $('input', searchComponent.container).val() };
         const url = searchComponent.container.data('url');
         const rootClassUri = getRootClassUri();
-        const searchModalInstance = searchModal({ query, url, searchOnInit, rootClassUri });
+        const searchModalInstance = searchModal({ criterias, url, searchOnInit, rootClassUri });
 
         searchModalInstance.on('store-updated', manageSearchStoreUpdate);
         searchModalInstance.on('refresh', uri => {
@@ -93,7 +93,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
 
     /**
      * Callback to searchStoreUpdate event. First checks if current location is the same as the stored one, and if
-     * it is not, clears the store. Then requests stored query and results if still necessary, and updates view
+     * it is not, clears the store. Then requests stored criterias and results if still necessary, and updates view
      */
     function manageSearchStoreUpdate() {
         searchComponent.searchStore
@@ -101,10 +101,10 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
             .then(storedContext => {
                 if (storedContext !== context.shownStructure) {
                     searchComponent.searchStore.clear();
-                    updateViewAfterSeachStoreUpdate('');
+                    updateViewAfterSeachStoreUpdate();
                 } else {
                     let promises = [];
-                    promises.push(searchComponent.searchStore.getItem('query'));
+                    promises.push(searchComponent.searchStore.getItem('criterias'));
                     promises.push(searchComponent.searchStore.getItem('results'));
                     return Promise.all(promises).then(values => {
                         updateViewAfterSeachStoreUpdate(values[0], values[1]);
@@ -116,15 +116,15 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
 
     /**
      * Updates template with the received query and results dataset
-     * @param {string} storedSearchQuery - stored search query, to be set on search input
+     * @param {string} storedCriterias - stored search criterias to be used on component creation
      * @param {object} storedSearchResults - stored search results dataset, to display number of saved results on .results-counter
      */
-    function updateViewAfterSeachStoreUpdate(storedSearchQuery, storedSearchResults) {
+    function updateViewAfterSeachStoreUpdate(storedCriterias, storedSearchResults) {
         const $searchInput = $('input', searchComponent.container);
         const $resultsCounterContainer = $('.results-counter', searchComponent.container);
         const $searchAreaButtonsContainer = $('.search-area-buttons-container', searchComponent.container);
 
-        $searchInput.val(storedSearchQuery);
+        $searchInput.val(storedCriterias ? storedCriterias.search : '');
         if (storedSearchResults) {
             $searchAreaButtonsContainer.addClass('has-results-counter');
             $resultsCounterContainer.text(storedSearchResults.totalCount > 99 ? '+99' : storedSearchResults.totalCount);
@@ -134,6 +134,11 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
         }
     }
 
+    /**
+     * Gets the root class uri for the current context. If current context is not one of the
+     * covered on this switch, not root class uri is provided so searchComponent does not
+     * render class filter
+     */
     function getRootClassUri() {
         switch (context.shownStructure) {
             case 'items':
@@ -152,7 +157,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
             case 'test_center':
                 return 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenter';
             default:
-            // TODO - class filter must not be present for other possible contexts
+                return undefined;
         }
     }
 
