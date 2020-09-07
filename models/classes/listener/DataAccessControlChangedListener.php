@@ -47,17 +47,18 @@ class DataAccessControlChangedListener extends ConfigurableService
         /** @noinspection PhpUnhandledExceptionInspection */
         $resource = $this->getResource($event->getResourceId());
 
-        if (!$resource->isClass() || $event->isRecursive()) {
-            $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-            $queueDispatcher->createTask(
-                new UpdateDataAccessControlInIndex(),
-                [
-                    $resource->getUri(),
-                    array_keys($event->getAddRemove()['add'] ?? []),
-                ],
-                $taskMessage
-            );
+        if ($resource->isClass() && !$event->isRecursive()) {
             return;
         }
+        
+        $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+        $queueDispatcher->createTask(
+            new UpdateDataAccessControlInIndex(),
+            [
+                $resource->getUri(),
+                array_keys($event->getAddRemove()['add'] ?? []),
+            ],
+            $taskMessage
+        );
     }
 }
