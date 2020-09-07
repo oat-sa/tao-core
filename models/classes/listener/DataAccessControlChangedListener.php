@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace oat\tao\model\listener;
 
 use core_kernel_classes_Resource;
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\DataAccessControlChangedEvent;
 use oat\tao\model\search\tasks\UpdateClassInIndex;
@@ -33,7 +34,9 @@ use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
 class DataAccessControlChangedListener extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/DataAccessControlChangedListener';
+    use OntologyAwareTrait;
+
+    public const SERVICE_ID = 'tao/DataAccessControlChangedListener';
 
     public function handleEvent(DataAccessControlChangedEvent $event): void
     {
@@ -42,7 +45,7 @@ class DataAccessControlChangedListener extends ConfigurableService
         $taskMessage = __('Adding/updating search index for updated resource');
 
         /** @noinspection PhpUnhandledExceptionInspection */
-        $resource = new core_kernel_classes_Resource($event->getResourceId());
+        $resource = $this->getResource($event->getResourceId());
 
         if (!$resource->isClass() || $event->isRecursive()) {
             $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);

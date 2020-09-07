@@ -20,6 +20,9 @@
 
 declare(strict_types=1);
 
+namespace oat\test\unit\model\listener;
+
+use core_kernel_classes_Class;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\event\ClassPropertyRemovedEvent;

@@ -19,6 +19,9 @@
 
 declare(strict_types=1);
 
+namespace oat\test\unit\model\listener;
+
+use core_kernel_classes_Property;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\dto\OldProperty;
@@ -26,6 +29,7 @@ use oat\tao\model\event\ClassPropertiesChangedEvent;
 use oat\tao\model\listener\ClassPropertiesChangedListener;
 use oat\tao\model\search\tasks\RenameIndexProperties;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use RuntimeException;
 
 class ClassPropertiesChangedListenerTest extends TestCase
 {
