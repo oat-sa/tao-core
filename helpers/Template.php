@@ -22,6 +22,7 @@
 
 namespace oat\tao\helpers;
 
+use oat\tao\model\theme\Theme;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\asset\AssetService;
 
@@ -84,22 +85,23 @@ class Template
      * @param string $path
      * @param string $extensionId
      * @param array $data bind additional data to the context
-     * @return string
      */
     public static function inc($path, $extensionId = null, $data = [])
     {
         $context = \Context::getInstance();
-        if (!is_null($extensionId) && $extensionId != $context->getExtensionName()) {
+
+        if ($extensionId !== null && $extensionId !== $context->getExtensionName()) {
             // template is within different extension, change context
             $formerContext = $context->getExtensionName();
             $context->setExtensionName($extensionId);
         }
 
-        if (count($data) > 0) {
+        if (!empty($data)) {
             \RenderContext::pushContext($data);
         }
-        
-        $absPath = self::getTemplate($path, $extensionId);
+
+        $absPath = Layout::getThemeTemplate(Theme::CONTEXT_BACKOFFICE, $path) ?? self::getTemplate($path, $extensionId);
+
         if (file_exists($absPath)) {
             include($absPath);
         } else {
