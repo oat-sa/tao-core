@@ -19,12 +19,13 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], function (
+define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context', 'util/url'], function (
     $,
     actionManager,
     searchModal,
     store,
-    context
+    context,
+    urlHelper
 ) {
     /**
      * Seach bar component for TAO action bar. It exposes
@@ -82,7 +83,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
     function createSearchModalInstance(criterias, searchOnInit = true) {
         criterias = criterias || { search: $('input', searchComponent.container).val() };
         const url = searchComponent.container.data('url');
-        const rootClassUri = decodeURIComponent(url).split('rootNode=')[1];
+        const rootClassUri = decodeURIComponent(urlHelper.parse(url).query.rootNode);
         const searchModalInstance = searchModal({ criterias, url, searchOnInit, rootClassUri });
 
         searchModalInstance.on('store-updated', manageSearchStoreUpdate);
