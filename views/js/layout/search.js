@@ -82,7 +82,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
     function createSearchModalInstance(criterias, searchOnInit = true) {
         criterias = criterias || { search: $('input', searchComponent.container).val() };
         const url = searchComponent.container.data('url');
-        const rootClassUri = getRootClassUri();
+        const rootClassUri = decodeURIComponent(searchComponent.container.data('url')).split('rootNode=')[1];
         const searchModalInstance = searchModal({ criterias, url, searchOnInit, rootClassUri });
 
         searchModalInstance.on('store-updated', manageSearchStoreUpdate);
@@ -131,33 +131,6 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
         } else {
             $searchAreaButtonsContainer.removeClass('has-results-counter');
             $resultsCounterContainer.text('');
-        }
-    }
-
-    /**
-     * Gets the root class uri for the current context. If current context is not one of the
-     * covered on this switch, not root class uri is provided so searchComponent does not
-     * render class filter
-     */
-    function getRootClassUri() {
-        switch (context.shownStructure) {
-            case 'items':
-                return 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item';
-            case 'tests':
-                return 'http://www.tao.lu/Ontologies/TAOTest.rdf#Test';
-            case 'TestTaker':
-                return 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject';
-            case 'groups':
-                return 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group';
-            case 'delivery':
-            case 'results':
-                return 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery';
-            case 'taoMediaManager':
-                return 'http://www.tao.lu/Ontologies/TAOMedia.rdf#Media';
-            case 'test_center':
-                return 'http://www.tao.lu/Ontologies/TAOTestCenter.rdf#TestCenter';
-            default:
-                return undefined;
         }
     }
 
