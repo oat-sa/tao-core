@@ -50,7 +50,7 @@ class DataAccessControlChangedListener extends ConfigurableService
         if ($resource->isClass() && !$event->isRecursive()) {
             return;
         }
-        
+
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
         $queueDispatcher->createTask(
             new UpdateDataAccessControlInIndex(),

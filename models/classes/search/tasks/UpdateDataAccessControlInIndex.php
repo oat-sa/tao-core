@@ -71,7 +71,7 @@ class UpdateDataAccessControlInIndex implements Action, ServiceLocatorAwareInter
         $indexUpdater = $this->getServiceLocator()->get(IndexUpdaterInterface::SERVICE_ID);
 
         $type = Report::TYPE_SUCCESS;
-        $message = "Documents in index were successfully updated.";
+        $message = 'Documents in index were successfully updated.';
         $logMessage = 'Data Access Control were being updated by ' . static::class;
 
         try {

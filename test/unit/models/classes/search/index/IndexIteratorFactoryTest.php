@@ -19,7 +19,7 @@
  */
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\models\classes\search\index;
+namespace oat\tao\test\unit\model\search\index;
 
 use oat\generis\test\TestCase;
 use oat\tao\model\search\index\IndexIterator;
