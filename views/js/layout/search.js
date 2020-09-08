@@ -82,7 +82,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context'], 
     function createSearchModalInstance(criterias, searchOnInit = true) {
         criterias = criterias || { search: $('input', searchComponent.container).val() };
         const url = searchComponent.container.data('url');
-        const rootClassUri = decodeURIComponent(searchComponent.container.data('url')).split('rootNode=')[1];
+        const rootClassUri = decodeURIComponent(url).split('rootNode=')[1];
         const searchModalInstance = searchModal({ criterias, url, searchOnInit, rootClassUri });
 
         searchModalInstance.on('store-updated', manageSearchStoreUpdate);
