@@ -25,17 +25,15 @@ namespace oat\tao\model\preview;
 use oat\oatbox\AbstractRegistry;
 use oat\tao\model\modules\DynamicModule;
 use oat\tao\model\ClientLibConfigRegistry;
-use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\service\InjectionAwareService;
 
 /**
  * Class PreviewerRegistryService
  *
  * @package oat\tao\model\preview
  */
-class PreviewerRegistryService extends ConfigurableService implements PreviewerRegistryServiceInterface
+class PreviewerRegistryService extends InjectionAwareService implements PreviewerRegistryServiceInterface
 {
-    public const OPTION_REGISTRY_ENTRY_KEY = 'registryEntryKey';
-
     private const PREVIEWERS_KEY = 'previewers';
     private const PLUGINS_KEY = 'plugins';
 
@@ -48,13 +46,13 @@ class PreviewerRegistryService extends ConfigurableService implements PreviewerR
     /**
      * PreviewerRegistryService constructor.
      *
-     * @param array $options
+     * @param string $registryEntryKey
      */
-    public function __construct($options = [])
+    public function __construct(string $registryEntryKey)
     {
-        parent::__construct($options);
+        parent::__construct();
 
-        $this->registryEntryKey = $this->getOption(self::OPTION_REGISTRY_ENTRY_KEY);
+        $this->registryEntryKey = $registryEntryKey;
     }
 
     /**

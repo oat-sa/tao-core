@@ -115,9 +115,7 @@ class PreviewerRegistryServiceTest extends TestCase
      */
     public function init(): void
     {
-        $this->sut = new PreviewerRegistryService([
-            'registryEntryKey' => 'stub/previewer/factory',
-        ]);
+        $this->sut = new PreviewerRegistryService('stub/previewer/factory');
         $this->sut->setRegistry($this->createAdapter());
     }
 
