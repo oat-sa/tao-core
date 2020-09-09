@@ -32,16 +32,30 @@ use oat\oatbox\service\ConfigurableService;
  *
  * @package oat\tao\model\preview
  */
-abstract class PreviewerRegistryService extends ConfigurableService
+class PreviewerRegistryService extends ConfigurableService implements PreviewerRegistryServiceInterface
 {
+    public const OPTION_REGISTRY_ENTRY_KEY = 'registryEntryKey';
+
     private const PREVIEWERS_KEY = 'previewers';
     private const PLUGINS_KEY = 'plugins';
 
     /** @var string */
-    protected $registryEntryKey;
+    private $registryEntryKey;
 
     /** @var AbstractRegistry */
     private $registry;
+
+    /**
+     * PreviewerRegistryService constructor.
+     *
+     * @param array $options
+     */
+    public function __construct($options = [])
+    {
+        parent::__construct($options);
+
+        $this->registryEntryKey = $this->getOption(self::OPTION_REGISTRY_ENTRY_KEY);
+    }
 
     /**
      * @return AbstractRegistry

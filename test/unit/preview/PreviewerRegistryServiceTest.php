@@ -32,17 +32,6 @@ use oat\tao\model\preview\PreviewerRegistryService;
 use common_exception_InconsistentData as InconsistentDataException;
 
 /**
- * Class PreviewerRegistryServiceStub
- *
- * @package oat\tao\test\unit\preview
- */
-class PreviewerRegistryServiceStub extends PreviewerRegistryService
-{
-    /** @var string */
-    protected $registryEntryKey = 'stub/previewer/factory';
-}
-
-/**
  * Class PreviewerRegistryServiceTest
  *
  * @package oat\tao\test\unit\preview
@@ -118,7 +107,7 @@ class PreviewerRegistryServiceTest extends TestCase
         ],
     ];
 
-    /** @var PreviewerRegistryServiceStub */
+    /** @var PreviewerRegistryService */
     private $sut;
 
     /**
@@ -126,13 +115,15 @@ class PreviewerRegistryServiceTest extends TestCase
      */
     public function init(): void
     {
-        $this->sut = new PreviewerRegistryServiceStub();
+        $this->sut = new PreviewerRegistryService([
+            'registryEntryKey' => 'stub/previewer/factory',
+        ]);
         $this->sut->setRegistry($this->createAdapter());
     }
 
     public function testApi(): void
     {
-        $this->assertInstanceOf(PreviewerRegistryServiceStub::class, $this->sut);
+        $this->assertInstanceOf(PreviewerRegistryService::class, $this->sut);
         $this->assertInstanceOf(ConfigurableService::class, $this->sut);
     }
 
