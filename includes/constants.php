@@ -55,22 +55,6 @@ $todefine = [
 //  not used
     'INSTANCE_ROLE_SERVICE'             => 'http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole',
     'INSTANCE_ROLE_DELIVERY'            => 'http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole',
-//  not used
-    'PROPERTY_WIDGET_CALENDAR'          => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar',
-    'PROPERTY_WIDGET_TEXTBOX'           => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
-    'PROPERTY_WIDGET_TREEBOX'           => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox',
-    'PROPERTY_WIDGET_TEXTAREA'          => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea',
-    'PROPERTY_WIDGET_HTMLAREA'          => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HTMLArea',
-//  not used
-    'PROPERTY_WIDGET_PASSWORD'          => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Password',
-    'PROPERTY_WIDGET_HIDDENBOX'         => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HiddenBox',
-    'PROPERTY_WIDGET_RADIOBOX'          => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox',
-    'PROPERTY_WIDGET_COMBOBOX'          => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox',
-    'PROPERTY_WIDGET_CHECKBOX'          => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox',
-    'PROPERTY_WIDGET_FILE'              => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile',
-//  not used
-    'PROPERTY_WIDGET_VERSIONEDFILE'     => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile',
-    'PROPERTY_WIDGET_JSONOBJECT'        => 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject',
     'PROPERTY_TAO_PROPERTY'             => 'http://www.tao.lu/Ontologies/TAO.rdf#TAOProperty',
     'PROPERTY_LANGUAGE_USAGES'          => 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages',
     'PROPERTY_LANGUAGE_ORIENTATION'     => 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation',

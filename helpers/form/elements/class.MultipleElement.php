@@ -59,7 +59,7 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
      */
     public function getOptions()
     {
-        return $this->options;
+        return (array)$this->options;
     }
 
     /**
@@ -72,7 +72,7 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
      */
     public function setValue($value)
     {
-        $this->value = tao_helpers_Uri::encode($value);
+        $this->value = tao_helpers_Uri::encode((string)$value);
     }
 
     /**
@@ -97,7 +97,7 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
      */
     public function getValues(): array
     {
-        return $this->values;
+        return (array)$this->values;
     }
 
     /**

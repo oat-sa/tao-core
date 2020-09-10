@@ -23,8 +23,8 @@
 
 namespace oat\tao\test;
 
-use League\Flysystem\Adapter\Local;
 use League\Flysystem\Memory\MemoryAdapter;
+use oat\generis\persistence\PersistenceManager;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
@@ -34,6 +34,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Prophecy\Argument;
+use oat\generis\test\KeyValueMockTrait;
 
 /**
  * Help you to run the test into the TAO Context
@@ -43,6 +44,7 @@ use Prophecy\Argument;
 abstract class TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
+    use KeyValueMockTrait;
 
     const SESSION_KEY = 'TAO_TEST_SESSION';
     /**
@@ -130,7 +132,7 @@ abstract class TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements 
      * @param string $key identifier of the persistence
      * @return \common_persistence_Manager
      */
-    public function getSqlMock($key)
+    public function getSqlMock($key): PersistenceManager
     {
         return parent::getSqlMock($key);
     }

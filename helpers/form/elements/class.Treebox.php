@@ -1,5 +1,6 @@
 <?php
 
+use core_kernel_classes_Class as KernelClass;
 use oat\tao\helpers\form\elements\TreeAware;
 use oat\taoBackOffice\model\tree\TreeService;
 
@@ -33,16 +34,9 @@ use oat\taoBackOffice\model\tree\TreeService;
  */
 abstract class tao_helpers_form_elements_Treebox extends tao_helpers_form_elements_MultipleElement implements TreeAware
 {
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox';
 
-    /**
-     * Short description of attribute widget
-     *
-     * @access protected
-     * @var string
-     */
-    protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox';
-
-    public function rangeToTree(\core_kernel_classes_Class $range, $recursive = false)
+    public function rangeToTree(KernelClass $range, $recursive = false)
     {
         return TreeService::singleton()->getNestedStructure($range->getInstances(false));
     }

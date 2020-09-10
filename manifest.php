@@ -31,12 +31,14 @@ use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
-use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterEvents;
+use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
+use oat\tao\scripts\install\RegisterSessionCookieService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
@@ -51,6 +53,7 @@ use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\SetUpQueueTasks;
+use oat\tao\scripts\update\Updater;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -59,10 +62,10 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '44.11.3',
+    'version' => '45.10.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
-        'generis' => '>=12.31.0',
+        'generis' => '>=13.4.0',
     ],
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -77,7 +80,7 @@ return [
             __DIR__ . '/models/ontology/services.rdf',
             __DIR__ . '/models/ontology/indexation.rdf',
             __DIR__ . '/models/ontology/model.rdf',
-            __DIR__ . '/models/ontology/widegetdefinitions.rdf',
+            __DIR__ . '/models/ontology/widgetdefinitions.rdf',
             __DIR__ . '/models/ontology/requiredaction.rdf',
             __DIR__ . '/models/ontology/auth/basicauth.rdf',
             __DIR__ . '/models/ontology/userlocks.rdf'
@@ -134,9 +137,11 @@ return [
             SetupSettingsStorage::class,
             RegisterUserService::class,
             RegisterValueCollectionServices::class,
+            CreateRdsListStore::class,
+            RegisterSessionCookieService::class,
         ]
     ],
-    'update' => 'oat\\tao\\scripts\\update\\Updater',
+    'update' => Updater::class,
     'optimizableClasses' => [
         'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
         'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages'
@@ -202,9 +207,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '3.4.0-sprint132',
+        'TAO_VERSION' => '3.4.0-sprint136',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.4.0-sprint132',
+        'TAO_VERSION_NAME' => '3.4.0-sprint136',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

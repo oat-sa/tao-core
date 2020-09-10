@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint131\n"
-"PO-Revision-Date: 2020-07-03T09:18:06\n"
+"Project-Id-Version: TAO 3.4.0-sprint136\n"
+"PO-Revision-Date: 2020-08-28T09:34:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -218,9 +218,6 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
-msgid "aliases:"
-msgstr ""
-
 msgid "all"
 msgstr "完全"
 
@@ -286,16 +283,7 @@ msgstr "您确定要删除该版本的资源? \n"
 msgid "Are you sure you want to delete it?"
 msgstr "您确定要删除吗？"
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
 msgid "Arguments separator"
-msgstr ""
-
-msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -353,9 +341,6 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
-msgid "boolean"
-msgstr ""
-
 msgid "Browse folders:"
 msgstr "浏览文件夹："
 
@@ -405,17 +390,14 @@ msgstr "更改密码"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾选"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾选"
 
 msgid "Check-in"
 msgstr "登记"
-
-msgid "choices:"
-msgstr ""
 
 msgid "Choose a value..."
 msgstr ""
@@ -450,10 +432,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -482,9 +464,6 @@ msgstr ""
 
 msgid "Column"
 msgstr "专栏"
-
-msgid "Commands:"
-msgstr ""
 
 msgid "comment..."
 msgstr ""
@@ -528,9 +507,6 @@ msgstr ""
 msgid "Cosine"
 msgstr ""
 
-msgid "count"
-msgstr ""
-
 msgid "Create"
 msgstr "创建"
 
@@ -570,13 +546,16 @@ msgstr "数据已成功导入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
-msgstr "资料语言"
-
 msgid "Data language"
 msgstr "数据语言"
 
+msgid "Data Language"
+msgstr "资料语言"
+
 msgid "Data not imported. All records are invalid."
+msgstr ""
+
+msgid "Data source URI"
 msgstr ""
 
 msgid "Date"
@@ -593,9 +572,6 @@ msgstr ""
 
 msgid "Default search"
 msgstr "默认搜索"
-
-msgid "default:"
-msgstr ""
 
 msgid "Define the default values"
 msgstr "设定默认值"
@@ -627,9 +603,6 @@ msgstr ""
 
 msgid "Demo Sandbox"
 msgstr "演示用沙盘"
-
-msgid "Did you mean %s?"
-msgstr ""
 
 msgid "Digit 0"
 msgstr ""
@@ -746,9 +719,6 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
-msgstr ""
-
-msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -885,9 +855,6 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr "模糊匹配"
 
-msgid "generated-value"
-msgstr ""
-
 msgid "Generis Form"
 msgstr ""
 
@@ -944,9 +911,6 @@ msgstr "识别码"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "如果您不想更改密码，您可以忽略这封电子邮件，您的密码不会改变。"
-
-msgid "Implications failed:"
-msgstr ""
 
 msgid "Import"
 msgstr "导入"
@@ -1026,10 +990,10 @@ msgstr "正在安装扩展程序%s..."
 msgid "Instance saved"
 msgstr "实体已储存"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面语言"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面语言"
 
 msgid "Invalid CSP header."
@@ -1071,9 +1035,6 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr "无效的登录名或密码。 请再试一次。"
 
@@ -1083,14 +1044,14 @@ msgstr ""
 msgid "invalid regular expression"
 msgstr "无效的正规表示式"
 
-msgid "Invalid values:"
-msgstr ""
-
 msgid "items per page"
 msgstr ""
 
 msgid "Label"
 msgstr "标签"
+
+msgid "Label Path"
+msgstr ""
 
 msgid "Language"
 msgstr "语言"
@@ -1127,6 +1088,12 @@ msgstr "清单-单项选择-下拉"
 
 msgid "List - Single choice - Radio button"
 msgstr "清单-单项选择-按钮"
+
+msgid "List - Single choice - Search input"
+msgstr ""
+
+msgid "List item URI duplications found"
+msgstr ""
 
 msgid "List values"
 msgstr ""
@@ -1355,12 +1322,6 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr ""
-
 msgid "Not started"
 msgstr ""
 
@@ -1381,9 +1342,6 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
-msgstr ""
-
-msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1621,9 +1579,6 @@ msgstr ""
 msgid "require notification ID"
 msgstr ""
 
-msgid "required"
-msgstr ""
-
 msgid "required length"
 msgstr "需要的长度"
 
@@ -1755,10 +1710,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr "选择"
 
-msgid "Select"
+msgid "select"
 msgstr "选择"
 
 msgid "Select a class"
@@ -1850,9 +1805,6 @@ msgid "Store"
 msgstr ""
 
 msgid "Store the value a variable"
-msgstr ""
-
-msgid "string"
 msgstr ""
 
 msgid "Submit"
@@ -2068,9 +2020,6 @@ msgstr ""
 msgid "Tokenizer"
 msgstr "标记生成器"
 
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
-
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "太多的建议符合您的查询，所以这里只列出几个建议"
 
@@ -2214,6 +2163,9 @@ msgstr "上传"
 
 msgid "Upload into:"
 msgstr "上传至："
+
+msgid "URI Path"
+msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr ""
