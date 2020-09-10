@@ -39,22 +39,11 @@ class SessionCookieAttributesFactoryTest extends TestCase
     /**
      * @before
      */
-    public function initializeConfiguration(): void
-    {
-        define('ROOT_URL', 'http://test.com/');
-    }
-
-    /**
-     * @before
-     */
     public function init(): void
     {
         $this->sut = new SessionCookieAttributesFactory();
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testCreate(): void
     {
         static::assertEquals(
