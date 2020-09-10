@@ -48,6 +48,8 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
      */
     private $overrideDefaultPayload = false;
 
+    private $dummy;
+
     /**
      * DataTablePayload constructor.
      *
