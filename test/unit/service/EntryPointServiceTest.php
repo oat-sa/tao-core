@@ -22,9 +22,12 @@
 
 namespace oat\tao\test\unit\service;
 
-use oat\tao\model\entryPoint\EntryPointService;
 use oat\generis\test\TestCase;
+use oat\tao\model\entryPoint\EntryPointService;
 
+/**
+ * @runClassInSeparateProcess
+ */
 class EntryPointServiceTest extends TestCase
 {
     /**
