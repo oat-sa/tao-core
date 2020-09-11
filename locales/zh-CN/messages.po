@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint136\n"
-"PO-Revision-Date: 2020-08-28T09:34:47\n"
+"Project-Id-Version: TAO 3.4.0-sprint137\n"
+"PO-Revision-Date: 2020-09-11T08:33:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-CN\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr "和"
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr "已成功删除"
@@ -218,6 +218,9 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
 msgstr "完全"
 
@@ -283,7 +286,16 @@ msgstr "您确定要删除该版本的资源? \n"
 msgid "Are you sure you want to delete it?"
 msgstr "您确定要删除吗？"
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -339,6 +351,9 @@ msgid "Binary operator /"
 msgstr ""
 
 msgid "Binary operator modulo"
+msgstr ""
+
+msgid "boolean"
 msgstr ""
 
 msgid "Browse folders:"
@@ -399,6 +414,9 @@ msgstr "全部勾选"
 msgid "Check-in"
 msgstr "登记"
 
+msgid "choices:"
+msgstr ""
+
 msgid "Choose a value..."
 msgstr ""
 
@@ -432,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -464,6 +482,9 @@ msgstr ""
 
 msgid "Column"
 msgstr "专栏"
+
+msgid "Commands:"
+msgstr ""
 
 msgid "comment..."
 msgstr ""
@@ -507,6 +528,9 @@ msgstr ""
 msgid "Cosine"
 msgstr ""
 
+msgid "count"
+msgstr ""
+
 msgid "Create"
 msgstr "创建"
 
@@ -546,11 +570,11 @@ msgstr "数据已成功导入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
-msgstr "数据语言"
-
 msgid "Data Language"
 msgstr "资料语言"
+
+msgid "Data language"
+msgstr "数据语言"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -572,6 +596,9 @@ msgstr ""
 
 msgid "Default search"
 msgstr "默认搜索"
+
+msgid "default:"
+msgstr ""
 
 msgid "Define the default values"
 msgstr "设定默认值"
@@ -603,6 +630,9 @@ msgstr ""
 
 msgid "Demo Sandbox"
 msgstr "演示用沙盘"
+
+msgid "Did you mean %s?"
+msgstr ""
 
 msgid "Digit 0"
 msgstr ""
@@ -719,6 +749,9 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
+msgstr ""
+
+msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -855,6 +888,9 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr "模糊匹配"
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
 msgstr ""
 
@@ -868,6 +904,9 @@ msgid "Go Back"
 msgstr "返回"
 
 msgid "go back to home page"
+msgstr ""
+
+msgid "Go to item"
 msgstr ""
 
 msgid "Height"
@@ -912,6 +951,9 @@ msgstr "识别码"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "如果您不想更改密码，您可以忽略这封电子邮件，您的密码不会改变。"
 
+msgid "Implications failed:"
+msgstr ""
+
 msgid "Import"
 msgstr "导入"
 
@@ -948,10 +990,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1035,6 +1077,9 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "无效的登录名或密码。 请再试一次。"
 
@@ -1043,6 +1088,9 @@ msgstr ""
 
 msgid "invalid regular expression"
 msgstr "无效的正规表示式"
+
+msgid "Invalid values:"
+msgstr ""
 
 msgid "items per page"
 msgstr ""
@@ -1304,6 +1352,9 @@ msgstr "未选取任何文件"
 msgid "No files"
 msgstr "没有文件"
 
+msgid "No item found. Please try other search criteria."
+msgstr ""
+
 msgid "no label"
 msgstr "无标签"
 
@@ -1320,6 +1371,12 @@ msgid "No Task yet"
 msgstr ""
 
 msgid "Node duplication has failed"
+msgstr ""
+
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
@@ -1342,6 +1399,9 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
+msgstr ""
+
+msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1435,6 +1495,9 @@ msgid "Please contact your administrator."
 msgstr ""
 
 msgid "Please contact your system administrator."
+msgstr ""
+
+msgid "Please define your search in the search panel."
 msgstr ""
 
 msgid "Please download the track and listen offline."
@@ -1579,6 +1642,9 @@ msgstr ""
 msgid "require notification ID"
 msgstr ""
 
+msgid "required"
+msgstr ""
+
 msgid "required length"
 msgstr "需要的长度"
 
@@ -1694,6 +1760,9 @@ msgstr ""
 msgid "Search by properties"
 msgstr ""
 
+msgid "Search Item"
+msgstr ""
+
 msgid "Search sub-classes"
 msgstr "搜索子类别"
 
@@ -1805,6 +1874,9 @@ msgid "Store"
 msgstr ""
 
 msgid "Store the value a variable"
+msgstr ""
+
+msgid "string"
 msgstr ""
 
 msgid "Submit"
@@ -2019,6 +2091,9 @@ msgstr ""
 
 msgid "Tokenizer"
 msgstr "标记生成器"
+
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "太多的建议符合您的查询，所以这里只列出几个建议"

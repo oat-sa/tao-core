@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint136\n"
-"PO-Revision-Date: 2020-08-28T09:33:54\n"
+"Project-Id-Version: TAO 3.4.0-sprint137\n"
+"PO-Revision-Date: 2020-09-11T08:32:39\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: sk-SK\n"
@@ -370,10 +370,10 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -904,6 +904,9 @@ msgstr ""
 msgid "go back to home page"
 msgstr ""
 
+msgid "Go to item"
+msgstr ""
+
 msgid "Height"
 msgstr ""
 
@@ -1347,6 +1350,9 @@ msgstr ""
 msgid "No files"
 msgstr ""
 
+msgid "No item found. Please try other search criteria."
+msgstr ""
+
 msgid "no label"
 msgstr ""
 
@@ -1405,10 +1411,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1487,6 +1493,9 @@ msgid "Please contact your administrator."
 msgstr ""
 
 msgid "Please contact your system administrator."
+msgstr ""
+
+msgid "Please define your search in the search panel."
 msgstr ""
 
 msgid "Please download the track and listen offline."
@@ -1747,6 +1756,9 @@ msgid "Search %s"
 msgstr ""
 
 msgid "Search by properties"
+msgstr ""
+
+msgid "Search Item"
 msgstr ""
 
 msgid "Search sub-classes"
@@ -2180,10 +2192,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"

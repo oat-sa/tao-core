@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint136\n"
-"PO-Revision-Date: 2020-08-28T09:28:07\n"
+"Project-Id-Version: TAO 3.4.0-sprint137\n"
+"PO-Revision-Date: 2020-09-11T08:28:45\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: el-GR\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " καί "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr "διαγράφηκαν με επιτυχία"
@@ -218,6 +218,9 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
 msgstr ""
 
@@ -282,7 +285,16 @@ msgstr ""
 msgid "Are you sure you want to delete it?"
 msgstr ""
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -338,6 +350,9 @@ msgid "Binary operator /"
 msgstr ""
 
 msgid "Binary operator modulo"
+msgstr ""
+
+msgid "boolean"
 msgstr ""
 
 msgid "Browse folders:"
@@ -398,6 +413,9 @@ msgstr ""
 msgid "Check-in"
 msgstr ""
 
+msgid "choices:"
+msgstr ""
+
 msgid "Choose a value..."
 msgstr ""
 
@@ -431,10 +449,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -462,6 +480,9 @@ msgid "Collecting of abandoned actions in the action queue ..."
 msgstr ""
 
 msgid "Column"
+msgstr ""
+
+msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
@@ -506,6 +527,9 @@ msgstr ""
 msgid "Cosine"
 msgstr ""
 
+msgid "count"
+msgstr ""
+
 msgid "Create"
 msgstr ""
 
@@ -545,10 +569,10 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
@@ -570,6 +594,9 @@ msgid "date time range"
 msgstr ""
 
 msgid "Default search"
+msgstr ""
+
+msgid "default:"
 msgstr ""
 
 msgid "Define the default values"
@@ -601,6 +628,9 @@ msgid "Deleting search index for %s"
 msgstr ""
 
 msgid "Demo Sandbox"
+msgstr ""
+
+msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -717,6 +747,9 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
+msgstr ""
+
+msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -853,6 +886,9 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr ""
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
 msgstr ""
 
@@ -866,6 +902,9 @@ msgid "Go Back"
 msgstr ""
 
 msgid "go back to home page"
+msgstr ""
+
+msgid "Go to item"
 msgstr ""
 
 msgid "Height"
@@ -910,6 +949,9 @@ msgstr ""
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr ""
 
+msgid "Implications failed:"
+msgstr ""
+
 msgid "Import"
 msgstr ""
 
@@ -946,10 +988,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1033,6 +1075,9 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr ""
 
@@ -1040,6 +1085,9 @@ msgid "Invalid login or password. Your account has been locked, please contact y
 msgstr ""
 
 msgid "invalid regular expression"
+msgstr ""
+
+msgid "Invalid values:"
 msgstr ""
 
 msgid "items per page"
@@ -1302,6 +1350,9 @@ msgstr ""
 msgid "No files"
 msgstr ""
 
+msgid "No item found. Please try other search criteria."
+msgstr ""
+
 msgid "no label"
 msgstr ""
 
@@ -1318,6 +1369,12 @@ msgid "No Task yet"
 msgstr ""
 
 msgid "Node duplication has failed"
+msgstr ""
+
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
@@ -1340,6 +1397,9 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
+msgstr ""
+
+msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1433,6 +1493,9 @@ msgid "Please contact your administrator."
 msgstr ""
 
 msgid "Please contact your system administrator."
+msgstr ""
+
+msgid "Please define your search in the search panel."
 msgstr ""
 
 msgid "Please download the track and listen offline."
@@ -1577,6 +1640,9 @@ msgstr ""
 msgid "require notification ID"
 msgstr ""
 
+msgid "required"
+msgstr ""
+
 msgid "required length"
 msgstr ""
 
@@ -1692,6 +1758,9 @@ msgstr ""
 msgid "Search by properties"
 msgstr ""
 
+msgid "Search Item"
+msgstr ""
+
 msgid "Search sub-classes"
 msgstr ""
 
@@ -1803,6 +1872,9 @@ msgid "Store"
 msgstr ""
 
 msgid "Store the value a variable"
+msgstr ""
+
+msgid "string"
 msgstr ""
 
 msgid "Submit"
@@ -2016,6 +2088,9 @@ msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
+msgstr ""
+
+msgid "Too many non-option arguments: got %s, maximum of %s"
 msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
