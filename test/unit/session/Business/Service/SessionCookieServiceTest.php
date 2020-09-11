@@ -74,7 +74,6 @@ namespace oat\tao\test\unit\session\Business\Service {
 
     /**
      * @covers \oat\tao\model\session\Business\Service\SessionCookieService
-     * @runClassInSeparateProcess
      */
     class SessionCookieServiceTest extends TestCase
     {
@@ -107,21 +106,21 @@ namespace oat\tao\test\unit\session\Business\Service {
         }
 
         /**
-         * @beforeClass
-         */
-        public static function initializeConfiguration(): void
-        {
-            define('ROOT_URL', 'http://test.com/');
-            define('GENERIS_SESSION_NAME', 'test');
-        }
-
-        /**
          * @before
          * @afterClass
          */
         public static function resetGlobalFunctionExpectations(): void
         {
             self::$mockFunctions = [];
+        }
+
+        /**
+         * @before
+         */
+        public function initializeConfiguration(): void
+        {
+            define('ROOT_URL', 'http://test.com/');
+            define('GENERIS_SESSION_NAME', 'test');
         }
 
         /**
@@ -152,6 +151,8 @@ namespace oat\tao\test\unit\session\Business\Service {
          * @param int    $lifetime
          *
          * @dataProvider dataProvider
+         * @runInSeparateProcess
+         * @preserveGlobalState disabled
          */
         public function testInitializeSessionCookie(string $domain, int $lifetime): void
         {
@@ -166,6 +167,7 @@ namespace oat\tao\test\unit\session\Business\Service {
          *
          * @dataProvider dataProvider
          * @runInSeparateProcess
+         * @preserveGlobalState disabled
          */
         public function testReInitializeSessionCookie(string $domain, int $lifetime): void
         {

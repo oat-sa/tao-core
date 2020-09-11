@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint136\n"
-"PO-Revision-Date: 2020-08-28T09:32:17\n"
+"Project-Id-Version: TAO 3.4.0-sprint137\n"
+"PO-Revision-Date: 2020-09-11T08:31:28\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -371,11 +371,11 @@ msgstr "Skaičiuotuvas"
 msgid "Calendar"
 msgstr "Kalendorius"
 
-msgid "Cancel"
-msgstr "Atšaukti"
-
 msgid "cancel"
 msgstr "atšaukti"
+
+msgid "Cancel"
+msgstr "Atšaukti"
 
 msgid "cancel the action"
 msgstr "atšaukti veiksmą"
@@ -906,6 +906,9 @@ msgstr "Grįžti Atgal"
 msgid "go back to home page"
 msgstr ""
 
+msgid "Go to item"
+msgstr ""
+
 msgid "Height"
 msgstr "Aukštis"
 
@@ -1349,6 +1352,9 @@ msgstr "Joks failas nepasirinktas"
 msgid "No files"
 msgstr "Nėra failų"
 
+msgid "No item found. Please try other search criteria."
+msgstr ""
+
 msgid "no label"
 msgstr "nėra pavadinimo"
 
@@ -1407,10 +1413,10 @@ msgstr "iš"
 msgid "Off"
 msgstr "Išjungta"
 
-msgid "Ok"
+msgid "OK"
 msgstr "Gerai"
 
-msgid "OK"
+msgid "Ok"
 msgstr "Gerai"
 
 msgid "Old Password"
@@ -1489,6 +1495,9 @@ msgid "Please contact your administrator."
 msgstr "Prašome susisiekti su jūsų administratoriumi."
 
 msgid "Please contact your system administrator."
+msgstr ""
+
+msgid "Please define your search in the search panel."
 msgstr ""
 
 msgid "Please download the track and listen offline."
@@ -1750,6 +1759,9 @@ msgstr "Ieškoti %s"
 
 msgid "Search by properties"
 msgstr "Ieškoti pagal savybes"
+
+msgid "Search Item"
+msgstr ""
 
 msgid "Search sub-classes"
 msgstr "Ieškoti poklasiuose"
@@ -2182,10 +2194,10 @@ msgstr "Vienetinis operatorius +"
 msgid "Unary operator -"
 msgstr "Vienetinis operatorius -"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Atžymėti visus"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Atžymėti visus"
 
 msgid "Undefined amount of the pages for pagination"
