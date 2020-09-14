@@ -6,9 +6,9 @@ class TestClass
 {
     private $a;
 
-    public function __construct(int $a)
+    public function __construct(int $aa)
     {
-        $this->a = $a;
+        $this->a = $aa;
     }
 
     public function add(int $b)
