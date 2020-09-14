@@ -45,7 +45,6 @@
             float: right;
             display: inline-block;
             position: relative;
-            padding: 0 30px 0 0;
             input {
                 padding-right: 34px;
                 min-width: 250px !important;
@@ -53,13 +52,13 @@
             .search-area-buttons-container {
                 position: absolute;
                 top: 0;
-                right: 30px;
+                right: 0;
                 .icon-ul {
                     display: none;
                 }
 
                 &.has-results-counter {
-                    right: 35px;
+                    right: 5px;
                     .icon-ul {
                         display: initial;
                     }
