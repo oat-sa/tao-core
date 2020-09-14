@@ -30,7 +30,6 @@ use tao_helpers_Uri as UriHelper;
 
 /**
  * @covers \oat\tao\model\session\DataAccess\Factory\SessionCookieAttributesFactory
- * @runClassInSeparateProcess
  */
 class SessionCookieAttributesFactoryTest extends TestCase
 {
@@ -38,9 +37,9 @@ class SessionCookieAttributesFactoryTest extends TestCase
     private $sut;
 
     /**
-     * @beforeClass
+     * @before
      */
-    public static function initializeConfiguration(): void
+    public function initializeConfiguration(): void
     {
         define('ROOT_URL', 'http://test.com/');
     }
@@ -53,6 +52,10 @@ class SessionCookieAttributesFactoryTest extends TestCase
         $this->sut = new SessionCookieAttributesFactory();
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function testCreate(): void
     {
         static::assertEquals(
