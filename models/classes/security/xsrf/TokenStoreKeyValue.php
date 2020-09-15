@@ -57,7 +57,7 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
             $persistence = $persistenceManager->getPersistenceById($this->getOption(self::OPTION_PERSISTENCE));
 
             if (!$persistence instanceof common_persistence_AdvKeyValuePersistence) {
-                throw new \common_exception_Error('TokenSToreKeyValue expects advanced key value persistence implementation.');
+                throw new \common_exception_Error('TokenStoreKeyValue expects advanced key value persistence implementation.');
             }
             $this->persistence = $persistence;
         }
