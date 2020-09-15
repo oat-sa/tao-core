@@ -28,7 +28,6 @@ use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidService;
 use oat\tao\model\security\TokenGenerator;
-use PHPSession;
 
 /**
  * This service let's you manage tokens to protect against XSRF.
@@ -319,7 +318,6 @@ class TokenService extends ConfigurableService
             $store->setToken($newToken->getValue(), $newToken);
             $tokens[] = $newToken;
         }
-
 
         return $tokens;
     }
