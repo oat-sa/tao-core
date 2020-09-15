@@ -117,15 +117,6 @@ namespace oat\tao\test\unit\session\Business\Service {
         /**
          * @before
          */
-        public function initializeConfiguration(): void
-        {
-            define('ROOT_URL', 'http://test.com/');
-            define('GENERIS_SESSION_NAME', 'test');
-        }
-
-        /**
-         * @before
-         */
         public function init(): void
         {
             $this->sut = new SessionCookieService(
@@ -151,8 +142,6 @@ namespace oat\tao\test\unit\session\Business\Service {
          * @param int    $lifetime
          *
          * @dataProvider dataProvider
-         * @runInSeparateProcess
-         * @preserveGlobalState disabled
          */
         public function testInitializeSessionCookie(string $domain, int $lifetime): void
         {
@@ -166,8 +155,6 @@ namespace oat\tao\test\unit\session\Business\Service {
          * @param int    $lifetime
          *
          * @dataProvider dataProvider
-         * @runInSeparateProcess
-         * @preserveGlobalState disabled
          */
         public function testReInitializeSessionCookie(string $domain, int $lifetime): void
         {
