@@ -342,9 +342,9 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                             }
                         }
                     }
+                    // get the form again but with the saved properties
+                    $myForm = $this->getForm($clazz, $classData, $propertyData);
                 }
-                // get the form again but with the saved properties
-                $myForm = $this->getForm($clazz, $classData, $propertyData);
             }
         }
         return $myForm;
