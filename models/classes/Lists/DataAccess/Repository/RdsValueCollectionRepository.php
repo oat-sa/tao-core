@@ -79,6 +79,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $this->enrichQueryWithSubject($searchRequest, $query);
         $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
         $this->enrichQueryWithFilterValueUris($searchRequest, $query);
+        $this->enrichQueryWithOrderById($query);
 
         $values = [];
         foreach ($query->execute()->fetchAll() as $rawValue) {
@@ -186,6 +187,11 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
     private function enrichQueryWithInitialCondition(QueryBuilder $query): void
     {
         $query->from(self::TABLE_LIST_ITEMS, 'items');
+    }
+
+    private function enrichQueryWithOrderById(QueryBuilder $query): void
+    {
+        $query->addOrderBy('items.' . self::FIELD_ITEM_ID);
     }
 
     private function enrichQueryWithSelect(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): void
