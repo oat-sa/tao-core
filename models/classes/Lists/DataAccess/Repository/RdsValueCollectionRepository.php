@@ -231,7 +231,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                     ':label'
                 )
             )
-            ->setParameter('label', $searchRequest->getSubject() .'%');
+            ->setParameter('label', '%' . $searchRequest->getSubject() .'%');
     }
 
     private function enrichQueryWithExcludedValueUris(
