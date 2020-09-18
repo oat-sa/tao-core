@@ -51,7 +51,7 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
             'parentClasses' => $this->getParentClasses($class)
         ];
 
-        $this->logInfo('Removing property from index', $propertyData);
+        $this->logInfo('Removing property from index');
 
         try {
             $this->getServiceLocator()
@@ -59,13 +59,13 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
                 ->deleteProperty($propertyData);
         } catch (Throwable $exception) {
             $message = 'Failed to remove class property from search index';
-            $this->logError($message, (array)$exception);
+            $this->logError($message);
 
             return common_report_Report::createFailure(__($message));
         }
 
         $message = 'Class property removed successfully.';
-        $this->logInfo($message, $propertyData);
+        $this->logInfo($message);
 
         return common_report_Report::createSuccess(__($message));
     }

@@ -86,7 +86,7 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
             ];
         }
 
-        $this->logInfo('Indexing properties', $indexProperties);
+        $this->logInfo('Indexing properties');
 
         try {
             /** @var IndexUpdaterInterface $indexUpdater */
@@ -94,13 +94,13 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
             $indexUpdater->updatePropertiesName($indexProperties);
         } catch (Throwable $exception) {
             $message = 'Failed during update search index';
-            $this->logError($message, (array)$exception);
+            $this->logError($message);
 
             return common_report_Report::createFailure(__($message));
         }
 
         $message = 'Search index was successfully updated.';
-        $this->logInfo($message, $indexProperties);
+        $this->logInfo($message);
 
         return common_report_Report::createSuccess(__($message));
     }
