@@ -52,9 +52,9 @@ class DataAccessControlChangedEvent implements Event
         return $this->resourceId;
     }
 
-    public function getAddRemove(): array
+    public function getOperations(string $operation): array
     {
-        return $this->addRemove;
+        return array_keys($this->addRemove[$operation] ?? []);
     }
 
     public function isRecursive(): bool

@@ -56,7 +56,7 @@ class DataAccessControlChangedListener extends ConfigurableService
             new UpdateDataAccessControlInIndex(),
             [
                 $resource->getUri(),
-                array_keys($event->getAddRemove()['add'] ?? []),
+                $event->getOperations('add'),
             ],
             $taskMessage
         );
