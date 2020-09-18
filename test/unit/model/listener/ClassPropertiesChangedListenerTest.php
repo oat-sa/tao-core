@@ -72,7 +72,7 @@ class ClassPropertiesChangedListenerTest extends TestCase
                 false
             );
 
-        $this->sut->renameClassProperties(
+        $this->sut->handleEvent(
             new ClassPropertiesChangedEvent(
                 [
                     [
@@ -94,7 +94,7 @@ class ClassPropertiesChangedListenerTest extends TestCase
         $this->queueDispatcher->expects($this->never())
             ->method('createTask');
 
-        $this->sut->renameClassProperties(
+        $this->sut->handleEvent(
             new ClassPropertiesChangedEvent(
                 [
                     $property

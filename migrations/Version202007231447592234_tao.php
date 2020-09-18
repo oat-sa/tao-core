@@ -31,8 +31,8 @@ final class Version202007231447592234_tao extends AbstractMigration
     {
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-        $eventManager->attach(ClassPropertiesChangedEvent::class, [ClassPropertiesChangedListener::SERVICE_ID, 'renameClassProperties']);
-        $eventManager->attach(ClassPropertyRemovedEvent::class, [ClassPropertyRemovedListener::SERVICE_ID, 'removeClassProperty']);
+        $eventManager->attach(ClassPropertiesChangedEvent::class, [ClassPropertiesChangedListener::SERVICE_ID, 'handleEvent']);
+        $eventManager->attach(ClassPropertyRemovedEvent::class, [ClassPropertyRemovedListener::SERVICE_ID, 'handleEvent']);
         $eventManager->attach(DataAccessControlChangedEvent::class, [DataAccessControlChangedListener::SERVICE_ID, 'handleEvent']);
 
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
@@ -59,8 +59,8 @@ final class Version202007231447592234_tao extends AbstractMigration
 
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-        $eventManager->detach(ClassPropertiesChangedEvent::class, [ClassPropertiesChangedListener::SERVICE_ID, 'renameClassProperties']);
-        $eventManager->detach(ClassPropertyRemovedEvent::class, [ClassPropertyRemovedListener::SERVICE_ID, 'removeClassProperty']);
+        $eventManager->detach(ClassPropertiesChangedEvent::class, [ClassPropertiesChangedListener::SERVICE_ID, 'handleEvent']);
+        $eventManager->detach(ClassPropertyRemovedEvent::class, [ClassPropertyRemovedListener::SERVICE_ID, 'handleEvent']);
         $eventManager->detach(DataAccessControlChangedEvent::class, [DataAccessControlChangedListener::SERVICE_ID, 'handleEvent']);
 
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);

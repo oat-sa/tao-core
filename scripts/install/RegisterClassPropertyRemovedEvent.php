@@ -34,7 +34,7 @@ class RegisterClassPropertyRemovedEvent extends InstallAction
     {
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-        $eventManager->attach(ClassPropertyRemovedEvent::class, [ClassPropertyRemovedListener::SERVICE_ID, 'removeClassProperty']);
+        $eventManager->attach(ClassPropertyRemovedEvent::class, [ClassPropertyRemovedListener::SERVICE_ID, 'handleEvent']);
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
         return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'ClassPropertyRemovedEvent event registered');

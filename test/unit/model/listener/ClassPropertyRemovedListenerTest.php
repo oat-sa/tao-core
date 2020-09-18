@@ -71,6 +71,6 @@ class ClassPropertyRemovedListenerTest extends TestCase
                 false
             );
 
-        $this->sut->removeClassProperty(new ClassPropertyRemovedEvent($class, 'property-name'));
+        $this->sut->handleEvent(new ClassPropertyRemovedEvent($class, 'property-name'));
     }
 }
