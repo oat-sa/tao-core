@@ -99,15 +99,15 @@ class tao_actions_Search extends tao_actions_CommonModule
         $totalPages = is_null($rows) ? 1 : ceil($results->getTotalCount() / $rows);
 
         $resultsRaw = $results->getArrayCopy();
+
+        $accessibleResultsMap = array_flip(
+            $permissionHelper->filterByPermission($resultsRaw, PermissionInterface::RIGHT_READ)
+        );
+
         $resultAmount = count($resultsRaw);
+
         $response = new StdClass();
-        $accessibleResultsMap = [];
-
         if ($resultAmount > 0) {
-            $accessibleResultsMap = array_flip(
-                $permissionHelper->filterByPermission($resultsRaw, PermissionInterface::RIGHT_READ)
-            );
-
             foreach ($resultsRaw as $uri) {
                 $instance = $this->getResource($uri);
                 $isAccessible = isset($accessibleResultsMap[$uri]);
