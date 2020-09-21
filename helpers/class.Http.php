@@ -17,11 +17,13 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
+ *               2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 use oat\generis\Helper\SystemHelper;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\FileUploadException;
+use oat\tao\model\http\ContentDetector;
 use oat\tao\model\stream\StreamRange;
 use oat\tao\model\stream\StreamRangeException;
 use Psr\Http\Message\StreamInterface;
@@ -357,6 +359,10 @@ class tao_helpers_Http
             header('Content-Type: ' . $mimeType);
         }
 
+        if ($mimeType === 'image/svg+xml' && self::getContentDetector()->isGzip($stream)) {
+            header('Content-Encoding: gzip');
+        }
+
         try {
             $ranges = StreamRange::createFromRequest($stream, $request);
             $contentLength = 0;
@@ -392,5 +398,10 @@ class tao_helpers_Http
         } catch (StreamRangeException $e) {
             header('HTTP/1.1 416 Requested Range Not Satisfiable');
         }
+    }
+
+    private function getContentDetector(): ContentDetector
+    {
+        return ServiceManager::getServiceManager()->get(ContentDetector::class);
     }
 }
