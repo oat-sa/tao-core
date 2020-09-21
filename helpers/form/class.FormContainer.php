@@ -20,7 +20,9 @@
  *               2020 (original work) Open Assessment Technologies SA
  */
 
+use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\xhtml\CsrfToken;
+use oat\tao\helpers\form\validators\InjectableElementsAware;
 use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_form_FormFactory as FormFactory;
 
@@ -33,8 +35,8 @@ use tao_helpers_form_FormFactory as FormFactory;
 abstract class tao_helpers_form_FormContainer
 {
     public const CSRF_PROTECTION_OPTION = 'csrf_protection';
-    public const IS_DISABLED            = 'is_disabled';
-    public const ADDITIONAL_VALIDATORS  = 'extraValidators';
+    public const IS_DISABLED = 'is_disabled';
+    public const ADDITIONAL_VALIDATORS = 'extraValidators';
 
     /**
      * the form instance contained
@@ -193,7 +195,21 @@ abstract class tao_helpers_form_FormContainer
         foreach ($this->getForm()->getElements() as $element) {
             $validators = $validationRules[$element->getName()] ?? [];
             $element->addValidators($validators);
+            $this->propagate($validators, $this->getForm());
             $this->getForm()->addElement($element);
+        }
+    }
+
+    /**
+     * @param ValidatorInterface[] $validators
+     */
+    private function propagate(iterable $validators, tao_helpers_form_Form $form): void
+    {
+        foreach ($validators as $validator) {
+            if (!$validator instanceof InjectableElementsAware) {
+                continue;
+            }
+            $validator->propagate($form);
         }
     }
 }
