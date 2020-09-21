@@ -63,6 +63,6 @@ class tao_helpers_form_validators_OneOf extends tao_helpers_form_Validator imple
             $message[] = $ref->getDescription();
         }
 
-        $this->setMessage(__('Only one of the field can have value %s', implode(',', $message)));
+        $this->setMessage(__('Only one of the field must have value %s', implode(',', $message)));
     }
 }

@@ -95,7 +95,9 @@ abstract class tao_helpers_form_FormContainer
         // initialize the elements of the form
         $this->initElements();
 
-        $this->applyAdditionalValidationRules($options[self::ADDITIONAL_VALIDATORS] ?? []);
+        if ($validationRules = $options[self::ADDITIONAL_VALIDATORS] ?? []) {
+            $this->applyAdditionalValidationRules($validationRules);
+        }
 
         if (($options[self::CSRF_PROTECTION_OPTION] ?? false) === true) {
             $this->initCsrfProtection();
@@ -190,7 +192,7 @@ abstract class tao_helpers_form_FormContainer
         $this->form->addElement($csrfTokenElement, true);
     }
 
-    private function applyAdditionalValidationRules(array $validationRules = []): void
+    private function applyAdditionalValidationRules(array $validationRules): void
     {
         foreach ($this->getForm()->getElements() as $element) {
             $validators = $validationRules[$element->getName()] ?? [];
