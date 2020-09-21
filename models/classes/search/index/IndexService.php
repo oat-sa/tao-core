@@ -47,7 +47,7 @@ class IndexService extends ConfigurableService
 
     /**
      * Run a full reindexing
-     * @return boolean
+     * @return int
      * @throws
      */
     public function runIndexing(): int

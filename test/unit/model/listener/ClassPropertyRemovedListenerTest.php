@@ -20,6 +20,9 @@
 
 declare(strict_types=1);
 
+namespace oat\test\unit\model\listener;
+
+use core_kernel_classes_Class;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
@@ -68,6 +71,6 @@ class ClassPropertyRemovedListenerTest extends TestCase
                 false
             );
 
-        $this->sut->removeClassProperty(new ClassPropertyRemovedEvent($class, 'property-name'));
+        $this->sut->handleEvent(new ClassPropertyRemovedEvent($class, 'property-name'));
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,26 +23,40 @@ declare(strict_types=1);
 
 namespace oat\tao\model\listener;
 
+use core_kernel_classes_Resource;
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\event\ClassPropertyRemovedEvent;
-use oat\tao\model\search\tasks\DeleteIndexProperty;
+use oat\tao\model\event\DataAccessControlChangedEvent;
+use oat\tao\model\search\tasks\UpdateClassInIndex;
+use oat\tao\model\search\tasks\UpdateDataAccessControlInIndex;
+use oat\tao\model\search\tasks\UpdateResourceInIndex;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
-class ClassPropertyRemovedListener extends ConfigurableService
+class DataAccessControlChangedListener extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/ClassPropertyRemovedListener';
+    use OntologyAwareTrait;
 
-    public function handleEvent(ClassPropertyRemovedEvent $event): void
+    public const SERVICE_ID = 'tao/DataAccessControlChangedListener';
+
+    public function handleEvent(DataAccessControlChangedEvent $event): void
     {
-        $taskMessage = __('Updating search index');
+        $this->getLogger()->debug('triggering index update on DataAccessControlChanged event');
 
-        /** @var QueueDispatcherInterface $queueDispatcher */
+        $taskMessage = __('Adding/updating search index for updated resource');
+
+        /** @noinspection PhpUnhandledExceptionInspection */
+        $resource = $this->getResource($event->getResourceId());
+
+        if ($resource->isClass() && !$event->isRecursive()) {
+            return;
+        }
+
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
         $queueDispatcher->createTask(
-            new DeleteIndexProperty(),
+            new UpdateDataAccessControlInIndex(),
             [
-                $event->getClass(),
-                $event->getPropertyName()
+                $resource->getUri(),
+                $event->getOperations('add'),
             ],
             $taskMessage
         );

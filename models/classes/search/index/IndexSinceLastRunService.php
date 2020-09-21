@@ -40,7 +40,7 @@ class IndexSinceLastRunService extends IndexService
     const OPTION_INDEX_SINCE_LAST_RUN = 'index_since_last_run';
     const LAST_LAUNCH_TIME_KEY = 'tao/IndexService:lastLaunchTime';
 
-    public function runIndexing()
+    public function runIndexing(): int
     {
         $time = microtime(true);
         $iterator = $this->getResourceIterator($this->getLastIndexTime(), $time);

@@ -19,7 +19,7 @@
  */
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\models\classes\search\tasks;
+namespace oat\tao\test\unit\model\search\tasks;
 
 use common_exception_MissingParameter;
 use common_report_Report as Report;

@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\models\classes\search\index;
+namespace oat\tao\test\unit\model\search\index;
 
 use common_ext_ExtensionsManager;
 use core_kernel_classes_Property;

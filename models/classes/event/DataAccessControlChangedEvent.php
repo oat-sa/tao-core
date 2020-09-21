@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,30 +20,45 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\search\strategy;
+namespace oat\tao\model\event;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\index\IndexUpdaterInterface;
+use oat\oatbox\event\Event;
 
-class GenerisIndexUpdater extends ConfigurableService implements IndexUpdaterInterface
+class DataAccessControlChangedEvent implements Event
 {
-    public function updatePropertiesName(array $properties): void
+    /** @var string */
+    private $resourceId;
+
+    /** @var array */
+    private $addRemove;
+
+    /** @var bool */
+    private $isRecursive;
+
+    public function __construct(string $resourceId, array $addRemove, bool $isRecursive = false)
     {
-        return;
+        $this->resourceId = $resourceId;
+        $this->addRemove = $addRemove;
+        $this->isRecursive = $isRecursive;
     }
 
-    public function deleteProperty(array $property): void
+    public function getName(): string
     {
-        return;
+        return static::class;
     }
 
-    public function updatePropertyValue(string $typeOrId, array $parentClasses, string $propertyName, array $value): void
+    public function getResourceId(): string
     {
-        return;
+        return $this->resourceId;
     }
 
-    public function hasClassSupport(string $class): bool
+    public function getOperations(string $operation): array
     {
-        return false;
+        return array_keys($this->addRemove[$operation] ?? []);
+    }
+
+    public function isRecursive(): bool
+    {
+        return $this->isRecursive;
     }
 }

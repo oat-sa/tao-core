@@ -32,7 +32,7 @@ interface IndexUpdaterInterface
      *
      * @throws Throwable
      */
-    public function updateProperties(array $properties): void;
+    public function updatePropertiesName(array $properties): void;
 
     /**
      * @param array $property
@@ -40,6 +40,14 @@ interface IndexUpdaterInterface
      * @throws Throwable
      */
     public function deleteProperty(array $property): void;
+
+    /**
+     * @param string $typeOrId
+     * @param array $parentClasses
+     * @param string $propertyName
+     * @param array $value
+     */
+    public function updatePropertyValue(string $typeOrId, array $parentClasses, string $propertyName, array $value): void;
 
     /**
      * @param string $class

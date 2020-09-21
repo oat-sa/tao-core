@@ -32,7 +32,7 @@ class ClassPropertiesChangedListener extends ConfigurableService
 {
     const SERVICE_ID = 'tao/ClassPropertiesChangedListener';
 
-    public function renameClassProperties(ClassPropertiesChangedEvent $event): void
+    public function handleEvent(ClassPropertiesChangedEvent $event): void
     {
         $taskMessage = __('Updating search index');
 

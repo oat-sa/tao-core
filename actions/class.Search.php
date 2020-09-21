@@ -100,14 +100,16 @@ class tao_actions_Search extends tao_actions_CommonModule
 
         $resultsRaw = $results->getArrayCopy();
 
-        $accessibleResultsMap = array_flip(
-            $permissionHelper->filterByPermission($resultsRaw, PermissionInterface::RIGHT_READ)
-        );
+        $accessibleResultsMap = [];
 
         $resultAmount = count($resultsRaw);
 
         $response = new StdClass();
         if ($resultAmount > 0) {
+            $accessibleResultsMap = array_flip(
+                $permissionHelper->filterByPermission($resultsRaw, PermissionInterface::RIGHT_READ)
+            );
+
             foreach ($resultsRaw as $uri) {
                 $instance = $this->getResource($uri);
                 $isAccessible = isset($accessibleResultsMap[$uri]);

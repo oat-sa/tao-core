@@ -15,34 +15,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ *
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\search\strategy;
+namespace oat\tao\scripts\install;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\index\IndexUpdaterInterface;
+use common_report_Report;
+use oat\oatbox\extension\InstallAction;
+use oat\tao\model\listener\ClassPropertyRemovedListener;
+use oat\tao\model\listener\DataAccessControlChangedListener;
 
-class GenerisIndexUpdater extends ConfigurableService implements IndexUpdaterInterface
+class RegisterDataAccessControlChangedListener extends InstallAction
 {
-    public function updatePropertiesName(array $properties): void
+    public function __invoke($params): common_report_Report
     {
-        return;
-    }
+        $this->getServiceManager()->register(DataAccessControlChangedListener::SERVICE_ID, new DataAccessControlChangedListener());
 
-    public function deleteProperty(array $property): void
-    {
-        return;
-    }
-
-    public function updatePropertyValue(string $typeOrId, array $parentClasses, string $propertyName, array $value): void
-    {
-        return;
-    }
-
-    public function hasClassSupport(string $class): bool
-    {
-        return false;
+        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'ClassPropertyRemovedListener is registered');
     }
 }
