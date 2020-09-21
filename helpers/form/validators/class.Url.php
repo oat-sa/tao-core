@@ -55,6 +55,10 @@ class tao_helpers_form_validators_Url extends tao_helpers_form_Validator
      */
     public function evaluate($value)
     {
+        if (empty($value) && $this->hasOption('allow_empty') && $this->getOption('allow_empty') == true) {
+            return true;
+        }
+
         //backward compatible behavior:
         //scheme should be prepended if not found (pattern includes spelling errors)
         if (preg_match('/^[a-zA-Z]{1,10}[:\/]{1,3}/', $value) === false) {
