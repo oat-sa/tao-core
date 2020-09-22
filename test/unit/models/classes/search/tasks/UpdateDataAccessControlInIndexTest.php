@@ -97,7 +97,7 @@ class UpdateDataAccessControlInIndexTest extends TestCase
             ->with('Data Access Control failure: Error During Update the Properties fail. Please, check previous exception for more details.');
 
         $this->indexUpdater->expects($this->once())->method('updatePropertyValue')
-            ->with($documentUri, [], 'read_access', [])
+            ->with($documentUri, [''], 'read_access', [])
             ->willThrowException(new FailToUpdatePropertiesException('fail'));
 
         $report = $this->sut->__invoke(
@@ -127,7 +127,7 @@ class UpdateDataAccessControlInIndexTest extends TestCase
             ->with('Data Access Control were being updated by oat\tao\model\search\tasks\UpdateDataAccessControlInIndex');
 
         $this->indexUpdater->expects($this->once())->method('updatePropertyValue')
-            ->with($documentUri, [], 'read_access', []);
+            ->with($documentUri, [''], 'read_access', []);
 
         $report = $this->sut->__invoke(
             [$documentUri, []]
