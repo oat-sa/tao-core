@@ -20,9 +20,9 @@
 
 declare(strict_types=1);
 
-use oat\tao\helpers\form\validators\InjectableElementsAware;
+use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 
-class tao_helpers_form_validators_OneOf extends tao_helpers_form_Validator implements InjectableElementsAware
+class tao_helpers_form_validators_OneOf extends tao_helpers_form_Validator implements CrossElementEvaluationAware
 {
 
     /** @var tao_helpers_form_FormElement[]|[] */
@@ -50,7 +50,7 @@ class tao_helpers_form_validators_OneOf extends tao_helpers_form_Validator imple
         return count(array_filter($isEmpty)) === 1;
     }
 
-    public function propagate(tao_helpers_form_Form $form): void
+    public function acknowledge(tao_helpers_form_Form $form): void
     {
         $message = [];
         foreach ($this->getOption('reference', []) as $ref) {

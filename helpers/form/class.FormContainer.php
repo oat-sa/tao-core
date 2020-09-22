@@ -22,7 +22,7 @@
 
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\xhtml\CsrfToken;
-use oat\tao\helpers\form\validators\InjectableElementsAware;
+use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_form_FormFactory as FormFactory;
 
@@ -210,10 +210,10 @@ abstract class tao_helpers_form_FormContainer
     private function configureFormValidators(iterable $validators, tao_helpers_form_Form $form): void
     {
         foreach ($validators as $validator) {
-            if (!$validator instanceof InjectableElementsAware) {
+            if (!$validator instanceof CrossElementEvaluationAware) {
                 continue;
             }
-            $validator->propagate($form);
+            $validator->acknowledge($form);
         }
     }
 }

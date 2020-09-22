@@ -25,7 +25,7 @@ namespace oat\tao\helpers\form\validators;
 
 use tao_helpers_form_Form;
 
-interface InjectableElementsAware
+interface CrossElementEvaluationAware
 {
-    public function propagate(tao_helpers_form_Form $form): void;
+    public function acknowledge(tao_helpers_form_Form $form): void;
 }
