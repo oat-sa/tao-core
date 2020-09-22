@@ -197,7 +197,7 @@ abstract class tao_helpers_form_FormContainer
         foreach ($this->getForm()->getElements() as $element) {
             $validators = $validationRules[$element->getName()] ?? [];
             $element->addValidators($validators);
-            $this->propagate($validators, $this->getForm());
+            $this->configureFormValidators($validators, $this->getForm());
             $this->getForm()->addElement($element);
         }
     }
@@ -205,7 +205,7 @@ abstract class tao_helpers_form_FormContainer
     /**
      * @param ValidatorInterface[] $validators
      */
-    private function propagate(iterable $validators, tao_helpers_form_Form $form): void
+    private function configureFormValidators(iterable $validators, tao_helpers_form_Form $form): void
     {
         foreach ($validators as $validator) {
             if (!$validator instanceof InjectableElementsAware) {
