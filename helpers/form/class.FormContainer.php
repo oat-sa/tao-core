@@ -95,7 +95,9 @@ abstract class tao_helpers_form_FormContainer
         // initialize the elements of the form
         $this->initElements();
 
-        if ($validationRules = $options[self::ADDITIONAL_VALIDATORS] ?? []) {
+        $validationRules = $options[self::ADDITIONAL_VALIDATORS] ?? [];
+
+        if (!empty($validationRules)) {
             $this->applyAdditionalValidationRules($validationRules);
         }
 
