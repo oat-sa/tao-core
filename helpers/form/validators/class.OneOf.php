@@ -58,9 +58,6 @@ class tao_helpers_form_validators_OneOf extends tao_helpers_form_Validator imple
                 tao_helpers_Uri::encode($ref)
             );
 
-            if (!$ref) {
-                continue;
-            }
             $this->references[] = $ref;
             $message[] = $ref->getDescription();
         }
