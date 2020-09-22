@@ -18,6 +18,8 @@
  * Copyright (c) 2020 (original work) (update and modification) Open Assessment Technologies SA
  */
 
+declare(strict_types=1);
+
 use oat\tao\helpers\form\validators\InjectableElementsAware;
 
 class tao_helpers_form_validators_OneOf extends tao_helpers_form_Validator implements InjectableElementsAware

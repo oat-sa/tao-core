@@ -27,5 +27,5 @@ use tao_helpers_form_Form;
 
 interface InjectableElementsAware
 {
-    public function propagate(tao_helpers_form_Form $form);
+    public function propagate(tao_helpers_form_Form $form): void;
 }
