@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 
-class tao_helpers_form_validators_OneOf extends tao_helpers_form_Validator implements CrossElementEvaluationAware
+class tao_helpers_form_validators_AnyOf extends tao_helpers_form_Validator implements CrossElementEvaluationAware
 {
 
     /** @var tao_helpers_form_FormElement[]|[] */
@@ -37,7 +37,7 @@ class tao_helpers_form_validators_OneOf extends tao_helpers_form_Validator imple
         parent::setOptions($options);
 
         if (!$this->hasOption('reference')) {
-            throw new common_Exception(sprint_f("No reference provided for %s validator", $this->getName()));
+            throw new common_Exception("No reference provided for for AnyOf validator");
         }
     }
 
@@ -47,7 +47,7 @@ class tao_helpers_form_validators_OneOf extends tao_helpers_form_Validator imple
         foreach ($this->references as $reference) {
             $isEmpty[] = empty($reference->getRawValue());
         }
-        return count(array_filter($isEmpty)) === 1;
+        return count(array_filter($isEmpty)) <= 1;
     }
 
     public function acknowledge(tao_helpers_form_Form $form): void
@@ -62,6 +62,6 @@ class tao_helpers_form_validators_OneOf extends tao_helpers_form_Validator imple
             $message[] = $ref->getDescription();
         }
 
-        $this->setMessage(__('Only one of the field must have value %s', implode(',', $message)));
+        $this->setMessage(__('This or one of %s must have a value', implode(',', $message)));
     }
 }
