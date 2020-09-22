@@ -106,7 +106,7 @@ class UpdateDataAccessControlInIndex implements Action, ServiceLocatorAwareInter
 
         /** @var core_kernel_classes_Class $type */
         foreach ($resource->getTypes() as $type) {
-            $parentClasses = array_merge($parentClasses, $this->getParentClassesOfClass($type));
+            $parentClasses = array_merge($parentClasses, [$type->getUri()], $this->getParentClassesOfClass($type));
         }
         return $parentClasses;
     }
