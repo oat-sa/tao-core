@@ -347,13 +347,11 @@ class tao_helpers_Http
         }
     }
 
-    /**
-     * @param StreamInterface $stream
-     * @param null|string $mimeType
-     * @param ServerRequestInterface|null $request not used yet.
-     */
-    public static function returnStream(StreamInterface $stream, $mimeType = null, ServerRequestInterface $request = null)
-    {
+    public static function returnStream(
+        StreamInterface $stream,
+        string $mimeType = null,
+        ServerRequestInterface $request = null
+    ): void {
         header('Accept-Ranges: bytes');
         if (!is_null($mimeType)) {
             header('Content-Type: ' . $mimeType);
