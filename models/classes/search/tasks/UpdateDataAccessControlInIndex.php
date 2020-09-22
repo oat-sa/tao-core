@@ -75,11 +75,6 @@ class UpdateDataAccessControlInIndex implements Action, ServiceLocatorAwareInter
         $logMessage = 'Data Access Control were being updated by ' . static::class;
 
         try {
-            \common_Logger::i(
-                '-------------------ahahahaha--------' . json_encode(
-                    [$resourceUri, $parentClasses, self::READ_ACCESS_PROPERTY, $newPermissions, get_class($indexUpdater)]
-                )
-            );
             $indexUpdater->updatePropertyValue($resourceUri, $parentClasses, self::READ_ACCESS_PROPERTY, $newPermissions);
         } catch (FailToUpdatePropertiesException $exception) {
             $type = Report::TYPE_ERROR;
