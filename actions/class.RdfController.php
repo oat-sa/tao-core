@@ -543,7 +543,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
 
         $class = $this->getCurrentClass();
-        $formContainer = new tao_actions_form_CreateInstance([$class], [FormContainer::CSRF_PROTECTION_OPTION => true]);
+        $formContainer = new tao_actions_form_CreateInstance([$class],
+            [
+                 FormContainer::CSRF_PROTECTION_OPTION => true,
+                 FormContainer::ADDITIONAL_VALIDATORS => $this->getExtraValidationRules(),
+            ]
+        );
+
         $addInstanceForm = $formContainer->getForm();
 
         if ($addInstanceForm->isSubmited() && $addInstanceForm->isValid()) {
