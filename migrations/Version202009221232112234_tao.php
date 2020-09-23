@@ -39,7 +39,7 @@ final class Version202009221232112234_tao extends AbstractMigration
         $this->getServiceManager()->register(
             SectionVisibilityFilter::SERVICE_ID,
             new SectionVisibilityFilter([
-                SectionVisibilityFilter::OPTION_CLASSES => [
+                SectionVisibilityFilter::EXCLUDED_SECTION_LIST_PROVIDERS => [
                     new ExcludedSectionList()
                 ]
             ])

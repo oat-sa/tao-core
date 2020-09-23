@@ -22,12 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\menu;
 
+use LogicException;
 use oat\oatbox\service\ConfigurableService;
 
 class SectionVisibilityFilter extends ConfigurableService implements SectionVisibilityFilterInterface
 {
     public const SERVICE_ID = 'tao/SectionVisibilityFilter';
-    public const OPTION_CLASSES = 'optionClasses'; //todo rename
+    public const EXCLUDED_SECTION_LIST_PROVIDERS = 'ExcludedSectionListProvider';
 
     /**
      * @throws \Exception
@@ -43,9 +44,9 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
     private function getExcludedSections(): array
     {
         $hiddenSections = [];
-        foreach ($this->getOption(self::OPTION_CLASSES) as $excludedSectionList) {
+        foreach ($this->getOption(self::EXCLUDED_SECTION_LIST_PROVIDERS) as $excludedSectionList) {
             if (!$excludedSectionList instanceof ExcludedSectionListInterface) {
-                throw new \Exception(); //todo better Exception
+                throw new LogicException('excluded section list_providers has to be instance of ExcludedSectionListInterface');
             }
 
             $this->propagate($excludedSectionList);
