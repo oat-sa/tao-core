@@ -37,7 +37,7 @@ class tao_helpers_form_validators_OneOf extends tao_helpers_form_Validator imple
         parent::setOptions($options);
 
         if (!$this->hasOption('reference')) {
-            throw new common_Exception(sprint_f("No reference provided for %s validator", $this->getName()));
+            throw new common_Exception(sprintf("No reference provided for %s validator", $this->getName()));
         }
     }
 
