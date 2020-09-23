@@ -20,10 +20,12 @@
 
 declare(strict_types=1);
 
+namespace oat\tao\test\unit\http;
+
 use oat\generis\test\TestCase;
 use oat\tao\model\http\ContentDetector;
-
 use Psr\Http\Message\StreamInterface;
+use tao_helpers_File;
 
 use function GuzzleHttp\Psr7\stream_for;
 
@@ -31,6 +33,7 @@ class ContentDetectorTest extends TestCase
 {
 
     private const ENCODED_IMAGE = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEX/TQBcNTh/AAAAAXRSTlPM0jRW/QAAAApJREFUeJxjYgAAAAYAAzY3fKgAAAAASUVORK5CYII=';
+    private const ENCODED_GZIP = 'H4sICGdTa18AA0ZGNEQwMC0wLjgucG5nAOsM8HPn5ZLiYmBg4PX0cAkC0owgzMgMJFVvh50CUswBPiGu/30ZYkwt6kFyJUF+wWcumYT9BXK4PF0cQyrmJCcB2WwMzGbmNSuALAZPVz+XdU4JTQBnUUFvXwAAAA==';
 
     /**
      * @var ContentDetector
@@ -43,12 +46,17 @@ class ContentDetectorTest extends TestCase
         parent::setUp();
     }
 
-    public function testIsGzip(): void
+    public function testIsNotGzip(): void
     {
         $this->assertFalse($this->subject->isGzip(stream_for('string')));
         $this->assertFalse($this->subject->isGzip($this->getFileStream(__FILE__)));
         $this->assertFalse($this->subject->isGzip(stream_for(base64_decode(self::ENCODED_IMAGE))));
-        $this->assertTrue($this->subject->isGzip(stream_for(gzencode('string'))));
+        if (function_exists('gzencode')) {
+            $this->assertTrue($this->subject->isGzip(stream_for(gzencode('string'))));
+        } else {
+            $this->markTestIncomplete('No ZLIB installed');
+        }
+        $this->assertTrue($this->subject->isGzip(stream_for(stream_for(base64_decode(self::ENCODED_GZIP)))));
     }
 
     public function testIsGzipableMime(): void
