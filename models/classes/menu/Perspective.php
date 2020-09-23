@@ -148,7 +148,6 @@ class Perspective extends MenuElement implements PhpSerializable
                     throw new \common_exception_Error();
             }
         } else {
-
             $this->children[] = $section;
         }
     }
