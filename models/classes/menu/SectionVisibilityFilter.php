@@ -44,14 +44,14 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
     private function getExcludedSections(): array
     {
         $hiddenSections = [];
-        foreach ($this->getOption(self::EXCLUDED_SECTION_LIST_PROVIDERS) as $excludedSectionList) {
-            if (!$excludedSectionList instanceof ExcludedSectionListProviderInterface) {
+        foreach ($this->getOption(self::EXCLUDED_SECTION_LIST_PROVIDERS) as $excludedSectionListProvider) {
+            if (!$excludedSectionListProvider instanceof ExcludedSectionListProviderInterface) {
                 throw new LogicException('excluded section list_providers has to be instance of ExcludedSectionListInterface');
             }
 
-            $this->propagate($excludedSectionList);
+            $this->propagate($excludedSectionListProvider);
 
-            $hiddenSections = array_merge($hiddenSections, $excludedSectionList->getExcludedSections());
+            $hiddenSections = array_merge($hiddenSections, $excludedSectionListProvider->getExcludedSections());
         }
 
         return $hiddenSections;
