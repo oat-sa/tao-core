@@ -41,7 +41,7 @@ class ContentDetector extends ConfigurableService
         return (0 === mb_strpos($string, "\x1f\x8b\x08"));
     }
 
-    public function isGzipableMime(string $mimetype): bool
+    public function isGzipableMime(?string $mimetype): bool
     {
         return in_array($mimetype, self::MIMETYPES);
     }
