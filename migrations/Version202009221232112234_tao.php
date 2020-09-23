@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace oat\tao\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use oat\tao\model\featureFlag\Lti1p3FeatureFlag;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\menu\SectionVisibilityFilter;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
+use oat\taoLti\models\classes\FeatureFlag\ExcludedSectionList;
+use oat\taoLti\models\classes\FeatureFlag\LtiFeatures;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -22,20 +25,27 @@ final class Version202009221232112234_tao extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->getServiceManager()->register(
-            Lti1p3FeatureFlag::SERVICE_ID,
-            new Lti1p3FeatureFlag(
+            FeatureFlagChecker::SERVICE_ID,
+            new FeatureFlagChecker(
                 [
-                    Lti1p3FeatureFlag::OPTION_LTI_1P3_ENABLED => false,
-                    Lti1p3FeatureFlag::OPTION_DISABLED_SECTIONS => [
-                        'settings_manage_lti_keys',
-                    ],
+                    FeatureFlagChecker::OPTION_ENABLED_FEATURES => LtiFeatures::LTI_1P3
                 ]
             )
+        );
+
+        $this->getServiceManager()->register(
+            SectionVisibilityFilter::SERVICE_ID,
+            new SectionVisibilityFilter([
+                SectionVisibilityFilter::OPTION_CLASSES => [
+                    new ExcludedSectionList()
+                ]
+            ])
         );
     }
 
     public function down(Schema $schema): void
     {
-        $this->getServiceManager()->unregister(Lti1p3FeatureFlag::SERVICE_ID);
+        $this->getServiceManager()->unregister(FeatureFlagChecker::SERVICE_ID);
+        $this->getServiceManager()->unregister(SectionVisibilityFilter::SERVICE_ID);
     }
 }

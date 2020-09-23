@@ -22,22 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\featureFlag;
 
-use oat\oatbox\service\ConfigurableService;
-
-class Lti1p3FeatureFlag extends ConfigurableService
+interface FeatureFlagCheckerInterface
 {
-    public const SERVICE_ID = 'tao/FeatureFlag';
-
-    public const OPTION_DISABLED_SECTIONS = 'optionDisabledSections';
-    public const OPTION_LTI_1P3_ENABLED = 'optionLti1p3Enabled';
-
-    public function isSectionDisabled(string $section): bool
-    {
-        return in_array($section, $this->getOption(self::OPTION_DISABLED_SECTIONS), true);
-    }
-
-    public function isLti1p3Enabled(): bool
-    {
-        return $this->getOption(self::OPTION_LTI_1P3_ENABLED);
-    }
+    public function isEnabled(string $feature): bool;
 }

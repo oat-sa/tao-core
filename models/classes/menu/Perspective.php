@@ -23,6 +23,7 @@
 namespace oat\tao\model\menu;
 
 use oat\oatbox\PhpSerializable;
+use oat\oatbox\service\ServiceManager;
 
 class Perspective extends MenuElement implements PhpSerializable
 {
@@ -106,10 +107,14 @@ class Perspective extends MenuElement implements PhpSerializable
     }
 
     /**
-     * @param Section $section
+     * @throws \common_exception_Error
      */
     public function addSection(Section $section)
     {
+        if (!$this->getSectionVisibilityFilter()->isVisible($section->getId())) {
+            return;
+        }
+
         $existingKey = false;
         foreach ($this->children as $key => $existingSection) {
             if ($existingSection->getId() == $section->getId()) {
@@ -143,6 +148,7 @@ class Perspective extends MenuElement implements PhpSerializable
                     throw new \common_exception_Error();
             }
         } else {
+
             $this->children[] = $section;
         }
     }
@@ -217,5 +223,10 @@ class Perspective extends MenuElement implements PhpSerializable
             . \common_Utils::toPHPVariableString($this->children) . ','
             . \common_Utils::toPHPVariableString(self::SERIAL_VERSION)
         . ")";
+    }
+
+    private function getSectionVisibilityFilter(): SectionVisibilityFilter
+    {
+        return ServiceManager::getServiceManager()->get(SectionVisibilityFilter::SERVICE_ID);
     }
 }
