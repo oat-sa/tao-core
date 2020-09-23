@@ -24,14 +24,25 @@ namespace oat\tao\model\http;
 
 use oat\oatbox\service\ConfigurableService;
 use Psr\Http\Message\StreamInterface;
+use tao_helpers_File;
 
 class ContentDetector extends ConfigurableService
 {
+
+    private const MIMETYPES = [
+        tao_helpers_File::MIME_SVG,
+    ];
+
     public function isGzip(StreamInterface $stream): bool
     {
         $string = $stream->read(3);
         $stream->rewind();
 
         return (0 === mb_strpos($string, "\x1f\x8b\x08"));
+    }
+
+    public function isGzipableMime(string $mimetype): bool
+    {
+        return in_array($mimetype, self::MIMETYPES);
     }
 }

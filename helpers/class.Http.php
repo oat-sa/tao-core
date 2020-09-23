@@ -357,7 +357,7 @@ class tao_helpers_Http
             header('Content-Type: ' . $mimeType);
         }
 
-        if ($mimeType === 'image/svg+xml' && self::getContentDetector()->isGzip($stream)) {
+        if (self::getContentDetector()->isGzipableMime($mimeType) && self::getContentDetector()->isGzip($stream)) {
             header('Content-Encoding: gzip');
         }
 

@@ -32,6 +32,7 @@ use oat\oatbox\filesystem\File;
 
 class tao_helpers_File extends helpers_File
 {
+    public const MIME_SVG = 'image/svg+xml';
 
     /**
      * Check if the path in parameter can be securly used into the application.
@@ -197,8 +198,8 @@ class tao_helpers_File extends helpers_File
             'ico' => 'image/vnd.microsoft.icon',
             'tiff' => 'image/tiff',
             'tif' => 'image/tiff',
-            'svg' => 'image/svg+xml',
-            'svgz' => 'image/svg+xml',
+            'svg' => self::MIME_SVG,
+            'svgz' => self::MIME_SVG,
 
             // archives
             'zip' => 'application/zip',

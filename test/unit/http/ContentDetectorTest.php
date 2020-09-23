@@ -43,4 +43,10 @@ class ContentDetectorTest extends TestCase
         $this->assertFalse($this->subject->isGzip(stream_for('string')));
         $this->assertTrue($this->subject->isGzip(stream_for(gzencode('string'))));
     }
+
+    public function testIsGzipableMime(): void
+    {
+        $this->assertFalse($this->subject->isGzipableMime('text/html'));
+        $this->assertTrue($this->subject->isGzipableMime(tao_helpers_File::MIME_SVG));
+    }
 }
