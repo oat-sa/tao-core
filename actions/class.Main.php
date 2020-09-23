@@ -409,7 +409,6 @@ class tao_actions_Main extends tao_actions_CommonModule
         foreach ($menuElement->getChildren() as $section) {
             try {
                 $resolver = new ActionResolver($section->getUrl());
-
                 if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
                     $children[] = $section;
                 }
