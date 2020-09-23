@@ -43,7 +43,7 @@ class tao_helpers_form_validators_Url extends tao_helpers_form_Validator
      */
     public function evaluate($value)
     {
-        if (empty($value) && $this->hasOption(self::OPTION_ALLOW_EMPTY) && $this->getOption(self::OPTION_ALLOW_EMPTY) == true) {
+        if ('' === $value && $this->hasOption(self::OPTION_ALLOW_EMPTY) && $this->getOption(self::OPTION_ALLOW_EMPTY) == true) {
             return true;
         }
 
