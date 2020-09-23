@@ -23,10 +23,15 @@ declare(strict_types=1);
 use oat\generis\test\TestCase;
 use oat\tao\model\http\ContentDetector;
 
+use Psr\Http\Message\StreamInterface;
+
 use function GuzzleHttp\Psr7\stream_for;
 
 class ContentDetectorTest extends TestCase
 {
+
+    private const ENCODED_IMAGE = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEX/TQBcNTh/AAAAAXRSTlPM0jRW/QAAAApJREFUeJxjYgAAAAYAAzY3fKgAAAAASUVORK5CYII=';
+
     /**
      * @var ContentDetector
      */
@@ -41,6 +46,8 @@ class ContentDetectorTest extends TestCase
     public function testIsGzip(): void
     {
         $this->assertFalse($this->subject->isGzip(stream_for('string')));
+        $this->assertFalse($this->subject->isGzip($this->getFileStream(__FILE__)));
+        $this->assertFalse($this->subject->isGzip(stream_for(base64_decode(self::ENCODED_IMAGE))));
         $this->assertTrue($this->subject->isGzip(stream_for(gzencode('string'))));
     }
 
@@ -48,5 +55,10 @@ class ContentDetectorTest extends TestCase
     {
         $this->assertFalse($this->subject->isGzipableMime('text/html'));
         $this->assertTrue($this->subject->isGzipableMime(tao_helpers_File::MIME_SVG));
+    }
+
+    private function getFileStream($path): StreamInterface
+    {
+        return stream_for(fopen($path, 'rb'));
     }
 }
