@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\menu;
 
-interface ExcludedSectionListInterface
+interface ExcludedSectionListProviderInterface
 {
     public function getExcludedSections(): array;
 }

@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\menu\SectionVisibilityFilter;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
-use oat\taoLti\models\classes\FeatureFlag\ExcludedSectionList;
+use oat\taoLti\models\classes\FeatureFlag\ExcludedSectionListProvider;
 use oat\taoLti\models\classes\FeatureFlag\LtiFeatures;
 
 /**
@@ -40,7 +40,7 @@ final class Version202009221232112234_tao extends AbstractMigration
             SectionVisibilityFilter::SERVICE_ID,
             new SectionVisibilityFilter([
                 SectionVisibilityFilter::EXCLUDED_SECTION_LIST_PROVIDERS => [
-                    new ExcludedSectionList()
+                    new ExcludedSectionListProvider()
                 ]
             ])
         );
