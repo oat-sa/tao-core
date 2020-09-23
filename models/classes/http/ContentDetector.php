@@ -31,7 +31,7 @@ class ContentDetector extends ConfigurableService
     {
         $string = $stream->read(3);
         $stream->rewind();
-        /** https://www.filesignatures.net/index.php?page=search&search=GZ&mode=EXT */
+
         return (0 === mb_strpos($string, "\x1f\x8b\x08"));
     }
 }
