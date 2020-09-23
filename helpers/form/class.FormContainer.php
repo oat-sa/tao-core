@@ -196,11 +196,13 @@ abstract class tao_helpers_form_FormContainer
 
     private function applyAdditionalValidationRules(array $validationRules): void
     {
-        foreach ($this->getForm()->getElements() as $element) {
-            $validators = $validationRules[$element->getName()] ?? [];
-            $element->addValidators($validators);
-            $this->configureFormValidators($validators, $this->getForm());
-            $this->getForm()->addElement($element);
+        if ($this->getForm()) {
+            foreach ($this->getForm()->getElements() as $element) {
+                $validators = $validationRules[$element->getName()] ?? [];
+                $element->addValidators($validators);
+                $this->configureFormValidators($validators, $this->getForm());
+                $this->getForm()->addElement($element);
+            }
         }
     }
 
