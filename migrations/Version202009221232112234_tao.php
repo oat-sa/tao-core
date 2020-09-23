@@ -28,7 +28,7 @@ final class Version202009221232112234_tao extends AbstractMigration
             FeatureFlagChecker::SERVICE_ID,
             new FeatureFlagChecker(
                 [
-                    FeatureFlagChecker::OPTION_ENABLED_FEATURES => LtiFeatures::LTI_1P3
+                    FeatureFlagChecker::OPTION_MANUALLY_ENABLED_FEATURES => LtiFeatures::LTI_1P3
                 ]
             )
         );

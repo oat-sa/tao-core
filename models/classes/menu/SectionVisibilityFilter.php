@@ -32,9 +32,9 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
     /**
      * @throws \Exception
      */
-    public function isVisible(string $section): bool
+    public function isHidden(string $section): bool
     {
-        return !in_array($section, $this->getExcludedSections(), true);
+        return in_array($section, $this->getExcludedSections(), true);
     }
 
     /**
