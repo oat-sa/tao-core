@@ -39,8 +39,6 @@ class AnyOfValidatorTest extends TestCase
      * @var tao_helpers_form_validators_AnyOf
      */
     private $subject;
-
-
     /**
      * @dataProvider evaluationValues
      */
