@@ -24,36 +24,47 @@ namespace oat\tao\model\menu;
 
 use LogicException;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 
 class SectionVisibilityFilter extends ConfigurableService implements SectionVisibilityFilterInterface
 {
     public const SERVICE_ID = 'tao/SectionVisibilityFilter';
-    public const EXCLUDED_SECTION_LIST_PROVIDERS = 'ExcludedSectionListProvider';
+    public const OPTION_FEATURE_FLAG_SECTIONS = 'featureFlagSections';
 
     /**
      * @throws LogicException
      */
     public function isHidden(string $section): bool
     {
-        return in_array($section, $this->getExcludedSections(), true);
+        $sections = $this->getOption(self::OPTION_FEATURE_FLAG_SECTIONS);
+
+        if (empty($sections[$section])) {
+            return false;
+        }
+
+        foreach ($sections as $featureFlags) {
+            $this->checkFeatureFlags($featureFlags);
+        }
+
+        return false;
     }
 
     /**
-     * @throws LogicException
+     * @param string[]
      */
-    private function getExcludedSections(): array
+    private function checkFeatureFlags(array $featureFlags): bool
     {
-        $hiddenSections = [];
-        foreach ($this->getOption(self::EXCLUDED_SECTION_LIST_PROVIDERS) as $excludedSectionListProvider) {
-            if (!$excludedSectionListProvider instanceof ExcludedSectionListProviderInterface) {
-                throw new LogicException('excluded section list_providers has to be instance of ExcludedSectionListInterface');
+        foreach ($featureFlags as $featureFlag){
+            if (!$this->getFeatureFlagChecker()->isEnabled($featureFlag)) {
+                return true;
             }
-
-            $this->propagate($excludedSectionListProvider);
-
-            $hiddenSections = array_merge($hiddenSections, $excludedSectionListProvider->getExcludedSections());
         }
 
-        return $hiddenSections;
+        return false;
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagChecker
+    {
+        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 }
