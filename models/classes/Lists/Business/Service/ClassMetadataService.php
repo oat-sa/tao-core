@@ -132,17 +132,22 @@ class ClassMetadataService extends InjectionAwareService
         return $properties;
     }
 
-    private function getPropertyValues(core_kernel_classes_Property $property): array
+    private function getPropertyValues(core_kernel_classes_Property $property): ?array
     {
         $values = [];
         $range = $property->getRange();
 
-        $valueCollection = $this->valueCollectionService->findAll(
-            new ValueCollectionSearchInput(
-                (new ValueCollectionSearchRequest())
-                    ->setValueCollectionUri($range->getUri())
-            )
+        $search = new ValueCollectionSearchInput(
+            (new ValueCollectionSearchRequest())
+                ->setValueCollectionUri($range->getUri())
         );
+        $propertyCount = $this->valueCollectionService->count($search);
+
+        if ($propertyCount > 5) {
+            return null;
+        }
+
+        $valueCollection = $this->valueCollectionService->findAll($search);
 
         /** @var Value $value */
         foreach ($valueCollection as $value) {

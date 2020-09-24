@@ -91,4 +91,24 @@ class ValueCollectionService extends InjectionAwareService
 
         return false;
     }
+
+    public function count(ValueCollectionSearchInput $input): int
+    {
+        $searchRequest = $input->getSearchRequest();
+
+        foreach ($this->repositories as $repository) {
+            if (
+                $searchRequest->hasValueCollectionUri()
+                && !$repository->isApplicable($searchRequest->getValueCollectionUri())
+            ) {
+                continue;
+            }
+
+            return $repository->count(
+                $searchRequest
+            );
+        }
+
+        return 0;
+    }
 }
