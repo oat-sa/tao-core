@@ -22,6 +22,7 @@
 
 namespace oat\tao\model\menu;
 
+use common_exception_Error;
 use oat\oatbox\PhpSerializable;
 use oat\oatbox\service\ServiceManager;
 
@@ -107,7 +108,7 @@ class Perspective extends MenuElement implements PhpSerializable
     }
 
     /**
-     * @throws \common_exception_Error
+     * @throws common_exception_Error
      */
     public function addSection(Section $section)
     {
