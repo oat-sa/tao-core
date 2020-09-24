@@ -24,12 +24,10 @@ namespace oat\tao\test\unit\models\classes\menu;
 
 use oat\generis\test\TestCase;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\tao\model\menu\ExcludedSectionListProviderInterface;
 use oat\tao\model\menu\SectionVisibilityFilter;
 
 class SectionVisibilityFilterTest extends TestCase
 {
-
     /** @var SectionVisibilityFilter */
     private $subject;
     private $featureFlagChecker;
