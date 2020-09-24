@@ -398,8 +398,9 @@ class tao_helpers_Http
         }
     }
 
-    private function getContentDetector(): ContentDetector
+    private static function getContentDetector(): ContentDetector
     {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return ServiceManager::getServiceManager()->get(ContentDetector::class);
     }
 }
