@@ -32,7 +32,6 @@ use tao_helpers_Uri;
 
 class AnyOfValidatorTest extends TestCase
 {
-
     private const STRING_REFERENCE = 'stringref';
     private const OBJECT_REFERENCE = 'objref';
 
