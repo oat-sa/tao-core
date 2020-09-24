@@ -24,71 +24,112 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Service;
 
-use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
-use oat\tao\model\Lists\Business\Domain\ValueCollection;
-use oat\tao\model\Lists\Business\Input\ValueCollectionDeleteInput;
+use core_kernel_classes_Class;
+use core_kernel_classes_Property;
+use oat\tao\model\Lists\Business\Domain\Value;
+use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
-use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
 use oat\tao\model\service\InjectionAwareService;
+use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\TaoOntology;
 
 class ClassMetadataService extends InjectionAwareService
 {
-    public const SERVICE_ID = 'tao/ValueCollectionService';
+    use OntologyAwareTrait;
 
-    /** @var ValueCollectionRepositoryInterface */
-    private $repositories;
+    public const SERVICE_ID = 'tao/ClassMetadataService';
 
-    public function __construct(ValueCollectionRepositoryInterface ...$repositories)
+    public function findAll(ClassMetadataSearchInput $input): array
     {
-        parent::__construct();
+        /** @var core_kernel_classes_Class $class */
+        $class = $this->getClass($input->getSearchRequest()->getClassUri());
 
-        $this->repositories = $repositories;
-    }
-
-    public function findAll(ValueCollectionSearchInput $input): ValueCollection
-    {
-        $searchRequest = $input->getSearchRequest();
-
-        foreach ($this->repositories as $repository) {
-            if (
-                $searchRequest->hasValueCollectionUri()
-                && !$repository->isApplicable($searchRequest->getValueCollectionUri())
-            ) {
-                continue;
-            }
-
-            return $repository->findAll(
-                $searchRequest
-            );
+        if (!$class->isClass()) {
+            return [];
         }
 
-        return new ValueCollection();
+        return $this->fillNodes([], $class);
     }
 
-    public function delete(ValueCollectionDeleteInput $input): void
-    {
-        foreach ($this->repositories as $repository) {
-            if ($repository->isApplicable($input->getValueCollectionUri())) {
-                $repository->delete($input->getValueCollectionUri());
+    private function fillNodes(
+        array $node,
+        core_kernel_classes_Class $currentClass,
+        core_kernel_classes_Class $parentClass = null
+    ): array {
+        $subClasses = $currentClass->getSubClasses();
+
+        if (count($subClasses)) {
+            array_push ($node, [
+                'class' => $currentClass->getUri(),
+                'label' => $currentClass->getLabel(),
+                'parent-class' => $parentClass !== null ? $parentClass->getUri() : null,
+                'metadata' => $this->getClassMetadata($currentClass)
+            ]);
+
+            foreach ($subClasses as $subClass) {
+                $node = $this->fillNodes($node, $subClass, $currentClass);
             }
+        } else {
+            array_push ($node, [
+                'class' => $currentClass->getUri(),
+                'label' => $currentClass->getLabel(),
+                'parent-class' => $parentClass->getUri(),
+                'metadata' => $this->getClassMetadata($currentClass)
+            ]);
         }
+
+        return $node;
     }
 
-    /**
-     * @param ValueCollection $valueCollection
-     *
-     * @return bool
-     *
-     * @throws ValueConflictException
-     */
-    public function persist(ValueCollection $valueCollection): bool
+    private function getClassMetadata(core_kernel_classes_Class $class): array
     {
-        foreach ($this->repositories as $repository) {
-            if ($repository->isApplicable($valueCollection->getUri())) {
-                return $repository->persist($valueCollection);
-            }
+        $properties = [];
+
+        /** @var core_kernel_classes_Property $prop */
+        foreach ($class->getProperties(true) as $prop) {
+            $range = $prop->getRange();
+            $isList = $this->isList($range);
+
+            array_push($properties, [
+                'uri' => $prop->getUri(),
+                'label' => $prop->getLabel(),
+                'type' => $prop->getWidget() ? $prop->getWidget()->getLabel() : null,//$isList ? 'list' : 'text',
+                'values' => $isList ? $this->getPropertyValues($range) : null
+            ]);
         }
 
-        return false;
+        return $properties;
+    }
+
+    private function getPropertyValues($range): array
+    {
+        $values = [];
+        $valueCollectionService = $this->getServiceLocator()->get(ValueCollectionService::class);
+
+        $valueCollection = $valueCollectionService->findAll(
+            new ValueCollectionSearchInput(
+                (new ValueCollectionSearchRequest())
+                    ->setValueCollectionUri($range->getUri())
+            )
+        );
+
+        /** @var Value $value */
+        foreach ($valueCollection as $value) {
+            array_push($values, $value->getLabel());
+        }
+
+        return $values;
+    }
+
+    private function isList($range): bool
+    {
+        if (!$range->isClass()) {
+            return false;
+        }
+
+        return $range->isSubClassOf(
+            new core_kernel_classes_Class(TaoOntology::CLASS_URI_LIST)
+        );
     }
 }

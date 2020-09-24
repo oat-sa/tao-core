@@ -27,127 +27,24 @@ namespace oat\tao\model\Lists\Business\Domain;
 class ClassMetadataSearchRequest
 {
     /** @var string|null */
-    private $propertyUri;
-
-    /** @var string|null */
-    private $valueCollectionUri;
-
-    /** @var string|null */
-    private $subject;
-
-    /** @var string[] */
-    private $excluded = [];
-
-    /** @var int|null */
-    private $limit;
+    private $classUri;
 
     /** @var string[] */
     private $uris = [];
 
-    public function hasPropertyUri(): bool
+    public function hasClassUri(): bool
     {
-        return null !== $this->propertyUri;
+        return null !== $this->classUri;
     }
 
-    public function getPropertyUri(): string
+    public function getClassUri(): string
     {
-        return $this->propertyUri;
+        return $this->classUri;
     }
 
-    public function setPropertyUri(string $propertyUri): self
+    public function setClassUri(string $classUri): self
     {
-        $this->propertyUri = $propertyUri;
-
-        return $this;
-    }
-
-    public function hasValueCollectionUri(): bool
-    {
-        return null !== $this->valueCollectionUri;
-    }
-
-    public function getValueCollectionUri(): string
-    {
-        return $this->valueCollectionUri;
-    }
-
-    public function setValueCollectionUri(string $valueCollectionUri): self
-    {
-        $this->valueCollectionUri = $valueCollectionUri;
-
-        return $this;
-    }
-
-    public function hasUris(): bool
-    {
-        return !empty($this->uris);
-    }
-
-    public function setUris(string ...$uri): self
-    {
-        $this->uris = $uri;
-
-        return $this;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getUris(): array
-    {
-        return $this->uris;
-    }
-
-    public function hasSubject(): bool
-    {
-        return null !== $this->subject;
-    }
-
-    public function getSubject(): string
-    {
-        return $this->subject;
-    }
-
-    public function setSubject(string $subject): self
-    {
-        $this->subject = mb_strtolower($subject);
-
-        return $this;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getExcluded(): array
-    {
-        return $this->excluded;
-    }
-
-    public function hasExcluded(): bool
-    {
-        return !empty($this->excluded);
-    }
-
-    public function addExcluded(string $excluded): self
-    {
-        $this->excluded[] = $excluded;
-
-        return $this;
-    }
-
-    public function hasLimit(): bool
-    {
-        return null !== $this->limit;
-    }
-
-    public function getLimit(): int
-    {
-        return $this->limit;
-    }
-
-    public function setLimit(int $limit): self
-    {
-        $this->limit = $limit;
+        $this->classUri = $classUri;
 
         return $this;
     }

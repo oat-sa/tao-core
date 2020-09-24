@@ -21,11 +21,15 @@
 
 namespace oat\tao\scripts\install;
 
+use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\extension\InstallAction;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\Lists\Business\Service\ClassMetadataService;
 use oat\tao\model\Lists\Business\Service\RemoteSource;
 use oat\tao\model\Lists\Business\Service\RemoteSourceJsonPathParser;
+use oat\tao\model\Lists\DataAccess\Repository\RdfValueCollectionRepository;
+use oat\tao\model\Lists\DataAccess\Repository\RdsValueCollectionRepository;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ClassMetadataSearchRequestHandler;
 use oat\tao\model\Lists\Presentation\Web\RequestValidator\ClassMetadataSearchRequestValidator;
 use oat\tao\model\user\TaoRoles;
@@ -34,9 +38,6 @@ class RegisterClassMetadataServices extends InstallAction
 {
     public function __invoke($params = [])
     {
-//        /** @var PersistenceManager $persistenceManager */
-//        $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
-
         $this->getServiceManager()->register(
             ClassMetadataSearchRequestHandler::SERVICE_ID,
             new ClassMetadataSearchRequestHandler(
@@ -44,20 +45,13 @@ class RegisterClassMetadataServices extends InstallAction
             )
         );
 
-        //$valueCollectionRepository    = new RdfValueCollectionRepository($persistenceManager, 'default');
-        //$rdsValueCollectionRepository = new RdsValueCollectionRepository($persistenceManager, 'default');
-
-        //$valueCollectionService = new ValueCollectionService($valueCollectionRepository, $rdsValueCollectionRepository);
-
         $remoteSource = new RemoteSource(
             [
                 'jsonpath' => new RemoteSourceJsonPathParser(),
             ]
         );
 
-        //$this->getServiceManager()->register(RdfValueCollectionRepository::SERVICE_ID, $valueCollectionRepository);
-        //$this->getServiceManager()->register(RdsValueCollectionRepository::SERVICE_ID, $rdsValueCollectionRepository);
-        //$this->getServiceManager()->register(ValueCollectionService::SERVICE_ID, $valueCollectionService);
+        $this->getServiceManager()->register(ClassMetadataService::SERVICE_ID, new ClassMetadataService());
         $this->getServiceManager()->register(RemoteSource::SERVICE_ID, $remoteSource);
 
         AclProxy::applyRule(

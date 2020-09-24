@@ -35,7 +35,7 @@ class ClassMetadataSearchRequestValidator extends InjectionAwareService
     public const SERVICE_ID = 'tao/ClassMetadataSearchRequestValidator';
 
     private const REQUIRED_QUERY_PARAMETERS = [
-        ClassMetadataSearchRequestHandler::QUERY_PARAMETER_ID,
+        ClassMetadataSearchRequestHandler::QUERY_CLASS_ID,
     ];
 
     /**
@@ -46,9 +46,6 @@ class ClassMetadataSearchRequestValidator extends InjectionAwareService
     public function validate(ServerRequestInterface $request): void
     {
         $this->validateRequired($request);
-        $this->validateSubject($request);
-        $this->validateExclude($request);
-        $this->validateExcludeElements($request);
     }
 
     /**
@@ -71,79 +68,5 @@ class ClassMetadataSearchRequestValidator extends InjectionAwareService
                 )
             );
         }
-    }
-
-    /**
-     * @param ServerRequestInterface $request
-     *
-     * @throws BadRequestException
-     */
-    private function validateSubject(ServerRequestInterface $request): void
-    {
-        $queryParameters = $request->getQueryParams();
-
-        if (
-            isset($queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_SUBJECT])
-            && !is_string($queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_SUBJECT])
-        ) {
-            throw $this->createBadTypeException(
-                ValueCollectionSearchRequestHandler::QUERY_PARAMETER_SUBJECT,
-                $queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_SUBJECT],
-                'string'
-            );
-        }
-    }
-
-    /**
-     * @param ServerRequestInterface $request
-     *
-     * @throws BadRequestException
-     */
-    private function validateExclude(ServerRequestInterface $request): void
-    {
-        $queryParameters = $request->getQueryParams();
-
-        if (
-            isset($queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE])
-            && !is_array($queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE])
-        ) {
-            throw $this->createBadTypeException(
-                ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE,
-                $queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE],
-                'array'
-            );
-        }
-    }
-
-    /**
-     * @param ServerRequestInterface $request
-     *
-     * @throws BadRequestException
-     */
-    private function validateExcludeElements(ServerRequestInterface $request): void
-    {
-        $queryParameters = $request->getQueryParams();
-
-        foreach ($queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE] ?? [] as $key => $excluded) {
-            if (!is_string($excluded)) {
-                throw $this->createBadTypeException(
-                    ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE . "[$key]",
-                    $excluded,
-                    'string'
-                );
-            }
-        }
-    }
-
-    private function createBadTypeException(string $parameter, $value, string $expectedType): BadRequestException
-    {
-        return new BadRequestException(
-            sprintf(
-                '"%s" query parameter is expected to be of %s type, %s given.',
-                $parameter,
-                $expectedType,
-                gettype($value)
-            )
-        );
     }
 }

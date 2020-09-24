@@ -36,9 +36,7 @@ use tao_helpers_Uri as Id;
 class ClassMetadataSearchRequestHandler extends InjectionAwareService
 {
     public const SERVICE_ID = 'tao/ClassMetadataSearchRequestHandler';
-
-    public const QUERY_PARAMETER_ID = 'propertyUri';
-    public const QUERY_PARAMETER_SUBJECT = 'subject';
+    public const QUERY_CLASS_ID = 'classUri';
 
     /** @var ClassMetadataSearchRequestValidator */
     private $requestValidator;
@@ -63,31 +61,12 @@ class ClassMetadataSearchRequestHandler extends InjectionAwareService
 
         $queryParameters = $request->getQueryParams();
 
-        $propertyUri = Id::decode(
-            $queryParameters[self::QUERY_PARAMETER_ID]
+        $classUri = Id::decode(
+            $queryParameters[self::QUERY_CLASS_ID]
         );
 
         $searchRequest = (new ClassMetadataSearchRequest())
-            ->setLimit(self::SEARCH_LIMIT)
-            ->setPropertyUri($propertyUri);
-
-        $listUri = $this->getPropertyListUri($propertyUri);
-
-        if ($listUri !== null) {
-            $searchRequest->setValueCollectionUri($listUri);
-        }
-
-        $subject = trim($queryParameters[self::QUERY_PARAMETER_SUBJECT] ?? '');
-
-        if (!empty($subject)) {
-            $searchRequest->setSubject($subject);
-        }
-
-        foreach ($queryParameters[self::QUERY_PARAMETER_EXCLUDE] ?? [] as $excluded) {
-            $searchRequest->addExcluded(
-                Id::decode($excluded)
-            );
-        }
+            ->setClassUri($classUri);
 
         return new ClassMetadataSearchInput($searchRequest);
     }

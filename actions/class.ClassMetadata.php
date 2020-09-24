@@ -31,17 +31,14 @@ class tao_actions_ClassMetadata extends tao_actions_CommonModule
     use HttpJsonResponseTrait;
 
     public function get(
-        ServerRequest $request
-        //ClassMetadataSearchRequestHandler $classMetadataSearchRequestHandler,
-        //ClassMetadataService $classMetadataService
+        ServerRequest $request,
+        ClassMetadataSearchRequestHandler $classMetadataSearchRequestHandler,
+        ClassMetadataService $classMetadataService
     ): void {
-        //$something = $classMetadataSearchRequestHandler->handle($request);
-
         $this->setSuccessJsonResponse(
-//            $classMetadataService->findAll(
-//                $classMetadataSearchRequestHandler->handle($request)
-//            )
-             ["a", "b", "c"]
+            $classMetadataService->findAll(
+                $classMetadataSearchRequestHandler->handle($request)
+            )
         );
     }
 }
