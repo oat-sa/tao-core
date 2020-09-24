@@ -31,7 +31,7 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
     public const EXCLUDED_SECTION_LIST_PROVIDERS = 'ExcludedSectionListProvider';
 
     /**
-     * @throws \Exception
+     * @throws LogicException
      */
     public function isHidden(string $section): bool
     {
@@ -39,7 +39,7 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
     }
 
     /**
-     * @throws \Exception
+     * @throws LogicException
      */
     private function getExcludedSections(): array
     {
