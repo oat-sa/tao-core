@@ -22,66 +22,60 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\menu;
 
-use LogicException;
+use oat\generis\test\TestCase;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\menu\ExcludedSectionListProviderInterface;
 use oat\tao\model\menu\SectionVisibilityFilter;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 
 class SectionVisibilityFilterTest extends TestCase
 {
 
     /** @var SectionVisibilityFilter */
     private $subject;
-
-    /** @var ExcludedSectionListProviderInterface|MockObject */
-    private $excludedSectionListProvider;
+    private $featureFlagChecker;
 
     public function setUp(): void
     {
-        $this->excludedSectionListProvider = $this->createMock(ExcludedSectionListProviderInterface::class);
+        $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
+
         $this->subject = new SectionVisibilityFilter(
             [
-                SectionVisibilityFilter::EXCLUDED_SECTION_LIST_PROVIDERS => [
-                    $this->excludedSectionListProvider,
+                SectionVisibilityFilter::OPTION_FEATURE_FLAG_SECTIONS => [
+                    'settings_manage_lti_keys' => [
+                        'LTI1P3',
+                    ],
                 ],
             ]
+        );
+
+        $this->subject->setServiceLocator(
+            $this->getServiceLocatorMock([
+                FeatureFlagChecker::class => $this->featureFlagChecker,
+            ])
         );
     }
 
     public function testIsHidden(): void
     {
-        $this->excludedSectionListProvider
-            ->expects(self::once())
-            ->method('getExcludedSections')
-            ->willReturn(['existingSection']);
+        $this->featureFlagChecker
+            ->method('isEnabled')
+            ->willReturn(true);
 
-        self::assertTrue($this->subject->isHidden('existingSection'));
+        self::assertTrue($this->subject->isVisible('settings_manage_lti_keys'));
     }
 
-    public function testIsHiddenWithEmptyResult(): void
+    public function testIsHiddenLtiDisabled(): void
     {
-        $this->excludedSectionListProvider
+        $this->featureFlagChecker
             ->expects(self::once())
-            ->method('getExcludedSections')
-            ->willReturn([]);
+            ->method('isEnabled')
+            ->willReturn(false);
 
-        self::assertFalse($this->subject->isHidden('existingSection'));
+        self::assertFalse($this->subject->isVisible('settings_manage_lti_keys'));
     }
 
-    public function testExceptionWhenWrongClassInjected(): void
+    public function testIsVisibleWithNoSections(): void
     {
-        $this->expectException(LogicException::class);
-
-        $subject = new SectionVisibilityFilter(
-            [
-                SectionVisibilityFilter::EXCLUDED_SECTION_LIST_PROVIDERS => [
-                    new class {},
-                ],
-            ]
-        );
-
-        $subject->isHidden('foo');
+        self::assertTrue($this->subject->isVisible('another_section'));
     }
-
 }

@@ -34,33 +34,21 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
     /**
      * @throws LogicException
      */
-    public function isHidden(string $section): bool
+    public function isVisible(string $section): bool
     {
         $sections = $this->getOption(self::OPTION_FEATURE_FLAG_SECTIONS);
 
         if (empty($sections[$section])) {
-            return false;
+            return true;
         }
 
-        foreach ($sections as $featureFlags) {
-            $this->checkFeatureFlags($featureFlags);
-        }
-
-        return false;
-    }
-
-    /**
-     * @param string[]
-     */
-    private function checkFeatureFlags(array $featureFlags): bool
-    {
-        foreach ($featureFlags as $featureFlag){
+        foreach ($sections[$section] as $featureFlag) {
             if (!$this->getFeatureFlagChecker()->isEnabled($featureFlag)) {
-                return true;
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 
     private function getFeatureFlagChecker(): FeatureFlagChecker
