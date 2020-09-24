@@ -16,7 +16,7 @@ final class Version202009221232112234_tao extends AbstractMigration
 
     public function getDescription(): string
     {
-        return 'Register Lti1p3FeatureFlag service';
+        return 'Service that will allow hiding sections that contains enabled feature flags';
     }
 
     public function up(Schema $schema): void
