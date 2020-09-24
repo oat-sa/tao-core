@@ -26,11 +26,8 @@ use oat\oatbox\service\ConfigurableService;
 
 class FeatureFlagChecker extends ConfigurableService implements FeatureFlagCheckerInterface
 {
-    public const SERVICE_ID = 'tao/FeatureFlagChecker';
-    public const OPTION_MANUALLY_ENABLED_FEATURES = 'optionEnabledFeatures';
-
     public function isEnabled(string $feature): bool
     {
-        return in_array($feature, $this->getOption(self::OPTION_MANUALLY_ENABLED_FEATURES), true);
+        return filter_var(getenv($feature), FILTER_VALIDATE_BOOLEAN) ?? false;
     }
 }
