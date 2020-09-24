@@ -40,8 +40,6 @@ class OneOfValidatorTest extends TestCase
      * @var tao_helpers_form_validators_OneOf
      */
     private $subject;
-
-
     /**
      * @dataProvider evaluationValues
      */

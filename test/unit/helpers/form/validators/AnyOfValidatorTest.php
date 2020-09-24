@@ -54,8 +54,6 @@ class AnyOfValidatorTest extends TestCase
         $this->expectExceptionMessage('No reference provided for AnyOf validator');
         $this->createSubject();
     }
-
-
     public function evaluationValues()
     {
         return [
