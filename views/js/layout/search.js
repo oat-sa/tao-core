@@ -57,7 +57,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context', '
         const $searchInput = $('input', searchComponent.container);
         const $resultsBtn = $('button.icon-ul', searchComponent.container);
 
-        $searchBtn.off('.searchComponent').on('click.searchComponent', createSearchModalInstance);
+        $searchBtn.off('.searchComponent').on('click.searchComponent', () => createSearchModalInstance());
 
         $searchInput.off('.searchComponent').on('keypress.searchComponent', e => {
             if (e.which === 13) {
