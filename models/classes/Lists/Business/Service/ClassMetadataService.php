@@ -17,7 +17,6 @@
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
- * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
 declare(strict_types=1);
@@ -32,13 +31,39 @@ use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use oat\tao\model\service\InjectionAwareService;
 use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\TaoOntology;
+use tao_helpers_form_elements_Textbox as TextBox;
+use tao_helpers_form_elements_Textarea as TextArea;
+use tao_helpers_form_elements_Htmlarea as HtmlArea;
+use tao_helpers_form_elements_Radiobox as RadioBox;
+use tao_helpers_form_elements_Checkbox as CheckBox;
+use tao_helpers_form_elements_Combobox as ComboBox;
+use tao_helpers_form_elements_xhtml_Searchdropdown as SearchDropDown;
 
 class ClassMetadataService extends InjectionAwareService
 {
     use OntologyAwareTrait;
 
+    /** @var ValueCollectionService */
+    private $valueCollectionService;
+
     public const SERVICE_ID = 'tao/ClassMetadataService';
+    public const TEXT_WIDGETS = [
+        TextBox::WIDGET_ID,
+        TextArea::WIDGET_ID,
+        HtmlArea::WIDGET_ID,
+    ];
+
+    public const LIST_WIDGETS = [
+        RadioBox::WIDGET_ID,
+        CheckBox::WIDGET_ID,
+        ComboBox::WIDGET_ID,
+        SearchDropDown::WIDGET_ID,
+    ];
+
+    public function __construct(ValueCollectionService $valueCollectionService)
+    {
+        $this->valueCollectionService = $valueCollectionService;
+    }
 
     public function findAll(ClassMetadataSearchInput $input): array
     {
@@ -88,26 +113,31 @@ class ClassMetadataService extends InjectionAwareService
 
         /** @var core_kernel_classes_Property $prop */
         foreach ($class->getProperties(true) as $prop) {
-            $range = $prop->getRange();
-            $isList = $this->isList($range);
+            if (strpos($prop->getUri(), 'tao.rdf') === false) {
+                continue;
+            }
+
+            if (!$this->isTextWidget($prop) && !$this->isListWidget($prop)) {
+                continue;
+            }
 
             array_push($properties, [
                 'uri' => $prop->getUri(),
                 'label' => $prop->getLabel(),
-                'type' => $prop->getWidget() ? $prop->getWidget()->getLabel() : null,//$isList ? 'list' : 'text',
-                'values' => $isList ? $this->getPropertyValues($range) : null
+                'type' => $this->isListWidget($prop) ? 'list' : 'text',
+                'values' => $this->isListWidget($prop) ? $this->getPropertyValues($prop) : null
             ]);
         }
 
         return $properties;
     }
 
-    private function getPropertyValues($range): array
+    private function getPropertyValues(core_kernel_classes_Property $property): array
     {
         $values = [];
-        $valueCollectionService = $this->getServiceLocator()->get(ValueCollectionService::class);
+        $range = $property->getRange();
 
-        $valueCollection = $valueCollectionService->findAll(
+        $valueCollection = $this->valueCollectionService->findAll(
             new ValueCollectionSearchInput(
                 (new ValueCollectionSearchRequest())
                     ->setValueCollectionUri($range->getUri())
@@ -122,14 +152,13 @@ class ClassMetadataService extends InjectionAwareService
         return $values;
     }
 
-    private function isList($range): bool
+    private function isTextWidget(core_kernel_classes_Property $property): bool
     {
-        if (!$range->isClass()) {
-            return false;
-        }
+        return in_array($property->getWidget()->getUri(), self::TEXT_WIDGETS);
+    }
 
-        return $range->isSubClassOf(
-            new core_kernel_classes_Class(TaoOntology::CLASS_URI_LIST)
-        );
+    private function isListWidget(core_kernel_classes_Property $property): bool
+    {
+        return in_array($property->getWidget()->getUri(), self::LIST_WIDGETS);
     }
 }

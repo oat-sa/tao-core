@@ -28,8 +28,7 @@ use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\Lists\Business\Service\ClassMetadataService;
 use oat\tao\model\Lists\Business\Service\RemoteSource;
 use oat\tao\model\Lists\Business\Service\RemoteSourceJsonPathParser;
-use oat\tao\model\Lists\DataAccess\Repository\RdfValueCollectionRepository;
-use oat\tao\model\Lists\DataAccess\Repository\RdsValueCollectionRepository;
+use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ClassMetadataSearchRequestHandler;
 use oat\tao\model\Lists\Presentation\Web\RequestValidator\ClassMetadataSearchRequestValidator;
 use oat\tao\model\user\TaoRoles;
@@ -51,7 +50,10 @@ class RegisterClassMetadataServices extends InstallAction
             ]
         );
 
-        $this->getServiceManager()->register(ClassMetadataService::SERVICE_ID, new ClassMetadataService());
+        $valueCollectionService = $this->getServiceManager()->get(ValueCollectionService::SERVICE_ID);
+        $classMetadataService = new ClassMetadataService($valueCollectionService);
+
+        $this->getServiceManager()->register(ClassMetadataService::SERVICE_ID, $classMetadataService);
         $this->getServiceManager()->register(RemoteSource::SERVICE_ID, $remoteSource);
 
         AclProxy::applyRule(
