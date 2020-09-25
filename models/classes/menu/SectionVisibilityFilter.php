@@ -25,6 +25,7 @@ namespace oat\tao\model\menu;
 use LogicException;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
 class SectionVisibilityFilter extends ConfigurableService implements SectionVisibilityFilterInterface
 {
@@ -51,7 +52,7 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
         return true;
     }
 
-    private function getFeatureFlagChecker(): FeatureFlagChecker
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }

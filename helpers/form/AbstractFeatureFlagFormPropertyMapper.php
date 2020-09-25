@@ -24,6 +24,7 @@ namespace oat\tao\helpers\form;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
 abstract class AbstractFeatureFlagFormPropertyMapper extends ConfigurableService
 {
@@ -44,7 +45,7 @@ abstract class AbstractFeatureFlagFormPropertyMapper extends ConfigurableService
         return array_unique($excludedProperties);
     }
 
-    private function getFeatureFlagChecker(): FeatureFlagChecker
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }

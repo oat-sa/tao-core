@@ -40,7 +40,7 @@ class SectionVisibilityFilterTest extends TestCase
             [
                 SectionVisibilityFilter::OPTION_FEATURE_FLAG_SECTIONS => [
                     'settings_manage_lti_keys' => [
-                        'LTI1P3',
+                        'FEATURE_FLAG_LTI1P3',
                     ],
                 ],
             ]
