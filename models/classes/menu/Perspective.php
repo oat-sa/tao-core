@@ -22,9 +22,7 @@
 
 namespace oat\tao\model\menu;
 
-use common_exception_Error;
 use oat\oatbox\PhpSerializable;
-use oat\oatbox\service\ServiceManager;
 
 class Perspective extends MenuElement implements PhpSerializable
 {
@@ -108,7 +106,7 @@ class Perspective extends MenuElement implements PhpSerializable
     }
 
     /**
-     * @throws common_exception_Error
+     * @param Section $section
      */
     public function addSection(Section $section)
     {
@@ -219,10 +217,5 @@ class Perspective extends MenuElement implements PhpSerializable
             . \common_Utils::toPHPVariableString($this->children) . ','
             . \common_Utils::toPHPVariableString(self::SERIAL_VERSION)
         . ")";
-    }
-
-    private function getSectionVisibilityFilter(): SectionVisibilityFilter
-    {
-        return ServiceManager::getServiceManager()->get(SectionVisibilityFilter::SERVICE_ID);
     }
 }
