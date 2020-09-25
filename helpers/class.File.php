@@ -32,6 +32,7 @@ use oat\oatbox\filesystem\File;
 
 class tao_helpers_File extends helpers_File
 {
+    public const MIME_SVG = 'image/svg+xml';
 
     /**
      * Check if the path in parameter can be securly used into the application.
@@ -197,8 +198,8 @@ class tao_helpers_File extends helpers_File
             'ico' => 'image/vnd.microsoft.icon',
             'tiff' => 'image/tiff',
             'tif' => 'image/tiff',
-            'svg' => 'image/svg+xml',
-            'svgz' => 'image/svg+xml',
+            'svg' => self::MIME_SVG,
+            'svgz' => self::MIME_SVG,
 
             // archives
             'zip' => 'application/zip',
@@ -234,7 +235,7 @@ class tao_helpers_File extends helpers_File
             // open office
             'odt' => 'application/vnd.oasis.opendocument.text',
             'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-                        
+
             // fonts
             'woff' => 'application/x-font-woff',
             'eot'  => 'application/vnd.ms-fontobject',
@@ -297,17 +298,17 @@ class tao_helpers_File extends helpers_File
     public static function getMimeType($path, $ext = false)
     {
         $mime_types = self::getMimeTypeList();
-        
+
         if (false == $ext) {
             $ext = pathinfo($path, PATHINFO_EXTENSION);
-            
+
             if (array_key_exists($ext, $mime_types)) {
                 $mimetype =  $mime_types[$ext];
             } else {
                 $mimetype = '';
             }
 
-            if (!in_array($ext, ['css', 'ogg', 'mp3'])) {
+            if (!in_array($ext, ['css', 'ogg', 'mp3', 'svg', 'svgz'])) {
                 if (file_exists($path)) {
                     if (function_exists('finfo_open')) {
                         $finfo = finfo_open(FILEINFO_MIME);
@@ -331,7 +332,7 @@ class tao_helpers_File extends helpers_File
                 $mimetype = $mime_types[$ext];
             }
         }
-        
+
         // If no mime-type found ...
         if (empty($mimetype)) {
             $mimetype =  'application/octet-stream';
@@ -376,12 +377,12 @@ class tao_helpers_File extends helpers_File
         }
         return rmdir($directory);
     }
-    
+
     public static function isIdentical($path1, $path2)
     {
         return self::md5_dir($path1) == self::md5_dir($path2);
     }
-    
+
     public static function md5_dir($path)
     {
         if (is_file($path)) {
@@ -438,7 +439,7 @@ class tao_helpers_File extends helpers_File
     public static function addFilesToZip(ZipArchive $zipArchive, $src, $dest, $withEmptyDir = false)
     {
         $returnValue = null;
-    
+
         $done = 0;
 
         if ($src instanceof \Psr\Http\Message\StreamInterface) {
@@ -475,9 +476,9 @@ class tao_helpers_File extends helpers_File
                 $done++;
             }
         }
-    
+
         $returnValue = $done;
-    
+
         return $returnValue;
     }
 
@@ -646,7 +647,7 @@ class tao_helpers_File extends helpers_File
 
         return $entries;
     }
-    
+
     /**
      * Gets the local path to a publicly available resource
      * no verification if the file should be accessible
@@ -672,7 +673,7 @@ class tao_helpers_File extends helpers_File
             throw new common_Exception($url . ' is not secure');
         }
     }
-    
+
     /**
      * Get a safe filename for a proposed filename.
      *
@@ -693,7 +694,7 @@ class tao_helpers_File extends helpers_File
         $safeEnding = empty($ending)
             ? ''
             : '.' . self::removeSpecChars($ending);
-        
+
         if ($directory != null && file_exists($directory . $safeName . $safeEnding)) {
             $count = 1;
             while (file_exists($directory . $safeName . '_' . $count . $safeEnding)) {
@@ -701,10 +702,10 @@ class tao_helpers_File extends helpers_File
             }
             $safeName = $safeName . '_' . $count;
         }
-        
+
         return $safeName . $safeEnding;
     }
-    
+
     /**
      * Remove special characters for safe filenames
      *
@@ -737,7 +738,7 @@ class tao_helpers_File extends helpers_File
         $string = trim(preg_replace("~[^a-z0-9]+~i", $repl, $string), $repl);
         return $lower ? strtolower($string) : $string;
     }
-    
+
     /**
      * Check if the directory is empty
      *
