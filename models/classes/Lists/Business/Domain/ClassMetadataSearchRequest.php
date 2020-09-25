@@ -26,11 +26,11 @@ namespace oat\tao\model\Lists\Business\Domain;
 
 class ClassMetadataSearchRequest
 {
-    /** @var string|null */
+    /** @var string */
     private $classUri;
 
-    /** @var string[] */
-    private $uris = [];
+    /** @var int */
+    private $maxListSize;
 
     public function hasClassUri(): bool
     {
@@ -45,6 +45,23 @@ class ClassMetadataSearchRequest
     public function setClassUri(string $classUri): self
     {
         $this->classUri = $classUri;
+
+        return $this;
+    }
+
+    public function hasMaxListSize(): bool
+    {
+        return null !== $this->maxListSize;
+    }
+
+    public function getMaxListSize(): ?int
+    {
+        return $this->maxListSize;
+    }
+
+    public function setMaxListSize(?int $maxListSize): ClassMetadataSearchRequest
+    {
+        $this->maxListSize = $maxListSize;
 
         return $this;
     }

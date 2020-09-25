@@ -17,7 +17,6 @@
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
- * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
 declare(strict_types=1);
@@ -26,7 +25,6 @@ namespace oat\tao\model\Lists\Presentation\Web\RequestValidator;
 
 use common_exception_BadRequest as BadRequestException;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ClassMetadataSearchRequestHandler;
-use oat\tao\model\Lists\Presentation\Web\RequestHandler\ValueCollectionSearchRequestHandler;
 use oat\tao\model\service\InjectionAwareService;
 use Psr\Http\Message\ServerRequestInterface;
 

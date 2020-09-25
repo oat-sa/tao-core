@@ -37,7 +37,7 @@ use tao_helpers_form_elements_Htmlarea as HtmlArea;
 use tao_helpers_form_elements_Radiobox as RadioBox;
 use tao_helpers_form_elements_Checkbox as CheckBox;
 use tao_helpers_form_elements_Combobox as ComboBox;
-use tao_helpers_form_elements_xhtml_Searchdropdown as SearchDropDown;
+use tao_helpers_form_elements_xhtml_Searchtextbox as SearchTextBox;
 
 class ClassMetadataService extends InjectionAwareService
 {
@@ -57,8 +57,10 @@ class ClassMetadataService extends InjectionAwareService
         RadioBox::WIDGET_ID,
         CheckBox::WIDGET_ID,
         ComboBox::WIDGET_ID,
-        SearchDropDown::WIDGET_ID,
+        SearchTextBox::WIDGET_ID,
     ];
+    /** @var int */
+    private $maxListSize;
 
     public function __construct(ValueCollectionService $valueCollectionService)
     {
@@ -69,6 +71,7 @@ class ClassMetadataService extends InjectionAwareService
     {
         /** @var core_kernel_classes_Class $class */
         $class = $this->getClass($input->getSearchRequest()->getClassUri());
+        $this->maxListSize = $input->getSearchRequest()->getMaxListSize();
 
         if (!$class->isClass()) {
             return [];
@@ -121,11 +124,13 @@ class ClassMetadataService extends InjectionAwareService
                 continue;
             }
 
+            $baseListValuesUri = '/tao/PropertyValues/get?propertyUri=%s&subject=%s';
+
             array_push($properties, [
-                'uri' => $prop->getUri(),
                 'label' => $prop->getLabel(),
                 'type' => $this->isListWidget($prop) ? 'list' : 'text',
-                'values' => $this->isListWidget($prop) ? $this->getPropertyValues($prop) : null
+                'values' => $this->isListWidget($prop) ? $this->getPropertyValues($prop) : null,
+                'uri' => sprintf($baseListValuesUri, urlencode($prop->getUri()), ''),
             ]);
         }
 
@@ -143,7 +148,7 @@ class ClassMetadataService extends InjectionAwareService
         );
         $propertyCount = $this->valueCollectionService->count($search);
 
-        if ($propertyCount > 5) {
+        if ($propertyCount > $this->maxListSize) {
             return null;
         }
 

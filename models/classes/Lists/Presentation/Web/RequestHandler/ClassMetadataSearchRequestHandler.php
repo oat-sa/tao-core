@@ -37,6 +37,8 @@ class ClassMetadataSearchRequestHandler extends InjectionAwareService
 {
     public const SERVICE_ID = 'tao/ClassMetadataSearchRequestHandler';
     public const QUERY_CLASS_ID = 'classUri';
+    public const QUERY_MAX_LIST_SIZE = 'maxListSize';
+    public const DEFAULT_MAX_LIST_SIZE = 5;
 
     /** @var ClassMetadataSearchRequestValidator */
     private $requestValidator;
@@ -65,7 +67,10 @@ class ClassMetadataSearchRequestHandler extends InjectionAwareService
             $queryParameters[self::QUERY_CLASS_ID]
         );
 
+        $maxListSize = $queryParameters[self::QUERY_MAX_LIST_SIZE] ?? self::DEFAULT_MAX_LIST_SIZE;
+
         $searchRequest = (new ClassMetadataSearchRequest())
+            ->setMaxListSize((int)$maxListSize)
             ->setClassUri($classUri);
 
         return new ClassMetadataSearchInput($searchRequest);
