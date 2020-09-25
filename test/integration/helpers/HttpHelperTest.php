@@ -52,11 +52,11 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
      * @param Environment $env
      * @param string $output
      */
-    public function testReturnStream($env, $output)
+    public function testReturnStream($env, $mimetype, $output)
     {
         $request = Request::createFromEnvironment($env);
         ob_start();
-        tao_helpers_Http::returnStream($this->getStream(), null, $request);
+        tao_helpers_Http::returnStream($this->getStream(), $mimetype, $request);
         $result = ob_get_clean();
         $this->assertEquals($output, $result);
     }
@@ -81,6 +81,7 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
                     'REQUEST_URI' => '/foo',
                     'REQUEST_METHOD' => 'POST',
                 ]),
+                'mimetype' => null,
                 'output' => $this->string,
             ],
             [
@@ -90,6 +91,7 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
                     'REQUEST_METHOD' => 'POST',
                     'HTTP_RANGE' => 'bytes=0-5',
                 ]),
+                'mimetype' => null,
                 'output' => '012345',
             ],
             [
@@ -99,6 +101,7 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
                     'REQUEST_METHOD' => 'POST',
                     'HTTP_RANGE' => 'bytes=3-7',
                 ]),
+                'mimetype' => null,
                 'output' => '34567',
             ],
             [
@@ -108,6 +111,7 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
                     'REQUEST_METHOD' => 'POST',
                     'HTTP_RANGE' => 'bytes=4-',
                 ]),
+                'mimetype' => null,
                 'output' => '456789',
             ],
             [
@@ -117,6 +121,7 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
                     'REQUEST_METHOD' => 'POST',
                     'HTTP_RANGE' => 'bytes=-3',
                 ]),
+                'mimetype' => null,
                 'output' => '789',
             ],
             [
@@ -126,6 +131,7 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
                     'REQUEST_METHOD' => 'POST',
                     'HTTP_RANGE' => 'bytes=0-0',
                 ]),
+                'mimetype' => null,
                 'output' => '0',
             ],
             [
@@ -135,6 +141,7 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
                     'REQUEST_METHOD' => 'POST',
                     'HTTP_RANGE' => 'bytes=0-1,8-9',
                 ]),
+                'mimetype' => null,
                 'output' => '0189',
             ],
         ];
