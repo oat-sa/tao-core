@@ -25,11 +25,14 @@ namespace oat\tao\test\unit\models\classes\menu;
 use oat\generis\test\TestCase;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\menu\SectionVisibilityFilter;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class SectionVisibilityFilterTest extends TestCase
 {
     /** @var SectionVisibilityFilter */
     private $subject;
+
+    /** @var FeatureFlagChecker|MockObject  */
     private $featureFlagChecker;
 
     public function setUp(): void
