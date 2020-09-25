@@ -32,8 +32,11 @@ use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\event\LogoutSucceedEvent;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
+use oat\tao\model\menu\SectionVisibilityFilter;
+use oat\tao\model\menu\SectionVisibilityFilterInterface;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationServiceInterface;
@@ -409,6 +412,11 @@ class tao_actions_Main extends tao_actions_CommonModule
         foreach ($menuElement->getChildren() as $section) {
             try {
                 $resolver = new ActionResolver($section->getUrl());
+
+                if (!$this->getSectionVisibilityFilter()->isVisible($section->getId())) {
+                    continue;
+                }
+
                 if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
                     $children[] = $section;
                 }
@@ -435,6 +443,11 @@ class tao_actions_Main extends tao_actions_CommonModule
         if (!is_null($structure)) {
             foreach ($structure->getChildren() as $section) {
                 $resolver = new ActionResolver($section->getUrl());
+
+                if (!$this->getSectionVisibilityFilter()->isVisible($section->getId())) {
+                    continue;
+                }
+
                 if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
                     foreach ($section->getActions() as $action) {
                         $this->propagate($action);
@@ -472,5 +485,10 @@ class tao_actions_Main extends tao_actions_CommonModule
     protected function getUserService()
     {
         return $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
+    }
+
+    private function getSectionVisibilityFilter(): SectionVisibilityFilterInterface
+    {
+        return $this->getServiceLocator()->get(SectionVisibilityFilter::SERVICE_ID);
     }
 }

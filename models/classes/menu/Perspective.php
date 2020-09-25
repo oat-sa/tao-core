@@ -112,10 +112,6 @@ class Perspective extends MenuElement implements PhpSerializable
      */
     public function addSection(Section $section)
     {
-        if (!$this->getSectionVisibilityFilter()->isVisible($section->getId())) {
-            return;
-        }
-
         $existingKey = false;
         foreach ($this->children as $key => $existingSection) {
             if ($existingSection->getId() == $section->getId()) {
