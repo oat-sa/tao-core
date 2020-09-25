@@ -42,6 +42,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class tao_actions_form_Instance extends tao_actions_form_Generis
 {
+    public const EXCLUDED_PROPERTIES = 'excludedProperties';
+
     /**
      * Initialize the form
      *
@@ -94,7 +96,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
             $propertyCandidates = array_merge($propertyCandidates, $additionalProperties);
         }
 
-        $excludedProperties = (isset($this->options['excludedProperties']) && is_array($this->options['excludedProperties'])) ? $this->options['excludedProperties'] : [];
+        $excludedProperties = (isset($this->options[self::EXCLUDED_PROPERTIES]) && is_array($this->options[self::EXCLUDED_PROPERTIES])) ? $this->options[self::EXCLUDED_PROPERTIES] : [];
         $editedProperties = [];
         foreach ($propertyCandidates as $property) {
             if (!isset($editedProperties[$property->getUri()]) && !in_array($property->getUri(), $excludedProperties)) {

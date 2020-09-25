@@ -547,7 +547,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             [
                  FormContainer::CSRF_PROTECTION_OPTION => true,
                  FormContainer::ADDITIONAL_VALIDATORS => $this->getExtraValidationRules(),
-                 FormContainer::EXCLUDED_PROPERTIES => $this->getExcludedProperties(),
+                 tao_actions_form_CreateInstance::EXCLUDED_PROPERTIES => $this->getExcludedProperties(),
             ]
         );
 
@@ -594,7 +594,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $instance,
             [
                 FormContainer::CSRF_PROTECTION_OPTION => true,
-                FormContainer::ADDITIONAL_VALIDATORS => $this->getExtraValidationRules()
+                FormContainer::ADDITIONAL_VALIDATORS => $this->getExtraValidationRules(),
+                tao_actions_form_Instance::EXCLUDED_PROPERTIES => $this->getExcludedProperties()
             ]
         );
 

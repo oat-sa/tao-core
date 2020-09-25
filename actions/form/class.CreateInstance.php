@@ -38,6 +38,7 @@ use tao_helpers_form_elements_Treeview as TreeView;
  */
 class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
 {
+    public const EXCLUDED_PROPERTIES = 'excludedProperties';
     // --- ASSOCIATIONS ---
 
 
@@ -106,7 +107,7 @@ class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
         //get the list of properties to set in the form
         $defaultProperties  = tao_helpers_form_GenerisFormFactory::getDefaultProperties();
         $editedProperties = $defaultProperties;
-        $excludedProperties = (isset($this->options['excludedProperties']) && is_array($this->options['excludedProperties'])) ? $this->options['excludedProperties'] : [];
+        $excludedProperties = (isset($this->options[self::EXCLUDED_PROPERTIES]) && is_array($this->options[self::EXCLUDED_PROPERTIES])) ? $this->options[self::EXCLUDED_PROPERTIES] : [];
         $additionalProperties = (isset($this->options['additionalProperties']) && is_array($this->options['additionalProperties'])) ? $this->options['additionalProperties'] : [];
         $finalElements = [];
 
