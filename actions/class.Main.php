@@ -53,6 +53,9 @@ class tao_actions_Main extends tao_actions_CommonModule
 {
     use LoggerAwareTrait;
 
+    /** @var SectionVisibilityFilterInterface */
+    private $sectionVisibilityFilter;
+
     /**
      * First page, when arriving on a system
      * to choose front or back office
@@ -489,6 +492,10 @@ class tao_actions_Main extends tao_actions_CommonModule
 
     private function getSectionVisibilityFilter(): SectionVisibilityFilterInterface
     {
-        return $this->getServiceLocator()->get(SectionVisibilityFilter::SERVICE_ID);
+        if (empty($this->sectionVisibilityFilter)) {
+            $this->sectionVisibilityFilter = $this->getServiceLocator()->get(SectionVisibilityFilter::SERVICE_ID);
+        }
+        
+        return $this->sectionVisibilityFilter;
     }
 }
