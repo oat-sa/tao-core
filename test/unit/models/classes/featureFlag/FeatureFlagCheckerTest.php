@@ -34,6 +34,7 @@ class FeatureFlagCheckerTest extends TestCase
     {
         $this->subject = new FeatureFlagChecker();
         $_ENV['FEATURE'] = true;
+        $_ENV['FEATURE_DISABLED'] = false;
     }
 
     public function testIsEnabled(): void
@@ -41,8 +42,13 @@ class FeatureFlagCheckerTest extends TestCase
         self::assertTrue($this->subject->isEnabled('FEATURE'));
     }
 
-    public function testIsNotEnabled()
+    public function testIsNotEnabled(): void
     {
         self::assertFalse($this->subject->isEnabled('NOT_ENABLED_FEATURE'));
+    }
+
+    public function testIsEnabledOnDisabledFeature(): void
+    {
+        self::assertFalse($this->subject->isEnabled('FEATURE_DISABLED'));
     }
 }
