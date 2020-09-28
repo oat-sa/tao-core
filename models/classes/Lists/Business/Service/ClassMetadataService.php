@@ -48,21 +48,26 @@ class ClassMetadataService extends InjectionAwareService
     /** @var ValueCollectionService */
     private $valueCollectionService;
 
+    /** @var int */
+    private $maxListSize;
+
     public const SERVICE_ID = 'tao/ClassMetadataService';
     public const TEXT_WIDGETS = [
         TextBox::WIDGET_ID,
         TextArea::WIDGET_ID,
         HtmlArea::WIDGET_ID,
     ];
-
     public const LIST_WIDGETS = [
         RadioBox::WIDGET_ID,
         CheckBox::WIDGET_ID,
         ComboBox::WIDGET_ID,
         SearchTextBox::WIDGET_ID,
     ];
-    /** @var int */
-    private $maxListSize;
+    public const DATA_TYPE_LIST = 'list';
+    public const DATA_TYPE_TEXT = 'text';
+
+    private const BASE_LIST_ITEMS_URI = '/tao/PropertyValues/get?propertyUri=%s&subject=';
+
 
     public function __construct(ValueCollectionService $valueCollectionService)
     {
@@ -79,11 +84,11 @@ class ClassMetadataService extends InjectionAwareService
             return [];
         }
 
-        return $this->fillNodes([], $class);
+        return $this->fillData([], $class);
     }
 
-    private function fillNodes(
-        array $nodes,
+    private function fillData(
+        array $data,
         core_kernel_classes_Class $currentClass,
         core_kernel_classes_Class $parentClass = null
     ): array {
@@ -97,10 +102,10 @@ class ClassMetadataService extends InjectionAwareService
                 ->setMetaData($this->getClassMetadata($currentClass));
 
 
-            array_push($nodes, $classMetadata);
+            array_push($data, $classMetadata);
 
             foreach ($subClasses as $subClass) {
-                $nodes = $this->fillNodes($nodes, $subClass, $currentClass);
+                $data = $this->fillData($data, $subClass, $currentClass);
             }
         } else {
             $classMetadata = (new ClassMetadata())
@@ -109,33 +114,33 @@ class ClassMetadataService extends InjectionAwareService
                 ->setParentClass($parentClass !== null ? $parentClass->getUri() : null)
                 ->setMetaData($this->getClassMetadata($currentClass));
 
-            array_push($nodes, $classMetadata);
+            array_push($data, $classMetadata);
         }
 
-        return $nodes;
+        return $data;
     }
 
     private function getClassMetadata(core_kernel_classes_Class $class): array
     {
         $properties = [];
 
-        /** @var core_kernel_classes_Property $prop */
-        foreach ($class->getProperties(true) as $prop) {
-            if (strpos($prop->getUri(), 'ontologies/tao.rdf') === false) {
+        foreach ($class->getProperties(true) as $property) {
+            if (strpos($property->getUri(), 'ontologies/tao.rdf') === false) {
                 continue;
             }
 
-            if (!$this->isTextWidget($prop) && !$this->isListWidget($prop)) {
+            if (!$this->isTextWidget($property) && !$this->isListWidget($property)) {
                 continue;
             }
 
-            $baseListValuesUri = '/tao/PropertyValues/get?propertyUri=%s&subject=%s';
+            $values = $this->isListWidget($property) ? $this->getPropertyValues($property) : null;
+            $uri = $this->isListWidget($property) && !$values ? $this->getListItemsUri($property) : null;
 
             $metadata = (new Metadata())
-                ->setLabel($prop->getLabel())
-                ->setType($this->isListWidget($prop) ? 'list' : 'text')
-                ->setUri(sprintf($baseListValuesUri, urlencode($prop->getUri()), ''))
-                ->setValues($this->isListWidget($prop) ? $this->getPropertyValues($prop) : null);
+                ->setLabel($property->getLabel())
+                ->setType($this->isListWidget($property) ? self::DATA_TYPE_LIST : self::DATA_TYPE_TEXT)
+                ->setValues($values)
+                ->setUri($uri);
 
 
             array_push($properties, $metadata);
@@ -153,15 +158,14 @@ class ClassMetadataService extends InjectionAwareService
             (new ValueCollectionSearchRequest())
                 ->setValueCollectionUri($range->getUri())
         );
-        $propertyCount = $this->valueCollectionService->count($search);
+        $propertyValuesCount = $this->valueCollectionService->count($search);
 
-        if ($propertyCount > $this->maxListSize) {
+        if ($propertyValuesCount > $this->maxListSize) {
             return null;
         }
 
         $valueCollection = $this->valueCollectionService->findAll($search);
 
-        /** @var Value $value */
         foreach ($valueCollection as $value) {
             array_push($values, $value->getLabel());
         }
@@ -177,5 +181,10 @@ class ClassMetadataService extends InjectionAwareService
     private function isListWidget(core_kernel_classes_Property $property): bool
     {
         return in_array($property->getWidget()->getUri(), self::LIST_WIDGETS);
+    }
+
+    private function getListItemsUri(core_kernel_classes_Property $property): string
+    {
+        return sprintf(self::BASE_LIST_ITEMS_URI, urlencode($property->getUri()));
     }
 }
