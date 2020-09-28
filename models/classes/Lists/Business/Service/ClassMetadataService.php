@@ -26,8 +26,9 @@ namespace oat\tao\model\Lists\Business\Service;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use oat\tao\model\Lists\Business\Domain\ClassMetadata;
+use oat\tao\model\Lists\Business\Domain\ClassCollection;
 use oat\tao\model\Lists\Business\Domain\Metadata;
-use oat\tao\model\Lists\Business\Domain\Value;
+use oat\tao\model\Lists\Business\Domain\MetadataCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
@@ -71,27 +72,31 @@ class ClassMetadataService extends InjectionAwareService
 
     public function __construct(ValueCollectionService $valueCollectionService)
     {
+        parent::__construct();
+
         $this->valueCollectionService = $valueCollectionService;
     }
 
-    public function findAll(ClassMetadataSearchInput $input): array
+    public function findAll(ClassMetadataSearchInput $input): ClassCollection
     {
-        /** @var core_kernel_classes_Class $class */
-        $this->maxListSize = $input->getSearchRequest()->getMaxListSize();
-        $class = $this->getClass($input->getSearchRequest()->getClassUri());
+        $searchRequest = $input->getSearchRequest();
+
+        $this->maxListSize = $searchRequest->getMaxListSize();
+        $class = $this->getClass($searchRequest->getClassUri());
+        $collection = new ClassCollection();
 
         if (!$class->isClass()) {
-            return [];
+            return $collection;
         }
 
-        return $this->fillData([], $class);
+        return $this->fillData($collection, $class);
     }
 
     private function fillData(
-        array $data,
+        ClassCollection $collection,
         core_kernel_classes_Class $currentClass,
         core_kernel_classes_Class $parentClass = null
-    ): array {
+    ): ClassCollection {
         $subClasses = $currentClass->getSubClasses();
 
         if (count($subClasses)) {
@@ -101,11 +106,10 @@ class ClassMetadataService extends InjectionAwareService
                 ->setParentClass($parentClass !== null ? $parentClass->getUri() : null)
                 ->setMetaData($this->getClassMetadata($currentClass));
 
-
-            array_push($data, $classMetadata);
+            $collection->addClassMetadata($classMetadata);
 
             foreach ($subClasses as $subClass) {
-                $data = $this->fillData($data, $subClass, $currentClass);
+                $collection = $this->fillData($collection, $subClass, $currentClass);
             }
         } else {
             $classMetadata = (new ClassMetadata())
@@ -114,15 +118,15 @@ class ClassMetadataService extends InjectionAwareService
                 ->setParentClass($parentClass !== null ? $parentClass->getUri() : null)
                 ->setMetaData($this->getClassMetadata($currentClass));
 
-            array_push($data, $classMetadata);
+            $collection->addClassMetadata($classMetadata);
         }
 
-        return $data;
+        return $collection;
     }
 
-    private function getClassMetadata(core_kernel_classes_Class $class): array
+    private function getClassMetadata(core_kernel_classes_Class $class): MetadataCollection
     {
-        $properties = [];
+        $collection = new MetadataCollection();
 
         foreach ($class->getProperties(true) as $property) {
             if (strpos($property->getUri(), 'ontologies/tao.rdf') === false) {
@@ -143,10 +147,10 @@ class ClassMetadataService extends InjectionAwareService
                 ->setUri($uri);
 
 
-            array_push($properties, $metadata);
+            $collection->addMetadata($metadata);
         }
 
-        return $properties;
+        return $collection;
     }
 
     private function getPropertyValues(core_kernel_classes_Property $property): ?array

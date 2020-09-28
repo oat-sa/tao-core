@@ -35,8 +35,8 @@ class ClassMetadata implements JsonSerializable
     /** @var string */
     private $label;
 
-    /** @var array */
-    private $metaData = [];
+    /** @var MetadataCollection */
+    private $metaData;
 
     public function getClass(): string
     {
@@ -74,12 +74,12 @@ class ClassMetadata implements JsonSerializable
         return $this;
     }
 
-    public function getMetaData(): array
+    public function getMetaData(): ?MetadataCollection
     {
         return $this->metaData;
     }
 
-    public function setMetaData(array $metaData): ClassMetadata
+    public function setMetaData(MetadataCollection $metaData): ClassMetadata
     {
         $this->metaData = $metaData;
 
@@ -88,7 +88,7 @@ class ClassMetadata implements JsonSerializable
 
     public function addMetaData(Metadata $metaData): ClassMetadata
     {
-        array_push($this->metaData, $metaData);
+        $this->metaData->addMetadata($metaData);
 
         return $this;
     }

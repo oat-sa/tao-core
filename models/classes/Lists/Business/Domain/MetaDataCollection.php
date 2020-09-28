@@ -17,51 +17,52 @@
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
+ * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Domain;
 
-class ClassMetadataSearchRequest
+use Countable;
+use IteratorAggregate;
+use JsonSerializable;
+use Traversable;
+
+class MetadataCollection implements IteratorAggregate, JsonSerializable, Countable
 {
-    /** @var string */
-    private $classUri;
+    /** @var Metadata[] */
+    private $items = [];
 
-    /** @var int */
-    private $maxListSize;
-
-    public function hasClassUri(): bool
+    public function __construct(Metadata ...$items)
     {
-        return null !== $this->classUri;
+        foreach ($items as $value) {
+            $this->addMetadata($value);
+        }
     }
 
-    public function getClassUri(): string
+    public function addMetadata(Metadata $metadata): self
     {
-        return $this->classUri;
-    }
-
-    public function setClassUri(string $classUri): self
-    {
-        $this->classUri = $classUri;
+        array_push($this->items, $metadata);
 
         return $this;
     }
 
-    public function hasMaxListSize(): bool
+    /**
+     * @return Metadata[]|Traversable
+     */
+    public function getIterator(): Traversable
     {
-        return null !== $this->maxListSize;
+        yield from array_values($this->items);
     }
 
-    public function getMaxListSize(): ?int
+    public function jsonSerialize(): array
     {
-        return $this->maxListSize;
+        return array_values($this->items);
     }
 
-    public function setMaxListSize(?int $maxListSize): ClassMetadataSearchRequest
+    public function count(): int
     {
-        $this->maxListSize = $maxListSize;
-
-        return $this;
+        return count($this->items);
     }
 }
