@@ -17,7 +17,6 @@
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
- * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
 declare(strict_types=1);
@@ -25,7 +24,6 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Presentation\Web\RequestHandler;
 
 use common_exception_BadRequest as BadRequestException;
-use core_kernel_classes_Property as RdfProperty;
 use oat\tao\model\Lists\Business\Domain\ClassMetadataSearchRequest;
 use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 use oat\tao\model\Lists\Presentation\Web\RequestValidator\ClassMetadataSearchRequestValidator;
@@ -74,22 +72,5 @@ class ClassMetadataSearchRequestHandler extends InjectionAwareService
             ->setClassUri($classUri);
 
         return new ClassMetadataSearchInput($searchRequest);
-    }
-
-    /**
-     * @param string $propertyUri
-     *
-     * @return string|null
-     */
-    protected function getPropertyListUri(string $propertyUri): ?string
-    {
-        $property = new RdfProperty($propertyUri);
-        $list = $property->getRange();
-
-        if ($list !== null) {
-            return $list->getUri();
-        }
-
-        return null;
     }
 }

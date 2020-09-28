@@ -44,6 +44,7 @@ class ClassMetadataSearchRequestValidator extends InjectionAwareService
     public function validate(ServerRequestInterface $request): void
     {
         $this->validateRequired($request);
+        $this->validateMaxListSize($request);
     }
 
     /**
@@ -66,5 +67,32 @@ class ClassMetadataSearchRequestValidator extends InjectionAwareService
                 )
             );
         }
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     *
+     * @throws BadRequestException
+     */
+    private function validateMaxListSize(ServerRequestInterface $request): void
+    {
+        $queryParameters = $request->getQueryParams();
+
+        $maxListSize = $queryParameters[ClassMetadataSearchRequestHandler::QUERY_MAX_LIST_SIZE];
+
+        if (!$maxListSize) {
+            return;
+        }
+
+        if ((int)$maxListSize <= 0) {
+            throw new BadRequestException(
+                sprintf(
+                    'The parameter %s should be a positive integer, got: "%s".',
+                    ClassMetadataSearchRequestHandler::QUERY_MAX_LIST_SIZE,
+                    $maxListSize
+                )
+            );
+        }
+
     }
 }
