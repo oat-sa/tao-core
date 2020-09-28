@@ -28,6 +28,6 @@ class FeatureFlagChecker extends ConfigurableService implements FeatureFlagCheck
 {
     public function isEnabled(string $feature): bool
     {
-        return filter_var(getenv($feature), FILTER_VALIDATE_BOOLEAN) ?? false;
+        return filter_var($_ENV[$feature], FILTER_VALIDATE_BOOLEAN) ?? false;
     }
 }
