@@ -17,7 +17,6 @@
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
- * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
 declare(strict_types=1);
@@ -43,8 +42,6 @@ class ClassCollection implements IteratorAggregate, JsonSerializable, Countable
 
     public function addClassMetadata(ClassMetadata $classMetaData): self
     {
-        //$classMetaData = $this->ensureValueProperties($classMetaData);
-
         array_push($this->items, $classMetaData);
 
         return $this;
@@ -67,17 +64,4 @@ class ClassCollection implements IteratorAggregate, JsonSerializable, Countable
     {
         return count($this->items);
     }
-
-//    private function ensureValueProperties(Value $value): Value
-//    {
-//        if ($value->getLabel() !== '') {
-//            return $value;
-//        }
-//
-//        return new Value(
-//            $value->getId(),
-//            $value->getUri(),
-//            $this->createNewValueLabel()
-//        );
-//    }
 }

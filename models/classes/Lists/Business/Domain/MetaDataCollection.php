@@ -17,7 +17,6 @@
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
- * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
 declare(strict_types=1);
