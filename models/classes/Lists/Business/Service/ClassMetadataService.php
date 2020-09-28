@@ -25,6 +25,8 @@ namespace oat\tao\model\Lists\Business\Service;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
+use oat\tao\model\Lists\Business\Domain\ClassMetadata;
+use oat\tao\model\Lists\Business\Domain\Metadata;
 use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
@@ -70,8 +72,8 @@ class ClassMetadataService extends InjectionAwareService
     public function findAll(ClassMetadataSearchInput $input): array
     {
         /** @var core_kernel_classes_Class $class */
-        $class = $this->getClass($input->getSearchRequest()->getClassUri());
         $this->maxListSize = $input->getSearchRequest()->getMaxListSize();
+        $class = $this->getClass($input->getSearchRequest()->getClassUri());
 
         if (!$class->isClass()) {
             return [];
@@ -81,33 +83,36 @@ class ClassMetadataService extends InjectionAwareService
     }
 
     private function fillNodes(
-        array $node,
+        array $nodes,
         core_kernel_classes_Class $currentClass,
         core_kernel_classes_Class $parentClass = null
     ): array {
         $subClasses = $currentClass->getSubClasses();
 
         if (count($subClasses)) {
-            array_push ($node, [
-                'class' => $currentClass->getUri(),
-                'label' => $currentClass->getLabel(),
-                'parent-class' => $parentClass !== null ? $parentClass->getUri() : null,
-                'metadata' => $this->getClassMetadata($currentClass)
-            ]);
+            $classMetadata = (new ClassMetadata())
+                ->setClass($currentClass->getUri())
+                ->setLabel($currentClass->getLabel())
+                ->setParentClass($parentClass !== null ? $parentClass->getUri() : null)
+                ->setMetaData($this->getClassMetadata($currentClass));
+
+
+            array_push($nodes, $classMetadata);
 
             foreach ($subClasses as $subClass) {
-                $node = $this->fillNodes($node, $subClass, $currentClass);
+                $nodes = $this->fillNodes($nodes, $subClass, $currentClass);
             }
         } else {
-            array_push ($node, [
-                'class' => $currentClass->getUri(),
-                'label' => $currentClass->getLabel(),
-                'parent-class' => $parentClass->getUri(),
-                'metadata' => $this->getClassMetadata($currentClass)
-            ]);
+            $classMetadata = (new ClassMetadata())
+                ->setClass($currentClass->getUri())
+                ->setLabel($currentClass->getLabel())
+                ->setParentClass($parentClass !== null ? $parentClass->getUri() : null)
+                ->setMetaData($this->getClassMetadata($currentClass));
+
+            array_push($nodes, $classMetadata);
         }
 
-        return $node;
+        return $nodes;
     }
 
     private function getClassMetadata(core_kernel_classes_Class $class): array
@@ -116,7 +121,7 @@ class ClassMetadataService extends InjectionAwareService
 
         /** @var core_kernel_classes_Property $prop */
         foreach ($class->getProperties(true) as $prop) {
-            if (strpos($prop->getUri(), 'tao.rdf') === false) {
+            if (strpos($prop->getUri(), 'ontologies/tao.rdf') === false) {
                 continue;
             }
 
@@ -126,12 +131,14 @@ class ClassMetadataService extends InjectionAwareService
 
             $baseListValuesUri = '/tao/PropertyValues/get?propertyUri=%s&subject=%s';
 
-            array_push($properties, [
-                'label' => $prop->getLabel(),
-                'type' => $this->isListWidget($prop) ? 'list' : 'text',
-                'values' => $this->isListWidget($prop) ? $this->getPropertyValues($prop) : null,
-                'uri' => sprintf($baseListValuesUri, urlencode($prop->getUri()), ''),
-            ]);
+            $metadata = (new Metadata())
+                ->setLabel($prop->getLabel())
+                ->setType($this->isListWidget($prop) ? 'list' : 'text')
+                ->setUri(sprintf($baseListValuesUri, urlencode($prop->getUri()), ''))
+                ->setValues($this->isListWidget($prop) ? $this->getPropertyValues($prop) : null);
+
+
+            array_push($properties, $metadata);
         }
 
         return $properties;
