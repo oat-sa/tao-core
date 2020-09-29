@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint137\n"
-"PO-Revision-Date: 2020-09-11T08:31:01\n"
+"Project-Id-Version: TAO 3.4.0-sprint138\n"
+"PO-Revision-Date: 2020-09-25T08:20:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " と "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " と "
 
 msgid " has been deleted successfully"
 msgstr " 削除しました。"
@@ -218,9 +218,6 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
-msgid "aliases:"
-msgstr ""
-
 msgid "all"
 msgstr "すべて"
 
@@ -286,16 +283,7 @@ msgstr "バージョン管理リソースを削除してもよろしいですか
 msgid "Are you sure you want to delete it?"
 msgstr "削除してよろしいですか？"
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
 msgid "Arguments separator"
-msgstr ""
-
-msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -353,9 +341,6 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
-msgid "boolean"
-msgstr ""
-
 msgid "Browse folders:"
 msgstr "フォルダーを参照"
 
@@ -371,10 +356,10 @@ msgstr ""
 msgid "Calendar"
 msgstr "カレンダー"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
 msgid "cancel the action"
@@ -405,17 +390,14 @@ msgstr "パスワードを変更"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr "すべてチェック"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "すべてチェック"
 
 msgid "Check-in"
 msgstr "チェックイン"
-
-msgid "choices:"
-msgstr ""
 
 msgid "Choose a value..."
 msgstr ""
@@ -483,9 +465,6 @@ msgstr ""
 msgid "Column"
 msgstr "列"
 
-msgid "Commands:"
-msgstr ""
-
 msgid "comment..."
 msgstr "コメント..."
 
@@ -528,9 +507,6 @@ msgstr ""
 msgid "Cosine"
 msgstr ""
 
-msgid "count"
-msgstr ""
-
 msgid "Create"
 msgstr "作成"
 
@@ -570,10 +546,10 @@ msgstr "データインポートに成功しました"
 msgid "Data imported. Some records are invalid."
 msgstr "データインポート終了。いくつかのレコードは無効です。"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "データ言語"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "データ言語"
 
 msgid "Data not imported. All records are invalid."
@@ -596,9 +572,6 @@ msgstr ""
 
 msgid "Default search"
 msgstr "デフォルト検索"
-
-msgid "default:"
-msgstr ""
 
 msgid "Define the default values"
 msgstr "デフォルト値を定義します"
@@ -630,9 +603,6 @@ msgstr ""
 
 msgid "Demo Sandbox"
 msgstr "サンドボックス"
-
-msgid "Did you mean %s?"
-msgstr ""
 
 msgid "Digit 0"
 msgstr ""
@@ -749,9 +719,6 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
-msgstr ""
-
-msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -888,9 +855,6 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr "あいまい検索"
 
-msgid "generated-value"
-msgstr ""
-
 msgid "Generis Form"
 msgstr ""
 
@@ -950,9 +914,6 @@ msgstr "識別子"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "パスワードをリセットしたくない場合は、このメールを無視してください。パスワードは変更されません。"
-
-msgid "Implications failed:"
-msgstr ""
 
 msgid "Import"
 msgstr "インポート"
@@ -1077,9 +1038,6 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr "無効なログイン名或はパスワードです。やり直してください"
 
@@ -1088,9 +1046,6 @@ msgstr ""
 
 msgid "invalid regular expression"
 msgstr "無効な正規表現です"
-
-msgid "Invalid values:"
-msgstr ""
 
 msgid "items per page"
 msgstr ""
@@ -1373,12 +1328,6 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr ""
-
 msgid "Not started"
 msgstr ""
 
@@ -1399,9 +1348,6 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
-msgstr ""
-
-msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1426,6 +1372,9 @@ msgid "On"
 msgstr ""
 
 msgid "Only allow for my own domain (%s)"
+msgstr ""
+
+msgid "Only one of the field must have value %s"
 msgstr ""
 
 msgid "Operated By "
@@ -1640,9 +1589,6 @@ msgid "Request a password reset via Email."
 msgstr "eメールでパスワードのリセットを要求します"
 
 msgid "require notification ID"
-msgstr ""
-
-msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -1876,9 +1822,6 @@ msgstr ""
 msgid "Store the value a variable"
 msgstr ""
 
-msgid "string"
-msgstr ""
-
 msgid "Submit"
 msgstr ""
 
@@ -2050,6 +1993,9 @@ msgstr "このログインは既に使用されています"
 msgid "This media cannot be played!"
 msgstr ""
 
+msgid "This or one of %s must have a value"
+msgstr ""
+
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
 msgstr "このパスワードのリセットリンクは、有効ではありません。これは、すでに使用されています。まだパスワードをリセットしたい場合は、新しいリンクをリクエストしてください"
 
@@ -2091,9 +2037,6 @@ msgstr ""
 
 msgid "Tokenizer"
 msgstr "トークナイザ"
-
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "候補が多すぎます。候補のうちのいくつかを表示します"

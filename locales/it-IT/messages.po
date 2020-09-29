@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint137\n"
-"PO-Revision-Date: 2020-09-11T08:30:48\n"
+"Project-Id-Version: TAO 3.4.0-sprint138\n"
+"PO-Revision-Date: 2020-09-25T08:20:20\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr "e"
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " è stato rimosso correttamente"
@@ -218,6 +218,9 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
 msgstr "tutto"
 
@@ -282,7 +285,16 @@ msgstr "Sei sicuro di eliminare la risorsa? Si perderanno tutti i dati."
 msgid "Are you sure you want to delete it?"
 msgstr "Sei sicuro di voler cancellare?"
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -338,6 +350,9 @@ msgid "Binary operator /"
 msgstr ""
 
 msgid "Binary operator modulo"
+msgstr ""
+
+msgid "boolean"
 msgstr ""
 
 msgid "Browse folders:"
@@ -398,6 +413,9 @@ msgstr "Verifica tutto"
 msgid "Check-in"
 msgstr "Check-in"
 
+msgid "choices:"
+msgstr ""
+
 msgid "Choose a value..."
 msgstr ""
 
@@ -431,10 +449,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -463,6 +481,9 @@ msgstr ""
 
 msgid "Column"
 msgstr "Colonna"
+
+msgid "Commands:"
+msgstr ""
 
 msgid "comment..."
 msgstr "commento..."
@@ -504,6 +525,9 @@ msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
+msgstr ""
+
+msgid "count"
 msgstr ""
 
 msgid "Create"
@@ -572,6 +596,9 @@ msgstr ""
 msgid "Default search"
 msgstr "Ricerca di default"
 
+msgid "default:"
+msgstr ""
+
 msgid "Define the default values"
 msgstr "Definisci i valori di default"
 
@@ -602,6 +629,9 @@ msgstr ""
 
 msgid "Demo Sandbox"
 msgstr "Demo Sandbox"
+
+msgid "Did you mean %s?"
+msgstr ""
 
 msgid "Digit 0"
 msgstr ""
@@ -717,6 +747,9 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
+msgstr ""
+
+msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -853,6 +886,9 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr "Accoppiamento sfocato"
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
 msgstr ""
 
@@ -912,6 +948,9 @@ msgstr "Identificatore"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Se non desideri reimpostare la tua password, ignora questa mail. La password resterà la stessa."
+
+msgid "Implications failed:"
+msgstr ""
 
 msgid "Import"
 msgstr "Importa"
@@ -991,10 +1030,10 @@ msgstr "Installazione delle estensioni %s"
 msgid "Instance saved"
 msgstr "Istanza salvata"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Lingua di interfaccia"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Lingua di interfaccia"
 
 msgid "Invalid CSP header."
@@ -1036,6 +1075,9 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "Password di login non valida. Riprovare"
 
@@ -1044,6 +1086,9 @@ msgstr ""
 
 msgid "invalid regular expression"
 msgstr "espressione regolare non valida"
+
+msgid "Invalid values:"
+msgstr ""
 
 msgid "items per page"
 msgstr ""
@@ -1326,6 +1371,12 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
 msgid "Not started"
 msgstr ""
 
@@ -1346,6 +1397,9 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
+msgstr ""
+
+msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1370,6 +1424,9 @@ msgid "On"
 msgstr ""
 
 msgid "Only allow for my own domain (%s)"
+msgstr ""
+
+msgid "Only one of the field must have value %s"
 msgstr ""
 
 msgid "Operated By "
@@ -1586,6 +1643,9 @@ msgstr "Richiesta via Email di reset della password"
 msgid "require notification ID"
 msgstr ""
 
+msgid "required"
+msgstr ""
+
 msgid "required length"
 msgstr "lunghezza richiesta"
 
@@ -1720,11 +1780,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "seleziona"
-
 msgid "Select"
 msgstr "Seleziona"
+
+msgid "select"
+msgstr "seleziona"
 
 msgid "Select a class"
 msgstr ""
@@ -1815,6 +1875,9 @@ msgid "Store"
 msgstr ""
 
 msgid "Store the value a variable"
+msgstr ""
+
+msgid "string"
 msgstr ""
 
 msgid "Submit"
@@ -1988,6 +2051,9 @@ msgstr "Questo login è già in uso"
 msgid "This media cannot be played!"
 msgstr ""
 
+msgid "This or one of %s must have a value"
+msgstr ""
+
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
 msgstr "Il collegamento al link di modifica password non è più valido. Se vuoi ancora modificare la tua password, prego richiedi un nuovo link"
 
@@ -2029,6 +2095,9 @@ msgstr ""
 
 msgid "Tokenizer"
 msgstr "Tokenizer"
+
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "La tua richiesta contiene troppe proposte. Solo alcune sono elencate"
