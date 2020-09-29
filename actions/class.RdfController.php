@@ -543,7 +543,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
 
         $class = $this->getCurrentClass();
-        $formContainer = new tao_actions_form_CreateInstance([$class], [FormContainer::CSRF_PROTECTION_OPTION => true]);
+        $formContainer = new tao_actions_form_CreateInstance([$class],
+            [
+                 FormContainer::CSRF_PROTECTION_OPTION => true,
+                 FormContainer::ADDITIONAL_VALIDATORS => $this->getExtraValidationRules(),
+                 tao_actions_form_CreateInstance::EXCLUDED_PROPERTIES => $this->getExcludedProperties(),
+            ]
+        );
+
         $addInstanceForm = $formContainer->getForm();
 
         if ($addInstanceForm->isSubmited() && $addInstanceForm->isValid()) {
@@ -582,7 +589,15 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     {
         $class = $this->getCurrentClass();
         $instance = $this->getCurrentInstance();
-        $myFormContainer = new SignedFormInstance($class, $instance, [FormContainer::CSRF_PROTECTION_OPTION => true]);
+        $myFormContainer = new SignedFormInstance(
+            $class,
+            $instance,
+            [
+                FormContainer::CSRF_PROTECTION_OPTION => true,
+                FormContainer::ADDITIONAL_VALIDATORS => $this->getExtraValidationRules(),
+                tao_actions_form_Instance::EXCLUDED_PROPERTIES => $this->getExcludedProperties()
+            ]
+        );
 
         $myForm = $myFormContainer->getForm();
         if ($myForm->isSubmited() && $myForm->isValid()) {
@@ -1299,6 +1314,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             'errorMessage' =>  $message
         ];
         $this->returnJson($response, 406);
+    }
+
+    protected function getExtraValidationRules(): array
+    {
+        return [];
+    }
+
+    protected function getExcludedProperties(): array
+    {
+        return [];
     }
 
     /**

@@ -27,6 +27,7 @@ use oat\oatbox\Configurable;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
 use Psr\Http\Message\StreamInterface;
+use tao_helpers_File;
 
 /**
  * This is the base class of the Access Providers
@@ -146,7 +147,7 @@ abstract class BaseWebsource extends Configurable implements Websource
                 case 'svg':
                     //when there are more than one image in svg file - finfo recognizes it as `image/svg`, while it should be `image/svg+xml` or at least `text/plain` for a previous hack to work
                     if ($mimeType === 'text/plain' || $mimeType === 'image/svg') {
-                        return 'image/svg+xml';
+                        return tao_helpers_File::MIME_SVG;
                     }
                     break;
                 case 'mp3':

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint137\n"
-"PO-Revision-Date: 2020-09-11T08:31:28\n"
+"Project-Id-Version: TAO 3.4.0-sprint138\n"
+"PO-Revision-Date: 2020-09-25T08:20:51\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -371,11 +371,11 @@ msgstr "Skaičiuotuvas"
 msgid "Calendar"
 msgstr "Kalendorius"
 
-msgid "cancel"
-msgstr "atšaukti"
-
 msgid "Cancel"
 msgstr "Atšaukti"
+
+msgid "cancel"
+msgstr "atšaukti"
 
 msgid "cancel the action"
 msgstr "atšaukti veiksmą"
@@ -450,11 +450,11 @@ msgstr "Išvalyti visus duomenis"
 msgid "Clear expression"
 msgstr "Išvalyti išraišką"
 
-msgid "Clear History"
-msgstr "Išvalyti Istoriją"
-
 msgid "Clear history"
 msgstr "Išvalyti istoriją"
+
+msgid "Clear History"
+msgstr "Išvalyti Istoriją"
 
 msgid "Clear selection"
 msgstr "Išvalyti pasirinimą"
@@ -570,11 +570,11 @@ msgstr "Duomenys importuoti sėkmingai"
 msgid "Data imported. Some records are invalid."
 msgstr "Duomenys importuoti. Kaikurie įrašai neteisingi."
 
-msgid "Data Language"
-msgstr "Duomenų Kalba"
-
 msgid "Data language"
 msgstr "Duomenų kalba"
+
+msgid "Data Language"
+msgstr "Duomenų Kalba"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Duomenys neimportuoti. Visi įrašai neteisingi."
@@ -1032,11 +1032,11 @@ msgstr "Įdiegiamas plėtinys %s..."
 msgid "Instance saved"
 msgstr "Instancija išsaugota"
 
-msgid "Interface Language"
-msgstr "Sąsajos Kalba"
-
 msgid "Interface language"
 msgstr "Sąsajos kalba"
+
+msgid "Interface Language"
+msgstr "Sąsajos Kalba"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1358,10 +1358,10 @@ msgstr ""
 msgid "no label"
 msgstr "nėra pavadinimo"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "Peržiūra negalima"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "Peržiūra negalima"
 
 msgid "No results found"
@@ -1426,6 +1426,9 @@ msgid "On"
 msgstr "Įjungta"
 
 msgid "Only allow for my own domain (%s)"
+msgstr ""
+
+msgid "Only one of the field must have value %s"
 msgstr ""
 
 msgid "Operated By "
@@ -2049,6 +2052,9 @@ msgstr "Prisijungimo vardas užimtas"
 
 msgid "This media cannot be played!"
 msgstr "Medija negali būti paleista!"
+
+msgid "This or one of %s must have a value"
+msgstr ""
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
 msgstr "Slaptažodžio atstatymo nuoroda yra nebegaliojanti. Gali būti, kad jau panaudota. Jeigu vistiek norite atstatyti savo slaptažodį, paprašykite naujos nuorodos"
