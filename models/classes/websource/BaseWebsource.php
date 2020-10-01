@@ -145,8 +145,9 @@ abstract class BaseWebsource extends Configurable implements Websource
                     }
                     break;
                 case 'svg':
+                case 'svgz':
                     //when there are more than one image in svg file - finfo recognizes it as `image/svg`, while it should be `image/svg+xml` or at least `text/plain` for a previous hack to work
-                    if ($mimeType === 'text/plain' || $mimeType === 'image/svg') {
+                    if ($mimeType === 'text/plain' || $mimeType === 'image/svg' || $mimeType === 'application/x-gzip') {
                         return tao_helpers_File::MIME_SVG;
                     }
                     break;
