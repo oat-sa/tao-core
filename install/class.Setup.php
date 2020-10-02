@@ -387,6 +387,10 @@ class tao_install_Setup implements Action
                     $options['db_driverClass'] = $defaultPersistenceConfig['connection']['driverClass'];
                 }
 
+                if (isset($defaultPersistenceConfig['connection']['driverOptions'])) {
+                    $options['db_driverOptions'] = $defaultPersistenceConfig['connection']['driverOptions'];
+                }
+
                 if (isset($defaultPersistenceConfig['connection']['instance'])) {
                     $options['db_instance'] = $defaultPersistenceConfig['connection']['instance'];
                 }
