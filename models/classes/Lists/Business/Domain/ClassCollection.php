@@ -52,12 +52,12 @@ class ClassCollection implements IteratorAggregate, JsonSerializable, Countable
      */
     public function getIterator(): Traversable
     {
-        yield from array_values($this->items);
+        yield from $this->items;
     }
 
     public function jsonSerialize(): array
     {
-        return array_values($this->items);
+        return $this->items;
     }
 
     public function count(): int

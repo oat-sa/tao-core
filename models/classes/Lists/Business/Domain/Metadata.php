@@ -32,8 +32,8 @@ class Metadata implements JsonSerializable
     /** @var string */
     private $type;
 
-    /** @var $values|null */
-    private $values;
+    /** @var array */
+    private $values = [];
 
     /** @var string|null  */
     private $uri;
@@ -62,7 +62,7 @@ class Metadata implements JsonSerializable
         return $this;
     }
 
-    public function getValues()
+    public function getValues(): array
     {
         return $this->values;
     }
@@ -93,7 +93,7 @@ class Metadata implements JsonSerializable
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'label' => $this->label,

@@ -137,8 +137,8 @@ class ClassMetadataService extends InjectionAwareService
                 continue;
             }
 
-            $values = $this->isListWidget($property) ? $this->getPropertyValues($property) : null;
-            $uri = $this->isListWidget($property) && !$values ? $this->getListItemsUri($property) : null;
+            $values = $this->getPropertyValues($property);
+            $uri = $this->getListItemsUri($property, $values);
 
             $metadata = (new Metadata())
                 ->setLabel($property->getLabel())
@@ -155,6 +155,10 @@ class ClassMetadataService extends InjectionAwareService
 
     private function getPropertyValues(core_kernel_classes_Property $property): ?array
     {
+        if (!$this->isListWidget($property)) {
+            return null;
+        }
+
         $values = [];
         $range = $property->getRange();
 
@@ -187,8 +191,12 @@ class ClassMetadataService extends InjectionAwareService
         return in_array($property->getWidget()->getUri(), self::LIST_WIDGETS);
     }
 
-    private function getListItemsUri(core_kernel_classes_Property $property): string
+    private function getListItemsUri(core_kernel_classes_Property $property, ?array $values): ?string
     {
+        if (!$this->isListWidget($property) || $values) {
+            return null;
+        }
+
         return sprintf(self::BASE_LIST_ITEMS_URI, urlencode($property->getUri()));
     }
 }
