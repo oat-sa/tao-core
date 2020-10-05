@@ -35,6 +35,7 @@ use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\RegisterClassMetadataServices;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
@@ -149,6 +150,7 @@ return [
             RegisterDataAccessControlChangedEvent::class,
             RegisterDataAccessControlChangedListener::class,
             RegisterValueCollectionServices::class,
+            RegisterClassMetadataServices::class,
             CreateRdsListStore::class,
             RegisterSessionCookieService::class,
         ]

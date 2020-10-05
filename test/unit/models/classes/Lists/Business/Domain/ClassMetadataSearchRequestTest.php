@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,33 +16,44 @@
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
- * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Contract;
+namespace oat\tao\test\unit\model\Lists\Business\Domain;
 
-use oat\tao\model\Lists\Business\Domain\ValueCollection;
-use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
-use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
+use oat\generis\test\TestCase;
+use oat\tao\model\Lists\Business\Domain\ClassMetadataSearchRequest;
 
-interface ValueCollectionRepositoryInterface
+class ClassMetadataSearchRequestTest extends TestCase
 {
-    public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection;
-
-    public function isApplicable(string $collectionUri): bool;
+    /** @var ClassMetadataSearchRequest */
+    private $sut;
 
     /**
-     * @param ValueCollection $valueCollection
-     *
-     * @return bool
-     *
-     * @throws ValueConflictException
+     * @before
      */
-    public function persist(ValueCollection $valueCollection): bool;
+    public function init(): void
+    {
+        $this->sut = new ClassMetadataSearchRequest();
+    }
 
-    public function delete(string $valueCollectionUri): void;
+    public function testWithClassUri(): void
+    {
+        $classUri = 'https://example.com';
 
-    public function count(ValueCollectionSearchRequest $searchRequest): int;
+        $this->sut->setClassUri($classUri);
+
+        $this->assertTrue($this->sut->hasClassUri());
+        $this->assertSame($classUri, $this->sut->getClassUri());
+    }
+
+    public function testCustomLimit(): void
+    {
+        $limit = 1;
+
+        $this->sut->setMaxListSize($limit);
+
+        $this->assertSame($limit, $this->sut->getMaxListSize());
+    }
 }
