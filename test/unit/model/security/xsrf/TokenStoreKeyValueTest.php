@@ -197,14 +197,9 @@ class TokenStoreKeyValueTest extends TestCase
 
     public function testClear_WhenThereAreTokensStored_RemoveAllTokens(): void
     {
-        $storedTokens = $this->getStoredTokensData();
-
         $this->persistenceMock
-            ->method('hGetAll')
-            ->willReturn($storedTokens);
-        $this->persistenceMock
-            ->expects(self::exactly(count($storedTokens)))
-            ->method('hDel');
+            ->expects(self::once())
+            ->method('del');
 
         $this->subject->clear();
     }

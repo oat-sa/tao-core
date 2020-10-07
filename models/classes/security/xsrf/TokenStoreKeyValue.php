@@ -124,10 +124,7 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
      */
     public function clear(): void
     {
-        $tokens = $this->getPersistence()->hGetAll($this->getKey());
-        foreach ($tokens as $tokenId => $value) {
-            $this->getPersistence()->hDel($this->getKey(), $tokenId);
-        }
+        $this->getPersistence()->del($this->getKey());
     }
 
     /**

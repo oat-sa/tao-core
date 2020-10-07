@@ -89,7 +89,7 @@ class TokenService extends ConfigurableService
     public function createToken(): Token
     {
         $store = $this->getStore();
-        $this->invalidate($store->getAll());
+        $this->invalidateExpiredAndSurplus($store->getAll());
 
         $token = new Token();
         $store->setToken($token->getValue(), $token);
@@ -207,7 +207,7 @@ class TokenService extends ConfigurableService
      *
      * @throws InvalidService
      */
-    protected function invalidate(array $tokens): array
+    protected function invalidateExpiredAndSurplus(array $tokens): array
     {
         $actualTime = microtime(true);
         $timeLimit = $this->getTimeLimit();
