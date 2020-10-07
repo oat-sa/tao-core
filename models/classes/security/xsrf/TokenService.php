@@ -125,7 +125,7 @@ class TokenService extends ConfigurableService
     public function checkFormToken($token): bool
     {
         $token = $this->normaliseToken($token);
-        $savedToken = $savedToken = $this->getStore()->getToken(self::FORM_TOKEN_NAMESPACE);
+        $savedToken = $this->getStore()->getToken(self::FORM_TOKEN_NAMESPACE);
 
         return $this->isTokenValid($token, $savedToken);
     }
