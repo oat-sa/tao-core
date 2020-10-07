@@ -924,7 +924,16 @@ class Updater extends \common_ext_ExtensionUpdater {
 
             $this->setVersion('27.0.0');
         }
-      
+
         $this->skip('27.0.0', '27.1.1');
+
+        if ($this->isVersion('27.1.1')) {
+            $extension = $this->getExtension();
+            $config = $extension->getConfig('login');
+            $config['hideLogo'] = false;
+            $extension->setConfig('login', $config);
+
+            $this->setVersion('27.1.1.1');
+        }
     }
 }
