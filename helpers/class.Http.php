@@ -17,11 +17,13 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
+ *               2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 use oat\generis\Helper\SystemHelper;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\FileUploadException;
+use oat\tao\model\http\ContentDetector;
 use oat\tao\model\stream\StreamRange;
 use oat\tao\model\stream\StreamRangeException;
 use Psr\Http\Message\StreamInterface;
@@ -345,16 +347,18 @@ class tao_helpers_Http
         }
     }
 
-    /**
-     * @param StreamInterface $stream
-     * @param null|string $mimeType
-     * @param ServerRequestInterface|null $request not used yet.
-     */
-    public static function returnStream(StreamInterface $stream, $mimeType = null, ServerRequestInterface $request = null)
-    {
+    public static function returnStream(
+        StreamInterface $stream,
+        string $mimeType = null,
+        ServerRequestInterface $request = null
+    ): void {
         header('Accept-Ranges: bytes');
         if (!is_null($mimeType)) {
             header('Content-Type: ' . $mimeType);
+        }
+
+        if (self::getContentDetector()->isGzipableMime($mimeType) && self::getContentDetector()->isGzip($stream)) {
+            header('Content-Encoding: gzip');
         }
 
         try {
@@ -392,5 +396,11 @@ class tao_helpers_Http
         } catch (StreamRangeException $e) {
             header('HTTP/1.1 416 Requested Range Not Satisfiable');
         }
+    }
+
+    private static function getContentDetector(): ContentDetector
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return ServiceManager::getServiceManager()->get(ContentDetector::class);
     }
 }
