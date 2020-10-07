@@ -67,7 +67,7 @@ class ClassMetadataService extends InjectionAwareService
     public const DATA_TYPE_LIST = 'list';
     public const DATA_TYPE_TEXT = 'text';
 
-    private const BASE_LIST_ITEMS_URI = '/tao/PropertyValues/get?propertyUri=%s&subject=';
+    private const BASE_LIST_ITEMS_URI = '/tao/PropertyValues/get?propertyUri=%s';
 
 
     public function __construct(ValueCollectionService $valueCollectionService)
