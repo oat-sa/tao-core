@@ -54,8 +54,6 @@ $footerHeight: 34;
 
 //Navigation
 .dark-bar {
-    // requires extra space for bottom border
-    max-height: ($navHeight + 1) * 1px;
     background: $darkBar;
     color: $darkBarTxt;
 
@@ -288,12 +286,8 @@ $footerHeight: 34;
 }
 
 // Footer
-body > footer, .content-wrap:after {
-    // must be the same height as footer
-    height: $footerHeight * 1px;
-}
-
 body > footer {
+    height: $footerHeight * 1px;
     z-index: 10000;
     position: relative;
     font-size: 11px;
@@ -312,9 +306,8 @@ body > footer {
 }
 
 .content-wrap {
-    min-height: 100%;
-    // equal to footer height
-    margin-bottom: -1px * $footerHeight;
+    flex: 1;
+    overflow-y: scroll;
 }
 
 .content-wrap:after {
