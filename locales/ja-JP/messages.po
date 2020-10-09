@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint138\n"
-"PO-Revision-Date: 2020-09-25T08:20:25\n"
+"Project-Id-Version: TAO 3.4.0-sprint139\n"
+"PO-Revision-Date: 2020-10-09T08:27:32\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " と "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " 削除しました。"
@@ -218,6 +218,9 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
 msgstr "すべて"
 
@@ -283,7 +286,16 @@ msgstr "バージョン管理リソースを削除してもよろしいですか
 msgid "Are you sure you want to delete it?"
 msgstr "削除してよろしいですか？"
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -341,6 +353,9 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
+msgid "boolean"
+msgstr ""
+
 msgid "Browse folders:"
 msgstr "フォルダーを参照"
 
@@ -390,14 +405,17 @@ msgstr "パスワードを変更"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr "すべてチェック"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "すべてチェック"
 
 msgid "Check-in"
 msgstr "チェックイン"
+
+msgid "choices:"
+msgstr ""
 
 msgid "Choose a value..."
 msgstr ""
@@ -432,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -464,6 +482,9 @@ msgstr ""
 
 msgid "Column"
 msgstr "列"
+
+msgid "Commands:"
+msgstr ""
 
 msgid "comment..."
 msgstr "コメント..."
@@ -505,6 +526,9 @@ msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
+msgstr ""
+
+msgid "count"
 msgstr ""
 
 msgid "Create"
@@ -573,6 +597,9 @@ msgstr ""
 msgid "Default search"
 msgstr "デフォルト検索"
 
+msgid "default:"
+msgstr ""
+
 msgid "Define the default values"
 msgstr "デフォルト値を定義します"
 
@@ -603,6 +630,9 @@ msgstr ""
 
 msgid "Demo Sandbox"
 msgstr "サンドボックス"
+
+msgid "Did you mean %s?"
+msgstr ""
 
 msgid "Digit 0"
 msgstr ""
@@ -719,6 +749,9 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
+msgstr ""
+
+msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -855,6 +888,9 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr "あいまい検索"
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
 msgstr ""
 
@@ -914,6 +950,9 @@ msgstr "識別子"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "パスワードをリセットしたくない場合は、このメールを無視してください。パスワードは変更されません。"
+
+msgid "Implications failed:"
+msgstr ""
 
 msgid "Import"
 msgstr "インポート"
@@ -993,10 +1032,10 @@ msgstr "%s拡張機能をインストールしています..."
 msgid "Instance saved"
 msgstr "インスタンスが保存されました"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "インタフェース用言語"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "インタフェース用言語"
 
 msgid "Invalid CSP header."
@@ -1038,6 +1077,9 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "無効なログイン名或はパスワードです。やり直してください"
 
@@ -1046,6 +1088,9 @@ msgstr ""
 
 msgid "invalid regular expression"
 msgstr "無効な正規表現です"
+
+msgid "Invalid values:"
+msgstr ""
 
 msgid "items per page"
 msgstr ""
@@ -1313,10 +1358,10 @@ msgstr ""
 msgid "no label"
 msgstr "ラベルがありません"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "プレビューは利用できません"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "プレビューは利用できません"
 
 msgid "No results found"
@@ -1326,6 +1371,12 @@ msgid "No Task yet"
 msgstr ""
 
 msgid "Node duplication has failed"
+msgstr ""
+
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
@@ -1348,6 +1399,9 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
+msgstr ""
+
+msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1591,6 +1645,9 @@ msgstr "eメールでパスワードのリセットを要求します"
 msgid "require notification ID"
 msgstr ""
 
+msgid "required"
+msgstr ""
+
 msgid "required length"
 msgstr "長さ"
 
@@ -1822,6 +1879,9 @@ msgstr ""
 msgid "Store the value a variable"
 msgstr ""
 
+msgid "string"
+msgstr ""
+
 msgid "Submit"
 msgstr ""
 
@@ -2037,6 +2097,9 @@ msgstr ""
 
 msgid "Tokenizer"
 msgstr "トークナイザ"
+
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "候補が多すぎます。候補のうちのいくつかを表示します"
