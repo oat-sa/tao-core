@@ -38,6 +38,16 @@ class ClassCollectionTest extends TestCase
         $this->assertTrue($collection->getIterator() instanceof Traversable);
     }
 
+    public function testCreationWithItems()
+    {
+        $classMetadata1 = new ClassMetadata();
+        $classMetadata2 = new ClassMetadata();
+        $collection = new ClassCollection($classMetadata1, $classMetadata2);
+
+        $this->assertEquals(2, $collection->count());
+        $this->assertEquals([$classMetadata1, $classMetadata2], $collection->jsonSerialize());
+    }
+
     public function testAddClassMetadata()
     {
         $collection = new ClassCollection();

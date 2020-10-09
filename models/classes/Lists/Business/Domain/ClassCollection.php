@@ -33,11 +33,9 @@ class ClassCollection implements IteratorAggregate, JsonSerializable, Countable
     /** @var ClassMetadata[] */
     private $items = [];
 
-    public function __construct(ClassMetadata ...$values)
+    public function __construct(ClassMetadata ...$items)
     {
-        foreach ($values as $value) {
-            $this->addClassMetadata($value);
-        }
+        $this->items = $items;
     }
 
     public function addClassMetadata(ClassMetadata $classMetaData): self
