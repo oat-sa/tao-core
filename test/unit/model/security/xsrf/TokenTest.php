@@ -46,4 +46,12 @@ class TokenTest extends TestCase
         $this->assertEquals(round($timeStamp, 2), round($encodedTokenData[Token::TIMESTAMP_KEY], 2));
         $this->assertEquals($key, $encodedTokenData[Token::TOKEN_KEY]);
     }
+
+    public function testCreateNewToken()
+    {
+        $token = new Token();
+
+        self::assertSame(40, strlen($token->getValue()), 'The token has the expected length');
+        self::assertRegExp('/^[0-9a-f]{40}$/', $token->getValue(), 'The token is correctly formatted');
+    }
 }
