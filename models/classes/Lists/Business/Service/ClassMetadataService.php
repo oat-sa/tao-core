@@ -67,7 +67,8 @@ class ClassMetadataService extends InjectionAwareService
     public const DATA_TYPE_LIST = 'list';
     public const DATA_TYPE_TEXT = 'text';
 
-    private const BASE_LIST_ITEMS_URI = '/tao/PropertyValues/get?propertyUri=%s&subject=';
+    private const BASE_LIST_ITEMS_URI = '/tao/PropertyValues/get?propertyUri=%s';
+    private const CUSTOM_PROPERTY_FILTER = 'tao.rdf';
 
 
     public function __construct(ValueCollectionService $valueCollectionService)
@@ -129,7 +130,7 @@ class ClassMetadataService extends InjectionAwareService
         $collection = new MetadataCollection();
 
         foreach ($class->getProperties(true) as $property) {
-            if (strpos($property->getUri(), 'ontologies/tao.rdf') === false) {
+            if (strpos($property->getUri(), self::CUSTOM_PROPERTY_FILTER) === false) {
                 continue;
             }
 

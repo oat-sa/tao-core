@@ -27,7 +27,7 @@ use oat\tao\model\Lists\Business\Domain\Metadata;
 use oat\tao\model\Lists\Business\Domain\MetadataCollection;
 use Traversable;
 
-class MetaDataCollectionTest extends TestCase
+class MetadataCollectionTest extends TestCase
 {
     public function testEmptyCollection()
     {
@@ -36,6 +36,16 @@ class MetaDataCollectionTest extends TestCase
         $this->assertEquals(0, $collection->count());
         $this->assertEquals([], $collection->jsonSerialize());
         $this->assertTrue($collection->getIterator() instanceof Traversable);
+    }
+
+    public function testCreationWithItems()
+    {
+        $metadata1 = new Metadata();
+        $metadata2 = new Metadata();
+        $collection = new MetadataCollection($metadata1, $metadata2);
+
+        $this->assertEquals(2, $collection->count());
+        $this->assertEquals([$metadata1, $metadata1], $collection->jsonSerialize());
     }
 
     public function testAddMetadata()

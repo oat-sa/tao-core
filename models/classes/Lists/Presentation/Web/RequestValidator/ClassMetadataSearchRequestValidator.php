@@ -78,11 +78,11 @@ class ClassMetadataSearchRequestValidator extends InjectionAwareService
     {
         $queryParameters = $request->getQueryParams();
 
-        $maxListSize = $queryParameters[ClassMetadataSearchRequestHandler::QUERY_MAX_LIST_SIZE];
-
-        if (!$maxListSize) {
-            return;
+        if (!isset($queryParameters[ClassMetadataSearchRequestHandler::QUERY_MAX_LIST_SIZE])) {
+           return;
         }
+
+        $maxListSize = $queryParameters[ClassMetadataSearchRequestHandler::QUERY_MAX_LIST_SIZE];
 
         if ((int)$maxListSize <= 0) {
             throw new BadRequestException(
