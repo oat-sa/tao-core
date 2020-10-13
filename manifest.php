@@ -204,6 +204,7 @@ return [
     'routes' => [
         '/tao/api'  => ['class' => ApiRoute::class],
         '/tao'      => ['class' => LegacyRoute::class],
+        '/ontologies'      => ['class' => LegacyRoute::class],
     ],
     'constants' => [
         #TAO version number
