@@ -21,6 +21,8 @@
 
 namespace oat\tao\model\extension;
 
+use common_ext_ManifestException;
+use common_ext_UpdaterNotFoundException;
 use common_report_Report;
 use oat\oatbox\log\LoggerAggregator;
 use oat\oatbox\service\ServiceNotFoundException;
@@ -129,10 +131,11 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
     private function runPostUpdateScript(Extension $ext) : ?common_report_Report
     {
         try {
-            $report = $ext->getUpdater()->postUpdate();
-        } catch (\common_ext_ManifestException $e) {
-            $report = new common_report_Report(common_report_Report::TYPE_WARNING, $e->getMessage());
+            return $ext->getUpdater()->postUpdate();
+        } catch (common_ext_UpdaterNotFoundException $e) {
+            return common_report_Report::createSuccess(sprintf('No postprocessing defined for %s', $ext->getName()));
+        } catch (common_ext_ManifestException $e) {
+            return new common_report_Report(common_report_Report::TYPE_WARNING, $e->getMessage());
         }
-        return $report;
     }
 }
