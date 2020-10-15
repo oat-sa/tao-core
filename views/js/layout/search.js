@@ -75,13 +75,13 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context', '
                 });
         });
 
-        $(window).keydown(function (event) {
+        $(window).on('keydown.searchComponent', e => {
             if (
                 $('.action-bar .search-area').closest('.content-panel').css('display') === 'flex' &&
-                event.ctrlKey &&
-                event.keyCode == 75
+                e.ctrlKey &&
+                e.which == 75
             ) {
-                event.preventDefault();
+                e.preventDefault();
                 createSearchModalInstance();
             }
         });
