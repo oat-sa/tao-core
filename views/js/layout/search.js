@@ -75,7 +75,7 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context', '
                 });
         });
 
-        $(window).on('keydown.searchComponent', e => {
+        $(document).on('keydown.searchComponent', e => {
             if (
                 $('.action-bar .search-area').closest('.content-panel').css('display') === 'flex' &&
                 e.ctrlKey &&
