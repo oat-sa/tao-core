@@ -62,10 +62,10 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '46.1.1',
+    'version' => '46.2.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
-        'generis' => '>=13.5.1',
+        'generis' => '>=13.10.0',
     ],
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
