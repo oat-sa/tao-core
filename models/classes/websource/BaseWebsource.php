@@ -120,6 +120,7 @@ abstract class BaseWebsource extends Configurable implements Websource
     /**
      * Get a file's mime-type.
      * @param string $filePath The path to the file.
+     * @param string $acceptHeader The accept header value.
      * @return string|false The file mime-type or false on failure.
      * @throws \common_exception_Error
      * @throws \common_exception_NotFound
