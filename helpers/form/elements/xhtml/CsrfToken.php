@@ -64,7 +64,7 @@ class CsrfToken extends tao_helpers_form_elements_xhtml_Hidden
         /** @var TokenService $tokenService */
         $tokenService = ServiceManager::getServiceManager()->get(TokenService::SERVICE_ID);
 
-        if (!$tokenService->checkToken($csrfToken)) {
+        if (!$tokenService->checkFormToken($csrfToken)) {
             $this->logCsrfFailure('Invalid token received', $csrfToken);
             return false;
         }

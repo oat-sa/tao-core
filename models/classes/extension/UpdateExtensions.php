@@ -21,7 +21,9 @@
 
 namespace oat\tao\model\extension;
 
-use common_report_Report;
+use common_ext_ManifestException as ManifestException;
+use common_ext_UpdaterNotFoundException as UpdaterNotFoundException;
+use common_report_Report as Report;
 use oat\oatbox\log\LoggerAggregator;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\asset\AssetService;
@@ -60,9 +62,9 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         // regenerate locales
         $files = \tao_models_classes_LanguageService::singleton()->generateAll();
         if (count($files) > 0) {
-            $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Successfully updated %s client translation bundles', count($files))));
+            $report->add(new Report(Report::TYPE_SUCCESS, __('Successfully updated %s client translation bundles', count($files))));
         } else {
-            $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, __('No client translation bundles updated')));
+            $report->add(new Report(Report::TYPE_ERROR, __('No client translation bundles updated')));
         }
 
         $updateId = $this->generateUpdateId();
@@ -71,7 +73,7 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         $postUpdateReport = $this->runPostUpdateScripts();
         $report->add($postUpdateReport);
 
-        $report->add(new common_report_Report(common_report_Report::TYPE_INFO, __('Update ID : %s', $updateId)));
+        $report->add(new Report(Report::TYPE_INFO, __('Update ID : %s', $updateId)));
 
         return $report;
     }
@@ -87,10 +89,11 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
 
     /**
      * Update the asset service to save the cache buster value (the update id)
-     * @param common_report_Report $report
-     * @param string               $updateid
+     *
+     * @param Report $report
+     * @param string $updateid
      */
-    private function updateCacheBuster(common_report_Report $report, $updateid)
+    private function updateCacheBuster(Report $report, $updateid)
     {
         try {
             $assetService = $this->getServiceLocator()->get(AssetService::SERVICE_ID);
@@ -98,7 +101,8 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
             $this->getServiceLocator()->register(AssetService::SERVICE_ID, $assetService);
         } catch (\Exception $e) {
             \common_Logger::e($e->getMessage());
-            $report->add(new common_report_Report(common_report_Report::TYPE_WARNING, __('Unable to update the asset service')));
+            $report->add(
+                new Report(Report::TYPE_WARNING, __('Unable to update the asset service')));
         }
     }
 
@@ -107,7 +111,7 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
      */
     private function runPostUpdateScripts()
     {
-        $report = new common_report_Report(common_report_Report::TYPE_INFO, 'Post update actions:');
+        $report = new Report(Report::TYPE_INFO, 'Post update actions:');
         $extManager = $this->getServiceLocator()->get(ExtensionManager::SERVICE_ID);
         $sorted = \helpers_ExtensionHelper::sortByDependencies($extManager->getInstalledExtensions());
         foreach ($sorted as $ext) {
@@ -117,22 +121,25 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
             }
         }
         if (!$report->hasChildren()) {
-            $report->add(new common_report_Report(common_report_Report::TYPE_INFO, 'No actions to be executed'));
+            $report->add(
+                new Report(Report::TYPE_INFO, 'No actions to be executed'));
         }
         return $report;
     }
 
     /**
      * @param Extension $ext
-     * @return common_report_Report|null
+     *
+     * @return Report|null
      */
-    private function runPostUpdateScript(Extension $ext) : ?common_report_Report
+    private function runPostUpdateScript(Extension $ext): ?Report
     {
         try {
-            $report = $ext->getUpdater()->postUpdate();
-        } catch (\common_ext_ManifestException $e) {
-            $report = new common_report_Report(common_report_Report::TYPE_WARNING, $e->getMessage());
+            return $ext->getUpdater()->postUpdate();
+        } catch (UpdaterNotFoundException $e) {
+            return Report::createSuccess(sprintf('No postprocessing defined for %s', $ext->getName()));
+        } catch (ManifestException $e) {
+            return new Report(Report::TYPE_WARNING, $e->getMessage());
         }
-        return $report;
     }
 }

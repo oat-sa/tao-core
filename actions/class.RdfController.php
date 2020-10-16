@@ -543,7 +543,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
 
         $class = $this->getCurrentClass();
-        $formContainer = new tao_actions_form_CreateInstance([$class], [FormContainer::CSRF_PROTECTION_OPTION => true]);
+        $formContainer = new tao_actions_form_CreateInstance([$class],
+            [
+                 FormContainer::CSRF_PROTECTION_OPTION => true,
+                 FormContainer::ADDITIONAL_VALIDATORS => $this->getExtraValidationRules(),
+                 tao_actions_form_CreateInstance::EXCLUDED_PROPERTIES => $this->getExcludedProperties(),
+            ]
+        );
+
         $addInstanceForm = $formContainer->getForm();
 
         if ($addInstanceForm->isSubmited() && $addInstanceForm->isValid()) {
@@ -582,7 +589,15 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     {
         $class = $this->getCurrentClass();
         $instance = $this->getCurrentInstance();
-        $myFormContainer = new SignedFormInstance($class, $instance, [FormContainer::CSRF_PROTECTION_OPTION => true]);
+        $myFormContainer = new SignedFormInstance(
+            $class,
+            $instance,
+            [
+                FormContainer::CSRF_PROTECTION_OPTION => true,
+                FormContainer::ADDITIONAL_VALIDATORS => $this->getExtraValidationRules(),
+                tao_actions_form_Instance::EXCLUDED_PROPERTIES => $this->getExcludedProperties()
+            ]
+        );
 
         $myForm = $myFormContainer->getForm();
         if ($myForm->isSubmited() && $myForm->isValid()) {
@@ -734,19 +749,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $types = $instance->getTypes();
             $class = reset($types);
             $destinationUri = tao_helpers_Uri::decode($this->getRequestParameter('destinationClassUri'));
-
-            if (!empty($destinationUri) && $destinationUri != $class->getUri()) {
-                $destinationClass = $this->getClass($destinationUri);
-
-                $confirmed = $this->getRequestParameter('confirmed');
-                if (empty($confirmed) || $confirmed == 'false' || $confirmed ===  false) {
-                    $diff = $this->getClassService()->getPropertyDiff($class, $destinationClass);
-                    if (count($diff) > 0) {
-                        return $this->returnJson([
-                            'status'        => 'diff',
-                            'data'          => $diff
-                        ]);
-                    }
+            $this->validateDestinationClass($destinationUri, $class->getUri());
+            $destinationClass = $this->getClass($destinationUri);
+            $confirmed = $this->getRequestParameter('confirmed');
+            if (empty($confirmed) || $confirmed == 'false' || $confirmed ===  false) {
+                $diff = $this->getClassService()->getPropertyDiff($class, $destinationClass);
+                if (count($diff) > 0) {
+                    return $this->returnJson([
+                        'status'        => 'diff',
+                        'data'          => $diff
+                    ]);
                 }
 
                 $status = $this->getClassService()->changeClass($instance, $destinationClass);
@@ -755,7 +767,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
         $this->returnJson($response);
     }
-
 
     /**
      * Move a single resource to another class
@@ -1305,6 +1316,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $this->returnJson($response, 406);
     }
 
+    protected function getExtraValidationRules(): array
+    {
+        return [];
+    }
+
+    protected function getExcludedProperties(): array
+    {
+        return [];
+    }
+
     /**
      * @return ActionService
      */
@@ -1340,5 +1361,17 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         return $this->getSignatureGenerator()->generate(
             tao_helpers_Uri::encode($this->getRequestParameter('classUri'))
         );
+    }
+
+    /**
+     * @param $destinationUri
+     * @param $currentClassUri
+     */
+    private function validateDestinationClass($destinationUri, $currentClassUri)
+    {
+        $destinationClass = $this->getClass($destinationUri);
+        if (empty($destinationUri) || $destinationUri === $currentClassUri || !$destinationClass->exists()) {
+            throw new InvalidArgumentException('Wrong destination class uri');
+        }
     }
 }
