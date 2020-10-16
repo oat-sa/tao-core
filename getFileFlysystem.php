@@ -27,6 +27,7 @@ use oat\tao\model\websource\FlyTokenWebSource;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\mvc\Bootstrap;
 
+$acceptHeader = $_SERVER['HTTP_ACCEPT'];
 $url = $_SERVER['REQUEST_URI'];
 $rel = substr($url, strpos($url, FlyTokenWebSource::ENTRY_POINT) + strlen(FlyTokenWebSource::ENTRY_POINT));
 $parts = explode('/', $rel, 2);
@@ -65,7 +66,7 @@ try {
     $path = $source->getFilePathFromUrl($url);
     $stream = $source->getFileStream($path);
     header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', time() + $ttl));
-    tao_helpers_Http::returnStream($stream, $source->getMimetype($path));
+    tao_helpers_Http::returnStream($stream, $source->getMimetype($path, $acceptHeader));
     $stream->detach();
 } catch (\tao_models_classes_FileNotFoundException $e) {
     header("HTTP/1.0 404 Not Found");
