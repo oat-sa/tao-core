@@ -1182,5 +1182,16 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('38.9.0', '38.9.2.1');
+        
+        if ($this->isVersion('38.9.2.1')) {
+            $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+            $config = $extension->getConfig('login');
+    
+            $config['hideLogo'] = false;
+            
+            $extension->setConfig('login', $config);
+            
+            $this->setVersion('38.9.2.2');
+        }
     }
 }
