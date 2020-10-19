@@ -153,8 +153,7 @@ abstract class BaseWebsource extends Configurable implements Websource
             }
         }
 
-        if (strpos($acceptHeader, 'text/css') !== false)
-        {
+        if (strpos($acceptHeader, 'text/css') !== false) {
             return 'text/css';
         }
 
