@@ -1,26 +1,27 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *               
- * 
+ *
+ *
  */
 
 namespace oat\tao\helpers;
 
+use oat\tao\model\theme\Theme;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\asset\AssetService;
 
@@ -29,7 +30,7 @@ class Template {
     /**
      * Expects a relative url to the image as path
      * if extension name is omitted the current extension is used
-     * 
+     *
      * @param string $path
      * @param string $extensionId
      * @return string
@@ -45,7 +46,7 @@ class Template {
     /**
      * Expects a relative url to the css as path
      * if extension name is omitted the current extension is used
-     * 
+     *
      * @param string $path
      * @param string $extensionId
      * @return string
@@ -60,7 +61,7 @@ class Template {
     /**
      * Expects a relative url to the java script as path
      * if extension name is omitted the current extension is used
-     * 
+     *
      * @param string $path
      * @param string $extensionId
      * @return string
@@ -79,21 +80,21 @@ class Template {
      * @param string $path
      * @param string $extensionId
      * @param array $data bind additional data to the context
-     * @return string
      */
     public static function inc($path, $extensionId = null, $data = array()) {
         $context = \Context::getInstance();
-        if (!is_null($extensionId) && $extensionId != $context->getExtensionName()) {
+    
+        if ($extensionId !== null && $extensionId !== $context->getExtensionName()) {
             // template is within different extension, change context
             $formerContext = $context->getExtensionName();
             $context->setExtensionName($extensionId);
         }
-
-        if(count($data) > 0){
+    
+        if (!empty($data)) {
             \RenderContext::pushContext($data);
         }
-        
-        $absPath = self::getTemplate($path, $extensionId);
+    
+        $absPath = Layout::getThemeTemplate(Theme::CONTEXT_BACKOFFICE, $path) ?? self::getTemplate($path, $extensionId);
         if (file_exists($absPath)) {
             include($absPath);
         } else {

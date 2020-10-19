@@ -244,7 +244,8 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('show_gdpr', !empty($config['show_gdpr']) && $config['show_gdpr']);
 
-        $this->setData('content-template', array('blocks/login.tpl', 'tao'));
+        $this->setData('content-template', 'login');
+        $this->setData('hideLogo', $config['hideLogo'] ?? false);
 
         $this->setView('layout.tpl', 'tao');
     }
