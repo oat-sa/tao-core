@@ -27,6 +27,7 @@ use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
+use oat\tao\model\routing\uri\OntologyRoute;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
@@ -62,7 +63,7 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '46.0.1',
+    'version' => '46.1.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
         'generis' => '>=13.5.1',
@@ -161,6 +162,7 @@ return [
         [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'File', 'act' => 'accessFile']],
         [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'Log', 'act' => 'log']],
         [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'TaskQueueWebApi']],
+        [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'UriResolver']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Languages', 'act' => 'index']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'File', 'act' => 'upload']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Main', 'act' => 'index']],
@@ -202,9 +204,9 @@ return [
         [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, Users::class],
     ],
     'routes' => [
-        '/tao/api'  => ['class' => ApiRoute::class],
-        '/tao'      => ['class' => LegacyRoute::class],
-        '/ontologies'      => ['class' => LegacyRoute::class],
+        '/tao/api'    => ['class' => ApiRoute::class],
+        '/tao'        => ['class' => LegacyRoute::class],
+        '/ontologies' => ['class' => OntologyRoute::class],
     ],
     'constants' => [
         #TAO version number

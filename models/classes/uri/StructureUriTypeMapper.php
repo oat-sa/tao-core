@@ -36,6 +36,7 @@ class StructureUriTypeMapper implements UriTypeMapperInterface
         $this->map = [
             'http://www.tao.lu/Ontologies/TAOItem.rdf#Item' => ['structure' => 'items', 'ext' => 'taoItems'],
             'http://www.tao.lu/Ontologies/TAOTest.rdf#Test' => ['structure' => 'tests', 'ext' => 'taoTests'],
+            'http://www.tao.lu/Ontologies/TAOMedia.rdf#Media' => ['structure' => 'taoMediaManager', 'ext' => 'taoMediaManager'],
         ];
     }
 

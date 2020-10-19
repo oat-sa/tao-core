@@ -1,16 +1,22 @@
 <html>
 <header>
     <script>
-        if (window.location.hash) {
-            const resourceId = window.location.hash.substring(1);
-            const resolverUrl = "<?= get_data('resolverUrl') ?>";
-            const resourceUrl = "<?= get_data('resourceUrl') ?>";
-            const id = resourceUrl + '#' + resourceId;
+        const resourceId = window.location.hash ? window.location.hash.substring(1) : "";
+        const resolverUrl = "<?= get_data('resolverUrl') ?>";
+        const resourceUrl = "<?= get_data('resourceUrl') ?>";
+        const id = resourceUrl + '#' + resourceId;
 
-            window.location = resolverUrl + "?resourceUri=" + encodeURIComponent(id);
-        } else {
-            window.location = "/";
-        }
+        fetch(resolverUrl + "?resourceUri=" + encodeURIComponent(id))
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                window.location = data.data.url;
+            })
+            .catch((err) => {
+                alert("ERROR! " + err)
+            });
     </script>
 </header>
 <body></body>
