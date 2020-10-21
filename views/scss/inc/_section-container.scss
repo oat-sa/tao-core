@@ -22,6 +22,11 @@
     .flex-container-main-form {
         @include simple-flex-box(500px);
         margin: 0 20px 20px 0;
+        width: 100%;
+
+        .form-content {
+            max-width: 100%;
+        }
     }
 
     // the one for the sidebar that usually holds tree
@@ -115,6 +120,7 @@
     .content-container {
         border: none;
         @include simple-flex-box();
+        max-width: calc( 100% - #{$treeSidebar * 1px} );
     }
 
     .content-block {
