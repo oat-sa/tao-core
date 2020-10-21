@@ -161,14 +161,16 @@ class tao_install_Installator
             /*
              *  2 - Setup RDS persistence
              */
-            $this->getServiceManager()->register(
-                DriverConfigurationFeeder::SERVICE_ID,
-                new DriverConfigurationFeeder(
-                    [
-                        DriverConfigurationFeeder::OPTION_DRIVER_OPTIONS => []
-                    ]
-                )
-            );
+            if (!$this->getServiceManager()->has(DriverConfigurationFeeder::SERVICE_ID)) {
+                $this->getServiceManager()->register(
+                    DriverConfigurationFeeder::SERVICE_ID,
+                    new DriverConfigurationFeeder(
+                        [
+                            DriverConfigurationFeeder::OPTION_DRIVER_OPTIONS => []
+                        ]
+                    )
+                );
+            }
 
             if ($this->getServiceManager()->has(PersistenceManager::SERVICE_ID)) {
                 $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
