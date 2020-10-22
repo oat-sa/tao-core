@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint137\n"
-"PO-Revision-Date: 2020-09-11T08:33:36\n"
+"Project-Id-Version: TAO 3.4.0-sprint139\n"
+"PO-Revision-Date: 2020-10-09T08:29:56\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -371,11 +371,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "日曆"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "取消"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -450,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -570,10 +570,10 @@ msgstr "數據已成功匯入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "數據語言"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "數據語言"
 
 msgid "Data not imported. All records are invalid."
@@ -1032,10 +1032,10 @@ msgstr "正在安裝擴展程序 %s..."
 msgid "Instance saved"
 msgstr "實體已儲存"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面語言"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面語言"
 
 msgid "Invalid CSP header."
@@ -1358,10 +1358,10 @@ msgstr ""
 msgid "no label"
 msgstr "無標籤"
 
-msgid "No Preview available"
+msgid "No preview available"
 msgstr "沒有可用的預覽"
 
-msgid "No preview available"
+msgid "No Preview available"
 msgstr "沒有可用的預覽"
 
 msgid "No results found"
@@ -1426,6 +1426,9 @@ msgid "On"
 msgstr ""
 
 msgid "Only allow for my own domain (%s)"
+msgstr ""
+
+msgid "Only one of the field must have value %s"
 msgstr ""
 
 msgid "Operated By "
@@ -2048,6 +2051,9 @@ msgid "This Login is already in use"
 msgstr "此登錄已在使用"
 
 msgid "This media cannot be played!"
+msgstr ""
+
+msgid "This or one of %s must have a value"
 msgstr ""
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
