@@ -32,12 +32,15 @@ class tao_actions_form_Export extends tao_helpers_form_FormContainer
 
 
     // --- ATTRIBUTES ---
-    private $exportHandlers = [];
-    
+    /**
+     * @var array
+     */
+    private $exportHandlers;
+
     /**
      * @var tao_helpers_form_Form
      */
-    private $subForm = null;
+    private $subForm;
 
     // --- OPERATIONS ---
 
@@ -47,6 +50,14 @@ class tao_actions_form_Export extends tao_helpers_form_FormContainer
         $this->subForm = $subForm;
         parent::__construct($data);
     }
+
+    public function setInfoBox(string $msg): void
+    {
+        $infoElement = tao_helpers_form_FormFactory::getElement('infoBox', 'Free');
+        $infoElement->setValue($msg);
+        $this->form->addElement($infoElement);
+    }
+
     /**
      * Short description of method initForm
      *
@@ -69,8 +80,6 @@ class tao_actions_form_Export extends tao_helpers_form_FormContainer
 
         $exportElt = tao_helpers_form_FormFactory::getElement('export', 'Free');
         $exportElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-export"></span>' . __('Export') . '</a>');
-        
-
         $this->form->setActions([$exportElt], 'bottom');
     }
 
@@ -78,27 +87,27 @@ class tao_actions_form_Export extends tao_helpers_form_FormContainer
      * Short description of method initElements
      *
      * @access public
-     * @author Joel Bout, <joel.bout@tudor.lu>
      * @return mixed
+     * @throws common_Exception
+     * @author Joel Bout, <joel.bout@tudor.lu>
      */
     public function initElements()
     {
-
         if (count($this->exportHandlers) > 1) {
             //create the element to select the import format
             $formatElt = tao_helpers_form_FormFactory::getElement('exportHandler', 'Radiobox');
             $formatElt->setDescription(__('Choose export format'));
-    
+
             //mandatory field
             $formatElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
             $formatElt->setOptions($this->getFormats());
-            
+
             if (isset($_POST['exportHandler'])) {
                 if (array_key_exists($_POST['exportHandler'], $this->getFormats())) {
                     $formatElt->setValue($_POST['exportHandler']);
                 }
             }
-    
+
             $this->form->addElement($formatElt);
             $this->form->createGroup('formats', '<h3>' . __('Supported export formats') . '</h3>', ['exportHandler']);
         }
@@ -121,11 +130,10 @@ class tao_actions_form_Export extends tao_helpers_form_FormContainer
                 $this->form->addElement($classUriElt);
             }
         }
-        
+
         $idElt = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
         $this->form->addElement($idElt);
-         
-        
+
         foreach ($this->subForm->getElements() as $element) {
             $this->form->addElement($element);
         }
@@ -133,7 +141,7 @@ class tao_actions_form_Export extends tao_helpers_form_FormContainer
             $this->form->createGroup($group['title'], $group['title'], $group['elements'], $group['options']);
         }
     }
-    
+
     private function getFormats()
     {
         $returnValue = [];
