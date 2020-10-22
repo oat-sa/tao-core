@@ -65,7 +65,7 @@ return [
     'version' => '46.3.4',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
-        'generis' => '>=13.5.1',
+        'generis' => '>=13.10.0',
     ],
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
