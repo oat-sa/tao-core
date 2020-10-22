@@ -6,17 +6,7 @@
         const resourceUrl = "<?= get_data('resourceUrl') ?>";
         const id = resourceUrl + '#' + resourceId;
 
-        fetch(resolverUrl + "?resourceUri=" + encodeURIComponent(id))
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                console.log(data);
-                window.location = data.data.url;
-            })
-            .catch((err) => {
-                alert("ERROR! " + err)
-            });
+        window.location = resolverUrl + "?resourceUri=" + encodeURIComponent(id);
     </script>
 </header>
 <body></body>

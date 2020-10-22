@@ -22,13 +22,10 @@ declare(strict_types=1);
 
 use GuzzleHttp\Psr7\ServerRequest;
 use oat\generis\model\data\Ontology;
-use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\uri\UriTypeMapperRegistry;
 
 class tao_actions_UriResolver extends tao_actions_CommonModule
 {
-    use HttpJsonResponseTrait;
-
     public function uriFront(ServerRequest $request): void
     {
         $requestUri = $request->getUri();
@@ -49,15 +46,11 @@ class tao_actions_UriResolver extends tao_actions_CommonModule
         $resource = $ontology->getResource($resourceUri);
 
         if (null === $resource) {
-            $this->setErrorJsonResponse(
+            throw new RuntimeException(
                 sprintf('Resource %s not found', $resourceUri)
             );
         }
 
-        $this->setSuccessJsonResponse(
-            [
-                'url' => $mapper->map($resource)
-            ]
-        );
+        $this->redirect($mapper->map($resource));
     }
 }

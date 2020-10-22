@@ -56,6 +56,19 @@ class UriTypeMapperRegistry extends ConfigurableService
         throw new NoMatchedEndpointsFoundException('No endpoints found');
     }
 
+    public function hasMap(RdfResource $resource): bool
+    {
+        foreach ($this->iterateParents($resource) as $class) {
+            $url = $this->findLandingPage($class, $resource);
+
+            if ($url) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @param RdfResource $resource
      *
