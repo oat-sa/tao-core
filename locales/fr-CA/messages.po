@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint139\n"
-"PO-Revision-Date: 2020-10-09T08:26:26\n"
+"Project-Id-Version: TAO 3.4.0-sprint140\n"
+"PO-Revision-Date: 2020-10-23T08:30:41\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-CA\n"
@@ -371,11 +371,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendrier"
 
-msgid "Cancel"
-msgstr "Annuler"
-
 msgid "cancel"
 msgstr ""
+
+msgid "Cancel"
+msgstr "Annuler"
 
 msgid "cancel the action"
 msgstr ""
@@ -450,10 +450,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -482,6 +482,9 @@ msgstr ""
 
 msgid "Column"
 msgstr "Colonne"
+
+msgid "command"
+msgstr ""
 
 msgid "Commands:"
 msgstr ""
@@ -990,10 +993,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1032,10 +1035,10 @@ msgstr "Installation de l'extension %s..."
 msgid "Instance saved"
 msgstr "Instance enregistrée"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Langue de l'interface"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Langue de l'interface"
 
 msgid "Invalid CSP header."
@@ -1358,12 +1361,6 @@ msgstr ""
 msgid "no label"
 msgstr "sans étiquette"
 
-msgid "No preview available"
-msgstr "Aucun aperçu disponible"
-
-msgid "No Preview available"
-msgstr "Aucun aperçu disponible"
-
 msgid "No results found"
 msgstr "Aucun résultat trouvé"
 
@@ -1413,10 +1410,10 @@ msgstr "de"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr "Ok"
 
-msgid "Ok"
+msgid "OK"
 msgstr "Ok"
 
 msgid "Old Password"
@@ -1522,6 +1519,9 @@ msgid "Please wait"
 msgstr ""
 
 msgid "Please wait while ..."
+msgstr ""
+
+msgid "Positionals:"
 msgstr ""
 
 msgid "Post install processing"

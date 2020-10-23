@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint139\n"
-"PO-Revision-Date: 2020-10-09T08:27:43\n"
+"Project-Id-Version: TAO 3.4.0-sprint140\n"
+"PO-Revision-Date: 2020-10-23T08:31:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lb-LU\n"
@@ -370,10 +370,10 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -449,10 +449,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -480,6 +480,9 @@ msgid "Collecting of abandoned actions in the action queue ..."
 msgstr ""
 
 msgid "Column"
+msgstr ""
+
+msgid "command"
 msgstr ""
 
 msgid "Commands:"
@@ -988,10 +991,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1030,11 +1033,11 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface language"
-msgstr "Interface Sprooch"
-
 msgid "Interface Language"
 msgstr ""
+
+msgid "Interface language"
+msgstr "Interface Sprooch"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1356,12 +1359,6 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No preview available"
-msgstr ""
-
-msgid "No Preview available"
-msgstr ""
-
 msgid "No results found"
 msgstr ""
 
@@ -1411,10 +1408,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1520,6 +1517,9 @@ msgid "Please wait"
 msgstr ""
 
 msgid "Please wait while ..."
+msgstr ""
+
+msgid "Positionals:"
 msgstr ""
 
 msgid "Post install processing"
