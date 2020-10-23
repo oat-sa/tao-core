@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\scripts\tools\migrations;
 
 use Doctrine\Migrations\AbstractMigration as DoctrineAbstractMigration;
+use oat\oatbox\action\Action;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
@@ -65,5 +66,22 @@ abstract class AbstractMigration
     protected function addReport(Report $report): void
     {
         $this->write(ReportHelper::renderToCommandLine($report, false));
+    }
+
+    /**
+     * Run an Action during the migration
+     *
+     * This helper method will allow to simply run Action scripts during migration.
+     *
+     * @param Action $action    Callable action to run
+     * @param array  $options   Parameters that can be passed to action call
+     */
+    protected function runAction(Action $action, $options = []): void
+    {
+        $report = $this->propagate($action)($options);
+
+        if ($report instanceof Report) {
+            $this->addReport($report);
+        }
     }
 }
