@@ -40,6 +40,6 @@ class InstallOntologyUriResolver extends InstallAction
             )
         );
 
-        return Report::createSuccess('OK');
+        return Report::createSuccess('UriResolver registered');
     }
 }
