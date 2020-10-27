@@ -571,7 +571,7 @@ define([
 
                         $propValuesSelect.html($elt.closest('.property-edit-container').find('.' + rangedPropertyName + '-template').html());
 
-                        if (propValue && $(`option[value="${propValue}"]`, $propValuesSelect).length) {
+                        if (propValue && propValue !== ' ' && $(`option[value="${propValue}"]`, $propValuesSelect).length) {
                             $propValuesSelect.val(propValue);
                         }
 
