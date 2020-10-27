@@ -49,7 +49,8 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context', '
     };
 
     /**
-     * Sets events to init searchModal instance on search and results icons click, and enter keypress
+     * Sets events to init searchModal instance on search and results icons click, enter keypress
+     * and ctrl + k shortcut
      */
     function initializeEvents() {
         searchComponent.container = $('.action-bar .search-area');
@@ -72,6 +73,17 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context', '
                 .catch(e => {
                     actionManager.trigger('error', e);
                 });
+        });
+
+        $(document).on('keydown.searchComponent', e => {
+            if (
+                $('.action-bar .search-area').closest('.content-panel').css('display') === 'flex' &&
+                e.ctrlKey &&
+                e.which == 75
+            ) {
+                e.preventDefault();
+                createSearchModalInstance();
+            }
         });
     }
 
