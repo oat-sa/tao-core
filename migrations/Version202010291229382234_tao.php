@@ -29,24 +29,13 @@ use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 
-/**
- * Class Version202010291229382234_tao
- *
- * @package oat\tao\migrations
- */
 final class Version202010291229382234_tao extends AbstractMigration
 {
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return 'Grant base access to the AdvancedSearch controller.';
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function up(Schema $schema): void
     {
         AclProxy::applyRule($this->createRule());
@@ -56,9 +45,6 @@ final class Version202010291229382234_tao extends AbstractMigration
         ));
     }
 
-    /**
-     * @param Schema $schema
-     */
     public function down(Schema $schema): void
     {
         AclProxy::revokeRule($this->createRule());
@@ -68,9 +54,6 @@ final class Version202010291229382234_tao extends AbstractMigration
         ));
     }
 
-    /**
-     * @return AccessRule
-     */
     private function createRule(): AccessRule
     {
         return new AccessRule(

@@ -27,11 +27,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 
-/**
- * Class AdvancedSearchCheckerTest
- *
- * @package oat\tao\test\unit\AdvancedSearch
- */
 class AdvancedSearchCheckerTest extends TestCase
 {
     /** @var FeatureFlagChecker|MockObject*/
@@ -40,10 +35,7 @@ class AdvancedSearchCheckerTest extends TestCase
     /** @var AdvancedSearchChecker */
     private $advancedSearchChecker;
 
-    /**
-     * @before
-     */
-    public function init(): void
+    public function setUp(): void
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
 
@@ -57,9 +49,6 @@ class AdvancedSearchCheckerTest extends TestCase
 
     /**
      * @dataProvider isEnabledDataProvider
-     *
-     * @param bool $isEnabled
-     * @param bool $expected
      */
     public function testIsEnabled(bool $isEnabled, bool $expected): void
     {
@@ -71,9 +60,6 @@ class AdvancedSearchCheckerTest extends TestCase
         $this->assertEquals($expected, $this->advancedSearchChecker->isEnabled());
     }
 
-    /**
-     * @return array
-     */
     public function isEnabledDataProvider(): array
     {
         return [

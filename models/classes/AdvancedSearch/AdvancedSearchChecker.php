@@ -26,23 +26,17 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
-/**
- * Class AdvancedSearchChecker
- *
- * @package oat\tao\model\AdvancedSearch
- */
 class AdvancedSearchChecker extends ConfigurableService
 {
     public const FEATURE_FLAG_ADVANCED_SEARCH = 'FEATURE_FLAG_ADVANCED_SEARCH';
 
-    /**
-     * @return bool
-     */
     public function isEnabled(): bool
     {
-        /** @var FeatureFlagCheckerInterface $featureFlagChecker */
-        $featureFlagChecker = $this->getServiceLocator()->get(FeatureFlagChecker::class);
+        return $this->getFeatureFlagChecker()->isEnabled(self::FEATURE_FLAG_ADVANCED_SEARCH);
+    }
 
-        return $featureFlagChecker->isEnabled(self::FEATURE_FLAG_ADVANCED_SEARCH);
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 }

@@ -24,16 +24,10 @@ use oat\tao\model\http\HttpJsonResponseTrait;
 use tao_actions_CommonModule as CommonModule;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 
-/**
- * Class tao_actions_AdvancedSearch
- */
 class tao_actions_AdvancedSearch extends CommonModule
 {
     use HttpJsonResponseTrait;
 
-    /**
-     * @param AdvancedSearchChecker $advancedSearchChecker
-     */
     public function status(AdvancedSearchChecker $advancedSearchChecker): void
     {
         $this->setSuccessJsonResponse(['enabled' => $advancedSearchChecker->isEnabled()]);
