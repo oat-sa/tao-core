@@ -23,6 +23,8 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\AdvancedSearch;
 
 use oat\generis\test\TestCase;
+use oat\tao\model\search\Search;
+use oat\tao\elasticsearch\ElasticSearch;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
@@ -32,17 +34,24 @@ class AdvancedSearchCheckerTest extends TestCase
     /** @var FeatureFlagChecker|MockObject*/
     private $featureFlagChecker;
 
+    /** @var Search|MockObject */
+    private $search;
+
     /** @var AdvancedSearchChecker */
     private $advancedSearchChecker;
 
     public function setUp(): void
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
+        $this->search = $this->createMock(ElasticSearch::class);
 
-        $this->advancedSearchChecker = new AdvancedSearchChecker();
+        $this->advancedSearchChecker = new AdvancedSearchChecker([
+            AdvancedSearchChecker::OPTION_ALLOWED_SEARCH_CLASSES => [get_class($this->search)],
+        ]);
         $this->advancedSearchChecker->setServiceLocator(
             $this->getServiceLocatorMock([
                 FeatureFlagChecker::class => $this->featureFlagChecker,
+                Search::SERVICE_ID => $this->search,
             ])
         );
     }

@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\AdvancedSearch;
 
+use oat\tao\model\search\Search;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
@@ -30,13 +31,35 @@ class AdvancedSearchChecker extends ConfigurableService
 {
     public const FEATURE_FLAG_ADVANCED_SEARCH = 'FEATURE_FLAG_ADVANCED_SEARCH';
 
+    public const OPTION_ALLOWED_SEARCH_CLASSES = 'allowedSearchClasses';
+
     public function isEnabled(): bool
     {
+        return $this->isFeatureFlagEnabled() && $this->isElasticSearchEnabled();
+    }
+
+    private function isFeatureFlagEnabled(): bool
+    {
         return $this->getFeatureFlagChecker()->isEnabled(self::FEATURE_FLAG_ADVANCED_SEARCH);
+    }
+
+    private function isElasticSearchEnabled(): bool
+    {
+        $allowedSearchClasses = (array) $this->getOption(
+            self::OPTION_ALLOWED_SEARCH_CLASSES,
+            ['oat\tao\elasticsearch\ElasticSearch']
+        );
+
+        return in_array(get_class($this->getSearchService()), $allowedSearchClasses, true);
     }
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getServiceLocator()->get(FeatureFlagChecker::class);
+    }
+
+    private function getSearchService(): Search
+    {
+        return $this->getServiceLocator()->get(Search::SERVICE_ID);
     }
 }
