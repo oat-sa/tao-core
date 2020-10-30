@@ -67,12 +67,12 @@ class ResourceRelationCollection implements IteratorAggregate, JsonSerializable
 
     private function getSourceIds(): array
     {
-        $mediaIds = [];
+        $sourceIds = [];
 
         foreach ($this->relations as $relation) {
-            $mediaIds[] = $relation->getSourceId();
+            $sourceIds[] = $relation->getSourceId();
         }
 
-        return $mediaIds;
+        return $sourceIds;
     }
 }

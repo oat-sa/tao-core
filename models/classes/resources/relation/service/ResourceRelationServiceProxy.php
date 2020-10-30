@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\relation\service;
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\resources\relation\FindAllQuery;
 use oat\tao\model\resources\relation\ResourceRelation;
@@ -29,8 +30,12 @@ use oat\tao\model\resources\relation\ResourceRelationCollection;
 
 class ResourceRelationServiceProxy extends ConfigurableService implements ResourceRelationServiceInterface
 {
+    use OntologyAwareTrait;
+
     public function relations(FindAllQuery $query): ResourceRelationCollection
     {
+
+
         //@TODO Build response based on proper class mapping
         return new ResourceRelationCollection(
             ...[
