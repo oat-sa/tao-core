@@ -30,10 +30,14 @@ class FindAllQuery
     /** @var string */
     private $classId;
 
-    public function __construct(string $sourceId = null, string $classId = null)
+    /** @var string */
+    private $type;
+
+    public function __construct(string $sourceId = null, string $classId = null, string $type = null)
     {
         $this->sourceId = $sourceId;
         $this->classId = $classId;
+        $this->type = $type;
     }
 
     public function getSourceId(): ?string
@@ -44,5 +48,10 @@ class FindAllQuery
     public function getClassId(): ?string
     {
         return $this->classId;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
     }
 }

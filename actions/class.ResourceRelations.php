@@ -45,7 +45,8 @@ class tao_actions_ResourceRelations extends Controller implements ServiceLocator
                     'relations' => $this->getResourceRelationService()->relations(
                         new FindAllQuery(
                             $queryParams['sourceId'] ?? null,
-                            $queryParams['classId'] ?? null
+                            $queryParams['classId'] ?? null,
+                            $queryParams['type'] ?? null
                         )
                     )->jsonSerialize()
                 ]
@@ -57,6 +58,6 @@ class tao_actions_ResourceRelations extends Controller implements ServiceLocator
 
     private function getResourceRelationService(): ResourceRelationServiceInterface
     {
-        return $this->getServiceLocator()->get(ResourceRelationServiceProxy::class);
+        return $this->getServiceLocator()->get(ResourceRelationServiceProxy::SERVICE_ID);
     }
 }

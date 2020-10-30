@@ -31,6 +31,12 @@ paths:
           schema:
             type: string
           description: The classId will deterimine to make recursive search in order to find media that is .
+        - in: query
+          name: type
+          required: false
+          schema:
+            type: string
+          description: The type of resource to find relations with
       responses:
         200:
           $ref: '#/components/responses/ResourceRelationsResponse'

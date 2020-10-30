@@ -25,26 +25,48 @@ namespace oat\tao\model\resources\relation\service;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\resources\relation\FindAllQuery;
-use oat\tao\model\resources\relation\ResourceRelation;
 use oat\tao\model\resources\relation\ResourceRelationCollection;
 
 class ResourceRelationServiceProxy extends ConfigurableService implements ResourceRelationServiceInterface
 {
+    public const SERVICE_ID = 'tao/ResourceRelationServiceProxy';
+    public const OPTION_SERVICES = 'services';
+
     use OntologyAwareTrait;
+
+    public function addService(string $type, string $serviceId): void
+    {
+        $services = (array)$this->getOption(self::OPTION_SERVICES, []);
+
+        if (!isset($services[$type])) {
+            $services[$type] = [];
+        }
+
+        if (!in_array($serviceId, $services[$type])) {
+            $services[$type][] = $serviceId;
+        }
+
+        $this->setOption(self::OPTION_SERVICES, $services);
+    }
 
     public function relations(FindAllQuery $query): ResourceRelationCollection
     {
+        $relations = [];
 
+        foreach ($this->getOption(self::OPTION_SERVICES, []) as $type => $services) {
+            foreach ($services as $serviceId) {
+                if ($query->getType() === $type) {
+                    /** @var ResourceRelationServiceInterface $service */
+                    $service = $this->getServiceLocator()->get($serviceId);
 
-        //@TODO Build response based on proper class mapping
-        return new ResourceRelationCollection(
-            ...[
-                new ResourceRelation(
-                    'item',
-                    'itemId',
-                    'label'
-                )
-            ]
-        );
+                    $relations = array_merge(
+                        $relations,
+                        $service->relations($query)->getIterator()->getArrayCopy()
+                    );
+                }
+            }
+        }
+
+        return new ResourceRelationCollection(...$relations);
     }
 }
