@@ -33,7 +33,7 @@ final class Version202010291229382234_tao extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Grant base access to the AdvancedSearch controller.';
+        return 'Grant Back Office access to the AdvancedSearch controller.';
     }
 
     public function up(Schema $schema): void
@@ -41,7 +41,7 @@ final class Version202010291229382234_tao extends AbstractMigration
         AclProxy::applyRule($this->createRule());
 
         $this->addReport(Report::createInfo(
-            'Back office access was successfully granted to the AdvancedSearch controller.'
+            'Back Office access was successfully granted to the AdvancedSearch controller.'
         ));
     }
 
@@ -50,7 +50,7 @@ final class Version202010291229382234_tao extends AbstractMigration
         AclProxy::revokeRule($this->createRule());
 
         $this->addReport(Report::createInfo(
-            'Back office access was successfully revoked from the AdvancedSearch controller.'
+            'Back Office access was successfully revoked from the AdvancedSearch controller.'
         ));
     }
 
