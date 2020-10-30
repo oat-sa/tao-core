@@ -115,7 +115,7 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
                 ->setLimit($limit)
                 ->setOffset($offset);
 
-            $criteria = $search->searchType($queryBuilder, $class->getUri(), false);
+            $criteria = $search->searchType($queryBuilder, $class->getUri(), true);
 
             $queryBuilder = $queryBuilder->setCriteria($criteria);
             $resources = $search->getGateway()->search($queryBuilder);
