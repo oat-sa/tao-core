@@ -41,7 +41,7 @@ final class Version202010291229382234_tao extends AbstractMigration
         AclProxy::applyRule($this->createRule());
 
         $this->addReport(Report::createInfo(
-            'Base access was successfully granted to the AdvancedSearch controller.'
+            'Back office access was successfully granted to the AdvancedSearch controller.'
         ));
     }
 
@@ -50,7 +50,7 @@ final class Version202010291229382234_tao extends AbstractMigration
         AclProxy::revokeRule($this->createRule());
 
         $this->addReport(Report::createInfo(
-            'Base access was successfully revoked from the AdvancedSearch controller.'
+            'Back office access was successfully revoked from the AdvancedSearch controller.'
         ));
     }
 
@@ -58,7 +58,7 @@ final class Version202010291229382234_tao extends AbstractMigration
     {
         return new AccessRule(
             AccessRule::GRANT,
-            TaoRoles::BASE_USER,
+            TaoRoles::BACK_OFFICE,
             ['ext' => 'tao', 'mod' => 'AdvancedSearch']
         );
     }
