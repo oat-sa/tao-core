@@ -292,7 +292,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
     private function getParentClasses(array $types, string $path = ''): string
     {
         foreach ($types as $type) {
-            $path = $type->getLabel() . $path;
+            $path = $type->getUri() . $path;
             if (!$this->isRootClass($type->getUri())) {
                 $path = '/' . $path;
                 $path = $this->getParentClasses($type->getParentClasses(), $path);
