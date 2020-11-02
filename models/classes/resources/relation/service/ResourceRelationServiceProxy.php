@@ -39,7 +39,7 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
             $services[$type] = [];
         }
 
-        if (!in_array($serviceId, $services[$type])) {
+        if (!in_array($serviceId, $services[$type], true)) {
             $services[$type][] = $serviceId;
         }
 
@@ -51,16 +51,18 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
         $relations = [];
 
         foreach ($this->getOption(self::OPTION_SERVICES, []) as $type => $services) {
+            if ($query->getType() !== $type) {
+                continue;
+            }
+
             foreach ($services as $serviceId) {
-                if ($query->getType() === $type) {
-                    $relations = array_merge(
-                        $relations,
-                        $this->getResourceRelationService($serviceId)
-                            ->relations($query)
-                            ->getIterator()
-                            ->getArrayCopy()
-                    );
-                }
+                $relations = array_merge(
+                    $relations,
+                    $this->getResourceRelationService($serviceId)
+                        ->relations($query)
+                        ->getIterator()
+                        ->getArrayCopy()
+                );
             }
         }
 
