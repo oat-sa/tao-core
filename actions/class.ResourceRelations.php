@@ -23,6 +23,7 @@ declare(strict_types=1);
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\http\Controller;
 use oat\tao\model\http\HttpJsonResponseTrait;
+use oat\tao\model\resources\relation\exception\NestedClassLimitExceededException;
 use oat\tao\model\resources\relation\FindAllQuery;
 use oat\tao\model\resources\relation\service\ResourceRelationServiceInterface;
 use oat\tao\model\resources\relation\service\ResourceRelationServiceProxy;
@@ -53,6 +54,8 @@ class tao_actions_ResourceRelations extends Controller implements ServiceLocator
             );
         } catch (Throwable $exception) {
             $this->setErrorJsonResponse($exception->getMessage());
+        } catch (NestedClassLimitExceededException $exception) {
+            $this->setErrorJsonResponse($exception->getMessage(), $exception->getCode());
         }
     }
 
