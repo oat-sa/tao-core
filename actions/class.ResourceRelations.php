@@ -52,10 +52,10 @@ class tao_actions_ResourceRelations extends Controller implements ServiceLocator
                     )->jsonSerialize()
                 ]
             );
-        } catch (Throwable $exception) {
-            $this->setErrorJsonResponse($exception->getMessage());
         } catch (NestedClassLimitExceededException $exception) {
             $this->setErrorJsonResponse($exception->getMessage(), $exception->getCode());
+        } catch (Throwable $exception) {
+            $this->setErrorJsonResponse($exception->getMessage());
         }
     }
 
