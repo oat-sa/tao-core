@@ -53,17 +53,22 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
         foreach ($this->getOption(self::OPTION_SERVICES, []) as $type => $services) {
             foreach ($services as $serviceId) {
                 if ($query->getType() === $type) {
-                    /** @var ResourceRelationServiceInterface $service */
-                    $service = $this->getServiceLocator()->get($serviceId);
-
                     $relations = array_merge(
                         $relations,
-                        $service->relations($query)->getIterator()->getArrayCopy()
+                        $this->getResourceRelationService($serviceId)
+                            ->relations($query)
+                            ->getIterator()
+                            ->getArrayCopy()
                     );
                 }
             }
         }
 
         return new ResourceRelationCollection(...$relations);
+    }
+
+    private function getResourceRelationService(string $serviceId): ResourceRelationServiceInterface
+    {
+        return $this->getServiceLocator()->get($serviceId);
     }
 }
