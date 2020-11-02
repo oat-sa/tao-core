@@ -62,6 +62,18 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         SearchTextBox::WIDGET_ID,
     ];
 
+    private const ROOT_CLASSES = [
+        TaoOntology::CLASS_URI_ITEM,
+        TaoOntology::CLASS_URI_TEST,
+        TaoOntology::CLASS_URI_ASSEMBLED_DELIVERY,
+        TaoOntology::CLASS_URI_DELIVERY,
+        TaoOntology::CLASS_URI_GROUP,
+        TaoOntology::CLASS_URI_ITEM,
+        TaoOntology::CLASS_URI_RESULT,
+        TaoOntology::CLASS_URI_SUBJECT,
+        TaoOntology::CLASS_URI_TEST,
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -164,6 +176,8 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
             $body[$index->getIdentifier()] = $strings;
             $indexProperties[$index->getIdentifier()] = $this->getIndexProperties($index);
         }
+
+        $body['parents'] = $this->getParentClasses($resource->getTypes());
 
         $result = [
             'body' => $body,
@@ -273,5 +287,23 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         $accessRightsURIs = ['read_access' => array_keys($accessRights)];
 
         return new ArrayIterator($accessRightsURIs);
+    }
+
+    private function getParentClasses(array $types, string $path = ''): string
+    {
+        foreach ($types as $type) {
+            $path = $type->getUri() . $path;
+            if (!$this->isRootClass($type->getUri())) {
+                $path = '/' . $path;
+                $path = $this->getParentClasses($type->getParentClasses(), $path);
+            }
+        }
+
+        return $path;
+    }
+
+    private function isRootClass(string $uri): bool
+    {
+        return in_array($uri, self::ROOT_CLASSES);
     }
 }
