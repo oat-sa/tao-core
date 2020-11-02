@@ -37,6 +37,7 @@ use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterEvents;
 use oat\tao\scripts\install\RegisterResourceEvents;
+use oat\tao\scripts\install\RegisterResourceRelationService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterSessionCookieService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
@@ -139,6 +140,7 @@ return [
             RegisterValueCollectionServices::class,
             CreateRdsListStore::class,
             RegisterSessionCookieService::class,
+            RegisterResourceRelationService::class,
         ]
     ],
     'update' => Updater::class,

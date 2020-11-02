@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\relation\service;
 
-use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\resources\relation\FindAllQuery;
 use oat\tao\model\resources\relation\ResourceRelationCollection;
@@ -31,8 +30,6 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
 {
     public const SERVICE_ID = 'tao/ResourceRelationServiceProxy';
     public const OPTION_SERVICES = 'services';
-
-    use OntologyAwareTrait;
 
     public function addService(string $type, string $serviceId): void
     {

@@ -7,6 +7,7 @@ namespace oat\tao\migrations;
 use Doctrine\DBAL\Schema\Schema;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\resources\relation\service\ItemResourceRelationService;
 use oat\tao\model\resources\relation\service\ResourceRelationServiceProxy;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
@@ -22,10 +23,18 @@ final class Version202010301132112234_tao extends AbstractMigration
     {
         AclProxy::applyRule($this->createRule());
 
-        $this->getServiceManager()->register(
-            ResourceRelationServiceProxy::SERVICE_ID,
-            new ResourceRelationServiceProxy([])
+        $classRelationService = new ItemResourceRelationService(
+            [
+                ItemResourceRelationService::OPTION_NESTED_CLASS_LIMIT => 0
+            ]
         );
+
+        $resourceRelationServiceProxy = new ResourceRelationServiceProxy();
+        $resourceRelationServiceProxy->addService('item', ItemResourceRelationService::SERVICE_ID);
+
+        $serviceManager = $this->getServiceManager();
+        $serviceManager->register(ItemResourceRelationService::SERVICE_ID, $classRelationService);
+        $serviceManager->register(ResourceRelationServiceProxy::SERVICE_ID, $resourceRelationServiceProxy);
     }
 
     public function down(Schema $schema): void
