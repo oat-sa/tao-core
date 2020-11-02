@@ -23,17 +23,11 @@ final class Version202010301132112234_tao extends AbstractMigration
     {
         AclProxy::applyRule($this->createRule());
 
-        $classRelationService = new ItemResourceRelationService(
-            [
-                ItemResourceRelationService::OPTION_NESTED_CLASS_LIMIT => 0
-            ]
-        );
-
         $resourceRelationServiceProxy = new ResourceRelationServiceProxy();
         $resourceRelationServiceProxy->addService('item', ItemResourceRelationService::SERVICE_ID);
 
         $serviceManager = $this->getServiceManager();
-        $serviceManager->register(ItemResourceRelationService::SERVICE_ID, $classRelationService);
+        $serviceManager->register(ItemResourceRelationService::SERVICE_ID, new ItemResourceRelationService());
         $serviceManager->register(ResourceRelationServiceProxy::SERVICE_ID, $resourceRelationServiceProxy);
     }
 
