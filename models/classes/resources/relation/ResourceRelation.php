@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\relation;
 
-use InvalidArgumentException;
 use JsonSerializable;
 
 class ResourceRelation implements JsonSerializable
@@ -39,9 +38,6 @@ class ResourceRelation implements JsonSerializable
     /** @var string */
     private $type;
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function __construct(string $type, string $id, string $label = null)
     {
         $this->type = $type;
