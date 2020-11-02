@@ -37,12 +37,12 @@ class ItemResourceRelationService extends ConfigurableService implements Resourc
 
     public function relations(FindAllQuery $query): ResourceRelationCollection
     {
-        if ($query->getClassId()) {
+        $nestedClassLimit = $this->getOption(self::OPTION_NESTED_CLASS_LIMIT);
+
+        if ($query->getClassId() && $nestedClassLimit !== null) {
             $class = $this->getClass($query->getClassId());
 
-            $nestedClassLimit = (int)$this->getOption(self::OPTION_NESTED_CLASS_LIMIT, 0);
-
-            if (count($class->getSubClasses(true)) > $nestedClassLimit) {
+            if (count($class->getSubClasses(true)) > (int)$nestedClassLimit) {
                 throw new NestedClassLimitExceededException($nestedClassLimit);
             }
         }

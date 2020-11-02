@@ -20,8 +20,4 @@
 
 use oat\tao\model\resources\relation\service\ItemResourceRelationService;
 
-return new ItemResourceRelationService(
-    [
-        ItemResourceRelationService::OPTION_NESTED_CLASS_LIMIT => 0
-    ]
-);
+return new ItemResourceRelationService();

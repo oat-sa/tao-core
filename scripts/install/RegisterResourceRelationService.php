@@ -46,17 +46,11 @@ class RegisterResourceRelationService extends InstallAction
             )
         );
 
-        $classRelationService = new ItemResourceRelationService(
-            [
-                ItemResourceRelationService::OPTION_NESTED_CLASS_LIMIT => 0
-            ]
-        );
-
         $resourceRelationServiceProxy = new ResourceRelationServiceProxy();
         $resourceRelationServiceProxy->addService('item', ItemResourceRelationService::SERVICE_ID);
 
         $serviceManager = $this->getServiceManager();
-        $serviceManager->register(ItemResourceRelationService::SERVICE_ID, $classRelationService);
+        $serviceManager->register(ItemResourceRelationService::SERVICE_ID, new ItemResourceRelationService());
         $serviceManager->register(ResourceRelationServiceProxy::SERVICE_ID, $resourceRelationServiceProxy);
 
         return Report::createSuccess(SessionCookieService::class . ' registered');
