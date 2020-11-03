@@ -35,7 +35,7 @@ class ItemResourceRelationService extends ConfigurableService implements Resourc
 
     use OntologyAwareTrait;
 
-    public function relations(FindAllQuery $query): ResourceRelationCollection
+    public function findRelations(FindAllQuery $query): ResourceRelationCollection
     {
         $nestedClassLimit = $this->getOption(self::OPTION_NESTED_CLASS_LIMIT);
 

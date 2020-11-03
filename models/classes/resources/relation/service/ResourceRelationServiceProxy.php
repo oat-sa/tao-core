@@ -55,7 +55,7 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
         $this->setOption(self::OPTION_SERVICES, $services);
     }
 
-    public function relations(FindAllQuery $query): ResourceRelationCollection
+    public function findRelations(FindAllQuery $query): ResourceRelationCollection
     {
         $relations = [];
 
@@ -68,7 +68,7 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
                 $relations = array_merge(
                     $relations,
                     $this->getResourceRelationService($serviceId)
-                        ->relations($query)
+                        ->findRelations($query)
                         ->getIterator()
                         ->getArrayCopy()
                 );

@@ -67,7 +67,7 @@ class ResourceRelationServiceProxyTest extends TestCase
             ->with($query)
             ->willReturn($collection);
 
-        $iterator = $this->subject->relations($query)->getIterator();
+        $iterator = $this->subject->findRelations($query)->getIterator();
 
         $this->assertCount(1, $iterator->getArrayCopy());
         $this->assertSame($relation, $iterator->offsetGet(0));
@@ -79,7 +79,7 @@ class ResourceRelationServiceProxyTest extends TestCase
 
         $this->subject->addService('media', 'anotherServiceId');
 
-        $this->assertCount(0, $this->subject->relations($query)->getIterator()->getArrayCopy());
+        $this->assertCount(0, $this->subject->findRelations($query)->getIterator()->getArrayCopy());
     }
 
     public function testAddAndRemoveService(): void

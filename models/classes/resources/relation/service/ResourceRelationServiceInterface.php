@@ -27,5 +27,5 @@ use oat\tao\model\resources\relation\ResourceRelationCollection;
 
 interface ResourceRelationServiceInterface
 {
-    public function relations(FindAllQuery $query): ResourceRelationCollection;
+    public function findRelations(FindAllQuery $query): ResourceRelationCollection;
 }

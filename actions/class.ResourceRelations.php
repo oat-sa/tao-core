@@ -43,7 +43,7 @@ class tao_actions_ResourceRelations extends Controller implements ServiceLocator
         try {
             $this->setSuccessJsonResponse(
                 [
-                    'relations' => $this->getResourceRelationService()->relations(
+                    'relations' => $this->getResourceRelationService()->findRelations(
                         new FindAllQuery(
                             $queryParams['sourceId'] ?? null,
                             $queryParams['classId'] ?? null,

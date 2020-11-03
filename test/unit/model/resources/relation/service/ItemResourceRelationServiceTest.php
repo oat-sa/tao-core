@@ -57,7 +57,7 @@ class ItemResourceRelationServiceTest extends TestCase
     {
         $this->assertCount(
             0,
-            $this->subject->relations(new FindAllQuery('itemId'))->getIterator()->getArrayCopy()
+            $this->subject->findRelations(new FindAllQuery('itemId'))->getIterator()->getArrayCopy()
         );
     }
 
@@ -74,6 +74,6 @@ class ItemResourceRelationServiceTest extends TestCase
             ->method('getClass')
             ->willReturn($class);
 
-        $this->subject->relations(new FindAllQuery(null, 'classId'));
+        $this->subject->findRelations(new FindAllQuery(null, 'classId'));
     }
 }
