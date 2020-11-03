@@ -63,7 +63,7 @@ class ResourceRelationServiceProxyTest extends TestCase
         $this->subject->addService('media', 'anotherServiceId');
 
         $this->resourceRelationService
-            ->method('relations')
+            ->method('findRelations')
             ->with($query)
             ->willReturn($collection);
 
