@@ -29,18 +29,18 @@ use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
 class AdvancedSearchChecker extends ConfigurableService
 {
-    public const FEATURE_FLAG_ADVANCED_SEARCH = 'FEATURE_FLAG_ADVANCED_SEARCH';
+    public const FEATURE_FLAG_ADVANCED_SEARCH_DISABLED = 'FEATURE_FLAG_ADVANCED_SEARCH_DISABLED';
 
     public const OPTION_ALLOWED_SEARCH_CLASSES = 'allowedSearchClasses';
 
     public function isEnabled(): bool
     {
-        return $this->isFeatureFlagEnabled() && $this->isElasticSearchEnabled();
+        return $this->isAdvancedSearchEnabled() && $this->isElasticSearchEnabled();
     }
 
-    private function isFeatureFlagEnabled(): bool
+    private function isAdvancedSearchEnabled(): bool
     {
-        return $this->getFeatureFlagChecker()->isEnabled(self::FEATURE_FLAG_ADVANCED_SEARCH);
+        return !$this->getFeatureFlagChecker()->isEnabled(self::FEATURE_FLAG_ADVANCED_SEARCH_DISABLED);
     }
 
     private function isElasticSearchEnabled(): bool

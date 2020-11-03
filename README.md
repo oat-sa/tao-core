@@ -58,5 +58,6 @@ return new oat\tao\model\menu\SectionVisibilityFilter(array(
 This configuration will display `sectionName` when `FETURE_FLAG_01` is enabled.
 
 ## Advanced Search feature flag
-You can define `FEATURE_FLAG_ADVANCED_SEARCH` feature flag in global environment variables to enable/disable Advanced 
-Search feature.
+Advanced search feature will be enabled by default (but it requires elastic search library).
+You can define `FEATURE_FLAG_ADVANCED_SEARCH_DISABLED=true` or `FEATURE_FLAG_ADVANCED_SEARCH_DISABLED=1` feature flag 
+in global environment variables to disable Advanced Search feature.

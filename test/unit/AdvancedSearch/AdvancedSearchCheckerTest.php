@@ -55,12 +55,12 @@ class AdvancedSearchCheckerTest extends TestCase
     /**
      * @dataProvider isEnabledDataProvider
      */
-    public function testIsEnabled(bool $isEnabled, bool $expected): void
+    public function testIsEnabled(bool $advancedSearchDisabled, bool $expected): void
     {
         $this->featureFlagChecker
             ->expects(static::once())
             ->method('isEnabled')
-            ->willReturn($isEnabled);
+            ->willReturn($advancedSearchDisabled);
 
         $this->assertEquals($expected, $this->advancedSearchChecker->isEnabled());
     }
@@ -69,12 +69,12 @@ class AdvancedSearchCheckerTest extends TestCase
     {
         return [
             [
-                'isEnabled' => true,
-                'expected' => true,
+                'advancedSearchDisabled' => true,
+                'expected' => false,
             ],
             [
-                'isEnabled' => false,
-                'expected' => false,
+                'advancedSearchDisabled' => false,
+                'expected' => true,
             ],
         ];
     }
