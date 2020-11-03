@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\tasks;
 
+use Exception;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
@@ -64,7 +65,11 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         /** @var Search $searchService */
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
 
-        $numberOfIndexed = $searchService->index([$indexDocument]);
+        try {
+            $numberOfIndexed = $searchService->index([$indexDocument]);
+        } catch (Exception $exception) {
+            return new Report(Report::TYPE_ERROR, $exception->getMessage());
+        }
 
         if ($numberOfIndexed === 0) {
             $type = Report::TYPE_ERROR;
