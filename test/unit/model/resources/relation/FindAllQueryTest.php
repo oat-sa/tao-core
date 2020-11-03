@@ -27,7 +27,7 @@ class FindAllQueryTest extends TestCase
 {
     public function testGetters(): void
     {
-        $resourceRelation = (new FindAllQuery('sourceId', 'classId', 'item'));
+        $resourceRelation = new FindAllQuery('sourceId', 'classId', 'item');
 
         $this->assertSame('item', $resourceRelation->getType());
         $this->assertSame('sourceId', $resourceRelation->getSourceId());
