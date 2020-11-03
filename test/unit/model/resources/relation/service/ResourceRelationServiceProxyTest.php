@@ -81,4 +81,43 @@ class ResourceRelationServiceProxyTest extends TestCase
 
         $this->assertCount(0, $this->subject->relations($query)->getIterator()->getArrayCopy());
     }
+
+    public function testAddAndRemoveService(): void
+    {
+        $this->subject->addService('media', 'service1');
+        $this->subject->addService('media', 'service2');
+        $this->subject->addService('item', 'service3');
+        $this->subject->addService('item', 'service4');
+
+        $this->assertSame(
+            [
+                'service1',
+                'service2',
+            ],
+            $this->subject->getOption(ResourceRelationServiceProxy::OPTION_SERVICES)['media']
+        );
+        $this->assertSame(
+            [
+                'service3',
+                'service4',
+            ],
+            $this->subject->getOption(ResourceRelationServiceProxy::OPTION_SERVICES)['item']
+        );
+
+        $this->subject->removeService('media', 'service2');
+        $this->subject->removeService('item', 'service4');
+
+        $this->assertSame(
+            [
+                'service1',
+            ],
+            $this->subject->getOption(ResourceRelationServiceProxy::OPTION_SERVICES)['media']
+        );
+        $this->assertSame(
+            [
+                'service3',
+            ],
+            $this->subject->getOption(ResourceRelationServiceProxy::OPTION_SERVICES)['item']
+        );
+    }
 }

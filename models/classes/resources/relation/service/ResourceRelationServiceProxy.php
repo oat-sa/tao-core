@@ -33,14 +33,23 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
 
     public function addService(string $type, string $serviceId): void
     {
-        $services = (array)$this->getOption(self::OPTION_SERVICES, []);
-
-        if (!isset($services[$type])) {
-            $services[$type] = [];
-        }
+        $services = $this->getServices($type);
 
         if (!in_array($serviceId, $services[$type], true)) {
             $services[$type][] = $serviceId;
+        }
+
+        $this->setOption(self::OPTION_SERVICES, $services);
+    }
+
+    public function removeService(string $type, string $serviceId): void
+    {
+        $services = $this->getServices($type);
+
+        $key = array_search($serviceId, $services[$type]);
+
+        if ($key !== false) {
+            unset($services[$type][$key]);
         }
 
         $this->setOption(self::OPTION_SERVICES, $services);
@@ -72,5 +81,16 @@ class ResourceRelationServiceProxy extends ConfigurableService implements Resour
     private function getResourceRelationService(string $serviceId): ResourceRelationServiceInterface
     {
         return $this->getServiceLocator()->get($serviceId);
+    }
+
+    private function getServices(string $type): array
+    {
+        $services = (array)$this->getOption(self::OPTION_SERVICES, []);
+
+        if (!isset($services[$type])) {
+            $services[$type] = [];
+        }
+
+        return $services;
     }
 }
