@@ -286,6 +286,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
             $this->createSubjectCondition($searchRequest),
             $this->createExcludedCondition($searchRequest),
             $this->createCondition(),
+            $this->createOrderBy(),
             $this->createLimit($searchRequest),
         ];
 
@@ -355,7 +356,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
             return null;
         }
 
-        $this->queryParameters['subject'] = $searchRequest->getSubject() . '%';
+        $this->queryParameters['subject'] = '%'. $searchRequest->getSubject() . '%';
 
         $this->conditions[] = 'AND (LOWER(element.object) LIKE :subject)';
 
@@ -374,6 +375,11 @@ class RdfValueCollectionRepositoryTest extends TestCase
         $this->conditions[] = 'AND (element.subject NOT IN (:excluded_value_uri))';
 
         return null;
+    }
+
+    private function createOrderBy(): string
+    {
+        return 'ORDER BY element.id ASC';
     }
 
     private function createCondition(): string

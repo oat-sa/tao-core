@@ -75,6 +75,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $this->enrichQueryWithSubject($searchRequest, $query);
         $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
         $this->enrichQueryWithObjects($searchRequest, $query);
+        $this->enrichQueryWithOrderById($query);
 
         $values = [];
         foreach ($query->execute()->fetchAll() as $rawValue) {
@@ -271,6 +272,11 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         return $query;
     }
 
+    private function enrichQueryWithOrderById(QueryBuilder $query): void
+    {
+        $query->addOrderBy('element.id');
+    }
+
     private function enrichWithSelect(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): QueryBuilder
     {
         $query
@@ -334,7 +340,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
                     ':subject'
                 )
             )
-            ->setParameter('subject', $searchRequest->getSubject() . '%');
+            ->setParameter('subject', '%' . $searchRequest->getSubject() . '%');
     }
 
     private function enrichQueryWithExcludedValueUris(

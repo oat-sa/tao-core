@@ -30,20 +30,11 @@ use tao_helpers_Uri as UriHelper;
 
 /**
  * @covers \oat\tao\model\session\DataAccess\Factory\SessionCookieAttributesFactory
- * @runClassInSeparateProcess
  */
 class SessionCookieAttributesFactoryTest extends TestCase
 {
     /** @var SessionCookieAttributesFactory */
     private $sut;
-
-    /**
-     * @beforeClass
-     */
-    public static function initializeConfiguration(): void
-    {
-        define('ROOT_URL', 'http://test.com/');
-    }
 
     /**
      * @before

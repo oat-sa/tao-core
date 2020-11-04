@@ -9,6 +9,8 @@ use common_persistence_KeyValuePersistence;
 use oat\generis\persistence\PersistenceManager;
 use oat\generis\test\GenerisTestCase;
 use oat\oatbox\service\ServiceManager;
+use oat\oatbox\session\SessionService;
+use oat\oatbox\user\User;
 use oat\tao\helpers\form\WidgetRegistry;
 use oat\tao\model\security\xsrf\Token;
 use oat\tao\model\security\xsrf\TokenService;
@@ -23,8 +25,8 @@ use tao_helpers_form_FormElement;
 class FormContainerTest extends GenerisTestCase
 {
     private const PERSISTENCE_KEY = 'test';
-
     private const TOKEN_VALUE = 'token';
+    private const TEST_USER_SESSION_ID = 'DUMMY_TEST_USER_ID';
 
     /**
      * @noinspection PhpUnhandledExceptionInspection
@@ -36,6 +38,7 @@ class FormContainerTest extends GenerisTestCase
         $config->set(PersistenceManager::SERVICE_ID, $this->createPersistenceManagerTestDouble());
         $config->set(TokenService::SERVICE_ID, $this->createTokenServiceTestDouble());
         $config->set(common_cache_Cache::SERVICE_ID, $this->createCacheTestDouble());
+        $config->set(SessionService::SERVICE_ID, $this->createSessionServiceDouble());
 
         ServiceManager::setServiceManager(new ServiceManager($config));
 
@@ -47,19 +50,18 @@ class FormContainerTest extends GenerisTestCase
      */
     public function initPersistence(): void
     {
-        /** @var common_persistence_KeyValuePersistence $persistence */
+        /** @var \common_persistence_AdvKeyValuePersistence $persistence */
         $persistence = ServiceManager::getServiceManager()
-                                     ->get(PersistenceManager::SERVICE_ID)
-                                     ->getPersistenceById(self::PERSISTENCE_KEY);
+            ->get(PersistenceManager::SERVICE_ID)
+            ->getPersistenceById(self::PERSISTENCE_KEY);
 
-        $persistence->set(
-            '_' . TokenStoreKeyValue::TOKENS_STORAGE_KEY,
+        $persistence->hSet(
+            self::TEST_USER_SESSION_ID . '_tao_tokens',
+            'form_token',
             json_encode(
                 [
-                    TokenService::FORM_POOL => [
-                        Token::TOKEN_KEY     => self::TOKEN_VALUE,
-                        Token::TIMESTAMP_KEY => microtime(true),
-                    ],
+                    Token::TOKEN_KEY => self::TOKEN_VALUE,
+                    Token::TIMESTAMP_KEY => microtime(true),
                 ]
             )
         );
@@ -94,7 +96,7 @@ class FormContainerTest extends GenerisTestCase
         $token = self::TOKEN_VALUE;
 
         return [
-            'Simple form'                       => [
+            'Simple form' => [
                 'expected' => <<<HTML
 <div class='xhtml_form'>
     <form method='post' id='test' name='test' action=''>
@@ -129,7 +131,7 @@ HTML
                 ],
                 new tao_helpers_form_elements_xhtml_Textbox('test'),
             ],
-            'CSRF form'                         => [
+            'CSRF form' => [
                 <<<HTML
 <div class='xhtml_form'>
     <form method='post' id='test' name='test' action=''>
@@ -147,7 +149,7 @@ HTML
                     FormContainerStub::CSRF_PROTECTION_OPTION => true,
                 ],
             ],
-            'Disabled form'                     => [
+            'Disabled form' => [
                 <<<HTML
 <div class='xhtml_form'>
     <form method='post' id='test' name='test' action=''>
@@ -164,7 +166,7 @@ HTML
                     FormContainerStub::IS_DISABLED => true,
                 ],
             ],
-            'Disabled CSRF form'                => [
+            'Disabled CSRF form' => [
                 <<<HTML
 <div class='xhtml_form'>
     <form method='post' id='test' name='test' action=''>
@@ -180,7 +182,7 @@ HTML
                 ,
                 'options' => [
                     FormContainerStub::CSRF_PROTECTION_OPTION => true,
-                    FormContainerStub::IS_DISABLED            => true,
+                    FormContainerStub::IS_DISABLED => true,
                 ],
             ],
             'Disabled CSRF form with UI inputs' => [
@@ -202,7 +204,7 @@ HTML
                 ,
                 'options' => [
                     FormContainerStub::CSRF_PROTECTION_OPTION => true,
-                    FormContainerStub::IS_DISABLED            => true,
+                    FormContainerStub::IS_DISABLED => true,
                 ],
                 new tao_helpers_form_elements_xhtml_Textbox('test'),
             ],
@@ -211,8 +213,11 @@ HTML
 
     private function createApplicationServiceTestDouble(): ApplicationService
     {
-        return $this->prophesize(ApplicationService::class)
-                    ->reveal();
+        $applicationServiceMock = $this->createMock(ApplicationService::class);
+        $applicationServiceMock->method('getDefaultEncoding')
+            ->willReturn('UTF-8');
+
+        return $applicationServiceMock;
     }
 
     private function createPersistenceManagerTestDouble(): PersistenceManager
@@ -221,7 +226,7 @@ HTML
             [
                 PersistenceManager::OPTION_PERSISTENCES => [
                     self::PERSISTENCE_KEY => [
-                        'driver' => 'no_storage',
+                        'driver' => 'no_storage_adv',
                     ],
                 ],
             ]
@@ -262,5 +267,18 @@ HTML
             ->willReturn([]);
 
         return $cacheMock;
+    }
+
+    private function createSessionServiceDouble(): SessionService
+    {
+        $userMock = $this->createMock(User::class);
+        $userMock->method('getIdentifier')
+            ->willReturn(self::TEST_USER_SESSION_ID);
+
+        $sessionServiceMock = $this->createMock(SessionService::class);
+        $sessionServiceMock->method('getCurrentUser')
+            ->willReturn($userMock);
+
+        return $sessionServiceMock;
     }
 }

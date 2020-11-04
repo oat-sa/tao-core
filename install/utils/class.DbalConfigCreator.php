@@ -41,6 +41,7 @@ class tao_install_utils_DbalConfigCreator
             'dbname' => $installData['db_name'],
             'user' => $installData['db_user'],
             'password' => $installData['db_pass'],
+            'driverOptions' => $installData['db_driverOptions'] ?? [],
         ];
         $hostParts = explode(':', $installData['db_host']);
         if (count($hostParts) == 2) {

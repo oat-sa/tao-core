@@ -566,7 +566,15 @@ define([
                 $.each(propertiesTypes, function (i, rangedPropertyName) {
                     var re = new RegExp(rangedPropertyName + '$');
                     if (re.test($this.val())) {
-                        $elt.find('select').html($elt.closest('.property-edit-container').find('.' + rangedPropertyName + '-template').html());
+                        const $propValuesSelect = $elt.find('select');
+                        const propValue = $propValuesSelect.val();
+
+                        $propValuesSelect.html($elt.closest('.property-edit-container').find('.' + rangedPropertyName + '-template').html());
+
+                        if (propValue && propValue !== ' ' && $(`option[value="${propValue}"]`, $propValuesSelect).length) {
+                            $propValuesSelect.val(propValue);
+                        }
+
                         return true;
                     }
                 });
