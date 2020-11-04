@@ -301,6 +301,18 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     }
 
     /**
+     * @param core_kernel_classes_Class $clazz
+     * @param array $classData
+     * @param array $propertyData
+     * @return tao_helpers_form_Form
+     */
+    private function getForm(core_kernel_classes_Class $clazz, array $classData, array $propertyData)
+    {
+        $formContainer = new tao_actions_form_Clazz($clazz, $classData, $propertyData);
+        return $formContainer->getForm();
+    }
+
+    /**
      * Create an edit form for a class and its property
      * and handle the submitted data on save
      *
@@ -523,6 +535,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
     private function isElasticSearchEnabled(): bool
     {
+        //@TODO Use AdvancedSearchChecker [andrei.shapiro]
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
 
         return get_class($searchService) === \oat\tao\elasticsearch\ElasticSearch::class;

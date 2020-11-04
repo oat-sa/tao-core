@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint136\n"
-"PO-Revision-Date: 2020-08-28T09:33:15\n"
+"Project-Id-Version: TAO 3.4.0-sprint140\n"
+"PO-Revision-Date: 2020-10-23T08:32:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
@@ -371,11 +371,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendário"
 
-msgid "Cancel"
-msgstr "Cancelar"
-
 msgid "cancel"
 msgstr ""
+
+msgid "Cancel"
+msgstr "Cancelar"
 
 msgid "cancel the action"
 msgstr ""
@@ -483,6 +483,9 @@ msgstr ""
 msgid "Column"
 msgstr "Coluna"
 
+msgid "command"
+msgstr ""
+
 msgid "Commands:"
 msgstr ""
 
@@ -570,10 +573,10 @@ msgstr "Informação importada com sucesso"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Informação do Idioma"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Informação do Idioma"
 
 msgid "Data not imported. All records are invalid."
@@ -906,6 +909,9 @@ msgstr "Retroceder"
 msgid "go back to home page"
 msgstr ""
 
+msgid "Go to item"
+msgstr ""
+
 msgid "Height"
 msgstr ""
 
@@ -987,10 +993,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1349,14 +1355,11 @@ msgstr ""
 msgid "No files"
 msgstr ""
 
+msgid "No item found. Please try other search criteria."
+msgstr ""
+
 msgid "no label"
 msgstr "Sem rótulos"
-
-msgid "No Preview available"
-msgstr ""
-
-msgid "No preview available"
-msgstr ""
 
 msgid "No results found"
 msgstr ""
@@ -1420,6 +1423,9 @@ msgid "On"
 msgstr ""
 
 msgid "Only allow for my own domain (%s)"
+msgstr ""
+
+msgid "Only one of the field must have value %s"
 msgstr ""
 
 msgid "Operated By "
@@ -1491,6 +1497,9 @@ msgstr ""
 msgid "Please contact your system administrator."
 msgstr ""
 
+msgid "Please define your search in the search panel."
+msgstr ""
+
 msgid "Please download the track and listen offline."
 msgstr ""
 
@@ -1510,6 +1519,9 @@ msgid "Please wait"
 msgstr ""
 
 msgid "Please wait while ..."
+msgstr ""
+
+msgid "Positionals:"
 msgstr ""
 
 msgid "Post install processing"
@@ -1749,6 +1761,9 @@ msgid "Search %s"
 msgstr ""
 
 msgid "Search by properties"
+msgstr ""
+
+msgid "Search Item"
 msgstr ""
 
 msgid "Search sub-classes"
@@ -2038,6 +2053,9 @@ msgstr "Esta sessão já se encontra em uso"
 msgid "This media cannot be played!"
 msgstr ""
 
+msgid "This or one of %s must have a value"
+msgstr ""
+
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
 msgstr ""
 
@@ -2182,11 +2200,11 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
-msgstr "Desmarcar Todos"
-
 msgid "Uncheck all"
 msgstr "Desmarcar todos"
+
+msgid "Uncheck All"
+msgstr "Desmarcar Todos"
 
 msgid "Undefined amount of the pages for pagination"
 msgstr ""

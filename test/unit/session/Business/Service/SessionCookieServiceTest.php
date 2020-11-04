@@ -74,7 +74,6 @@ namespace oat\tao\test\unit\session\Business\Service {
 
     /**
      * @covers \oat\tao\model\session\Business\Service\SessionCookieService
-     * @runClassInSeparateProcess
      */
     class SessionCookieServiceTest extends TestCase
     {
@@ -104,15 +103,6 @@ namespace oat\tao\test\unit\session\Business\Service {
             $function = "\\$function";
 
             return $function(...$arguments);
-        }
-
-        /**
-         * @beforeClass
-         */
-        public static function initializeConfiguration(): void
-        {
-            define('ROOT_URL', 'http://test.com/');
-            define('GENERIS_SESSION_NAME', 'test');
         }
 
         /**
@@ -165,7 +155,6 @@ namespace oat\tao\test\unit\session\Business\Service {
          * @param int    $lifetime
          *
          * @dataProvider dataProvider
-         * @runInSeparateProcess
          */
         public function testReInitializeSessionCookie(string $domain, int $lifetime): void
         {
