@@ -177,7 +177,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
             $indexProperties[$index->getIdentifier()] = $this->getIndexProperties($index);
         }
 
-        $body['parents'] = $this->getParentClasses($resource->getTypes());
+        $body['parent_classes'] = $this->getParentClasses($resource->getTypes());
 
         $result = [
             'body' => $body,
