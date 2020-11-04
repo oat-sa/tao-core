@@ -294,7 +294,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         foreach ($types as $type) {
             $path = $type->getUri() . $path;
             if (!$this->isRootClass($type->getUri())) {
-                $path = '/' . $path;
+                $path = ';' . $path;
                 $path = $this->getParentClasses($type->getParentClasses(), $path);
             }
         }
