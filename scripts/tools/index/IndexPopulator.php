@@ -96,6 +96,7 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
      */
     protected function run(): common_report_Report
     {
+        $report = common_report_Report::createInfo('Excuting');
         $classIterator = new \core_kernel_classes_ClassIterator($this->getIndexedClasses());
         $currentClass = $this->getOption('class');
         $limit = (int)$this->getOption('limit');
@@ -114,7 +115,7 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
                 ->setLimit($limit)
                 ->setOffset($offset);
 
-            $criteria = $search->searchType($queryBuilder, $class->getUri(), false);
+            $criteria = $search->searchType($queryBuilder, $class->getUri(), true);
 
             $queryBuilder = $queryBuilder->setCriteria($criteria);
             $resources = $search->getGateway()->search($queryBuilder);
@@ -139,13 +140,12 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
             $result = $searchService->index($indexIterator);
 
             $this->logInfo(sprintf('%s resources have been indexed by %s', $result, static::class));
-
-            return $this->getScriptReport($result, $reportedClass, $limit, $offset);
+            $report->add($this->getScriptReport($result, $reportedClass, $limit, $offset));
         }
 
         file_put_contents($this->getOption('lock'), $class->getUri() . PHP_EOL . 'FINISHED');
 
-        return $this->getScriptReport($result, $reportedClass, $limit, $offset);
+        return $report;
     }
 
     protected function getIndexedClasses(): array
