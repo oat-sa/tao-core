@@ -29,6 +29,9 @@ use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\uri\NoMatchedEndpointsFoundException;
+use oat\tao\model\uri\ResourceLinkFactory;
+use oat\tao\model\uri\UriTypeMapperRegistry;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -181,6 +184,22 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
         $this->form->addElement($classUriElt, true);
 
         if (!is_null($instance)) {
+            //add an hidden elt for the instance Uri
+
+            /** @var UriTypeMapperRegistry $uriMapper */
+            $uriMapper = $this->getServiceLocator()->get(UriTypeMapperRegistry::class);
+
+            // TODO: create a widget
+            try {
+                if ($link = $uriMapper->map($instance)) {
+                    $linkElement = tao_helpers_form_FormFactory::getElement('link', 'Readonly');
+                    $linkElement->setValue($link);
+                    $linkElement->setDescription(__('Link'));
+                    $linkElement->addClass('copy-to-clipboard');
+                    $this->form->addElement($linkElement, true);
+                }
+            } catch (NoMatchedEndpointsFoundException $exception) {}
+
             //add an hidden elt for the instance Uri
             $instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
             $instanceUriElt->setValue(tao_helpers_Uri::encode($instance->getUri()));
