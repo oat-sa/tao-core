@@ -70,7 +70,7 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '46.6.0',
+    'version' => '46.7.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
         'generis' => '>=13.10.0',
@@ -194,6 +194,7 @@ return [
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'RestResource']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'RestClass']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'PropertyValues']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'AdvancedSearch']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Breadcrumbs']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Export']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'File']],
