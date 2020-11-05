@@ -1,6 +1,6 @@
 {
     "name": "@oat-sa/tao",
-    "version": "0.8.4",
+    "version": "0.9.0",
     "license": "GPL-2.0",
     "description": "tao core dependencies",
     "repository": {
@@ -13,7 +13,7 @@
         "@oat-sa/tao-core-libs": "^0.4.2",
         "@oat-sa/tao-core-sdk": "1.6.2",
         "@oat-sa/tao-core-shared-libs": "1.0.3",
-        "@oat-sa/tao-core-ui": "1.11.2",
+        "@oat-sa/tao-core-ui": "1.15.0",
         "async": "0.2.10",
         "codemirror": "^5.54.0",
         "decimal.js": "10.1.1",
