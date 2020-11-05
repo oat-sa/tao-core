@@ -75,6 +75,10 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
 
         $report->add(new Report(Report::TYPE_INFO, __('Update ID : %s', $updateId)));
 
+        /**@var $updateErrorNotifierService UpdateErrorNotifier **/
+        $updateErrorNotifierService = $this->getServiceLocator()->get(UpdateErrorNotifier::SERVICE_ID);
+        $updateErrorNotifierService->checkReportError($report);
+
         return $report;
     }
 

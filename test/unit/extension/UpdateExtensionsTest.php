@@ -31,6 +31,7 @@ use oat\generis\test\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\extension\UpdateErrorNotifier;
 use oat\tao\model\extension\UpdateExtensions;
 use common_report_Report as Report;
 use common_ext_ExtensionsManager as ExtensionsManager;
@@ -61,6 +62,7 @@ class UpdateExtensionsTest extends TestCase
         $config->set(Ontology::SERVICE_ID, $this->getOntologyMock());
         $config->set(AssetService::SERVICE_ID, new AssetService());
         $config->set('generis/log', new LoggerService([]));
+        $config->set('tao/updateErrorNotifier', new UpdateErrorNotifier());
 
         if (!defined('ROOT_PATH')) {
             define('ROOT_PATH', '');
