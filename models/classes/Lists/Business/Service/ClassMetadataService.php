@@ -184,6 +184,10 @@ class ClassMetadataService extends InjectionAwareService
 
     private function isTextWidget(core_kernel_classes_Property $property): bool
     {
+        if ($property->getWidget()) {
+            $this->logWarning($property->getLabel() . 'is not including a widget property');
+            return false;
+        }
         return in_array($property->getWidget()->getUri(), self::TEXT_WIDGETS);
     }
 
