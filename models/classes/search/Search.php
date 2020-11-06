@@ -58,7 +58,7 @@ interface Search extends PhpSerializable
      * If index is already exist, then it will merge the fields in index with the existing document
      *
      * @param IndexIterator|array $documents
-     * @return boolean true if successfully indexed
+     * @return int count of indexed documents
      */
     public function index($documents);
 

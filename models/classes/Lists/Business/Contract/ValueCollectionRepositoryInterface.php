@@ -44,4 +44,6 @@ interface ValueCollectionRepositoryInterface
     public function persist(ValueCollection $valueCollection): bool;
 
     public function delete(string $valueCollectionUri): void;
+
+    public function count(ValueCollectionSearchRequest $searchRequest): int;
 }
