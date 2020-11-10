@@ -60,8 +60,8 @@ class updatingNotificationServiceTest extends TestCase
             ->method('notify')
             ->with('TaoUpdate notifications: ' . ROOT_URL, $expectedDescription2);
 
-        $updateErrorNotifier = new UpdatingNotificationService();
-        $updateErrorNotifier->setOption(UpdatingNotificationService::OPTION_NOTIFIERS, [
+        $updateNotifierService = new UpdatingNotificationService();
+        $updateNotifierService->setOption(UpdatingNotificationService::OPTION_NOTIFIERS, [
             [
                 'notifier' => $notifierMock1,
                 'dispatchTypes' => [
@@ -76,7 +76,7 @@ class updatingNotificationServiceTest extends TestCase
                 ]
             ]
         ]);
-        $updateErrorNotifier->sendNotifications($report);
+        $updateNotifierService->sendNotifications($report);
     }
 
     public function testCheckReportErrorWithoutNotifiers()
@@ -87,8 +87,8 @@ class updatingNotificationServiceTest extends TestCase
         $reportMock->expects($this->never())
             ->method('getErrors');
 
-        $updateErrorNotifier = new UpdatingNotificationService();
-        $updateErrorNotifier->sendNotifications($reportMock);
+        $updateNotifierService = new UpdatingNotificationService();
+        $updateNotifierService->sendNotifications($reportMock);
     }
 
 }

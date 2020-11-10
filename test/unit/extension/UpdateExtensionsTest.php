@@ -62,7 +62,7 @@ class UpdateExtensionsTest extends TestCase
         $config->set(Ontology::SERVICE_ID, $this->getOntologyMock());
         $config->set(AssetService::SERVICE_ID, new AssetService());
         $config->set('generis/log', new LoggerService([]));
-        $config->set('tao/updateErrorNotifier', new UpdatingNotificationService());
+        $config->set('tao/updatingNotificationService', new UpdatingNotificationService());
 
         if (!defined('ROOT_PATH')) {
             define('ROOT_PATH', '');
