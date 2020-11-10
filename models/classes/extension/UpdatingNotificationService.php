@@ -23,50 +23,53 @@ namespace oat\tao\model\extension;
 
 use oat\oatbox\service\ConfigurableService;
 use common_report_Report as Report;
-use oat\tao\model\externalNotifiers\ExternalNotifier;
+use oat\tao\model\notifiers\Notifier;
 
 /**
- * Notifies when an update error occurs
+ * Notifies when an update
  *
- * Class UpdateErrorNotifier
+ * Class TaoUpdateNotifier
  * @author Andrey Niahrou <Andrei.Niahrou@1pt.com>
  * @package oat\tao\model\extension
  */
-class UpdateErrorNotifier extends ConfigurableService
+class UpdatingNotificationService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/updateErrorNotifier';
+    const SERVICE_ID = 'tao/updatingNotificationService';
     const OPTION_NOTIFIERS = 'notifiers';
 
     /**
      * @param Report $report
      */
-    public function checkReportError(Report $report): void
+    public function sendNotifications(Report $report): void
     {
         if (!$this->hasOption(self::OPTION_NOTIFIERS) || !count($this->getOption(self::OPTION_NOTIFIERS))) {
             return;
         }
 
+        $notifiers = $this->getOption(self::OPTION_NOTIFIERS);
+
         if ($report->containsError()) {
-            $this->notify($report);
+            $this->notify($report, $notifiers);
         }
     }
 
     /**
      * @param Report $report
+     * @param array $notifiers
      */
-    private function notify(Report $report): void
+    private function notify(Report $report, array $notifiers): void
     {
-        $description = '';
+        foreach ($notifiers as $notifierConfig) {
+            /**@var $notifier Notifier * */
+            $notifier = $notifierConfig['notifier'];
 
-        /**@var $errorReport Report **/
-        foreach ($report->getErrors() as $errorReport) {
-            $description .= $errorReport->getMessage() . PHP_EOL;
-        }
+            $description = '';
+            /**@var $dispatchReport Report **/
+            foreach ($report->filterChildrenByTypes($notifierConfig['dispatchTypes']) as $dispatchReport) {
+                $description .= $dispatchReport->getMessage() . PHP_EOL;
+            }
 
-        foreach ($this->getOption('notifiers') as $notifierId) {
-            /**@var $notifier ExternalNotifier **/
-            $notifier = $this->getServiceLocator()->get($notifierId);
-            $notifier->notify('Error at taoUpdate on ' . ROOT_URL, $description);
+            $notifier->notify('TaoUpdate notifications: ' . ROOT_URL, $description);
         }
     }
 }

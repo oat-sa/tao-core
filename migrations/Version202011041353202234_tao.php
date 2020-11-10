@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace oat\tao\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use oat\tao\model\extension\UpdateErrorNotifier;
+use oat\tao\model\extension\UpdatingNotificationService;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 
 /**
@@ -21,17 +21,17 @@ final class Version202011041353202234_tao extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $updateErrorNotifier = new UpdateErrorNotifier();
-        $updateErrorNotifier->setOption('notifiers', []);
+        $updatingNotificationService = new UpdatingNotificationService();
+        $updatingNotificationService->setOption('notifiers', []);
 
         $this->getServiceManager()->register(
-            $updateErrorNotifier::SERVICE_ID,
-            $updateErrorNotifier
+            $updatingNotificationService::SERVICE_ID,
+            $updatingNotificationService
         );
     }
 
     public function down(Schema $schema): void
     {
-        $this->getServiceManager()->unregister(UpdateErrorNotifier::SERVICE_ID);
+        $this->getServiceManager()->unregister(UpdatingNotificationService::SERVICE_ID);
     }
 }

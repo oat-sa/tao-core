@@ -18,16 +18,16 @@
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-namespace oat\tao\model\externalNotifiers;
+namespace oat\tao\model\notifiers;
 
 /**
  * Sends a notification to an external service
  *
- * Interface ExternalNotifier
+ * Interface Notifier
  * @author Andrey Niahrou <Andrei.Niahrou@1pt.com>
- * @package oat\tao\model\externalNotifiers
+ * @package oat\tao\model\notifiers
  */
-interface ExternalNotifier
+interface Notifier
 {
     /**
      * @param string $title

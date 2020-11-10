@@ -19,7 +19,7 @@
  *
  */
 
-namespace oat\tao\model\externalNotifiers;
+namespace oat\tao\model\notifiers;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -30,20 +30,27 @@ use JTL\OpsGenie\Client\HttpClient;
 use JTL\OpsGenie\Client\Priority;
 use JTL\OpsGenie\Client\Responder;
 use oat\oatbox\extension\script\MissingOptionException;
-use oat\oatbox\service\ConfigurableService;
 
 /**
  * Sends a notification to OpsGenie
  *
  * Class OpsGenieNotifier
  * @author Andrey Niahrou <Andrei.Niahrou@1pt.com>
- * @package oat\tao\model\externalNotifiers
+ * @package oat\tao\model\notifiers
  */
-class OpsGenieNotifier extends ConfigurableService implements ExternalNotifier
+class OpsGenieNotifier implements Notifier
 {
-    const SERVICE_ID = 'tao/opsGenieNotifier';
-    const OPTION_TOKEN = 'token';
-    const OPTION_BASE_URI = 'base_uri';
+    const OPTION_BASE_URI = 'https://api.opsgenie.com/v2/';
+
+    /**
+     * @var string
+     */
+    private $token;
+
+    public function __construct(string $token)
+    {
+        $this->token = $token;
+    }
 
     /**
      * {@inheritDoc}
@@ -62,15 +69,9 @@ class OpsGenieNotifier extends ConfigurableService implements ExternalNotifier
      */
     public function notify(string $title, string $description, array $parameters = []): array
     {
-        if (!$this->hasOption(self::OPTION_TOKEN) || !$this->getOption(self::OPTION_TOKEN)) {
-            throw new MissingOptionException("Required argument '" . self::OPTION_TOKEN . "' is missing.", self::OPTION_TOKEN);
-        }
-        if (!$this->hasOption(self::OPTION_BASE_URI) || !$this->getOption(self::OPTION_BASE_URI)) {
-            throw new MissingOptionException("Required argument '" . self::OPTION_BASE_URI . "' is missing.", self::OPTION_BASE_URI);
-        }
         $alert = $this->buildAlertModel($title, $description, $parameters);
         $request = new CreateAlertRequest($alert);
-        $client = $this->getAlertApiClient($this->getOption(self::OPTION_TOKEN));
+        $client = $this->getAlertApiClient($this->token);
         $response = $client->createAlert($request);
 
         return [
@@ -122,7 +123,7 @@ class OpsGenieNotifier extends ConfigurableService implements ExternalNotifier
     {
         $guzzleClient = new Client(
             [
-                'base_uri' => $this->getOption(self::OPTION_BASE_URI)
+                'base_uri' => self::OPTION_BASE_URI
             ]
         );
 

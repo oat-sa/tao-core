@@ -3,6 +3,6 @@
  * Default config header created during install
  */
 
-return new oat\tao\model\extension\UpdateErrorNotifier([
+return new oat\tao\model\extension\UpdatingNotificationService([
     'notifiers' => []
 ]);
