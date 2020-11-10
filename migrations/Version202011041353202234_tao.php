@@ -22,7 +22,7 @@ final class Version202011041353202234_tao extends AbstractMigration
     public function up(Schema $schema): void
     {
         $updatingNotificationService = new UpdatingNotificationService();
-        $updatingNotificationService->setOption('notifiers', []);
+        $updatingNotificationService->setOption(UpdatingNotificationService::OPTION_NOTIFIERS, []);
 
         $this->getServiceManager()->register(
             $updatingNotificationService::SERVICE_ID,
