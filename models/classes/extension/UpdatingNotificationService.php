@@ -48,9 +48,7 @@ class UpdatingNotificationService extends ConfigurableService
 
         $notifiers = $this->getOption(self::OPTION_NOTIFIERS);
 
-        if ($report->containsError()) {
-            $this->notify($report, $notifiers);
-        }
+        $this->notify($report, $notifiers);
     }
 
     /**
