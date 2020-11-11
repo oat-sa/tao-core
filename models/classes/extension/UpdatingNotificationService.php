@@ -22,7 +22,7 @@
 namespace oat\tao\model\extension;
 
 use oat\oatbox\service\ConfigurableService;
-use common_report_Report as Report;
+use oat\oatbox\reporting\Report;
 use oat\tao\model\notifiers\Notifier;
 
 /**
@@ -67,7 +67,9 @@ class UpdatingNotificationService extends ConfigurableService
                 $description .= $dispatchReport->getMessage() . PHP_EOL;
             }
 
-            $notifier->notify('TaoUpdate notifications: ' . ROOT_URL, $description);
+            if ($description) {
+                $notifier->notify('TaoUpdate notifications: ' . ROOT_URL, $description);
+            }
         }
     }
 }
