@@ -46,7 +46,7 @@ class AbstractMigrationTest extends TestCase
         $upReportMock->method('getType')
                      ->willReturn(Report::TYPE_INFO);
         $upReportMock->method('getIterator')
-                     ->willReturn($this->createMock(\Traversable::class));
+            ->willReturn($this->createMock(\ArrayIterator::class));
 
         $downReportMock = $this->createMock(Report::class);
         $downReportMock->method('getMessage')
@@ -54,7 +54,7 @@ class AbstractMigrationTest extends TestCase
         $downReportMock->method('getType')
                        ->willReturn(Report::TYPE_ERROR);
         $downReportMock->method('getIterator')
-                       ->willReturn($this->createMock(\Traversable::class));
+            ->willReturn($this->createMock(\ArrayIterator::class));
 
 
         $migration = new class($connectionMock, $loggerMock, $upReportMock, $downReportMock) extends AbstractMigration
