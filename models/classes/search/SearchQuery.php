@@ -40,7 +40,7 @@ class SearchQuery
     /** @var int */
     private $page;
 
-    public function __construct(string $term, string $rootClass, string $parentClass, int $startRow, int $rows, int $page)
+    public function __construct(string $term, string $rootClass, string $parentClass, int $startRow, int $rows = null, int $page = null)
     {
         $this->term = $term;
         $this->rootClass = $rootClass;
@@ -70,12 +70,12 @@ class SearchQuery
         return $this->startRow;
     }
 
-    public function getRows(): int
+    public function getRows(): ?int
     {
         return $this->rows;
     }
 
-    public function getPage(): int
+    public function getPage(): ?int
     {
         return $this->page;
     }
