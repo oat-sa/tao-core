@@ -42,13 +42,7 @@ class SearchProxy extends ConfigurableService
     {
         $query = $this->getQueryFactory()->createSearchQuery($request);
 
-        if ($this->getElasticSearchChecker()->isEnabled()) {
-            $results = $this->getElasticSearchBridge()->search($query);
-        }
-
-        if (!$this->getElasticSearchChecker()->isEnabled()) {
-            $results = $this->getGenerisSearchBridge()->search($query);
-        }
+        $results = $this->executeSearch($query);
 
         if (!$results instanceof ResultSet) {
             throw new Exception('Result has to be instance of ResultSet');
@@ -107,31 +101,36 @@ class SearchProxy extends ConfigurableService
         return $response;
     }
 
+    private function executeSearch(SearchQuery $query): ResultSet
+    {
+        if ($this->getElasticSearchChecker()->isEnabled()) {
+            return  $this->getElasticSearchBridge()->search($query);
+        }
+
+        return $this->getGenerisSearchBridge()->search($query);
+    }
+
     private function getPermissionHelper(): PermissionHelper
     {
         return $this->getServiceLocator()->get(PermissionHelper::class);
     }
 
-    private
-    function getElasticSearchChecker(): AdvancedSearchChecker
+    private function getElasticSearchChecker(): AdvancedSearchChecker
     {
         return $this->getServiceLocator()->get(AdvancedSearchChecker::class);
     }
 
-    private
-    function getElasticSearchBridge(): ElasticSearchBridge
+    private function getElasticSearchBridge(): ElasticSearchBridge
     {
         return $this->getServiceLocator()->get(ElasticSearchBridge::class);
     }
 
-    private
-    function getGenerisSearchBridge(): GenerisSearchBridge
+    private function getGenerisSearchBridge(): GenerisSearchBridge
     {
         return $this->getServiceLocator()->get(GenerisSearchBridge::class);
     }
 
-    private
-    function getQueryFactory(): SearchQueryFactory
+    private function getQueryFactory(): SearchQueryFactory
     {
         return $this->getServiceLocator()->get(SearchQueryFactory::class);
     }
