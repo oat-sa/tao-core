@@ -71,6 +71,4 @@ class SearchQueryTest extends TestCase
     {
         $this->assertEquals(1, $this->subject->getPage());
     }
-
-
 }
