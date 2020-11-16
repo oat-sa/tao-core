@@ -54,7 +54,7 @@ class SearchProxy extends ConfigurableService
             throw new Exception('Result has to be instance of ResultSet');
         }
 
-        $rows = isset($request->getQueryParams()['rows']) ? (int) $request->getQueryParams()['rows'] : null;
+        $rows = isset($request->getQueryParams()['rows']) ? (int)$request->getQueryParams()['rows'] : null;
         $page = isset($request->getQueryParams()['page']) ? (int)$request->getQueryParams()['page'] : 1;
 
         $totalPages = is_null($rows) ? 1 : ceil($results->getTotalCount() / $rows);
