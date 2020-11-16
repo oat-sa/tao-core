@@ -40,7 +40,7 @@ class SearchProxy extends ConfigurableService
      */
     public function search(ServerRequestInterface $request): array
     {
-        $query = $this->getQueryFactory()->createSearchQuery($request);
+        $query = $this->getQueryFactory()->create($request);
 
         $results = $this->executeSearch($query);
 

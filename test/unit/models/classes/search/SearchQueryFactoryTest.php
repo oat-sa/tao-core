@@ -55,7 +55,7 @@ class SearchQueryFactoryTest extends TestCase
                 ]
             );
 
-        $resultSearchQuery = $this->subject->createSearchQuery($request);
+        $resultSearchQuery = $this->subject->create($request);
         $this->assertEquals($resultSearchQuery->getPage(), 1);
         $this->assertEquals($resultSearchQuery->getParentClass(), 'exampleParentNode');
         $this->assertEquals($resultSearchQuery->getRootClass(), 'exampleRootNode');
@@ -82,7 +82,7 @@ class SearchQueryFactoryTest extends TestCase
             );
 
         $this->expectException(CreateSearchQueryException::class);
-        $this->subject->createSearchQuery($request);
+        $this->subject->create($request);
     }
     public function testCreateSearchQueryRequestWithoutPagination(): void
     {
@@ -100,7 +100,7 @@ class SearchQueryFactoryTest extends TestCase
                 ]
             );
 
-        $resultSearchQuery = $this->subject->createSearchQuery($request);
+        $resultSearchQuery = $this->subject->create($request);
         $this->assertNull($resultSearchQuery->getRows());
         $this->assertNull($resultSearchQuery->getPage());
     }

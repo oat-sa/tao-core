@@ -30,7 +30,7 @@ class SearchQueryFactory extends ConfigurableService
     /**
      * @throws CreateSearchQueryException
      */
-    public function createSearchQuery(ServerRequestInterface $request): SearchQuery
+    public function create(ServerRequestInterface $request): SearchQuery
     {
         $params = $request->getQueryParams();
 
