@@ -23,6 +23,11 @@ namespace oat\tao\model\notification;
 
 use JsonSerializable;
 
+/**
+ * Class Notification
+ *
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ */
 class Notification implements JsonSerializable
 {
     public const DEFAULT_STATUS  = 0;
@@ -51,73 +56,60 @@ class Notification implements JsonSerializable
 
     protected $updatedAt;
 
-    /**
-     * Notification constructor.
-     *
-     * @param string $userId
-     * @param string $title
-     * @param string $message
-     * @param string $senderId
-     * @param string $senderName
-     * @param string|null $id
-     * @param string|null $createdAt
-     * @param string|null $updatedAt
-     * @param int $status
-     */
-    public function __construct($userId, $title, $message, $senderId, $senderName, $id = null, $createdAt = null, $updatedAt = null, $status = 0)
+    public function __construct(string $userId, string $title, string $message, string $senderId, string $senderName, string $id = null, string $createdAt = null, string $updatedAt = null, int $status = 0)
     {
-        $this->id         = $id;
-        $this->status     = $status;
-        $this->recipient  = $userId;
-        $this->senderId   = $senderId;
+        $this->id = $id;
+        $this->status = $status;
+        $this->recipient = $userId;
+        $this->senderId = $senderId;
         $this->senderName = $senderName;
-        $this->title      = $title;
-        $this->message    = $message;
-        $this->createdAt  = $createdAt;
-        $this->updatedAt  = $updatedAt;
+        $this->title = $title;
+        $this->message = $message;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
     }
 
-    public function getStatus()
+    public function getStatus(): int
     {
         return $this->status;
     }
 
-    public function getRecipient()
+    public function getRecipient(): string
     {
         return $this->recipient;
     }
 
-    public function getSenderId()
+    public function getSenderId(): string
     {
         return $this->senderId;
     }
 
-    public function getSenderName()
+    public function getSenderName(): string
     {
         return $this->senderName;
     }
 
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): int
     {
         return strtotime($this->createdAt);
     }
 
-    public function getUpdatedAt()
+    public function getUpdatedAt(): int
     {
         return strtotime($this->updatedAt);
     }
 
-    public function setStatus($status)
+    public function setStatus($status): self
     {
         if (is_int($status)) {
             $this->status = $status;
@@ -128,7 +120,7 @@ class Notification implements JsonSerializable
         return $this;
     }
 
-    public function setId($id)
+    public function setId($id): self
     {
         if ($this->id === null) {
             $this->id = $id;
@@ -136,12 +128,12 @@ class Notification implements JsonSerializable
         return $this;
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return
             [

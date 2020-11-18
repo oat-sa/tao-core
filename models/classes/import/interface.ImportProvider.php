@@ -25,8 +25,6 @@
  *
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
- * @package taoItems
-
  */
 interface tao_models_classes_import_ImportProvider
 {

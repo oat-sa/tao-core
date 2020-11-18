@@ -176,7 +176,7 @@ class SubTestRest extends TestRest
 
 class RestSessionFactoryTester extends RestSessionFactory
 {
-    public function isRestController(Resolver $resolver)
+    public function isRestController(Resolver $resolver): bool
     {
         return parent::isRestController($resolver);
     }

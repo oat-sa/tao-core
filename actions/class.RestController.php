@@ -20,9 +20,10 @@
  */
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\action\RestControllerInterface;
 use oat\tao\model\routing\AnnotationReader\security;
 
-abstract class tao_actions_RestController extends \tao_actions_CommonModule
+abstract class tao_actions_RestController extends \tao_actions_CommonModule implements RestControllerInterface
 {
     use OntologyAwareTrait;
     use \tao_actions_RestTrait;

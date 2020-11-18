@@ -1,39 +1,30 @@
 {
     "name": "oat-sa/tao-core",
-    "authors": [
-        {
-            "name": "Open Assessment Technologies S.A.",
-            "homepage": "http://www.taotesting.com"
-        },
-        {
-            "name": "Jérôme Bogaerts",
-            "role": "Developer"
-        },
-        {
-            "name": "Joel Bout",
-            "role": "Developer"
-        },
-        {
-            "name": "Bertrand Chevrier",
-            "role": "Developer"
-        },
-        {
-            "name": "Lionel Lecaque",
-            "role": "Developer"
-        },
-        {
-            "name": "Patrick Plichart",
-            "role": "Developer"
-        },
-        {
-            "name": "Dieter Raber",
-            "role": "Developer"
-        },
-        {
-            "name": "Somsack Sipasseuth",
-            "role": "Developer"
-        }
-    ],
+    "authors": [{
+        "name": "Open Assessment Technologies S.A.",
+        "homepage": "http://www.taotesting.com"
+    }, {
+        "name": "Jérôme Bogaerts",
+        "role": "Developer"
+    }, {
+        "name": "Joel Bout",
+        "role": "Developer"
+    }, {
+        "name": "Bertrand Chevrier",
+        "role": "Developer"
+    }, {
+        "name": "Lionel Lecaque",
+        "role": "Developer"
+    }, {
+        "name": "Patrick Plichart",
+        "role": "Developer"
+    }, {
+        "name": "Dieter Raber",
+        "role": "Developer"
+    }, {
+        "name": "Somsack Sipasseuth",
+        "role": "Developer"
+    }],
     "description": "TAO core extension ",
     "support": {
         "forum": "https://forum.taocloud.org"
@@ -49,28 +40,31 @@
     "extra": {
         "tao-extension-name": "tao",
         "npm-bridge": {
-            "arguments": [
-                "--prefix",
-                "views"
-            ]
+            "arguments": ["--prefix", "views"]
         }
     },
     "require": {
         "php": "^7.1",
-        "phpdocumentor/reflection-docblock": "2.*",
-        "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
-        "oat-sa/jig": "~0.1",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "doctrine/dbal": "^2.10",
+        "ezyang/htmlpurifier": "^4.9",
+        "guzzlehttp/guzzle": "~6.0",
+        "imsglobal/lti": "^3.0",
+        "justinrainbow/json-schema": "5.2.1",
         "oat-sa/composer-npm-bridge": "^0.3.0",
+        "oat-sa/jig": "~0.1",
+        "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "oat-sa/generis": "^12.19.0",
+        "paragonie/random_compat": "^2.0",
+        "phpdocumentor/reflection-docblock": "2.*",
+        "pimple/pimple": "^3.0",
         "psr/http-message": "~1.0",
         "slim/slim": "^3.0",
-        "guzzlehttp/guzzle": "~6.0",
-        "ezyang/htmlpurifier": "^4.9",
-        "justinrainbow/json-schema": "5.2.1",
-        "pimple/pimple": "^3.0",
-        "imsglobal/lti": "^3.0",
-        "paragonie/random_compat": "^2.0",
-        "symfony/dotenv": "~4.3"
+        "symfony/dotenv": "~4.3",
+        "doctrine/migrations" : "3.0.1",
+        "doctrine/collections": "1.6.7",
+        "flow/jsonpath": "~0.5"
     },
     "autoload": {
         "psr-4": {

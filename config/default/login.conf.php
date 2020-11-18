@@ -29,4 +29,5 @@ return [
     'disableAutocomplete' => false,
     'enablePasswordReveal' => false,
     'disableAutofocus' => false,
+    'hideLogo' => false,
 ];

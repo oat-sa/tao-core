@@ -31,6 +31,10 @@ namespace oat\tao\model\service;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\ConfigurableService;
 
+class EmptyConstructorInjectionAwareService extends InjectionAwareService
+{
+}
+
 class PureInjectionAwareService extends InjectionAwareService
 {
     private $var;
@@ -38,6 +42,18 @@ class PureInjectionAwareService extends InjectionAwareService
     public function __construct(string $var)
     {
         $this->var = $var;
+    }
+}
+
+class InjectionAwareServiceWithVariadicParameters extends InjectionAwareService
+{
+    private $strings;
+    private $int;
+
+    public function __construct(int $int, string ...$strings)
+    {
+        $this->strings = $strings;
+        $this->int = $int;
     }
 }
 
@@ -172,7 +188,7 @@ EXPECTED;
 new class implements \oat\oatbox\service\ServiceFactoryInterface {
     public function __invoke(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
     {
-        return new oat\tao\model\service\HostMixService($serviceLocator->get(oat\tao\model\service\PureConfigurableServiceWithId::SERVICE_ID),
+        return new oat\tao\model\service\HostMixService($serviceLocator->get(oat\tao\model\service\PureConfigurableServiceWithId::class),
 new oat\tao\model\service\PureInjectionAwareService('a'));
     }
 }
@@ -197,7 +213,7 @@ new class implements \oat\oatbox\service\ServiceFactoryInterface {
     {
         return new oat\tao\model\service\HostMixNestedService(new oat\tao\model\service\PureConfigurableService(),
 new oat\tao\model\service\HostPureConfigurableService(new oat\tao\model\service\PureConfigurableService()),
-$serviceLocator->get(oat\tao\model\service\PureConfigurableServiceWithId::SERVICE_ID));
+$serviceLocator->get(oat\tao\model\service\PureConfigurableServiceWithId::class));
     }
 }
 EXPECTED;
@@ -225,6 +241,29 @@ new class implements \oat\oatbox\service\ServiceFactoryInterface {
     }
 }
 EXPECTED;
+        $this->assertEquals($expected, $instance->__toPhpCode());
+    }
+
+    public function testEmptyConstructor(): void
+    {
+        $instance = new EmptyConstructorInjectionAwareService();
+
+        $expected = 'new oat\tao\model\service\EmptyConstructorInjectionAwareService()';
+
+        $this->assertEquals($expected, $instance->__toPhpCode());
+    }
+
+    public function testConstructorWithVariadicParameters(): void
+    {
+        $instance = new InjectionAwareServiceWithVariadicParameters(10, 'one', 'two', 'tree');
+
+        $expected = <<<'EXPECTED'
+new oat\tao\model\service\InjectionAwareServiceWithVariadicParameters(10,
+'one',
+'two',
+'tree')
+EXPECTED;
+
         $this->assertEquals($expected, $instance->__toPhpCode());
     }
 }

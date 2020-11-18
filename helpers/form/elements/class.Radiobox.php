@@ -30,18 +30,5 @@
  */
 abstract class tao_helpers_form_elements_Radiobox extends tao_helpers_form_elements_MultipleElement
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    /**
-     * Short description of attribute widget
-     *
-     * @access protected
-     * @var string
-     */
-    protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox';
-
-    // --- OPERATIONS ---
-} /* end of abstract class tao_helpers_form_elements_Radiobox */
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#RadioBox';
+}

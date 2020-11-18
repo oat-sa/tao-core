@@ -17,11 +17,13 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
+ *               2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 use oat\generis\Helper\SystemHelper;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\FileUploadException;
+use oat\tao\model\http\ContentDetector;
 use oat\tao\model\stream\StreamRange;
 use oat\tao\model\stream\StreamRangeException;
 use Psr\Http\Message\StreamInterface;
@@ -239,9 +241,8 @@ class tao_helpers_Http
     {
         if (tao_helpers_File::securityCheck($filename, true)) {
             if (file_exists($filename)) {
-                $mimeType = tao_helpers_File::getMimeType($filename, true);
                 if ($contenttype) {
-                    header('Content-Type: ' . $mimeType);
+                    header('Content-Type: ' . tao_helpers_File::getMimeType($filename));
                 }
                 $fp = fopen($filename, 'rb');
                 if ($fp === false) {
@@ -251,11 +252,11 @@ class tao_helpers_Http
                     if (isset($pathinfo['extension']) && $pathinfo['extension'] === 'svgz' && !$svgzSupport) {
                         header('Content-Encoding: gzip');
                     }
-                    
+
                     // session must be closed because, for example, video files might take a while to be sent to the client
                     //  and we need the client to be able to make other calls to the server during that time
                     session_write_close();
-                    
+
                     $http416RequestRangeNotSatisfiable = 'HTTP/1.1 416 Requested Range Not Satisfiable';
                     $http206PartialContent = 'HTTP/1.1 206 Partial Content';
                     $http200OK = 'HTTP/1.1 200 OK';
@@ -265,7 +266,7 @@ class tao_helpers_Http
                     $useFpassthru = false;
                     $partialContent = false;
                     header('Accept-Ranges: bytes');
-                    
+
                     if (isset($_SERVER['HTTP_RANGE'])) {
                         $partialContent = true;
                         preg_match('/bytes=(\d+)-(\d+)?/', $_SERVER['HTTP_RANGE'], $matches);
@@ -277,9 +278,9 @@ class tao_helpers_Http
                             $length = intval($matches[2]) - $offset;
                         }
                     }
-                    
+
                     fseek($fp, $offset);
-                    
+
                     if ($partialContent) {
                         if (($offset < 0) || ($offset > $filesize)) {
                             header($http416RequestRangeNotSatisfiable);
@@ -346,16 +347,18 @@ class tao_helpers_Http
         }
     }
 
-    /**
-     * @param StreamInterface $stream
-     * @param null|string $mimeType
-     * @param ServerRequestInterface|null $request not used yet.
-     */
-    public static function returnStream(StreamInterface $stream, $mimeType = null, ServerRequestInterface $request = null)
-    {
+    public static function returnStream(
+        StreamInterface $stream,
+        string $mimeType = null,
+        ServerRequestInterface $request = null
+    ): void {
         header('Accept-Ranges: bytes');
         if (!is_null($mimeType)) {
             header('Content-Type: ' . $mimeType);
+        }
+
+        if (self::getContentDetector()->isGzipableMime($mimeType) && self::getContentDetector()->isGzip($stream)) {
+            header('Content-Encoding: gzip');
         }
 
         try {
@@ -393,5 +396,11 @@ class tao_helpers_Http
         } catch (StreamRangeException $e) {
             header('HTTP/1.1 416 Requested Range Not Satisfiable');
         }
+    }
+
+    private static function getContentDetector(): ContentDetector
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return ServiceManager::getServiceManager()->get(ContentDetector::class);
     }
 }

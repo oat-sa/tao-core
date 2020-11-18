@@ -97,7 +97,8 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         'views',
         'helper',
         'controller',
-        'model'
+        'model',
+        'scripts',
     ];
 
     protected $verbose = false;

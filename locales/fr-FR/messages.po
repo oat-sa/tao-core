@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint126\n"
-"PO-Revision-Date: 2020-04-10T08:15:53\n"
+"Project-Id-Version: TAO 3.4.0-sprint141\n"
+"PO-Revision-Date: 2020-11-06T09:23:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr " ET "
-
 msgid " and "
 msgstr " et "
+
+msgid " AND "
+msgstr " ET "
 
 msgid " has been deleted successfully"
 msgstr " a été supprimé avec succès."
@@ -148,6 +148,9 @@ msgstr "Un état de maintenance doit avoir un ÉTAT : \"%s\" ou \"%s"
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "Un message avec des instructions a été envoyée vers votre adresse courriel: %s"
 
+msgid "About"
+msgstr ""
+
 msgid "abs"
 msgstr "abs"
 
@@ -196,6 +199,9 @@ msgstr "Ajouter un utilisateur"
 
 msgid "Add an RDF/XML file"
 msgstr "Ajouter un fichier RDF/XML"
+
+msgid "add criteria"
+msgstr ""
 
 msgid "Add file(s)"
 msgstr "Ajouter un ou des fichier(s)"
@@ -368,11 +374,11 @@ msgstr "Calculatrice"
 msgid "Calendar"
 msgstr "Calendrier"
 
-msgid "Cancel"
-msgstr "Annuler"
-
 msgid "cancel"
 msgstr "annuler"
+
+msgid "Cancel"
+msgstr "Annuler"
 
 msgid "cancel the action"
 msgstr "annuler l'action"
@@ -447,10 +453,10 @@ msgstr "Effacer toutes les données"
 msgid "Clear expression"
 msgstr "Effacer l'expression"
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr "Effacer l'historique"
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr "Effacer l'historique"
 
 msgid "Clear selection"
@@ -465,6 +471,9 @@ msgstr "Effacer les variables enregistrées"
 msgid "Close"
 msgstr "Fermer"
 
+msgid "Close dialog"
+msgstr ""
+
 msgid "Close message"
 msgstr "Fermer le message"
 
@@ -476,6 +485,9 @@ msgstr "Collecte des actions avortées dans la file d'attente des actions..."
 
 msgid "Column"
 msgstr "Colonne"
+
+msgid "command"
+msgstr ""
 
 msgid "Commands:"
 msgstr ""
@@ -572,6 +584,9 @@ msgstr "Langue des données"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Données non importées. Tous les enregistrements sont invalides."
+
+msgid "Data source URI"
+msgstr ""
 
 msgid "Date"
 msgstr "Date"
@@ -739,6 +754,9 @@ msgstr "Erreur de syntaxe"
 msgid "Error in value"
 msgstr "Erreur dans la valeur"
 
+msgid "Error: %s"
+msgstr ""
+
 msgid "Examples:"
 msgstr ""
 
@@ -891,6 +909,12 @@ msgstr "Obtenir l'historique"
 msgid "Go Back"
 msgstr "Revenir"
 
+msgid "go back to home page"
+msgstr ""
+
+msgid "Go to item"
+msgstr ""
+
 msgid "Height"
 msgstr "Hauteur"
 
@@ -926,6 +950,9 @@ msgstr "Sinus hyperbolique"
 
 msgid "Hyperbolic tangent"
 msgstr "Tangente hyperbolique"
+
+msgid "I understand that this action is permanent."
+msgstr ""
 
 msgid "Identifier"
 msgstr "Identifiant"
@@ -972,10 +999,10 @@ msgstr "Ressource %s importée"
 msgid "impossible to update task status"
 msgstr "Impossible de mettre à jour l'état de la tâche"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "En cours"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "En cours"
 
 msgid "Inclusive (AND)"
@@ -1014,10 +1041,10 @@ msgstr "Installation de l'extension %s..."
 msgid "Instance saved"
 msgstr "Instance enregistrée"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Langue de l'interface"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Langue de l'interface"
 
 msgid "Invalid CSP header."
@@ -1080,6 +1107,9 @@ msgstr ""
 msgid "Label"
 msgstr "Libellé"
 
+msgid "Label Path"
+msgstr ""
+
 msgid "Language"
 msgstr "Langue"
 
@@ -1107,11 +1137,20 @@ msgstr "Liste"
 msgid "List - Multiple choice - Check box"
 msgstr "Liste - Choix multiple - Case à cocher"
 
+msgid "List - Multiple choice - Search input"
+msgstr ""
+
 msgid "List - Single choice - Drop down"
 msgstr "Liste - Choix unique - Liste déroulante"
 
 msgid "List - Single choice - Radio button"
 msgstr "Liste - Choix multiple - Bouton radio"
+
+msgid "List - Single choice - Search input"
+msgstr ""
+
+msgid "List item URI duplications found"
+msgstr ""
 
 msgid "List values"
 msgstr ""
@@ -1164,8 +1203,20 @@ msgstr "L'identifiant est vide."
 msgid "Logout"
 msgstr "Se déconnecter"
 
+msgid "Main Menu"
+msgstr ""
+
+msgid "Maintenance service is already installed."
+msgstr ""
+
 msgid "Maintenance service must have a persistence option."
 msgstr "Le service de maintenance doit avoir une option de persistance."
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is enabled."
+msgstr ""
 
 msgid "Maintenance storage driver is not set"
 msgstr "Le pilote de stockage de maintenance n'est pas configuré."
@@ -1310,14 +1361,11 @@ msgstr "Pas de fichier sélectionné"
 msgid "No files"
 msgstr "Aucun fichier"
 
+msgid "No item found. Please try other search criteria."
+msgstr ""
+
 msgid "no label"
 msgstr "sans étiquette"
-
-msgid "No Preview available"
-msgstr "Aucun aperçu disponible"
-
-msgid "No preview available"
-msgstr "Aucun aperçu disponible"
 
 msgid "No results found"
 msgstr "Aucun résultat trouvé"
@@ -1381,6 +1429,9 @@ msgid "On"
 msgstr "Actif"
 
 msgid "Only allow for my own domain (%s)"
+msgstr ""
+
+msgid "Only one of the field must have value %s"
 msgstr ""
 
 msgid "Operated By "
@@ -1452,6 +1503,9 @@ msgstr "Veuillez contacter votre administrateur."
 msgid "Please contact your system administrator."
 msgstr ""
 
+msgid "Please define your search in the search panel."
+msgstr ""
+
 msgid "Please download the track and listen offline."
 msgstr "Veuillez télécharger la piste et l'écouter hors ligne."
 
@@ -1472,6 +1526,9 @@ msgstr "Veuillez patienter"
 
 msgid "Please wait while ..."
 msgstr "Veuillez patienter..."
+
+msgid "Positionals:"
+msgstr ""
 
 msgid "Post install processing"
 msgstr "Traitement après installation"
@@ -1712,6 +1769,9 @@ msgstr "Rechercher %s"
 msgid "Search by properties"
 msgstr "Recherche par propriétés"
 
+msgid "Search Item"
+msgstr ""
+
 msgid "Search sub-classes"
 msgstr "Chercher des sous-classes"
 
@@ -1723,7 +1783,7 @@ msgstr "secondes"
 
 #, tao-public
 msgid "Security"
-msgstr ""
+msgstr "Sécurité"
 
 msgid "Security settings"
 msgstr ""
@@ -1801,6 +1861,9 @@ msgstr "Taille"
 msgid "Some resources have not been moved: %s"
 msgstr "Certaines ressources n'ont pas été déplacées : %s"
 
+msgid "Something unexpected happened."
+msgstr ""
+
 msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
@@ -1873,6 +1936,24 @@ msgstr "Menu principal TAO"
 msgid "TAO Login"
 msgstr "Connexion à TAO"
 
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
+msgstr ""
+
 msgid "Task %s has been cancelled, message was not processed."
 msgstr "La tâche %s a été annulée, le message n'a pas été traité."
 
@@ -1917,6 +1998,9 @@ msgstr "L'action ne sera pas appliquée à ce qui suit."
 
 msgid "The column "
 msgstr "La colonne "
+
+msgid "The following criteria are not applicable to the selected class and have been removed from the search"
+msgstr ""
 
 msgid "The format of this field is not valid."
 msgstr "Le format de ce champ n'est pas valide."
@@ -1977,6 +2061,9 @@ msgstr "Cet identifiant est déjà utilisé"
 
 msgid "This media cannot be played!"
 msgstr "Ce média ne peut être lu !"
+
+msgid "This or one of %s must have a value"
+msgstr ""
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
 msgstr "Le lien pour réinitialiser le mot de passe est désormais invalide. Il se peut qu'il a déjà été utilisé. Si vous souhaitez cependant réinitialiser votre mot de passe, demandez un nouveau lien."
@@ -2167,8 +2254,20 @@ msgstr "Téléverser"
 msgid "Upload into:"
 msgstr "Envoyer vers :"
 
+msgid "URI Path"
+msgstr ""
+
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "Utilisation : ImportRdf FICHIER_RDF [ID_MODELE]"
+
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr ""
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr ""
+
+msgid "USAGE: please provide the service name as first parameter"
+msgstr ""
 
 msgid "Use a term"
 msgstr "Utilisez un terme"

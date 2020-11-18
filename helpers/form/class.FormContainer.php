@@ -17,10 +17,12 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
+ *               2020 (original work) Open Assessment Technologies SA
  */
 
+use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\xhtml\CsrfToken;
+use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_form_FormFactory as FormFactory;
 
@@ -33,12 +35,12 @@ use tao_helpers_form_FormFactory as FormFactory;
 abstract class tao_helpers_form_FormContainer
 {
     public const CSRF_PROTECTION_OPTION = 'csrf_protection';
-    public const IS_DISABLED            = 'is_disabled';
+    public const IS_DISABLED = 'is_disabled';
+    public const ADDITIONAL_VALIDATORS = 'extraValidators';
 
     /**
      * the form instance contained
      *
-     * @access protected
      * @var tao_helpers_form_Form
      */
     protected $form;
@@ -46,7 +48,6 @@ abstract class tao_helpers_form_FormContainer
     /**
      * the data of the form
      *
-     * @access protected
      * @var array
      */
     protected $data = [];
@@ -54,7 +55,6 @@ abstract class tao_helpers_form_FormContainer
     /**
      * the form options
      *
-     * @access protected
      * @var array
      */
     protected $options = [];
@@ -62,7 +62,6 @@ abstract class tao_helpers_form_FormContainer
     /**
      * static list of all instantiated forms
      *
-     * @access protected
      * @var array
      */
     protected static $forms = [];
@@ -77,14 +76,10 @@ abstract class tao_helpers_form_FormContainer
      * regarding the initForm and initElements methods
      * to be overridden
      *
-     * @access public
-     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @param  array data
-     * @param  array options
-     *
      * @throws common_Exception
+     * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      */
-    public function __construct($data = [], $options = [])
+    public function __construct(array $data = [], array $options = [])
     {
         $this->data = $data;
         $this->options = $options;
@@ -100,6 +95,12 @@ abstract class tao_helpers_form_FormContainer
         // initialize the elements of the form
         $this->initElements();
 
+        $validationRules = $options[self::ADDITIONAL_VALIDATORS] ?? [];
+
+        if (!empty($validationRules)) {
+            $this->applyAdditionalValidationRules($validationRules);
+        }
+
         if (($options[self::CSRF_PROTECTION_OPTION] ?? false) === true) {
             $this->initCsrfProtection();
         }
@@ -110,8 +111,7 @@ abstract class tao_helpers_form_FormContainer
         }
 
         if ($this->form !== null) {
-            if ($options[self::IS_DISABLED] ?? false)
-            {
+            if ($options[self::IS_DISABLED] ?? false) {
                 $this->form->disable();
             }
 
@@ -129,7 +129,6 @@ abstract class tao_helpers_form_FormContainer
     /**
      * Destructor (remove the current form in the static list)
      *
-     * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      */
     public function __destruct()
@@ -142,9 +141,7 @@ abstract class tao_helpers_form_FormContainer
     /**
      * get the form instance
      *
-     * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @return tao_helpers_form_Form
      */
     public function getForm(): ?tao_helpers_form_Form
     {
@@ -155,20 +152,16 @@ abstract class tao_helpers_form_FormContainer
      * Must be overridden and must instantiate the form instance and put it in
      * form attribute
      *
-     * @abstract
-     * @access protected
+     * @return void
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @return mixed
      */
     abstract protected function initForm();
 
     /**
      * Used to create the form elements and bind them to the form instance
      *
-     * @abstract
-     * @access protected
+     * @return void
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
-     * @return mixed
      */
     abstract protected function initElements();
 
@@ -176,7 +169,6 @@ abstract class tao_helpers_form_FormContainer
      * Allow global form validation.
      * Override this function to do it.
      *
-     * @access protected
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      */
     protected function validate(): bool
@@ -200,5 +192,30 @@ abstract class tao_helpers_form_FormContainer
     {
         $csrfTokenElement = FormFactory::getElement(TokenService::CSRF_TOKEN_HEADER, CsrfToken::class);
         $this->form->addElement($csrfTokenElement, true);
+    }
+
+    private function applyAdditionalValidationRules(array $validationRules): void
+    {
+        if ($this->getForm()) {
+            foreach ($this->getForm()->getElements() as $element) {
+                $validators = $validationRules[$element->getName()] ?? [];
+                $element->addValidators($validators);
+                $this->configureFormValidators($validators, $this->getForm());
+                $this->getForm()->addElement($element);
+            }
+        }
+    }
+
+    /**
+     * @param ValidatorInterface[] $validators
+     */
+    private function configureFormValidators(iterable $validators, tao_helpers_form_Form $form): void
+    {
+        foreach ($validators as $validator) {
+            if (!$validator instanceof CrossElementEvaluationAware) {
+                continue;
+            }
+            $validator->acknowledge($form);
+        }
     }
 }

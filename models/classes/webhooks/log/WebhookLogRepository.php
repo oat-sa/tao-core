@@ -15,83 +15,69 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\model\webhooks\log;
 
-use oat\generis\persistence\PersistenceManager;
-use oat\oatbox\log\LoggerAwareTrait;
-use oat\oatbox\service\ConfigurableService;
+use Doctrine\DBAL\Types\Types;
+use oat\generis\persistence\sql\SchemaCollection;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 
-class WebhookLogRepository extends ConfigurableService implements WebhookLogRepositoryInterface
+class WebhookLogRepository extends AbstractWebhookLogRepository
 {
-    use LoggerAwareTrait;
-
-    /** @var \common_persistence_SqlPersistence|null */
-    private $persistence;
-
-    const OPTION_PERSISTENCE = 'persistence';
 
     /**
-     * Constants for the database creation and data access
-     */
-    const TABLE_NAME = 'webhook_event_log';
-    const COLUMN_ID = 'id';
-    const COLUMN_EVENT_ID = 'event_id';
-    const COLUMN_TASK_ID = 'task_id';
-    const COLUMN_WEBHOOK_ID = 'webhook_id';
-    const COLUMN_HTTP_METHOD = 'http_method';
-    const COLUMN_ENDPOINT_URL = 'endpoint_url';
-    const COLUMN_EVENT_NAME = 'event_name';
-    const COLUMN_HTTP_STATUS_CODE = 'http_status_code';
-    const COLUMN_RESPONSE_BODY = 'response_body';
-    const COLUMN_ACKNOWLEDGEMENT_STATUS = 'acknowledgement_status';
-    const COLUMN_CREATED_AT = 'created_at';
-    const COLUMN_RESULT = 'result';
-    const COLUMN_RESULT_MESSAGE = 'result_message';
-
-    /**
-     * @return \common_persistence_SqlPersistence
      * @throws InconsistencyConfigException
      */
-    private function getPersistence()
+    public function storeLog(WebhookEventLogRecord $webhookEventLog): void
     {
-        if (!$this->persistence) {
-            $persistenceId = $this->getOption(self::OPTION_PERSISTENCE) ?: 'default';
-            /** @var PersistenceManager $persistenceManager */
-            $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
-            $persistence = $persistenceManager->getPersistenceById($persistenceId);
-            if (!($persistence instanceof \common_persistence_SqlPersistence)) {
-                throw new InconsistencyConfigException(
-                    "Configured persistence '$persistenceId' is not sql persistence"
-                );
-            }
-            $this->persistence = $persistence;
-        }
-        return $this->persistence;
+        $this->getPersistence()->insert(
+            self::TABLE_NAME,
+            [
+                self::COLUMN_EVENT_ID => $webhookEventLog->getEventId(),
+                self::COLUMN_TASK_ID => $webhookEventLog->getTaskId(),
+                self::COLUMN_WEBHOOK_ID => $webhookEventLog->getWebhookId(),
+                self::COLUMN_HTTP_METHOD => $webhookEventLog->getHttpMethod(),
+                self::COLUMN_ENDPOINT_URL => $webhookEventLog->getEndpointUrl(),
+                self::COLUMN_EVENT_NAME => $webhookEventLog->getEventName(),
+                self::COLUMN_HTTP_STATUS_CODE => $webhookEventLog->getHttpStatusCode(),
+                self::COLUMN_RESPONSE_BODY => $webhookEventLog->getResponseBody(),
+                self::COLUMN_ACKNOWLEDGEMENT_STATUS => $webhookEventLog->getAcknowledgementStatus(),
+                self::COLUMN_CREATED_AT => $webhookEventLog->getCreatedAt(),
+                self::COLUMN_RESULT => $webhookEventLog->getResult(),
+                self::COLUMN_RESULT_MESSAGE => $webhookEventLog->getResultMessage(),
+            ]
+        );
     }
 
-    /**
-     * @inheritDoc
-     * @throws InconsistencyConfigException
-     */
-    public function storeLog(WebhookEventLogRecord $webhookEventLog)
+    public function provideSchema(SchemaCollection $schemaCollection)
     {
-        $this->getPersistence()->insert(self::TABLE_NAME, [
-            self::COLUMN_EVENT_ID => $webhookEventLog->getEventId(),
-            self::COLUMN_TASK_ID => $webhookEventLog->getTaskId(),
-            self::COLUMN_WEBHOOK_ID => $webhookEventLog->getWebhookId(),
-            self::COLUMN_HTTP_METHOD => $webhookEventLog->getHttpMethod(),
-            self::COLUMN_ENDPOINT_URL => $webhookEventLog->getEndpointUrl(),
-            self::COLUMN_EVENT_NAME => $webhookEventLog->getEventName(),
-            self::COLUMN_HTTP_STATUS_CODE => $webhookEventLog->getHttpStatusCode(),
-            self::COLUMN_RESPONSE_BODY => $webhookEventLog->getResponseBody(),
-            self::COLUMN_ACKNOWLEDGEMENT_STATUS => $webhookEventLog->getAcknowledgementStatus(),
-            self::COLUMN_CREATED_AT => $webhookEventLog->getCreatedAt(),
-            self::COLUMN_RESULT => $webhookEventLog->getResult(),
-            self::COLUMN_RESULT_MESSAGE => $webhookEventLog->getResultMessage(),
-        ]);
+        $schema = $schemaCollection->getSchema($this->getOption(self::OPTION_PERSISTENCE));
+
+        $logTable = $schema->createTable(self::TABLE_NAME);
+        $logTable->addOption('engine', 'InnoDB');
+
+        $logTable->addColumn(self::COLUMN_ID, Types::INTEGER, ['autoincrement' => true]);
+        $logTable->addColumn(self::COLUMN_EVENT_ID, Types::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_TASK_ID, Types::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_WEBHOOK_ID, Types::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_HTTP_METHOD, Types::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_ENDPOINT_URL, Types::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_EVENT_NAME, Types::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_HTTP_STATUS_CODE, Types::SMALLINT, ['notnull' => false]);
+        $logTable->addColumn(self::COLUMN_RESPONSE_BODY, Types::TEXT, ['notnull' => false]);
+        $logTable->addColumn(self::COLUMN_ACKNOWLEDGEMENT_STATUS, Types::STRING, ['notnull' => false, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_CREATED_AT, Types::INTEGER, ['notnull' => true]);
+        $logTable->addColumn(self::COLUMN_RESULT, Types::STRING, ['notnull' => true, 'length' => 255]);
+        $logTable->addColumn(self::COLUMN_RESULT_MESSAGE, Types::TEXT, ['notnull' => false]);
+
+        $logTable->setPrimaryKey([self::COLUMN_ID]);
+
+        $logTable->addIndex([self::COLUMN_EVENT_ID], 'IDX_' . self::TABLE_NAME . '_event_id');
+
+        $logTable->addIndex([self::COLUMN_WEBHOOK_ID], 'IDX_' . self::TABLE_NAME . '_webhook_id');
+
+        $logTable->addIndex([self::COLUMN_CREATED_AT], 'IDX_' . self::TABLE_NAME . '_created_at');
     }
 }

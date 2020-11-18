@@ -283,6 +283,18 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     }
 
     /**
+     * @param core_kernel_classes_Class $clazz
+     * @param array $classData
+     * @param array $propertyData
+     * @return tao_helpers_form_Form
+     */
+    private function getForm(core_kernel_classes_Class $clazz, array $classData, array $propertyData)
+    {
+        $formContainer = new tao_actions_form_Clazz($clazz, $classData, $propertyData);
+        return $formContainer->getForm();
+    }
+
+    /**
      * Create an edit form for a class and its property
      * and handle the submited data on save
      *
@@ -293,8 +305,10 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     public function getClassForm(core_kernel_classes_Class $clazz)
     {
         $data = $this->getRequestParameters();
-        $formContainer = new tao_actions_form_Clazz($clazz, $this->extractClassData($data), $this->extractPropertyData($data));
-        $myForm = $formContainer->getForm();
+
+        $classData = $this->extractClassData($data);
+        $propertyData = $this->extractPropertyData($data);
+        $myForm = $this->getForm($clazz, $classData, $propertyData);
 
         if ($myForm->isSubmited()) {
             if ($myForm->isValid()) {
@@ -328,6 +342,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                             }
                         }
                     }
+                    // get the form again but with the saved properties
+                    $myForm = $this->getForm($clazz, $classData, $propertyData);
                 }
             }
         }

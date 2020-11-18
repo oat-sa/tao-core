@@ -15,17 +15,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2018 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2020 (original work) Open Assessment Technologies SA;
  *
  */
 
+declare(strict_types=1);
+
+use oat\generis\model\data\permission\PermissionHelper;
+use oat\generis\model\data\permission\PermissionInterface;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
-use oat\tao\model\search\SyntaxException;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\Search;
-use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\search\aggregator\UnionSearchService;
 
 /**
  * Controller for indexed searches
@@ -41,9 +43,9 @@ class tao_actions_Search extends tao_actions_CommonModule
      * Search parameters endpoints.
      * The response provides parameters to create a datatable.
      */
-    public function searchParams()
+    public function searchParams(): void
     {
-        $rawQuery = isset($_POST['query']) ? $_POST['query'] : '';
+        $rawQuery = $_POST['query'] ?? '';
         $this->returnJson([
             'url' => _url('search'),
             'params' => [
@@ -65,8 +67,11 @@ class tao_actions_Search extends tao_actions_CommonModule
     /**
      * Search results
      * The search is paginated and initiated by the datatable component.
+     *
+     * @param Search    $searchService
+     * @param PermissionHelper $permissionHelper
      */
-    public function search()
+    public function search(Search $searchService, PermissionHelper $permissionHelper): void
     {
         $params = $this->getRequestParameter('params');
         $query = $params['query'];
@@ -76,51 +81,67 @@ class tao_actions_Search extends tao_actions_CommonModule
         $page = $this->hasRequestParameter('page') ? (int)$this->getRequestParameter('page') : 1;
         $startRow = is_null($rows) ? 0 : $rows * ($page - 1);
 
-        try {
-            $results = [];
+        $results = [];
 
-            // if it is an URI
-            if (strpos($query, LOCAL_NAMESPACE) === 0) {
-                $resource = $this->getResource($query);
-                if ($resource->exists() && $resource->isInstanceOf($class)) {
-                    $results = new ResultSet([$resource->getUri()], 1);
-                }
+        // if it is an URI
+        if (strpos($query, LOCAL_NAMESPACE) === 0) {
+            $resource = $this->getResource($query);
+            if ($resource->exists() && $resource->isInstanceOf($class)) {
+                $results = new ResultSet([$resource->getUri()], 1);
             }
-
-            //  if there is no results based on considering the query as URI
-            if (empty($results)) {
-                $results = $this->getUnionSearchService()->query($query, $class->getUri(), $startRow, $rows);
-            }
-
-            $totalPages = is_null($rows) ? 1 : ceil($results->getTotalCount() / $rows);
-
-            $response = new StdClass();
-            if (count($results) > 0) {
-                foreach ($results as $uri) {
-                    $instance = $this->getResource($uri);
-                    $instanceProperties = [
-                        'id' => $instance->getUri(),
-                        OntologyRdfs::RDFS_LABEL => $instance->getLabel()
-                    ];
-
-                    $response->data[] = $instanceProperties;
-                }
-            }
-            $response->success = true;
-            $response->page = empty($response->data) ? 0 : $page;
-            $response->total = $totalPages;
-            $response->records = count($results);
-
-            $this->returnJson($response, 200);
-        } catch (SyntaxException $e) {
-            $this->returnJson([
-                'success' => false,
-                'msg' => $e->getUserMessage()
-            ]);
         }
+
+        //  if there is no results based on considering the query as URI
+        if (empty($results)) {
+            $results = $searchService->query($query, $class->getUri(), $startRow, $rows);
+        }
+
+        $totalPages = is_null($rows) ? 1 : ceil($results->getTotalCount() / $rows);
+
+        $results = $results->getArrayCopy();
+
+        $accessibleResultsMap = array_flip(
+            $permissionHelper->filterByPermission($results, PermissionInterface::RIGHT_READ)
+        );
+
+        $resultAmount = count($results);
+
+        $response = new StdClass();
+        if ($resultAmount > 0) {
+            foreach ($results as $uri) {
+                $instance = $this->getResource($uri);
+                $isAccessible = isset($accessibleResultsMap[$uri]);
+
+                if (!$isAccessible) {
+                    $instance->label = __('Access Denied');
+                }
+
+                $instanceProperties = [
+                    'id' => $instance->getUri(),
+                    OntologyRdfs::RDFS_LABEL => $instance->getLabel(),
+                ];
+
+                $response->data[] = $instanceProperties;
+            }
+        }
+        $response->readonly = array_fill_keys(
+            array_keys(
+                array_diff_key(
+                    array_flip($results),
+                    $accessibleResultsMap
+                )
+            ),
+            true
+        );
+        $response->success = true;
+        $response->page = empty($response->data) ? 0 : $page;
+        $response->total = $totalPages;
+        $response->records = $resultAmount;
+
+        $this->returnJson($response, 200);
     }
 
-    public function getIndexes()
+    public function getIndexes(): void
     {
         if ($this->hasRequestParameter('rootNode') === true) {
             $rootNodeUri = $this->getRequestParameter('rootNode');
@@ -141,14 +162,5 @@ class tao_actions_Search extends tao_actions_CommonModule
         } else {
             $this->returnJson("The 'rootNode' parameter is missing.", 500);
         }
-    }
-
-    /**
-     * @return UnionSearchService
-     */
-    protected function getUnionSearchService(): UnionSearchService
-    {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->getServiceLocator()->get(UnionSearchService::SERVICE_ID);
     }
 }

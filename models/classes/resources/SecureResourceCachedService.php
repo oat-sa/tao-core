@@ -74,9 +74,8 @@ class SecureResourceCachedService extends InjectionAwareService implements Secur
     }
 
     /**
-     * @param core_kernel_classes_Class $resource
+     * @inheritDoc
      *
-     * @return core_kernel_classes_Resource[]
      * @throws common_exception_Error
      * @throws common_cache_NotFoundException
      */

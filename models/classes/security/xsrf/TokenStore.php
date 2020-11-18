@@ -27,22 +27,39 @@ namespace oat\tao\model\security\xsrf;
  */
 interface TokenStore
 {
-    const TOKEN_KEY = 'XSRF_TOKEN';
     const TOKEN_NAME = 'XSRF_TOKEN_NAME';
+
     /**
-     * Retrieve the pool of tokens
+     * @param string $tokenId
+     * @return Token|null
+     */
+    public function getToken(string $tokenId): ?Token;
+
+    /**
+     * @param string $tokenId
+     * @param Token $token
+     */
+    public function setToken(string $tokenId, Token $token): void;
+
+    /**
+     * @param string $tokenId
+     * @return bool
+     */
+    public function hasToken(string $tokenId): bool;
+
+    /**
+     * @param string $tokenId
+     * @return bool
+     */
+    public function removeToken(string $tokenId): bool;
+
+    /**
+     * @return void;
+     */
+    public function clear(): void;
+
+    /**
      * @return Token[]
      */
-    public function getTokens();
-
-    /**
-     * Set the pool of tokens
-     * @param Token[]
-     */
-    public function setTokens(array $tokens = []);
-
-    /**
-     * Remove all tokens
-     */
-    public function removeTokens();
+    public function getAll(): array;
 }

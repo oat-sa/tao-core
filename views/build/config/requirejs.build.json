@@ -24,7 +24,7 @@
     "pdfjs-dist/build/pdf": "lib/pdfjs/build/pdf",
     "pdfjs-dist/build/pdf.worker": "lib/pdfjs/build/pdf.worker",
     "mathJax": "../../../taoQtiItem/views/js/mathjax/MathJax",
-    "ckeditor": "lib/ckeditor/ckeditor",
+    "ckeditor": "../../../tao/views/node_modules/@oat-sa/tao-core-shared-libs/lib/ckeditor/ckeditor",
     "interact": "../../../tao/views/node_modules/interactjs/dist/interact",
     "d3": "lib/d3js/d3",
     "c3": "lib/c3js/c3",
@@ -40,6 +40,12 @@
     "select2": "../../../tao/views/node_modules/@oat-sa/tao-core-libs/dist/select2",
     "select2-origin": "../../../tao/views/node_modules/select2"
   },
+
+  "packages": [{
+    "name": "codemirror",
+    "location": "../../../tao/views/node_modules/codemirror",
+    "main": "lib/codemirror"
+  }],
 
   "shim": {
     "moment": {

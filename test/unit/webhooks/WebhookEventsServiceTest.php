@@ -147,6 +147,9 @@ class WebhookEventsServiceTest extends TestCase
     {
         $eventName = 'TestEvent';
         $whEventName = 'WhTestEvent';
+        $extraPayload = [
+            'extra' => 'data'
+        ];
 
         /** @var WebhookSerializableEventInterface|MockObject $event */
         $event = $this->createMock(WebhookSerializableEventInterface::class);
@@ -178,6 +181,7 @@ class WebhookEventsServiceTest extends TestCase
             });
 
         $this->webhookConfigMock->method('getMaxRetries')->willReturn(5);
+        $this->webhookConfigMock->method('getExtraPayload')->willReturn($extraPayload);
         $this->whConfigRegistryMock->method('getWebhookConfig')->willReturn($this->webhookConfigMock);
 
         $timestampStart = time();
@@ -188,7 +192,15 @@ class WebhookEventsServiceTest extends TestCase
             $whParams = $passedParams[$index];
             $this->assertSame($whParams[WebhookTaskParams::EVENT_NAME], $whEventName);
             $this->assertSame($whParams[WebhookTaskParams::WEBHOOK_CONFIG_ID], $whId);
-            $this->assertSame($whParams[WebhookTaskParams::EVENT_DATA], ['d' => 2]);
+            $this->assertSame(
+                $whParams[WebhookTaskParams::EVENT_DATA],
+                array_merge(
+                    $extraPayload,
+                    [
+                        'd' => 2
+                    ]
+                )
+            );
             $this->assertGreaterThanOrEqual($whParams[WebhookTaskParams::TRIGGERED_TIMESTAMP], $timestampStart);
             $this->assertLessThanOrEqual($whParams[WebhookTaskParams::TRIGGERED_TIMESTAMP], $timestampEnd);
             $this->assertRegExp('/^([a-z0-9]{32})$/', $whParams[WebhookTaskParams::EVENT_ID]);

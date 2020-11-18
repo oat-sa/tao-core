@@ -138,13 +138,17 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
 
         //Check if admin user has access to functionality
         $this->assertThat(
-            $this->dac->hasAccess($user, $expectedClassName, $expectedAction, ['ids' => 'http://www.tao.lu/Ontologies/TAO.rdf#Item']),
+            $this->dac->hasAccess($user, $expectedClassName, $expectedAction, ['id' => 'http://www.tao.lu/Ontologies/TAOItem.rdf#Item']),
             $this->getConstraintBasedOnProviderAndUser($user)
         );
 
         //Check if admin user has access to functionality
+        $requestParameters = [];
+        foreach ($urisList as $uri) {
+            $requestParameters[] = ['id' => $uri];
+        }
         $this->assertThat(
-            $this->dac->hasAccess($user, $expectedClassName, $expectedAction, ['ids' => $urisList]),
+            $this->dac->hasAccess($user, $expectedClassName, $expectedAction, $requestParameters),
             $this->getConstraintBasedOnProviderAndUser($user)
         );
     }
@@ -267,9 +271,9 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
      */
     private function createSampleItems()
     {
-        $itemService = \taoItems_models_classes_ItemsService::singleton();
+        $rootClass = new \core_kernel_classes_Class(TaoOntology::CLASS_URI_ITEM);
         for ($i = 0; $i < 5; $i++) {
-            $itemService->createInstance($itemService->getRootClass(), self::SAMPLE_ITEMS_LABEL . $i);
+            $rootClass->createInstance(self::SAMPLE_ITEMS_LABEL . $i);
         }
     }
 
@@ -305,11 +309,9 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
 
         $items = $this->getItemByLabel(self::SAMPLE_ITEMS_LABEL);
         if ($items) {
-            $itemService = \taoItems_models_classes_ItemsService::singleton();
-
             foreach ($items as $item) {
                 if ($item) {
-                    $itemService->deleteResource($item);
+                    $item->delete(true);
                 }
             }
         }

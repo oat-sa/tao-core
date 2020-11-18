@@ -30,18 +30,5 @@
  */
 abstract class tao_helpers_form_elements_AsyncFile extends tao_helpers_form_FormElement
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    /**
-     * Short description of attribute widget
-     *
-     * @access public
-     * @var string
-     */
-    public $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile';
-
-    // --- OPERATIONS ---
-} /* end of abstract class tao_helpers_form_elements_AsyncFile */
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile';
+}

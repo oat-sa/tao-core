@@ -21,10 +21,13 @@
 
 namespace oat\tao\model\resources;
 
-use \core_kernel_classes_Class;
-use \core_kernel_classes_Resource;
+use common_Logger;
+use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
+use Exception;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\user\User;
 
 /**
@@ -34,14 +37,18 @@ use oat\oatbox\user\User;
  */
 class ResourceService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/ResourceService';
+    public const SERVICE_ID = 'tao/ResourceService';
 
-    const LABEL_URI  = 'http://www.w3.org/2000/01/rdf-schema#label';
+    public const LABEL_URI  = 'http://www.w3.org/2000/01/rdf-schema#label';
+
+    public const OPTION_CLASS_NESTING_LEVEL = 'class-nesting-level';
+
+    private const DEFAULT_CLASS_NESTING_LEVEL = 999;
 
     /**
      * The different lookup formats
      */
-    private static $formats = [ 'list', 'tree'];
+    private static $formats = ['list', 'tree'];
 
     /**
      * The lookup instances by format
@@ -50,26 +57,33 @@ class ResourceService extends ConfigurableService
 
     /**
      * Get the list of  classes from the given root class
+     *
      * @param core_kernel_classes_Class $rootClass the root class
      * @return array the classes hierarchy
      */
-    public function getAllClasses(core_kernel_classes_Class $rootClass)
+    public function getAllClasses(core_kernel_classes_Class $rootClass): array
     {
-        $result = [
+        return [
             'uri'      => $rootClass->getUri(),
             'label'    => $rootClass->getLabel(),
             'children' => $this->getSubClasses($rootClass->getSubClasses(false))
         ];
-
-        return $result;
     }
 
     /**
      * Get the class subclasses
+     *
+     * @param core_kernel_classes_Class[] $subClasses
+     * @param int                         $nestingLevel
+     *
      * @return array the classes hierarchy
      */
-    private function getSubClasses($subClasses)
+    private function getSubClasses(array $subClasses, int $nestingLevel = 0): array
     {
+        if ($nestingLevel >= $this->getNestingLevelLimit()) {
+            return [];
+        }
+
         $result = [];
 
         foreach ($subClasses as $subClass) {
@@ -78,26 +92,43 @@ class ResourceService extends ConfigurableService
                 'uri' => $subClass->getUri(),
                 'label' => $subClass->getLabel()
             ];
+
             if (count($children) > 0) {
-                $entry['children'] = $this->getSubClasses($children);
+                $entry['children'] = $this->getSubClasses($children, $nestingLevel + 1);
             }
-            array_push($result, $entry);
+
+            $result[] = $entry;
         }
 
         return $result;
     }
 
+    private function getNestingLevelLimit(): int
+    {
+        return $this->getOption(self::OPTION_CLASS_NESTING_LEVEL) ?? self::DEFAULT_CLASS_NESTING_LEVEL;
+    }
+
     /**
      * Retrieve the resources for the given parameters
-     * @param \core_kernel_classes_Class $resourceClass the resource class
-     * @param string                     $format        the lookup format
-     * @param string|array               $search        to filter by label if a string or provides the search filters
-     * @param int                        $offset        for paging
-     * @param int                        $limit         for paging
-     * @return array the resources
+     *
+     * @param core_kernel_classes_Class $rootClass
+     * @param string                    $format the lookup format
+     * @param array                     $selectedUris
+     * @param string|array              $search to filter by label if a string or provides the search filters
+     * @param int                       $offset for paging
+     * @param int                       $limit  for paging
+     *
+     * @return core_kernel_classes_Class[] the resources
+     * @throws InvalidServiceManagerException
      */
-    public function getResources(\core_kernel_classes_Class $rootClass, $format = 'list', $selectedUris = [], $search = '', $offset = 0, $limit = 30)
-    {
+    public function getResources(
+        core_kernel_classes_Class $rootClass,
+        $format = 'list',
+        $selectedUris = [],
+        $search = '',
+        $offset = 0,
+        $limit = 30
+    ): array {
         $propertyFilters = $this->getPropertyFilters($search);
 
         $result = [];
@@ -106,19 +137,31 @@ class ResourceService extends ConfigurableService
         if (!is_null($resourceLookup)) {
             $result = $resourceLookup->getResources($rootClass, $selectedUris, $propertyFilters, $offset, $limit);
         }
+
         return $result;
     }
 
     /**
      * Retrieve the classes for the given parameters
-     * @param \core_kernel_classes_Class $resourceClass the resource class
-     * @param string                     $format        the lookup format
-     * @param string|array               $search        to filter by label if a string or provides the search filters
-     * @param int                        $offset        for paging
-     * @param int                        $limit         for paging
-     * @return array the classes
+     *
+     * @param core_kernel_classes_Class $rootClass
+     * @param string                    $format the lookup format
+     * @param array                     $selectedUris
+     * @param string|array              $search to filter by label if a string or provides the search filters
+     * @param int                       $offset for paging
+     * @param int                       $limit  for paging
+     *
+     * @return core_kernel_classes_Class[] the classes
+     * @throws InvalidServiceManagerException
      */
-    public function getClasses(\core_kernel_classes_Class $rootClass, $format = 'list', $selectedUris = [], $search = '', $offset = 0, $limit = 30)
+    public function getClasses(
+        core_kernel_classes_Class $rootClass,
+        $format = 'list',
+        $selectedUris = [],
+        $search = '',
+        $offset = 0,
+        $limit = 30
+    ): array
     {
         $propertyFilters = $this->getPropertyFilters($search);
 
@@ -136,9 +179,10 @@ class ResourceService extends ConfigurableService
      *
      * @param User $user the user to check the permissions
      * @param array $resources the resources to get the permissions
+     *
      * @return array the available rights and the permissions per resource
      */
-    public function getResourcesPermissions(User $user, $resources)
+    public function getResourcesPermissions(User $user, $resources): array
     {
         $permissions = [];
         if (!is_null($user)) {
@@ -152,8 +196,8 @@ class ResourceService extends ConfigurableService
 
                     $permissions['data'] = $permissionManager->getPermissions($user, $uris);
                 }
-            } catch (\Exception $e) {
-                \common_Logger::w('Unable to retrieve permssions ' . $e->getMessage());
+            } catch (Exception $e) {
+                common_Logger::w('Unable to retrieve permssions ' . $e->getMessage());
             }
         }
         return $permissions;
@@ -165,7 +209,7 @@ class ResourceService extends ConfigurableService
      * @param string|array  $search to filter by label if a string or provides the search filters
      * @return array the list of property filters
      */
-    private function getPropertyFilters($search = '')
+    private function getPropertyFilters($search = ''): array
     {
         $propertyFilters = [];
 
@@ -188,11 +232,16 @@ class ResourceService extends ConfigurableService
 
     /**
      * Get the resource lookup for the given format
-     * @return ResourceLookup or null
+     *
+     * @param $format
+     *
+     * @return ResourceLookup|null
+     *
+     * @throws InvalidServiceManagerException
      */
-    private function getResourceLookup($format)
+    private function getResourceLookup($format): ?ResourceLookup
     {
-        if (in_array($format, self::$formats)) {
+        if (in_array($format, self::$formats, true)) {
             if (!isset($this->lookups)) {
                 $this->lookups = [
                     'list' => $this->getServiceManager()->get(ListResourceLookup::SERVICE_ID),
@@ -201,16 +250,17 @@ class ResourceService extends ConfigurableService
             }
             return $this->lookups[$format];
         }
+
         return null;
     }
 
     /**
      * Walk through the resources (recursively) to get theirs URIs
      *
-     * @param array|core_kernel_class_Resource $nodes the tree or a sub tree, a resource or a resource list
+     * @param array|core_kernel_classes_Resource $nodes the tree or a sub tree, a resource or a resource list
      * @return string[] the list of URIs
      */
-    private function getUris($nodes)
+    private function getUris($nodes): array
     {
         $uris = [];
 

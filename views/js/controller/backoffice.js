@@ -20,21 +20,39 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery', 'lodash', 'i18n', 'context', 'helpers', 'core/router', 'uikitLoader', 'core/history', 'ui/feedback', 'layout/logout-event'
+    'jquery',
+    'lodash',
+    'i18n',
+    'context',
+    'helpers',
+    'core/router',
+    'uikitLoader',
+    'core/history',
+    'ui/feedback',
+    'layout/logout-event'
 ], function ($, _, __, context, helpers, router, uikitLoader, history, feedback, logoutEvent) {
     'use strict';
+
+    function hasAjaxResponse(ajaxResponse) {
+        return ajaxResponse && ajaxResponse !== null;
+    }
+
+    function hasAjaxResponseProperties(ajaxResponse) {
+        return typeof ajaxResponse.success !== 'undefined' &&
+            typeof ajaxResponse.type !== 'undefined' &&
+            typeof ajaxResponse.message !== 'undefined' &&
+            typeof ajaxResponse.data !== 'undefined'
+    }
 
     /**
      * The backoffice controller.
      * Starts the ajax based router, the automated error reporting and the UI listeners.
      */
     return {
-
         /**
          * Controller entry point
          */
-        start: function start(){
-
+        start: function start() {
             var $doc = $(document);
             var $container = $('body > .content-wrap');
 
@@ -42,17 +60,17 @@ define([
             history.fixBrokenBrowsers();
 
             //contextual loading, do a dispatch each time an ajax request loads an HTML page
-            $doc.ajaxComplete(function(event, request, settings){
+            $doc.ajaxComplete(function (event, request, settings) {
                 var urls;
                 var forward;
-                if(_.contains(settings.dataTypes, 'html')){
+                if (_.contains(settings.dataTypes, 'html')) {
                     urls = [settings.url];
                     forward = request.getResponseHeader('X-Tao-Forward');
-                    if(forward){
+                    if (forward) {
                         urls.push(forward);
                     }
 
-                    router.dispatch(urls, function(){
+                    router.dispatch(urls, function () {
                         uikitLoader.startDomComponent($container);
                     });
                 }
@@ -64,36 +82,29 @@ define([
             //intercept errors
             //TODO this should belongs to the Router
             $doc.ajaxError(function (event, request, settings, thrownError) {
-                // Request was manually aborted, isn't a error
-                if (thrownError === 'abort') return;
-
                 var ajaxResponse;
                 var errorMessage = __('Unknown Error');
 
-                if (request.status === 404 && settings.type === 'HEAD') {
+                // Request was manually aborted, isn't a error
+                if (thrownError === 'abort') return;
+
+                try {
+                    ajaxResponse = $.parseJSON(request.responseText);
+                } catch (err) {
+                    errorMessage = `${request.status}: ${request.responseText}`;
+                }
+
+                // Specific error tooManyFolders in sharedStimulus
+                if (ajaxResponse && ajaxResponse.code === 999) { return; }
+
+                if ((request.status === 404 || request.status === 0) && settings.type === 'HEAD') {
                     //consider it as a "test" to check if resource exists
                     return;
-
                 } else if (request.status === 404 || request.status === 500) {
-                    try {
-                        // is it a common_AjaxResponse? Let's "duck type"
-                        ajaxResponse = $.parseJSON(request.responseText);
-                        if (ajaxResponse !== null &&
-                            typeof ajaxResponse.success !== 'undefined' &&
-                            typeof ajaxResponse.type !== 'undefined' &&
-                            typeof ajaxResponse.message !== 'undefined' &&
-                            typeof ajaxResponse.data !== 'undefined') {
-
-                            errorMessage = request.status + ': ' + ajaxResponse.message;
-                        }
-                        else {
-                            errorMessage = request.status + ': ' + request.responseText;
-                        }
-
-                    }
-                    catch (err) {
-                        // It does not seem to be valid JSON.
-                        errorMessage = request.status + ': ' + request.responseText;
+                    if (hasAjaxResponse() && hasAjaxResponseProperties()) {
+                        errorMessage = `${request.status}: ${ajaxResponse.message}`;
+                    } else {
+                        errorMessage = `${request.status}: ${request.responseText}`;
                     }
                 }
 

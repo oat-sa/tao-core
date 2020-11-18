@@ -27,7 +27,6 @@ use oat\generis\Helper\SystemHelper;
  *
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
- * @package taoItems
  */
 class tao_models_classes_import_RdfImportForm extends tao_helpers_form_FormContainer
 {

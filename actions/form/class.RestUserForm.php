@@ -23,6 +23,8 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use \oat\generis\model\user\PasswordConstraintsService;
 use \oat\oatbox\validator\ValidatorInterface;
+use tao_helpers_form_elements_Readonly as ReadOnly;
+use tao_models_classes_UserService as UserService;
 use \Zend\ServiceManager\ServiceLocatorAwareTrait;
 use \Zend\ServiceManager\ServiceLocatorAwareInterface;
 
@@ -50,15 +52,15 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         $properties = $this->formProperties;
 
         foreach ($properties as $index => $property) {
-            if ($this->doesExist() && $property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
-                $properties[$index]['widget'] = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly';
+            if ($property['uri'] === GenerisRdf::PROPERTY_USER_LOGIN && $this->doesExist()) {
+                $properties[$index]['widget'] = ReadOnly::WIDGET_ID;
                 break;
             }
         }
 
         if ($this->doesExist()) {
             foreach ($properties as $key => $property) {
-                if ($property['uri'] == GenerisRdf::PROPERTY_USER_PASSWORD && isset($property['value'])) {
+                if ($property['uri'] === GenerisRdf::PROPERTY_USER_PASSWORD && isset($property['value'])) {
                     $properties[$key]['value'] = '';
                     break;
                 }
@@ -103,7 +105,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         // Validate new login availability
         if ($this->isNew()) {
             foreach ($this->formProperties as $property) {
-                if ($property['uri'] == 'http://www.tao.lu/Ontologies/generis.rdf#login') {
+                if ($property['uri'] === GenerisRdf::PROPERTY_USER_LOGIN) {
                     if (empty($property['formValue'])) {
                         $subReport = common_report_Report::createFailure(__('Login is empty.'));
                     } elseif (! $this->isLoginAvailable($property['formValue'])) {
@@ -202,7 +204,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
      */
     protected function isLoginAvailable($login)
     {
-        return \tao_models_classes_UserService::singleton()->loginAvailable($login);
+        return UserService::singleton()->loginAvailable($login);
     }
 
     /**

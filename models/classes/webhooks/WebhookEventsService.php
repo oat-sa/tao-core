@@ -25,6 +25,7 @@ use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\exceptions\WebhookConfigMissingException;
+use oat\tao\model\webhooks\configEntity\WebhookInterface;
 use oat\tao\model\webhooks\task\WebhookTaskParams;
 
 class WebhookEventsService extends ConfigurableService implements WebhookEventsServiceInterface
@@ -156,7 +157,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
                 WebhookTaskParams::EVENT_NAME => $event->getWebhookEventName(),
                 WebhookTaskParams::EVENT_ID => $eventId,
                 WebhookTaskParams::TRIGGERED_TIMESTAMP => $triggeredTimestamp,
-                WebhookTaskParams::EVENT_DATA => $eventData,
+                WebhookTaskParams::EVENT_DATA => $this->extendPayload($webhookConfig, $eventData),
                 WebhookTaskParams::WEBHOOK_CONFIG_ID => $webhookConfigId,
                 WebhookTaskParams::RETRY_COUNT => 1,
                 WebhookTaskParams::RETRY_MAX => $webhookConfig->getMaxRetries(),
@@ -236,5 +237,14 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+    }
+
+    private function extendPayload(WebhookInterface $webhookConfig, array $eventData): array
+    {
+        if (empty($webhookConfig->getExtraPayload())) {
+            return $eventData;
+        }
+
+        return array_merge($webhookConfig->getExtraPayload(), $eventData);
     }
 }

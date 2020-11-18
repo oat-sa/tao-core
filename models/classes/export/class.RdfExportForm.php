@@ -20,15 +20,12 @@
  *
  */
 
-use oat\tao\helpers\Template;
 
 /**
  * Export form for QTI packages
  *
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
- * @package taoItems
-
  */
 class tao_models_classes_export_RdfExportForm extends tao_helpers_form_FormContainer
 {

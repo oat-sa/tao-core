@@ -20,7 +20,9 @@
  *
  */
 
+use oat\oatbox\service\ServiceManager;
 use oat\oatbox\user\UserLanguageServiceInterface;
+use oat\oatbox\user\UserTimezoneServiceInterface;
 
 /**
  * This container initialize the settings form.
@@ -47,6 +49,11 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
         $this->form->setActions($actions);
     }
 
+    private function getServiceManager(): ServiceManager
+    {
+        return oat\oatbox\service\ServiceManager::getServiceManager();
+    }
+
     /**
      * @inheritdoc
      * @throws common_Exception
@@ -55,7 +62,7 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
     protected function initElements()
     {
         $langService = tao_models_classes_LanguageService::singleton();
-        $userLangService = oat\oatbox\service\ServiceManager::getServiceManager()->get(UserLanguageServiceInterface::class);
+        $userLangService = $this->getServiceManager()->get(UserLanguageServiceInterface::class);
 
         // Retrieve languages available for a GUI usage.
         $guiUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI);
@@ -84,14 +91,27 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
             $this->form->addElement($dataLangElement);
         }
 
-        $tzElement = tao_helpers_form_FormFactory::getElement('timezone', 'Combobox');
-        $tzElement->setDescription(__('Time zone'));
-        $options = [];
-        foreach (DateTimeZone::listIdentifiers() as $id) {
-            $options[$id] = $id;
-        }
-        $tzElement->setOptions($options);
+        $this->addTimezoneEl($this->form);
+    }
 
-        $this->form->addElement($tzElement);
+    private function getUserTimezoneService(): UserTimezoneServiceInterface
+    {
+        return $this->getServiceManager()->get(UserTimezoneServiceInterface::SERVICE_ID);
+    }
+
+    private function addTimezoneEl($form): void
+    {
+        if ($this->getUserTimezoneService()->isUserTimezoneEnabled()) {
+            $tzElement = tao_helpers_form_FormFactory::getElement('timezone', 'Combobox');
+            $tzElement->setDescription(__('Time zone'));
+
+            $options = [];
+            foreach (DateTimeZone::listIdentifiers() as $id) {
+                $options[$id] = $id;
+            }
+            $tzElement->setOptions($options);
+
+            $form->addElement($tzElement);
+        }
     }
 }

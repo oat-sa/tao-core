@@ -29,32 +29,18 @@
  */
 abstract class tao_helpers_form_elements_GenerisAsyncFile extends tao_helpers_form_FormElement
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    /**
-     * Short description of attribute widget
-     *
-     * @access public
-     * @var string
-     */
-    public $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile';
-
-    // --- OPERATIONS ---
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile';
 
     /**
      * Short description of method setValue
      *
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  value
-     * @return mixed
+     * @param  mixed value
      */
     public function setValue($value)
     {
-        
+
         if ($value instanceof tao_helpers_form_data_UploadFileDescription) {
             // The file is being uploaded.
             $this->value = $value;

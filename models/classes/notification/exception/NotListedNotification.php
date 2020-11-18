@@ -21,6 +21,12 @@
 
 namespace oat\tao\model\notification\exception;
 
+/**
+ * Class NotListedNotification
+ *
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ *
+ */
 class NotListedNotification extends \common_exception_ClientException
 {
 

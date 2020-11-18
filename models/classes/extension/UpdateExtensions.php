@@ -21,10 +21,15 @@
 
 namespace oat\tao\model\extension;
 
-use common_report_Report;
+use common_ext_ManifestException as ManifestException;
+use common_ext_UpdaterNotFoundException as UpdaterNotFoundException;
+use common_report_Report as Report;
 use oat\oatbox\log\LoggerAggregator;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\migrations\MigrationsService;
+use common_ext_ExtensionsManager as ExtensionManager;
+use common_ext_Extension as Extension;
 
 /**
  * Extends the generis updater to take into account
@@ -50,17 +55,25 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         }
         $report = parent::__invoke($params);
 
-        // regenrate locals
+        $migrationsReport = $this->getServiceLocator()->get(MigrationsService::class)->migrate();
+        $this->logInfo(\helpers_Report::renderToCommandline($migrationsReport, false));
+        $report->add($migrationsReport);
+
+        // regenerate locales
         $files = \tao_models_classes_LanguageService::singleton()->generateAll();
         if (count($files) > 0) {
-            $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Successfully updated %s client translation bundles', count($files))));
+            $report->add(new Report(Report::TYPE_SUCCESS, __('Successfully updated %s client translation bundles', count($files))));
         } else {
-            $report->add(new common_report_Report(common_report_Report::TYPE_ERROR, __('No client translation bundles updated')));
+            $report->add(new Report(Report::TYPE_ERROR, __('No client translation bundles updated')));
         }
 
-        $updateid = $this->generateUpdateId();
-        $this->updateCacheBuster($report, $updateid);
-        $report->add(new common_report_Report(common_report_Report::TYPE_INFO, __('Update ID : %s', $updateid)));
+        $updateId = $this->generateUpdateId();
+        $this->updateCacheBuster($report, $updateId);
+
+        $postUpdateReport = $this->runPostUpdateScripts();
+        $report->add($postUpdateReport);
+
+        $report->add(new Report(Report::TYPE_INFO, __('Update ID : %s', $updateId)));
 
         return $report;
     }
@@ -76,10 +89,11 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
 
     /**
      * Update the asset service to save the cache buster value (the update id)
-     * @param common_report_Report $report
-     * @param string               $updateid
+     *
+     * @param Report $report
+     * @param string $updateid
      */
-    private function updateCacheBuster(common_report_Report $report, $updateid)
+    private function updateCacheBuster(Report $report, $updateid)
     {
         try {
             $assetService = $this->getServiceLocator()->get(AssetService::SERVICE_ID);
@@ -87,7 +101,45 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
             $this->getServiceLocator()->register(AssetService::SERVICE_ID, $assetService);
         } catch (\Exception $e) {
             \common_Logger::e($e->getMessage());
-            $report->add(new common_report_Report(common_report_Report::TYPE_WARNING, __('Unable to update the asset service')));
+            $report->add(
+                new Report(Report::TYPE_WARNING, __('Unable to update the asset service')));
+        }
+    }
+
+    /**
+     * @throws \common_exception_Error
+     */
+    private function runPostUpdateScripts()
+    {
+        $report = new Report(Report::TYPE_INFO, 'Post update actions:');
+        $extManager = $this->getServiceLocator()->get(ExtensionManager::SERVICE_ID);
+        $sorted = \helpers_ExtensionHelper::sortByDependencies($extManager->getInstalledExtensions());
+        foreach ($sorted as $ext) {
+            $postUpdateExtensionReport = $this->runPostUpdateScript($ext);
+            if ($postUpdateExtensionReport !== null) {
+                $report->add($postUpdateExtensionReport);
+            }
+        }
+        if (!$report->hasChildren()) {
+            $report->add(
+                new Report(Report::TYPE_INFO, 'No actions to be executed'));
+        }
+        return $report;
+    }
+
+    /**
+     * @param Extension $ext
+     *
+     * @return Report|null
+     */
+    private function runPostUpdateScript(Extension $ext): ?Report
+    {
+        try {
+            return $ext->getUpdater()->postUpdate();
+        } catch (UpdaterNotFoundException $e) {
+            return Report::createSuccess(sprintf('No postprocessing defined for %s', $ext->getName()));
+        } catch (ManifestException $e) {
+            return new Report(Report::TYPE_WARNING, $e->getMessage());
         }
     }
 }

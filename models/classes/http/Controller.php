@@ -37,7 +37,10 @@ abstract class Controller
     use HttpRequestHelperTrait;
     use HttpFlowTrait;
 
+    /** @var ServerRequestInterface */
     protected $request;
+
+    /** @var ResponseInterface */
     protected $response;
 
     /**

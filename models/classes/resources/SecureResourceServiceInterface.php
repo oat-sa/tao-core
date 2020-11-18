@@ -24,11 +24,17 @@ declare(strict_types=1);
 namespace oat\tao\model\resources;
 
 use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
 
 interface SecureResourceServiceInterface
 {
     public const SERVICE_ID = 'tao/SecureResourceService';
 
+    /**
+     * @param core_kernel_classes_Class $resource
+     *
+     * @return core_kernel_classes_Resource[] the key is a URI of a resource
+     */
     public function getAllChildren(core_kernel_classes_Class $resource): array;
 
     public function validatePermissions(iterable $resources, array $permissionsToCheck): void;

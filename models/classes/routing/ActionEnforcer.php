@@ -22,11 +22,10 @@
 
 namespace oat\tao\model\routing;
 
+use Context;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-
-use function GuzzleHttp\Psr7\stream_for;
-
+use ReflectionException;
 use IExecutable;
 use ActionEnforcingException;
 use oat\tao\model\http\ResponseEmitter;
@@ -103,7 +102,9 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         if (!class_exists($controllerClass)) {
             throw new ActionEnforcingException('Controller "' . $controllerClass . '" could not be loaded.', $controllerClass, $this->getAction());
         }
-        $controller = new $controllerClass();
+
+        $controller = $this->getClassInstance($controllerClass);
+
         $this->propagate($controller);
         if ($controller instanceof Controller) {
             $controller->setRequest($this->getRequest());
@@ -113,6 +114,17 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             $controller->initialize();
         }
         return $controller;
+    }
+
+    private function getClassInstance(string $className): object
+    {
+        $serviceId = defined("$className::SERVICE_ID")
+            ? $className::SERVICE_ID
+            : $className;
+
+        return $this->getServiceLocator()->has($serviceId)
+            ? $this->getServiceLocator()->get($serviceId)
+            : $this->propagate(new $className);
     }
 
     protected function getRequest()
@@ -165,7 +177,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
     /**
      * @throws ActionEnforcingException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      * @throws \common_exception_Error
      * @throws \common_exception_MissingParameter
      * @throws tao_models_classes_AccessDeniedException
@@ -177,7 +189,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             $this->verifyAuthorization();
         } catch (PermissionException $pe) {
             //forward the action (yes it's an awful hack, but far better than adding a step in Bootstrap's dispatch error).
-            \Context::getInstance()->setExtensionName('tao');
+            Context::getInstance()->setExtensionName('tao');
             $this->action       = 'denied';
             $this->controllerClass   = 'tao_actions_Permission';
             $this->extension    = 'tao';
@@ -193,7 +205,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      * @throws ActionEnforcingException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      * @throws \common_exception_Error
      */
     public function resolve(ServerRequestInterface $request)
@@ -219,18 +231,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             );
         }
 
-        // search parameters method
-        $reflect    = new ReflectionMethod($controller, $action);
-        $parameters = $this->getParameters();
-
-        $tabParam   = [];
-        foreach ($reflect->getParameters() as $param) {
-            if (isset($parameters[$param->getName()])) {
-                $tabParam[$param->getName()] = $parameters[$param->getName()];
-            } elseif (!$param->isDefaultValueAvailable()) {
-                $this->logWarning('Missing parameter ' . $param->getName() . ' for ' . $this->getControllerClass() . '@' . $action);
-            }
-        }
+        $actionParameters = $this->resolveParameters($request, $controller, $action);
 
         // Action method is invoked, passing request parameters as method parameters.
         $user = common_session_SessionManager::getSession()->getUser();
@@ -239,8 +240,42 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
         $eventManager->trigger(new BeforeAction());
 
-        $response = call_user_func_array([$controller, $action], $tabParam);
+        $response = call_user_func_array([$controller, $action], $actionParameters);
 
         return $response instanceof ResponseInterface ? $response : $controller->getPsrResponse();
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @param                        $controller
+     * @param string                 $action
+     *
+     * @return array
+     * @throws ReflectionException
+     */
+    private function resolveParameters(ServerRequestInterface $request, $controller, string $action): array
+    {
+        // search parameters method
+        $reflect    = new ReflectionMethod($controller, $action);
+        $parameters = $this->getParameters();
+
+        $actionParameters   = [];
+        foreach ($reflect->getParameters() as $param) {
+            $paramName = $param->getName();
+            $paramType = $param->getType();
+            $paramTypeName = $paramType !== null ? $paramType->getName() : null;
+
+            if (isset($parameters[$paramName])) {
+                $actionParameters[$paramName] = $parameters[$paramName];
+            } elseif($paramTypeName === ServerRequest::class) {
+                $actionParameters[$paramName] = $request;
+            } elseif (class_exists($paramTypeName) || interface_exists($paramTypeName)) {
+                $actionParameters[$paramName] = $this->getClassInstance($paramTypeName);
+            } elseif (!$param->isDefaultValueAvailable()) {
+                $this->logWarning('Missing parameter ' . $paramName . ' for ' . $this->getControllerClass() . '@' . $action);
+            }
+        }
+
+        return $actionParameters;
     }
 }
