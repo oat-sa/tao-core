@@ -143,6 +143,7 @@ use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
+use oat\tao\scripts\install\RegisterValueCollectionServices;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\UpdateRequiredActionUrl;
 use oat\tao\scripts\tools\MigrateSecuritySettings;
@@ -151,6 +152,7 @@ use tao_models_classes_UserService;
 /**
  *
  * @author Joel Bout <joel@taotesting.com>
+ * @deprecated use migrations instead. See https://github.com/oat-sa/generis/wiki/Tao-Update-Process
  */
 class Updater extends \common_ext_ExtensionUpdater
 {
@@ -1034,7 +1036,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
             /** @var TokenStore $tokenStore */
             $tokenStore = $tokenService->getOption(TokenService::OPTION_STORE);
-            $tokenStore->removeTokens();
+            $tokenStore->clear();
             $this->setVersion('34.0.0');
         }
 
@@ -1361,6 +1363,19 @@ class Updater extends \common_ext_ExtensionUpdater
             $this->setVersion('42.11.0');
         }
 
-        $this->skip('42.11.0', '43.0.1');
+        $this->skip('42.11.0', '44.1.1');
+
+        if ($this->isVersion('44.1.1')) {
+            $this->runExtensionScript(RegisterValueCollectionServices::class);
+
+            $this->setVersion('44.2.0');
+        }
+
+        $this->skip('44.2.0', '44.4.0');
+
+        //Updater files are deprecated. Please use migrations.
+        //See: https://github.com/oat-sa/generis/wiki/Tao-Update-Process
+
+        $this->setVersion($this->getExtension()->getManifest()->getVersion());
     }
 }

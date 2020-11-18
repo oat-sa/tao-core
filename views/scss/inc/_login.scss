@@ -69,6 +69,8 @@ $entryArrowHeight: 150;
     .entry-point {
 
         padding-left: 40px;
+        min-height: $entryArrowHeight * 1px;
+        cursor: pointer;
 
         &:before, &:after {
             content: '';

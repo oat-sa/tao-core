@@ -69,6 +69,9 @@ class tao_actions_Export extends tao_actions_CommonModule
 
         $handlers = $this->getAvailableExportHandlers();
         $exporter = $this->getCurrentExporter();
+        if ($exporter === null) {
+            throw new common_exception_BadRequest('Exporter is not found');
+        }
 
         $selectedResource = $formData['instance'] ?? $formData['class'];
 
@@ -76,11 +79,9 @@ class tao_actions_Export extends tao_actions_CommonModule
             throw new common_exception_MissingParameter();
         }
 
-        $formFactory = new tao_actions_form_Export($handlers, $exporter->getExportForm($selectedResource), $formData);
+        $formFactory = $this->getFormFactory($handlers, $exporter, $selectedResource, $formData);
         $exportForm = $formFactory->getForm();
-        if ($exporter !== null) {
-            $exportForm->setValues(['exportHandler' => get_class($exporter)]);
-        }
+        $exportForm->setValues(['exportHandler' => get_class($exporter)]);
         $this->setData('exportForm', $exportForm->render());
 
         // if export form submitted
@@ -136,6 +137,16 @@ class tao_actions_Export extends tao_actions_CommonModule
 
         $this->setData('formTitle', __('Export '));
         $this->setView('form/export.tpl', 'tao');
+    }
+
+    protected function getFormFactory(
+        array $handlers,
+        tao_models_classes_export_ExportHandler $exporter,
+        core_kernel_classes_Resource $selectedResource,
+        array $formData
+    ): tao_actions_form_Export
+    {
+        return new tao_actions_form_Export($handlers, $exporter->getExportForm($selectedResource), $formData);
     }
 
     /**

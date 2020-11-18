@@ -41,6 +41,12 @@
     "select2-origin": "../../../tao/views/node_modules/select2"
   },
 
+  "packages": [{
+    "name": "codemirror",
+    "location": "../../../tao/views/node_modules/codemirror",
+    "main": "lib/codemirror"
+  }],
+
   "shim": {
     "moment": {
       "exports": "moment"

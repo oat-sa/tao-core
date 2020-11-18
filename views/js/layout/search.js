@@ -48,16 +48,18 @@ function($, _, __, section, actionManager, feedback){
         //create a datatable
         $tableContainer.datatable({
             url: data.url,
-            model : _.values(data.model),
-            actions : {
-                open : function openResource(id){
+            model: _.values(data.model),
+            actions: [{
+                id: 'open',
+                label: 'Open',
+                action: function openResource(id) {
                     actionManager.trigger('refresh', {
-                        uri : id
+                        uri: id
                     });
                 }
-            },
-            params : {
-                params : data.params,
+            }],
+            params: {
+                params: data.params,
                 filters: data.filters,
                 rows: 20
             }

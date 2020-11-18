@@ -20,6 +20,7 @@
  *
  */
 
+use oat\tao\helpers\form\elements\ElementValue;
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
@@ -32,7 +33,7 @@ use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 class tao_helpers_form_elements_xhtml_Combobox extends tao_helpers_form_elements_Combobox
 {
     use XhtmlRenderingTrait;
-        
+
     /**
      * Short description of method render
      *
@@ -43,23 +44,29 @@ class tao_helpers_form_elements_xhtml_Combobox extends tao_helpers_form_elements
     public function render()
     {
         $returnValue = $this->renderLabel();
-        
+
         $returnValue .= "<select name='{$this->name}' id='{$this->name}' ";
         $returnValue .= $this->renderAttributes();
-        $returnValue .= ">";
-        if (! empty($this->emptyOption)) {
-            $this->options = array_merge([
-                ' ' => $this->emptyOption], $this->options);
+        $returnValue .= '>';
+        if (!empty($this->emptyOption)) {
+            $this->options = array_merge(
+                [
+                    ' ' => $this->emptyOption
+                ],
+                $this->options
+            );
         }
+        $encodedValue = (string)$this->value;
+
         foreach ($this->options as $optionId => $optionLabel) {
             $returnValue .= "<option value='{$optionId}' ";
-            if ($this->value === $optionId) {
+            if ($encodedValue === $optionId) {
                 $returnValue .= " selected='selected' ";
             }
-            $returnValue .= ">" . _dh($optionLabel) . "</option>";
+            $returnValue .= '>' . _dh($optionLabel) . '</option>';
         }
-        $returnValue .= "</select>";
-        
-        return (string) $returnValue;
+        $returnValue .= '</select>';
+
+        return $returnValue;
     }
 }

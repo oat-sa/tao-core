@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint129\n"
-"PO-Revision-Date: 2020-05-22T08:23:30\n"
+"Project-Id-Version: TAO 3.4.0-sprint141\n"
+"PO-Revision-Date: 2020-11-06T09:23:50\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -148,6 +148,9 @@ msgstr ""
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "詳しい手順とメッセージがあなたのメールアドレスに送信されました：%s"
 
+msgid "About"
+msgstr ""
+
 msgid "abs"
 msgstr ""
 
@@ -196,6 +199,9 @@ msgstr "ユーザー追加"
 
 msgid "Add an RDF/XML file"
 msgstr "RDF/XMLファイル追加"
+
+msgid "add criteria"
+msgstr ""
 
 msgid "Add file(s)"
 msgstr "ファイルを追加"
@@ -447,10 +453,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -479,6 +485,9 @@ msgstr ""
 
 msgid "Column"
 msgstr "列"
+
+msgid "command"
+msgstr ""
 
 msgid "Commands:"
 msgstr ""
@@ -567,14 +576,17 @@ msgstr "データインポートに成功しました"
 msgid "Data imported. Some records are invalid."
 msgstr "データインポート終了。いくつかのレコードは無効です。"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "データ言語"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "データ言語"
 
 msgid "Data not imported. All records are invalid."
 msgstr "データはインポートされませんでした。すべてのレコードは無効です。"
+
+msgid "Data source URI"
+msgstr ""
 
 msgid "Date"
 msgstr "日付"
@@ -742,6 +754,9 @@ msgstr ""
 msgid "Error in value"
 msgstr ""
 
+msgid "Error: %s"
+msgstr ""
+
 msgid "Examples:"
 msgstr ""
 
@@ -897,6 +912,9 @@ msgstr "前に戻る"
 msgid "go back to home page"
 msgstr ""
 
+msgid "Go to item"
+msgstr ""
+
 msgid "Height"
 msgstr "高さ"
 
@@ -931,6 +949,9 @@ msgid "Hyperbolic sine"
 msgstr ""
 
 msgid "Hyperbolic tangent"
+msgstr ""
+
+msgid "I understand that this action is permanent."
 msgstr ""
 
 msgid "Identifier"
@@ -978,10 +999,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1086,6 +1107,9 @@ msgstr ""
 msgid "Label"
 msgstr "ラベル"
 
+msgid "Label Path"
+msgstr ""
+
 msgid "Language"
 msgstr "言語"
 
@@ -1113,11 +1137,20 @@ msgstr "リスト"
 msgid "List - Multiple choice - Check box"
 msgstr "リスト - 多肢選択 - チェックボックス"
 
+msgid "List - Multiple choice - Search input"
+msgstr ""
+
 msgid "List - Single choice - Drop down"
 msgstr "リスト - 択一 - ドロップダウン"
 
 msgid "List - Single choice - Radio button"
 msgstr "リスト - 択一 - ラジオボタン"
+
+msgid "List - Single choice - Search input"
+msgstr ""
+
+msgid "List item URI duplications found"
+msgstr ""
 
 msgid "List values"
 msgstr ""
@@ -1170,7 +1203,19 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+msgid "Main Menu"
+msgstr ""
+
+msgid "Maintenance service is already installed."
+msgstr ""
+
 msgid "Maintenance service must have a persistence option."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is enabled."
 msgstr ""
 
 msgid "Maintenance storage driver is not set"
@@ -1316,14 +1361,11 @@ msgstr "ファイルが選択されていません"
 msgid "No files"
 msgstr "ファイルが有りません"
 
+msgid "No item found. Please try other search criteria."
+msgstr ""
+
 msgid "no label"
 msgstr "ラベルがありません"
-
-msgid "No Preview available"
-msgstr "プレビューは利用できません"
-
-msgid "No preview available"
-msgstr "プレビューは利用できません"
 
 msgid "No results found"
 msgstr "検索結果はありません"
@@ -1374,10 +1416,10 @@ msgstr "の"
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
 msgid "Old Password"
@@ -1387,6 +1429,9 @@ msgid "On"
 msgstr ""
 
 msgid "Only allow for my own domain (%s)"
+msgstr ""
+
+msgid "Only one of the field must have value %s"
 msgstr ""
 
 msgid "Operated By "
@@ -1458,6 +1503,9 @@ msgstr ""
 msgid "Please contact your system administrator."
 msgstr ""
 
+msgid "Please define your search in the search panel."
+msgstr ""
+
 msgid "Please download the track and listen offline."
 msgstr ""
 
@@ -1477,6 +1525,9 @@ msgid "Please wait"
 msgstr ""
 
 msgid "Please wait while ..."
+msgstr ""
+
+msgid "Positionals:"
 msgstr ""
 
 msgid "Post install processing"
@@ -1718,6 +1769,9 @@ msgstr "%sを検索"
 msgid "Search by properties"
 msgstr ""
 
+msgid "Search Item"
+msgstr ""
+
 msgid "Search sub-classes"
 msgstr "サブクラスを検索"
 
@@ -1882,6 +1936,24 @@ msgstr "TAO ホーム"
 msgid "TAO Login"
 msgstr "TAO ログイン"
 
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
+msgstr ""
+
 msgid "Task %s has been cancelled, message was not processed."
 msgstr ""
 
@@ -1926,6 +1998,9 @@ msgstr ""
 
 msgid "The column "
 msgstr "カラム"
+
+msgid "The following criteria are not applicable to the selected class and have been removed from the search"
+msgstr ""
 
 msgid "The format of this field is not valid."
 msgstr "このフィールドの形式は有効ではありません"
@@ -1985,6 +2060,9 @@ msgid "This Login is already in use"
 msgstr "このログインは既に使用されています"
 
 msgid "This media cannot be played!"
+msgstr ""
+
+msgid "This or one of %s must have a value"
 msgstr ""
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
@@ -2176,8 +2254,20 @@ msgstr "アップロード"
 msgid "Upload into:"
 msgstr "アップロード先:"
 
+msgid "URI Path"
+msgstr ""
+
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "使用法：ImportRdf RDF_FILE [MODEL_ID]"
+
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr ""
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr ""
+
+msgid "USAGE: please provide the service name as first parameter"
+msgstr ""
 
 msgid "Use a term"
 msgstr ""

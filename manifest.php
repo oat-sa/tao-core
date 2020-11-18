@@ -31,16 +31,21 @@ use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\RegisterEvents;
 use oat\tao\scripts\install\RegisterResourceEvents;
+use oat\tao\scripts\install\RegisterResourceRelationService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
+use oat\tao\scripts\install\RegisterSessionCookieService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\RegisterUserService;
 use oat\tao\scripts\install\RegisterValidationRules;
+use oat\tao\scripts\install\RegisterValueCollectionServices;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetContainerService;
 use oat\tao\scripts\install\SetDefaultCSPHeader;
@@ -49,6 +54,7 @@ use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\SetUpQueueTasks;
+use oat\tao\scripts\update\Updater;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -57,10 +63,10 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '43.0.1',
+    'version' => '46.7.2',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
-        'generis' => '>=12.21.0',
+        'generis' => '>=13.10.0',
     ],
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
@@ -75,7 +81,7 @@ return [
             __DIR__ . '/models/ontology/services.rdf',
             __DIR__ . '/models/ontology/indexation.rdf',
             __DIR__ . '/models/ontology/model.rdf',
-            __DIR__ . '/models/ontology/widegetdefinitions.rdf',
+            __DIR__ . '/models/ontology/widgetdefinitions.rdf',
             __DIR__ . '/models/ontology/requiredaction.rdf',
             __DIR__ . '/models/ontology/auth/basicauth.rdf',
             __DIR__ . '/models/ontology/userlocks.rdf'
@@ -121,6 +127,7 @@ return [
             SetContainerService::class,
             RegisterResourceWatcherService::class,
             RegisterResourceEvents::class,
+            RegisterEvents::class,
             RegisterActionService::class,
             RegisterUserLockoutsEventListeners::class,
             RegisterTaskQueueServices::class,
@@ -129,10 +136,14 @@ return [
             SetDefaultCSPHeader::class,
             CreateWebhookEventLogTable::class,
             SetupSettingsStorage::class,
-            RegisterUserService::class
+            RegisterUserService::class,
+            RegisterValueCollectionServices::class,
+            CreateRdsListStore::class,
+            RegisterSessionCookieService::class,
+            RegisterResourceRelationService::class,
         ]
     ],
-    'update' => 'oat\\tao\\scripts\\update\\Updater',
+    'update' => Updater::class,
     'optimizableClasses' => [
         'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
         'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages'
@@ -153,6 +164,7 @@ return [
         [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'Log', 'act' => 'log']],
         [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'TaskQueueWebApi']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Languages', 'act' => 'index']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'ResourceRelations', 'act' => 'index']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'File', 'act' => 'upload']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Main', 'act' => 'index']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Main', 'act' => 'getSectionActions']],
@@ -167,6 +179,7 @@ return [
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'TaskQueueData']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'RestResource']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'RestClass']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'PropertyValues']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Breadcrumbs']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Export']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'File']],
@@ -197,9 +210,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '3.4.0-sprint130',
+        'TAO_VERSION' => '3.4.0-sprint141',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.4.0-sprint130',
+        'TAO_VERSION_NAME' => '3.4.0-sprint141',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

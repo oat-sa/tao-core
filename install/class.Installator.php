@@ -21,6 +21,7 @@
  *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+use oat\generis\persistence\DriverConfigurationFeeder;
 use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
@@ -160,6 +161,17 @@ class tao_install_Installator
             /*
              *  2 - Setup RDS persistence
              */
+            if (!$this->getServiceManager()->has(DriverConfigurationFeeder::SERVICE_ID)) {
+                $this->getServiceManager()->register(
+                    DriverConfigurationFeeder::SERVICE_ID,
+                    new DriverConfigurationFeeder(
+                        [
+                            DriverConfigurationFeeder::OPTION_DRIVER_OPTIONS => []
+                        ]
+                    )
+                );
+            }
+
             if ($this->getServiceManager()->has(PersistenceManager::SERVICE_ID)) {
                 $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
             } else {

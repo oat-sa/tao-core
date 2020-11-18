@@ -36,8 +36,8 @@ class BasicAuthCredentials extends AbstractCredentials
     public function getProperties()
     {
         return [
-            self::LOGIN => $this->properties[self::LOGIN],
-            self::PASSWORD => $this->properties[self::PASSWORD],
+            self::LOGIN => isset($this->properties[self::LOGIN]) ? $this->properties[self::LOGIN] : '',
+            self::PASSWORD => isset($this->properties[self::PASSWORD]) ? $this->properties[self::PASSWORD] : '',
         ];
     }
 }

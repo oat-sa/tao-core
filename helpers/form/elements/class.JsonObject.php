@@ -25,11 +25,5 @@
  */
 abstract class tao_helpers_form_elements_JsonObject extends tao_helpers_form_FormElement
 {
-
-    /**
-     * A reference to the Widget Definition URI.
-     *
-     * @var string
-     */
-    protected $widget = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject';
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject';
 }

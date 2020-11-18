@@ -129,7 +129,7 @@ FACTORY;
             if ($propertyValue instanceof ConfigurableService) {
                 if ($this->hasConfig($propertyValue)) {
                     $propertyValue = new PhpCode(
-                        sprintf('$serviceLocator->get(%s::SERVICE_ID)', get_class($propertyValue))
+                        sprintf('$serviceLocator->get(%s::class)', get_class($propertyValue))
                     );
                 }
                 if ($propertyValue instanceof self) {

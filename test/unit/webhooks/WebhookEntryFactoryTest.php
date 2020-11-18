@@ -26,10 +26,21 @@ use oat\tao\model\webhooks\configEntity\WebhookInterface;
 
 class WebhookEntryFactoryTest extends TestCase
 {
+    /** @var WebhookEntryFactory */
+    private $subject;
+
+    public function setUp(): void
+    {
+        $this->subject = new WebhookEntryFactory();
+    }
+
     public function testCreateEntryFromArray()
     {
-        $factory = new WebhookEntryFactory();
-        $webhook = $factory->createEntryFromArray([
+        $extraPayload = [
+            'extra' => 'data'
+        ];
+
+        $webhook = $this->subject->createEntryFromArray([
             'id' => 'wh1',
             'url' => 'http://url.com',
             'httpMethod' => 'POST',
@@ -40,7 +51,8 @@ class WebhookEntryFactoryTest extends TestCase
                 'credentials' => [
                     'p1' => 'v1'
                 ]
-            ]
+            ],
+            'extraPayload' => $extraPayload
         ]);
 
         $this->assertInstanceOf(WebhookInterface::class, $webhook);
@@ -52,12 +64,12 @@ class WebhookEntryFactoryTest extends TestCase
         $this->assertEquals('SomeClass', $webhook->getAuth()->getAuthClass());
         $this->assertEquals(['p1' => 'v1'], $webhook->getAuth()->getCredentials());
         $this->assertEquals(true, $webhook->getResponseValidationEnable());
+        $this->assertEquals($extraPayload, $webhook->getExtraPayload());
     }
 
     public function testCreateEntryFromArrayWithoutAuth()
     {
-        $factory = new WebhookEntryFactory();
-        $webhook = $factory->createEntryFromArray([
+        $webhook = $this->subject->createEntryFromArray([
             'id' => 'wh1',
             'url' => 'http://url.com',
             'httpMethod' => 'POST',
@@ -76,10 +88,9 @@ class WebhookEntryFactoryTest extends TestCase
 
     public function testInvalidConfig()
     {
-        $factory = new WebhookEntryFactory();
         $this->expectException(\InvalidArgumentException::class);
         try {
-            $factory->createEntryFromArray([
+            $this->subject->createEntryFromArray([
                 'id' => 'wh1',
                 'httpMethod' => 123,
                 'retryMax' => 5,
@@ -93,16 +104,17 @@ class WebhookEntryFactoryTest extends TestCase
         } catch (\InvalidArgumentException $exception) {
             $this->assertStringContainsString('httpMethod', $exception->getMessage());
             $this->assertStringContainsString('url', $exception->getMessage());
+
             throw $exception;
         }
     }
 
     public function testInvalidAuthConfig()
     {
-        $factory = new WebhookEntryFactory();
         $this->expectException(\InvalidArgumentException::class);
+
         try {
-            $factory->createEntryFromArray([
+            $this->subject->createEntryFromArray([
                 'id' => 'wh1',
                 'url' => 'http://url.com',
                 'httpMethod' => 'POST',
@@ -115,6 +127,7 @@ class WebhookEntryFactoryTest extends TestCase
             ]);
         } catch (\InvalidArgumentException $exception) {
             $this->assertStringContainsString('authClass', $exception->getMessage());
+
             throw $exception;
         }
     }

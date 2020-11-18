@@ -21,6 +21,12 @@
  */
 
 use oat\oatbox\validator\ValidatorInterface;
+use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
+use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
+
+// Defining aliases for old style class names for backward compatibility
+class_alias(SearchTextBox::class, \tao_helpers_form_elements_xhtml_Searchtextbox::class);
+class_alias(SearchDropdown::class, \tao_helpers_form_elements_xhtml_Searchdropdown::class);
 
 /**
  * Represents a form. It provides the default behavior for form management and
@@ -37,6 +43,8 @@ use oat\oatbox\validator\ValidatorInterface;
  */
 abstract class tao_helpers_form_FormElement
 {
+    public const WIDGET_ID = '';
+
     /**
      * the name of the element
      *
@@ -65,7 +73,8 @@ abstract class tao_helpers_form_FormElement
      * the widget links to the element
      *
      * @access protected
-     * @var string
+     * @deprecated
+     * @see tao_helpers_form_FormElement::WIDGET_ID
      */
     protected $widget = '';
 
@@ -292,9 +301,9 @@ abstract class tao_helpers_form_FormElement
      * @author Joel Bout, <joel@taotesting.com>
      * @return string
      */
-    public function getWidget()
+    public function getWidget(): string
     {
-        return (string) $this->widget;
+        return $this->widget ?: static::WIDGET_ID;
     }
 
     /**

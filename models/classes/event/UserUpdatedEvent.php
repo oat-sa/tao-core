@@ -21,7 +21,6 @@
 
 namespace oat\tao\model\event;
 
-use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use JsonSerializable;
 use oat\oatbox\event\Event;

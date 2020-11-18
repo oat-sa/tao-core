@@ -80,6 +80,11 @@ require.config({
         'util'              : '../node_modules/@oat-sa/tao-core-sdk/dist/util',
         'ui'                : '../node_modules/@oat-sa/tao-core-ui/dist'
     },
+     "packages": [{
+        "name": "codemirror",
+        "location": "../../../tao/views/node_modules/codemirror",
+        "main": "lib/codemirror"
+    }],
    shim : {
         'jqueryui'              : { deps : ['jquery'] },
         'moment'                : { exports : 'moment' },

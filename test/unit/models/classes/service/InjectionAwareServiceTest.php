@@ -188,7 +188,7 @@ EXPECTED;
 new class implements \oat\oatbox\service\ServiceFactoryInterface {
     public function __invoke(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
     {
-        return new oat\tao\model\service\HostMixService($serviceLocator->get(oat\tao\model\service\PureConfigurableServiceWithId::SERVICE_ID),
+        return new oat\tao\model\service\HostMixService($serviceLocator->get(oat\tao\model\service\PureConfigurableServiceWithId::class),
 new oat\tao\model\service\PureInjectionAwareService('a'));
     }
 }
@@ -213,7 +213,7 @@ new class implements \oat\oatbox\service\ServiceFactoryInterface {
     {
         return new oat\tao\model\service\HostMixNestedService(new oat\tao\model\service\PureConfigurableService(),
 new oat\tao\model\service\HostPureConfigurableService(new oat\tao\model\service\PureConfigurableService()),
-$serviceLocator->get(oat\tao\model\service\PureConfigurableServiceWithId::SERVICE_ID));
+$serviceLocator->get(oat\tao\model\service\PureConfigurableServiceWithId::class));
     }
 }
 EXPECTED;
