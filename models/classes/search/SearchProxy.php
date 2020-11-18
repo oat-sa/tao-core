@@ -48,57 +48,7 @@ class SearchProxy extends ConfigurableService
             throw new Exception('Result has to be instance of ResultSet');
         }
 
-        $rows = isset($request->getQueryParams()['rows']) ? (int)$request->getQueryParams()['rows'] : null;
-        $page = isset($request->getQueryParams()['page']) ? (int)$request->getQueryParams()['page'] : 1;
-
-        $totalPages = is_null($rows) ? 1 : ceil($results->getTotalCount() / $rows);
-
-        $resultsRaw = $results->getArrayCopy();
-
-        $accessibleResultsMap = [];
-
-        $resultAmount = count($resultsRaw);
-
-        $response = [];
-        if ($resultAmount > 0) {
-            $accessibleResultsMap = array_flip(
-                $this->getPermissionHelper()->filterByPermission($resultsRaw, PermissionInterface::RIGHT_READ)
-            );
-
-            foreach ($resultsRaw as $uri) {
-                $instance = $this->getResource($uri);
-                $isAccessible = isset($accessibleResultsMap[$uri]);
-
-                if (!$isAccessible) {
-                    $instance->label = __('Access Denied');
-                }
-
-                $instanceProperties = [
-                    'id' => $instance->getUri(),
-                    OntologyRdfs::RDFS_LABEL => $instance->getLabel(),
-                ];
-
-                $response['data'][] = $instanceProperties;
-            }
-        }
-        $response['readonly'] = array_fill_keys(
-            array_keys(
-                array_diff_key(
-                    array_flip($resultsRaw),
-                    $accessibleResultsMap
-                )
-            ),
-            true
-        );
-        $response['success'] = true;
-        $response['page'] = empty($response['data']) ? 0 : $page;
-        $response['total'] = $totalPages;
-
-        $response['totalCount'] = $results->getTotalCount();
-
-        $response['records'] = $resultAmount;
-
-        return $response;
+        return $this->getResultSetResponseNormalizer()->normalize($query, $results);
     }
 
     private function executeSearch(SearchQuery $query): ResultSet
@@ -110,9 +60,9 @@ class SearchProxy extends ConfigurableService
         return $this->getGenerisSearchBridge()->search($query);
     }
 
-    private function getPermissionHelper(): PermissionHelper
+    private function getResultSetResponseNormalizer(): ResultSetResponseNormalizer
     {
-        return $this->getServiceLocator()->get(PermissionHelper::class);
+        return $this->getServiceLocator()->get(ResultSetResponseNormalizer::class);
     }
 
     private function getElasticSearchChecker(): AdvancedSearchChecker
