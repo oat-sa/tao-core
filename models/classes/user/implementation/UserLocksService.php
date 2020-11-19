@@ -20,9 +20,12 @@
 
 namespace oat\tao\model\user\implementation;
 
+use core_kernel_persistence_Exception;
+use core_kernel_users_Exception;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
+use Exception;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
 use oat\tao\helpers\UserHelper;
@@ -41,7 +44,7 @@ use tao_models_classes_UserService;
 class UserLocksService extends ConfigurableService implements UserLocks
 {
     /** Which storage implementation to use for user lockouts */
-    const OPTION_LOCKOUT_STORAGE = 'lockout_storage';
+    public const OPTION_LOCKOUT_STORAGE = 'lockout_storage';
 
     /** @var LockoutStorage */
     private $lockout;
@@ -92,7 +95,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
 
     /**
      * @param LoginFailedEvent $event
-     * @throws \core_kernel_users_Exception
+     * @throws core_kernel_users_Exception
      */
     public function catchFailedLogin(LoginFailedEvent $event)
     {
@@ -101,7 +104,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
 
     /**
      * @param LoginSucceedEvent $event
-     * @throws \core_kernel_users_Exception
+     * @throws core_kernel_users_Exception
      */
     public function catchSucceedLogin(LoginSucceedEvent $event)
     {
@@ -110,8 +113,9 @@ class UserLocksService extends ConfigurableService implements UserLocks
 
     /**
      * @param string $login
-     * @throws \core_kernel_users_Exception
-     * @throws \Exception
+     *
+     * @throws core_kernel_users_Exception
+     * @throws Exception
      */
     private function increaseLoginFails($login)
     {
@@ -120,7 +124,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
         /** @var DateInterval $remaining */
         $remaining = $this->getLockoutRemainingTime($login);
 
-        if (!$remaining->invert) {
+        if ($remaining && !$remaining->invert) {
             $failures = $this->getLockout()->getFailures($login);
         } else {
             $this->unlockUser($user);
@@ -129,7 +133,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
 
         $failures++;
 
-        if ($failures >= intval($this->getOption(self::OPTION_LOCKOUT_FAILED_ATTEMPTS))) {
+        if ($failures >= (int)$this->getOption(self::OPTION_LOCKOUT_FAILED_ATTEMPTS)) {
             $this->lockUser($user);
         }
 
@@ -137,29 +141,33 @@ class UserLocksService extends ConfigurableService implements UserLocks
     }
 
     /**
-     * @param $user
-     * @return bool
+     * @param User $user
+     * @return bool|mixed
+     * @throws core_kernel_users_Exception
      */
     public function lockUser(User $user)
     {
-        $currentUser = UserHelper::getUser(tao_models_classes_UserService::singleton()->getCurrentUser());
+        $currentUser = tao_models_classes_UserService::singleton()->getCurrentUser();
 
-        if (!$currentUser) {
-            $currentUser = $user;
-        }
+        $blocker = $currentUser ? UserHelper::getUser($currentUser) : $user;
 
         if (!$this->isLockable($user)) {
             return false;
         }
 
-        $this->getLockout()->setLockedStatus(UserHelper::getUserLogin($user), $currentUser->getIdentifier());
+        $this->getLockout()->setLockedStatus(
+            UserHelper::getUserLogin($user),
+            $blocker->getIdentifier()
+        );
 
         return true;
     }
 
     /**
      * @param $user
+     *
      * @return bool
+     * @throws core_kernel_users_Exception
      */
     public function unlockUser(User $user)
     {
@@ -173,9 +181,10 @@ class UserLocksService extends ConfigurableService implements UserLocks
 
     /**
      * @param $login
+     *
      * @return bool
-     * @throws \core_kernel_users_Exception
-     * @throws \Exception
+     * @throws core_kernel_users_Exception
+     * @throws Exception
      */
     public function isLocked($login)
     {
@@ -193,7 +202,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
         $lockedBy = UserHelper::getUser($this->getLockout()->getLockedBy($login));
         $user = UserHelper::getUser($this->getLockout()->getUser($login));
 
-        if (empty($lockedBy)) {
+        if ($lockedBy === null) {
             return false;
         }
 
@@ -202,7 +211,9 @@ class UserLocksService extends ConfigurableService implements UserLocks
         }
 
         $lockoutPeriod = new DateInterval($this->getOption(self::OPTION_SOFT_LOCKOUT_PERIOD));
-        $lastFailureTime = (new DateTimeImmutable())->setTimestamp(intval((string)$this->getLockout()->getLastFailureTime($login)));
+        $lastFailureTime = (new DateTimeImmutable())->setTimestamp(
+            (int)(string)$this->getLockout()->getLastFailureTime($login)
+        );
 
         return $lastFailureTime->add($lockoutPeriod) > new DateTimeImmutable();
     }
@@ -220,7 +231,7 @@ class UserLocksService extends ConfigurableService implements UserLocks
         $nonLockingRoles = $this->getOption(self::OPTION_NON_LOCKING_ROLES);
 
         if ($nonLockingRoles && is_array($nonLockingRoles) && count($nonLockingRoles)) {
-            return (bool) !count(array_intersect($user->getRoles(), $nonLockingRoles));
+            return !count(array_intersect($user->getRoles(), $nonLockingRoles));
         }
 
         return true;
@@ -229,11 +240,15 @@ class UserLocksService extends ConfigurableService implements UserLocks
     /**
      * @param $login
      * @return bool|DateInterval
-     * @throws \Exception
+     * @throws Exception
      */
     public function getLockoutRemainingTime($login)
     {
         $lastFailure = $this->getLockout()->getLastFailureTime($login);
+
+        if (!$lastFailure) {
+            return false;
+        }
 
         $unlockTime = (new DateTime('now'))
             ->setTimestamp($lastFailure->literal)
@@ -244,8 +259,10 @@ class UserLocksService extends ConfigurableService implements UserLocks
 
     /**
      * @param $login
+     *
      * @return bool|int|mixed
-     * @throws \core_kernel_users_Exception
+     * @throws core_kernel_users_Exception
+     * @throws core_kernel_persistence_Exception
      */
     public function getLockoutRemainingAttempts($login)
     {
@@ -269,8 +286,9 @@ class UserLocksService extends ConfigurableService implements UserLocks
 
     /**
      * @param $login
+     *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function getStatusDetails($login)
     {
