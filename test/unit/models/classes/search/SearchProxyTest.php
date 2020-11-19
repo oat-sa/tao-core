@@ -58,8 +58,6 @@ class SearchProxyTest extends TestCase
 
     /** @var ResultSetResponseNormalizer|MockObject */
     private $resultSetResponseNormalizerMock;
-
-
     public function setUp(): void
     {
         $this->advancedSearchCheckerMock = $this->createMock(AdvancedSearchChecker::class);
