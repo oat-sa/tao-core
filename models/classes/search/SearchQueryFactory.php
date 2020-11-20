@@ -60,7 +60,7 @@ class SearchQueryFactory extends ConfigurableService
         }
 
         if (!isset($params['params']['query'])) {
-            throw new CreateSearchQueryException('User imput is missing');
+            throw new CreateSearchQueryException('User input is missing');
         }
     }
 }

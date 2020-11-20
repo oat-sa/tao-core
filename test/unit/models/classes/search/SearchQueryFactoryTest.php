@@ -64,6 +64,28 @@ class SearchQueryFactoryTest extends TestCase
         $this->assertEquals($resultSearchQuery->getStartRow(), 0);
     }
 
+    public function testCreateSearchWithoutwithoutQuery(): void
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request
+            ->method('getQueryParams')
+            ->willReturn(
+                [
+                    'params' =>
+                        [
+                            'rootNode' => 'exampleRootNode',
+                            'parentNode' => 'exampleParentNode',
+                        ],
+                    'rows' => 1,
+                    'page' => 1,
+                ]
+            );
+
+        $this->expectException(CreateSearchQueryException::class);
+        $this->expectExceptionMessage('User input is missing');
+        $this->subject->create($request);
+    }
+
     public function testCreateSearchQueryWithPoorRequest(): void
     {
         $request = $this->createMock(ServerRequestInterface::class);
@@ -82,6 +104,8 @@ class SearchQueryFactoryTest extends TestCase
             );
 
         $this->expectException(CreateSearchQueryException::class);
+        $this->expectExceptionMessage('Root node is missing from request');
+
         $this->subject->create($request);
     }
     public function testCreateSearchQueryRequestWithoutPagination(): void
