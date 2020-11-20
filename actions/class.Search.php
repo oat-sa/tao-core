@@ -21,13 +21,11 @@
 
 declare(strict_types=1);
 
-use oat\generis\model\data\permission\PermissionHelper;
-use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
+use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\search\index\OntologyIndexService;
-use oat\tao\model\search\ResultSet;
-use oat\tao\model\search\Search;
+use oat\tao\model\search\SearchProxy;
 
 /**
  * Controller for indexed searches
@@ -38,6 +36,7 @@ use oat\tao\model\search\Search;
 class tao_actions_Search extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
+    use HttpJsonResponseTrait;
 
     /**
      * Search parameters endpoints.
@@ -50,7 +49,8 @@ class tao_actions_Search extends tao_actions_CommonModule
             'url' => _url('search'),
             'params' => [
                 'query' => $rawQuery,
-                'rootNode' => $this->getRequestParameter('rootNode')
+                'rootNode' => $this->getRequestParameter('rootNode'),
+                'parentNode' => $this->getRequestParameter('parentNode'),
             ],
             'filter' => [],
             'model' => [
@@ -67,83 +67,21 @@ class tao_actions_Search extends tao_actions_CommonModule
     /**
      * Search results
      * The search is paginated and initiated by the datatable component.
-     *
-     * @param Search    $searchService
-     * @param PermissionHelper $permissionHelper
      */
-    public function search(Search $searchService, PermissionHelper $permissionHelper): void
+    public function search(): void
     {
-        $params = $this->getRequestParameter('params');
-        $query = $params['query'];
-        $class = $this->getClass($params['rootNode']);
-
-        $rows = $this->hasRequestParameter('rows') ? (int)$this->getRequestParameter('rows') : null;
-        $page = $this->hasRequestParameter('page') ? (int)$this->getRequestParameter('page') : 1;
-        $startRow = is_null($rows) ? 0 : $rows * ($page - 1);
-
-        $results = [];
-
-        // if it is an URI
-        if (strpos($query, LOCAL_NAMESPACE) === 0) {
-            $resource = $this->getResource($query);
-            if ($resource->exists() && $resource->isInstanceOf($class)) {
-                $results = new ResultSet([$resource->getUri()], 1);
-            }
-        }
-
-        //  if there is no results based on considering the query as URI
-        if (empty($results)) {
-            $results = $searchService->query($query, $class->getUri(), $startRow, $rows);
-        }
-
-        $totalPages = is_null($rows) ? 1 : ceil($results->getTotalCount() / $rows);
-
-        $resultsRaw = $results->getArrayCopy();
-
-        $accessibleResultsMap = [];
-
-        $resultAmount = count($resultsRaw);
-
-        $response = new StdClass();
-        if ($resultAmount > 0) {
-            $accessibleResultsMap = array_flip(
-                $permissionHelper->filterByPermission($resultsRaw, PermissionInterface::RIGHT_READ)
-            );
-
-            foreach ($resultsRaw as $uri) {
-                $instance = $this->getResource($uri);
-                $isAccessible = isset($accessibleResultsMap[$uri]);
-
-                if (!$isAccessible) {
-                    $instance->label = __('Access Denied');
-                }
-
-                $instanceProperties = [
-                    'id' => $instance->getUri(),
-                    OntologyRdfs::RDFS_LABEL => $instance->getLabel(),
-                ];
-
-                $response->data[] = $instanceProperties;
-            }
-        }
-        $response->readonly = array_fill_keys(
-            array_keys(
-                array_diff_key(
-                    array_flip($resultsRaw),
-                    $accessibleResultsMap
+        try {
+            $this->returnJson(
+                $this->getSearchProxy()->search(
+                    $this->getPsrRequest()
                 )
-            ),
-            true
-        );
-        $response->success = true;
-        $response->page = empty($response->data) ? 0 : $page;
-        $response->total = $totalPages;
+            );
+        } catch (Exception $exception) {
+            $this->setErrorJsonResponse(
+                $exception->getMessage()
+            );
+        }
 
-        $response->totalCount = $results->getTotalCount();
-
-        $response->records = $resultAmount;
-
-        $this->returnJson($response, 200);
     }
 
     public function getIndexes(): void
@@ -158,7 +96,7 @@ class tao_actions_Search extends tao_actions_CommonModule
                     $json[] = [
                         'identifier' => $i->getIdentifier(),
                         'fuzzyMatching' => $i->isFuzzyMatching(),
-                        'propertyId' => $propertyUri
+                        'propertyId' => $propertyUri,
                     ];
                 }
             }
@@ -167,5 +105,10 @@ class tao_actions_Search extends tao_actions_CommonModule
         } else {
             $this->returnJson("The 'rootNode' parameter is missing.", 500);
         }
+    }
+
+    private function getSearchProxy(): SearchProxy
+    {
+        return $this->getServiceLocator()->get(SearchProxy::class);
     }
 }
