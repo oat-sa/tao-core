@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint140\n"
-"PO-Revision-Date: 2020-10-23T08:30:24\n"
+"Project-Id-Version: TAO 3.4.0-sprint142\n"
+"PO-Revision-Date: 2020-11-20T10:14:54\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-MX\n"
@@ -199,6 +199,9 @@ msgstr "Agregar un usuario"
 
 msgid "Add an RDF/XML file"
 msgstr "Agregar archivo RDF/XML"
+
+msgid "add criteria"
+msgstr ""
 
 msgid "Add file(s)"
 msgstr "Añadir archivo(s)"
@@ -405,11 +408,11 @@ msgstr "Cambiar la contraseña"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
-msgstr "Seleccionar Todo"
-
 msgid "Check all"
 msgstr "Seleccionar todo"
+
+msgid "Check All"
+msgstr "Seleccionar Todo"
 
 msgid "Check-in"
 msgstr "Registrarse"
@@ -450,10 +453,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -573,11 +576,11 @@ msgstr "Datos importados exitosamente"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
-msgstr "Idioma de datos"
-
 msgid "Data Language"
 msgstr "Idioma de Datos"
+
+msgid "Data language"
+msgstr "Idioma de datos"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
@@ -948,6 +951,9 @@ msgstr ""
 msgid "Hyperbolic tangent"
 msgstr ""
 
+msgid "I understand that this action is permanent."
+msgstr ""
+
 msgid "Identifier"
 msgstr "Identificador"
 
@@ -1035,10 +1041,10 @@ msgstr "Instalando extensión %s..."
 msgid "Instance saved"
 msgstr "Instancia guardada"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Lenguaje de interface"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Lenguaje de interface"
 
 msgid "Invalid CSP header."
@@ -1782,11 +1788,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Seleccionar"
-
 msgid "select"
 msgstr "seleccionar"
+
+msgid "Select"
+msgstr "Seleccionar"
 
 msgid "Select a class"
 msgstr ""
@@ -1992,6 +1998,9 @@ msgstr "La acción no sera aplicada a lo siguiente"
 
 msgid "The column "
 msgstr "La columna "
+
+msgid "The following criteria are not applicable to the selected class and have been removed from the search"
+msgstr ""
 
 msgid "The format of this field is not valid."
 msgstr ""
