@@ -59,7 +59,6 @@ class SearchProxyTest extends TestCase
     /** @var ResultSetResponseNormalizer|MockObject */
     private $resultSetResponseNormalizerMock;
 
-
     public function setUp(): void
     {
         $this->advancedSearchCheckerMock = $this->createMock(AdvancedSearchChecker::class);
@@ -91,7 +90,6 @@ class SearchProxyTest extends TestCase
             ->expects($this->once())
             ->method('isEnabled')
             ->willReturn(false);
-
 
         $this->generisSearchBridgeMock
             ->method('search')
