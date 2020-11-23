@@ -181,15 +181,17 @@ class ClassMetadataService extends InjectionAwareService
 
     private function isTextWidget(core_kernel_classes_Property $property): bool
     {
-        return ($property->getWidget()->getUri())
-            ? in_array($property->getWidget()->getUri(), self::TEXT_WIDGETS, true)
+        $uri = $property->getWidget()->getUri();
+        return ($uri)
+            ? in_array($uri, self::TEXT_WIDGETS, true)
             : false;
     }
 
     private function isListWidget(core_kernel_classes_Property $property): bool
     {
-        return ($property->getWidget()->getUri()) ?
-            in_array($property->getWidget()->getUri(), self::LIST_WIDGETS, true)
+        $uri = $property->getWidget()->getUri();
+        return ($uri) ?
+            in_array($uri, self::LIST_WIDGETS, true)
             : false;
     }
 
