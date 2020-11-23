@@ -25,21 +25,21 @@ namespace oat\tao\model\Lists\Business\Service;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
-use oat\tao\model\Lists\Business\Domain\ClassMetadata;
+use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\Lists\Business\Domain\ClassCollection;
+use oat\tao\model\Lists\Business\Domain\ClassMetadata;
 use oat\tao\model\Lists\Business\Domain\Metadata;
 use oat\tao\model\Lists\Business\Domain\MetadataCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use oat\tao\model\service\InjectionAwareService;
-use oat\generis\model\OntologyAwareTrait;
-use tao_helpers_form_elements_Textbox as TextBox;
-use tao_helpers_form_elements_Textarea as TextArea;
-use tao_helpers_form_elements_Htmlarea as HtmlArea;
-use tao_helpers_form_elements_Radiobox as RadioBox;
 use tao_helpers_form_elements_Checkbox as CheckBox;
 use tao_helpers_form_elements_Combobox as ComboBox;
+use tao_helpers_form_elements_Htmlarea as HtmlArea;
+use tao_helpers_form_elements_Radiobox as RadioBox;
+use tao_helpers_form_elements_Textarea as TextArea;
+use tao_helpers_form_elements_Textbox as TextBox;
 use tao_helpers_form_elements_xhtml_Searchtextbox as SearchTextBox;
 
 class ClassMetadataService extends InjectionAwareService
@@ -130,9 +130,6 @@ class ClassMetadataService extends InjectionAwareService
         $collection = new MetadataCollection();
 
         foreach ($class->getProperties(true) as $property) {
-            if (strpos($property->getUri(), self::CUSTOM_PROPERTY_FILTER) === false) {
-                continue;
-            }
 
             if (!$this->isTextWidget($property) && !$this->isListWidget($property)) {
                 continue;
@@ -184,12 +181,16 @@ class ClassMetadataService extends InjectionAwareService
 
     private function isTextWidget(core_kernel_classes_Property $property): bool
     {
-        return in_array($property->getWidget()->getUri(), self::TEXT_WIDGETS);
+        return ($property->getWidget()->getUri())
+            ? in_array($property->getWidget()->getUri(), self::TEXT_WIDGETS, true)
+            : false;
     }
 
     private function isListWidget(core_kernel_classes_Property $property): bool
     {
-        return in_array($property->getWidget()->getUri(), self::LIST_WIDGETS);
+        return ($property->getWidget()->getUri()) ?
+            in_array($property->getWidget()->getUri(), self::LIST_WIDGETS, true)
+            : false;
     }
 
     private function getListItemsUri(core_kernel_classes_Property $property, ?array $values): ?string
