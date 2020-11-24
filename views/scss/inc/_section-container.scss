@@ -120,6 +120,10 @@
     .content-container {
         border: none;
         @include simple-flex-box();
+        max-width: calc( 100% );
+    }
+
+    .navi-container + .content-container {
         max-width: calc( 100% - #{$treeSidebar * 1px} );
     }
 
