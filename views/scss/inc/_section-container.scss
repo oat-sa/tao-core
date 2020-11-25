@@ -120,7 +120,7 @@
     .content-container {
         border: none;
         @include simple-flex-box();
-        max-width: calc( 100% );
+        max-width: 100%;
     }
 
     .navi-container + .content-container {
