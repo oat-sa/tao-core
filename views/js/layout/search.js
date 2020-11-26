@@ -96,7 +96,14 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context', '
         criterias = criterias || { search: $('input', searchComponent.container).val() };
         const url = searchComponent.container.data('url');
         const rootClassUri = decodeURIComponent(urlHelper.parse(url).query.rootNode);
-        const searchModalInstance = searchModal({ criterias, url, searchOnInit, rootClassUri });
+        const isResultPage = rootClassUri === 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery';
+        const searchModalInstance = searchModal({
+            criterias,
+            url,
+            searchOnInit,
+            rootClassUri,
+            hideResourceSelector: isResultPage
+        });
 
         searchModalInstance.on('store-updated', manageSearchStoreUpdate);
         searchModalInstance.on('refresh', uri => {
