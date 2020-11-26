@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpSingleStatementWithBracesInspection */
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -130,6 +130,9 @@ class ClassMetadataService extends InjectionAwareService
         $collection = new MetadataCollection();
 
         foreach ($class->getProperties(true) as $property) {
+            if (!$this->isWidget($property)) {
+                continue;
+            }
 
             if (!$this->isTextWidget($property) && !$this->isListWidget($property)) {
                 continue;
@@ -202,5 +205,10 @@ class ClassMetadataService extends InjectionAwareService
         }
 
         return sprintf(self::BASE_LIST_ITEMS_URI, urlencode($property->getUri()));
+    }
+
+    private function isWidget(core_kernel_classes_Property $property)
+    {
+        return $property->getWidget() === true;
     }
 }
