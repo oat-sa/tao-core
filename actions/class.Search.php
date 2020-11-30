@@ -46,6 +46,23 @@ class tao_actions_Search extends tao_actions_CommonModule
     {
         $queryParams = $this->getPsrRequest()->getQueryParams();
         $parsedBody = $this->getPsrRequest()->getParsedBody();
+        if (
+            !isset(
+                $parsedBody['structure'],
+                $parsedBody['query'],
+                $queryParams['rootNode'],
+                $parsedBody['parentNode']
+            )
+        ) {
+            $this->setErrorJsonResponse('Request is missing required params');
+        }
+
+        try {
+            $promiseModel = $this->getResultSetMapper()->getPromiseModel($parsedBody['structure']);
+        } catch (Exception $exception) {
+            $this->setErrorJsonResponse($exception->getMessage());
+            return;
+        }
 
         $this->setSuccessJsonResponse([
             'url' => _url('search'),
@@ -56,7 +73,7 @@ class tao_actions_Search extends tao_actions_CommonModule
                 'structure' => $parsedBody['structure'],
             ],
             'filter' => [],
-            'model' => $this->getResultSetMapper()->getPromiseModel($parsedBody['structure']),
+            'model' => $promiseModel,
             'result' => true
         ]);
     }
