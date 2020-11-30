@@ -19,14 +19,15 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context', 'util/url'], function (
-    $,
-    actionManager,
-    searchModal,
-    store,
-    context,
-    urlHelper
-) {
+define([
+    'jquery',
+    'layout/actions',
+    'ui/searchModal',
+    'core/store',
+    'context',
+    'util/url',
+    'layout/actions/binder'
+], function ($, actionManager, searchModal, store, context, urlHelper, binder) {
     /**
      * Seach bar component for TAO action bar. It exposes
      * the container, the indexeddb store that manages
@@ -96,11 +97,26 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context', '
         criterias = criterias || { search: $('input', searchComponent.container).val() };
         const url = searchComponent.container.data('url');
         const rootClassUri = decodeURIComponent(urlHelper.parse(url).query.rootNode);
-        const searchModalInstance = searchModal({ criterias, url, searchOnInit, rootClassUri });
+        const isResultPage = context.shownStructure === 'results';
+        const searchModalInstance = searchModal({
+            criterias,
+            url,
+            searchOnInit,
+            rootClassUri,
+            hideResourceSelector: isResultPage
+        });
 
         searchModalInstance.on('store-updated', manageSearchStoreUpdate);
-        searchModalInstance.on('refresh', uri => {
+        searchModalInstance.on('refresh', (uri, data) => {
             actionManager.trigger('refresh', { uri });
+            if (isResultPage && data) {
+                // TODO data.result is delivery result id
+                searchComponent.container.data(
+                    'show-result',
+                    data.result ||
+                        'https://advanced-search-tao.docker.localhost/ontologies/tao.rdf#i5fbd14b9e372865ea549089718481a5'
+                );
+            }
         });
     }
 
