@@ -22,9 +22,9 @@
 declare(strict_types=1);
 
 use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\OntologyRdfs;
 use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\search\index\OntologyIndexService;
+use oat\tao\model\search\ResultSetMapper;
 use oat\tao\model\search\SearchProxy;
 
 /**
@@ -53,9 +53,10 @@ class tao_actions_Search extends tao_actions_CommonModule
                 'query' => $parsedBody['query'],
                 'rootNode' => $queryParams['rootNode'],
                 'parentNode' => $parsedBody['parentNode'],
+                'structure' => $parsedBody['structure'],
             ],
             'filter' => [],
-            'model' => $this->getModelBuilder('results'),
+            'model' => $this->getResultSetMapper()->getPromiseModel($parsedBody['structure']),
             'result' => true
         ]);
     }
@@ -107,20 +108,8 @@ class tao_actions_Search extends tao_actions_CommonModule
         return $this->getServiceLocator()->get(SearchProxy::class);
     }
 
-    private function getModelBuilder(): array
+    private function getResultSetMapper(): ResultSetMapper
     {
-        return [
-            OntologyRdfs::RDFS_LABEL => [
-                'id' => 'label',
-                'label' => __('Label'),
-                'sortable' => false
-            ],
-            'class' => [
-                'id' => 'class',
-                'label' => 'class',
-                'sortable' => false
-            ]
-
-        ];
+        return $this->getServiceLocator()->get(ResultSetMapper::class);
     }
 }

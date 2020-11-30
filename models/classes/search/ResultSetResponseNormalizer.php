@@ -22,18 +22,16 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search;
 
-
 use oat\generis\model\data\permission\PermissionHelper;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 
 class ResultSetResponseNormalizer extends ConfigurableService
 {
     use OntologyAwareTrait;
 
-    public function normalize(SearchQuery $searchQuery, ResultSet $resultSet): array
+    public function normalize(SearchQuery $searchQuery, ResultSet $resultSet, string $structure): array
     {
         $totalPages = is_null($searchQuery->getRows()) || $searchQuery->getRows() === 0
             ? 1
@@ -51,26 +49,23 @@ class ResultSetResponseNormalizer extends ConfigurableService
                 $this->getPermissionHelper()->filterByPermission($resultsRaw, PermissionInterface::RIGHT_READ)
             );
 
-            foreach ($resultsRaw as $uri) {
-                $instance = $this->getResource($uri);
+            foreach ($resultsRaw as $uri => $content) {
                 $isAccessible = isset($accessibleResultsMap[$uri]);
 
                 if (!$isAccessible) {
-                    $instance->label = __('Access Denied');
+                    $content['label'][] = __('Access Denied');
+                    continue;
                 }
 
-                $instanceProperties = [
-                    'id' => $instance->getUri(),
-                    OntologyRdfs::RDFS_LABEL => $instance->getLabel(),
-                ];
+                $instanceProperties[$uri] = $this->getResultSetMapper()->getResultSetModel($content, $structure);
 
-                $response['data'][] = $instanceProperties;
+                $response['data'] = $instanceProperties;
             }
         }
         $response['readonly'] = array_fill_keys(
             array_keys(
                 array_diff_key(
-                    array_flip($resultsRaw),
+                    $resultsRaw,
                     $accessibleResultsMap
                 )
             ),
@@ -93,4 +88,8 @@ class ResultSetResponseNormalizer extends ConfigurableService
         return $this->getServiceLocator()->get(PermissionHelper::class);
     }
 
+    private function getResultSetMapper(): ResultSetMapper
+    {
+        return $this->getServiceLocator()->get(ResultSetMapper::SERVICE_ID);
+    }
 }
