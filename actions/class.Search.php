@@ -44,22 +44,18 @@ class tao_actions_Search extends tao_actions_CommonModule
      */
     public function searchParams(): void
     {
-        $rawQuery = $_POST['query'] ?? '';
-        $this->returnJson([
+        $queryParams = $this->getPsrRequest()->getQueryParams();
+        $parsedBody = $this->getPsrRequest()->getParsedBody();
+
+        $this->setSuccessJsonResponse([
             'url' => _url('search'),
             'params' => [
-                'query' => $rawQuery,
-                'rootNode' => $this->getRequestParameter('rootNode'),
-                'parentNode' => $this->getRequestParameter('parentNode'),
+                'query' => $parsedBody['query'],
+                'rootNode' => $queryParams['rootNode'],
+                'parentNode' => $parsedBody['parentNode'],
             ],
             'filter' => [],
-            'model' => [
-                OntologyRdfs::RDFS_LABEL => [
-                    'id' => OntologyRdfs::RDFS_LABEL,
-                    'label' => __('Label'),
-                    'sortable' => false
-                ]
-            ],
+            'model' => $this->getModelBuilder('results'),
             'result' => true
         ]);
     }
@@ -81,7 +77,6 @@ class tao_actions_Search extends tao_actions_CommonModule
                 $exception->getMessage()
             );
         }
-
     }
 
     public function getIndexes(): void
@@ -101,7 +96,7 @@ class tao_actions_Search extends tao_actions_CommonModule
                 }
             }
 
-            $this->returnJson($json, 200);
+            $this->setSuccessJsonResponse($json, 200);
         } else {
             $this->returnJson("The 'rootNode' parameter is missing.", 500);
         }
@@ -110,5 +105,22 @@ class tao_actions_Search extends tao_actions_CommonModule
     private function getSearchProxy(): SearchProxy
     {
         return $this->getServiceLocator()->get(SearchProxy::class);
+    }
+
+    private function getModelBuilder(): array
+    {
+        return [
+            OntologyRdfs::RDFS_LABEL => [
+                'id' => 'label',
+                'label' => __('Label'),
+                'sortable' => false
+            ],
+            'class' => [
+                'id' => 'class',
+                'label' => 'class',
+                'sortable' => false
+            ]
+
+        ];
     }
 }
