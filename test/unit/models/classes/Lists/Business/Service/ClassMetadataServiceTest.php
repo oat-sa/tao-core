@@ -24,6 +24,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Lists\Business\Service;
 
 use core_kernel_classes_Class;
+use core_kernel_classes_Property;
 use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
@@ -49,6 +50,9 @@ class ClassMetadataServiceTest extends TestCase
 
     /** @var ClassMetadataSearchInput|MockObject */
     private $classMetadataSearchInputMock;
+
+    /** @var core_kernel_classes_Property|MockObject */
+    private $property;
 
     public function setUp(): void
     {
@@ -83,12 +87,25 @@ class ClassMetadataServiceTest extends TestCase
 
     public function testFindAll(): void
     {
+        $widgetResource = $this->createMock(\core_kernel_classes_Resource::class);
+        $this->property
+            ->method('getWidget')
+            ->willReturn($widgetResource);
+
+        $this->property
+            ->method('getLabel')
+            ->willReturn('propertyLabel');
+
+        $widgetResource
+            ->method('getUri')
+            ->willReturn('http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox');
+
         $result = $this->sut->findAll(
             $this->classMetadataSearchInputMock
         );
 
         $this->assertSame(
-            '[{"class":"uri","parent-class":null,"label":"label","metadata":[]}]',
+            '[{"class":"uri","parent-class":null,"label":"label","metadata":[{"label":"propertyLabel","type":"text","values":null,"uri":null},{"label":"propertyLabel","type":"text","values":null,"uri":null}]}]',
             json_encode($result)
         );
     }
@@ -96,6 +113,7 @@ class ClassMetadataServiceTest extends TestCase
     private function createClassMock(): core_kernel_classes_Class
     {
         $class = $this->createMock(core_kernel_classes_Class::class);
+        $this->property = $this->createMock(core_kernel_classes_Property::class);
 
         $class
             ->expects($this->once())
@@ -116,8 +134,27 @@ class ClassMetadataServiceTest extends TestCase
         $class
             ->expects($this->once())
             ->method('getProperties')
-            ->willReturn([]);
+            ->willReturn([
+                'property1' => $this->property,
+                'property2' => $this->property,
+            ]);
 
         return $class;
+    }
+
+    public function testFindAllPropertyDoesNotHaveWidget(): void
+    {
+        $this->property
+            ->method('getWidget')
+            ->willReturn(null);
+
+        $result = $this->sut->findAll(
+            $this->classMetadataSearchInputMock
+        );
+
+        $this->assertSame(
+            '[{"class":"uri","parent-class":null,"label":"label","metadata":[]}]',
+            json_encode($result)
+        );
     }
 }
