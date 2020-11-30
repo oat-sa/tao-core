@@ -97,7 +97,7 @@ define([
         criterias = criterias || { search: $('input', searchComponent.container).val() };
         const url = searchComponent.container.data('url');
         const rootClassUri = decodeURIComponent(urlHelper.parse(url).query.rootNode);
-        const isResultPage = rootClassUri === 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery';
+        const isResultPage = context.shownStructure === 'results';
         const searchModalInstance = searchModal({
             criterias,
             url,
