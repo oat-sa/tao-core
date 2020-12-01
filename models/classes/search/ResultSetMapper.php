@@ -23,8 +23,9 @@ class ResultSetMapper extends ConfigurableService
     {
         $map = $this->getOption(self::OPTION_STRUCTURE_MAP);
         $allowedKeys = $map[$structure] ?? $map['default'];
+
         return array_filter($content, function ($key) use ($allowedKeys) {
-            return in_array($key, array_keys($allowedKeys));
+            return $key === 'id' || in_array($key, array_keys($allowedKeys));
         }, ARRAY_FILTER_USE_KEY);
     }
 }

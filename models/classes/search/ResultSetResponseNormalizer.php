@@ -46,18 +46,18 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $response = [];
         if ($resultAmount > 0) {
             $accessibleResultsMap = array_flip(
-                $this->getPermissionHelper()->filterByPermission($resultsRaw, PermissionInterface::RIGHT_READ)
+                $this->getPermissionHelper()->filterByPermission(array_column($resultsRaw, 'id'), PermissionInterface::RIGHT_READ)
             );
 
-            foreach ($resultsRaw as $uri => $content) {
-                $isAccessible = isset($accessibleResultsMap[$uri]);
+            foreach ($resultsRaw as $content) {
+                $isAccessible = isset($accessibleResultsMap[$content['id']]);
 
                 if (!$isAccessible) {
                     $content['label'][] = __('Access Denied');
                     continue;
                 }
 
-                $instanceProperties[$uri] = $this->getResultSetMapper()->getResultSetModel($content, $structure);
+                $instanceProperties[] = $this->getResultSetMapper()->getResultSetModel($content, $structure);
 
                 $response['data'] = $instanceProperties;
             }
