@@ -21,7 +21,7 @@ final class Version202011301939462234_tao extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->getServiceManager()->register(ResultSetMapper::class, new ResultSetMapper(
+        $this->getServiceManager()->register(ResultSetMapper::SERVICE_ID, new ResultSetMapper(
             [
                 ResultSetMapper::OPTION_STRUCTURE_MAP =>
                     [
@@ -56,6 +56,6 @@ final class Version202011301939462234_tao extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->getServiceManager()->unregister(ResultSetMapper::class);
+        $this->getServiceManager()->unregister(ResultSetMapper::SERVICE_ID);
     }
 }

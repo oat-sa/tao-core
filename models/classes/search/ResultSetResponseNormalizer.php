@@ -90,6 +90,6 @@ class ResultSetResponseNormalizer extends ConfigurableService
 
     private function getResultSetMapper(): ResultSetMapper
     {
-        return $this->getServiceLocator()->get(ResultSetMapper::class);
+        return $this->getServiceLocator()->get(ResultSetMapper::SERVICE_ID);
     }
 }

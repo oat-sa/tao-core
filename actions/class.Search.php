@@ -127,6 +127,6 @@ class tao_actions_Search extends tao_actions_CommonModule
 
     private function getResultSetMapper(): ResultSetMapper
     {
-        return $this->getServiceLocator()->get(ResultSetMapper::class);
+        return $this->getServiceLocator()->get(ResultSetMapper::SERVICE_ID);
     }
 }

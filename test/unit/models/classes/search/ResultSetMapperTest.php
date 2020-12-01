@@ -25,7 +25,6 @@ namespace oat\tao\test\unit\model\search;
 
 use oat\generis\test\TestCase;
 use oat\tao\model\search\ResultSetMapper;
-use oat\taoBackOffice\model\menuStructure\Action;
 
 class ResultSetMapperTest extends TestCase
 {
