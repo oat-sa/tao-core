@@ -46,7 +46,11 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $response = [];
         if ($resultAmount > 0) {
             $accessibleResultsMap = array_flip(
-                $this->getPermissionHelper()->filterByPermission(array_column($resultsRaw, 'id'), PermissionInterface::RIGHT_READ)
+                $this->getPermissionHelper()
+                    ->filterByPermission(
+                        array_column($resultsRaw, 'id'),
+                        PermissionInterface::RIGHT_READ
+                    )
             );
 
             foreach ($resultsRaw as $content) {
