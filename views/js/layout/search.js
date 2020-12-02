@@ -96,6 +96,7 @@ define([
     function createSearchModalInstance(criterias, searchOnInit = true) {
         criterias = criterias || { search: $('input', searchComponent.container).val() };
         const url = searchComponent.container.data('url');
+        const placeholder = searchComponent.container.find('input').attr('placeholder');
         const rootClassUri = decodeURIComponent(urlHelper.parse(url).query.rootNode);
         const isResultPage = context.shownStructure === 'results';
         const searchModalInstance = searchModal({
@@ -103,20 +104,15 @@ define([
             url,
             searchOnInit,
             rootClassUri,
-            hideResourceSelector: isResultPage
+            hideResourceSelector: isResultPage,
+            placeholder
         });
 
         searchModalInstance.on('store-updated', manageSearchStoreUpdate);
-        searchModalInstance.on('refresh', (uri, data) => {
+        searchModalInstance.on('refresh', (id, data) => {
+            const uri = !isResultPage ? id : data.delivery;
             actionManager.trigger('refresh', { uri });
-            if (isResultPage && data) {
-                // TODO data.result is delivery result id
-                searchComponent.container.data(
-                    'show-result',
-                    data.result ||
-                        'https://advanced-search-tao.docker.localhost/ontologies/tao.rdf#i5fbd14b9e372865ea549089718481a5'
-                );
-            }
+            isResultPage && searchComponent.container.data('show-result', id);
         });
     }
 
