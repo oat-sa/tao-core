@@ -21,13 +21,24 @@ return new ResultSetMapper(
                     ],
                     'test_taker_name' => [
                         'id' => 'test_taker_name',
-                        'label' => __('Test Taker'),
+                        'label' => __('Test Taker Name'),
                         'sortable' => false
                     ],
                     'test_taker' => [
                         'id' => 'test_taker',
-                        'label' => __('Test Taker'),
+                        'label' => __('Test Taker ID'),
                         'sortable' => false
+                    ],
+                    'delivery' => [
+                        'id' => 'delivery',
+                        'label' => __('Delivery Uri'),
+                        'sortable' => false,
+                        'visible' => false
+                    ],
+                    'delivery_execution_start_time' => [
+                        'id' => 'delivery_execution_start_time',
+                        'label' => __('Start Time'),
+                        'sortable' => false,
                     ],
                 ]
             ]
