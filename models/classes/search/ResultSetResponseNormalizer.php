@@ -61,9 +61,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
                     continue;
                 }
 
-                $instanceProperties[] = $this->getResultSetMapper()->getResultSetModel($content, $structure);
-
-                $response['data'] = $instanceProperties;
+                $response['data'][] = $this->getResultSetMapper()->getResultSetModel($content, $structure);
             }
         }
         $response['readonly'] = array_fill_keys(
