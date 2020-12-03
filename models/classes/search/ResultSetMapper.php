@@ -12,11 +12,8 @@ class ResultSetMapper extends ConfigurableService
     public function getPromiseModel(string $structure)
     {
         $map = $this->getOption(self::OPTION_STRUCTURE_MAP);
-        if (isset($map[$structure])) {
-            return $map[$structure];
-        }
 
-        return $map['default'];
+        return $map[$structure] ?? $map['default'];
     }
 
     public function getResultSetModel(array $content, string $structure)
