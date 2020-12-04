@@ -68,7 +68,7 @@ class ResultSetMapperTest extends TestCase
 
     public function testGetPromiseModelResults(): void
     {
-        $result = $this->subject->mapPromiseModel('results');
+        $result = $this->subject->map('results');
         $this->assertEquals([
             'label' => [
                 'id' => 'label',
@@ -90,7 +90,7 @@ class ResultSetMapperTest extends TestCase
 
     public function testGetPromiseModelDefault(): void
     {
-        $result = $this->subject->mapPromiseModel('different');
+        $result = $this->subject->map('different');
         $this->assertEquals([
             'label' => [
                 'id' => 'label',
@@ -98,56 +98,5 @@ class ResultSetMapperTest extends TestCase
                 'sortable' => false
             ],
         ], $result);
-    }
-
-    /**
-     * @dataProvider getResultSetData
-     */
-    public function testGetResultSetModel(array $resultDataSet, string $structure, array $filteredResults): void
-    {
-        $result = $this->subject->mapResultSetModel($resultDataSet, $structure);
-
-        $this->assertEquals($filteredResults, $result);
-    }
-
-    public function getResultSetData()
-    {
-        return [
-            'results data set' => [
-                [
-                    'test_taker_name' => [
-                        'id' => 'someId'
-                    ],
-                    'some_other_key' => [
-                        'id' => 'anotherId'
-                    ]
-                ],
-                'results',
-                [
-                    'test_taker_name' => [
-                        'id' => 'someId'
-                    ]
-                ]
-            ],
-            'non existing structure' => [
-                [
-                    'test_taker_name' => [
-                        'id' => 'someId'
-                    ],
-                    'some_other_key' => [
-                        'id' => 'anotherId'
-                    ],
-                    'label' => [
-                        'somelabel'
-                    ]
-                ],
-                'nonExisting',
-                [
-                    'label' => [
-                        'somelabel'
-                    ]
-                ]
-            ],
-        ];
     }
 }

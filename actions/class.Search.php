@@ -58,7 +58,7 @@ class tao_actions_Search extends tao_actions_CommonModule
         }
 
         try {
-            $promiseModel = $this->getResultSetMapper()->mapPromiseModel($parsedBody['structure']);
+            $promiseModel = $this->getResultSetMapper()->map($parsedBody['structure']);
         } catch (Exception $exception) {
             $this->setErrorJsonResponse($exception->getMessage());
             return;

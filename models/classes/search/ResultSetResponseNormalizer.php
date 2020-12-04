@@ -61,7 +61,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
                     continue;
                 }
 
-                $response['data'][] = $this->getResultSetMapper()->mapResultSetModel($content, $structure);
+                $response['data'][] = $this->getResultSetFilter()->filter($content, $structure);
             }
         }
         $response['readonly'] = array_fill_keys(
@@ -90,8 +90,8 @@ class ResultSetResponseNormalizer extends ConfigurableService
         return $this->getServiceLocator()->get(PermissionHelper::class);
     }
 
-    private function getResultSetMapper(): ResultSetMapper
+    private function getResultSetFilter(): ResultSetFilter
     {
-        return $this->getServiceLocator()->get(ResultSetMapper::SERVICE_ID);
+        return $this->getServiceLocator()->get(ResultSetFilter::class);
     }
 }
