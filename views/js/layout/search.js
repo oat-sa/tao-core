@@ -110,9 +110,15 @@ define([
 
         searchModalInstance.on('store-updated', manageSearchStoreUpdate);
         searchModalInstance.on('refresh', (id, data) => {
-            const uri = !isResultPage ? id : data.delivery;
+            // in all cases id == resource_uri and node in the resorce tree
+            // after triggering 'refresh' this resource will be selected in tree
+            // on Results page we have 2 cases
+            // 1. GenerisSearch id == delivery_uri
+            // 2. ElasticSearch id == delivery_result_uri and data.delivery == delivery_uri
+            const uri = !isResultPage || !data.delivery ? id : data.delivery;
             actionManager.trigger('refresh', { uri });
-            isResultPage && searchComponent.container.data('show-result', id);
+            // case 2. ElasticSearch - need to store delivery_result_uri in searchComponent for taoOutcomeUi controller
+            isResultPage && data.delivery && searchComponent.container.data('show-result', id);
         });
     }
 
