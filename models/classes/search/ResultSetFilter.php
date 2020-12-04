@@ -31,7 +31,7 @@ class ResultSetFilter extends ConfigurableService
         $allowedKeys = $this->getResultSetMapper()->map($structure);
 
         return array_filter($content, function ($key) use ($allowedKeys) {
-            return $key === 'id' || in_array($key, array_keys($allowedKeys));
+            return $key === 'id' || in_array($key, array_keys($allowedKeys), true);
         }, ARRAY_FILTER_USE_KEY);
     }
 
