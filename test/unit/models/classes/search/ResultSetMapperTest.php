@@ -68,7 +68,7 @@ class ResultSetMapperTest extends TestCase
 
     public function testGetPromiseModelResults(): void
     {
-        $result = $this->subject->getPromiseModel('results');
+        $result = $this->subject->mapPromiseModel('results');
         $this->assertEquals([
             'label' => [
                 'id' => 'label',
@@ -90,7 +90,7 @@ class ResultSetMapperTest extends TestCase
 
     public function testGetPromiseModelDefault(): void
     {
-        $result = $this->subject->getPromiseModel('different');
+        $result = $this->subject->mapPromiseModel('different');
         $this->assertEquals([
             'label' => [
                 'id' => 'label',
@@ -105,7 +105,7 @@ class ResultSetMapperTest extends TestCase
      */
     public function testGetResultSetModel(array $resultDataSet, string $structure, array $filteredResults): void
     {
-        $result = $this->subject->getResultSetModel($resultDataSet, $structure);
+        $result = $this->subject->mapResultSetModel($resultDataSet, $structure);
 
         $this->assertEquals($filteredResults, $result);
     }

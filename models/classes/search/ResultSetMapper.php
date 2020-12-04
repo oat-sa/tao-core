@@ -9,14 +9,14 @@ class ResultSetMapper extends ConfigurableService
     public const SERVICE_ID = 'tao/ResultSetMapper';
     public const OPTION_STRUCTURE_MAP = 'optionStructureMap';
 
-    public function getPromiseModel(string $structure)
+    public function mapPromiseModel(string $structure)
     {
         $map = $this->getOption(self::OPTION_STRUCTURE_MAP);
 
         return $map[$structure] ?? $map['default'];
     }
 
-    public function getResultSetModel(array $content, string $structure)
+    public function mapResultSetModel(array $content, string $structure)
     {
         $map = $this->getOption(self::OPTION_STRUCTURE_MAP);
         $allowedKeys = $map[$structure] ?? $map['default'];
