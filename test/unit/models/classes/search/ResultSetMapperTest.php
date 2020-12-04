@@ -24,12 +24,14 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\search;
 
 use oat\generis\test\TestCase;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\search\ResultSetMapper;
 
 class ResultSetMapperTest extends TestCase
 {
     /** @var ResultSetMapper */
     private $subject;
+    private $advancedSearchChecker;
 
     public function setUp(): void
     {
@@ -64,39 +66,78 @@ class ResultSetMapperTest extends TestCase
                     ]
             ]
         );
+
+        $this->advancedSearchChecker = $this->createMock(AdvancedSearchChecker::class);
+
+        $this->subject->setServiceLocator(
+            $this->getServiceLocatorMock(
+                [
+                    AdvancedSearchChecker::class => $this->advancedSearchChecker
+                ]
+            )
+        );
     }
 
-    public function testGetPromiseModelResults(): void
+    /**
+     * @dataProvider getScenariosData
+     */
+    public function testGetPromiseModelResults(array $expectedResult, string $mappedField, bool $elasticSearchEnabled): void
     {
-        $result = $this->subject->map('results');
-        $this->assertEquals([
-            'label' => [
-                'id' => 'label',
-                'label' => __('Label'),
-                'sortable' => false
-            ],
-            'test_taker_name' => [
-                'id' => 'test_taker_name',
-                'label' => __('Test Taker'),
-                'sortable' => false
-            ],
-            'test_taker' => [
-                'id' => 'test_taker',
-                'label' => __('Test Taker'),
-                'sortable' => false
-            ],
-        ], $result);
+        $this->advancedSearchChecker
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn($elasticSearchEnabled);
+
+        $result = $this->subject->map($mappedField);
+        $this->assertEquals($expectedResult, $result);
     }
 
-    public function testGetPromiseModelDefault(): void
+    public function getScenariosData()
     {
-        $result = $this->subject->map('different');
-        $this->assertEquals([
-            'label' => [
-                'id' => 'label',
-                'label' => __('Label'),
-                'sortable' => false
+        return [
+            'result search with elastic search enabled' => [
+                [
+                    'label' => [
+                        'id' => 'label',
+                        'label' => __('Label'),
+                        'sortable' => false
+                    ],
+                    'test_taker_name' => [
+                        'id' => 'test_taker_name',
+                        'label' => __('Test Taker'),
+                        'sortable' => false
+                    ],
+                    'test_taker' => [
+                        'id' => 'test_taker',
+                        'label' => __('Test Taker'),
+                        'sortable' => false
+                    ],
+                ],
+                'results',
+                true,
             ],
-        ], $result);
+            'result search with elastic search disabled' => [
+                [
+                    'label' => [
+                        'id' => 'label',
+                        'label' => __('Label'),
+                        'sortable' => false
+                    ],
+                ],
+                'results',
+                false,
+            ],
+            'different search with elastic search enabled' => [
+                [
+                    'label' => [
+                        'id' => 'label',
+                        'label' => __('Label'),
+                        'sortable' => false
+                    ],
+                ],
+                'different',
+                true,
+            ]
+        ];
     }
 }
