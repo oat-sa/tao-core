@@ -13,33 +13,36 @@ return new ResultSetMapper(
                 ]
             ],
             'results' => [
-                'test_taker' => [
-                    'id' => 'test_taker',
-                    'label' => 'Test Taker ID',
-                    'sortable' => false
+                'default' => null,
+                'advanced' => [
+                    'test_taker' => [
+                        'id' => 'test_taker',
+                        'label' => 'Test Taker ID',
+                        'sortable' => false
+                    ],
+                    'label' => [
+                        'id' => 'label',
+                        'label' => 'Label',
+                        'sortable' => false
+                    ],
+                    'test_taker_name' => [
+                        'id' => 'test_taker_name',
+                        'label' => 'Test Taker Name',
+                        'sortable' => false
+                    ],
+                    'delivery_execution_start_time' => [
+                        'id' => 'delivery_execution_start_time',
+                        'label' => 'Start Time',
+                        'sortable' => false,
+                    ],
+                    'delivery' => [
+                        'id' => 'delivery',
+                        'label' => 'Delivery Uri',
+                        'sortable' => false,
+                        'visible' => false
+                    ],
                 ],
-                'label' => [
-                    'id' => 'label',
-                    'label' => 'Label',
-                    'sortable' => false
-                ],
-                'test_taker_name' => [
-                    'id' => 'test_taker_name',
-                    'label' => 'Test Taker Name',
-                    'sortable' => false
-                ],
-                'delivery_execution_start_time' => [
-                    'id' => 'delivery_execution_start_time',
-                    'label' => 'Start Time',
-                    'sortable' => false,
-                ],
-                'delivery' => [
-                    'id' => 'delivery',
-                    'label' => 'Delivery Uri',
-                    'sortable' => false,
-                    'visible' => false
-                ],
-            ]
+            ],
         ]
     ]
 );

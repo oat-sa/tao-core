@@ -15,9 +15,9 @@ class ResultSetMapper extends ConfigurableService
         $map = $this->getOption(self::OPTION_STRUCTURE_MAP);
 
         if (!$this->getAdvancedSearchChecker()->isEnabled()) {
-            return $map['default'];
+            return $map[$structure]['default'] ?? $map['default'];
         }
-        return $map[$structure] ?? $map['default'];
+        return $map[$structure]['advanced'] ?? $map['default'];
     }
 
     private function getAdvancedSearchChecker(): AdvancedSearchChecker
