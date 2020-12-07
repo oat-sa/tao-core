@@ -37,33 +37,35 @@ class ResultSetMapperTest extends TestCase
     {
         $this->subject = new ResultSetMapper(
             [
-                ResultSetMapper::OPTION_STRUCTURE_MAP =>
-                    [
-                        'default' => [
-                            'label' => [
-                                'id' => 'label',
-                                'label' => __('Label'),
+                ResultSetMapper::OPTION_STRUCTURE_MAP => [
+                    'default' => [
+                        'label' => [
+                            'id' => 'label',
+                            'label' => __('Label'),
+                            'sortable' => false
+                        ]
+                    ],
+                    'results' => [
+                        'default' => null,
+                        'advanced' => [
+                            'test_taker' => [
+                                'id' => 'test_taker',
+                                'label' => 'Test Taker',
                                 'sortable' => false
-                            ]
-                        ],
-                        'results' => [
+                            ],
                             'label' => [
                                 'id' => 'label',
-                                'label' => __('Label'),
+                                'label' => 'Label',
                                 'sortable' => false
                             ],
                             'test_taker_name' => [
                                 'id' => 'test_taker_name',
-                                'label' => __('Test Taker'),
+                                'label' => 'Test Taker',
                                 'sortable' => false
                             ],
-                            'test_taker' => [
-                                'id' => 'test_taker',
-                                'label' => __('Test Taker'),
-                                'sortable' => false
-                            ],
-                        ]
-                    ]
+                        ],
+                    ],
+                ]
             ]
         );
 
