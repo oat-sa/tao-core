@@ -28,15 +28,19 @@ interface MediaBrowser
 {
 
     /**
-     * @param string $parentLink
-     * @param array $acceptableMime
-     * @param int $depth
      * @return array ['label' => $label,
      *                'path' => $implIdentifier.'/'.$path,
      *                'children' => [['label' => $label, 'path', $implIdentifier.'/'.$path, 'parent' => $parentPath]]
+     *                'total' => $total
      *               ]
      */
-    public function getDirectory($parentLink = '/', $acceptableMime = [], $depth = 1);
+    public function getDirectory(
+        string $parentLink = '/',
+        array $acceptableMime = [],
+        int $depth = 1,
+        int $limit = 0,
+        int $offset = 0
+    ): array;
 
     /**
      * @param string $link
