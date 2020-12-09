@@ -32,22 +32,36 @@ final class Version202011301939462234_tao extends AbstractMigration
                         ]
                     ],
                     'results' => [
-                        'label' => [
-                            'id' => 'label',
-                            'label' => __('Label'),
-                            'sortable' => false
+                        'default' => null,
+                        'advanced' => [
+                            'test_taker' => [
+                                'id' => 'test_taker',
+                                'label' => 'Test Taker ID',
+                                'sortable' => false
+                            ],
+                            'label' => [
+                                'id' => 'label',
+                                'label' => 'Label',
+                                'sortable' => false
+                            ],
+                            'test_taker_name' => [
+                                'id' => 'test_taker_name',
+                                'label' => 'Test Taker Name',
+                                'sortable' => false
+                            ],
+                            'delivery_execution_start_time' => [
+                                'id' => 'delivery_execution_start_time',
+                                'label' => 'Start Time',
+                                'sortable' => false,
+                            ],
+                            'delivery' => [
+                                'id' => 'delivery',
+                                'label' => 'Delivery Uri',
+                                'sortable' => false,
+                                'visible' => false
+                            ],
                         ],
-                        'test_taker_name' => [
-                            'id' => 'test_taker_name',
-                            'label' => __('Test Taker'),
-                            'sortable' => false
-                        ],
-                        'test_taker' => [
-                            'id' => 'test_taker',
-                            'label' => __('Test Taker'),
-                            'sortable' => false
-                        ],
-                    ]
+                    ],
                 ]
             ]
         ));
