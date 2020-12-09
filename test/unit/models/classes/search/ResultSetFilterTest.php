@@ -50,7 +50,7 @@ class ResultSetFilterTest extends TestCase
     /**
      * @dataProvider getResultSetData
      */
-    public function testGetResultSetModel(array $resultDataSet, string $structure, array $filteredResults, array $map): void
+    public function testFilter(array $resultDataSet, string $structure, array $filteredResults, array $map): void
     {
         $this->resultSetMapperMock
             ->method('map')
