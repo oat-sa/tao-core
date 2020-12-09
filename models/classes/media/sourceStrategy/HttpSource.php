@@ -14,11 +14,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2020 (original work) Open Assessment Technologies SA;
  *
  */
 namespace oat\tao\model\media\sourceStrategy;
 
+use common_Exception;
 use common_Logger;
 use GuzzleHttp\Client;
 use helpers_TimeOutHelper;
@@ -37,7 +38,7 @@ class HttpSource implements MediaBrowser
      */
     public function getFileInfo($link)
     {
-        throw new \common_Exception(__FUNCTION__ . ' not implemented');
+        throw new common_Exception(__FUNCTION__ . ' not implemented');
     }
 
     /**
@@ -113,12 +114,18 @@ class HttpSource implements MediaBrowser
     }
 
     /**
-     * (non-PHPdoc)
+     * (non-PHPDoc)
      * @see \oat\tao\model\media\MediaBrowser::getDirectory()
      */
-    public function getDirectory($parentLink = '/', $acceptableMime = array(), $depth = 1)
+    public function getDirectory(
+        string $parentLink = '',
+        array $acceptableMime = [],
+        int $depth = 1,
+        int $limit = 0,
+        int $offset = 0
+    ): array
     {
-        throw new \common_Exception('Unable to browse the internet');
+        throw new common_Exception('Unable to browse the internet');
     }
 
 
