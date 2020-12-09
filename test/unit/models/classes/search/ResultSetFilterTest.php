@@ -61,7 +61,7 @@ class ResultSetFilterTest extends TestCase
         $this->assertEquals($filteredResults, $result);
     }
 
-    public function getResultSetData()
+    public function getResultSetData(): array
     {
         return [
             'results data set' => [
