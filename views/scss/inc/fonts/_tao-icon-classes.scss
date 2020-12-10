@@ -1,4 +1,7 @@
 /* Do not edit */[class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-wrap-inline:before { @include icon-wrap-inline; }
+.icon-wrap-right:before { @include icon-wrap-right; }
+.icon-wrap-left:before { @include icon-wrap-left; }
 .icon-offline:before { @include icon-offline; }
 .icon-online:before { @include icon-online; }
 .icon-tab:before { @include icon-tab; }
