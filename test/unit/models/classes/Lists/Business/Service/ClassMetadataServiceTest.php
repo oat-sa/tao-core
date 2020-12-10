@@ -24,14 +24,15 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Lists\Business\Service;
 
 use core_kernel_classes_Class;
+use core_kernel_classes_Property;
 use oat\generis\model\data\Ontology;
-use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\ClassMetadataSearchRequest;
 use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 use oat\tao\model\Lists\Business\Service\ClassMetadataService;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ClassMetadataServiceTest extends TestCase
 {
@@ -44,14 +45,26 @@ class ClassMetadataServiceTest extends TestCase
     /** @var ValueCollectionRepositoryInterface|MockObject */
     private $repositoryMock;
 
-    /**
-     * @before
-     */
-    public function init(): void
+    /** @var ClassMetadataSearchRequest|MockObject */
+    private $classMetadataSearchRequestMock;
+
+    /** @var ClassMetadataSearchInput|MockObject */
+    private $classMetadataSearchInputMock;
+
+    /** @var core_kernel_classes_Property|MockObject */
+    private $property;
+
+    public function setUp(): void
     {
         $this->repositoryMock = $this->createMock(ValueCollectionRepositoryInterface::class);
-
         $this->valueCollectionServiceMock = $this->createMock(ValueCollectionService::class);
+        $this->classMetadataSearchRequestMock = $this->createMock(ClassMetadataSearchRequest::class);
+        $this->classMetadataSearchInputMock = $this->createMock(ClassMetadataSearchInput::class);
+
+        $this->classMetadataSearchInputMock
+            ->expects($this->once())
+            ->method('getSearchRequest')
+            ->willReturn($this->classMetadataSearchRequestMock);
 
         $this->sut = new ClassMetadataService(
             $this->valueCollectionServiceMock
@@ -63,49 +76,44 @@ class ClassMetadataServiceTest extends TestCase
             ->method('getClass')
             ->willReturn($this->createClassMock());
 
-        $serviceLocator = $this->getServiceLocatorMock(
-            [Ontology::SERVICE_ID => $ontologyServiceMock]
+        $this->sut->setServiceLocator(
+            $this->getServiceLocatorMock(
+                [
+                    Ontology::SERVICE_ID => $ontologyServiceMock
+                ]
+            )
         );
-
-        $this->sut->setServiceLocator($serviceLocator);
     }
 
     public function testFindAll(): void
     {
+        $widgetResource = $this->createMock(\core_kernel_classes_Resource::class);
+        $this->property
+            ->method('getWidget')
+            ->willReturn($widgetResource);
+
+        $this->property
+            ->method('getLabel')
+            ->willReturn('propertyLabel');
+
+        $widgetResource
+            ->method('getUri')
+            ->willReturn('http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox');
+
         $result = $this->sut->findAll(
-            $this->createSearchInputMock(
-                $this->createSearchRequestMock()
-            )
+            $this->classMetadataSearchInputMock
         );
 
         $this->assertSame(
-            '[{"class":"uri","parent-class":null,"label":"label","metadata":[]}]',
+            '[{"class":"uri","parent-class":null,"label":"label","metadata":[{"label":"propertyLabel","type":"text","values":null,"uri":null},{"label":"propertyLabel","type":"text","values":null,"uri":null}]}]',
             json_encode($result)
         );
-    }
-
-    private function createSearchInputMock(ClassMetadataSearchRequest $searchRequest): ClassMetadataSearchInput
-    {
-        $classMetadataSearchInputMock = $this->createMock(ClassMetadataSearchInput::class);
-
-        $classMetadataSearchInputMock
-            ->expects($this->once())
-            ->method('getSearchRequest')
-            ->willReturn($searchRequest);
-
-        return $classMetadataSearchInputMock;
-    }
-
-    private function createSearchRequestMock(): ClassMetadataSearchRequest
-    {
-        $classMetadataSearchRequestMock = $this->createMock(ClassMetadataSearchRequest::class);
-
-        return $classMetadataSearchRequestMock;
     }
 
     private function createClassMock(): core_kernel_classes_Class
     {
         $class = $this->createMock(core_kernel_classes_Class::class);
+        $this->property = $this->createMock(core_kernel_classes_Property::class);
 
         $class
             ->expects($this->once())
@@ -126,8 +134,27 @@ class ClassMetadataServiceTest extends TestCase
         $class
             ->expects($this->once())
             ->method('getProperties')
-            ->willReturn([]);
+            ->willReturn([
+                'property1' => $this->property,
+                'property2' => $this->property,
+            ]);
 
         return $class;
+    }
+
+    public function testFindAllPropertyDoesNotHaveWidget(): void
+    {
+        $this->property
+            ->method('getWidget')
+            ->willReturn(null);
+
+        $result = $this->sut->findAll(
+            $this->classMetadataSearchInputMock
+        );
+
+        $this->assertSame(
+            '[{"class":"uri","parent-class":null,"label":"label","metadata":[]}]',
+            json_encode($result)
+        );
     }
 }

@@ -22,18 +22,16 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search;
 
-
 use oat\generis\model\data\permission\PermissionHelper;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 
 class ResultSetResponseNormalizer extends ConfigurableService
 {
     use OntologyAwareTrait;
 
-    public function normalize(SearchQuery $searchQuery, ResultSet $resultSet): array
+    public function normalize(SearchQuery $searchQuery, ResultSet $resultSet, string $structure): array
     {
         $totalPages = is_null($searchQuery->getRows()) || $searchQuery->getRows() === 0
             ? 1
@@ -48,29 +46,27 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $response = [];
         if ($resultAmount > 0) {
             $accessibleResultsMap = array_flip(
-                $this->getPermissionHelper()->filterByPermission($resultsRaw, PermissionInterface::RIGHT_READ)
+                $this->getPermissionHelper()
+                    ->filterByPermission(
+                        array_column($resultsRaw, 'id'),
+                        PermissionInterface::RIGHT_READ
+                    )
             );
 
-            foreach ($resultsRaw as $uri) {
-                $instance = $this->getResource($uri);
-                $isAccessible = isset($accessibleResultsMap[$uri]);
+            foreach ($resultsRaw as $content) {
+                $isAccessible = isset($accessibleResultsMap[$content['id']]);
 
                 if (!$isAccessible) {
-                    $instance->label = __('Access Denied');
+                    $content['label'][] = __('Access Denied');
                 }
 
-                $instanceProperties = [
-                    'id' => $instance->getUri(),
-                    OntologyRdfs::RDFS_LABEL => $instance->getLabel(),
-                ];
-
-                $response['data'][] = $instanceProperties;
+                $response['data'][] = $this->getResultSetFilter()->filter($content, $structure);
             }
         }
         $response['readonly'] = array_fill_keys(
             array_keys(
                 array_diff_key(
-                    array_flip($resultsRaw),
+                    $resultsRaw,
                     $accessibleResultsMap
                 )
             ),
@@ -93,4 +89,8 @@ class ResultSetResponseNormalizer extends ConfigurableService
         return $this->getServiceLocator()->get(PermissionHelper::class);
     }
 
+    private function getResultSetFilter(): ResultSetFilter
+    {
+        return $this->getServiceLocator()->get(ResultSetFilter::class);
+    }
 }

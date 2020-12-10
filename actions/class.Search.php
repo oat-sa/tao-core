@@ -22,9 +22,9 @@
 declare(strict_types=1);
 
 use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\OntologyRdfs;
 use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\search\index\OntologyIndexService;
+use oat\tao\model\search\ResultSetMapper;
 use oat\tao\model\search\SearchProxy;
 
 /**
@@ -44,22 +44,36 @@ class tao_actions_Search extends tao_actions_CommonModule
      */
     public function searchParams(): void
     {
-        $rawQuery = $_POST['query'] ?? '';
-        $this->returnJson([
+        $queryParams = $this->getPsrRequest()->getQueryParams();
+        $parsedBody = $this->getPsrRequest()->getParsedBody();
+        if (
+            !isset(
+                $parsedBody['structure'],
+                $parsedBody['query'],
+                $queryParams['rootNode'],
+                $parsedBody['parentNode']
+            )
+        ) {
+            $this->setErrorJsonResponse('Request is missing required params');
+        }
+
+        try {
+            $promiseModel = $this->getResultSetMapper()->map($parsedBody['structure']);
+        } catch (Exception $exception) {
+            $this->setErrorJsonResponse($exception->getMessage());
+            return;
+        }
+
+        $this->setSuccessJsonResponse([
             'url' => _url('search'),
             'params' => [
-                'query' => $rawQuery,
-                'rootNode' => $this->getRequestParameter('rootNode'),
-                'parentNode' => $this->getRequestParameter('parentNode'),
+                'query' => $parsedBody['query'],
+                'rootNode' => $queryParams['rootNode'],
+                'parentNode' => $parsedBody['parentNode'],
+                'structure' => $parsedBody['structure'],
             ],
             'filter' => [],
-            'model' => [
-                OntologyRdfs::RDFS_LABEL => [
-                    'id' => OntologyRdfs::RDFS_LABEL,
-                    'label' => __('Label'),
-                    'sortable' => false
-                ]
-            ],
+            'model' => $promiseModel,
             'result' => true
         ]);
     }
@@ -81,7 +95,6 @@ class tao_actions_Search extends tao_actions_CommonModule
                 $exception->getMessage()
             );
         }
-
     }
 
     public function getIndexes(): void
@@ -101,7 +114,7 @@ class tao_actions_Search extends tao_actions_CommonModule
                 }
             }
 
-            $this->returnJson($json, 200);
+            $this->setSuccessJsonResponse($json, 200);
         } else {
             $this->returnJson("The 'rootNode' parameter is missing.", 500);
         }
@@ -110,5 +123,10 @@ class tao_actions_Search extends tao_actions_CommonModule
     private function getSearchProxy(): SearchProxy
     {
         return $this->getServiceLocator()->get(SearchProxy::class);
+    }
+
+    private function getResultSetMapper(): ResultSetMapper
+    {
+        return $this->getServiceLocator()->get(ResultSetMapper::SERVICE_ID);
     }
 }

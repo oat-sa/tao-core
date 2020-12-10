@@ -25,6 +25,7 @@ namespace oat\tao\model\Lists\Business\Service;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\Lists\Business\Domain\ClassCollection;
 use oat\tao\model\Lists\Business\Domain\ClassMetadata;
@@ -130,6 +131,9 @@ class ClassMetadataService extends InjectionAwareService
         $collection = new MetadataCollection();
 
         foreach ($class->getProperties(true) as $property) {
+            if (!$this->isWidget($property)) {
+                continue;
+            }
 
             if (!$this->isTextWidget($property) && !$this->isListWidget($property)) {
                 continue;
@@ -202,5 +206,10 @@ class ClassMetadataService extends InjectionAwareService
         }
 
         return sprintf(self::BASE_LIST_ITEMS_URI, urlencode($property->getUri()));
+    }
+
+    private function isWidget(core_kernel_classes_Property $property): bool
+    {
+        return $property->getWidget() instanceof core_kernel_classes_Resource;
     }
 }

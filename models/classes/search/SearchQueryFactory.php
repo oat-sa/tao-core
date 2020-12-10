@@ -42,7 +42,7 @@ class SearchQueryFactory extends ConfigurableService
 
         return new SearchQuery(
             $params['params']['query'],
-            $params['params']['rootNode'],
+            $params['params']['structure'],
             $params['params']['parentNode'],
             $startRow,
             $rows,

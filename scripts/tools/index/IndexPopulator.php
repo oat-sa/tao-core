@@ -28,13 +28,9 @@ use DateTime;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
-use oat\tao\elasticsearch\SimpleResourceIterator;
 use oat\tao\model\menu\MenuService;
-use oat\tao\model\resources\ResourceIterator;
 use oat\tao\model\search\index\IndexIterator;
 use oat\tao\model\search\Search;
-use oat\taoDepp\scripts\tools\audioRecordingExporter\domain\exception\EmptyUsersException;
-use oat\taoDepp\scripts\tools\audioRecordingExporter\domain\service\AudioResponseExporterService;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 

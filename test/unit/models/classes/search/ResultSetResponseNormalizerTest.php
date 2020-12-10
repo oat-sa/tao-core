@@ -24,6 +24,7 @@ namespace oat\tao\test\unit\model\search;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
+use oat\tao\model\search\ResultSetFilter;
 use oat\tao\model\search\SearchQuery;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\model\data\permission\PermissionHelper;
@@ -51,6 +52,9 @@ class ResultSetResponseNormalizerTest extends TestCase
     /** @var core_kernel_classes_Resource|MockObject */
     private $resourceMock;
 
+    /** @var ResultSetFilter|MockObject  */
+    private $resultSetFilter;
+
     public function setUp(): void
     {
         $this->permissionHelperMock = $this->createMock(PermissionHelper::class);
@@ -58,6 +62,7 @@ class ResultSetResponseNormalizerTest extends TestCase
         $this->resultSetMock = $this->createMock(ResultSet::class);
         $this->modelMock = $this->createMock(Ontology::class);
         $this->resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+        $this->resultSetFilter = $this->createMock(ResultSetFilter::class);
 
         $this->resourceMock
             ->method('getUri')
@@ -75,8 +80,8 @@ class ResultSetResponseNormalizerTest extends TestCase
             ->method('getArrayCopy')
             ->willReturn(
                 [
-                    'uri1',
-                    'uri2',
+                    ['id' => 'uri1'],
+                    ['id' => 'uri2'],
                 ]
             );
 
@@ -93,7 +98,8 @@ class ResultSetResponseNormalizerTest extends TestCase
         $this->subject->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
-                    PermissionHelper::class => $this->permissionHelperMock
+                    PermissionHelper::class => $this->permissionHelperMock,
+                    ResultSetFilter::class => $this->resultSetFilter
                 ]
             )
         );
@@ -116,7 +122,11 @@ class ResultSetResponseNormalizerTest extends TestCase
             ->method('getPage')
             ->willReturn(1);
 
-        $result = $this->subject->normalize($this->searchQueryMock, $this->resultSetMock);
+        $this->resultSetFilter
+            ->method('filter')
+            ->willReturn(['id' => 'uri']);
+
+        $result = $this->subject->normalize($this->searchQueryMock, $this->resultSetMock, 'results');
         $this->assertResult($result);
     }
 
@@ -140,11 +150,15 @@ class ResultSetResponseNormalizerTest extends TestCase
                 ]
             );
 
+        $this->resultSetFilter
+            ->method('filter')
+            ->willReturn(['id' => 'uri']);
+
         $this->searchQueryMock
             ->method('getPage')
             ->willReturn(1);
 
-        $result = $this->subject->normalize($this->searchQueryMock, $this->resultSetMock);
+        $result = $this->subject->normalize($this->searchQueryMock, $this->resultSetMock, 'result');
         $this->assertResult($result);
     }
 
@@ -163,20 +177,18 @@ class ResultSetResponseNormalizerTest extends TestCase
         $this->assertEquals(100, $result['totalCount']);
         $this->assertEquals(2, $result['records']);
         $this->assertCount(2, $result['data']);
-        $this->assertCount(1, $result['readonly']);
+        $this->assertCount(2, $result['readonly']);
         $this->assertEquals(
             [
                 [
-                    'id' => 'uri1',
-                    'http://www.w3.org/2000/01/rdf-schema#label' => 'label',
+                    'id' => 'uri',
                 ],
                 [
-                    'id' => 'uri1',
-                    'http://www.w3.org/2000/01/rdf-schema#label' => 'label',
+                    'id' => 'uri',
                 ],
             ],
             $result['data']
         );
-        $this->assertTrue($result['readonly']['uri2']);
+        $this->assertTrue($result['readonly'][0]);
     }
 }

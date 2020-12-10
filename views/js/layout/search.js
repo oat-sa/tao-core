@@ -19,14 +19,15 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context', 'util/url'], function (
-    $,
-    actionManager,
-    searchModal,
-    store,
-    context,
-    urlHelper
-) {
+define([
+    'jquery',
+    'layout/actions',
+    'ui/searchModal',
+    'core/store',
+    'context',
+    'util/url',
+    'layout/actions/binder'
+], function ($, actionManager, searchModal, store, context, urlHelper, binder) {
     /**
      * Seach bar component for TAO action bar. It exposes
      * the container, the indexeddb store that manages
@@ -95,12 +96,29 @@ define(['jquery', 'layout/actions', 'ui/searchModal', 'core/store', 'context', '
     function createSearchModalInstance(criterias, searchOnInit = true) {
         criterias = criterias || { search: $('input', searchComponent.container).val() };
         const url = searchComponent.container.data('url');
+        const placeholder = searchComponent.container.find('input').attr('placeholder');
         const rootClassUri = decodeURIComponent(urlHelper.parse(url).query.rootNode);
-        const searchModalInstance = searchModal({ criterias, url, searchOnInit, rootClassUri });
+        const isResultPage = context.shownStructure === 'results';
+        const searchModalInstance = searchModal({
+            criterias,
+            url,
+            searchOnInit,
+            rootClassUri,
+            hideResourceSelector: isResultPage,
+            placeholder
+        });
 
         searchModalInstance.on('store-updated', manageSearchStoreUpdate);
-        searchModalInstance.on('refresh', uri => {
+        searchModalInstance.on('refresh', (id, data) => {
+            // in all cases id == resource_uri and node in the resorce tree
+            // after triggering 'refresh' this resource will be selected in tree
+            // on Results page we have 2 cases
+            // 1. GenerisSearch id == delivery_uri
+            // 2. ElasticSearch id == delivery_result_uri and data.delivery == delivery_uri
+            const uri = !isResultPage || !data.delivery ? id : data.delivery;
             actionManager.trigger('refresh', { uri });
+            // case 2. ElasticSearch - need to store delivery_result_uri in searchComponent for taoOutcomeUi controller
+            isResultPage && data.delivery && searchComponent.container.data('show-result', id);
         });
     }
 
