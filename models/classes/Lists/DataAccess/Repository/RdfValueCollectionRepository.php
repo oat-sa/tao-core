@@ -33,12 +33,12 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
-use oat\tao\model\Lists\Business\Domain\CollectionType;
-use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
+use oat\tao\model\Lists\Business\Domain\CollectionType;
 use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\tao\model\service\InjectionAwareService;
 use Throwable;
 
 class RdfValueCollectionRepository extends InjectionAwareService implements ValueCollectionRepositoryInterface
@@ -56,7 +56,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         parent::__construct();
 
         $this->persistenceManager = $persistenceManager;
-        $this->persistenceId      = $persistenceId;
+        $this->persistenceId = $persistenceId;
     }
 
     public function isApplicable(string $collectionUri): bool
@@ -73,6 +73,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $this->enrichQueryWithPropertySearchConditions($searchRequest, $query);
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
         $this->enrichQueryWithSubject($searchRequest, $query);
+        $this->enrichQueryWithLanguageSearchCondition($searchRequest, $query);
         $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
         $this->enrichQueryWithObjects($searchRequest, $query);
         $this->enrichQueryWithOrderById($query);
@@ -184,8 +185,8 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             ->where($expressionBuilder->eq('id', ':id'))
             ->setParameters(
                 [
-                    'id'    => $value->getId(),
-                    'uri'   => $value->getUri(),
+                    'id' => $value->getId(),
+                    'uri' => $value->getUri(),
                     'label' => $value->getLabel(),
                 ]
             )
@@ -219,7 +220,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             ->where($expressionBuilder->eq('subject', ':original_uri'))
             ->setParameters(
                 [
-                    'uri'          => $value->getUri(),
+                    'uri' => $value->getUri(),
                     'original_uri' => $value->getOriginalUri(),
                 ]
             )
@@ -241,7 +242,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             ->where($expressionBuilder->eq('object', ':original_uri'))
             ->setParameters(
                 [
-                    'uri'          => $value->getUri(),
+                    'uri' => $value->getUri(),
                     'original_uri' => $value->getOriginalUri(),
                 ]
             )
@@ -265,7 +266,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             ->setParameters(
                 [
                     'label_uri' => OntologyRdfs::RDFS_LABEL,
-                    'type_uri'  => OntologyRdf::RDF_TYPE,
+                    'type_uri' => OntologyRdf::RDF_TYPE,
                 ]
             );
 
@@ -292,7 +293,8 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     private function enrichQueryWithPropertySearchConditions(
         ValueCollectionSearchRequest $searchRequest,
         QueryBuilder $query
-    ): void {
+    ): void
+    {
         if (!$searchRequest->hasPropertyUri()) {
             return;
         }
@@ -315,7 +317,8 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     private function enrichQueryWithValueCollectionSearchCondition(
         ValueCollectionSearchRequest $searchRequest,
         QueryBuilder $query
-    ): void {
+    ): void
+    {
         if (!$searchRequest->hasValueCollectionUri()) {
             return;
         }
@@ -346,7 +349,8 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     private function enrichQueryWithExcludedValueUris(
         ValueCollectionSearchRequest $searchRequest,
         QueryBuilder $query
-    ): void {
+    ): void
+    {
         if (!$searchRequest->hasExcluded()) {
             return;
         }
@@ -364,7 +368,8 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     private function enrichQueryWithObjects(
         ValueCollectionSearchRequest $searchRequest,
         QueryBuilder $query
-    ): void {
+    ): void
+    {
         if (!$searchRequest->hasUris()) {
             return;
         }
@@ -380,5 +385,20 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->persistenceManager->getPersistenceById($this->persistenceId);
+    }
+
+    private function enrichQueryWithLanguageSearchCondition(
+        ValueCollectionSearchRequest $searchRequest,
+        QueryBuilder $query
+    ): void
+    {
+        if (!$searchRequest->hasDataLanguage()) {
+            return;
+        }
+
+        $expressionBuilder = $query->expr();
+        $query
+            ->andWhere($expressionBuilder->eq('element.l_language', ':l_language'))
+            ->setParameter('l_language', $searchRequest->getDataLanguage());
     }
 }
