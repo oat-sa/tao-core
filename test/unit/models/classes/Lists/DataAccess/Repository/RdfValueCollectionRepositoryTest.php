@@ -290,6 +290,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
             $this->createPropertyUriCondition($searchRequest),
             $this->createValueCollectionUriCondition($searchRequest),
             $this->createSubjectCondition($searchRequest),
+            $this->createDataLanguageCondition($searchRequest),
             $this->createExcludedCondition($searchRequest),
             $this->createCondition(),
             $this->createOrderBy(),
@@ -365,6 +366,19 @@ class RdfValueCollectionRepositoryTest extends TestCase
         $this->queryParameters['subject'] = '%'. $searchRequest->getSubject() . '%';
 
         $this->conditions[] = 'AND (LOWER(element.object) LIKE :subject)';
+
+        return null;
+    }
+
+    private function createDataLanguageCondition(ValueCollectionSearchRequest $searchRequest): ?string
+    {
+        if (!$searchRequest->hasDataLanguage()) {
+            return null;
+        }
+
+        $this->queryParameters['l_language'] = $searchRequest->getDataLanguage();
+
+        $this->conditions[] = 'AND (element.l_language = :l_language)';
 
         return null;
     }
