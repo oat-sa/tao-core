@@ -293,8 +293,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     private function enrichQueryWithPropertySearchConditions(
         ValueCollectionSearchRequest $searchRequest,
         QueryBuilder $query
-    ): void
-    {
+    ): void {
         if (!$searchRequest->hasPropertyUri()) {
             return;
         }
@@ -317,8 +316,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     private function enrichQueryWithValueCollectionSearchCondition(
         ValueCollectionSearchRequest $searchRequest,
         QueryBuilder $query
-    ): void
-    {
+    ): void {
         if (!$searchRequest->hasValueCollectionUri()) {
             return;
         }
@@ -349,8 +347,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     private function enrichQueryWithExcludedValueUris(
         ValueCollectionSearchRequest $searchRequest,
         QueryBuilder $query
-    ): void
-    {
+    ): void {
         if (!$searchRequest->hasExcluded()) {
             return;
         }
@@ -368,8 +365,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     private function enrichQueryWithObjects(
         ValueCollectionSearchRequest $searchRequest,
         QueryBuilder $query
-    ): void
-    {
+    ): void {
         if (!$searchRequest->hasUris()) {
             return;
         }
@@ -390,8 +386,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     private function enrichQueryWithLanguageSearchCondition(
         ValueCollectionSearchRequest $searchRequest,
         QueryBuilder $query
-    ): void
-    {
+    ): void {
         if (!$searchRequest->hasDataLanguage()) {
             return;
         }
