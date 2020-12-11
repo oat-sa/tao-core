@@ -245,6 +245,12 @@ class RdfValueCollectionRepositoryTest extends TestCase
                     ->setPropertyUri('https://example.com')
                     ->setLimit(1),
             ],
+            'Search request with language'                => [
+                (new ValueCollectionSearchRequest())
+                    ->setPropertyUri('https://example.com')
+                    ->setDataLanguage('en-US')
+                    ->setLimit(1),
+            ],
             'Search request with all properties'       => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
