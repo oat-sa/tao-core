@@ -18,6 +18,7 @@
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
  */
+
 declare(strict_types=1);
 
 namespace oat\tao\model\media\MediaSource;
@@ -48,8 +49,13 @@ class QueryObject
     /**
      * QueryObject constructor.
      */
-    public function __construct(string $parentLink, array $filter = [], int $depth = 1, int $childrenLimit = 0, int $childrenOffset = 0)
-    {
+    public function __construct(
+        string $parentLink,
+        array $filter = [],
+        int $depth = 1,
+        int $childrenLimit = 0,
+        int $childrenOffset = 0
+    ) {
         $this->parentLink = $parentLink;
         $this->filter = $filter;
         $this->depth = $depth;
@@ -96,6 +102,4 @@ class QueryObject
     {
         return $this->childrenLimit;
     }
-
-
 }
