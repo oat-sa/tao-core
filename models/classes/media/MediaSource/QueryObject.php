@@ -39,30 +39,30 @@ class QueryObject
     /**
      * @var int
      */
-    private $limit;
+    private $childrenLimit;
     /**
      * @var int
      */
-    private $offset;
+    private $childrenOffset;
 
     /**
      * QueryObject constructor.
      */
-    public function __construct(string $parentLink, array $filter = [], int $depth = 1, int $limit = 0, int $offset = 0)
+    public function __construct(string $parentLink, array $filter = [], int $depth = 1, int $childrenLimit = 0, int $childrenOffset = 0)
     {
         $this->parentLink = $parentLink;
         $this->filter = $filter;
         $this->depth = $depth;
-        $this->limit = $limit;
-        $this->offset = $offset;
+        $this->childrenLimit = $childrenLimit;
+        $this->childrenOffset = $childrenOffset;
     }
 
     /**
      * @return int
      */
-    public function getOffset(): int
+    public function getChildrenOffset(): int
     {
-        return $this->offset;
+        return $this->childrenOffset;
     }
 
     /**
@@ -92,9 +92,9 @@ class QueryObject
     /**
      * @return int
      */
-    public function getLimit(): int
+    public function getChildrenLimit(): int
     {
-        return $this->limit;
+        return $this->childrenLimit;
     }
 
 
