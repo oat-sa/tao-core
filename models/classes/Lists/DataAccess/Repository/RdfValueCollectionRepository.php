@@ -280,8 +280,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
     private function enrichWithSelect(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): QueryBuilder
     {
-        $query
-            ->select('collection.object as collection_uri', 'element.id', 'element.subject', 'element.object');
+        $query->select('collection.object as collection_uri', 'element.id', 'element.subject', 'element.object');
 
         if ($searchRequest->hasLimit()) {
             $query->setMaxResults($searchRequest->getLimit());
@@ -391,9 +390,11 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             return;
         }
 
-        $expressionBuilder = $query->expr();
         $query
-            ->andWhere($expressionBuilder->eq('element.l_language', ':l_language'))
-            ->setParameter('l_language', $searchRequest->getDataLanguage());
+            ->andWhere("element.l_language = :l_language "
+                . " OR element.l_language = '' "
+                . " OR element.l_language = :defaultLang")
+            ->setParameter('l_language', $searchRequest->getDataLanguage())
+            ->setParameter('defaultLang', $searchRequest->getDefaultLanguage());
     }
 }

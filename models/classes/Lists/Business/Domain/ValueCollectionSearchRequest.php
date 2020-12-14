@@ -47,6 +47,9 @@ class ValueCollectionSearchRequest
     /** @var string */
     private $dataLanguage;
 
+    /** @var string */
+    private $defaultLanguage;
+
     public function hasPropertyUri(): bool
     {
         return null !== $this->propertyUri;
@@ -170,5 +173,15 @@ class ValueCollectionSearchRequest
         $this->dataLanguage = $dataLanguage;
 
         return $this;
+    }
+
+    public function getDefaultLanguage(): string
+    {
+        return $this->defaultLanguage;
+    }
+
+    public function setDefaultLanguage(string $defaultLanguage): void
+    {
+        $this->defaultLanguage = $defaultLanguage;
     }
 }
