@@ -25,14 +25,6 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
 use common_exception_Error;
-use common_persistence_SqlPersistence as SqlPersistence;
-use core_kernel_classes_Class as KernelClass;
-use core_kernel_classes_Resource as KernelResource;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Query\QueryBuilder;
-use oat\generis\model\OntologyRdf;
-use oat\generis\model\OntologyRdfs;
-use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\Lists\Business\Domain\CollectionType;
 use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
@@ -61,11 +53,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             $values[] = new Value(null, $resource->getUri(), $resource->getLabel());
         }
 
-        $valueCollectionUri = $searchRequest->hasValueCollectionUri()
-            ? $searchRequest->getValueCollectionUri()
-            : $rawValue['collection_uri'] ?? null;
-
-            return new ValueCollection($listClass->getUri(), ...$values);
+        return new ValueCollection($listClass->getUri(), ...$values);
     }
 
     public function persist(ValueCollection $valueCollection): bool
@@ -110,7 +98,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
      */
     public function delete(string $valueCollectionUri): void
     {
-        $listClass = new KernelClass($valueCollectionUri);
+        $listClass = $this->getClass($valueCollectionUri);
 
         $listItems = $listClass->getInstances(false);
 
@@ -133,7 +121,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         }
 
         /** @noinspection PhpUnhandledExceptionInspection */
-        if ((new KernelResource($value->getUri()))->exists() || (new KernelClass($value->getUri()))->exists()) {
+        if ($this->getResource($value->getUri())->exists()) {
             throw new ValueConflictException("Value with {$value->getUri()} is already defined");
         }
     }
@@ -141,7 +129,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     protected function insert(ValueCollection $valueCollection, Value $value): void
     {
         /** @noinspection PhpUnhandledExceptionInspection */
-        $valueCollectionResource = new KernelClass($valueCollection->getUri());
+        $valueCollectionResource = $this->getClass($valueCollection->getUri());
 
         $valueCollectionResource->createInstance($value->getLabel(), '', $value->getUri());
     }
