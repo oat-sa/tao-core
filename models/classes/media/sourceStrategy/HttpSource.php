@@ -26,6 +26,7 @@ use common_Logger;
 use GuzzleHttp\Client;
 use helpers_TimeOutHelper;
 use oat\tao\model\media\MediaBrowser;
+use oat\tao\model\media\MediaSource\QueryObject;
 
 /**
  * This media source gives access to files not part of the Tao platform
@@ -114,17 +115,15 @@ class HttpSource implements MediaBrowser
         return $realfilename;
     }
 
+    public function getDirectories(QueryObject $params): array
+    {
+        throw new common_Exception('Unable to browse the internet');
+    }
+
     /**
-     * (non-PHPDoc)
-     * @see \oat\tao\model\media\MediaBrowser::getDirectory()
+     * @inheritDoc
      */
-    public function getDirectory(
-        string $parentLink = '',
-        array $acceptableMime = [],
-        int $depth = 1,
-        int $limit = 0,
-        int $offset = 0
-    ): array
+    public function getDirectory($parentLink = '', $acceptableMime = [], $depth = 1)
     {
         throw new common_Exception('Unable to browse the internet');
     }
