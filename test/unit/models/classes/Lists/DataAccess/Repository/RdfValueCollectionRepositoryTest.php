@@ -245,12 +245,6 @@ class RdfValueCollectionRepositoryTest extends TestCase
                     ->setPropertyUri('https://example.com')
                     ->setLimit(1),
             ],
-            'Search request with language'                => [
-                (new ValueCollectionSearchRequest())
-                    ->setPropertyUri('https://example.com')
-                    ->setDataLanguage('en-US')
-                    ->setLimit(1),
-            ],
             'Search request with all properties'       => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
@@ -290,7 +284,6 @@ class RdfValueCollectionRepositoryTest extends TestCase
             $this->createPropertyUriCondition($searchRequest),
             $this->createValueCollectionUriCondition($searchRequest),
             $this->createSubjectCondition($searchRequest),
-            $this->createDataLanguageCondition($searchRequest),
             $this->createExcludedCondition($searchRequest),
             $this->createCondition(),
             $this->createOrderBy(),
@@ -315,7 +308,10 @@ class RdfValueCollectionRepositoryTest extends TestCase
         return implode(
             ' ',
             [
-                'SELECT collection.object as collection_uri, element.id, element.subject, element.object',
+                'SELECT collection.object as collection_uri, '
+                . 'element.id, element.subject,'
+                . ' element.object, '
+                . 'element.l_language as dataLanguage',
                 'FROM statements element',
                 'INNER JOIN statements collection',
                 'ON collection.subject = element.subject',
@@ -366,20 +362,6 @@ class RdfValueCollectionRepositoryTest extends TestCase
         $this->queryParameters['subject'] = '%'. $searchRequest->getSubject() . '%';
 
         $this->conditions[] = 'AND (LOWER(element.object) LIKE :subject)';
-
-        return null;
-    }
-
-    private function createDataLanguageCondition(ValueCollectionSearchRequest $searchRequest): ?string
-    {
-        if (!$searchRequest->hasDataLanguage()) {
-            return null;
-        }
-
-        $this->queryParameters['l_language'] = $searchRequest->getDataLanguage();
-
-        $this->conditions[] = "AND (element.l_language = :l_language "
-            . " OR element.l_language = ''  OR element.l_language = :defaultLang)";
 
         return null;
     }

@@ -73,14 +73,19 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $this->enrichQueryWithPropertySearchConditions($searchRequest, $query);
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
         $this->enrichQueryWithSubject($searchRequest, $query);
-        $this->enrichQueryWithLanguageSearchCondition($searchRequest, $query);
         $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
         $this->enrichQueryWithObjects($searchRequest, $query);
         $this->enrichQueryWithOrderById($query);
 
         $values = [];
-        foreach ($query->execute()->fetchAll() as $rawValue) {
-            $values[] = new Value((int)$rawValue['id'], $rawValue['subject'], $rawValue['object']);
+        $data = $query->execute()->fetchAll();
+        $labels = $this->retrieveLabels($data);
+        foreach ($data as $rawValue) {
+            $values[] = new Value(
+                (int)$rawValue['id'],
+                $rawValue['subject'],
+                $this->extractLabel($searchRequest, $labels, $rawValue['subject'])
+            );
         }
 
         $valueCollectionUri = $searchRequest->hasValueCollectionUri()
@@ -280,7 +285,13 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
     private function enrichWithSelect(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): QueryBuilder
     {
-        $query->select('collection.object as collection_uri', 'element.id', 'element.subject', 'element.object');
+        $query->select(
+            'collection.object as collection_uri',
+            'element.id',
+            'element.subject',
+            'element.object',
+            'element.l_language as dataLanguage'
+        );
 
         if ($searchRequest->hasLimit()) {
             $query->setMaxResults($searchRequest->getLimit());
@@ -382,19 +393,25 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         return $this->persistenceManager->getPersistenceById($this->persistenceId);
     }
 
-    private function enrichQueryWithLanguageSearchCondition(
-        ValueCollectionSearchRequest $searchRequest,
-        QueryBuilder $query
-    ): void {
-        if (!$searchRequest->hasDataLanguage()) {
-            return;
+    private function extractLabel(ValueCollectionSearchRequest $searchRequest, iterable $labels, $subject): ?string
+    {
+        if ($labels[$subject][$searchRequest->getDataLanguage()]) {
+            return $labels[$subject][$searchRequest->getDataLanguage()];
         }
 
-        $query
-            ->andWhere("element.l_language = :l_language "
-                . " OR element.l_language = '' "
-                . " OR element.l_language = :defaultLang")
-            ->setParameter('l_language', $searchRequest->getDataLanguage())
-            ->setParameter('defaultLang', $searchRequest->getDefaultLanguage());
+        if ($labels[$subject][$searchRequest->getDefaultLanguage()]) {
+            return $labels[$subject][$searchRequest->getDefaultLanguage()];
+        }
+
+        return '';
+    }
+
+    private function retrieveLabels(iterable $data)
+    {
+        $labels = [];
+        foreach ($data as $element) {
+            $labels[$element['subject']][$element['dataLanguage']] = $element['object'];
+        }
+        return $labels;
     }
 }
