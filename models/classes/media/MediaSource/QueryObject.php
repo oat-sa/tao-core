@@ -46,9 +46,6 @@ class QueryObject
      */
     private $childrenOffset;
 
-    /**
-     * QueryObject constructor.
-     */
     public function __construct(
         string $parentLink,
         array $filter = [],
@@ -63,41 +60,26 @@ class QueryObject
         $this->childrenOffset = $childrenOffset;
     }
 
-    /**
-     * @return int
-     */
     public function getChildrenOffset(): int
     {
         return $this->childrenOffset;
     }
 
-    /**
-     * @return string
-     */
     public function getParentLink(): string
     {
         return $this->parentLink;
     }
 
-    /**
-     * @return array
-     */
     public function getFilter(): array
     {
         return $this->filter;
     }
 
-    /**
-     * @return int
-     */
     public function getDepth(): int
     {
         return $this->depth;
     }
 
-    /**
-     * @return int
-     */
     public function getChildrenLimit(): int
     {
         return $this->childrenLimit;
