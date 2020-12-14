@@ -59,9 +59,7 @@ class ValueCollectionService extends InjectionAwareService
             ) {
                 continue;
             }
-
             $this->setUserDataLanguage($searchRequest);
-
 
             return $repository->findAll(
                 $searchRequest
