@@ -175,7 +175,7 @@ class ValueCollectionSearchRequest
         return $this;
     }
 
-    public function getDefaultLanguage(): string
+    public function getDefaultLanguage(): ?string
     {
         return $this->defaultLanguage;
     }
