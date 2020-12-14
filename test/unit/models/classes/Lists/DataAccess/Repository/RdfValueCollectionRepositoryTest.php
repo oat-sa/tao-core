@@ -378,7 +378,8 @@ class RdfValueCollectionRepositoryTest extends TestCase
 
         $this->queryParameters['l_language'] = $searchRequest->getDataLanguage();
 
-        $this->conditions[] = 'AND (element.l_language = :l_language)';
+        $this->conditions[] = "AND (element.l_language = :l_language "
+            . " OR element.l_language = ''  OR element.l_language = :defaultLang)";
 
         return null;
     }
