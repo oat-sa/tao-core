@@ -19,25 +19,25 @@
  */
 namespace oat\tao\model\media;
 
+use oat\tao\model\media\MediaSource\QueryObject;
+
 /**
  * Read interface to the media source
  */
 interface MediaBrowser {
 
+    public function getDirectories(QueryObject $params): array;
+
     /**
+     * @deprecated $this->getDirectories should be used instead
+     *
      * @return array ['label' => $label,
      *                'path' => $implIdentifier.'/'.$path,
      *                'children' => [['label' => $label, 'path', $implIdentifier.'/'.$path, 'parent' => $parentPath]]
      *                'total' => $total
      *               ]
      */
-    public function getDirectory(
-        string $parentLink = '/',
-        array $acceptableMime = [],
-        int $depth = 1,
-        int $limit = 0,
-        int $offset = 0
-    ): array;
+    public function getDirectory($parentLink = '/', $acceptableMime = [], $depth = 1);
 
     /**
      * @param string $link
