@@ -40,24 +40,13 @@ use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use Throwable;
+use oat\generis\model\OntologyAwareTrait;
 
 class RdfValueCollectionRepository extends InjectionAwareService implements ValueCollectionRepositoryInterface
 {
+    use OntologyAwareTrait;
+
     public const SERVICE_ID = 'tao/ValueCollectionRepository';
-
-    /** @var PersistenceManager */
-    private $persistenceManager;
-
-    /** @var string */
-    private $persistenceId;
-
-    public function __construct(PersistenceManager $persistenceManager, string $persistenceId)
-    {
-        parent::__construct();
-
-        $this->persistenceManager = $persistenceManager;
-        $this->persistenceId      = $persistenceId;
-    }
 
     public function isApplicable(string $collectionUri): bool
     {
@@ -66,27 +55,17 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
     public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection
     {
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
-
-        $this->enrichWithInitialCondition($query);
-        $this->enrichWithSelect($searchRequest, $query);
-        $this->enrichQueryWithPropertySearchConditions($searchRequest, $query);
-        $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
-        $this->enrichQueryWithSubject($searchRequest, $query);
-        $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
-        $this->enrichQueryWithObjects($searchRequest, $query);
-        $this->enrichQueryWithOrderById($query);
-
+        $listClass = $this->getList($searchRequest);
         $values = [];
-        foreach ($query->execute()->fetchAll() as $rawValue) {
-            $values[] = new Value((int)$rawValue['id'], $rawValue['subject'], $rawValue['object']);
+        foreach ($listClass->getInstances() as $resource) {
+            $values[] = new Value(null, $resource->getUri(), $resource->getLabel());
         }
 
         $valueCollectionUri = $searchRequest->hasValueCollectionUri()
             ? $searchRequest->getValueCollectionUri()
             : $rawValue['collection_uri'] ?? null;
 
-        return new ValueCollection($valueCollectionUri, ...$values);
+            return new ValueCollection($listClass->getUri(), ...$values);
     }
 
     public function persist(ValueCollection $valueCollection): bool
@@ -247,138 +226,16 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             )
             ->execute();
     }
-
-    private function enrichWithInitialCondition(QueryBuilder $query): QueryBuilder
+    
+    protected function getList(ValueCollectionSearchRequest $searchRequest) : \core_kernel_classes_Class
     {
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->from('statements', 'element')
-            ->innerJoin(
-                'element',
-                'statements',
-                'collection',
-                $expressionBuilder->eq('collection.subject', 'element.subject')
-            )
-            ->andWhere($expressionBuilder->eq('element.predicate', ':label_uri'))
-            ->andWhere($expressionBuilder->eq('collection.predicate', ':type_uri'))
-            ->setParameters(
-                [
-                    'label_uri' => OntologyRdfs::RDFS_LABEL,
-                    'type_uri'  => OntologyRdf::RDF_TYPE,
-                ]
-            );
-
-        return $query;
-    }
-
-    private function enrichQueryWithOrderById(QueryBuilder $query): void
-    {
-        $query->addOrderBy('element.id');
-    }
-
-    private function enrichWithSelect(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): QueryBuilder
-    {
-        $query
-            ->select('collection.object as collection_uri', 'element.id', 'element.subject', 'element.object');
-
-        if ($searchRequest->hasLimit()) {
-            $query->setMaxResults($searchRequest->getLimit());
+        if ($searchRequest->hasValueCollectionUri()) {
+            return $this->getClass($searchRequest->getValueCollectionUri());
+        } elseif ($searchRequest->hasPropertyUri()) {
+            return $this->getProperty($searchRequest->getPropertyUri())->getRange();
+        } else {
+            throw new \common_exception_BadRequest("Unable to determine correct list");
         }
-
-        return $query;
-    }
-
-    private function enrichQueryWithPropertySearchConditions(
-        ValueCollectionSearchRequest $searchRequest,
-        QueryBuilder $query
-    ): void {
-        if (!$searchRequest->hasPropertyUri()) {
-            return;
-        }
-
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->innerJoin(
-                'collection',
-                'statements',
-                'property',
-                $expressionBuilder->eq('property.object', 'collection.object')
-            )
-            ->andWhere($expressionBuilder->eq('property.subject', ':property_uri'))
-            ->andWhere($expressionBuilder->eq('property.predicate', ':range_uri'))
-            ->setParameter('property_uri', $searchRequest->getPropertyUri())
-            ->setParameter('range_uri', OntologyRdfs::RDFS_RANGE);
-    }
-
-    private function enrichQueryWithValueCollectionSearchCondition(
-        ValueCollectionSearchRequest $searchRequest,
-        QueryBuilder $query
-    ): void {
-        if (!$searchRequest->hasValueCollectionUri()) {
-            return;
-        }
-
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->andWhere($expressionBuilder->eq('collection.object', ':collection_uri'))
-            ->setParameter('collection_uri', $searchRequest->getValueCollectionUri());
-    }
-
-    private function enrichQueryWithSubject(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): void
-    {
-        if (!$searchRequest->hasSubject()) {
-            return;
-        }
-
-        $query
-            ->andWhere(
-                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like(
-                    'LOWER(element.object)',
-                    ':subject'
-                )
-            )
-            ->setParameter('subject', '%' . $searchRequest->getSubject() . '%');
-    }
-
-    private function enrichQueryWithExcludedValueUris(
-        ValueCollectionSearchRequest $searchRequest,
-        QueryBuilder $query
-    ): void {
-        if (!$searchRequest->hasExcluded()) {
-            return;
-        }
-
-        $query
-            ->andWhere(
-                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->notIn(
-                    'element.subject',
-                    ':excluded_value_uri'
-                )
-            )
-            ->setParameter('excluded_value_uri', $searchRequest->getExcluded(), Connection::PARAM_STR_ARRAY);
-    }
-
-    private function enrichQueryWithObjects(
-        ValueCollectionSearchRequest $searchRequest,
-        QueryBuilder $query
-    ): void {
-        if (!$searchRequest->hasUris()) {
-            return;
-        }
-
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->andWhere($expressionBuilder->in('element.subject', ':subjects'))
-            ->setParameter('subjects', $searchRequest->getUris(), Connection::PARAM_STR_ARRAY);
-    }
-
-    private function getPersistence(): SqlPersistence
-    {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->persistenceManager->getPersistenceById($this->persistenceId);
+        
     }
 }
