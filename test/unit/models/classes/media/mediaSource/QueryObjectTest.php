@@ -20,18 +20,18 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\media\MediaSource;
+namespace oat\tao\model\media\mediaSource;
 
 use oat\generis\test\TestCase;
 
 class QueryObjectTest extends TestCase
 {
-    /** @var QueryObject */
+    /** @var DirectorySearchQuery */
     private $subject;
 
     protected function setUp(): void
     {
-        $this->subject = new QueryObject('link', ['a' => 'b'], 3, 4, 5);
+        $this->subject = new DirectorySearchQuery('link', ['a' => 'b'], 3, 4, 5);
     }
 
     public function testGetParentLink()

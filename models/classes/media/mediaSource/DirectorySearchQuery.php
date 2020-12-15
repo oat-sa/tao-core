@@ -21,9 +21,9 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\media\MediaSource;
+namespace oat\tao\model\media\mediaSource;
 
-class QueryObject
+class DirectorySearchQuery
 {
     /**
      * @var string
