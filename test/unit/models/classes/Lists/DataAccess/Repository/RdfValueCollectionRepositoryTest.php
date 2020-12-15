@@ -308,7 +308,10 @@ class RdfValueCollectionRepositoryTest extends TestCase
         return implode(
             ' ',
             [
-                'SELECT collection.object as collection_uri, element.id, element.subject, element.object',
+                'SELECT collection.object as collection_uri, '
+                . 'element.id, element.subject,'
+                . ' element.object, '
+                . 'element.l_language as dataLanguage',
                 'FROM statements element',
                 'INNER JOIN statements collection',
                 'ON collection.subject = element.subject',
