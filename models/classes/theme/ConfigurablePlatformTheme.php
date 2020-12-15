@@ -196,8 +196,9 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         $templates = $this->getOption(static::TEMPLATES);
 
         if (is_null($templates) || empty($templates[$id])) {
-            $realPath = strpos($id, '.tpl') !== false ? $id : 'blocks/' . $id . '.tpl';
-            return Template::getTemplate($realPath, 'tao');
+            $path = strpos($id, '.tpl') !== false ? $id : 'blocks/' . $id . '.tpl';
+            $templatePath = Template::getTemplate($path, 'tao');
+            return file_exists($templatePath) ? $templatePath : null;
         }
 
         if ($templates[$id] === static::DEFAULT_PATH) {
