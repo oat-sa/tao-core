@@ -393,7 +393,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         return $this->persistenceManager->getPersistenceById($this->persistenceId);
     }
 
-    private function extractLabel(ValueCollectionSearchRequest $searchRequest, iterable $labels, $subject): ?string
+    private function extractLabel(ValueCollectionSearchRequest $searchRequest, iterable $labels, string $subject): ?string
     {
         if ($labels[$subject][$searchRequest->getDataLanguage()]) {
             return $labels[$subject][$searchRequest->getDataLanguage()];
@@ -406,7 +406,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         return '';
     }
 
-    private function retrieveLabels(iterable $data)
+    private function retrieveLabels(iterable $data): array
     {
         $labels = [];
         foreach ($data as $element) {
