@@ -290,7 +290,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             'element.id',
             'element.subject',
             'element.object',
-            'element.l_language as dataLanguage'
+            'element.l_language as datalanguage'
         );
 
         if ($searchRequest->hasLimit()) {
@@ -410,7 +410,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
     {
         $labels = [];
         foreach ($data as $element) {
-            $labels[$element['subject']][$element['dataLanguage']] = $element['object'];
+            $labels[$element['subject']][$element['datalanguage']] = $element['object'];
         }
         return $labels;
     }
