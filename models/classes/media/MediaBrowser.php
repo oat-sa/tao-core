@@ -21,7 +21,7 @@
 
 namespace oat\tao\model\media;
 
-use oat\tao\model\media\MediaSource\QueryObject;
+use oat\tao\model\media\mediaSource\DirectorySearchQuery;
 
 /**
  * Read interface to the media source
@@ -29,7 +29,7 @@ use oat\tao\model\media\MediaSource\QueryObject;
 interface MediaBrowser
 {
 
-    public function getDirectories(QueryObject $params): array;
+    public function getDirectories(DirectorySearchQuery $params): array;
 
     /**
      * @deprecated $this->getDirectories should be used instead
