@@ -311,7 +311,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
                 'SELECT collection.object as collection_uri, '
                 . 'element.id, element.subject,'
                 . ' element.object, '
-                . 'element.l_language as dataLanguage',
+                . 'element.l_language as datalanguage',
                 'FROM statements element',
                 'INNER JOIN statements collection',
                 'ON collection.subject = element.subject',
