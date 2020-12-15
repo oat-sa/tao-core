@@ -98,9 +98,11 @@ class ValueCollectionService extends InjectionAwareService
 
     private function setUserDataLanguage(ValueCollectionSearchRequest $searchRequest): void
     {
-        $user = $this->getServiceLocator()->get(SessionService::class)->getCurrentUser();
-        /** @var UserLanguageServiceInterface $userLanguageService */
+        /** @var SessionService $userSession */
+        $userSession = $this->getServiceLocator()->get(SessionService::class);
+        $user = $userSession->getCurrentUser();
 
+        /** @var UserLanguageServiceInterface $userLanguageService */
         $userLanguageService = $this->getServiceLocator()
             ->get(UserLanguageServiceInterface::SERVICE_ID);
 
