@@ -13,7 +13,7 @@
         "@oat-sa/tao-core-libs": "0.4.2",
         "@oat-sa/tao-core-sdk": "1.7.0",
         "@oat-sa/tao-core-shared-libs": "1.0.3",
-        "@oat-sa/tao-core-ui": "1.19.1",
+        "@oat-sa/tao-core-ui": "git://github.com/oat-sa/tao-core-ui-fe#feature/CON-185/chunk-loading-resource-manager",
         "async": "0.2.10",
         "codemirror": "^5.54.0",
         "decimal.js": "10.1.1",
