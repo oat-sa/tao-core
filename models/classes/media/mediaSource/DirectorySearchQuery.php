@@ -23,41 +23,44 @@ declare(strict_types=1);
 
 namespace oat\tao\model\media\mediaSource;
 
+use oat\tao\model\media\MediaAsset;
+
 class DirectorySearchQuery
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $parentLink;
-    /**
-     * @var array
-     */
+    /** @var array */
     private $filter;
-    /**
-     * @var int
-     */
+    /** @var int */
     private $depth;
-    /**
-     * @var int
-     */
+    /** @var int */
     private $childrenLimit;
-    /**
-     * @var int
-     */
+    /** @var int */
     private $childrenOffset;
+    /** @var MediaAsset */
+    private $asset;
+    /** @var string */
+    private $itemLang;
+    /** @var string */
+    private $itemUri;
 
     public function __construct(
-        string $parentLink,
+        MediaAsset $asset,
+        string $itemUri,
+        string $itemLang,
         array $filter = [],
         int $depth = 1,
-        int $childrenLimit = 0,
-        int $childrenOffset = 0
+        int $childrenOffset = 0,
+        int $childrenLimit = 0
     ) {
-        $this->parentLink = $parentLink;
+        $this->parentLink = $asset->getMediaIdentifier();
         $this->filter = $filter;
         $this->depth = $depth;
         $this->childrenLimit = $childrenLimit;
         $this->childrenOffset = $childrenOffset;
+        $this->asset = $asset;
+        $this->itemLang = $itemLang;
+        $this->itemUri = $itemUri;
     }
 
     public function getChildrenOffset(): int
@@ -83,5 +86,26 @@ class DirectorySearchQuery
     public function getChildrenLimit(): int
     {
         return $this->childrenLimit;
+    }
+
+    public function getItemUri(): string
+    {
+        return $this->itemUri;
+    }
+
+    public function getAsset(): ?MediaAsset
+    {
+        return $this->asset;
+    }
+
+    public function getItemLang(): string
+    {
+        return $this->itemLang;
+    }
+
+    public function setChildrenLimit(int $childrenLimit): self
+    {
+        $this->childrenLimit = $childrenLimit;
+        return $this;
     }
 }
