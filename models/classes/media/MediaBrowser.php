@@ -32,7 +32,7 @@ interface MediaBrowser
     public function getDirectories(DirectorySearchQuery $params): array;
 
     /**
-     * @deprecated $this->getDirectories should be used instead
+     * @deprecated MediaBrowser::getDirectories should be used instead
      *
      * @return array ['label' => $label,
      *                'path' => $implIdentifier.'/'.$path,

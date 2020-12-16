@@ -29,18 +29,25 @@ class DirectorySearchQuery
 {
     /** @var string */
     private $parentLink;
+
     /** @var array */
     private $filter;
+
     /** @var int */
     private $depth;
+
     /** @var int */
     private $childrenLimit;
+
     /** @var int */
     private $childrenOffset;
+
     /** @var MediaAsset */
     private $asset;
+
     /** @var string */
     private $itemLang;
+
     /** @var string */
     private $itemUri;
 
@@ -93,7 +100,7 @@ class DirectorySearchQuery
         return $this->itemUri;
     }
 
-    public function getAsset(): ?MediaAsset
+    public function getAsset(): MediaAsset
     {
         return $this->asset;
     }

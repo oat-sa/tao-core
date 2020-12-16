@@ -26,7 +26,7 @@ use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\media\MediaAsset;
 
-class QueryObjectTest extends TestCase
+class DirectorySearchQueryTest extends TestCase
 {
     /** @var DirectorySearchQuery */
     private $subject;
@@ -49,5 +49,4 @@ class QueryObjectTest extends TestCase
         $this->assertSame($this->subject->getChildrenLimit(), 10);
         $this->assertSame($this->subject->getChildrenOffset(), 11);
     }
-
 }

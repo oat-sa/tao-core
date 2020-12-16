@@ -115,9 +115,12 @@ class HttpSource implements MediaBrowser
         return $realfilename;
     }
 
+    /**
+     * @throws common_Exception
+     */
     public function getDirectories(DirectorySearchQuery $params): array
     {
-        return $this->getDirectory($params->getParentLink());
+        return $this->getDirectory();
     }
 
     /**
