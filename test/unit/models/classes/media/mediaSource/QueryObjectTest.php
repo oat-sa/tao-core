@@ -22,7 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\media\mediaSource;
 
+use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
+use oat\tao\model\media\MediaAsset;
 
 class QueryObjectTest extends TestCase
 {
@@ -31,32 +33,21 @@ class QueryObjectTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->subject = new DirectorySearchQuery('link', ['a' => 'b'], 3, 4, 5);
+        /** @var MockObject|MediaAsset $assetMock */
+        $assetMock = $this->createMock(MediaAsset::class);
+        $assetMock->method('getMediaIdentifier')->willReturn('mediaIdentifier');
+        $this->subject = new DirectorySearchQuery($assetMock, 'uri', 'lang', ['a' => 'b'], 3, 11, 10);
     }
 
-    public function testGetParentLink()
+    public function testGetters()
     {
-        $this->assertSame($this->subject->getParentLink(), 'link');
-    }
-
-    public function testGetDepth()
-    {
+        $this->assertSame($this->subject->getParentLink(), 'mediaIdentifier');
         $this->assertSame($this->subject->getDepth(), 3);
-    }
-
-    public function testGetFilter()
-    {
+        $this->assertSame($this->subject->getItemLang(), 'lang');
+        $this->assertSame($this->subject->getItemUri(), 'uri');
         $this->assertSame($this->subject->getFilter(), ['a' => 'b']);
-    }
-
-    public function testGetChildrenLimit()
-    {
-        $this->assertSame($this->subject->getChildrenLimit(), 4);
-    }
-
-    public function testGetChildrenOffset()
-    {
-        $this->assertSame($this->subject->getChildrenOffset(), 5);
+        $this->assertSame($this->subject->getChildrenLimit(), 10);
+        $this->assertSame($this->subject->getChildrenOffset(), 11);
     }
 
 }
