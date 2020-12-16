@@ -116,7 +116,7 @@ class HttpSource implements MediaBrowser
 
     public function getDirectories(DirectorySearchQuery $params): array
     {
-        throw new common_Exception('Unable to browse the internet');
+        return $this->getDirectory($params->getParentLink());
     }
 
     /**
