@@ -41,7 +41,7 @@
         padding: 5px;
         height: 35px;
         .search-area {
-            margin: 2px 0 0 0;
+            margin: 0;
             border: none;
             float:right;
             display:inline-block;
@@ -209,11 +209,14 @@
             .search-area {
                 float: none;
                 position: absolute;
-                right: 0px;
+                right: 0;
+                height: 25px;
                 input {
                     padding-right: 30px;
                     min-width: auto !important;
                     width: 150px;
+                    height: 100%;
+                    border: 1px solid #0e5d91 !important;
                     &:focus {
                         width: 220px;
                     }
