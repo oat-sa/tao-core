@@ -51,6 +51,21 @@
                 padding-right: 34px;
                 min-width: 250px !important;
             }
+            .search-area-buttons-container {
+                position: absolute;
+                top: 0;
+                right: 0;
+                .icon-ul {
+                    display: none;
+                }
+
+                &.has-results-counter {
+                    right: 5px;
+                    .icon-ul {
+                        display: inline-flex;
+                    }
+                }
+            }
             button {
                 position: absolute;
                 right: 32px;
