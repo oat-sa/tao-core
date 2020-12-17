@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint140\n"
-"PO-Revision-Date: 2020-10-23T08:31:50\n"
+"Project-Id-Version: TAO 3.4.0-sprint142\n"
+"PO-Revision-Date: 2020-11-20T10:16:22\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -199,6 +199,9 @@ msgstr "Pridėti vartotoją"
 
 msgid "Add an RDF/XML file"
 msgstr "Pridėti RDF/XML failą"
+
+msgid "add criteria"
+msgstr ""
 
 msgid "Add file(s)"
 msgstr "Pridėti failą(–us)"
@@ -405,11 +408,11 @@ msgstr "Pakeisti slaptažodį"
 msgid "Change the sign of the current operand"
 msgstr "Keisti ženklą dabartinio operando"
 
-msgid "Check All"
-msgstr "Pažymėti Visus"
-
 msgid "Check all"
 msgstr "Pažymėti visus"
+
+msgid "Check All"
+msgstr "Pažymėti Visus"
 
 msgid "Check-in"
 msgstr "Pasižymėti"
@@ -450,11 +453,11 @@ msgstr "Išvalyti visus duomenis"
 msgid "Clear expression"
 msgstr "Išvalyti išraišką"
 
-msgid "Clear History"
-msgstr "Išvalyti Istoriją"
-
 msgid "Clear history"
 msgstr "Išvalyti istoriją"
+
+msgid "Clear History"
+msgstr "Išvalyti Istoriją"
 
 msgid "Clear selection"
 msgstr "Išvalyti pasirinimą"
@@ -573,11 +576,11 @@ msgstr "Duomenys importuoti sėkmingai"
 msgid "Data imported. Some records are invalid."
 msgstr "Duomenys importuoti. Kaikurie įrašai neteisingi."
 
-msgid "Data language"
-msgstr "Duomenų kalba"
-
 msgid "Data Language"
 msgstr "Duomenų Kalba"
+
+msgid "Data language"
+msgstr "Duomenų kalba"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Duomenys neimportuoti. Visi įrašai neteisingi."
@@ -948,6 +951,9 @@ msgstr "Hiperbolinis sinusas"
 msgid "Hyperbolic tangent"
 msgstr "Hiperbolinis tangentas"
 
+msgid "I understand that this action is permanent."
+msgstr ""
+
 msgid "Identifier"
 msgstr "Identifikatorius"
 
@@ -1035,11 +1041,11 @@ msgstr "Įdiegiamas plėtinys %s..."
 msgid "Instance saved"
 msgstr "Instancija išsaugota"
 
-msgid "Interface Language"
-msgstr "Sąsajos Kalba"
-
 msgid "Interface language"
 msgstr "Sąsajos kalba"
+
+msgid "Interface Language"
+msgstr "Sąsajos Kalba"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1782,11 +1788,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Pasirinkti"
-
 msgid "select"
 msgstr "pasirinkti"
+
+msgid "Select"
+msgstr "Pasirinkti"
 
 msgid "Select a class"
 msgstr "Pasirinkti klasę"
@@ -1992,6 +1998,9 @@ msgstr "Veiksmas nebus taikomas šiems: "
 
 msgid "The column "
 msgstr "Stulpelis"
+
+msgid "The following criteria are not applicable to the selected class and have been removed from the search"
+msgstr ""
 
 msgid "The format of this field is not valid."
 msgstr "Šio lauko formatas yra netinkamas."

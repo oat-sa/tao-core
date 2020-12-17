@@ -31,24 +31,24 @@ use TypeError;
 class ValueCollectionSearchRequestTest extends TestCase
 {
     /** @var ValueCollectionSearchRequest */
-    private $sut;
+    private $subject;
 
     /**
      * @before
      */
     public function init(): void
     {
-        $this->sut = new ValueCollectionSearchRequest();
+        $this->subject = new ValueCollectionSearchRequest();
     }
 
     public function testBareSearchRequest(): void
     {
-        $this->assertFalse($this->sut->hasPropertyUri());
-        $this->assertFalse($this->sut->hasValueCollectionUri());
-        $this->assertFalse($this->sut->hasSubject());
-        $this->assertFalse($this->sut->hasExcluded());
-        $this->assertEmpty($this->sut->getExcluded());
-        $this->assertFalse($this->sut->hasLimit());
+        $this->assertFalse($this->subject->hasPropertyUri());
+        $this->assertFalse($this->subject->hasValueCollectionUri());
+        $this->assertFalse($this->subject->hasSubject());
+        $this->assertFalse($this->subject->hasExcluded());
+        $this->assertEmpty($this->subject->getExcluded());
+        $this->assertFalse($this->subject->hasLimit());
     }
 
     /**
@@ -63,37 +63,37 @@ class ValueCollectionSearchRequestTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $this->sut->$method();
+        $this->subject->$method();
     }
 
     public function testWithPropertyUri(): void
     {
         $propertyUri = 'https://example.com';
 
-        $this->sut->setPropertyUri($propertyUri);
+        $this->subject->setPropertyUri($propertyUri);
 
-        $this->assertTrue($this->sut->hasPropertyUri());
-        $this->assertSame($propertyUri, $this->sut->getPropertyUri());
+        $this->assertTrue($this->subject->hasPropertyUri());
+        $this->assertSame($propertyUri, $this->subject->getPropertyUri());
     }
 
     public function testWithValueCollectionUri(): void
     {
         $propertyUri = 'https://example.com';
 
-        $this->sut->setValueCollectionUri($propertyUri);
+        $this->subject->setValueCollectionUri($propertyUri);
 
-        $this->assertTrue($this->sut->hasValueCollectionUri());
-        $this->assertSame($propertyUri, $this->sut->getValueCollectionUri());
+        $this->assertTrue($this->subject->hasValueCollectionUri());
+        $this->assertSame($propertyUri, $this->subject->getValueCollectionUri());
     }
 
     public function testWithSubject(): void
     {
         $subject = 'search value';
 
-        $this->sut->setSubject($subject);
+        $this->subject->setSubject($subject);
 
-        $this->assertTrue($this->sut->hasSubject());
-        $this->assertSame($subject, $this->sut->getSubject());
+        $this->assertTrue($this->subject->hasSubject());
+        $this->assertSame($subject, $this->subject->getSubject());
     }
 
     public function testWithExcluded(): void
@@ -104,19 +104,33 @@ class ValueCollectionSearchRequestTest extends TestCase
         ];
 
         foreach ($excluded as $uri) {
-            $this->sut->addExcluded($uri);
+            $this->subject->addExcluded($uri);
         }
 
-        $this->assertTrue($this->sut->hasExcluded());
-        $this->assertSame($excluded, $this->sut->getExcluded());
+        $this->assertTrue($this->subject->hasExcluded());
+        $this->assertSame($excluded, $this->subject->getExcluded());
     }
 
     public function testCustomLimit(): void
     {
         $limit = 1;
 
-        $this->sut->setLimit($limit);
+        $this->subject->setLimit($limit);
 
-        $this->assertSame($limit, $this->sut->getLimit());
+        $this->assertSame($limit, $this->subject->getLimit());
+    }
+
+    public function testWithDataLanguage(): void
+    {
+        $dataLanguage = 'dummyValue';
+        $newDataLanguage = 'otherDummyValue';
+
+        $this->subject->setDataLanguage($dataLanguage);
+
+        $this->assertTrue($this->subject->hasDataLanguage());
+        $this->assertSame($dataLanguage, $this->subject->getDataLanguage());
+        $this->assertNotEquals($newDataLanguage, $this->subject->getDataLanguage());
+        $this->subject->setDataLanguage($newDataLanguage);
+        $this->assertSame($newDataLanguage, $this->subject->getDataLanguage());
     }
 }

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint140\n"
-"PO-Revision-Date: 2020-10-23T08:32:08\n"
+"Project-Id-Version: TAO 3.4.0-sprint142\n"
+"PO-Revision-Date: 2020-11-20T10:16:39\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -199,6 +199,9 @@ msgstr "Voeg een gebruiker toe"
 
 msgid "Add an RDF/XML file"
 msgstr "Voeg een RDF/XML bestand toe"
+
+msgid "add criteria"
+msgstr ""
 
 msgid "Add file(s)"
 msgstr "Voeg bestand(en) toe"
@@ -405,10 +408,10 @@ msgstr "Wijzig het wachtwoord"
 msgid "Change the sign of the current operand"
 msgstr "Verander het teken van de huidige operator"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "Alles selecteren"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "Alles selecteren"
 
 msgid "Check-in"
@@ -450,10 +453,10 @@ msgstr "Alle gegevens wissen"
 msgid "Clear expression"
 msgstr "Expressie wissen"
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr "Historie wissen"
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr "Historie wissen"
 
 msgid "Clear selection"
@@ -573,10 +576,10 @@ msgstr "Data is succesvol geïmporteerd"
 msgid "Data imported. Some records are invalid."
 msgstr "Data is geïmporteerd. Sommige records zijn ongeldig."
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Data taal"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Data taal"
 
 msgid "Data not imported. All records are invalid."
@@ -948,6 +951,9 @@ msgstr "Hyperbolische sinus"
 msgid "Hyperbolic tangent"
 msgstr "Hyperbolische tangens"
 
+msgid "I understand that this action is permanent."
+msgstr ""
+
 msgid "Identifier"
 msgstr "Naam"
 
@@ -1035,10 +1041,10 @@ msgstr "Geïnstalleerde extensie %s..."
 msgid "Instance saved"
 msgstr "Instantie is opgeslagen"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Taal van de omgeving"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Taal van de omgeving"
 
 msgid "Invalid CSP header."
@@ -1782,11 +1788,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Selecteren"
-
 msgid "select"
 msgstr "selecteren"
+
+msgid "Select"
+msgstr "Selecteren"
 
 msgid "Select a class"
 msgstr ""
@@ -1992,6 +1998,9 @@ msgstr "De actie is niet van toepassing op"
 
 msgid "The column "
 msgstr "De kolom "
+
+msgid "The following criteria are not applicable to the selected class and have been removed from the search"
+msgstr ""
 
 msgid "The format of this field is not valid."
 msgstr "Het formaat van dit veld is niet geldig"

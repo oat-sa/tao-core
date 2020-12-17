@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint140\n"
-"PO-Revision-Date: 2020-10-23T08:33:25\n"
+"Project-Id-Version: TAO 3.4.0-sprint142\n"
+"PO-Revision-Date: 2020-11-20T10:17:59\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -199,6 +199,9 @@ msgstr "新增使用者"
 
 msgid "Add an RDF/XML file"
 msgstr "新增 RDF/XML 檔案"
+
+msgid "add criteria"
+msgstr ""
 
 msgid "Add file(s)"
 msgstr "新增檔案"
@@ -405,10 +408,10 @@ msgstr "更改密碼"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾選"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾選"
 
 msgid "Check-in"
@@ -450,10 +453,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -573,10 +576,10 @@ msgstr "數據已成功匯入"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "數據語言"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "數據語言"
 
 msgid "Data not imported. All records are invalid."
@@ -948,6 +951,9 @@ msgstr ""
 msgid "Hyperbolic tangent"
 msgstr ""
 
+msgid "I understand that this action is permanent."
+msgstr ""
+
 msgid "Identifier"
 msgstr "識別碼"
 
@@ -1035,10 +1041,10 @@ msgstr "正在安裝擴展程序 %s..."
 msgid "Instance saved"
 msgstr "實體已儲存"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面語言"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面語言"
 
 msgid "Invalid CSP header."
@@ -1782,10 +1788,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr "選擇"
 
-msgid "select"
+msgid "Select"
 msgstr "選擇"
 
 msgid "Select a class"
@@ -1992,6 +1998,9 @@ msgstr ""
 
 msgid "The column "
 msgstr "欄"
+
+msgid "The following criteria are not applicable to the selected class and have been removed from the search"
+msgstr ""
 
 msgid "The format of this field is not valid."
 msgstr ""
