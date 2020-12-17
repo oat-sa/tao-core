@@ -126,7 +126,7 @@ class HttpSource implements MediaBrowser
     /**
      * @inheritDoc
      */
-    public function getDirectory($parentLink = '', $acceptableMime = [], $depth = 1)
+    public function getDirectory($parentLink = '/', $acceptableMime = [], $depth = 1)
     {
         throw new common_Exception('Unable to browse the internet');
     }
