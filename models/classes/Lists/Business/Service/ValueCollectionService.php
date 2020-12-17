@@ -24,8 +24,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Service;
 
+use oat\oatbox\session\SessionService;
+use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
+use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Input\ValueCollectionDeleteInput;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
@@ -56,6 +59,7 @@ class ValueCollectionService extends InjectionAwareService
             ) {
                 continue;
             }
+            $this->setUserDataLanguage($searchRequest);
 
             return $repository->findAll(
                 $searchRequest
@@ -90,5 +94,22 @@ class ValueCollectionService extends InjectionAwareService
         }
 
         return false;
+    }
+
+    private function setUserDataLanguage(ValueCollectionSearchRequest $searchRequest): void
+    {
+        /** @var SessionService $userSession */
+        $userSession = $this->getServiceLocator()->get(SessionService::class);
+        $user = $userSession->getCurrentUser();
+
+        /** @var UserLanguageServiceInterface $userLanguageService */
+        $userLanguageService = $this->getServiceLocator()
+            ->get(UserLanguageServiceInterface::SERVICE_ID);
+
+        $searchRequest->setDataLanguage(
+            $userLanguageService->getDataLanguage($user)
+        );
+
+        $searchRequest->setDefaultLanguage($userLanguageService->getDefaultLanguage());
     }
 }
