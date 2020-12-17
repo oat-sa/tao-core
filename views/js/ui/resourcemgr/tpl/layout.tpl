@@ -3,13 +3,13 @@
     <h2>{{title}}</h2>
 
     <div class="file-wrapper">
-    
+
         <!-- left section: items selection -->
         <section class="file-browser">
             <h1>{{ __ 'Browse resources'}}</h1>
             <div class="file-browser-wrapper"></div>
         </section>
- 
+
         <!-- test editor  -->
         <section class="file-selector">
 
@@ -29,6 +29,8 @@
 
             <div class="file-upload-container"></div>
 
+            <div class="pagination-bottom"></div>
+
         </section>
 
         <section class="file-preview">
@@ -36,9 +38,9 @@
             <h1>{{__ 'Preview'}}</h1>
 
             <div class="previewer">
-                <p class="nopreview">{{__ 'No Preview available'}}</p>
+                <p class="nopreview"></p>
             </div>
-       
+
             <h2 class="toggler" data-toggle="~ .file-properties">{{__ 'File Properties'}}</h2>
 
             <div class="file-properties">
@@ -56,7 +58,7 @@
                     </div>
                     <div class="col-10 prop-size"></div>
                 </div>
-            
+
                 <div class="grid-row prop-url">
                     <div class="actions">
                         <a href="#" download="" target="_blank" class="tlb-button-off download hidden" title="{{__ 'Download this file'}}">
