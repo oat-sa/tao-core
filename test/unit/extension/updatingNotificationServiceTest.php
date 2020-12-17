@@ -51,14 +51,14 @@ class updatingNotificationServiceTest extends TestCase
         $notifierMock1
             ->expects($this->once())
             ->method('notify')
-            ->with('TaoUpdate notifications: ' . ROOT_URL, $expectedDescription1);
+            ->with('Tao notifications: ' . ROOT_URL, $expectedDescription1);
 
         $notifierMock2 = $this->createMock(NotifierInterface::class);
         $expectedDescription2 = 'Error report' . PHP_EOL;
         $notifierMock2
             ->expects($this->once())
             ->method('notify')
-            ->with('TaoUpdate notifications: ' . ROOT_URL, $expectedDescription2);
+            ->with('Tao notifications: ' . ROOT_URL, $expectedDescription2);
 
         $updateNotifierService = new UpdatingNotificationService();
         $updateNotifierService->setOption(UpdatingNotificationService::OPTION_NOTIFIERS, [
@@ -79,13 +79,11 @@ class updatingNotificationServiceTest extends TestCase
         $updateNotifierService->sendNotifications($report);
     }
 
-    public function testCheckReportErrorWithoutNotifiers()
+    public function testCheckReportWithoutNotifiers()
     {
         $reportMock = $this->createMock(common_report_Report::class);
         $reportMock->expects($this->never())
-            ->method('containsError');
-        $reportMock->expects($this->never())
-            ->method('getErrors');
+            ->method('filterChildrenByTypes');
 
         $updateNotifierService = new UpdatingNotificationService();
         $updateNotifierService->sendNotifications($reportMock);
