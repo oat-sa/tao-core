@@ -29,7 +29,6 @@ use JTL\OpsGenie\Client\AlertApiClient;
 use JTL\OpsGenie\Client\HttpClient;
 use JTL\OpsGenie\Client\Priority;
 use JTL\OpsGenie\Client\Responder;
-use oat\oatbox\extension\script\MissingOptionException;
 
 /**
  * Sends a notification to OpsGenie
@@ -38,38 +37,34 @@ use oat\oatbox\extension\script\MissingOptionException;
  * @author Andrey Niahrou <Andrei.Niahrou@1pt.com>
  * @package oat\tao\model\notifiers
  */
-class OpsGenieNotifier implements Notifier
+class OpsGenieNotifierInterface implements NotifierInterface
 {
-    const OPTION_BASE_URI = 'https://api.opsgenie.com/v2/';
+    private const OPTION_BASE_URI = 'https://api.opsgenie.com/v2/';
 
     /**
      * @var string
      */
     private $token;
 
-    public function __construct(string $token)
+    /**
+     * @var array
+     */
+    private $parameters;
+
+    public function __construct(string $token, array $parameters = [])
     {
         $this->token = $token;
+        $this->parameters = $parameters;
     }
 
     /**
      * {@inheritDoc}
      *
-     * @param array['parameters']     array    (optional) opsGenie parameters
-     *                 ['entity']     string   (optional)
-     *                 ['alias']      string   (optional)
-     *                 ['source']     string   (optional)
-     *                 ['priority']   string   (optional)
-     *                 ['tags']       string[] (optional)
-     *                 ['responders'] array    (optional)
-     *                     ['id']     string
-     *                     ['type']   string
      * @throws GuzzleException
-     * @throws MissingOptionException
      */
-    public function notify(string $title, string $description, array $parameters = []): array
+    public function notify(string $title, string $description): array
     {
-        $alert = $this->buildAlertModel($title, $description, $parameters);
+        $alert = $this->buildAlertModel($title, $description);
         $request = new CreateAlertRequest($alert);
         $client = $this->getAlertApiClient($this->token);
         $response = $client->createAlert($request);
@@ -84,29 +79,28 @@ class OpsGenieNotifier implements Notifier
     /**
      * @param string $title
      * @param string $description
-     * @param array $parameters
      * @return Alert
      */
-    private function buildAlertModel(string $title, string $description, array $parameters): Alert
+    private function buildAlertModel(string $title, string $description): Alert
     {
         $alert = new Alert(
-            isset($parameters['entity']) ? $parameters['entity'] : '',
-            isset($parameters['alias']) ? $parameters['alias'] : '',
+            isset($this->parameters['entity']) ? $this->parameters['entity'] : '',
+            isset($this->parameters['alias']) ? $this->parameters['alias'] : '',
             $title,
-            isset($parameters['source']) ? $parameters['source'] : '',
-            isset($parameters['priority']) ? new Priority($parameters['priority']) : Priority::moderate()
+            isset($this->parameters['source']) ? $this->parameters['source'] : '',
+            isset($this->parameters['priority']) ? new Priority($this->parameters['priority']) : Priority::moderate()
         );
 
         $alert->setDescription($description);
 
-        if (isset($parameters['tags'])) {
-            foreach ($parameters['tags'] as $tag) {
+        if (isset($this->parameters['tags'])) {
+            foreach ($this->parameters['tags'] as $tag) {
                 $alert->appendTag($tag);
             }
         }
 
-        if (isset($parameters['responders'])) {
-            foreach ($parameters['responders'] as $responder) {
+        if (isset($this->parameters['responders'])) {
+            foreach ($this->parameters['responders'] as $responder) {
                 $responderObj = new Responder($responder['id'], $responder['type']);
                 $alert->appendResponder($responderObj);
             }

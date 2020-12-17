@@ -27,7 +27,7 @@ use common_exception_Error;
 use common_report_Report;
 use oat\generis\test\TestCase;
 use oat\tao\model\extension\UpdatingNotificationService;
-use oat\tao\model\notifiers\Notifier;
+use oat\tao\model\notifiers\NotifierInterface;
 
 class updatingNotificationServiceTest extends TestCase
 {
@@ -46,14 +46,14 @@ class updatingNotificationServiceTest extends TestCase
         $report->add(new common_report_Report(common_report_Report::TYPE_WARNING, 'Warning report'));
         $report->add(new common_report_Report(common_report_Report::TYPE_INFO, 'Info report'));
 
-        $notifierMock1 = $this->createMock(Notifier::class);
+        $notifierMock1 = $this->createMock(NotifierInterface::class);
         $expectedDescription1 = 'Error report' . PHP_EOL . 'Warning report' . PHP_EOL;
         $notifierMock1
             ->expects($this->once())
             ->method('notify')
             ->with('TaoUpdate notifications: ' . ROOT_URL, $expectedDescription1);
 
-        $notifierMock2 = $this->createMock(Notifier::class);
+        $notifierMock2 = $this->createMock(NotifierInterface::class);
         $expectedDescription2 = 'Error report' . PHP_EOL;
         $notifierMock2
             ->expects($this->once())

@@ -27,13 +27,12 @@ namespace oat\tao\model\notifiers;
  * @author Andrey Niahrou <Andrei.Niahrou@1pt.com>
  * @package oat\tao\model\notifiers
  */
-interface Notifier
+interface NotifierInterface
 {
     /**
      * @param string $title
      * @param string $description
-     * @param array $parameters
      * @return array
      */
-    public function notify(string $title, string $description, array $parameters = []): array;
+    public function notify(string $title, string $description): array;
 }

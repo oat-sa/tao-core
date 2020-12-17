@@ -21,55 +21,17 @@
 
 namespace oat\tao\model\extension;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\reporting\Report;
+
 use oat\tao\model\notifiers\Notifier;
 
 /**
  * Notifies when an update
  *
- * Class TaoUpdateNotifier
+ * Class UpdatingNotificationService
  * @author Andrey Niahrou <Andrei.Niahrou@1pt.com>
  * @package oat\tao\model\extension
  */
-class UpdatingNotificationService extends ConfigurableService
+class UpdatingNotificationService extends AbstractNotificationService
 {
-    const SERVICE_ID = 'tao/updatingNotificationService';
-    const OPTION_NOTIFIERS = 'notifiers';
-
-    /**
-     * @param Report $report
-     */
-    public function sendNotifications(Report $report): void
-    {
-        if (!$this->hasOption(self::OPTION_NOTIFIERS) || !count($this->getOption(self::OPTION_NOTIFIERS))) {
-            return;
-        }
-
-        $notifiers = $this->getOption(self::OPTION_NOTIFIERS);
-
-        $this->notify($report, $notifiers);
-    }
-
-    /**
-     * @param Report $report
-     * @param array $notifiers
-     */
-    private function notify(Report $report, array $notifiers): void
-    {
-        foreach ($notifiers as $notifierConfig) {
-            /**@var $notifier Notifier * */
-            $notifier = $notifierConfig['notifier'];
-
-            $description = '';
-            /**@var $dispatchReport Report **/
-            foreach ($report->filterChildrenByTypes($notifierConfig['dispatchTypes']) as $dispatchReport) {
-                $description .= $dispatchReport->getMessage() . PHP_EOL;
-            }
-
-            if ($description) {
-                $notifier->notify('TaoUpdate notifications: ' . ROOT_URL, $description);
-            }
-        }
-    }
+    public const SERVICE_ID = 'tao/updatingNotificationService';
 }
