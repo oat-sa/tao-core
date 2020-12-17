@@ -395,11 +395,19 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
     private function extractLabel(ValueCollectionSearchRequest $searchRequest, iterable $labels, string $subject): ?string
     {
-        if ($labels[$subject][$searchRequest->getDataLanguage()]) {
+        if (
+            isset($labels[$subject])
+            && isset($labels[$subject][$searchRequest->getDataLanguage()])
+            && $labels[$subject][$searchRequest->getDataLanguage()]
+        ) {
             return $labels[$subject][$searchRequest->getDataLanguage()];
         }
 
-        if ($labels[$subject][$searchRequest->getDefaultLanguage()]) {
+        if (
+            isset($labels[$subject])
+            && isset($labels[$subject][$searchRequest->getDefaultLanguage()])
+            && $labels[$subject][$searchRequest->getDefaultLanguage()]
+        ) {
             return $labels[$subject][$searchRequest->getDefaultLanguage()];
         }
 
