@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint142\n"
-"PO-Revision-Date: 2020-11-20T10:16:04\n"
+"Project-Id-Version: TAO 3.4.0-sprint143\n"
+"PO-Revision-Date: 2020-12-18T09:29:12\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -374,10 +374,10 @@ msgstr ""
 msgid "Calendar"
 msgstr "カレンダー"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
 msgid "cancel the action"
@@ -408,10 +408,10 @@ msgstr "パスワードを変更"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr "すべてチェック"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "すべてチェック"
 
 msgid "Check-in"
@@ -912,9 +912,6 @@ msgstr "前に戻る"
 msgid "go back to home page"
 msgstr ""
 
-msgid "Go to item"
-msgstr ""
-
 msgid "Height"
 msgstr "高さ"
 
@@ -999,10 +996,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1041,10 +1038,10 @@ msgstr "%s拡張機能をインストールしています..."
 msgid "Instance saved"
 msgstr "インスタンスが保存されました"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "インタフェース用言語"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "インタフェース用言語"
 
 msgid "Invalid CSP header."
@@ -1769,9 +1766,6 @@ msgstr "%sを検索"
 msgid "Search by properties"
 msgstr ""
 
-msgid "Search Item"
-msgstr ""
-
 msgid "Search sub-classes"
 msgstr "サブクラスを検索"
 
@@ -1788,10 +1782,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr "選択"
 
-msgid "Select"
+msgid "select"
 msgstr "選択"
 
 msgid "Select a class"
@@ -2209,10 +2203,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全て無効"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全て無効"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2351,6 +2345,9 @@ msgstr ""
 
 msgid "Version"
 msgstr "バージョン"
+
+msgid "View"
+msgstr ""
 
 msgid "View report"
 msgstr ""
