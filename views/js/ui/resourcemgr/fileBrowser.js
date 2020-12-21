@@ -253,7 +253,7 @@ define([
         function loadContent(path) {
             var parameters = {};
             parameters[options.pathParam] = path;
-            return $.getJSON(options.browseUrl, _.merge(parameters, options.params));
+            return $.getJSON(options.browseUrl, _.merge(parameters, options.params), { childrenOffset: (selectedClass.page - 1) * selectedClass.childrenLimit });
         }
 
         /**
