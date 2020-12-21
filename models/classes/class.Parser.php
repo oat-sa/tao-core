@@ -20,6 +20,10 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
+
+declare(strict_types=1);
+
+use oat\oatbox\filesystem\File;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
 use oat\generis\persistence\PersistenceManager;
@@ -33,52 +37,35 @@ use common_persistence_KeyValuePersistence as KeyValuePersistence;
  */
 class tao_models_classes_Parser
 {
+    public const SOURCE_FILE = 1;
+
+    public const SOURCE_URL = 2;
+
+    public const SOURCE_STRING = 3;
+
+    // Current file is \oat\oatbox\filesystem\File object
+    public const SOURCE_FLYFILE = 4;
+
     /**
      * XML content string
      *
-     * @access protected
      * @var string
      */
     protected $content = null;
     
-    /**
-     * Short description of attribute source
-     *
-     * @access protected
-     * @var string
-     */
+    /** @var string */
     protected $source = '';
 
-    /**
-     * Short description of attribute sourceType
-     *
-     * @access protected
-     * @var int
-     */
+    /** @var int */
     protected $sourceType = 0;
 
-    /**
-     * Short description of attribute errors
-     *
-     * @access protected
-     * @var array
-     */
+    /** @var array */
     protected $errors = [];
 
-    /**
-     * Short description of attribute valid
-     *
-     * @access protected
-     * @var boolean
-     */
+    /** @var bool */
     protected $valid = false;
 
-    /**
-     * Short description of attribute fileExtension
-     *
-     * @access protected
-     * @var string
-     */
+    /** @var string */
     protected $fileExtension = 'xml';
 
     /** @var KeyValuePersistence */
@@ -86,17 +73,12 @@ class tao_models_classes_Parser
 
     /**
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string $source
-     * @param  array $options
-     * @throws common_exception_Error
-     * @throws \common_Exception
-     * @throws \oat\oatbox\service\ServiceNotFoundException
      */
-    public function __construct($source, $options = [])
+    public function __construct(string $source, array $options = [])
     {
         $sourceType = false;
 
-        if ($source instanceof \oat\oatbox\filesystem\File) {
+        if ($source instanceof File) {
             $sourceType = self::SOURCE_FLYFILE;
         } elseif (is_string($source)) {
             if (preg_match("/^<\?xml(.*)?/m", trim($source))) {
@@ -107,7 +89,7 @@ class tao_models_classes_Parser
                 $sourceType = self::SOURCE_FILE;
             } else {
                 $uploadFile = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($source);
-                if ($uploadFile instanceof \oat\oatbox\filesystem\File) {
+                if ($uploadFile instanceof File) {
                     $sourceType = self::SOURCE_FLYFILE;
                     $source = $uploadFile;
                 }
@@ -115,7 +97,12 @@ class tao_models_classes_Parser
         }
 
         if ($sourceType === false) {
-            throw new common_exception_Error("Denied content in the source parameter! " . get_class($this) . " accepts either XML content, a URL to an XML Content or the path to a file but got " . substr($source, 0, 500));
+            throw new common_exception_Error(sprintf(
+                'Denied content in the source parameter! %s accepts either XML content, a URL to an XML Content '
+                . 'or the path to a file but got %s',
+                get_class($this),
+                substr($source, 0, 500)
+            ));
         }
 
         $this->sourceType = $sourceType;
@@ -126,26 +113,26 @@ class tao_models_classes_Parser
         }
     }
     
-    public function getSource()
+    public function getSource(): string
     {
         return $this->source;
     }
 
     /**
-     * Short description of method validate
-     *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     *
      * @param  string schema
-     * @return boolean
+     *
+     * @return bool
      */
     public function validate($schema = '')
     {
-        //You know sometimes you think you have enough time, but it is not always true ...
-        //(timeout in hudson with the generis-hard test suite)
+        // You know sometimes you think you have enough time, but it is not always true ...
+        // (timeout in hudson with the generis-hard test suite)
         helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::MEDIUM);
-        
+
         $content = $this->getContent();
+
         if (!empty($content)) {
             try {
                 libxml_use_internal_errors(true);
@@ -153,7 +140,7 @@ class tao_models_classes_Parser
                 $dom = new DomDocument();
                 $dom->formatOutput = true;
                 $dom->preserveWhiteSpace = false;
-                
+
                 $this->valid = $dom->loadXML($content);
 
                 $itemIdentifier = $dom->getElementsByTagName('assessmentItem')[0]->getAttribute('identifier');
@@ -170,24 +157,22 @@ class tao_models_classes_Parser
                 if (!$this->valid) {
                     $this->addErrors(libxml_get_errors());
                 }
+
                 libxml_clear_errors();
             } catch (DOMException $de) {
                 $this->addError($de);
             }
         }
-        
-        
+
         helpers_TimeOutHelper::reset();
-        return (bool) $this->valid;
+
+        return $this->valid;
     }
-    
+
     /**
-     * Excecute parser validation and stops at the first valid one, and returns the identified schema
-     *
-     * @param array $xsds
-     * @return string
+     * Execute parser validation and stops at the first valid one, and returns the identified schema
      */
-    public function validateMultiple($xsds = [])
+    public function validateMultiple(array $xsds = []): string
     {
         $returnValue = '';
 
@@ -203,48 +188,35 @@ class tao_models_classes_Parser
     }
     
     /**
-     * Short description of method isValid
-     *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return boolean
      */
-    public function isValid()
+    public function isValid(): bool
     {
-        return (bool) $this->valid;
+        return $this->valid;
     }
 
     /**
-     * Short description of method getErrors
-     *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return array
      */
-    public function getErrors()
+    public function getErrors(): array
     {
-        $returnValue = $this->errors;
-        return (array) $returnValue;
+        return $this->errors;
     }
 
     /**
-     * Short description of method displayErrors
-     *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  boolean htmlOutput
-     * @return string
      */
-    public function displayErrors($htmlOutput = true)
+    public function displayErrors(bool $htmlOutput = true): string
     {
-
-        $returnValue = (string) '';
+        $returnValue = '';
 
         foreach ($this->errors as $error) {
             $returnValue .= $error['message'];
-            if (isset($error['file']) && isset($error['line'])) {
-                $returnValue .= ' in file ' . $error['file'] . ', line ' . $error['line'];
+
+            if (isset($error['file'], $error['line'])) {
+                $returnValue .= sprintf(' in file %s, line %s', $error['file'], $error['line']);
             }
+
             $returnValue .= PHP_EOL;
         }
 
@@ -252,56 +224,21 @@ class tao_models_classes_Parser
             $returnValue = nl2br($returnValue);
         }
 
-        return (string) $returnValue;
-    }
-
-    /**
-     * Short description of method addError
-     *
-     * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  mixed error
-     * @return mixed
-     */
-    protected function addError($error)
-    {
-
-        $this->valid = false;
-
-        if ($error instanceof Exception) {
-            $this->errors[] = [
-                'file' => $error->getFile(),
-                'line' => $error->getLine(),
-                'message' => "[" . get_class($error) . "] " . $error->getMessage()
-            ];
-        } elseif ($error instanceof LibXMLError) {
-            $this->errors[] = [
-                'file' => $error->file,
-                'line' => $error->line,
-                'message' => "[" . get_class($error) . "] " . $error->message
-            ];
-        } elseif (is_string($error)) {
-            $this->errors[] = [
-                'message' => $error
-            ];
-        }
+        return $returnValue;
     }
     
     /**
      * Get XML content.
      *
-     * @access protected
      * @author Aleh Hutnikau, <hutnikau@1pt.com>
-     * @param boolean $refresh load content again.
-     * @return string
      */
-    public function getContent($refresh = false)
+    public function getContent(bool $refresh = false): string
     {
         if ($this->content === null || $refresh) {
             try {
                 switch ($this->sourceType) {
                     case self::SOURCE_FILE:
-                        //check file
+                        // Check file
                         if (!file_exists($this->source)) {
                             throw new Exception("File {$this->source} not found.");
                         }
@@ -309,30 +246,43 @@ class tao_models_classes_Parser
                             throw new Exception("Unable to read file {$this->source}.");
                         }
                         if (!preg_match("/\.{$this->fileExtension}$/", basename($this->source))) {
-                            throw new Exception("Wrong file extension in " . basename($this->source) . ", {$this->fileExtension} extension is expected");
+                            throw new Exception(sprintf(
+                                'Wrong file extension in %s, %s extension is expected',
+                                basename($this->source),
+                                $this->fileExtension
+                            ));
                         }
                         if (!tao_helpers_File::securityCheck($this->source)) {
-                            throw new Exception("{$this->source} seems to contain some security issues");
+                            throw new Exception($this->source . ' seems to contain some security issues');
                         }
+
                         $this->content = file_get_contents($this->source);
                         break;
                     case self::SOURCE_URL:
-                        //only same domain
+                        // Only same domain
                         if (!preg_match("/^" . preg_quote(BASE_URL, '/') . "/", $this->source)) {
-                            throw new Exception("The given uri must be in the domain {$_SERVER['HTTP_HOST']}");
+                            throw new Exception('The given uri must be in the domain ' . $_SERVER['HTTP_HOST']);
                         }
+
                         $this->content = tao_helpers_Request::load($this->source, true);
                         break;
                     case self::SOURCE_STRING:
                         $this->content = $this->source;
                         break;
                     case self::SOURCE_FLYFILE:
-                        if (! $this->source->exists()) {
-                            throw new Exception('Source file does not exists ("' . $this->source->getBasename() . '").');
+                        if (!$this->source->exists()) {
+                            throw new Exception(sprintf(
+                                'Source file does not exists ("%s").',
+                                $this->source->getBasename()
+                            ));
                         }
-                        if (! $this->content = $this->source->read()) {
-                            throw new Exception('Unable to read file ("' . $this->source->getBasename() . '").');
+                        if (!$this->content = $this->source->read()) {
+                            throw new Exception(sprintf(
+                                'Unable to read file ("%s").',
+                                $this->source->getBasename()
+                            ));
                         }
+
                         break;
                 }
             } catch (Exception $e) {
@@ -342,50 +292,67 @@ class tao_models_classes_Parser
         
         return $this->content;
     }
-    
-    /**
-     * Short description of method addErrors
-     *
-     * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  array errors
-     * @return mixed
-     */
-    protected function addErrors($errors)
-    {
 
+    /**
+     * Creates a report without title of the parsing result
+     */
+    public function getReport(): common_report_Report
+    {
+        if ($this->isValid()) {
+            return common_report_Report::createSuccess('');
+        } else {
+            $report = new common_report_Report('');
+
+            foreach ($this->getErrors() as $error) {
+                $report->add(common_report_Report::createFailure($error['message']));
+            }
+
+            return $report;
+        }
+    }
+
+    /**
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     */
+    protected function addError($error): void
+    {
+        $this->valid = false;
+
+        if ($error instanceof Exception) {
+            $this->errors[] = [
+                'file' => $error->getFile(),
+                'line' => $error->getLine(),
+                'message' => sprintf('[%s] %s', get_class($error), $error->getMessage()),
+            ];
+        } elseif ($error instanceof LibXMLError) {
+            $this->errors[] = [
+                'file' => $error->file,
+                'line' => $error->line,
+                'message' => sprintf("[%s] %s", get_class($error), $error->message),
+            ];
+        } elseif (is_string($error)) {
+            $this->errors[] = [
+                'message' => $error,
+            ];
+        }
+    }
+
+    /**
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
+     */
+    protected function addErrors(array $errors = []): void
+    {
         foreach ($errors as $error) {
             $this->addError($error);
         }
     }
 
     /**
-     * Short description of method clearErrors
-     *
-     * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return mixed
      */
-    protected function clearErrors()
+    protected function clearErrors(): void
     {
         $this->errors = [];
-    }
-
-    /**
-     * Creates a report without title of the parsing result
-     * @return common_report_Report
-     */
-    public function getReport()
-    {
-        if ($this->isValid()) {
-            return common_report_Report::createSuccess('');
-        } else {
-            $report = new common_report_Report('');
-            foreach ($this->getErrors() as $error) {
-                $report->add(common_report_Report::createFailure($error['message']));
-            }
-            return $report;
-        }
     }
 
     protected function getKvStorage(): KeyValuePersistence
