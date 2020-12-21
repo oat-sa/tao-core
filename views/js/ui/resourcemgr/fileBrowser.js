@@ -135,7 +135,8 @@ define([
                     if (!tree.path) {
                         tree = _.merge(tree, data);
                     } else if (data.children) {
-                        if (!_.find(content.children, 'path')) {
+                        if (!_.find(data.children, 'path')) {
+                            // no subfolders inside folder
                             tree.empty = true;
                         }
                         setToPath(tree, path, data);
@@ -144,10 +145,7 @@ define([
                     }
                     cb(data);
                 });
-            } else if (
-                content.children &&
-                !content.empty
-            ) {
+            } else if (content.children) {
                 var files = _.filter(content.children, function (item) {
                     return !!item.uri;
                 });
