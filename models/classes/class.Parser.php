@@ -24,10 +24,9 @@
 declare(strict_types=1);
 
 use oat\oatbox\filesystem\File;
+use oat\tao\model\ItemDomValidation;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
-use oat\generis\persistence\PersistenceManager;
-use common_persistence_KeyValuePersistence as KeyValuePersistence;
 
 /**
  * The Parser enables you to load, parse and validate xml content from an xml
@@ -67,9 +66,6 @@ class tao_models_classes_Parser
 
     /** @var string */
     protected $fileExtension = 'xml';
-
-    /** @var KeyValuePersistence */
-    protected $kvStorage;
 
     /**
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -142,18 +138,13 @@ class tao_models_classes_Parser
                 $dom->preserveWhiteSpace = false;
 
                 $this->valid = $dom->loadXML($content);
+                $itemDomValidation = new ItemDomValidation($dom, $schema, $content);
 
-                $validationKey = $this->getValidationKey($dom, $schema);
-                $hashedContent = md5(preg_replace('/\s+<responseProcessing\/>/', '', $content));
-
-                if ($this->valid && !empty($schema) && $this->needValidation($validationKey, $hashedContent)) {
+                if ($this->valid && !empty($schema) && $itemDomValidation->needValidation()) {
                     $this->valid = $dom->schemaValidate($schema);
-
-                    if ($validationKey !== null) {
-                        $this->setValidationResult($validationKey, $hashedContent);
-                    }
+                    $itemDomValidation->setValidationResult($this->valid);
                 } else {
-                    $this->valid = $this->getValidationResult($validationKey);
+                    $this->valid = $itemDomValidation->getValidationResult();
                 }
 
                 if (!$this->valid) {
@@ -248,11 +239,13 @@ class tao_models_classes_Parser
                             throw new Exception("Unable to read file {$this->source}.");
                         }
                         if (!preg_match("/\.{$this->fileExtension}$/", basename($this->source))) {
-                            throw new Exception(sprintf(
-                                'Wrong file extension in %s, %s extension is expected',
-                                basename($this->source),
-                                $this->fileExtension
-                            ));
+                            throw new Exception(
+                                sprintf(
+                                    'Wrong file extension in %s, %s extension is expected',
+                                    basename($this->source),
+                                    $this->fileExtension
+                                )
+                            );
                         }
                         if (!tao_helpers_File::securityCheck($this->source)) {
                             throw new Exception($this->source . ' seems to contain some security issues');
@@ -273,16 +266,20 @@ class tao_models_classes_Parser
                         break;
                     case self::SOURCE_FLYFILE:
                         if (!$this->source->exists()) {
-                            throw new Exception(sprintf(
-                                'Source file does not exists ("%s").',
-                                $this->source->getBasename()
-                            ));
+                            throw new Exception(
+                                sprintf(
+                                    'Source file does not exists ("%s").',
+                                    $this->source->getBasename()
+                                )
+                            );
                         }
                         if (!$this->content = $this->source->read()) {
-                            throw new Exception(sprintf(
-                                'Unable to read file ("%s").',
-                                $this->source->getBasename()
-                            ));
+                            throw new Exception(
+                                sprintf(
+                                    'Unable to read file ("%s").',
+                                    $this->source->getBasename()
+                                )
+                            );
                         }
 
                         break;
@@ -355,55 +352,5 @@ class tao_models_classes_Parser
     protected function clearErrors(): void
     {
         $this->errors = [];
-    }
-
-    protected function getKvStorage(): KeyValuePersistence
-    {
-        if (!isset($this->kvStorage)) {
-            /** @var PersistenceManager $persistenceManager */
-            $persistenceManager = ServiceManager::getServiceManager()->get(PersistenceManager::SERVICE_ID);
-            $this->kvStorage =  $persistenceManager->getPersistenceById('default_kv');
-        }
-
-        return $this->kvStorage;
-    }
-
-    private function getValidationKey(DOMDocument $dom, string $schema): ?string
-    {
-        $assessmentItem = $dom->getElementsByTagName('assessmentItem')->item(0);
-
-        if ($assessmentItem !== null) {
-            $validationKey = md5($schema . $assessmentItem->getAttribute('identifier'));
-        }
-
-        return $validationKey ?? null;
-    }
-
-    private function needValidation(?string $validationKey, $hashedContent): bool
-    {
-        return $validationKey === null
-            || !$this->hasValidatedContent($validationKey)
-            || $this->getValidatedContent($validationKey) !== $hashedContent;
-    }
-
-    private function hasValidatedContent(string $validationKey): bool
-    {
-        return $this->getKvStorage()->exists($validationKey . '.content');
-    }
-
-    private function getValidatedContent(string $validationKey): string
-    {
-        return (string) $this->getKvStorage()->get($validationKey . '.content');
-    }
-
-    private function getValidationResult(string $validationKey): bool
-    {
-        return (bool) $this->getKvStorage()->get($validationKey . '.result');
-    }
-
-    private function setValidationResult(string $validationKey, string $hashedContent): void
-    {
-        $this->getKvStorage()->set($validationKey . '.content', $hashedContent);
-        $this->getKvStorage()->set($validationKey . '.result', $this->valid);
     }
 }
