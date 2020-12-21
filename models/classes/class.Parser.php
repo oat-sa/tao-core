@@ -22,15 +22,14 @@
  */
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
+use oat\generis\persistence\PersistenceManager;
+use common_persistence_KeyValuePersistence as KeyValuePersistence;
 
 /**
  * The Parser enables you to load, parse and validate xml content from an xml
  * Usually used for to load and validate the itemContent  property.
  *
- * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
- * @package tao
-
  */
 class tao_models_classes_Parser
 {
@@ -82,40 +81,10 @@ class tao_models_classes_Parser
      */
     protected $fileExtension = 'xml';
 
-    /**
-     * Short description of attribute SOURCE_FILE
-     *
-     * @access public
-     * @var int
-     */
-
-    const SOURCE_FILE = 1;
+    /** @var KeyValuePersistence */
+    protected $kvStorage;
 
     /**
-     * Short description of attribute SOURCE_URL
-     *
-     * @access public
-     * @var int
-     */
-    const SOURCE_URL = 2;
-
-    /**
-     * Short description of attribute SOURCE_STRING
-     *
-     * @access public
-     * @var int
-     */
-    const SOURCE_STRING = 3;
-
-    /**
-     * Current file is \oat\oatbox\filesystem\File object
-     */
-    const SOURCE_FLYFILE = 4;
-
-    /**
-     * Short description of method __construct
-     *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  string $source
      * @param  array $options
@@ -187,8 +156,15 @@ class tao_models_classes_Parser
                 
                 $this->valid = $dom->loadXML($content);
 
-                if ($this->valid && !empty($schema)) {
+                $itemIdentifier = $dom->getElementsByTagName('assessmentItem')[0]->getAttribute('identifier');
+                $validationKey = md5($schema . $itemIdentifier);
+                $hashedContent = md5(preg_replace('/\s+<responseProcessing\/>/', '', $content));
+
+                if ($this->valid && !empty($schema) && $this->needValidation($validationKey, $hashedContent)) {
                     $this->valid = $dom->schemaValidate($schema);
+                    $this->setValidationResult($validationKey, $hashedContent);
+                } else {
+                    $this->valid = $this->getValidationResult($validationKey);
                 }
 
                 if (!$this->valid) {
@@ -410,5 +386,43 @@ class tao_models_classes_Parser
             }
             return $report;
         }
+    }
+
+    protected function getKvStorage(): KeyValuePersistence
+    {
+        if (!isset($this->kvStorage)) {
+            /** @var PersistenceManager $persistenceManager */
+            $persistenceManager = ServiceManager::getServiceManager()->get(PersistenceManager::SERVICE_ID);
+            $this->kvStorage =  $persistenceManager->getPersistenceById('default_kv');
+        }
+
+        return $this->kvStorage;
+    }
+
+    private function needValidation(string $validationKey, $hashedContent): bool
+    {
+        return !$this->hasValidatedContent($validationKey)
+            || $this->getValidatedContent($validationKey) !== $hashedContent;
+    }
+
+    private function hasValidatedContent(string $validationKey): bool
+    {
+        return $this->getKvStorage()->exists($validationKey . '.content');
+    }
+
+    private function getValidatedContent(string $validationKey): string
+    {
+        return (string) $this->getKvStorage()->get($validationKey . '.content');
+    }
+
+    private function getValidationResult(string $validationKey): bool
+    {
+        return (bool) $this->getKvStorage()->get($validationKey . '.result');
+    }
+
+    private function setValidationResult(string $validationKey, string $hashedContent): void
+    {
+        $this->getKvStorage()->set($validationKey . '.content', $hashedContent);
+        $this->getKvStorage()->set($validationKey . '.result', $this->valid);
     }
 }
