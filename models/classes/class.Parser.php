@@ -53,7 +53,7 @@ class tao_models_classes_Parser
      */
     protected $content = null;
     
-    /** @var string */
+    /** @var mixed */
     protected $source = '';
 
     /** @var int */
@@ -74,7 +74,7 @@ class tao_models_classes_Parser
     /**
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      */
-    public function __construct(string $source, array $options = [])
+    public function __construct($source, array $options = [])
     {
         $sourceType = false;
 
@@ -113,7 +113,7 @@ class tao_models_classes_Parser
         }
     }
     
-    public function getSource(): string
+    public function getSource()
     {
         return $this->source;
     }
@@ -121,7 +121,7 @@ class tao_models_classes_Parser
     /**
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      *
-     * @param  string schema
+     * @param string schema
      *
      * @return bool
      */
@@ -143,13 +143,15 @@ class tao_models_classes_Parser
 
                 $this->valid = $dom->loadXML($content);
 
-                $itemIdentifier = $dom->getElementsByTagName('assessmentItem')[0]->getAttribute('identifier');
-                $validationKey = md5($schema . $itemIdentifier);
+                $validationKey = $this->getValidationKey($dom, $schema);
                 $hashedContent = md5(preg_replace('/\s+<responseProcessing\/>/', '', $content));
 
                 if ($this->valid && !empty($schema) && $this->needValidation($validationKey, $hashedContent)) {
                     $this->valid = $dom->schemaValidate($schema);
-                    $this->setValidationResult($validationKey, $hashedContent);
+
+                    if ($validationKey !== null) {
+                        $this->setValidationResult($validationKey, $hashedContent);
+                    }
                 } else {
                     $this->valid = $this->getValidationResult($validationKey);
                 }
@@ -314,7 +316,7 @@ class tao_models_classes_Parser
     /**
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      */
-    protected function addError($error): void
+    protected function addError($error)
     {
         $this->valid = false;
 
@@ -366,9 +368,21 @@ class tao_models_classes_Parser
         return $this->kvStorage;
     }
 
-    private function needValidation(string $validationKey, $hashedContent): bool
+    private function getValidationKey(DOMDocument $dom, string $schema): ?string
     {
-        return !$this->hasValidatedContent($validationKey)
+        $assessmentItem = $dom->getElementsByTagName('assessmentItem')->item(0);
+
+        if ($assessmentItem !== null) {
+            $validationKey = md5($schema . $assessmentItem->getAttribute('identifier'));
+        }
+
+        return $validationKey ?? null;
+    }
+
+    private function needValidation(?string $validationKey, $hashedContent): bool
+    {
+        return $validationKey === null
+            || !$this->hasValidatedContent($validationKey)
             || $this->getValidatedContent($validationKey) !== $hashedContent;
     }
 
