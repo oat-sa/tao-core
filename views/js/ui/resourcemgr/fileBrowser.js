@@ -51,7 +51,6 @@ define([
             var $folders = $('.folders li', $fileBrowser);
             var fullPath = $selected.data('path');
             var subTree = getByPath(fileTree, fullPath);
-            updateSelectedClass(fullPath, subTree.total, $selected.data('children-limit'));
 
             //get the folder content
             getFolderContent(subTree, fullPath, function (content) {
@@ -76,6 +75,7 @@ define([
                     $folders.removeClass('active');
                     $selected.parent('li').addClass('active');
 
+                    updateSelectedClass(fullPath, subTree.total, $selected.data('children-limit'));
                     //internal event to set the file-selector content
                     $container.trigger('folderselect.' + ns, [content.label, getPage(content.children), content.path]);
                     renderPagination();
@@ -253,7 +253,7 @@ define([
         function loadContent(path) {
             var parameters = {};
             parameters[options.pathParam] = path;
-            return $.getJSON(options.browseUrl, _.merge(parameters, options.params), { childrenOffset: (selectedClass.page - 1) * selectedClass.childrenLimit });
+            return $.getJSON(options.browseUrl, _.merge(parameters, options.params,  { childrenOffset: (selectedClass.page - 1) * selectedClass.childrenLimit }));
         }
 
         /**
