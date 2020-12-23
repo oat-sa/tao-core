@@ -24,7 +24,7 @@
 declare(strict_types=1);
 
 use oat\oatbox\filesystem\File;
-use oat\tao\model\ItemDomValidation;
+use oat\tao\model\DomValidator;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
 
@@ -37,13 +37,9 @@ use oat\tao\model\upload\UploadService;
 class tao_models_classes_Parser
 {
     public const SOURCE_FILE = 1;
-
     public const SOURCE_URL = 2;
-
     public const SOURCE_STRING = 3;
-
-    // Current file is \oat\oatbox\filesystem\File object
-    public const SOURCE_FLYFILE = 4;
+    public const SOURCE_FLYFILE = 4; // Current file is \oat\oatbox\filesystem\File object
 
     /**
      * XML content string
@@ -66,6 +62,9 @@ class tao_models_classes_Parser
 
     /** @var string */
     protected $fileExtension = 'xml';
+
+    /** @var DomValidator */
+    private $domValidator;
 
     /**
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
@@ -93,12 +92,14 @@ class tao_models_classes_Parser
         }
 
         if ($sourceType === false) {
-            throw new common_exception_Error(sprintf(
-                'Denied content in the source parameter! %s accepts either XML content, a URL to an XML Content '
-                . 'or the path to a file but got %s',
-                get_class($this),
-                substr($source, 0, 500)
-            ));
+            throw new common_exception_Error(
+                sprintf(
+                    'Denied content in the source parameter! %s accepts either XML content, a URL to an XML Content '
+                    . 'or the path to a file but got %s',
+                    get_class($this),
+                    substr($source, 0, 500)
+                )
+            );
         }
 
         $this->sourceType = $sourceType;
@@ -131,29 +132,13 @@ class tao_models_classes_Parser
 
         if (!empty($content)) {
             try {
-                libxml_use_internal_errors(true);
-
-                $dom = new DomDocument();
-                $dom->formatOutput = true;
-                $dom->preserveWhiteSpace = false;
-
-                $this->valid = $dom->loadXML($content);
-                $itemDomValidation = new ItemDomValidation($dom, $schema, $content);
-
-                if ($this->valid && !empty($schema) && $itemDomValidation->needValidation()) {
-                    $this->valid = $dom->schemaValidate($schema);
-                    $itemDomValidation->setValidationResult($this->valid);
-                } else {
-                    $this->valid = $itemDomValidation->getValidationResult();
-                }
+                $this->valid = $this->getDomValidator()->validate($content, $schema);
 
                 if (!$this->valid) {
-                    $this->addErrors(libxml_get_errors());
+                    $this->addErrors($this->getDomValidator()->getErrors());
                 }
-
-                libxml_clear_errors();
-            } catch (DOMException $de) {
-                $this->addError($de);
+            } catch (DOMException $domException) {
+                $this->addError($domException);
             }
         }
 
@@ -352,5 +337,14 @@ class tao_models_classes_Parser
     protected function clearErrors(): void
     {
         $this->errors = [];
+    }
+
+    private function getDomValidator(): DomValidator
+    {
+        if (!isset($this->domValidator)) {
+            $this->domValidator = ServiceManager::getServiceManager()->get(DomValidator::class);
+        }
+
+        return $this->domValidator;
     }
 }
