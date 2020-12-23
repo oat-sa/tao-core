@@ -33,12 +33,12 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
-use oat\tao\model\Lists\Business\Domain\CollectionType;
-use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
+use oat\tao\model\Lists\Business\Domain\CollectionType;
 use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\tao\model\service\InjectionAwareService;
 use Throwable;
 
 class RdfValueCollectionRepository extends InjectionAwareService implements ValueCollectionRepositoryInterface
@@ -56,7 +56,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         parent::__construct();
 
         $this->persistenceManager = $persistenceManager;
-        $this->persistenceId      = $persistenceId;
+        $this->persistenceId = $persistenceId;
     }
 
     public function isApplicable(string $collectionUri): bool
@@ -78,8 +78,14 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $this->enrichQueryWithOrderById($query);
 
         $values = [];
-        foreach ($query->execute()->fetchAll() as $rawValue) {
-            $values[] = new Value((int)$rawValue['id'], $rawValue['subject'], $rawValue['object']);
+        $data = $query->execute()->fetchAll();
+        $labels = $this->retrieveLabels($data);
+        foreach ($data as $rawValue) {
+            $values[] = new Value(
+                (int)$rawValue['id'],
+                $rawValue['subject'],
+                $this->extractLabel($searchRequest, $labels, $rawValue['subject'])
+            );
         }
 
         $valueCollectionUri = $searchRequest->hasValueCollectionUri()
@@ -184,8 +190,8 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             ->where($expressionBuilder->eq('id', ':id'))
             ->setParameters(
                 [
-                    'id'    => $value->getId(),
-                    'uri'   => $value->getUri(),
+                    'id' => $value->getId(),
+                    'uri' => $value->getUri(),
                     'label' => $value->getLabel(),
                 ]
             )
@@ -219,7 +225,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             ->where($expressionBuilder->eq('subject', ':original_uri'))
             ->setParameters(
                 [
-                    'uri'          => $value->getUri(),
+                    'uri' => $value->getUri(),
                     'original_uri' => $value->getOriginalUri(),
                 ]
             )
@@ -241,7 +247,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             ->where($expressionBuilder->eq('object', ':original_uri'))
             ->setParameters(
                 [
-                    'uri'          => $value->getUri(),
+                    'uri' => $value->getUri(),
                     'original_uri' => $value->getOriginalUri(),
                 ]
             )
@@ -265,7 +271,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             ->setParameters(
                 [
                     'label_uri' => OntologyRdfs::RDFS_LABEL,
-                    'type_uri'  => OntologyRdf::RDF_TYPE,
+                    'type_uri' => OntologyRdf::RDF_TYPE,
                 ]
             );
 
@@ -279,8 +285,13 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
     private function enrichWithSelect(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): QueryBuilder
     {
-        $query
-            ->select('collection.object as collection_uri', 'element.id', 'element.subject', 'element.object');
+        $query->select(
+            'collection.object as collection_uri',
+            'element.id',
+            'element.subject',
+            'element.object',
+            'element.l_language as datalanguage'
+        );
 
         if ($searchRequest->hasLimit()) {
             $query->setMaxResults($searchRequest->getLimit());
@@ -391,5 +402,27 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
 
         return $query->execute()->rowCount();
+    }
+    
+    private function extractLabel(ValueCollectionSearchRequest $searchRequest, iterable $labels, string $subject): ?string
+    {
+        if (!empty($labels[$subject][$searchRequest->getDataLanguage()])) {
+            return $labels[$subject][$searchRequest->getDataLanguage()];
+        }
+
+        if (!empty($labels[$subject][$searchRequest->getDefaultLanguage()])) {
+            return $labels[$subject][$searchRequest->getDefaultLanguage()];
+        }
+
+        return '';
+    }
+
+    private function retrieveLabels(iterable $data): array
+    {
+        $labels = [];
+        foreach ($data as $element) {
+            $labels[$element['subject']][$element['datalanguage']] = $element['object'];
+        }
+        return $labels;
     }
 }
