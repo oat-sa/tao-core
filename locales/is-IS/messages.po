@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint142\n"
-"PO-Revision-Date: 2020-11-20T10:15:47\n"
+"Project-Id-Version: TAO 3.4.0-sprint143\n"
+"PO-Revision-Date: 2020-12-18T09:29:07\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -373,11 +373,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Dagatal"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "Hætta við"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -407,10 +407,10 @@ msgstr "Breyta lykilorðinu"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr "Merkja við allt"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "Merkja við allt"
 
 msgid "Check-in"
@@ -911,9 +911,6 @@ msgstr "Til baka"
 msgid "go back to home page"
 msgstr ""
 
-msgid "Go to item"
-msgstr ""
-
 msgid "Height"
 msgstr "Hæð"
 
@@ -998,10 +995,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1040,10 +1037,10 @@ msgstr "Set upp viðbætur %s..."
 msgid "Instance saved"
 msgstr "Tilvik vistað"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1768,9 +1765,6 @@ msgstr ""
 msgid "Search by properties"
 msgstr ""
 
-msgid "Search Item"
-msgstr ""
-
 msgid "Search sub-classes"
 msgstr "Leita í undirflokkum"
 
@@ -1787,11 +1781,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "velja"
-
 msgid "Select"
 msgstr "Velja"
+
+msgid "select"
+msgstr "velja"
 
 msgid "Select a class"
 msgstr ""
@@ -2208,10 +2202,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
@@ -2350,6 +2344,9 @@ msgstr ""
 
 msgid "Version"
 msgstr "Útgáfunúmer"
+
+msgid "View"
+msgstr ""
 
 msgid "View report"
 msgstr ""
