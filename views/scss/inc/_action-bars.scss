@@ -60,7 +60,7 @@
                 &.has-results-counter {
                     right: 5px;
                     .icon-ul {
-                        display: initial;
+                        display: inline-block;
                     }
                 }
             }
@@ -70,6 +70,8 @@
                 cursor: pointer;
                 background: transparent;
                 height: 21px;
+                border: 1px dashed transparent;
+                vertical-align: middle;
                 &:before {
                     color: $darkBar;
                 }
@@ -78,7 +80,7 @@
             .icon-find:focus,
             .icon-ul:focus {
                 outline: none;
-                border: 1px dashed $darkBar;
+                border-color: $darkBar;
             }
             .icon-help {
                 position: absolute;
@@ -97,10 +99,18 @@
                 padding: 0;
                 width: 25px;
             }
-            .icon-ul {
-                border-left: 1px solid $grey;
+            .icon-ul {   
                 margin: 0;
                 padding: 0 0 0 5px;
+                position: relative;
+                &::after {
+                    content: '';
+                    position: absolute;
+                    left: -3px;
+                    top: 0;
+                    bottom: 0;
+                    border-left: 1px solid $grey;
+                }
                 .results-counter {
                     color: $darkBar;
                     margin-left: 5px;
