@@ -26,6 +26,9 @@ namespace oat\tao\test\unit\model\Lists\Business\Service;
 
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
+use oat\oatbox\session\SessionService;
+use oat\oatbox\user\User;
+use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
@@ -50,6 +53,20 @@ class ValueCollectionServiceTest extends TestCase
         $this->sut = new ValueCollectionService(
             $this->repositoryMock
         );
+
+        $sessionMock = $this->createMock(SessionService::class);
+        $sessionMock->method('getCurrentUser')->willReturn($this->createMock(User::class));
+
+        $userLanguageMock = $this->createMock(UserLanguageServiceInterface::class);
+        $userLanguageMock->method('getDataLanguage')->willReturn('en-US');
+        $userLanguageMock->method('getDefaultLanguage')->willReturn('en-US');
+
+        $this->sut->setServiceLocator($this->getServiceLocatorMock(
+            [
+                SessionService::class => $sessionMock,
+                UserLanguageServiceInterface::SERVICE_ID => $userLanguageMock
+            ]
+        ));
     }
 
     public function testFindAll(): void

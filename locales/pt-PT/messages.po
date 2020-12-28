@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint142\n"
-"PO-Revision-Date: 2020-11-20T10:16:57\n"
+"Project-Id-Version: TAO 3.4.0-sprint143\n"
+"PO-Revision-Date: 2020-12-18T09:29:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
@@ -374,11 +374,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendário"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "Cancelar"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -408,11 +408,11 @@ msgstr "Mudar a palavra-passe"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Marcar todos"
-
 msgid "Check All"
 msgstr "Marcar Todos"
+
+msgid "Check all"
+msgstr "Marcar todos"
 
 msgid "Check-in"
 msgstr ""
@@ -912,9 +912,6 @@ msgstr "Retroceder"
 msgid "go back to home page"
 msgstr ""
 
-msgid "Go to item"
-msgstr ""
-
 msgid "Height"
 msgstr ""
 
@@ -999,10 +996,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1041,11 +1038,11 @@ msgstr "Extensões instaladas %s..."
 msgid "Instance saved"
 msgstr "Instância guardada"
 
-msgid "Interface language"
-msgstr "Idioma do interface"
-
 msgid "Interface Language"
 msgstr "Idioma do Interface"
+
+msgid "Interface language"
+msgstr "Idioma do interface"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1769,9 +1766,6 @@ msgstr ""
 msgid "Search by properties"
 msgstr ""
 
-msgid "Search Item"
-msgstr ""
-
 msgid "Search sub-classes"
 msgstr ""
 
@@ -1788,11 +1782,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "seleccione"
-
 msgid "Select"
 msgstr "Seleccione"
+
+msgid "select"
+msgstr "seleccione"
 
 msgid "Select a class"
 msgstr ""
@@ -2209,11 +2203,11 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
-msgstr "Desmarcar todos"
-
 msgid "Uncheck All"
 msgstr "Desmarcar Todos"
+
+msgid "Uncheck all"
+msgstr "Desmarcar todos"
 
 msgid "Undefined amount of the pages for pagination"
 msgstr ""
@@ -2351,6 +2345,9 @@ msgstr ""
 
 msgid "Version"
 msgstr "Versão"
+
+msgid "View"
+msgstr ""
 
 msgid "View report"
 msgstr ""

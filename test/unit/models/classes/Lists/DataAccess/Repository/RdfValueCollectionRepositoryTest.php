@@ -117,7 +117,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
      */
     public function testFindAll(ValueCollectionSearchRequest $searchRequest): void
     {
-        $result = new ValueCollection(self::COLLECTION_URI, new Value(1, '1', '1'), new Value(2, '2', '2'));
+        $result = new ValueCollection(self::COLLECTION_URI, new Value(1, '1', 'Element 1'), new Value(2, '2', 'Element 2'));
 
         $this->expectQuery($searchRequest, $result);
 
@@ -308,7 +308,10 @@ class RdfValueCollectionRepositoryTest extends TestCase
         return implode(
             ' ',
             [
-                'SELECT collection.object as collection_uri, element.id, element.subject, element.object',
+                'SELECT collection.object as collection_uri, '
+                . 'element.id, element.subject,'
+                . ' element.object, '
+                . 'element.l_language as datalanguage',
                 'FROM statements element',
                 'INNER JOIN statements collection',
                 'ON collection.subject = element.subject',
