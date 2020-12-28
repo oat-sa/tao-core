@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint142\n"
-"PO-Revision-Date: 2020-11-20T10:15:20\n"
+"Project-Id-Version: TAO 3.4.0-sprint143\n"
+"PO-Revision-Date: 2020-12-18T09:29:00\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -374,11 +374,11 @@ msgstr "Calculatrice"
 msgid "Calendar"
 msgstr "Calendrier"
 
-msgid "cancel"
-msgstr "annuler"
-
 msgid "Cancel"
 msgstr "Annuler"
+
+msgid "cancel"
+msgstr "annuler"
 
 msgid "cancel the action"
 msgstr "annuler l'action"
@@ -408,11 +408,11 @@ msgstr "Modifier le mot de passe"
 msgid "Change the sign of the current operand"
 msgstr "Changer le signe de l'opérande actuelle"
 
-msgid "Check all"
-msgstr "Cocher tout"
-
 msgid "Check All"
 msgstr "Cocher Tout"
+
+msgid "Check all"
+msgstr "Cocher tout"
 
 msgid "Check-in"
 msgstr "Déposer"
@@ -912,9 +912,6 @@ msgstr "Revenir"
 msgid "go back to home page"
 msgstr ""
 
-msgid "Go to item"
-msgstr ""
-
 msgid "Height"
 msgstr "Hauteur"
 
@@ -999,10 +996,10 @@ msgstr "Ressource %s importée"
 msgid "impossible to update task status"
 msgstr "Impossible de mettre à jour l'état de la tâche"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "En cours"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "En cours"
 
 msgid "Inclusive (AND)"
@@ -1041,10 +1038,10 @@ msgstr "Installation de l'extension %s..."
 msgid "Instance saved"
 msgstr "Instance enregistrée"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Langue de l'interface"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Langue de l'interface"
 
 msgid "Invalid CSP header."
@@ -1769,9 +1766,6 @@ msgstr "Rechercher %s"
 msgid "Search by properties"
 msgstr "Recherche par propriétés"
 
-msgid "Search Item"
-msgstr ""
-
 msgid "Search sub-classes"
 msgstr "Chercher des sous-classes"
 
@@ -1788,11 +1782,11 @@ msgstr "Sécurité"
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "choisir"
-
 msgid "Select"
 msgstr "Choisir"
+
+msgid "select"
+msgstr "choisir"
 
 msgid "Select a class"
 msgstr "Sélectionner une classe"
@@ -2209,10 +2203,10 @@ msgstr "Opérateur unaire +"
 msgid "Unary operator -"
 msgstr "Opérateur unaire -"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Décocher tout"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Décocher tout"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2351,6 +2345,9 @@ msgstr "Variable %s"
 
 msgid "Version"
 msgstr "Version"
+
+msgid "View"
+msgstr ""
 
 msgid "View report"
 msgstr "Afficher le rapport"
