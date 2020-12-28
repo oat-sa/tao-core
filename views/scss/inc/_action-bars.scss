@@ -69,11 +69,12 @@
             .icon-ul {
                 cursor: pointer;
                 background: transparent;
-                height: 21px;
+                height: 19px;
+                margin: 1px 0;
                 border: 1px dashed transparent;
-                vertical-align: middle;
-                &:before {
+                &::before {
                     color: $darkBar;
+                    vertical-align: top;
                 }
             }
 
@@ -100,22 +101,24 @@
                 width: 25px;
             }
             .icon-ul {   
-                margin: 0;
-                padding: 0 0 0 5px;
+                margin-left: 4px;
+                padding: 0 2px 0 4px;
                 position: relative;
                 &::after {
                     content: '';
                     position: absolute;
-                    left: -3px;
-                    top: 0;
-                    bottom: 0;
+                    left: -5px;
+                    top: 2px;
+                    bottom: 2px;
                     border-left: 1px solid $grey;
                 }
                 .results-counter {
                     color: $darkBar;
                     margin-left: 5px;
                     display: inline;
-                    vertical-align: middle;
+                    vertical-align: top;
+                    line-height: 14px;
+                    font-family: $regularFont;
                 }
             }
         }
