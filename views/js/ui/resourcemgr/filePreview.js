@@ -31,10 +31,13 @@ define([
                 stopPreview();
             }
         });
-
+        $container.on('filedelete.' + ns, function (e, path) {
+            if (currentSelection.file === path) {
+                stopPreview();
+            }
+        });
         $selectButton.on('click', function(e){
             e.preventDefault();
-
 
             var data = _.pick(currentSelection, ['file', 'type', 'mime', 'size', 'alt']);
             if(context.mediaSources && context.mediaSources.length === 0 && data.file.indexOf('local/') > -1){
