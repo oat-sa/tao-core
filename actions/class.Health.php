@@ -20,7 +20,7 @@ class tao_actions_Health extends tao_actions_CommonModule
             $applicationService = $this->getServiceLocator()->get(ApplicationService::SERVICE_ID);
             if ($applicationService->isInstallationFinished()) {
                 $this->setSuccessJsonResponse([
-                    'success' => $applicationService->isInstallationFinished()
+                    'success' => true
                 ]);
             } else {
                 throw new common_exception_Error('Installation is not finished');
