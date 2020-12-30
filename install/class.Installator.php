@@ -33,8 +33,8 @@ use oat\generis\model\data\Ontology;
 use oat\tao\model\TaoOntology;
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\user\TaoRoles;
+use oat\tao\model\service\ApplicationService;
 use oat\oatbox\service\ServiceNotFoundException;
-
 /**
  *
  *
@@ -87,8 +87,9 @@ class tao_install_Installator
      * Run the TAO install from the given data
      * @throws tao_install_utils_Exception
      * @param $installData array data coming from the install form
+     * @param $callback callable|null post install callback
      */
-    public function install(array $installData)
+    public function install(array $installData, callable $callback = null)
     {
         try {
             /**
@@ -365,6 +366,11 @@ class tao_install_Installator
             }
             
             $this->getServiceManager()->register(OperatedByService::SERVICE_ID, $operatedByService);
+            if ($callback) {
+                $callback();
+            }
+
+            $this->setInstallationFinished();
         } catch (Exception $e) {
             if ($this->retryInstallation($e)) {
                 return;
@@ -572,5 +578,16 @@ class tao_install_Installator
         } else {
             return $this->options['root_path'] . 'config' . DIRECTORY_SEPARATOR;
         }
+    }
+
+    /**
+     * Mark application as ready to be used (all extensions installed and post scripts executed)
+     * @throws common_Exception
+     */
+    private function setInstallationFinished()
+    {
+        $applicationService = $this->getServiceManager()->get(ApplicationService::SERVICE_ID);
+        $applicationService->setOption(ApplicationService::OPTION_INSTALLATION_FINISHED, true);
+        $this->getServiceManager()->register(ApplicationService::SERVICE_ID, $applicationService);
     }
 }
