@@ -27,6 +27,7 @@ class ManualTranslations
             __('End test'),
             __('Skip and end test'),
             __('Submit the test'),
+            __('SUBMIT THE TEST'),
         ];
     }
 }
