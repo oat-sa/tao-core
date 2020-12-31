@@ -31,7 +31,6 @@ use oat\generis\test\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\asset\AssetService;
-use oat\tao\model\notifications\AlarmNotificationService;
 use oat\tao\model\extension\UpdateExtensions;
 use common_report_Report as Report;
 use common_ext_ExtensionsManager as ExtensionsManager;
