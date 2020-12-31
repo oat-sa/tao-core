@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -19,19 +20,42 @@
  *
  */
 
-namespace oat\tao\model\extension;
-
-
-use oat\tao\model\notifiers\Notifier;
+namespace oat\tao\model\notifications;
 
 /**
- * Notifies when an update
- *
- * Class UpdatingNotificationService
- * @author Andrey Niahrou <Andrei.Niahrou@1pt.com>
- * @package oat\tao\model\extension
+ * Class Notification
+ * @package namespace oat\tao\model\extension
  */
-class UpdatingNotificationService extends AbstractNotificationService
+class Notification
 {
-    public const SERVICE_ID = 'tao/updatingNotificationService';
+    /**
+     * @var string
+     */
+    private $message;
+
+    /**
+     * @var string
+     */
+    private $description;
+
+    /**
+     * Notification constructor.
+     * @param string $message
+     * @param string $description
+     */
+    public function __construct(string $message, string $description)
+    {
+        $this->message = $message;
+        $this->description = $description;
+    }
+
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
 }

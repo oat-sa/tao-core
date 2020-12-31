@@ -19,16 +19,15 @@
  *
  */
 
-namespace oat\tao\model\extension;
+namespace oat\tao\model\notifications;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\reporting\Report;
 use oat\tao\model\notifiers\NotifierInterface;
 
 /**
  * Notifies when an update
  *
- * Class TaoUpdateNotifier
+ * Class AbstractNotificationService
  * @author Andrey Niahrou <Andrei.Niahrou@1pt.com>
  * @package oat\tao\model\extension
  */
@@ -37,38 +36,28 @@ abstract class AbstractNotificationService extends ConfigurableService
     public const OPTION_NOTIFIERS = 'notifiers';
 
     /**
-     * @param Report $report
+     * @param Notification $notification
      */
-    public function sendNotifications(Report $report): void
+    public function sendNotifications(Notification $notification): void
     {
         if (!$this->hasOption(self::OPTION_NOTIFIERS) || !count($this->getOption(self::OPTION_NOTIFIERS))) {
             return;
         }
 
         $notifiers = $this->getOption(self::OPTION_NOTIFIERS);
-
-        $this->notify($report, $notifiers);
+        $this->notify($notification, $notifiers);
     }
 
     /**
-     * @param Report $report
+     * @param Notification $notification
      * @param array $notifiers
      */
-    private function notify(Report $report, array $notifiers): void
+    private function notify(Notification $notification, array $notifiers): void
     {
         foreach ($notifiers as $notifierConfig) {
-            /**@var $notifier NotifierInterface * */
-            $notifier = $notifierConfig['notifier'];
-
-            $description = '';
-            /**@var $dispatchReport Report **/
-            foreach ($report->filterChildrenByTypes($notifierConfig['dispatchTypes']) as $dispatchReport) {
-                $description .= $dispatchReport->getMessage() . PHP_EOL;
-            }
-
-            if ($description) {
-                $notifier->notify('Tao notifications: ' . ROOT_URL, $description);
-            }
+            /**@var $notifier NotifierInterface */
+            $notifier = new $notifierConfig['class'](implode(',', $notifierConfig['params']));
+            $notifier->notify($notification->getDescription(), $notification->getMessage());
         }
     }
 }

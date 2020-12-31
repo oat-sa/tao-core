@@ -37,7 +37,7 @@ use JTL\OpsGenie\Client\Responder;
  * @author Andrey Niahrou <Andrei.Niahrou@1pt.com>
  * @package oat\tao\model\notifiers
  */
-class OpsGenieNotifierInterface implements NotifierInterface
+class OpsGenieNotifier implements NotifierInterface
 {
     private const OPTION_BASE_URI = 'https://api.opsgenie.com/v2/';
 

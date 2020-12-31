@@ -26,10 +26,10 @@ namespace oat\tao\test\unit\extension;
 use common_exception_Error;
 use common_report_Report;
 use oat\generis\test\TestCase;
-use oat\tao\model\extension\UpdatingNotificationService;
+use oat\tao\model\extension\AlarmNotificationService;
 use oat\tao\model\notifiers\NotifierInterface;
 
-class updatingNotificationServiceTest extends TestCase
+class alarmNotificationServiceTest extends TestCase
 {
     public function setUp(): void
     {
@@ -60,8 +60,8 @@ class updatingNotificationServiceTest extends TestCase
             ->method('notify')
             ->with('Tao notifications: ' . ROOT_URL, $expectedDescription2);
 
-        $updateNotifierService = new UpdatingNotificationService();
-        $updateNotifierService->setOption(UpdatingNotificationService::OPTION_NOTIFIERS, [
+        $updateNotifierService = new AlarmNotificationService();
+        $updateNotifierService->setOption(AlarmNotificationService::OPTION_NOTIFIERS, [
             [
                 'notifier' => $notifierMock1,
                 'dispatchTypes' => [
@@ -85,7 +85,7 @@ class updatingNotificationServiceTest extends TestCase
         $reportMock->expects($this->never())
             ->method('filterChildrenByTypes');
 
-        $updateNotifierService = new UpdatingNotificationService();
+        $updateNotifierService = new AlarmNotificationService();
         $updateNotifierService->sendNotifications($reportMock);
     }
 
