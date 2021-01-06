@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint140\n"
-"PO-Revision-Date: 2020-10-23T08:30:49\n"
+"Project-Id-Version: TAO 3.4.0-sprint144\n"
+"PO-Revision-Date: 2020-12-31T09:36:22\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -200,6 +200,9 @@ msgstr "Ajouter un utilisateur"
 msgid "Add an RDF/XML file"
 msgstr "Ajouter un fichier RDF/XML"
 
+msgid "add criteria"
+msgstr ""
+
 msgid "Add file(s)"
 msgstr "Ajouter un ou des fichier(s)"
 
@@ -371,11 +374,11 @@ msgstr "Calculatrice"
 msgid "Calendar"
 msgstr "Calendrier"
 
-msgid "cancel"
-msgstr "annuler"
-
 msgid "Cancel"
 msgstr "Annuler"
+
+msgid "cancel"
+msgstr "annuler"
 
 msgid "cancel the action"
 msgstr "annuler l'action"
@@ -450,10 +453,10 @@ msgstr "Effacer toutes les données"
 msgid "Clear expression"
 msgstr "Effacer l'expression"
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr "Effacer l'historique"
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr "Effacer l'historique"
 
 msgid "Clear selection"
@@ -573,10 +576,10 @@ msgstr "Données importées avec succès."
 msgid "Data imported. Some records are invalid."
 msgstr "Données importées. Certains enregistrements sont invalides."
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Langue des données"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Langue des données"
 
 msgid "Data not imported. All records are invalid."
@@ -909,9 +912,6 @@ msgstr "Revenir"
 msgid "go back to home page"
 msgstr ""
 
-msgid "Go to item"
-msgstr ""
-
 msgid "Height"
 msgstr "Hauteur"
 
@@ -947,6 +947,9 @@ msgstr "Sinus hyperbolique"
 
 msgid "Hyperbolic tangent"
 msgstr "Tangente hyperbolique"
+
+msgid "I understand that this action is permanent."
+msgstr ""
 
 msgid "Identifier"
 msgstr "Identifiant"
@@ -993,10 +996,10 @@ msgstr "Ressource %s importée"
 msgid "impossible to update task status"
 msgstr "Impossible de mettre à jour l'état de la tâche"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "En cours"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "En cours"
 
 msgid "Inclusive (AND)"
@@ -1763,9 +1766,6 @@ msgstr "Rechercher %s"
 msgid "Search by properties"
 msgstr "Recherche par propriétés"
 
-msgid "Search Item"
-msgstr ""
-
 msgid "Search sub-classes"
 msgstr "Chercher des sous-classes"
 
@@ -1993,6 +1993,9 @@ msgstr "L'action ne sera pas appliquée à ce qui suit."
 msgid "The column "
 msgstr "La colonne "
 
+msgid "The following criteria are not applicable to the selected class and have been removed from the search"
+msgstr ""
+
 msgid "The format of this field is not valid."
 msgstr "Le format de ce champ n'est pas valide."
 
@@ -2200,10 +2203,10 @@ msgstr "Opérateur unaire +"
 msgid "Unary operator -"
 msgstr "Opérateur unaire -"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Décocher tout"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Décocher tout"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2342,6 +2345,9 @@ msgstr "Variable %s"
 
 msgid "Version"
 msgstr "Version"
+
+msgid "View"
+msgstr ""
 
 msgid "View report"
 msgstr "Afficher le rapport"

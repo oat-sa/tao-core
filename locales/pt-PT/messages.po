@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint140\n"
-"PO-Revision-Date: 2020-10-23T08:32:25\n"
+"Project-Id-Version: TAO 3.4.0-sprint144\n"
+"PO-Revision-Date: 2020-12-31T09:36:50\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
@@ -200,6 +200,9 @@ msgstr "Adicionar Utilizador"
 msgid "Add an RDF/XML file"
 msgstr ""
 
+msgid "add criteria"
+msgstr ""
+
 msgid "Add file(s)"
 msgstr ""
 
@@ -371,11 +374,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendário"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "Cancelar"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -450,10 +453,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -573,10 +576,10 @@ msgstr "Informação importada com sucesso"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Informação do Idioma"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Informação do Idioma"
 
 msgid "Data not imported. All records are invalid."
@@ -909,9 +912,6 @@ msgstr "Retroceder"
 msgid "go back to home page"
 msgstr ""
 
-msgid "Go to item"
-msgstr ""
-
 msgid "Height"
 msgstr ""
 
@@ -946,6 +946,9 @@ msgid "Hyperbolic sine"
 msgstr ""
 
 msgid "Hyperbolic tangent"
+msgstr ""
+
+msgid "I understand that this action is permanent."
 msgstr ""
 
 msgid "Identifier"
@@ -993,10 +996,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1763,9 +1766,6 @@ msgstr ""
 msgid "Search by properties"
 msgstr ""
 
-msgid "Search Item"
-msgstr ""
-
 msgid "Search sub-classes"
 msgstr ""
 
@@ -1993,6 +1993,9 @@ msgstr ""
 msgid "The column "
 msgstr "A coluna"
 
+msgid "The following criteria are not applicable to the selected class and have been removed from the search"
+msgstr ""
+
 msgid "The format of this field is not valid."
 msgstr ""
 
@@ -2200,11 +2203,11 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
-msgstr "Desmarcar todos"
-
 msgid "Uncheck All"
 msgstr "Desmarcar Todos"
+
+msgid "Uncheck all"
+msgstr "Desmarcar todos"
 
 msgid "Undefined amount of the pages for pagination"
 msgstr ""
@@ -2342,6 +2345,9 @@ msgstr ""
 
 msgid "Version"
 msgstr "Versão"
+
+msgid "View"
+msgstr ""
 
 msgid "View report"
 msgstr ""

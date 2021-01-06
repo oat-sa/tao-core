@@ -36,8 +36,8 @@ interface LockoutStorage
 
     /**
      * Moves user account to locked state. Also writes who locked the user
-     * @param $login
-     * @param $by
+     * @param $login string Username of user which should be blocked
+     * @param $by string Identifier of user who blocked
      * @return mixed
      */
     public function setLockedStatus($login, $by);

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint140\n"
-"PO-Revision-Date: 2020-10-23T08:31:50\n"
+"Project-Id-Version: TAO 3.4.0-sprint144\n"
+"PO-Revision-Date: 2020-12-31T09:36:40\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -200,6 +200,9 @@ msgstr "Pridėti vartotoją"
 msgid "Add an RDF/XML file"
 msgstr "Pridėti RDF/XML failą"
 
+msgid "add criteria"
+msgstr ""
+
 msgid "Add file(s)"
 msgstr "Pridėti failą(–us)"
 
@@ -371,11 +374,11 @@ msgstr "Skaičiuotuvas"
 msgid "Calendar"
 msgstr "Kalendorius"
 
-msgid "cancel"
-msgstr "atšaukti"
-
 msgid "Cancel"
 msgstr "Atšaukti"
+
+msgid "cancel"
+msgstr "atšaukti"
 
 msgid "cancel the action"
 msgstr "atšaukti veiksmą"
@@ -450,11 +453,11 @@ msgstr "Išvalyti visus duomenis"
 msgid "Clear expression"
 msgstr "Išvalyti išraišką"
 
-msgid "Clear History"
-msgstr "Išvalyti Istoriją"
-
 msgid "Clear history"
 msgstr "Išvalyti istoriją"
+
+msgid "Clear History"
+msgstr "Išvalyti Istoriją"
 
 msgid "Clear selection"
 msgstr "Išvalyti pasirinimą"
@@ -573,11 +576,11 @@ msgstr "Duomenys importuoti sėkmingai"
 msgid "Data imported. Some records are invalid."
 msgstr "Duomenys importuoti. Kaikurie įrašai neteisingi."
 
-msgid "Data language"
-msgstr "Duomenų kalba"
-
 msgid "Data Language"
 msgstr "Duomenų Kalba"
+
+msgid "Data language"
+msgstr "Duomenų kalba"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Duomenys neimportuoti. Visi įrašai neteisingi."
@@ -909,9 +912,6 @@ msgstr "Grįžti Atgal"
 msgid "go back to home page"
 msgstr ""
 
-msgid "Go to item"
-msgstr ""
-
 msgid "Height"
 msgstr "Aukštis"
 
@@ -947,6 +947,9 @@ msgstr "Hiperbolinis sinusas"
 
 msgid "Hyperbolic tangent"
 msgstr "Hiperbolinis tangentas"
+
+msgid "I understand that this action is permanent."
+msgstr ""
 
 msgid "Identifier"
 msgstr "Identifikatorius"
@@ -993,10 +996,10 @@ msgstr "Importuotas resursas \"%s"
 msgid "impossible to update task status"
 msgstr "neįmanoma atnaujinti užduoties būsenos"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "Vykdoma"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "Vykdoma"
 
 msgid "Inclusive (AND)"
@@ -1763,9 +1766,6 @@ msgstr "Ieškoti %s"
 msgid "Search by properties"
 msgstr "Ieškoti pagal savybes"
 
-msgid "Search Item"
-msgstr ""
-
 msgid "Search sub-classes"
 msgstr "Ieškoti poklasiuose"
 
@@ -1993,6 +1993,9 @@ msgstr "Veiksmas nebus taikomas šiems: "
 msgid "The column "
 msgstr "Stulpelis"
 
+msgid "The following criteria are not applicable to the selected class and have been removed from the search"
+msgstr ""
+
 msgid "The format of this field is not valid."
 msgstr "Šio lauko formatas yra netinkamas."
 
@@ -2200,10 +2203,10 @@ msgstr "Vienetinis operatorius +"
 msgid "Unary operator -"
 msgstr "Vienetinis operatorius -"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Atžymėti visus"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Atžymėti visus"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2342,6 +2345,9 @@ msgstr "Kintamasis %s"
 
 msgid "Version"
 msgstr "Versija"
+
+msgid "View"
+msgstr ""
 
 msgid "View report"
 msgstr "Peržiūrėti ataskaitą"
