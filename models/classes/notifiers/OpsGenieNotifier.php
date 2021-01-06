@@ -39,7 +39,7 @@ use JTL\OpsGenie\Client\Responder;
  */
 class OpsGenieNotifier implements NotifierInterface
 {
-    private const OPTION_BASE_URI = 'https://api.opsgenie.com/v2/';
+    private const OPTION_BASE_URI = 'https://api.eu.opsgenie.com/v2/';
 
     /**
      * @var string
