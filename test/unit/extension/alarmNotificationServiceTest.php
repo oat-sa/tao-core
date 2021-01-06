@@ -19,14 +19,15 @@
  *
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\extension;
 
 use common_exception_Error;
-use common_report_Report;
 use oat\generis\test\TestCase;
-use oat\tao\model\extension\AlarmNotificationService;
+use oat\oatbox\reporting\Report;
+use oat\tao\model\event\TaoUpdateEvent;
+use oat\tao\model\notifications\AlarmNotificationService;
 use oat\tao\model\notifiers\NotifierInterface;
 
 class alarmNotificationServiceTest extends TestCase
@@ -79,14 +80,5 @@ class alarmNotificationServiceTest extends TestCase
         $updateNotifierService->sendNotifications($report);
     }
 
-    public function testCheckReportWithoutNotifiers()
-    {
-        $reportMock = $this->createMock(common_report_Report::class);
-        $reportMock->expects($this->never())
-            ->method('filterChildrenByTypes');
-
-        $updateNotifierService = new AlarmNotificationService();
-        $updateNotifierService->sendNotifications($reportMock);
-    }
 
 }

@@ -56,7 +56,9 @@ abstract class AbstractNotificationService extends ConfigurableService
     {
         foreach ($notifiers as $notifierConfig) {
             /**@var $notifier NotifierInterface */
-            $notifier = new $notifierConfig['class'](implode(',', $notifierConfig['params']));
+
+            $notifier = new $notifierConfig['class'](...$notifierConfig['params']);
+
             $notifier->notify($notification->getDescription(), $notification->getMessage());
         }
     }
