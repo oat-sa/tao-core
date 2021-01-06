@@ -34,7 +34,7 @@ use oat\tao\model\notifiers\Notifier;
  */
 class AlarmNotificationService extends AbstractNotificationService
 {
-    public const SERVICE_ID = 'tao/alarmNotificationService';
+    public const SERVICE_ID = 'tao/AlarmNotificationService';
     public const OPTION_DISPATCH_TYPES = 'dispatchTypes';
 
     /**

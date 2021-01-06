@@ -17,7 +17,7 @@ final class Version202011041353202234_tao extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Registration updateNotifierService. Service for error reporting during taoUpdate';
+        return 'Registration of AlarmNotificationService.';
     }
 
     /**
