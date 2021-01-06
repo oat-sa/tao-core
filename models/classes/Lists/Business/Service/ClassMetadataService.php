@@ -26,7 +26,9 @@ namespace oat\tao\model\Lists\Business\Service;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use Exception;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\Lists\Business\Domain\ClassCollection;
 use oat\tao\model\Lists\Business\Domain\ClassMetadata;
 use oat\tao\model\Lists\Business\Domain\Metadata;
@@ -34,6 +36,7 @@ use oat\tao\model\Lists\Business\Domain\MetadataCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
+use oat\tao\model\search\Search;
 use oat\tao\model\service\InjectionAwareService;
 use tao_helpers_form_elements_Checkbox as CheckBox;
 use tao_helpers_form_elements_Combobox as ComboBox;
@@ -79,7 +82,26 @@ class ClassMetadataService extends InjectionAwareService
         $this->valueCollectionService = $valueCollectionService;
     }
 
-    public function findAll(ClassMetadataSearchInput $input): ClassCollection
+    /** @noinspection PhpParamsInspection */
+    public function findAll(ClassMetadataSearchInput $input)
+    {
+        return $this->oldWay($input);
+
+        if (!$this->getAdvancedSearchChecker()->isEnabled()) {
+            return [];
+        }
+
+        $searchRequest = $input->getSearchRequest();
+        $this->maxListSize = $searchRequest->getMaxListSize();
+        $class = $this->getClass($searchRequest->getClassUri());
+        try {
+            return $this->getSearchEngine()->query(['queryType' => 'allMetadata'], $class);
+        } catch (Exception $exception) {
+            $this->logError('Smth went wrong');
+        }
+    }
+
+    private function oldWay(ClassMetadataSearchInput $input)
     {
         $searchRequest = $input->getSearchRequest();
 
@@ -94,11 +116,22 @@ class ClassMetadataService extends InjectionAwareService
         return $this->fillData($collection, $class);
     }
 
+    private function getAdvancedSearchChecker(): AdvancedSearchChecker
+    {
+        return $this->getServiceLocator()->get(AdvancedSearchChecker::class);
+    }
+
+    private function getSearchEngine(): Search
+    {
+        return $this->getServiceLocator()->get(Search::SERVICE_ID);
+    }
+
     private function fillData(
         ClassCollection $collection,
         core_kernel_classes_Class $currentClass,
         core_kernel_classes_Class $parentClass = null
-    ): ClassCollection {
+    ): ClassCollection
+    {
         $subClasses = $currentClass->getSubClasses();
 
         if (count($subClasses)) {
