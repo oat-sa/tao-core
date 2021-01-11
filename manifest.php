@@ -36,6 +36,7 @@ use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterEvents;
+use oat\tao\scripts\install\RegisterLanguageConfigRepository;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterResourceRelationService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
@@ -141,6 +142,7 @@ return [
             CreateRdsListStore::class,
             RegisterSessionCookieService::class,
             RegisterResourceRelationService::class,
+            RegisterLanguageConfigRepository::class,
         ]
     ],
     'update' => Updater::class,
