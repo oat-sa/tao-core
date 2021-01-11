@@ -50,7 +50,7 @@ class AlarmNotificationService extends AbstractNotificationService
             $message .= $dispatchReport->getMessage() . PHP_EOL;
         }
 
-        $alert = new Alert($message, 'Tao Update notifications: ' . ROOT_URL);
+        $alert = new Alert('Tao Update notifications: ' . ROOT_URL, $message);
         $this->sendNotifications($alert);
     }
 }

@@ -59,7 +59,7 @@ abstract class AbstractNotificationService extends ConfigurableService
 
             $notifier = new $notifierConfig['class'](...$notifierConfig['params']);
 
-            $notifier->notify($notification->getDescription(), $notification->getMessage());
+            $notifier->notify($notification->getMessage(), $notification->getDescription());
         }
     }
 }
