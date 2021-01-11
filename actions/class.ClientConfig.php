@@ -15,13 +15,14 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 *
-* Copyright (c) 2013-2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+* Copyright (c) 2013-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
 */
 
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
+use oat\tao\model\Language\Service\LanguageConfigRepository;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_Date as DateHelper;
@@ -75,14 +76,9 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         $base_www = $assetService->getJsBaseWww($resolver->getExtensionId());
         $base_url = $this->getExtension($resolver->getExtensionId())->getConstant('BASE_URL');
 
-        $langCode = tao_helpers_I18n::getLangCode();
-        if (strpos($langCode, '-') > 0) {
-            $lang = strtolower(substr($langCode, 0, strpos($langCode, '-')));
-        } else {
-            $lang = strtolower($langCode);
-        }
+        $languageConfig = $this->getLanguageConfigRepository()->findActive();
 
-        $this->setData('locale', $langCode);
+        $this->setData('locale', $languageConfig->getInterfaceLanguageCode());
         $this->setData('client_timeout', $this->getClientTimeout());
         $this->setData('crossorigin', $this->isCrossorigin());
         $this->setData('tao_base_www', $tao_base_www);
@@ -92,8 +88,9 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
             'base_url'       => $base_url,
             'taobase_www'    => $tao_base_www,
             'base_www'       => $base_www,
-            'base_lang'      => $lang,
-            'locale'         => $langCode,
+            'base_lang'      => $languageConfig->getInterfaceLanguage(),
+            'base_qti_lang'  => $languageConfig->getQtiLanguage(),
+            'locale'         => $languageConfig->getInterfaceLanguageCode(),
             'timeout'        => $this->getClientTimeout(),
             'extension'      => $resolver->getExtensionId(),
             'module'         => $resolver->getControllerShortName(),
@@ -189,5 +186,10 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
             throw new Exception(__('Wrong or missing parameter extension, module or action'), $re);
         }
         return $route;
+    }
+
+    private function getLanguageConfigRepository(): LanguageConfigRepository
+    {
+        return $this->getServiceLocator()->get(LanguageConfigRepository::SERVICE_ID);
     }
 }
