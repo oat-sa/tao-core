@@ -23,7 +23,6 @@ namespace oat\tao\model\notifications;
 
 use oat\oatbox\reporting\Report;
 use oat\tao\model\event\TaoUpdateEvent;
-use oat\tao\model\notifiers\Notifier;
 
 /**
  * Notifies when an update
@@ -35,14 +34,13 @@ use oat\tao\model\notifiers\Notifier;
 class AlarmNotificationService extends AbstractNotificationService
 {
     public const SERVICE_ID = 'tao/AlarmNotificationService';
-    public const OPTION_DISPATCH_TYPES = 'dispatchTypes';
 
     /**
      * @param TaoUpdateEvent $event
      */
     public function listenTaoUpdateEvent(TaoUpdateEvent $event)
     {
-        $reportMessages = $event->getReport()->filterChildrenByTypes($this->getOption(self::OPTION_DISPATCH_TYPES));
+        $reportMessages = $event->getReport()->filterChildrenByTypes($this->getOption(Report::TYPE_ERROR));
 
         if (count($reportMessages) === 0) return;
 

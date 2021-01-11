@@ -29,7 +29,6 @@ final class Version202011041353202234_tao extends AbstractMigration
     {
         $updatingNotificationService = new AlarmNotificationService();
         $updatingNotificationService->setOption(AlarmNotificationService::OPTION_NOTIFIERS, []);
-        $updatingNotificationService->setOption(AlarmNotificationService::OPTION_DISPATCH_TYPES, []);
 
         $this->getServiceManager()->register(
             $updatingNotificationService::SERVICE_ID,
