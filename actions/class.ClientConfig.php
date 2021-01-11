@@ -18,6 +18,7 @@
 * Copyright (c) 2013-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
 */
 
+use oat\oatbox\user\UserLanguageService;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\asset\AssetService;
@@ -76,9 +77,14 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         $base_www = $assetService->getJsBaseWww($resolver->getExtensionId());
         $base_url = $this->getExtension($resolver->getExtensionId())->getConstant('BASE_URL');
 
-        $languageConfig = $this->getLanguageConfigRepository()->findActive();
+        $langCode = tao_helpers_I18n::getLangCode();
+        if (strpos($langCode, '-') > 0) {
+            $lang = strtolower(substr($langCode, 0, strpos($langCode, '-')));
+        } else {
+            $lang = strtolower($langCode);
+        }
 
-        $this->setData('locale', $languageConfig->getInterfaceLanguageCode());
+        $this->setData('locale', $langCode);
         $this->setData('client_timeout', $this->getClientTimeout());
         $this->setData('crossorigin', $this->isCrossorigin());
         $this->setData('tao_base_www', $tao_base_www);
@@ -88,9 +94,9 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
             'base_url'       => $base_url,
             'taobase_www'    => $tao_base_www,
             'base_www'       => $base_www,
-            'base_lang'      => $languageConfig->getInterfaceLanguage(),
-            'base_qti_lang'  => $languageConfig->getQtiLanguage(),
-            'locale'         => $languageConfig->getInterfaceLanguageCode(),
+            'base_lang'      => $lang,
+            'locale'         => $langCode,
+            'base_qti_lang'  => $this->getUserLanguageService()->getQtiLanguage(),
             'timeout'        => $this->getClientTimeout(),
             'extension'      => $resolver->getExtensionId(),
             'module'         => $resolver->getControllerShortName(),
@@ -188,8 +194,8 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         return $route;
     }
 
-    private function getLanguageConfigRepository(): LanguageConfigRepository
+    private function getUserLanguageService(): UserLanguageService
     {
-        return $this->getServiceLocator()->get(LanguageConfigRepository::SERVICE_ID);
+        return $this->getServiceLocator()->get(UserLanguageService::SERVICE_ID);
     }
 }
