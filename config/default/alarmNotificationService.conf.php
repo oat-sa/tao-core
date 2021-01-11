@@ -13,9 +13,6 @@ return new oat\tao\model\notifications\AlarmNotificationService([
             'params' => ['1fc9e71d-5390-4634-a866-b727b0f7ca25']
         ]
     ],
-    'dispatchTypes' => [
-        \oat\oatbox\reporting\Report::TYPE_ERROR
-    ]
 ]);
 
 **/
@@ -23,6 +20,4 @@ return new oat\tao\model\notifications\AlarmNotificationService([
 return new oat\tao\model\notifications\AlarmNotificationService([
     'notifiers' => [
     ],
-    'dispatchTypes' => [
-    ]
 ]);
