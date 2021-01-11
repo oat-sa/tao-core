@@ -40,7 +40,7 @@ class AlarmNotificationService extends AbstractNotificationService
      */
     public function listenTaoUpdateEvent(TaoUpdateEvent $event)
     {
-        $reportMessages = $event->getReport()->filterChildrenByTypes($this->getOption(Report::TYPE_ERROR));
+        $reportMessages = $event->getReport()->filterChildrenByTypes([Report::TYPE_ERROR]);
 
         if (count($reportMessages) === 0) return;
 
