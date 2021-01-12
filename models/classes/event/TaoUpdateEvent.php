@@ -24,19 +24,19 @@ declare(strict_types=1);
 namespace oat\tao\model\event;
 
 use oat\oatbox\event\Event;
-use oat\oatbox\reporting\Report;
+use oat\oatbox\reporting\ReportInterface;
 
 class TaoUpdateEvent implements Event
 {
     /**
-     * @var Report
+     * @var ReportInterface
      */
     private $report;
 
     /**
-     * @param Report $report
+     * @param ReportInterface $report
      */
-    public function __construct(Report $report)
+    public function __construct(ReportInterface $report)
     {
         $this->report = $report;
     }
@@ -51,7 +51,7 @@ class TaoUpdateEvent implements Event
     }
 
     /**
-     * @return Report
+     * @return ReportInterface
      */
     public function getReport()
     {
