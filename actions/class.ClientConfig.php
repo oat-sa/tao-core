@@ -23,7 +23,6 @@ use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
-use oat\tao\model\Language\Service\LanguageConfigRepository;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_Date as DateHelper;
