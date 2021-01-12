@@ -95,7 +95,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
             'base_www'       => $base_www,
             'base_lang'      => $lang,
             'locale'         => $langCode,
-            'base_qti_lang'  => $this->getUserLanguageService()->getQtiLanguage(),
+            'base_authoring_lang'  => $this->getUserLanguageService()->getAuthoringLanguage(),
             'timeout'        => $this->getClientTimeout(),
             'extension'      => $resolver->getExtensionId(),
             'module'         => $resolver->getControllerShortName(),
