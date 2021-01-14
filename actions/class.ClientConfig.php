@@ -15,9 +15,10 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 *
-* Copyright (c) 2013-2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+* Copyright (c) 2013-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
 */
 
+use oat\oatbox\user\UserLanguageService;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\asset\AssetService;
@@ -94,6 +95,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
             'base_www'       => $base_www,
             'base_lang'      => $lang,
             'locale'         => $langCode,
+            'base_authoring_lang'  => $this->getUserLanguageService()->getAuthoringLanguage(),
             'timeout'        => $this->getClientTimeout(),
             'extension'      => $resolver->getExtensionId(),
             'module'         => $resolver->getControllerShortName(),
@@ -189,5 +191,10 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
             throw new Exception(__('Wrong or missing parameter extension, module or action'), $re);
         }
         return $route;
+    }
+
+    private function getUserLanguageService(): UserLanguageService
+    {
+        return $this->getServiceLocator()->get(UserLanguageService::SERVICE_ID);
     }
 }
