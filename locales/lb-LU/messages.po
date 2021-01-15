@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint142\n"
-"PO-Revision-Date: 2020-11-20T10:16:13\n"
+"Project-Id-Version: TAO 3.4.0-sprint144\n"
+"PO-Revision-Date: 2020-12-31T09:36:37\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lb-LU\n"
@@ -373,10 +373,10 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -407,10 +407,10 @@ msgstr ""
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Check-in"
@@ -910,9 +910,6 @@ msgstr ""
 msgid "go back to home page"
 msgstr ""
 
-msgid "Go to item"
-msgstr ""
-
 msgid "Height"
 msgstr ""
 
@@ -997,10 +994,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1039,11 +1036,11 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface language"
-msgstr "Interface Sprooch"
-
 msgid "Interface Language"
 msgstr ""
+
+msgid "Interface language"
+msgstr "Interface Sprooch"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1767,9 +1764,6 @@ msgstr ""
 msgid "Search by properties"
 msgstr ""
 
-msgid "Search Item"
-msgstr ""
-
 msgid "Search sub-classes"
 msgstr ""
 
@@ -1786,11 +1780,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "auswielen"
-
 msgid "Select"
 msgstr ""
+
+msgid "select"
+msgstr "auswielen"
 
 msgid "Select a class"
 msgstr ""
@@ -2207,10 +2201,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
@@ -2348,6 +2342,9 @@ msgid "Variable %s"
 msgstr ""
 
 msgid "Version"
+msgstr ""
+
+msgid "View"
 msgstr ""
 
 msgid "View report"

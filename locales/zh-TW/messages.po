@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint142\n"
-"PO-Revision-Date: 2020-11-20T10:17:59\n"
+"Project-Id-Version: TAO 3.4.0-sprint144\n"
+"PO-Revision-Date: 2020-12-31T09:37:10\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -374,11 +374,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "日曆"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "取消"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -408,10 +408,10 @@ msgstr "更改密碼"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾選"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾選"
 
 msgid "Check-in"
@@ -912,9 +912,6 @@ msgstr "返回"
 msgid "go back to home page"
 msgstr ""
 
-msgid "Go to item"
-msgstr ""
-
 msgid "Height"
 msgstr "長度"
 
@@ -999,10 +996,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1041,10 +1038,10 @@ msgstr "正在安裝擴展程序 %s..."
 msgid "Instance saved"
 msgstr "實體已儲存"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面語言"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面語言"
 
 msgid "Invalid CSP header."
@@ -1769,9 +1766,6 @@ msgstr ""
 msgid "Search by properties"
 msgstr ""
 
-msgid "Search Item"
-msgstr ""
-
 msgid "Search sub-classes"
 msgstr "搜索子類別"
 
@@ -1788,10 +1782,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr "選擇"
 
-msgid "Select"
+msgid "select"
 msgstr "選擇"
 
 msgid "Select a class"
@@ -2209,10 +2203,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全部取消勾選"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全部取消勾選"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2351,6 +2345,9 @@ msgstr ""
 
 msgid "Version"
 msgstr "版本"
+
+msgid "View"
+msgstr ""
 
 msgid "View report"
 msgstr ""

@@ -32,6 +32,8 @@ class ApplicationService extends ConfigurableService
 
     const OPTION_BUILD_NUMBER = 'taoBuildNumber';
 
+    const OPTION_INSTALLATION_FINISHED = 'installationFinished';
+
     /**
      * Returns a whenever or not the current instance is used as demo instance
      *
@@ -98,6 +100,15 @@ class ApplicationService extends ConfigurableService
     public function isDebugMode()
     {
         return defined('DEBUG_MODE') && (DEBUG_MODE === true);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInstallationFinished()
+    {
+        return $this->hasOption(self::OPTION_INSTALLATION_FINISHED) &&
+            $this->getOption(self::OPTION_INSTALLATION_FINISHED);
     }
 
     /**

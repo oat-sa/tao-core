@@ -52,9 +52,10 @@
         "guzzlehttp/guzzle": "~6.0",
         "imsglobal/lti": "^3.0",
         "justinrainbow/json-schema": "5.2.1",
-        "oat-sa/composer-npm-bridge": "^0.3.0",
         "oat-sa/jig": "~0.1",
+        "oat-sa/composer-npm-bridge": "~0.4.2||dev-master",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
+        "composer/package-versions-deprecated": "^1.11",
         "paragonie/random_compat": "^2.0",
         "phpdocumentor/reflection-docblock": "2.*",
         "pimple/pimple": "^3.0",
@@ -63,7 +64,8 @@
         "symfony/dotenv": "~4.3",
         "doctrine/migrations" : "3.0.1",
         "doctrine/collections": "1.6.7",
-        "flow/jsonpath": "~0.5"
+        "flow/jsonpath": "~0.5",
+        "jtl-software/opsgenie-client": "2.0.2"
     },
     "autoload": {
         "psr-4": {

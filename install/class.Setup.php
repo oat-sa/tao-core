@@ -246,45 +246,46 @@ class tao_install_Setup implements Action
 
         // mod rewrite cannot be detected in CLI Mode.
         $installator->escapeCheck('custom_tao_ModRewrite');
+        $logger = $this->getLogger();
 
-        $installator->install($options);
-
-        /** @var common_ext_ExtensionsManager $extensionManager */
-        $extensionManager = $serviceManager->get(common_ext_ExtensionsManager::SERVICE_ID);
-        foreach ($parameters['configuration'] as $ext => $configs) {
-            foreach ($configs as $key => $config) {
-                if (! (isset($config['type']) && $config['type'] === 'configurableService')) {
-                    if (! is_null($extensionManager->getInstalledVersion($ext))) {
-                        $extension = $extensionManager->getExtensionById($ext);
-                        if (! $extension->hasConfig($key) || ! $extension->getConfig($key) instanceof ConfigurableService) {
-                            if (! $extension->setConfig($key, $config)) {
-                                throw new ErrorException('Your config ' . $ext . '/' . $key . ' cannot be set');
+        $installator->install($options, function () use ($serviceManager, $parameters, $logger) {
+            /** @var common_ext_ExtensionsManager $extensionManager */
+            $extensionManager = $serviceManager->get(common_ext_ExtensionsManager::SERVICE_ID);
+            foreach ($parameters['configuration'] as $ext => $configs) {
+                foreach ($configs as $key => $config) {
+                    if (! (isset($config['type']) && $config['type'] === 'configurableService')) {
+                        if (! is_null($extensionManager->getInstalledVersion($ext))) {
+                            $extension = $extensionManager->getExtensionById($ext);
+                            if (! $extension->hasConfig($key) || ! $extension->getConfig($key) instanceof ConfigurableService) {
+                                if (! $extension->setConfig($key, $config)) {
+                                    throw new ErrorException('Your config ' . $ext . '/' . $key . ' cannot be set');
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
-        // execute post install scripts
-        if (isset($parameters['postInstall'])) {
-            foreach ($parameters['postInstall'] as $script) {
-                if (isset($script['class']) && is_a($script['class'], Action::class, true)) {
-                    $object = new $script['class']();
-                    if (is_a($object, ServiceLocatorAwareInterface::class)) {
-                        $object->setServiceLocator($serviceManager);
-                    }
-                    $params = (isset($script['params']) && is_array($script['params'])) ? $script['params'] : [];
-                    $report = call_user_func($object, $params);
+            // execute post install scripts
+            if (isset($parameters['postInstall'])) {
+                foreach ($parameters['postInstall'] as $script) {
+                    if (isset($script['class']) && is_a($script['class'], Action::class, true)) {
+                        $object = new $script['class']();
+                        if (is_a($object, ServiceLocatorAwareInterface::class)) {
+                            $object->setServiceLocator($serviceManager);
+                        }
+                        $params = (isset($script['params']) && is_array($script['params'])) ? $script['params'] : [];
+                        $report = call_user_func($object, $params);
 
-                    if ($report instanceof common_report_Report) {
-                        $this->logInfo(helpers_Report::renderToCommandline($report));
+                        if ($report instanceof common_report_Report) {
+                            $logger->info(helpers_Report::renderToCommandline($report));
+                        }
                     }
                 }
             }
-        }
+            $logger->notice('Installation completed!');
+        });
 
-        $this->logNotice('Installation completed!');
     }
 
     /**
