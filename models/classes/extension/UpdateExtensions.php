@@ -24,9 +24,11 @@ namespace oat\tao\model\extension;
 use common_ext_ManifestException as ManifestException;
 use common_ext_UpdaterNotFoundException as UpdaterNotFoundException;
 use common_report_Report as Report;
+use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\log\LoggerAggregator;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\event\TaoUpdateEvent;
 use oat\tao\model\migrations\MigrationsService;
 use common_ext_ExtensionsManager as ExtensionManager;
 use common_ext_Extension as Extension;
@@ -37,7 +39,7 @@ use common_ext_Extension as Extension;
  */
 class UpdateExtensions extends \common_ext_UpdateExtensions
 {
-
+    use EventManagerAwareTrait;
     /**
      * (non-PHPdoc)
      * @see \oat\oatbox\action\Action::__invoke()
@@ -74,6 +76,8 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         $report->add($postUpdateReport);
 
         $report->add(new Report(Report::TYPE_INFO, __('Update ID : %s', $updateId)));
+
+        $this->getEventManager()->trigger(new TaoUpdateEvent($report));
 
         return $report;
     }
