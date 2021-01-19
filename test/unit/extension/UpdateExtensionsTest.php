@@ -28,6 +28,7 @@ use oat\generis\model\data\RdfsInterface;
 use oat\generis\persistence\PersistenceManager;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
+use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\asset\AssetService;
@@ -61,6 +62,7 @@ class UpdateExtensionsTest extends TestCase
         $config->set(Ontology::SERVICE_ID, $this->getOntologyMock());
         $config->set(AssetService::SERVICE_ID, new AssetService());
         $config->set('generis/log', new LoggerService([]));
+        $config->set('generis/event', new EventManager());
 
         if (!defined('ROOT_PATH')) {
             define('ROOT_PATH', '');
