@@ -30,6 +30,7 @@ interface TaoOntology
     const CLASS_URI_SUBJECT = 'http://www.tao.lu/Ontologies/TAOSubject.rdf#Subject';
     const CLASS_URI_TEST = 'http://www.tao.lu/Ontologies/TAOTest.rdf#Test';
     const CLASS_URI_DELIVERY = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery';
+    const CLASS_URI_ASSEMBLED_DELIVERY = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery';
     const CLASS_URI_LIST = 'http://www.tao.lu/Ontologies/TAO.rdf#List';
     const CLASS_URI_PROCESS_EXECUTIONS = 'http://www.tao.lu/middleware/taoqual.rdf#i119010455660544';
     const CLASS_URI_MANAGEMENT_ROLE = 'http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole';

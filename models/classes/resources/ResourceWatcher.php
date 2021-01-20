@@ -21,14 +21,21 @@
 
 namespace oat\tao\model\resources;
 
+use common_http_Request;
+use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\index\IndexService;
-use oat\tao\model\TaoOntology;
+use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\search\Search;
+use oat\tao\model\search\tasks\UpdateClassInIndex;
+use oat\tao\model\search\tasks\UpdateResourceInIndex;
+use oat\tao\model\TaoOntology;
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
 /**
  * Class ResourceWatcher
@@ -50,31 +57,43 @@ class ResourceWatcher extends ConfigurableService
     /**
      * @param ResourceCreated $event
      */
-    public function catchCreatedResourceEvent(ResourceCreated $event)
+    public function catchCreatedResourceEvent(ResourceCreated $event): void
     {
-        /** @var \core_kernel_classes_Resource $resource */
+        /** @var core_kernel_classes_Resource $resource */
         $resource = $event->getResource();
         $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
         $now = microtime(true);
         $this->updatedAtCache = [];
         $this->updatedAtCache[$resource->getUri()] = $now;
         $resource->editPropertyValues($property, $now);
+
+        $this->getLogger()->debug('triggering index update on resourceCreated event');
+
+        $taskMessage = __('Adding search index for created resource');
+        $this->createResourceIndexingTask($resource, $taskMessage);
     }
 
     /**
      * @param ResourceUpdated $event
      * @throws \core_kernel_persistence_Exception
      */
-    public function catchUpdatedResourceEvent(ResourceUpdated $event)
+    public function catchUpdatedResourceEvent(ResourceUpdated $event): void
     {
         $resource = $event->getResource();
         $updatedAt = $this->getUpdatedAt($resource);
         if ($updatedAt && $updatedAt instanceof \core_kernel_classes_Literal) {
             $updatedAt = (int) $updatedAt->literal;
         }
+
         $now = microtime(true);
         $threshold = $this->getOption(self::OPTION_THRESHOLD);
+
         if ($updatedAt === null || ($now - $updatedAt) > $threshold) {
+            $this->getLogger()->debug('triggering index update on resourceUpdated event');
+
+            $taskMessage = __('Adding/updating search index for updated resource');
+            $this->createResourceIndexingTask($resource, $taskMessage);
+
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $this->updatedAtCache[$resource->getUri()] = $now;
             $resource->editPropertyValues($property, $now);
@@ -84,23 +103,23 @@ class ResourceWatcher extends ConfigurableService
     /**
      * @param ResourceDeleted $event
      */
-    public function catchDeletedResourceEvent(ResourceDeleted $event)
+    public function catchDeletedResourceEvent(ResourceDeleted $event): void
     {
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
         try {
             $searchService->remove($event->getId());
         } catch (\Exception $e) {
             $message = $e->getMessage();
-            \common_Logger::e("Error delete index document for {$event->getId()} with message $message");
+            $this->getLogger()->error("Error delete index document for {$event->getId()} with message $message");
         }
     }
 
      /**
-     * @param \core_kernel_classes_Resource $resource
+     * @param core_kernel_classes_Resource $resource
      * @return \core_kernel_classes_Container
      * @throws \core_kernel_persistence_Exception
      */
-    public function getUpdatedAt(\core_kernel_classes_Resource $resource)
+    public function getUpdatedAt(core_kernel_classes_Resource $resource)
     {
         if (isset($this->updatedAtCache[$resource->getUri()])) {
             $updatedAt = $this->updatedAtCache[$resource->getUri()];
@@ -113,5 +132,81 @@ class ResourceWatcher extends ConfigurableService
             $this->updatedAtCache[$resource->getUri()] = $updatedAt;
         }
         return $updatedAt;
+    }
+
+    /**
+     * Create a task in the task queue to index/re-index created/updated resource
+     * @param core_kernel_classes_Resource $resource
+     * @param string $message
+     */
+    private function createResourceIndexingTask(core_kernel_classes_Resource $resource, string $message): void
+    {
+        if ($this->hasClassSupport($resource) && !$this->ignoreEditIemClassUpdates()) {
+            $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+            $queueDispatcher->createTask(new UpdateClassInIndex(), [$resource->getUri()], $message);
+
+            return;
+        }
+
+        if ($this->hasResourceSupport($resource)) {
+            $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+            $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], $message);
+
+            return;
+        }
+    }
+
+    private function hasResourceSupport(core_kernel_classes_Resource $resource): bool
+    {
+        $resourceTypeIds = array_map(
+            function (core_kernel_classes_Class $resourceType): string {
+                return $resourceType->getUri();
+            },
+            $resource->getTypes()
+        );
+
+        $checkedResourceTypes = [OntologyRdfs::RDFS_RESOURCE, TaoOntology::CLASS_URI_OBJECT];
+        $resourceTypeIds = array_diff($resourceTypeIds, [OntologyRdfs::RDFS_RESOURCE, TaoOntology::CLASS_URI_OBJECT]);
+
+        while (!empty($resourceTypeIds)) {
+            $classUri = array_pop($resourceTypeIds);
+
+            $hasClassSupport = $this->getServiceLocator()
+                ->get(IndexUpdaterInterface::SERVICE_ID)
+                ->hasClassSupport(
+                    $classUri
+                );
+
+            if ($hasClassSupport) {
+                return true;
+            }
+
+            $class = $this->getClass($classUri);
+
+            foreach ($class->getParentClasses() as $parent) {
+                if (!in_array($parent->getUri(), $checkedResourceTypes)) {
+                    $resourceTypeIds[] = $parent->getUri();
+                }
+            }
+            $checkedResourceTypes[] = $class->getUri();
+        }
+
+        return false;
+    }
+
+    private function hasClassSupport(core_kernel_classes_Resource $resource): bool
+    {
+        return $resource instanceof core_kernel_classes_Class;
+    }
+
+    private function ignoreEditIemClassUpdates(): bool
+    {
+        try {
+            $url = parse_url(common_http_Request::currentRequest()->getUrl());
+        } catch (\common_exception_Error $e) {
+            return false;
+        }
+
+        return isset($url['path']) && $url['path'] === '/taoItems/Items/editItemClass';
     }
 }
