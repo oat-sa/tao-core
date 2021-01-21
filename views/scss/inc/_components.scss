@@ -200,6 +200,10 @@ ul.listbox {
     right: 0;
     overflow: hidden;
 
+    &.pcimgr {
+        display: none;
+    }
+
     .modal-close {
         position: absolute;
         right: 12px;
