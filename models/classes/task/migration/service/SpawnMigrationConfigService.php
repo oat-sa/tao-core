@@ -34,7 +34,9 @@ class SpawnMigrationConfigService extends ConfigurableService implements SpawnMi
 
         if ($end < $max) {
             return new MigrationConfig(
-                ['start' => $end],
+                [
+                    'start' => $end
+                ],
                 $config->getChunkSize(),
                 $config->getPickSize(),
                 $config->isProcessAll()
