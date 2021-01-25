@@ -24,6 +24,7 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
+use oat\tao\model\event\ClassPropertyDeletedEvent;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -106,7 +107,9 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             'disableIndexChanges' => $this->isElasticSearchEnabled()
         ];
 
-        $propFormContainer = new tao_actions_form_SimpleProperty($class, $class->createProperty('Property_' . $index), $options);
+        $newProperty = $class->createProperty('Property_' . $index);
+        $this->getEventManager()->trigger(new ClassPropertyDeletedEvent($newProperty->getUri()));
+        $propFormContainer = new tao_actions_form_SimpleProperty($class, $newProperty, $options);
         $myForm = $propFormContainer->getForm();
 
         $this->setData('data', $myForm->renderElements());
@@ -143,6 +146,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 $indexes = $property->getPropertyValues($this->getProperty(OntologyIndex::PROPERTY_INDEX));
                 //delete property and the existing values of this property
                 if ($property->delete(true)) {
+                    $this->getEventManager()->trigger(new ClassPropertyDeletedEvent($property->getUri()));
                     //delete index linked to the property
                     foreach ($indexes as $indexUri) {
                         $index = $this->getResource($indexUri);
