@@ -351,8 +351,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 if (isset($data['class'])) {
                     $classValues = [];
                     foreach ($data['class'] as $key => $value) {
-                        $classKey = tao_helpers_Uri::decode($key);
-                        $classValues[$classKey] = tao_helpers_Uri::decode($value);
+                        $classKey =  tao_helpers_Uri::decode($key);
+                        $classValues[$classKey] =  tao_helpers_Uri::decode($value);
                     }
 
                     $this->bindProperties($class, $classValues);
@@ -389,7 +389,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
         if (isset($propertyMap[$type])) {
             $values[WidgetRdf::PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
-            $rangeNotEmpty = ($propertyMap[$type]['range'] === OntologyRdfs::RDFS_RESOURCE);
+            $rangeNotEmpty = ($propertyMap[$type]['range'] === OntologyRdfs::RDFS_RESOURCE  );
         }
 
         foreach ($propertyValues as $key => $value) {
