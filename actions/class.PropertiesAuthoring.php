@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2020 Open Assessment Technologies S.A.
+ * Copyright (c) 2015-2021 Open Assessment Technologies S.A.
  */
 
 declare(strict_types=1);
@@ -24,6 +24,8 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
+use oat\tao\model\event\ClassPropertyCreatedEvent;
+use oat\tao\model\event\ClassPropertyDeletedEvent;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -106,7 +108,19 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             'disableIndexChanges' => $this->isElasticSearchEnabled()
         ];
 
-        $propFormContainer = new tao_actions_form_SimpleProperty($class, $class->createProperty('Property_' . $index), $options);
+        $newProperty = $class->createProperty('Property_' . $index);
+
+        $this->getEventManager()->trigger(
+            new ClassPropertyCreatedEvent(
+                $class,
+                [
+                'label' => $newProperty->getLabel(),
+                'propertyUri' => $newProperty->getUri()
+                ]
+            )
+        );
+
+        $propFormContainer = new tao_actions_form_SimpleProperty($class, $newProperty, $options);
         $myForm = $propFormContainer->getForm();
 
         $this->setData('data', $myForm->renderElements());
@@ -143,6 +157,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 $indexes = $property->getPropertyValues($this->getProperty(OntologyIndex::PROPERTY_INDEX));
                 //delete property and the existing values of this property
                 if ($property->delete(true)) {
+                    $this->getEventManager()->trigger(new ClassPropertyDeletedEvent($property->getUri()));
                     //delete index linked to the property
                     foreach ($indexes as $indexUri) {
                         $index = $this->getResource($indexUri);
@@ -336,8 +351,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 if (isset($data['class'])) {
                     $classValues = [];
                     foreach ($data['class'] as $key => $value) {
-                        $classKey =  tao_helpers_Uri::decode($key);
-                        $classValues[$classKey] =  tao_helpers_Uri::decode($value);
+                        $classKey = tao_helpers_Uri::decode($key);
+                        $classValues[$classKey] = tao_helpers_Uri::decode($value);
                     }
 
                     $this->bindProperties($class, $classValues);
@@ -374,7 +389,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
         if (isset($propertyMap[$type])) {
             $values[WidgetRdf::PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
-            $rangeNotEmpty = ($propertyMap[$type]['range'] === OntologyRdfs::RDFS_RESOURCE  );
+            $rangeNotEmpty = ($propertyMap[$type]['range'] === OntologyRdfs::RDFS_RESOURCE);
         }
 
         foreach ($propertyValues as $key => $value) {
