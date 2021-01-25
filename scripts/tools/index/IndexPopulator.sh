@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
 
-
 FILE=./taoAdvancedSearch/scripts/tools/IndexPopulator.sh
+
 if [ -f "$FILE" ]; then
-  echo "############################################################################"
-  echo "#                         DEPRECATION WARNING!"
+  echo "##############################################################################"
+  echo "#                          DEPRECATION WARNING!"
   echo "#"
   echo "# Please use this $FILE instead"
-  echo "############################################################################"
+  echo "##############################################################################"
 
   sh $FILE
 
