@@ -29,18 +29,25 @@ class ResultFilterFactory extends ConfigurableService implements ResultFilterFac
 {
     public function create(MigrationConfig $config): ResultFilter
     {
-        $max = $this->getStatementLastIdRetriever()->retrieve();
+        $max = $this->getMax();
         $end = $this->calculateEndPosition(
-            (int) $config->getCustomParameter('start'),
+            (int)$config->getCustomParameter('start'),
             $config->getChunkSize(),
             $max
         );
 
-        return new ResultFilter([
-            'start' => (int) $config->getCustomParameter('start'),
-            'end' => $end,
-            'max' => $max
-        ]);
+        return new ResultFilter(
+            [
+                'start' => (int)$config->getCustomParameter('start'),
+                'end' => $end,
+                'max' => $max
+            ]
+        );
+    }
+
+    protected function getMax(): int
+    {
+        return $this->getStatementLastIdRetriever()->retrieve();
     }
 
     private function calculateEndPosition(int $start, int $chunkSize, int $max): int
@@ -50,6 +57,7 @@ class ResultFilterFactory extends ConfigurableService implements ResultFilterFac
         if ($end >= $max) {
             $end = $max;
         }
+
         return $end;
     }
 
