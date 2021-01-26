@@ -20,39 +20,20 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\event;
+namespace oat\tao\test\unit\model\event;
 
 use core_kernel_classes_Class;
-use oat\oatbox\event\Event;
+use oat\generis\test\TestCase;
+use oat\tao\model\event\ClassPropertyDeletedEvent;
 
-/**
- * This class was created in order to replace ClassPropertyRemovedEvent as it is  restricted to specific property only.
- */
-class ClassPropertyDeletedEvent implements Event
+class ClassPropertyDeletedEventTest extends TestCase
 {
-    /** @var string */
-    private $propertyUri;
-    /** @var core_kernel_classes_Class */
-    private $class;
-
-    public function __construct(core_kernel_classes_Class $class, string $propertyUri)
+    public function testGetters()
     {
-        $this->class = $class;
-        $this->propertyUri = $propertyUri;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    public function getClass(): core_kernel_classes_Class
-    {
-        return $this->class;
-    }
-
-    public function getPropertyUri(): string
-    {
-        return $this->propertyUri;
+        $classMock = $this->createMock(core_kernel_classes_Class::class);
+        $subject = new ClassPropertyDeletedEvent($classMock, 'propertyUri');
+        $this->assertEquals($subject->getClass(), $classMock);
+        $this->assertEquals('propertyUri', $subject->getPropertyUri());
+        $this->assertEquals(ClassPropertyDeletedEvent::class, $subject->getName());
     }
 }

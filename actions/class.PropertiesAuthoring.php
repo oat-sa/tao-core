@@ -157,7 +157,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 $indexes = $property->getPropertyValues($this->getProperty(OntologyIndex::PROPERTY_INDEX));
                 //delete property and the existing values of this property
                 if ($property->delete(true)) {
-                    $this->getEventManager()->trigger(new ClassPropertyDeletedEvent($property->getUri()));
+                    $this->getEventManager()->trigger(new ClassPropertyDeletedEvent($class, $property->getUri()));
                     //delete index linked to the property
                     foreach ($indexes as $indexUri) {
                         $index = $this->getResource($indexUri);
