@@ -30,15 +30,15 @@ use oat\oatbox\event\Event;
  */
 class ClassPropertyDeletedEvent implements Event
 {
-    /** @var string */
-    private $propertyUri;
+    /** @var array */
+    private $properties;
     /** @var core_kernel_classes_Class */
     private $class;
 
-    public function __construct(core_kernel_classes_Class $class, string $propertyUri)
+    public function __construct(core_kernel_classes_Class $class, array $properties)
     {
         $this->class = $class;
-        $this->propertyUri = $propertyUri;
+        $this->properties = $properties;
     }
 
     public function getName(): string
@@ -51,8 +51,8 @@ class ClassPropertyDeletedEvent implements Event
         return $this->class;
     }
 
-    public function getPropertyUri(): string
+    public function getProperties(): array
     {
-        return $this->propertyUri;
+        return $this->properties;
     }
 }
