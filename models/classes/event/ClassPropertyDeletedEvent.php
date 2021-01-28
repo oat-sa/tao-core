@@ -22,37 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\event;
 
-use core_kernel_classes_Class;
-use oat\oatbox\event\Event;
-
 /**
  * This class was created in order to replace ClassPropertyRemovedEvent as it is  restricted to specific property only.
  */
-class ClassPropertyDeletedEvent implements Event
+class ClassPropertyDeletedEvent extends AbstractClassPropertyEvent
 {
-    /** @var array */
-    private $properties;
-    /** @var core_kernel_classes_Class */
-    private $class;
-
-    public function __construct(core_kernel_classes_Class $class, array $properties)
-    {
-        $this->class = $class;
-        $this->properties = $properties;
-    }
-
-    public function getName(): string
-    {
-        return self::class;
-    }
-
-    public function getClass(): core_kernel_classes_Class
-    {
-        return $this->class;
-    }
-
-    public function getProperties(): array
-    {
-        return $this->properties;
-    }
 }
