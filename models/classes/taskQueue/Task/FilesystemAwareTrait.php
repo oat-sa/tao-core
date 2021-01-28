@@ -67,7 +67,9 @@ trait FilesystemAwareTrait
         $file = $this->getQueueStorage()->getFile($newFileName);
         $stream = fopen($localFilePath, 'r');
         $file->put($stream);
-        fclose($stream);
+        if (is_resource($stream)) {
+            fclose($stream);
+        }
 
         // delete the local file
         @unlink($localFilePath);
