@@ -1,6 +1,20 @@
 #!/bin/bash
 set -e
 
+FILE=./taoAdvancedSearch/scripts/tools/IndexPopulator.sh
+
+if [ -f "$FILE" ]; then
+  echo "##############################################################################"
+  echo "#                          DEPRECATION WARNING!"
+  echo "#"
+  echo "# Please use this $FILE instead"
+  echo "##############################################################################"
+
+  sh $FILE
+
+  exit 0;
+fi
+
 EXPORTER_LOCK_FILE="/tmp/.export.lock"
 TAO_ROOT_PATH=$1
 LIMIT=100
