@@ -109,16 +109,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
         $newProperty = $class->createProperty('Property_' . $index);
 
-        $this->getEventManager()->trigger(
-            new ClassPropertyCreatedEvent(
-                $class,
-                [
-                'label' => $newProperty->getLabel(),
-                'propertyUri' => $newProperty->getUri()
-                ]
-            )
-        );
-
         $propFormContainer = new tao_actions_form_SimpleProperty($class, $newProperty, $options);
         $myForm = $propFormContainer->getForm();
 
