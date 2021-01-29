@@ -25,7 +25,7 @@ namespace oat\tao\model\event;
 use core_kernel_classes_Class;
 use oat\oatbox\event\Event;
 
-class AbstractClassPropertyEvent implements Event
+abstract class AbstractClassPropertyEvent implements Event
 {
     /** @var array */
     private $properties;
@@ -39,13 +39,7 @@ class AbstractClassPropertyEvent implements Event
         $this->properties = $properties;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getName()
-    {
-        return self::class;
-    }
+    abstract public function getName();
 
     public function getProperties(): array
     {

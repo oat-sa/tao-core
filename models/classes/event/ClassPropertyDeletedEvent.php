@@ -27,4 +27,8 @@ namespace oat\tao\model\event;
  */
 class ClassPropertyDeletedEvent extends AbstractClassPropertyEvent
 {
+    public function getName()
+    {
+        return self::class;
+    }
 }

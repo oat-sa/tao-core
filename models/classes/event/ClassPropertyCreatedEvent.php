@@ -27,4 +27,8 @@ use oat\oatbox\event\Event;
 
 class ClassPropertyCreatedEvent extends AbstractClassPropertyEvent implements Event
 {
+    public function getName()
+    {
+        return self::class;
+    }
 }
