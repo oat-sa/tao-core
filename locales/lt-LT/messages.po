@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint144\n"
-"PO-Revision-Date: 2020-12-31T09:36:40\n"
+"Project-Id-Version: TAO 3.4.0-sprint147\n"
+"PO-Revision-Date: 2021-01-29T09:35:30\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -1038,11 +1038,11 @@ msgstr "Įdiegiamas plėtinys %s..."
 msgid "Instance saved"
 msgstr "Instancija išsaugota"
 
-msgid "Interface Language"
-msgstr "Sąsajos Kalba"
-
 msgid "Interface language"
 msgstr "Sąsajos kalba"
+
+msgid "Interface Language"
+msgstr "Sąsajos Kalba"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1413,10 +1413,10 @@ msgstr "iš"
 msgid "Off"
 msgstr "Išjungta"
 
-msgid "Ok"
+msgid "OK"
 msgstr "Gerai"
 
-msgid "OK"
+msgid "Ok"
 msgstr "Gerai"
 
 msgid "Old Password"
@@ -1618,6 +1618,9 @@ msgstr "Priminti įrašytą reikšmę"
 msgid "Remove"
 msgstr "Ištrinti"
 
+msgid "Remove criteria"
+msgstr ""
+
 msgid "Remove Message"
 msgstr "Ištrinti Pranešimą"
 
@@ -1782,11 +1785,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Pasirinkti"
-
 msgid "select"
 msgstr "pasirinkti"
+
+msgid "Select"
+msgstr "Pasirinkti"
 
 msgid "Select a class"
 msgstr "Pasirinkti klasę"
@@ -2203,10 +2206,10 @@ msgstr "Vienetinis operatorius +"
 msgid "Unary operator -"
 msgstr "Vienetinis operatorius -"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Atžymėti visus"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Atžymėti visus"
 
 msgid "Undefined amount of the pages for pagination"
