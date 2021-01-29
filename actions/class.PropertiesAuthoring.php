@@ -20,12 +20,11 @@
 
 declare(strict_types=1);
 
+use oat\generis\model\data\event\ClassPropertyDeletedEvent;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
-use oat\tao\model\event\ClassPropertyCreatedEvent;
-use oat\tao\model\event\ClassPropertyDeletedEvent;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
