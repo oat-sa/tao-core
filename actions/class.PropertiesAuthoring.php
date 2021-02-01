@@ -543,7 +543,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $this->getEventManager()->trigger(
                 new ClassPropertiesChangedEvent(
                     array_merge($changedProperties, [
-                    'class' => $this->getCurrentClass()
+                        'class' => $this->getCurrentClass()
                     ])
                 )
             );
