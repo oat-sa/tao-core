@@ -38,6 +38,9 @@ class Metadata implements JsonSerializable
     /** @var string|null  */
     private $uri;
 
+    /** @var string|null  */
+    private $propertyUri;
+
     public function getLabel(): string
     {
         return $this->label;
@@ -62,7 +65,7 @@ class Metadata implements JsonSerializable
         return $this;
     }
 
-    public function getValues(): array
+    public function getValues(): ?array
     {
         return $this->values;
     }
@@ -89,6 +92,18 @@ class Metadata implements JsonSerializable
     public function setUri(?string $uri): Metadata
     {
         $this->uri = $uri;
+
+        return $this;
+    }
+
+    public function getPropertyUri(): ?string
+    {
+        return $this->propertyUri;
+    }
+
+    public function setPropertyUri(?string $propertyUri): Metadata
+    {
+        $this->propertyUri = $propertyUri;
 
         return $this;
     }
