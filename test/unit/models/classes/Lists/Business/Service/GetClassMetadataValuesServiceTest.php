@@ -23,12 +23,17 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Lists\Business\Service;
 
 use core_kernel_classes_Class;
+use core_kernel_classes_ContainerCollection;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\tao\model\Lists\Business\Domain\Metadata;
+use oat\tao\model\Lists\Business\Domain\Value;
+use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Service\GetClassMetadataValuesService;
+use oat\tao\model\Lists\Business\Service\ValueCollectionService;
+use tao_helpers_form_elements_Radiobox;
 use tao_helpers_form_elements_Textbox;
 
 class GetClassMetadataValuesServiceTest extends TestCase
@@ -41,18 +46,42 @@ class GetClassMetadataValuesServiceTest extends TestCase
 
     /** @var core_kernel_classes_Property|MockObject */
     private $propertyMock;
+
     /** @var core_kernel_classes_Resource|MockObject */
     private $resourceMock;
+
+    /** @var core_kernel_classes_ContainerCollection|MockObject */
+    private $containerCollection;
+
+    /** @var ValueCollectionService|MockObject */
+    private $valueCollectionServiceMock;
+
+
+    private $valueMock;
 
     public function setUp(): void
     {
         $this->subject = new GetClassMetadataValuesService();
+        $this->valueCollectionServiceMock = $this->createMock(ValueCollectionService::class);
         $this->classMock = $this->createMock(core_kernel_classes_Class::class);
         $this->propertyMock = $this->createMock(core_kernel_classes_Property::class);
         $this->resourceMock = $this->createMock(core_kernel_classes_Resource::class);
+        $this->containerCollection = $this->createMock(core_kernel_classes_ContainerCollection::class);
+        $this->valueMock = $this->createMock(Value::class);
+
+        $this->subject->setServiceLocator(
+            $this->getServiceLocatorMock(
+                [
+                    ValueCollectionService::SERVICE_ID => $this->valueCollectionServiceMock
+                ]
+            )
+        );
     }
 
-    public function testGetByClass()
+    /**
+     * @dataProvider getDataProvider
+     */
+    public function testGetByClass($widgetUri, $getRangeCount, $type, $getValues)
     {
         $this->classMock
             ->method('getProperties')
@@ -71,10 +100,28 @@ class GetClassMetadataValuesServiceTest extends TestCase
             ->method('getLabel')
             ->willReturn('Property Label Example');
 
+        $this->propertyMock
+            ->expects($this->exactly($getRangeCount))
+            ->method('getRange')
+            ->willReturn($this->resourceMock);
+
         $this->resourceMock
             ->method('getUri')
-            ->willReturn(tao_helpers_form_elements_Textbox::WIDGET_ID);
+            ->willReturn($widgetUri);
 
+        $this->valueCollectionServiceMock
+            ->method('count')
+            ->willReturn(2);
+
+        $this->valueCollectionServiceMock
+            ->method('findAll')
+            ->willReturn(
+                new ValueCollection('valueUri', $this->valueMock)
+            );
+
+        $this->valueMock
+            ->method('getLabel')
+            ->willReturn('Value Label');
 
         $result = $this->subject->getByClass(
             $this->classMock
@@ -85,8 +132,28 @@ class GetClassMetadataValuesServiceTest extends TestCase
         $resultElement = reset($serialisedResult);
         $this->assertInstanceOf(Metadata::class, $resultElement);
         $this->assertEquals('Property Label Example', $resultElement->getLabel());
-        $this->assertEquals('text', $resultElement->getType());
+        $this->assertEquals($type, $resultElement->getType());
         $this->assertNull($resultElement->getUri());
-        $this->assertNull($resultElement->getValues());
+        $this->assertEquals($getValues, $resultElement->getValues());
+    }
+
+    public function getDataProvider()
+    {
+        return [
+            'Textbox' => [
+                tao_helpers_form_elements_Textbox::WIDGET_ID,
+                0,
+                'text',
+                null,
+            ],
+            'RadioBox' => [
+                tao_helpers_form_elements_Radiobox::WIDGET_ID,
+                1,
+                'list',
+                [
+                    'Element 1'
+                ]
+            ]
+        ];
     }
 }
