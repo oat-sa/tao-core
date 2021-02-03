@@ -61,20 +61,26 @@ class GetClassMetadataValuesService extends ConfigurableService
 
     public function getByClass(
         core_kernel_classes_Class $class,
-        int $maxListSize = 100,
-        bool $isRoot = true
+        int $maxListSize = 100
     ): MetadataCollection {
-        return $this->getClassMetadata($class, $maxListSize, $isRoot);
+        return $this->getClassMetadata($class, $maxListSize, true);
+    }
+
+    public function getByClassExplicitly(
+        core_kernel_classes_Class $class,
+        int $maxListSize = 100
+    ): MetadataCollection {
+        return $this->getClassMetadata($class, $maxListSize, true);
     }
 
     private function getClassMetadata(
         core_kernel_classes_Class $class,
         int $maxListSize,
-        bool $isRoot = true
+        bool $recursively = true
     ): MetadataCollection {
         $collection = new MetadataCollection();
 
-        foreach ($class->getProperties($isRoot) as $property) {
+        foreach ($class->getProperties($recursively) as $property) {
             if (!$this->isWidget($property)) {
                 continue;
             }
