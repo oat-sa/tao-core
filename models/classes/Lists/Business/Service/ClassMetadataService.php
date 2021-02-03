@@ -106,6 +106,6 @@ class ClassMetadataService extends InjectionAwareService
 
     private function getClassMetadata(core_kernel_classes_Class $class): MetadataCollection
     {
-        return $this->getClassMetadataValuesService->getRecursiveByClass($class, $this->maxListSize);
+        return $this->getClassMetadataValuesService->getByClass($class, $this->maxListSize);
     }
 }
