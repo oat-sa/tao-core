@@ -59,10 +59,10 @@ class GetClassMetadataValuesService extends ConfigurableService
 
     private const BASE_LIST_ITEMS_URI = '/tao/PropertyValues/get?propertyUri=%s';
 
-    public function getByClass(core_kernel_classes_Class $class, int $maxListSize = 100): MetadataCollection
+    public function getByClass(core_kernel_classes_Class $class, int $maxListSize = 100, bool $isRoot): MetadataCollection
     {
         //@TODO Remove the recursion, to use it on advanced-search
-        return $this->getClassMetadata($class, $maxListSize);
+        return $this->getClassMetadata($class, $maxListSize, $isRoot);
     }
 
     public function getRecursiveByClass(core_kernel_classes_Class $class, int $maxListSize = 100): MetadataCollection
@@ -70,11 +70,14 @@ class GetClassMetadataValuesService extends ConfigurableService
         return $this->getClassMetadata($class, $maxListSize);
     }
 
-    private function getClassMetadata(core_kernel_classes_Class $class, int $maxListSize): MetadataCollection
-    {
+    private function getClassMetadata(
+        core_kernel_classes_Class $class,
+        int $maxListSize,
+        bool $isRoot = true
+    ): MetadataCollection {
         $collection = new MetadataCollection();
 
-        foreach ($class->getProperties(true) as $property) {
+        foreach ($class->getProperties($isRoot) as $property) {
             if (!$this->isWidget($property)) {
                 continue;
             }
