@@ -61,6 +61,12 @@ class GetClassMetadataValuesService extends ConfigurableService
 
     public function getByClass(core_kernel_classes_Class $class, int $maxListSize = 100): MetadataCollection
     {
+        //@TODO Remove the recursion, to use it on advanced-search
+        return $this->getClassMetadata($class, $maxListSize);
+    }
+
+    public function getRecursiveByClass(core_kernel_classes_Class $class, int $maxListSize = 100): MetadataCollection
+    {
         return $this->getClassMetadata($class, $maxListSize);
     }
 
