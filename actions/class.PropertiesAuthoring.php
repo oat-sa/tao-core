@@ -526,6 +526,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
             if ($isPropertyChanged) {
                 $changedProperties[] = [
+                    'class' => $this->getCurrentClass(),
                     'property' => $currentProperty,
                     'oldProperty' => $oldProperty,
                 ];
@@ -540,13 +541,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         }
 
         if (count($changedProperties) > 0) {
-            $this->getEventManager()->trigger(
-                new ClassPropertiesChangedEvent(
-                    array_merge($changedProperties, [
-                        'class' => $this->getCurrentClass()
-                    ])
-                )
-            );
+            $this->getEventManager()->trigger(new ClassPropertiesChangedEvent($changedProperties));
         }
     }
 
