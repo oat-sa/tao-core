@@ -70,7 +70,7 @@ class GetClassMetadataValuesService extends ConfigurableService
         core_kernel_classes_Class $class,
         int $maxListSize = 100
     ): MetadataCollection {
-        return $this->getClassMetadata($class, $maxListSize, true);
+        return $this->getClassMetadata($class, $maxListSize, false);
     }
 
     private function getClassMetadata(
