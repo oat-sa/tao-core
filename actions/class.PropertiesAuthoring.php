@@ -15,11 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2020 Open Assessment Technologies S.A.
+ * Copyright (c) 2015-2021 Open Assessment Technologies S.A.
  */
 
 declare(strict_types=1);
 
+use oat\generis\model\data\event\ClassPropertyDeletedEvent;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
@@ -106,7 +107,9 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             'disableIndexChanges' => $this->isElasticSearchEnabled()
         ];
 
-        $propFormContainer = new tao_actions_form_SimpleProperty($class, $class->createProperty('Property_' . $index), $options);
+        $newProperty = $class->createProperty('Property_' . $index);
+
+        $propFormContainer = new tao_actions_form_SimpleProperty($class, $newProperty, $options);
         $myForm = $propFormContainer->getForm();
 
         $this->setData('data', $myForm->renderElements());
@@ -143,6 +146,14 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 $indexes = $property->getPropertyValues($this->getProperty(OntologyIndex::PROPERTY_INDEX));
                 //delete property and the existing values of this property
                 if ($property->delete(true)) {
+                    $this->getEventManager()->trigger(
+                        new ClassPropertyDeletedEvent(
+                            $class,
+                            [
+                                'propertyUri' => $property->getUri()
+                            ]
+                        )
+                    );
                     //delete index linked to the property
                     foreach ($indexes as $indexUri) {
                         $index = $this->getResource($indexUri);
@@ -515,6 +526,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
             if ($isPropertyChanged) {
                 $changedProperties[] = [
+                    'class' => $this->getCurrentClass(),
                     'property' => $currentProperty,
                     'oldProperty' => $oldProperty,
                 ];

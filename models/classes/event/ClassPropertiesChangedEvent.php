@@ -31,6 +31,7 @@ class ClassPropertiesChangedEvent implements Event
      * list of properties that were changed, with the following structure:
      *  $properties = [
      *      [
+     *          'class' => (\core_kernel_classes_Class), current class where changes were made
      *          'property' => (\core_kernel_classes_Property), this is the current property
      *          'oldProperty' => (\oat\tao\model\dto\OldProperty) this is a DTO object representing the old values
      *      ],

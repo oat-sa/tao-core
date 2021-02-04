@@ -31,6 +31,7 @@ use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\ClassMetadataSearchRequest;
 use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 use oat\tao\model\Lists\Business\Service\ClassMetadataService;
+use oat\tao\model\Lists\Business\Service\GetClassMetadataValuesService;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -57,7 +58,7 @@ class ClassMetadataServiceTest extends TestCase
     public function setUp(): void
     {
         $this->repositoryMock = $this->createMock(ValueCollectionRepositoryInterface::class);
-        $this->valueCollectionServiceMock = $this->createMock(ValueCollectionService::class);
+        $this->valueCollectionServiceMock = $this->createMock(GetClassMetadataValuesService::class);
         $this->classMetadataSearchRequestMock = $this->createMock(ClassMetadataSearchRequest::class);
         $this->classMetadataSearchInputMock = $this->createMock(ClassMetadataSearchInput::class);
 
@@ -100,12 +101,16 @@ class ClassMetadataServiceTest extends TestCase
             ->method('getUri')
             ->willReturn('http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox');
 
+        $this->classMetadataSearchRequestMock
+            ->method('getMaxListSize')
+            ->willReturn(10);
+
         $result = $this->sut->findAll(
             $this->classMetadataSearchInputMock
         );
 
         $this->assertSame(
-            '[{"class":"uri","parent-class":null,"label":"label","metadata":[{"label":"propertyLabel","type":"text","values":null,"uri":null},{"label":"propertyLabel","type":"text","values":null,"uri":null}]}]',
+            '[{"class":"uri","parent-class":null,"label":"label","metadata":[]}]',
             json_encode($result)
         );
     }
@@ -131,19 +136,16 @@ class ClassMetadataServiceTest extends TestCase
             ->expects($this->once())
             ->method('getLabel')
             ->willReturn('label');
-        $class
-            ->expects($this->once())
-            ->method('getProperties')
-            ->willReturn([
-                'property1' => $this->property,
-                'property2' => $this->property,
-            ]);
 
         return $class;
     }
 
     public function testFindAllPropertyDoesNotHaveWidget(): void
     {
+        $this->classMetadataSearchRequestMock
+            ->method('getMaxListSize')
+            ->willReturn(10);
+
         $this->property
             ->method('getWidget')
             ->willReturn(null);
