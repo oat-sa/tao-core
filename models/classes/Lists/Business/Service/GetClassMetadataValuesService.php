@@ -59,7 +59,7 @@ class GetClassMetadataValuesService extends ConfigurableService
 
     private const BASE_LIST_ITEMS_URI = '/tao/PropertyValues/get?propertyUri=%s';
 
-    public function getByClass(
+    public function getByClassRecursive(
         core_kernel_classes_Class $class,
         int $maxListSize = 100
     ): MetadataCollection {

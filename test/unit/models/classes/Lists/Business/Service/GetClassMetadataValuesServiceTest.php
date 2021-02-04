@@ -81,7 +81,7 @@ class GetClassMetadataValuesServiceTest extends TestCase
     /**
      * @dataProvider getDataProvider
      */
-    public function testGetByClass($widgetUri, $getRangeCount, $type, $getValues)
+    public function testGetByClassRecursive($widgetUri, $getRangeCount, $type, $getValues)
     {
         $this->classMock
             ->method('getProperties')
@@ -123,7 +123,7 @@ class GetClassMetadataValuesServiceTest extends TestCase
             ->method('getLabel')
             ->willReturn('Value Label');
 
-        $result = $this->subject->getByClass(
+        $result = $this->subject->getByClassRecursive(
             $this->classMock
         );
 
