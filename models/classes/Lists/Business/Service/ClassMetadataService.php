@@ -25,13 +25,14 @@ namespace oat\tao\model\Lists\Business\Service;
 
 use core_kernel_classes_Class;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\Lists\Business\Contract\ClassSearcherInterface;
 use oat\tao\model\Lists\Business\Domain\ClassCollection;
 use oat\tao\model\Lists\Business\Domain\ClassMetadata;
 use oat\tao\model\Lists\Business\Domain\MetadataCollection;
 use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 use oat\tao\model\service\InjectionAwareService;
 
-class ClassMetadataService extends InjectionAwareService
+class ClassMetadataService extends InjectionAwareService implements ClassSearcherInterface
 {
     use OntologyAwareTrait;
 
