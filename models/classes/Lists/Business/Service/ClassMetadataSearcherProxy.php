@@ -34,24 +34,17 @@ class ClassMetadataSearcherProxy extends ConfigurableService implements ClassMet
     use OntologyAwareTrait;
 
     public const SERVICE_ID = 'tao/ClassMetadataSearcherProxy';
-    public const OPTION_SEARCHERS = 'classSearchers';
-    public const OPTION_ACTIVE_SEARCHER = 'activeClassSearcher';
+    public const OPTION_ACTIVE_SEARCHER = 'activeSearcher';
 
     public function findAll(ClassMetadataSearchInput $input): ClassCollection
     {
-        $searcherIds = $this->getSearcherIds();
         $activeSearcherId = $this->getActiveSearchId();
 
         try {
-            /** @var ClassMetadataSearcherInterface $searcherId */
-            foreach ($searcherIds as $searcherId) {
-                if ($activeSearcherId === $searcherId) {
-                    /** @var ClassMetadataSearcherInterface $searcher */
-                    $searcher = $this->serviceLocator->get($searcherId);
+            /** @var ClassMetadataSearcherInterface $searcher */
+            $searcher = $this->serviceLocator->get($activeSearcherId);
 
-                    return $searcher->findAll($input);
-                }
-            }
+            return $searcher->findAll($input);
         } catch (Throwable $exception) {
             $this->logCritical(
                 sprintf(
@@ -72,16 +65,6 @@ class ClassMetadataSearcherProxy extends ConfigurableService implements ClassMet
     private function getClassMetadataSearcher(): ClassMetadataSearcherInterface
     {
         return $this->getServiceLocator()->get(ClassMetadataService::SERVICE_ID);
-    }
-
-    private function getSearcherIds(): array
-    {
-        return $this->getOption(
-            self::OPTION_SEARCHERS,
-            [
-                ClassMetadataService::SERVICE_ID,
-            ]
-        );
     }
 
     private function getActiveSearchId(): string

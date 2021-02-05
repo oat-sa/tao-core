@@ -22,9 +22,6 @@ final class Version202101050805132234_tao extends AbstractMigration
             ClassMetadataSearcherProxy::SERVICE_ID,
             new ClassMetadataSearcherProxy(
                 [
-                    ClassMetadataSearcherProxy::OPTION_SEARCHERS => [
-                        ClassMetadataService::SERVICE_ID
-                    ],
                     ClassMetadataSearcherProxy::OPTION_ACTIVE_SEARCHER => ClassMetadataService::SERVICE_ID,
                 ]
             )
