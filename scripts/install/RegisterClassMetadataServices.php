@@ -45,7 +45,7 @@ class RegisterClassMetadataServices extends InstallAction
         );
 
         /** @var GetClassMetadataValuesService $valueCollectionService */
-        $valueCollectionService = $this->getServiceManager()->get(GetClassMetadataValuesService::class);
+        $getClassMetadataValuesService = $this->getServiceManager()->get(GetClassMetadataValuesService::class);
         $classMetadataService = new ClassMetadataService($valueCollectionService);
 
         $this->getServiceManager()->register(ClassMetadataService::SERVICE_ID, $classMetadataService);
