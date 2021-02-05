@@ -26,6 +26,7 @@ namespace oat\tao\scripts\install;
 use oat\oatbox\extension\InstallAction;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\Lists\Business\Service\ClassMetadataSearcherProxy;
 use oat\tao\model\Lists\Business\Service\ClassMetadataService;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ClassMetadataSearchRequestHandler;
@@ -50,6 +51,18 @@ class RegisterClassMetadataServices extends InstallAction
 
         AclProxy::applyRule(
             new AccessRule(AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'ClassMetadata'])
+        );
+
+        $this->getServiceManager()->register(
+            ClassMetadataSearcherProxy::SERVICE_ID,
+            new ClassMetadataSearcherProxy(
+                [
+                    ClassMetadataSearcherProxy::OPTION_SEARCHERS => [
+                        ClassMetadataService::SERVICE_ID
+                    ],
+                    ClassMetadataSearcherProxy::OPTION_ACTIVE_SEARCHER => ClassMetadataService::SERVICE_ID,
+                ]
+            )
         );
     }
 }

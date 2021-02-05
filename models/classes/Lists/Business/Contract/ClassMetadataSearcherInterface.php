@@ -25,7 +25,7 @@ namespace oat\tao\model\Lists\Business\Contract;
 use oat\tao\model\Lists\Business\Domain\ClassCollection;
 use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 
-interface ClassSearcherInterface
+interface ClassMetadataSearcherInterface
 {
     public function findAll(ClassMetadataSearchInput $input): ClassCollection;
 }

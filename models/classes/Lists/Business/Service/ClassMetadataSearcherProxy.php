@@ -24,48 +24,68 @@ namespace oat\tao\model\Lists\Business\Service;
 
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\Lists\Business\Contract\ClassSearcherInterface;
+use oat\tao\model\Lists\Business\Contract\ClassMetadataSearcherInterface;
 use oat\tao\model\Lists\Business\Domain\ClassCollection;
 use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 use Throwable;
 
-class ClassSearcherProxy extends ConfigurableService implements ClassSearcherInterface
+class ClassMetadataSearcherProxy extends ConfigurableService implements ClassMetadataSearcherInterface
 {
     use OntologyAwareTrait;
 
-    public const OPTION_CLASS_SEARCHERS = 'classSearchers';
+    public const SERVICE_ID = 'tao/ClassMetadataSearcherProxy';
+    public const OPTION_SEARCHERS = 'classSearchers';
     public const OPTION_ACTIVE_SEARCHER = 'activeClassSearcher';
 
     public function findAll(ClassMetadataSearchInput $input): ClassCollection
     {
-        $searchers = $this->getOption(self::OPTION_CLASS_SEARCHERS, []);
-        $activeSearcher = $this->getOption(self::OPTION_ACTIVE_SEARCHER, ClassMetadataService::SERVICE_ID);
+        $searcherIds = $this->getSearcherIds();
+        $activeSearcherId = $this->getActiveSearchId();
 
         try {
-            /** @var ClassSearcherInterface $searcher */
-            foreach ($searchers as $searcher) {
-                if ($activeSearcher === $searcher) {
+            /** @var ClassMetadataSearcherInterface $searcherId */
+            foreach ($searcherIds as $searcherId) {
+                if ($activeSearcherId === $searcherId) {
+                    /** @var ClassMetadataSearcherInterface $searcher */
+                    $searcher = $this->serviceLocator->get($searcherId);
+
                     return $searcher->findAll($input);
                 }
             }
         } catch (Throwable $exception) {
             $this->logCritical(
                 sprintf(
-                    'Impossible to perform class metadata search: %s',
+                    'Impossible to perform class metadata search with %s: %s',
+                    $activeSearcherId,
                     $exception->getMessage()
                 )
             );
-        } finally {
-            if ($activeSearcher !== ClassMetadataService::SERVICE_ID) {
-                return $this->getClassMetadataService()->findAll($input);
-            }
 
-            return new ClassCollection(...[]);
+            if ($activeSearcherId !== ClassMetadataService::SERVICE_ID) {
+                return $this->getClassMetadataSearcher()->findAll($input);
+            }
         }
+
+        return new ClassCollection(...[]);
     }
 
-    private function getClassMetadataService(): ClassMetadataService
+    private function getClassMetadataSearcher(): ClassMetadataSearcherInterface
     {
         return $this->getServiceLocator()->get(ClassMetadataService::SERVICE_ID);
+    }
+
+    private function getSearcherIds(): array
+    {
+        return $this->getOption(
+            self::OPTION_SEARCHERS,
+            [
+                ClassMetadataService::SERVICE_ID,
+            ]
+        );
+    }
+
+    private function getActiveSearchId(): string
+    {
+        return $this->getOption(self::OPTION_ACTIVE_SEARCHER, ClassMetadataService::SERVICE_ID);
     }
 }
