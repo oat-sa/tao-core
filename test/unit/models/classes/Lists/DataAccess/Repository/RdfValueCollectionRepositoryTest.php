@@ -440,6 +440,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
                 'id'             => (string)$value->getId(),
                 'subject'        => $value->getUri(),
                 'object'         => $value->getLabel(),
+                'datalanguage'   => 'en',
             ];
         }
 
