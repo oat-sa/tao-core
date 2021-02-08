@@ -46,13 +46,6 @@ class ClassMetadataService extends InjectionAwareService
     /** @var GetClassMetadataValuesService */
     private $getClassMetadataValuesService;
 
-    public function __construct(GetClassMetadataValuesService $getClassMetadataValuesService)
-    {
-        parent::__construct();
-
-        $this->getClassMetadataValuesService = $getClassMetadataValuesService;
-    }
-
     public function findAll(ClassMetadataSearchInput $input): ClassCollection
     {
         $searchRequest = $input->getSearchRequest();
@@ -106,6 +99,11 @@ class ClassMetadataService extends InjectionAwareService
 
     private function getClassMetadata(core_kernel_classes_Class $class): MetadataCollection
     {
-        return $this->getClassMetadataValuesService->getByClassRecursive($class, $this->maxListSize);
+        return $this->getClassMetadataValuesService()->getByClassRecursive($class, $this->maxListSize);
+    }
+
+    private function getClassMetadataValuesService(): GetClassMetadataValuesService
+    {
+        return $this->getServiceLocator()->get(GetClassMetadataValuesService::class);
     }
 }

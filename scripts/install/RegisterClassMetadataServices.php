@@ -27,6 +27,7 @@ use oat\oatbox\extension\InstallAction;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\Lists\Business\Service\ClassMetadataService;
+use oat\tao\model\Lists\Business\Service\GetClassMetadataValuesService;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ClassMetadataSearchRequestHandler;
 use oat\tao\model\Lists\Presentation\Web\RequestValidator\ClassMetadataSearchRequestValidator;
@@ -43,7 +44,8 @@ class RegisterClassMetadataServices extends InstallAction
             )
         );
 
-        $valueCollectionService = $this->getServiceManager()->get(ValueCollectionService::SERVICE_ID);
+        /** @var GetClassMetadataValuesService $valueCollectionService */
+        $getClassMetadataValuesService = $this->getServiceManager()->get(GetClassMetadataValuesService::class);
         $classMetadataService = new ClassMetadataService($valueCollectionService);
 
         $this->getServiceManager()->register(ClassMetadataService::SERVICE_ID, $classMetadataService);
