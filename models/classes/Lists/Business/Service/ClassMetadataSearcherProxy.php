@@ -38,7 +38,7 @@ class ClassMetadataSearcherProxy extends ConfigurableService implements ClassMet
 
     public function findAll(ClassMetadataSearchInput $input): ClassCollection
     {
-        $activeSearcherId = $this->getActiveSearchId();
+        $activeSearcherId = $this->getOption(self::OPTION_ACTIVE_SEARCHER, ClassMetadataService::SERVICE_ID);
 
         try {
             /** @var ClassMetadataSearcherInterface $searcher */
@@ -65,10 +65,5 @@ class ClassMetadataSearcherProxy extends ConfigurableService implements ClassMet
     private function getClassMetadataSearcher(): ClassMetadataSearcherInterface
     {
         return $this->getServiceLocator()->get(ClassMetadataService::SERVICE_ID);
-    }
-
-    private function getActiveSearchId(): string
-    {
-        return $this->getOption(self::OPTION_ACTIVE_SEARCHER, ClassMetadataService::SERVICE_ID);
     }
 }
