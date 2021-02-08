@@ -219,31 +219,36 @@ class RdfValueCollectionRepositoryTest extends TestCase
     {
         return [
             'Bare search request'                      => [
-                new ValueCollectionSearchRequest(),
+                (new ValueCollectionSearchRequest())->setDataLanguage('en'),
             ],
             'Search request with property URI'         => [
                 (new ValueCollectionSearchRequest())
-                    ->setPropertyUri('https://example.com'),
+                    ->setPropertyUri('https://example.com')
+                    ->setDataLanguage('en'),
             ],
             'Search request with value collection URI' => [
                 (new ValueCollectionSearchRequest())
-                    ->setValueCollectionUri(self::COLLECTION_URI),
+                    ->setValueCollectionUri(self::COLLECTION_URI)
+                    ->setDataLanguage('en'),
             ],
             'Search request with subject'              => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
-                    ->setSubject('test'),
+                    ->setSubject('test')
+                    ->setDataLanguage('en'),
             ],
             'Search request with excluded value URIs'  => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->addExcluded('https://example.com#1')
-                    ->addExcluded('https://example.com#2'),
+                    ->addExcluded('https://example.com#2')
+                    ->setDataLanguage('en'),
             ],
             'Search request with limit'                => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
-                    ->setLimit(1),
+                    ->setLimit(1)
+                    ->setDataLanguage('en'),
             ],
             'Search request with all properties'       => [
                 (new ValueCollectionSearchRequest())
@@ -252,7 +257,8 @@ class RdfValueCollectionRepositoryTest extends TestCase
                     ->setSubject('test')
                     ->addExcluded('https://example.com#1')
                     ->addExcluded('https://example.com#2')
-                    ->setLimit(1),
+                    ->setLimit(1)
+                    ->setDataLanguage('en'),
             ],
         ];
     }
