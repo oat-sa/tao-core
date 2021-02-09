@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 use GuzzleHttp\Psr7\ServerRequest;
 use oat\tao\model\http\HttpJsonResponseTrait;
-use oat\tao\model\Lists\Business\Service\ClassMetadataService;
+use oat\tao\model\Lists\Business\Service\ClassMetadataSearcherProxy;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ClassMetadataSearchRequestHandler;
 
 class tao_actions_ClassMetadata extends tao_actions_CommonModule
@@ -33,10 +33,10 @@ class tao_actions_ClassMetadata extends tao_actions_CommonModule
     public function get(
         ServerRequest $request,
         ClassMetadataSearchRequestHandler $classMetadataSearchRequestHandler,
-        ClassMetadataService $classMetadataService
+        ClassMetadataSearcherProxy $classMetadataSearcher
     ): void {
         $this->setSuccessJsonResponse(
-            $classMetadataService->findAll(
+            $classMetadataSearcher->findAll(
                 $classMetadataSearchRequestHandler->handle($request)
             )
         );
