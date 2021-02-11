@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint144\n"
-"PO-Revision-Date: 2020-12-31T09:36:14\n"
+"Project-Id-Version: TAO 3.4.0-sprint147\n"
+"PO-Revision-Date: 2021-01-29T09:33:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-MX\n"
@@ -1038,10 +1038,10 @@ msgstr "Instalando extensión %s..."
 msgid "Instance saved"
 msgstr "Instancia guardada"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Lenguaje de interface"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Lenguaje de interface"
 
 msgid "Invalid CSP header."
@@ -1413,10 +1413,10 @@ msgstr "de"
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1618,6 +1618,9 @@ msgstr ""
 msgid "Remove"
 msgstr "Remover"
 
+msgid "Remove criteria"
+msgstr ""
+
 msgid "Remove Message"
 msgstr "Eliminar mensaje"
 
@@ -1782,11 +1785,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
-msgstr "Seleccionar"
-
 msgid "select"
 msgstr "seleccionar"
+
+msgid "Select"
+msgstr "Seleccionar"
 
 msgid "Select a class"
 msgstr ""
@@ -2203,10 +2206,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"

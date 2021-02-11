@@ -71,7 +71,7 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '46.14.0',
+    'version' => '46.14.4',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => [
         'generis' => '>=13.12.0',
@@ -228,9 +228,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '3.4.0-sprint146',
+        'TAO_VERSION' => '3.4.0-sprint147',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.4.0-sprint146',
+        'TAO_VERSION_NAME' => '3.4.0-sprint147',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

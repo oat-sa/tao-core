@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint144\n"
-"PO-Revision-Date: 2020-12-21T20:22:22\n"
+"Project-Id-Version: TAO 3.4.0-sprint147\n"
+"PO-Revision-Date: 2021-01-29T09:36:09\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nn-NO\n"
@@ -221,6 +221,9 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
 msgstr ""
 
@@ -285,7 +288,16 @@ msgstr ""
 msgid "Are you sure you want to delete it?"
 msgstr ""
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -343,6 +355,9 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
+msgid "boolean"
+msgstr ""
+
 msgid "Browse folders:"
 msgstr ""
 
@@ -358,10 +373,10 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -399,6 +414,9 @@ msgid "Check all"
 msgstr ""
 
 msgid "Check-in"
+msgstr ""
+
+msgid "choices:"
 msgstr ""
 
 msgid "Choose a value..."
@@ -467,6 +485,12 @@ msgstr ""
 msgid "Column"
 msgstr ""
 
+msgid "command"
+msgstr ""
+
+msgid "Commands:"
+msgstr ""
+
 msgid "comment..."
 msgstr ""
 
@@ -507,6 +531,9 @@ msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
+msgstr ""
+
+msgid "count"
 msgstr ""
 
 msgid "Create"
@@ -575,6 +602,9 @@ msgstr ""
 msgid "Default search"
 msgstr ""
 
+msgid "default:"
+msgstr ""
+
 msgid "Define the default values"
 msgstr ""
 
@@ -604,6 +634,9 @@ msgid "Deleting search index for %s"
 msgstr ""
 
 msgid "Demo Sandbox"
+msgstr ""
+
+msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -720,6 +753,9 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
+msgstr ""
+
+msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -856,6 +892,9 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr ""
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
 msgstr ""
 
@@ -914,6 +953,9 @@ msgid "Identifier"
 msgstr ""
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
+msgstr ""
+
+msgid "Implications failed:"
 msgstr ""
 
 msgid "Import"
@@ -994,10 +1036,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1039,6 +1081,9 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr ""
 
@@ -1046,6 +1091,9 @@ msgid "Invalid login or password. Your account has been locked, please contact y
 msgstr ""
 
 msgid "invalid regular expression"
+msgstr ""
+
+msgid "Invalid values:"
 msgstr ""
 
 msgid "items per page"
@@ -1323,6 +1371,12 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
 msgid "Not started"
 msgstr ""
 
@@ -1343,6 +1397,9 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
+msgstr ""
+
+msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1465,6 +1522,9 @@ msgstr ""
 msgid "Please wait while ..."
 msgstr ""
 
+msgid "Positionals:"
+msgstr ""
+
 msgid "Post install processing"
 msgstr ""
 
@@ -1556,6 +1616,9 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
+msgid "Remove criteria"
+msgstr ""
+
 msgid "Remove Message"
 msgstr ""
 
@@ -1584,6 +1647,9 @@ msgid "Request a password reset via Email."
 msgstr ""
 
 msgid "require notification ID"
+msgstr ""
+
+msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -1717,10 +1783,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
 msgid "Select a class"
@@ -1812,6 +1878,9 @@ msgid "Store"
 msgstr ""
 
 msgid "Store the value a variable"
+msgstr ""
+
+msgid "string"
 msgstr ""
 
 msgid "Submit"
@@ -2033,6 +2102,9 @@ msgstr ""
 msgid "Tokenizer"
 msgstr ""
 
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
+
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr ""
 
@@ -2132,10 +2204,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
