@@ -22,6 +22,7 @@
 namespace oat\tao\scripts\tools;
 
 use oat\oatbox\extension\AbstractAction;
+use oat\oatbox\extension\exception\ManifestNotFoundException;
 use oat\tao\model\OntologyClassService;
 
 /**
@@ -98,7 +99,7 @@ class CleanClass extends AbstractAction
             $extensionManager = $this->getServiceManager()->get(\common_ext_ExtensionsManager::SERVICE_ID);
             try {
                 $extensionManager->getExtensionById($extensionId);
-            } catch (\common_ext_ManifestNotFoundException $e) {
+            } catch (ManifestNotFoundException $e) {
                 return new \common_report_Report(\common_report_Report::TYPE_ERROR, __('USAGE: please provide a valid extension id as second parameter'));
             }
         } else {
