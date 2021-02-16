@@ -72,7 +72,7 @@ $userLabel    = get_data('userLabel');
                                     <?php foreach ($item['children'] as $child): ?>
                                         <?php if(!$child->getDisabled()) : ?>
                                             <li<?=$child->getId() === get_data('current-section') ? ' class="active"' : '' ?>>
-                                                <a href="<?= $entry->getUrl() ?>&section=<?= $child->getId() ?>"><?php echo $child->getName() ?></a>
+                                                <a href="<?= $entry->getUrl() ?>&section=<?= $child->getId() ?>"><?php echo __($child->getName()) ?></a>
                                             </li>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
