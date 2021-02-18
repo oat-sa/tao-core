@@ -24,7 +24,6 @@ namespace oat\tao\model\webhooks;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\webhooks\configEntity\Webhook;
-use oat\taoPublishing\model\publishing\event\RemoteDeliveryCreatedEvent;
 
 class WebhookRegistryManager extends ConfigurableService implements WebhookRegistryManagerInterface
 {
@@ -34,7 +33,7 @@ class WebhookRegistryManager extends ConfigurableService implements WebhookRegis
         $events = $this->getWebhookFileRegistry()->getOption('events');
 
         $webhooks[$webhook->getId()] = $webhook->toArray();
-        $events[RemoteDeliveryCreatedEvent::class] = [$webhook->getId()];
+        $events[$event] = [$webhook->getId()];
 
         $this->getWebhookFileRegistry()->setOption('webhooks', $webhooks);
         $this->getWebhookFileRegistry()->setOption('events', $events);
