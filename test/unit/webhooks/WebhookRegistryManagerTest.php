@@ -59,7 +59,7 @@ class WebhookRegistryManagerTest extends TestCase
         );
     }
 
-    public function testAddWebhookConfig()
+    public function testAddWebhookConfig(): void
     {
         $this->webhookFileRegistryMock
             ->expects($this->exactly(2))
