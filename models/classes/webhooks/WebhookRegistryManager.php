@@ -27,7 +27,7 @@ use oat\tao\model\webhooks\configEntity\Webhook;
 
 class WebhookRegistryManager extends ConfigurableService implements WebhookRegistryManagerInterface
 {
-    public function addWebhookConfig(Webhook $webhook, string $event)
+    public function addWebhookConfig(Webhook $webhook, string $event): void
     {
         $webhooks = $this->getWebhookFileRegistry()->getOption('webhooks');
         $events = $this->getWebhookFileRegistry()->getOption('events');
