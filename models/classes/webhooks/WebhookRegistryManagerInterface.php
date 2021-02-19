@@ -26,5 +26,5 @@ use oat\tao\model\webhooks\configEntity\Webhook;
 
 interface WebhookRegistryManagerInterface
 {
-    public function addWebhookConfig(Webhook $webhook, string $event);
+    public function addWebhookConfig(Webhook $webhook, string $event): void;
 }
