@@ -29,6 +29,7 @@ use oat\oatbox\reporting\Report;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\model\webhooks\configEntity\Webhook;
+use oat\tao\model\webhooks\configEntity\WebhookAuth;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
 use oat\tao\model\webhooks\WebhookEventsService;
 use oat\tao\model\webhooks\WebhookRegistryManager;
@@ -74,6 +75,13 @@ class RegisterEventWebhook extends ScriptAction
                 'flag' => false,
                 'description' => 'Target event FQN that has to be registered as webhook',
                 'required' => true
+            ],
+            'auth' => [
+                'prefix' => 'a',
+                'longPrefix' => 'auth',
+                'flag' => false,
+                'required' => false,
+                'description' => 'Provide authentication class that you want to use'
             ]
         ];
     }
@@ -133,6 +141,20 @@ class RegisterEventWebhook extends ScriptAction
         return $method;
     }
 
+    private function getWebhookAuth(): ?WebhookAuth
+    {
+        if ($authenticationClass = $this->getOption('auth')) {
+            if ($this->isAuthenticationClassIsValid($authenticationClass)) {
+                return new WebhookAuth(
+                    $authenticationClass,
+                    []
+                );
+            }
+        }
+
+        return null;
+    }
+
     private function createWebHook(): Webhook
     {
         return new Webhook(
@@ -140,7 +162,7 @@ class RegisterEventWebhook extends ScriptAction
             $this->getOption('simpleRosterUrl'),
             $this->getHttpMethod(),
             self::MAX_RETRY,
-            null,
+            $this->getWebhookAuth(),
             false
         );
     }
@@ -164,5 +186,10 @@ class RegisterEventWebhook extends ScriptAction
         }
 
         return false;
+    }
+
+    private function isAuthenticationClassIsValid(string $authenticationClass): bool
+    {
+        return class_exists($authenticationClass);
     }
 }
