@@ -145,7 +145,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
         $this->propagated = false;
 
         $queues = $this->getQueues();
-        $queues[] = $queue;
+        $queues[] = $this->propagateServices($queue);
 
         $this->setOption(self::OPTION_QUEUES, $queues);
 
