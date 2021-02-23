@@ -24,13 +24,13 @@ namespace oat\tao\scripts\tools;
 
 use Exception;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\configEntity\WebhookAuth;
-use oat\tao\model\webhooks\configEntity\WebhookInterface;
 use oat\tao\model\webhooks\WebhookEventsService;
 use oat\tao\model\webhooks\WebhookRegistryManager;
 use oat\tao\model\webhooks\WebhookRegistryManagerInterface;
@@ -41,6 +41,7 @@ use ReflectionClass;
 class RegisterEventWebhook extends ScriptAction
 {
     use ServiceManagerAwareTrait;
+    use EventManagerAwareTrait;
 
     private const MAX_RETRY = 5;
     private const DEFAULT_HTTP_METHOD = 'GET';
@@ -95,8 +96,6 @@ class RegisterEventWebhook extends ScriptAction
     {
         $this->report = Report::createInfo('Registering webhook');
 
-        /** @var ConfigurableService $eventManager */
-        $eventManager = $this->getServiceLocator()->get(EventManager::class);
         /** @var ConfigurableService $webhookEventsService */
         $webhookEventsService = $this->getServiceLocator()->get(WebhookEventsService::class);
 
@@ -104,7 +103,7 @@ class RegisterEventWebhook extends ScriptAction
             $this->validateEvent();
             $webhookEventsService->registerEvent(RemoteDeliveryCreatedEvent::class);
             $this->getServiceManager()->register(WebhookEventsService::SERVICE_ID, $webhookEventsService);
-            $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+            $this->getServiceManager()->register(EventManager::SERVICE_ID, $this->getEventManager());
         } catch (Exception $exception) {
             $this->report->add(
                 Report::createError('Registering failed')
