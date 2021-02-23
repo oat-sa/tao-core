@@ -181,7 +181,7 @@ class RegisterEventWebhook extends ScriptAction
     {
         if (class_exists($event)) {
             $event = new ReflectionClass($event);
-            return in_array(WebhookSerializableEventInterface::class, $event->getInterfaceNames());
+            return in_array(WebhookSerializableEventInterface::class, $event->getInterfaceNames(), true);
         }
 
         return false;
