@@ -21,12 +21,12 @@
  *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+use oat\tao\install\utils\ConfigWriter;
 use oat\generis\persistence\DriverConfigurationFeeder;
 use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\OperatedByService;
-use oat\generis\persistence\sql\DbCreator;
 use oat\generis\persistence\sql\SetupDb;
 use oat\generis\persistence\PersistenceManager;
 use oat\generis\model\data\Ontology;
@@ -34,7 +34,7 @@ use oat\tao\model\TaoOntology;
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\service\ApplicationService;
-use oat\oatbox\service\ServiceNotFoundException;
+
 /**
  *
  *
@@ -98,14 +98,12 @@ class tao_install_Installator
              */
             @unlink($this->options['root_path'] . 'config/generis.conf.php');
 
-            /*
-             * 0 - Check input parameters.
-             */
+            /** >>> Step 0 - check input parameters. */
             $this->log('i', "Checking install data");
             self::checkInstallData($installData);
-            
+
             $this->log('i', "Starting TAO install");
-            
+
             // Sanitize $installData if needed.
             if (!preg_match("/\/$/", $installData['module_url'])) {
                 $installData['module_url'] .= '/';
@@ -122,19 +120,49 @@ class tao_install_Installator
             $this->log('d', 'Extensions to be installed: ' . var_export($extensionIDs, true));
 
             $installData['file_path'] = rtrim($installData['file_path'], DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-    
-            /*
-             *  1 - Check configuration with checks described in the manifest.
-             */
+            /** <<< Step 0 - check input parameters. */
+
+            /** >>> Step 1 - create the generis config files. */
+            $this->log('d', 'Writing generis config');
+
+            $constants = [
+                'LOCAL_NAMESPACE' => $installData['module_namespace'],
+                'GENERIS_INSTANCE_NAME' => $installData['instance_name'],
+                'GENERIS_SESSION_NAME' => $installData['session_name'] ?? self::generateSessionName(),
+                'ROOT_PATH' => $this->options['root_path'],
+                'FILES_PATH' => $installData['file_path'],
+                'ROOT_URL' => $installData['module_url'],
+                'DEFAULT_LANG' => $installData['module_lang'],
+                'DEBUG_MODE' => $installData['module_mode'] === 'debug',
+                'TIME_ZONE' => $installData['timezone'],
+                'DEFAULT_ANONYMOUS_INTERFACE_LANG' => $installData['anonymous_lang'] ?? $installData['module_lang'],
+            ];
+
+            $configWriter = new ConfigWriter(
+                $this->options['root_path'] . 'generis/config/sample/generis.conf.php',
+                $this->getGenerisConfig()
+            );
+            $configWriter->createConfig($constants);
+
+            $this->log(
+                'd',
+                sprintf(
+                    'The following constants were written in generis config: %s',
+                    PHP_EOL . var_export($constants, true)
+                )
+            );
+            /** <<< Step 1 - create the generis config files */
+
+            /** >>> Step 2 - check configuration with checks described in the manifest. */
             $configChecker = tao_install_utils_ChecksHelper::getConfigChecker($extensionIDs);
-            
+
             // Silence checks to have to be escaped.
             foreach ($configChecker->getComponents() as $c) {
                 if (method_exists($c, 'getName') && in_array($c->getName(), $this->getEscapedChecks())) {
                     $configChecker->silent($c);
                 }
             }
-            
+
             $reports = $configChecker->check();
             foreach ($reports as $r) {
                 $msg = $r->getMessage();
@@ -145,11 +173,9 @@ class tao_install_Installator
                     throw new tao_install_utils_Exception($msg);
                 }
             }
-            
-            /*
-             *  X - Setup Oatbox
-             */
-            
+            /** <<< Step 2 - check configuration with checks described in the manifest. */
+
+            /** >>> Step 3 - setup Oatbox. */
             $this->log('d', 'Removing old config');
             $consistentOptions = array_merge($installData, $this->options);
             $consistentOptions['config_path'] = $this->getConfigPath();
@@ -158,10 +184,9 @@ class tao_install_Installator
             $this->log('d', 'Oatbox was installed!');
 
             ServiceManager::setServiceManager($this->getServiceManager());
+            /** <<< Step 3 - setup Oatbox. */
 
-            /*
-             *  2 - Setup RDS persistence
-             */
+            /** >>> Step 4 - setup RDS persistence. */
             if (!$this->getServiceManager()->has(DriverConfigurationFeeder::SERVICE_ID)) {
                 $this->getServiceManager()->register(
                     DriverConfigurationFeeder::SERVICE_ID,
@@ -189,40 +214,11 @@ class tao_install_Installator
             $dbCreator = new SetupDb();
             $dbCreator->setLogger($this->logger);
             $dbCreator->setupDatabase($persistenceManager->getPersistenceById('default'));
-            
-            /*
-             *  4 - Create the generis config files
-             */
-            
-            $this->log('d', 'Writing generis config');
-            $generisConfigWriter = new tao_install_utils_ConfigWriter(
-                $this->options['root_path'] . 'generis/config/sample/generis.conf.php',
-                $this->getGenerisConfig()
-            );
+            /** <<< Step 4 - setup RDS persistence. */
 
-            $session_name = (isset($installData['session_name'])) ? $installData['session_name'] : self::generateSessionName();
-            $generisConfigWriter->createConfig();
-            $constants = [
-                'LOCAL_NAMESPACE'           => $installData['module_namespace'],
-                'GENERIS_INSTANCE_NAME'     => $installData['instance_name'],
-                'GENERIS_SESSION_NAME'      => $session_name,
-                'ROOT_PATH'                 => $this->options['root_path'],
-                'FILES_PATH'                => $installData['file_path'],
-                'ROOT_URL'                  => $installData['module_url'],
-                'DEFAULT_LANG'              => $installData['module_lang'],
-                'DEBUG_MODE'                => ($installData['module_mode'] == 'debug') ? true : false,
-                'TIME_ZONE'                 => $installData['timezone']
-            ];
-
-            $constants['DEFAULT_ANONYMOUS_INTERFACE_LANG'] = (isset($installData['anonymous_lang'])) ? $installData['anonymous_lang'] : $installData['module_lang'];
-
-
-            $generisConfigWriter->writeConstants($constants);
-            $this->log('d', 'The following constants were written in generis config:' . PHP_EOL . var_export($constants, true));
-
-            /*
-             * 4b - Prepare the file/cache folder (FILES_PATH) not yet defined)
-             * @todo solve this more elegantly
+            /**
+             * @TODO solve this more elegantly
+             * >>> Step 5 - prepare the file/cache folder (FILES_PATH) not yet defined).
              */
             $file_path = $installData['file_path'];
             if (is_dir($file_path)) {
@@ -247,37 +243,32 @@ class tao_install_Installator
             foreach ((array)$installData['extra_persistences'] as $k => $persistence) {
                 $persistenceManager->registerPersistence($k, $persistence);
             }
+            /** <<< Step 5 - prepare the file/cache folder (FILES_PATH) not yet defined). */
 
-            /*
-             * 5 - Run the extensions bootstrap
-             */
+            /** >>> Step 6 - run the extensions bootstrap. */
             $this->log('d', 'Running the extensions bootstrap');
             common_Config::load($this->getGenerisConfig());
-            
-            /*
-             * 5b - Create cache persistence
-            */
+            /** <<< Step 6 - run the extensions bootstrap. */
+
+            /** >>> Step 7 - create cache persistence. */
             $this->log('d', 'Creating cache persistence..');
             $persistenceManager->registerPersistence('cache', [
                 'driver' => 'phpfile'
             ]);
             $persistenceManager->getPersistenceById('cache')->purge();
             $this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
+            /** <<< Step 7 - create cache persistence. */
 
-            /*
-             * 6 - Finish Generis Install
-             */
-
+            /** >>> Step 8 - finish Generis Install. */
             $this->log('d', 'Finishing generis install..');
             $generis = common_ext_ExtensionsManager::singleton()->getExtensionById('generis');
 
             $generisInstaller = new common_ext_GenerisInstaller($generis, true);
             $generisInstaller->initContainer($this->getContainer());
             $generisInstaller->install();
+            /** <<< Step 8 - finish Generis Install. */
 
-            /*
-             * 7 - Add languages
-             */
+            /** >>> Step 9 - add languages. */
             $this->log('d', 'Adding languages..');
             $ontology = $this->getServiceManager()->get(Ontology::SERVICE_ID);
             $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
@@ -285,24 +276,21 @@ class tao_install_Installator
             foreach ($langModel as $triple) {
                 $rdfModel->add($triple);
             }
+            /** <<< Step 9 - add languages. */
 
-            /*
-             * 8 - Install the extensions
-             */
+            /** >>> Step 10 - install the extensions. */
             InstallHelper::initContainer($this->container);
             $installed = InstallHelper::installRecursively($extensionIDs, $installData);
             $this->log('ext', $installed);
+            /** <<< Step 10 - install the extensions. */
 
-            /*
-             *  8b - Generates client side translation bundles (depends on extension install)
-             */
+            /** >>> Step 11 - generates client side translation bundles (depends on extension install). */
             $this->log('i', 'Generates client side translation bundles');
-            
-            tao_models_classes_LanguageService::singleton()->generateAll();
 
-            /*
-             *  9 - Insert Super User
-             */
+            tao_models_classes_LanguageService::singleton()->generateAll();
+            /** <<< Step 11 - generates client side translation bundles (depends on extension install). */
+
+            /** >>> Step 12 - insert Super User. */
             $this->log('i', 'Spawning SuperUser ' . $installData['user_login']);
 
             $userClass = $ontology->getClass(TaoOntology::CLASS_URI_TAO_USER);
@@ -326,14 +314,13 @@ class tao_install_Installator
                 GenerisRdf::PROPERTY_USER_UILG => $userLang,
                 GenerisRdf::PROPERTY_USER_TIMEZONE => TIME_ZONE
             ]);
+            /** <<< Step 12 - insert Super User. */
 
-            /*
-             *  10 - Secure the install for production mode
-             */
+            /** >>> Step 13 - secure the install for production mode. */
             if ($installData['module_mode'] == 'production') {
                 $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
                 $this->log('i', 'Securing tao for production');
-                
+
                 // 11.0 Protect TAO dist
                 $shield = new tao_install_utils_Shield(array_keys($extensions));
                 $shield->disableRewritePattern(["!/test/", "!/doc/"]);
@@ -344,31 +331,30 @@ class tao_install_Installator
                                 ]);
                 $shield->protectInstall();
             }
+            /** <<< Step 13 - secure the install for production mode. */
 
-            /*
-             *  11 - Create the version file
-             */
+            /** >>> Step 14 - create the version file. */
             $this->log('d', 'Creating TAO version file');
             file_put_contents($installData['file_path'] . 'version', TAO_VERSION);
-            
-            /*
-             * 12 - Register Information about organization operating the system
-             */
+            /** <<< Step 14 - create the version file. */
+
+            /** >>> Step 15 - register Information about organization operating the system. */
             $this->log('t', 'Registering information about the organization operating the system');
             $operatedByService = $this->getServiceManager()->get(OperatedByService::SERVICE_ID);
-            
+
             if (!empty($installData['operated_by_name'])) {
                 $operatedByService->setName($installData['operated_by_name']);
             }
-            
+
             if (!empty($installData['operated_by_email'])) {
                 $operatedByService->setEmail($installData['operated_by_email']);
             }
-            
+
             $this->getServiceManager()->register(OperatedByService::SERVICE_ID, $operatedByService);
             if ($callback) {
                 $callback();
             }
+            /** <<< Step 15 - register Information about organization operating the system. */
 
             $this->setInstallationFinished();
         } catch (Exception $e) {
@@ -458,7 +444,7 @@ class tao_install_Installator
             throw new tao_install_utils_MalformedParameterException($msg);
         }
     }
-    
+
     /**
      * Tell the Installator instance to not take into account
      * a Configuration Check with ID = $id.
@@ -472,7 +458,7 @@ class tao_install_Installator
         $checks = array_unique($checks);
         $this->setEscapedChecks($checks);
     }
-    
+
     /**
      * Obtain an array of Configuration Check IDs to be escaped by
      * the Installator.
@@ -483,7 +469,7 @@ class tao_install_Installator
     {
         return $this->escapedChecks;
     }
-    
+
     /**
      * Set the array of Configuration Check IDs to be escaped by
      * the Installator.
@@ -495,7 +481,7 @@ class tao_install_Installator
     {
         $this->escapedChecks = $escapedChecks;
     }
-    
+
     /**
      * Informs you if a given Configuration Check ID corresponds
      * to a Check that has to be escaped.
@@ -504,7 +490,7 @@ class tao_install_Installator
     {
         return in_array($id, $this->getEscapedChecks());
     }
-    
+
     /**
      * Log message and add it to $this->log array;
      * @see common_Logger class
