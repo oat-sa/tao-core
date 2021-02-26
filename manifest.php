@@ -64,14 +64,7 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     'version' => '46.8.2',
->>>>>>> 953ed2336... Bump version
-=======
-    'version' => '46.9.0',
->>>>>>> 80a32c56e... Feature bump
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
