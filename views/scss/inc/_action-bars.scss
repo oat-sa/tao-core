@@ -41,7 +41,7 @@
         padding: 5px;
         height: 35px;
         .search-area {
-            margin: 0;
+            margin: 2px 0 0 0;
             border: none;
             float:right;
             display:inline-block;
@@ -50,21 +50,6 @@
             input {
                 padding-right: 34px;
                 min-width: 250px !important;
-            }
-            .search-area-buttons-container {
-                position: absolute;
-                top: 0;
-                right: 0;
-                .icon-ul {
-                    display: none;
-                }
-
-                &.has-results-counter {
-                    right: 5px;
-                    .icon-ul {
-                        display: inline-flex;
-                    }
-                }
             }
             button {
                 position: absolute;
@@ -224,14 +209,11 @@
             .search-area {
                 float: none;
                 position: absolute;
-                right: 0;
-                height: 25px;
+                right: 0px;
                 input {
                     padding-right: 30px;
                     min-width: auto !important;
                     width: 150px;
-                    height: 100%;
-                    border: 1px solid #0e5d91 !important;
                     &:focus {
                         width: 220px;
                     }
