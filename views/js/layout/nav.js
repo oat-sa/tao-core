@@ -23,7 +23,7 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Dieter Raber <dieter@taotesting.com>
  */
-define(['jquery', 'lodash', 'core/store'], function ($, _, store) {
+define(['jquery', 'lodash'], function ($, _) {
     'use strict';
 
     var $body = $('body'),
@@ -31,7 +31,6 @@ define(['jquery', 'lodash', 'core/store'], function ($, _, store) {
         $nav = $navContainer.find($('nav')),
         $mainMenu = $nav.find('.main-menu'),
         $settingsMenu = $nav.find('.settings-menu'),
-        $logoutLink = $nav.find('#logout'),
         navIsOversized = false,
         expandedMinWidth = (function () {
             var _width = $navContainer.find('img').parent().outerWidth();
@@ -102,10 +101,6 @@ define(['jquery', 'lodash', 'core/store'], function ($, _, store) {
                         checkHeight();
                     }, 100)
                 );
-
-            $logoutLink.on('click', () => {
-                store('search').then(s => s.clear());
-            });
         }
     };
 });

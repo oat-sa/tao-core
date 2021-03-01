@@ -22,13 +22,12 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
-define(['jquery', 'lodash', 'i18n', 'util/url', 'ui/dialog/alert', 'core/store'], function (
+define(['jquery', 'lodash', 'i18n', 'util/url', 'ui/dialog/alert'], function (
     $,
     _,
     __,
     url,
-    alert,
-    store
+    alert
 ) {
     'use strict';
 
@@ -43,7 +42,6 @@ define(['jquery', 'lodash', 'i18n', 'util/url', 'ui/dialog/alert', 'core/store']
      * @param {String} [options.redirectUrl] - Target URI
      */
     return function logoutEvent(options) {
-        store('search').then(s => s.clear());
         options = _.defaults(options || {}, defaults);
         alert(options.message, function () {
             window.location = options.redirectUrl;
