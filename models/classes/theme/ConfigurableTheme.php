@@ -158,6 +158,7 @@ class ConfigurableTheme extends Configurable implements Theme
                 $template = Template::getTemplate('blocks/login.tpl', 'tao');
                 break;
             default:
+                \common_Logger::d('Unknown template ' . $id);
                 $template = null;
         }
         return $template;
