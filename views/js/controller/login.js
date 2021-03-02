@@ -27,8 +27,9 @@ define([
     'module',
     'layout/loading-bar',
     'layout/version-warning',
-    'ui/login/login'
-], function ($, _, __, module, loadingBar, versionWarning, loginComponent) {
+    'ui/login/login',
+    'core/store'
+], function ($, _, __, module, loadingBar, versionWarning, loginComponent, store) {
     'use strict';
 
     var _defaults = {
@@ -38,6 +39,13 @@ define([
         message: {
             error: ''
         }
+    };
+
+    /**
+     * Clear store from previous session
+     */
+    const clearStore = function clearStore() {
+        store('search').then(s => s.clear());
     };
 
     /**
@@ -57,7 +65,7 @@ define([
                 loadingBar.start();
             }).after('render', function() {
                 versionWarning.init();
-
+                clearStore();
                 loadingBar.stop();
             }).on('submit.login', function() {
                 loadingBar.start();
