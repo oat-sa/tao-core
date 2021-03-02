@@ -37,6 +37,7 @@ use oat\tao\model\webhooks\WebhookRegistryManagerInterface;
 use oat\tao\model\webhooks\WebhookSerializableEventInterface;
 use oat\taoPublishing\model\publishing\event\RemoteDeliveryCreatedEvent;
 use ReflectionClass;
+use function Webmozart\Assert\Tests\StaticAnalysis\implementsInterface;
 
 class RegisterEventWebhook extends ScriptAction
 {
@@ -57,7 +58,7 @@ class RegisterEventWebhook extends ScriptAction
     protected function provideOptions()
     {
         return [
-            'simpleRosterUrl' => [
+            'url' => [
                 'prefix' => 'u',
                 'longPrefix' => 'url',
                 'flag' => false,
@@ -83,6 +84,20 @@ class RegisterEventWebhook extends ScriptAction
                 'flag' => false,
                 'required' => false,
                 'description' => 'Provide authentication class that you want to use'
+            ],
+            'login' => [
+                'prefix' => 'l',
+                'longPrefix' => 'login',
+                'flag' => false,
+                'required' => false,
+                'description' => 'Provide login for authentication'
+            ],
+            'password' => [
+                'prefix' => 'p',
+                'longPrefix' => 'password',
+                'flag' => false,
+                'required' => false,
+                'description' => 'Provide password for authentication'
             ]
         ];
     }
@@ -146,7 +161,10 @@ class RegisterEventWebhook extends ScriptAction
             if ($this->isAuthenticationClassIsValid($authenticationClass)) {
                 return new WebhookAuth(
                     $authenticationClass,
-                    []
+                    [
+                        'login' => $this->getLogin(),
+                        'password' => $this->getPassword()
+                    ]
                 );
             }
         }
@@ -158,7 +176,7 @@ class RegisterEventWebhook extends ScriptAction
     {
         return new Webhook(
             'remoteDeliveryWebHook',
-            $this->getOption('simpleRosterUrl'),
+            $this->getOption('url'),
             $this->getHttpMethod(),
             self::MAX_RETRY,
             $this->getWebhookAuth(),
@@ -190,5 +208,31 @@ class RegisterEventWebhook extends ScriptAction
     private function isAuthenticationClassIsValid(string $authenticationClass): bool
     {
         return class_exists($authenticationClass);
+    }
+
+    private function getLogin(): string
+    {
+        if ($this->getOption('login') === null)
+        {
+            $this->report->add(
+              Report::createError('You must provider user')
+            );
+            return '';
+        }
+
+        return $this->getOption('login');
+    }
+
+    private function getPassword(): string
+    {
+        if ($this->getOption('password') === null)
+        {
+            $this->report->add(
+              Report::createError('You must user password')
+            );
+            return '';
+        }
+
+        return $this->getOption('password');
     }
 }
