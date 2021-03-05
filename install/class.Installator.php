@@ -103,12 +103,17 @@ class tao_install_Installator
              */
             $this->log('i', "Checking install data");
             self::checkInstallData($installData);
-            
+
             $this->log('i', "Starting TAO install");
-            
+
             // Sanitize $installData if needed.
             if (!preg_match("/\/$/", $installData['module_url'])) {
                 $installData['module_url'] .= '/';
+            }
+
+            // Define the ROOT_URL constant if not defined (can be used in manifest files)
+            if (!defined('ROOT_URL')) {
+                define('ROOT_URL', $installData['module_url']);
             }
 
             if (isset($installData['extensions'])) {
@@ -122,19 +127,19 @@ class tao_install_Installator
             $this->log('d', 'Extensions to be installed: ' . var_export($extensionIDs, true));
 
             $installData['file_path'] = rtrim($installData['file_path'], DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-    
+
             /*
              *  1 - Check configuration with checks described in the manifest.
              */
             $configChecker = tao_install_utils_ChecksHelper::getConfigChecker($extensionIDs);
-            
+
             // Silence checks to have to be escaped.
             foreach ($configChecker->getComponents() as $c) {
                 if (method_exists($c, 'getName') && in_array($c->getName(), $this->getEscapedChecks())) {
                     $configChecker->silent($c);
                 }
             }
-            
+
             $reports = $configChecker->check();
             foreach ($reports as $r) {
                 $msg = $r->getMessage();
@@ -145,11 +150,11 @@ class tao_install_Installator
                     throw new tao_install_utils_Exception($msg);
                 }
             }
-            
+
             /*
              *  X - Setup Oatbox
              */
-            
+
             $this->log('d', 'Removing old config');
             $consistentOptions = array_merge($installData, $this->options);
             $consistentOptions['config_path'] = $this->getConfigPath();
@@ -189,11 +194,11 @@ class tao_install_Installator
             $dbCreator = new SetupDb();
             $dbCreator->setLogger($this->logger);
             $dbCreator->setupDatabase($persistenceManager->getPersistenceById('default'));
-            
+
             /*
              *  4 - Create the generis config files
              */
-            
+
             $this->log('d', 'Writing generis config');
             $generisConfigWriter = new tao_install_utils_ConfigWriter(
                 $this->options['root_path'] . 'generis/config/sample/generis.conf.php',
@@ -253,7 +258,7 @@ class tao_install_Installator
              */
             $this->log('d', 'Running the extensions bootstrap');
             common_Config::load($this->getGenerisConfig());
-            
+
             /*
              * 5b - Create cache persistence
             */
@@ -297,7 +302,7 @@ class tao_install_Installator
              *  8b - Generates client side translation bundles (depends on extension install)
              */
             $this->log('i', 'Generates client side translation bundles');
-            
+
             tao_models_classes_LanguageService::singleton()->generateAll();
 
             /*
@@ -333,7 +338,7 @@ class tao_install_Installator
             if ($installData['module_mode'] == 'production') {
                 $extensions = common_ext_ExtensionsManager::singleton()->getInstalledExtensions();
                 $this->log('i', 'Securing tao for production');
-                
+
                 // 11.0 Protect TAO dist
                 $shield = new tao_install_utils_Shield(array_keys($extensions));
                 $shield->disableRewritePattern(["!/test/", "!/doc/"]);
@@ -350,21 +355,21 @@ class tao_install_Installator
              */
             $this->log('d', 'Creating TAO version file');
             file_put_contents($installData['file_path'] . 'version', TAO_VERSION);
-            
+
             /*
              * 12 - Register Information about organization operating the system
              */
             $this->log('t', 'Registering information about the organization operating the system');
             $operatedByService = $this->getServiceManager()->get(OperatedByService::SERVICE_ID);
-            
+
             if (!empty($installData['operated_by_name'])) {
                 $operatedByService->setName($installData['operated_by_name']);
             }
-            
+
             if (!empty($installData['operated_by_email'])) {
                 $operatedByService->setEmail($installData['operated_by_email']);
             }
-            
+
             $this->getServiceManager()->register(OperatedByService::SERVICE_ID, $operatedByService);
             if ($callback) {
                 $callback();
@@ -458,7 +463,7 @@ class tao_install_Installator
             throw new tao_install_utils_MalformedParameterException($msg);
         }
     }
-    
+
     /**
      * Tell the Installator instance to not take into account
      * a Configuration Check with ID = $id.
@@ -472,7 +477,7 @@ class tao_install_Installator
         $checks = array_unique($checks);
         $this->setEscapedChecks($checks);
     }
-    
+
     /**
      * Obtain an array of Configuration Check IDs to be escaped by
      * the Installator.
@@ -483,7 +488,7 @@ class tao_install_Installator
     {
         return $this->escapedChecks;
     }
-    
+
     /**
      * Set the array of Configuration Check IDs to be escaped by
      * the Installator.
@@ -495,7 +500,7 @@ class tao_install_Installator
     {
         $this->escapedChecks = $escapedChecks;
     }
-    
+
     /**
      * Informs you if a given Configuration Check ID corresponds
      * to a Check that has to be escaped.
@@ -504,7 +509,7 @@ class tao_install_Installator
     {
         return in_array($id, $this->getEscapedChecks());
     }
-    
+
     /**
      * Log message and add it to $this->log array;
      * @see common_Logger class

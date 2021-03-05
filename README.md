@@ -61,3 +61,24 @@ This configuration will display `sectionName` when `FETURE_FLAG_01` is enabled.
 Advanced search feature will be enabled by default (but it requires elastic search library).
 You can define `FEATURE_FLAG_ADVANCED_SEARCH_DISABLED=true` or `FEATURE_FLAG_ADVANCED_SEARCH_DISABLED=1` feature flag 
 in global environment variables to disable Advanced Search feature.
+
+
+# Webhooks
+
+## Description
+
+Webhhooks allow you to send a request to remote server based on triggered event
+
+## How to use it
+
+### Register event webhook.
+
+use command `\oat\tao\scripts\tools\RegisterEventWebhook` to register events that are implementing `\oat\tao\model\webhooks\configEntity\WebhookInterface` interface.
+
+i.e:
+```
+$ php index.php 'oat\tao\scripts\tools\RegisterEventWebhook' 
+    \ -u "https://example.com"
+    \ -m "POST"
+    \ -e "<<Class FQN>>"
+``` 

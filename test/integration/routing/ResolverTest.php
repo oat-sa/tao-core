@@ -25,10 +25,11 @@ namespace oat\tao\test\integration\routing;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\routing\Resolver;
 use oat\tao\test\integration\routing\samples\FooControllerA;
-use common_ext_Manifest as Manifest;
+use oat\oatbox\extension\Manifest;
 use common_ext_ExtensionsManager as ExtensionsManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use common_http_Request;
+use oat\oatbox\extension\exception\ManifestNotFoundException;
 
 /**
  * Class ResolverTest
@@ -101,8 +102,8 @@ class ResolverTest extends GenerisPhpUnitTestRunner
     /**
      * @return ServiceLocatorInterface
      * @throws \common_Exception
-     * @throws \common_ext_MalformedManifestException
-     * @throws \common_ext_ManifestNotFoundException
+     * @throws \oat\oatbox\extension\exception\MalformedManifestException
+     * @throws ManifestNotFoundException
      */
     private function getServiceManager()
     {

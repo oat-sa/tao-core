@@ -29,6 +29,7 @@ use oat\tao\model\routing\ActionEnforcer;
 use oat\tao\model\routing\Resolver;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use oat\oatbox\extension\exception\ManifestNotFoundException;
 
 /**
  * Trait HttpFlowTrait
@@ -78,7 +79,7 @@ trait HttpFlowTrait
      * @throws \ResolverException
      * @throws \common_exception_InconsistentData
      * @throws \common_exception_InvalidArgumentType
-     * @throws \common_ext_ManifestNotFoundException
+     * @throws ManifestNotFoundException
      */
     public function forwardUrl($url)
     {

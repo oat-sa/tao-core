@@ -19,6 +19,8 @@
  *
  */
 
+use oat\oatbox\extension\Manifest;
+
 /**
  * A helper to get the required checks for an extension
  *
@@ -84,8 +86,8 @@ class tao_install_utils_ChecksHelper
         while (!empty($extensionIds)) {
             $ext = array_pop($extensionIds);
             $manifestPath = dirname(__FILE__) . '/../../../' . $ext . '/manifest.php';
-            $dependencies = common_ext_Manifest::extractDependencies($manifestPath);
-            $extensionIds = array_unique(array_merge($extensionIds, array_diff($dependencies, $toCheck)));
+            $dependencyIds = Manifest::extractDependencies($manifestPath);
+            $extensionIds = array_unique(array_merge($extensionIds, array_diff($dependencyIds, $toCheck)));
             $toCheck[] = $ext;
         }
         
@@ -96,7 +98,7 @@ class tao_install_utils_ChecksHelper
         
         foreach ($toCheck as $ext) {
             $manifestPath = dirname(__FILE__) . '/../../../' . $ext . '/manifest.php';
-            $checks = array_merge($checks, common_ext_Manifest::extractChecks($manifestPath));
+            $checks = array_merge($checks, Manifest::extractChecks($manifestPath));
         }
         return $checks;
     }

@@ -126,6 +126,8 @@ class Webhook implements WebhookInterface
             self::ID => $this->getId(),
             self::URL => $this->getUrl(),
             self::HTTP_METHOD => $this->getHttpMethod(),
+            self::RETRY_MAX => $this->getMaxRetries(),
+            self::RESPONSE_VALIDATION => $this->getResponseValidationEnable(),
             self::AUTH => $this->getAuth() !== null
                 ? $this->getAuth()->toArray()
                 : null
