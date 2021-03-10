@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint142\n"
-"PO-Revision-Date: 2020-11-20T10:14:10\n"
+"Project-Id-Version: TAO 3.4.0-sprint148\n"
+"PO-Revision-Date: 2021-02-12T09:18:30\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -374,11 +374,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "cancel"
-msgstr "abbrechen"
-
 msgid "Cancel"
 msgstr "Abbrechen"
+
+msgid "cancel"
+msgstr "abbrechen"
 
 msgid "cancel the action"
 msgstr "Aktion abbrechen"
@@ -408,11 +408,11 @@ msgstr "Passwort ändern"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Alles markieren"
-
 msgid "Check All"
 msgstr "Alle markieren"
+
+msgid "Check all"
+msgstr "Alles markieren"
 
 msgid "Check-in"
 msgstr "Check-In"
@@ -912,9 +912,6 @@ msgstr "Zurück"
 msgid "go back to home page"
 msgstr ""
 
-msgid "Go to item"
-msgstr ""
-
 msgid "Height"
 msgstr "Höhe"
 
@@ -999,10 +996,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1416,10 +1413,10 @@ msgstr "von"
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
 msgid "Old Password"
@@ -1621,6 +1618,9 @@ msgstr ""
 msgid "Remove"
 msgstr "Entfernen"
 
+msgid "Remove criteria"
+msgstr ""
+
 msgid "Remove Message"
 msgstr "Nachricht entfernen"
 
@@ -1767,9 +1767,6 @@ msgid "Search %s"
 msgstr "Suche %s"
 
 msgid "Search by properties"
-msgstr ""
-
-msgid "Search Item"
 msgstr ""
 
 msgid "Search sub-classes"
@@ -2351,6 +2348,9 @@ msgstr ""
 
 msgid "Version"
 msgstr "Version"
+
+msgid "View"
+msgstr ""
 
 msgid "View report"
 msgstr ""

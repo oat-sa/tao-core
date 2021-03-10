@@ -41,6 +41,7 @@ use oat\tao\scripts\install\RegisterResourceRelationService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterSessionCookieService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
+use oat\tao\scripts\install\RegisterTaoUpdateEventListener;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\RegisterUserService;
@@ -63,11 +64,7 @@ return [
     'label' => 'TAO Base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '46.8.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
-    'requires' => [
-        'generis' => '>=13.10.0',
-    ],
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
         'http://www.tao.lu/middleware/wfEngine.rdf'
@@ -141,6 +138,7 @@ return [
             CreateRdsListStore::class,
             RegisterSessionCookieService::class,
             RegisterResourceRelationService::class,
+            RegisterTaoUpdateEventListener::class,
         ]
     ],
     'update' => Updater::class,
@@ -210,9 +208,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '3.4.0-sprint142',
+        'TAO_VERSION' => '3.4.0-sprint149',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.4.0-sprint142',
+        'TAO_VERSION_NAME' => '3.4.0-sprint149',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

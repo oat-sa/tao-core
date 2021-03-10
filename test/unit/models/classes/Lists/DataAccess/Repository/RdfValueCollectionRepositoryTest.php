@@ -117,7 +117,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
      */
     public function testFindAll(ValueCollectionSearchRequest $searchRequest): void
     {
-        $result = new ValueCollection(self::COLLECTION_URI, new Value(1, '1', '1'), new Value(2, '2', '2'));
+        $result = new ValueCollection(self::COLLECTION_URI, new Value(1, '1', 'Element 1'), new Value(2, '2', 'Element 2'));
 
         $this->expectQuery($searchRequest, $result);
 
@@ -219,31 +219,36 @@ class RdfValueCollectionRepositoryTest extends TestCase
     {
         return [
             'Bare search request'                      => [
-                new ValueCollectionSearchRequest(),
+                (new ValueCollectionSearchRequest())->setDataLanguage('en'),
             ],
             'Search request with property URI'         => [
                 (new ValueCollectionSearchRequest())
-                    ->setPropertyUri('https://example.com'),
+                    ->setPropertyUri('https://example.com')
+                    ->setDataLanguage('en'),
             ],
             'Search request with value collection URI' => [
                 (new ValueCollectionSearchRequest())
-                    ->setValueCollectionUri(self::COLLECTION_URI),
+                    ->setValueCollectionUri(self::COLLECTION_URI)
+                    ->setDataLanguage('en'),
             ],
             'Search request with subject'              => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
-                    ->setSubject('test'),
+                    ->setSubject('test')
+                    ->setDataLanguage('en'),
             ],
             'Search request with excluded value URIs'  => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->addExcluded('https://example.com#1')
-                    ->addExcluded('https://example.com#2'),
+                    ->addExcluded('https://example.com#2')
+                    ->setDataLanguage('en'),
             ],
             'Search request with limit'                => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
-                    ->setLimit(1),
+                    ->setLimit(1)
+                    ->setDataLanguage('en'),
             ],
             'Search request with all properties'       => [
                 (new ValueCollectionSearchRequest())
@@ -252,7 +257,8 @@ class RdfValueCollectionRepositoryTest extends TestCase
                     ->setSubject('test')
                     ->addExcluded('https://example.com#1')
                     ->addExcluded('https://example.com#2')
-                    ->setLimit(1),
+                    ->setLimit(1)
+                    ->setDataLanguage('en'),
             ],
         ];
     }
@@ -308,7 +314,10 @@ class RdfValueCollectionRepositoryTest extends TestCase
         return implode(
             ' ',
             [
-                'SELECT collection.object as collection_uri, element.id, element.subject, element.object',
+                'SELECT collection.object as collection_uri, '
+                . 'element.id, element.subject,'
+                . ' element.object, '
+                . 'element.l_language as datalanguage',
                 'FROM statements element',
                 'INNER JOIN statements collection',
                 'ON collection.subject = element.subject',
@@ -431,6 +440,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
                 'id'             => (string)$value->getId(),
                 'subject'        => $value->getUri(),
                 'object'         => $value->getLabel(),
+                'datalanguage'   => 'en',
             ];
         }
 

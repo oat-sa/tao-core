@@ -27,7 +27,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
-use oat\tao\model\routing\NamespaceRoute;
+use oat\oatbox\extension\exception\ManifestNotFoundException;
 
 /**
  * Resolves a http request to a controller and method
@@ -98,7 +98,7 @@ class Resolver implements ServiceLocatorAwareInterface
      * @return null
      * @throws \ResolverException
      * @throws \common_exception_InconsistentData
-     * @throws \common_ext_ManifestNotFoundException
+     * @throws ManifestNotFoundException
      */
     public function getExtensionId()
     {
@@ -112,7 +112,7 @@ class Resolver implements ServiceLocatorAwareInterface
      * @return null
      * @throws \ResolverException
      * @throws \common_exception_InconsistentData
-     * @throws \common_ext_ManifestNotFoundException
+     * @throws ManifestNotFoundException
      */
     public function getControllerClass()
     {
@@ -126,7 +126,7 @@ class Resolver implements ServiceLocatorAwareInterface
      * @return null
      * @throws \ResolverException
      * @throws \common_exception_InconsistentData
-     * @throws \common_ext_ManifestNotFoundException
+     * @throws ManifestNotFoundException
      */
     public function getMethodName()
     {
@@ -165,7 +165,7 @@ class Resolver implements ServiceLocatorAwareInterface
      * @return bool
      * @throws \ResolverException
      * @throws \common_exception_InconsistentData
-     * @throws \common_ext_ManifestNotFoundException
+     * @throws ManifestNotFoundException
      */
     protected function resolve()
     {
@@ -195,7 +195,7 @@ class Resolver implements ServiceLocatorAwareInterface
      * @param \common_ext_Extension $extension
      * @return mixed
      * @throws \common_exception_InconsistentData
-     * @throws \common_ext_ManifestNotFoundException
+     * @throws ManifestNotFoundException
      */
     private function getRoutes(\common_ext_Extension $extension)
     {
