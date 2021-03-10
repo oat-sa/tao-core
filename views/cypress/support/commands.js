@@ -17,7 +17,6 @@
  */
 
 import '@oat-sa-private/e2e-runner/support/auth';
-import users from '../fixtures/users';
 import './resourceTree'
 
 Cypress.Commands.add('setupServer', () => {
@@ -44,15 +43,15 @@ Cypress.Commands.add('setupServer', () => {
     });
 });
 
-Cypress.Commands.add('getLoginData', (userType = 'admin') => users[userType][0]);
-
 Cypress.Commands.add('loginAsAdmin', () => {
-    const userType = 'admin';
     cy.fixture('urls').as('urls').then(urls => {
-            cy.getLoginData(userType).then(({username, password}) => {
-                cy.login({url: urls.login, username, password});
-            })
-        }
-    );
-});
+            const username = Cypress.env('adminUser');
+            const password = Cypress.env('adminPass');
+
+            cy.login({url: urls.login, username, password});
+        });
+    }
+);
+
+
 

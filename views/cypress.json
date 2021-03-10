@@ -1,11 +1,11 @@
 {
-  "baseUrl": "https://sds-tao-1.docker.localhost",
+  "baseUrl": "https://bosa.docker.localhost",
   "fixturesFolder": "cypress/fixtures",
   "integrationFolder": "../..",
   "screenshotsFolder": "cypress/screenshots",
   "supportFile": "cypress/support",
   "pluginsFile": "node_modules/@oat-sa-private/e2e-runner/plugins",
-  "testFiles": "**/views/cypress/integration/**/*.spec.js",
+  "testFiles": "**/views/cypress/tests/**/*.spec.js",
   "video": false,
   "videosFolder": "cypress/videos",
   "pageLoadTimeout": 30000,

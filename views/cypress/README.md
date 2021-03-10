@@ -9,8 +9,8 @@ The local structure is a reduced form of the classic Cypress project structure:
 |-- cypress/            #
   |-- envs/             # environment configs
   |-- fixtures/         # static data used in tests
-  |-- integration/      # root folder of the tests
-  |-- support/          # suppport commands, imports, global setup
+  |-- tests/            # root folder of the tests
+  |-- support/          # support commands, imports, global setup
 </pre>
 
 ## Notes on environment configs
