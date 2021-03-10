@@ -52,6 +52,3 @@ Cypress.Commands.add('loginAsAdmin', () => {
         });
     }
 );
-
-
-
