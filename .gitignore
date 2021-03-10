@@ -83,5 +83,3 @@ cypress/screenshots/
 cypress/examples/
 cypress/envs/*.json
 cypress.env.json
-
-
