@@ -38,7 +38,7 @@ class HtmlResponse extends ResponseAbstract
             $message = $this->exception->getMessage();
             $trace = $this->exception->getTraceAsString();
         }
-        $referer = $_SERVER['HTTP_REFERER'];
+        $referer = $_SERVER['HTTP_REFERER'] ?? ROOT_URL;
         $returnUrl = (parse_url($referer, PHP_URL_HOST) === parse_url(ROOT_URL, PHP_URL_HOST))
             ? htmlentities($referer, ENT_QUOTES)
             : false;

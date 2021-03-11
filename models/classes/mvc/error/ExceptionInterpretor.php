@@ -30,6 +30,7 @@ use tao_models_classes_MissingRequestParameterException;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use oat\tao\model\exceptions\UserErrorException;
+use oat\tao\model\controllerMap\ActionNotFoundException;
 
 /**
  * Description of ExceptionInterpretor
@@ -104,6 +105,7 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface
                 break;
             case 'ActionEnforcingException':
             case 'tao_models_classes_FileNotFoundException':
+            case ActionNotFoundException::class:
             case common_exception_ResourceNotFound::class:
                 $this->returnHttpCode    = StatusCode::HTTP_NOT_FOUND;
                 $this->responseClassName = 'MainResponse';
