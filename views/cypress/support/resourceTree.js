@@ -65,13 +65,14 @@ Cypress.Commands.add('renameSelectedClass', newName => {
 
     cy.fixture('locators').then(locators => {
         // assumes that editing form has already been rendered
-        cy.get(locators.contentContainer)
-        cy.get(locators.labelInput)
-            .clear()
-            .type(newName);
+        cy.get(locators.contentContainer).within(() => {
+            cy.get(locators.labelInput)
+                .clear()
+                .type(newName);
 
-        cy.get(locators.saveBtn).click();
-        cy.wait('@editClass');
+            cy.get(locators.saveBtn).click();
+            cy.wait('@editClass');
+        });
     });
 });
 
@@ -80,13 +81,14 @@ Cypress.Commands.add('renameSelectedItem', newName => {
 
     cy.fixture('locators').then(locators => {
         // assumes that editing form has already been rendered
-        cy.get(locators.contentContainer, {timeout: 10000})
-        cy.get(locators.labelInput)
-            .clear()
-            .type(newName);
+        cy.get(locators.contentContainer).within(() => {
+            cy.get(locators.labelInput)
+                .clear()
+                .type(newName);
 
-        cy.get(locators.saveBtn).click();
-        cy.wait('@editItem', {timeout: 10000}).wait('@editItem');
+            cy.get(locators.saveBtn).click();
+            cy.wait('@editItem').wait('@editItem');
+        });
     });
 });
 
