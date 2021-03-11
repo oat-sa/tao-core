@@ -317,6 +317,13 @@ body > footer {
     margin-bottom: -1px * $footerHeight;
 }
 
+/* MSIE scrollbars behavior on zoom in fullscreen mode */
+.fullscreen {
+    .content-wrap {
+        -ms-overflow-y: auto;
+    }
+}
+
 .content-wrap:after {
     content: "";
     display: block;
