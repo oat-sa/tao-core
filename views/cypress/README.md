@@ -1,4 +1,4 @@
-# cypress folder
+# E2E testing
 
 Development of end-to-end tests in this project is based on the principle of storing the test specs, fixtures and environment configs here, while some shared parts are imported. The imported parts are the Cypress binary, plugins and shared support code, which are all provided by the dependency `@oat-sa-private/e2e-runner`.
 
@@ -15,9 +15,10 @@ The local structure is a reduced form of the classic Cypress project structure:
 
 ## Configuration
 
-Because tests may be run against various envs (local, demo, staging...), we need to have multiple env files. They are stored in `cypress/envs/`, and loaded into the main config according to the key `env.configFile` defined in the main config.
+Because tests may be run against various envs (local, demo, staging, etc), we need to have multiple env files. They are stored in `cypress/envs/`, and loaded into the main config according to the key `env.configFile` defined in the main config.
 
 Create your own `cypress.json` and `envs/env*.json` files in the views directory. You can rename sample `cypress.json.sample` and set your `env*.json` in it:
+
 ```json
 {
     "env": {
@@ -35,7 +36,8 @@ Create your own `cypress.json` and `envs/env*.json` files in the views directory
 - centrally, in `e2e-runner`, if the command should be shared or re-used
 
 > When registering a local or global command, take care to avoid name collisions with any command you might have imported.
-## Notes on plugins
+
+## Plugins
 
 The local project doesn't contain plugin dependencies or any plugin setup file. Instead, the project is configured by using `cypress.json` to point to the `e2e-runner` plugins loader:
 
