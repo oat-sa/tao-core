@@ -6,5 +6,6 @@
     "deliveryIndex": "/taoDelivery/DeliveryServer/index",
     "logout": "/tao/Main/logout",
     "guestLogout": "/taoDelivery/DeliveryServer/logout",
-    "tests": "/tao/Main/index?structure=tests&ext=taoTests&section=manage_tests"
+    "tests": "/tao/Main/index?structure=tests&ext=taoTests&section=manage_tests",
+    "items": "/tao/Main/index?structure=items&ext=taoItems&section=manage_items"
 }

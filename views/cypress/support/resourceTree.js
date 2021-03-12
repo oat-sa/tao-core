@@ -32,7 +32,7 @@ Cypress.Commands.add('addTreeRoutes', () => {
 });
 
 Cypress.Commands.add('loadItemsPage', () => {
-    cy.visit(urls.index);
+    cy.visit(urls.items);
 });
 
 Cypress.Commands.add('selectTreeNode', cssSelector => {
