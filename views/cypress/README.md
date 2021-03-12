@@ -13,14 +13,20 @@ The local structure is a reduced form of the classic Cypress project structure:
   |-- support/          # support commands, imports, global setup
 </pre>
 
-## Notes on environment configs
+## Configuration
 
 Because tests may be run against various envs (local, demo, staging...), we need to have multiple env files. They are stored in `cypress/envs/`, and loaded into the main config according to the key `env.configFile` defined in the main config.
 
-> The config is extended thanks to the init function in `e2e-runner/plugins/index.js`. If, for some reason, you do not use the central plugins init, you can copy an existing env file to a new file called `cypress.env.json`, at the same level as `cypress.json`.
-The env config is the place for any and all variables (urls, params, content ids) specific to the environment the tests will run against. It can be extended as needed. Two env files do not need to fully match in key names. The local env file will differ between 2 developers' machines (particularly in `deliveryId`s).
+Create your own `cypress.json` and `envs/env*.json` files in the views directory. You can rename sample `cypress.json.sample` and set your `env*.json` in it:
+```json
+{
+    "env": {
+        "configFile": "cypress/envs/env-local.json"
+    }
+}
+```
 
-## Notes on commands
+## Commands
 
 [Commands](https://docs.cypress.io/api/cypress-api/custom-commands.html) are a key part of Cypress. Commands can be registered to `Cypress.Commands` at several levels:
 
@@ -50,6 +56,6 @@ Example:
 import '@cypress/skip-test/support';
 ```
 
-## Notes on fixtures
+## Fixtures
 
 Any data needed in local tests (and not hard-coded) should be placed in `cypress/fixtures/`. Can be JSON, JavaScript, zip files, whatever is needed.

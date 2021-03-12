@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://bosa.docker.localhost",
+  "baseUrl": "https://tao.docker.localhost",
   "fixturesFolder": "cypress/fixtures",
   "integrationFolder": "../..",
   "screenshotsFolder": "cypress/screenshots",
@@ -10,6 +10,6 @@
   "videosFolder": "cypress/videos",
   "pageLoadTimeout": 30000,
   "env": {
-    "configFile": "cypress/envs/env-local.json"
+    "configFile": "cypress/envs/env.json"
   }
 }
