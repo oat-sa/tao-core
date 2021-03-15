@@ -149,7 +149,7 @@ Cypress.Commands.add('goToItemAuthoring', cssSelector => {
     cy.fixture('locators').then(locators => {
         cy.selectTreeNode(cssSelector);
 
-        cy.get(locators.actions.gotToAuthoring).click();
+        cy.get(locators.actions.goToAuthoring).click();
 
         cy.wait('@authoring');
     });

@@ -15,6 +15,6 @@
     "moveTo": "a[href$=\"Items/moveResource\"]",
     "copyTo": "a[href$=\"Items/copyInstance\"]",
     "duplicate": "a[href$=\"Items/cloneInstance\"]",
-    "gotToAuthoring": "a[href$=\"Items/authoring\"]"
+    "goToAuthoring": "a[href$=\"Items/authoring\"]"
   }
 }

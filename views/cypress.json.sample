@@ -4,7 +4,7 @@
   "integrationFolder": "../..",
   "screenshotsFolder": "cypress/screenshots",
   "supportFile": "cypress/support",
-  "pluginsFile": "node_modules/@oat-sa-private/e2e-runner/plugins",
+  "pluginsFile": "node_modules/@oat-sa/e2e-runner/plugins",
   "testFiles": "**/views/cypress/tests/**/*.spec.js",
   "video": false,
   "videosFolder": "cypress/videos",

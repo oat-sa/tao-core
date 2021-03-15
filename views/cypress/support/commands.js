@@ -16,7 +16,7 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
-import '@oat-sa-private/e2e-runner/support/auth';
+import '@oat-sa/e2e-runner/support/auth';
 import './resourceTree'
 
 Cypress.Commands.add('setupServer', () => {

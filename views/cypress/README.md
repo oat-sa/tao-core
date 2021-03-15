@@ -1,6 +1,6 @@
 # E2E testing
 
-Development of end-to-end tests in this project is based on the principle of storing the test specs, fixtures and environment configs here, while some shared parts are imported. The imported parts are the Cypress binary, plugins and shared support code, which are all provided by the dependency `@oat-sa-private/e2e-runner`.
+Development of end-to-end tests in this project is based on the principle of storing the test specs, fixtures and environment configs here, while some shared parts are imported. The imported parts are the Cypress binary, plugins and shared support code, which are all provided by the dependency `@oat-sa/e2e-runner`.
 
 The local structure is a reduced form of the classic Cypress project structure:
 
@@ -43,7 +43,7 @@ The local project doesn't contain plugin dependencies or any plugin setup file. 
 
 ```json
 {
-  "pluginsFile": "node_modules/@oat-sa-private/e2e-runner/plugins"
+  "pluginsFile": "node_modules/@oat-sa/e2e-runner/plugins"
 }
 ```
 
