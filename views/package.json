@@ -9,7 +9,7 @@
     },
     "scripts": {
         "cy:open": "cypress open",
-        "cy:run": "cypress run --headless"
+        "cy:run": "cypress run"
     },
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
