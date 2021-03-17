@@ -54,6 +54,16 @@ class ResultSetResponseNormalizer extends ConfigurableService
             );
 
             foreach ($resultsRaw as $content) {
+                if (!is_array($content)){
+                    $this->logError(
+                        sprintf(
+                            'Search content issue detected: expected array, but %s given',
+                            json_encode($content)
+                        )
+                    );
+                    continue;
+                }
+
                 $isAccessible = isset($accessibleResultsMap[$content['id']]);
 
                 if (!$isAccessible) {
