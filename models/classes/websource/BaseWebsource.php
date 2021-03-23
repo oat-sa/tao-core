@@ -133,7 +133,7 @@ abstract class BaseWebsource extends Configurable implements Websource
             //manage bugs in finfo
             switch ($pathParts['extension']) {
                 case 'js':
-                    if (in_array($mimeType, ['text/plain', 'text/html', 'text/x-asm', 'text/x-c'], true)) {
+                    if (in_array($mimeType, ['text/plain', 'text/html', 'text/x-asm', 'text/x-c', 'text/x-java'], true)) {
                         return 'text/javascript';
                     }
                     break;
