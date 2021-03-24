@@ -30,7 +30,7 @@ jobs:
         run: |
           php -r '$composerArray = json_decode(file_get_contents("./composer.json"), true);
             $composerArray["require"][$composerArray["name"]] = "dev-develop";
-            $composerArray["repositories"] = is_array($composerArray["repositories"]) ? $composerArray["repositories"] : [];
+            $composerArray["repositories"] = array_key_exists("repositories", $composerArray) ? $composerArray["repositories"] : [];
             $composerArray["repositories"][] = [
               "type" => "vcs",
               "url" => "https://github.com/".$composerArray["name"].".git"
@@ -71,5 +71,6 @@ jobs:
           git config --global user.name github-actions
           git config --global user.email github-actions@github.com
           git remote set-url --push origin https://${GITHUB_TOKEN}@github.com/$REPO_NAME.git
+          git checkout .
           cd ..
           taoRelease extensionRelease --extension-to-release ${EXT_ID} --no-interactive --no-write
