@@ -56,7 +56,10 @@ class GenerisSearch extends ConfigurableService implements Search
         ]);
         $ids = [];
         foreach ($results as $resource) {
-            $ids[] = $resource->getUri();
+            $ids[] = [
+                'id' => $resource->getUri(),
+                'label' => $resource->getLabel()
+            ];
         }
 
         return new ResultSet($ids, $this->getTotalCount($queryString, $rootClass));
@@ -101,7 +104,7 @@ class GenerisSearch extends ConfigurableService implements Search
             ]
         );
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::index()
@@ -115,7 +118,7 @@ class GenerisSearch extends ConfigurableService implements Search
         }
         return $i;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::remove()
@@ -125,7 +128,7 @@ class GenerisSearch extends ConfigurableService implements Search
         // nothing to do
         return true;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\search\Search::supportCustomIndex()

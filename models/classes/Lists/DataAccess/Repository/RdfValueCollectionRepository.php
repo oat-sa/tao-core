@@ -393,6 +393,17 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         return $this->persistenceManager->getPersistenceById($this->persistenceId);
     }
 
+    public function count(ValueCollectionSearchRequest $searchRequest): int
+    {
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+
+        $this->enrichWithInitialCondition($query);
+        $this->enrichWithSelect($searchRequest, $query);
+        $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
+
+        return $query->execute()->rowCount();
+    }
+
     private function extractLabel(ValueCollectionSearchRequest $searchRequest, iterable $labels, string $subject): ?string
     {
         if (!empty($labels[$subject][$searchRequest->getDataLanguage()])) {
