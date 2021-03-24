@@ -53,7 +53,7 @@
         "imsglobal/lti": "^3.0",
         "justinrainbow/json-schema": "5.2.1",
         "oat-sa/jig": "~0.1",
-        "oat-sa/composer-npm-bridge": "~0.4.2||dev-master",
+        "oat-sa/composer-npm-bridge": "dev-fix/run-ci-instead-of-install",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
         "composer/package-versions-deprecated": "^1.11",
         "paragonie/random_compat": "^2.0",
