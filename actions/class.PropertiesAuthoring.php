@@ -25,6 +25,7 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -547,9 +548,9 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
     private function isElasticSearchEnabled(): bool
     {
-        //@TODO Use AdvancedSearchChecker [andrei.shapiro]
-        $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
+        /** @var AdvancedSearchChecker $advancedSearchChecker */
+        $advancedSearchChecker = $this->getServiceLocator()->get(AdvancedSearchChecker::class);
 
-        return get_class($searchService) === \oat\tao\elasticsearch\ElasticSearch::class;
+        return $advancedSearchChecker->isEnabled();
     }
 }
