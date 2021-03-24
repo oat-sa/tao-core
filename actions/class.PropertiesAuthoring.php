@@ -493,8 +493,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     }
 
     /**
-     * @param array $properties
-     *
      * @throws core_kernel_persistence_Exception
      */
     private function saveProperties(array $properties): void
