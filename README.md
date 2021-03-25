@@ -67,7 +67,7 @@ in global environment variables to disable Advanced Search feature.
 
 ## Description
 
-Webhhooks allow you to send a request to remote server based on triggered event
+Webhooks allow you to send a request to remote server based on triggered event
 
 ## How to use it
 
