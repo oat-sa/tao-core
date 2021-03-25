@@ -22,15 +22,6 @@ import urlParams from '../fixtures/urlParams.json';
 /**
  * Commands
  */
-Cypress.Commands.add('addTreeRoutes', () => {
-    cy.route('POST', '**/createItem').as('createItem');
-    cy.route('POST', '**/editItem').as('editItem');
-    cy.route('POST', '**/editClassLabel').as('editClass');
-    cy.route('POST', '**/deleteItem').as('deleteItem');
-    cy.route('POST', '**/deleteClass').as('deleteClass');
-    cy.route('GET', '**/authoring?id=https://*/ontologies/tao.rdf#*').as('authoring');
-});
-
 Cypress.Commands.add('loadItemsPage', () => {
     cy.visit(urls.items);
 });
@@ -47,14 +38,7 @@ Cypress.Commands.add('selectTreeNode', cssSelector => {
                 // click the node only if it isn't selected:
                 if (!$treeNode.find(locators.itemClass).hasClass('open')) {
                     // it can be offscreen due to scrollable panel (so let's force click)
-                    cy.wrap($treeNode).click('top', {force: true});
-
-                    // 1 of 2 possible events indicates the clicked node's form loaded:
-                    if ($treeNode.hasClass('class')) {
-                        cy.wait('@editClass');
-                    } else {
-                        cy.wait('@editItem');
-                    }
+                    cy.wrap($treeNode).click();
                 }
             });
     });
@@ -63,15 +47,15 @@ Cypress.Commands.add('selectTreeNode', cssSelector => {
 Cypress.Commands.add('renameSelectedClass', newName => {
     cy.log('COMMAND: renameSelectedClass', newName);
 
+    cy.contains('Edit class');
+
     cy.fixture('locators').then(locators => {
-        // assumes that editing form has already been rendered
         cy.get(locators.contentContainer).within(() => {
             cy.get(locators.labelInput)
                 .clear()
                 .type(newName);
 
             cy.get(locators.saveBtn).click();
-            cy.wait('@editClass');
         });
     });
 });
@@ -80,14 +64,14 @@ Cypress.Commands.add('renameSelectedItem', newName => {
     cy.log('COMMAND: renameSelectedItem', newName);
 
     cy.fixture('locators').then(locators => {
-        // assumes that editing form has already been rendered
+        cy.contains('Edit Item');
+
         cy.get(locators.contentContainer).within(() => {
             cy.get(locators.labelInput)
                 .clear()
                 .type(newName);
 
             cy.get(locators.saveBtn).click();
-            cy.wait('@editItem').wait('@editItem');
         });
     });
 });
@@ -97,10 +81,11 @@ Cypress.Commands.add('addClass', cssSelector => {
 
     cy.fixture('locators').then(locators => {
         cy.selectTreeNode(cssSelector);
-
         cy.get(locators.actions.newClass).click();
 
-        cy.wait('@editClass');
+        // hack to cope with form update after editing class
+        cy.contains('Edit class').should('not.exist');
+        cy.contains('Edit class');
     });
 });
 
@@ -109,11 +94,11 @@ Cypress.Commands.add('addItem', cssSelector => {
 
     cy.fixture('locators').then(locators => {
         cy.selectTreeNode(cssSelector);
-
         cy.get(locators.actions.newItem).click();
 
-        // 2 different events must fire before proceeding
-        cy.wait('@createItem').wait('@editItem');
+        // hack to cope with form update after editing item
+        cy.contains('Edit Item').should('not.exist');
+        cy.contains('Edit Item');
     });
 });
 
@@ -125,8 +110,6 @@ Cypress.Commands.add('deleteClass', cssSelector => {
 
         cy.get(locators.actions.deleteClass).click();
         cy.get('.modal-body [data-control="ok"]').click();
-
-        cy.wait('@deleteClass');
     });
 });
 
@@ -138,8 +121,6 @@ Cypress.Commands.add('deleteItem', cssSelector => {
 
         cy.get(locators.actions.deleteItem).click();
         cy.get('.modal-body [data-control="ok"]').click();
-
-        cy.wait('@deleteItem');
     });
 });
 
@@ -148,10 +129,7 @@ Cypress.Commands.add('goToItemAuthoring', cssSelector => {
 
     cy.fixture('locators').then(locators => {
         cy.selectTreeNode(cssSelector);
-
         cy.get(locators.actions.goToAuthoring).click();
-
-        cy.wait('@authoring');
     });
 });
 
