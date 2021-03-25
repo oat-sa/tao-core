@@ -77,10 +77,13 @@ class ClassMetadataServiceTest extends TestCase
             ->method('getClass')
             ->willReturn($this->createClassMock());
 
+        $getClassMetadataValuesServiceMock = $this->createMock(GetClassMetadataValuesService::class);
+
         $this->sut->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
-                    Ontology::SERVICE_ID => $ontologyServiceMock
+                    Ontology::SERVICE_ID => $ontologyServiceMock,
+                    GetClassMetadataValuesService::class => $getClassMetadataValuesServiceMock,
                 ]
             )
         );

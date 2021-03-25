@@ -49,6 +49,7 @@ class SearchQueryFactoryTest extends TestCase
                             'query' => 'exampleQuery',
                             'rootNode' => 'exampleRootNode',
                             'parentNode' => 'exampleParentNode',
+                            'structure' => 'exampleRootNode',
                         ],
                     'rows' => 1,
                     'page' => 1,
@@ -120,6 +121,7 @@ class SearchQueryFactoryTest extends TestCase
                             'query' => 'exampleQuery',
                             'parentNode' => 'exampleParentNode',
                             'rootNode' => 'exampleRootNode',
+                            'structure' => 'exampleRootNode',
                         ],
                 ]
             );

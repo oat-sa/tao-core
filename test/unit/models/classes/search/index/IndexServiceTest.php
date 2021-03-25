@@ -114,7 +114,7 @@ class IndexServiceTest extends TestCase
         $this->assertInstanceOf(IndexDocument::class, $document);
 
         $this->assertEquals('https://tao.docker.localhost/ontologies/tao.rdf#i5ecbaaf0a627c73a7996557a5480de', $document->getId());
-        $this->assertEquals(['type'=>[]], $document->getBody());
+        $this->assertEquals(['type' => [], 'parent_classes' => ''], $document->getBody());
         $this->assertEquals([], (array)$document->getDynamicProperties());
     }
 

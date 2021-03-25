@@ -70,6 +70,15 @@ class SearchProxyTest extends TestCase
         $this->resultSetMock = $this->createMock(ResultSet::class);
         $this->requestMock = $this->createMock(ServerRequestInterface::class);
 
+        $this->requestMock->method('getQueryParam')->willReturn(
+            [
+                'params' =>
+                    [
+                        'structure' => 'exampleRootNode',
+                    ],
+            ]
+        );
+
         $this->subject = new SearchProxy();
         $this->subject->setServiceLocator(
             $this->getServiceLocatorMock(
