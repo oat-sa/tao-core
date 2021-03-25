@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\search;
 
+use GuzzleHttp\Psr7\ServerRequest;
 use oat\generis\test\TestCase;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\search\ElasticSearchBridge;
@@ -70,7 +71,7 @@ class SearchProxyTest extends TestCase
         $this->resultSetMock = $this->createMock(ResultSet::class);
         $this->requestMock = $this->createMock(ServerRequestInterface::class);
 
-        $this->requestMock->method('getQueryParam')->willReturn(
+        $this->requestMock->method('getQueryParams')->willReturn(
             [
                 'params' =>
                     [
