@@ -81,6 +81,10 @@ class UpdateDataAccessControlInIndexTest extends TestCase
 
     public function testInvokeTaskFailureShouldReportError(): void
     {
+        if (!class_exists('oat\\tao\\elasticsearch\\Exception\\FailToUpdatePropertiesException')) { //@todo refactor
+            $this->markTestSkipped('No elastic lib found');
+        }
+
         $documentUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
         $resource = $this->createMock(core_kernel_classes_Resource::class);
         $class = $this->createMock(core_kernel_classes_Class::class);
