@@ -278,4 +278,15 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->persistenceManager->getPersistenceById($this->persistenceId);
     }
+
+    public function count(ValueCollectionSearchRequest $searchRequest): int
+    {
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+
+        $this->enrichQueryWithInitialCondition($query);
+        $this->enrichQueryWithSelect($searchRequest, $query);
+        $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
+
+        return $query->execute()->rowCount();
+    }
 }
