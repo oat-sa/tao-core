@@ -45,10 +45,10 @@ Cypress.Commands.add('setupServer', () => {
 
 Cypress.Commands.add('loginAsAdmin', () => {
     cy.fixture('urls').as('urls').then(urls => {
-            const username = Cypress.env('adminUser');
-            const password = Cypress.env('adminPass');
+        const username = Cypress.env('adminUser');
+        const password = Cypress.env('adminPass');
+        console.log('username', username, 'password', password);
 
-            cy.login({url: urls.login, username, password});
-        });
-    }
-);
+        cy.login({url: urls.login, username, password});
+    });
+});
