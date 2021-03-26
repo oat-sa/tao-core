@@ -90,6 +90,8 @@ abstract class tao_actions_form_AbstractProperty extends tao_helpers_form_FormCo
      */
     protected function getGroupTitle($property)
     {
+        $setupIndexIcon = $this->options['disableIndexChanges'] ? '' : ' <span class="icon-find"></span>';
+
         if ($this->isParentProperty()) {
             foreach ($property->getDomain()->getIterator() as $domain) {
                 $domainLabel[] = $domain->getLabel();
@@ -98,13 +100,13 @@ abstract class tao_actions_form_AbstractProperty extends tao_helpers_form_FormCo
             $groupTitle = '<span class="property-heading-label">' . _dh($property->getLabel()) . '</span>'
                 . '<span class="property-heading-toolbar">'
                 . _dh(implode(' ', $domainLabel))
-                . ' <span class="icon-find"></span>'
+                . $setupIndexIcon
                 . ' <span class="icon-edit"></span>'
                 . '</span>';
         } else {
             $groupTitle = '<span class="property-heading-label">' . _dh($property->getLabel()) . '</span>'
                 . '<span class="property-heading-toolbar">'
-                . ' <span class="icon-find"></span>'
+                . $setupIndexIcon
                 . '<span class="icon-edit"></span>'
                 . '<span class="icon-bin property-deleter" data-uri=\'' . tao_helpers_Display::encodeAttrValue($property->getUri()) . '\'></span>'
                 . '</span>';

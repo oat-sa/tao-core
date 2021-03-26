@@ -35,6 +35,13 @@ use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\RegisterClassMetadataServices;
+use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
+use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
+use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
+use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
+use oat\tao\scripts\install\RegisterDataAccessControlChangedEvent;
+use oat\tao\scripts\install\RegisterDataAccessControlChangedListener;
 use oat\tao\scripts\install\RegisterEvents;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterResourceRelationService;
@@ -134,7 +141,14 @@ return [
             CreateWebhookEventLogTable::class,
             SetupSettingsStorage::class,
             RegisterUserService::class,
+            RegisterClassPropertyRemovedEvent::class,
+            RegisterClassPropertyRemovedListener::class,
+            RegisterClassPropertiesChangedEvent::class,
+            RegisterClassPropertiesChangedEventListener::class,
+            RegisterDataAccessControlChangedEvent::class,
+            RegisterDataAccessControlChangedListener::class,
             RegisterValueCollectionServices::class,
+            RegisterClassMetadataServices::class,
             CreateRdsListStore::class,
             RegisterSessionCookieService::class,
             RegisterResourceRelationService::class,
@@ -178,6 +192,7 @@ return [
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'RestResource']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'RestClass']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'PropertyValues']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'AdvancedSearch']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Breadcrumbs']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Export']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'File']],
@@ -194,6 +209,7 @@ return [
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Users']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'WebService']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Security']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'ClassMetadata']],
         [AccessRule::GRANT, TaoRoles::REST_PUBLISHER,       ['ext' => 'tao','mod' => 'TaskQueue', 'act' => 'get']],
         [AccessRule::GRANT, TaoRoles::REST_PUBLISHER,       ['ext' => 'tao','mod' => 'TaskQueue', 'act' => 'getStatus']],
         [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, ['ext' => 'tao','mod' => 'ExtensionsManager']],
