@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint150\n"
-"PO-Revision-Date: 2021-03-12T09:22:28\n"
+"Project-Id-Version: TAO 3.4.0-sprint151\n"
+"PO-Revision-Date: 2021-03-26T09:34:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fi-FI\n"
@@ -29,6 +29,9 @@ msgid " is "
 msgstr ""
 
 msgid " next"
+msgstr ""
+
+msgid " Remove criteria"
 msgstr ""
 
 msgid " requires a subgrid adapter"
@@ -407,10 +410,10 @@ msgstr ""
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Check-in"
@@ -452,10 +455,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -575,10 +578,10 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
@@ -994,10 +997,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1783,10 +1786,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
 msgid "Select a class"

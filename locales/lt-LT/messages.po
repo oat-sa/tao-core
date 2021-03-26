@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint150\n"
-"PO-Revision-Date: 2021-03-12T09:24:59\n"
+"Project-Id-Version: TAO 3.4.0-sprint151\n"
+"PO-Revision-Date: 2021-03-26T09:36:53\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -30,6 +30,9 @@ msgstr " yra "
 
 msgid " next"
 msgstr " kitas"
+
+msgid " Remove criteria"
+msgstr ""
 
 msgid " requires a subgrid adapter"
 msgstr "reikalauja detalesnės lentelės adapterio"
@@ -408,11 +411,11 @@ msgstr "Pakeisti slaptažodį"
 msgid "Change the sign of the current operand"
 msgstr "Keisti ženklą dabartinio operando"
 
-msgid "Check All"
-msgstr "Pažymėti Visus"
-
 msgid "Check all"
 msgstr "Pažymėti visus"
+
+msgid "Check All"
+msgstr "Pažymėti Visus"
 
 msgid "Check-in"
 msgstr "Pasižymėti"
@@ -453,11 +456,11 @@ msgstr "Išvalyti visus duomenis"
 msgid "Clear expression"
 msgstr "Išvalyti išraišką"
 
-msgid "Clear history"
-msgstr "Išvalyti istoriją"
-
 msgid "Clear History"
 msgstr "Išvalyti Istoriją"
+
+msgid "Clear history"
+msgstr "Išvalyti istoriją"
 
 msgid "Clear selection"
 msgstr "Išvalyti pasirinimą"
@@ -576,11 +579,11 @@ msgstr "Duomenys importuoti sėkmingai"
 msgid "Data imported. Some records are invalid."
 msgstr "Duomenys importuoti. Kaikurie įrašai neteisingi."
 
-msgid "Data Language"
-msgstr "Duomenų Kalba"
-
 msgid "Data language"
 msgstr "Duomenų kalba"
+
+msgid "Data Language"
+msgstr "Duomenų Kalba"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Duomenys neimportuoti. Visi įrašai neteisingi."
@@ -996,10 +999,10 @@ msgstr "Importuotas resursas \"%s"
 msgid "impossible to update task status"
 msgstr "neįmanoma atnaujinti užduoties būsenos"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "Vykdoma"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "Vykdoma"
 
 msgid "Inclusive (AND)"
@@ -1785,11 +1788,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "pasirinkti"
-
 msgid "Select"
 msgstr "Pasirinkti"
+
+msgid "select"
+msgstr "pasirinkti"
 
 msgid "Select a class"
 msgstr "Pasirinkti klasę"
