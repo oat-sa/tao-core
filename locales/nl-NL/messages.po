@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint150\n"
-"PO-Revision-Date: 2021-03-12T09:25:49\n"
+"Project-Id-Version: TAO 3.4.0-sprint151\n"
+"PO-Revision-Date: 2021-03-26T09:37:32\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nl-NL\n"
@@ -30,6 +30,9 @@ msgstr ""
 
 msgid " next"
 msgstr " volgende"
+
+msgid " Remove criteria"
+msgstr ""
 
 msgid " requires a subgrid adapter"
 msgstr "Heeft een subgrid adapter nodig"
@@ -408,10 +411,10 @@ msgstr "Wijzig het wachtwoord"
 msgid "Change the sign of the current operand"
 msgstr "Verander het teken van de huidige operator"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "Alles selecteren"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "Alles selecteren"
 
 msgid "Check-in"
@@ -453,10 +456,10 @@ msgstr "Alle gegevens wissen"
 msgid "Clear expression"
 msgstr "Expressie wissen"
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr "Historie wissen"
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr "Historie wissen"
 
 msgid "Clear selection"
@@ -576,10 +579,10 @@ msgstr "Data is succesvol geïmporteerd"
 msgid "Data imported. Some records are invalid."
 msgstr "Data is geïmporteerd. Sommige records zijn ongeldig."
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Data taal"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Data taal"
 
 msgid "Data not imported. All records are invalid."
@@ -996,11 +999,11 @@ msgstr "Geïmporteerde resource \"%s"
 msgid "impossible to update task status"
 msgstr "Onmogelijk om de taakstatus bij te werken"
 
-msgid "In Progress"
-msgstr "In Behandeling"
-
 msgid "In progress"
 msgstr "In behandeling"
+
+msgid "In Progress"
+msgstr "In Behandeling"
 
 msgid "Inclusive (AND)"
 msgstr "Inclusief (AND)"
@@ -1785,11 +1788,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "selecteren"
-
 msgid "Select"
 msgstr "Selecteren"
+
+msgid "select"
+msgstr "selecteren"
 
 msgid "Select a class"
 msgstr ""
