@@ -45,11 +45,7 @@ class RegisterClassMetadataServices extends InstallAction
             )
         );
 
-        /** @var GetClassMetadataValuesService $valueCollectionService */
-        $getClassMetadataValuesService = $this->getServiceManager()->get(GetClassMetadataValuesService::class);
-        $classMetadataService = new ClassMetadataService($valueCollectionService);
-
-        $this->getServiceManager()->register(ClassMetadataService::SERVICE_ID, $classMetadataService);
+        $this->getServiceManager()->register(ClassMetadataService::SERVICE_ID, new ClassMetadataService());
 
         AclProxy::applyRule(
             new AccessRule(AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'ClassMetadata'])
