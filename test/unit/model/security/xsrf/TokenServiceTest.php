@@ -20,6 +20,7 @@
 
 namespace oat\tao\test\unit\model\security\xsrf;
 
+use common_exception_Unauthorized as UnauthorizedException;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\exception\InvalidService;
@@ -28,7 +29,7 @@ use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStore;
 
 /**
- * Unit Test of oat\tao\model\security\TokenGenerator
+ * Unit Test of oat\tao\model\security\xsrf\TokenService
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -57,6 +58,41 @@ class TokenServiceTest extends TestCase
                 'validateTokens' => true
             ]
         );
+    }
+
+    public function testValidateToken(): void
+    {
+        $token = $this->createTokenToValidate();
+
+        static::assertTrue($this->subject->validateToken($token->getValue()));
+    }
+
+    public function testValidateExpiredToken(): void
+    {
+        $subject = clone $this->subject;
+        $subject->setOption(TokenService::TIME_LIMIT_OPT, 1);
+
+        $token = $this->createTokenToValidate();
+
+        $token->setCreatedAt(0);
+
+        $this->expectException(UnauthorizedException::class);
+
+        $subject->validateToken($token->getValue());
+    }
+
+    public function testValidateIncorrectToken(): void
+    {
+        $invalidTokenValue = 'foo';
+
+        $this->tokenStoreMock
+            ->method('getToken')
+            ->with($invalidTokenValue)
+            ->willReturn(null);
+
+        $this->expectException(UnauthorizedException::class);
+
+        $this->subject->validateToken($invalidTokenValue);
     }
 
     public function testInstantiateNoStore(): void
@@ -604,5 +640,30 @@ class TokenServiceTest extends TestCase
                 'expectedResult' => 10,
             ],
         ];
+    }
+
+    private function createTokenToValidate(): Token
+    {
+        $token = $this->createStoredToken();
+
+        $this->tokenStoreMock
+            ->expects(static::once())
+            ->method('removeToken')
+            ->with($token->getValue())
+            ->willReturn(true);
+
+        return $token;
+    }
+
+    private function createStoredToken(): Token
+    {
+        $token = $this->subject->createToken();
+
+        $this->tokenStoreMock
+            ->method('getToken')
+            ->with($token->getValue())
+            ->willReturn($token);
+
+        return $token;
     }
 }
