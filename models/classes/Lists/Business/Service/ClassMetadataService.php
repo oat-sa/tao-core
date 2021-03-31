@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -36,16 +36,10 @@ class ClassMetadataService extends InjectionAwareService implements ClassMetadat
 {
     use OntologyAwareTrait;
 
-    /** @var ValueCollectionService */
-    private $valueCollectionService;
-
     /** @var int */
     private $maxListSize;
 
     public const SERVICE_ID = 'tao/ClassMetadataService';
-
-    /** @var GetClassMetadataValuesService */
-    private $getClassMetadataValuesService;
 
     public function findAll(ClassMetadataSearchInput $input): ClassCollection
     {

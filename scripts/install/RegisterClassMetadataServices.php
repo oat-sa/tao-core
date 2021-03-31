@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -28,8 +28,6 @@ use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\Lists\Business\Service\ClassMetadataSearcherProxy;
 use oat\tao\model\Lists\Business\Service\ClassMetadataService;
-use oat\tao\model\Lists\Business\Service\GetClassMetadataValuesService;
-use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ClassMetadataSearchRequestHandler;
 use oat\tao\model\Lists\Presentation\Web\RequestValidator\ClassMetadataSearchRequestValidator;
 use oat\tao\model\user\TaoRoles;
@@ -45,11 +43,7 @@ class RegisterClassMetadataServices extends InstallAction
             )
         );
 
-        /** @var GetClassMetadataValuesService $valueCollectionService */
-        $getClassMetadataValuesService = $this->getServiceManager()->get(GetClassMetadataValuesService::class);
-        $classMetadataService = new ClassMetadataService($valueCollectionService);
-
-        $this->getServiceManager()->register(ClassMetadataService::SERVICE_ID, $classMetadataService);
+        $this->getServiceManager()->register(ClassMetadataService::SERVICE_ID, new ClassMetadataService());
 
         AclProxy::applyRule(
             new AccessRule(AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'ClassMetadata'])
