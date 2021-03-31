@@ -409,13 +409,17 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     /**
      * Common action to view and change the label of a class
      */
-    public function editClassLabel()
+    public function editClassLabel(bool $checkAccessToMethod = false)
     {
         $class     = $this->getCurrentClass();
         $signature = $this->createFormSignature();
 
         $classUri       = $class->getUri();
         $hasWriteAccess = $this->hasWriteAccess($classUri);
+
+        if (true === $checkAccessToMethod) {
+            $hasWriteAccess = $hasWriteAccess && $this->hasAccess(static::class, 'editClassLabel');
+        }
 
         $editClassLabelForm = new tao_actions_form_EditClassLabel(
             $class,

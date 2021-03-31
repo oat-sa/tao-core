@@ -211,6 +211,26 @@
   	<rdfs:label xml:lang="en-US"><![CDATA[Test Taker]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[The Test Taker Role]]></rdfs:comment>
   </rdf:Description>
+  <!-- Atomic Roles -->
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ItemClassNavigatorRole">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#ItemRole"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Item Class Navigator]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Item Class Navigator Role]]></rdfs:comment>
+    <generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ItemClassEditorRole">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#ItemRole"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Item Class Editor]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Item Class Editor Role]]></rdfs:comment>
+    <generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ItemClassNavigatorRole"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ItemClassCreatorRole">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#ItemRole"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Item Class Creator]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Item Class Creator Role]]></rdfs:comment>
+    <generis:includesRole rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#ItemClassEditorRole"/>
+  </rdf:Description>
+
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder">
   	<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
