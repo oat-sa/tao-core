@@ -63,7 +63,7 @@ class AddAtomicRoles extends InstallAction
             TaoRoles::ITEM_CLASS_EDITOR => [
                 ['ext' => 'taoItems', 'mod' => 'Items', 'act' => 'editClassLabel'],
             ],
-            TaoRoles::ITEM_CLASS_EDITOR => [
+            TaoRoles::ITEM_CLASS_CREATOR => [
                 ['ext' => 'taoItems', 'mod' => 'Items', 'act' => 'addSubClass'],
             ],
         ];
