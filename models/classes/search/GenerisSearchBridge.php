@@ -21,29 +21,16 @@
 namespace oat\tao\model\search;
 
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\strategy\GenerisSearch;
 
 class GenerisSearchBridge extends ConfigurableService implements SearchBridgeInterface
 {
     public function search(SearchQuery $query): ResultSet
     {
-        return $this->getSearchService()->query(
+        return $this->getServiceLocator()->get(Search::SERVICE_ID)->query(
             $query->getTerm(),
             $query->getParentClass(),
             $query->getStartRow(),
             $query->getRows()
         );
-    }
-
-    private function getSearchService(): Search
-    {
-        $search = $this->getServiceLocator()->get(Search::SERVICE_ID);
-
-        if (!$search instanceof GenerisSearch) {
-            $search = new GenerisSearch();
-            $search->setServiceManager($this->getServiceManager());
-        }
-
-        return $search;
     }
 }

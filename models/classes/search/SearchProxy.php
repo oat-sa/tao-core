@@ -26,6 +26,7 @@ use Exception;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\tao\model\search\strategy\GenerisSearch;
 use Psr\Http\Message\ServerRequestInterface;
 
 class SearchProxy extends ConfigurableService
@@ -55,8 +56,8 @@ class SearchProxy extends ConfigurableService
 
     private function executeSearch(SearchQuery $query): ResultSet
     {
-        if (in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST)) {
-            return $this->getGenerisSearchBridge()->search($query);
+        if ($this->isForcingGenerisSearch($query)) {
+            return $this->searchWithGeneris($query);
         }
 
         if ($this->getElasticSearchChecker()->isEnabled()) {
@@ -89,5 +90,25 @@ class SearchProxy extends ConfigurableService
     private function getQueryFactory(): SearchQueryFactory
     {
         return $this->getServiceLocator()->get(SearchQueryFactory::class);
+    }
+
+    private function getGenerisSearch(): GenerisSearch
+    {
+        return $this->getServiceLocator()->get(GenerisSearch::class);
+    }
+
+    private function isForcingGenerisSearch(SearchQuery $query): bool
+    {
+        return in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST);
+    }
+
+    private function searchWithGeneris(SearchQuery $query): ResultSet
+    {
+        return $this->getGenerisSearch()->query(
+            $query->getTerm(),
+            $query->getParentClass(),
+            $query->getStartRow(),
+            $query->getRows()
+        );
     }
 }
