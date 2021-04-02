@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -23,10 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\search;
 
 use Exception;
-use oat\generis\model\data\permission\PermissionHelper;
-use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use Psr\Http\Message\ServerRequestInterface;
@@ -34,6 +31,10 @@ use Psr\Http\Message\ServerRequestInterface;
 class SearchProxy extends ConfigurableService
 {
     use OntologyAwareTrait;
+
+    private const GENERIS_SEARCH_WHITELIST = [
+        'http://www.tao.lu/Ontologies/generis.rdf#ClassRole'
+    ];
 
     /**
      * @throws Exception
@@ -54,8 +55,12 @@ class SearchProxy extends ConfigurableService
 
     private function executeSearch(SearchQuery $query): ResultSet
     {
+        if (in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST)) {
+            return $this->getGenerisSearchBridge()->search($query);
+        }
+
         if ($this->getElasticSearchChecker()->isEnabled()) {
-            return  $this->getElasticSearchBridge()->search($query);
+            return $this->getElasticSearchBridge()->search($query);
         }
 
         return $this->getGenerisSearchBridge()->search($query);

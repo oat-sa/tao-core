@@ -15,22 +15,35 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\model\search;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\search\strategy\GenerisSearch;
 
 class GenerisSearchBridge extends ConfigurableService implements SearchBridgeInterface
 {
     public function search(SearchQuery $query): ResultSet
     {
-        return $this->getServiceLocator()->get(Search::SERVICE_ID)->query(
+        return $this->getSearchService()->query(
             $query->getTerm(),
             $query->getParentClass(),
             $query->getStartRow(),
             $query->getRows()
         );
+    }
+
+    private function getSearchService(): Search
+    {
+        $search = $this->getServiceLocator()->get(Search::SERVICE_ID);
+
+        if (!$search instanceof GenerisSearch) {
+            $search = new GenerisSearch();
+            $search->setServiceManager($this->getServiceManager());
+        }
+
+        return $search;
     }
 }
