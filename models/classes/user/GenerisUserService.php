@@ -38,7 +38,8 @@ class GenerisUserService extends ConfigurableService implements UserService
     {
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
         $result = $searchService->query($searchString, TaoOntology::CLASS_URI_TAO_USER);
-        return $this->getUsers($result);
+        $users = array_column(iterator_to_array($result), 'id');
+        return $this->getUsers($users);
     }
 
     /**
