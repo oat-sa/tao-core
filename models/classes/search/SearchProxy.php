@@ -41,6 +41,20 @@ class SearchProxy extends ConfigurableService
     /**
      * @throws Exception
      */
+    public function searchByQuery(SearchQuery $query): array
+    {
+        $results = $this->executeSearch($query);
+        if (!$results instanceof ResultSet) {
+            throw new Exception('Result has to be instance of ResultSet');
+        }
+
+        return $this->getResultSetResponseNormalizer()
+            ->normalize($query, $results, '');
+    }
+
+    /**
+     * @throws Exception
+     */
     public function search(ServerRequestInterface $request): array
     {
         $query = $this->getQueryFactory()->create($request);
