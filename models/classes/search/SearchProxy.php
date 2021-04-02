@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\search;
 
 use Exception;
+use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
@@ -34,7 +35,7 @@ class SearchProxy extends ConfigurableService
     use OntologyAwareTrait;
 
     private const GENERIS_SEARCH_WHITELIST = [
-        'http://www.tao.lu/Ontologies/generis.rdf#ClassRole'
+        GenerisRdf::CLASS_ROLE
     ];
 
     /**
@@ -92,11 +93,6 @@ class SearchProxy extends ConfigurableService
         return $this->getServiceLocator()->get(SearchQueryFactory::class);
     }
 
-    private function getGenerisSearch(): GenerisSearch
-    {
-        return $this->getServiceLocator()->get(GenerisSearch::class);
-    }
-
     private function isForcingGenerisSearch(SearchQuery $query): bool
     {
         return in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST);
@@ -104,7 +100,13 @@ class SearchProxy extends ConfigurableService
 
     private function searchWithGeneris(SearchQuery $query): ResultSet
     {
-        return $this->getGenerisSearch()->query(
+        /**
+         * @TODO We need to implement better search driver management: https://oat-sa.atlassian.net/browse/ADF-251
+         */
+        $generis = new GenerisSearch();
+        $generis->propagate($this->getServiceLocator());
+
+        return $generis->query(
             $query->getTerm(),
             $query->getParentClass(),
             $query->getStartRow(),
