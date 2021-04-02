@@ -131,35 +131,27 @@ class TokenService extends ConfigurableService
     }
 
     /**
-     * Check if the given token is valid
+     * Check if the given token is valid and revoke it.
      *
      * @param string |Token $token
-     * @return boolean
+     *
+     * @return bool Whether or not the token was successfully revoked
+     *
      * @throws common_Exception
-     * @throws common_exception_Unauthorized
+     * @throws common_exception_Unauthorized In case of an invalid token or missing
      */
     public function validateToken($token): bool
     {
-        $isValid = false;
-        $expired = false;
-        $token = $this->normaliseToken($token);
-        if (($savedToken = $this->getStore()->getToken($token)) === null) {
-            return $isValid;
-        }
+        $token      = $this->normaliseToken($token);
+        $storeToken = $this->getStore()->getToken($token);
 
-        if ($this->isExpired($savedToken)) {
-            $expired = true;
-        }
+        $result = $this->revokeToken($token);
 
-        if ($expired === true) {
-            $this->revokeToken($token);
-        }
-
-        if ($savedToken->getValue() !== $token) {
+        if ($storeToken === null || $this->isExpired($storeToken)) {
             throw new common_exception_Unauthorized();
         }
 
-        return $this->revokeToken($token);
+        return $result;
     }
 
     /**
@@ -201,7 +193,7 @@ class TokenService extends ConfigurableService
      *  - remove the oldest if the pool raises it's size limit
      *  - remove the expired tokens
      *
-     * @param Token[] $pool
+     * @param Token[] $tokens
      *
      * @return array the invalidated pool
      *
@@ -209,7 +201,6 @@ class TokenService extends ConfigurableService
      */
     protected function invalidateExpiredAndSurplus(array $tokens): array
     {
-        $actualTime = microtime(true);
         $timeLimit = $this->getTimeLimit();
         $poolSize = $this->getPoolSize();
 

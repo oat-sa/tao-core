@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -23,17 +23,20 @@ declare(strict_types=1);
 namespace oat\tao\model\search;
 
 use Exception;
-use oat\generis\model\data\permission\PermissionHelper;
-use oat\generis\model\data\permission\PermissionInterface;
+use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\tao\model\search\strategy\GenerisSearch;
 use Psr\Http\Message\ServerRequestInterface;
 
 class SearchProxy extends ConfigurableService
 {
     use OntologyAwareTrait;
+
+    private const GENERIS_SEARCH_WHITELIST = [
+        GenerisRdf::CLASS_ROLE
+    ];
 
     /**
      * @throws Exception
@@ -54,8 +57,12 @@ class SearchProxy extends ConfigurableService
 
     private function executeSearch(SearchQuery $query): ResultSet
     {
+        if ($this->isForcingGenerisSearch($query)) {
+            return $this->searchWithGeneris($query);
+        }
+
         if ($this->getElasticSearchChecker()->isEnabled()) {
-            return  $this->getElasticSearchBridge()->search($query);
+            return $this->getElasticSearchBridge()->search($query);
         }
 
         return $this->getGenerisSearchBridge()->search($query);
@@ -84,5 +91,26 @@ class SearchProxy extends ConfigurableService
     private function getQueryFactory(): SearchQueryFactory
     {
         return $this->getServiceLocator()->get(SearchQueryFactory::class);
+    }
+
+    private function isForcingGenerisSearch(SearchQuery $query): bool
+    {
+        return in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST);
+    }
+
+    private function searchWithGeneris(SearchQuery $query): ResultSet
+    {
+        /**
+         * @TODO We need to implement better search driver management: https://oat-sa.atlassian.net/browse/ADF-251
+         */
+        $generis = new GenerisSearch();
+        $generis->propagate($this->getServiceLocator());
+
+        return $generis->query(
+            $query->getTerm(),
+            $query->getParentClass(),
+            $query->getStartRow(),
+            $query->getRows()
+        );
     }
 }
