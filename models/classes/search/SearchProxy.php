@@ -38,6 +38,9 @@ class SearchProxy extends ConfigurableService
         GenerisRdf::CLASS_ROLE
     ];
 
+    /** @var GenerisSearch */
+    private $generisSearch;
+
     /**
      * @throws Exception
      */
@@ -53,6 +56,13 @@ class SearchProxy extends ConfigurableService
 
         return $this->getResultSetResponseNormalizer()
             ->normalize($query, $results, $queryParams['params']['structure']);
+    }
+
+    public function withGenerisSearch(GenerisSearch $search): self
+    {
+        $this->generisSearch = $search;
+
+        return $this;
     }
 
     private function executeSearch(SearchQuery $query): ResultSet
@@ -98,15 +108,22 @@ class SearchProxy extends ConfigurableService
         return in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST);
     }
 
+    private function getGenerisSearch(): GenerisSearch
+    {
+        if (!$this->generisSearch) {
+            /**
+             * @TODO We need to implement better search driver management: https://oat-sa.atlassian.net/browse/ADF-251
+             */
+            $generis = new GenerisSearch();
+            $generis->propagate($this->getServiceLocator());
+        }
+
+        return $this->generisSearch;
+    }
+
     private function searchWithGeneris(SearchQuery $query): ResultSet
     {
-        /**
-         * @TODO We need to implement better search driver management: https://oat-sa.atlassian.net/browse/ADF-251
-         */
-        $generis = new GenerisSearch();
-        $generis->propagate($this->getServiceLocator());
-
-        return $generis->query(
+        return $this->generisSearch->query(
             $query->getTerm(),
             $query->getParentClass(),
             $query->getStartRow(),
