@@ -18,7 +18,7 @@ final class Version202103301905282234_tao extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Create atomic roles for items and assign permissions to them';
+        return 'Create roles for items and assign permissions to them';
     }
 
     public function up(Schema $schema): void

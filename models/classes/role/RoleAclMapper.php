@@ -1,0 +1,72 @@
+<?php
+
+declare(strict_types=1);
+
+
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ *
+ */
+
+namespace oat\tao\model\role;
+
+use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\role\contract\RoleContract;
+use oat\tao\model\role\contract\RoleContractInterface;
+use oat\tao\model\role\contract\RuleContract;
+use oat\tao\model\role\contract\RuleContractInterface;
+use oat\tao\model\user\TaoRoles;
+
+class RoleAclMapper extends ConfigurableService implements RoleAclMapperInterface
+{
+    const SERVICE_ID = 'tao/RoleAclMapper';
+
+    //TODO: define in config
+    public function getItemClassNavigatorRole(): RoleContractInterface
+    {
+        return new RoleContract(
+            TaoRoles::ITEM_CLASS_NAVIGATOR,
+            'Item Class Navigator',
+            'Item Role',
+            ['BackOffice']
+        );
+    }
+
+    /**
+     * @return RuleContractInterface[]
+     */
+    public function getItemClassNavigatorRules(): array
+    {
+        return [
+            new RuleContract(
+                'taoItems',
+                'Items',
+                'viewClassLabel'
+            ),
+            new RuleContract(
+                'taoItems',
+                'Items',
+                'getOntologyData'
+            ),
+            new RuleContract(
+                'taoItems',
+                'Items',
+                'index'
+            ),
+        ];
+    }
+}

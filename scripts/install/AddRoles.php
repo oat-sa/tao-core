@@ -24,32 +24,52 @@ declare(strict_types=1);
 
 namespace oat\tao\scripts\install;
 
+use oat\generis\model\GenerisRdf;
 use oat\oatbox\extension\InstallAction;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\resources\TreeResourceLookup;
+use oat\tao\model\role\contract\RoleContract;
+use oat\tao\model\role\AddRoleService;
+use oat\tao\model\role\AddRoleServiceInterface;
+use oat\tao\model\role\RoleAclMapper;
+use oat\tao\model\role\RoleAclMapperInterface;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\update\OntologyUpdater;
 
-class AddAtomicRoles extends InstallAction
+class AddRoles extends InstallAction
 {
 
     public function __invoke($params = [])
     {
-        OntologyUpdater::syncModels();
+        //TODO: register with config
+        $this->getServiceManager()->register(AddRoleService::SERVICE_ID, new AddRoleService());
+        $this->getServiceManager()->register(RoleAclMapper::SERVICE_ID, new RoleAclMapper());
 
-        $updatedRoles = [];
-        foreach ($this->getRulesForRole() as $role => $rules) {
-            foreach ($rules as $rule) {
-                AclProxy::applyRule($this->createAclRulesForRole($role, $rule));
-            }
-            preg_match("/.+#(\w+)Role$/", $role, $roleDefinition);
-            $updatedRoles[] = $roleDefinition[1] ?? $role;
-        }
+        /** @var AddRoleServiceInterface $createRoleService */
+        $createRoleService = $this->getServiceManager()->get(AddRoleService::SERVICE_ID);
 
-        return Report::createSuccess(
-            sprintf('Atomic roles "%s" successfully updated with rules', implode(', ',$updatedRoles))
-        );
+        /** @var RoleAclMapperInterface $createRoleService */
+        $roleAclMapper = $this->getServiceManager()->get(RoleAclMapper::SERVICE_ID);
+
+
+//
+//
+//        OntologyUpdater::syncModels();
+//
+//        $updatedRoles = [];
+//        foreach ($this->getRulesForRole() as $role => $rules) {
+//            foreach ($rules as $rule) {
+//                AclProxy::applyRule($this->createAclRulesForRole($role, $rule));
+//            }
+//            preg_match("/.+#(\w+)Role$/", $role, $roleDefinition);
+//            $updatedRoles[] = $roleDefinition[1] ?? $role;
+//        }
+//
+//        return Report::createSuccess(
+//            sprintf('Atomic roles "%s" successfully updated with rules', implode(', ',$updatedRoles))
+//        );
     }
 
     private function getRulesForRole(): array

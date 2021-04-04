@@ -211,7 +211,7 @@
   	<rdfs:label xml:lang="en-US"><![CDATA[Test Taker]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[The Test Taker Role]]></rdfs:comment>
   </rdf:Description>
-  <!-- Atomic Roles -->
+  <!-- Item Roles -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ItemClassNavigatorRole">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#ItemRole"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Item Class Navigator]]></rdfs:label>
