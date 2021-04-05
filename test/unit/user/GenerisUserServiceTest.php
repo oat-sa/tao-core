@@ -15,13 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020  (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021  (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\test\unit\models\classes\service;
 
-use oat\tao\model\search\Search;
-use oat\tao\model\search\strategy\GenerisSearch;
+use oat\tao\model\search\SearchProxy;
+use oat\tao\model\search\SearchQuery;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\GenerisUserService;
 use oat\generis\test\TestCase;
@@ -34,15 +34,26 @@ class GenerisUserServiceTest extends TestCase
         $searchString = 'test';
         $testId = 'testId';
         $testUser = 'testUser';
-        $searchServiceMock = $this->createMock(GenerisSearch::class);
+
+        $query = new SearchQuery(
+            $searchString,
+            TaoOntology::CLASS_URI_TAO_USER,
+            TaoOntology::CLASS_URI_TAO_USER,
+            1,
+            10,
+            1
+        );
+
+        $searchServiceMock = $this->createMock(SearchProxy::class);
         $searchServiceMock->expects($this->once())
-            ->method('query')
-            ->with($searchString, TaoOntology::CLASS_URI_TAO_USER)
-            ->willReturn([$testId]);
-        $serviceLocator = $this->getServiceLocatorMock([Search::SERVICE_ID => $searchServiceMock]);
+            ->method('searchByQuery')
+            ->with($query)
+            ->willReturn(['data' => [['id' => $testId]]]);
+
+        $serviceLocator = $this->getServiceLocatorMock([SearchProxy::class => $searchServiceMock]);
         $generisUserServiceMock = $this->getMockBuilder(GenerisUserService::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getUser'])
+            ->onlyMethods(['getUser'])
             ->getMock();
         $generisUserServiceMock->expects($this->once())
             ->method('getUser')
