@@ -126,13 +126,7 @@ class SearchProxy extends ConfigurableService
 
     private function searchWithGeneris(SearchQuery $query): ResultSet
     {
-        /**
-         * @TODO We need to implement better search driver management: https://oat-sa.atlassian.net/browse/ADF-251
-         */
-        $generis = new GenerisSearch();
-        $generis->propagate($this->getServiceLocator());
-
-        return $generis->query(
+        return $this->getGenerisSearch()->query(
             $query->getTerm(),
             $query->getParentClass(),
             $query->getStartRow(),
@@ -147,7 +141,7 @@ class SearchProxy extends ConfigurableService
              * @TODO We need to implement better search driver management: https://oat-sa.atlassian.net/browse/ADF-251
              */
             $this->generisSearch = new GenerisSearch();
-            $this->generisSearch->propagate($this->getServiceLocator());
+            $this->propagate($this->generisSearch);
         }
 
         return $this->generisSearch;
