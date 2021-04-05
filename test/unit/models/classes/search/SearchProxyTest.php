@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\search;
 
+use oat\generis\model\GenerisRdf;
 use oat\generis\test\TestCase;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\search\ElasticSearchBridge;
@@ -29,7 +30,9 @@ use oat\tao\model\search\GenerisSearchBridge;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\ResultSetResponseNormalizer;
 use oat\tao\model\search\SearchProxy;
+use oat\tao\model\search\SearchQuery;
 use oat\tao\model\search\SearchQueryFactory;
+use oat\tao\model\search\strategy\GenerisSearch;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -46,6 +49,9 @@ class SearchProxyTest extends TestCase
 
     /** @var GenerisSearchBridge|MockObject */
     private $generisSearchBridgeMock;
+
+    /** @var GenerisSearch|MockObject */
+    private $generisSearchMock;
 
     /** @var SearchQueryFactory|MockObject */
     private $searchQueryFactoryMock;
@@ -65,6 +71,7 @@ class SearchProxyTest extends TestCase
         $this->elasticSearchBridgeMock = $this->createMock(ElasticSearchBridge::class);
         $this->generisSearchBridgeMock = $this->createMock(GenerisSearchBridge::class);
         $this->searchQueryFactoryMock = $this->createMock(SearchQueryFactory::class);
+        $this->generisSearchMock = $this->createMock(GenerisSearch::class);
         $this->resultSetResponseNormalizerMock = $this->createMock(ResultSetResponseNormalizer::class);
 
         $this->resultSetMock = $this->createMock(ResultSet::class);
@@ -80,6 +87,7 @@ class SearchProxyTest extends TestCase
         );
 
         $this->subject = new SearchProxy();
+        $this->subject->withGenerisSearch($this->generisSearchMock);
         $this->subject->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
@@ -102,6 +110,34 @@ class SearchProxyTest extends TestCase
 
         $this->generisSearchBridgeMock
             ->method('search')
+            ->willReturn($this->resultSetMock);
+
+        $this->resultSetResponseNormalizerMock
+            ->expects($this->once())
+            ->method('normalize')
+            ->willReturn([]);
+
+        $result = $this->subject->search($this->requestMock);
+        $this->assertIsArray($result);
+    }
+
+    public function testForceGenerisSearch(): void
+    {
+        $query = new SearchQuery(
+            '',
+            '',
+            GenerisRdf::CLASS_ROLE,
+            0,
+            10,
+            0
+        );
+
+        $this->searchQueryFactoryMock
+            ->method('create')
+            ->willReturn($query);
+
+        $this->generisSearchMock
+            ->method('query')
             ->willReturn($this->resultSetMock);
 
         $this->resultSetResponseNormalizerMock
