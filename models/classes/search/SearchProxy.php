@@ -28,6 +28,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\search\strategy\GenerisSearch;
+use oat\tao\model\TaoOntology;
 use Psr\Http\Message\ServerRequestInterface;
 
 class SearchProxy extends ConfigurableService
@@ -35,7 +36,8 @@ class SearchProxy extends ConfigurableService
     use OntologyAwareTrait;
 
     private const GENERIS_SEARCH_WHITELIST = [
-        GenerisRdf::CLASS_ROLE
+        GenerisRdf::CLASS_ROLE,
+        TaoOntology::CLASS_URI_TAO_USER,
     ];
 
     /**
