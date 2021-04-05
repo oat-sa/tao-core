@@ -111,7 +111,7 @@ class SearchProxy extends ConfigurableService
 
     private function isForcingGenerisSearch(SearchQuery $query): bool
     {
-        return in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST);
+        return in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST, true);
     }
 
     private function searchWithGeneris(SearchQuery $query): ResultSet
