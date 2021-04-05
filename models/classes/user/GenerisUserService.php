@@ -44,7 +44,7 @@ class GenerisUserService extends ConfigurableService implements UserService
             $searchString,
             TaoOntology::CLASS_URI_TAO_USER,
             TaoOntology::CLASS_URI_TAO_USER,
-            1,
+            0,
             10,
             1
         );
@@ -70,7 +70,7 @@ class GenerisUserService extends ConfigurableService implements UserService
     {
         $users = [];
         foreach ($userIds as $id) {
-            $users[$id] = $this->getUser($id); 
+            $users[$id] = $this->getUser($id);
         }
         return $users;
     }

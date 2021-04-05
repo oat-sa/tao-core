@@ -39,7 +39,7 @@ class GenerisUserServiceTest extends TestCase
             $searchString,
             TaoOntology::CLASS_URI_TAO_USER,
             TaoOntology::CLASS_URI_TAO_USER,
-            1,
+            0,
             10,
             1
         );
