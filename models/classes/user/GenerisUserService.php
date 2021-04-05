@@ -50,7 +50,7 @@ class GenerisUserService extends ConfigurableService implements UserService
         );
 
         $result = $searchProxy->searchByQuery($query);
-        return $this->getUsers(array_column($result['data'], 'id'));
+        return $this->getUsers(array_column($result['data'] ?? [], 'id'));
     }
 
     /**
