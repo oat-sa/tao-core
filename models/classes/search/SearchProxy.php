@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -23,17 +23,39 @@ declare(strict_types=1);
 namespace oat\tao\model\search;
 
 use Exception;
-use oat\generis\model\data\permission\PermissionHelper;
-use oat\generis\model\data\permission\PermissionInterface;
+use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\tao\model\TaoOntology;
+use oat\tao\model\search\strategy\GenerisSearch;
 use Psr\Http\Message\ServerRequestInterface;
 
 class SearchProxy extends ConfigurableService
 {
     use OntologyAwareTrait;
+
+    private const GENERIS_SEARCH_WHITELIST = [
+        GenerisRdf::CLASS_ROLE,
+        TaoOntology::CLASS_URI_TAO_USER,
+    ];
+
+    /** @var GenerisSearch */
+    private $generisSearch;
+
+    /**
+     * @throws Exception
+     */
+    public function searchByQuery(SearchQuery $query): array
+    {
+        $results = $this->executeSearch($query);
+        if (!$results instanceof ResultSet) {
+            throw new Exception('Result has to be instance of ResultSet');
+        }
+
+        return $this->getResultSetResponseNormalizer()
+            ->normalize($query, $results, '');
+    }
 
     /**
      * @throws Exception
@@ -52,10 +74,21 @@ class SearchProxy extends ConfigurableService
             ->normalize($query, $results, $queryParams['params']['structure']);
     }
 
+    public function withGenerisSearch(GenerisSearch $search): self
+    {
+        $this->generisSearch = $search;
+
+        return $this;
+    }
+
     private function executeSearch(SearchQuery $query): ResultSet
     {
+        if ($this->isForcingGenerisSearch($query)) {
+            return $this->searchWithGeneris($query);
+        }
+
         if ($this->getElasticSearchChecker()->isEnabled()) {
-            return  $this->getElasticSearchBridge()->search($query);
+            return $this->getElasticSearchBridge()->search($query);
         }
 
         return $this->getGenerisSearchBridge()->search($query);
@@ -84,5 +117,33 @@ class SearchProxy extends ConfigurableService
     private function getQueryFactory(): SearchQueryFactory
     {
         return $this->getServiceLocator()->get(SearchQueryFactory::class);
+    }
+
+    private function isForcingGenerisSearch(SearchQuery $query): bool
+    {
+        return in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST, true);
+    }
+
+    private function searchWithGeneris(SearchQuery $query): ResultSet
+    {
+        return $this->getGenerisSearch()->query(
+            $query->getTerm(),
+            $query->getParentClass(),
+            $query->getStartRow(),
+            $query->getRows()
+        );
+    }
+
+    private function getGenerisSearch(): GenerisSearch
+    {
+        if (!$this->generisSearch) {
+            /**
+             * @TODO We need to implement better search driver management: https://oat-sa.atlassian.net/browse/ADF-251
+             */
+            $this->generisSearch = new GenerisSearch();
+            $this->propagate($this->generisSearch);
+        }
+
+        return $this->generisSearch;
     }
 }
