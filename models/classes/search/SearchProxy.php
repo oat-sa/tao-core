@@ -27,6 +27,7 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\search\strategy\GenerisSearch;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -35,11 +36,26 @@ class SearchProxy extends ConfigurableService
     use OntologyAwareTrait;
 
     private const GENERIS_SEARCH_WHITELIST = [
-        GenerisRdf::CLASS_ROLE
+        GenerisRdf::CLASS_ROLE,
+        TaoOntology::CLASS_URI_TAO_USER,
     ];
 
     /** @var GenerisSearch */
     private $generisSearch;
+
+    /**
+     * @throws Exception
+     */
+    public function searchByQuery(SearchQuery $query): array
+    {
+        $results = $this->executeSearch($query);
+        if (!$results instanceof ResultSet) {
+            throw new Exception('Result has to be instance of ResultSet');
+        }
+
+        return $this->getResultSetResponseNormalizer()
+            ->normalize($query, $results, '');
+    }
 
     /**
      * @throws Exception
@@ -105,20 +121,7 @@ class SearchProxy extends ConfigurableService
 
     private function isForcingGenerisSearch(SearchQuery $query): bool
     {
-        return in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST);
-    }
-
-    private function getGenerisSearch(): GenerisSearch
-    {
-        if (!$this->generisSearch) {
-            /**
-             * @TODO We need to implement better search driver management: https://oat-sa.atlassian.net/browse/ADF-251
-             */
-            $this->generisSearch = new GenerisSearch();
-            $this->generisSearch->propagate($this->getServiceLocator());
-        }
-
-        return $this->generisSearch;
+        return in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST, true);
     }
 
     private function searchWithGeneris(SearchQuery $query): ResultSet
@@ -129,5 +132,18 @@ class SearchProxy extends ConfigurableService
             $query->getStartRow(),
             $query->getRows()
         );
+    }
+
+    private function getGenerisSearch(): GenerisSearch
+    {
+        if (!$this->generisSearch) {
+            /**
+             * @TODO We need to implement better search driver management: https://oat-sa.atlassian.net/browse/ADF-251
+             */
+            $this->generisSearch = new GenerisSearch();
+            $this->propagate($this->generisSearch);
+        }
+
+        return $this->generisSearch;
     }
 }
