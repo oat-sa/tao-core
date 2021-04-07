@@ -431,8 +431,10 @@ var Tooltip = function () {
           evt.usedByTooltip = true;
           _this3._scheduleShow(reference, options.delay, options, evt);
         };
-        _this3._events.push({ event: event, func: func });
-        reference.addEventListener(event, func);
+        if (reference) {
+          _this3._events.push({ event: event, func: func });
+          reference.addEventListener(event, func);
+        }
       });
 
       // schedule hide tooltip
@@ -443,19 +445,21 @@ var Tooltip = function () {
           }
           _this3._scheduleHide(reference, options.delay, options, evt);
         };
-        _this3._events.push({ event: event, func: func });
-        reference.addEventListener(event, func);
-        if (event === 'click' && options.closeOnClickOutside) {
-          document.addEventListener('mousedown', function (e) {
-            if (!_this3._isOpening) {
-              return;
-            }
-            var popper = _this3.popperInstance.popper;
-            if (reference.contains(e.target) || popper.contains(e.target)) {
-              return;
-            }
-            func(e);
-          }, true);
+        if (reference) {
+          _this3._events.push({event: event, func: func});
+          reference.addEventListener(event, func);
+          if (event === 'click' && options.closeOnClickOutside) {
+            document.addEventListener('mousedown', function (e) {
+              if (!_this3._isOpening) {
+                return;
+              }
+              var popper = _this3.popperInstance.popper;
+              if (reference.contains(e.target) || popper.contains(e.target)) {
+                return;
+              }
+              func(e);
+            }, true);
+          }
         }
       });
     }
