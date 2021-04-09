@@ -130,7 +130,8 @@ class UpdateExtensionsTest extends TestCase
             ->willReturn([]);
         $extensionFoo->method('getManifest')
             ->willReturn($fooManifest);
-
+        $extensionFoo->method('getDir')
+            ->willReturn(dirname(dirname(dirname(__DIR__))));
 
         $barManifest = $this->getMockBuilder(Manifest::class)->disableOriginalConstructor()
             ->getMock();
@@ -147,6 +148,8 @@ class UpdateExtensionsTest extends TestCase
             ->willReturn(['foo' => '*']);
         $extensionBar->method('getManifest')
             ->willReturn($barManifest);
+        $extensionBar->method('getDir')
+            ->willReturn(dirname(dirname(dirname(__DIR__))));
 
 
         $extensionsManagerMock = $this->getMockBuilder(ExtensionsManager::class)

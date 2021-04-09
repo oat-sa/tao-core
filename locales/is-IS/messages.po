@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint148\n"
-"PO-Revision-Date: 2021-02-12T09:21:56\n"
+"Project-Id-Version: TAO 3.4.0-sprint152\n"
+"PO-Revision-Date: 2021-04-09T08:30:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " og "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " og "
 
 msgid " has been deleted successfully"
 msgstr " hefur tekist að eyða"
@@ -30,6 +30,9 @@ msgstr ""
 
 msgid " next"
 msgstr " næsta"
+
+msgid " Remove criteria"
+msgstr ""
 
 msgid " requires a subgrid adapter"
 msgstr ""
@@ -212,16 +215,19 @@ msgstr "Bæta við stillingu"
 msgid "Adding search index for %s"
 msgstr ""
 
+msgid "Adding search index for created resource"
+msgstr ""
+
 msgid "Adding the new class has failed"
 msgstr ""
 
 msgid "Adding the new resource has failed"
 msgstr ""
 
-msgid "Advanced search, add filters"
+msgid "Adding/updating search index for updated resource"
 msgstr ""
 
-msgid "aliases:"
+msgid "Advanced search, add filters"
 msgstr ""
 
 msgid "all"
@@ -288,16 +294,7 @@ msgstr ""
 msgid "Are you sure you want to delete it?"
 msgstr "Ertu viss um að þú viljir eyða þessu?"
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
 msgid "Arguments separator"
-msgstr ""
-
-msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -353,9 +350,6 @@ msgid "Binary operator /"
 msgstr ""
 
 msgid "Binary operator modulo"
-msgstr ""
-
-msgid "boolean"
 msgstr ""
 
 msgid "Browse folders:"
@@ -414,9 +408,6 @@ msgid "Check all"
 msgstr "Merkja við allt"
 
 msgid "Check-in"
-msgstr ""
-
-msgid "choices:"
 msgstr ""
 
 msgid "Choose a value..."
@@ -485,12 +476,6 @@ msgstr ""
 msgid "Column"
 msgstr "Dálkur"
 
-msgid "command"
-msgstr ""
-
-msgid "Commands:"
-msgstr ""
-
 msgid "comment..."
 msgstr ""
 
@@ -531,9 +516,6 @@ msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
-msgstr ""
-
-msgid "count"
 msgstr ""
 
 msgid "Create"
@@ -602,9 +584,6 @@ msgstr ""
 msgid "Default search"
 msgstr "Sjálfgefin leit"
 
-msgid "default:"
-msgstr ""
-
 msgid "Define the default values"
 msgstr "Skilgreindu sjálfgefin gildi"
 
@@ -634,9 +613,6 @@ msgid "Deleting search index for %s"
 msgstr ""
 
 msgid "Demo Sandbox"
-msgstr ""
-
-msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -754,9 +730,6 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
-msgstr ""
-
-msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -893,9 +866,6 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr ""
 
-msgid "generated-value"
-msgstr ""
-
 msgid "Generis Form"
 msgstr ""
 
@@ -956,9 +926,6 @@ msgstr "Auðkenni"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Ef þú vilt ekki endurtilla aðgangsorð þitt, skaltu hunsa þennan tölvupóst og aðgangsorðið þitt verður óbreytt."
 
-msgid "Implications failed:"
-msgstr ""
-
 msgid "Import"
 msgstr "Flytja inn"
 
@@ -995,10 +962,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1037,10 +1004,10 @@ msgstr "Set upp viðbætur %s..."
 msgid "Instance saved"
 msgstr "Tilvik vistað"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1082,9 +1049,6 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr "Ógild innskráning eða aðgangsorð. Reyndu aftur."
 
@@ -1093,9 +1057,6 @@ msgstr ""
 
 msgid "invalid regular expression"
 msgstr "ógild regluleg segð"
-
-msgid "Invalid values:"
-msgstr ""
 
 msgid "items per page"
 msgstr ""
@@ -1363,19 +1324,10 @@ msgstr ""
 msgid "no label"
 msgstr "ekkert merki"
 
-msgid "No results found"
-msgstr "Engar niðurstöður fundust"
-
 msgid "No Task yet"
 msgstr ""
 
 msgid "Node duplication has failed"
-msgstr ""
-
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
@@ -1400,9 +1352,6 @@ msgstr ""
 msgid "Nth root"
 msgstr ""
 
-msgid "number"
-msgstr ""
-
 msgid "Number of elements"
 msgstr ""
 
@@ -1412,10 +1361,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1521,9 +1470,6 @@ msgid "Please wait"
 msgstr ""
 
 msgid "Please wait while ..."
-msgstr ""
-
-msgid "Positionals:"
 msgstr ""
 
 msgid "Post install processing"
@@ -1648,9 +1594,6 @@ msgid "Request a password reset via Email."
 msgstr ""
 
 msgid "require notification ID"
-msgstr ""
-
-msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -1881,9 +1824,6 @@ msgstr ""
 msgid "Store the value a variable"
 msgstr ""
 
-msgid "string"
-msgstr ""
-
 msgid "Submit"
 msgstr ""
 
@@ -2103,9 +2043,6 @@ msgstr ""
 msgid "Tokenizer"
 msgstr "Táknsetning"
 
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
-
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "Of margar uppástungur eiga við spurn þína. Aðeins nokkrar eru skráðar"
 
@@ -2242,6 +2179,9 @@ msgid "Update"
 msgstr ""
 
 msgid "Update ID : %s"
+msgstr ""
+
+msgid "Updating search index"
 msgstr ""
 
 msgid "Upload"
