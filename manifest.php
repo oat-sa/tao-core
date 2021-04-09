@@ -217,6 +217,11 @@ return [
         [AccessRule::GRANT, TaoRoles::PROPERTY_MANAGER, 'tao_actions_PropertiesAuthoring'],
         [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, Users::class],
         [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, Users::class],
+        [AccessRule::GRANT, TaoRoles::ITEM_CLASS_NAVIGATOR, ['ext' => 'taoItems', 'mod' => 'Items', 'act' => 'viewClassLabel']],
+        [AccessRule::GRANT, TaoRoles::ITEM_CLASS_NAVIGATOR, ['ext' => 'taoItems', 'mod' => 'Items', 'act' => 'getOntologyData']],
+        [AccessRule::GRANT, TaoRoles::ITEM_CLASS_NAVIGATOR, ['ext' => 'taoItems', 'mod' => 'Items', 'act' => 'index']],
+        [AccessRule::GRANT, TaoRoles::ITEM_CLASS_EDITOR, ['ext' => 'taoItems', 'mod' => 'Items', 'act' => 'editClassLabel']],
+        [AccessRule::GRANT, TaoRoles::ITEM_CLASS_CREATOR, ['ext' => 'taoItems', 'mod' => 'Items', 'act' => 'addSubClass']],
     ],
     'routes' => [
         '/tao/api'  => ['class' => ApiRoute::class],

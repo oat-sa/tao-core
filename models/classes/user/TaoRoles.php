@@ -35,7 +35,7 @@ interface TaoRoles
     public const LOCK_MANAGER = 'http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole';
     public const PROPERTY_MANAGER = 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole';
 
-    /** Atomic roles */
+    /** Item Class Roles */
     public const ITEM_CLASS_NAVIGATOR = 'http://www.tao.lu/Ontologies/TAO.rdf#ItemClassNavigatorRole';
     public const ITEM_CLASS_EDITOR = 'http://www.tao.lu/Ontologies/TAO.rdf#ItemClassEditorRole';
     public const ITEM_CLASS_CREATOR = 'http://www.tao.lu/Ontologies/TAO.rdf#ItemClassCreatorRole';
