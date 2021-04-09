@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint151\n"
-"PO-Revision-Date: 2021-03-26T09:39:35\n"
+"Project-Id-Version: TAO 3.4.0-sprint152\n"
+"PO-Revision-Date: 2021-04-09T08:32:14\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-SG\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
+msgid " AND "
 msgstr ""
 
-msgid " AND "
+msgid " and "
 msgstr ""
 
 msgid " has been deleted successfully"
@@ -215,16 +215,19 @@ msgstr ""
 msgid "Adding search index for %s"
 msgstr ""
 
+msgid "Adding search index for created resource"
+msgstr ""
+
 msgid "Adding the new class has failed"
 msgstr ""
 
 msgid "Adding the new resource has failed"
 msgstr ""
 
-msgid "Advanced search, add filters"
+msgid "Adding/updating search index for updated resource"
 msgstr ""
 
-msgid "aliases:"
+msgid "Advanced search, add filters"
 msgstr ""
 
 msgid "all"
@@ -291,16 +294,7 @@ msgstr ""
 msgid "Are you sure you want to delete it?"
 msgstr ""
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
 msgid "Arguments separator"
-msgstr ""
-
-msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -358,9 +352,6 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
-msgid "boolean"
-msgstr ""
-
 msgid "Browse folders:"
 msgstr ""
 
@@ -410,16 +401,13 @@ msgstr ""
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr ""
-
 msgid "Check All"
 msgstr ""
 
-msgid "Check-in"
+msgid "Check all"
 msgstr ""
 
-msgid "choices:"
+msgid "Check-in"
 msgstr ""
 
 msgid "Choose a value..."
@@ -455,10 +443,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -486,12 +474,6 @@ msgid "Collecting of abandoned actions in the action queue ..."
 msgstr ""
 
 msgid "Column"
-msgstr ""
-
-msgid "command"
-msgstr ""
-
-msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
@@ -536,9 +518,6 @@ msgstr ""
 msgid "Cosine"
 msgstr ""
 
-msgid "count"
-msgstr ""
-
 msgid "Create"
 msgstr ""
 
@@ -578,10 +557,10 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
@@ -603,9 +582,6 @@ msgid "date time range"
 msgstr ""
 
 msgid "Default search"
-msgstr ""
-
-msgid "default:"
 msgstr ""
 
 msgid "Define the default values"
@@ -637,9 +613,6 @@ msgid "Deleting search index for %s"
 msgstr ""
 
 msgid "Demo Sandbox"
-msgstr ""
-
-msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -756,9 +729,6 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
-msgstr ""
-
-msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -895,9 +865,6 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr ""
 
-msgid "generated-value"
-msgstr ""
-
 msgid "Generis Form"
 msgstr ""
 
@@ -956,9 +923,6 @@ msgid "Identifier"
 msgstr ""
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
-msgstr ""
-
-msgid "Implications failed:"
 msgstr ""
 
 msgid "Import"
@@ -1039,10 +1003,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1084,9 +1048,6 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr ""
 
@@ -1094,9 +1055,6 @@ msgid "Invalid login or password. Your account has been locked, please contact y
 msgstr ""
 
 msgid "invalid regular expression"
-msgstr ""
-
-msgid "Invalid values:"
 msgstr ""
 
 msgid "items per page"
@@ -1365,19 +1323,10 @@ msgstr ""
 msgid "no label"
 msgstr ""
 
-msgid "No results found"
-msgstr ""
-
 msgid "No Task yet"
 msgstr ""
 
 msgid "Node duplication has failed"
-msgstr ""
-
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
@@ -1402,9 +1351,6 @@ msgstr ""
 msgid "Nth root"
 msgstr ""
 
-msgid "number"
-msgstr ""
-
 msgid "Number of elements"
 msgstr ""
 
@@ -1414,10 +1360,10 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1523,9 +1469,6 @@ msgid "Please wait"
 msgstr ""
 
 msgid "Please wait while ..."
-msgstr ""
-
-msgid "Positionals:"
 msgstr ""
 
 msgid "Post install processing"
@@ -1650,9 +1593,6 @@ msgid "Request a password reset via Email."
 msgstr ""
 
 msgid "require notification ID"
-msgstr ""
-
-msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -1786,10 +1726,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
 msgid "Select a class"
@@ -1881,9 +1821,6 @@ msgid "Store"
 msgstr ""
 
 msgid "Store the value a variable"
-msgstr ""
-
-msgid "string"
 msgstr ""
 
 msgid "Submit"
@@ -2105,9 +2042,6 @@ msgstr ""
 msgid "Tokenizer"
 msgstr ""
 
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
-
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr ""
 
@@ -2244,6 +2178,9 @@ msgid "Update"
 msgstr ""
 
 msgid "Update ID : %s"
+msgstr ""
+
+msgid "Updating search index"
 msgstr ""
 
 msgid "Upload"
