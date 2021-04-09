@@ -25,7 +25,7 @@ require_once dirname(__FILE__) . '/../includes/raw_start.php';
 $parms = $argv;
 array_shift($parms);
 
-if (count($parms) != 1) {
+if (count($parms) !== 1) {
     echo 'Usage: ' . __FILE__ . ' EXTENSION_ID ' . PHP_EOL;
     die(1);
 }
@@ -38,7 +38,7 @@ try {
     $extension = $extensionManager->getExtensionById($extId);
 
     $uninstaller = new tao_install_ExtensionUninstaller($extension);
-    $success = $uninstaller->uninstall();
+    $uninstaller->uninstall();
 
     $message = __('Uninstalled %s', $extId);
 } catch (common_Exception $e) {
