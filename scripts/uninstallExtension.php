@@ -40,7 +40,7 @@ try {
     $uninstaller = new tao_install_ExtensionUninstaller($extension);
     $success = $uninstaller->uninstall();
 
-    $message = __('Uninstalled %s', $this->getRequestParameter('id'));
+    $message = __('Uninstalled %s', $extId);
 } catch (common_Exception $e) {
     $message = __('Uninstall of %s failed', $extId) . ':  ' . $e->getMessage();
 }
