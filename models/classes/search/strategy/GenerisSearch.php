@@ -53,8 +53,10 @@ class GenerisSearch extends ConfigurableService implements Search
             if ($resource->exists() && $resource->isInstanceOf($rootClass)) {
                 return new ResultSet(
                     [
-                        'id' => $resource->getUri(),
-                        'label' => $resource->getLabel(),
+                        [
+                            'id' => $resource->getUri(),
+                            'label' => $resource->getLabel(),
+                        ],
                     ],
                     1
                 );
