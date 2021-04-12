@@ -157,6 +157,7 @@ class GenerisSearch extends ConfigurableService implements Search
 
     private function isUriSearch(string $queryString): bool
     {
-        return strpos($queryString, LOCAL_NAMESPACE) === 0 || strpos('http', $queryString) === 0;
+        return strpos($queryString, LOCAL_NAMESPACE) === 0
+            || filter_var($queryString, FILTER_VALIDATE_URL) !== false;
     }
 }
