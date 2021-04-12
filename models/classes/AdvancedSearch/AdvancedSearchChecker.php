@@ -40,6 +40,8 @@ class AdvancedSearchChecker extends ConfigurableService
 
     private function isAdvancedSearchEnabled(): bool
     {
+        return false;
+        //FIXME @TODO Remove after testing
         return !$this->getFeatureFlagChecker()->isEnabled(self::FEATURE_FLAG_ADVANCED_SEARCH_DISABLED);
     }
 

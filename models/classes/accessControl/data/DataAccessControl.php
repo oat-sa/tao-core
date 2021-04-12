@@ -22,16 +22,15 @@
 namespace oat\tao\model\accessControl\data;
 
 use common_Logger;
-use common_Utils;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\data\permission\PermissionManager;
 use oat\oatbox\user\User;
 use oat\tao\helpers\ControllerHelper;
 use oat\tao\model\accessControl\AccessControl;
+use oat\tao\model\accessControl\filter\ParameterFilterInterface;
+use oat\tao\model\accessControl\filter\ParameterFilterProxy;
 use oat\tao\model\controllerMap\ActionNotFoundException;
 use oat\tao\model\lock\LockManager;
-use RecursiveArrayIterator;
-use RecursiveIteratorIterator;
 use tao_helpers_Uri;
 
 /**
@@ -39,36 +38,14 @@ use tao_helpers_Uri;
  */
 class DataAccessControl implements AccessControl
 {
-    private function flattenArray(array $multiDimensionalArray)
+    /** @var ParameterFilterInterface */
+    private $filter;
+
+    public function setParameterFilter(ParameterFilterInterface $filter): self
     {
-        return new RecursiveIteratorIterator(
-            new RecursiveArrayIterator($multiDimensionalArray)
-        );
-    }
+        $this->filter = $filter;
 
-    /**
-     * @param array $requestParameters
-     * @param array $filterNames
-     *
-     * @return array
-     */
-    private function extractAndGroupUriFromParameters(array $requestParameters, array $filterNames)
-    {
-        if (empty($filterNames)) {
-            return [];
-        }
-
-        $groupedUris = [];
-
-        foreach ($this->flattenArray($requestParameters) as $key => $value) {
-            $encodedUri = $this->getEncodedUri($value);
-
-            if (in_array($key, $filterNames, true) && common_Utils::isUri($encodedUri)) {
-                $groupedUris[$key][] = $encodedUri;
-            }
-        }
-
-        return $groupedUris;
+        return $this;
     }
 
     /**
@@ -88,7 +65,7 @@ class DataAccessControl implements AccessControl
             // $rights = ServiceManager::getServiceManager()->get(RouteAnnotationService::SERVICE_ID)->getRights($controller, $action);
             // todo use $rights when PHPDoc Annotations will be moved to the Doctrines annotations
             $requiredRights = ControllerHelper::getRequiredRights($controller, $action);
-            $uris = $this->extractAndGroupUriFromParameters($requestParameters, array_keys($requiredRights));
+            $uris = $this->getParameterFilter()->filter($requestParameters, array_keys($requiredRights));
 
             foreach ($uris as $name => $urisValue) {
                 $required[] = array_fill_keys($urisValue, $requiredRights[$name]);
@@ -97,24 +74,12 @@ class DataAccessControl implements AccessControl
             // action not found, no access
             return false;
         }
-        
+
         return empty($required)
             ? true
             : $this->hasPrivileges($user, array_merge(...$required));
     }
 
-    /**
-     * @param string $decodedUri param to be cleared
-     *
-     * @return string
-     */
-    private function getEncodedUri($decodedUri)
-    {
-        return tao_helpers_Uri::isUriEncoded($decodedUri)
-            ? tao_helpers_Uri::decode($decodedUri)
-            : $decodedUri;
-    }
-    
     /**
      * Whenever or not the user has the required rights
      *
@@ -136,7 +101,7 @@ class DataAccessControl implements AccessControl
                 $required[$resourceId] = PermissionInterface::RIGHT_UNSUPPORTED;
             }
         }
-        
+
         $permissions = $this->getPermissionProvider()->getPermissions($user, array_keys($required));
         foreach ($required as $id => $right) {
             if (!isset($permissions[$id]) || !in_array($right, $permissions[$id])) {
@@ -144,9 +109,10 @@ class DataAccessControl implements AccessControl
                 return false;
             }
         }
+
         return true;
     }
-    
+
     private function hasWritePrivilege(User $user, $resourceId)
     {
         $resource = new \core_kernel_classes_Resource($resourceId);
@@ -157,5 +123,14 @@ class DataAccessControl implements AccessControl
     public function getPermissionProvider()
     {
         return PermissionManager::getPermissionModel();
+    }
+
+    private function getParameterFilter(): ParameterFilterInterface
+    {
+        if (!$this->filter) {
+            $this->filter = new ParameterFilterProxy();
+        }
+
+        return $this->filter;
     }
 }
