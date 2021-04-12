@@ -48,7 +48,7 @@ final class Version202103301905282234_tao extends AbstractMigration
             TaoRoles::ITEM_CLASS_EDITOR => [
                 ['ext' => 'taoItems', 'mod' => 'Items', 'act' => 'editClassLabel'],
             ],
-            TaoRoles::ITEM_CLASS_EDITOR => [
+            TaoRoles::ITEM_CLASS_CREATOR => [
                 ['ext' => 'taoItems', 'mod' => 'Items', 'act' => 'addSubClass'],
             ],
         ];
