@@ -1,0 +1,23 @@
+# Make an extension release after merging to develop branch
+
+name: Release Tao extension
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types: [closed]
+jobs:
+  auto-release:
+    if: github.event.pull_request.merged == true
+    name: Automated Tao extension release
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Release
+        uses: oat-sa/extension-release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
