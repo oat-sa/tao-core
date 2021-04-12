@@ -46,7 +46,6 @@ class GenerisSearch extends ConfigurableService implements Search
     public function query($queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC')
     {
         $rootClass = $this->getClass($type);
-
         $results = $rootClass->searchInstances([
             OntologyRdfs::RDFS_LABEL => $queryString
         ], [
