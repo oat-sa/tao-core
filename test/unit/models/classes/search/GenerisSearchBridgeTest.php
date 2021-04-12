@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\search;
 
+use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\tao\model\search\GenerisSearchBridge;
 use oat\tao\model\search\ResultSet;
@@ -34,6 +35,9 @@ class GenerisSearchBridgeTest extends TestCase
     /** @var GenerisSearchBridge */
     private $subject;
 
+    /** @var Ontology */
+    private $ontology;
+
     /** @var Search|MockObject  */
     private $searchEngineMock;
 
@@ -41,12 +45,14 @@ class GenerisSearchBridgeTest extends TestCase
     public function setUp(): void
     {
         $this->searchEngineMock = $this->createMock(Search::class);
+        $this->ontology = $this->createMock(Ontology::class);
 
         $this->subject = new GenerisSearchBridge();
         $this->subject->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
                     Search::SERVICE_ID => $this->searchEngineMock,
+                    Ontology::SERVICE_ID => $this->ontology,
                 ]
             )
         );
