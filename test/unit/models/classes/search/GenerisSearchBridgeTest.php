@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\search;
 
+use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\tao\model\search\GenerisSearchBridge;
@@ -38,7 +40,7 @@ class GenerisSearchBridgeTest extends TestCase
     /** @var Ontology */
     private $ontology;
 
-    /** @var Search|MockObject  */
+    /** @var Search|MockObject */
     private $searchEngineMock;
 
 
@@ -84,6 +86,62 @@ class GenerisSearchBridgeTest extends TestCase
 
 
         $result = $this->subject->search($query);
+        $this->assertEquals($resultSetMock, $result);
+    }
+
+    public function testSearchByUri(): void
+    {
+        $uri = 'http://something';
+        $label = 'My Resource label';
+
+        $query = new SearchQuery(
+            $uri,
+            'rootClass',
+            'parentClass',
+            1,
+            10,
+            1
+        );
+
+        $resultSetMock = new ResultSet(
+            [
+                [
+                    'id' => $uri,
+                    'label' => $label,
+                ],
+            ],
+            1
+        );
+
+        $resource = $this->createMock(core_kernel_classes_Resource::class);
+        $class = $this->createMock(core_kernel_classes_Class::class);
+
+        $this->ontology
+            ->method('getResource')
+            ->willReturn($resource);
+
+        $this->ontology
+            ->method('getClass')
+            ->willReturn($class);
+
+        $resource
+            ->method('exists')
+            ->willReturn(true);
+
+        $resource
+            ->method('isInstanceOf')
+            ->willReturn(true);
+
+        $resource
+            ->method('getUri')
+            ->willReturn($uri);
+
+        $resource
+            ->method('getLabel')
+            ->willReturn($label);
+
+        $result = $this->subject->search($query);
+
         $this->assertEquals($resultSetMock, $result);
     }
 }
