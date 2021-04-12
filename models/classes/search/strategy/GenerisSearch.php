@@ -46,6 +46,20 @@ class GenerisSearch extends ConfigurableService implements Search
     public function query($queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC')
     {
         $rootClass = $this->getClass($type);
+
+        if ($this->isUriSearch($queryString)) {
+            $resource = $this->getResource($queryString);
+
+            if ($resource->exists() && $resource->isInstanceOf($rootClass)) {
+                return new ResultSet(
+                    [
+                        $resource->getUri()
+                    ],
+                    1
+                );
+            }
+        }
+
         $results = $rootClass->searchInstances([
             OntologyRdfs::RDFS_LABEL => $queryString
         ], [
@@ -136,5 +150,10 @@ class GenerisSearch extends ConfigurableService implements Search
     public function supportCustomIndex()
     {
         return false;
+    }
+
+    private function isUriSearch(string $queryString): bool
+    {
+        return strpos($queryString, LOCAL_NAMESPACE) === 0;
     }
 }
