@@ -237,6 +237,7 @@ class GenerisTreeFactory
                 'class' => 'node-class',
                 'data-uri' => $class->getUri(),
                 'data-classUri' => is_null($parent) ? null : $parent->getUri(),
+                'data-classId' => $class->getUri(), //FIXME Check if FE context is updated
                 'data-signature' => $this->getSignatureGenerator()->generate($class->getUri()),
             ]
         ];
