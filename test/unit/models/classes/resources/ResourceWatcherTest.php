@@ -31,6 +31,7 @@ use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\oatbox\log\LoggerService;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\resources\ResourceWatcher;
 use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\search\Search;
@@ -64,6 +65,10 @@ class ResourceWatcherTest extends TestCase
 
     /** @var MockObject|Search */
     private $search;
+    /**
+     * @var AdvancedSearchChecker|MockObject
+     */
+    private $advancedSearchChecker;
 
     protected function setUp(): void
     {
@@ -76,13 +81,17 @@ class ResourceWatcherTest extends TestCase
         $this->resource = $this->createMock(core_kernel_classes_Resource::class);
         $this->search = $this->createMock(Search::class);
 
+        $this->advancedSearchChecker = $this->createMock(AdvancedSearchChecker::class);
+        $this->advancedSearchChecker->method('isEnabled')->willReturn(true);
+
         $serviceLocator = $this->getServiceLocatorMock(
             [
                 IndexUpdaterInterface::SERVICE_ID => $this->indexUpdater,
                 QueueDispatcherInterface::SERVICE_ID => $this->queueDispatcher,
                 Ontology::SERVICE_ID => $this->ontology,
                 LoggerService::SERVICE_ID => $this->logger,
-                Search::SERVICE_ID => $this->search
+                Search::SERVICE_ID => $this->search,
+                AdvancedSearchChecker::class => $this->advancedSearchChecker,
             ]
         );
         $this->sut->setServiceLocator($serviceLocator);
