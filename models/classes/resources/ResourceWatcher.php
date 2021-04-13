@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017-2021 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -30,6 +30,7 @@ use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\tasks\UpdateClassInIndex;
@@ -135,24 +136,24 @@ class ResourceWatcher extends ConfigurableService
     }
 
     /**
-     * Create a task in the task queue to index/re-index created/updated resource
-     * @param core_kernel_classes_Resource $resource
-     * @param string $message
+     * Creates a task in the task queue to index/re-index created/updated resource
      */
     private function createResourceIndexingTask(core_kernel_classes_Resource $resource, string $message): void
     {
-        if ($this->hasClassSupport($resource) && !$this->ignoreEditIemClassUpdates()) {
+        if ($this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
+            /** @var QueueDispatcherInterface $queueDispatcher */
             $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-            $queueDispatcher->createTask(new UpdateClassInIndex(), [$resource->getUri()], $message);
 
-            return;
-        }
+            if ($this->hasClassSupport($resource) && !$this->ignoreEditIemClassUpdates()) {
+                $queueDispatcher->createTask(new UpdateClassInIndex(), [$resource->getUri()], $message);
+                return;
+            }
 
-        if ($this->hasResourceSupport($resource)) {
-            $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-            $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], $message);
+            if ($this->hasResourceSupport($resource)) {
+                $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], $message);
 
-            return;
+                return;
+            }
         }
     }
 
