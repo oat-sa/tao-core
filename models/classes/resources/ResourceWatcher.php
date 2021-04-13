@@ -39,8 +39,6 @@ use oat\tao\model\TaoOntology;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
 /**
- * Class ResourceWatcher
- * @package oat\tao\model\resources
  * @author Aleksej Tikhanovich, <aleksej@taotesting.com>
  */
 class ResourceWatcher extends ConfigurableService
@@ -55,12 +53,8 @@ class ResourceWatcher extends ConfigurableService
     /** @var array */
     protected $updatedAtCache = [];
 
-    /**
-     * @param ResourceCreated $event
-     */
     public function catchCreatedResourceEvent(ResourceCreated $event): void
     {
-        /** @var core_kernel_classes_Resource $resource */
         $resource = $event->getResource();
         $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
         $now = microtime(true);
@@ -75,7 +69,6 @@ class ResourceWatcher extends ConfigurableService
     }
 
     /**
-     * @param ResourceUpdated $event
      * @throws \core_kernel_persistence_Exception
      */
     public function catchUpdatedResourceEvent(ResourceUpdated $event): void
@@ -101,9 +94,6 @@ class ResourceWatcher extends ConfigurableService
         }
     }
 
-    /**
-     * @param ResourceDeleted $event
-     */
     public function catchDeletedResourceEvent(ResourceDeleted $event): void
     {
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
@@ -111,12 +101,13 @@ class ResourceWatcher extends ConfigurableService
             $searchService->remove($event->getId());
         } catch (\Exception $e) {
             $message = $e->getMessage();
-            $this->getLogger()->error("Error delete index document for {$event->getId()} with message $message");
+            $this->getLogger()->error(
+                sprintf("Error delete index document for %s with message %s", $event->getId(), $message)
+            );
         }
     }
 
      /**
-     * @param core_kernel_classes_Resource $resource
      * @return \core_kernel_classes_Container
      * @throws \core_kernel_persistence_Exception
      */
