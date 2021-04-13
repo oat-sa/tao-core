@@ -80,9 +80,7 @@ class ResourceWatcherTest extends TestCase
         $this->queueDispatcher = $this->createMock(QueueDispatcherInterface::class);
         $this->resource = $this->createMock(core_kernel_classes_Resource::class);
         $this->search = $this->createMock(Search::class);
-
         $this->advancedSearchChecker = $this->createMock(AdvancedSearchChecker::class);
-        $this->advancedSearchChecker->method('isEnabled')->willReturn(true);
 
         $serviceLocator = $this->getServiceLocatorMock(
             [
@@ -101,6 +99,7 @@ class ResourceWatcherTest extends TestCase
     {
         $classUri = 'https://tao.docker.localhost/ontologies/tao.rdf#Item';
         $this->mockHasClassSupportIndexUpdater($classUri);
+        $this->mockAdvancedSearchEnabled(true);
 
         $this->mockGetTypesResource($classUri);
 
@@ -137,6 +136,7 @@ class ResourceWatcherTest extends TestCase
             ->willReturn(
                 true
             );
+        $this->mockAdvancedSearchEnabled(true);
 
         $this->mockGetTypesResource($classUri);
 
@@ -188,6 +188,7 @@ class ResourceWatcherTest extends TestCase
             ->method('hasClassSupport')
             ->with($classUri)
             ->willReturn(false);
+        $this->mockAdvancedSearchEnabled(true);
 
         $this->mockGetTypesResource($classUri);
 
@@ -220,6 +221,7 @@ class ResourceWatcherTest extends TestCase
     {
         $classUri = 'https://tao.docker.localhost/ontologies/tao.rdf#Item';
         $this->mockHasClassSupportIndexUpdater($classUri);
+        $this->mockAdvancedSearchEnabled(true);
 
         $this->mockGetTypesResource($classUri);
 
@@ -243,9 +245,36 @@ class ResourceWatcherTest extends TestCase
         );
     }
 
+    public function testCatchUpdatedResourceEvent_mustNotCreateIndexTask(): void
+    {
+        $advancedSearchEnabled = false;
+
+        $this->mockAdvancedSearchEnabled($advancedSearchEnabled);
+
+        $resourceUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
+        $this->mockCreateTaskQueueDispatcher(
+            $resourceUri,
+            'Adding/updating search index for updated resource',
+            new UpdateResourceInIndex(),
+            $advancedSearchEnabled
+        );
+
+        $this->mockGetPropertyOntology($this->atLeast(2));
+
+        $this->mockGetUriResource($resourceUri);
+
+        $this->mockDebugLogger('triggering index update on resourceUpdated event');
+
+        $this->sut->catchUpdatedResourceEvent(
+            new ResourceUpdated($this->resource)
+        );
+    }
+
     public function testCatchUpdatedResourceEvent_mustCreateIndexTaskInCaseClassIsSupportedByIndex(): void
     {
         $resourceUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
+        $this->mockAdvancedSearchEnabled(true);
+
         $this->mockCreateTaskQueueDispatcher(
             $resourceUri,
             'Adding/updating search index for updated resource',
@@ -323,12 +352,18 @@ class ResourceWatcherTest extends TestCase
             );
     }
 
+    private function mockAdvancedSearchEnabled(bool $enabled)
+    {
+        $this->advancedSearchChecker->expects($this->once())->method('isEnabled')->willReturn($enabled);
+    }
+
     private function mockCreateTaskQueueDispatcher(
         string $resourceUri,
         string $taskMessage,
-        TaskAwareInterface $task
+        TaskAwareInterface $task,
+        bool $expectEnqueue = true
     ): void {
-        $this->queueDispatcher->expects($this->once())
+        $this->queueDispatcher->expects($expectEnqueue ? $this->once() : $this->never())
             ->method('createTask')
             ->with(
                 $task,
