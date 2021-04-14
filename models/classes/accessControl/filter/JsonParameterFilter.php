@@ -45,7 +45,7 @@ class JsonParameterFilter implements ParameterFilterInterface
 
         foreach ($json as $key => $value) {
             if (in_array($key, $filterNames, true)) {
-                $encodedUri = $this->getEncodedUri($value);
+                $encodedUri = $this->getDecodedUri($value);
 
                 if (common_Utils::isUri($encodedUri)) {
                     $groupedUris[$key][] = $encodedUri;
@@ -56,10 +56,15 @@ class JsonParameterFilter implements ParameterFilterInterface
         return $groupedUris;
     }
 
-    private function getEncodedUri(string $decodedUri): string
+    private function getDecodedUri(string $uri): string
     {
-        return tao_helpers_Uri::isUriEncoded($decodedUri)
+        // This is necessary cause JSON request might have converted '.' to '_'
+        $decodedUri = str_replace('_', '.', $uri);
+
+        $decodedUri = tao_helpers_Uri::isUriEncoded($decodedUri)
             ? tao_helpers_Uri::decode($decodedUri)
             : $decodedUri;
+
+        return $decodedUri;
     }
 }
