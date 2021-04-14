@@ -31,7 +31,6 @@ use oat\tao\model\accessControl\filter\ParameterFilterInterface;
 use oat\tao\model\accessControl\filter\ParameterFilterProxy;
 use oat\tao\model\controllerMap\ActionNotFoundException;
 use oat\tao\model\lock\LockManager;
-use tao_helpers_Uri;
 
 /**
  * Interface for data based access control
@@ -89,6 +88,7 @@ class DataAccessControl implements AccessControl
      * @param User $user
      * @param array $required
      * @return boolean
+     *
      */
     public function hasPrivileges(User $user, array $required)
     {
@@ -103,6 +103,7 @@ class DataAccessControl implements AccessControl
         }
 
         $permissions = $this->getPermissionProvider()->getPermissions($user, array_keys($required));
+
         foreach ($required as $id => $right) {
             if (!isset($permissions[$id]) || !in_array($right, $permissions[$id])) {
                 common_Logger::d('User \'' . $user->getIdentifier() . '\' does not have \'' . $right . '\' permission for resource \'' . $id . '\'');
