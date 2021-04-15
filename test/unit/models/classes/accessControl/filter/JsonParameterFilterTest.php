@@ -57,6 +57,28 @@ class JsonParameterFilterTest extends TestCase
                 'requestParameters' => [],
                 'filterNames' => [],
                 'expected' => [],
+            ],
+            'Json parameter' => [
+                'requestParameters' => [
+                    '{"classId":"https://test.tao/ontologies/tao.rdf#123456"}' => ''
+                ],
+                'filterNames' => [
+                    0 => 'classId'
+                ],
+                'expected' => [
+                    'classId' => [
+                        0 => 'https://test.tao/ontologies/tao.rdf#123456'
+                    ],
+                ],
+            ],
+            'Invalid Json parameter' => [
+                'requestParameters' => [
+                    '"classId":"https://test.tao/ontologies/tao.rdf#123456"}' => ''
+                ],
+                'filterNames' => [
+                    0 => 'classId'
+                ],
+                'expected' => [],
             ]
         ];
     }
