@@ -30,28 +30,40 @@ class ParameterFilterProxyTest extends TestCase
     /** @var ParameterFilterProxy */
     private $subject;
 
+    /** @var ParameterFilterInterface */
+    private $filter1;
+
+    /** @var ParameterFilterInterface */
+    private $filter2;
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        $filter = $this->createMock(ParameterFilterInterface::class);
-        $filter->method('filter')
-            ->willReturn([]);
-
-        $this->subject = new ParameterFilterProxy($filter);
+        $this->filter1 = $this->createMock(ParameterFilterInterface::class);
+        $this->filter2 = $this->createMock(ParameterFilterInterface::class);
+        $this->subject = new ParameterFilterProxy(...[$this->filter1, $this->filter2]);
     }
 
     /**
      * @dataProvider filterProvider
      */
     public function testFilter(
-        array $requestParameters,
-        array $filterNames,
+        array $filter1Output,
+        array $filter2Output,
         array $expectedOutput
     ): void {
+        $this->filter1
+            ->method('filter')
+            ->willReturn($filter1Output);
+
+        $this->filter2
+            ->method('filter')
+            ->willReturn($filter2Output);
+
         $this->assertSame(
             $expectedOutput,
-            $this->subject->filter($requestParameters, $filterNames)
+            $this->subject->filter([], [])
         );
     }
 
@@ -59,9 +71,19 @@ class ParameterFilterProxyTest extends TestCase
     {
         return [
             'Empty parameters' => [
-                'requestParameters' => [],
-                'filterNames' => [],
+                'filter1Output' => [],
+                'filter2Output' => [],
                 'expected' => [],
+            ],
+            'Consider filter 1 URIs' => [
+                'filter1Output' => ['filer1Uri'],
+                'filter2Output' => ['filer2Uri'],
+                'expected' => ['filer1Uri'],
+            ],
+            'Consider filter 2 URIs' => [
+                'filter1Output' => [],
+                'filter2Output' => ['filer2Uri'],
+                'expected' => ['filer2Uri'],
             ]
         ];
     }
