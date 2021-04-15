@@ -19,6 +19,8 @@
  *
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\accessControl\filter;
 
 class ParameterFilterProxy implements ParameterFilterInterface
@@ -28,10 +30,10 @@ class ParameterFilterProxy implements ParameterFilterInterface
 
     public function __construct(ParameterFilterInterface ...$filters)
     {
-        $this->filters = empty($filters) ? [
+        $this->filters = $filters ?: [
             new FormParameterFilter(),
             new JsonParameterFilter(),
-        ] : $filters;
+        ];
     }
 
     public function filter(array $requestParameters, array $filterNames): array

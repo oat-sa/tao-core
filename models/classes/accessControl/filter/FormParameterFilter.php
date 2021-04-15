@@ -19,6 +19,8 @@
  *
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\accessControl\filter;
 
 use common_Utils;
@@ -47,7 +49,7 @@ class FormParameterFilter implements ParameterFilterInterface
         return $groupedUris;
     }
 
-    private function flattenArray(array $multiDimensionalArray)
+    private function flattenArray(array $multiDimensionalArray): RecursiveIteratorIterator
     {
         return new RecursiveIteratorIterator(
             new RecursiveArrayIterator($multiDimensionalArray)
