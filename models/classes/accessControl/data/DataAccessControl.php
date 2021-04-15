@@ -15,9 +15,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\accessControl\data;
 
@@ -61,8 +63,6 @@ class DataAccessControl implements AccessControl
     {
         $required = [];
         try {
-            // $rights = ServiceManager::getServiceManager()->get(RouteAnnotationService::SERVICE_ID)->getRights($controller, $action);
-            // todo use $rights when PHPDoc Annotations will be moved to the Doctrines annotations
             $requiredRights = ControllerHelper::getRequiredRights($controller, $action);
             $uris = $this->getParameterFilter()->filter($requestParameters, array_keys($requiredRights));
 
@@ -70,7 +70,6 @@ class DataAccessControl implements AccessControl
                 $required[] = array_fill_keys($urisValue, $requiredRights[$name]);
             }
         } catch (ActionNotFoundException $e) {
-            // action not found, no access
             return false;
         }
 
