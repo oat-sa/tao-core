@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2017-2021 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -30,6 +30,7 @@ use oat\generis\model\data\event\ResourceUpdated;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\tasks\UpdateClassInIndex;
@@ -38,8 +39,6 @@ use oat\tao\model\TaoOntology;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
 /**
- * Class ResourceWatcher
- * @package oat\tao\model\resources
  * @author Aleksej Tikhanovich, <aleksej@taotesting.com>
  */
 class ResourceWatcher extends ConfigurableService
@@ -54,12 +53,8 @@ class ResourceWatcher extends ConfigurableService
     /** @var array */
     protected $updatedAtCache = [];
 
-    /**
-     * @param ResourceCreated $event
-     */
     public function catchCreatedResourceEvent(ResourceCreated $event): void
     {
-        /** @var core_kernel_classes_Resource $resource */
         $resource = $event->getResource();
         $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
         $now = microtime(true);
@@ -74,7 +69,6 @@ class ResourceWatcher extends ConfigurableService
     }
 
     /**
-     * @param ResourceUpdated $event
      * @throws \core_kernel_persistence_Exception
      */
     public function catchUpdatedResourceEvent(ResourceUpdated $event): void
@@ -100,9 +94,6 @@ class ResourceWatcher extends ConfigurableService
         }
     }
 
-    /**
-     * @param ResourceDeleted $event
-     */
     public function catchDeletedResourceEvent(ResourceDeleted $event): void
     {
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
@@ -110,12 +101,13 @@ class ResourceWatcher extends ConfigurableService
             $searchService->remove($event->getId());
         } catch (\Exception $e) {
             $message = $e->getMessage();
-            $this->getLogger()->error("Error delete index document for {$event->getId()} with message $message");
+            $this->getLogger()->error(
+                sprintf("Error delete index document for %s with message %s", $event->getId(), $message)
+            );
         }
     }
 
      /**
-     * @param core_kernel_classes_Resource $resource
      * @return \core_kernel_classes_Container
      * @throws \core_kernel_persistence_Exception
      */
@@ -135,24 +127,24 @@ class ResourceWatcher extends ConfigurableService
     }
 
     /**
-     * Create a task in the task queue to index/re-index created/updated resource
-     * @param core_kernel_classes_Resource $resource
-     * @param string $message
+     * Creates a task in the task queue to index/re-index created/updated resource
      */
     private function createResourceIndexingTask(core_kernel_classes_Resource $resource, string $message): void
     {
-        if ($this->hasClassSupport($resource) && !$this->ignoreEditIemClassUpdates()) {
+        if ($this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
+            /** @var QueueDispatcherInterface $queueDispatcher */
             $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-            $queueDispatcher->createTask(new UpdateClassInIndex(), [$resource->getUri()], $message);
 
-            return;
-        }
+            if ($this->hasClassSupport($resource) && !$this->ignoreEditIemClassUpdates()) {
+                $queueDispatcher->createTask(new UpdateClassInIndex(), [$resource->getUri()], $message);
+                return;
+            }
 
-        if ($this->hasResourceSupport($resource)) {
-            $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-            $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], $message);
+            if ($this->hasResourceSupport($resource)) {
+                $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], $message);
 
-            return;
+                return;
+            }
         }
     }
 
