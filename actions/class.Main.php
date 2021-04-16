@@ -357,7 +357,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('logout', $urlRouteService->getLogoutUrl());
 
         $this->setData('user_lang', $this->getSession()->getDataLanguage());
-        $this->setData('userLabel', $this->getSession()->getUserLabel());
+        $this->setData('userLabel', htmlspecialchars($this->getSession()->getUserLabel()));
         // re-added to highlight selected extension in menu
         $this->setData('shownExtension', $extension);
         $this->setData('shownStructure', $structure);

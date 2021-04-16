@@ -161,11 +161,12 @@ class tao_actions_Users extends tao_actions_CommonModule
                 $response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
             }
 
+            $email = (string)current($propValues[GenerisRdf::PROPERTY_USER_MAIL]);
             $response->data[$index]['id'] = $id;
-            $response->data[$index]['login'] = $login;
-            $response->data[$index]['firstname'] = $firstName;
-            $response->data[$index]['lastname'] = $lastName;
-            $response->data[$index]['email'] = (string)current($propValues[GenerisRdf::PROPERTY_USER_MAIL]);
+            $response->data[$index]['login'] = htmlspecialchars($login);
+            $response->data[$index]['firstname'] = htmlspecialchars($firstName);
+            $response->data[$index]['lastname'] = htmlspecialchars($lastName);
+            $response->data[$index]['email'] = htmlspecialchars($email);
             $response->data[$index]['roles'] = implode(', ', $labels);
             $response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
 
