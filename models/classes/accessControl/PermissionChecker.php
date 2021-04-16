@@ -26,6 +26,7 @@ namespace oat\tao\model\accessControl;
 use common_session_SessionManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\User;
+use oat\tao\model\accessControl\data\DataAccessControl;
 
 class PermissionChecker extends ConfigurableService implements PermissionCheckerInterface
 {
