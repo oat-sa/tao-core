@@ -34,6 +34,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class GenerisSearchBridgeTest extends TestCase
 {
+    private const LOCAL_NAME_SPACE = 'http://something';
+
     /** @var GenerisSearchBridge */
     private $subject;
 
@@ -43,13 +45,13 @@ class GenerisSearchBridgeTest extends TestCase
     /** @var Search|MockObject */
     private $searchEngineMock;
 
-
     public function setUp(): void
     {
         $this->searchEngineMock = $this->createMock(Search::class);
         $this->ontology = $this->createMock(Ontology::class);
 
         $this->subject = new GenerisSearchBridge();
+        $this->subject->withLocalNamespace(self::LOCAL_NAME_SPACE);
         $this->subject->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
@@ -91,7 +93,7 @@ class GenerisSearchBridgeTest extends TestCase
 
     public function testSearchByUri(): void
     {
-        $uri = 'http://something';
+        $uri = self::LOCAL_NAME_SPACE;
         $label = 'My Resource label';
 
         $query = new SearchQuery(

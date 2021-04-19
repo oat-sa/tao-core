@@ -27,6 +27,16 @@ class GenerisSearchBridge extends ConfigurableService implements SearchBridgeInt
 {
     use OntologyAwareTrait;
 
+    /** @var string */
+    private $localNamespace;
+
+    public function withLocalNamespace(string $localNameSpace): self
+    {
+        $this->localNamespace = $localNameSpace;
+
+        return $this;
+    }
+
     public function search(SearchQuery $query): ResultSet
     {
         if ($this->isUriSearch($query->getTerm())) {
@@ -56,7 +66,16 @@ class GenerisSearchBridge extends ConfigurableService implements SearchBridgeInt
 
     private function isUriSearch(string $queryString): bool
     {
-        return strpos($queryString, LOCAL_NAMESPACE) === 0
+        $localNameSpace = $this->getLocalNamespace();
+
+        return (!empty($localNameSpace) && strpos($queryString, $localNameSpace) === 0)
             || filter_var($queryString, FILTER_VALIDATE_URL) !== false;
+    }
+
+    private function getLocalNamespace(): string
+    {
+        return empty($this->localNamespace) && defined('LOCAL_NAMESPACE')
+            ? LOCAL_NAMESPACE
+            : $this->localNamespace;
     }
 }
