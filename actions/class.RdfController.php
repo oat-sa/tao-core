@@ -22,8 +22,10 @@
  *
  */
 
+use oat\oatbox\user\User;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
+use oat\tao\model\accessControl\ActionAccessControl;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\lock\LockManager;
@@ -411,11 +413,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function editClassLabel()
     {
-        $class     = $this->getCurrentClass();
+        $class = $this->getCurrentClass();
         $signature = $this->createFormSignature();
 
-        $classUri       = $class->getUri();
-        $hasWriteAccess = $this->hasWriteAccess($classUri);
+        $classUri = $class->getUri();
+        $hasWriteAccess = $this->hasWriteAccess($classUri) && $this->hasWriteAccessToAction('editClassLabel');
 
         $editClassLabelForm = new tao_actions_form_EditClassLabel(
             $class,
@@ -430,8 +432,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             if ($hasWriteAccess) {
                 $class->setLabel($myForm->getValue(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL)));
                 $this->setData('message', __('%s Class saved', $class->getLabel()));
-            }
-            else {
+            } else {
                 $this->setData('errorMessage', __('You do not have the required rights to edit this resource.'));
             }
 
@@ -1127,6 +1128,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         return (new DataAccessControl())->hasPrivileges($user, [$resourceId => 'WRITE']);
     }
 
+    protected function hasWriteAccessToAction(string $action, ?User $user = null): bool
+    {
+        return $this->getActionAccessControl()->hasWriteAccess(static::class, $action, $user);
+    }
+
     /**
      * Validate request with all required parameters
      *
@@ -1374,5 +1380,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         if (empty($destinationUri) || $destinationUri === $currentClassUri || !$destinationClass->exists()) {
             throw new InvalidArgumentException('Wrong destination class uri');
         }
+    }
+
+    private function getActionAccessControl(): ActionAccessControl
+    {
+        return $this->getServiceLocator()->get(ActionAccessControl::SERVICE_ID);
     }
 }

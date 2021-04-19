@@ -35,6 +35,7 @@ use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\RegisterActionAccessControl;
 use oat\tao\scripts\install\RegisterClassMetadataServices;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
@@ -153,7 +154,8 @@ return [
             RegisterSessionCookieService::class,
             RegisterResourceRelationService::class,
             RegisterTaoUpdateEventListener::class,
-        ]
+            RegisterActionAccessControl::class,
+        ],
     ],
     'update' => Updater::class,
     'optimizableClasses' => [
