@@ -28,8 +28,10 @@ use DateTime;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
+use oat\search\base\ResultSetInterface;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\search\index\IndexIterator;
+use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\Search;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -57,6 +59,13 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
                 'flag' => false,
                 'description' => 'The limit of resources to be processed per class',
                 'defaultValue' => 10
+            ],
+            'indexBatchSize' => [
+                'prefix' => 'ibs',
+                'longPrefix' => 'limit',
+                'flag' => false,
+                'description' => 'The limit of resources to be processed per class',
+                'defaultValue' => 100
             ],
             'offset' => [
                 'prefix' => 'o',
@@ -97,6 +106,7 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
         $currentClass = $this->getOption('class');
         $limit = (int)$this->getOption('limit');
         $offset = (int)$this->getOption('offset');
+        $indexBatchSize = (int)$this->getOption('indexBatchSize');
         $result = 0;
 
         $this->logInfo('starting indexation');
@@ -106,7 +116,8 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
             }
             $reportedClass = empty($currentClass) ? $class->getUri() : $currentClass;
 
-            $search = $this->getServiceLocator()->get(ComplexSearchService::SERVICE_ID);
+            $search = $this->getComplexSearchService();
+
             $queryBuilder = $search->query()
                 ->setLimit($limit)
                 ->setOffset($offset);
@@ -130,10 +141,7 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
                 file_put_contents($this->getOption('lock'), $nextClassUri);
             }
 
-            $indexIterator = new IndexIterator($resources);
-            $indexIterator->setServiceLocator($this->getServiceLocator());
-            $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
-            $result = $searchService->index($indexIterator);
+            $result = $this->processRequestByBatch($resources, $indexBatchSize);
 
             $this->logInfo(sprintf('%s resources have been indexed by %s', $result, static::class));
             $report->add($this->getScriptReport($result, $reportedClass, $limit, $offset));
@@ -188,6 +196,42 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
                 $offset
             )
         );
+    }
+
+    private function processRequestByBatch(ResultSetInterface $resources, int $batchSize): int
+    {
+        $paginatedResources = [];
+        $totalResults = 0;
+        $batchIndex = 0;
+
+        foreach ($resources as $resource) {
+            $paginatedResources[$batchIndex] = $paginatedResources[$batchIndex] ?? [];
+
+            if (count($paginatedResources[$batchIndex]) >= $batchSize) {
+                $batchIndex++;
+            }
+
+            $paginatedResources[$batchIndex][] = $resource;
+        }
+
+        foreach ($paginatedResources as $key => $resources) {
+            $indexIterator = new IndexIterator(new ResultSet($resources, count($resources)));
+            $indexIterator->setServiceLocator($this->getServiceLocator());
+
+            $totalResults += $this->getSearch()->index($indexIterator);
+        }
+
+        return $totalResults;
+    }
+
+    private function getComplexSearchService(): ComplexSearchService
+    {
+        return $this->getServiceLocator()->get(ComplexSearchService::SERVICE_ID);
+    }
+
+    private function getSearch(): Search
+    {
+        return $this->getServiceLocator()->get(Search::SERVICE_ID);
     }
 }
 
