@@ -68,8 +68,11 @@ class GenerisSearchBridge extends ConfigurableService implements SearchBridgeInt
     {
         $localNameSpace = $this->getLocalNamespace();
 
-        return (!empty($localNameSpace) && strpos($queryString, $localNameSpace) === 0)
-            || filter_var($queryString, FILTER_VALIDATE_URL) !== false;
+        if (!empty($localNameSpace) && strpos($queryString, $localNameSpace) === 0) {
+            return true;
+        }
+
+        return filter_var($queryString, FILTER_VALIDATE_URL) !== false;
     }
 
     private function getLocalNamespace(): ?string
