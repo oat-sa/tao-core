@@ -37,7 +37,7 @@ class JsonParameterFilter implements ParameterFilterInterface
         $groupedUris = [];
 
         $json = (array)json_decode(
-            array_keys($requestParameters)[0],
+            (string)(array_keys($requestParameters)[0] ?? ''),
             true
         );
 
@@ -47,7 +47,7 @@ class JsonParameterFilter implements ParameterFilterInterface
 
         foreach ($json as $key => $value) {
             if (in_array($key, $filterNames, true)) {
-                $encodedUri = $this->getDecodedUri($value);
+                $encodedUri = $this->getDecodedUri((string)$value);
 
                 if (common_Utils::isUri($encodedUri)) {
                     $groupedUris[$key][] = $encodedUri;
