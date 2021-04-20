@@ -98,8 +98,9 @@ class ActionAccessControl extends ConfigurableService
 
         foreach ($permissionsToRemove as $controller => $actions) {
             foreach ($actions as $action => $roles) {
-                foreach ($roles as $role) {
-                    unset($permissions[$controller][$action][$role]);
+                foreach ($roles as $role => $rolePermissions) {
+                    $index = !is_numeric($role) ? $role : $rolePermissions;
+                    unset($permissions[$controller][$action][$index]);
                 }
 
                 if (empty($permissions[$controller][$action])) {
