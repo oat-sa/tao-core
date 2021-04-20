@@ -34,14 +34,14 @@ class ActionAccessControlTest extends TestCase
     /** @var ActionAccessControl */
     private $actionAccessControl;
 
-    /** @var User */
+    /** @var TestUser */
     private $user;
 
     public function setUp(): void
     {
         $this->actionAccessControl = new ActionAccessControl();
 
-        $this->user = new User();
+        $this->user = $this->createUser();
         $this->user->setRoles(['role1']);
     }
 
@@ -143,6 +143,23 @@ class ActionAccessControlTest extends TestCase
         $this->assertTrue($this->hasGrantAccess());
     }
 
+    private function createUser(): TestUser
+    {
+        return new class extends TestUser {
+            private $roles;
+
+            public function getRoles()
+            {
+                return $this->roles;
+            }
+
+            public function setRoles(array $roles = []): void
+            {
+                $this->roles = $roles;
+            }
+        };
+    }
+
     private function getActionAccessControlPermissions(): array
     {
         return $this->actionAccessControl->getOption(ActionAccessControl::OPTION_PERMISSIONS, []);
@@ -182,20 +199,5 @@ class ActionAccessControlTest extends TestCase
             self::TEST_ACTION,
             $this->user
         );
-    }
-}
-
-class User extends TestUser
-{
-    private $roles;
-
-    public function getRoles()
-    {
-        return $this->roles;
-    }
-
-    public function setRoles(array $roles = []): void
-    {
-        $this->roles = $roles;
     }
 }
