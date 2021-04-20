@@ -82,3 +82,18 @@ $ php index.php 'oat\tao\scripts\tools\RegisterEventWebhook'
     \ -m "POST"
     \ -e "<<Class FQN>>"
 ``` 
+
+# Check ACL Permissions
+
+In order to check ACL permissions, you can use the `PermissionChecker`:
+
+```php
+
+$permissionChecker = $this->getServiceLocator()->get(oat\tao\model\accessControl\PermissionChecker::class);
+
+$permissionChecker->hasWriteAccess('resourceId');
+$permissionChecker->hasReadAccess('resourceId');
+$permissionChecker->hasGrantAccess('resourceId');
+```
+
+**Important**: It takes into consideration the current user in the session, if no user is provided.
