@@ -18,7 +18,7 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2018 (update and modification) Open Assessment Technologies SA;
+ *               2013-2021 (update and modification) Open Assessment Technologies SA;
  *
  */
 
@@ -26,7 +26,7 @@ use oat\oatbox\user\User;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\accessControl\ActionAccessControl;
-use oat\tao\model\accessControl\data\DataAccessControl;
+use oat\tao\model\accessControl\PermissionChecker;
 use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\lock\LockManager;
 use oat\tao\model\menu\ActionService;
@@ -1124,8 +1124,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     protected function hasWriteAccess($resourceId)
     {
-        $user = $this->getSession()->getUser();
-        return (new DataAccessControl())->hasPrivileges($user, [$resourceId => 'WRITE']);
+        /** @var PermissionChecker $permissionChecker */
+        $permissionChecker = $this->getServiceLocator()->get(PermissionChecker::class);
+
+        return $permissionChecker->hasWriteAccess($resourceId);
     }
 
     protected function hasWriteAccessToAction(string $action, ?User $user = null): bool
