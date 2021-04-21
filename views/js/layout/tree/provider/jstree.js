@@ -474,7 +474,9 @@ define([
                             if ($node.hasClass('closed')) {
                                 tree.open_branch($node);
                             }
+
                             nodeContext.classUri = nodeId;
+                            nodeContext.classId = nodeUri;
                             nodeContext.classSignature = $node.data('signature');
                             nodeContext.id = nodeUri;
                             nodeContext.context = ['class', 'resource'];
@@ -491,6 +493,7 @@ define([
                         if ($node.hasClass('node-instance')){
                             nodeContext.uri = nodeId;
                             nodeContext.classUri = $parentNode.attr('id');
+                            nodeContext.classId = $parentNode.data('classId');
                             nodeContext.classSignature = $parentNode.data('signature');
                             nodeContext.id = nodeUri;
                             nodeContext.context = ['instance', 'resource'];

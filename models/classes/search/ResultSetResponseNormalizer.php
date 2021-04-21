@@ -67,7 +67,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
                 $isAccessible = isset($accessibleResultsMap[$content['id']]);
 
                 if (!$isAccessible) {
-                    $content['label'][] = __('Access Denied');
+                    $content['label'] = __('Access Denied');
                 }
 
                 $response['data'][] = $this->getResultSetFilter()->filter($content, $structure);
