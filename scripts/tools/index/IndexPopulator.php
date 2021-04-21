@@ -62,9 +62,9 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
             ],
             'indexBatchSize' => [
                 'prefix' => 'ibs',
-                'longPrefix' => 'limit',
+                'longPrefix' => 'indexBatchSize',
                 'flag' => false,
-                'description' => 'The limit of resources to be processed per class',
+                'description' => 'Amount of documents to index on each batch interaction',
                 'defaultValue' => 100
             ],
             'offset' => [
@@ -216,7 +216,7 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
 
         foreach ($paginatedResources as $key => $resources) {
             $indexIterator = new IndexIterator(new ResultSet($resources, count($resources)));
-            $indexIterator->setServiceLocator($this->getServiceLocator());
+            $this->propagate($indexIterator);
 
             $totalResults += $this->getSearch()->index($indexIterator);
         }
