@@ -63,10 +63,18 @@ class SetRolesAccess extends ScriptAction
      *     '--config', [
      *         'rules' => [
      *             'role1' => [
-     *                 ['ext' => 'extension', 'mod' => 'controller', 'act' => 'action'],
+     *                 [
+     *                     'ext' => 'extension',
+     *                     'mod' => 'controller',
+     *                     'act' => 'action',
+     *                 ],
      *             ],
      *             'role2' => [
-     *                 ['ext' => 'extension', 'mod' => 'controller', 'act' => 'action'],
+     *                 [
+     *                     'ext' => 'extension',
+     *                     'mod' => 'controller',
+     *                     'act' => 'action',
+     *                 ],
      *             ],
      *         ],
      *         'permissions' => [

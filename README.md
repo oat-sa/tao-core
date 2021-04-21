@@ -121,9 +121,9 @@ $ php index.php 'oat\tao\scripts\tools\accessControl\SetRolesAccess' \
     "rules": {
         "role": [
             {
-                "ext": "ext",
-                "mod": "mod",
-                "act": "act"
+                "ext": "extensionIdentifier",
+                "mod": "actionControllerName",
+                "act": "actionMethodName"
             }
         ]
     },
