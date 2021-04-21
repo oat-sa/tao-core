@@ -227,20 +227,29 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
         $totalResults = 0;
 
         foreach ($paginatedResources as $key => $resources) {
-            $indexIterator = new IndexIterator(new ResultSet($resources, count($resources)));
+            $totalResources = count($resources);
+
+            if ($totalResources === 0) {
+                continue;
+            }
+
+            $indexIterator = new IndexIterator(new ResultSet($resources, $totalResources));
             $this->propagate($indexIterator);
 
             $batchResults = $this->getSearch()->index($indexIterator);
             $totalResults += $batchResults;
-            $message = sprintf(
-                '%s resources indexed for class %s by %s',
-                $batchResults,
-                $classUri,
-                static::class
-            );
 
-            $report->add(Report::createInfo($message));
-            $this->logInfo($message);
+            if ($batchResults > 0) {
+                $message = sprintf(
+                    '%s resources indexed for class %s by %s',
+                    $batchResults,
+                    $classUri,
+                    static::class
+                );
+
+                $report->add(Report::createInfo($message));
+                $this->logInfo($message);
+            }
         }
 
         return $totalResults;
