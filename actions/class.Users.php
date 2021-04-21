@@ -34,6 +34,7 @@ use oat\tao\model\user\UserLocks;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\oatbox\log\LoggerAwareTrait;
 use tao_helpers_form_FormContainer as FormContainer;
+use tao_helpers_Display as DisplayHelper;
 
 /**
  * This controller provide the actions to manage the application users (list/add/edit/delete)
@@ -163,10 +164,10 @@ class tao_actions_Users extends tao_actions_CommonModule
 
             $email = (string)current($propValues[GenerisRdf::PROPERTY_USER_MAIL]);
             $response->data[$index]['id'] = $id;
-            $response->data[$index]['login'] = tao_helpers_Display::htmlEscape($login);
-            $response->data[$index]['firstname'] = tao_helpers_Display::htmlEscape($firstName);
-            $response->data[$index]['lastname'] = tao_helpers_Display::htmlEscape($lastName);
-            $response->data[$index]['email'] = tao_helpers_Display::htmlEscape($email);
+            $response->data[$index]['login'] = DisplayHelper::htmlEscape($login);
+            $response->data[$index]['firstname'] = DisplayHelper::htmlEscape($firstName);
+            $response->data[$index]['lastname'] = DisplayHelper::htmlEscape($lastName);
+            $response->data[$index]['email'] = DisplayHelper::htmlEscape($email);
             $response->data[$index]['roles'] = implode(', ', $labels);
             $response->data[$index]['guiLg'] = is_null($uiRes) ? '' : $uiRes->getLabel();
 
