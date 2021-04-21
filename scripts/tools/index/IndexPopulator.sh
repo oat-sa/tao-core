@@ -18,6 +18,7 @@ fi
 EXPORTER_LOCK_FILE="/tmp/.export.lock"
 TAO_ROOT_PATH=$1
 LIMIT=100
+BATCH_SIZE_LIMIT=100
 OFFSET=0;
 CLASS=
 
@@ -32,6 +33,7 @@ while [ "$(awk 'FNR==2' ${EXPORTER_LOCK_FILE})" != 'FINISHED' ]; do
   fi
 
   php -d memory_limit=512M index.php "oat\tao\scripts\tools\index\IndexPopulator" \
+  --indexBatchSize $BATCH_SIZE_LIMIT \
   --limit $LIMIT \
   --offset $OFFSET \
   --lock $EXPORTER_LOCK_FILE \

@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -23,11 +23,11 @@ declare(strict_types=1);
 
 namespace oat\tao\scripts\tools\index;
 
-use common_report_Report;
 use DateTime;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
+use oat\oatbox\reporting\Report;
 use oat\search\base\ResultSetInterface;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\search\index\IndexIterator;
@@ -99,15 +99,14 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
     /**
      * @inheritDoc
      */
-    protected function run(): common_report_Report
+    protected function run(): Report
     {
-        $report = common_report_Report::createInfo('Excuting');
+        $report = Report::createInfo('Excuting');
         $classIterator = new \core_kernel_classes_ClassIterator($this->getIndexedClasses());
         $currentClass = $this->getOption('class');
         $limit = (int)$this->getOption('limit');
         $offset = (int)$this->getOption('offset');
         $indexBatchSize = (int)$this->getOption('indexBatchSize');
-        $result = 0;
 
         $this->logInfo('starting indexation');
         foreach ($classIterator as $class) {
@@ -131,23 +130,48 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
                 $classIterator->next();
                 if (!$classIterator->valid()) {
                     $this->logInfo(
-                        sprintf('there is no more resources to be indexed for the class %s', $class->getUri())
+                        sprintf(
+                            'there is no more resources to be indexed for the class %s',
+                            $class->getUri()
+                        )
                     );
                     break;
                 }
 
                 $nextClassUri = $classIterator->current()->getUri();
-                $this->logInfo(sprintf('next class to be indexed is %s', $nextClassUri));
-                file_put_contents($this->getOption('lock'), $nextClassUri);
+                $this->logInfo(
+                    sprintf(
+                        'next class to be indexed is %s',
+                        $nextClassUri
+                    )
+                );
+                file_put_contents(
+                    $this->getOption('lock'),
+                    $nextClassUri
+                );
             }
 
-            $result = $this->processRequestByBatch($resources, $indexBatchSize);
+            $result = $this->processRequestByBatch(
+                $report,
+                $resources,
+                $reportedClass,
+                $indexBatchSize
+            );
 
-            $this->logInfo(sprintf('%s resources have been indexed by %s', $result, static::class));
+            $this->logInfo(
+                sprintf(
+                    '%s resources have been indexed by %s',
+                    $result,
+                    static::class
+                )
+            );
             $report->add($this->getScriptReport($result, $reportedClass, $limit, $offset));
         }
 
-        file_put_contents($this->getOption('lock'), $class->getUri() . PHP_EOL . 'FINISHED');
+        file_put_contents(
+            $this->getOption('lock'),
+            $class->getUri() . PHP_EOL . 'FINISHED'
+        );
 
         return $report;
     }
@@ -168,15 +192,10 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
         return array_values($classes);
     }
 
-    /**
-     * @param int $result
-     * @return common_report_Report
-     * @throws \Exception
-     */
-    protected function getScriptReport(int $result, string $class, int $limit, int $offset): common_report_Report
+    protected function getScriptReport(int $result, string $class, int $limit, int $offset): Report
     {
         if (0 === $result) {
-            return common_report_Report::createInfo(
+            return Report::createInfo(
                 sprintf(
                     'There is no resources to be indexed for class: %s, limit: %d, offset: %d',
                     $class,
@@ -186,7 +205,7 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
             );
         }
 
-        return common_report_Report::createSuccess(
+        return Report::createSuccess(
             sprintf(
                 'Finished at %s. Indexed %d resources for class: %s, limit: %d, offset: %d.',
                 (new DateTime('now'))->format(DateTime::ATOM),
@@ -198,30 +217,51 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
         );
     }
 
-    private function processRequestByBatch(ResultSetInterface $resources, int $batchSize): int
-    {
-        $paginatedResources = [];
+    private function processRequestByBatch(
+        Report $report,
+        ResultSetInterface $resources,
+        string $classUri,
+        int $batchSize
+    ): int {
+        $paginatedResources = $this->groupResourcesByBatch($resources, $batchSize);
         $totalResults = 0;
-        $batchIndex = 0;
-
-        foreach ($resources as $resource) {
-            $paginatedResources[$batchIndex] = $paginatedResources[$batchIndex] ?? [];
-
-            if (count($paginatedResources[$batchIndex]) >= $batchSize) {
-                $batchIndex++;
-            }
-
-            $paginatedResources[$batchIndex][] = $resource;
-        }
 
         foreach ($paginatedResources as $key => $resources) {
             $indexIterator = new IndexIterator(new ResultSet($resources, count($resources)));
             $this->propagate($indexIterator);
 
-            $totalResults += $this->getSearch()->index($indexIterator);
+            $batchResults = $this->getSearch()->index($indexIterator);
+            $totalResults += $batchResults;
+            $message = sprintf(
+                '%s resources indexed for class %s by %s',
+                $batchResults,
+                $classUri,
+                static::class
+            );
+
+            $report->add(Report::createInfo($message));
+            $this->logInfo($message);
         }
 
         return $totalResults;
+    }
+
+    private function groupResourcesByBatch(ResultSetInterface $resources, int $batchSize): array
+    {
+        $batchGroups = [];
+        $batchIndex = 0;
+
+        foreach ($resources as $resource) {
+            $batchGroups[$batchIndex] = $batchGroups[$batchIndex] ?? [];
+
+            if (count($batchGroups[$batchIndex]) >= $batchSize) {
+                $batchIndex++;
+            }
+
+            $batchGroups[$batchIndex][] = $resource;
+        }
+
+        return $batchGroups;
     }
 
     private function getComplexSearchService(): ComplexSearchService
