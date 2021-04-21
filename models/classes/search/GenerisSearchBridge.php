@@ -20,17 +20,65 @@
 
 namespace oat\tao\model\search;
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 
 class GenerisSearchBridge extends ConfigurableService implements SearchBridgeInterface
 {
+    use OntologyAwareTrait;
+
+    /** @var string */
+    private $localNamespace;
+
+    public function withLocalNamespace(string $localNameSpace): self
+    {
+        $this->localNamespace = $localNameSpace;
+
+        return $this;
+    }
+
     public function search(SearchQuery $query): ResultSet
     {
+        if ($this->isUriSearch($query->getTerm())) {
+            $resource = $this->getResource($query->getTerm());
+            $class = $this->getClass($query->getParentClass());
+
+            if ($resource->exists() && $resource->isInstanceOf($class)) {
+                return new ResultSet(
+                    [
+                        [
+                            'id' => $resource->getUri(),
+                            'label' => $resource->getLabel(),
+                        ],
+                    ],
+                    1
+                );
+            }
+        }
+
         return $this->getServiceLocator()->get(Search::SERVICE_ID)->query(
             $query->getTerm(),
             $query->getParentClass(),
             $query->getStartRow(),
             $query->getRows()
         );
+    }
+
+    private function isUriSearch(string $queryString): bool
+    {
+        $localNameSpace = $this->getLocalNamespace();
+
+        if (!empty($localNameSpace) && strpos($queryString, $localNameSpace) === 0) {
+            return true;
+        }
+
+        return filter_var($queryString, FILTER_VALIDATE_URL) !== false;
+    }
+
+    private function getLocalNamespace(): ?string
+    {
+        return empty($this->localNamespace) && defined('LOCAL_NAMESPACE')
+            ? LOCAL_NAMESPACE
+            : $this->localNamespace;
     }
 }
