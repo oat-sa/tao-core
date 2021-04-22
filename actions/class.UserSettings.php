@@ -27,6 +27,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\service\ApplicationService;
 use tao_helpers_form_FormContainer as FormContainer;
+use tao_helpers_Display as DisplayHelper;
 
 /**
  * This controller provide the actions to manage the user settings
@@ -102,7 +103,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
             }
         }
         $userLabel = $this->getUserService()->getCurrentUser()->getLabel();
-        $this->setData('formTitle', __('My settings (%s)', $userLabel));
+        $this->setData('formTitle', __('My settings (%s)', DisplayHelper::htmlEscape($userLabel)));
         $this->setData('myForm', $myForm->render());
 
         //$this->setView('form.tpl');
