@@ -133,7 +133,7 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
             $isClassFullyProcessed = $totalProcessed >= $totalResources || $result === 0;
 
             if ($isClassFullyProcessed) {
-                $report->add($this->getScriptReport($totalProcessed, $reportedClass, $limit, $offset));
+                $report->add($this->getScriptReport($totalProcessed, $reportedClass));
 
                 $classIterator->next();
 
