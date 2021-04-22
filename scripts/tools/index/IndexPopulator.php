@@ -34,6 +34,7 @@ use oat\tao\model\menu\MenuService;
 use oat\tao\model\search\index\IndexIterator;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\Search;
+use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -102,13 +103,13 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
      */
     protected function run(): Report
     {
-        $report = Report::createInfo('');
+        $report = Report::createInfo('Executing:');
         $classIterator = new core_kernel_classes_ClassIterator($this->getIndexedClasses());
         $currentClass = $this->getOption('class') ?: $classIterator->current()->getUri();
         $limit = (int)$this->getOption('limit');
         $offset = (int)$this->getOption('offset');
         $indexBatchSize = (int)$this->getOption('indexBatchSize');
-        $totalProcessed = $offset + $limit;
+        $totalProcessedExpected = $offset + $limit;
 
         $this->logInfo('starting indexation');
 
@@ -120,20 +121,40 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
             $totalResources = $class->countInstances([], ['recursive' => true]);
             $reportedClass = empty($currentClass) ? $class->getUri() : $currentClass;
             $resources = $this->searchResults($class->getUri(), $offset, $limit);
+            $totalProcessedByBatch = 0;
 
-            $result = $this->processRequestByBatch(
-                $report,
-                $resources,
-                $reportedClass,
-                $indexBatchSize,
-                $offset,
-                $limit
-            );
+            try {
+                $totalProcessedByBatch = $this->processRequestByBatch(
+                    $report,
+                    $resources,
+                    $reportedClass,
+                    $indexBatchSize,
+                    $offset,
+                    $limit
+                );
+            } catch (Throwable $exception) {
+                $message = sprintf(
+                    'Error while indexing batch for class %s (offset %s, limit %s): %s',
+                    $reportedClass,
+                    $offset,
+                    $limit,
+                    $exception->getMessage()
+                );
 
-            $isClassFullyProcessed = $totalProcessed >= $totalResources || $result === 0;
+                $this->logCritical($message);
+
+                $report->add(Report::createError($message));
+            }
+
+            $isClassFullyProcessed = $totalProcessedExpected >= $totalResources || $totalProcessedByBatch === 0;
 
             if ($isClassFullyProcessed) {
-                $report->add($this->getScriptReport($totalProcessed, $reportedClass));
+                $report->add(
+                    $this->getScriptReport(
+                        $totalProcessedByBatch > 0 ? $totalProcessedExpected : $totalProcessedByBatch,
+                        $reportedClass
+                    )
+                );
 
                 $classIterator->next();
 
