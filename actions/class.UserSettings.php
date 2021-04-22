@@ -106,7 +106,6 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
         $this->setData('formTitle', __('My settings (%s)', DisplayHelper::htmlEscape($userLabel)));
         $this->setData('myForm', $myForm->render());
 
-        //$this->setView('form.tpl');
         $this->setView('form/settings_user.tpl');
     }
 
