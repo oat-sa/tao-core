@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace oat\tao\scripts\tools\index;
 
+use core_kernel_classes_ClassIterator;
 use DateTime;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\OntologyAwareTrait;
@@ -65,7 +66,7 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
                 'longPrefix' => 'indexBatchSize',
                 'flag' => false,
                 'description' => 'Amount of documents to index on each batch interaction',
-                'defaultValue' => 100
+                'defaultValue' => 50
             ],
             'offset' => [
                 'prefix' => 'o',
@@ -101,14 +102,15 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
      */
     protected function run(): Report
     {
-        $report = Report::createInfo('Excuting');
-        $classIterator = new \core_kernel_classes_ClassIterator($this->getIndexedClasses());
+        $report = Report::createInfo('Executing');
+        $classIterator = new core_kernel_classes_ClassIterator($this->getIndexedClasses());
         $currentClass = $this->getOption('class');
         $limit = (int)$this->getOption('limit');
         $offset = (int)$this->getOption('offset');
         $indexBatchSize = (int)$this->getOption('indexBatchSize');
 
         $this->logInfo('starting indexation');
+
         foreach ($classIterator as $class) {
             if (!empty($currentClass) && $currentClass !== $class->getUri()) {
                 continue;
