@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint152\n"
-"PO-Revision-Date: 2021-04-09T08:30:36\n"
+"Project-Id-Version: TAO 3.4.0-sprint153\n"
+"PO-Revision-Date: 2021-04-23T08:46:06\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -230,6 +230,9 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr "Recherche avancée, ajout de filtres"
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
 msgstr "tout"
 
@@ -295,8 +298,17 @@ msgstr "Êtes-vous sûr de vouloir supprimer la ressource versionnée ?\n"
 msgid "Are you sure you want to delete it?"
 msgstr "Êtes-vous sûr(e) de vouloir le supprimer  ?"
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
 msgstr "Séparateur d'arguments"
+
+msgid "array"
+msgstr ""
 
 msgid "Assign"
 msgstr "Assigner"
@@ -353,6 +365,9 @@ msgstr "Opérateur binaire /"
 msgid "Binary operator modulo"
 msgstr "Opérateur binaire modulo"
 
+msgid "boolean"
+msgstr ""
+
 msgid "Browse folders:"
 msgstr "Parcourir les dossiers:"
 
@@ -368,11 +383,11 @@ msgstr "Calculatrice"
 msgid "Calendar"
 msgstr "Calendrier"
 
-msgid "Cancel"
-msgstr "Annuler"
-
 msgid "cancel"
 msgstr "annuler"
+
+msgid "Cancel"
+msgstr "Annuler"
 
 msgid "cancel the action"
 msgstr "annuler l'action"
@@ -402,14 +417,17 @@ msgstr "Modifier le mot de passe"
 msgid "Change the sign of the current operand"
 msgstr "Changer le signe de l'opérande actuelle"
 
-msgid "Check All"
-msgstr "Cocher Tout"
-
 msgid "Check all"
 msgstr "Cocher tout"
 
+msgid "Check All"
+msgstr "Cocher Tout"
+
 msgid "Check-in"
 msgstr "Déposer"
+
+msgid "choices:"
+msgstr ""
 
 msgid "Choose a value..."
 msgstr "Choisissez une valeur..."
@@ -444,10 +462,10 @@ msgstr "Effacer toutes les données"
 msgid "Clear expression"
 msgstr "Effacer l'expression"
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr "Effacer l'historique"
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr "Effacer l'historique"
 
 msgid "Clear selection"
@@ -476,6 +494,12 @@ msgstr "Collecte des actions avortées dans la file d'attente des actions..."
 
 msgid "Column"
 msgstr "Colonne"
+
+msgid "command"
+msgstr ""
+
+msgid "Commands:"
+msgstr ""
 
 msgid "comment..."
 msgstr "commentaire..."
@@ -518,6 +542,9 @@ msgstr "cosh"
 
 msgid "Cosine"
 msgstr "Cosinus"
+
+msgid "count"
+msgstr ""
 
 msgid "Create"
 msgstr "Créer"
@@ -585,6 +612,9 @@ msgstr ""
 msgid "Default search"
 msgstr "Recherche par défaut"
 
+msgid "default:"
+msgstr ""
+
 msgid "Define the default values"
 msgstr "Définir les valeurs par défaut"
 
@@ -615,6 +645,9 @@ msgstr "Supprimer l'index de recherche pour %s"
 
 msgid "Demo Sandbox"
 msgstr "Démonstration"
+
+msgid "Did you mean %s?"
+msgstr ""
 
 msgid "Digit 0"
 msgstr "Chiffre 0"
@@ -731,6 +764,9 @@ msgid "Error in value"
 msgstr "Erreur dans la valeur"
 
 msgid "Error: %s"
+msgstr ""
+
+msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -867,6 +903,9 @@ msgstr "De"
 msgid "Fuzzy Matching"
 msgstr "Correspondance floue"
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
 msgstr "Formulaire Generis"
 
@@ -926,6 +965,9 @@ msgstr "Identifiant"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Si vous ne souhaitez pas réinitialiser votre mot de passe, ignorez simplement cet email et votre mot de passe restera inchangé."
+
+msgid "Implications failed:"
+msgstr ""
 
 msgid "Import"
 msgstr "Importer"
@@ -1005,10 +1047,10 @@ msgstr "Installation de l'extension %s..."
 msgid "Instance saved"
 msgstr "Instance enregistrée"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Langue de l'interface"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Langue de l'interface"
 
 msgid "Invalid CSP header."
@@ -1050,6 +1092,9 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr "Entrée invalide pour la fonction"
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "Identifiant ou mot de passe invalide. Veuillez réessayer."
 
@@ -1058,6 +1103,9 @@ msgstr "Login ou mot de passe invalide. Votre compte a été verrouillé, veuill
 
 msgid "invalid regular expression"
 msgstr "Expression régulière non valide"
+
+msgid "Invalid values:"
+msgstr ""
 
 msgid "items per page"
 msgstr ""
@@ -1331,6 +1379,12 @@ msgstr "Pas encore de tâche"
 msgid "Node duplication has failed"
 msgstr "La duplication de nœud a échoué."
 
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
 msgid "Not started"
 msgstr "Non démarré"
 
@@ -1352,6 +1406,9 @@ msgstr ""
 
 msgid "Nth root"
 msgstr "Racine n-ième"
+
+msgid "number"
+msgstr ""
 
 msgid "Number of elements"
 msgstr "Nombre d'éléments"
@@ -1472,6 +1529,9 @@ msgstr "Veuillez patienter"
 
 msgid "Please wait while ..."
 msgstr "Veuillez patienter..."
+
+msgid "Positionals:"
+msgstr ""
 
 msgid "Post install processing"
 msgstr "Traitement après installation"
@@ -1596,6 +1656,9 @@ msgstr "Demander une réinitialisation du mot de passe par email."
 
 msgid "require notification ID"
 msgstr "demande un ID de notification"
+
+msgid "required"
+msgstr ""
 
 msgid "required length"
 msgstr "taille requise"
@@ -1728,11 +1791,11 @@ msgstr "Sécurité"
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "choisir"
-
 msgid "Select"
 msgstr "Choisir"
+
+msgid "select"
+msgstr "choisir"
 
 msgid "Select a class"
 msgstr "Sélectionner une classe"
@@ -1824,6 +1887,9 @@ msgstr "Enregistrer"
 
 msgid "Store the value a variable"
 msgstr "Enregistrer la valeur dans une variable"
+
+msgid "string"
+msgstr ""
 
 msgid "Submit"
 msgstr ""
@@ -2043,6 +2109,9 @@ msgstr ""
 
 msgid "Tokenizer"
 msgstr "Codeur de mots réservés"
+
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "Trop peu de suggestions correspondent à votre requête. Seule quelques-unes sont listées."
