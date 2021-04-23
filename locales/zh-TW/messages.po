@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint152\n"
-"PO-Revision-Date: 2021-04-09T08:32:19\n"
+"Project-Id-Version: TAO 3.4.0-sprint153\n"
+"PO-Revision-Date: 2021-04-23T08:50:40\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: zh-TW\n"
@@ -230,6 +230,9 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
 msgstr "完全"
 
@@ -295,7 +298,16 @@ msgstr "您確定要刪除該版本的資源?\n"
 msgid "Are you sure you want to delete it?"
 msgstr "您確認要刪除吗？"
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -353,6 +365,9 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
+msgid "boolean"
+msgstr ""
+
 msgid "Browse folders:"
 msgstr "瀏覽資料夾："
 
@@ -368,11 +383,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "日曆"
 
-msgid "Cancel"
-msgstr "取消"
-
 msgid "cancel"
 msgstr ""
+
+msgid "Cancel"
+msgstr "取消"
 
 msgid "cancel the action"
 msgstr ""
@@ -402,14 +417,17 @@ msgstr "更改密碼"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全部勾選"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全部勾選"
 
 msgid "Check-in"
 msgstr "登記"
+
+msgid "choices:"
+msgstr ""
 
 msgid "Choose a value..."
 msgstr ""
@@ -444,10 +462,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -476,6 +494,12 @@ msgstr ""
 
 msgid "Column"
 msgstr "欄"
+
+msgid "command"
+msgstr ""
+
+msgid "Commands:"
+msgstr ""
 
 msgid "comment..."
 msgstr ""
@@ -517,6 +541,9 @@ msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
+msgstr ""
+
+msgid "count"
 msgstr ""
 
 msgid "Create"
@@ -585,6 +612,9 @@ msgstr ""
 msgid "Default search"
 msgstr "預設搜索"
 
+msgid "default:"
+msgstr ""
+
 msgid "Define the default values"
 msgstr "設定預設值"
 
@@ -615,6 +645,9 @@ msgstr ""
 
 msgid "Demo Sandbox"
 msgstr "演示用沙盤"
+
+msgid "Did you mean %s?"
+msgstr ""
 
 msgid "Digit 0"
 msgstr ""
@@ -731,6 +764,9 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
+msgstr ""
+
+msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -867,6 +903,9 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr "模糊匹配"
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
 msgstr ""
 
@@ -926,6 +965,9 @@ msgstr "識別碼"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "您若不想更改您的密碼，請忽略此電子郵件，您的密碼保持不變。"
+
+msgid "Implications failed:"
+msgstr ""
 
 msgid "Import"
 msgstr "匯入"
@@ -1005,10 +1047,10 @@ msgstr "正在安裝擴展程序 %s..."
 msgid "Instance saved"
 msgstr "實體已儲存"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "介面語言"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "介面語言"
 
 msgid "Invalid CSP header."
@@ -1050,6 +1092,9 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "無效的登錄名或密碼。請再試一次。"
 
@@ -1058,6 +1103,9 @@ msgstr ""
 
 msgid "invalid regular expression"
 msgstr "無效的正規表示式"
+
+msgid "Invalid values:"
+msgstr ""
 
 msgid "items per page"
 msgstr ""
@@ -1331,6 +1379,12 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
 msgid "Not started"
 msgstr ""
 
@@ -1351,6 +1405,9 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
+msgstr ""
+
+msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1471,6 +1528,9 @@ msgid "Please wait"
 msgstr ""
 
 msgid "Please wait while ..."
+msgstr ""
+
+msgid "Positionals:"
 msgstr ""
 
 msgid "Post install processing"
@@ -1595,6 +1655,9 @@ msgid "Request a password reset via Email."
 msgstr ""
 
 msgid "require notification ID"
+msgstr ""
+
+msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -1728,10 +1791,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr "選擇"
 
-msgid "Select"
+msgid "select"
 msgstr "選擇"
 
 msgid "Select a class"
@@ -1823,6 +1886,9 @@ msgid "Store"
 msgstr ""
 
 msgid "Store the value a variable"
+msgstr ""
+
+msgid "string"
 msgstr ""
 
 msgid "Submit"
@@ -2043,6 +2109,9 @@ msgstr ""
 
 msgid "Tokenizer"
 msgstr "標記生成器"
+
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "太多的建議符合您的查詢，所以這裡只列出幾個建議"
