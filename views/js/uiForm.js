@@ -331,7 +331,7 @@ define([
                 var propertyUri = this.id;
 
                 // destroy previously created editors
-                if (self.htmlEditors[propertyUri]) {
+                if (ckeditor.instances[propertyUri]) {
                     ckeditor.instances[propertyUri].destroy(this);
                     delete self.htmlEditors[propertyUri];
                 }
