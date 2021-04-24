@@ -329,6 +329,13 @@ define([
             //map the wysiwyg editor to the html-area fields
             $('.html-area').each(function () {
                 var propertyUri = this.id;
+
+                // destroy previously created editors
+                if (self.htmlEditors[propertyUri]) {
+                    ckeditor.instances[propertyUri].destroy(this);
+                    delete self.htmlEditors[propertyUri];
+                }
+
                 var editor = ckeditor.replace(this);
                 editor.config = ckConfigurator.getConfig(editor, 'htmlField', {resize_enabled : false });
                 self.htmlEditors[propertyUri] = editor;
