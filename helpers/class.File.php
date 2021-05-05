@@ -1,22 +1,22 @@
 <?php
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 /**
@@ -24,11 +24,11 @@
  *
  * @author Lionel Lecaque, <lionel@taotesting.com>
  * @package tao
- 
+
  */
-class tao_helpers_File
-    extends helpers_File
+class tao_helpers_File extends helpers_File
 {
+    public const MIME_SVG = 'image/svg+xml';
 
     /**
      * Check if the path in parameter can be securly used into the application.
@@ -234,7 +234,7 @@ class tao_helpers_File
             // open office
             'odt' => 'application/vnd.oasis.opendocument.text',
             'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-                        
+
             // fonts
             'woff' => 'application/x-font-woff',
             'eot'  => 'application/vnd.ms-fontobject',
@@ -297,13 +297,13 @@ class tao_helpers_File
     public static function getMimeType($path, $ext = false)
     {
         $mime_types = self::getMimeTypeList();
-        
+
         if (false == $ext){
         	$ext = pathinfo($path, PATHINFO_EXTENSION);
-        	
+
         	if (array_key_exists($ext, $mime_types)) {
         		$mimetype =  $mime_types[$ext];
-        	} 
+        	}
         	else {
         		$mimetype = '';
         	}
@@ -334,7 +334,7 @@ class tao_helpers_File
         		$mimetype = $mime_types[$ext];
         	}
         }
-		
+
         // If no mime-type found ...
         if (empty($mimetype)) {
         	$mimetype =  'application/octet-stream';
@@ -380,11 +380,11 @@ class tao_helpers_File
 		return rmdir($directory);
 
     }
-    
+
     public static function isIdentical($path1, $path2) {
         return self::md5_dir($path1) == self::md5_dir($path2);
     }
-    
+
     public static function md5_dir($path) {
         if (is_file($path)) {
             $md5 = md5_file($path);
@@ -438,7 +438,7 @@ class tao_helpers_File
      */
     public static function addFilesToZip(ZipArchive $zipArchive, $src, $dest, $withEmptyDir = false) {
         $returnValue = null;
-    
+
         $done = 0;
 
         if ($src instanceof \Psr\Http\Message\StreamInterface) {
@@ -475,9 +475,9 @@ class tao_helpers_File
                 $done++;
             }
         }
-    
+
         $returnValue = $done;
-    
+
         return $returnValue;
     }
 
@@ -594,11 +594,11 @@ class tao_helpers_File
 
         return $entries;
     }
-    
+
     /**
      * Gets the local path to a publicly available resource
      * no verification if the file should be accessible
-     * 
+     *
      * @param string $url
      * @throws common_Exception
      * @return string
@@ -619,13 +619,13 @@ class tao_helpers_File
             throw new common_Exception($url.' is not secure');
         }
     }
-    
+
     /**
      * Get a safe filename for a proposed filename.
-     * 
+     *
      * If directory is specified it will return a filename which is
      * safe to not overwritte an existing file. This function is not injective.
-     * 
+     *
      * @param string $fileName
      * @param string $directory
      *
@@ -639,23 +639,23 @@ class tao_helpers_File
         $safeEnding = empty($ending)
             ? ''
             : '.'.self::removeSpecChars($ending);
-        
+
         if ($directory != null && file_exists($directory.$safeName.$safeEnding)) {
             $count = 1;
             while (file_exists($directory.$safeName.'_'.$count.$safeEnding)) {
                 $count++;
             }
             $safeName = $safeName.'_'.$count;
-        } 
-        
+        }
+
         return $safeName.$safeEnding;
     }
-    
+
     /**
      * Remove special characters for safe filenames
-     * 
+     *
      * @author Dieter Raber
-     * 
+     *
      * @param string $string
      * @param string $repl
      * @param string $lower
@@ -682,10 +682,10 @@ class tao_helpers_File
         $string = trim(preg_replace("~[^a-z0-9]+~i", $repl, $string), $repl);
         return $lower ? strtolower($string) : $string;
     }
-    
+
     /**
      * Check if the directory is empty
-     * 
+     *
      * @param string $directory
      * @return boolean
      */

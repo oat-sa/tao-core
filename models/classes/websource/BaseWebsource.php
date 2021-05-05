@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * This program is free software; you can redistribute it and/or
@@ -15,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\tao\model\websource;
@@ -26,6 +27,7 @@ use oat\oatbox\Configurable;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
 use Psr\Http\Message\StreamInterface;
+use tao_helpers_File;
 
 /**
  * This is the base class of the Access Providers
@@ -40,6 +42,8 @@ abstract class BaseWebsource extends Configurable implements Websource
 {
     const OPTION_ID = 'id';
     const OPTION_FILESYSTEM_ID = 'fsUri';
+
+    private const ALLOWED_SVGZ_MIMETYPES = ['text/plain', 'image/svg', 'application/x-gzip'];
 
 	/**
 	 * Filesystem that is being made available
@@ -141,8 +145,10 @@ abstract class BaseWebsource extends Configurable implements Websource
                     }
                     break;
                 case 'svg':
-                    if ($mimeType === 'text/plain') {
-                        return 'image/svg+xml';
+                case 'svgz':
+                    //when there are more than one image in svg file - finfo recognizes it as `image/svg`, while it should be `image/svg+xml` or at least `text/plain` for a previous hack to work
+                    if (in_array($mimeType, self::ALLOWED_SVGZ_MIMETYPES, true)) {
+                        return tao_helpers_File::MIME_SVG;
                     }
                     break;
                 case 'mp3':
