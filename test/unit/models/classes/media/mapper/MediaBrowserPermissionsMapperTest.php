@@ -23,19 +23,67 @@ declare(strict_types=1);
 namespace oat\tao\model\media\mapper;
 
 use oat\generis\test\TestCase;
+use oat\tao\model\accessControl\PermissionChecker;
+use oat\tao\model\accessControl\PermissionCheckerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class MediaBrowserPermissionsMapperTest extends TestCase
 {
     /** @var MediaBrowserPermissionsMapper */
     private $subject;
 
+    /** @var PermissionCheckerInterface|MockObject */
+    private $permissionChecker;
+
     protected function setUp(): void
     {
+        $this->permissionChecker = $this->createMock(PermissionCheckerInterface::class);
         $this->subject = new MediaBrowserPermissionsMapper();
+        $this->subject->setServiceLocator(
+            $this->getServiceLocatorMock(
+                [
+                    PermissionChecker::class => $this->permissionChecker,
+                ]
+            )
+        );
     }
 
-    public function testMap(): void
+    public function testMapWithoutAccessControlEnabledGrantReadAndWritePermissions(): void
     {
-        $this->markTestIncomplete();//@TODO
+        $this->assertEquals(
+            [
+                'permissions' => [
+                    PermissionCheckerInterface::PERMISSION_READ,
+                    PermissionCheckerInterface::PERMISSION_WRITE,
+                ]
+            ],
+            $this->subject->map([], 'uri')
+        );
+    }
+
+    public function testMapWithAccessControlEnabledGrantReadAndWritePermissions(): void
+    {
+        $resourceUri = 'uri';
+
+        $this->subject->enableAccessControl();
+
+        $this->permissionChecker
+            ->expects($this->exactly(1))
+            ->method('hasReadAccess')
+            ->with($resourceUri)
+            ->willReturn(false);
+
+        $this->permissionChecker
+            ->expects($this->exactly(1))
+            ->method('hasWriteAccess')
+            ->with($resourceUri)
+            ->willReturn(false);
+
+        $this->assertEquals(
+            [
+                'permissions' => []
+            ],
+            $this->subject->map([], $resourceUri)
+        );
     }
 }

@@ -49,11 +49,11 @@ class MediaBrowserPermissionsMapper extends ConfigurableService implements Acces
         $data[self::DATA_PERMISSIONS] = [];
 
         if ($this->hasReadAccess($resourceUri)) {
-            $data[self::DATA_PERMISSIONS][] = 'READ';
+            $data[self::DATA_PERMISSIONS][] = PermissionCheckerInterface::PERMISSION_READ;
         }
 
         if ($this->hasWriteAccess($resourceUri)) {
-            $data[self::DATA_PERMISSIONS][] = 'WRITE';
+            $data[self::DATA_PERMISSIONS][] = PermissionCheckerInterface::PERMISSION_WRITE;
         }
 
         return $data;
