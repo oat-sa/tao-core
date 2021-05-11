@@ -67,7 +67,6 @@ class TokenService extends ConfigurableService
     ];
 
     public const CSRF_TOKEN_HEADER       = 'X-CSRF-Token';
-    public const FORM_POOL               = 'form_pool';
     public const FORM_TOKEN_NAMESPACE    = 'form_token';
     public const JS_DATA_KEY             = 'tokenHandler';
     public const JS_TOKEN_KEY            = 'tokens';
@@ -233,7 +232,7 @@ class TokenService extends ConfigurableService
     /**
      * Get the configured pool size
      *
-     * @param bool $withForm - Takes care of the FORM_POOL
+     * @param bool $withForm - Takes care of the form token
      *
      * @return int the pool size, 10 by default
      *
@@ -324,10 +323,13 @@ class TokenService extends ConfigurableService
     {
         $tokenPool = $this->generateTokenPool();
         $jsTokenPool = [];
-        foreach ($tokenPool as $key => $token) {
-            if ($key !== self::FORM_POOL) {
-                $jsTokenPool[] = $token->getValue();
+        $storedFormToken = $this->getStore()->getToken(self::FORM_TOKEN_NAMESPACE);;
+        foreach ($tokenPool as $token) {
+            if ($storedFormToken && $token->getValue() === $storedFormToken->getValue()) {
+                // exclude form token from client configuration
+                continue;
             }
+            $jsTokenPool[] = $token->getValue();
         }
 
         return [

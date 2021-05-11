@@ -88,12 +88,11 @@ class TokenStoreSession extends Configurable implements TokenStore
     public function getAll(): array
     {
         $tokens = [];
-        foreach($this->getSession()->getAttributeNames() as $key) {
-            if (strpos($key, self::TOKEN_NAMESPACE) === 0) {
-                $tokens[] = $this->getSession()->getAttribute($key);
+        foreach ($this->getSession()->getAttributeNames() as $sessionAttributeKey) {
+            if (strpos($sessionAttributeKey, self::TOKEN_NAMESPACE) === 0) {
+                $tokens[] = $this->getSession()->getAttribute($sessionAttributeKey);
             }
         }
-
         return $tokens;
     }
 }
