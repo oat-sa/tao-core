@@ -35,6 +35,7 @@ use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\RegisterActionAccessControl;
 use oat\tao\scripts\install\RegisterClassMetadataServices;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
@@ -153,7 +154,8 @@ return [
             RegisterSessionCookieService::class,
             RegisterResourceRelationService::class,
             RegisterTaoUpdateEventListener::class,
-        ]
+            RegisterActionAccessControl::class,
+        ],
     ],
     'update' => Updater::class,
     'optimizableClasses' => [
@@ -224,9 +226,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '3.4.0-sprint152',
+        'TAO_VERSION' => '3.4.0-sprint154',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.4.0-sprint152',
+        'TAO_VERSION_NAME' => '3.4.0-sprint154',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

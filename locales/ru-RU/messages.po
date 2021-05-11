@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint152\n"
-"PO-Revision-Date: 2021-04-09T08:31:48\n"
+"Project-Id-Version: TAO 3.4.0-sprint154\n"
+"PO-Revision-Date: 2021-05-07T10:16:30\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ru-RU\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
+msgid " and "
 msgstr ""
 
-msgid " and "
+msgid " AND "
 msgstr ""
 
 msgid " has been deleted successfully"
@@ -121,6 +121,9 @@ msgstr ""
 msgid "... reloading page."
 msgstr ""
 
+msgid "7-zip archive"
+msgstr ""
+
 msgid "<del>Filters</del>"
 msgstr ""
 
@@ -149,6 +152,9 @@ msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
 msgstr ""
 
 msgid "A message with further instructions has been sent to your email address: %s"
+msgstr ""
+
+msgid "AAC audio"
 msgstr ""
 
 msgid "About"
@@ -227,10 +233,19 @@ msgstr ""
 msgid "Adding/updating search index for updated resource"
 msgstr ""
 
+msgid "Adobe Flash file"
+msgstr ""
+
 msgid "Advanced search, add filters"
 msgstr ""
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
+msgstr ""
+
+msgid "all audios"
 msgstr ""
 
 msgid "All data will be removed in %s"
@@ -239,8 +254,14 @@ msgstr ""
 msgid "All fields are required"
 msgstr ""
 
+msgid "all images"
+msgstr ""
+
 msgid "All rights reserved."
 msgstr "Все права защищены."
+
+msgid "all videos"
+msgstr ""
 
 msgid "Allow for all domains"
 msgstr ""
@@ -294,7 +315,16 @@ msgstr ""
 msgid "Are you sure you want to delete it?"
 msgstr ""
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -305,6 +335,9 @@ msgstr ""
 
 #, tao-public
 msgid "Assign Users"
+msgstr ""
+
+msgid "Audio Video Interleave"
 msgstr ""
 
 msgid "Author"
@@ -352,6 +385,12 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
+msgid "Bitmap image"
+msgstr ""
+
+msgid "boolean"
+msgstr ""
+
 msgid "Browse folders:"
 msgstr ""
 
@@ -359,6 +398,15 @@ msgid "Browse..."
 msgstr ""
 
 msgid "C"
+msgstr ""
+
+msgid "C file"
+msgstr ""
+
+msgid "C++ file (.cpp)"
+msgstr ""
+
+msgid "Calc speadsheet (Staroffice)"
 msgstr ""
 
 msgid "Calculator"
@@ -385,6 +433,9 @@ msgstr ""
 msgid "Cannot divide by zero"
 msgstr ""
 
+msgid "Cascading Style Sheets"
+msgstr ""
+
 msgid "Case sensitive"
 msgstr ""
 
@@ -401,13 +452,16 @@ msgstr ""
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
-msgstr ""
-
 msgid "Check all"
 msgstr ""
 
+msgid "Check All"
+msgstr ""
+
 msgid "Check-in"
+msgstr ""
+
+msgid "choices:"
 msgstr ""
 
 msgid "Choose a value..."
@@ -443,10 +497,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -476,6 +530,12 @@ msgstr ""
 msgid "Column"
 msgstr ""
 
+msgid "command"
+msgstr ""
+
+msgid "Commands:"
+msgstr ""
+
 msgid "comment..."
 msgstr "комментарий..."
 
@@ -486,6 +546,9 @@ msgid "Completed"
 msgstr ""
 
 msgid "Completed - Error"
+msgstr ""
+
+msgid "Compressed tar file"
 msgstr ""
 
 msgid "Compute the expression"
@@ -518,6 +581,9 @@ msgstr ""
 msgid "Cosine"
 msgstr ""
 
+msgid "count"
+msgstr ""
+
 msgid "Create"
 msgstr ""
 
@@ -534,6 +600,9 @@ msgid "CSP Header settings were saved successfully!"
 msgstr ""
 
 msgid "CSV"
+msgstr ""
+
+msgid "CSV file"
 msgstr ""
 
 msgid "CSV Options"
@@ -557,16 +626,19 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
 
 msgid "Data source URI"
+msgstr ""
+
+msgid "Database file"
 msgstr ""
 
 msgid "Date"
@@ -582,6 +654,9 @@ msgid "date time range"
 msgstr ""
 
 msgid "Default search"
+msgstr ""
+
+msgid "default:"
 msgstr ""
 
 msgid "Define the default values"
@@ -613,6 +688,9 @@ msgid "Deleting search index for %s"
 msgstr ""
 
 msgid "Demo Sandbox"
+msgstr ""
+
+msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -650,6 +728,9 @@ msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
+msgstr ""
+
+msgid "Document templates (Staroffice)"
 msgstr ""
 
 msgid "does not match"
@@ -707,6 +788,9 @@ msgstr ""
 msgid "End of document reached. Continuing from the beginning."
 msgstr ""
 
+msgid "Enhanced metafile"
+msgstr ""
+
 msgid "Enter"
 msgstr ""
 
@@ -729,6 +813,9 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
+msgstr ""
+
+msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -838,7 +925,13 @@ msgstr ""
 msgid "Fit to width"
 msgstr ""
 
+msgid "Flash video"
+msgstr ""
+
 msgid "floor"
+msgstr ""
+
+msgid "Flowchart-based programming environment & TI Interactive Workbook"
 msgstr ""
 
 msgid "Forbid for all domains"
@@ -865,7 +958,13 @@ msgstr "С"
 msgid "Fuzzy Matching"
 msgstr ""
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
+msgstr ""
+
+msgid "Geogebra data file"
 msgstr ""
 
 msgid "Get History"
@@ -874,10 +973,19 @@ msgstr ""
 msgid "Get the history list"
 msgstr ""
 
+msgid "GIF image"
+msgstr ""
+
 msgid "Go Back"
 msgstr ""
 
 msgid "go back to home page"
+msgstr ""
+
+msgid "GZip Compressed Archive"
+msgstr ""
+
+msgid "Header file with extensionsLabels"
 msgstr ""
 
 msgid "Height"
@@ -916,6 +1024,9 @@ msgstr ""
 msgid "Hyperbolic tangent"
 msgstr ""
 
+msgid "Hypertext markup language"
+msgstr ""
+
 msgid "I understand that this action is permanent."
 msgstr ""
 
@@ -923,6 +1034,9 @@ msgid "Identifier"
 msgstr ""
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
+msgstr ""
+
+msgid "Implications failed:"
 msgstr ""
 
 msgid "Import"
@@ -1003,10 +1117,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1048,6 +1162,9 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr ""
 
@@ -1057,8 +1174,17 @@ msgstr ""
 msgid "invalid regular expression"
 msgstr ""
 
+msgid "Invalid values:"
+msgstr ""
+
 msgid "items per page"
 msgstr "элементов на странице"
+
+msgid "Javascript code"
+msgstr ""
+
+msgid "JPEG image"
+msgstr ""
 
 msgid "Label"
 msgstr ""
@@ -1159,6 +1285,9 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+msgid "M4A audio"
+msgstr ""
+
 msgid "Main Menu"
 msgstr ""
 
@@ -1215,6 +1344,45 @@ msgstr ""
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
 
+msgid "Microsoft Excel"
+msgstr ""
+
+msgid "Microsoft Excel binary format"
+msgstr ""
+
+msgid "Microsoft Office Document Imaging"
+msgstr ""
+
+msgid "Microsoft Powerpoint"
+msgstr ""
+
+msgid "Microsoft Powerpoint slideshow"
+msgstr ""
+
+msgid "Microsoft Project file"
+msgstr ""
+
+msgid "Microsoft Visio file"
+msgstr ""
+
+msgid "Microsoft Word"
+msgstr ""
+
+msgid "Microsoft Word template"
+msgstr ""
+
+msgid "Microsoft Works file"
+msgstr ""
+
+msgid "Microsoft XPS file"
+msgstr ""
+
+msgid "MIME encapsulation of aggregate HTML documents"
+msgstr ""
+
+msgid "Mind mapping software application (free mind open source)"
+msgstr ""
+
 msgid "minutes"
 msgstr ""
 
@@ -1253,6 +1421,18 @@ msgid "Move to"
 msgstr ""
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
+msgstr ""
+
+msgid "MP4 video"
+msgstr ""
+
+msgid "MPEG audio"
+msgstr ""
+
+msgid "MPEG video"
+msgstr ""
+
+msgid "MPEG-4 audio file"
 msgstr ""
 
 msgid "Multiple values delimiter"
@@ -1329,6 +1509,12 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
 msgid "Not started"
 msgstr ""
 
@@ -1351,6 +1537,9 @@ msgstr ""
 msgid "Nth root"
 msgstr ""
 
+msgid "number"
+msgstr ""
+
 msgid "Number of elements"
 msgstr ""
 
@@ -1360,10 +1549,16 @@ msgstr "из"
 msgid "Off"
 msgstr ""
 
-msgid "Ok"
+msgid "Ogg Vorbis audio"
+msgstr ""
+
+msgid "Ogg Vorbis video"
 msgstr ""
 
 msgid "OK"
+msgstr ""
+
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1378,6 +1573,21 @@ msgstr ""
 msgid "Only one of the field must have value %s"
 msgstr ""
 
+msgid "OpenDocument Database"
+msgstr ""
+
+msgid "OpenDocument Presentation"
+msgstr ""
+
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
+msgid "OpenDocument Text Template"
+msgstr ""
+
 msgid "Operated By "
 msgstr ""
 
@@ -1389,6 +1599,9 @@ msgstr ""
 
 msgid "Page"
 msgstr "Страница"
+
+msgid "Pascal file (.pas)"
+msgstr ""
 
 msgid "Password"
 msgstr ""
@@ -1411,7 +1624,13 @@ msgstr ""
 msgid "Pause"
 msgstr ""
 
+msgid "PDF file"
+msgstr ""
+
 msgid "Permission denied to write in the selected class"
+msgstr ""
+
+msgid "Plain text"
 msgstr ""
 
 msgid "Play"
@@ -1471,6 +1690,12 @@ msgstr ""
 msgid "Please wait while ..."
 msgstr ""
 
+msgid "PNG image"
+msgstr ""
+
+msgid "Positionals:"
+msgstr ""
+
 msgid "Post install processing"
 msgstr ""
 
@@ -1514,6 +1739,9 @@ msgstr ""
 msgid "Queued"
 msgstr ""
 
+msgid "Quicktime video"
+msgstr ""
+
 msgid "Rad"
 msgstr ""
 
@@ -1529,7 +1757,13 @@ msgstr ""
 msgid "Range field is required"
 msgstr ""
 
+msgid "RAR archive"
+msgstr ""
+
 msgid "RDF"
+msgstr ""
+
+msgid "RealMedia file"
 msgstr ""
 
 msgid "Refresh"
@@ -1595,6 +1829,9 @@ msgstr ""
 msgid "require notification ID"
 msgstr ""
 
+msgid "required"
+msgstr ""
+
 msgid "required length"
 msgstr ""
 
@@ -1653,6 +1890,9 @@ msgid "Restore sound"
 msgstr ""
 
 msgid "Return to sign in page"
+msgstr ""
+
+msgid "Rich Text Format file"
 msgstr ""
 
 msgid "Right click the tree to manage your lists"
@@ -1781,6 +2021,9 @@ msgstr ""
 msgid "Show password"
 msgstr ""
 
+msgid "Sibelius music notation"
+msgstr ""
+
 msgid "Sign change"
 msgstr ""
 
@@ -1823,6 +2066,12 @@ msgstr ""
 msgid "Store the value a variable"
 msgstr ""
 
+msgid "Storing digital video data on a computer game"
+msgstr ""
+
+msgid "string"
+msgstr ""
+
 msgid "Submit"
 msgstr ""
 
@@ -1850,7 +2099,13 @@ msgstr ""
 msgid "Supported export formats"
 msgstr ""
 
+msgid "SVG image"
+msgstr ""
+
 msgid "Syntax error"
+msgstr ""
+
+msgid "Tagged image file"
 msgstr ""
 
 msgid "tan"
@@ -1910,6 +2165,9 @@ msgstr ""
 msgid "Term"
 msgstr ""
 
+msgid "TeX file"
+msgstr ""
+
 msgid "Text - Long - Box"
 msgstr ""
 
@@ -1917,6 +2175,9 @@ msgid "Text - Long - HTML editor"
 msgstr ""
 
 msgid "Text - Short - Field"
+msgstr ""
+
+msgid "Text document file format (Staroffice)"
 msgstr ""
 
 msgid "The action will be applied to"
@@ -2042,6 +2303,9 @@ msgstr ""
 msgid "Tokenizer"
 msgstr ""
 
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
+
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr ""
 
@@ -2141,10 +2405,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
@@ -2163,6 +2427,9 @@ msgid "Uninstall of %s failed"
 msgstr ""
 
 msgid "Uninstalled %s"
+msgstr ""
+
+msgid "UNIX Compressed Archive File"
 msgstr ""
 
 msgid "unknown"
@@ -2305,16 +2572,43 @@ msgstr ""
 msgid "Waiting"
 msgstr ""
 
+msgid "WAV audio"
+msgstr ""
+
+msgid "WebM audio"
+msgstr ""
+
+msgid "WebM video"
+msgstr ""
+
 msgid "Whole number part"
 msgstr ""
 
 msgid "Width"
 msgstr ""
 
+msgid "Windows help file"
+msgstr ""
+
+msgid "Windows Media audio"
+msgstr ""
+
+msgid "Windows Media file (metafile)"
+msgstr ""
+
+msgid "Windows Media video"
+msgstr ""
+
+msgid "Write Document"
+msgstr ""
+
 msgid "Wrong or missing parameter extension, module or action"
 msgstr ""
 
 msgid "Wrong parameter shownExtension"
+msgstr ""
+
+msgid "XML file"
 msgstr ""
 
 msgid "Yes"
@@ -2366,5 +2660,8 @@ msgid "Your mail"
 msgstr ""
 
 msgid "Your TAO Password"
+msgstr ""
+
+msgid "ZIP archive"
 msgstr ""
 
