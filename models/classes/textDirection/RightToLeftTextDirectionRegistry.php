@@ -26,7 +26,7 @@ use oat\tao\model\ClientLibConfigRegistry;
 
 class RightToLeftTextDirectionRegistry extends ClientLibConfigRegistry
 {
-    public const ID = 'tao/rtLLocalesTextDirectionMap';
+    public const ID = 'util/locale';
     public const RTL = 'rtl';
 
     public function addRtlLocales(string $locales): void
