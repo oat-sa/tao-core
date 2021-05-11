@@ -46,4 +46,13 @@ class RightToLeftTextDirectionRegistry extends ClientLibConfigRegistry
             ]
         );
     }
+
+    public function getRtlLocales(): array
+    {
+        if (!$this->isRegistered(self::ID)) {
+            return [];
+        }
+
+        return $this->get(self::ID);
+    }
 }
