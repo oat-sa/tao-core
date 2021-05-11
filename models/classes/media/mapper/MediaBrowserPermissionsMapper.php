@@ -70,15 +70,20 @@ class MediaBrowserPermissionsMapper extends ConfigurableService implements Acces
 
     private function hasReadAccess(string $uri): bool
     {
-        return $this->enableAccessControl === true
+        return $this->isAccessControlEnabled()
             ? $this->getPermissionChecker()->hasReadAccess($uri)
             : true;
     }
 
     private function hasWriteAccess(string $uri): bool
     {
-        return $this->enableAccessControl === true
+        return $this->isAccessControlEnabled()
             ? $this->getPermissionChecker()->hasWriteAccess($uri)
             : true;
+    }
+
+    private function isAccessControlEnabled(): bool
+    {
+        return $this->enableAccessControl === true;
     }
 }
