@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\scripts\tools;
 
 use oat\oatbox\extension\script\ScriptAction;
+use oat\oatbox\reporting\Report;
 use oat\tao\model\textDirection\RightToLeftTextDirectionRegistry;
 
 class AddRtlLocales extends ScriptAction
@@ -33,8 +34,8 @@ class AddRtlLocales extends ScriptAction
     {
         return [
             self::RTL_LOCALES => [
-                'prefix'      => 'rtl',
-                'longPrefix'  => 'rtlLocales',
+                'prefix' => 'rtl',
+                'longPrefix' => 'rtlLocales',
                 'cast' => 'string',
                 'flag' => false,
                 'required' => true,
@@ -53,9 +54,22 @@ class AddRtlLocales extends ScriptAction
      */
     protected function run()
     {
+        $report = Report::createInfo(sprintf('Registering new right to left locale: %s', $this->getOption(self::RTL_LOCALES)));
+
         $this->getRegistry()->addRtlLocales(
             $this->getOption(self::RTL_LOCALES)
         );
+
+        $report->add(
+            Report::createSuccess(
+                sprintf(
+                    'Registering new right to left locale "%s" was successful',
+                    $this->getOption(self::RTL_LOCALES)
+                )
+            )
+        );
+
+        return $report;
     }
 
     private function getRegistry(): RightToLeftTextDirectionRegistry

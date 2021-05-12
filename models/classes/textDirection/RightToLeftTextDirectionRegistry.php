@@ -35,7 +35,7 @@ class RightToLeftTextDirectionRegistry extends ClientLibConfigRegistry
         if ($this->isRegistered(self::ID)) {
             $config = $this->get(self::ID);
             if (isset($config[self::RTL])) {
-                $allLocales = array_merge($allLocales, $config[self::RTL]);
+                $allLocales = array_unique(array_merge($allLocales, $config[self::RTL]));
             }
         }
 
@@ -49,10 +49,10 @@ class RightToLeftTextDirectionRegistry extends ClientLibConfigRegistry
 
     public function getRtlLocales(): array
     {
-        if (!$this->isRegistered(self::ID)) {
+        if (!$this->isRegistered(self::ID) && !isset($this->get(self::ID)[self::RTL])) {
             return [];
         }
 
-        return $this->get(self::ID);
+        return $this->get(self::ID)[self::RTL];
     }
 }
