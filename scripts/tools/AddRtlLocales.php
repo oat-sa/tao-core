@@ -56,7 +56,7 @@ class AddRtlLocales extends ScriptAction
     {
         $report = Report::createInfo(sprintf('Registering new right to left locale: %s', $this->getOption(self::RTL_LOCALES)));
 
-        $this->getRegistry()->addRtlLocales(
+        $this->getRegistry()->addRtlLocale(
             $this->getOption(self::RTL_LOCALES)
         );
 

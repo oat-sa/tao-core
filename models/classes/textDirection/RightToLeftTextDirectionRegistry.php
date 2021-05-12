@@ -29,9 +29,9 @@ class RightToLeftTextDirectionRegistry extends ClientLibConfigRegistry
     public const ID = 'util/locale';
     public const RTL = 'rtl';
 
-    public function addRtlLocales(string $locales): void
+    public function addRtlLocale(string $locale): void
     {
-        $allLocales[] = $locales;
+        $allLocales[] = $locale;
         if ($this->isRegistered(self::ID)) {
             $config = $this->get(self::ID);
             if (isset($config[self::RTL])) {
@@ -42,7 +42,7 @@ class RightToLeftTextDirectionRegistry extends ClientLibConfigRegistry
         $this->register(
             self::ID,
             [
-                'rtl' => $allLocales
+                self::RTL => $allLocales
             ]
         );
     }
