@@ -27,17 +27,16 @@ use oat\tao\model\iconBuilder\IconBuilderTrait;
  *
  * @access		public
  * @author		Dieter Raber, <dieter@taotesting.com>
- * @date		2021-05-13 11:12:34
+ * @date		2021-05-13 15:26:28
  * @package		tao
  */
 class tao_helpers_Icon
 {
     use IconBuilderTrait;
 
-    public const CLASS_WRAP_INLINE1 = 'icon-wrap-inline1';
+    public const CLASS_WRAP_INLINE = 'icon-wrap-inline';
     public const CLASS_WRAP_LEFT = 'icon-wrap-left';
     public const CLASS_WRAP_RIGHT = 'icon-wrap-right';
-    public const CLASS_WRAP_INLINE = 'icon-wrap-inline';
     public const CLASS_OFFLINE = 'icon-offline';
     public const CLASS_ONLINE = 'icon-online';
     public const CLASS_TAB = 'icon-tab';
@@ -256,9 +255,9 @@ class tao_helpers_Icon
     public const CLASS_ELIMINATE_CROSSED = 'icon-eliminate-crossed';
     public const CLASS_PLAY_FROM_HERE = 'icon-play-from-here';
 
-    public static function iconWrapInline1(array $options = [])
+    public static function iconWrapInline(array $options = [])
     {
-        return self::buildIcon(self::CLASS_WRAP_INLINE1, $options);
+        return self::buildIcon(self::CLASS_WRAP_INLINE, $options);
     }
 
     public static function iconWrapLeft(array $options = [])
@@ -269,11 +268,6 @@ class tao_helpers_Icon
     public static function iconWrapRight(array $options = [])
     {
         return self::buildIcon(self::CLASS_WRAP_RIGHT, $options);
-    }
-
-    public static function iconWrapInline(array $options = [])
-    {
-        return self::buildIcon(self::CLASS_WRAP_INLINE, $options);
     }
 
     public static function iconOffline(array $options = [])

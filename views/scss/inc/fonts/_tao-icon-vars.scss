@@ -13,10 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-@mixin icon-wrap-inline1 { content: "\e915"; }
+@mixin icon-wrap-inline { content: "\e915"; }
 @mixin icon-wrap-left { content: "\e916"; }
-@mixin icon-wrap-right { content: "\e918"; }
-@mixin icon-wrap-inline { content: "\e917"; }
+@mixin icon-wrap-right { content: "\e917"; }
 @mixin icon-offline { content: "\e913"; }
 @mixin icon-online { content: "\e914"; }
 @mixin icon-tab { content: "\e90d"; }
