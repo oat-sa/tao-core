@@ -28,14 +28,14 @@ use oat\tao\model\textDirection\RightToLeftTextDirectionRegistry;
 
 class AddRtlLocales extends ScriptAction
 {
-    public const RTL_LOCALES = 'rtlLocales';
+    public const RTL_LOCALES = 'rtlLocale';
 
     protected function provideOptions()
     {
         return [
             self::RTL_LOCALES => [
                 'prefix' => 'rtl',
-                'longPrefix' => 'rtlLocales',
+                'longPrefix' => 'rtlLocale',
                 'cast' => 'string',
                 'flag' => false,
                 'required' => true,
@@ -56,7 +56,7 @@ class AddRtlLocales extends ScriptAction
     {
         $report = Report::createInfo(sprintf('Registering new right to left locale: %s', $this->getOption(self::RTL_LOCALES)));
 
-        $this->getRegistry()->addRtlLocales(
+        $this->getRegistry()->addRtlLocale(
             $this->getOption(self::RTL_LOCALES)
         );
 
