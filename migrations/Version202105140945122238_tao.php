@@ -6,13 +6,14 @@ namespace oat\tao\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\Exception\IrreversibleMigration;
+use oat\tao\scripts\tools\AddRtlLocale;
 use oat\tao\scripts\tools\TextDirectionRegistry;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version202105140945122237_tao extends AbstractMigration
+final class Version202105140945122238_tao extends AbstractMigration
 {
 
     public function getDescription(): string
@@ -23,7 +24,7 @@ final class Version202105140945122237_tao extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->runAction(
-            new TextDirectionRegistry(),
+            new AddRtlLocale(),
             [
                 '-rtl' ,
                 'ar-arb'

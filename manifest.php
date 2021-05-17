@@ -47,6 +47,7 @@ use oat\tao\scripts\install\RegisterEvents;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterResourceRelationService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
+use oat\tao\scripts\install\RegisterRtlLocales;
 use oat\tao\scripts\install\RegisterSessionCookieService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaoUpdateEventListener;
@@ -63,6 +64,7 @@ use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\SetUpQueueTasks;
+use oat\tao\scripts\tools\AddRtlLocale;
 use oat\tao\scripts\update\Updater;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
@@ -155,6 +157,7 @@ return [
             RegisterResourceRelationService::class,
             RegisterTaoUpdateEventListener::class,
             RegisterActionAccessControl::class,
+            RegisterRtlLocales::class
         ],
     ],
     'update' => Updater::class,
