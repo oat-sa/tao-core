@@ -13,7 +13,7 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version202105140945122238_tao extends AbstractMigration
+final class Version202105140945122237_tao extends AbstractMigration
 {
 
     public function getDescription(): string
