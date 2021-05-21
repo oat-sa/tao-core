@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint154\n"
-"PO-Revision-Date: 2021-05-07T10:10:45\n"
+"Project-Id-Version: TAO 3.4.0-sprint155\n"
+"PO-Revision-Date: 2021-05-21T10:56:10\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: es-ES\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " y "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " y "
 
 msgid " has been deleted successfully"
 msgstr " ha sido borrado exitosamente"
@@ -239,9 +239,6 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
-msgid "aliases:"
-msgstr ""
-
 msgid "all"
 msgstr "todos"
 
@@ -316,16 +313,7 @@ msgstr "Está seguro de borrar este recurso versionado?\n"
 msgid "Are you sure you want to delete it?"
 msgstr "Está seguro de querer borrarlo?"
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
 msgid "Arguments separator"
-msgstr ""
-
-msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -389,9 +377,6 @@ msgstr ""
 msgid "Bitmap image"
 msgstr ""
 
-msgid "boolean"
-msgstr ""
-
 msgid "Browse folders:"
 msgstr "Examinar las carpetas:"
 
@@ -416,10 +401,10 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendario"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -453,17 +438,14 @@ msgstr "Cambiar la contraseña"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Seleccionar todo"
-
 msgid "Check All"
 msgstr "Seleccionar Todo"
 
+msgid "Check all"
+msgstr "Seleccionar todo"
+
 msgid "Check-in"
 msgstr "Registrarse"
-
-msgid "choices:"
-msgstr ""
 
 msgid "Choose a value..."
 msgstr ""
@@ -498,10 +480,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -530,12 +512,6 @@ msgstr ""
 
 msgid "Column"
 msgstr "Columna"
-
-msgid "command"
-msgstr ""
-
-msgid "Commands:"
-msgstr ""
 
 msgid "comment..."
 msgstr ""
@@ -580,9 +556,6 @@ msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
-msgstr ""
-
-msgid "count"
 msgstr ""
 
 msgid "Create"
@@ -657,9 +630,6 @@ msgstr ""
 msgid "Default search"
 msgstr "Búsqueda por defecto"
 
-msgid "default:"
-msgstr ""
-
 msgid "Define the default values"
 msgstr "Define los valores por defecto"
 
@@ -690,9 +660,6 @@ msgstr ""
 
 msgid "Demo Sandbox"
 msgstr "Demo Sanbox"
-
-msgid "Did you mean %s?"
-msgstr ""
 
 msgid "Digit 0"
 msgstr ""
@@ -815,9 +782,6 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
-msgstr ""
-
-msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -960,9 +924,6 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr "Coincidencia confusa"
 
-msgid "generated-value"
-msgstr ""
-
 msgid "Generis Form"
 msgstr ""
 
@@ -1038,9 +999,6 @@ msgstr "Identificador"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Si usted no desea restablecer su contraseña, simplemente ignore este correo electrónico y su contraseña seguirá siendo la misma."
 
-msgid "Implications failed:"
-msgstr ""
-
 msgid "Import"
 msgstr "Importar"
 
@@ -1077,10 +1035,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1119,10 +1077,10 @@ msgstr "Instalando extensión %s..."
 msgid "Instance saved"
 msgstr "Instancia guardada"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Lenguaje de interface"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Lenguaje de interface"
 
 msgid "Invalid CSP header."
@@ -1164,9 +1122,6 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr "Usuario o contraseña invalida. Por favor intente nuevamente."
 
@@ -1175,9 +1130,6 @@ msgstr ""
 
 msgid "invalid regular expression"
 msgstr "expresión regular invalida"
-
-msgid "Invalid values:"
-msgstr ""
 
 msgid "items per page"
 msgstr ""
@@ -1511,12 +1463,6 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr ""
-
 msgid "Not started"
 msgstr ""
 
@@ -1539,9 +1485,6 @@ msgstr ""
 msgid "Nth root"
 msgstr ""
 
-msgid "number"
-msgstr ""
-
 msgid "Number of elements"
 msgstr "Número de elementos"
 
@@ -1557,10 +1500,10 @@ msgstr ""
 msgid "Ogg Vorbis video"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1695,9 +1638,6 @@ msgstr ""
 msgid "PNG image"
 msgstr ""
 
-msgid "Positionals:"
-msgstr ""
-
 msgid "Post install processing"
 msgstr "Fijar proceso de instalación"
 
@@ -1829,9 +1769,6 @@ msgid "Request a password reset via Email."
 msgstr ""
 
 msgid "require notification ID"
-msgstr ""
-
-msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -1968,11 +1905,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "seleccionar"
-
 msgid "Select"
 msgstr "Seleccionar"
+
+msgid "select"
+msgstr "seleccionar"
 
 msgid "Select a class"
 msgstr ""
@@ -2069,9 +2006,6 @@ msgid "Store the value a variable"
 msgstr ""
 
 msgid "Storing digital video data on a computer game"
-msgstr ""
-
-msgid "string"
 msgstr ""
 
 msgid "Submit"
@@ -2305,9 +2239,6 @@ msgstr ""
 msgid "Tokenizer"
 msgstr "Marcador"
 
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
-
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "Demasiadas sugerencias coinciden con tu consulta. Sólo unas pocas son listadas"
 
@@ -2407,10 +2338,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
