@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint154\n"
-"PO-Revision-Date: 2021-05-07T10:09:34\n"
+"Project-Id-Version: TAO 3.4.0-sprint155\n"
+"PO-Revision-Date: 2021-05-21T10:55:41\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " und "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " und "
 
 msgid " has been deleted successfully"
 msgstr " wurde erfolgreich gelöscht"
@@ -239,9 +239,6 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
-msgid "aliases:"
-msgstr ""
-
 msgid "all"
 msgstr "Alle"
 
@@ -316,16 +313,7 @@ msgstr "Versionierte Ressource wirklich löschen?\n"
 msgid "Are you sure you want to delete it?"
 msgstr "Sind Sie sicher, dass Sie dies löschen möchten?"
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
 msgid "Arguments separator"
-msgstr ""
-
-msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -389,9 +377,6 @@ msgstr ""
 msgid "Bitmap image"
 msgstr ""
 
-msgid "boolean"
-msgstr ""
-
 msgid "Browse folders:"
 msgstr "Ordner durchsuchen:"
 
@@ -416,11 +401,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "Cancel"
-msgstr "Abbrechen"
-
 msgid "cancel"
 msgstr "abbrechen"
+
+msgid "Cancel"
+msgstr "Abbrechen"
 
 msgid "cancel the action"
 msgstr "Aktion abbrechen"
@@ -453,17 +438,14 @@ msgstr "Passwort ändern"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Alles markieren"
-
 msgid "Check All"
 msgstr "Alle markieren"
 
+msgid "Check all"
+msgstr "Alles markieren"
+
 msgid "Check-in"
 msgstr "Check-In"
-
-msgid "choices:"
-msgstr ""
 
 msgid "Choose a value..."
 msgstr ""
@@ -498,10 +480,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -530,12 +512,6 @@ msgstr ""
 
 msgid "Column"
 msgstr "Spalte"
-
-msgid "command"
-msgstr ""
-
-msgid "Commands:"
-msgstr ""
 
 msgid "comment..."
 msgstr "kommentieren..."
@@ -580,9 +556,6 @@ msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
-msgstr ""
-
-msgid "count"
 msgstr ""
 
 msgid "Create"
@@ -657,9 +630,6 @@ msgstr ""
 msgid "Default search"
 msgstr "Standard-Suche"
 
-msgid "default:"
-msgstr ""
-
 msgid "Define the default values"
 msgstr "Festlegen der Standardwerte"
 
@@ -690,9 +660,6 @@ msgstr ""
 
 msgid "Demo Sandbox"
 msgstr "Demo Sandbox"
-
-msgid "Did you mean %s?"
-msgstr ""
 
 msgid "Digit 0"
 msgstr ""
@@ -815,9 +782,6 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
-msgstr ""
-
-msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -960,9 +924,6 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr "Ungenaue Übereinstimmung"
 
-msgid "generated-value"
-msgstr ""
-
 msgid "Generis Form"
 msgstr ""
 
@@ -1038,9 +999,6 @@ msgstr "Bezeichner"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Wenn Sie ihr Passwort nicht zurücksetzen wollen, ignorieren Sie diese E-Mail und ihr Passwort wird nicht geändert."
 
-msgid "Implications failed:"
-msgstr ""
-
 msgid "Import"
 msgstr "Importieren"
 
@@ -1077,10 +1035,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1119,10 +1077,10 @@ msgstr "Installieren der Erweiterung %s..."
 msgid "Instance saved"
 msgstr "Instanz gespeichert"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Sprache der Benutzeroberfläche"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Sprache der Benutzeroberfläche"
 
 msgid "Invalid CSP header."
@@ -1164,9 +1122,6 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr "Falscher Login oder Passwort. Bitte erneut versuchen."
 
@@ -1175,9 +1130,6 @@ msgstr ""
 
 msgid "invalid regular expression"
 msgstr "ungültiger regulärer Ausdruck"
-
-msgid "Invalid values:"
-msgstr ""
 
 msgid "items per page"
 msgstr ""
@@ -1511,12 +1463,6 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr ""
-
 msgid "Not started"
 msgstr ""
 
@@ -1539,9 +1485,6 @@ msgstr ""
 msgid "Nth root"
 msgstr ""
 
-msgid "number"
-msgstr ""
-
 msgid "Number of elements"
 msgstr "Anzahl der Elemente"
 
@@ -1557,10 +1500,10 @@ msgstr ""
 msgid "Ogg Vorbis video"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
 msgid "Old Password"
@@ -1695,9 +1638,6 @@ msgstr ""
 msgid "PNG image"
 msgstr ""
 
-msgid "Positionals:"
-msgstr ""
-
 msgid "Post install processing"
 msgstr "Post-Install Abfertigung"
 
@@ -1829,9 +1769,6 @@ msgid "Request a password reset via Email."
 msgstr "Passwort per Email zurücksetzen."
 
 msgid "require notification ID"
-msgstr ""
-
-msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -1968,11 +1905,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "auswählen"
-
 msgid "Select"
 msgstr "Auswählen"
+
+msgid "select"
+msgstr "auswählen"
 
 msgid "Select a class"
 msgstr ""
@@ -2069,9 +2006,6 @@ msgid "Store the value a variable"
 msgstr ""
 
 msgid "Storing digital video data on a computer game"
-msgstr ""
-
-msgid "string"
 msgstr ""
 
 msgid "Submit"
@@ -2305,9 +2239,6 @@ msgstr ""
 msgid "Tokenizer"
 msgstr "Tokenizer"
 
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
-
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "Ihre Abfrage liefert zu viele Ergebnisse. Nur einige davon werden angezeigt"
 
@@ -2407,11 +2338,11 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
-msgstr "Nichts auswählen"
-
 msgid "Uncheck all"
 msgstr "Alles abwählen"
+
+msgid "Uncheck All"
+msgstr "Nichts auswählen"
 
 msgid "Undefined amount of the pages for pagination"
 msgstr ""
