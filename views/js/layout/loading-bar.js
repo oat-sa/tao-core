@@ -30,8 +30,8 @@ define(['jquery'],
             originalHeight = $loadingBar.height(),
             $win = $(window),
             $doc = $(document),
-            $contentWrap    = $('.content-wrap'),
-            headerElements  = {
+            $contentWrap = $('.content-wrap'),
+            headerElements = {
                 $versionWarning: $contentWrap.find('.version-warning'),
                 $header: $contentWrap.find('header:first()')
             },
@@ -45,11 +45,11 @@ define(['jquery'],
          *
          * @param headerElements
          */
-        function getHeaderHeight(headerElements){
+        function getHeaderHeight(headerElements) {
             var $element;
             headerHeight = 0;
-            for($element in headerElements) {
-                if(headerElements[$element].length && headerElements[$element].is(':visible')) {
+            for ($element in headerElements) {
+                if (headerElements[$element].length && headerElements[$element].is(':visible')) {
                     headerHeight += headerElements[$element].outerHeight();
                 }
             }
@@ -73,7 +73,7 @@ define(['jquery'],
             }
 
             if ($loadingBar.hasClass('loadingbar-covered')) {
-                $loadingBar.height($doc.height());
+                $loadingBar.height($doc.height() - 1);
             } else {
                 $loadingBar.height('');
             }
