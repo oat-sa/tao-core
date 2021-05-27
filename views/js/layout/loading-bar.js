@@ -30,7 +30,6 @@ define(['jquery'],
             originalHeight = $loadingBar.height(),
             $win = $(window),
             $doc = $(document),
-            loadingBarHeight = $(document).height(),
             $contentWrap = $('.content-wrap'),
             headerElements = {
                 $versionWarning: $contentWrap.find('.version-warning'),
@@ -61,6 +60,7 @@ define(['jquery'],
          * Update height of cover element
          */
         function updateHeight() {
+            var loadingBarHeight = $doc.height();
             if (!$loadingBar.hasClass('loading')) {
                 return;
             }
