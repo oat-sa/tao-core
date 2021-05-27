@@ -30,6 +30,7 @@ define(['jquery'],
             originalHeight = $loadingBar.height(),
             $win = $(window),
             $doc = $(document),
+            loadingBarHeight = $(document).height(),
             $contentWrap = $('.content-wrap'),
             headerElements = {
                 $versionWarning: $contentWrap.find('.version-warning'),
@@ -73,7 +74,6 @@ define(['jquery'],
             }
 
             if ($loadingBar.hasClass('loadingbar-covered')) {
-                let loadingBarHeight = $doc.height();
                 if (window.devicePixelRatio !== 1) {
                     loadingBarHeight--;
                 }
