@@ -73,7 +73,7 @@ define(['jquery'],
             }
 
             if ($loadingBar.hasClass('loadingbar-covered')) {
-                var loadingBarHeight = $doc.height();
+                let loadingBarHeight = $doc.height();
                 if (window.devicePixelRatio !== 1) {
                     loadingBarHeight--;
                 }
