@@ -87,7 +87,6 @@ class SearchProxyTest extends TestCase
         );
 
         $this->subject = new SearchProxy();
-        $this->subject->withGenerisSearch($this->generisSearchMock);
         $this->subject->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
