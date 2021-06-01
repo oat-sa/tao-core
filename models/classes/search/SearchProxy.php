@@ -35,7 +35,7 @@ class SearchProxy extends ConfigurableService implements Search
 {
     use OntologyAwareTrait;
 
-    public const OPTION_ADVANCED_SEARCH_CLASS = 'default_search_class';
+    public const OPTION_ADVANCED_SEARCH_CLASS = 'advanced_search_class';
     public const OPTION_DEFAULT_SEARCH_CLASS = 'default_search_class';
 
     private const GENERIS_SEARCH_WHITELIST = [
@@ -124,14 +124,21 @@ class SearchProxy extends ConfigurableService implements Search
             );
         }
 
-        $queryString = $query->getTerm() . sprintf(' AND parent_classes: "%s"', $query->getParentClass());
+        $queryString = $query->getTerm() . sprintf((empty($query->getTerm()) ? '' : ' AND ') . 'parent_classes: "%s"', $query->getParentClass());
 
-        return $this->getAdvancedSearch()->query(
+        //var_export($queryString); exit('_____________');//FIXME
+
+        $result = $this->getAdvancedSearch()->query(
             $queryString,
             $query->getRootClass(),
             $query->getStartRow(),
             $query->getRows()
         );
+//
+//        var_dump(get_class($this->getAdvancedSearch()));
+//        var_dump($result->getTotalCount()); exit('__________dasdasdasdas'); //FIXME
+
+        return $result;
     }
 
     private function getResultSetResponseNormalizer(): ResultSetResponseNormalizer
@@ -161,17 +168,15 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function getAdvancedSearch(): SearchInterface
     {
-        if ($this->hasOption(self::OPTION_ADVANCED_SEARCH_CLASS)) {
-            return $this->getServiceLocator()->get($this->getOption(self::OPTION_ADVANCED_SEARCH_CLASS));
-        }
-
-        return $this->getDefaultSearch();
+        return $this->getService(self::OPTION_ADVANCED_SEARCH_CLASS) ?? $this->getDefaultSearch();
     }
 
     private function getDefaultSearch(): SearchInterface
     {
-        if ($this->hasOption(self::OPTION_DEFAULT_SEARCH_CLASS)) {
-            return $this->getServiceLocator()->get($this->getOption(self::OPTION_DEFAULT_SEARCH_CLASS));
+        $defaultSearch = $this->getService(self::OPTION_DEFAULT_SEARCH_CLASS);
+
+        if ($defaultSearch) {
+            return $defaultSearch;
         }
 
         throw new InvalidArgumentException(sprintf('Option %s is required', self::OPTION_DEFAULT_SEARCH_CLASS));
@@ -182,5 +187,20 @@ class SearchProxy extends ConfigurableService implements Search
         return $this->getAdvancedSearchChecker()->isEnabled()
             ? $this->getAdvancedSearch()
             : $this->getDefaultSearch();
+    }
+
+    private function getService(string $option): ?SearchInterface
+    {
+        if (!$this->hasOption($option)) {
+            return null;
+        }
+
+        $class = $this->getOption($option);
+
+        if (is_object($class)) {
+            return $this->propagate($class);
+        }
+
+        return $this->getServiceLocator()->get($class);
     }
 }

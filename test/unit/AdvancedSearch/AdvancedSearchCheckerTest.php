@@ -41,9 +41,7 @@ class AdvancedSearchCheckerTest extends TestCase
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
         $search = $this->createMock(Search::class);
 
-        $this->advancedSearchChecker = new AdvancedSearchChecker([
-            AdvancedSearchChecker::OPTION_ALLOWED_SEARCH_CLASSES => [get_class($search)],
-        ]);
+        $this->advancedSearchChecker = new AdvancedSearchChecker();
         $this->advancedSearchChecker->setServiceLocator(
             $this->getServiceLocatorMock([
                 FeatureFlagChecker::class => $this->featureFlagChecker,
