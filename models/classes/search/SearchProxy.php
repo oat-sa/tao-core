@@ -124,21 +124,19 @@ class SearchProxy extends ConfigurableService implements Search
             );
         }
 
-        $queryString = $query->getTerm() . sprintf((empty($query->getTerm()) ? '' : ' AND ') . 'parent_classes: "%s"', $query->getParentClass());
+        //@FIXME @TODO Extract to proper method when getting confirmation from PO
+        if (empty($query->getTerm())) {
+            $queryString = sprintf('parent_classes: "%s"', $query->getParentClass());
+        } else {
+            $queryString = $query->getTerm() . sprintf(' AND parent_classes: "%s"', $query->getParentClass());
+        }
 
-        //var_export($queryString); exit('_____________');//FIXME
-
-        $result = $this->getAdvancedSearch()->query(
-            $queryString,
+        return $this->getAdvancedSearch()->query(
+            $this->getAdvancedSearchQueryString($query),
             $query->getRootClass(),
             $query->getStartRow(),
             $query->getRows()
         );
-//
-//        var_dump(get_class($this->getAdvancedSearch()));
-//        var_dump($result->getTotalCount()); exit('__________dasdasdasdas'); //FIXME
-
-        return $result;
     }
 
     private function getResultSetResponseNormalizer(): ResultSetResponseNormalizer
@@ -202,5 +200,13 @@ class SearchProxy extends ConfigurableService implements Search
         }
 
         return $this->getServiceLocator()->get($class);
+    }
+
+    private function getAdvancedSearchQueryString(SearchQuery $query): string
+    {
+        //@FIXME @TODO Extract to proper method when getting confirmation from PO
+        return empty($query->getTerm())
+            ? sprintf('parent_classes: "%s"', $query->getParentClass())
+            : $query->getTerm() . sprintf(' AND parent_classes: "%s"', $query->getParentClass());
     }
 }
