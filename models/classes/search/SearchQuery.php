@@ -57,6 +57,11 @@ class SearchQuery
         return $this->term;
     }
 
+    public function isEmptySearch(): bool
+    {
+        return empty($this->term);
+    }
+
     public function getRootClass(): string
     {
         return $this->rootClass;

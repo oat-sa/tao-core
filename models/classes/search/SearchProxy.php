@@ -109,6 +109,10 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function executeSearch(SearchQuery $query): ResultSet
     {
+        if ($query->isEmptySearch()) {
+            return new ResultSet([], 0);
+        }
+
         if ($this->isForcingDefaultSearch($query) || !$this->getAdvancedSearchChecker()->isEnabled()) {
             $result = $this->getIdentifierSearcher()->search($query);
 
@@ -122,13 +126,6 @@ class SearchProxy extends ConfigurableService implements Search
                 $query->getStartRow(),
                 $query->getRows()
             );
-        }
-
-        //@FIXME @TODO Extract to proper method when getting confirmation from PO
-        if (empty($query->getTerm())) {
-            $queryString = sprintf('parent_classes: "%s"', $query->getParentClass());
-        } else {
-            $queryString = $query->getTerm() . sprintf(' AND parent_classes: "%s"', $query->getParentClass());
         }
 
         return $this->getAdvancedSearch()->query(
@@ -204,9 +201,6 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function getAdvancedSearchQueryString(SearchQuery $query): string
     {
-        //@FIXME @TODO Extract to proper method when getting confirmation from PO
-        return empty($query->getTerm())
-            ? sprintf('parent_classes: "%s"', $query->getParentClass())
-            : $query->getTerm() . sprintf(' AND parent_classes: "%s"', $query->getParentClass());
+        return $query->getTerm() . sprintf(' AND parent_classes: "%s"', $query->getParentClass());
     }
 }
