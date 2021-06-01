@@ -157,7 +157,7 @@ return [
             RegisterResourceRelationService::class,
             RegisterTaoUpdateEventListener::class,
             RegisterActionAccessControl::class,
-            RegisterRtlLocales::class
+            RegisterRtlLocales::class,
         ],
     ],
     'update' => Updater::class,

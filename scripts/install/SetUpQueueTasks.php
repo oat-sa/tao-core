@@ -15,14 +15,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2018 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  *
  */
 
 namespace oat\tao\scripts\install;
 
 use oat\oatbox\extension\InstallAction;
+use oat\oatbox\reporting\Report;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\search\tasks\DeleteIndexProperty;
+use oat\tao\model\search\tasks\RenameIndexProperties;
+use oat\tao\model\search\tasks\UpdateClassInIndex;
+use oat\tao\model\search\tasks\UpdateDataAccessControlInIndex;
+use oat\tao\model\search\tasks\UpdateResourceInIndex;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\task\ImportByHandler;
 use oat\tao\model\taskQueue\TaskLogInterface;
@@ -39,9 +45,16 @@ class SetUpQueueTasks extends InstallAction
 
         $taskLogService->linkTaskToCategory(ImportByHandler::class, TaskLogInterface::CATEGORY_IMPORT);
         $taskLogService->linkTaskToCategory(ExportByHandler::class, TaskLogInterface::CATEGORY_EXPORT);
+        $taskLogService->setOption(TaskLogInterface::OPTION_TASK_IGNORE_LIST, [
+            UpdateResourceInIndex::class,
+            UpdateClassInIndex::class,
+            DeleteIndexProperty::class,
+            RenameIndexProperties::class,
+            UpdateDataAccessControlInIndex::class,
+        ]);
 
         $this->registerService(TaskLogInterface::SERVICE_ID, $taskLogService);
 
-        return \common_report_Report::createSuccess('Task(s) successfully set up.');
+        return Report::createSuccess('Task(s) successfully set up.');
     }
 }

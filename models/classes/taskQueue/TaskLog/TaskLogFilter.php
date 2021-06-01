@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -23,21 +23,22 @@ namespace oat\tao\model\taskQueue\TaskLog;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
+use InvalidArgumentException;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 
 class TaskLogFilter
 {
-    const OP_EQ  = '=';
-    const OP_NEQ = '!=';
-    const OP_LT  = '<';
-    const OP_LTE = '<=';
-    const OP_GT  = '>';
-    const OP_GTE = '>=';
-    const OP_LIKE = 'LIKE';
-    const OP_NOT_LIKE = 'NOT LIKE';
-    const OP_IN = 'IN';
-    const OP_NOT_IN = 'NOT IN';
+    private const OP_EQ  = '=';
+    private const OP_NEQ = '!=';
+    private const OP_LT  = '<';
+    private const OP_LTE = '<=';
+    private const OP_GT  = '>';
+    private const OP_GTE = '>=';
+    private const OP_LIKE = 'LIKE';
+    private const OP_NOT_LIKE = 'NOT LIKE';
+    private const OP_IN = 'IN';
+    private const OP_NOT_IN = 'NOT IN';
 
     private $filters = [];
     private $limit;
@@ -64,22 +65,17 @@ class TaskLogFilter
 
     private $deselectedColumns = [];
 
-    /**
-     * @return array
-     */
-    public function getColumns()
+    private $ignoredTasks = [];
+
+    public function getColumns(): array
     {
         return array_merge($this->baseColumns, array_diff($this->optionalColumns, $this->deselectedColumns));
     }
 
-    /**
-     * @param string $column
-     * @return $this
-     */
-    public function deselect($column)
+    public function deselect(string $column): self
     {
         if (!in_array($column, $this->optionalColumns)) {
-            throw new \InvalidArgumentException('Column "' . $column . '"" is not valid column or not unselectable.');
+            throw new InvalidArgumentException('Column "' . $column . '"" is not valid column or not unselectable.');
         }
 
         $this->deselectedColumns[] = $column;
@@ -87,102 +83,65 @@ class TaskLogFilter
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getSortBy()
     {
         return $this->sortBy;
     }
 
-    /**
-     * @param mixed $sortBy
-     * @return TaskLogFilter
-     */
-    public function setSortBy($sortBy)
+    public function setSortBy($sortBy): self
     {
         $this->sortBy = $sortBy;
 
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getSortOrder()
     {
         return $this->sortOrder;
     }
 
-    /**
-     * @param mixed $sortOrder
-     * @return TaskLogFilter
-     */
-    public function setSortOrder($sortOrder)
+    public function setSortOrder($sortOrder): self
     {
         $this->sortOrder = $sortOrder;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLimit()
+    public function getLimit(): ?int
     {
         return $this->limit;
     }
 
-    /**
-     * @param int $limit
-     * @return TaskLogFilter
-     */
-    public function setLimit($limit)
+    public function setLimit(int $limit): self
     {
         $this->limit = max(0, $limit);
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getOffset()
+    public function getOffset(): ?int
     {
         return $this->offset;
     }
 
-    /**
-     * @param int $offset
-     * @return TaskLogFilter
-     */
-    public function setOffset($offset)
+    public function setOffset(int $offset): self
     {
         $this->offset = max(0, $offset);
 
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getFilters()
+    public function getFilters(): array
     {
         return $this->filters;
     }
 
-    /**
-     * @param string $field
-     * @param string $operator
-     * @param mixed $value
-     * @return TaskLogFilter
-     */
-    public function addFilter($field, $operator, $value)
+    public function addFilter(string $field, string $operator, $value): self
     {
         $this->assertValidOperator($operator);
 
         $this->filters[] =  [
-            'column' => (string) $field,
+            'column' => $field,
             'columnSqlTranslate' => ':' . $field . uniqid(), // we need a unique placeholder
             'operator' => $operator,
             'value' => $value
@@ -193,13 +152,8 @@ class TaskLogFilter
 
     /**
      * Add a basic filter to query only rows belonging to a given user and not having status ARCHIVED or CANCELLED.
-     *
-     * @param string $userId
-     * @param bool $archivedAllowed
-     * @param bool $cancelledAvailable
-     * @return $this
      */
-    public function addAvailableFilters($userId, $archivedAllowed = false, $cancelledAvailable = false)
+    public function addAvailableFilters(string $userId, bool $archivedAllowed = false, bool $cancelledAvailable = false): self
     {
         if (!$archivedAllowed) {
             $this->neq(TaskLogBrokerInterface::COLUMN_STATUS, TaskLogInterface::STATUS_ARCHIVED);
@@ -213,14 +167,14 @@ class TaskLogFilter
             $this->eq(TaskLogBrokerInterface::COLUMN_OWNER, $userId);
         }
 
+        if ($this->getIgnoredTasks()) {
+            $this->notIn(TaskLogBrokerInterface::COLUMN_TASK_NAME, $this->getIgnoredTasks());
+        }
+
         return $this;
     }
 
-    /**
-     * @param $userId
-     * @return $this
-     */
-    public function availableForArchived($userId)
+    public function availableForArchived(string $userId): self
     {
         $this->in(TaskLogBrokerInterface::COLUMN_STATUS, [TaskLogInterface::STATUS_FAILED, TaskLogInterface::STATUS_COMPLETED]);
 
@@ -231,11 +185,7 @@ class TaskLogFilter
         return $this;
     }
 
-    /**
-     * @param $userId
-     * @return $this
-     */
-    public function availableForCancelled($userId)
+    public function availableForCancelled(string $userId): self
     {
         $this->eq(TaskLogBrokerInterface::COLUMN_STATUS, TaskLogInterface::STATUS_ENQUEUED);
 
@@ -246,11 +196,7 @@ class TaskLogFilter
         return $this;
     }
 
-    /**
-     * @param QueryBuilder $qb
-     * @return QueryBuilder
-     */
-    public function applyFilters(QueryBuilder $qb)
+    public function applyFilters(QueryBuilder $qb): QueryBuilder
     {
         foreach ($this->getFilters() as $filter) {
             $withParentheses = is_array($filter['value']) ? true : false;
@@ -263,111 +209,66 @@ class TaskLogFilter
         return $qb;
     }
 
-    /**
-     * @param string $field
-     * @param mixed $value
-     * @return TaskLogFilter
-     */
-    public function eq($field, $value)
+    public function eq(string $field, $value): self
     {
         return $this->addFilter($field, self::OP_EQ, $value);
     }
 
-    /**
-     * @param string $field
-     * @param mixed $value
-     * @return TaskLogFilter
-     */
-    public function neq($field, $value)
+    public function neq(string $field, $value): self
     {
         return $this->addFilter($field, self::OP_NEQ, $value);
     }
 
-    /**
-     * @param string $field
-     * @param mixed $value
-     * @return TaskLogFilter
-     */
-    public function lt($field, $value)
+    public function lt(string $field, $value): self
     {
         return $this->addFilter($field, self::OP_LT, $value);
     }
 
-    /**
-     * @param string $field
-     * @param mixed $value
-     * @return TaskLogFilter
-     */
-    public function lte($field, $value)
+    public function lte(string $field, $value): self
     {
         return $this->addFilter($field, self::OP_LTE, $value);
     }
 
-    /**
-     * @param string $field
-     * @param mixed $value
-     * @return TaskLogFilter
-     */
-    public function gt($field, $value)
+    public function gt(string $field, $value): self
     {
         return $this->addFilter($field, self::OP_GT, $value);
     }
 
-    /**
-     * @param string $field
-     * @param mixed $value
-     * @return TaskLogFilter
-     */
-    public function gte($field, $value)
+    public function gte(string $field, $value): self
     {
         return $this->addFilter($field, self::OP_GTE, $value);
     }
 
-    /**
-     * @param string $field
-     * @param mixed $value
-     * @return TaskLogFilter
-     */
-    public function like($field, $value)
+    public function like(string $field, $value): self
     {
         return $this->addFilter($field, self::OP_LIKE, $value);
     }
 
-    /**
-     * @param string $field
-     * @param mixed $value
-     * @return TaskLogFilter
-     */
-    public function notLike($field, $value)
+    public function notLike(string $field, string $value): self
     {
         return $this->addFilter($field, self::OP_NOT_LIKE, $value);
     }
 
-    /**
-     * @param string $field
-     * @param array $value
-     * @return TaskLogFilter
-     */
-    public function in($field, array $value)
+    public function in(string $field, array $value): self
     {
         return $this->addFilter($field, self::OP_IN, $value);
     }
 
-    /**
-     * @param string $field
-     * @param array $value
-     * @return TaskLogFilter
-     */
-    public function notIn($field, array $value)
+    public function notIn(string $field, array $value): self
     {
         return $this->addFilter($field, self::OP_NOT_IN, $value);
     }
 
+    public function withIgnoredTasks(array $ignoredTasks): self
+    {
+        $this->ignoredTasks = $ignoredTasks;
+        return $this;
+    }
+
     /**
-     * @param $op
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    private function assertValidOperator($op)
+    private function assertValidOperator($op): void
     {
         $operators = [
             self::OP_EQ,
@@ -383,7 +284,12 @@ class TaskLogFilter
         ];
 
         if (!in_array($op, $operators)) {
-            throw new \InvalidArgumentException('Operator "' . $op . '"" is not a valid operator.');
+            throw new InvalidArgumentException('Operator "' . $op . '"" is not a valid operator.');
         }
+    }
+
+    private function getIgnoredTasks(): array
+    {
+        return $this->ignoredTasks;
     }
 }
