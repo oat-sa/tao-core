@@ -167,8 +167,8 @@ class TaskLogFilter
             $this->eq(TaskLogBrokerInterface::COLUMN_OWNER, $userId);
         }
 
-        if ($this->getIgnoredTasks()) {
-            $this->notIn(TaskLogBrokerInterface::COLUMN_TASK_NAME, $this->getIgnoredTasks());
+        if ($this->ignoredTasks) {
+            $this->notIn(TaskLogBrokerInterface::COLUMN_TASK_NAME, $this->ignoredTasks);
         }
 
         return $this;
@@ -286,10 +286,5 @@ class TaskLogFilter
         if (!in_array($op, $operators)) {
             throw new InvalidArgumentException('Operator "' . $op . '"" is not a valid operator.');
         }
-    }
-
-    private function getIgnoredTasks(): array
-    {
-        return $this->ignoredTasks;
     }
 }
