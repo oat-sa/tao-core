@@ -67,6 +67,7 @@ class SearchProxyTest extends TestCase
 
     public function setUp(): void
     {
+        //@TODO Fix test
         $this->advancedSearchCheckerMock = $this->createMock(AdvancedSearchChecker::class);
         $this->elasticSearchBridgeMock = $this->createMock(ElasticSearchBridge::class);
         $this->generisSearchBridgeMock = $this->createMock(GenerisSearchBridge::class);

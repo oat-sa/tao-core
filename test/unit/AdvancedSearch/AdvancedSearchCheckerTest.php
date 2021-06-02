@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -23,42 +23,51 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\AdvancedSearch;
 
 use oat\generis\test\TestCase;
-use oat\tao\model\search\Search;
+use oat\tao\model\search\SearchProxy;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 
 class AdvancedSearchCheckerTest extends TestCase
 {
-    /** @var FeatureFlagChecker|MockObject*/
+    /** @var FeatureFlagChecker|MockObject */
     private $featureFlagChecker;
 
     /** @var AdvancedSearchChecker */
     private $advancedSearchChecker;
 
+    /** @var SearchProxy|MockObject */
+    private $search;
+
     public function setUp(): void
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
-        $search = $this->createMock(Search::class);
-
+        $this->search = $this->createMock(SearchProxy::class);
         $this->advancedSearchChecker = new AdvancedSearchChecker();
         $this->advancedSearchChecker->setServiceLocator(
-            $this->getServiceLocatorMock([
-                FeatureFlagChecker::class => $this->featureFlagChecker,
-                Search::SERVICE_ID => $search,
-            ])
+            $this->getServiceLocatorMock(
+                [
+                    FeatureFlagChecker::class => $this->featureFlagChecker,
+                    SearchProxy::SERVICE_ID => $this->search,
+                ]
+            )
         );
     }
 
     /**
      * @dataProvider isEnabledDataProvider
      */
-    public function testIsEnabled(bool $advancedSearchDisabled, bool $expected): void
+    public function testIsEnabled(bool $advancedSearchDisabled, bool $hasAdvancedSearchOption, bool $expected): void
     {
         $this->featureFlagChecker
             ->expects(static::once())
             ->method('isEnabled')
             ->willReturn($advancedSearchDisabled);
+
+        $this->search
+            ->method('hasOption')
+            ->with(SearchProxy::OPTION_ADVANCED_SEARCH_CLASS)
+            ->willReturn($hasAdvancedSearchOption);
 
         $this->assertEquals($expected, $this->advancedSearchChecker->isEnabled());
     }
@@ -68,10 +77,12 @@ class AdvancedSearchCheckerTest extends TestCase
         return [
             [
                 'advancedSearchDisabled' => true,
+                'hasAdvancedSearchOption' => true,
                 'expected' => false,
             ],
             [
                 'advancedSearchDisabled' => false,
+                'hasAdvancedSearchOption' => true,
                 'expected' => true,
             ],
         ];
