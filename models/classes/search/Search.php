@@ -33,6 +33,6 @@ use oat\oatbox\PhpSerializable;
  */
 interface Search extends PhpSerializable, SearchInterface
 {
-    /** @deprecated */
+    /** @deprecated When no class implement this interface anymore, more this constant to SearchProxy */
     public const SERVICE_ID = 'tao/search';
 }

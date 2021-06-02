@@ -18,13 +18,16 @@
  * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\search\strategy;
 
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\ResultSet;
 use oat\oatbox\service\ConfigurableService;
 use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\search\SearchInterface;
+use oat\tao\model\search\Search;
+use Traversable;
 
 /**
  * Simple Search implementation that ignores the indexes
@@ -32,7 +35,7 @@ use oat\tao\model\search\SearchInterface;
  *
  * @author Joel Bout <joel@taotesting.com>
  */
-class GenerisSearch extends ConfigurableService implements SearchInterface
+class GenerisSearch extends ConfigurableService implements Search
 {
     use OntologyAwareTrait;
 
@@ -77,7 +80,7 @@ class GenerisSearch extends ConfigurableService implements SearchInterface
     /**
      * @inheritDoc
      */
-    public function addIndexes(\Traversable $IndexIterator)
+    public function addIndexes(Traversable $IndexIterator)
     {
         return 0;
     }
