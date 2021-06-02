@@ -190,13 +190,12 @@ class SearchProxy extends ConfigurableService implements Search
             return null;
         }
 
-        $class = $this->getOption($option);
+        /** @var SearchInterface $search */
+        $search = $this->getOption($option);
 
-        if (is_object($class)) {
-            return $this->propagate($class);
-        }
+        $this->propagate($search);
 
-        return $this->getServiceLocator()->get($class);
+        return $search;
     }
 
     private function getAdvancedSearchQueryString(SearchQuery $query): string

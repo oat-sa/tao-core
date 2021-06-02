@@ -35,7 +35,7 @@ class RegisterSearchServices extends InstallAction
             SearchProxy::SERVICE_ID,
             new SearchProxy(
                 [
-                    SearchProxy::OPTION_DEFAULT_SEARCH_CLASS => GenerisSearch::class
+                    SearchProxy::OPTION_DEFAULT_SEARCH_CLASS => new GenerisSearch()
                 ]
             )
         );
