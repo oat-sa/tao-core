@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint155\n"
-"PO-Revision-Date: 2021-05-21T10:56:03\n"
+"PO-Revision-Date: 2021-05-31T10:26:04\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
@@ -239,6 +239,9 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
 msgstr ""
 
@@ -312,7 +315,16 @@ msgstr ""
 msgid "Are you sure you want to delete it?"
 msgstr ""
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -376,6 +388,9 @@ msgstr ""
 msgid "Bitmap image"
 msgstr ""
 
+msgid "boolean"
+msgstr ""
+
 msgid "Browse folders:"
 msgstr ""
 
@@ -400,10 +415,10 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -437,13 +452,16 @@ msgstr ""
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
-msgstr ""
-
 msgid "Check all"
 msgstr ""
 
+msgid "Check All"
+msgstr ""
+
 msgid "Check-in"
+msgstr ""
+
+msgid "choices:"
 msgstr ""
 
 msgid "Choose a value..."
@@ -453,6 +471,9 @@ msgid "Choose export format"
 msgstr ""
 
 msgid "Choose import format"
+msgstr ""
+
+msgid "City"
 msgstr ""
 
 msgid "class selected"
@@ -512,6 +533,12 @@ msgstr ""
 msgid "Column"
 msgstr ""
 
+msgid "command"
+msgstr ""
+
+msgid "Commands:"
+msgstr ""
+
 msgid "comment..."
 msgstr ""
 
@@ -557,6 +584,12 @@ msgstr ""
 msgid "Cosine"
 msgstr ""
 
+msgid "count"
+msgstr ""
+
+msgid "Country"
+msgstr ""
+
 msgid "Create"
 msgstr ""
 
@@ -567,6 +600,9 @@ msgid "Created"
 msgstr ""
 
 msgid "Creating report ..."
+msgstr ""
+
+msgid "Creation At"
 msgstr ""
 
 msgid "CSP Header settings were saved successfully!"
@@ -599,10 +635,10 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
@@ -627,6 +663,9 @@ msgid "date time range"
 msgstr ""
 
 msgid "Default search"
+msgstr ""
+
+msgid "default:"
 msgstr ""
 
 msgid "Define the default values"
@@ -658,6 +697,9 @@ msgid "Deleting search index for %s"
 msgstr ""
 
 msgid "Demo Sandbox"
+msgstr ""
+
+msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -746,6 +788,9 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
+msgid "Email address"
+msgstr ""
+
 msgid "enabled"
 msgstr ""
 
@@ -780,6 +825,9 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
+msgstr ""
+
+msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -922,6 +970,9 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr ""
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
 msgstr ""
 
@@ -997,6 +1048,9 @@ msgstr ""
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr ""
 
+msgid "Implications failed:"
+msgstr ""
+
 msgid "Import"
 msgstr ""
 
@@ -1033,10 +1087,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1052,6 +1106,9 @@ msgid "Injector has to contains a valid \"destination\" field."
 msgstr ""
 
 msgid "Injector has to contains a valid \"source\" field."
+msgstr ""
+
+msgid "Inline"
 msgstr ""
 
 msgid "Install"
@@ -1075,10 +1132,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1120,6 +1177,9 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr ""
 
@@ -1127,6 +1187,9 @@ msgid "Invalid login or password. Your account has been locked, please contact y
 msgstr ""
 
 msgid "invalid regular expression"
+msgstr ""
+
+msgid "Invalid values:"
 msgstr ""
 
 msgid "items per page"
@@ -1296,6 +1359,9 @@ msgstr ""
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
 
+msgid "Method"
+msgstr ""
+
 msgid "Microsoft Excel"
 msgstr ""
 
@@ -1461,6 +1527,12 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
 msgid "Not started"
 msgstr ""
 
@@ -1483,6 +1555,9 @@ msgstr ""
 msgid "Nth root"
 msgstr ""
 
+msgid "number"
+msgstr ""
+
 msgid "Number of elements"
 msgstr ""
 
@@ -1498,10 +1573,10 @@ msgstr ""
 msgid "Ogg Vorbis video"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1543,6 +1618,9 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
+msgid "Parameters"
+msgstr ""
+
 msgid "Pascal file (.pas)"
 msgstr ""
 
@@ -1571,6 +1649,9 @@ msgid "PDF file"
 msgstr ""
 
 msgid "Permission denied to write in the selected class"
+msgstr ""
+
+msgid "Phone number"
 msgstr ""
 
 msgid "Plain text"
@@ -1634,6 +1715,12 @@ msgid "Please wait while ..."
 msgstr ""
 
 msgid "PNG image"
+msgstr ""
+
+msgid "Position"
+msgstr ""
+
+msgid "Positionals:"
 msgstr ""
 
 msgid "Post install processing"
@@ -1767,6 +1854,9 @@ msgid "Request a password reset via Email."
 msgstr ""
 
 msgid "require notification ID"
+msgstr ""
+
+msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -1903,10 +1993,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
 msgid "Select a class"
@@ -1991,6 +2081,9 @@ msgstr ""
 msgid "Start of document reached. Continuing from the end."
 msgstr ""
 
+msgid "State"
+msgstr ""
+
 msgid "Status"
 msgstr ""
 
@@ -2004,6 +2097,12 @@ msgid "Store the value a variable"
 msgstr ""
 
 msgid "Storing digital video data on a computer game"
+msgstr ""
+
+msgid "Street"
+msgstr ""
+
+msgid "string"
 msgstr ""
 
 msgid "Submit"
@@ -2237,6 +2336,9 @@ msgstr ""
 msgid "Tokenizer"
 msgstr ""
 
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
+
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr ""
 
@@ -2390,6 +2492,9 @@ msgstr ""
 msgid "URI Path"
 msgstr ""
 
+msgid "URL"
+msgstr ""
+
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr ""
 
@@ -2443,6 +2548,9 @@ msgstr ""
 
 #, tao-public
 msgid "User Settings"
+msgstr ""
+
+msgid "Username"
 msgstr ""
 
 #, tao-public
@@ -2530,6 +2638,12 @@ msgstr ""
 msgid "Windows Media video"
 msgstr ""
 
+msgid "Wrap image left"
+msgstr "Left"
+
+msgid "Wrap image right"
+msgstr "Right"
+
 msgid "Write Document"
 msgstr ""
 
@@ -2594,5 +2708,8 @@ msgid "Your TAO Password"
 msgstr ""
 
 msgid "ZIP archive"
+msgstr ""
+
+msgid "Zip Code"
 msgstr ""
 
