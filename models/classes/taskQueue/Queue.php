@@ -145,7 +145,7 @@ class Queue implements QueueInterface, TaskLogAwareInterface
      *
      * @return QueueBrokerInterface
      */
-    protected function getBroker()
+    public function getBroker()
     {
         $this->broker->setServiceLocator($this->getServiceLocator());
 
