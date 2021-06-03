@@ -122,7 +122,7 @@ class tao_actions_Search extends tao_actions_CommonModule
 
     private function getSearchProxy(): SearchProxy
     {
-        return $this->getServiceLocator()->get(SearchProxy::class);
+        return $this->getServiceLocator()->get(SearchProxy::SERVICE_ID);
     }
 
     private function getResultSetMapper(): ResultSetMapper
