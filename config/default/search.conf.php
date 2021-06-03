@@ -9,6 +9,6 @@ use oat\tao\model\search\strategy\GenerisSearch;
 
 return new SearchProxy(
     [
-        SearchProxy::OPTION_DEFAULT_SEARCH_CLASS => GenerisSearch::class
+        SearchProxy::OPTION_DEFAULT_SEARCH_CLASS => new GenerisSearch(),
     ]
 );
