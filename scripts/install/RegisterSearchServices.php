@@ -31,13 +31,9 @@ class RegisterSearchServices extends InstallAction
 {
     public function __invoke($params = [])
     {
-        $this->getServiceManager()->register(
-            SearchProxy::SERVICE_ID,
-            new SearchProxy(
-                [
-                    SearchProxy::OPTION_DEFAULT_SEARCH_CLASS => new GenerisSearch()
-                ]
-            )
-        );
+        $proxy = new SearchProxy();
+        $proxy->withDefaultSearch(new GenerisSearch());
+
+        $this->getServiceManager()->register(SearchProxy::SERVICE_ID, $proxy);
     }
 }

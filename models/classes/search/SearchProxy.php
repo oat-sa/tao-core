@@ -43,6 +43,36 @@ class SearchProxy extends ConfigurableService implements Search
         TaoOntology::CLASS_URI_TAO_USER,
     ];
 
+    public function getAdvancedSearch(): ?SearchInterface
+    {
+        return $this->getService(self::OPTION_ADVANCED_SEARCH_CLASS);
+    }
+
+    public function getDefaultSearch(): SearchInterface
+    {
+        $defaultSearch = $this->getService(self::OPTION_DEFAULT_SEARCH_CLASS);
+
+        if ($defaultSearch) {
+            return $defaultSearch;
+        }
+
+        throw new InvalidArgumentException(sprintf('Option %s is required', self::OPTION_DEFAULT_SEARCH_CLASS));
+    }
+
+    public function withAdvancedSearch(SearchInterface $search): self
+    {
+        $this->setOption(self::OPTION_ADVANCED_SEARCH_CLASS, $search);
+
+        return $this;
+    }
+
+    public function withDefaultSearch(SearchInterface $search): self
+    {
+        $this->setOption(self::OPTION_DEFAULT_SEARCH_CLASS, $search);
+
+        return $this;
+    }
+
     /**
      * @throws Exception
      */
@@ -159,22 +189,6 @@ class SearchProxy extends ConfigurableService implements Search
     private function isForcingDefaultSearch(SearchQuery $query): bool
     {
         return in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST, true);
-    }
-
-    private function getAdvancedSearch(): SearchInterface
-    {
-        return $this->getService(self::OPTION_ADVANCED_SEARCH_CLASS) ?? $this->getDefaultSearch();
-    }
-
-    private function getDefaultSearch(): SearchInterface
-    {
-        $defaultSearch = $this->getService(self::OPTION_DEFAULT_SEARCH_CLASS);
-
-        if ($defaultSearch) {
-            return $defaultSearch;
-        }
-
-        throw new InvalidArgumentException(sprintf('Option %s is required', self::OPTION_DEFAULT_SEARCH_CLASS));
     }
 
     private function getIndexSearch(): SearchInterface

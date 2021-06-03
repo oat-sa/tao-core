@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\AdvancedSearch;
 
 use oat\generis\test\TestCase;
+use oat\tao\model\search\SearchInterface;
 use oat\tao\model\search\SearchProxy;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
@@ -57,7 +58,7 @@ class AdvancedSearchCheckerTest extends TestCase
     /**
      * @dataProvider isEnabledDataProvider
      */
-    public function testIsEnabled(bool $advancedSearchDisabled, bool $hasAdvancedSearchOption, bool $expected): void
+    public function testIsEnabled(bool $advancedSearchDisabled, SearchInterface $advancedSearch, bool $expected): void
     {
         $this->featureFlagChecker
             ->expects(static::once())
@@ -65,9 +66,8 @@ class AdvancedSearchCheckerTest extends TestCase
             ->willReturn($advancedSearchDisabled);
 
         $this->search
-            ->method('hasOption')
-            ->with(SearchProxy::OPTION_ADVANCED_SEARCH_CLASS)
-            ->willReturn($hasAdvancedSearchOption);
+            ->method('getAdvancedSearch')
+            ->willReturn($advancedSearch);
 
         $this->assertEquals($expected, $this->advancedSearchChecker->isEnabled());
     }
@@ -77,12 +77,12 @@ class AdvancedSearchCheckerTest extends TestCase
         return [
             [
                 'advancedSearchDisabled' => true,
-                'hasAdvancedSearchOption' => true,
+                'advancedSearch' => $this->createMock(SearchInterface::class),
                 'expected' => false,
             ],
             [
                 'advancedSearchDisabled' => false,
-                'hasAdvancedSearchOption' => true,
+                'advancedSearch' => $this->createMock(SearchInterface::class),
                 'expected' => true,
             ],
         ];

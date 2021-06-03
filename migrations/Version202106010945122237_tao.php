@@ -25,10 +25,10 @@ final class Version202106010945122237_tao extends AbstractMigration
         $defaultSearch = $isGenerisSearch ? $currentSearch : new GenerisSearch();
 
         $searchProxy = new SearchProxy();
-        $searchProxy->setOption(SearchProxy::OPTION_DEFAULT_SEARCH_CLASS, $defaultSearch);
+        $searchProxy->withDefaultSearch($defaultSearch);
 
         if (!$isGenerisSearch) {
-            $searchProxy->setOption(SearchProxy::OPTION_ADVANCED_SEARCH_CLASS, $currentSearch);
+            $searchProxy->withAdvancedSearch($currentSearch);
         }
 
         $this->getServiceManager()->register(SearchProxy::SERVICE_ID, $searchProxy);
@@ -40,9 +40,7 @@ final class Version202106010945122237_tao extends AbstractMigration
         $searchProxy = $this->getServiceManager()->get(SearchProxy::SERVICE_ID);
 
         /** @var Search $search */
-        $legacySearch = $searchProxy->hasOption(SearchProxy::OPTION_ADVANCED_SEARCH_CLASS)
-            ? $searchProxy->getOption(SearchProxy::OPTION_ADVANCED_SEARCH_CLASS)
-            : $searchProxy->getOption(SearchProxy::OPTION_DEFAULT_SEARCH_CLASS);
+        $legacySearch = $searchProxy->getAdvancedSearch() ?? $searchProxy->getDefaultSearch();
 
         $this->getServiceManager()->unregister(SearchProxy::SERVICE_ID);
         $this->getServiceManager()->register(Search::SERVICE_ID, $legacySearch);
