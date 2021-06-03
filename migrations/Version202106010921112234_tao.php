@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace oat\tao\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
+use oat\tao\model\search\tasks\AddSearchIndexFromArray;
 use oat\tao\model\search\tasks\DeleteIndexProperty;
 use oat\tao\model\search\tasks\RenameIndexProperties;
 use oat\tao\model\search\tasks\UpdateClassInIndex;
@@ -45,6 +46,7 @@ final class Version202106010921112234_tao extends AbstractMigration
             DeleteIndexProperty::class,
             RenameIndexProperties::class,
             UpdateDataAccessControlInIndex::class,
+            AddSearchIndexFromArray::class,
         ];
     }
 }

@@ -24,6 +24,7 @@ namespace oat\tao\scripts\install;
 use oat\oatbox\extension\InstallAction;
 use oat\oatbox\reporting\Report;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\search\tasks\AddSearchIndexFromArray;
 use oat\tao\model\search\tasks\DeleteIndexProperty;
 use oat\tao\model\search\tasks\RenameIndexProperties;
 use oat\tao\model\search\tasks\UpdateClassInIndex;
@@ -51,6 +52,7 @@ class SetUpQueueTasks extends InstallAction
             DeleteIndexProperty::class,
             RenameIndexProperties::class,
             UpdateDataAccessControlInIndex::class,
+            AddSearchIndexFromArray::class,
         ]);
 
         $this->registerService(TaskLogInterface::SERVICE_ID, $taskLogService);
