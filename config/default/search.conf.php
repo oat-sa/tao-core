@@ -4,4 +4,11 @@
  * Default label search based on generis
  */
 
-return new oat\tao\model\search\strategy\GenerisSearch();
+use oat\tao\model\search\SearchProxy;
+use oat\tao\model\search\strategy\GenerisSearch;
+
+return new SearchProxy(
+    [
+        SearchProxy::OPTION_DEFAULT_SEARCH_CLASS => GenerisSearch::class
+    ]
+);

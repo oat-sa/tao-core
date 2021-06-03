@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\model\search;
@@ -23,10 +23,7 @@ namespace oat\tao\model\search;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 
-/**
- * @deprecated User SearchProxy instead
- */
-class GenerisSearchBridge extends ConfigurableService implements SearchBridgeInterface
+class IdentifierSearcher extends ConfigurableService
 {
     use OntologyAwareTrait;
 
@@ -59,12 +56,7 @@ class GenerisSearchBridge extends ConfigurableService implements SearchBridgeInt
             }
         }
 
-        return $this->getServiceLocator()->get(Search::SERVICE_ID)->query(
-            $query->getTerm(),
-            $query->getParentClass(),
-            $query->getStartRow(),
-            $query->getRows()
-        );
+        return new ResultSet([], 0);
     }
 
     private function isUriSearch(string $queryString): bool
