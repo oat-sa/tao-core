@@ -149,7 +149,7 @@ define([
 
                         treeState = $container.data('tree-state');
                         if(treeState.rollback){
-                            tree.rollback(treeState.rollback);
+                            $.tree.rollback(treeState.rollback);
 
                             //remove the rollback infos.
                             setTreeState(_.omit(treeState, 'rollback'));
@@ -544,7 +544,8 @@ define([
                         actionManager.exec(options.actions.moveInstance, {
                             uri: $(node).data('uri'),
                             destinationClassUri: $(refNode).data('uri'),
-                            signature: $(node).data('signature')
+                            signature: $(node).data('signature'),
+                            tree: node
                         });
 
                         $container.trigger('change.taotree');
