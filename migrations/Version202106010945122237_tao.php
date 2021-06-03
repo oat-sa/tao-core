@@ -19,7 +19,7 @@ final class Version202106010945122237_tao extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        /** @var Search $legacySearch */
+        /** @var Search $currentSearch */
         $currentSearch = $this->getServiceManager()->get(Search::SERVICE_ID);
         $isGenerisSearch = $currentSearch instanceof GenerisSearch;
         $defaultSearch = $isGenerisSearch ? $currentSearch : new GenerisSearch();
@@ -39,7 +39,7 @@ final class Version202106010945122237_tao extends AbstractMigration
         /** @var SearchProxy $searchProxy */
         $searchProxy = $this->getServiceManager()->get(SearchProxy::SERVICE_ID);
 
-        /** @var Search $search */
+        /** @var Search $legacySearch */
         $legacySearch = $searchProxy->getAdvancedSearch() ?? $searchProxy->getDefaultSearch();
 
         $this->getServiceManager()->unregister(SearchProxy::SERVICE_ID);
