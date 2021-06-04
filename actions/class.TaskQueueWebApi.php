@@ -99,7 +99,6 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
                     $taskLogService,
                     common_session_SessionManager::getSession()->getUser()
                 ))->toArray());
-
         } catch (Exception $e) {
             $this->setErrorJsonResponse(
                 $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
