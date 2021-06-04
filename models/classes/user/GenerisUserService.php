@@ -38,7 +38,7 @@ class GenerisUserService extends ConfigurableService implements UserService
     public function findUser($searchString)
     {
         /** @var SearchProxy $searchProxy */
-        $searchProxy = $this->getServiceLocator()->get(SearchProxy::class);
+        $searchProxy = $this->getServiceLocator()->get(SearchProxy::SERVICE_ID);
 
         $query = new SearchQuery(
             $searchString,

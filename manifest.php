@@ -35,6 +35,7 @@ use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\RegisterActionAccessControl;
 use oat\tao\scripts\install\RegisterClassMetadataServices;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
@@ -46,6 +47,8 @@ use oat\tao\scripts\install\RegisterEvents;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterResourceRelationService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
+use oat\tao\scripts\install\RegisterRtlLocales;
+use oat\tao\scripts\install\RegisterSearchServices;
 use oat\tao\scripts\install\RegisterSessionCookieService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaoUpdateEventListener;
@@ -62,6 +65,7 @@ use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\SetUpQueueTasks;
+use oat\tao\scripts\tools\AddRtlLocale;
 use oat\tao\scripts\update\Updater;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
@@ -153,7 +157,10 @@ return [
             RegisterSessionCookieService::class,
             RegisterResourceRelationService::class,
             RegisterTaoUpdateEventListener::class,
-        ]
+            RegisterActionAccessControl::class,
+            RegisterRtlLocales::class,
+            RegisterSearchServices::class
+        ],
     ],
     'update' => Updater::class,
     'optimizableClasses' => [
@@ -224,9 +231,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '3.4.0-sprint152',
+        'TAO_VERSION' => '3.4.0-sprint155',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.4.0-sprint152',
+        'TAO_VERSION_NAME' => '3.4.0-sprint155',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

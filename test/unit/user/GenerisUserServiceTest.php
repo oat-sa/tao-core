@@ -50,7 +50,7 @@ class GenerisUserServiceTest extends TestCase
             ->with($query)
             ->willReturn(['data' => [['id' => $testId]]]);
 
-        $serviceLocator = $this->getServiceLocatorMock([SearchProxy::class => $searchServiceMock]);
+        $serviceLocator = $this->getServiceLocatorMock([SearchProxy::SERVICE_ID => $searchServiceMock]);
         $generisUserServiceMock = $this->getMockBuilder(GenerisUserService::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getUser'])

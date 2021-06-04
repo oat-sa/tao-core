@@ -42,6 +42,7 @@ use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\user\UserLocks;
 use oat\oatbox\log\LoggerAwareTrait;
+use tao_helpers_Display as DisplayHelper;
 
 /**
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
@@ -357,7 +358,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('logout', $urlRouteService->getLogoutUrl());
 
         $this->setData('user_lang', $this->getSession()->getDataLanguage());
-        $this->setData('userLabel', $this->getSession()->getUserLabel());
+        $this->setData('userLabel', DisplayHelper::htmlEscape($this->getSession()->getUserLabel()));
         // re-added to highlight selected extension in menu
         $this->setData('shownExtension', $extension);
         $this->setData('shownStructure', $structure);

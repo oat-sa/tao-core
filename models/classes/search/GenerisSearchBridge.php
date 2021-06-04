@@ -23,6 +23,9 @@ namespace oat\tao\model\search;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 
+/**
+ * @deprecated User SearchProxy instead
+ */
 class GenerisSearchBridge extends ConfigurableService implements SearchBridgeInterface
 {
     use OntologyAwareTrait;
