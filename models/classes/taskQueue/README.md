@@ -93,11 +93,12 @@ $this->getServiceManager()->register(TaskLogInterface::SERVICE_ID, $taskLogServi
 ```
 
 If the task log container has not been created yet:
+
 ```php
-try {
+use oat\oatbox\reporting\Report;try {
     $taskLogService->createContainer();
-} catch (\Exception $e) {
-    return \common_report_Report::createFailure('Creating task log container failed');
+} catch (Exception $e) {
+    return Report::createError('Creating task log container failed');
 }
 ```
 
@@ -106,7 +107,8 @@ try {
 - Getting the queue service as usual:
 
 ```php
-$queueService = $this->getServiceManager()->get(\oat\tao\model\taskQueue\QueueDispatcherInterface::SERVICE_ID);
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
+$queueService = $this->getServiceManager()->get(QueueDispatcherInterface::SERVICE_ID);
 ```
 
 ### Working with Task
@@ -114,10 +116,11 @@ $queueService = $this->getServiceManager()->get(\oat\tao\model\taskQueue\QueueDi
 There is two ways to create and publish a task.
 
 - **First option**: creating a task class extending \oat\taoTaskQueue\model\AbstractTask. It's a new way, use it if you like it and if you don't need the possibility to run your task as an Action from CLI.
+
 ```php
 <?php
 
-use \common_report_Report as Report;
+use oat\oatbox\reporting\Report;
 use oat\tao\model\taskQueue\Task\AbstractTask;
 
 class MyFirstTask extends AbstractTask
@@ -134,7 +137,7 @@ class MyFirstTask extends AbstractTask
     {
         // you get the parameter using getParameter() with the required key
         if (!$this->getParameter(self::PARAM_TEST_URI) || !$this->getDeliveryUri()) {
-            return Report::createFailure('Missing parameters');
+            return Report::createError('Missing parameters');
         }
 
         $report = Report::createSuccess();
@@ -212,8 +215,9 @@ with the status of a remote task. The worker can recognise this interface and ru
 Mostly, it can be used when the queue is used as Sync Queue and you want to get the status and the report for a task:
 
 ```php
-/** @var \oat\taoTaskQueue\model\TaskLogInterface $taskLogService */
-$taskLogService = $this->getServiceManager()->get(\oat\taoTaskQueue\model\TaskLogInterface::SERVICE_ID);
+use oat\tao\model\taskQueue\TaskLogInterface;
+
+$taskLogService = $this->getServiceManager()->get(TaskLogInterface::SERVICE_ID);
 
 // checking the status for STATUS_COMPLETED can prevent working with a null report if InMemoryQueueBroker not used anymore.
 if ($task->isEnqueued() && $taskLogService->getStatus($task->getId()) == TaskLogInterface::STATUS_COMPLETED) {
@@ -232,11 +236,12 @@ if ($queueService->isSync()) {
 Let's use `search` for gaining some task log entities.
 
 ```php
-use \oat\taoTaskQueue\model\TaskLog\TaskLogFilter;
-use \oat\taoTaskQueue\model\TaskLogBroker\TaskLogBrokerInterface;
+use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
+use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
+use oat\tao\model\taskQueue\TaskLogInterface;
 
 $filter = (new TaskLogFilter())
-    ->addAvailableFilters(\common_session_SessionManager::getSession()->getUserUri())
+    ->addAvailableFilters(common_session_SessionManager::getSession()->getUserUri())
     ->eq(TaskLogBrokerInterface::COLUMN_TASK_NAME, GenerateBillingReport::class)
     ->in(TaskLogBrokerInterface::COLUMN_STATUS, [TaskLogInterface::STATUS_ENQUEUED, TaskLogInterface::STATUS_DEQUEUED, TaskLogInterface::STATUS_RUNNING]);
 
