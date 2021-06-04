@@ -24,6 +24,9 @@ namespace oat\tao\model\search;
 
 use oat\oatbox\service\ConfigurableService;
 
+/**
+ * @deprecated User SearchProxy instead
+ */
 class ElasticSearchBridge extends ConfigurableService implements SearchBridgeInterface
 {
     public function search(SearchQuery $query): ResultSet

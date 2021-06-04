@@ -48,6 +48,7 @@ use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterResourceRelationService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterRtlLocales;
+use oat\tao\scripts\install\RegisterSearchServices;
 use oat\tao\scripts\install\RegisterSessionCookieService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaoUpdateEventListener;
@@ -158,6 +159,7 @@ return [
             RegisterTaoUpdateEventListener::class,
             RegisterActionAccessControl::class,
             RegisterRtlLocales::class,
+            RegisterSearchServices::class
         ],
     ],
     'update' => Updater::class,

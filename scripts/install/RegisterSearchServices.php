@@ -15,24 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\search;
+namespace oat\tao\scripts\install;
 
-use oat\oatbox\PhpSerializable;
+use oat\oatbox\extension\InstallAction;
+use oat\tao\model\search\SearchProxy;
+use oat\tao\model\search\strategy\GenerisSearch;
 
-/**
- * Search interface
- *
- * @author Joel Bout <joel@taotesting.com>
- *
- * @deprecated use SearchInterface
- */
-interface Search extends PhpSerializable, SearchInterface
+class RegisterSearchServices extends InstallAction
 {
-    /** @deprecated When no class implement this interface anymore, more this constant to SearchProxy */
-    public const SERVICE_ID = 'tao/search';
+    public function __invoke($params = [])
+    {
+        $proxy = new SearchProxy();
+        $proxy->withDefaultSearch(new GenerisSearch());
+
+        $this->getServiceManager()->register(SearchProxy::SERVICE_ID, $proxy);
+    }
 }
