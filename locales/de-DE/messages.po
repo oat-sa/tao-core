@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint155\n"
-"PO-Revision-Date: 2021-05-21T10:55:41\n"
+"PO-Revision-Date: 2021-06-01T13:58:57\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -494,6 +494,9 @@ msgstr ""
 
 msgid "Clear the stored variables"
 msgstr ""
+
+msgid "Click to reload."
+msgstr "Klicken Sie, um neu zu laden."
 
 msgid "Close"
 msgstr ""
@@ -1717,6 +1720,9 @@ msgstr "Version"
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
 msgstr "Das Aufheben der Sperre kann zum Verlust der Änderungen von %s führen."
 
+msgid "Reload"
+msgstr ""
+
 msgid "Remind"
 msgstr ""
 
@@ -2546,6 +2552,9 @@ msgstr ""
 
 msgid "Yes"
 msgstr "Ja"
+
+msgid "You are encountering a prolonged connectivity loss."
+msgstr "Die Verbindung ist seit längerer Zeit unterbrochen."
 
 msgid "You are not allowed to write in the class %s"
 msgstr ""
