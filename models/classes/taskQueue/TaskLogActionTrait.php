@@ -23,7 +23,6 @@ namespace oat\tao\model\taskQueue;
 
 use common_report_Report as Report;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\taskQueue\Report\TaskLogTranslator;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 
@@ -87,10 +86,6 @@ trait TaskLogActionTrait
         if (!is_null($forcedTaskType) && $taskLogEntity->getTaskName() !== $forcedTaskType) {
             throw new \common_exception_BadRequest("Wrong task type");
         }
-
-        /** @var TaskLogTranslator $translator */
-        $translator = $this->getServiceLocator()->get(TaskLogTranslator::class);
-        $taskLogEntity = $translator->translate($taskLogEntity);
 
         $result['id']     = $this->getTaskId($taskLogEntity);
         $result['status'] = $this->getTaskStatus($taskLogEntity);

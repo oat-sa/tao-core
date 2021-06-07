@@ -22,33 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\taskQueue\Report;
 
-use common_report_Report;
-use oat\oatbox\reporting\Report;
-use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 
-class TaskLogTranslator extends ConfigurableService implements TaskLogTranslatorInterface
+interface TaskLogTranslatorInterface
 {
-    public function translate(EntityInterface $taskLogEntity): void
-    {
-        if (!$taskLogEntity->getReport()) {
-            return;
-        }
-
-        $this->translateReport($taskLogEntity->getReport());
-    }
-
-    private function translateReport(common_report_Report $report): void
-    {
-        if (!$report instanceof Report) {
-            return;
-        }
-
-        $report->setMessage($report->translateMessage());
-
-        /** @var common_report_Report $subReport */
-        foreach ($report->getChildren() as $subReport) {
-            $this->translateReport($subReport);
-        }
-    }
+    public function translate(EntityInterface $taskLogEntity): void;
 }

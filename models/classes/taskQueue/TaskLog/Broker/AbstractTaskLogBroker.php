@@ -29,6 +29,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Exception;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\PhpSerializable;
+use oat\oatbox\reporting\Report as NewReport;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\CollectionInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
@@ -106,7 +107,7 @@ abstract class AbstractTaskLogBroker implements
             && json_last_error() === JSON_ERROR_NONE
         ) {
             // if we have a valid JSON string and no JSON error, let's restore the report object
-            return Report::jsonUnserialize($reportData);
+            return NewReport::jsonUnserialize($reportData);
         }
 
         return null;

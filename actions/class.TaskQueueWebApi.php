@@ -23,6 +23,7 @@ use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\taskQueue\Report\TaskLogTranslator;
+use oat\tao\model\taskQueue\Report\TaskLogTranslatorInterface;
 use oat\tao\model\taskQueue\Task\FileReferenceSerializerAwareTrait;
 use oat\tao\model\taskQueue\Task\FilesystemAwareTrait;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
@@ -91,9 +92,7 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
                 $this->getSessionUserUri()
             );
 
-            /** @var TaskLogTranslator $translator */
-            $translator = $this->getServiceLocator()->get(TaskLogTranslator::class);
-            $entity = $translator->translate($entity);
+            $this->getTaskLogTranslator()->translate($entity);
 
             $this->setSuccessJsonResponse((new RedirectUrlEntityDecorator(
                     new HasFileEntityDecorator(
@@ -289,5 +288,10 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
     protected function getTaskLogService(): TaskLogInterface
     {
         return $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
+    }
+
+    private function getTaskLogTranslator(): TaskLogTranslatorInterface
+    {
+        return $this->getServiceLocator()->get(TaskLogTranslator::class);
     }
 }

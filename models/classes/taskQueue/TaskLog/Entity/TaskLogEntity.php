@@ -19,8 +19,6 @@
  *
  */
 
-declare(strict_types=1);
-
 namespace oat\tao\model\taskQueue\TaskLog\Entity;
 
 use common_report_Report as Report;
@@ -323,10 +321,6 @@ class TaskLogEntity implements EntityInterface
 
         if ($this->report instanceof Report) {
             $rs['report'] = $this->report->toArray();
-
-            if ($this->report instanceof NewReport) {
-                $rs['report']['message'] = $this->report->translateMessage();
-            }
         }
 
         return $rs;
