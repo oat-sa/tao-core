@@ -1,1 +1,1 @@
-{"Manage test takers":"Manage test-takers","Record and manage test takers.":"Record and manage test-takers.","Test takers library":"Test-takers library"}
+{"Manage test takers":"Manage test-takers","Record and manage test takers.":"Record and manage test-takers.","Test takers library":"Test-takers library","Wrap image left":"Left","Wrap image right":"Right"}
