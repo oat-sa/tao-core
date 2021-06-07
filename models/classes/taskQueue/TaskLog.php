@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -281,6 +281,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
     public function findAvailableByUser($userId, $limit = null, $offset = null)
     {
         $filter = (new TaskLogFilter())
+            ->withIgnoredTasks($this->getOption(self::OPTION_TASK_IGNORE_LIST, []))
             ->addAvailableFilters($userId)
             ->setLimit(is_null($limit) ? self::DEFAULT_LIMIT : $limit)
             ->setOffset(is_null($offset) ? 0 : $offset);

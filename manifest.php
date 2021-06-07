@@ -48,6 +48,7 @@ use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterResourceRelationService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterRtlLocales;
+use oat\tao\scripts\install\RegisterSearchServices;
 use oat\tao\scripts\install\RegisterSessionCookieService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaoUpdateEventListener;
@@ -157,7 +158,8 @@ return [
             RegisterResourceRelationService::class,
             RegisterTaoUpdateEventListener::class,
             RegisterActionAccessControl::class,
-            RegisterRtlLocales::class
+            RegisterRtlLocales::class,
+            RegisterSearchServices::class
         ],
     ],
     'update' => Updater::class,
@@ -229,9 +231,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '3.4.0-sprint155',
+        'TAO_VERSION' => '3.4.0-sprint156',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.4.0-sprint155',
+        'TAO_VERSION_NAME' => '3.4.0-sprint156',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
