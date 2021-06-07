@@ -92,7 +92,7 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
                 $this->getSessionUserUri()
             );
 
-            $this->getTaskLogTranslator()->translate($entity);
+            $this->getTaskLogTranslator()->translate($entity); //@FIXME @TODO Remove after test with FE
 
             $this->setSuccessJsonResponse((new RedirectUrlEntityDecorator(
                     new HasFileEntityDecorator(

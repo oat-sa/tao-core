@@ -79,10 +79,10 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
         $data = [];
 
         /** @var TaskLogTranslator $translator */
-        $translator = ServiceManager::getServiceManager()->get(TaskLogTranslator::class); //@FIXME @TODO Inject this in the constructor
+        $translator = ServiceManager::getServiceManager()->get(TaskLogTranslator::class); //@FIXME @TODO Remove after tests with FE
 
         foreach ($this->getIterator() as $entity) {
-            $entity = $translator->translate($entity);
+            $entity = $translator->translate($entity); //@FIXME @TODO Remove after tests with FE
 
             $entityData = (
                 new RedirectUrlEntityDecorator(
