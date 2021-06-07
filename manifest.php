@@ -35,10 +35,20 @@ use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\RegisterActionAccessControl;
+use oat\tao\scripts\install\RegisterClassMetadataServices;
+use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
+use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
+use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
+use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
+use oat\tao\scripts\install\RegisterDataAccessControlChangedEvent;
+use oat\tao\scripts\install\RegisterDataAccessControlChangedListener;
 use oat\tao\scripts\install\RegisterEvents;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterResourceRelationService;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
+use oat\tao\scripts\install\RegisterRtlLocales;
+use oat\tao\scripts\install\RegisterSearchServices;
 use oat\tao\scripts\install\RegisterSessionCookieService;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterTaoUpdateEventListener;
@@ -55,6 +65,7 @@ use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\SetUpQueueTasks;
+use oat\tao\scripts\tools\AddRtlLocale;
 use oat\tao\scripts\update\Updater;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
@@ -134,12 +145,22 @@ return [
             CreateWebhookEventLogTable::class,
             SetupSettingsStorage::class,
             RegisterUserService::class,
+            RegisterClassPropertyRemovedEvent::class,
+            RegisterClassPropertyRemovedListener::class,
+            RegisterClassPropertiesChangedEvent::class,
+            RegisterClassPropertiesChangedEventListener::class,
+            RegisterDataAccessControlChangedEvent::class,
+            RegisterDataAccessControlChangedListener::class,
             RegisterValueCollectionServices::class,
+            RegisterClassMetadataServices::class,
             CreateRdsListStore::class,
             RegisterSessionCookieService::class,
             RegisterResourceRelationService::class,
             RegisterTaoUpdateEventListener::class,
-        ]
+            RegisterActionAccessControl::class,
+            RegisterRtlLocales::class,
+            RegisterSearchServices::class
+        ],
     ],
     'update' => Updater::class,
     'optimizableClasses' => [
@@ -178,6 +199,7 @@ return [
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'RestResource']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'RestClass']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'PropertyValues']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'AdvancedSearch']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Breadcrumbs']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Export']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'File']],
@@ -194,6 +216,7 @@ return [
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Users']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'WebService']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Security']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'ClassMetadata']],
         [AccessRule::GRANT, TaoRoles::REST_PUBLISHER,       ['ext' => 'tao','mod' => 'TaskQueue', 'act' => 'get']],
         [AccessRule::GRANT, TaoRoles::REST_PUBLISHER,       ['ext' => 'tao','mod' => 'TaskQueue', 'act' => 'getStatus']],
         [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, ['ext' => 'tao','mod' => 'ExtensionsManager']],
@@ -208,9 +231,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '3.4.0-sprint149',
+        'TAO_VERSION' => '3.4.0-sprint156',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.4.0-sprint149',
+        'TAO_VERSION_NAME' => '3.4.0-sprint156',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint148\n"
-"PO-Revision-Date: 2021-02-12T09:23:30\n"
+"Project-Id-Version: TAO 3.4.0-sprint155\n"
+"PO-Revision-Date: 2021-05-21T10:57:43\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " ir "
-
 msgid " AND "
 msgstr " IR "
+
+msgid " and "
+msgstr " ir "
 
 msgid " has been deleted successfully"
 msgstr " sėkmingai ištrintas"
@@ -30,6 +30,9 @@ msgstr " yra "
 
 msgid " next"
 msgstr " kitas"
+
+msgid " Remove criteria"
+msgstr ""
 
 msgid " requires a subgrid adapter"
 msgstr "reikalauja detalesnės lentelės adapterio"
@@ -118,6 +121,9 @@ msgstr "(tuščia)"
 msgid "... reloading page."
 msgstr "... perkraunamas puslapis."
 
+msgid "7-zip archive"
+msgstr ""
+
 msgid "<del>Filters</del>"
 msgstr "<del>Filtrai</del>"
 
@@ -147,6 +153,9 @@ msgstr "Priežiūros būsena turi turėti STATUSĄ: \"%s\" arba \"%s"
 
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "Pranešimas su tolimesnėm instrukcijomis buvo nusiųstas į jūsų el. pašto adresą: %s"
+
+msgid "AAC audio"
+msgstr ""
 
 msgid "About"
 msgstr ""
@@ -212,20 +221,29 @@ msgstr "Pridėti ypatybę"
 msgid "Adding search index for %s"
 msgstr "Pridedamas paieškos indeksas į %s"
 
+msgid "Adding search index for created resource"
+msgstr ""
+
 msgid "Adding the new class has failed"
 msgstr "Naujos klasės pridėjimas nepavyko"
 
 msgid "Adding the new resource has failed"
 msgstr "Naujo resurso pridėjimas nepavyko"
 
+msgid "Adding/updating search index for updated resource"
+msgstr ""
+
+msgid "Adobe Flash file"
+msgstr ""
+
 msgid "Advanced search, add filters"
 msgstr "Pažengusi paieška, pridėti filtrus"
 
-msgid "aliases:"
-msgstr ""
-
 msgid "all"
 msgstr "viskas"
+
+msgid "all audios"
+msgstr ""
 
 msgid "All data will be removed in %s"
 msgstr "Visi duomenys bus panaikinti po %s"
@@ -233,8 +251,14 @@ msgstr "Visi duomenys bus panaikinti po %s"
 msgid "All fields are required"
 msgstr "Visi laukai yra privalomi"
 
+msgid "all images"
+msgstr ""
+
 msgid "All rights reserved."
 msgstr "Visos teisės saugomos."
+
+msgid "all videos"
+msgstr ""
 
 msgid "Allow for all domains"
 msgstr ""
@@ -289,17 +313,8 @@ msgstr "Ar jūs tikrai norite ištrinti resursą su versija?\n"
 msgid "Are you sure you want to delete it?"
 msgstr "Ar tikrai norite ištrinti?"
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
 msgid "Arguments separator"
 msgstr "Argumentų skirtukas"
-
-msgid "array"
-msgstr ""
 
 msgid "Assign"
 msgstr "Paskirti"
@@ -310,6 +325,9 @@ msgstr "Paskirti varotoją rolei"
 #, tao-public
 msgid "Assign Users"
 msgstr "Paskirti vartotojus"
+
+msgid "Audio Video Interleave"
+msgstr ""
 
 msgid "Author"
 msgstr "Autorius"
@@ -356,7 +374,7 @@ msgstr "Dvejetainis operatorius /"
 msgid "Binary operator modulo"
 msgstr "Dvejetainis operatorius modulo"
 
-msgid "boolean"
+msgid "Bitmap image"
 msgstr ""
 
 msgid "Browse folders:"
@@ -368,17 +386,26 @@ msgstr "Naršyti..."
 msgid "C"
 msgstr "C"
 
+msgid "C file"
+msgstr ""
+
+msgid "C++ file (.cpp)"
+msgstr ""
+
+msgid "Calc speadsheet (Staroffice)"
+msgstr ""
+
 msgid "Calculator"
 msgstr "Skaičiuotuvas"
 
 msgid "Calendar"
 msgstr "Kalendorius"
 
-msgid "Cancel"
-msgstr "Atšaukti"
-
 msgid "cancel"
 msgstr "atšaukti"
+
+msgid "Cancel"
+msgstr "Atšaukti"
 
 msgid "cancel the action"
 msgstr "atšaukti veiksmą"
@@ -391,6 +418,9 @@ msgstr "Negali būti redaguotas"
 
 msgid "Cannot divide by zero"
 msgstr "Negalima padalinti iš nulio"
+
+msgid "Cascading Style Sheets"
+msgstr ""
 
 msgid "Case sensitive"
 msgstr "Skiriamos didžiosios-mažosios raidės"
@@ -416,9 +446,6 @@ msgstr "Pažymėti visus"
 
 msgid "Check-in"
 msgstr "Pasižymėti"
-
-msgid "choices:"
-msgstr ""
 
 msgid "Choose a value..."
 msgstr "Pasirinkti reikšmę..."
@@ -486,12 +513,6 @@ msgstr "Renkami apleisti veiksmai veiksmų eilėje ..."
 msgid "Column"
 msgstr "Stulpelis"
 
-msgid "command"
-msgstr ""
-
-msgid "Commands:"
-msgstr ""
-
 msgid "comment..."
 msgstr "komentaras..."
 
@@ -503,6 +524,9 @@ msgstr "Atlikta"
 
 msgid "Completed - Error"
 msgstr "Atlikta – Klaida"
+
+msgid "Compressed tar file"
+msgstr ""
 
 msgid "Compute the expression"
 msgstr "Apskaičiuoti išraišką"
@@ -534,9 +558,6 @@ msgstr "cosh"
 msgid "Cosine"
 msgstr "Kosinusas"
 
-msgid "count"
-msgstr ""
-
 msgid "Create"
 msgstr "Sukurti"
 
@@ -554,6 +575,9 @@ msgstr ""
 
 msgid "CSV"
 msgstr "CSV"
+
+msgid "CSV file"
+msgstr ""
 
 msgid "CSV Options"
 msgstr "CSV Pasirinkimai"
@@ -576,16 +600,19 @@ msgstr "Duomenys importuoti sėkmingai"
 msgid "Data imported. Some records are invalid."
 msgstr "Duomenys importuoti. Kaikurie įrašai neteisingi."
 
-msgid "Data Language"
-msgstr "Duomenų Kalba"
-
 msgid "Data language"
 msgstr "Duomenų kalba"
+
+msgid "Data Language"
+msgstr "Duomenų Kalba"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Duomenys neimportuoti. Visi įrašai neteisingi."
 
 msgid "Data source URI"
+msgstr ""
+
+msgid "Database file"
 msgstr ""
 
 msgid "Date"
@@ -602,9 +629,6 @@ msgstr ""
 
 msgid "Default search"
 msgstr "Numatyta paieška"
-
-msgid "default:"
-msgstr ""
 
 msgid "Define the default values"
 msgstr "Nustatyti numatytas reikšmes"
@@ -636,9 +660,6 @@ msgstr "Šalinamas paieškos indeksas %s"
 
 msgid "Demo Sandbox"
 msgstr "Smėlio dėžė"
-
-msgid "Did you mean %s?"
-msgstr ""
 
 msgid "Digit 0"
 msgstr "Skaitmuo 0"
@@ -677,6 +698,9 @@ msgid "Do you wish to install the following extension(s):\n"
 "%s?"
 msgstr "Ar norite įdiegti šiuos plėtinius:\n"
 "%s?"
+
+msgid "Document templates (Staroffice)"
+msgstr ""
 
 msgid "does not match"
 msgstr "nesutampa"
@@ -733,6 +757,9 @@ msgstr "Įjungtas %s"
 msgid "End of document reached. Continuing from the beginning."
 msgstr "Dokumento pabaiga pasiekta. Tęsiama nuo pradžios."
 
+msgid "Enhanced metafile"
+msgstr ""
+
 msgid "Enter"
 msgstr "Įeiti į"
 
@@ -755,9 +782,6 @@ msgid "Error in value"
 msgstr "Klaida reikšmėje"
 
 msgid "Error: %s"
-msgstr ""
-
-msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -867,8 +891,14 @@ msgstr "Pirmos eilės stulpelio pavadinimai"
 msgid "Fit to width"
 msgstr "Tilpti į plotį"
 
+msgid "Flash video"
+msgstr ""
+
 msgid "floor"
 msgstr "floor"
+
+msgid "Flowchart-based programming environment & TI Interactive Workbook"
+msgstr ""
 
 msgid "Forbid for all domains"
 msgstr ""
@@ -894,11 +924,11 @@ msgstr "Iš"
 msgid "Fuzzy Matching"
 msgstr "Apytikslis Atitikimas"
 
-msgid "generated-value"
-msgstr ""
-
 msgid "Generis Form"
 msgstr "Generis forma"
+
+msgid "Geogebra data file"
+msgstr ""
 
 msgid "Get History"
 msgstr "Gauti Istroriją"
@@ -906,10 +936,19 @@ msgstr "Gauti Istroriją"
 msgid "Get the history list"
 msgstr "Gauti istorijos sąrašą"
 
+msgid "GIF image"
+msgstr ""
+
 msgid "Go Back"
 msgstr "Grįžti Atgal"
 
 msgid "go back to home page"
+msgstr ""
+
+msgid "GZip Compressed Archive"
+msgstr ""
+
+msgid "Header file with extensionsLabels"
 msgstr ""
 
 msgid "Height"
@@ -948,6 +987,9 @@ msgstr "Hiperbolinis sinusas"
 msgid "Hyperbolic tangent"
 msgstr "Hiperbolinis tangentas"
 
+msgid "Hypertext markup language"
+msgstr ""
+
 msgid "I understand that this action is permanent."
 msgstr ""
 
@@ -956,9 +998,6 @@ msgstr "Identifikatorius"
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Jeigu jūs nenori atstatyti savo slaptažodžio, tiesiog ignoruokite šį el. laišką ir jūsų slaptažodis liks toks pat."
-
-msgid "Implications failed:"
-msgstr ""
 
 msgid "Import"
 msgstr "Importuoti"
@@ -1038,11 +1077,11 @@ msgstr "Įdiegiamas plėtinys %s..."
 msgid "Instance saved"
 msgstr "Instancija išsaugota"
 
-msgid "Interface language"
-msgstr "Sąsajos kalba"
-
 msgid "Interface Language"
 msgstr "Sąsajos Kalba"
+
+msgid "Interface language"
+msgstr "Sąsajos kalba"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1083,9 +1122,6 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr "Neteisinga įvestis funkcijai"
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr "Blogas prisijungimo vardas arba slaptažodis. Prašome bandyti dar kartą."
 
@@ -1095,10 +1131,13 @@ msgstr "Neteisingas prisijungimas arba slaptažodis. Jūsų paskyra buvo užraki
 msgid "invalid regular expression"
 msgstr "neteisinga įprasta išraiška"
 
-msgid "Invalid values:"
+msgid "items per page"
 msgstr ""
 
-msgid "items per page"
+msgid "Javascript code"
+msgstr ""
+
+msgid "JPEG image"
 msgstr ""
 
 msgid "Label"
@@ -1200,6 +1239,9 @@ msgstr "Prisijungimas yra tuščias."
 msgid "Logout"
 msgstr "Atsijungti"
 
+msgid "M4A audio"
+msgstr ""
+
 msgid "Main Menu"
 msgstr ""
 
@@ -1256,6 +1298,45 @@ msgstr "Pranešimai"
 msgid "Metadata export is not available for the selected resource."
 msgstr "Negalimas metaduomenų eksportavimas pasirinktam resursui."
 
+msgid "Microsoft Excel"
+msgstr ""
+
+msgid "Microsoft Excel binary format"
+msgstr ""
+
+msgid "Microsoft Office Document Imaging"
+msgstr ""
+
+msgid "Microsoft Powerpoint"
+msgstr ""
+
+msgid "Microsoft Powerpoint slideshow"
+msgstr ""
+
+msgid "Microsoft Project file"
+msgstr ""
+
+msgid "Microsoft Visio file"
+msgstr ""
+
+msgid "Microsoft Word"
+msgstr ""
+
+msgid "Microsoft Word template"
+msgstr ""
+
+msgid "Microsoft Works file"
+msgstr ""
+
+msgid "Microsoft XPS file"
+msgstr ""
+
+msgid "MIME encapsulation of aggregate HTML documents"
+msgstr ""
+
+msgid "Mind mapping software application (free mind open source)"
+msgstr ""
+
 msgid "minutes"
 msgstr "minutės"
 
@@ -1295,6 +1376,18 @@ msgstr "Perkelti į"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr "Perkeliant šį elementą, bus pakeičiamos praeitos klasės savybės pagal nurodytą klasę :"
+
+msgid "MP4 video"
+msgstr ""
+
+msgid "MPEG audio"
+msgstr ""
+
+msgid "MPEG video"
+msgstr ""
+
+msgid "MPEG-4 audio file"
+msgstr ""
 
 msgid "Multiple values delimiter"
 msgstr "Keli reikšmių dalikliai"
@@ -1364,19 +1457,10 @@ msgstr ""
 msgid "no label"
 msgstr "nėra pavadinimo"
 
-msgid "No results found"
-msgstr "Nieko nerasta"
-
 msgid "No Task yet"
 msgstr "Nėra jokios Užduoties"
 
 msgid "Node duplication has failed"
-msgstr ""
-
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
@@ -1401,9 +1485,6 @@ msgstr ""
 msgid "Nth root"
 msgstr "N šaknis"
 
-msgid "number"
-msgstr ""
-
 msgid "Number of elements"
 msgstr "Elementų kiekis"
 
@@ -1413,10 +1494,16 @@ msgstr "iš"
 msgid "Off"
 msgstr "Išjungta"
 
-msgid "OK"
-msgstr "Gerai"
+msgid "Ogg Vorbis audio"
+msgstr ""
+
+msgid "Ogg Vorbis video"
+msgstr ""
 
 msgid "Ok"
+msgstr "Gerai"
+
+msgid "OK"
 msgstr "Gerai"
 
 msgid "Old Password"
@@ -1431,6 +1518,21 @@ msgstr ""
 msgid "Only one of the field must have value %s"
 msgstr ""
 
+msgid "OpenDocument Database"
+msgstr ""
+
+msgid "OpenDocument Presentation"
+msgstr ""
+
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
+msgid "OpenDocument Text Template"
+msgstr ""
+
 msgid "Operated By "
 msgstr "Valdo "
 
@@ -1442,6 +1544,9 @@ msgstr ""
 
 msgid "Page"
 msgstr "Puslapis"
+
+msgid "Pascal file (.pas)"
+msgstr ""
 
 msgid "Password"
 msgstr "Slaptažodis"
@@ -1464,8 +1569,14 @@ msgstr "Slaptažodžiai nesutampa"
 msgid "Pause"
 msgstr "Pristabdyti"
 
+msgid "PDF file"
+msgstr ""
+
 msgid "Permission denied to write in the selected class"
 msgstr "Atmestas prašymas rašyti į pasirinktą klasę"
+
+msgid "Plain text"
+msgstr ""
 
 msgid "Play"
 msgstr "Paleisti"
@@ -1524,7 +1635,7 @@ msgstr "Prašome palaukti"
 msgid "Please wait while ..."
 msgstr "Prašome palaukti kol..."
 
-msgid "Positionals:"
+msgid "PNG image"
 msgstr ""
 
 msgid "Post install processing"
@@ -1570,6 +1681,9 @@ msgstr "Paskelbti testą"
 msgid "Queued"
 msgstr "Yra eilėje"
 
+msgid "Quicktime video"
+msgstr ""
+
 msgid "Rad"
 msgstr "Rad."
 
@@ -1585,8 +1699,14 @@ msgstr "Atsitiktinė reikšmė"
 msgid "Range field is required"
 msgstr "Intervalo laukas yra būtinas"
 
+msgid "RAR archive"
+msgstr ""
+
 msgid "RDF"
 msgstr "RDF"
+
+msgid "RealMedia file"
+msgstr ""
 
 msgid "Refresh"
 msgstr "Atnaujinti"
@@ -1651,9 +1771,6 @@ msgstr "Slaptažodžio atstatymo užklausa per El. paštą."
 msgid "require notification ID"
 msgstr "reikalauja pranešimo ID"
 
-msgid "required"
-msgstr ""
-
 msgid "required length"
 msgstr "reikalaujamas ilgis"
 
@@ -1713,6 +1830,9 @@ msgstr "Atstatyti garsą"
 
 msgid "Return to sign in page"
 msgstr "Grįžti į prisijungimo puslapį"
+
+msgid "Rich Text Format file"
+msgstr ""
 
 msgid "Right click the tree to manage your lists"
 msgstr "Spauskite dešiniu pelės klavišu ant medžio, norėdami tvarkyti savo sąrašus"
@@ -1785,11 +1905,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "pasirinkti"
-
 msgid "Select"
 msgstr "Pasirinkti"
+
+msgid "select"
+msgstr "pasirinkti"
 
 msgid "Select a class"
 msgstr "Pasirinkti klasę"
@@ -1840,6 +1960,9 @@ msgstr "Rodytį detalią ataskaitą"
 msgid "Show password"
 msgstr ""
 
+msgid "Sibelius music notation"
+msgstr ""
+
 msgid "Sign change"
 msgstr "Ženklo keitimas"
 
@@ -1882,7 +2005,7 @@ msgstr "Saugoti"
 msgid "Store the value a variable"
 msgstr "Saugoti reikšmę, kaip kintamąjį"
 
-msgid "string"
+msgid "Storing digital video data on a computer game"
 msgstr ""
 
 msgid "Submit"
@@ -1912,8 +2035,14 @@ msgstr "Sėkmingai atnaujinti %s vertimo įrašų rinkiniai"
 msgid "Supported export formats"
 msgstr "Palaikomi eksportavimo formatai"
 
+msgid "SVG image"
+msgstr ""
+
 msgid "Syntax error"
 msgstr "Sintaksės klaida"
+
+msgid "Tagged image file"
+msgstr ""
 
 msgid "tan"
 msgstr "tan"
@@ -1972,6 +2101,9 @@ msgstr "Užduotis negražino jokių ataskaitų."
 msgid "Term"
 msgstr "Terminas"
 
+msgid "TeX file"
+msgstr ""
+
 msgid "Text - Long - Box"
 msgstr "Ilgesnis tekstas - langelis"
 
@@ -1980,6 +2112,9 @@ msgstr "Ilgesnis tekstas - HTML redaktorius"
 
 msgid "Text - Short - Field"
 msgstr "Trumpesnis teksto laukas"
+
+msgid "Text document file format (Staroffice)"
+msgstr ""
 
 msgid "The action will be applied to"
 msgstr "Šis veiksmas bus taikomas: "
@@ -2104,9 +2239,6 @@ msgstr ""
 msgid "Tokenizer"
 msgstr "Antspaudėjas"
 
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
-
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "Jūsų užklausą atitinka daug daugiau rezultatų, nei rodoma."
 
@@ -2230,6 +2362,9 @@ msgstr "%s išdiegimas nepavyko"
 msgid "Uninstalled %s"
 msgstr "Išdiegtas %s"
 
+msgid "UNIX Compressed Archive File"
+msgstr ""
+
 msgid "unknown"
 msgstr "nežinoma"
 
@@ -2244,6 +2379,9 @@ msgstr "Atnaujinti"
 
 msgid "Update ID : %s"
 msgstr "Atnaujinimo ID : %s"
+
+msgid "Updating search index"
+msgstr ""
 
 msgid "Upload"
 msgstr "Įkelti"
@@ -2367,17 +2505,44 @@ msgstr "Laukimas baigtas"
 msgid "Waiting"
 msgstr "Laukiama"
 
+msgid "WAV audio"
+msgstr ""
+
+msgid "WebM audio"
+msgstr ""
+
+msgid "WebM video"
+msgstr ""
+
 msgid "Whole number part"
 msgstr "Pilno skaičiaus dalis"
 
 msgid "Width"
 msgstr "Plotis"
 
+msgid "Windows help file"
+msgstr ""
+
+msgid "Windows Media audio"
+msgstr ""
+
+msgid "Windows Media file (metafile)"
+msgstr ""
+
+msgid "Windows Media video"
+msgstr ""
+
+msgid "Write Document"
+msgstr ""
+
 msgid "Wrong or missing parameter extension, module or action"
 msgstr "Neteisingas parametras plėtinys, modulis ar veiksmas arba jo nėra"
 
 msgid "Wrong parameter shownExtension"
 msgstr "Neteisingas parametras shownExtension"
+
+msgid "XML file"
+msgstr ""
 
 msgid "Yes"
 msgstr "Taip"
@@ -2429,4 +2594,7 @@ msgstr "Jūsų paštas"
 
 msgid "Your TAO Password"
 msgstr "Jūsų TAO Slaptažodis"
+
+msgid "ZIP archive"
+msgstr ""
 

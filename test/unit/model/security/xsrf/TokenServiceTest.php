@@ -20,16 +20,16 @@
 
 namespace oat\tao\test\unit\model\security\xsrf;
 
+use common_exception_Unauthorized as UnauthorizedException;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\service\exception\InvalidService;
 use oat\tao\model\security\xsrf\Token;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStore;
-use Prophecy\Argument;
 
 /**
- * Unit Test of oat\tao\model\security\TokenGenerator
+ * Unit Test of oat\tao\model\security\xsrf\TokenService
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -60,15 +60,49 @@ class TokenServiceTest extends TestCase
         );
     }
 
+    public function testValidateToken(): void
+    {
+        $token = $this->createTokenToValidate();
 
-    public function testInstantiateNoStore()
+        static::assertTrue($this->subject->validateToken($token->getValue()));
+    }
+
+    public function testValidateExpiredToken(): void
+    {
+        $subject = clone $this->subject;
+        $subject->setOption(TokenService::TIME_LIMIT_OPT, 1);
+
+        $token = $this->createTokenToValidate();
+
+        $token->setCreatedAt(0);
+
+        $this->expectException(UnauthorizedException::class);
+
+        $subject->validateToken($token->getValue());
+    }
+
+    public function testValidateIncorrectToken(): void
+    {
+        $invalidTokenValue = 'foo';
+
+        $this->tokenStoreMock
+            ->method('getToken')
+            ->with($invalidTokenValue)
+            ->willReturn(null);
+
+        $this->expectException(UnauthorizedException::class);
+
+        $this->subject->validateToken($invalidTokenValue);
+    }
+
+    public function testInstantiateNoStore(): void
     {
         $this->expectException(InvalidService::class);
         $service = new TokenService();
         $service->checkToken('unusedString');
     }
 
-    public function testInstantiateBadStore()
+    public function testInstantiateBadStore(): void
     {
         $this->expectException(InvalidService::class);
         $service = new TokenService([
@@ -77,24 +111,7 @@ class TokenServiceTest extends TestCase
         $service->checkToken('unusedString');
     }
 
-    public function testCreateToken_ReturnsNewToken()
-    {
-        $this->tokenStoreMock
-            ->expects(self::once())
-            ->method('getAll')
-            ->willReturn([]);
-
-        $this->tokenStoreMock
-            ->expects(self::once())
-            ->method('setToken');
-
-        /** @var Token $token */
-        $token = $this->subject->createToken();
-
-        self::assertInstanceOf(Token::class, $token, 'Method must return an instance of Token class');
-    }
-
-    public function testCreateToken_WhenCalledTwice_ThenReturnsDifferentNewTokes()
+    public function testCreateToken_WhenCalledTwice_ThenReturnsDifferentNewTokes(): void
     {
         $this->tokenStoreMock
             ->expects(self::exactly(2))
@@ -105,12 +122,9 @@ class TokenServiceTest extends TestCase
             ->expects(self::exactly(2))
             ->method('setToken');
 
-        /** @var Token $token */
         $token1 = $this->subject->createToken();
         $token2 = $this->subject->createToken();
 
-        self::assertInstanceOf(Token::class, $token1, 'Method must return an instance of Token class');
-        self::assertInstanceOf(Token::class, $token2, 'Method must return an instance of Token class');
         self::assertNotEquals($token1->getValue(), $token2->getValue(), 'Method must return new token on each call.');
     }
 
@@ -301,8 +315,7 @@ class TokenServiceTest extends TestCase
                 [$tokenString2]
             );
 
-        $result = $this->subject->createToken();
-        self::assertInstanceOf(Token::class, $result);
+        $this->subject->createToken();
     }
 
     public function testInvalidateRemovesOldestTokensWhenPoolIfFull(): void
@@ -348,8 +361,7 @@ class TokenServiceTest extends TestCase
                 [$tokenString2]
             );
 
-        $result = $this->subject->createToken();
-        self::assertInstanceOf(Token::class, $result);
+        $this->subject->createToken();
     }
 
     /**
@@ -628,5 +640,30 @@ class TokenServiceTest extends TestCase
                 'expectedResult' => 10,
             ],
         ];
+    }
+
+    private function createTokenToValidate(): Token
+    {
+        $token = $this->createStoredToken();
+
+        $this->tokenStoreMock
+            ->expects(static::once())
+            ->method('removeToken')
+            ->with($token->getValue())
+            ->willReturn(true);
+
+        return $token;
+    }
+
+    private function createStoredToken(): Token
+    {
+        $token = $this->subject->createToken();
+
+        $this->tokenStoreMock
+            ->method('getToken')
+            ->with($token->getValue())
+            ->willReturn($token);
+
+        return $token;
     }
 }

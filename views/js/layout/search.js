@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (update and modification) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2020 (update and modification) Open Assessment Technologies SA;
  */
 
 /**
@@ -21,112 +21,149 @@
  */
 define([
     'jquery',
-    'lodash',
-    'i18n',
-    'layout/section',
     'layout/actions',
-    'ui/feedback',
-    'ui/datatable'
-],
-function($, _, __, section, actionManager, feedback){
-    'use strict';
-
+    'ui/searchModal',
+    'core/store',
+    'context',
+    'util/url',
+    'layout/actions/binder'
+], function ($, actionManager, searchModal, store, context, urlHelper, binder) {
     /**
-     * Create the table that contains the search results
-     * @param {Object} data - the datatable parameters
-     * @param {Object} data.model - the datatable model
-     * @param {Object} data.url
-     * @param {Object} data.params - extra parameters to give to the datatable endpoint
-     * @param {Object} data.filters - extra parameters to give to the datatable endpoint
+     * Seach bar component for TAO action bar. It exposes
+     * the container, the indexeddb store that manages
+     * search results, and @init function
      */
-    var buildResponseTable  = function buildResponseTable(data){
-
-        //update the section container
-        var $tableContainer = $('<div class="flex-container-full"></div>');
-        section.updateContentBlock($tableContainer);
-
-        //create a datatable
-        $tableContainer.datatable({
-            url: data.url,
-            model: _.values(data.model),
-            actions: [{
-                id: 'open',
-                label: 'Open',
-                action: function openResource(id) {
-                    actionManager.trigger('refresh', {
-                        uri: id
-                    });
-                }
-            }],
-            params: {
-                params: data.params,
-                filters: data.filters,
-                rows: 20
-            }
-        });
-    };
-
-    /**
-     * Behavior of the tao backend global search.
-     * It runs by himself using the init method.
-     *
-     * @example  search.init();
-     *
-     * @exports layout/search
-     */
-    var searchComponent =  {
-
-        /**
-         * Initialize, only entry point
-         */
-        init : function init(){
-
-            var searchHandler;
-            var running      = false;
-            var $container   = $('.action-bar .search-area');
-            var $searchInput = $('input' , $container);
-            var $searchBtn   = $('button' , $container);
-
-            if($container && $container.length){
-
-                //throttle and control to prevent sending too many requests
-                searchHandler = _.throttle(function searchHandlerThrottled(query){
-                    if(running === false){
-                        running = true;
-                        $.ajax({
-                            url : $container.data('url'),
-                            type : 'POST',
-                            data :  {query : query},
-                            dataType : 'json'
-                        }).done(function(response){
-                            if(response && response.result && response.result === true){
-                                buildResponseTable(response);
-                            } else {
-                                feedback().warning(__('No results found'));
-                            }
-                        }).complete(function(){
-                            running = false;
-                        });
-                    }
-                }, 100);
-
-                //clicking the button trigger the request
-                $searchBtn.off('click').on('click', function(e){
-                    e.preventDefault();
-                    searchHandler($searchInput.val());
+    const searchComponent = {
+        container: null,
+        searchStore: null,
+        init() {
+            store('search')
+                .then(store => {
+                    searchComponent.searchStore = store;
+                    initializeEvents();
+                    manageSearchStoreUpdate();
+                })
+                .catch(e => {
+                    actionManager.trigger('error', e);
                 });
-
-                //or press ENTER
-                $searchInput.off('keypress').on('keypress', function(e){
-                    var query = $searchInput.val();
-                    if(e.which === 13){
-                        e.preventDefault();
-                        searchHandler(query);
-                    }
-                });
-            }
         }
     };
+
+    /**
+     * Sets events to init searchModal instance on search and results icons click, enter keypress
+     * and ctrl + k shortcut
+     */
+    function initializeEvents() {
+        searchComponent.container = $('.action-bar .search-area');
+        const $searchBtn = $('button.icon-find', searchComponent.container);
+        const $searchInput = $('input', searchComponent.container);
+        const $resultsBtn = $('button.icon-ul', searchComponent.container);
+
+        $searchBtn.off('.searchComponent').on('click.searchComponent', () => createSearchModalInstance());
+
+        $searchInput.off('.searchComponent').on('keypress.searchComponent', e => {
+            if (e.which === 13) {
+                createSearchModalInstance();
+            }
+        });
+
+        $resultsBtn.off('.searchComponent').on('click.searchComponent', () => {
+            searchComponent.searchStore
+                .getItem('criterias')
+                .then(storedCriterias => createSearchModalInstance(storedCriterias, false))
+                .catch(e => {
+                    actionManager.trigger('error', e);
+                });
+        });
+
+        $(document).on('keydown.searchComponent', e => {
+            if (
+                $('.action-bar .search-area').closest('.content-panel').css('display') === 'flex' &&
+                e.ctrlKey &&
+                e.which == 75
+            ) {
+                e.preventDefault();
+                createSearchModalInstance();
+            }
+        });
+    }
+
+    /**
+     * Creates a searchModal instance and set up searchStoreUpdate listener to update search component visuals when search store changes
+     * @param {string} criterias - stored criterias for the searchComponent to be initialized with
+     * @param {boolean} searchOnInit - if datatable request must be triggered on init, or use the stored results instead
+     */
+    function createSearchModalInstance(criterias, searchOnInit = true) {
+        criterias = criterias || { search: $('input', searchComponent.container).val() };
+        const url = searchComponent.container.data('url');
+        const placeholder = searchComponent.container.find('input').attr('placeholder');
+        const rootClassUri = decodeURIComponent(urlHelper.parse(url).query.rootNode);
+        const isResultPage = context.shownStructure === 'results';
+        const searchModalInstance = searchModal({
+            criterias,
+            url,
+            searchOnInit,
+            rootClassUri,
+            hideResourceSelector: isResultPage,
+            placeholder
+        });
+
+        searchModalInstance.on('store-updated', manageSearchStoreUpdate);
+        searchModalInstance.on('refresh', (id, data) => {
+            // in all cases id == resource_uri and node in the resorce tree
+            // after triggering 'refresh' this resource will be selected in tree
+            // on Results page we have 2 cases
+            // 1. GenerisSearch id == delivery_uri
+            // 2. ElasticSearch id == delivery_result_uri and data.delivery == delivery_uri
+            const uri = !isResultPage || !data.delivery ? id : data.delivery;
+            actionManager.trigger('refresh', { uri });
+            // case 2. ElasticSearch - need to store delivery_result_uri in searchComponent for taoOutcomeUi controller
+            isResultPage && data.delivery && searchComponent.container.data('show-result', id);
+        });
+    }
+
+    /**
+     * Callback to searchStoreUpdate event. First checks if current location is the same as the stored one, and if
+     * it is not, clears the store. Then requests stored criterias and results if still necessary, and updates view
+     */
+    function manageSearchStoreUpdate() {
+        searchComponent.searchStore
+            .getItem('context')
+            .then(storedContext => {
+                if (storedContext !== context.shownStructure) {
+                    searchComponent.searchStore.clear();
+                    updateViewAfterSeachStoreUpdate();
+                } else {
+                    let promises = [];
+                    promises.push(searchComponent.searchStore.getItem('criterias'));
+                    promises.push(searchComponent.searchStore.getItem('results'));
+                    return Promise.all(promises).then(values => {
+                        updateViewAfterSeachStoreUpdate(values[0], values[1]);
+                    });
+                }
+            })
+            .catch(e => actionManager.trigger('error', e));
+    }
+
+    /**
+     * Updates template with the received query and results dataset
+     * @param {string} storedCriterias - stored search criterias to be used on component creation
+     * @param {object} storedSearchResults - stored search results dataset, to display number of saved results on .results-counter
+     */
+    function updateViewAfterSeachStoreUpdate(storedCriterias, storedSearchResults) {
+        const $searchInput = $('input', searchComponent.container);
+        const $resultsCounterContainer = $('.results-counter', searchComponent.container);
+        const $searchAreaButtonsContainer = $('.search-area-buttons-container', searchComponent.container);
+
+        $searchInput.val(storedCriterias ? storedCriterias.search : '');
+        if (storedSearchResults) {
+            $searchAreaButtonsContainer.addClass('has-results-counter');
+            $resultsCounterContainer.text(storedSearchResults.totalCount > 99 ? '+99' : storedSearchResults.totalCount);
+        } else {
+            $searchAreaButtonsContainer.removeClass('has-results-counter');
+            $resultsCounterContainer.text('');
+        }
+    }
 
     return searchComponent;
 });

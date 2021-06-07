@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -22,7 +22,8 @@ namespace oat\tao\model\user;
 
 use oat\oatbox\user\UserService;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\search\Search;
+use oat\tao\model\search\SearchProxy;
+use oat\tao\model\search\SearchQuery;
 use oat\tao\model\TaoOntology;
 use oat\generis\model\OntologyAwareTrait;
 
@@ -36,9 +37,20 @@ class GenerisUserService extends ConfigurableService implements UserService
      */
     public function findUser($searchString)
     {
-        $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
-        $result = $searchService->query($searchString, TaoOntology::CLASS_URI_TAO_USER);
-        return $this->getUsers($result);
+        /** @var SearchProxy $searchProxy */
+        $searchProxy = $this->getServiceLocator()->get(SearchProxy::SERVICE_ID);
+
+        $query = new SearchQuery(
+            $searchString,
+            TaoOntology::CLASS_URI_TAO_USER,
+            TaoOntology::CLASS_URI_TAO_USER,
+            0,
+            10,
+            1
+        );
+
+        $result = $searchProxy->searchByQuery($query);
+        return $this->getUsers(array_column($result['data'] ?? [], 'id'));
     }
 
     /**
@@ -58,7 +70,7 @@ class GenerisUserService extends ConfigurableService implements UserService
     {
         $users = [];
         foreach ($userIds as $id) {
-            $users[$id] = $this->getUser($id); 
+            $users[$id] = $this->getUser($id);
         }
         return $users;
     }

@@ -15,17 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
 namespace oat\tao\model\taskQueue\Queue\Broker;
 
-use oat\oatbox\PhpSerializable;
-use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\PhpSerializable;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
@@ -229,5 +229,10 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
     public function getNumberOfTasksToReceive()
     {
         return abs((int) $this->numberOfTasksToReceive);
+    }
+
+    public function getBrokerId(): string
+    {
+        return static::ID;
     }
 }
