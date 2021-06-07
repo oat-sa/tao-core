@@ -15,15 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\taskQueue\TaskLog\Entity;
 
 use common_report_Report as Report;
 use DateTime;
 use Exception;
+use oat\oatbox\reporting\Report as NewReport;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 
@@ -120,7 +123,7 @@ class TaskLogEntity implements EntityInterface
             isset($row[TaskLogBrokerInterface::COLUMN_OWNER]) ? $row[TaskLogBrokerInterface::COLUMN_OWNER] : '',
             self::parseDateTime($row, TaskLogBrokerInterface::COLUMN_CREATED_AT, $dateFormat),
             self::parseDateTime($row, TaskLogBrokerInterface::COLUMN_UPDATED_AT, $dateFormat),
-            Report::jsonUnserialize($row[TaskLogBrokerInterface::COLUMN_REPORT]),
+            NewReport::jsonUnserialize($row[TaskLogBrokerInterface::COLUMN_REPORT]),
             isset($row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS]) ? $row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS] : false
         );
     }
@@ -320,6 +323,10 @@ class TaskLogEntity implements EntityInterface
 
         if ($this->report instanceof Report) {
             $rs['report'] = $this->report->toArray();
+
+            if ($this->report instanceof NewReport) {
+                $rs['report']['message'] = $this->report->translateMessage();
+            }
         }
 
         return $rs;

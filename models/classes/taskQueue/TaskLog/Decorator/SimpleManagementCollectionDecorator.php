@@ -23,8 +23,6 @@ namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
 use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\taskQueue\Report\TaskLogTranslator;
 use oat\tao\model\taskQueue\TaskLog\CollectionInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 
@@ -78,12 +76,7 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
     {
         $data = [];
 
-        /** @var TaskLogTranslator $translator */
-        $translator = ServiceManager::getServiceManager()->get(TaskLogTranslator::class); //@FIXME @TODO Inject this in the constructor
-
         foreach ($this->getIterator() as $entity) {
-            $entity = $translator->translate($entity);
-
             $entityData = (
                 new RedirectUrlEntityDecorator(
                     new HasFileEntityDecorator(
