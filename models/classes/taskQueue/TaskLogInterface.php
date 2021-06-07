@@ -44,7 +44,9 @@ interface TaskLogInterface extends LoggerAwareInterface
     /**
      * An array of tasks names with the specified category.
      */
-    const OPTION_TASK_TO_CATEGORY_ASSOCIATIONS = 'task_to_category_associations';
+    public const OPTION_TASK_TO_CATEGORY_ASSOCIATIONS = 'task_to_category_associations';
+
+    public const OPTION_TASK_IGNORE_LIST = 'task_ui_ignore_list';
 
     const STATUS_ENQUEUED = 'enqueued';
     const STATUS_DEQUEUED = 'dequeued';

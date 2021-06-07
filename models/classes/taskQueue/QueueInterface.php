@@ -94,4 +94,6 @@ interface QueueInterface extends QueuerInterface, LoggerAwareInterface, PhpSeria
      * @return QueueInterface
      */
     public function setBroker(QueueBrokerInterface $broker);
+
+    public function getBroker(): QueueBrokerInterface;
 }
