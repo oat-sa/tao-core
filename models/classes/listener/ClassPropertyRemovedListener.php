@@ -34,7 +34,7 @@ class ClassPropertyRemovedListener extends ConfigurableService
 
     public function handleEvent(ClassPropertyRemovedEvent $event): void
     {
-        if ($this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
+        if (!$this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
             return;
         }
 

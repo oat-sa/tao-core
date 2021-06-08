@@ -24,6 +24,7 @@ namespace oat\test\unit\model\listener;
 use core_kernel_classes_Property;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\dto\OldProperty;
 use oat\tao\model\event\ClassPropertiesChangedEvent;
 use oat\tao\model\listener\ClassPropertiesChangedListener;
@@ -39,6 +40,9 @@ class ClassPropertiesChangedListenerTest extends TestCase
     /** @var ClassPropertiesChangedListener */
     private $sut;
 
+    /** @var AdvancedSearchChecker|MockObject  */
+    private $advancedSearchChecker;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -46,16 +50,19 @@ class ClassPropertiesChangedListenerTest extends TestCase
         $this->sut = new ClassPropertiesChangedListener();
 
         $this->queueDispatcher = $this->createMock(QueueDispatcherInterface::class);
+        $this->advancedSearchChecker = $this->createMock(AdvancedSearchChecker::class);
         $this->sut->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
-                    QueueDispatcherInterface::SERVICE_ID => $this->queueDispatcher
+                    QueueDispatcherInterface::SERVICE_ID => $this->queueDispatcher,
+                    AdvancedSearchChecker::class => $this->advancedSearchChecker,
                 ]
             )
         );
     }
 
     public function testRenameClassProperties(): void {
+        $this->advancedSearchChecker->method('isEnabled')->willReturn(true);
         $this->queueDispatcher->expects($this->once())
             ->method('createTask')
             ->with(
@@ -84,11 +91,29 @@ class ClassPropertiesChangedListenerTest extends TestCase
         );
     }
 
+    public function testRenameClassPropertiesNonQueued(): void {
+        $this->advancedSearchChecker->method('isEnabled')->willReturn(false);
+        $this->queueDispatcher->expects($this->never())
+            ->method('createTask');
+
+        $this->sut->handleEvent(
+            new ClassPropertiesChangedEvent(
+                [
+                    [
+                        'oldProperty' => new OldProperty('test', null),
+                        'property' => $this->createMock(core_kernel_classes_Property::class)
+                    ]
+                ]
+            )
+        );
+    }
+
     /**
      * @dataProvider provideInvalidData
      */
     public function testExceptionWhenCallingRenameClassProperties(array $property): void
     {
+        $this->advancedSearchChecker->method('isEnabled')->willReturn(true);
         $this->expectException(RuntimeException::class);
 
         $this->queueDispatcher->expects($this->never())

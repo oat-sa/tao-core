@@ -25,6 +25,7 @@ namespace oat\test\unit\model\listener;
 use core_kernel_classes_Class;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\tao\model\listener\ClassPropertyRemovedListener;
 use oat\tao\model\search\tasks\DeleteIndexProperty;
@@ -38,6 +39,9 @@ class ClassPropertyRemovedListenerTest extends TestCase
     /** @var ClassPropertyRemovedListener */
     private $sut;
 
+    /** @var AdvancedSearchChecker|\PHPUnit\Framework\MockObject\MockObject  */
+    private $advancedSearchChecker;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -45,10 +49,13 @@ class ClassPropertyRemovedListenerTest extends TestCase
         $this->sut = new ClassPropertyRemovedListener();
 
         $this->queueDispatcher = $this->createMock(QueueDispatcherInterface::class);
+        $this->advancedSearchChecker = $this->createMock(AdvancedSearchChecker::class);
+
         $this->sut->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
-                    QueueDispatcherInterface::SERVICE_ID => $this->queueDispatcher
+                    QueueDispatcherInterface::SERVICE_ID => $this->queueDispatcher,
+                    AdvancedSearchChecker::class => $this->advancedSearchChecker,
                 ]
             )
         );
@@ -56,6 +63,8 @@ class ClassPropertyRemovedListenerTest extends TestCase
 
     public function testRemoveClassProperty(): void
     {
+        $this->advancedSearchChecker->method('isEnabled')->willReturn(true);
+
         $class = $this->createMock(core_kernel_classes_Class::class);
 
         $this->queueDispatcher->expects($this->once())
@@ -70,6 +79,18 @@ class ClassPropertyRemovedListenerTest extends TestCase
                 null,
                 false
             );
+
+        $this->sut->handleEvent(new ClassPropertyRemovedEvent($class, 'property-name'));
+    }
+
+    public function testRemoveClassPropertyNonQueued(): void
+    {
+        $this->advancedSearchChecker->method('isEnabled')->willReturn(false);
+
+        $class = $this->createMock(core_kernel_classes_Class::class);
+
+        $this->queueDispatcher->expects($this->never())
+            ->method('createTask');
 
         $this->sut->handleEvent(new ClassPropertyRemovedEvent($class, 'property-name'));
     }

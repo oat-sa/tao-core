@@ -40,7 +40,7 @@ class DataAccessControlChangedListener extends ConfigurableService
     {
         $this->getLogger()->debug('triggering index update on DataAccessControlChanged event');
 
-        if ($this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
+        if (!$this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
             return;
         }
 
