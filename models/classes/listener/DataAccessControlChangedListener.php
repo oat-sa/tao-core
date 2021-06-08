@@ -23,13 +23,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model\listener;
 
-use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\event\DataAccessControlChangedEvent;
-use oat\tao\model\search\tasks\UpdateClassInIndex;
 use oat\tao\model\search\tasks\UpdateDataAccessControlInIndex;
-use oat\tao\model\search\tasks\UpdateResourceInIndex;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
 class DataAccessControlChangedListener extends ConfigurableService
@@ -41,6 +39,10 @@ class DataAccessControlChangedListener extends ConfigurableService
     public function handleEvent(DataAccessControlChangedEvent $event): void
     {
         $this->getLogger()->debug('triggering index update on DataAccessControlChanged event');
+
+        if ($this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
+            return;
+        }
 
         $taskMessage = __('Adding/updating search index for updated resource');
 
