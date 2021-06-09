@@ -1,7 +1,7 @@
 /* Do not edit */@mixin tao-icon-setup {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'tao' !important;
-  speak: none;
+  speak: never;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -13,6 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-wrap-inline { content: "\e915"; }
+@mixin icon-wrap-left { content: "\e916"; }
+@mixin icon-wrap-right { content: "\e917"; }
 @mixin icon-offline { content: "\e913"; }
 @mixin icon-online { content: "\e914"; }
 @mixin icon-tab { content: "\e90d"; }

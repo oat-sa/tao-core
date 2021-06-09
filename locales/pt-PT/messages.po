@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint148\n"
-"PO-Revision-Date: 2021-02-12T09:25:24\n"
+"Project-Id-Version: TAO 3.4.0-sprint155\n"
+"PO-Revision-Date: 2021-05-21T10:58:38\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-PT\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
+msgid " AND "
 msgstr ""
 
-msgid " AND "
+msgid " and "
 msgstr ""
 
 msgid " has been deleted successfully"
@@ -30,6 +30,9 @@ msgstr ""
 
 msgid " next"
 msgstr "próximo"
+
+msgid " Remove criteria"
+msgstr ""
 
 msgid " requires a subgrid adapter"
 msgstr "adaptador de sub-rede necessário"
@@ -118,6 +121,9 @@ msgstr "(vazio)"
 msgid "... reloading page."
 msgstr ""
 
+msgid "7-zip archive"
+msgstr ""
+
 msgid "<del>Filters</del>"
 msgstr ""
 
@@ -146,6 +152,9 @@ msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
 msgstr ""
 
 msgid "A message with further instructions has been sent to your email address: %s"
+msgstr ""
+
+msgid "AAC audio"
 msgstr ""
 
 msgid "About"
@@ -212,20 +221,29 @@ msgstr ""
 msgid "Adding search index for %s"
 msgstr ""
 
+msgid "Adding search index for created resource"
+msgstr ""
+
 msgid "Adding the new class has failed"
 msgstr ""
 
 msgid "Adding the new resource has failed"
 msgstr ""
 
-msgid "Advanced search, add filters"
+msgid "Adding/updating search index for updated resource"
 msgstr ""
 
-msgid "aliases:"
+msgid "Adobe Flash file"
+msgstr ""
+
+msgid "Advanced search, add filters"
 msgstr ""
 
 msgid "all"
 msgstr "todos"
+
+msgid "all audios"
+msgstr ""
 
 msgid "All data will be removed in %s"
 msgstr ""
@@ -233,8 +251,14 @@ msgstr ""
 msgid "All fields are required"
 msgstr ""
 
+msgid "all images"
+msgstr ""
+
 msgid "All rights reserved."
 msgstr "Todos os direitos reservados."
+
+msgid "all videos"
+msgstr ""
 
 msgid "Allow for all domains"
 msgstr ""
@@ -289,16 +313,7 @@ msgstr "Tem a certeza que quer eliminar o recurso versionado?\n"
 msgid "Are you sure you want to delete it?"
 msgstr ""
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
 msgid "Arguments separator"
-msgstr ""
-
-msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -309,6 +324,9 @@ msgstr "Definir o papel do utilizador"
 
 #, tao-public
 msgid "Assign Users"
+msgstr ""
+
+msgid "Audio Video Interleave"
 msgstr ""
 
 msgid "Author"
@@ -356,7 +374,7 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
-msgid "boolean"
+msgid "Bitmap image"
 msgstr ""
 
 msgid "Browse folders:"
@@ -368,17 +386,26 @@ msgstr ""
 msgid "C"
 msgstr ""
 
+msgid "C file"
+msgstr ""
+
+msgid "C++ file (.cpp)"
+msgstr ""
+
+msgid "Calc speadsheet (Staroffice)"
+msgstr ""
+
 msgid "Calculator"
 msgstr ""
 
 msgid "Calendar"
 msgstr "Calendário"
 
-msgid "Cancel"
-msgstr "Cancelar"
-
 msgid "cancel"
 msgstr ""
+
+msgid "Cancel"
+msgstr "Cancelar"
 
 msgid "cancel the action"
 msgstr ""
@@ -390,6 +417,9 @@ msgid "Cannot be edited"
 msgstr ""
 
 msgid "Cannot divide by zero"
+msgstr ""
+
+msgid "Cascading Style Sheets"
 msgstr ""
 
 msgid "Case sensitive"
@@ -415,9 +445,6 @@ msgid "Check all"
 msgstr "Marcar todos"
 
 msgid "Check-in"
-msgstr ""
-
-msgid "choices:"
 msgstr ""
 
 msgid "Choose a value..."
@@ -486,12 +513,6 @@ msgstr ""
 msgid "Column"
 msgstr "Coluna"
 
-msgid "command"
-msgstr ""
-
-msgid "Commands:"
-msgstr ""
-
 msgid "comment..."
 msgstr ""
 
@@ -502,6 +523,9 @@ msgid "Completed"
 msgstr ""
 
 msgid "Completed - Error"
+msgstr ""
+
+msgid "Compressed tar file"
 msgstr ""
 
 msgid "Compute the expression"
@@ -534,9 +558,6 @@ msgstr ""
 msgid "Cosine"
 msgstr ""
 
-msgid "count"
-msgstr ""
-
 msgid "Create"
 msgstr "Criar"
 
@@ -554,6 +575,9 @@ msgstr ""
 
 msgid "CSV"
 msgstr "CSV"
+
+msgid "CSV file"
+msgstr ""
 
 msgid "CSV Options"
 msgstr "Opções de CSV"
@@ -576,16 +600,19 @@ msgstr "Informação importada com sucesso"
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Informação do Idioma"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Informação do Idioma"
 
 msgid "Data not imported. All records are invalid."
 msgstr ""
 
 msgid "Data source URI"
+msgstr ""
+
+msgid "Database file"
 msgstr ""
 
 msgid "Date"
@@ -601,9 +628,6 @@ msgid "date time range"
 msgstr ""
 
 msgid "Default search"
-msgstr ""
-
-msgid "default:"
 msgstr ""
 
 msgid "Define the default values"
@@ -635,9 +659,6 @@ msgid "Deleting search index for %s"
 msgstr ""
 
 msgid "Demo Sandbox"
-msgstr ""
-
-msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -677,6 +698,9 @@ msgid "Do you wish to install the following extension(s):\n"
 "%s?"
 msgstr "Deseja instalar as seguinte(s) extençõe(s):\n"
 "%s?"
+
+msgid "Document templates (Staroffice)"
+msgstr ""
 
 msgid "does not match"
 msgstr ""
@@ -733,6 +757,9 @@ msgstr ""
 msgid "End of document reached. Continuing from the beginning."
 msgstr ""
 
+msgid "Enhanced metafile"
+msgstr ""
+
 msgid "Enter"
 msgstr ""
 
@@ -755,9 +782,6 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
-msgstr ""
-
-msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -867,7 +891,13 @@ msgstr "1ª linha Nomes da coluna"
 msgid "Fit to width"
 msgstr ""
 
+msgid "Flash video"
+msgstr ""
+
 msgid "floor"
+msgstr ""
+
+msgid "Flowchart-based programming environment & TI Interactive Workbook"
 msgstr ""
 
 msgid "Forbid for all domains"
@@ -894,10 +924,10 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr ""
 
-msgid "generated-value"
+msgid "Generis Form"
 msgstr ""
 
-msgid "Generis Form"
+msgid "Geogebra data file"
 msgstr ""
 
 msgid "Get History"
@@ -906,10 +936,19 @@ msgstr ""
 msgid "Get the history list"
 msgstr ""
 
+msgid "GIF image"
+msgstr ""
+
 msgid "Go Back"
 msgstr "Retroceder"
 
 msgid "go back to home page"
+msgstr ""
+
+msgid "GZip Compressed Archive"
+msgstr ""
+
+msgid "Header file with extensionsLabels"
 msgstr ""
 
 msgid "Height"
@@ -948,6 +987,9 @@ msgstr ""
 msgid "Hyperbolic tangent"
 msgstr ""
 
+msgid "Hypertext markup language"
+msgstr ""
+
 msgid "I understand that this action is permanent."
 msgstr ""
 
@@ -955,9 +997,6 @@ msgid "Identifier"
 msgstr ""
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
-msgstr ""
-
-msgid "Implications failed:"
 msgstr ""
 
 msgid "Import"
@@ -1038,11 +1077,11 @@ msgstr "Extensões instaladas %s..."
 msgid "Instance saved"
 msgstr "Instância guardada"
 
-msgid "Interface language"
-msgstr "Idioma do interface"
-
 msgid "Interface Language"
 msgstr "Idioma do Interface"
+
+msgid "Interface language"
+msgstr "Idioma do interface"
 
 msgid "Invalid CSP header."
 msgstr ""
@@ -1083,9 +1122,6 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr "Inicio de sessão ou palavra passe invalida. Por favor tente de novo"
 
@@ -1095,10 +1131,13 @@ msgstr ""
 msgid "invalid regular expression"
 msgstr ""
 
-msgid "Invalid values:"
+msgid "items per page"
 msgstr ""
 
-msgid "items per page"
+msgid "Javascript code"
+msgstr ""
+
+msgid "JPEG image"
 msgstr ""
 
 msgid "Label"
@@ -1200,6 +1239,9 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+msgid "M4A audio"
+msgstr ""
+
 msgid "Main Menu"
 msgstr ""
 
@@ -1256,6 +1298,45 @@ msgstr ""
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
 
+msgid "Microsoft Excel"
+msgstr ""
+
+msgid "Microsoft Excel binary format"
+msgstr ""
+
+msgid "Microsoft Office Document Imaging"
+msgstr ""
+
+msgid "Microsoft Powerpoint"
+msgstr ""
+
+msgid "Microsoft Powerpoint slideshow"
+msgstr ""
+
+msgid "Microsoft Project file"
+msgstr ""
+
+msgid "Microsoft Visio file"
+msgstr ""
+
+msgid "Microsoft Word"
+msgstr ""
+
+msgid "Microsoft Word template"
+msgstr ""
+
+msgid "Microsoft Works file"
+msgstr ""
+
+msgid "Microsoft XPS file"
+msgstr ""
+
+msgid "MIME encapsulation of aggregate HTML documents"
+msgstr ""
+
+msgid "Mind mapping software application (free mind open source)"
+msgstr ""
+
 msgid "minutes"
 msgstr ""
 
@@ -1294,6 +1375,18 @@ msgid "Move to"
 msgstr "Mover para"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
+msgstr ""
+
+msgid "MP4 video"
+msgstr ""
+
+msgid "MPEG audio"
+msgstr ""
+
+msgid "MPEG video"
+msgstr ""
+
+msgid "MPEG-4 audio file"
 msgstr ""
 
 msgid "Multiple values delimiter"
@@ -1364,19 +1457,10 @@ msgstr ""
 msgid "no label"
 msgstr "Sem rótulos"
 
-msgid "No results found"
-msgstr ""
-
 msgid "No Task yet"
 msgstr ""
 
 msgid "Node duplication has failed"
-msgstr ""
-
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
@@ -1401,9 +1485,6 @@ msgstr ""
 msgid "Nth root"
 msgstr ""
 
-msgid "number"
-msgstr ""
-
 msgid "Number of elements"
 msgstr "Numero de elementos"
 
@@ -1413,10 +1494,16 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
-msgid "OK"
+msgid "Ogg Vorbis audio"
+msgstr ""
+
+msgid "Ogg Vorbis video"
 msgstr ""
 
 msgid "Ok"
+msgstr ""
+
+msgid "OK"
 msgstr ""
 
 msgid "Old Password"
@@ -1431,6 +1518,21 @@ msgstr ""
 msgid "Only one of the field must have value %s"
 msgstr ""
 
+msgid "OpenDocument Database"
+msgstr ""
+
+msgid "OpenDocument Presentation"
+msgstr ""
+
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
+msgid "OpenDocument Text Template"
+msgstr ""
+
 msgid "Operated By "
 msgstr ""
 
@@ -1441,6 +1543,9 @@ msgid "Outlook on the next Synchronization"
 msgstr ""
 
 msgid "Page"
+msgstr ""
+
+msgid "Pascal file (.pas)"
 msgstr ""
 
 msgid "Password"
@@ -1464,7 +1569,13 @@ msgstr "As palavras-passes não são iguais"
 msgid "Pause"
 msgstr ""
 
+msgid "PDF file"
+msgstr ""
+
 msgid "Permission denied to write in the selected class"
+msgstr ""
+
+msgid "Plain text"
 msgstr ""
 
 msgid "Play"
@@ -1524,7 +1635,7 @@ msgstr ""
 msgid "Please wait while ..."
 msgstr ""
 
-msgid "Positionals:"
+msgid "PNG image"
 msgstr ""
 
 msgid "Post install processing"
@@ -1570,6 +1681,9 @@ msgstr ""
 msgid "Queued"
 msgstr ""
 
+msgid "Quicktime video"
+msgstr ""
+
 msgid "Rad"
 msgstr ""
 
@@ -1585,8 +1699,14 @@ msgstr ""
 msgid "Range field is required"
 msgstr ""
 
+msgid "RAR archive"
+msgstr ""
+
 msgid "RDF"
 msgstr "RDF"
+
+msgid "RealMedia file"
+msgstr ""
 
 msgid "Refresh"
 msgstr ""
@@ -1651,9 +1771,6 @@ msgstr ""
 msgid "require notification ID"
 msgstr ""
 
-msgid "required"
-msgstr ""
-
 msgid "required length"
 msgstr ""
 
@@ -1712,6 +1829,9 @@ msgid "Restore sound"
 msgstr ""
 
 msgid "Return to sign in page"
+msgstr ""
+
+msgid "Rich Text Format file"
 msgstr ""
 
 msgid "Right click the tree to manage your lists"
@@ -1785,11 +1905,11 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
-msgstr "seleccione"
-
 msgid "Select"
 msgstr "Seleccione"
+
+msgid "select"
+msgstr "seleccione"
 
 msgid "Select a class"
 msgstr ""
@@ -1840,6 +1960,9 @@ msgstr ""
 msgid "Show password"
 msgstr ""
 
+msgid "Sibelius music notation"
+msgstr ""
+
 msgid "Sign change"
 msgstr ""
 
@@ -1882,7 +2005,7 @@ msgstr ""
 msgid "Store the value a variable"
 msgstr ""
 
-msgid "string"
+msgid "Storing digital video data on a computer game"
 msgstr ""
 
 msgid "Submit"
@@ -1912,7 +2035,13 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "Formatos de exportação suportados"
 
+msgid "SVG image"
+msgstr ""
+
 msgid "Syntax error"
+msgstr ""
+
+msgid "Tagged image file"
 msgstr ""
 
 msgid "tan"
@@ -1972,6 +2101,9 @@ msgstr ""
 msgid "Term"
 msgstr ""
 
+msgid "TeX file"
+msgstr ""
+
 msgid "Text - Long - Box"
 msgstr "Texto - Longo - Caixa"
 
@@ -1980,6 +2112,9 @@ msgstr "Texto - Longo - editor HTML "
 
 msgid "Text - Short - Field"
 msgstr "Texto - Pequeno - Campo"
+
+msgid "Text document file format (Staroffice)"
+msgstr ""
 
 msgid "The action will be applied to"
 msgstr ""
@@ -2102,9 +2237,6 @@ msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
-msgstr ""
-
-msgid "Too many non-option arguments: got %s, maximum of %s"
 msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
@@ -2230,6 +2362,9 @@ msgstr ""
 msgid "Uninstalled %s"
 msgstr ""
 
+msgid "UNIX Compressed Archive File"
+msgstr ""
+
 msgid "unknown"
 msgstr ""
 
@@ -2243,6 +2378,9 @@ msgid "Update"
 msgstr ""
 
 msgid "Update ID : %s"
+msgstr ""
+
+msgid "Updating search index"
 msgstr ""
 
 msgid "Upload"
@@ -2367,16 +2505,43 @@ msgstr ""
 msgid "Waiting"
 msgstr ""
 
+msgid "WAV audio"
+msgstr ""
+
+msgid "WebM audio"
+msgstr ""
+
+msgid "WebM video"
+msgstr ""
+
 msgid "Whole number part"
 msgstr ""
 
 msgid "Width"
 msgstr ""
 
+msgid "Windows help file"
+msgstr ""
+
+msgid "Windows Media audio"
+msgstr ""
+
+msgid "Windows Media file (metafile)"
+msgstr ""
+
+msgid "Windows Media video"
+msgstr ""
+
+msgid "Write Document"
+msgstr ""
+
 msgid "Wrong or missing parameter extension, module or action"
 msgstr ""
 
 msgid "Wrong parameter shownExtension"
+msgstr ""
+
+msgid "XML file"
 msgstr ""
 
 msgid "Yes"
@@ -2428,5 +2593,8 @@ msgid "Your mail"
 msgstr ""
 
 msgid "Your TAO Password"
+msgstr ""
+
+msgid "ZIP archive"
 msgstr ""
 

@@ -15,66 +15,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\search;
 
 use oat\oatbox\PhpSerializable;
-use oat\tao\model\search\index\IndexIterator;
 
 /**
  * Search interface
  *
  * @author Joel Bout <joel@taotesting.com>
+ *
+ * @deprecated use SearchInterface
  */
-interface Search extends PhpSerializable
+interface Search extends PhpSerializable, SearchInterface
 {
-    const SERVICE_ID = 'tao/search';
-
-    /**
-     * Search for instances using a Lucene query
-     *
-     * @param string $queryString
-     * @param string $type
-     * @param int $start
-     * @param int $count
-     * @param string $order
-     * @param string $dir
-     *
-     * @return ResultSet
-     */
-    public function query($queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC');
-
-    /**
-     * Delete all indexes
-     */
-    public function flush();
-
-    /**
-     * (Re)Generate the index for a given document
-     * If index is already exist, then it will merge the fields in index with the existing document
-     *
-     * @param IndexIterator|array $documents
-     * @return boolean true if successfully indexed
-     */
-    public function index($documents);
-
-    /**
-     * Remove a resource from the index
-     *
-     * @param string $resourceId
-     * @return boolean true if successfully removed
-     */
-    public function remove($resourceId);
-
-    /**
-     * Whenever or not the current implementation supports
-     * custom indexes
-     *
-     * @return boolean
-     */
-    public function supportCustomIndex();
+    /** @deprecated When no class implement this interface anymore, more this constant to SearchProxy */
+    public const SERVICE_ID = 'tao/search';
 }

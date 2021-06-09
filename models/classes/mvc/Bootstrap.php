@@ -33,6 +33,7 @@ use Exception;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use helpers_Report as ReportHelper;
+use oat\oatbox\event\EventAggregator;
 use oat\oatbox\service\ServiceConfigDriver;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ServiceManagerAwareInterface;
@@ -247,6 +248,9 @@ class Bootstrap implements ServiceManagerAwareInterface
             } else {
                 $this->dispatchHttp();
             }
+
+            $this->getServiceManager()->get(EventAggregator::SERVICE_ID)->triggerAggregatedEvents();
+
             self::$isDispatched = true;
         }
     }
