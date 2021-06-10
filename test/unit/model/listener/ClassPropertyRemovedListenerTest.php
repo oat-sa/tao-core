@@ -39,7 +39,7 @@ class ClassPropertyRemovedListenerTest extends TestCase
     /** @var ClassPropertyRemovedListener */
     private $sut;
 
-    /** @var AdvancedSearchChecker|\PHPUnit\Framework\MockObject\MockObject  */
+    /** @var AdvancedSearchChecker|MockObject  */
     private $advancedSearchChecker;
 
     protected function setUp(): void

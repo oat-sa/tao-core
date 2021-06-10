@@ -91,7 +91,8 @@ class ClassPropertiesChangedListenerTest extends TestCase
         );
     }
 
-    public function testRenameClassPropertiesNonQueued(): void {
+    public function testRenameClassPropertiesNonQueued(): void 
+    {
         $this->advancedSearchChecker->method('isEnabled')->willReturn(false);
         $this->queueDispatcher->expects($this->never())
             ->method('createTask');

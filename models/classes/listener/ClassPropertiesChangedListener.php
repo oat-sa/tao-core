@@ -38,6 +38,7 @@ class ClassPropertiesChangedListener extends ConfigurableService
         if ( !$this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
             return;
         }
+        
         $taskMessage = __('Updating search index');
 
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
