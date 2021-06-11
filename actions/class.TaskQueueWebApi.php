@@ -234,12 +234,12 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
     }
 
     /**
-     * @throws \common_exception_MissingParameter
+     * @throws common_exception_MissingParameter
      */
     protected function checkIfTaskIdExists(): void
     {
         if (!$this->hasRequestParameter(self::PARAMETER_TASK_ID)) {
-            throw new \common_exception_MissingParameter(self::PARAMETER_TASK_ID, $this->getRequestURI());
+            throw new common_exception_MissingParameter(self::PARAMETER_TASK_ID, $this->getRequestURI());
         }
     }
 
