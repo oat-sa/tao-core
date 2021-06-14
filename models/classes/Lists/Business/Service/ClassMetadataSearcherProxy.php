@@ -42,7 +42,7 @@ class ClassMetadataSearcherProxy extends ConfigurableService implements ClassMet
 
         try {
             /** @var ClassMetadataSearcherInterface $searcher */
-            $searcher = $this->serviceLocator->get($activeSearcherId);
+            $searcher = $this->getServiceLocator()->get($activeSearcherId);
 
             return $searcher->findAll($input);
         } catch (Throwable $exception) {
