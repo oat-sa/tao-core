@@ -13,7 +13,7 @@
         "@oat-sa/tao-core-libs": "0.4.3",
         "@oat-sa/tao-core-sdk": "1.15.0",
         "@oat-sa/tao-core-shared-libs": "1.0.3",
-        "@oat-sa/tao-core-ui": "1.26.0",
+        "@oat-sa/tao-core-ui": "https://github.com/oat-sa/tao-core-ui-fe/tarball/fix/ADF-463/max-attempts-not-have-restriction",
         "async": "0.2.10",
         "codemirror": "^5.54.0",
         "decimal.js": "10.1.1",
