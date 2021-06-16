@@ -377,7 +377,12 @@ define([
                 .then(function(response) {
                     var message;
                     var i;
-                    if (response && response.status === 'diff') {
+
+                    if (response && response.status === true) {
+                        return
+                    }
+
+                    else if (response && response.status === 'diff') {
                         message = __("Moving this element will replace the properties of the previous class by those of the destination class :");
                         message += "\n";
                         for (i = 0; i < response.data.length; i++) {
@@ -392,12 +397,6 @@ define([
                             data.confirmed = true;
                             return  _moveNode(url, data);
                         }
-                    } else if (response && response.status === true) {
-                        //open the destination branch
-                        $(actionContext.tree).trigger('openbranch.taotree', [{
-                            id : actionContext.destinationClassUri
-                        }]);
-                        return;
                     }
 
                     //ask to rollback the tree
