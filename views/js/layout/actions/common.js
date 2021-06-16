@@ -380,9 +380,7 @@ define([
 
                     if (response && response.status === true) {
                         return
-                    }
-
-                    else if (response && response.status === 'diff') {
+                    } else if (response && response.status === 'diff') {
                         message = __("Moving this element will replace the properties of the previous class by those of the destination class :");
                         message += "\n";
                         for (i = 0; i < response.data.length; i++) {
