@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint155\n"
-"PO-Revision-Date: 2021-05-21T10:57:25\n"
+"Project-Id-Version: TAO 3.4.0-sprint138\n"
+"PO-Revision-Date: 2020-09-25T08:20:25\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -13,12 +13,12 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO User Object"
-msgstr "TAO　ユーザオブジェクト"
+msgstr "TAOユーザオブジェクト"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Any user-level resource related to etesting"
-msgstr "etestingに関するすべてのユーザーレベルのリソース"
+msgstr "CBTに関するすべてのユーザレベルのリソース"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#SystemObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -28,7 +28,7 @@ msgstr "システムオブジェクト"
 # http://www.tao.lu/Ontologies/TAO.rdf#SystemObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Any system resource related to etesting"
-msgstr "etestingに関するすべてのシステムリソース"
+msgstr "CBTに関するすべてのシステムリソース"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#List
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -38,62 +38,62 @@ msgstr "リスト"
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list source"
-msgstr ""
+msgstr "リモートリストソース"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list source"
-msgstr ""
+msgstr "リモートリストソース"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list source uri path"
-msgstr ""
+msgstr "リモートリストソースUTIパス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list source uri path"
-msgstr ""
+msgstr "リモートリストソースUTIパス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list source label path"
-msgstr ""
+msgstr "リモートリストソース・ラベルパス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list source label path"
-msgstr ""
+msgstr "リモートリストソース・ラベルパス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ListType
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "List type"
-msgstr ""
+msgstr "リストタイプ"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ListType
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "List type"
-msgstr ""
+msgstr "リストタイプ"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ListRemote
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list type"
-msgstr ""
+msgstr "リモートリストタイプ"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ListRemote
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list type"
-msgstr ""
+msgstr "リモートリストタイプ"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Updated"
-msgstr ""
+msgstr "更新しました"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Last updated date"
-msgstr ""
+msgstr "最終更新日："
 
 # http://www.tao.lu/Ontologies/TAO.rdf#level
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -148,22 +148,22 @@ msgstr "データ言語の使用法"
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientations
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Language orientation"
-msgstr "ランゲージオリエンテーション"
+msgstr "言語方向"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientations
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Language orientation class"
-msgstr "ランゲージオリエンテーションクラス"
+msgstr "言語方向クラス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Orientation"
-msgstr "オリエンテーション"
+msgstr "方向"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Orientation of a language"
-msgstr "言語のオリエンテーション"
+msgstr "言語方向"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -173,17 +173,17 @@ msgstr "左から右"
 # http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Left-to-right language orientation"
-msgstr "左から右　ランゲージオリエンテーション"
+msgstr "言語方向　左から右"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Right-to-left orientation"
-msgstr "右から左　オリエンテーション"
+msgstr "言語方向　右から左"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Right-to-left language orientation"
-msgstr "右から左　ランゲージオリエンテーション"
+msgstr "言語方向　右から左"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#User
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -193,7 +193,7 @@ msgstr "ユーザ"
 # http://www.tao.lu/Ontologies/TAO.rdf#User
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "TAO User Class"
-msgstr "TAO ユーザクラス"
+msgstr "TAOユーザクラス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -203,72 +203,72 @@ msgstr "管理"
 # http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Management Role Class"
-msgstr "ロールクラスの管理"
+msgstr "ロールクラス管理"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Back Office"
-msgstr "バックオフィス"
+msgstr "Back Office"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The BackOffice Role"
-msgstr "バックオフィスロール"
+msgstr "Back Officeロール"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Front Office"
-msgstr "フロントオフィス"
+msgstr "Front Office"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The FrontOffice Role"
-msgstr "フロントオフィスロール"
+msgstr "Front Officeロール"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Service"
-msgstr "サービス"
+msgstr "Service"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Service Role"
-msgstr "サービスロール"
+msgstr "Serviceロール"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO Manager"
-msgstr "TAO　管理者"
+msgstr "TAO Manager"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The TAO Manager Role"
-msgstr "TAO　管理者ロール"
+msgstr "TAO Managerロール"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Metadata Manager Role"
-msgstr "メタデータ管理者ロール"
+msgstr "Metadata Manager Role"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Metadata Manager Role allows you to modify the properties of the classes."
-msgstr "メタデータ管理者の役​ロールでは、クラスのプロパティを変更することができます"
+msgstr "Metadata Managerロールは、クラスのプロパティを変更できます。"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Global Manager"
-msgstr "グローバルマネージャー"
+msgstr "Global Manager"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Global Manager Role"
-msgstr "グローバルマネージャーロール"
+msgstr "Global Managerロール"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Lock Manager"
-msgstr "ロックマネージャ"
+msgstr "Lock Manager"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -278,52 +278,51 @@ msgstr "すべてのリソースのロックを解除することができるロ
 # http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "System Administrator"
-msgstr "システム管理者"
+msgstr "System Administrator"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The System Administrator Role"
-msgstr "システム管理者ロール"
+msgstr "System Administratorロール"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Task Queue Manager"
-msgstr ""
+msgstr "Task Queue Manager"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Task Queue Manager Role"
-msgstr ""
+msgstr "Task Queue Managerロール"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "REST Publisher"
-msgstr ""
+msgstr "REST Publisher"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The REST API Publishing Role"
-msgstr ""
+msgstr "REST API Publishingロール"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Operational Administrator"
-msgstr ""
+msgstr "Operational Administrator"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Operational Administrator role"
-msgstr ""
+msgstr "Operational Administratorロール"
 
-# http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Test Taker"
-msgstr "受験者"
+msgstr "Test Taker"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Test Taker Role"
-msgstr "受験者ロール"
+msgstr "Test Takerロール"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -338,12 +337,12 @@ msgstr "クラス内のプロパティの順序"
 # http://www.tao.lu/Ontologies/generis.rdf#passwordRecoveryToken
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Password recovery token"
-msgstr "パスワードリカバリトークン"
+msgstr "パスワード修復トークン"
 
 # http://www.tao.lu/Ontologies/generis.rdf#passwordRecoveryToken
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Password recovery token"
-msgstr "パスワードリカバリトークン"
+msgstr "パスワード修復トークン"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Lock
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -358,22 +357,22 @@ msgstr "リソースに関連するロック情報"
 # http://www.tao.lu/Ontologies/generis.rdf#validationRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Validation Rules"
-msgstr ""
+msgstr "検証ルール"
 
 # http://www.tao.lu/Ontologies/generis.rdf#validationRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Validation rules for the values of this property"
-msgstr ""
+msgstr "このプロパティ値の検証ルール"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Validation"
-msgstr ""
+msgstr "検証"
 
 # http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Select the validation rules"
-msgstr ""
+msgstr "検証ルールを選択"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -383,7 +382,7 @@ msgstr "最後に使われた拡張機能"
 # http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Saves the last extension the user had visited."
-msgstr "ユーザーが利用した最後の拡張機能を保存"
+msgstr "ユーザが最後に利用した拡張機能を保存"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -398,20 +397,20 @@ msgstr "TAOを利用するのは初めてですか？"
 # http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "assessmentObject"
-msgstr ""
+msgstr "アセスメントオブジェクト"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Object to represent assessment contents"
-msgstr ""
+msgstr "アセスメントコンテンツを表すオブジェクト"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "TAO Object"
-msgstr "TAO　オブジェクト"
+msgstr "TAOオブジェクト"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Any resource related to etesting"
-msgstr "etestingに関するすべてのリソース"
+msgstr "CBTに関するすべてのリソース"
 
