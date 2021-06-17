@@ -40,7 +40,7 @@ class MigrationConfigFactory extends ConfigurableService implements MigrationCon
         }
 
         return new MigrationConfig(
-            ['start' => $parameters['start']],
+            $parameters,
             (int)$parameters['chunkSize'],
             (int)$parameters['pickSize'],
             (bool)$parameters['repeat']

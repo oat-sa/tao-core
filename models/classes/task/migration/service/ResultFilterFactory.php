@@ -27,8 +27,13 @@ use oat\tao\model\task\migration\MigrationConfig;
 
 class ResultFilterFactory extends ConfigurableService implements ResultFilterFactoryInterface
 {
+    /** @var MigrationConfig */
+    protected $config;
+
     public function create(MigrationConfig $config): ResultFilter
     {
+        $this->config = $config;
+
         $max = $this->getMax();
         $end = $this->calculateEndPosition(
             (int)$config->getCustomParameter('start'),
@@ -37,11 +42,14 @@ class ResultFilterFactory extends ConfigurableService implements ResultFilterFac
         );
 
         return new ResultFilter(
-            [
-                'start' => (int)$config->getCustomParameter('start'),
-                'end' => $end,
-                'max' => $max
-            ]
+            array_merge(
+                $config->getCustomParameters(),
+                [
+                    'start' => (int)$config->getCustomParameter('start'),
+                    'end' => $end,
+                    'max' => $max
+                ]
+            )
         );
     }
 
