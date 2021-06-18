@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint155\n"
-"PO-Revision-Date: 2021-05-21T10:57:08\n"
+"Project-Id-Version: TAO 3.4.0-sprint157\n"
+"PO-Revision-Date: 2021-06-18T08:52:39\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr " og "
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " hefur tekist að eyða"
@@ -239,6 +239,9 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
 msgstr "allt"
 
@@ -312,7 +315,16 @@ msgstr ""
 msgid "Are you sure you want to delete it?"
 msgstr "Ertu viss um að þú viljir eyða þessu?"
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -376,6 +388,9 @@ msgstr ""
 msgid "Bitmap image"
 msgstr ""
 
+msgid "boolean"
+msgstr ""
+
 msgid "Browse folders:"
 msgstr "Vafra í möppum:"
 
@@ -400,11 +415,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Dagatal"
 
-msgid "cancel"
-msgstr ""
-
 msgid "Cancel"
 msgstr "Hætta við"
+
+msgid "cancel"
+msgstr ""
 
 msgid "cancel the action"
 msgstr ""
@@ -446,6 +461,9 @@ msgstr "Merkja við allt"
 msgid "Check-in"
 msgstr ""
 
+msgid "choices:"
+msgstr ""
+
 msgid "Choose a value..."
 msgstr ""
 
@@ -479,10 +497,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -492,6 +510,9 @@ msgid "Clear the date time picker"
 msgstr ""
 
 msgid "Clear the stored variables"
+msgstr ""
+
+msgid "Click to reload."
 msgstr ""
 
 msgid "Close"
@@ -511,6 +532,12 @@ msgstr ""
 
 msgid "Column"
 msgstr "Dálkur"
+
+msgid "command"
+msgstr ""
+
+msgid "Commands:"
+msgstr ""
 
 msgid "comment..."
 msgstr ""
@@ -555,6 +582,9 @@ msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
+msgstr ""
+
+msgid "count"
 msgstr ""
 
 msgid "Create"
@@ -629,6 +659,9 @@ msgstr ""
 msgid "Default search"
 msgstr "Sjálfgefin leit"
 
+msgid "default:"
+msgstr ""
+
 msgid "Define the default values"
 msgstr "Skilgreindu sjálfgefin gildi"
 
@@ -658,6 +691,9 @@ msgid "Deleting search index for %s"
 msgstr ""
 
 msgid "Demo Sandbox"
+msgstr ""
+
+msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -781,6 +817,9 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
+msgstr ""
+
+msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -923,6 +962,9 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr ""
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
 msgstr ""
 
@@ -998,6 +1040,9 @@ msgstr "Auðkenni"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Ef þú vilt ekki endurtilla aðgangsorð þitt, skaltu hunsa þennan tölvupóst og aðgangsorðið þitt verður óbreytt."
 
+msgid "Implications failed:"
+msgstr ""
+
 msgid "Import"
 msgstr "Flytja inn"
 
@@ -1053,6 +1098,9 @@ msgid "Injector has to contains a valid \"destination\" field."
 msgstr ""
 
 msgid "Injector has to contains a valid \"source\" field."
+msgstr ""
+
+msgid "Inline"
 msgstr ""
 
 msgid "Install"
@@ -1121,6 +1169,9 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "Ógild innskráning eða aðgangsorð. Reyndu aftur."
 
@@ -1129,6 +1180,9 @@ msgstr ""
 
 msgid "invalid regular expression"
 msgstr "ógild regluleg segð"
+
+msgid "Invalid values:"
+msgstr ""
 
 msgid "items per page"
 msgstr ""
@@ -1462,6 +1516,12 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
 msgid "Not started"
 msgstr ""
 
@@ -1484,6 +1544,9 @@ msgstr ""
 msgid "Nth root"
 msgstr ""
 
+msgid "number"
+msgstr ""
+
 msgid "Number of elements"
 msgstr ""
 
@@ -1499,10 +1562,10 @@ msgstr ""
 msgid "Ogg Vorbis video"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1637,6 +1700,12 @@ msgstr ""
 msgid "PNG image"
 msgstr ""
 
+msgid "Position"
+msgstr ""
+
+msgid "Positionals:"
+msgstr ""
+
 msgid "Post install processing"
 msgstr "Eftirvinnsla innsetningar"
 
@@ -1716,6 +1785,9 @@ msgstr ""
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
 msgstr ""
 
+msgid "Reload"
+msgstr ""
+
 msgid "Remind"
 msgstr ""
 
@@ -1768,6 +1840,9 @@ msgid "Request a password reset via Email."
 msgstr ""
 
 msgid "require notification ID"
+msgstr ""
+
+msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -2007,6 +2082,9 @@ msgstr ""
 msgid "Storing digital video data on a computer game"
 msgstr ""
 
+msgid "string"
+msgstr ""
+
 msgid "Submit"
 msgstr ""
 
@@ -2237,6 +2315,9 @@ msgstr ""
 
 msgid "Tokenizer"
 msgstr "Táknsetning"
+
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "Of margar uppástungur eiga við spurn þína. Aðeins nokkrar eru skráðar"
@@ -2531,6 +2612,12 @@ msgstr ""
 msgid "Windows Media video"
 msgstr ""
 
+msgid "Wrap image left"
+msgstr ""
+
+msgid "Wrap image right"
+msgstr ""
+
 msgid "Write Document"
 msgstr ""
 
@@ -2545,6 +2632,9 @@ msgstr ""
 
 msgid "Yes"
 msgstr "Já"
+
+msgid "You are encountering a prolonged connectivity loss."
+msgstr ""
 
 msgid "You are not allowed to write in the class %s"
 msgstr ""
