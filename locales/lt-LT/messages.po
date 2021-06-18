@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint155\n"
-"PO-Revision-Date: 2021-05-21T10:57:43\n"
+"Project-Id-Version: TAO 3.4.0-sprint157\n"
+"PO-Revision-Date: 2021-06-18T08:53:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: lt-LT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr " IR "
-
 msgid " and "
 msgstr " ir "
+
+msgid " AND "
+msgstr " IR "
 
 msgid " has been deleted successfully"
 msgstr " sėkmingai ištrintas"
@@ -239,6 +239,9 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr "Pažengusi paieška, pridėti filtrus"
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
 msgstr "viskas"
 
@@ -313,8 +316,17 @@ msgstr "Ar jūs tikrai norite ištrinti resursą su versija?\n"
 msgid "Are you sure you want to delete it?"
 msgstr "Ar tikrai norite ištrinti?"
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
 msgstr "Argumentų skirtukas"
+
+msgid "array"
+msgstr ""
 
 msgid "Assign"
 msgstr "Paskirti"
@@ -377,6 +389,9 @@ msgstr "Dvejetainis operatorius modulo"
 msgid "Bitmap image"
 msgstr ""
 
+msgid "boolean"
+msgstr ""
+
 msgid "Browse folders:"
 msgstr "Naršyti aplankus:"
 
@@ -401,11 +416,11 @@ msgstr "Skaičiuotuvas"
 msgid "Calendar"
 msgstr "Kalendorius"
 
-msgid "cancel"
-msgstr "atšaukti"
-
 msgid "Cancel"
 msgstr "Atšaukti"
+
+msgid "cancel"
+msgstr "atšaukti"
 
 msgid "cancel the action"
 msgstr "atšaukti veiksmą"
@@ -447,6 +462,9 @@ msgstr "Pažymėti visus"
 msgid "Check-in"
 msgstr "Pasižymėti"
 
+msgid "choices:"
+msgstr ""
+
 msgid "Choose a value..."
 msgstr "Pasirinkti reikšmę..."
 
@@ -480,11 +498,11 @@ msgstr "Išvalyti visus duomenis"
 msgid "Clear expression"
 msgstr "Išvalyti išraišką"
 
-msgid "Clear history"
-msgstr "Išvalyti istoriją"
-
 msgid "Clear History"
 msgstr "Išvalyti Istoriją"
+
+msgid "Clear history"
+msgstr "Išvalyti istoriją"
 
 msgid "Clear selection"
 msgstr "Išvalyti pasirinimą"
@@ -494,6 +512,9 @@ msgstr ""
 
 msgid "Clear the stored variables"
 msgstr "Išvalyti saugomas reikšmes"
+
+msgid "Click to reload."
+msgstr ""
 
 msgid "Close"
 msgstr "Uždaryti"
@@ -512,6 +533,12 @@ msgstr "Renkami apleisti veiksmai veiksmų eilėje ..."
 
 msgid "Column"
 msgstr "Stulpelis"
+
+msgid "command"
+msgstr ""
+
+msgid "Commands:"
+msgstr ""
 
 msgid "comment..."
 msgstr "komentaras..."
@@ -557,6 +584,9 @@ msgstr "cosh"
 
 msgid "Cosine"
 msgstr "Kosinusas"
+
+msgid "count"
+msgstr ""
 
 msgid "Create"
 msgstr "Sukurti"
@@ -630,6 +660,9 @@ msgstr ""
 msgid "Default search"
 msgstr "Numatyta paieška"
 
+msgid "default:"
+msgstr ""
+
 msgid "Define the default values"
 msgstr "Nustatyti numatytas reikšmes"
 
@@ -660,6 +693,9 @@ msgstr "Šalinamas paieškos indeksas %s"
 
 msgid "Demo Sandbox"
 msgstr "Smėlio dėžė"
+
+msgid "Did you mean %s?"
+msgstr ""
 
 msgid "Digit 0"
 msgstr "Skaitmuo 0"
@@ -782,6 +818,9 @@ msgid "Error in value"
 msgstr "Klaida reikšmėje"
 
 msgid "Error: %s"
+msgstr ""
+
+msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -924,6 +963,9 @@ msgstr "Iš"
 msgid "Fuzzy Matching"
 msgstr "Apytikslis Atitikimas"
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
 msgstr "Generis forma"
 
@@ -999,6 +1041,9 @@ msgstr "Identifikatorius"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Jeigu jūs nenori atstatyti savo slaptažodžio, tiesiog ignoruokite šį el. laišką ir jūsų slaptažodis liks toks pat."
 
+msgid "Implications failed:"
+msgstr ""
+
 msgid "Import"
 msgstr "Importuoti"
 
@@ -1055,6 +1100,9 @@ msgstr "Iterpiant reikalingas tinkamas \"paskirties\" parametras."
 
 msgid "Injector has to contains a valid \"source\" field."
 msgstr "Iterpiant reikalingas tinkamas \"šaltinio\" parametras."
+
+msgid "Inline"
+msgstr ""
 
 msgid "Install"
 msgstr "Įdiegti"
@@ -1122,6 +1170,9 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr "Neteisinga įvestis funkcijai"
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "Blogas prisijungimo vardas arba slaptažodis. Prašome bandyti dar kartą."
 
@@ -1130,6 +1181,9 @@ msgstr "Neteisingas prisijungimas arba slaptažodis. Jūsų paskyra buvo užraki
 
 msgid "invalid regular expression"
 msgstr "neteisinga įprasta išraiška"
+
+msgid "Invalid values:"
+msgstr ""
 
 msgid "items per page"
 msgstr ""
@@ -1463,6 +1517,12 @@ msgstr "Nėra jokios Užduoties"
 msgid "Node duplication has failed"
 msgstr ""
 
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
 msgid "Not started"
 msgstr "Dar nepradėta"
 
@@ -1485,6 +1545,9 @@ msgstr ""
 msgid "Nth root"
 msgstr "N šaknis"
 
+msgid "number"
+msgstr ""
+
 msgid "Number of elements"
 msgstr "Elementų kiekis"
 
@@ -1500,10 +1563,10 @@ msgstr ""
 msgid "Ogg Vorbis video"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr "Gerai"
 
-msgid "OK"
+msgid "Ok"
 msgstr "Gerai"
 
 msgid "Old Password"
@@ -1638,6 +1701,12 @@ msgstr "Prašome palaukti kol..."
 msgid "PNG image"
 msgstr ""
 
+msgid "Position"
+msgstr ""
+
+msgid "Positionals:"
+msgstr ""
+
 msgid "Post install processing"
 msgstr "Vykdymas po įdiegimo"
 
@@ -1717,6 +1786,9 @@ msgstr "Išleidimas"
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
 msgstr "Jei atšauksite rakinimą, galite prarasti %s atlikto darbo."
 
+msgid "Reload"
+msgstr ""
+
 msgid "Remind"
 msgstr "Priminti"
 
@@ -1770,6 +1842,9 @@ msgstr "Slaptažodžio atstatymo užklausa per El. paštą."
 
 msgid "require notification ID"
 msgstr "reikalauja pranešimo ID"
+
+msgid "required"
+msgstr ""
 
 msgid "required length"
 msgstr "reikalaujamas ilgis"
@@ -2008,6 +2083,9 @@ msgstr "Saugoti reikšmę, kaip kintamąjį"
 msgid "Storing digital video data on a computer game"
 msgstr ""
 
+msgid "string"
+msgstr ""
+
 msgid "Submit"
 msgstr ""
 
@@ -2238,6 +2316,9 @@ msgstr ""
 
 msgid "Tokenizer"
 msgstr "Antspaudėjas"
+
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "Jūsų užklausą atitinka daug daugiau rezultatų, nei rodoma."
@@ -2532,6 +2613,12 @@ msgstr ""
 msgid "Windows Media video"
 msgstr ""
 
+msgid "Wrap image left"
+msgstr ""
+
+msgid "Wrap image right"
+msgstr ""
+
 msgid "Write Document"
 msgstr ""
 
@@ -2546,6 +2633,9 @@ msgstr ""
 
 msgid "Yes"
 msgstr "Taip"
+
+msgid "You are encountering a prolonged connectivity loss."
+msgstr ""
 
 msgid "You are not allowed to write in the class %s"
 msgstr "Jums neleidžiama rašu %s klasėje"
