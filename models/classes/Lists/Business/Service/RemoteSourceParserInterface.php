@@ -28,13 +28,9 @@ use RuntimeException;
 interface RemoteSourceParserInterface
 {
     /**
-     * @param array  $json
-     * @param string $uriRule
-     * @param string $labelRule
-     *
      * @return iterable|Value[]
      *
      * @throws RuntimeException
      */
-    public function iterate(array $json, string $uriRule, string $labelRule): iterable;
+    public function iterate(array $json, string $uriRule, string $labelRule, string $dependencyUriRule): iterable;
 }

@@ -62,15 +62,37 @@ class CreateRdsListStore extends InstallAction
     {
         $listItemsTable = $schema->createTable(RdsValueCollectionRepository::TABLE_LIST_ITEMS);
 
-        $listItemsTable->addColumn(RdsValueCollectionRepository::FIELD_ITEM_ID, 'integer', ['autoincrement' => true]);
-        $listItemsTable->addColumn(RdsValueCollectionRepository::FIELD_ITEM_LABEL, 'string', ['length' => 255]);
-        $listItemsTable->addColumn(RdsValueCollectionRepository::FIELD_ITEM_URI, 'string', ['length' => 255]);
-        $listItemsTable->addColumn(RdsValueCollectionRepository::FIELD_ITEM_LIST_URI, 'string', ['length' => 255]);
+        $listItemsTable->addColumn(
+            RdsValueCollectionRepository::FIELD_ITEM_ID,
+            'integer',
+            ['autoincrement' => true]
+        );
+        $listItemsTable->addColumn(
+            RdsValueCollectionRepository::FIELD_ITEM_LABEL,
+            'string',
+            ['length' => 255]
+        );
+        $listItemsTable->addColumn(
+            RdsValueCollectionRepository::FIELD_ITEM_URI,
+            'string',
+            ['length' => 255]
+        );
+        $listItemsTable->addColumn(
+            RdsValueCollectionRepository::FIELD_ITEM_LIST_URI,
+            'string',
+            ['length' => 255]
+        );
+        $listItemsTable->addColumn(
+            RdsValueCollectionRepository::FIELD_DEPENDENCY_ITEM_URI,
+            'string',
+            ['length' => 255, 'notnull' => false]
+        );
 
         $listItemsTable->setPrimaryKey([RdsValueCollectionRepository::FIELD_ITEM_ID]);
 
         $listItemsTable->addIndex([RdsValueCollectionRepository::FIELD_ITEM_LABEL]);
         $listItemsTable->addIndex([RdsValueCollectionRepository::FIELD_ITEM_LIST_URI]);
+        $listItemsTable->addIndex([RdsValueCollectionRepository::FIELD_DEPENDENCY_ITEM_URI]);
         $listItemsTable->addUniqueIndex([RdsValueCollectionRepository::FIELD_ITEM_URI]);
     }
 

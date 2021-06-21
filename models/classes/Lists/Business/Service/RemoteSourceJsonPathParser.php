@@ -33,13 +33,15 @@ class RemoteSourceJsonPathParser extends ConfigurableService implements RemoteSo
     /**
      * @inheritDoc
      */
-    public function iterate(array $json, string $uriRule, string $labelRule): iterable
+    public function iterate(array $json, string $uriRule, string $labelRule, string $dependencyUriRule): iterable
     {
         $jsonPath = new JSONPath($json);
+        $isDependencyUriRuleFilled = !empty($dependencyUriRule);
 
         try {
-            $uris   = $jsonPath->find($uriRule);
+            $uris = $jsonPath->find($uriRule);
             $labels = $jsonPath->find($labelRule);
+            $dependencyUris = $isDependencyUriRuleFilled ? $jsonPath->find($dependencyUriRule) : null;
         } catch (JSONPathException $e) {
             throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
@@ -55,10 +57,19 @@ class RemoteSourceJsonPathParser extends ConfigurableService implements RemoteSo
         }
 
         do {
-            yield new Value(null, $uris->current(), $labels->current());
+            $dependencyUri = null;
+            $dependencyUrisValid = true;
+
+            if ($isDependencyUriRuleFilled) {
+                $dependencyUri = $dependencyUris->current() ?: null;
+                $dependencyUrisValid = $dependencyUris->valid();
+                $dependencyUris->next();
+            }
+
+            yield new Value(null, $uris->current(), $labels->current(), $dependencyUri);
 
             $uris->next();
             $labels->next();
-        } while ($uris->valid() && $labels->valid());
+        } while ($uris->valid() && $labels->valid() && $dependencyUrisValid);
     }
 }

@@ -44,12 +44,16 @@ class Value implements JsonSerializable
     /** @var bool */
     private $hasChanges = false;
 
-    public function __construct(?int $id, string $uri, string $label)
+    /** @var string|null */
+    private $dependencyUri;
+
+    public function __construct(?int $id, string $uri, string $label, ?string $dependencyUri = null)
     {
-        $this->id          = $id;
-        $this->uri         = $uri;
-        $this->label       = $label;
+        $this->id = $id;
+        $this->uri = $uri;
+        $this->label = $label;
         $this->originalUri = null === $id ? null : $uri;
+        $this->dependencyUri = $dependencyUri;
     }
 
     public function getId(): ?int
@@ -92,6 +96,11 @@ class Value implements JsonSerializable
     public function getLabel(): string
     {
         return $this->label;
+    }
+
+    public function getDependencyUri(): ?string
+    {
+        return $this->dependencyUri;
     }
 
     public function getOriginalUri(): ?string

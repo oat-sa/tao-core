@@ -46,7 +46,6 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
      */
     protected function initElements()
     {
-
         $property = $this->getPropertyInstance();
 
         $index = $this->getIndex();
@@ -57,7 +56,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
                 new core_kernel_classes_Property(GenerisRdf::PROPERTY_ALIAS),
                 new core_kernel_classes_Property(GenerisRdf::PROPERTY_IS_LG_DEPENDENT),
                 new core_kernel_classes_Property(TaoOntology::PROPERTY_GUI_ORDER),
-                $this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE)
+                $this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE),
             ]
         );
         $values = $property->getPropertiesValues($propertyProperties);
@@ -130,6 +129,33 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 
         $this->form->addElement($rangeSelect);
         $elementNames[] = $rangeSelect->getName();
+
+        // >>> Depends on property select
+        $dependsOnPropertySelect = tao_helpers_form_FormFactory::getElement($index . '_dependsOnProperty', 'Combobox');
+        $dependsOnPropertySelect->setDescription(__('Depends on property'));
+        $dependsOnPropertySelect->addAttribute('class', 'property-dependsOnProperty property');
+        $dependsOnPropertySelect->addAttribute('disabled', 'disabled');
+        $dependsOnPropertySelect->setEmptyOption(' --- ' . __('select') . ' --- ');
+
+        $dependsOnPropertySelectOptions = [];
+        $properties = \tao_helpers_form_GenerisFormFactory::getClassProperties($this->class);
+
+        /** @var \core_kernel_classes_Property $property */
+        foreach ($properties as $prop) {
+            // @TODO Show only properties, which relates to remote list
+            // @TODO Do not show properties that already depend on the master property - a slave cannot have another slave.
+            if ($property->getUri() === $prop->getUri()) {
+                continue;
+            }
+
+            $dependsOnPropertySelectOptions[tao_helpers_Uri::encode($prop->getUri())] = $prop->getLabel();
+        }
+
+        $dependsOnPropertySelect->setOptions($dependsOnPropertySelectOptions);
+
+        $this->form->addElement($dependsOnPropertySelect);
+        $elementNames[] = $dependsOnPropertySelect->getName();
+        // <<< Depends on property select
 
         //list drop down
         $listElt = $this->getListElement($range);

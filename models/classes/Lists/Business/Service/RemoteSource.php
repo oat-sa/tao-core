@@ -45,13 +45,18 @@ class RemoteSource extends InjectionAwareService
         $this->client  = $client;
     }
 
-    public function fetch(string $sourceUrl, string $uriPath, string $labelPath, string $parser): Traversable
-    {
+    public function fetch(
+        string $sourceUrl,
+        string $uriPath,
+        string $labelPath,
+        string $dependencyUriPath,
+        string $parser
+    ): Traversable {
         $response = $this->getClient()->get($sourceUrl);
 
         $body = json_decode((string)$response->getBody(), true);
 
-        yield from $this->getParser($parser)->iterate($body, $uriPath, $labelPath);
+        yield from $this->getParser($parser)->iterate($body, $uriPath, $labelPath, $dependencyUriPath);
     }
 
     private function getClient(): Client

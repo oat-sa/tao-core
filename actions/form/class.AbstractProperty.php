@@ -26,19 +26,24 @@ abstract class tao_actions_form_AbstractProperty extends tao_helpers_form_FormCo
 {
     use OntologyAwareTrait;
 
-    /**
-     * @var core_kernel_classes_Property
-     */
+    /** @var core_kernel_classes_Class */
+    protected $class;
+
+    /** @var core_kernel_classes_Property */
     protected $property;
 
-    /**
-     * @var integer
-     */
+    /** @var integer */
     protected $index;
 
-    public function __construct(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $instance = null, $options = [], $data = [])
-    {
+    public function __construct(
+        core_kernel_classes_Class $class,
+        core_kernel_classes_Resource $instance = null,
+        $options = [],
+        $data = []
+    ) {
+        $this->class = $class;
         $this->property = $this->getProperty($instance);
+
         return parent::__construct($data, $options);
     }
 
