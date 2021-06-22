@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint155\n"
-"PO-Revision-Date: 2021-05-21T10:57:16\n"
+"Project-Id-Version: TAO 3.4.0-sprint157\n"
+"PO-Revision-Date: 2021-06-18T08:52:58\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it-IT\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
-msgstr ""
-
 msgid " and "
 msgstr "e"
+
+msgid " AND "
+msgstr ""
 
 msgid " has been deleted successfully"
 msgstr " è stato rimosso correttamente"
@@ -239,6 +239,9 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr ""
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
 msgstr "tutto"
 
@@ -312,7 +315,16 @@ msgstr "Sei sicuro di eliminare la risorsa? Si perderanno tutti i dati."
 msgid "Are you sure you want to delete it?"
 msgstr "Sei sicuro di voler cancellare?"
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
+msgstr ""
+
+msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -376,6 +388,9 @@ msgstr ""
 msgid "Bitmap image"
 msgstr ""
 
+msgid "boolean"
+msgstr ""
+
 msgid "Browse folders:"
 msgstr "Sfoglia le cartelle"
 
@@ -400,11 +415,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Calendario"
 
-msgid "cancel"
-msgstr "no"
-
 msgid "Cancel"
 msgstr "No"
+
+msgid "cancel"
+msgstr "no"
 
 msgid "cancel the action"
 msgstr "annulla operazione"
@@ -446,6 +461,9 @@ msgstr "Verifica tutto"
 msgid "Check-in"
 msgstr "Check-in"
 
+msgid "choices:"
+msgstr ""
+
 msgid "Choose a value..."
 msgstr ""
 
@@ -479,10 +497,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -492,6 +510,9 @@ msgid "Clear the date time picker"
 msgstr ""
 
 msgid "Clear the stored variables"
+msgstr ""
+
+msgid "Click to reload."
 msgstr ""
 
 msgid "Close"
@@ -511,6 +532,12 @@ msgstr ""
 
 msgid "Column"
 msgstr "Colonna"
+
+msgid "command"
+msgstr ""
+
+msgid "Commands:"
+msgstr ""
 
 msgid "comment..."
 msgstr "commento..."
@@ -555,6 +582,9 @@ msgid "cosh"
 msgstr ""
 
 msgid "Cosine"
+msgstr ""
+
+msgid "count"
 msgstr ""
 
 msgid "Create"
@@ -629,6 +659,9 @@ msgstr ""
 msgid "Default search"
 msgstr "Ricerca di default"
 
+msgid "default:"
+msgstr ""
+
 msgid "Define the default values"
 msgstr "Definisci i valori di default"
 
@@ -659,6 +692,9 @@ msgstr ""
 
 msgid "Demo Sandbox"
 msgstr "Demo Sandbox"
+
+msgid "Did you mean %s?"
+msgstr ""
 
 msgid "Digit 0"
 msgstr ""
@@ -780,6 +816,9 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
+msgstr ""
+
+msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -922,6 +961,9 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr "Accoppiamento sfocato"
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
 msgstr ""
 
@@ -997,6 +1039,9 @@ msgstr "Identificatore"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Se non desideri reimpostare la tua password, ignora questa mail. La password resterà la stessa."
 
+msgid "Implications failed:"
+msgstr ""
+
 msgid "Import"
 msgstr "Importa"
 
@@ -1052,6 +1097,9 @@ msgid "Injector has to contains a valid \"destination\" field."
 msgstr ""
 
 msgid "Injector has to contains a valid \"source\" field."
+msgstr ""
+
+msgid "Inline"
 msgstr ""
 
 msgid "Install"
@@ -1120,6 +1168,9 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "Password di login non valida. Riprovare"
 
@@ -1128,6 +1179,9 @@ msgstr ""
 
 msgid "invalid regular expression"
 msgstr "espressione regolare non valida"
+
+msgid "Invalid values:"
+msgstr ""
 
 msgid "items per page"
 msgstr ""
@@ -1461,6 +1515,12 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
 msgid "Not started"
 msgstr ""
 
@@ -1483,6 +1543,9 @@ msgstr ""
 msgid "Nth root"
 msgstr ""
 
+msgid "number"
+msgstr ""
+
 msgid "Number of elements"
 msgstr "Numero di elementi"
 
@@ -1498,11 +1561,11 @@ msgstr ""
 msgid "Ogg Vorbis video"
 msgstr ""
 
-msgid "Ok"
-msgstr "Sì"
-
 msgid "OK"
 msgstr "SI"
+
+msgid "Ok"
+msgstr "Sì"
 
 msgid "Old Password"
 msgstr "Vecchia password"
@@ -1636,6 +1699,12 @@ msgstr ""
 msgid "PNG image"
 msgstr ""
 
+msgid "Position"
+msgstr ""
+
+msgid "Positionals:"
+msgstr ""
+
 msgid "Post install processing"
 msgstr "Comunica il processo di istallazione"
 
@@ -1715,6 +1784,9 @@ msgstr "Versione"
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
 msgstr "Il rilascio del blocco può causare la perdita del lavoro in corso in %s"
 
+msgid "Reload"
+msgstr ""
+
 msgid "Remind"
 msgstr ""
 
@@ -1767,6 +1839,9 @@ msgid "Request a password reset via Email."
 msgstr "Richiesta via Email di reset della password"
 
 msgid "require notification ID"
+msgstr ""
+
+msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -2006,6 +2081,9 @@ msgstr ""
 msgid "Storing digital video data on a computer game"
 msgstr ""
 
+msgid "string"
+msgstr ""
+
 msgid "Submit"
 msgstr ""
 
@@ -2236,6 +2314,9 @@ msgstr ""
 
 msgid "Tokenizer"
 msgstr "Tokenizer"
+
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "La tua richiesta contiene troppe proposte. Solo alcune sono elencate"
@@ -2530,6 +2611,12 @@ msgstr ""
 msgid "Windows Media video"
 msgstr ""
 
+msgid "Wrap image left"
+msgstr ""
+
+msgid "Wrap image right"
+msgstr ""
+
 msgid "Write Document"
 msgstr ""
 
@@ -2544,6 +2631,9 @@ msgstr ""
 
 msgid "Yes"
 msgstr "Sì"
+
+msgid "You are encountering a prolonged connectivity loss."
+msgstr ""
 
 msgid "You are not allowed to write in the class %s"
 msgstr ""
