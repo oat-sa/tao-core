@@ -24,12 +24,17 @@
 use oat\oatbox\user\User;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
+use oat\tao\model\search\tasks\IndexTrait;
+use oat\tao\model\search\index\OntologyIndex;
+use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\tao\model\accessControl\ActionAccessControl;
 use oat\tao\model\accessControl\PermissionChecker;
 use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\lock\LockManager;
 use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\generis\model\data\event\ClassPropertyDeletedEvent;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\resources\ResourceService;
 use oat\tao\model\security\SecurityException;
@@ -50,6 +55,7 @@ use tao_helpers_form_FormContainer as FormContainer;
 abstract class tao_actions_RdfController extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
+    use IndexTrait;
 
     /** @var SignatureValidator */
     protected $signatureValidator;
@@ -416,7 +422,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $signature = $this->createFormSignature();
 
         $classUri = $class->getUri();
-        $hasWriteAccess = $this->hasWriteAccess($classUri) && $this->hasWriteAccessToAction('editClassLabel');
+        $hasWriteAccess = $this->hasWriteAccess($classUri) && $this->hasWriteAccessToAction(__FUNCTION__);
 
         $editClassLabelForm = new tao_actions_form_EditClassLabel(
             $class,
@@ -1115,6 +1121,97 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     }
 
     /**
+     * Copy of \tao_actions_PropertiesAuthoring::addClassProperty to split access between extensions
+     *
+     * @requiresRight id WRITE
+     */
+    public function addClassProperty(): void
+    {
+        if (!$this->isXmlHttpRequest()) {
+            throw new common_exception_BadRequest('wrong request mode');
+        }
+
+        $class = $this->getClass($this->getRequestParameter('id'));
+
+        if ($this->hasRequestParameter('index')) {
+            $index = intval($this->getRequestParameter('index'));
+        } else {
+            $index = count($class->getProperties(false)) + 1;
+        }
+
+        $options = [
+            'index' => $index,
+            'disableIndexChanges' => $this->isElasticSearchEnabled(),
+            FormContainer::IS_DISABLED => !$this->hasWriteAccessToAction(__FUNCTION__),
+        ];
+
+        $newProperty = $class->createProperty('Property_' . $index);
+
+        $propFormContainer = new tao_actions_form_SimpleProperty($class, $newProperty, $options);
+        $myForm = $propFormContainer->getForm();
+
+        $this->setData('data', $myForm->renderElements());
+        $this->setView('blank.tpl', 'tao');
+    }
+
+
+    /**
+     * Copy of \tao_actions_PropertiesAuthoring::removeClassProperty to split access between extensions
+     *
+     * @requiresRight classUri WRITE
+     */
+    public function removeClassProperty(): void
+    {
+        $success = false;
+        if (!$this->isXmlHttpRequest()) {
+            throw new common_exception_BadRequest('wrong request mode');
+        }
+
+        $class = $this->getClass($this->getRequestParameter('classUri'));
+        $property = $this->getProperty($this->getRequestParameter('uri'));
+        $propertyType = $this->getPropertyType($property);
+
+        if ($propertyType !== null) {
+            $propertyName = $this->getPropertyRealName($property->getLabel(), $propertyType->getUri());
+            $this->getEventManager()->trigger(new ClassPropertyRemovedEvent($class, $propertyName));
+        }
+
+        //delete property mode
+        foreach ($class->getProperties() as $classProperty) {
+            if ($classProperty->equals($property)) {
+                $indexes = $property->getPropertyValues($this->getProperty(OntologyIndex::PROPERTY_INDEX));
+                //delete property and the existing values of this property
+                if ($property->delete(true)) {
+                    $this->getEventManager()->trigger(
+                        new ClassPropertyDeletedEvent(
+                            $class,
+                            [
+                                'propertyUri' => $property->getUri()
+                            ]
+                        )
+                    );
+                    //delete index linked to the property
+                    foreach ($indexes as $indexUri) {
+                        $index = $this->getResource($indexUri);
+                        $index->delete(true);
+                    }
+                    $success = true;
+                    break;
+                }
+            }
+        }
+
+        if ($success) {
+            $this->returnJson([
+                'success' => true
+            ]);
+            return;
+        } else {
+            $this->returnError(__('Unable to remove the property.'));
+        }
+    }
+
+    /**
      * Test whenever the current user has "WRITE" access to the specified id
      *
      * @param string $resourceId
@@ -1187,7 +1284,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             throw new InvalidArgumentException(sprintf('Instance "%s" cannot be moved to another root class', $destinationClass->getUri()));
         }
 
-        list($statuses, $instances, $classes) = $this->getInstancesList($ids);
+        [$statuses, $instances, $classes] = $this->getInstancesList($ids);
         $movableInstances = $this->getInstancesToMove($classes, $instances, $statuses);
 
         $statuses = $this->move($destinationClass, $movableInstances, $statuses);
@@ -1385,5 +1482,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     private function getActionAccessControl(): ActionAccessControl
     {
         return $this->getServiceLocator()->get(ActionAccessControl::SERVICE_ID);
+    }
+
+    private function isElasticSearchEnabled(): bool
+    {
+        /** @var AdvancedSearchChecker $advancedSearchChecker */
+        $advancedSearchChecker = $this->getServiceLocator()->get(AdvancedSearchChecker::class);
+
+        return $advancedSearchChecker->isEnabled();
     }
 }
