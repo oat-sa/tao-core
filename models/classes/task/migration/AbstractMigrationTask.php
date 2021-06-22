@@ -107,9 +107,8 @@ abstract class AbstractMigrationTask implements Action, ServiceLocatorAwareInter
                 ]
             ),
             sprintf(
-                'Unit processing by %s started from %s with chunk size of %s',
+                'Unit processing by %s with chunk size of %s',
                 self::class,
-                var_export($config->getCustomParameters(), true),
                 $config->getChunkSize()
             )
         );
