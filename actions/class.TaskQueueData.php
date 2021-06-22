@@ -19,6 +19,7 @@
  *
  */
 
+use oat\oatbox\reporting\Report;
 use oat\tao\model\TaskQueueActionTrait;
 use oat\oatbox\task\Queue;
 use oat\oatbox\task\Task;
@@ -111,12 +112,9 @@ class tao_actions_TaskQueueData extends \tao_actions_CommonModule
     public function downloadTask()
     {
         if ($this->hasRequestParameter('taskId')) {
-            /**
-             * @var $task \oat\Taskqueue\JsonTask
-             */
             $task   = $this->getTask($this->getRequestParameter('taskId'));
             $report = $task->getReport();
-            $report = \common_report_Report::jsonUnserialize($report);
+            $report = Report::jsonUnserialize($report);
 
             if (!is_null($report)) {
                 $filename = '';

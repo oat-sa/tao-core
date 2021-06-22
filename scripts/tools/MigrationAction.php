@@ -165,9 +165,8 @@ class MigrationAction extends ScriptAction
                 ]
             ),
             sprintf(
-                'Unit processing by %s with parameters %s with chunk size %s',
+                'Unit processing by %s with chunk size %s',
                 $taskClass,
-                var_export($customParameters, true),
                 $chunkSize
             )
         );

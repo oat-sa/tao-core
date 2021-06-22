@@ -57,12 +57,18 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
         $this->checkIfIsXmlHttpRequest();
 
         $taskLogService = $this->getTaskLogService();
+        $limit = $offset = null;
 
-        $limit = $this->getGetParameter(self::PARAMETER_LIMIT);
-        $offset = $this->getGetParameter(self::PARAMETER_OFFSET);
+        if ($this->hasRequestParameter(self::PARAMETER_LIMIT)) {
+            $limit = (int) $this->getRequestParameter(self::PARAMETER_LIMIT);
+        }
+
+        if ($this->hasRequestParameter(self::PARAMETER_OFFSET)) {
+            $offset = (int) $this->getRequestParameter(self::PARAMETER_OFFSET);
+        }
 
         $collection = new SimpleManagementCollectionDecorator(
-            $taskLogService->findAvailableByUser($this->getSessionUserUri(), (int)$limit?:null, (int)$offset?:null),
+            $taskLogService->findAvailableByUser($this->getSessionUserUri(), $limit, $offset),
             $taskLogService,
             $this->getFileSystemService(),
             $this->getFileReferenceSerializer(),
@@ -86,7 +92,7 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
             $taskLogService = $this->getTaskLogService();
 
             $entity = $taskLogService->getByIdAndUser(
-                $this->getGetParameter(self::PARAMETER_TASK_ID),
+                $this->getRequestParameter(self::PARAMETER_TASK_ID),
                 $this->getSessionUserUri()
             );
 
@@ -186,7 +192,7 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
             $this->checkIfTaskIdExists();
 
             $taskLogEntity = $this->getTaskLogService()->getByIdAndUser(
-                $this->getGetParameter(self::PARAMETER_TASK_ID),
+                $this->getRequestParameter(self::PARAMETER_TASK_ID),
                 $this->getSessionUserUri()
             );
 
@@ -228,12 +234,12 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
     }
 
     /**
-     * @throws \common_exception_MissingParameter
+     * @throws common_exception_MissingParameter
      */
     protected function checkIfTaskIdExists(): void
     {
-        if (!$this->hasGetParameter(self::PARAMETER_TASK_ID)) {
-            throw new \common_exception_MissingParameter(self::PARAMETER_TASK_ID, $this->getRequestURI());
+        if (!$this->hasRequestParameter(self::PARAMETER_TASK_ID)) {
+            throw new common_exception_MissingParameter(self::PARAMETER_TASK_ID, $this->getRequestURI());
         }
     }
 
@@ -252,7 +258,7 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
      */
     protected function detectTaskIds()
     {
-        $taskIdsParams = $this->getGetParameter(self::PARAMETER_TASK_ID);
+        $taskIdsParams = $this->getRequestParameter(self::PARAMETER_TASK_ID);
 
         if (is_array($taskIdsParams)) {
             return $taskIdsParams;
