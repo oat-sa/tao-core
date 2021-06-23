@@ -67,9 +67,9 @@ class ElementMapFactory extends ConfigurableService
         }
 
         // horrible hack to fix file widget
-        if ($widgetUri === AsyncFile::WIDGET_ID) {
-            $widgetResource = new core_kernel_classes_Resource(GenerisAsyncFile::WIDGET_ID);
-        }
+        // if ($widgetUri === AsyncFile::WIDGET_ID) {
+        //     $widgetResource = new core_kernel_classes_Resource(GenerisAsyncFile::WIDGET_ID);
+        // }
 
         $element = tao_helpers_form_FormFactory::getElementByWidget(
             tao_helpers_Uri::encode($propertyUri),
