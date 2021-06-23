@@ -1,6 +1,6 @@
 {
     "name": "@oat-sa/tao",
-    "version": "0.9.1",
+    "version": "0.9.4",
     "license": "GPL-2.0",
     "description": "tao core dependencies",
     "repository": {
@@ -13,12 +13,12 @@
     },
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
-        "@oat-sa/e2e-runner": "^0.1.0",
+        "@oat-sa/e2e-runner": "git://github.com/oat-sa/e2e-runner#feature/TR-1080/allow-setting-the-baseurl-from-env",
         "@oat-sa/expr-eval": "1.3.0",
         "@oat-sa/tao-core-libs": "0.4.3",
-        "@oat-sa/tao-core-sdk": "^1.10.1",
+        "@oat-sa/tao-core-sdk": "1.15.0",
         "@oat-sa/tao-core-shared-libs": "1.0.3",
-        "@oat-sa/tao-core-ui": "1.22.1",
+        "@oat-sa/tao-core-ui": "^1.27.3",
         "async": "0.2.10",
         "codemirror": "^5.54.0",
         "decimal.js": "10.1.1",
@@ -35,5 +35,8 @@
         "select2": "3.5.1",
         "tooltip.js": "1.3.2",
         "url-polyfill": "1.1.12"
+    },
+    "devDependencies": {
+        "cypress": "^7.5.0"
     }
 }

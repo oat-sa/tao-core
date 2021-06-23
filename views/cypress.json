@@ -1,11 +1,9 @@
 {
-  "baseUrl": "https://tao.docker.localhost",
+  "integrationFolder": "cypress/tests",
   "fixturesFolder": "cypress/fixtures",
-  "integrationFolder": "../..",
   "screenshotsFolder": "cypress/screenshots",
   "supportFile": "cypress/support",
-  "pluginsFile": "node_modules/@oat-sa/e2e-runner/plugins",
-  "testFiles": "**/views/cypress/tests/**/*.spec.js",
+  "pluginsFile": "cypress/plugins",
   "video": false,
   "videosFolder": "cypress/videos",
   "pageLoadTimeout": 30000,

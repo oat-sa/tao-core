@@ -27,20 +27,35 @@ use oat\tao\model\task\migration\MigrationConfig;
 
 class ResultFilterFactory extends ConfigurableService implements ResultFilterFactoryInterface
 {
+    /** @var MigrationConfig */
+    protected $config;
+
     public function create(MigrationConfig $config): ResultFilter
     {
-        $max = $this->getStatementLastIdRetriever()->retrieve();
+        $this->config = $config;
+
+        $max = $this->getMax();
         $end = $this->calculateEndPosition(
-            (int) $config->getCustomParameter('start'),
+            (int)$config->getCustomParameter('start'),
             $config->getChunkSize(),
             $max
         );
 
-        return new ResultFilter([
-            'start' => (int) $config->getCustomParameter('start'),
-            'end' => $end,
-            'max' => $max
-        ]);
+        return new ResultFilter(
+            array_merge(
+                $config->getCustomParameters(),
+                [
+                    'start' => (int)$config->getCustomParameter('start'),
+                    'end' => $end,
+                    'max' => $max
+                ]
+            )
+        );
+    }
+
+    protected function getMax(): int
+    {
+        return $this->getStatementLastIdRetriever()->retrieve();
     }
 
     private function calculateEndPosition(int $start, int $chunkSize, int $max): int
@@ -50,6 +65,7 @@ class ResultFilterFactory extends ConfigurableService implements ResultFilterFac
         if ($end >= $max) {
             $end = $max;
         }
+
         return $end;
     }
 

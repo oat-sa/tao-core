@@ -82,5 +82,4 @@ cypress/videos/
 cypress/screenshots/
 cypress/examples/
 cypress/envs/*.json
-cypress.json
 cypress.env.json

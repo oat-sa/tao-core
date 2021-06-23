@@ -15,12 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2019-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
 use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\taskQueue\Task\FileReferenceSerializerAwareTrait;
 use oat\tao\model\taskQueue\Task\FilesystemAwareTrait;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
@@ -36,21 +37,22 @@ use oat\tao\model\taskQueue\TaskLogInterface;
  *
  * @author Gyula Szucs <gyula@taotesting.com>
  */
-class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
+class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
 {
     use FilesystemAwareTrait;
     use FileReferenceSerializerAwareTrait;
+    use HttpJsonResponseTrait;
 
-    const PARAMETER_TASK_ID = 'taskId';
-    const PARAMETER_LIMIT = 'limit';
-    const PARAMETER_OFFSET = 'offset';
-    const ALL = 'all';
+    private const PARAMETER_TASK_ID = 'taskId';
+    private const PARAMETER_LIMIT = 'limit';
+    private const PARAMETER_OFFSET = 'offset';
+    private const ALL = 'all';
 
     /**
-     * @throws \common_exception_NotImplemented
-     * @throws \Exception
+     * @throws common_exception_NotImplemented
+     * @throws Exception
      */
-    public function getAll()
+    public function getAll(): void
     {
         $this->checkIfIsXmlHttpRequest();
 
@@ -73,17 +75,14 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
             false
         );
 
-        return $this->returnJson([
-            'success' => true,
-            'data' => $collection->toArray()
-        ]);
+        $this->setSuccessJsonResponse($collection->toArray());
     }
 
     /**
-     * @throws \common_exception_NotImplemented
-     * @throws \Exception
+     * @throws common_exception_NotImplemented
+     * @throws Exception
      */
-    public function get()
+    public function get(): void
     {
         $this->checkIfIsXmlHttpRequest();
 
@@ -97,9 +96,7 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
                 $this->getSessionUserUri()
             );
 
-            return $this->returnJson([
-                'success' => true,
-                'data' => (new RedirectUrlEntityDecorator(
+            $this->setSuccessJsonResponse((new RedirectUrlEntityDecorator(
                     new HasFileEntityDecorator(
                         new CategoryEntityDecorator($entity, $taskLogService),
                         $this->getFileSystemService(),
@@ -107,34 +104,31 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
                     ),
                     $taskLogService,
                     common_session_SessionManager::getSession()->getUser()
-                ))->toArray()
-            ]);
-        } catch (\Exception $e) {
-            return $this->returnJson([
-                'success' => false,
-                'errorMsg' => $e instanceof \common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
-                'errorCode' => $e->getCode(),
-            ]);
+                ))->toArray());
+        } catch (Exception $e) {
+            $this->setErrorJsonResponse(
+                $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
+                 $e->getCode()
+            );
         }
     }
 
     /**
-     * @throws \common_exception_NotImplemented
-     * @throws \Exception
+     * @throws common_exception_NotImplemented
+     * @throws Exception
      */
-    public function stats()
+    public function stats(): void
     {
         $this->checkIfIsXmlHttpRequest();
 
-        return $this->returnJson([
-            'success' => true,
-            'data' => $this->getTaskLogService()->getStats($this->getSessionUserUri())->toArray()
-        ]);
+        $this->setSuccessJsonResponse(
+            $this->getTaskLogService()->getStats($this->getSessionUserUri())->toArray()
+        );
     }
 
     /**
-     * @throws \common_exception_NotImplemented
-     * @throws \Exception
+     * @throws common_exception_NotImplemented
+     * @throws Exception
      */
     public function archive()
     {
@@ -153,17 +147,16 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
             return $this->returnJson([
                 'success' => (bool) $taskLogService->archiveCollection($taskLogService->search($filter))
             ]);
-        } catch (\Exception $e) {
-            return $this->returnJson([
-                'success' => false,
-                'errorMsg' => $e instanceof \common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
-                'errorCode' => $e instanceof \common_exception_NotFound ? 404 : $e->getCode(),
-            ]);
+        } catch (Exception $e) {
+             $this->setErrorJsonResponse(
+                 $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
+                $e instanceof \common_exception_NotFound ? 404 : $e->getCode()
+            );
         }
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function cancel()
     {
@@ -182,12 +175,11 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
             return $this->returnJson([
                 'success' => (bool) $taskLogService->cancelCollection($taskLogService->search($filter))
             ]);
-        } catch (\Exception $e) {
-            return $this->returnJson([
-                'success' => false,
-                'errorMsg' => $e instanceof \common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
-                'errorCode' => $e instanceof \common_exception_NotFound ? 404 : $e->getCode(),
-            ]);
+        } catch (Exception $e) {
+            $this->setErrorJsonResponse(
+                $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
+                $e instanceof \common_exception_NotFound ? 404 : $e->getCode()
+            );
         }
     }
 
@@ -233,32 +225,31 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
 
             \tao_helpers_Http::returnStream($file->readPsrStream());
             exit();
-        } catch (\Exception $e) {
-            return $this->returnJson([
-                'success' => false,
-                'errorMsg' => $e instanceof \common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
-                'errorCode' => $e->getCode(),
-            ]);
+        } catch (Exception $e) {
+            $this->setErrorJsonResponse(
+                $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
+                 $e->getCode()
+            );
         }
     }
 
     /**
-     * @throws \common_exception_MissingParameter
+     * @throws common_exception_MissingParameter
      */
-    protected function checkIfTaskIdExists()
+    protected function checkIfTaskIdExists(): void
     {
         if (!$this->hasRequestParameter(self::PARAMETER_TASK_ID)) {
-            throw new \common_exception_MissingParameter(self::PARAMETER_TASK_ID, $this->getRequestURI());
+            throw new common_exception_MissingParameter(self::PARAMETER_TASK_ID, $this->getRequestURI());
         }
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
-    protected function checkIfIsXmlHttpRequest()
+    protected function checkIfIsXmlHttpRequest(): void
     {
         if (!$this->isXmlHttpRequest()) {
-            throw new \Exception('Only ajax call allowed.');
+            throw new Exception('Only ajax call allowed.');
         }
     }
 
@@ -279,36 +270,24 @@ class tao_actions_TaskQueueWebApi extends \tao_actions_CommonModule
     }
 
     /**
-     * Retrieve the user session uri
-     *
-     * @return string
      * @throws common_exception_Error
      */
-    protected function getSessionUserUri()
+    protected function getSessionUserUri(): string
     {
         return $this->getSession()->getUserUri();
     }
 
-    /**
-     * @return FileReferenceSerializer|object
-     */
-    protected function getFileReferenceSerializer()
+    protected function getFileReferenceSerializer(): FileReferenceSerializer
     {
         return $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
     }
 
-    /**
-     * @return FileSystemService|object
-     */
-    protected function getFileSystemService()
+    protected function getFileSystemService(): FileSystemService
     {
         return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
     }
 
-    /**
-     * @return TaskLogInterface|object
-     */
-    protected function getTaskLogService()
+    protected function getTaskLogService(): TaskLogInterface
     {
         return $this->getServiceLocator()->get(TaskLogInterface::SERVICE_ID);
     }
