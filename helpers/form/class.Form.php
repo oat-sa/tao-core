@@ -621,16 +621,12 @@ abstract class tao_helpers_form_Form
     
     public function hasAsyncFileUpload(): bool
     {
-        $returnValue = false;
-
         foreach ($this->elements as $element) {
             if ($element instanceof tao_helpers_form_elements_xhtml_AsyncFile) {
-                $returnValue = true;
-                break;
+                return true;
             }
         }
-
-        return $returnValue;
+        return false;
     }
 
     /**
