@@ -78,8 +78,8 @@ vendor/
 composer.lock
 
 # E2E testing files
-cypress/videos/
-cypress/screenshots/
-cypress/examples/
-cypress/envs/*.json
-cypress.env.json
+/views/cypress/videos/
+/views/cypress/screenshots/
+/views/cypress/examples/
+/views/cypress/envs/*.json
+/views/cypress.env.json
