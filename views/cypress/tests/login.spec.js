@@ -28,26 +28,18 @@ describe('Login', () => {
 
     // helper that creates a login attempt with provided data
     const loginAttempt = (username, password) => {
-        cy.contains('label', 'Login')
-            .parent()
-            .within(() => {
-                cy.get('input').type(username);
-            });
+        cy.get('#login').type(username);
+        cy.get('#password').type(password);
 
-        cy.contains('label', 'Password')
-            .parent()
-            .within(() => {
-                cy.get('input').type(password);
-            });
-
-        cy.contains('Log in').click();
+        cy.get('#connect').click();
     };
 
     it('cannot login with invalid user', function () {
         cy.visit(this.urls.login);
-
         loginAttempt('invalid', '123');
-        cy.contains('Invalid login or password. Please try again.');
+
+        cy.get('.feedback[role=alert]').should('exist');
+        cy.location('pathname').should('eq', this.urls.login);
     });
 
     it('successful admin login', function () {
@@ -56,6 +48,7 @@ describe('Login', () => {
 
         cy.visit(this.urls.login);
         loginAttempt(username, password);
+
         cy.location('pathname').should('eq', this.urls.index);
     });
 });
