@@ -123,6 +123,10 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
 
         $returnValue .= "<input type='hidden' class='global' name='{$this->name}_sent' value='1' />\n";
 
+        if ($this->hasAsyncFileUpload() && $this->checkFormInstance()) {
+            $returnValue .= "<input type='hidden' name='check-file' id='check-file' data-id='schema' value='1' />\n";
+        }
+        
         if (!empty($this->error)) {
             $returnValue .= '<div class="xhtml_form_error">' . $this->error . '</div>';
         }

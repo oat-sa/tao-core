@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -617,6 +618,27 @@ abstract class tao_helpers_form_Form
 
         return $returnValue;
     }
+    
+    public function hasAsyncFileUpload(): bool
+    {
+        foreach ($this->elements as $element) {
+            if ($element instanceof tao_helpers_form_elements_xhtml_AsyncFile) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function checkFormInstance(): bool
+    {
+        foreach ($this->elements as $element) {
+            if ($element->getName() == "tao.forms.instance" ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * Enables you to know if the form is valid
