@@ -629,6 +629,17 @@ abstract class tao_helpers_form_Form
         return false;
     }
 
+    public function checkFormInstance(): bool
+    {
+        foreach ($this->elements as $element) {
+            if ($element->getName() == "tao.forms.instance" ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     /**
      * Enables you to know if the form is valid
      *
