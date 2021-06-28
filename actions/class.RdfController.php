@@ -25,22 +25,20 @@ use oat\oatbox\user\User;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\search\tasks\IndexTrait;
-use oat\tao\model\search\index\OntologyIndex;
-use oat\tao\model\event\ClassPropertyRemovedEvent;
-use oat\tao\model\accessControl\ActionAccessControl;
 use oat\tao\model\accessControl\PermissionChecker;
 use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\lock\LockManager;
 use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
-use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
-use oat\generis\model\data\event\ClassPropertyDeletedEvent;
+use oat\tao\model\ClassProperty\ClassProperty;
+use oat\tao\model\ClassProperty\RemoveClassPropertyHandler;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\resources\ResourceService;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
 use tao_helpers_form_FormContainer as FormContainer;
+use oat\tao\model\ClassProperty\AddClassPropertyHandler;
 
 /**
  * The TaoModule is an abstract controller,
@@ -1125,87 +1123,43 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      *
      * @requiresRight id WRITE
      */
-    public function addClassProperty(): void
+    public function addClassProperty(AddClassPropertyHandler $addClassPropertyHandler): void
     {
         if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
 
-        $class = $this->getClass($this->getRequestParameter('id'));
-
-        if ($this->hasRequestParameter('index')) {
-            $index = intval($this->getRequestParameter('index'));
-        } else {
-            $index = count($class->getProperties(false)) + 1;
-        }
-
-        $options = [
-            'index' => $index,
-            'disableIndexChanges' => $this->isElasticSearchEnabled(),
-            FormContainer::IS_DISABLED => !$this->hasWriteAccessToAction(__FUNCTION__),
-        ];
-
-        $newProperty = $class->createProperty('Property_' . $index);
-
-        $propFormContainer = new tao_actions_form_SimpleProperty($class, $newProperty, $options);
-        $myForm = $propFormContainer->getForm();
+        $classPropertyDTO = new ClassProperty(
+            $this->getRequestParameter('id'),
+            null,
+            $this->getRequestParameter('index')
+        );
+        $myForm = $addClassPropertyHandler($classPropertyDTO, $this->hasWriteAccessToAction(__FUNCTION__));
 
         $this->setData('data', $myForm->renderElements());
         $this->setView('blank.tpl', 'tao');
     }
 
-
     /**
      * Copy of \tao_actions_PropertiesAuthoring::removeClassProperty to split access between extensions
      *
-     * @requiresRight classUri WRITE
+     * @requiresRight classUri WRIT
+     * @throws common_Exception
      */
-    public function removeClassProperty(): void
+    public function removeClassProperty(RemoveClassPropertyHandler $removeClassPropertyHandler): void
     {
-        $success = false;
         if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
 
-        $class = $this->getClass($this->getRequestParameter('classUri'));
-        $property = $this->getProperty($this->getRequestParameter('uri'));
-        $propertyType = $this->getPropertyType($property);
-
-        if ($propertyType !== null) {
-            $propertyName = $this->getPropertyRealName($property->getLabel(), $propertyType->getUri());
-            $this->getEventManager()->trigger(new ClassPropertyRemovedEvent($class, $propertyName));
-        }
-
-        //delete property mode
-        foreach ($class->getProperties() as $classProperty) {
-            if ($classProperty->equals($property)) {
-                $indexes = $property->getPropertyValues($this->getProperty(OntologyIndex::PROPERTY_INDEX));
-                //delete property and the existing values of this property
-                if ($property->delete(true)) {
-                    $this->getEventManager()->trigger(
-                        new ClassPropertyDeletedEvent(
-                            $class,
-                            [
-                                'propertyUri' => $property->getUri()
-                            ]
-                        )
-                    );
-                    //delete index linked to the property
-                    foreach ($indexes as $indexUri) {
-                        $index = $this->getResource($indexUri);
-                        $index->delete(true);
-                    }
-                    $success = true;
-                    break;
-                }
-            }
-        }
+        $classProperty = new ClassProperty(
+            $this->getRequestParameter('classUri'),
+            $this->getRequestParameter('uri')
+        );
+        $success = $removeClassPropertyHandler($classProperty);
 
         if ($success) {
-            $this->returnJson([
-                'success' => true
-            ]);
-            return;
+            $this->returnJson(['success' => true]);
         } else {
             $this->returnError(__('Unable to remove the property.'));
         }
@@ -1223,11 +1177,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $permissionChecker = $this->getServiceLocator()->get(PermissionChecker::class);
 
         return $permissionChecker->hasWriteAccess($resourceId);
-    }
-
-    protected function hasWriteAccessToAction(string $action, ?User $user = null): bool
-    {
-        return $this->getActionAccessControl()->hasWriteAccess(static::class, $action, $user);
     }
 
     /**
@@ -1477,18 +1426,5 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         if (empty($destinationUri) || $destinationUri === $currentClassUri || !$destinationClass->exists()) {
             throw new InvalidArgumentException('Wrong destination class uri');
         }
-    }
-
-    private function getActionAccessControl(): ActionAccessControl
-    {
-        return $this->getServiceLocator()->get(ActionAccessControl::SERVICE_ID);
-    }
-
-    private function isElasticSearchEnabled(): bool
-    {
-        /** @var AdvancedSearchChecker $advancedSearchChecker */
-        $advancedSearchChecker = $this->getServiceLocator()->get(AdvancedSearchChecker::class);
-
-        return $advancedSearchChecker->isEnabled();
     }
 }
