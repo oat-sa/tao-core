@@ -17,45 +17,35 @@
  */
 
 describe('Login', () => {
-    beforeEach(() => {
-        cy.fixture('urls').as('urls');
-    });
+    const indexUrl = '/tao/Main/index';
+    const loginUrl = '/tao/Main/login';
 
     it('forwards to login page', function () {
-        cy.visit(this.urls.root);
-        cy.location('pathname').should('eq', this.urls.login);
+        cy.visit(indexUrl);
+        cy.location('pathname').should('eq', loginUrl);
     });
 
     // helper that creates a login attempt with provided data
     const loginAttempt = (username, password) => {
-        cy.contains('label', 'Login')
-            .parent()
-            .within(() => {
-                cy.get('input').type(username);
-            });
+        cy.get('#login', { timeout: 10000 }).type(username);
+        cy.get('#password').type(password);
 
-        cy.contains('label', 'Password')
-            .parent()
-            .within(() => {
-                cy.get('input').type(password);
-            });
-
-        cy.contains('Log in').click();
+        cy.get('#connect').click();
     };
 
     it('cannot login with invalid user', function () {
-        cy.visit(this.urls.login);
+        cy.visit(loginUrl);
 
         loginAttempt('invalid', '123');
-        cy.contains('Invalid login or password. Please try again.');
+        cy.get('.feedback[role=alert]').should('exist');
     });
 
     it('successful admin login', function () {
         const username = Cypress.env('adminUser');
         const password = Cypress.env('adminPass');
 
-        cy.visit(this.urls.login);
+        cy.visit(loginUrl);
         loginAttempt(username, password);
-        cy.location('pathname').should('eq', this.urls.index);
+        cy.location('pathname').should('eq', indexUrl);
     });
 });

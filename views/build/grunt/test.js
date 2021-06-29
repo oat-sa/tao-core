@@ -45,6 +45,9 @@ module.exports = function(grunt) {
 
     //extract unit tests  from FS to URL
     const extractTests = function extractTests(){
+        console.log(grunt.file.expand([testRunners]).map(function(testPath){
+            return testPath.replace(root, baseUrl);
+        }))
         return grunt.file.expand([testRunners]).map(function(testPath){
             return testPath.replace(root, baseUrl);
         });
@@ -72,6 +75,7 @@ module.exports = function(grunt) {
         if(suffix){
             namespaceChunks.push(suffix);
         }
+        console.log('NMSPC', namespaceChunks.join(joinWith));
         return namespaceChunks.join(joinWith);
     };
 
@@ -118,7 +122,7 @@ module.exports = function(grunt) {
                 dest : reportOutput,
                 fileNamer : url => testUrlToNamespace(url, '-'),
                 classNamer : (moduleName, url) => {
-                    //moduleName is a sentence so make it camelcase
+                   - //moduleName is a sentence so make it camelcase
                     const moduleNameSuffix = moduleName
                         .toLowerCase()
                         .replace(/ (.)/g, (fullMatch,firstMatch) => firstMatch.toUpperCase() );
