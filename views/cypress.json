@@ -1,6 +1,6 @@
 {
-  "integrationFolder": "cypress/tests",
-  "fixturesFolder": "cypress/fixtures",
+  "integrationFolder": "../..",
+  "testFiles": "**/views/cypress/tests/**/*.spec.js",
   "screenshotsFolder": "cypress/screenshots",
   "supportFile": "cypress/support",
   "pluginsFile": "cypress/plugins",
