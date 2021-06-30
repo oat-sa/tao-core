@@ -18,21 +18,23 @@
  */
 
 describe('Items', () => {
+    const indexUrl = '/tao/Main/index';
+
     beforeEach(() => {
         cy.loginAsAdmin();
         cy.fixture('urls').as('urls');
     });
 
     it('should forward to items on click', function () {
-        cy.visit(this.urls.items);
+        cy.visit(indexUrl);
         cy.get('ul.main-menu').children().contains('Items').click();
-        cy.location('pathname').should('eq', this.urls.index);
+        cy.location('pathname').should('eq', indexUrl);
     });
 
     it('should contain Item menu active and contain text Items', function () {
         cy.get('ul.main-menu').children().contains('Items').click();
         cy.get('ul.main-menu').children('.active').should('include.text', 'Items');
-        cy.location('pathname').should('eq', this.urls.index);
+        cy.location('pathname').should('eq', indexUrl);
     });
 
     it('should contain search with placeholder value search item', function () {
@@ -40,17 +42,17 @@ describe('Items', () => {
             .children('.search-area')
             .find('input')
             .should('have.attr', 'placeholder', 'Search Item');
-        cy.location('pathname').should('eq', this.urls.index);
+        cy.location('pathname').should('eq', indexUrl);
     });
 
     it('should contain atleast one item folder', function () {
         cy.get('#tree-manage_items').find('ul').children().should('not.to.have.length', 0);
-        cy.location('pathname').should('eq', this.urls.index);
+        cy.location('pathname').should('eq', indexUrl);
     });
 
     it('should have these menus on click', function () {
         cy.get('ul.ltr li').find('a').contains('Item').click();
-        cy.location('pathname').should('eq', this.urls.index);
+        cy.location('pathname').should('eq', indexUrl);
     });
 
     it('should contain tree actions', function () {
@@ -65,7 +67,7 @@ describe('Items', () => {
                 expect($lis.eq(4), 'Move action').to.contain('Move To');
                 expect($lis.eq(5), 'New item action').to.contain('New item');
             });
-        cy.location('pathname').should('eq', this.urls.index);
+        cy.location('pathname').should('eq', indexUrl);
     });
 
     it('should contain horizontal action bar sub menu', function () {
@@ -76,13 +78,13 @@ describe('Items', () => {
                 expect($lis.eq(0), 'first sub menu').to.contain('Properties');
                 expect($lis.eq(1), 'second sub menu').to.contain('Manage Schema');
             });
-        cy.location('pathname').should('eq', this.urls.index);
+        cy.location('pathname').should('eq', indexUrl);
     });
 
     it('should contain a form with text box value item', function () {
         cy.get('form#form_1').find('input[type=text]').should('have.attr', 'value', 'Item');
         cy.get('form#form_1').contains('Save');
         cy.get('.form-submitter').click();
-        cy.location('pathname').should('eq', this.urls.index);
+        cy.location('pathname').should('eq', indexUrl);
     });
 });

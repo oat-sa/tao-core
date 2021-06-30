@@ -17,19 +17,19 @@
  */
 
 describe('Main Menu', () => {
+    const indexUrl = '/tao/Main/index';
+
     beforeEach(() => {
         cy.loginAsAdmin();
-        cy.fixture('urls').as('urls');
     });
 
     it('should contain atleast 5 menu elements', function () {
-        cy.visit(this.urls.items);
+        cy.visit(indexUrl);
         cy.get('ul.main-menu').find('li').its('length').should('be.gte', 5);
-        cy.location('pathname').should('eq', this.urls.index);
+        cy.location('pathname').should('eq', indexUrl);
     });
 
     it('should contain these menu items', function () {
-        cy.visit(this.urls.items);
         cy.get('ul.main-menu')
             .children()
             .should($lis => {
@@ -41,12 +41,11 @@ describe('Main Menu', () => {
                 expect($lis.eq(5), 'sixth menu').to.contain('Results');
             });
 
-        cy.location('pathname').should('eq', this.urls.index);
+        cy.location('pathname').should('eq', indexUrl);
     });
 
     it('should contain atleast one active item', function () {
-        cy.visit(this.urls.items);
         cy.get('ul.main-menu').children().should('have.class', 'active');
-        cy.location('pathname').should('eq', this.urls.index);
+        cy.location('pathname').should('eq', indexUrl);
     });
 });
