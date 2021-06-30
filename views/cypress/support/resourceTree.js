@@ -90,4 +90,3 @@ Cypress.Commands.add('deleteNode', (deleteSelector, name) => {
     cy.get(`li[title="${name}"] a`).should('not.exist');
 });
 
-
