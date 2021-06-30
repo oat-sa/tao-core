@@ -35,9 +35,8 @@ use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\tasks\IndexTrait;
 use oat\tao\model\validator\PropertyChangedValidator;
-use oat\tao\model\ClassProperty\ClassProperty;
-use oat\tao\model\ClassProperty\AddClassPropertyHandler;
-use oat\tao\model\ClassProperty\RemoveClassPropertyHandler;
+use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
+use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 
 /**
  * Regrouping all actions related to authoring
@@ -87,17 +86,16 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      *
      * @requiresRight id WRITE
      */
-    public function addClassProperty(AddClassPropertyHandler $addClassPropertyHandler): void
+    public function addClassProperty(AddClassPropertyFormFactory $addClassPropertyFormFactory): void
     {
         if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
 
-        $classPropertyDTO = new ClassProperty(
-            $this->getRequestParameter('id'),
-            $this->getRequestParameter('index')
+        $myForm = $addClassPropertyFormFactory->add(
+            $this->getPsrRequest(),
+            $this->hasWriteAccessToAction(__FUNCTION__)
         );
-        $myForm = $addClassPropertyHandler($classPropertyDTO, $this->hasWriteAccessToAction(__FUNCTION__));
 
         $this->setData('data', $myForm->renderElements());
         $this->setView('blank.tpl', 'tao');
@@ -109,17 +107,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
      * @requiresRight classUri WRITE
      * @throws common_Exception
      */
-    public function removeClassProperty(RemoveClassPropertyHandler $removeClassPropertyHandler): void
+    public function removeClassProperty(RemoveClassPropertyService $removeClassPropertyService): void
     {
         if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
 
-        $classProperty = new ClassProperty(
-            $this->getRequestParameter('classUri'),
-            $this->getRequestParameter('uri')
-        );
-        $success = $removeClassPropertyHandler($classProperty);
+        $success = $removeClassPropertyService->remove($this->getPsrRequest());
 
         if ($success) {
             $this->returnJson(['success' => true]);

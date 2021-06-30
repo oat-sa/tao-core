@@ -25,18 +25,21 @@ namespace oat\tao\model\ClassProperty;
 use tao_helpers_form_Form as Form;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use Psr\Http\Message\ServerRequestInterface;
 use tao_helpers_form_FormContainer as FormContainer;
 use tao_actions_form_SimpleProperty as SimpleProperty;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 
-class AddClassPropertyHandler extends ConfigurableService
+class AddClassPropertyFormFactory extends ConfigurableService
 {
     use OntologyAwareTrait;
 
-    public function __invoke(ClassProperty $classPropertyDTO, bool $hasWriteAccess): ?Form
+    public function add(ServerRequestInterface $request, bool $hasWriteAccess): ?Form
     {
-        $class = $this->getClass($classPropertyDTO->getClassUri());
-        $index = $classPropertyDTO->getIndex() ?? (count($class->getProperties(false)) + 1);
+        $parsedBody = $request->getParsedBody();
+
+        $class = $this->getClass($parsedBody['id']);
+        $index = ($parsedBody['index'] ?? count($class->getProperties(false))) + 1;
 
         $options = [
             'index' => $index,

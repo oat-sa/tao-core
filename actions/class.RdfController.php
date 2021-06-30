@@ -30,15 +30,14 @@ use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\lock\LockManager;
 use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
-use oat\tao\model\ClassProperty\ClassProperty;
-use oat\tao\model\ClassProperty\RemoveClassPropertyHandler;
+use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\resources\ResourceService;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
 use tao_helpers_form_FormContainer as FormContainer;
-use oat\tao\model\ClassProperty\AddClassPropertyHandler;
+use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 
 /**
  * The TaoModule is an abstract controller,
@@ -1123,18 +1122,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      *
      * @requiresRight id WRITE
      */
-    public function addClassProperty(AddClassPropertyHandler $addClassPropertyHandler): void
+    public function addClassProperty(AddClassPropertyFormFactory $addClassPropertyFormFactory): void
     {
         if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
 
-        $classPropertyDTO = new ClassProperty(
-            $this->getRequestParameter('id'),
-            null,
-            $this->getRequestParameter('index')
+        $myForm = $addClassPropertyFormFactory->add(
+            $this->getPsrRequest(),
+            $this->hasWriteAccessToAction(__FUNCTION__)
         );
-        $myForm = $addClassPropertyHandler($classPropertyDTO, $this->hasWriteAccessToAction(__FUNCTION__));
 
         $this->setData('data', $myForm->renderElements());
         $this->setView('blank.tpl', 'tao');
@@ -1146,17 +1143,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      * @requiresRight classUri WRIT
      * @throws common_Exception
      */
-    public function removeClassProperty(RemoveClassPropertyHandler $removeClassPropertyHandler): void
+    public function removeClassProperty(RemoveClassPropertyService $removeClassPropertyService): void
     {
         if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
 
-        $classProperty = new ClassProperty(
-            $this->getRequestParameter('classUri'),
-            $this->getRequestParameter('uri')
-        );
-        $success = $removeClassPropertyHandler($classProperty);
+        $success = $removeClassPropertyService->remove($this->getPsrRequest());
 
         if ($success) {
             $this->returnJson(['success' => true]);

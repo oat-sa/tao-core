@@ -26,19 +26,22 @@ use oat\oatbox\event\EventManager;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\search\tasks\IndexTrait;
 use oat\oatbox\service\ConfigurableService;
+use Psr\Http\Message\ServerRequestInterface;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\generis\model\data\event\ClassPropertyDeletedEvent;
 
-class RemoveClassPropertyHandler extends ConfigurableService
+class RemoveClassPropertyService extends ConfigurableService
 {
     use OntologyAwareTrait;
     use IndexTrait;
 
-    public function __invoke(ClassProperty $classProperty): bool
+    public function remove(ServerRequestInterface $request): bool
     {
-        $class = $this->getClass($classProperty->getClassUri());
-        $property = $this->getProperty($classProperty->getPropertyUri());
+        $parsedBody = $request->getParsedBody();
+
+        $class = $this->getClass($parsedBody['classUri']);
+        $property = $this->getProperty($parsedBody['uri']);
         $propertyType = $this->getPropertyType($property);
 
         if ($propertyType !== null) {
