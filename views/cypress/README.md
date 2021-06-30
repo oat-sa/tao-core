@@ -15,9 +15,9 @@ The local structure is a reduced form of the classic Cypress project structure:
 
 ## Configuration
 
-Because tests may be run against various envs (local, demo, staging, etc), we need to have multiple env files. They are stored in `cypress/envs/`, and loaded into the main config according to the key `env.configFile` defined in the main config.
+Because tests may be run against various envs (local, demo, staging, etc), we need to have multiple env files. They are stored in `cypress/envs/`, and loaded into the main config according to the key `env.configFile` defined in the `cypress.json`.
 
-Create your own `cypress.json` and `envs/env*.json` files in the views directory. You can rename sample `cypress.json.sample` and set your `env*.json` in it:
+Create `envs/env*.json` file and set it in the `cypress.json`:
 
 ```json
 {
@@ -38,14 +38,6 @@ Create your own `cypress.json` and `envs/env*.json` files in the views directory
 > When registering a local or global command, take care to avoid name collisions with any command you might have imported.
 
 ## Plugins
-
-The local project doesn't contain plugin dependencies or any plugin setup file. Instead, the project is configured by using `cypress.json` to point to the `e2e-runner` plugins loader:
-
-```json
-{
-  "pluginsFile": "node_modules/@oat-sa/e2e-runner/plugins"
-}
-```
 
 Having a single function handling plugins init (the `export` of the above file) is simpler than trying to init on 2 levels. Plugin dependency updating is also restricted to a single place.
 

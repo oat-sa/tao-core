@@ -16,120 +16,77 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
-import urls from '../fixtures/urls.json';
-import urlParams from '../fixtures/urlParams.json';
-
 /**
  * Commands
  */
-Cypress.Commands.add('loadItemsPage', () => {
-    cy.visit(urls.items);
+Cypress.Commands.add('addClass', formSelector => {
+    cy.log('COMMAND: addClass');
+    cy.get('[data-context=resource][data-action=subClass]').click();
+
+    // hack to cope with flickering
+    cy.get(formSelector).should('not.exist');
+    cy.get(formSelector);
 });
 
-Cypress.Commands.add('selectTreeNode', cssSelector => {
-    cy.log('COMMAND: selectTreeNode', cssSelector);
+Cypress.Commands.add('addNode', (formSelector, addSelector) => {
+    cy.log('COMMAND: addNode', addSelector);
 
-    cy.fixture('locators').then(locators => {
-        cy.get(cssSelector)
-            .first()
-            .then($el => {
-                const $treeNode = $el.closest(locators.itemsRootClass);
+    cy.get(addSelector).click();
 
-                // click the node only if it isn't selected:
-                if (!$treeNode.find(locators.itemClass).hasClass('open')) {
-                    // it can be offscreen due to scrollable panel (so let's force click)
-                    cy.wrap($treeNode).click();
-                }
-            });
-    });
+    // hack to cope with the forms flickering
+    cy.get(formSelector).should('not.exist');
+    cy.get(formSelector);
 });
 
-Cypress.Commands.add('renameSelectedClass', newName => {
+Cypress.Commands.add('selectNode', (formSelector, name) => {
+    cy.log('COMMAND: selectNode', name);
+
+    cy.get(`li[title="${name}"] a`).click();
+    cy.get(formSelector).should('exist');
+});
+
+Cypress.Commands.add('renameSelected', (formSelector, newName) => {
     cy.log('COMMAND: renameSelectedClass', newName);
 
-    cy.contains('Edit class');
-
-    cy.fixture('locators').then(locators => {
-        cy.get(locators.contentContainer).within(() => {
-            cy.get(locators.labelInput)
+    // TODO: update selector when data-testid attributes will be added
+    cy.get(formSelector)
+        .within(() => {
+            cy.get('input[name*=label]')
                 .clear()
                 .type(newName);
-
-            cy.get(locators.saveBtn).click();
+            cy.get('button').click();
         });
+
+    // hack to cope with the forms flickering
+    cy.get(formSelector).should('not.exist');
+    cy.get(formSelector).should('exist');
+
+    cy.get(`li[title="${newName}"] a`).should('exist');
+});
+
+Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelector, name) => {
+    cy.log('COMMAND: deleteClass', deleteSelector, name);
+
+    cy.contains(name).click();
+    cy.get(formSelector).should('exist');
+
+    cy.get(deleteSelector).click();
+    cy.get('.modal-body').then((body) => {
+        if (body.find('label[for=confirm]').length) {
+            cy.get('label[for=confirm]').click();
+        }
+        cy.get(confirmSelector).click();
     });
 });
 
-Cypress.Commands.add('renameSelectedItem', newName => {
-    cy.log('COMMAND: renameSelectedItem', newName);
+Cypress.Commands.add('deleteNode', (deleteSelector, name) => {
+    cy.log('COMMAND: deleteNode', deleteSelector, name);
 
-    cy.fixture('locators').then(locators => {
-        cy.contains('Edit Item');
+    cy.contains(name).click();
 
-        cy.get(locators.contentContainer).within(() => {
-            cy.get(locators.labelInput)
-                .clear()
-                .type(newName);
+    cy.get(deleteSelector).click();
+    cy.get('[data-control="ok"]').click();
 
-            cy.get(locators.saveBtn).click();
-        });
-    });
-});
-
-Cypress.Commands.add('addClass', cssSelector => {
-    cy.log('COMMAND: addClass', cssSelector);
-
-    cy.fixture('locators').then(locators => {
-        cy.selectTreeNode(cssSelector);
-        cy.get(locators.actions.newClass).click();
-
-        // hack to cope with form update after editing class
-        cy.contains('Edit class').should('not.exist');
-        cy.contains('Edit class');
-    });
-});
-
-Cypress.Commands.add('addItem', cssSelector => {
-    cy.log('COMMAND: addItem', cssSelector);
-
-    cy.fixture('locators').then(locators => {
-        cy.selectTreeNode(cssSelector);
-        cy.get(locators.actions.newItem).click();
-
-        // hack to cope with form update after editing item
-        cy.contains('Edit Item').should('not.exist');
-        cy.contains('Edit Item');
-    });
-});
-
-Cypress.Commands.add('deleteClass', cssSelector => {
-    cy.log('COMMAND: deleteClass', cssSelector);
-
-    cy.fixture('locators').then(locators => {
-        cy.selectTreeNode(cssSelector);
-
-        cy.get(locators.actions.deleteClass).click();
-        cy.get('.modal-body [data-control="ok"]').click();
-    });
-});
-
-Cypress.Commands.add('deleteItem', cssSelector => {
-    cy.log('COMMAND: deleteItem', cssSelector);
-
-    cy.fixture('locators').then(locators => {
-        cy.selectTreeNode(cssSelector);
-
-        cy.get(locators.actions.deleteItem).click();
-        cy.get('.modal-body [data-control="ok"]').click();
-    });
-});
-
-Cypress.Commands.add('goToItemAuthoring', cssSelector => {
-    cy.log('COMMAND: goToItemAuthoring', cssSelector);
-
-    cy.fixture('locators').then(locators => {
-        cy.selectTreeNode(cssSelector);
-        cy.get(locators.actions.goToAuthoring).click();
-    });
+    cy.get(`li[title="${name}"] a`).should('not.exist');
 });
 

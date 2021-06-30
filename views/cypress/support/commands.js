@@ -20,11 +20,8 @@ import '@oat-sa/e2e-runner/support/auth';
 import './resourceTree'
 
 Cypress.Commands.add('loginAsAdmin', () => {
-    cy.fixture('urls').as('urls').then(urls => {
-        const username = Cypress.env('adminUser');
-        const password = Cypress.env('adminPass');
-        console.log('username', username, 'password', password);
+    const username = Cypress.env('adminUser');
+    const password = Cypress.env('adminPass');
 
-        cy.login({url: urls.login, username, password});
-    });
+    cy.login({ url: '/tao/Main/login', username, password });
 });
