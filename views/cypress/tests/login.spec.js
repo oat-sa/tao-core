@@ -35,9 +35,10 @@ describe('Login', () => {
 
     it('cannot login with invalid user', function () {
         cy.visit(loginUrl);
-
         loginAttempt('invalid', '123');
+
         cy.get('.feedback[role=alert]').should('exist');
+        cy.location('pathname').should('eq', loginUrl);
     });
 
     it('successful admin login', function () {
@@ -46,6 +47,7 @@ describe('Login', () => {
 
         cy.visit(loginUrl);
         loginAttempt(username, password);
+
         cy.location('pathname').should('eq', indexUrl);
     });
 });
