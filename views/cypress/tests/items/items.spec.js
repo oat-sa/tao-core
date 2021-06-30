@@ -22,7 +22,6 @@ describe('Items', () => {
 
     beforeEach(() => {
         cy.loginAsAdmin();
-        cy.fixture('urls').as('urls');
     });
 
     it('should forward to items on click', function () {
