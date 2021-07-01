@@ -21,7 +21,7 @@
  *               2013-2019 (update and modification) Open Assessment Technologies SA;
  */
 
-use oat\tao\model\http\HttpJsonResponseTrait;
+use oat\oatbox\user\User;
 use oat\tao\model\http\LegacyController;
 use oat\tao\helpers\LegacySessionUtils;
 use oat\tao\model\action\CommonModuleInterface;
@@ -33,6 +33,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\model\accessControl\AclProxy;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
+use oat\tao\model\accessControl\ActionAccessControl;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
 
@@ -103,6 +104,11 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
     {
         $user = $this->getSession()->getUser();
         return AclProxy::hasAccess($user, $controllerClass, $action, $parameters);
+    }
+
+    protected function hasWriteAccessToAction(string $action, ?User $user = null): bool
+    {
+        return $this->getActionAccessControl()->hasWriteAccess(static::class, $action, $user);
     }
 
     /**
@@ -395,5 +401,10 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         return $this->hasView()
         ? $response->withBody(stream_for($this->getRenderer()->render()))
         : $response;
+    }
+
+    private function getActionAccessControl(): ActionAccessControl
+    {
+        return $this->getServiceLocator()->get(ActionAccessControl::SERVICE_ID);
     }
 }

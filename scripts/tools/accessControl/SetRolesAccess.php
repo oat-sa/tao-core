@@ -185,8 +185,11 @@ class SetRolesAccess extends ScriptAction
         }
     }
 
-    private function createAccessRule(string $role, array $rule): AccessRule
+    /**
+     * @param string|array $mask
+     */
+    private function createAccessRule(string $role, $mask): AccessRule
     {
-        return new AccessRule(AccessRule::GRANT, $role, $rule);
+        return new AccessRule(AccessRule::GRANT, $role, $mask);
     }
 }

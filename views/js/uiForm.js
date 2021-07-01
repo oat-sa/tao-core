@@ -449,15 +449,35 @@ define([
                 return false;
             });
 
+            function buildClassPropertiesAuthoringURL(action) {
+                const shownExtensions = context.shownExtension;
+
+                let extension = 'tao';
+                let controller = 'PropertiesAuthoring';
+
+                if (shownExtensions === 'taoItems') {
+                    extension = shownExtensions;
+                    controller = 'Items';
+                }
+
+                return helpers._url(action, controller, extension);
+            }
+
             /**
              * remove a form group, ie. a property
              */
             function removePropertyGroup() {
                 if (window.confirm(__('Please confirm property deletion!'))) {
                     var $groupNode = $(this).closest(".form-group");
-                    property.remove($(this).data("uri"), $("#id").val(), helpers._url('removeClassProperty', 'PropertiesAuthoring', 'tao'),function(){
-                        $groupNode.remove();
-                    });
+
+                    property.remove(
+                        $(this).data("uri"),
+                        $("#id").val(),
+                        buildClassPropertiesAuthoringURL('removeClassProperty'),
+                        function() {
+                            $groupNode.remove();
+                        }
+                    );
                 }
             }
 
@@ -467,7 +487,8 @@ define([
             //property add button
             $(".property-adder").off('click').on('click', function (e) {
                 e.preventDefault();
-                property.add($("#id").val(), helpers._url('addClassProperty', 'PropertiesAuthoring', 'tao'));
+
+                property.add($("#id").val(), buildClassPropertiesAuthoringURL('addClassProperty'));
             });
 
             $(".index-adder").off('click').on('click', function (e) {
