@@ -32,6 +32,7 @@ use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\event\LogoutSucceedEvent;
+use oat\tao\model\featureFlag\ActionDisabledFeatureFlag;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
@@ -456,7 +457,9 @@ class tao_actions_Main extends tao_actions_CommonModule
                     foreach ($section->getActions() as $action) {
                         $this->propagate($action);
                         $resolver = new ActionResolver($action->getUrl());
-                        if (!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
+                        if (!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())
+                            || $this->getServiceLocator()->get(ActionDisabledFeatureFlag::class)->isActionDisabled($action->getId())
+                        ) {
                             $section->removeAction($action);
                         }
                     }
