@@ -28,8 +28,20 @@ Cypress.Commands.add('addClass', formSelector => {
     cy.get(formSelector);
 });
 
+Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
+    cy.log('COMMAND: addClassToRoot', name);
+
+    // timeout for the tree to load
+    cy.get(rootSelector, { timeout: 7000 }).then(root => {
+        if (root.find(`li[title="${name}"] a`).length === 0) {
+            cy.addClass(formSelector);
+            cy.renameSelected(formSelector, name);
+        }
+    });
+});
+
 Cypress.Commands.add('addNode', (formSelector, addSelector) => {
-    cy.log('COMMAND: addNode', addSelector);
+    cy.log('COMMAND: addNode');
 
     cy.get(addSelector).click();
 
@@ -65,7 +77,7 @@ Cypress.Commands.add('renameSelected', (formSelector, newName) => {
 });
 
 Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelector, name) => {
-    cy.log('COMMAND: deleteClass', deleteSelector, name);
+    cy.log('COMMAND: deleteClass', name);
 
     cy.contains(name).click();
     cy.get(formSelector).should('exist');
@@ -80,7 +92,7 @@ Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelect
 });
 
 Cypress.Commands.add('deleteNode', (deleteSelector, name) => {
-    cy.log('COMMAND: deleteNode', deleteSelector, name);
+    cy.log('COMMAND: deleteNode', name);
 
     cy.contains(name).click();
 
