@@ -19,8 +19,12 @@
 describe('Main Menu', () => {
     const indexUrl = '/tao/Main/index';
 
-    beforeEach(() => {
+    before(() => {
         cy.loginAsAdmin();
+    });
+
+    beforeEach(() => {
+        Cypress.Cookies.preserveOnce('tao_community');
     });
 
     it('should contain atleast 5 menu elements', function () {

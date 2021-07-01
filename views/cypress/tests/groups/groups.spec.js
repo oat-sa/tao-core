@@ -16,7 +16,7 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
-describe('Items', () => {
+describe('Groups', () => {
     const indexUrl = '/tao/Main/index';
 
     before(() => {
@@ -27,33 +27,33 @@ describe('Items', () => {
         Cypress.Cookies.preserveOnce('tao_community');
     });
 
-    it('should forward to items on click', function () {
+    it('should forward to Groups on click', function () {
         cy.visit(indexUrl);
-        cy.get('ul.main-menu').children().contains('Items').click();
+        cy.get('ul.main-menu').children().contains('Groups').click();
         cy.location('pathname').should('eq', indexUrl);
     });
 
-    it('should contain Item menu active and contain text Items', function () {
-        cy.get('ul.main-menu').children('.active').should('include.text', 'Items');
+    it('should contain group menu active and contain text Groups', function () {
+        cy.get('ul.main-menu').children('.active').should('include.text', 'Groups');
         cy.location('pathname').should('eq', indexUrl);
     });
 
-    it('should contain search with placeholder value search item', function () {
+    it('should contain search with placeholder value search Group', function () {
         cy.get('.horizontal-action-bar')
             .children('.search-area')
             .find('input')
-            .should('have.attr', 'placeholder', 'Search Item');
+            .should('have.attr', 'placeholder', 'Search Group');
         cy.location('pathname').should('eq', indexUrl);
     });
 
-    it('should contain atleast one item folder', function () {
-        cy.get('#tree-manage_items').find('ul').children().should('not.to.have.length', 0);
+    it('should contain atleast one group folder', function () {
+        cy.get('#tree-manage_groups').find('ul').children().should('not.to.have.length', 0);
         cy.location('pathname').should('eq', indexUrl);
         cy.wait(3000);
     });
 
     it('should have these menus on click', function () {
-        cy.get('ul.ltr li').find('a').contains('Item').click();
+        cy.get('ul.ltr li').find('a').contains('Group').click();
         cy.location('pathname').should('eq', indexUrl);
     });
 
@@ -67,7 +67,7 @@ describe('Items', () => {
                 expect($lis.eq(2), 'Import action').to.contain('Import');
                 expect($lis.eq(3), 'Export action').to.contain('Export');
                 expect($lis.eq(4), 'Move action').to.contain('Move To');
-                expect($lis.eq(5), 'New item action').to.contain('New item');
+                expect($lis.eq(5), 'New Group action').to.contain('New Group');
             });
         cy.location('pathname').should('eq', indexUrl);
     });
@@ -84,7 +84,7 @@ describe('Items', () => {
     });
 
     it('should contain a form with text box value item', function () {
-        cy.get('form#form_1').find('input[type=text]').should('have.attr', 'value', 'Item');
+        cy.get('form#form_1').find('input[type=text]').should('have.attr', 'value', 'Group');
         cy.get('form#form_1').contains('Save');
         cy.get('.form-submitter').click();
         cy.location('pathname').should('eq', indexUrl);
