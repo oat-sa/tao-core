@@ -10,6 +10,7 @@ The local structure is a reduced form of the classic Cypress project structure:
   |-- envs/             # environment configs
   |-- fixtures/         # static data used in tests
   |-- tests/            # root folder of the tests
+  |-- plugins/          # folder for the plugins
   |-- support/          # support commands, imports, global setup
 </pre>
 
@@ -29,19 +30,15 @@ Create `envs/env*.json` file and set it in the `cypress.json`:
 
 ## Commands
 
-[Commands](https://docs.cypress.io/api/cypress-api/custom-commands.html) are a key part of Cypress. Commands can be registered to `Cypress.Commands` at several levels:
-
-- locally to a spec file (it will not exist outside that scope)
-- globally in your project, in `cypress/support/commands.js` (or a sibling file - extra files can be created, for organisation)
-- centrally, in `e2e-runner`, if the command should be shared or re-used
+[Commands](https://docs.cypress.io/api/cypress-api/custom-commands.html) are a key part of Cypress. For now commands can be registered to `Cypress.Commands` in `cypress/support/commands` file.
+There's no ability to register them within the extensions yet.
 
 > When registering a local or global command, take care to avoid name collisions with any command you might have imported.
 
 ## Plugins
 
-Having a single function handling plugins init (the `export` of the above file) is simpler than trying to init on 2 levels. Plugin dependency updating is also restricted to a single place.
-
-Some plugins also register commands. You can import these files (for their side effects) in the local `support/index.js`.
+Plugins can be created in `cypress/plugins` directory.
+Some plugins also register commands. You can import these files (for their side effects) in the `cypress/support/index.js`.
 
 Example:
 
@@ -49,7 +46,32 @@ Example:
 // cypress/support/index.js
 import '@cypress/skip-test/support';
 ```
+There's no ability to add plugins in the extensions yet.
 
 ## Fixtures
 
 Any data needed in local tests (and not hard-coded) should be placed in `cypress/fixtures/`. Can be JSON, JavaScript, zip files, whatever is needed.
+There's no ability to add fixtures in the extensions yet.
+
+
+## How to run the tests
+
+To run the tests there's a single entry point in tao core.
+
+In your tao installation folder:
+* `cd tao/views`
+* `npm install`
+* `npm run cy:open`  - to open cypress UI and browser
+    
+    or
+    
+   `npm run cy:run` - to run the tests headless
+   
+## How to create your tests
+
+Add .spec files to the `views/cypress/tests` folder of an appropriate extension.
+> Remember to place the tests to corresponding extension.
+
+> Feel free to use common commands from the tao core (located in `tao/views/cypress/support`)
+
+> The tests should not rely on the interface text because different environments may have different language settings.
