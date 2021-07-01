@@ -20,11 +20,6 @@ import urls from '../utils/urls';
 
 
 describe('Login', () => {
-    it('forwards to login page', function () {
-        cy.visit(urls.index);
-        cy.location('pathname').should('eq', urls.login);
-    });
-
     // helper that creates a login attempt with provided data
     const loginAttempt = (username, password) => {
         cy.get('#login', { timeout: 10000 }).type(username);
@@ -41,7 +36,7 @@ describe('Login', () => {
         cy.location('pathname').should('eq', urls.login);
     });
 
-    it('successful admin login', function () {
+    it('can login with admin user', function () {
         const username = Cypress.env('adminUser');
         const password = Cypress.env('adminPass');
 
