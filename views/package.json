@@ -8,8 +8,8 @@
         "url": "git+https://github.com/oat-sa/tao-core.git"
     },
     "scripts": {
-        "cy:open": "cypress open",
-        "cy:run": "cypress run"
+        "cy:open": "./node_modules/@oat-sa/e2e-runner/node_modules/.bin/cypress open",
+        "cy:run": "./node_modules/@oat-sa/e2e-runner/node_modules/.bin/cypress run"
     },
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
@@ -35,8 +35,5 @@
         "select2": "3.5.1",
         "tooltip.js": "1.3.2",
         "url-polyfill": "1.1.12"
-    },
-    "devDependencies": {
-        "cypress": "^7.5.0"
     }
 }
