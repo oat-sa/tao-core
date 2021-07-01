@@ -40,6 +40,32 @@ Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
     });
 });
 
+Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelector, name) => {
+    cy.log('COMMAND: deleteClass', name);
+
+    cy.contains(name).click();
+    cy.get(formSelector).should('exist');
+
+    cy.get(deleteSelector).click();
+    cy.get('.modal-body').then((body) => {
+        if (body.find('label[for=confirm]').length) {
+            cy.get('label[for=confirm]').click();
+        }
+        cy.get(confirmSelector).click();
+    });
+});
+
+Cypress.Commands.add('deleteClassFromRoot', (rootSelector, formSelector, deleteSelector, confirmSelector, name) => {
+    cy.log('COMMAND: deleteClassFromRoot', name);
+
+    // timeout for the tree to load
+    cy.get(rootSelector, { timeout: 7000 }).then(root => {
+        if (root.find(`li[title="${name}"] a`).length > 0) {
+            cy.deleteClass(formSelector, deleteSelector, confirmSelector, name);
+        }
+    });
+});
+
 Cypress.Commands.add('addNode', (formSelector, addSelector) => {
     cy.log('COMMAND: addNode');
 
@@ -55,6 +81,17 @@ Cypress.Commands.add('selectNode', (formSelector, name) => {
 
     cy.get(`li[title="${name}"] a`).click();
     cy.get(formSelector).should('exist');
+});
+
+Cypress.Commands.add('deleteNode', (deleteSelector, name) => {
+    cy.log('COMMAND: deleteNode', name);
+
+    cy.contains(name).click();
+
+    cy.get(deleteSelector).click();
+    cy.get('[data-control="ok"]').click();
+
+    cy.get(`li[title="${name}"] a`).should('not.exist');
 });
 
 Cypress.Commands.add('renameSelected', (formSelector, newName) => {
@@ -74,31 +111,5 @@ Cypress.Commands.add('renameSelected', (formSelector, newName) => {
     cy.get(formSelector).should('exist');
 
     cy.get(`li[title="${newName}"] a`).should('exist');
-});
-
-Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelector, name) => {
-    cy.log('COMMAND: deleteClass', name);
-
-    cy.contains(name).click();
-    cy.get(formSelector).should('exist');
-
-    cy.get(deleteSelector).click();
-    cy.get('.modal-body').then((body) => {
-        if (body.find('label[for=confirm]').length) {
-            cy.get('label[for=confirm]').click();
-        }
-        cy.get(confirmSelector).click();
-    });
-});
-
-Cypress.Commands.add('deleteNode', (deleteSelector, name) => {
-    cy.log('COMMAND: deleteNode', name);
-
-    cy.contains(name).click();
-
-    cy.get(deleteSelector).click();
-    cy.get('[data-control="ok"]').click();
-
-    cy.get(`li[title="${name}"] a`).should('not.exist');
 });
 
