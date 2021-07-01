@@ -16,13 +16,13 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
-describe('Login', () => {
-    const indexUrl = '/tao/Main/index';
-    const loginUrl = '/tao/Main/login';
+import urls from '../utils/urls';
 
+
+describe('Login', () => {
     it('forwards to login page', function () {
-        cy.visit(indexUrl);
-        cy.location('pathname').should('eq', loginUrl);
+        cy.visit(urls.index);
+        cy.location('pathname').should('eq', urls.login);
     });
 
     // helper that creates a login attempt with provided data
@@ -34,20 +34,20 @@ describe('Login', () => {
     };
 
     it('cannot login with invalid user', function () {
-        cy.visit(loginUrl);
+        cy.visit(urls.login);
         loginAttempt('invalid', '123');
 
         cy.get('.feedback[role=alert]').should('exist');
-        cy.location('pathname').should('eq', loginUrl);
+        cy.location('pathname').should('eq', urls.login);
     });
 
     it('successful admin login', function () {
         const username = Cypress.env('adminUser');
         const password = Cypress.env('adminPass');
 
-        cy.visit(loginUrl);
+        cy.visit(urls.login);
         loginAttempt(username, password);
 
-        cy.location('pathname').should('eq', indexUrl);
+        cy.location('pathname').should('eq', urls.index);
     });
 });
