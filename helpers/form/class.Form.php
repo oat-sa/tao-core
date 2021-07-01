@@ -629,7 +629,7 @@ abstract class tao_helpers_form_Form
         return false;
     }
 
-    public function checkFormInstance(): bool
+    public function isFormInstance(): bool
     {
         foreach ($this->elements as $element) {
             if ($element->getName() == "tao.forms.instance" ) {
