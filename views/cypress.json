@@ -6,6 +6,7 @@
   "pluginsFile": "cypress/plugins",
   "video": false,
   "videosFolder": "cypress/videos",
+  "defaultCommandTimeout": 10000,
   "pageLoadTimeout": 30000,
   "env": {
     "configFile": "cypress/envs/env.json"
