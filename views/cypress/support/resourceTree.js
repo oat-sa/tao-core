@@ -25,14 +25,14 @@ Cypress.Commands.add('addClass', formSelector => {
 
     // hack to cope with flickering
     cy.get(formSelector).should('not.exist');
-    cy.get(formSelector);
+    cy.get(formSelector).should('exist');
 });
 
 Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
     cy.log('COMMAND: addClassToRoot', name);
 
     // timeout for the tree to load
-    cy.get(rootSelector, { timeout: 7000 }).then(root => {
+    cy.get(`${rootSelector} a`).first().then(root => {
         if (root.find(`li[title="${name}"] a`).length === 0) {
             cy.addClass(formSelector);
             cy.renameSelected(formSelector, name);
@@ -43,7 +43,7 @@ Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
 Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelector, name) => {
     cy.log('COMMAND: deleteClass', name);
 
-    cy.contains(name).click();
+    cy.contains('a', name).click();
     cy.get(formSelector).should('exist');
 
     cy.get(deleteSelector).click();
@@ -58,8 +58,10 @@ Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelect
 Cypress.Commands.add('deleteClassFromRoot', (rootSelector, formSelector, deleteSelector, confirmSelector, name) => {
     cy.log('COMMAND: deleteClassFromRoot', name);
 
+    cy.get(`${rootSelector} a`).first().click();
+
     // timeout for the tree to load
-    cy.get(rootSelector, { timeout: 7000 }).then(root => {
+    cy.get(rootSelector).then(root => {
         if (root.find(`li[title="${name}"] a`).length > 0) {
             cy.deleteClass(formSelector, deleteSelector, confirmSelector, name);
         }
@@ -73,25 +75,26 @@ Cypress.Commands.add('addNode', (formSelector, addSelector) => {
 
     // hack to cope with the forms flickering
     cy.get(formSelector).should('not.exist');
-    cy.get(formSelector);
+    cy.get(formSelector).should('exist');
 });
 
-Cypress.Commands.add('selectNode', (formSelector, name) => {
+Cypress.Commands.add('selectNode', (rootSelector, formSelector, name) => {
     cy.log('COMMAND: selectNode', name);
 
-    cy.get(`li[title="${name}"] a`).click();
+    cy.get(`${rootSelector} a`).first().click();
+    cy.contains('a', name).click();
     cy.get(formSelector).should('exist');
 });
 
 Cypress.Commands.add('deleteNode', (deleteSelector, name) => {
     cy.log('COMMAND: deleteNode', name);
 
-    cy.contains(name).click();
+    cy.contains('a', name).click();
 
     cy.get(deleteSelector).click();
     cy.get('[data-control="ok"]').click();
 
-    cy.get(`li[title="${name}"] a`).should('not.exist');
+    cy.contains('a', name).should('not.exist');
 });
 
 Cypress.Commands.add('renameSelected', (formSelector, newName) => {
@@ -110,6 +113,6 @@ Cypress.Commands.add('renameSelected', (formSelector, newName) => {
     cy.get(formSelector).should('not.exist');
     cy.get(formSelector).should('exist');
 
-    cy.get(`li[title="${newName}"] a`).should('exist');
+    cy.contains('a', newName).should('exist');
 });
 
