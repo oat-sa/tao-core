@@ -26,3 +26,10 @@ Cypress.Commands.add('loginAsAdmin', () => {
 
     cy.login({ url: urls.login, username, password });
 });
+
+// Preserve session cookies to stay logged in to TAO during tests
+Cypress.Cookies.defaults({
+    preserve: (cookie) => {
+        return cookie.name.startsWith('tao_');
+    }
+});
