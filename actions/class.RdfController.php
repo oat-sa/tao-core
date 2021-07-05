@@ -24,6 +24,8 @@
 use oat\oatbox\user\User;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
+use oat\tao\model\taskQueue\TaskLogActionTrait;
+use oat\tao\model\accessControl\ActionAccessControl;
 use oat\tao\model\search\tasks\IndexTrait;
 use oat\tao\model\accessControl\PermissionChecker;
 use oat\tao\model\controller\SignedFormInstance;
@@ -52,6 +54,7 @@ use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 abstract class tao_actions_RdfController extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
+    use TaskLogActionTrait;
     use IndexTrait;
 
     /** @var SignatureValidator */
@@ -1038,20 +1041,27 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         );
 
         $class = $this->getClass($id);
-        if ($this->getRootClass()->equals($class)) {
-            $success = false;
-            $msg = __('You cannot delete the root node');
-        } else {
-            $label = $class->getLabel();
-            $success = $this->getClassService()->deleteClass($class);
-            $msg = $success ? __('%s has been deleted', $label) : __('Unable to delete %s', $label);
-        }
 
-        $this->returnJson([
-            'success' => $success,
-            'message' => $msg,
-            'deleted' => $success
-        ]);
+        if (!$this->getRootClass()->equals($class)) {
+            $label = $class->getLabel();
+            $task = $this->getClassService()->createClassDeletionTask($class);
+
+            $this->returnJson([
+                'success' => true,
+                'deleted' => true,
+                'message' => __('Deleting the class ' . $label),
+                'data' => [
+                    'extraData' => [],
+                    'task' => $this->getTaskLogReturnData($task->getId()),
+                ]
+            ]);
+        } else {
+            $this->returnJson([
+                'success' => false,
+                'deleted' => false,
+                'message' => __('You cannot delete the root node'),
+            ]);
+        }
     }
 
     /**

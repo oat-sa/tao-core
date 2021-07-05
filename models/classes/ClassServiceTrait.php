@@ -21,8 +21,12 @@
 
 namespace oat\tao\model;
 
+use core_kernel_classes_Class;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\task\DeleteClassTask;
 use oat\tao\model\search\index\OntologyIndex;
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 
 /**
  * Trait ClassServiceTrait
@@ -34,7 +38,7 @@ trait ClassServiceTrait
     /**
      * Returns the root class of this service
      *
-     * @return \core_kernel_classes_Class
+     * @return core_kernel_classes_Class
      */
     abstract public function getRootClass();
 
@@ -53,22 +57,22 @@ trait ClassServiceTrait
      * Delete a subclass
      *
      * @access public
-     * @param \core_kernel_classes_Class $clazz
+     * @param core_kernel_classes_Class $clazz
      * @return boolean
      * @throws \common_exception_Error
      */
-    public function deleteClass(\core_kernel_classes_Class $clazz)
+    public function deleteClass(core_kernel_classes_Class $clazz)
     {
         $returnValue = (bool) false;
-        
+
         if ($clazz->isSubClassOf($this->getRootClass()) && ! $clazz->equals($this->getRootClass())) {
             $returnValue = true;
-            
+
             $instances = $clazz->getInstances();
             foreach ($instances as $instance) {
                 $this->deleteResource($instance);
             }
-            
+
             $subclasses = $clazz->getSubClasses(false);
             foreach ($subclasses as $subclass) {
                 $returnValue = $returnValue && $this->deleteClass($subclass);
@@ -80,8 +84,22 @@ trait ClassServiceTrait
         } else {
             \common_Logger::w('Tried to delete class ' . $clazz->getUri() . ' as if it were a subclass of ' . $this->getRootClass()->getUri());
         }
-        
+
         return (bool) $returnValue;
+    }
+
+    public function createClassDeletionTask(core_kernel_classes_Class $class): CallbackTaskInterface
+    {
+        /** @var QueueDispatcherInterface $queueDispatcher */
+        $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+
+        return $queueDispatcher->createTask(
+            new DeleteClassTask(),
+            [
+                DeleteClassTask::PARAM_CLASS_URI => $class->getUri(),
+                DeleteClassTask::PARAM_ROOT_CLASS_URI => $this->getRootClass()->getUri(),
+            ]
+        );
     }
 
     /**
