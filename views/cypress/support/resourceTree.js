@@ -1,0 +1,118 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
+ */
+
+/**
+ * Commands
+ */
+Cypress.Commands.add('addClass', formSelector => {
+    cy.log('COMMAND: addClass');
+    cy.get('[data-context=resource][data-action=subClass]').click();
+
+    // hack to cope with flickering
+    cy.get(formSelector).should('not.exist');
+    cy.get(formSelector).should('exist');
+});
+
+Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
+    cy.log('COMMAND: addClassToRoot', name);
+
+    // timeout for the tree to load
+    cy.get(`${rootSelector} a`).first().then(root => {
+        if (root.find(`li[title="${name}"] a`).length === 0) {
+            cy.addClass(formSelector);
+            cy.renameSelected(formSelector, name);
+        }
+    });
+});
+
+Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelector, name) => {
+    cy.log('COMMAND: deleteClass', name);
+
+    cy.contains('a', name).click();
+    cy.get(formSelector).should('exist');
+
+    cy.get(deleteSelector).click();
+    cy.get('.modal-body').then((body) => {
+        if (body.find('label[for=confirm]').length) {
+            cy.get('label[for=confirm]').click();
+        }
+        cy.get(confirmSelector).click();
+    });
+});
+
+Cypress.Commands.add('deleteClassFromRoot', (rootSelector, formSelector, deleteSelector, confirmSelector, name) => {
+    cy.log('COMMAND: deleteClassFromRoot', name);
+
+    cy.get(`${rootSelector} a`).first().click();
+
+    // timeout for the tree to load
+    cy.get(rootSelector).then(root => {
+        if (root.find(`li[title="${name}"] a`).length > 0) {
+            cy.deleteClass(formSelector, deleteSelector, confirmSelector, name);
+        }
+    });
+});
+
+Cypress.Commands.add('addNode', (formSelector, addSelector) => {
+    cy.log('COMMAND: addNode');
+
+    cy.get(addSelector).click();
+
+    // hack to cope with the forms flickering
+    cy.get(formSelector).should('not.exist');
+    cy.get(formSelector).should('exist');
+});
+
+Cypress.Commands.add('selectNode', (rootSelector, formSelector, name) => {
+    cy.log('COMMAND: selectNode', name);
+
+    cy.get(`${rootSelector} a`).first().click();
+    cy.contains('a', name).click();
+    cy.get(formSelector).should('exist');
+});
+
+Cypress.Commands.add('deleteNode', (deleteSelector, name) => {
+    cy.log('COMMAND: deleteNode', name);
+
+    cy.contains('a', name).click();
+
+    cy.get(deleteSelector).click();
+    cy.get('[data-control="ok"]').click();
+
+    cy.contains('a', name).should('not.exist');
+});
+
+Cypress.Commands.add('renameSelected', (formSelector, newName) => {
+    cy.log('COMMAND: renameSelectedClass', newName);
+
+    // TODO: update selector when data-testid attributes will be added
+    cy.get(formSelector)
+        .within(() => {
+            cy.get('input[name*=label]')
+                .clear()
+                .type(newName);
+            cy.get('button').click();
+        });
+
+    // hack to cope with the forms flickering
+    cy.get(formSelector).should('not.exist');
+    cy.get(formSelector).should('exist');
+
+    cy.contains('a', newName).should('exist');
+});
+
