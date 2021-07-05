@@ -144,6 +144,7 @@ class SearchProxy extends ConfigurableService implements Search
         }
 
         if ($this->isForcingDefaultSearch($query) || !$this->getAdvancedSearchChecker()->isEnabled()) {
+            //FIXME @TODO Check if it is an URI and search for it
             $result = $this->getIdentifierSearcher()->search($query);
 
             if ($result->getTotalCount() > 0) {
