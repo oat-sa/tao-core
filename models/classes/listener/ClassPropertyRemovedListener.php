@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\listener;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\tao\model\search\tasks\DeleteIndexProperty;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
@@ -33,6 +34,10 @@ class ClassPropertyRemovedListener extends ConfigurableService
 
     public function handleEvent(ClassPropertyRemovedEvent $event): void
     {
+        if (!$this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
+            return;
+        }
+
         $taskMessage = __('Updating search index');
 
         /** @var QueueDispatcherInterface $queueDispatcher */

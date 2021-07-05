@@ -23,6 +23,7 @@ namespace oat\tao\model\listener;
 
 use core_kernel_classes_Property;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\event\ClassPropertiesChangedEvent;
 use oat\tao\model\search\tasks\RenameIndexProperties;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
@@ -34,6 +35,10 @@ class ClassPropertiesChangedListener extends ConfigurableService
 
     public function handleEvent(ClassPropertiesChangedEvent $event): void
     {
+        if ( !$this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
+            return;
+        }
+        
         $taskMessage = __('Updating search index');
 
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
