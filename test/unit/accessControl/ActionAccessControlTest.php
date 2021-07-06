@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\accessControl;
 
 use oat\generis\test\TestCase;
+use oat\oatbox\log\LoggerService;
 use common_test_TestUser as TestUser;
 use oat\tao\model\accessControl\ActionAccessControl;
 
@@ -40,6 +41,13 @@ class ActionAccessControlTest extends TestCase
     public function setUp(): void
     {
         $this->actionAccessControl = new ActionAccessControl();
+        $this->actionAccessControl->setServiceLocator(
+            $this->getServiceLocatorMock(
+                [
+                    LoggerService::SERVICE_ID => $this->createMock(LoggerService::class)
+                ]
+            )
+        );
 
         $this->user = $this->createUser();
         $this->user->setRoles(['role1']);
