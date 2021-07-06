@@ -43,6 +43,10 @@ class SearchProxy extends ConfigurableService implements Search
         TaoOntology::CLASS_URI_TAO_USER,
     ];
 
+    private const CLASSES_DISABLE_URI_SEARCH = [
+        TaoOntology::CLASS_URI_ASSEMBLED_DELIVERY,
+    ];
+
     public function getAdvancedSearch(): ?SearchInterface
     {
         return $this->getService(self::OPTION_ADVANCED_SEARCH_CLASS);
@@ -143,10 +147,12 @@ class SearchProxy extends ConfigurableService implements Search
             return new ResultSet([], 0);
         }
 
-        $result = $this->getIdentifierSearcher()->search($query);
+        if ($this->allowIdentifierSearch($query)) {
+            $result = $this->getIdentifierSearcher()->search($query);
 
-        if ($result->getTotalCount() > 0) {
-            return $result;
+            if ($result->getTotalCount() > 0) {
+                return $result;
+            }
         }
 
         if ($this->isForcingDefaultSearch($query) || !$this->getAdvancedSearchChecker()->isEnabled()) {
@@ -191,6 +197,11 @@ class SearchProxy extends ConfigurableService implements Search
         return in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST, true);
     }
 
+    private function allowIdentifierSearch(SearchQuery $query): bool
+    {
+        return !in_array($query->getParentClass(), self::CLASSES_DISABLE_URI_SEARCH, true);
+    }
+
     private function getIndexSearch(): SearchInterface
     {
         return $this->getAdvancedSearchChecker()->isEnabled()
@@ -214,6 +225,10 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function getAdvancedSearchQueryString(SearchQuery $query): string
     {
-        return $query->getTerm() . sprintf(' AND parent_classes: "%s"', $query->getParentClass());
+        return sprintf(
+            '%s AND parent_classes: "%s"',
+            $query->getTerm(),
+            $query->getParentClass()
+        );
     }
 }
