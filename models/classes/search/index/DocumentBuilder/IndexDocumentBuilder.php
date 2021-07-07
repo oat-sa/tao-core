@@ -250,17 +250,6 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
                 }
 
                 $fieldName = $propertyTypeId . '_' . \tao_helpers_Slug::create($customPropertyLabel);
-                $propertyValue = $resource->getOnePropertyValue($property);
-
-                if (null === $propertyValue) {
-                    continue;
-                }
-
-                if ($propertyValue instanceof Literal) {
-                    $customProperties[$fieldName][] = (string)$propertyValue;
-                    $customProperties[$fieldName] = array_unique($customProperties[$fieldName]);
-                    continue;
-                }
 
                 $customPropertiesValues = $resource->getPropertyValues($property);
                 $customProperties[$fieldName] = array_map(
