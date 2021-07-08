@@ -2,11 +2,16 @@
 
 namespace oat\tao\model\i18n;
 
+use common_ext_ExtensionsManager as ExtensionsManager;
+use l10n;
 use oat\oatbox\service\ConfigurableService;
 
+// todo: two of methods are not used, check if this service needed?
 class ExtraPoService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/ExtraPoService';
+    public const SERVICE_ID = 'tao/ExtraPoService';
+
+    protected const OPTION_PATHS = 'paths';
     
     public function __construct(array $options = [])
     {
@@ -65,20 +70,15 @@ class ExtraPoService extends ConfigurableService
         }
     }
     
-    public function requirePos()
+    public function requirePOFiles(): void
     {
-        $count = 0;
-        $extensionManager = \common_ext_ExtensionsManager::singleton();
-        
-        foreach ($this->getOption('paths') as $extId => $files) {
-            $ext = $extensionManager->getExtensionById($extId);
+        $extensionManager = $this->getServiceLocator()->get(ExtensionsManager::SERVICE_ID);
+
+        foreach ($this->getOption(self::OPTION_PATHS) as $id => $files) {
+            $extension = $extensionManager->getExtensionById($id);
             foreach ($files as $file) {
-                if (\l10n::set($ext->getDir() . $file) !== false) {
-                    $count++;
-                }
+                l10n::set($extension->getDir() . $file);
             }
         }
-        
-        return $count;
     }
 }
