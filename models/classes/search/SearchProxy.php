@@ -43,8 +43,8 @@ class SearchProxy extends ConfigurableService implements Search
         TaoOntology::CLASS_URI_TAO_USER,
     ];
 
-    private const CLASSES_DISABLE_URI_SEARCH = [
-        TaoOntology::CLASS_URI_ASSEMBLED_DELIVERY,
+    private const DISABLE_URI_SEARCH_FOR_ROOT_CLASSES = [
+        'results',
     ];
 
     public function getAdvancedSearch(): ?SearchInterface
@@ -199,7 +199,7 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function allowIdentifierSearch(SearchQuery $query): bool
     {
-        return !in_array($query->getParentClass(), self::CLASSES_DISABLE_URI_SEARCH, true);
+        return !in_array($query->getRootClass(), self::DISABLE_URI_SEARCH_FOR_ROOT_CLASSES, true);
     }
 
     private function getIndexSearch(): SearchInterface
