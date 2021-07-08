@@ -30,14 +30,16 @@ use core_kernel_persistence_smoothsql_SmoothModel;
 use common_persistence_SqlPersistence;
 use common_ext_ExtensionsManager;
 use core_kernel_persistence_smoothsql_SmoothIterator;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\extension\ExtensionModel;
+use oat\tao\model\i18n\LanguageService;
 
 class OntologyUpdater
 {
-    
     public static function syncModels()
     {
         $currentModel = ModelManager::getModel();
+
         $modelIds = array_diff($currentModel->getReadableModels(), ['1']);
         
         $persistence = common_persistence_SqlPersistence::getPersistence('default');
@@ -45,13 +47,19 @@ class OntologyUpdater
         $smoothIterator = new core_kernel_persistence_smoothsql_SmoothIterator($persistence, $modelIds);
         
         $nominalModel = new AppendIterator();
+
         foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
             $nominalModel->append(new ExtensionModel($ext));
         }
-        $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
-        $nominalModel->append($langModel);
+        // todo: replace by new service
+
+        /** @var LanguageService $languageService */
+        $languageService = ServiceManager::getServiceManager()->get(LanguageService::SERVICE_ID);
+
+        $nominalModel->append($languageService->getLanguagesDefinition());
         
         $diff = helpers_RdfDiff::create($smoothIterator, $nominalModel);
+
         self::logDiff($diff);
         
         $diff->applyTo($currentModel);

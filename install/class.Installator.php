@@ -25,6 +25,7 @@ use oat\generis\persistence\DriverConfigurationFeeder;
 use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\i18n\LanguageService;
 use oat\tao\model\OperatedByService;
 use oat\generis\persistence\sql\DbCreator;
 use oat\generis\persistence\sql\SetupDb;
@@ -243,7 +244,7 @@ class tao_install_Installator
                 }
             }
             $cachePath = $file_path . 'generis' . DIRECTORY_SEPARATOR . 'cache';
-            if (mkdir($cachePath, 0700, true)) {
+            if (mkdir($cachePath, 0700, true) || is_dir($cachePath)) {
                 $this->log('d', $cachePath . ' directory was created!');
             } else {
                 throw new Exception($cachePath . ' directory creation was failed!');
@@ -280,14 +281,15 @@ class tao_install_Installator
             $generisInstaller->initContainer($this->getContainer());
             $generisInstaller->install();
 
-            /*
-             * 7 - Add languages
-             */
-            $this->log('d', 'Adding languages..');
-            $ontology = $this->getServiceManager()->get(Ontology::SERVICE_ID);
-            $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
-            $rdfModel = $ontology->getRdfInterface();
-            foreach ($langModel as $triple) {
+            /** 7 - Add languages */
+
+            $this->log('d', 'Adding languages...');
+
+            $ontologyService = $this->getServiceManager()->get(Ontology::SERVICE_ID);
+            $languageService = $this->getServiceManager()->get(LanguageService::SERVICE_ID);
+
+            $rdfModel = $ontologyService->getRdfInterface();
+            foreach ($languageService->getLanguagesDefinition() as $triple) {
                 $rdfModel->add($triple);
             }
 
