@@ -253,11 +253,9 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
             }
         }
 
-        foreach ($customProperties as $fieldName => $value) {
-            $customProperties[$fieldName] = array_values(array_unique(array_merge(...(array_values($value)))));
-        }
+        $customProperties = $this->normalizeAndFilterUniqueValues($customProperties);
 
-        return new ArrayIterator(array_filter($customProperties));
+        return new ArrayIterator($customProperties);
     }
 
     private function getAccessProperties(Resource $resource): ?Iterator
@@ -290,5 +288,13 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
     private function isRootClass(string $uri): bool
     {
         return in_array($uri, self::ROOT_CLASSES);
+    }
+
+    private function normalizeAndFilterUniqueValues(array $customProperties): array
+    {
+        foreach ($customProperties as $fieldName => $value) {
+            $customProperties[$fieldName] = array_values(array_unique(array_merge(...(array_values($value)))));
+        }
+        return array_filter($customProperties);
     }
 }
