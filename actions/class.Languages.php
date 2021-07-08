@@ -23,8 +23,8 @@ declare(strict_types=1);
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\http\Controller;
 use oat\tao\model\http\HttpJsonResponseTrait;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Laminas\ServiceManager\ServiceLocatorAwareInterface;
+use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 
 class tao_actions_Languages extends Controller implements ServiceLocatorAwareInterface
 {
@@ -39,6 +39,9 @@ class tao_actions_Languages extends Controller implements ServiceLocatorAwareInt
                 ->withExpiration(time() + 60);
 
             $this->setSuccessJsonResponse(
+
+                // todo: replace by service, instead of helpers
+
                 tao_helpers_I18n::getAvailableLangsByUsage(
                     $this->getResource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)
                 )
