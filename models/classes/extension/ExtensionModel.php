@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,35 +18,46 @@
  *
  */
 
+declare(strict_types = 1);
+
 namespace oat\tao\model\extension;
 
-use oat\tao\model\TaoOntology;
-use tao_models_classes_LanguageService;
+use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\i18n\LanguageService;
 use common_ext_Extension;
-use core_kernel_classes_Resource;
-use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
 
 class ExtensionModel extends \common_ext_ExtensionModel
 {
+    use OntologyAwareTrait;
 
+    /**
+     * @throws \core_kernel_classes_EmptyProperty
+     * @throws \common_Exception
+     */
     public function __construct(common_ext_Extension $extension)
     {
         parent::__construct($extension);
+
         $this->addLanguages($extension);
     }
-    
-    protected function addLanguages($extension)
-    {
-        $langService = tao_models_classes_LanguageService::singleton();
-        $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
-        $dataOptions = [];
 
-        $model = ModelManager::getModel();
-        foreach ($langService->getAvailableLanguagesByUsage($dataUsage) as $lang) {
-            $langCode = $langService->getCode($lang);
-            $pack = new RdfPack($langCode, $extension);
-            $this->append($pack->getIterator());
+    /**
+     * @throws \core_kernel_classes_EmptyProperty
+     * @throws \common_Exception
+     * @throws \Exception
+     */
+    protected function addLanguages($extension): void
+    {
+        /** @var LanguageService $languageService */
+        $languageService = ServiceManager::getServiceManager()->get(LanguageService::SERVICE_ID);
+
+        $usage = $this->getResource(LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
+
+        foreach ($languageService->getAvailableLanguagesByUsage($usage) as $language) {
+            $code = $languageService->getCodeByLanguage($language);
+            $this->append((new RdfPack($code, $extension))->getIterator());
         }
     }
 }
