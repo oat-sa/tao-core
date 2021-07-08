@@ -147,6 +147,19 @@ class ActionAccessControl extends ConfigurableService
             }
         }
 
+        if ($roleIsListed) {
+            $this->logWarning(
+                sprintf(
+                    'User roles "%s" permissions "%s" do not have allowed permissions "%s" for controller "%s::%s',
+                    implode(', ', $userRoles),
+                    implode(', ', $permissions),
+                    implode(', ', $allowedPermissions),
+                    $controller,
+                    $action
+                )
+            );
+        }
+
         return !$roleIsListed;
     }
 
