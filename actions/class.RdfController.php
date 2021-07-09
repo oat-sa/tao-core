@@ -1140,7 +1140,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     /**
      * Copy of \tao_actions_PropertiesAuthoring::removeClassProperty to split access between extensions
      *
-     * @requiresRight classUri WRIT
+     * @requiresRight classUri WRITE
      * @throws common_Exception
      */
     public function removeClassProperty(RemoveClassPropertyService $removeClassPropertyService): void
