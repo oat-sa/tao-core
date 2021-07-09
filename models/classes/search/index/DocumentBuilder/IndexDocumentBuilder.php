@@ -14,13 +14,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\model\search\index\DocumentBuilder;
 
+use core_kernel_classes_Container;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\data\permission\ReverseRightLookupInterface;
 use oat\generis\model\OntologyAwareTrait;
@@ -29,15 +30,13 @@ use oat\generis\model\WidgetRdf;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\model\search\index\IndexDocument;
 use ArrayIterator;
-use core_kernel_classes_Literal as Literal;
-use core_kernel_classes_Resource;
+use core_kernel_classes_Resource as Resource;
 use Iterator;
 use oat\tao\model\search\index\IndexProperty;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\TaoOntology;
-use oat\tao\model\WidgetDefinitions;
 use tao_helpers_form_elements_Checkbox;
 use tao_helpers_form_elements_Combobox;
 use tao_helpers_form_elements_Htmlarea;
@@ -77,7 +76,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
     /**
      * {@inheritdoc}
      */
-    public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
+    public function createDocumentFromResource(Resource $resource): IndexDocument
     {
         $tokenizationInfo = $this->getTokenizedResourceBody($resource);
 
@@ -130,7 +129,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
      * @return string[]
      * @throws \common_exception_Error
      */
-    protected function getTypesForResource(\core_kernel_classes_Resource $resource): array
+    protected function getTypesForResource(Resource $resource): array
     {
         $toDo = [];
         foreach ($resource->getTypes() as $class) {
@@ -158,12 +157,10 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
     /**
      * Get the array of properties to be indexed
      *
-     * @param core_kernel_classes_Resource $resource
-     * @return array
      * @throws \common_Exception
      * @throws \common_exception_InconsistentData
      */
-    protected function getTokenizedResourceBody(core_kernel_classes_Resource $resource): array
+    protected function getTokenizedResourceBody(Resource $resource): array
     {
         $tokenGenerator = new SearchTokenGenerator();
 
@@ -189,8 +186,6 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
 
     /**
      * Get the list of index properties for indexation
-     * @param OntologyIndex $index
-     * @return IndexProperty
      * @throws \common_Exception
      */
     protected function getIndexProperties(OntologyIndex $index): IndexProperty
@@ -209,12 +204,9 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
 
     /**
      * Get the dynamic properties for indexation
-     * @param array $classes
-     * @param core_kernel_classes_Resource $resource
-     * @return Iterator
      * @throws \core_kernel_persistence_Exception
      */
-    protected function getDynamicProperties(array $classes, core_kernel_classes_Resource $resource): Iterator
+    protected function getDynamicProperties(array $classes, Resource $resource): Iterator
     {
         $customProperties = [];
 
@@ -224,7 +216,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
             );
 
             foreach ($properties as $property) {
-                /** @var core_kernel_classes_Resource $propertyType |null */
+                /** @var Resource $propertyType |null */
                 $propertyType = $property->getOnePropertyValue(
                     $this->getProperty(
                         WidgetRdf::PROPERTY_WIDGET
@@ -250,32 +242,23 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
                 }
 
                 $fieldName = $propertyTypeId . '_' . \tao_helpers_Slug::create($customPropertyLabel);
-                $propertyValue = $resource->getOnePropertyValue($property);
 
-                if (null === $propertyValue) {
-                    continue;
-                }
-
-                if ($propertyValue instanceof Literal) {
-                    $customProperties[$fieldName][] = (string)$propertyValue;
-                    $customProperties[$fieldName] = array_unique($customProperties[$fieldName]);
-                    continue;
-                }
-
-                $customPropertiesValues = $resource->getPropertyValues($property);
-                $customProperties[$fieldName] = array_map(
-                    function (string $propertyValue): string {
-                        return $this->getProperty($propertyValue)->getLabel();
+                $customPropertiesValues = $resource->getPropertyValuesCollection($property);
+                $customProperties[$fieldName][] = array_map(
+                    function (core_kernel_classes_Container $property): string {
+                        return $property instanceof Resource ? $property->getLabel() : (string)$property;
                     },
-                    $customPropertiesValues
+                    $customPropertiesValues->toArray()
                 );
             }
         }
 
+        $customProperties = $this->normalizeAndFilterUniqueValues($customProperties);
+
         return new ArrayIterator($customProperties);
     }
 
-    private function getAccessProperties(core_kernel_classes_Resource $resource): ?Iterator
+    private function getAccessProperties(Resource $resource): ?Iterator
     {
         $permissionProvider = $this->getServiceLocator()->get(PermissionInterface::SERVICE_ID);
 
@@ -305,5 +288,13 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
     private function isRootClass(string $uri): bool
     {
         return in_array($uri, self::ROOT_CLASSES);
+    }
+
+    private function normalizeAndFilterUniqueValues(array $customProperties): array
+    {
+        foreach ($customProperties as $fieldName => $value) {
+            $customProperties[$fieldName] = array_values(array_unique(array_merge(...(array_values($value)))));
+        }
+        return array_filter($customProperties);
     }
 }
