@@ -25,7 +25,6 @@ namespace oat\tao\model\event;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\oatbox\event\Event;
-use function Webmozart\Assert\Tests\StaticAnalysis\resource;
 
 class ResourceMovedEvent implements Event
 {
