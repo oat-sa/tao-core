@@ -22,20 +22,31 @@ declare(strict_types=1);
 
 namespace oat\tao\model\action;
 
+use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 
 class ActionBlackList extends ConfigurableService
 {
+    use ServiceLocatorAwareTrait;
+
     public const SERVICE_ID = 'tao/ActionBlackList';
     public const OPTION_DISABLED_ACTIONS = 'disabledActions';
-    public const ENV_VARIABLE = 'DISABLED_ACTIONS';
+    public const OPTION_DISABLED_ACTIONS_FLAG_MAP = 'disabledActionsMap';
 
     public function isDisabled(string $action): bool
     {
-        return in_array($action, $this->getOption(self::OPTION_DISABLED_ACTIONS)) ||
+        $disabledActionsMap = $this->getOption(self::OPTION_DISABLED_ACTIONS_FLAG_MAP);
+
+        return array_search($action, $this->getOption(self::OPTION_DISABLED_ACTIONS)) !== false ||
             (
-                isset($_ENV[self::ENV_VARIABLE]) &&
-                in_array($action, explode(',', $_ENV[self::ENV_VARIABLE]))
+                isset($disabledActionsMap[$action]) &&
+                $this->getFeatureFlagChecker()->isEnabled($disabledActionsMap[$action])
             );
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagChecker
+    {
+        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 }
