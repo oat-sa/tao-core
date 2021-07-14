@@ -13,7 +13,7 @@
     },
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
-        "@oat-sa/e2e-runner": "^1.2.0",
+        "@oat-sa/e2e-runner": "github:oat-sa/e2e-runner#fix/TR-1080/add-missing-lti1-parameters",
         "@oat-sa/expr-eval": "1.3.0",
         "@oat-sa/tao-core-libs": "0.4.3",
         "@oat-sa/tao-core-sdk": "1.15.0",
