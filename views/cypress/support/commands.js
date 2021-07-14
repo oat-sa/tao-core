@@ -17,6 +17,7 @@
  */
 
 import '@oat-sa/e2e-runner/support/auth';
+import '@oat-sa/e2e-runner/support/lti.js';
 import './resourceTree'
 import urls from '../utils/urls';
 
