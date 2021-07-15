@@ -36,9 +36,9 @@ class ActionBlackList extends ConfigurableService
 
     public function isDisabled(string $action): bool
     {
-        $disabledActionsMap = $this->getOption(self::OPTION_DISABLED_ACTIONS_FLAG_MAP);
+        $disabledActionsMap = $this->getOption(self::OPTION_DISABLED_ACTIONS_FLAG_MAP, []);
 
-        return array_search($action, $this->getOption(self::OPTION_DISABLED_ACTIONS)) !== false ||
+        return array_search($action, (array) $this->getOption(self::OPTION_DISABLED_ACTIONS, [])) !== false ||
             (
                 isset($disabledActionsMap[$action]) &&
                 $this->getFeatureFlagChecker()->isEnabled($disabledActionsMap[$action])
