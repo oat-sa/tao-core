@@ -21,11 +21,15 @@ import '@oat-sa/e2e-runner/support/lti.js';
 import './resourceTree'
 import urls from '../utils/urls';
 
+Cypress.Commands.add('loginAsUser', (username, password) => {
+    cy.login({ url: urls.login, username, password });
+});
+
 Cypress.Commands.add('loginAsAdmin', () => {
     const username = Cypress.env('adminUser');
     const password = Cypress.env('adminPass');
 
-    cy.login({ url: urls.login, username, password });
+    cy.loginAsUser(username, password);
 });
 
 // Preserve session cookies to stay logged in to TAO during tests
