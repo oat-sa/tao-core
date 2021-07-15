@@ -20,9 +20,7 @@ final class Version202107131252262234_tao extends AbstractMigration
     {
         $this->getServiceManager()->register(
             ActionBlackList::SERVICE_ID,
-            new ActionBlackList([
-                ActionBlackList::OPTION_DISABLED_ACTIONS => []
-            ])
+            new ActionBlackList()
         );
     }
 
