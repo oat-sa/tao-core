@@ -497,6 +497,16 @@ define([
             return this;
         },
 
+        clearContentBlock: function clearContentBlock() {
+            if(!this.selected){
+                return
+            }
+            var $contentblock = $('.content-block', this.selected.panel);
+            if($contentblock.length){
+                $contentblock.empty();
+            }
+        },
+
         /**
          * Loads content from a URL but try to target first the content block area before the panel.
          *

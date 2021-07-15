@@ -22,9 +22,6 @@
 Cypress.Commands.add('addClass', formSelector => {
     cy.log('COMMAND: addClass');
     cy.get('[data-context=resource][data-action=subClass]').click();
-
-    // hack to cope with flickering
-    cy.get(formSelector).should('not.exist');
     cy.get(formSelector).should('exist');
 });
 
@@ -45,7 +42,8 @@ Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelect
 
     cy.contains('a', name).click();
     cy.get(formSelector).should('exist');
-
+    // Wait for update to finish otherwise the modal is not accessible from cy
+    cy.wait(1000);
     cy.get(deleteSelector).click();
     cy.get('.modal-body').then((body) => {
         if (body.find('label[for=confirm]').length) {
@@ -72,9 +70,6 @@ Cypress.Commands.add('addNode', (formSelector, addSelector) => {
     cy.log('COMMAND: addNode');
 
     cy.get(addSelector).click();
-
-    // hack to cope with the forms flickering
-    cy.get(formSelector).should('not.exist');
     cy.get(formSelector).should('exist');
 });
 
@@ -109,8 +104,6 @@ Cypress.Commands.add('renameSelected', (formSelector, newName) => {
             cy.get('button').click();
         });
 
-    // hack to cope with the forms flickering
-    cy.get(formSelector).should('not.exist');
     cy.get(formSelector).should('exist');
 
     cy.contains('a', newName).should('exist');

@@ -101,6 +101,12 @@ define([
             if (actionContext.type !== 'class') {
                 signature = actionContext.classSignature;
             }
+
+            var currentSection = section.current();
+            if (currentSection.clearContentBlock) {
+                currentSection.clearContentBlock();
+            }
+
             return request({
                 url: self.url,
                 method: "POST",
