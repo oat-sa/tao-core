@@ -28,6 +28,7 @@ use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
+use oat\tao\model\action\ActionBlackList;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
@@ -456,7 +457,9 @@ class tao_actions_Main extends tao_actions_CommonModule
                     foreach ($section->getActions() as $action) {
                         $this->propagate($action);
                         $resolver = new ActionResolver($action->getUrl());
-                        if (!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
+                        if (!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction()) ||
+                            $this->getServiceLocator()->get(ActionBlackList::SERVICE_ID)->isDisabled($action->getId())
+                        ) {
                             $section->removeAction($action);
                         }
                     }
