@@ -77,7 +77,7 @@ define([
                 var $sectionOpener = $(this);
                 var $link = $sectionOpener.children('a');
                 var id = $link.attr('href').replace('#panel-', '');
-                var $panel = $('#panel-' + id);
+                var $panel = $(`#panel-${id}`);
                 var isActive = defaultSection ? defaultSection === id : index === 0;
 
                 $panel.removeClass('hidden');
@@ -98,7 +98,7 @@ define([
 
             //to be sure at least one is active, for example when the given default section does not exists
             if(_(this.sections).where({'active' : true }).size() === 0){
-                for(var id in this.sections){
+                for(let id in this.sections){
                     this.sections[id].active =  true;
                     restore = false;
                     break;
@@ -141,12 +141,12 @@ define([
             $openersContainer
                 .off('click.section', 'li')
                 .on('click.section', 'li', function(e){
-                     e.preventDefault();
-                     var id = $(this).children('a').attr('href').replace('#panel-', '');
-                     var section = self.sections[id];
-                     if(!section.disabled){
-                         self.get(id).activate();
-                     }
+                    e.preventDefault();
+                    let id = $(this).children('a').attr('href').replace('#panel-', '');
+                    let section = self.sections[id];
+                    if(!section.disabled){
+                        self.get(id).activate();
+                    }
                 });
 
             //display the openers only if there is more than 1 section
@@ -243,7 +243,7 @@ define([
                     section.active = false;
                 });
                 this.sections[this.selected.id].active = true;
-             } else {
+            } else {
                 this.current();
             }
 
@@ -381,15 +381,13 @@ define([
             if(!section){
 
                 //TODO use templates
-                $sectionPanel = $('<div id="panel-' + data.id +'" class="clear"></div>');
+                $sectionPanel = $(`<div id="panel-${data.id}" class="clear"></div>`);
                 if(data.contentBlock === true){
                     $sectionPanel.append('<section class="content-container"><ul class="plain action-bar content-action-bar horizontal-action-bar"></ul><div class="content-block"></div></section>');
                 }
-                $sectionOpener = $('<li class="small ' + (!data.visible ? 'hidden' : '') +'"><a title="'+data.name+'" data-url="'+data.url+'" href="#panel-' + data.id +'">'+data.name+'</a></li>');
+                $sectionOpener = $(`<li class="small ${  !data.visible ? 'hidden' : '' }"><a title="${data.name}" data-url="${data.url}" href="#panel-${  data.id }">${data.name}</a></li>`);
                 $openersContainer.append($sectionOpener);
                 this.scope.append($sectionPanel);
-
-
 
                 section =  {
                     id          : data.id,
@@ -466,7 +464,7 @@ define([
          * @fires SectionApi#load.section
          */
         load : function load(url, data, loaded){
-            var self = this;
+            let self = this;
 
             if(!this.selected){
                 this.current();
@@ -497,11 +495,14 @@ define([
             return this;
         },
 
+        /**
+         * Clears content from the content block area.
+         **/
         clearContentBlock: function clearContentBlock() {
             if(!this.selected){
-                return
+                return;
             }
-            var $contentblock = $('.content-block', this.selected.panel);
+            const $contentblock = $('.content-block', this.selected.panel);
             if($contentblock.length){
                 $contentblock.empty();
             }
@@ -563,14 +564,13 @@ define([
 
         /**
          * Sugar to help you listen for event on sections
-         *
          * @param {String} eventName - the name of the event (without the namespace)
-         * @param {Function} cg - the event callback
+         * @param {Function} cb - the event callbacks
          * @returns {SectionApi} instance for chaining
          */
         on : function(eventName, cb){
-            var self = this;
-            this.scope.on(eventName + '.section', function(e){
+            let self = this;
+            this.scope.on(`${eventName}.section`, function() {
                 cb.apply(self, Array.prototype.slice.call(arguments, 1));
             });
             return this;
@@ -583,7 +583,7 @@ define([
          * @returns {SectionApi} instance for chaining
          */
         off : function(eventName){
-            this.scope.off(eventName + '.section');
+            this.scope.off(`${eventName  }.section`);
             return this;
         }
     };

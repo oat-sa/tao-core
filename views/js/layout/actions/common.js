@@ -102,7 +102,7 @@ define([
                 signature = actionContext.classSignature;
             }
 
-            var currentSection = section.current();
+            const currentSection = section.current();
             if (currentSection.clearContentBlock) {
                 currentSection.clearContentBlock();
             }
@@ -391,10 +391,10 @@ define([
                         message += "\n";
                         for (i = 0; i < response.data.length; i++) {
                             if (response.data[i].label) {
-                                message += "- " + response.data[i].label + "\n";
+                                message += `- ${response.data[i].label}\n`;
                             }
                         }
-                        message += __("Please confirm this operation.") + "\n";
+                        message += `${__("Please confirm this operation.")}\n`;
 
                         // eslint-disable-next-line no-alert
                         if (window.confirm(message)) {
