@@ -1424,4 +1424,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             throw new InvalidArgumentException('Wrong destination class uri');
         }
     }
+
+    private function getEventManager(): EventManager
+    {
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+    }
 }
