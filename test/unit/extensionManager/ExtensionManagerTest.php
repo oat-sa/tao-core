@@ -5,6 +5,7 @@ namespace oat\tao\test\unit\extensionManager;
 use oat\generis\test\TestCase;
 use oat\tao\model\service\ApplicationService;
 use PHPUnit\Framework\ExpectationFailedException;
+use tao_actions_ExtensionsManager;
 
 class ExtensionManagerTest extends TestCase
 {
@@ -144,30 +145,5 @@ class ExtensionManagerTest extends TestCase
         $controller = $this->getExtensionManagerWithDebugMode(false);
         $this->expectException(\common_exception_BadRequest::class);
         $controller->enable();
-    }
-}
-
-class ExtensionManagerFake extends \tao_actions_ExtensionsManager
-{
-    public function __construct()
-    {
-        // to avoid to set header because body is already sent
-    }
-
-    public function setView($path, $extensionID = null)
-    {
-        // avoid to call Template::getTemplate
-    }
-
-    public function hasRequestParameter($name)
-    {
-        // to intercept the flow and avoid to load common_request
-        throw new ExpectationFailedException('HTTP request cannot be handled by unit test');
-    }
-
-    public function getRequestParameter($name)
-    {
-        // to intercept the flow and avoid to load common_request
-        throw new ExpectationFailedException('HTTP request cannot be handled by unit test');
     }
 }

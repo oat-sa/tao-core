@@ -167,13 +167,6 @@ class RestSessionFactoryTest extends TestCase
     }
 }
 
-class TestRest extends \tao_actions_RestController
-{
-}
-class SubTestRest extends TestRest
-{
-}
-
 class RestSessionFactoryTester extends RestSessionFactory
 {
     public function isRestController(Resolver $resolver): bool
