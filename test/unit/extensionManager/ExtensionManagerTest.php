@@ -147,28 +147,3 @@ class ExtensionManagerTest extends TestCase
         $controller->enable();
     }
 }
-
-class ExtensionManagerFake extends tao_actions_ExtensionsManager
-{
-    public function __construct()
-    {
-        // to avoid to set header because body is already sent
-    }
-
-    public function setView($path, $extensionID = null)
-    {
-        // avoid to call Template::getTemplate
-    }
-
-    public function hasRequestParameter($name)
-    {
-        // to intercept the flow and avoid to load common_request
-        throw new ExpectationFailedException('HTTP request cannot be handled by unit test');
-    }
-
-    public function getRequestParameter($name)
-    {
-        // to intercept the flow and avoid to load common_request
-        throw new ExpectationFailedException('HTTP request cannot be handled by unit test');
-    }
-}
