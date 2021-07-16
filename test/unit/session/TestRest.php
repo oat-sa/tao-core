@@ -23,6 +23,8 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\session;
 
-class TestRest extends \tao_actions_RestController
+use tao_actions_RestController;
+
+class TestRest extends tao_actions_RestController
 {
 }
