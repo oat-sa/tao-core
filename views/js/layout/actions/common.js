@@ -101,6 +101,12 @@ define([
             if (actionContext.type !== 'class') {
                 signature = actionContext.classSignature;
             }
+
+            const currentSection = section.current();
+            if (currentSection.clearContentBlock) {
+                currentSection.clearContentBlock();
+            }
+
             return request({
                 url: self.url,
                 method: "POST",
@@ -385,10 +391,10 @@ define([
                         message += "\n";
                         for (i = 0; i < response.data.length; i++) {
                             if (response.data[i].label) {
-                                message += "- " + response.data[i].label + "\n";
+                                message += `- ${response.data[i].label}\n`;
                             }
                         }
-                        message += __("Please confirm this operation.") + "\n";
+                        message += `${__("Please confirm this operation.")}\n`;
 
                         // eslint-disable-next-line no-alert
                         if (window.confirm(message)) {
