@@ -1280,12 +1280,12 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('40.9.0', '40.9.5');
 
         if ($this->isVersion('40.9.5')) {
-            $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
-            $modelRdf = $this->getServiceManager()->get(Ontology::SERVICE_ID)->getRdfInterface();
-            foreach ($langModel as $triple) {
-                $triple->modelid = core_kernel_persistence_smoothsql_SmoothModel::DEFAULT_WRITABLE_MODEL;
-                $modelRdf->remove($triple);
-            }
+//            $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
+//            $modelRdf = $this->getServiceManager()->get(Ontology::SERVICE_ID)->getRdfInterface();
+//            foreach ($langModel as $triple) {
+//                $triple->modelid = core_kernel_persistence_smoothsql_SmoothModel::DEFAULT_WRITABLE_MODEL;
+//                $modelRdf->remove($triple);
+//            }
             OntologyUpdater::syncModels();
             $this->setVersion('40.9.6');
         }

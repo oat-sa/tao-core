@@ -54,11 +54,3 @@ function _clean($input)
     return tao_helpers_Display::textCleaner($input);
 }
 
-/**
- * Experimental convenience function
- * @return boolean
- */
-function _isRtl()
-{
-    return tao_helpers_I18n::isLanguageRightToLeft(common_session_SessionManager::getSession()->getInterfaceLanguage());
-}
