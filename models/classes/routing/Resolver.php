@@ -28,6 +28,7 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
 use oat\oatbox\extension\exception\ManifestNotFoundException;
+use oat\tao\model\controllerMap\ActionNotFoundException;
 
 /**
  * Resolves a http request to a controller and method
@@ -163,7 +164,7 @@ class Resolver implements ServiceLocatorAwareInterface
      * Tries to resolve the current request using the routes first
      * and then falls back to the legacy controllers
      * @return bool
-     * @throws \ResolverException
+     * @throws ActionNotFoundException
      * @throws \common_exception_InconsistentData
      * @throws ManifestNotFoundException
      */
@@ -188,7 +189,7 @@ class Resolver implements ServiceLocatorAwareInterface
             }
         }
 
-        throw new \ResolverException('Unable to resolve ' . $this->request->getUri()->getPath());
+        throw new ActionNotFoundException('Unable to resolve ' . $this->request->getUri()->getPath());
     }
 
     /**

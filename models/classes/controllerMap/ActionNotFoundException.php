@@ -29,5 +29,8 @@ namespace oat\tao\model\controllerMap;
  */
 class ActionNotFoundException extends \common_Exception
 {
-    
+    public function getSeverity()
+    {
+        return \common_Logger::DEBUG_LEVEL;
+    }
 }
