@@ -109,13 +109,7 @@ class tao_actions_form_EditClassLabel extends \tao_helpers_form_FormContainer
             $element->addValidators([
                 \tao_helpers_form_FormFactory::getValidator('NotEmpty'),
             ]);
-            $namespace = substr($clazz->getUri(), 0, strpos($clazz->getUri(), '#'));
-            if ($namespace != LOCAL_NAMESPACE) {
-                $readonly = \tao_helpers_form_FormFactory::getElement($element->getName(), 'Readonly');
-                $readonly->setDescription($element->getDescription());
-                $readonly->setValue($element->getRawValue());
-                $element = $readonly;
-            }
+            
             $element->addClass('global');
             $this->form->addElement($element);
         }
