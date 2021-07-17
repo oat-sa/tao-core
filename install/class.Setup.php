@@ -27,6 +27,7 @@ use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use oat\tao\install\utils\seed\SeedParser;
 
 class tao_install_Setup implements Action
 {
@@ -71,6 +72,8 @@ class tao_install_Setup implements Action
             }
 
             $filePath = $params[0];
+            $parser = new SeedParser();
+            $seed = $parser->fromFile($filePath);
 
             if (!file_exists($filePath)) {
                 throw new \ErrorException('Unable to find ' . $filePath);
@@ -213,35 +216,20 @@ class tao_install_Setup implements Action
         }
 
         $serviceManager = $installator->getServiceManager();
-
-        if (!isset($parameters['configuration']['generis']['persistences'])) {
-            throw new InvalidArgumentException('Your config should have a \'persistence\' key under \'generis\'');
-        }
-        $persistences = $parameters['configuration']['generis']['persistences'];
-        if (isset($persistences['default'])) {
-            $parameters['configuration']['generis']['persistences'] = $this->wrapPersistenceConfig($persistences);
-        } elseif (!isset($persistences['type'])) {
-            throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
+        foreach($seed->getServices() as $serviceId => $service) {
+            $serviceManager->register($serviceId, $service);
         }
 
-        foreach ($parameters['configuration'] as $extension => $configs) {
-            foreach ($configs as $key => $config) {
-                if (isset($config['type']) && $config['type'] === 'configurableService') {
-                    $className = $config['class'];
-                    $params = $config['options'];
-                    if (is_a($className, \oat\oatbox\service\ConfigurableService::class, true)) {
-                        if (is_a($className, \oat\tao\model\service\InjectionAwareService::class, true)) {
-                            $service = new $className(...$this->prepareParameters($className, $params, $serviceManager));
-                        } else {
-                            $service = new $className($params);
-                        }
-                        $serviceManager->register($extension . '/' . $key, $service);
-                    } else {
-                        $this->logWarning('The class : ' . $className . ' can not be set as a Configurable Service');
-                        $this->logWarning('Make sure your configuration is correct and all required libraries are installed');
-                    }
-                }
+        if (!$serviceManager->has(PersistenceManager::SERVICE_ID)) {
+            if (!isset($parameters['configuration']['generis']['persistences'])) {
+                throw new InvalidArgumentException('Your config should have a \'persistence\' key under \'generis\'');
             }
+            $persistences = $parameters['configuration']['generis']['persistences'];
+            if (!isset($persistences['default'])) {
+                throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
+            }
+            $persistenceManager = $this->wrapPersistenceConfig($persistences);
+            $serviceManager->register(PersistenceManager::SERVICE_ID, $persistenceManager);
         }
 
         // mod rewrite cannot be detected in CLI Mode.
@@ -347,23 +335,15 @@ class tao_install_Setup implements Action
      * Transforms the seed persistence configuration into command line parameters
      * and then back into a persistence configuration to ensure backwards compatibility
      * with the previous process
-     * @param array $persistences
-     * @return array
      */
-    private function wrapPersistenceConfig($persistences)
+    private function wrapPersistenceConfig(array $persistences): PersistenceManager
     {
         $installParams = $this->getCommandLineParameters($persistences['default']);
-
         $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
-        $persistences['default'] = $dbalConfigCreator->createDbalConfig($installParams);
-
-        return [
-            'type' => 'configurableService',
-            'class' => PersistenceManager::class,
-            'options' => [
-                'persistences' => $persistences,
-            ],
-        ];
+        $persistenceConfig = $dbalConfigCreator->createDbalConfig($installParams);
+        $persistenceManager = new PersistenceManager();
+        $persistenceManager->registerPersistence('default', $persistenceConfig);
+        return $persistenceManager;
     }
 
     private function getCommandLineParameters(array $defaultPersistenceConfig): array
