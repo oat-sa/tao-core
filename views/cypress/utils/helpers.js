@@ -13,28 +13,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2021 Open Assessment Technologies SA ;
  */
 
-import '@oat-sa/e2e-runner/support/auth';
-import '@oat-sa/e2e-runner/support/lti.js';
-import './resourceTree'
-import urls from '../utils/urls';
+/**
+ * Checks a HTTP(S) url
+ * @type {RegExp}
+ */
+const fullUrlRe = /^https?:\/\/\w+/;
 
-Cypress.Commands.add('loginAsUser', (username, password) => {
-    cy.login({ url: urls.login, username, password });
-});
-
-Cypress.Commands.add('loginAsAdmin', () => {
-    const username = Cypress.env('adminUser');
-    const password = Cypress.env('adminPass');
-
-    cy.loginAsUser(username, password);
-});
-
-// Preserve session cookies to stay logged in to TAO during tests
-Cypress.Cookies.defaults({
-    preserve: (cookie) => {
-        return cookie.name.startsWith('tao_');
+/**
+ * Makes sure an url is complete.
+ * Adds the baseUrl if no root has been set.
+ * @param {String} url - The URL to complete if needed
+ * @param {String} trailing - An optional trailing substring to add
+ * @returns {String}
+ */
+export function getFullUrl(url, trailing = '') {
+    if (!fullUrlRe.test(url)) {
+        url = `${new URL(url, Cypress.config().baseUrl)}`;
     }
-});
+    if (trailing && !url.endsWith(trailing)) {
+        url = `${url}${trailing}`;
+    }
+    return url;
+}
