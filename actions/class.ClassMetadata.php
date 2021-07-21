@@ -23,7 +23,9 @@ declare(strict_types=1);
 
 use GuzzleHttp\Psr7\ServerRequest;
 use oat\tao\model\http\HttpJsonResponseTrait;
+use oat\tao\model\Lists\Business\Domain\ClassInformation;
 use oat\tao\model\Lists\Business\Service\ClassMetadataSearcherProxy;
+use oat\tao\model\Lists\Business\Service\GetClassMetadataValuesService;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ClassMetadataSearchRequestHandler;
 
 class tao_actions_ClassMetadata extends tao_actions_CommonModule
@@ -36,9 +38,14 @@ class tao_actions_ClassMetadata extends tao_actions_CommonModule
         ClassMetadataSearcherProxy $classMetadataSearcher
     ): void {
         $this->setSuccessJsonResponse(
-            $classMetadataSearcher->findAll(
-                $classMetadataSearchRequestHandler->handle($request)
-            )
+
+//            new ClassInformation(
+                $classMetadataSearcher->findAll($classMetadataSearchRequestHandler->handle($request))
+//                ,[
+//                    GetClassMetadataValuesService::DATA_TYPE_LIST => 'uri',
+//                    GetClassMetadataValuesService::DATA_TYPE_TEXT => 'label'
+//                ]
+//            )
         );
     }
 }
