@@ -21,9 +21,11 @@
  *               2013-2021 (update and modification) Open Assessment Technologies SA;
  */
 
+use oat\oatbox\event\EventManager;
 use oat\oatbox\user\User;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
+use oat\tao\model\event\ResourceMovedEvent;
 use oat\tao\model\search\tasks\IndexTrait;
 use oat\tao\model\accessControl\PermissionChecker;
 use oat\tao\model\controller\SignedFormInstance;
@@ -1338,6 +1340,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                     $movableInstance->getUri(),
                     $destinationClass->getUri()
                 );
+
+                $this->getEventManager()->trigger(new ResourceMovedEvent($movableInstance, $destinationClass));
             } else {
                 $statuses[$movableInstance->getUri()]['message'] = sprintf('An error has occurred while persisting instance "%s"', $movableInstance->getUri());
             }
