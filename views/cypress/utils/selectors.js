@@ -3,6 +3,7 @@ export default {
     deleteClass: '[data-context="resource"][data-action="removeNode"]',
     addTest: '[data-context="resource"][data-action="instanciate"]',
     addUserForm: 'form[action="/tao/Users/add"]',
+    addTestTakerForm: 'form[action="/taoTestTaker/TestTaker/editSubject"]',
     // TODO: Replace update selector when data-testid attributes will be aded
     manageUserTable: '#user-list',
     testClassForm: 'form[action="/taoTests/Tests/editClassLabel"]',

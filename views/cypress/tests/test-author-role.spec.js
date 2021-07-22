@@ -18,6 +18,7 @@
  import urls from '../utils/urls';
  import users from '../utils/users';
  import userRoles from '../utils/userRoles';
+import selectors from '../utils/selectors';
 
  describe('Item Author Role', () => {
      const userLogin = users.user_test_author.login;
@@ -30,7 +31,7 @@
          cy.wait('@add', {
              requestTimeout: 10000
          });
-         cy.addUser(users.user_test_author, [userRoles.itemAuthor, userRoles.testAuthor]);
+         cy.addUser(selectors.addUserForm, users.user_test_author, [userRoles.itemAuthor, userRoles.testAuthor]);
          cy.intercept('GET', '**/logout*').as('logout');
          cy.logoutAttempt();
          cy.wait('@logout', {
@@ -124,5 +125,4 @@
          cy.visit(urls.manageUsers);
          cy.deleteUser(users.user_test_author);
      });
- })
-
+ });

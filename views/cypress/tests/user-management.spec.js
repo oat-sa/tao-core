@@ -19,6 +19,7 @@
 import selectors from '../utils/selectors';
 import urls from '../utils/urls';
 import users from '../utils/users';
+import userRoles from '../utils/userRoles';
 
 describe('User Management', () => {
     describe('Add User', () => {
@@ -44,7 +45,7 @@ describe('User Management', () => {
 
         describe('Can create user', () => {
             it('fill user form', function () {
-                cy.addUser(users.user_cypress)
+                cy.addUser(selectors.addUserForm, users.user_cypress, userRoles.itemAuthor)
             });
         })
     });

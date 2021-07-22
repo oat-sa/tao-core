@@ -21,13 +21,14 @@ import userRoles from "../utils/userRoles";
 
 /**
  * Fills user properties in form while checking that login field does not already exist
+ * @param {String} targetForm - contains selector targeting the Form to fill
  * @param {Object} userData - contains user details to fill form
  * @param {Array<string>} roles - contains each role that needs to be applied to user
  */
-Cypress.Commands.add('addUser', (userData, roles) => {
+Cypress.Commands.add('addUser', (targetForm, userData, roles) => {
     cy.log('COMMAND: addUser');
 
-    cy.get(selectors.addUserForm)
+    cy.get(targetForm)
         .within(() => {
             cy.get('input[name*=label]')
                 .clear()
@@ -37,8 +38,10 @@ Cypress.Commands.add('addUser', (userData, roles) => {
             cy.get('input[name*=login]')
                 .clear()
                 .type(userData.login);
-            cy.get('.form_checklst input')
-                .check(roles || userRoles.itemAuthor, { force: true });
+            if (roles) {
+                cy.get('.form_checklst input')
+                    .check(roles || userRoles.itemAuthor, { force: true });
+            }
             cy.get('input[name*=password1]')
                 .clear()
                 .type(userData.password);
@@ -46,7 +49,7 @@ Cypress.Commands.add('addUser', (userData, roles) => {
                 .clear()
                 .type(userData.password);
             cy.get('.login-info.ui-state-error').should('not.exist')
-            cy.get('button').click();
+            cy.get('button[type=submit]').click();
         });
 });
 
