@@ -16,6 +16,8 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
+import selectors from "../../../../taoItems/views/cypress/utils/selectors";
+
 /**
  * Commands
  */
@@ -33,6 +35,39 @@ Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
         if (root.find(`li[title="${name}"] a`).length === 0) {
             cy.addClass(formSelector);
             cy.renameSelected(formSelector, name);
+        }
+    });
+});
+
+Cypress.Commands.add('moveClass', (formSelector, moveSelector, moveConfirmSelector, name, nameWhereMove) => {
+    cy.log('COMMAND: moveClass', name);
+
+    cy.contains('a', name).click();
+    cy.get(formSelector).should('exist');
+    // Wait for update to finish otherwise the modal is not accessible from cy
+    cy.wait(1000);
+    cy.get(moveSelector).click();
+    cy.get('.destination-selector').then((body) => {
+        if (body.find(`a[title="${nameWhereMove}"]`).length) {
+            cy.get(`a[title="${nameWhereMove}"]`).click();
+            cy.get('.actions button').click();
+        }
+        cy.get(moveConfirmSelector).click();
+    });
+});
+
+Cypress.Commands.add('moveClassFromRoot', (rootSelector, formSelector, moveSelector, moveConfirmSelector, name, nameWhereMove) => {
+    cy.log('COMMAND: moveClassFromRoot', name);
+
+    cy.addClassToRoot(rootSelector, formSelector, name);
+    cy.addClassToRoot(rootSelector, formSelector, nameWhereMove);
+
+    cy.get(`${rootSelector} a`).first().click();
+
+    // timeout for the tree to load
+    cy.get(rootSelector).then(root => {
+        if (root.find(`li[title="${name}"] a`).length > 0) {
+            cy.moveClass(formSelector, moveSelector, moveConfirmSelector, name, nameWhereMove);
         }
     });
 });
@@ -55,6 +90,21 @@ Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelect
 
 Cypress.Commands.add('deleteClassFromRoot', (rootSelector, formSelector, deleteSelector, confirmSelector, name) => {
     cy.log('COMMAND: deleteClassFromRoot', name);
+
+    cy.get(`${rootSelector} a`).first().click();
+
+    // timeout for the tree to load
+    cy.get(rootSelector).then(root => {
+        if (root.find(`li[title="${name}"] a`).length > 0) {
+            cy.deleteClass(formSelector, deleteSelector, confirmSelector, name);
+        }
+    });
+});
+
+Cypress.Commands.add('deleteEmptyClassFromRoot', (rootSelector, formSelector, deleteSelector, confirmSelector, name) => {
+    cy.log('COMMAND: deleteEmptyClassFromRoot', name);
+
+    cy.addClassToRoot(rootSelector, formSelector, name);
 
     cy.get(`${rootSelector} a`).first().click();
 
@@ -108,4 +158,3 @@ Cypress.Commands.add('renameSelected', (formSelector, newName) => {
 
     cy.contains('a', newName).should('exist');
 });
-
