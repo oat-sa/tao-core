@@ -19,9 +19,8 @@
 import selectors from './selectors';
 import urls from './urls';
 
-/**
- *
- * @param {Object} user - Tries to delete user with given credentials as cleanup process
+/** Tries to delete user with given credentials as cleanup process
+ * @param {Object} user - contains user details
  */
 
 export function tryToDeleteUser(user) {
@@ -51,4 +50,4 @@ export function tryToDeleteUser(user) {
             return true;
         }
     });
-}
+};
