@@ -39,7 +39,7 @@ Cypress.Commands.add('addUser', (targetForm, userData, roles) => {
                 .clear()
                 .type(userData.login);
             if (roles) {
-                cy.get('.form_checklst input')
+                cy.get('input[type=checkbox][name*="userRoles"]')
                     .check(roles || userRoles.itemAuthor, { force: true });
             }
             cy.get('input[name*=password1]')
