@@ -15,56 +15,56 @@
  *
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
- import urls from '../utils/urls';
- import users from '../utils/users';
- import userRoles from '../utils/userRoles';
- import selectors from '../utils/selectors';
+import urls from '../utils/urls';
+import users from '../utils/users';
+import userRoles from '../utils/userRoles';
+import selectors from '../utils/selectors';
 
- describe('Test Taker Role', () => {
-     const userLogin = users.user_test_taker.login;
-     const userPassword = users.user_test_taker.password;
+describe('Test Taker Role', () => {
+    const userLogin = users.user_test_taker.login;
+    const userPassword = users.user_test_taker.password;
 
-     before(() => {
-         cy.loginAsAdmin();
-         cy.intercept('GET', '**/add*').as('add');
-         cy.visit(urls.addUser);
-         cy.wait('@add', {
-             requestTimeout: 10000
-         });
-         cy.addUser(selectors.addUserForm, users.user_test_taker, userRoles.testTaker);
-         cy.intercept('GET', '**/logout*').as('logout');
-         cy.logoutAttempt();
-         cy.wait('@logout', {
-             requestTimeout: 10000
-         });
-     });
-
-     describe('Login', () => {
-         it('Logged in successfully', function() {
-             cy.loginAttempt(userLogin, userPassword);
-             cy.contains('.settings-menu li', users.user_test_taker.login);
-             cy.get('#logout');
-         });
-     });
-
-     describe('Only has access to deliveries', () => {
-        it('Is in delivery scope', function() {
-            cy.get('body').should('have.class', 'delivery-scope')
+    before(() => {
+        cy.loginAsAdmin();
+        cy.intercept('GET', '**/add*').as('add');
+        cy.visit(urls.addUser);
+        cy.wait('@add', {
+            requestTimeout: 10000
         });
-
-        it('Doesn\'t have access to tabs', function() {
-            cy.get('.lft.main-menu').should('not.exist');
-        });
-
-        it('Can see listing of deliveries', () => {
-            cy.get('.test-listing');
+        cy.addUser(selectors.addUserForm, users.user_test_taker, userRoles.testTaker);
+        cy.intercept('GET', '**/logout*').as('logout');
+        cy.logoutAttempt();
+        cy.wait('@logout', {
+            requestTimeout: 10000
         });
     });
 
-     after(() => {
-         cy.logoutAttempt();
-         cy.loginAsAdmin();
-         cy.visit(urls.manageUsers);
-         cy.deleteUser(users.user_test_taker);
-     });
- });
+    describe('Login', () => {
+        it('Logged in successfully', function() {
+            cy.loginAttempt(userLogin, userPassword);
+            cy.contains('.settings-menu li', users.user_test_taker.login);
+            cy.get('#logout');
+        });
+    });
+
+    describe('Only has access to deliveries', () => {
+    it('Is in delivery scope', function() {
+        cy.get('body').should('have.class', 'delivery-scope')
+    });
+
+    it('Doesn\'t have access to tabs', function() {
+        cy.get('.lft.main-menu').should('not.exist');
+    });
+
+    it('Can see listing of deliveries', () => {
+        cy.get('.test-listing');
+    });
+});
+
+    after(() => {
+        cy.logoutAttempt();
+        cy.loginAsAdmin();
+        cy.visit(urls.manageUsers);
+        cy.deleteUser(users.user_test_taker);
+    });
+});
