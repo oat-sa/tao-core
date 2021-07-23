@@ -48,11 +48,11 @@
      });
 
      describe('Only has access to deliveries', () => {
-        it("Is in delivery scope", function() {
+        it('Is in delivery scope', function() {
             cy.get('body').should('have.class', 'delivery-scope')
         });
 
-        it("Doesn't have access to tabs", function() {
+        it('Doesn\'t have access to tabs', function() {
             cy.get('.lft.main-menu').should('not.exist');
         });
 

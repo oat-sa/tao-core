@@ -16,8 +16,8 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
-import selectors from "../utils/selectors";
-import userRoles from "../utils/userRoles";
+import selectors from '../utils/selectors';
+import userRoles from '../utils/userRoles';
 
 /**
  * Fills user properties in form while checking that login field does not already exist
