@@ -26,8 +26,6 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\user\User;
-use core_kernel_classes_Resource;
-use core_kernel_users_GenerisUser;
 use Jig\Utils\StringUtils;
 use oat\oatbox\user\UserService;
 
@@ -122,10 +120,10 @@ class UserHelper
         if (empty($firstName) && $defaultToLabel) {
             $firstName = self::getUserLabel($user);
         }
-        
+
         return $firstName;
     }
-    
+
     /**
      * Gets the user's last name
      * @param User $user
@@ -139,7 +137,7 @@ class UserHelper
         if (empty($lastName) && $defaultToLabel) {
             $lastName = self::getUserLabel($user);
         }
-        
+
         return $lastName;
     }
 
@@ -153,13 +151,27 @@ class UserHelper
     {
         $firstName = self::getUserStringProp($user, GenerisRdf::PROPERTY_USER_FIRSTNAME);
         $lastName = self::getUserStringProp($user, GenerisRdf::PROPERTY_USER_LASTNAME);
-        
+
         $userName = trim($firstName . ' ' . $lastName);
-        
+
         if (empty($userName) && $defaultToLabel) {
             $userName = self::getUserLabel($user);
         }
 
         return $userName;
+    }
+
+    /**
+     * @param User|string $user
+     *
+     * @return string
+     */
+    public static function getUserUILanguageCode($user): string
+    {
+        if (is_string($user)) {
+            $user = self::getUser($user);
+        }
+
+        return self::getUserStringProp($user, GenerisRdf::PROPERTY_USER_UILG);
     }
 }
