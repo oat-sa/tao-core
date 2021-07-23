@@ -19,6 +19,7 @@ import urls from '../utils/urls';
 import users from '../utils/users';
 import userRoles from '../utils/userRoles';
 import selectors from '../utils/selectors';
+import { tryToDeleteUser } from '../utils/cleanup';
 
  describe('Item Author Role', () => {
     const userLogin = users.user_test_author.login;
@@ -26,6 +27,7 @@ import selectors from '../utils/selectors';
 
     before(() => {
         cy.loginAsAdmin();
+        tryToDeleteUser(users.user_test_author);
         cy.intercept('GET', '**/add*').as('add');
         cy.visit(urls.addUser);
         cy.wait('@add', {
@@ -46,11 +48,10 @@ import selectors from '../utils/selectors';
             cy.get('#logout');
         });
 
-        it('Pass splash-screen if present', function() {
-            if (cy.get('#splash-screen')) {
-                cy.get(':nth-child(1) > :nth-child(1) > .block').click();
-                cy.get('#splash-close-btn').click();
-            }
+        it('Pass splash-screen', function() {
+            cy.get('#splash-screen');
+            cy.get(':nth-child(1) > :nth-child(1) > .block').click();
+            cy.get('#splash-close-btn').click();
         });
     });
 
@@ -117,12 +118,5 @@ import selectors from '../utils/selectors';
                 .should('be.visible')
                 .children().its('length').should('be.gt', 0);
         });
-    });
-
-    after(() => {
-        cy.logoutAttempt();
-        cy.loginAsAdmin();
-        cy.visit(urls.manageUsers);
-        cy.deleteUser(users.user_test_author);
     });
 });
