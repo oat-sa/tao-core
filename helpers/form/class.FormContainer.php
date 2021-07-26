@@ -36,7 +36,6 @@ abstract class tao_helpers_form_FormContainer
 {
     public const CSRF_PROTECTION_OPTION = 'csrf_protection';
     public const IS_DISABLED = 'is_disabled';
-    public const IS_REPLACE_ASSET_DISABLED = 'is_replace_asset_disabled';
     public const ADDITIONAL_VALIDATORS = 'extraValidators';
 
     /**
