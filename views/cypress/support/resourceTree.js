@@ -31,10 +31,10 @@ Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
     cy.log('COMMAND: addClassToRoot', name);
 
     // timeout for the tree to load
-    cy.get(`${rootSelector} a`).first().then(root => {
+    cy.get(`${rootSelector} a`).first().click().then(root => {
         if (root.find(`li[title="${name}"] a`).length === 0) {
             cy.addClass(formSelector);
-            cy.renameSelected(formSelector, name);
+            cy.wait(2000).renameSelected(formSelector, name);
         }
     });
 });
@@ -42,12 +42,12 @@ Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
 Cypress.Commands.add('moveClass', (formSelector, moveSelector, moveConfirmSelector, name, nameWhereMove) => {
     cy.log('COMMAND: moveClass', name);
 
-    cy.contains('a', name).click();
-    cy.get(formSelector).should('exist');
-    // Wait for update to finish otherwise the modal is not accessible from cy
+    cy.get(`li[title="${name}"] a`).first().click();
+    // cy.get(formSelector).should('exist');
+    // // Wait for update to finish otherwise the modal is not accessible from cy
     cy.wait(1000);
     cy.get(moveSelector).click();
-    cy.get('.destination-selector').then((body) => {
+    cy.get('.destination-selector').wait(2000).then((body) => {
         if (body.find(`a[title="${nameWhereMove}"]`).length) {
             cy.get(`a[title="${nameWhereMove}"]`).click();
             cy.get('.actions button').click();
@@ -105,15 +105,7 @@ Cypress.Commands.add('deleteEmptyClassFromRoot', (rootSelector, formSelector, de
     cy.log('COMMAND: deleteEmptyClassFromRoot', name);
 
     cy.addClassToRoot(rootSelector, formSelector, name);
-
-    cy.get(`${rootSelector} a`).first().click();
-
-    // timeout for the tree to load
-    cy.get(rootSelector).then(root => {
-        if (root.find(`li[title="${name}"] a`).length > 0) {
-            cy.deleteClass(formSelector, deleteSelector, confirmSelector, name);
-        }
-    });
+    cy.deleteClassFromRoot(rootSelector, formSelector, deleteSelector, confirmSelector, name);
 });
 
 Cypress.Commands.add('addNode', (formSelector, addSelector) => {
