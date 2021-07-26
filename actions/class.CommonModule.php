@@ -106,9 +106,9 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         return AclProxy::hasAccess($user, $controllerClass, $action, $parameters);
     }
 
-    protected function hasWriteAccessToAction(string $action, ?User $user = null): bool
+    protected function hasWriteAccessToAction(string $action, ?string $controller = null, ?User $user = null): bool
     {
-        return $this->getActionAccessControl()->hasWriteAccess(static::class, $action, $user);
+        return $this->getActionAccessControl()->hasWriteAccess($controller ?? static::class, $action, $user);
     }
 
     protected function getUserRoles(): array
