@@ -246,7 +246,9 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
                 $customPropertiesValues = $resource->getPropertyValuesCollection($property);
                 $customProperties[$fieldName][] = array_map(
                     function (core_kernel_classes_Container $property): string {
-                        return $property instanceof Resource ? $property->getUri() : (string)$property;
+                        return tao_helpers_Uri::encode(
+                            $property instanceof Resource ? $property->getUri() : (string)$property
+                        );
                     },
                     $customPropertiesValues->toArray()
                 );
