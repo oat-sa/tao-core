@@ -20,17 +20,9 @@ import urls from '../utils/urls';
 
 
 describe('Login', () => {
-    // helper that creates a login attempt with provided data
-    const loginAttempt = (username, password) => {
-        cy.get('#login', { timeout: 10000 }).type(username);
-        cy.get('#password').type(password);
-
-        cy.get('#connect').click();
-    };
-
     it('cannot login with invalid user', function () {
         cy.visit(urls.login);
-        loginAttempt('invalid', '123');
+        cy.loginAttempt('invalid', '123');
 
         cy.get('.feedback[role=alert]').should('exist');
         cy.location('pathname').should('eq', urls.login);
@@ -41,7 +33,7 @@ describe('Login', () => {
         const password = Cypress.env('adminPass');
 
         cy.visit(urls.login);
-        loginAttempt(username, password);
+        cy.loginAttempt(username, password);
 
         cy.location('pathname').should('eq', urls.index);
     });
