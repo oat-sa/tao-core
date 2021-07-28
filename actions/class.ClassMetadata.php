@@ -32,20 +32,32 @@ class tao_actions_ClassMetadata extends tao_actions_CommonModule
 {
     use HttpJsonResponseTrait;
 
+    /**
+     * @deprecated $this->getWithMapping should be used
+     */
     public function get(
         ServerRequest $request,
         ClassMetadataSearchRequestHandler $classMetadataSearchRequestHandler,
         ClassMetadataSearcherProxy $classMetadataSearcher
     ): void {
         $this->setSuccessJsonResponse(
+            $classMetadataSearcher->findAll($classMetadataSearchRequestHandler->handle($request))
+        );
+    }
 
-//            new ClassInformation(
+    public function getWithMapping(
+        ServerRequest $request,
+        ClassMetadataSearchRequestHandler $classMetadataSearchRequestHandler,
+        ClassMetadataSearcherProxy $classMetadataSearcher
+    ): void {
+        $this->setSuccessJsonResponse(
+            new ClassInformation(
                 $classMetadataSearcher->findAll($classMetadataSearchRequestHandler->handle($request))
-//                ,[
-//                    GetClassMetadataValuesService::DATA_TYPE_LIST => 'uri',
-//                    GetClassMetadataValuesService::DATA_TYPE_TEXT => 'label'
-//                ]
-//            )
+                ,[
+                    GetClassMetadataValuesService::DATA_TYPE_LIST => 'uri',
+                    GetClassMetadataValuesService::DATA_TYPE_TEXT => 'label'
+                ]
+            )
         );
     }
 }
