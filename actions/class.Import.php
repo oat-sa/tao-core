@@ -58,6 +58,7 @@ class tao_actions_Import extends tao_actions_CommonModule
      * initialize the classUri and execute the upload action
      *
      * @requiresRight id WRITE
+     * @requiresRight classUri WRITE
      */
     public function index()
     {
