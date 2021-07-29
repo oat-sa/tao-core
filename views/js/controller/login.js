@@ -42,13 +42,6 @@ define([
     };
 
     /**
-     * Clear store from previous session
-     */
-    const clearStore = function clearStore() {
-        store('search').then(s => s.clear());
-    };
-
-    /**
      * The login controller
      */
     return {
@@ -65,7 +58,6 @@ define([
                 loadingBar.start();
             }).after('render', function() {
                 versionWarning.init();
-                clearStore();
                 loadingBar.stop();
             }).on('submit.login', function() {
                 loadingBar.start();
