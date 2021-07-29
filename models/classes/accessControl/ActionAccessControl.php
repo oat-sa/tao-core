@@ -42,6 +42,7 @@ class ActionAccessControl extends ConfigurableService
      */
     public const OPTION_PERMISSIONS = 'permissions';
 
+    public const DENY = 'DENY';
     public const READ = 'READ';
     public const WRITE = 'WRITE';
     public const GRANT = 'GRANT';
