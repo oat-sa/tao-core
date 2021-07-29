@@ -31,8 +31,9 @@ Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
     // timeout for the tree to load
     cy.get(`${rootSelector} a`).first().click().then(root => {
         if (root.find(`li[title="${name}"] a`).length === 0) {
-            cy.addClass(formSelector);
-            cy.wait(2000).renameSelected(formSelector, name);
+            cy.addClass(formSelector).then(() => {
+                cy.renameSelected(formSelector, name);
+            });
         }
     });
 });
@@ -40,17 +41,15 @@ Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
 Cypress.Commands.add('moveClass', (formSelector, moveSelector, moveConfirmSelector, name, nameWhereMove) => {
     cy.log('COMMAND: moveClass', name);
 
-    cy.get(`li[title="${name}"] a`).first().click();
-
-    // // Wait for update to finish otherwise the modal is not accessible from cy
-    cy.wait(1000);
-    cy.get(moveSelector).click();
-    cy.get('.destination-selector').wait(2000).then((body) => {
-        if (body.find(`a[title="${nameWhereMove}"]`).length) {
-            cy.get(`a[title="${nameWhereMove}"]`).click();
-            cy.get('.actions button').click();
-        }
-        cy.get(moveConfirmSelector).click();
+    cy.get(`li[title="${name}"] a`).first().click().then(() => {
+        cy.get(moveSelector).click();
+        cy.get('.destination-selector').then((body) => {
+            if (body.find(`a[title="${nameWhereMove}"]`).length) {
+                cy.get(`a[title="${nameWhereMove}"]`).click();
+                cy.get('.actions button').click();
+            }
+            cy.get(moveConfirmSelector).click();
+        });
     });
 });
 
@@ -62,7 +61,6 @@ Cypress.Commands.add('moveClassFromRoot', (rootSelector, formSelector, moveSelec
 
     cy.get(`${rootSelector} a`).first().click();
 
-    // timeout for the tree to load
     cy.get(rootSelector).then(root => {
         if (root.find(`li[title="${name}"] a`).length > 0) {
             cy.moveClass(formSelector, moveSelector, moveConfirmSelector, name, nameWhereMove);
@@ -74,15 +72,14 @@ Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelect
     cy.log('COMMAND: deleteClass', name);
 
     cy.contains('a', name).click();
-    cy.get(formSelector).should('exist');
-    // Wait for update to finish otherwise the modal is not accessible from cy
-    cy.wait(1000);
-    cy.get(deleteSelector).click();
-    cy.get('.modal-body').then((body) => {
-        if (body.find('label[for=confirm]').length) {
-            cy.get('label[for=confirm]').click();
-        }
-        cy.get(confirmSelector).click();
+    cy.get(formSelector).should('exist').then(() => {
+        cy.get(deleteSelector).click();
+        cy.get('.modal-body').then((body) => {
+            if (body.find('label[for=confirm]').length) {
+                cy.get('label[for=confirm]').click();
+            }
+            cy.get(confirmSelector).click();
+        });
     });
 });
 
@@ -91,7 +88,6 @@ Cypress.Commands.add('deleteClassFromRoot', (rootSelector, formSelector, deleteS
 
     cy.get(`${rootSelector} a`).first().click();
 
-    // timeout for the tree to load
     cy.get(rootSelector).then(root => {
         if (root.find(`li[title="${name}"] a`).length > 0) {
             cy.deleteClass(formSelector, deleteSelector, confirmSelector, name);
