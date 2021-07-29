@@ -37,6 +37,30 @@ Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
     });
 });
 
+Cypress.Commands.add('addPropertyToClass', (
+    newClass,
+    editClass,
+    classOptions,
+    newPropertyName,
+    propertyEdit) => {
+
+    cy.log('COMMAND: addPropertyToClass',newPropertyName);
+    cy.get(newClass).click();
+
+    cy.get(editClass).find('li[title="Manage Schema"]').click();
+    cy.get(classOptions).find('a[class="btn-info property-adder small"]').dblclick();
+    // Wait so the modal is accessible from cy
+    cy.wait(1000);
+
+    //edit property
+    cy.get('span[class="icon-edit"]').last().click();
+    cy.get(propertyEdit).find('input[value="Property_6"]').clear('input').type(newPropertyName);
+    cy.get(propertyEdit).find('select[name="6_type"]').select('list');
+    cy.get(propertyEdit).find('select[name="6_range"]').select('Boolean');
+
+    cy.get('button[type="submit"]').click();
+});
+
 Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelector, name) => {
     cy.log('COMMAND: deleteClass', name);
 
