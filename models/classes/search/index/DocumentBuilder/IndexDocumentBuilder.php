@@ -163,7 +163,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
      */
     protected function getTokenizedResourceBody(Resource $resource): array
     {
-        $tokenGenerator = new SearchTokenGenerator();
+        $tokenGenerator = $this->getSearchTokenGenerator();
 
         $body = [];
         $indexProperties = [];
@@ -298,5 +298,12 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
             $customProperties[$fieldName] = array_unique(array_merge(...(array_values($value))));
         }
         return array_filter($customProperties);
+    }
+
+    private function getSearchTokenGenerator(): SearchTokenGenerator
+    {
+        $tokenGenerator = $this->getServiceLocator()->get(SearchTokenGenerator::class);
+        $this->propagate($tokenGenerator);
+        return $tokenGenerator;
     }
 }
