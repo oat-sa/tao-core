@@ -47,7 +47,7 @@ Cypress.Commands.add('addPropertyToClass', (
     cy.log('COMMAND: addPropertyToClass',newPropertyName);
 
     cy.get(`li [title ="${className}"]`).last().click();
-    cy.get(editClass).find('li[class="action btn-info small"]').last().click();
+    cy.get(editClass).click();
     cy.get(classOptions).find('a[class="btn-info property-adder small"]').click();
 
     cy.get('span[class="icon-edit"]').last().click();
