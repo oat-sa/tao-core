@@ -23,43 +23,44 @@ declare(strict_types=1);
 namespace oat\tao\model\accessControl;
 
 use oat\oatbox\user\User;
+use InvalidArgumentException;
 
-class Context
+class Context extends AbstractContext implements ContextInterface
 {
-    /** @var string|null */
-    private $controller;
+    public const PARAM_CONTROLLER = 'controller';
+    public const PARAM_ACTION = 'action';
+    public const PARAM_USER = 'user';
 
-    /** @var string|null */
-    private $action;
-
-    /** @var User|null */
-    private $user;
-
-    public function __construct(string $controller = null, string $action = null)
+    protected function getSupportedParameters(): array
     {
-        $this->controller = $controller;
-        $this->action = $action;
+        return [
+            self::PARAM_CONTROLLER,
+            self::PARAM_ACTION,
+            self::PARAM_USER,
+        ];
     }
 
-    public function getController(): ?string
+    protected function validateParameter(string $parameter, $parameterValue): void
     {
-        return $this->controller;
-    }
+        if (
+            in_array($parameter, [self::PARAM_CONTROLLER, self::PARAM_ACTION], true)
+            && ($parameterValue === null || is_string($parameterValue))
+        ) {
+            return;
+        }
 
-    public function getAction(): ?string
-    {
-        return $this->action;
-    }
+        if (
+            $parameter === self::PARAM_USER
+            && ($parameterValue === null || $parameterValue instanceof User)
+        ) {
+            return;
+        }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
+        throw new InvalidArgumentException(
+            sprintf(
+                'Context parameter %s is not valid.',
+                $parameter
+            )
+        );
     }
 }

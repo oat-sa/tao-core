@@ -112,7 +112,13 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
      */
     protected function hasWriteAccessToAction(string $action, ?User $user = null): bool
     {
-        return $this->getActionAccessControl()->hasWriteAccess($controller ?? static::class, $action, $user);
+        $context = new AclContext([
+            AclContext::PARAM_CONTROLLER => static::class,
+            AclContext::PARAM_ACTION => $action,
+            AclContext::PARAM_USER => $user,
+        ]);
+
+        return $this->hasReadAccessByContext($context);
     }
 
     protected function hasReadAccessByContext(AclContext $context): bool

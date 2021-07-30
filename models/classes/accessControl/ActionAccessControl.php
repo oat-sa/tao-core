@@ -117,35 +117,33 @@ class ActionAccessControl extends ConfigurableService
         $this->setOption(self::OPTION_PERMISSIONS, $permissions);
     }
 
-    public function contextHasReadAccess(Context $context): bool
+    public function contextHasReadAccess(ContextInterface $context): bool
     {
         return $this->hasAccess(
             [self::READ, self::WRITE, self::GRANT],
-            $context->getController(),
-            $context->getAction(),
-            $context->getUser()
+            $context->getParameter(Context::PARAM_CONTROLLER),
+            $context->getParameter(Context::PARAM_ACTION),
+            $context->getParameter(Context::PARAM_USER)
         );
     }
 
-
-    public function contextHasWriteAccess(Context $context): bool
+    public function contextHasWriteAccess(ContextInterface $context): bool
     {
         return $this->hasAccess(
             [self::WRITE, self::GRANT],
-            $context->getController(),
-            $context->getAction(),
-            $context->getUser()
+            $context->getParameter(Context::PARAM_CONTROLLER),
+            $context->getParameter(Context::PARAM_ACTION),
+            $context->getParameter(Context::PARAM_USER)
         );
     }
 
-
-    public function contextHasGrantAccess(Context $context): bool
+    public function contextHasGrantAccess(ContextInterface $context): bool
     {
         return $this->hasAccess(
             [self::GRANT],
-            $context->getController(),
-            $context->getAction(),
-            $context->getUser()
+            $context->getParameter(Context::PARAM_CONTROLLER),
+            $context->getParameter(Context::PARAM_ACTION),
+            $context->getParameter(Context::PARAM_USER)
         );
     }
 
@@ -154,8 +152,11 @@ class ActionAccessControl extends ConfigurableService
      */
     public function hasReadAccess(string $controller, string $action, ?User $user = null): bool
     {
-        $context = new Context($controller, $action);
-        $context->setUser($user);
+        $context = new Context([
+            Context::PARAM_CONTROLLER => $controller,
+            Context::PARAM_ACTION => $action,
+            Context::PARAM_USER => $user,
+        ]);
 
         return $this->contextHasReadAccess($context);
     }
@@ -165,8 +166,11 @@ class ActionAccessControl extends ConfigurableService
      */
     public function hasWriteAccess(string $controller, string $action, ?User $user = null): bool
     {
-        $context = new Context($controller, $action);
-        $context->setUser($user);
+        $context = new Context([
+            Context::PARAM_CONTROLLER => $controller,
+            Context::PARAM_ACTION => $action,
+            Context::PARAM_USER => $user,
+        ]);
 
         return $this->contextHasWriteAccess($context);
     }
@@ -176,8 +180,11 @@ class ActionAccessControl extends ConfigurableService
      */
     public function hasGrantAccess(string $controller, string $action, ?User $user = null): bool
     {
-        $context = new Context($controller, $action);
-        $context->setUser($user);
+        $context = new Context([
+            Context::PARAM_CONTROLLER => $controller,
+            Context::PARAM_ACTION => $action,
+            Context::PARAM_USER => $user,
+        ]);
 
         return $this->contextHasGrantAccess($context);
     }
