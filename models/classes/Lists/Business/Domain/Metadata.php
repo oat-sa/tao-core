@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Domain;
 
 use JsonSerializable;
+use tao_helpers_Uri;
 
 class Metadata implements JsonSerializable
 {
@@ -114,6 +115,7 @@ class Metadata implements JsonSerializable
             'label' => $this->label,
             'type' => $this->type,
             'values' => $this->values,
+            'propertyUri' => tao_helpers_Uri::encode($this->propertyUri),
             'uri' => $this->uri,
         ];
     }

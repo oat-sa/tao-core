@@ -43,6 +43,7 @@ use tao_helpers_form_elements_Htmlarea;
 use tao_helpers_form_elements_Radiobox;
 use tao_helpers_form_elements_Textarea;
 use tao_helpers_form_elements_Textbox;
+use tao_helpers_Uri;
 
 class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumentBuilderInterface
 {
@@ -162,7 +163,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
      */
     protected function getTokenizedResourceBody(Resource $resource): array
     {
-        $tokenGenerator = new SearchTokenGenerator();
+        $tokenGenerator = $this->getSearchTokenGenerator();
 
         $body = [];
         $indexProperties = [];
@@ -235,18 +236,19 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
 
                 $propertyTypeArray = explode('#', $propertyTypeUri, 2);
                 $propertyTypeId = end($propertyTypeArray);
-                $customPropertyLabel = $property->getLabel();
 
                 if (false === $propertyTypeId) {
                     continue;
                 }
 
-                $fieldName = $propertyTypeId . '_' . \tao_helpers_Slug::create($customPropertyLabel);
+                $fieldName = $propertyTypeId . '_' . tao_helpers_Uri::encode($property->getUri());
 
                 $customPropertiesValues = $resource->getPropertyValuesCollection($property);
                 $customProperties[$fieldName][] = array_map(
                     function (core_kernel_classes_Container $property): string {
-                        return $property instanceof Resource ? $property->getLabel() : (string)$property;
+                        return tao_helpers_Uri::encode(
+                            $property instanceof Resource ? $property->getUri() : (string)$property
+                        );
                     },
                     $customPropertiesValues->toArray()
                 );
@@ -293,8 +295,15 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
     private function normalizeAndFilterUniqueValues(array $customProperties): array
     {
         foreach ($customProperties as $fieldName => $value) {
-            $customProperties[$fieldName] = array_values(array_unique(array_merge(...(array_values($value)))));
+            $customProperties[$fieldName] = array_unique(array_merge(...(array_values($value))));
         }
         return array_filter($customProperties);
+    }
+
+    private function getSearchTokenGenerator(): SearchTokenGenerator
+    {
+        $tokenGenerator = $this->getServiceLocator()->get(SearchTokenGenerator::class);
+        $this->propagate($tokenGenerator);
+        return $tokenGenerator;
     }
 }
