@@ -117,19 +117,76 @@ class ActionAccessControl extends ConfigurableService
         $this->setOption(self::OPTION_PERMISSIONS, $permissions);
     }
 
+    public function contextHasReadAccess(ContextInterface $context): bool
+    {
+        return $this->hasAccess(
+            [self::READ, self::WRITE, self::GRANT],
+            $context->getParameter(Context::PARAM_CONTROLLER),
+            $context->getParameter(Context::PARAM_ACTION),
+            $context->getParameter(Context::PARAM_USER)
+        );
+    }
+
+    public function contextHasWriteAccess(ContextInterface $context): bool
+    {
+        return $this->hasAccess(
+            [self::WRITE, self::GRANT],
+            $context->getParameter(Context::PARAM_CONTROLLER),
+            $context->getParameter(Context::PARAM_ACTION),
+            $context->getParameter(Context::PARAM_USER)
+        );
+    }
+
+    public function contextHasGrantAccess(ContextInterface $context): bool
+    {
+        return $this->hasAccess(
+            [self::GRANT],
+            $context->getParameter(Context::PARAM_CONTROLLER),
+            $context->getParameter(Context::PARAM_ACTION),
+            $context->getParameter(Context::PARAM_USER)
+        );
+    }
+
+    /**
+     * @deprecated Use $this->contextHasReadAccess()
+     */
     public function hasReadAccess(string $controller, string $action, ?User $user = null): bool
     {
-        return $this->hasAccess([self::READ, self::WRITE, self::GRANT], $controller, $action, $user);
+        $context = new Context([
+            Context::PARAM_CONTROLLER => $controller,
+            Context::PARAM_ACTION => $action,
+            Context::PARAM_USER => $user,
+        ]);
+
+        return $this->contextHasReadAccess($context);
     }
 
+    /**
+     * @deprecated Use $this->contextHasWriteAccess()
+     */
     public function hasWriteAccess(string $controller, string $action, ?User $user = null): bool
     {
-        return $this->hasAccess([self::WRITE, self::GRANT], $controller, $action, $user);
+        $context = new Context([
+            Context::PARAM_CONTROLLER => $controller,
+            Context::PARAM_ACTION => $action,
+            Context::PARAM_USER => $user,
+        ]);
+
+        return $this->contextHasWriteAccess($context);
     }
 
+    /**
+     * @deprecated Use $this->contextHasGrantAccess()
+     */
     public function hasGrantAccess(string $controller, string $action, ?User $user = null): bool
     {
-        return $this->hasAccess([self::GRANT], $controller, $action, $user);
+        $context = new Context([
+            Context::PARAM_CONTROLLER => $controller,
+            Context::PARAM_ACTION => $action,
+            Context::PARAM_USER => $user,
+        ]);
+
+        return $this->contextHasGrantAccess($context);
     }
 
     private function hasAccess(array $allowedPermissions, string $controller, string $action, ?User $user = null): bool
