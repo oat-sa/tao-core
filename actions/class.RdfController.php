@@ -451,7 +451,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
     /**
      * Add an instance of the selected class
+     *
      * @requiresRight id WRITE
+     * @requiresRight classUri WRITE
      *
      * @throws SecurityException
      * @throws InconsistencyConfigException
@@ -501,6 +503,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     /**
      * Add a subclass to the currently selected class
      * @requiresRight id WRITE
+     * @requiresRight classUri WRITE
+     *
      * @throws Exception
      * @throws common_exception_BadRequest
      */
@@ -954,6 +958,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      *
      * @throws common_exception_BadRequest
      * @throws common_exception_MissingParameter
+     *
+     * @requiresRight id WRITE
      */
     public function delete()
     {
@@ -1423,5 +1429,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         if (empty($destinationUri) || $destinationUri === $currentClassUri || !$destinationClass->exists()) {
             throw new InvalidArgumentException('Wrong destination class uri');
         }
+    }
+
+    private function getEventManager(): EventManager
+    {
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
     }
 }

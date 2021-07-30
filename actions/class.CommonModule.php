@@ -130,6 +130,11 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         return $this->getSession()->getUser()->getRoles();
     }
 
+    protected function getUserRoles(): array
+    {
+        return $this->getSession()->getUser()->getRoles();
+    }
+
     /**
      *
      * @see Module::setView()

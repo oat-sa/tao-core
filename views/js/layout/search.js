@@ -29,8 +29,8 @@ define([
     'layout/actions/binder'
 ], function ($, actionManager, searchModal, store, context, urlHelper, binder) {
     /**
-     * Seach bar component for TAO action bar. It exposes
-     * the container, the indexeddb store that manages
+     * Seach bar component for TAO action bar. It clears the store and
+     * exposes the container, the indexeddb store that manages
      * search results, and @init function
      */
     const searchComponent = {
@@ -39,6 +39,7 @@ define([
         init() {
             store('search')
                 .then(store => {
+                    store.clear();
                     searchComponent.searchStore = store;
                     initializeEvents();
                     manageSearchStoreUpdate();
