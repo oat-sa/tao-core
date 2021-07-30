@@ -23,21 +23,40 @@ declare(strict_types=1);
 
 use GuzzleHttp\Psr7\ServerRequest;
 use oat\tao\model\http\HttpJsonResponseTrait;
+use oat\tao\model\Lists\Business\Domain\ClassInformation;
 use oat\tao\model\Lists\Business\Service\ClassMetadataSearcherProxy;
+use oat\tao\model\Lists\Business\Service\GetClassMetadataValuesService;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ClassMetadataSearchRequestHandler;
 
 class tao_actions_ClassMetadata extends tao_actions_CommonModule
 {
     use HttpJsonResponseTrait;
 
+    /**
+     * @deprecated $this->getWithMapping should be used
+     */
     public function get(
         ServerRequest $request,
         ClassMetadataSearchRequestHandler $classMetadataSearchRequestHandler,
         ClassMetadataSearcherProxy $classMetadataSearcher
     ): void {
         $this->setSuccessJsonResponse(
-            $classMetadataSearcher->findAll(
-                $classMetadataSearchRequestHandler->handle($request)
+            $classMetadataSearcher->findAll($classMetadataSearchRequestHandler->handle($request))
+        );
+    }
+
+    public function getWithMapping(
+        ServerRequest $request,
+        ClassMetadataSearchRequestHandler $classMetadataSearchRequestHandler,
+        ClassMetadataSearcherProxy $classMetadataSearcher
+    ): void {
+        $this->setSuccessJsonResponse(
+            new ClassInformation(
+                $classMetadataSearcher->findAll($classMetadataSearchRequestHandler->handle($request))
+                ,[
+                    GetClassMetadataValuesService::DATA_TYPE_LIST => 'uri',
+                    GetClassMetadataValuesService::DATA_TYPE_TEXT => 'label'
+                ]
             )
         );
     }
