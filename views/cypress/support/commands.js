@@ -19,6 +19,7 @@
 import '@oat-sa/e2e-runner/support/auth';
 import '@oat-sa/e2e-runner/support/lti.js';
 import './resourceTree'
+import './userManagement'
 import urls from '../utils/urls';
 
 Cypress.Commands.add('loginAsUser', (username, password) => {
@@ -30,6 +31,22 @@ Cypress.Commands.add('loginAsAdmin', () => {
     const password = Cypress.env('adminPass');
 
     cy.loginAsUser(username, password);
+});
+
+// Logs out using the UI
+Cypress.Commands.add('logoutAttempt', () => {
+    cy.get('#logout').click()
+});
+
+// Creates a UI login attempt with provided data
+Cypress.Commands.add('loginAttempt', (username, password) => {
+    cy.intercept('POST', '**/login*').as('login');
+    cy.get('#login', { timeout: 10000 }).type(username);
+    cy.get('#password').type(password);
+    cy.get('#connect').click();
+    cy.wait('@login', {
+        requestTimeout: 10000
+    });
 });
 
 // Preserve session cookies to stay logged in to TAO during tests
