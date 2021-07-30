@@ -66,7 +66,7 @@ Cypress.Commands.add('assignValueToProperty', (
     itemForm,
     selectTrue) => {
 
-    console.log('I assign values to properties in an item')
+    cy.log('COMMAND: assignValueToProperty', itemName, itemForm);
     cy.get(`li [title ="${itemName}"] a`).last().click();
     cy.get(itemForm).find(selectTrue).check();
     cy.get('button[type="submit"]').click();
