@@ -38,28 +38,39 @@ Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
 });
 
 Cypress.Commands.add('addPropertyToClass', (
-    newClass,
+    className,
     editClass,
     classOptions,
     newPropertyName,
     propertyEdit) => {
 
     cy.log('COMMAND: addPropertyToClass',newPropertyName);
-    cy.get(newClass).click();
 
-    cy.get(editClass).find('li[title="Manage Schema"]').click();
-    cy.get(classOptions).find('a[class="btn-info property-adder small"]').dblclick();
-    // Wait so the modal is accessible from cy
-    cy.wait(1000);
+    cy.get(`li [title ="${className}"]`).last().click();
+    cy.get(editClass).find('li[class="action btn-info small"]').last().click();
+    cy.get(classOptions).find('a[class="btn-info property-adder small"]').click();
 
-    //edit property
+    // Wait so the modal is accessible from cy, otherwise it selects wrong button
+     cy.wait(1000);
+
     cy.get('span[class="icon-edit"]').last().click();
-    cy.get(propertyEdit).find('input[value="Property_6"]').clear('input').type(newPropertyName);
-    cy.get(propertyEdit).find('select[name="6_type"]').select('list');
-    cy.get(propertyEdit).find('select[name="6_range"]').select('Boolean');
+    cy.get(propertyEdit).find('input').first().clear('input').type(newPropertyName);
+    cy.get(propertyEdit).find('select[class="property-type property"]').select('list');
+    cy.get(propertyEdit).find('select[class="property-listvalues property"]').select('Boolean');
 
     cy.get('button[type="submit"]').click();
 });
+
+Cypress.Commands.add('assignValueToProperty', (
+    itemName,
+    itemForm,
+    selectTrue) => {
+
+    console.log('I assign values to properties in an item')
+    cy.get(`li [title ="${itemName}"] a`).last().click();
+    cy.get(itemForm).find(selectTrue).check();
+    cy.get('button[type="submit"]').click();
+})
 
 Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelector, name) => {
     cy.log('COMMAND: deleteClass', name);
