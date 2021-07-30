@@ -117,19 +117,69 @@ class ActionAccessControl extends ConfigurableService
         $this->setOption(self::OPTION_PERMISSIONS, $permissions);
     }
 
+    public function contextHasReadAccess(Context $context): bool
+    {
+        return $this->hasAccess(
+            [self::READ, self::WRITE, self::GRANT],
+            $context->getController(),
+            $context->getAction(),
+            $context->getUser()
+        );
+    }
+
+
+    public function contextHasWriteAccess(Context $context): bool
+    {
+        return $this->hasAccess(
+            [self::WRITE, self::GRANT],
+            $context->getController(),
+            $context->getAction(),
+            $context->getUser()
+        );
+    }
+
+
+    public function contextHasGrantAccess(Context $context): bool
+    {
+        return $this->hasAccess(
+            [self::GRANT],
+            $context->getController(),
+            $context->getAction(),
+            $context->getUser()
+        );
+    }
+
+    /**
+     * @deprecated Use $this->contextHasReadAccess()
+     */
     public function hasReadAccess(string $controller, string $action, ?User $user = null): bool
     {
-        return $this->hasAccess([self::READ, self::WRITE, self::GRANT], $controller, $action, $user);
+        $context = new Context($controller, $action);
+        $context->setUser($user);
+
+        return $this->contextHasReadAccess($context);
     }
 
+    /**
+     * @deprecated Use $this->contextHasWriteAccess()
+     */
     public function hasWriteAccess(string $controller, string $action, ?User $user = null): bool
     {
-        return $this->hasAccess([self::WRITE, self::GRANT], $controller, $action, $user);
+        $context = new Context($controller, $action);
+        $context->setUser($user);
+
+        return $this->contextHasWriteAccess($context);
     }
 
+    /**
+     * @deprecated Use $this->contextHasGrantAccess()
+     */
     public function hasGrantAccess(string $controller, string $action, ?User $user = null): bool
     {
-        return $this->hasAccess([self::GRANT], $controller, $action, $user);
+        $context = new Context($controller, $action);
+        $context->setUser($user);
+
+        return $this->contextHasGrantAccess($context);
     }
 
     private function hasAccess(array $allowedPermissions, string $controller, string $action, ?User $user = null): bool

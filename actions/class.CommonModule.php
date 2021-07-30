@@ -34,6 +34,7 @@ use oat\tao\model\accessControl\AclProxy;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\tao\model\accessControl\ActionAccessControl;
+use oat\tao\model\accessControl\Context;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
 
@@ -106,14 +107,22 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         return AclProxy::hasAccess($user, $controllerClass, $action, $parameters);
     }
 
-    protected function hasWriteAccessToAction(string $action, ?string $controller = null, ?User $user = null): bool
+    /**
+     * @deprecated Use $this->hasWriteAccessByContext()
+     */
+    protected function hasWriteAccessToAction(string $action, ?User $user = null): bool
     {
         return $this->getActionAccessControl()->hasWriteAccess($controller ?? static::class, $action, $user);
     }
 
-    protected function hasReadAccessToAction(string $action, ?string $controller = null, ?User $user = null): bool
+    protected function hasReadAccessByContext(Context $context): bool
     {
-        return $this->getActionAccessControl()->hasReadAccess($controller ?? static::class, $action, $user);
+        return $this->getActionAccessControl()->contextHasReadAccess($context);
+    }
+
+    protected function hasWriteAccessByContext(Context $context): bool
+    {
+        return $this->getActionAccessControl()->contextHasWriteAccess($context);
     }
 
     protected function getUserRoles(): array
