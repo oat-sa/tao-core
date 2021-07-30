@@ -27,7 +27,7 @@ use JsonSerializable;
 
 class ClassInformation implements JsonSerializable
 {
-
+    /** @var ClassCollection */
     private $classDefinition;
     /** @var array */
     private $criteriaMapping;
