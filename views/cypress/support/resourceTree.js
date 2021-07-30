@@ -50,9 +50,6 @@ Cypress.Commands.add('addPropertyToClass', (
     cy.get(editClass).find('li[class="action btn-info small"]').last().click();
     cy.get(classOptions).find('a[class="btn-info property-adder small"]').click();
 
-    // Wait so the modal is accessible from cy, otherwise it selects wrong button
-     cy.wait(1000);
-
     cy.get('span[class="icon-edit"]').last().click();
     cy.get(propertyEdit).find('input').first().clear('input').type(newPropertyName);
     cy.get(propertyEdit).find('select[class="property-type property"]').select('list');
@@ -70,7 +67,7 @@ Cypress.Commands.add('assignValueToProperty', (
     cy.get(`li [title ="${itemName}"] a`).last().click();
     cy.get(itemForm).find(selectTrue).check();
     cy.get('button[type="submit"]').click();
-})
+});
 
 Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelector, name) => {
     cy.log('COMMAND: deleteClass', name);
