@@ -118,7 +118,7 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
             AclContext::PARAM_USER => $user,
         ]);
 
-        return $this->hasReadAccessByContext($context);
+        return $this->hasWriteAccessByContext($context);
     }
 
     protected function hasReadAccessByContext(AclContext $context): bool
