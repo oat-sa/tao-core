@@ -25,6 +25,9 @@ namespace oat\tao\test\unit\accessControl;
 use oat\generis\test\TestCase;
 use oat\oatbox\log\LoggerService;
 use common_test_TestUser as TestUser;
+use oat\tao\model\accessControl\Context;
+use PHPUnit\Framework\MockObject\MockObject;
+use oat\tao\model\accessControl\ContextInterface;
 use oat\tao\model\accessControl\ActionAccessControl;
 
 class ActionAccessControlTest extends TestCase
@@ -37,6 +40,9 @@ class ActionAccessControlTest extends TestCase
 
     /** @var TestUser */
     private $user;
+
+    /** @var ContextInterface|MockObject */
+    private $context;
 
     public function setUp(): void
     {
@@ -51,6 +57,25 @@ class ActionAccessControlTest extends TestCase
 
         $this->user = $this->createUser();
         $this->user->setRoles(['role1']);
+
+        $this->context = $this->createMock(ContextInterface::class);
+        $this->context
+            ->method('getParameter')
+            ->willReturnCallback(
+                function (string $parameter) {
+                    if ($parameter === Context::PARAM_CONTROLLER) {
+                        return self::TEST_CONTROLLER;
+                    }
+                    if ($parameter === Context::PARAM_ACTION) {
+                        return self::TEST_ACTION;
+                    }
+                    if ($parameter === Context::PARAM_USER) {
+                        return $this->user;
+                    }
+
+                    return null;
+                }
+            );
     }
 
     public function testAddPermissions(): void
@@ -184,28 +209,16 @@ class ActionAccessControlTest extends TestCase
 
     private function hasReadAccess(): bool
     {
-        return $this->actionAccessControl->hasReadAccess(
-            self::TEST_CONTROLLER,
-            self::TEST_ACTION,
-            $this->user
-        );
+        return $this->actionAccessControl->contextHasReadAccess($this->context);
     }
 
     private function hasWriteAccess(): bool
     {
-        return $this->actionAccessControl->hasWriteAccess(
-            self::TEST_CONTROLLER,
-            self::TEST_ACTION,
-            $this->user
-        );
+        return $this->actionAccessControl->contextHasWriteAccess($this->context);
     }
 
     private function hasGrantAccess(): bool
     {
-        return $this->actionAccessControl->hasGrantAccess(
-            self::TEST_CONTROLLER,
-            self::TEST_ACTION,
-            $this->user
-        );
+        return $this->actionAccessControl->contextHasGrantAccess($this->context);
     }
 }

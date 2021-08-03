@@ -59,6 +59,20 @@ class MediaBrowserPermissionsMapper extends ConfigurableService implements Acces
         return $data;
     }
 
+    protected function hasReadAccess(string $uri): bool
+    {
+        return $this->isAccessControlEnabled()
+            ? $this->getPermissionChecker()->hasReadAccess($uri)
+            : true;
+    }
+
+    protected function hasWriteAccess(string $uri): bool
+    {
+        return $this->isAccessControlEnabled()
+            ? $this->getPermissionChecker()->hasWriteAccess($uri)
+            : true;
+    }
+
     private function getPermissionChecker(): PermissionCheckerInterface
     {
         if (!$this->permissionChecker) {
@@ -66,20 +80,6 @@ class MediaBrowserPermissionsMapper extends ConfigurableService implements Acces
         }
 
         return $this->permissionChecker;
-    }
-
-    private function hasReadAccess(string $uri): bool
-    {
-        return $this->isAccessControlEnabled()
-            ? $this->getPermissionChecker()->hasReadAccess($uri)
-            : true;
-    }
-
-    private function hasWriteAccess(string $uri): bool
-    {
-        return $this->isAccessControlEnabled()
-            ? $this->getPermissionChecker()->hasWriteAccess($uri)
-            : true;
     }
 
     private function isAccessControlEnabled(): bool
