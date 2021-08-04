@@ -28,13 +28,12 @@ Cypress.Commands.add('addClass', formSelector => {
 Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
     cy.log('COMMAND: addClassToRoot', name);
 
-    // timeout for the tree to load
-    cy.get(`${rootSelector} a`).first().click().then(root => {
-        if (root.find(`li[title="${name}"] a`).length === 0) {
-            cy.addClass(formSelector).then(() => {
-                cy.renameSelected(formSelector, name);
-            });
-        }
+    cy.get(`${rootSelector} a`)
+        .first()
+        .click();
+
+    cy.addClass(formSelector).then(() => {
+        cy.renameSelected(formSelector, name);
     });
 });
 
@@ -43,12 +42,12 @@ Cypress.Commands.add('moveClass', (formSelector, moveSelector, moveConfirmSelect
 
     cy.get(`li[title="${name}"] a`).first().click().then(() => {
         cy.get(moveSelector).click();
-        cy.get('.destination-selector').then((body) => {
-            if (body.find(`a[title="${nameWhereMove}"]`).length) {
-                cy.get(`a[title="${nameWhereMove}"]`).click();
-                cy.get('.actions button').click();
-            }
+        cy.get('.destination-selector')
+            .find(`a[title="${nameWhereMove}"]`).then(() => {
+            cy.get(`a[title="${nameWhereMove}"]`).click();
+            cy.get('.actions button').click();
             cy.get(moveConfirmSelector).click();
+            cy.get(`li[title="${name}"] a`).should('not.exist');
         });
     });
 });
@@ -59,39 +58,38 @@ Cypress.Commands.add('moveClassFromRoot', (rootSelector, formSelector, moveSelec
     cy.addClassToRoot(rootSelector, formSelector, name);
     cy.addClassToRoot(rootSelector, formSelector, nameWhereMove);
 
-    cy.get(`${rootSelector} a`).first().click();
+    cy.get(`${rootSelector} a`)
+        .first()
+        .click();
 
-    cy.get(rootSelector).then(root => {
-        if (root.find(`li[title="${name}"] a`).length > 0) {
-            cy.moveClass(formSelector, moveSelector, moveConfirmSelector, name, nameWhereMove);
-        }
+    cy.get(rootSelector)
+        .find(`li[title="${name}"] a`).then(() => {
+        cy.moveClass(formSelector, moveSelector, moveConfirmSelector, name, nameWhereMove);
     });
 });
 
 Cypress.Commands.add('deleteClass', (formSelector, deleteSelector, confirmSelector, name) => {
     cy.log('COMMAND: deleteClass', name);
 
-    cy.contains('a', name).click();
-    cy.get(formSelector).should('exist').then(() => {
-        cy.get(deleteSelector).click();
-        cy.get('.modal-body').then((body) => {
-            if (body.find('label[for=confirm]').length) {
-                cy.get('label[for=confirm]').click();
-            }
-            cy.get(confirmSelector).click();
-        });
-    });
+    // cy.contains('a', name).click();
+    cy.get(formSelector)
+        .should('exist')
+        .get(deleteSelector)
+        .click()
+        .get('.modal-body label[for=confirm]')
+        .click()
+        .get(confirmSelector)
+        .click();
 });
 
 Cypress.Commands.add('deleteClassFromRoot', (rootSelector, formSelector, deleteSelector, confirmSelector, name) => {
     cy.log('COMMAND: deleteClassFromRoot', name);
 
-    cy.get(`${rootSelector} a`).first().click();
-
-    cy.get(rootSelector).then(root => {
-        if (root.find(`li[title="${name}"] a`).length > 0) {
-            cy.deleteClass(formSelector, deleteSelector, confirmSelector, name);
-        }
+    cy.get(`${rootSelector} a`)
+        .first()
+        .click()
+        .get(`li[title="${name}"] a`).then(() => {
+        cy.deleteClass(formSelector, deleteSelector, confirmSelector, name);
     });
 });
 
@@ -132,13 +130,11 @@ Cypress.Commands.add('renameSelected', (formSelector, newName) => {
     cy.log('COMMAND: renameSelectedClass', newName);
 
     // TODO: update selector when data-testid attributes will be added
-    cy.get(formSelector)
-        .within(() => {
-            cy.get('input[name*=label]')
-                .clear()
-                .type(newName);
-            cy.get('button').click();
-        });
+    cy.get(`${ formSelector } input[name*=label]`)
+        .clear()
+        .type(newName)
+        .get('button[id="Save"]')
+        .click();
 
     cy.get(formSelector).should('exist');
 
