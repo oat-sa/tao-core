@@ -23,6 +23,8 @@ Cypress.Commands.add('addClass', formSelector => {
     cy.log('COMMAND: addClass');
     cy.get('[data-context=resource][data-action=subClass]').click();
     cy.get(formSelector).should('exist');
+    // timeout to wait for class to be added to avoid 'detach from dom' error, may be refactored
+    cy.wait(1000);
 });
 
 Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
@@ -30,6 +32,7 @@ Cypress.Commands.add('addClassToRoot', (rootSelector, formSelector, name) => {
 
     // timeout for the tree to load
     cy.get(`${rootSelector} a`).first().then(root => {
+        root.click();
         if (root.find(`li[title="${name}"] a`).length === 0) {
             cy.addClass(formSelector);
             cy.renameSelected(formSelector, name);
@@ -44,7 +47,7 @@ Cypress.Commands.add('addPropertyToClass', (
     newPropertyName,
     propertyEdit) => {
 
-    cy.log('COMMAND: addPropertyToClass',newPropertyName);
+    cy.log('COMMAND: addPropertyToClass', newPropertyName);
 
     cy.get(`li [title ="${className}"]`).last().click();
     cy.get(editClass).click();
