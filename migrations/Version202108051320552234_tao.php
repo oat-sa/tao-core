@@ -23,7 +23,10 @@ final class Version202108051320552234_tao extends AbstractMigration
     public function up(Schema $schema): void
     {
         $this->addReport(
-            $this->propagate(new SetImageAligmentConfig())([false])
+            $this->propagate(
+                new SetImageAligmentConfig())(
+                    ['mediaAlignment' => false]
+            )
         );
     }
 
