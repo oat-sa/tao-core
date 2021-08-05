@@ -44,7 +44,7 @@ class SetImageAligmentConfig extends InstallAction
         ClientLibConfigRegistry::getRegistry()->register(
             'ui/image/ImgStateActive',
             [
-                'mediaAlignment' => $params[0]
+                'mediaAlignment' => $params['mediaAlignment']
             ]
         );
 
