@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016-2019 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\tao\scripts\install;
@@ -48,6 +48,6 @@ class SetImageAligmentConfig extends InstallAction
             ]
         );
 
-        return new Report(Report::TYPE_SUCCESS, 'Set Image Aligment disabled in Authoring');
+        return new Report(Report::TYPE_SUCCESS, 'Set Image Aligment plugin '.($params[0] ? 'enabled' : 'disabled').' in Authoring');
     }
 }
