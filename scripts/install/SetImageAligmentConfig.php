@@ -39,7 +39,7 @@ class SetImageAligmentConfig extends InstallAction
      *
      * @return Report
      */
-    public function __invoke($params = [false])
+    public function __invoke($params = ['mediaAlignment' => false])
     {
         ClientLibConfigRegistry::getRegistry()->register(
             'ui/image/ImgStateActive',
