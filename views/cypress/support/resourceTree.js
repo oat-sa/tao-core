@@ -240,3 +240,35 @@ Cypress.Commands.add('renameSelected', (formSelector, newName) => {
         .get(formSelector).should('exist')
         .get(`${ formSelector } input[name*=label]`).should('have.value', newName);
 });
+
+Cypress.Commands.add('addPropertyToClass', (
+    className,
+    editClass,
+    classOptions,
+    newPropertyName,
+    propertyEdit) => {
+
+    cy.log('COMMAND: addPropertyToClass',newPropertyName);
+
+    cy.get(`li [title ="${className}"]`).last().click();
+    cy.get(editClass).click();
+    cy.get(classOptions).find('a[class="btn-info property-adder small"]').click();
+
+    cy.get('span[class="icon-edit"]').last().click();
+    cy.get(propertyEdit).find('input').first().clear('input').type(newPropertyName);
+    cy.get(propertyEdit).find('select[class="property-type property"]').select('list');
+    cy.get(propertyEdit).find('select[class="property-listvalues property"]').select('Boolean');
+
+    cy.get('button[type="submit"]').click();
+});
+
+Cypress.Commands.add('assignValueToProperty', (
+    itemName,
+    itemForm,
+    selectTrue) => {
+
+    cy.log('COMMAND: assignValueToProperty', itemName, itemForm);
+    cy.get(`li [title ="${itemName}"] a`).last().click();
+    cy.get(itemForm).find(selectTrue).check();
+    cy.get('button[type="submit"]').click();
+});
