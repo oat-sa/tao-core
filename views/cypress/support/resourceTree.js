@@ -48,11 +48,11 @@ Cypress.Commands.add('addClassToRoot', (
     cy.log('COMMAND: addClassToRoot', name)
         .intercept('GET', `**/${ treeRenderUrl }/getOntologyData**`).as('treeRender')
         .intercept('POST', `**/${ editClassLabelUrl }`).as('editClassLabel')
-        .wait('@editClassLabel', { requestTimeout: 10000 })
         .wait('@treeRender', { requestTimeout: 10000 })
         .get(`${rootSelector} a`)
         .first()
         .click()
+        .wait('@editClassLabel', { requestTimeout: 10000 })
         .addClass(formSelector, editClassLabelUrl, treeRenderUrl, addSubClassUrl)
         .renameSelected(formSelector, name)
 });
