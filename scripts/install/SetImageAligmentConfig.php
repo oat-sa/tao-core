@@ -48,6 +48,6 @@ class SetImageAligmentConfig extends InstallAction
             ]
         );
 
-        return new Report(Report::TYPE_SUCCESS, 'Set Image Aligment plugin '.($params[0] ? 'enabled' : 'disabled').' in Authoring');
+        return new Report(Report::TYPE_SUCCESS, 'Set Image Aligment plugin '.($params['mediaAlignment'] ? 'enabled' : 'disabled').' in Authoring');
     }
 }
