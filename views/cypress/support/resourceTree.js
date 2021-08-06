@@ -58,7 +58,6 @@ Cypress.Commands.add('addClassToRoot', (
 });
 
 Cypress.Commands.add('moveClass', (
-    formSelector,
     moveSelector,
     moveConfirmSelector,
     name,
@@ -98,7 +97,8 @@ Cypress.Commands.add('moveClassFromRoot', (
     editClassLabelUrl,
     restResourceGetAll,
     resourceRelations,
-    addSubClassUrl
+    addSubClassUrl,
+    isItems
 ) => {
     cy.log('COMMAND: moveClassFromRoot', name)
         .addClassToRoot(rootSelector, formSelector, name, editClassLabelUrl, treeRenderUrl, addSubClassUrl)
@@ -111,7 +111,7 @@ Cypress.Commands.add('moveClassFromRoot', (
         .first()
         .click()
         .get(`${rootSelector} li[title="${name}"] a`)
-        .moveClass(formSelector, moveSelector, moveConfirmSelector, name, nameWhereMove, editClassLabelUrl, restResourceGetAll)
+        .moveClass(moveSelector, moveConfirmSelector, name, nameWhereMove, editClassLabelUrl, restResourceGetAll)
         .deleteClass(
             rootSelector,
             formSelector,
@@ -119,7 +119,8 @@ Cypress.Commands.add('moveClassFromRoot', (
             confirmSelector,
             nameWhereMove,
             resourceRelations,
-            true
+            true,
+            isItems
         );
 });
 
@@ -130,7 +131,8 @@ Cypress.Commands.add('deleteClass', (
     confirmSelector,
     name,
     resourceRelations,
-    isMove = false
+    isMove = false,
+    isItems = false
 ) => {
     cy.log('COMMAND: deleteClass', name)
         .get(`${rootSelector} a`)
@@ -138,23 +140,22 @@ Cypress.Commands.add('deleteClass', (
         .get(formSelector)
         .should('exist')
 
-    if(!isMove) {
-        cy.intercept('GET', `**/${ resourceRelations }/**`).as('resourceRelations')
-    }
+    // if(!isMove) {
+    //     cy.intercept('GET', `**/${ resourceRelations }/**`).as('resourceRelations')
+    // }
 
     cy.get(deleteSelector).click()
 
-    if(!isMove) {
-        cy.wait('@resourceRelations', { requestTimeout: 10000 })
+    // if(!isMove) {
+    //     cy.wait('@resourceRelations', { requestTimeout: 10000 })
+    // }
+
+    if (isItems) {
+        cy.get('.modal-body label[for=confirm]')
+            .click();
     }
 
-    cy.get('.modal-body')
-        .then($body => {
-            if ($body.find('label[for=confirm]').length > 0) {
-                $body.click();
-            }
-        })
-        .get(confirmSelector)
+    cy.get(confirmSelector)
         .click();
 });
 
@@ -165,7 +166,9 @@ Cypress.Commands.add('deleteClassFromRoot', (
     confirmSelector,
     name,
     treeRenderUrl,
-    resourceRelations
+    resourceRelations,
+    isMove,
+    isItems
 ) => {
     cy.log('COMMAND: deleteClassFromRoot', name)
         .intercept('GET', `**/${ treeRenderUrl }/getOntologyData**`).as('treeRender')
@@ -174,7 +177,7 @@ Cypress.Commands.add('deleteClassFromRoot', (
         .first()
         .click()
         .get(`li[title="${name}"] a`)
-        .deleteClass(rootSelector, formSelector, deleteSelector, confirmSelector, name, resourceRelations)
+        .deleteClass(rootSelector, formSelector, deleteSelector, confirmSelector, name, resourceRelations, isMove, isItems)
 });
 
 Cypress.Commands.add('deleteEmptyClassFromRoot', (
@@ -217,9 +220,7 @@ Cypress.Commands.add('deleteNode', (
 ) => {
     cy.log('COMMAND: deleteNode', name)
         .intercept('GET', `**/${ treeRenderUrl }/getOntologyData**`).as('treeRender')
-        // .intercept('POST', `**/${ editItemUrl }`).as('editItem')
         .wait('@treeRender', { requestTimeout: 10000 })
-        // .wait('@editItem', { requestTimeout: 10000 })
         .get(`${rootSelector} a`)
         .contains('a', name).click()
         .get(deleteSelector).click()
