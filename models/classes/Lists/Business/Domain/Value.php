@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -24,8 +24,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Domain;
 
-use JsonSerializable;
 use tao_helpers_Uri;
+use JsonSerializable;
 
 class Value implements JsonSerializable
 {
@@ -44,17 +44,26 @@ class Value implements JsonSerializable
     /** @var bool */
     private $hasChanges = false;
 
+    /** @var string|null */
+    private $dependencyUri;
+
     public function __construct(?int $id, string $uri, string $label)
     {
-        $this->id          = $id;
-        $this->uri         = $uri;
-        $this->label       = $label;
-        $this->originalUri = null === $id ? null : $uri;
+        $this->id = $id;
+        $this->uri = $uri;
+        $this->label = $label;
+
+        $this->originalUri = $id === null ? null : $uri;
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUri(): string
+    {
+        return $this->uri;
     }
 
     public function setUri(string $uri): self
@@ -68,9 +77,9 @@ class Value implements JsonSerializable
         return $this;
     }
 
-    public function getUri(): string
+    public function getLabel(): string
     {
-        return $this->uri;
+        return $this->label;
     }
 
     public function setLabel(string $label): self
@@ -84,14 +93,25 @@ class Value implements JsonSerializable
         return $this;
     }
 
+    public function getDependencyUri(): ?string
+    {
+        return $this->dependencyUri;
+    }
+
+    public function setDependencyUri(?string $dependencyUri): self
+    {
+        if ($this->dependencyUri !== $dependencyUri) {
+            $this->hasChanges = true;
+        }
+
+        $this->dependencyUri = $dependencyUri;
+
+        return $this;
+    }
+
     public function hasChanges(): bool
     {
         return $this->hasChanges;
-    }
-
-    public function getLabel(): string
-    {
-        return $this->label;
     }
 
     public function getOriginalUri(): ?string
@@ -107,8 +127,9 @@ class Value implements JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'uri'   => tao_helpers_Uri::encode($this->uri),
+            'uri' => tao_helpers_Uri::encode($this->uri),
             'label' => $this->label,
+            'dependencyUri' => $this->dependencyUri,
         ];
     }
 }

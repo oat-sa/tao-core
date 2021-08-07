@@ -6,6 +6,9 @@ namespace oat\tao\model\accessControl;
 
 use InvalidArgumentException;
 
+/**
+ * @deprecated Use \oat\tao\model\Context\AbstractContext
+ */
 abstract class AbstractContext
 {
     protected $parameters = [];

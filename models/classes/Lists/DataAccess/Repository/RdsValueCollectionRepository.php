@@ -49,6 +49,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
     public const FIELD_ITEM_ID = 'id';
     public const FIELD_ITEM_URI = 'uri';
     public const FIELD_ITEM_LIST_URI = 'list_uri';
+    public const FIELD_DEPENDENCY_ITEM_URI = 'dependency_uri';
 
     /** @var PersistenceManager */
     private $persistenceManager;
@@ -83,11 +84,14 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
         $values = [];
         foreach ($query->execute()->fetchAll() as $rawValue) {
-            $values[] = new Value(
-                (int)$rawValue[self::FIELD_ITEM_ID],
+            $value = new Value(
+                (int) $rawValue[self::FIELD_ITEM_ID],
                 $rawValue[self::FIELD_ITEM_URI],
                 $rawValue[self::FIELD_ITEM_LABEL]
             );
+            $value->setDependencyUri($rawValue[self::FIELD_DEPENDENCY_ITEM_URI]);
+
+            $values[] = $value;
         }
 
         $valueCollectionUri = $searchRequest->hasValueCollectionUri()
@@ -167,20 +171,18 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
     {
         $qb = $this->getPersistence()->getPlatForm()->getQueryBuilder();
         $qb->insert(self::TABLE_LIST_ITEMS)
-            ->values(
-                [
-                    self::FIELD_ITEM_LABEL    => ':label',
-                    self::FIELD_ITEM_URI      => ':uri',
-                    self::FIELD_ITEM_LIST_URI => ':listUri',
-                ]
-            )
-            ->setParameters(
-                [
-                    'uri'     => $value->getUri(),
-                    'label'   => $value->getLabel(),
-                    'listUri' => $valueCollection->getUri()
-                ]
-            )
+            ->values([
+                self::FIELD_ITEM_LABEL => ':label',
+                self::FIELD_ITEM_URI => ':uri',
+                self::FIELD_ITEM_LIST_URI => ':listUri',
+                self::FIELD_DEPENDENCY_ITEM_URI => ':dependencyUri',
+            ])
+            ->setParameters([
+                'uri' => $value->getUri(),
+                'label' => $value->getLabel(),
+                'listUri' => $valueCollection->getUri(),
+                'dependencyUri' => $value->getDependencyUri(),
+            ])
             ->execute();
     }
 

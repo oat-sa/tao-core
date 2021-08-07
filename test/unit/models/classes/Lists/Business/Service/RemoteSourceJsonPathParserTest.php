@@ -23,7 +23,10 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Lists\Business\Service;
 
 use oat\generis\test\TestCase;
+use oat\tao\model\accessControl\Context;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\Lists\Business\Domain\Value;
+use oat\tao\model\Lists\Business\Domain\RemoteSourceContext;
 use oat\tao\model\Lists\Business\Service\RemoteSourceJsonPathParser;
 
 /**
@@ -36,27 +39,104 @@ class RemoteSourceJsonPathParserTest extends TestCase
         $this->sut = new RemoteSourceJsonPathParser();
     }
 
-    public function testIterate(): void
+    public function testIterateWithoutDependencyUri(): void
     {
         $json = [
-            'phoneNumbers' =>
+            'phoneNumbers' => [
                 [
-                    [
-                        'type'   => 'iPhone',
-                        'number' => '0123-4567-8888',
-                    ],
-                    [
-                        'type'   => 'home',
-                        'number' => '0123-4567-8910',
-                    ],
+                    'type' => 'iPhone',
+                    'number' => '0123-4567-8888',
                 ],
+                [
+                    'type' => 'home',
+                    'number' => '0123-4567-8910',
+                ],
+            ],
         ];
 
         $values = iterator_to_array(
-            $this->sut->iterate($json, '$.phoneNumbers[:].type', '$.phoneNumbers[:].number')
+            $this->sut->iterateContext(
+                $this->getRemoteSourceContextMock(
+                    $json,
+                    '$.phoneNumbers[*].type',
+                    '$.phoneNumbers[*].number'
+                )
+            )
         );
 
         $this->assertEquals(new Value(null, 'iPhone', '0123-4567-8888'), $values[0]);
         $this->assertEquals(new Value(null, 'home', '0123-4567-8910'), $values[1]);
+    }
+
+    public function testIterateWithDependencyUri(): void
+    {
+        $json = [
+            'phoneNumbers' => [
+                [
+                    'type' => 'iPhone',
+                    'number' => '0123-4567-8888',
+                    'country' => 'Luxembourg',
+                ],
+                [
+                    'type' => 'home',
+                    'number' => '0123-4567-8910',
+                    'country' => 'Norway',
+                ],
+            ],
+        ];
+
+        $values = iterator_to_array(
+            $this->sut->iterateContext(
+                $this->getRemoteSourceContextMock(
+                    $json,
+                    '$.phoneNumbers[*].type',
+                    '$.phoneNumbers[*].number',
+                    '$.phoneNumbers[*].country'
+                )
+            )
+        );
+
+        $value = new Value(null, 'iPhone', '0123-4567-8888');
+        $value->setDependencyUri('Luxembourg');
+        $this->assertEquals($value, $values[0]);
+
+        $value = new Value(null, 'home', '0123-4567-8910');
+        $value->setDependencyUri('Norway');
+        $this->assertEquals($value, $values[1]);
+    }
+
+    private function getRemoteSourceContextMock(
+        array $json,
+        string $uriPath,
+        string $labelPath,
+        string $dependencyUriPath = null
+    ): RemoteSourceContext {
+        $remoteSourceContextMock = $this->createMock(RemoteSourceContext::class);
+
+        $remoteSourceContextMock
+            ->method('getParameter')
+            ->willReturnCallback(
+                function (string $parameter) use ($json, $uriPath, $labelPath, $dependencyUriPath) {
+                    if ($parameter === RemoteSourceContext::PARAM_JSON) {
+                        return $json;
+                    }
+
+                    if ($parameter === RemoteSourceContext::PARAM_URI_PATH) {
+                        return $uriPath;
+                    }
+
+                    if ($parameter === RemoteSourceContext::PARAM_LABEL_PATH) {
+                        return $labelPath;
+                    }
+
+                    if ($parameter === RemoteSourceContext::PARAM_DEPENDENCY_URI_PATH) {
+                        return $dependencyUriPath;
+                    }
+
+                    return null;
+                }
+            );
+
+        return $remoteSourceContextMock;
     }
 }
