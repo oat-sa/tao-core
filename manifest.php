@@ -41,6 +41,7 @@ use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
+use oat\tao\scripts\install\RegisterCounterService;
 use oat\tao\scripts\install\RegisterDataAccessControlChangedEvent;
 use oat\tao\scripts\install\RegisterDataAccessControlChangedListener;
 use oat\tao\scripts\install\RegisterEvents;
@@ -161,7 +162,8 @@ return [
             RegisterActionAccessControl::class,
             RegisterRtlLocales::class,
             RegisterSearchServices::class,
-            SetImageAligmentConfig::class
+            SetImageAligmentConfig::class,
+            RegisterCounterService::class,
         ],
     ],
     'update' => Updater::class,
