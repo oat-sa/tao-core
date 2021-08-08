@@ -170,10 +170,11 @@ class CounterService extends ConfigurableService
 
     /**
      * @param string $eventFqcn
+     * @param string|null $keyCallbackValue
      * @return int
      * @throws CounterServiceException
      */
-    public function get(string $eventFqcn): int
+    public function get(string $eventFqcn, ?string $keyCallbackValue = null): int
     {
         return (int)$this->getPersistence()->get($this->buildKey($eventFqcn));
     }
