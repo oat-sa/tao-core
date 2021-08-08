@@ -1,45 +1,32 @@
 <?php
 
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ */
+
 declare(strict_types=1);
 
 namespace oat\tao\model\accessControl;
 
-use InvalidArgumentException;
+use oat\tao\model\Context\AbstractContext as BaseAbstractContext;
 
 /**
  * @deprecated Use \oat\tao\model\Context\AbstractContext
  */
-abstract class AbstractContext
+abstract class AbstractContext extends BaseAbstractContext
 {
-    protected $parameters = [];
-
-    public function __construct(array $parameters)
-    {
-        foreach ($parameters as $parameter => $parameterValue) {
-            $this->validateParameter($parameter, $parameterValue);
-
-            $this->parameters[$parameter] = $parameterValue;
-        }
-    }
-
-    public function getParameter(string $parameter)
-    {
-        if (!in_array($parameter, $this->getSupportedParameters(), true)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Context parameter %s is not supported.',
-                    $parameter
-                )
-            );
-        }
-
-        return $this->parameters[$parameter] ?? null;
-    }
-
-    abstract protected function getSupportedParameters(): array;
-
-    /**
-     * @param $parameterValue
-     */
-    abstract protected function validateParameter(string $parameter, $parameterValue): void;
 }

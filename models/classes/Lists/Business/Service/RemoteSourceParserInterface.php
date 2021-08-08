@@ -27,9 +27,9 @@ use oat\tao\model\Context\ContextInterface;
 interface RemoteSourceParserInterface
 {
     /**
-     * @deprecated Use $this->iterateContext()
+     * @deprecated Use $this->iterateByContext()
      */
     public function iterate(array $json, string $uriRule, string $labelRule): iterable;
 
-    public function iterateContext(ContextInterface $context): iterable;
+    public function iterateByContext(ContextInterface $context): iterable;
 }

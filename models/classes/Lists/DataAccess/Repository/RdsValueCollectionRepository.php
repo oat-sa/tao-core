@@ -83,15 +83,14 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $this->enrichQueryWithOrderById($query);
 
         $values = [];
+
         foreach ($query->execute()->fetchAll() as $rawValue) {
-            $value = new Value(
+            $values[] = new Value(
                 (int) $rawValue[self::FIELD_ITEM_ID],
                 $rawValue[self::FIELD_ITEM_URI],
-                $rawValue[self::FIELD_ITEM_LABEL]
+                $rawValue[self::FIELD_ITEM_LABEL],
+                $rawValue[self::FIELD_DEPENDENCY_ITEM_URI] ?? null
             );
-            $value->setDependencyUri($rawValue[self::FIELD_DEPENDENCY_ITEM_URI]);
-
-            $values[] = $value;
         }
 
         $valueCollectionUri = $searchRequest->hasValueCollectionUri()

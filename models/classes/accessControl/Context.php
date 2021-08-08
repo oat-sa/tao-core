@@ -25,9 +25,8 @@ namespace oat\tao\model\accessControl;
 use oat\oatbox\user\User;
 use InvalidArgumentException;
 use oat\tao\model\Context\AbstractContext;
-use oat\tao\model\Context\ContextInterface;
 
-class Context extends AbstractContext implements ContextInterface
+class Context extends AbstractContext
 {
     public const PARAM_CONTROLLER = 'controller';
     public const PARAM_ACTION = 'action';

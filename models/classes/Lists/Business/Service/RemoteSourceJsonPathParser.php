@@ -33,11 +33,11 @@ use oat\tao\model\Lists\Business\Domain\RemoteSourceContext;
 class RemoteSourceJsonPathParser extends ConfigurableService implements RemoteSourceParserInterface
 {
     /**
-     * @deprecated use $this->iterateContext()
+     * @deprecated use $this->iterateByContext()
      */
     public function iterate(array $json, string $uriRule, string $labelRule): iterable
     {
-        yield from $this->iterateContext(
+        yield from $this->iterateByContext(
             new RemoteSourceContext([
                 RemoteSourceContext::PARAM_JSON => $json,
                 RemoteSourceContext::PARAM_URI_PATH => $uriRule,
@@ -46,7 +46,7 @@ class RemoteSourceJsonPathParser extends ConfigurableService implements RemoteSo
         );
     }
 
-    public function iterateContext(ContextInterface $context): iterable
+    public function iterateByContext(ContextInterface $context): iterable
     {
         $jsonPath = new JSONPath($context->getParameter(RemoteSourceContext::PARAM_JSON));
 
@@ -76,15 +76,15 @@ class RemoteSourceJsonPathParser extends ConfigurableService implements RemoteSo
             throw new RuntimeException('Count of URIs and labels should be equal');
         }
 
-        do {
-            $value = new Value(null, $uris->current(), $labels->current());
+        $dependencyUri = null;
 
+        do {
             if ($dependencyUris !== null) {
-                $value->setDependencyUri($dependencyUris->current() ?: null);
+                $dependencyUri = $dependencyUris->current() ?: null;
                 $dependencyUris->next();
             }
 
-            yield $value;
+            yield new Value(null, $uris->current(), $labels->current(), $dependencyUri);
 
             $uris->next();
             $labels->next();

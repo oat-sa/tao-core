@@ -25,7 +25,14 @@ namespace oat\tao\model\Context;
 interface ContextInterface
 {
     /**
-     * @return mixed|null
+     * @param mixed $default
+     *
+     * @return mixed
      */
     public function getParameter(string $parameter, $default = null);
+
+    /**
+     * @param mixed $parameterValue
+     */
+    public function setParameter(string $parameter, $parameterValue): void;
 }

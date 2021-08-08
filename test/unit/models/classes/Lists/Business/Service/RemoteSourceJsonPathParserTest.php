@@ -55,7 +55,7 @@ class RemoteSourceJsonPathParserTest extends TestCase
         ];
 
         $values = iterator_to_array(
-            $this->sut->iterateContext(
+            $this->sut->iterateByContext(
                 $this->getRemoteSourceContextMock(
                     $json,
                     '$.phoneNumbers[*].type',
@@ -86,7 +86,7 @@ class RemoteSourceJsonPathParserTest extends TestCase
         ];
 
         $values = iterator_to_array(
-            $this->sut->iterateContext(
+            $this->sut->iterateByContext(
                 $this->getRemoteSourceContextMock(
                     $json,
                     '$.phoneNumbers[*].type',
@@ -96,12 +96,10 @@ class RemoteSourceJsonPathParserTest extends TestCase
             )
         );
 
-        $value = new Value(null, 'iPhone', '0123-4567-8888');
-        $value->setDependencyUri('Luxembourg');
+        $value = new Value(null, 'iPhone', '0123-4567-8888', 'Luxembourg');
         $this->assertEquals($value, $values[0]);
 
-        $value = new Value(null, 'home', '0123-4567-8910');
-        $value->setDependencyUri('Norway');
+        $value = new Value(null, 'home', '0123-4567-8910', 'Norway');
         $this->assertEquals($value, $values[1]);
     }
 

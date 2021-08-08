@@ -32,25 +32,31 @@ class ValueTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testSerialization(?int $id, string $uri, string $label, array $expected): void
-    {
+    public function testSerialization(
+        ?int $id,
+        string $uri,
+        string $label,
+        ?string $dependencyUri,
+        array $expected
+    ): void {
         $this->assertJsonStringEqualsJsonString(
             json_encode($expected),
-            json_encode((new Value($id, $uri, $label)))
+            json_encode((new Value($id, $uri, $label, $dependencyUri)))
         );
     }
 
     /**
      * @dataProvider dataProvider
      */
-    public function testAccessors(?int $id, string $uri, string $label): void
+    public function testAccessors(?int $id, string $uri, string $label, ?string $dependencyUri): void
     {
-        $sut = new Value($id, $uri, $label);
+        $sut = new Value($id, $uri, $label, $dependencyUri);
 
         $this->assertSame($id, $sut->getId());
         $this->assertSame($uri, $sut->getUri());
         $this->assertSame($label, $sut->getLabel());
         $this->assertSame($id === null ? null : $uri, $sut->getOriginalUri());
+        $this->assertSame($dependencyUri, $sut->getDependencyUri());
         $this->assertFalse($sut->hasChanges());
     }
 
@@ -82,19 +88,6 @@ class ValueTest extends TestCase
         $this->assertTrue($sutClone->hasChanges());
     }
 
-    public function testDependencyUri(): void
-    {
-        $sut = new Value(null, 'URI', 'Label');
-
-        $this->assertNull($sut->getDependencyUri());
-        $this->assertFalse($sut->hasChanges());
-
-        $sut->setDependencyUri('Dependency URI');
-
-        $this->assertEquals('Dependency URI', $sut->getDependencyUri());
-        $this->assertTrue($sut->hasChanges());
-    }
-
     public function dataProvider(): array
     {
         return [
@@ -102,6 +95,7 @@ class ValueTest extends TestCase
                 'id' => 1,
                 'uri' => 'https://example.com',
                 'label' => 'test value, it can have https://anything.it/needs#1',
+                'dependencyUri' => null,
                 'expected' => [
                     'uri' => 'https_2_example_0_com',
                     'label' => 'test value, it can have https://anything.it/needs#1',
@@ -112,6 +106,7 @@ class ValueTest extends TestCase
                 'id' => 2,
                 'uri' => 'https://example.com:80',
                 'label' => 'test value',
+                'dependencyUri' => null,
                 'expected' => [
                     'uri' => 'https_2_example_0_com_4_80',
                     'label' => 'test value',
@@ -122,6 +117,7 @@ class ValueTest extends TestCase
                 'id' => 3,
                 'uri' => 'https://example.com/path',
                 'label' => 'test value',
+                'dependencyUri' => null,
                 'expected' => [
                     'uri' => 'https_2_example_0_com_1_path',
                     'label' => 'test value',
@@ -132,6 +128,7 @@ class ValueTest extends TestCase
                 'id' => 4,
                 'uri' => 'https://example.com/path#fragment',
                 'label' => 'test value',
+                'dependencyUri' => null,
                 'expected' => [
                     'uri' => 'https_2_example_0_com_1_path_3_fragment',
                     'label' => 'test value',
@@ -142,10 +139,22 @@ class ValueTest extends TestCase
                 'id' => null,
                 'uri' => 'https://example.com/path#fragment',
                 'label' => 'test value',
+                'dependencyUri' => null,
                 'expected' => [
                     'uri' => 'https_2_example_0_com_1_path_3_fragment',
                     'label' => 'test value',
                     'dependencyUri' => null,
+                ],
+            ],
+            'Dependency URI' => [
+                'id' => null,
+                'uri' => 'https://example.com/path#fragment',
+                'label' => 'test value',
+                'dependencyUri' => 'test dependency URI',
+                'expected' => [
+                    'uri' => 'https_2_example_0_com_1_path_3_fragment',
+                    'label' => 'test value',
+                    'dependencyUri' => 'test dependency URI',
                 ],
             ],
         ];

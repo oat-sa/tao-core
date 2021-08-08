@@ -24,9 +24,8 @@ namespace oat\tao\model\Lists\Business\Domain;
 
 use InvalidArgumentException;
 use oat\tao\model\Context\AbstractContext;
-use oat\tao\model\Context\ContextInterface;
 
-class RemoteSourceContext extends AbstractContext implements ContextInterface
+class RemoteSourceContext extends AbstractContext
 {
     public const PARAM_SOURCE_URL = 'sourceUrl';
     public const PARAM_URI_PATH = 'uriPath';

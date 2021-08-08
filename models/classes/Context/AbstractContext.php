@@ -24,7 +24,7 @@ namespace oat\tao\model\Context;
 
 use InvalidArgumentException;
 
-abstract class AbstractContext
+abstract class AbstractContext implements ContextInterface
 {
     protected $parameters = [];
 

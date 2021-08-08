@@ -47,7 +47,7 @@ class RemoteSource extends InjectionAwareService
     }
 
     /**
-     * @deprecated Use $this->fetchContext()
+     * @deprecated Use $this->fetchByContext()
      */
     public function fetch(string $sourceUrl, string $uriPath, string $labelPath, string $parser): Traversable
     {
@@ -58,10 +58,10 @@ class RemoteSource extends InjectionAwareService
             RemoteSourceContext::PARAM_PARSER => $parser,
         ]);
 
-        yield from $this->fetchContext($context);
+        yield from $this->fetchByContext($context);
     }
 
-    public function fetchContext(RemoteSourceContext $context): Traversable
+    public function fetchByContext(RemoteSourceContext $context): Traversable
     {
         $response = $this->getClient()->get($context->getParameter(RemoteSourceContext::PARAM_SOURCE_URL));
         $context->setParameter(
@@ -71,7 +71,7 @@ class RemoteSource extends InjectionAwareService
 
         yield from $this
             ->getParser($context->getParameter(RemoteSourceContext::PARAM_PARSER))
-            ->iterateContext($context);
+            ->iterateByContext($context);
     }
 
     private function getClient(): Client
