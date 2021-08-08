@@ -44,11 +44,16 @@ class RegisterCounterService extends InstallAction
     public function __invoke($params)
     {
         $persistence = $this->discoverPersistenceId();
-        $prefix = CounterService::OPTION_COUNTER_KEY_PREFIX;
 
+        /**
+         * The default CounterService is registered for client code usage. We expect the client code
+         * to register counters for specific custom needs.
+         */
         $counterService = new CounterService([
-            $prefix => 'tao:counter:',
-            CounterService::OPTION_PERSISTENCE => $persistence
+            CounterService::OPTION_PERSISTENCE => $persistence,
+            CounterService::OPTION_COUNTER_KEY_PREFIX => CounterService::DEFAULT_PREFIX,
+            CounterService::OPTION_EVENTS => []
+
         ]);
 
         $this->registerService(
@@ -56,7 +61,7 @@ class RegisterCounterService extends InstallAction
             $counterService
         );
 
-        $logMsg = "Counter Service registered with persistence '${persistence}' and key prefix '${prefix}'";
+        $logMsg = "Counter Service registered with persistence '${persistence}' and key prefix '" . CounterService::DEFAULT_PREFIX . "'.";
         $this->logInfo($logMsg);
     }
 
@@ -76,7 +81,8 @@ class RegisterCounterService extends InstallAction
          * of an existing infrastructure on the OAT ecosystem, we might find the best fit.
          *
          * 1. Most popular Key Value persistence ID in OAT ecosystem is 'redis'. This is the best fit.
-         * 2. As a fail-over, 'default_kv' persistence is implemented in all TAO Setups (See generis/manifest.php).
+         * 2. As a fail-over, 'default_kv' persistence is implemented in all TAO Setups (See generis/manifest.php's
+         * Registered Installation Actions).
          */
         foreach (self::PERSISTENCE_PRECEDENCE as $possiblePersistence) {
             if ($persistenceManager->hasPersistence($possiblePersistence)) {

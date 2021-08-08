@@ -30,7 +30,9 @@ use Throwable;
  */
 class CounterServiceException extends Exception
 {
-    public const CODE_INVALID_PERSISTENCE = 0;
+    public const CODE_UNKNOWN_ERROR = 0;
+    public const CODE_INVALID_PERSISTENCE = 1;
+    public const CODE_UNKNOWN_EVENT_TYPE = 2;
 
     /**
      * @param string $message
