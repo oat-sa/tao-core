@@ -19,8 +19,9 @@
 define([
     'jquery',
     'i18n',
-    'ui/feedback'
-], function ($, __, feedback) {
+    'ui/feedback',
+    './depends-on-property'
+], function ($, __, feedback, dependsOn) {
     'use strict';
 
     function _createCopyToClipboardHandler($field) {
@@ -344,30 +345,6 @@ define([
         _toggleModeBtn('disabled');
     }
 
-    function _isHiddenDependsOn($container) {
-        const $typeElt = $('.property-type', $container);
-        if (!$typeElt || !$typeElt.val().trim()) {
-            return true;
-        }
-
-        const $listElt = $('.property-listvalues', $container);
-        if ($listElt && $listElt.val().trim()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    function _toggleDependsOn($dependsOnSelectbox, $wrapper, $container) {
-        if (_isHiddenDependsOn($container)) {
-            $dependsOnSelectbox.prop('disabled', "disabled");
-            $wrapper.hide();
-            return;
-        }
-        $dependsOnSelectbox.removeAttr('disabled');
-        $wrapper.show();
-    }
-
     function _showProperties($container) {
         $('.property', $container).each(function () {
             var $currentTarget = $(this);
@@ -375,7 +352,7 @@ define([
                 $currentTarget = $currentTarget.parent();
             }
             if ($(this).hasClass('property-depends-on')) {
-                _toggleDependsOn($(this), $currentTarget, $container);
+                dependsOn.toggle($(this), $currentTarget, $container);
                 return;
             }
             $currentTarget.show();
