@@ -344,11 +344,29 @@ define([
         _toggleModeBtn('disabled');
     }
 
+    function _isHiddenDependsOn($dependsOnSelectbox) {
+        return true;
+    }
+
+    function _toggleDependsOn($container, $dependsOnSelectbox) {
+        if (_isHiddenDependsOn($dependsOnSelectbox)) {
+            $dependsOnSelectbox.prop('disabled', "disabled");
+            $container.hide();
+            return;
+        }
+        $dependsOnSelectbox.removeAttr('disabled');
+        $container.show();
+    }
+
     function _showProperties($container) {
         $('.property', $container).each(function () {
             var $currentTarget = $(this);
             while (!_.isEqual($currentTarget.parent()[0], $container[0])) {
                 $currentTarget = $currentTarget.parent();
+            }
+            if ($(this).hasClass('property-depends-on')) {
+                _toggleDependsOn($currentTarget, $(this));
+                return;
             }
             $currentTarget.show();
         });
@@ -367,6 +385,7 @@ define([
             elt.css('display', 'none');
             elt.find('select').prop('disabled', "disabled");
         }
+
         _toggleModeBtn('enabled');
     }
 

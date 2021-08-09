@@ -856,7 +856,7 @@ define([
                                     html += '<li>' + encode.html(response[property]) + '</li>';
                                 }
                                 html += '</ul>';
-                                $(elt).parent("div").append(html);
+                                $(elt).after(html);
                             }
                         });
                     }
