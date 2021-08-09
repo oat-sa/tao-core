@@ -344,18 +344,28 @@ define([
         _toggleModeBtn('disabled');
     }
 
-    function _isHiddenDependsOn($dependsOnSelectbox) {
+    function _isHiddenDependsOn($container) {
+        const $typeElt = $('.property-type', $container);
+        if (!$typeElt || !$typeElt.val().trim()) {
+            return true;
+        }
+
+        const $listElt = $('.property-listvalues', $container);
+        if ($listElt && $listElt.val().trim()) {
+            return false;
+        }
+
         return true;
     }
 
-    function _toggleDependsOn($container, $dependsOnSelectbox) {
-        if (_isHiddenDependsOn($dependsOnSelectbox)) {
+    function _toggleDependsOn($dependsOnSelectbox, $wrapper, $container) {
+        if (_isHiddenDependsOn($container)) {
             $dependsOnSelectbox.prop('disabled', "disabled");
-            $container.hide();
+            $wrapper.hide();
             return;
         }
         $dependsOnSelectbox.removeAttr('disabled');
-        $container.show();
+        $wrapper.show();
     }
 
     function _showProperties($container) {
@@ -365,7 +375,7 @@ define([
                 $currentTarget = $currentTarget.parent();
             }
             if ($(this).hasClass('property-depends-on')) {
-                _toggleDependsOn($currentTarget, $(this));
+                _toggleDependsOn($(this), $currentTarget, $container);
                 return;
             }
             $currentTarget.show();
