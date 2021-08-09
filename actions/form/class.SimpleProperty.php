@@ -185,14 +185,14 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 
 
         //add an hidden elt for the depends on property
-        $depOnPropElt = tao_helpers_form_FormFactory::getElement("{$index}_dep-on-prop", 'Combobox');
-        $depOnPropElt->addAttribute('class', 'property-depends-on property');
-        $depOnPropElt->setDescription(__('Depends on property'));
-        $depOnPropElt->setEmptyOption(__('None'));
-        $opt = [];
-        $depOnPropElt->setOptions($opt);
-        $this->form->addElement($depOnPropElt);
-        $elementNames[] = $depOnPropElt->getName();
+        // $depOnPropElt = tao_helpers_form_FormFactory::getElement("{$index}_dep-on-prop", 'Combobox');
+        // $depOnPropElt->addAttribute('class', 'property-depends-on property');
+        // $depOnPropElt->setDescription(__('Depends on property'));
+        // $depOnPropElt->setEmptyOption(__('None'));
+        // $opt = [];
+        // $depOnPropElt->setOptions($opt);
+        // $this->form->addElement($depOnPropElt);
+        // $elementNames[] = $depOnPropElt->getName();
 
         if (count($elementNames) > 0) {
             $groupTitle = $this->getGroupTitle($property);
