@@ -98,7 +98,7 @@ class CreateRdsListStore extends InstallAction
 
     private function getPersistence(): SqlPersistence
     {
-        $persistenceManager = $this->getSerivceLocator()->get(PersistenceManager::SERVICE_ID);
+        $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
 
         return $persistenceManager->getPersistenceById('default');
     }

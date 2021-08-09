@@ -49,7 +49,7 @@ final class Version202108050757012234_tao extends AbstractMigration
 
         [$fromSchema, $schema] = $this->getSchemas();
         $this->addColumn($schema);
-        $this->updateSchema($fromSchema, $schema);
+        $this->migrate($fromSchema, $schema);
 
         $this->addReport(
             Report::createSuccess(
@@ -66,7 +66,7 @@ final class Version202108050757012234_tao extends AbstractMigration
     {
         [$fromSchema, $schema] = $this->getSchemas();
         $this->removeColumn($schema);
-        $this->updateSchema($fromSchema, $schema);
+        $this->migrate($fromSchema, $schema);
 
         $this->addReport(
             Report::createSuccess(
@@ -112,7 +112,7 @@ final class Version202108050757012234_tao extends AbstractMigration
         }
     }
 
-    private function updateSchema(Schema $fromSchema, Schema $schema): void
+    private function migrate(Schema $fromSchema, Schema $schema): void
     {
         $queries = $this->getPersistence()->getPlatForm()->getMigrateSchemaSql($fromSchema, $schema);
 
