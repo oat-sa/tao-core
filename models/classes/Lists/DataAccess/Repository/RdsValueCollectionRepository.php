@@ -80,6 +80,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $this->enrichQueryWithSubject($searchRequest, $query);
         $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
         $this->enrichQueryWithFilterValueUris($searchRequest, $query);
+        $this->enrichQueryWithFilterValueDependencyUris($searchRequest, $query);
         $this->enrichQueryWithOrderById($query);
 
         $values = [];
@@ -89,7 +90,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                 (int) $rawValue[self::FIELD_ITEM_ID],
                 $rawValue[self::FIELD_ITEM_URI],
                 $rawValue[self::FIELD_ITEM_LABEL],
-                $rawValue[self::FIELD_DEPENDENCY_ITEM_URI] ?? null
+                $rawValue[self::FIELD_DEPENDENCY_ITEM_URI]
             );
         }
 
@@ -202,7 +203,8 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                 'items.' . self::FIELD_ITEM_ID,
                 'items.' . self::FIELD_ITEM_LIST_URI,
                 'items.' . self::FIELD_ITEM_URI,
-                'items.' . self::FIELD_ITEM_LABEL
+                'items.' . self::FIELD_ITEM_LABEL,
+                'items.' . self::FIELD_DEPENDENCY_ITEM_URI
             );
 
         if ($searchRequest->hasLimit()) {
@@ -272,6 +274,21 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $query
             ->andWhere($expressionBuilder->in(self::FIELD_ITEM_URI, ':uris'))
             ->setParameter('uris', $searchRequest->getUris(), Connection::PARAM_STR_ARRAY);
+    }
+
+    private function enrichQueryWithFilterValueDependencyUris(
+        ValueCollectionSearchRequest $searchRequest,
+        QueryBuilder $query
+    ): void {
+        if (!$searchRequest->hasDependencyUris()) {
+            return;
+        }
+
+        $expressionBuilder = $query->expr();
+
+        $query
+            ->andWhere($expressionBuilder->in(self::FIELD_DEPENDENCY_ITEM_URI, ':dependencyUris'))
+            ->setParameter('dependencyUris', $searchRequest->getDependencyUris(), Connection::PARAM_STR_ARRAY);
     }
 
     private function getPersistence(): SqlPersistence
