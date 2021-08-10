@@ -309,17 +309,17 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                     $groups = $myForm->getGroups();
                     if (isset($data['properties'])) {
                         foreach ($data['properties'] as $prop) {
-                            if ($prop['range'] != "") {
-                                $index = strstr($groups['property_' . $prop["uri"]]['elements'][0], '_', true);
-                                $elementRangeArray[$index . "_range_list"] = $prop["range"];
+                            if (!empty($prop['range'])) {
+                                $index = strstr($groups['property_' . $prop['uri']]['elements'][0], '_', true);
+                                $elementRangeArray[$index . '_range_list'] = $prop['range'];
                             }
                         }
                     }
                     
                     foreach ($myForm->getElements() as $element) {
                         if (
-                            $element instanceof tao_helpers_form_elements_xhtml_Combobox &&
-                            array_key_exists($element->getName(), $elementRangeArray)
+                            $element instanceof tao_helpers_form_elements_xhtml_Combobox
+                            && array_key_exists($element->getName(), $elementRangeArray)
                         ) {
                             $element->setValue($elementRangeArray[$element->getName()]);
                         }
