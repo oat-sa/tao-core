@@ -97,6 +97,7 @@ Cypress.Commands.add('moveClassFromRoot', (
         .get(`${rootSelector} a`)
         .first()
         .click()
+        .wait('@editClassLabel', { requestTimeout: 10000 })
         .get(`${rootSelector} li[title="${name}"] a`)
         .moveClass(moveSelector, moveConfirmSelector, name, nameWhereMove, restResourceGetAll)
         .deleteClass(
