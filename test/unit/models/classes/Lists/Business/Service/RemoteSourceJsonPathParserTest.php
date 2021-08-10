@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,8 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -23,8 +23,6 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Lists\Business\Service;
 
 use oat\generis\test\TestCase;
-use oat\tao\model\accessControl\Context;
-use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\Lists\Business\Domain\RemoteSourceContext;
 use oat\tao\model\Lists\Business\Service\RemoteSourceJsonPathParser;
@@ -129,6 +127,10 @@ class RemoteSourceJsonPathParserTest extends TestCase
 
                     if ($parameter === RemoteSourceContext::PARAM_DEPENDENCY_URI_PATH) {
                         return $dependencyUriPath;
+                    }
+
+                    if ($parameter === RemoteSourceContext::PARAM_IS_LISTS_DEPENDENCY_ENABLED) {
+                        return true;
                     }
 
                     return null;
