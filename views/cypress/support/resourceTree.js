@@ -175,11 +175,14 @@ Cypress.Commands.add('selectNode', (rootSelector, formSelector, name) => {
 Cypress.Commands.add('deleteNode', (
     rootSelector,
     deleteSelector,
+    editUrl,
     name,
 ) => {
     cy.log('COMMAND: deleteNode', name)
+        .intercept('POST', `**/${ editUrl }`).as('editUrl')
         .get(`${rootSelector} a`)
         .contains('a', name).click()
+        .wait('@editUrl', { requestTimeout: 10000 })
         .get(deleteSelector).click()
         .get('[data-control="ok"]').click()
         .get(`${rootSelector} a`)
