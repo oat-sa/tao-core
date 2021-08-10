@@ -15,82 +15,58 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
- *
- * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\scripts\install;
+namespace oat\tao\migrations;
 
-use oat\oatbox\reporting\Report;
 use Doctrine\DBAL\Schema\Schema;
-use oat\oatbox\extension\InstallAction;
+use oat\oatbox\reporting\Report;
 use oat\generis\persistence\PersistenceManager;
+use oat\tao\scripts\tools\migrations\AbstractMigration;
 use common_persistence_SqlPersistence as SqlPersistence;
 use oat\tao\model\Lists\DataAccess\Repository\RdsValueCollectionRepository;
 
-class CreateRdsListStore extends InstallAction
+final class Version202108101839442234_tao extends AbstractMigration
 {
-    public function __invoke($params = [])
+    public function getDescription(): string
     {
-        [$fromSchema, $schema] = $this->getSchemas();
-        $this->createListItemsTable($schema);
-        $this->createListItemsDependenciesTable($schema);
+        return sprintf('Create "%s" table', RdsValueCollectionRepository::TABLE_LIST_ITEMS_DEPENDENCIES);
+    }
+
+    public function up(Schema $schema): void
+    {
+        $fromSchema = clone $schema;
+        $this->createTable($schema);
         $this->migrate($fromSchema, $schema);
 
-        return Report::createSuccess(
-            sprintf(
-                'Tables "%s" and "%s" successfully created',
-                RdsValueCollectionRepository::TABLE_LIST_ITEMS,
-                RdsValueCollectionRepository::TABLE_LIST_ITEMS_DEPENDENCIES
+        $this->addReport(
+            Report::createSuccess(
+                sprintf(
+                    'Table "%s" successfully created',
+                    RdsValueCollectionRepository::TABLE_LIST_ITEMS_DEPENDENCIES
+                )
             )
         );
     }
 
-    private function getSchemas(): array
+    public function down(Schema $schema): void
     {
-        /** @var Schema $schema */
-        $schema = $this->getPersistence()->getDriver()->getSchemaManager()->createSchema();
-        $fromSchema = clone $schema;
+        $schema->dropTable(RdsValueCollectionRepository::TABLE_LIST_ITEMS_DEPENDENCIES);
 
-        return [$fromSchema, $schema];
+        $this->addReport(
+            Report::createSuccess(
+                sprintf(
+                    'Table "%s" successfully dropped',
+                    RdsValueCollectionRepository::TABLE_LIST_ITEMS_DEPENDENCIES
+                )
+            )
+        );
     }
 
-    public function createListItemsTable(Schema $schema): void
-    {
-        $listItemsTable = $schema->createTable(RdsValueCollectionRepository::TABLE_LIST_ITEMS);
-
-        $listItemsTable->addColumn(
-            RdsValueCollectionRepository::FIELD_ITEM_ID,
-            'integer',
-            ['autoincrement' => true]
-        );
-        $listItemsTable->addColumn(
-            RdsValueCollectionRepository::FIELD_ITEM_LABEL,
-            'string',
-            ['length' => 255]
-        );
-        $listItemsTable->addColumn(
-            RdsValueCollectionRepository::FIELD_ITEM_URI,
-            'string',
-            ['length' => 255]
-        );
-        $listItemsTable->addColumn(
-            RdsValueCollectionRepository::FIELD_ITEM_LIST_URI,
-            'string',
-            ['length' => 255]
-        );
-
-        $listItemsTable->setPrimaryKey([RdsValueCollectionRepository::FIELD_ITEM_ID]);
-
-        $listItemsTable->addIndex([RdsValueCollectionRepository::FIELD_ITEM_LABEL]);
-        $listItemsTable->addIndex([RdsValueCollectionRepository::FIELD_ITEM_LIST_URI]);
-        $listItemsTable->addUniqueIndex([RdsValueCollectionRepository::FIELD_ITEM_URI]);
-    }
-
-    private function createListItemsDependenciesTable(Schema $schema): void
+    private function createTable(Schema $schema): void
     {
         $listItemsDependenciesTable = $schema->createTable(
             RdsValueCollectionRepository::TABLE_LIST_ITEMS_DEPENDENCIES

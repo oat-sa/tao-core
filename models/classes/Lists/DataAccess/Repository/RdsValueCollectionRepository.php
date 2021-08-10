@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
+use Doctrine\DBAL\FetchMode;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use common_persistence_SqlPersistence as SqlPersistence;
 use core_kernel_classes_Class as KernelClass;
@@ -51,7 +52,11 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
     public const FIELD_ITEM_ID = 'id';
     public const FIELD_ITEM_URI = 'uri';
     public const FIELD_ITEM_LIST_URI = 'list_uri';
-    public const FIELD_DEPENDENCY_ITEM_URI = 'dependency_uri';
+
+    public const TABLE_LIST_ITEMS_DEPENDENCIES = 'list_items_dependencies';
+    public const FIELD_LIST_ITEM_ID = 'list_item_id';
+    public const FIELD_LIST_ITEM_FIELD = 'field';
+    public const FIELD_LIST_ITEM_VALUE = 'value';
 
     /** @var PersistenceManager */
     private $persistenceManager;
@@ -85,7 +90,6 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $this->enrichQueryWithSubject($searchRequest, $query);
         $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
         $this->enrichQueryWithFilterValueUris($searchRequest, $query);
-        $this->enrichQueryWithFilterValueDependencyUris($searchRequest, $query);
         $this->enrichQueryWithOrderById($query);
 
         $values = [];
@@ -94,8 +98,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
             $values[] = new Value(
                 (int) $rawValue[self::FIELD_ITEM_ID],
                 $rawValue[self::FIELD_ITEM_URI],
-                $rawValue[self::FIELD_ITEM_LABEL],
-                $rawValue[self::FIELD_DEPENDENCY_ITEM_URI] ?? null
+                $rawValue[self::FIELD_ITEM_LABEL]
             );
         }
 
@@ -147,10 +150,31 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
     {
         $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
 
+        $this->deleteListItemsDependencies($query, $valueCollectionUri);
+
         $query->delete(self::TABLE_LIST_ITEMS)
             ->where($query->expr()->eq(self::FIELD_ITEM_LIST_URI, ':list_uri'))
             ->setParameter('list_uri', $valueCollectionUri)
             ->execute();
+    }
+
+    private function deleteListItemsDependencies(QueryBuilder $query, string $valueCollectionUri): void
+    {
+        if ($this->isListsDependencyEnabled()) {
+            $ids = $query->from(self::TABLE_LIST_ITEMS, 'items')
+                ->select(self::FIELD_ITEM_ID)
+                ->where($query->expr()->eq('items.' . self::FIELD_ITEM_LIST_URI, ':list_uri'))
+                ->setParameter('list_uri', $valueCollectionUri)
+                ->execute()
+                ->fetchAll(FetchMode::COLUMN);
+
+            if (!empty($ids)) {
+                $query->delete(self::TABLE_LIST_ITEMS_DEPENDENCIES)
+                    ->where($query->expr()->in(self::FIELD_LIST_ITEM_ID, ':list_items_ids'))
+                    ->setParameter('list_items_ids', $ids, Connection::PARAM_STR_ARRAY)
+                    ->execute();
+            }
+        }
     }
 
     public function count(ValueCollectionSearchRequest $searchRequest): int
@@ -185,27 +209,48 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
     protected function insert(ValueCollection $valueCollection, Value $value): void
     {
-        $values = [
-            self::FIELD_ITEM_LABEL => ':label',
-            self::FIELD_ITEM_URI => ':uri',
-            self::FIELD_ITEM_LIST_URI => ':listUri',
-        ];
-        $parameters = [
-            'uri' => $value->getUri(),
-            'label' => $value->getLabel(),
-            'listUri' => $valueCollection->getUri(),
-        ];
+        $platform = $this->getPersistence()->getPlatForm();
+        $platform->beginTransaction();
 
-        if ($this->isListsDependencyEnabled()) {
-            $values[self::FIELD_DEPENDENCY_ITEM_URI] = ':dependencyUri';
-            $parameters['dependencyUri'] = $value->getDependencyUri();
+        try {
+            $qb = $platform->getQueryBuilder();
+            $qb->insert(self::TABLE_LIST_ITEMS)
+                ->values([
+                    self::FIELD_ITEM_LABEL => ':label',
+                    self::FIELD_ITEM_URI => ':uri',
+                    self::FIELD_ITEM_LIST_URI => ':listUri',
+                ])
+                ->setParameters([
+                    'uri' => $value->getUri(),
+                    'label' => $value->getLabel(),
+                    'listUri' => $valueCollection->getUri(),
+                ])
+                ->execute();
+
+            $this->insertListItemsDependency($qb, $value);
+
+            $platform->commit();
+        } catch (\Throwable $e) {
+            $platform->rollBack();
         }
+    }
 
-        $qb = $this->getPersistence()->getPlatForm()->getQueryBuilder();
-        $qb->insert(self::TABLE_LIST_ITEMS)
-            ->values($values)
-            ->setParameters($parameters)
-            ->execute();
+    private function insertListItemsDependency(QueryBuilder $qb, Value $value): void
+    {
+        if ($this->isListsDependencyEnabled() && $value->getDependencyUri() !== null) {
+            $qb->insert(self::TABLE_LIST_ITEMS_DEPENDENCIES)
+                ->values([
+                    self::FIELD_LIST_ITEM_ID => ':list_item_id',
+                    self::FIELD_LIST_ITEM_FIELD => ':field',
+                    self::FIELD_LIST_ITEM_VALUE => ':value',
+                ])
+                ->setParameters([
+                    'list_item_id' => $qb->getConnection()->lastInsertId('list_items_id_seq'),
+                    'field' => 'uri',
+                    'value' => $value->getDependencyUri(),
+                ])
+                ->execute();
+        }
     }
 
     private function enrichQueryWithInitialCondition(QueryBuilder $query): void
@@ -227,10 +272,6 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                 'items.' . self::FIELD_ITEM_URI,
                 'items.' . self::FIELD_ITEM_LABEL
             );
-
-        if ($this->isListsDependencyEnabled()) {
-            $query->addSelect('items.' . self::FIELD_DEPENDENCY_ITEM_URI);
-        }
 
         if ($searchRequest->hasLimit()) {
             $query->setMaxResults($searchRequest->getLimit());
@@ -299,21 +340,6 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $query
             ->andWhere($expressionBuilder->in(self::FIELD_ITEM_URI, ':uris'))
             ->setParameter('uris', $searchRequest->getUris(), Connection::PARAM_STR_ARRAY);
-    }
-
-    private function enrichQueryWithFilterValueDependencyUris(
-        ValueCollectionSearchRequest $searchRequest,
-        QueryBuilder $query
-    ): void {
-        if (!$this->isListsDependencyEnabled() || !$searchRequest->hasDependencyUris()) {
-            return;
-        }
-
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->andWhere($expressionBuilder->in(self::FIELD_DEPENDENCY_ITEM_URI, ':dependencyUris'))
-            ->setParameter('dependencyUris', $searchRequest->getDependencyUris(), Connection::PARAM_STR_ARRAY);
     }
 
     private function getPersistence(): SqlPersistence
