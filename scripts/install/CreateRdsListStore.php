@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -24,12 +24,12 @@ declare(strict_types=1);
 
 namespace oat\tao\scripts\install;
 
-use Doctrine\DBAL\Schema\Schema;
-use oat\oatbox\reporting\Report;
-use oat\oatbox\extension\InstallAction;
 use common_persistence_sql_Driver as SqlDriver;
-use oat\generis\persistence\PersistenceManager;
 use common_persistence_SqlPersistence as SqlPersistence;
+use common_report_Report as Report;
+use Doctrine\DBAL\Schema\Schema;
+use oat\generis\persistence\PersistenceManager;
+use oat\oatbox\extension\InstallAction;
 use oat\tao\model\Lists\DataAccess\Repository\RdsValueCollectionRepository;
 
 class CreateRdsListStore extends InstallAction
@@ -42,7 +42,7 @@ class CreateRdsListStore extends InstallAction
         $driver = $persistence->getDriver();
 
         /** @var Schema $schema */
-        $schema = $driver->getSchemaManager()->createSchema();
+        $schema     = $driver->getSchemaManager()->createSchema();
         $fromSchema = clone $schema;
 
         $this->create($schema);
@@ -62,43 +62,21 @@ class CreateRdsListStore extends InstallAction
     {
         $listItemsTable = $schema->createTable(RdsValueCollectionRepository::TABLE_LIST_ITEMS);
 
-        $listItemsTable->addColumn(
-            RdsValueCollectionRepository::FIELD_ITEM_ID,
-            'integer',
-            ['autoincrement' => true]
-        );
-        $listItemsTable->addColumn(
-            RdsValueCollectionRepository::FIELD_ITEM_LABEL,
-            'string',
-            ['length' => 255]
-        );
-        $listItemsTable->addColumn(
-            RdsValueCollectionRepository::FIELD_ITEM_URI,
-            'string',
-            ['length' => 255]
-        );
-        $listItemsTable->addColumn(
-            RdsValueCollectionRepository::FIELD_ITEM_LIST_URI,
-            'string',
-            ['length' => 255]
-        );
-        $listItemsTable->addColumn(
-            RdsValueCollectionRepository::FIELD_DEPENDENCY_ITEM_URI,
-            'string',
-            ['length' => 255, 'notnull' => false]
-        );
+        $listItemsTable->addColumn(RdsValueCollectionRepository::FIELD_ITEM_ID, 'integer', ['autoincrement' => true]);
+        $listItemsTable->addColumn(RdsValueCollectionRepository::FIELD_ITEM_LABEL, 'string', ['length' => 255]);
+        $listItemsTable->addColumn(RdsValueCollectionRepository::FIELD_ITEM_URI, 'string', ['length' => 255]);
+        $listItemsTable->addColumn(RdsValueCollectionRepository::FIELD_ITEM_LIST_URI, 'string', ['length' => 255]);
 
         $listItemsTable->setPrimaryKey([RdsValueCollectionRepository::FIELD_ITEM_ID]);
 
         $listItemsTable->addIndex([RdsValueCollectionRepository::FIELD_ITEM_LABEL]);
         $listItemsTable->addIndex([RdsValueCollectionRepository::FIELD_ITEM_LIST_URI]);
-        $listItemsTable->addIndex([RdsValueCollectionRepository::FIELD_DEPENDENCY_ITEM_URI]);
         $listItemsTable->addUniqueIndex([RdsValueCollectionRepository::FIELD_ITEM_URI]);
     }
 
     private function getPersistence(): SqlPersistence
     {
-        $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
+        $persistenceManager = $this->serviceLocator->get(PersistenceManager::SERVICE_ID);
 
         return $persistenceManager->getPersistenceById('default');
     }

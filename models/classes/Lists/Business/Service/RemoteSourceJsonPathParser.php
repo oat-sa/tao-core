@@ -57,15 +57,6 @@ class RemoteSourceJsonPathParser extends ConfigurableService implements RemoteSo
             throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
 
-        try {
-            $dependencyUriRule = $context->getParameter(RemoteSourceContext::PARAM_DEPENDENCY_URI_PATH);
-            $dependencyUris = !empty($dependencyUriRule)
-                ? $jsonPath->find($dependencyUriRule)
-                : null;
-        } catch (JSONPathException $e) {
-            $dependencyUris = null;
-        }
-
         $urisCount = $uris->count();
 
         if ($urisCount === 0) {
@@ -77,9 +68,24 @@ class RemoteSourceJsonPathParser extends ConfigurableService implements RemoteSo
         }
 
         $dependencyUri = null;
+        $isListsDependencyEnabled = $context->getParameter(
+            RemoteSourceContext::PARAM_IS_LISTS_DEPENDENCY_ENABLED,
+            false
+        );
+
+        if ($isListsDependencyEnabled) {
+            try {
+                $dependencyUriRule = $context->getParameter(RemoteSourceContext::PARAM_DEPENDENCY_URI_PATH);
+                $dependencyUris = !empty($dependencyUriRule)
+                    ? $jsonPath->find($dependencyUriRule)
+                    : null;
+            } catch (JSONPathException $e) {
+                $dependencyUris = null;
+            }
+        }
 
         do {
-            if ($dependencyUris !== null) {
+            if ($isListsDependencyEnabled && $dependencyUris !== null) {
                 $dependencyUri = $dependencyUris->current() ?: null;
                 $dependencyUris->next();
             }

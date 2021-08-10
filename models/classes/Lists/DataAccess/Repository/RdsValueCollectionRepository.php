@@ -24,10 +24,12 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use common_persistence_SqlPersistence as SqlPersistence;
 use core_kernel_classes_Class as KernelClass;
 use core_kernel_classes_Resource as KernelResource;
 use Doctrine\DBAL\Connection;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\persistence\PersistenceManager;
@@ -56,6 +58,9 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
     /** @var string */
     private $persistenceId;
+
+    /** @var bool */
+    private $isListsDependencyEnabled;
 
     public function __construct(PersistenceManager $persistenceManager, string $persistenceId)
     {
@@ -90,7 +95,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                 (int) $rawValue[self::FIELD_ITEM_ID],
                 $rawValue[self::FIELD_ITEM_URI],
                 $rawValue[self::FIELD_ITEM_LABEL],
-                $rawValue[self::FIELD_DEPENDENCY_ITEM_URI]
+                $rawValue[self::FIELD_DEPENDENCY_ITEM_URI] ?? null
             );
         }
 
@@ -148,6 +153,17 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
             ->execute();
     }
 
+    public function count(ValueCollectionSearchRequest $searchRequest): int
+    {
+        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+
+        $this->enrichQueryWithInitialCondition($query);
+        $this->enrichQueryWithSelect($searchRequest, $query);
+        $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
+
+        return $query->execute()->rowCount();
+    }
+
     /**
      * @noinspection PhpDocMissingThrowsInspection
      *
@@ -169,20 +185,26 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
     protected function insert(ValueCollection $valueCollection, Value $value): void
     {
+        $values = [
+            self::FIELD_ITEM_LABEL => ':label',
+            self::FIELD_ITEM_URI => ':uri',
+            self::FIELD_ITEM_LIST_URI => ':listUri',
+        ];
+        $parameters = [
+            'uri' => $value->getUri(),
+            'label' => $value->getLabel(),
+            'listUri' => $valueCollection->getUri(),
+        ];
+
+        if ($this->isListsDependencyEnabled()) {
+            $values[self::FIELD_DEPENDENCY_ITEM_URI] = ':dependencyUri';
+            $parameters['dependencyUri'] = $value->getDependencyUri();
+        }
+
         $qb = $this->getPersistence()->getPlatForm()->getQueryBuilder();
         $qb->insert(self::TABLE_LIST_ITEMS)
-            ->values([
-                self::FIELD_ITEM_LABEL => ':label',
-                self::FIELD_ITEM_URI => ':uri',
-                self::FIELD_ITEM_LIST_URI => ':listUri',
-                self::FIELD_DEPENDENCY_ITEM_URI => ':dependencyUri',
-            ])
-            ->setParameters([
-                'uri' => $value->getUri(),
-                'label' => $value->getLabel(),
-                'listUri' => $valueCollection->getUri(),
-                'dependencyUri' => $value->getDependencyUri(),
-            ])
+            ->values($values)
+            ->setParameters($parameters)
             ->execute();
     }
 
@@ -203,9 +225,12 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
                 'items.' . self::FIELD_ITEM_ID,
                 'items.' . self::FIELD_ITEM_LIST_URI,
                 'items.' . self::FIELD_ITEM_URI,
-                'items.' . self::FIELD_ITEM_LABEL,
-                'items.' . self::FIELD_DEPENDENCY_ITEM_URI
+                'items.' . self::FIELD_ITEM_LABEL
             );
+
+        if ($this->isListsDependencyEnabled()) {
+            $query->addSelect('items.' . self::FIELD_DEPENDENCY_ITEM_URI);
+        }
 
         if ($searchRequest->hasLimit()) {
             $query->setMaxResults($searchRequest->getLimit());
@@ -280,7 +305,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         ValueCollectionSearchRequest $searchRequest,
         QueryBuilder $query
     ): void {
-        if (!$searchRequest->hasDependencyUris()) {
+        if (!$this->isListsDependencyEnabled() || !$searchRequest->hasDependencyUris()) {
             return;
         }
 
@@ -297,14 +322,19 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         return $this->persistenceManager->getPersistenceById($this->persistenceId);
     }
 
-    public function count(ValueCollectionSearchRequest $searchRequest): int
+    private function isListsDependencyEnabled(): bool
     {
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+        if (!isset($this->isListsDependencyEnabled)) {
+            $this->isListsDependencyEnabled = $this->getFeatureFlagChecker()->isEnabled(
+                FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
+            );
+        }
 
-        $this->enrichQueryWithInitialCondition($query);
-        $this->enrichQueryWithSelect($searchRequest, $query);
-        $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
+        return $this->isListsDependencyEnabled;
+    }
 
-        return $query->execute()->rowCount();
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 }

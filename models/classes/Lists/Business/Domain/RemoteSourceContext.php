@@ -33,6 +33,7 @@ class RemoteSourceContext extends AbstractContext
     public const PARAM_DEPENDENCY_URI_PATH = 'dependencyUriPath';
     public const PARAM_PARSER = 'parser';
     public const PARAM_JSON = 'json';
+    public const PARAM_IS_LISTS_DEPENDENCY_ENABLED = 'isListsDependencyEnabled';
 
     protected function getSupportedParameters(): array
     {
@@ -43,6 +44,7 @@ class RemoteSourceContext extends AbstractContext
             self::PARAM_DEPENDENCY_URI_PATH,
             self::PARAM_PARSER,
             self::PARAM_JSON,
+            self::PARAM_IS_LISTS_DEPENDENCY_ENABLED,
         ];
     }
 
@@ -52,11 +54,18 @@ class RemoteSourceContext extends AbstractContext
             return;
         }
 
+        if ($parameter === self::PARAM_IS_LISTS_DEPENDENCY_ENABLED && is_bool($parameterValue)) {
+            return;
+        }
+
         if ($parameter === self::PARAM_DEPENDENCY_URI_PATH && $parameterValue === null) {
             return;
         }
 
-        if ($parameter !== self::PARAM_JSON && is_string($parameterValue)) {
+        if (
+            !in_array($parameter, [self::PARAM_JSON, self::PARAM_IS_LISTS_DEPENDENCY_ENABLED], true)
+            && is_string($parameterValue)
+        ) {
             return;
         }
 
