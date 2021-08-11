@@ -247,7 +247,6 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
             }
         }
 
-        $listOptions['new'] = ' + ' . __('Add / Edit lists');
         $element->setOptions($listOptions);
 
         return $element;
