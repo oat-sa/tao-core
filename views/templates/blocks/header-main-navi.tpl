@@ -123,7 +123,7 @@ $userLabel    = get_data('userLabel');
                         <a id="<?= $entry->getId() ?>" <?php
                             if (!is_null($entry->getBinding())): ?> href="#" data-action="<?= $entry->getBinding() ?>"
                             <?php else : ?>
-                            href="<?= $entry->getUrl() ?>"
+                            href="<?php if($entry->getId()!= 'taskqueue'): ?><?= $entry->getUrl() ?><?php else : ?>#<?php endif ?>"
                             <?php endif ?> title="<?= __($entry->getName()) ?>">
 
                             <?= is_null($entry->getIcon()) ? '' : Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
