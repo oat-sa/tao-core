@@ -25,6 +25,7 @@ namespace oat\tao\model\Lists\Business\Service;
 use Traversable;
 use RuntimeException;
 use GuzzleHttp\Client;
+use oat\tao\model\Context\ContextInterface;
 use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
@@ -63,7 +64,7 @@ class RemoteSource extends InjectionAwareService
         yield from $this->fetchByContext($context);
     }
 
-    public function fetchByContext(RemoteSourceContext $context): Traversable
+    public function fetchByContext(ContextInterface $context): Traversable
     {
         $response = $this->getClient()->get($context->getParameter(RemoteSourceContext::PARAM_SOURCE_URL));
         $context->setParameter(
