@@ -49,16 +49,7 @@ class CreateRdsListStore extends InstallAction
         );
     }
 
-    private function getSchemas(): array
-    {
-        /** @var Schema $schema */
-        $schema = $this->getPersistence()->getDriver()->getSchemaManager()->createSchema();
-        $fromSchema = clone $schema;
-
-        return [$fromSchema, $schema];
-    }
-
-    public function createListItemsTable(Schema $schema): void
+    public function create(Schema $schema): void
     {
         $listItemsTable = $schema->createTable(RdsValueCollectionRepository::TABLE_LIST_ITEMS);
 
@@ -88,6 +79,15 @@ class CreateRdsListStore extends InstallAction
         $listItemsTable->addIndex([RdsValueCollectionRepository::FIELD_ITEM_LABEL]);
         $listItemsTable->addIndex([RdsValueCollectionRepository::FIELD_ITEM_LIST_URI]);
         $listItemsTable->addUniqueIndex([RdsValueCollectionRepository::FIELD_ITEM_URI]);
+    }
+
+    private function getSchemas(): array
+    {
+        /** @var Schema $schema */
+        $schema = $this->getPersistence()->getDriver()->getSchemaManager()->createSchema();
+        $fromSchema = clone $schema;
+
+        return [$fromSchema, $schema];
     }
 
     private function createListItemsDependenciesTable(Schema $schema): void

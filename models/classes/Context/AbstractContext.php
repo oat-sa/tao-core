@@ -56,7 +56,7 @@ abstract class AbstractContext implements ContextInterface
     abstract protected function getSupportedParameters(): array;
 
     /**
-     * @param $parameterValue
+     * @param mixed $parameterValue
      */
     abstract protected function validateParameter(string $parameter, $parameterValue): void;
 
