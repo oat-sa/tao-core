@@ -44,7 +44,6 @@ Cypress.Commands.add('addClassToRoot', (
     addSubClassUrl
 ) => {
     cy.log('COMMAND: addClassToRoot', name)
-        .intercept('POST', `**/${ editClassLabelUrl }`).as('editClassLabel')
         .get(`${rootSelector} a`)
         .first()
         .click()
@@ -94,7 +93,7 @@ Cypress.Commands.add('moveClassFromRoot', (
 ) => {
     cy.log('COMMAND: moveClassFromRoot', name)
         .get('#feedback-1, #feedback-2').should('not.exist')
-        .get(`${rootSelector} a`)
+        .getSettled(`${rootSelector} a`)
         .first()
         .click()
         .wait('@editClassLabel', { requestTimeout: 10000 })
@@ -180,7 +179,7 @@ Cypress.Commands.add('deleteNode', (
 ) => {
     cy.log('COMMAND: deleteNode', name)
         .intercept('POST', `**/${ editUrl }`).as('editUrl')
-        .get(`${rootSelector} a`)
+        .getSettled(`${rootSelector} a`)
         .contains('a', name).click()
         .wait('@editUrl', { requestTimeout: 10000 })
         .get(deleteSelector).click()
@@ -229,7 +228,7 @@ Cypress.Commands.add('addPropertyToClass', (
 
     cy.log('COMMAND: addPropertyToClass',newPropertyName);
 
-    cy.get(`li [title ="${className}"]`).last().click();
+    cy.getSettled(`li [title ="${className}"]`).last().click();
     cy.get(editClass).click();
     cy.get(classOptions).find('a[class="btn-info property-adder small"]').click();
 
@@ -249,8 +248,8 @@ Cypress.Commands.add('assignValueToProperty', (
     treeRenderUrl) => {
 
     cy.log('COMMAND: assignValueToProperty', itemName, itemForm);
-    cy.get(`li [title ="${itemName}"] a`).last().click();
-    cy.get(itemForm).find(selectTrue).check();
+    cy.getSettled(`li [title ="${itemName}"] a`).last().click();
+    cy.getSettled(itemForm).find(selectTrue).check();
     cy.intercept('GET', `**/${ treeRenderUrl }/getOntologyData**`).as('treeRender')
     cy.get('button[type="submit"]').click();
     cy.wait('@treeRender', { requestTimeout: 10000 })
