@@ -23,18 +23,32 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Lists\Business\Service;
 
 use oat\generis\test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\Lists\Business\Domain\Value;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Domain\RemoteSourceContext;
 use oat\tao\model\Lists\Business\Service\RemoteSourceJsonPathParser;
 
-/**
- * @property RemoteSourceJsonPathParser sut
- */
 class RemoteSourceJsonPathParserTest extends TestCase
 {
+    /** @var RemoteSourceJsonPathParser */
+    private $sut;
+
     protected function setUp(): void
     {
+        /** @var FeatureFlagCheckerInterface|MockObject $featureFlagChecker */
+        $featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
+        $featureFlagChecker
+            ->method('isEnabled')
+            ->willReturn(true);
+
         $this->sut = new RemoteSourceJsonPathParser();
+        $this->sut->setServiceLocator(
+            $this->getServiceLocatorMock([
+                FeatureFlagChecker::class => $featureFlagChecker,
+            ])
+        );
     }
 
     public function testIterateWithoutDependencyUri(): void
@@ -127,10 +141,6 @@ class RemoteSourceJsonPathParserTest extends TestCase
 
                     if ($parameter === RemoteSourceContext::PARAM_DEPENDENCY_URI_PATH) {
                         return $dependencyUriPath;
-                    }
-
-                    if ($parameter === RemoteSourceContext::PARAM_IS_LISTS_DEPENDENCY_ENABLED) {
-                        return true;
                     }
 
                     return null;

@@ -28,6 +28,8 @@ use Flow\JSONPath\JSONPathException;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Context\ContextInterface;
 use oat\tao\model\Lists\Business\Domain\Value;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Domain\RemoteSourceContext;
 
 class RemoteSourceJsonPathParser extends ConfigurableService implements RemoteSourceParserInterface
@@ -68,9 +70,8 @@ class RemoteSourceJsonPathParser extends ConfigurableService implements RemoteSo
         }
 
         $dependencyUri = null;
-        $isListsDependencyEnabled = $context->getParameter(
-            RemoteSourceContext::PARAM_IS_LISTS_DEPENDENCY_ENABLED,
-            false
+        $isListsDependencyEnabled = $this->getFeatureFlagChecker()->isEnabled(
+            FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
         );
 
         if ($isListsDependencyEnabled) {
@@ -95,5 +96,10 @@ class RemoteSourceJsonPathParser extends ConfigurableService implements RemoteSo
             $uris->next();
             $labels->next();
         } while ($uris->valid() && $labels->valid());
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 }

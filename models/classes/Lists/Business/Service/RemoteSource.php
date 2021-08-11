@@ -26,6 +26,7 @@ use Traversable;
 use RuntimeException;
 use GuzzleHttp\Client;
 use oat\tao\model\Context\ContextInterface;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
@@ -71,12 +72,6 @@ class RemoteSource extends InjectionAwareService
             RemoteSourceContext::PARAM_JSON,
             json_decode((string) $response->getBody(), true)
         );
-        $context->setParameter(
-            RemoteSourceContext::PARAM_IS_LISTS_DEPENDENCY_ENABLED,
-            $this->getFeatureFlagChecker()->isEnabled(
-                FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
-            )
-        );
 
         yield from $this
             ->getParser($context->getParameter(RemoteSourceContext::PARAM_PARSER))
@@ -96,11 +91,8 @@ class RemoteSource extends InjectionAwareService
             );
         }
 
-        return $this->parsers[$key];
-    }
-
-    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
-    {
-        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
+        return $this->parsers[$key] instanceof ConfigurableService
+            ? $this->propagate($this->parsers[$key])
+            : $this->parsers[$key];
     }
 }
