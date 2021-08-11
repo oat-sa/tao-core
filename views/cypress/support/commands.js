@@ -59,7 +59,7 @@ Cypress.Cookies.defaults({
 // recursively gets an element, returning only after it's determined to be attached to the DOM for good
 Cypress.Commands.add('getSettled', (selector, opts = {}) => {
     const retries = opts.retries || 3;
-    const delay = opts.delay || 100;
+    const delay = opts.delay || 500;
 
     const isAttached = (resolve, count = 0) => {
         const el = Cypress.$(selector);
