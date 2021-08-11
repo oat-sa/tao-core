@@ -56,7 +56,7 @@ class RemoteSourceContext extends AbstractContext
             return;
         }
 
-        if (!$parameter !== self::PARAM_JSON && is_string($parameterValue)) {
+        if ($parameter !== self::PARAM_JSON && is_string($parameterValue)) {
             return;
         }
 

@@ -28,7 +28,6 @@ class FeatureFlagChecker extends ConfigurableService implements FeatureFlagCheck
 {
     public function isEnabled(string $feature): bool
     {
-        return true;
         if (!isset($_ENV[$feature])) {
             return false;
         }
