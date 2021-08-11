@@ -118,7 +118,7 @@ class Value implements JsonSerializable
         return [
             'uri' => tao_helpers_Uri::encode($this->uri),
             'label' => $this->label,
-            'dependencyUri' => $this->dependencyUri,
+            'dependencyUri' => tao_helpers_Uri::encode($this->dependencyUri),
         ];
     }
 }

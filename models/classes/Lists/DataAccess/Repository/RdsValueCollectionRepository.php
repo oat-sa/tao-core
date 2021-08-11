@@ -158,25 +158,6 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
             ->execute();
     }
 
-    private function deleteListItemsDependencies(QueryBuilder $query, string $valueCollectionUri): void
-    {
-        if ($this->isListsDependencyEnabled()) {
-            $ids = $query->from(self::TABLE_LIST_ITEMS, 'items')
-                ->select(self::FIELD_ITEM_ID)
-                ->where($query->expr()->eq('items.' . self::FIELD_ITEM_LIST_URI, ':list_uri'))
-                ->setParameter('list_uri', $valueCollectionUri)
-                ->execute()
-                ->fetchAll(FetchMode::COLUMN);
-
-            if (!empty($ids)) {
-                $query->delete(self::TABLE_LIST_ITEMS_DEPENDENCIES)
-                    ->where($query->expr()->in(self::FIELD_LIST_ITEM_ID, ':list_items_ids'))
-                    ->setParameter('list_items_ids', $ids, Connection::PARAM_STR_ARRAY)
-                    ->execute();
-            }
-        }
-    }
-
     public function count(ValueCollectionSearchRequest $searchRequest): int
     {
         $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
@@ -230,26 +211,8 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
             $this->insertListItemsDependency($qb, $value);
 
             $platform->commit();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $platform->rollBack();
-        }
-    }
-
-    private function insertListItemsDependency(QueryBuilder $qb, Value $value): void
-    {
-        if ($this->isListsDependencyEnabled() && $value->getDependencyUri() !== null) {
-            $qb->insert(self::TABLE_LIST_ITEMS_DEPENDENCIES)
-                ->values([
-                    self::FIELD_LIST_ITEM_ID => ':list_item_id',
-                    self::FIELD_LIST_ITEM_FIELD => ':field',
-                    self::FIELD_LIST_ITEM_VALUE => ':value',
-                ])
-                ->setParameters([
-                    'list_item_id' => $qb->getConnection()->lastInsertId('list_items_id_seq'),
-                    'field' => 'uri',
-                    'value' => $value->getDependencyUri(),
-                ])
-                ->execute();
         }
     }
 
@@ -346,6 +309,43 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->persistenceManager->getPersistenceById($this->persistenceId);
+    }
+
+    private function deleteListItemsDependencies(QueryBuilder $query, string $valueCollectionUri): void
+    {
+        if ($this->isListsDependencyEnabled()) {
+            $ids = $query->from(self::TABLE_LIST_ITEMS, 'items')
+                ->select(self::FIELD_ITEM_ID)
+                ->where($query->expr()->eq('items.' . self::FIELD_ITEM_LIST_URI, ':list_uri'))
+                ->setParameter('list_uri', $valueCollectionUri)
+                ->execute()
+                ->fetchAll(FetchMode::COLUMN);
+
+            if (!empty($ids)) {
+                $query->delete(self::TABLE_LIST_ITEMS_DEPENDENCIES)
+                    ->where($query->expr()->in(self::FIELD_LIST_ITEM_ID, ':list_items_ids'))
+                    ->setParameter('list_items_ids', $ids, Connection::PARAM_STR_ARRAY)
+                    ->execute();
+            }
+        }
+    }
+
+    private function insertListItemsDependency(QueryBuilder $qb, Value $value): void
+    {
+        if ($this->isListsDependencyEnabled() && $value->getDependencyUri() !== null) {
+            $qb->insert(self::TABLE_LIST_ITEMS_DEPENDENCIES)
+                ->values([
+                    self::FIELD_LIST_ITEM_ID => ':list_item_id',
+                    self::FIELD_LIST_ITEM_FIELD => ':field',
+                    self::FIELD_LIST_ITEM_VALUE => ':value',
+                ])
+                ->setParameters([
+                    'list_item_id' => $qb->getConnection()->lastInsertId('list_items_id_seq'),
+                    'field' => 'uri',
+                    'value' => $value->getDependencyUri(),
+                ])
+                ->execute();
+        }
     }
 
     private function isListsDependencyEnabled(): bool

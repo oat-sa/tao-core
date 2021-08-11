@@ -44,9 +44,6 @@ class ValueCollectionSearchRequest
     /** @var string[] */
     private $uris = [];
 
-    /** @var string[] */
-    private $dependencyUris = [];
-
     /** @var string */
     private $dataLanguage;
 
@@ -105,26 +102,6 @@ class ValueCollectionSearchRequest
     public function getUris(): array
     {
         return $this->uris;
-    }
-
-    public function hasDependencyUris(): bool
-    {
-        return !empty($this->dependencyUris);
-    }
-
-    public function setDependencyUris(string ...$dependencyUri): self
-    {
-        $this->dependencyUris = $dependencyUri;
-
-        return $this;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getDependencyUris(): array
-    {
-        return $this->dependencyUris;
     }
 
     public function hasSubject(): bool
