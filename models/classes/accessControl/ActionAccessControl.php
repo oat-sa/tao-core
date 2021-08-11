@@ -24,6 +24,7 @@ namespace oat\tao\model\accessControl;
 
 use oat\oatbox\user\User;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\Context\ContextInterface;
 use common_session_SessionManager as SessionManager;
 
 class ActionAccessControl extends ConfigurableService

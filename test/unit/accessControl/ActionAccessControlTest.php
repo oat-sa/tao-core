@@ -26,8 +26,8 @@ use oat\generis\test\TestCase;
 use oat\oatbox\log\LoggerService;
 use common_test_TestUser as TestUser;
 use oat\tao\model\accessControl\Context;
+use oat\tao\model\Context\ContextInterface;
 use PHPUnit\Framework\MockObject\MockObject;
-use oat\tao\model\accessControl\ContextInterface;
 use oat\tao\model\accessControl\ActionAccessControl;
 
 class ActionAccessControlTest extends TestCase

@@ -20,13 +20,19 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\accessControl;
+namespace oat\tao\model\Context;
 
-use oat\tao\model\Context\ContextInterface as BaseContextInterface;
-
-/**
- * @deprecated Use \oat\tao\model\Context\ContextInterface
- */
-interface ContextInterface extends BaseContextInterface
+interface ContextInterface
 {
+    /**
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function getParameter(string $parameter, $default = null);
+
+    /**
+     * @param mixed $parameterValue
+     */
+    public function setParameter(string $parameter, $parameterValue): void;
 }

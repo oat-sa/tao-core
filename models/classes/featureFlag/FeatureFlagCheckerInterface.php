@@ -24,5 +24,9 @@ namespace oat\tao\model\featureFlag;
 
 interface FeatureFlagCheckerInterface
 {
+    public const FEATURE_FLAG_ADVANCED_SEARCH_DISABLED = 'FEATURE_FLAG_ADVANCED_SEARCH_DISABLED';
+    public const FEATURE_FLAG_TABULAR_IMPORT = 'FEATURE_FLAG_TABULAR_IMPORT_ENABLED';
+    public const FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED = 'FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED';
+
     public function isEnabled(string $feature): bool;
 }
