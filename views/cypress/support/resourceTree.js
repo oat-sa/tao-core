@@ -44,8 +44,7 @@ Cypress.Commands.add('addClassToRoot', (
     addSubClassUrl
 ) => {
     cy.log('COMMAND: addClassToRoot', name)
-        .get(`${rootSelector} a`)
-        .first()
+        .getSettled(`${rootSelector} a:nth(0)`)
         .click()
         .wait('@editClassLabel', { requestTimeout: 10000 })
         .addClass(formSelector, treeRenderUrl, addSubClassUrl)
@@ -60,16 +59,15 @@ Cypress.Commands.add('moveClass', (
     restResourceGetAll
 ) => {
     cy.log('COMMAND: moveClass', name)
-        .get(`li[title="${name}"] a`)
-        .first()
+        .getSettled(`li[title="${name}"] a:nth(0)`)
         .click()
         .wait('@editClassLabel', { requestTimeout: 10000 })
         .intercept('GET', `**/${ restResourceGetAll }**`).as('classToMove')
         .get('#feedback-2, #feedback-1').should('not.exist')
-        .get(moveSelector)
+        .getSettled(moveSelector)
         .click()
         .wait('@classToMove', { requestTimeout: 10000 })
-        .get(`.destination-selector a[title="${nameWhereMove}"]`)
+        .getSettled(`.destination-selector a[title="${nameWhereMove}"]`)
         .click()
         .get('.actions button')
         .click()
@@ -93,8 +91,7 @@ Cypress.Commands.add('moveClassFromRoot', (
 ) => {
     cy.log('COMMAND: moveClassFromRoot', name)
         .get('#feedback-1, #feedback-2').should('not.exist')
-        .getSettled(`${rootSelector} a`)
-        .first()
+        .getSettled(`${rootSelector} a:nth(0)`)
         .click()
         .wait('@editClassLabel', { requestTimeout: 10000 })
         .get(`${rootSelector} li[title="${name}"] a`)
@@ -120,7 +117,7 @@ Cypress.Commands.add('deleteClass', (
     isItems = false
 ) => {
     cy.log('COMMAND: deleteClass', name)
-        .get(`${rootSelector} a`)
+        .getSettled(`${rootSelector} a`)
         .contains('a', name).click()
         .get(formSelector)
         .should('exist')
@@ -150,8 +147,7 @@ Cypress.Commands.add('deleteClassFromRoot', (
     isItems
 ) => {
     cy.log('COMMAND: deleteClassFromRoot', name)
-        .get(`${rootSelector} a`)
-        .first()
+        .getSettled(`${rootSelector} a:nth(0)`)
         .click()
         .get(`li[title="${name}"] a`)
         .deleteClass(rootSelector, formSelector, deleteSelector, confirmSelector, deleteClassUrl, name, resourceRelations, isMove, isItems)
@@ -160,13 +156,13 @@ Cypress.Commands.add('deleteClassFromRoot', (
 Cypress.Commands.add('addNode', (formSelector, addSelector) => {
     cy.log('COMMAND: addNode');
 
-    cy.get(addSelector).click();
+    cy.getSettled(addSelector).click();
     cy.get(formSelector).should('exist');
 });
 
 Cypress.Commands.add('selectNode', (rootSelector, formSelector, name) => {
     cy.log('COMMAND: selectNode', name);
-    cy.get(`${rootSelector} a`).first().click();
+    cy.getSettled(`${rootSelector} a:nth(0)`).click();
     cy.contains('a', name).click();
     cy.get(formSelector).should('exist');
 });
@@ -182,20 +178,20 @@ Cypress.Commands.add('deleteNode', (
         .getSettled(`${rootSelector} a`)
         .contains('a', name).click()
         .wait('@editUrl', { requestTimeout: 10000 })
-        .get(deleteSelector).click()
-        .get('[data-control="ok"]').click()
-        .get(`${rootSelector} a`)
+        .getSettled(deleteSelector).click()
+        .getSettled('[data-control="ok"]').click()
+        .getSettled(`${rootSelector} a`)
         .contains('a', name).should('not.exist');
 });
 
 Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
     // TODO: update selector when data-testid attributes will be added
     cy.log('COMMAND: renameSelectedClass', newName)
-        .get(`${ formSelector } input[name*=label]`)
+        .getSettled(`${ formSelector } input[name*=label]`)
         .clear()
         .type(newName)
         .click()
-        .get('button[id="Save"]')
+        .getSettled('button[id="Save"]')
         .click()
         .wait('@editClassLabel')
         .get('#feedback-1, #feedback-2').should('not.exist')
@@ -229,10 +225,10 @@ Cypress.Commands.add('addPropertyToClass', (
     cy.log('COMMAND: addPropertyToClass',newPropertyName);
 
     cy.getSettled(`li [title ="${className}"]`).last().click();
-    cy.get(editClass).click();
-    cy.get(classOptions).find('a[class="btn-info property-adder small"]').click();
+    cy.getSettled(editClass).click();
+    cy.getSettled(classOptions).find('a[class="btn-info property-adder small"]').click();
 
-    cy.get('span[class="icon-edit"]').last().click();
+    cy.getSettled('span[class="icon-edit"]').last().click();
     cy.get(propertyEdit).find('input').first().clear('input').type(newPropertyName);
     cy.get(propertyEdit).find('select[class="property-type property"]').select('list');
     cy.get(propertyEdit).find('select[class="property-listvalues property"]').select('Boolean');
@@ -251,6 +247,6 @@ Cypress.Commands.add('assignValueToProperty', (
     cy.getSettled(`li [title ="${itemName}"] a`).last().click();
     cy.getSettled(itemForm).find(selectTrue).check();
     cy.intercept('GET', `**/${ treeRenderUrl }/getOntologyData**`).as('treeRender')
-    cy.get('button[type="submit"]').click();
+    cy.getSettled('button[type="submit"]').click();
     cy.wait('@treeRender', { requestTimeout: 10000 })
 });
