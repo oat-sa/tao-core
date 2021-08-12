@@ -61,7 +61,7 @@ class UpdateClassInIndex implements Action, ServiceLocatorAwareInterface, TaskAw
         }
 
         /** @var SearchProxy $searchService */
-        $searchService = $this->getServiceLocator()->get(SearchProxy::class);
+        $searchService = $this->getServiceLocator()->get(SearchProxy::SERVICE_ID);
         $numberOfIndexedResources = $searchService->index(
             $this->getIndexIteratorFactory()->create($params)
         );

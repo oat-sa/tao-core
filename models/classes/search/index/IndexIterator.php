@@ -28,7 +28,7 @@ class IndexIterator extends \IteratorIterator implements ServiceLocatorAwareInte
 {
     use ServiceLocatorAwareTrait;
 
-    /** @var IndexService  */
+    /** @var IndexDocumentBuilder  */
     private $indexService = null;
 
     protected function getIndexer(): IndexDocumentBuilder
