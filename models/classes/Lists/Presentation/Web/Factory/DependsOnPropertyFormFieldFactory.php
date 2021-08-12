@@ -35,6 +35,7 @@ class DependsOnPropertyFormFieldFactory extends ConfigurableService
 {
     public function create(array $options): ?tao_helpers_form_FormElement
     {
+        // @TODO Remove feature flag after we can rely on repository output
         if (
             !$this->getFeatureFlagChecker()->isEnabled(
                 FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
@@ -43,7 +44,7 @@ class DependsOnPropertyFormFieldFactory extends ConfigurableService
             return null;
         }
 
-        $index = $options['index'];
+        $index = $options['index'] ?? 0;
 
         /** @var core_kernel_classes_Property $property */
         $property = $options['property'];
