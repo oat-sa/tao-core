@@ -44,21 +44,21 @@ class DependencyPropertyFormFieldFactory extends ConfigurableService
             return null;
         }
 
-        $dependsOnPropertySelect = tao_helpers_form_FormFactory::getElement("{$index}_dep-on-prop", 'Combobox');
-        $dependsOnPropertySelect->addAttribute('class', 'property-depends-on property');
-        $dependsOnPropertySelect->setDescription(__('Depends on property'));
-        $dependsOnPropertySelect->setEmptyOption(' --- ' . __('select') . ' --- ');
+        $element = tao_helpers_form_FormFactory::getElement("{$index}_dep-on-prop", 'Combobox');
+        $element->addAttribute('class', 'property-depends-on property');
+        $element->setDescription(__('Depends on property'));
+        $element->setEmptyOption(' --- ' . __('select') . ' --- ');
 
-        $dependsOnPropertySelectOptions = [];
+        $options = [];
 
         /** @var DependencyProperty $prop */
         foreach ($collection as $prop) {
-            $dependsOnPropertySelectOptions[$prop->getUriEncoded()] = $prop->getLabel();
+            $options[$prop->getUriEncoded()] = $prop->getLabel();
         }
 
-        $dependsOnPropertySelect->setOptions($dependsOnPropertySelectOptions);
+        $element->setOptions($options);
 
-        return $dependsOnPropertySelect;
+        return $element;
     }
 
     private function getRepository(): DependencyPropertyRepository

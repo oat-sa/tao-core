@@ -24,11 +24,12 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Domain\DependencyProperty;
 use oat\tao\model\Lists\Business\Domain\DependencyPropertyCollection;
 use tao_helpers_form_GenerisFormFactory;
 
-class DependencyPropertyRepository
+class DependencyPropertyRepository extends ConfigurableService
 {
     public function findByProperty(core_kernel_classes_Property $property): DependencyPropertyCollection
     {
@@ -36,7 +37,7 @@ class DependencyPropertyRepository
         $class = $property->getDomain()->get(0);
 
         $properties = tao_helpers_form_GenerisFormFactory::getClassProperties($class);
-        $dependsOnPropertySelectOptions = new DependencyPropertyCollection();
+        $collection = new DependencyPropertyCollection();
 
         /** @var core_kernel_classes_Property $property */
         foreach ($properties as $prop) {
@@ -46,9 +47,9 @@ class DependencyPropertyRepository
                 continue;
             }
 
-            $dependsOnPropertySelectOptions->append(new DependencyProperty($prop));
+            $collection->append(new DependencyProperty($prop));
         }
 
-        return $dependsOnPropertySelectOptions;
+        return $collection;
     }
 }
