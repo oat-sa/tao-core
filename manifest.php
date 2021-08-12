@@ -60,6 +60,7 @@ use oat\tao\scripts\install\RegisterValueCollectionServices;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetContainerService;
 use oat\tao\scripts\install\SetDefaultCSPHeader;
+use oat\tao\scripts\install\SetImageAligmentConfig;
 use oat\tao\scripts\install\SetLocaleNumbersConfig;
 use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\SetServiceState;
@@ -159,7 +160,8 @@ return [
             RegisterTaoUpdateEventListener::class,
             RegisterActionAccessControl::class,
             RegisterRtlLocales::class,
-            RegisterSearchServices::class
+            RegisterSearchServices::class,
+            SetImageAligmentConfig::class
         ],
     ],
     'update' => Updater::class,

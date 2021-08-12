@@ -25,6 +25,9 @@ class tao_actions_form_RemoteList extends tao_helpers_form_FormContainer
     public const FIELD_SOURCE_URL = 'source';
     public const FIELD_ITEM_LABEL_PATH = 'label_path';
     public const FIELD_ITEM_URI_PATH = 'uri_path';
+    public const FIELD_DEPENDENCY_ITEM_URI_PATH = 'dependency_uri_path';
+
+    public const IS_LISTS_DEPENDENCY_ENABLED = 'isListsDependencyEnabled';
 
     /**
      * Short description of method initForm
@@ -46,7 +49,6 @@ class tao_actions_form_RemoteList extends tao_helpers_form_FormContainer
 
     /**
      * @access public
-     * @return mixed
      * @throws common_Exception
      */
     public function initElements()
@@ -55,20 +57,28 @@ class tao_actions_form_RemoteList extends tao_helpers_form_FormContainer
         $this->createTextBoxElement(self::FIELD_SOURCE_URL, __('Data source URI'));
         $this->createTextBoxElement(self::FIELD_ITEM_LABEL_PATH, __('Label Path'));
         $this->createTextBoxElement(self::FIELD_ITEM_URI_PATH, __('URI Path'));
+
+        if (($this->options[self::IS_LISTS_DEPENDENCY_ENABLED] ?? false)) {
+            $this->createTextBoxElement(
+                self::FIELD_DEPENDENCY_ITEM_URI_PATH,
+                __('Dependency URI Path'),
+                false
+            );
+        }
     }
 
     /**
-     * @param string $name
-     * @param string $label
-     *
      * @throws common_Exception
-     * @noinspection NullPointerExceptionInspection
      */
-    private function createTextBoxElement(string $name, string $label): void
+    private function createTextBoxElement(string $name, string $label, bool $addNotEmptyValidator = true): void
     {
         $element = tao_helpers_form_FormFactory::getElement($name, 'Textbox');
         $element->setDescription($label);
-        $element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+
+        if ($addNotEmptyValidator) {
+            $element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+        }
+
         $this->form->addElement($element);
     }
 }

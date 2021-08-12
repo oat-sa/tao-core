@@ -137,3 +137,8 @@ $ php index.php 'oat\tao\scripts\tools\accessControl\SetRolesAccess' \
     }
 }
 ```
+
+## Lists Dependency feature flag
+Lists Dependency feature will be disabled by default.
+You can define `FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED=1` feature flag in global environment variables to enable  
+Lists Dependency feature. 
