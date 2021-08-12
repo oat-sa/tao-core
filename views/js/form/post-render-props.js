@@ -19,8 +19,9 @@
 define([
     'jquery',
     'i18n',
-    'ui/feedback'
-], function ($, __, feedback) {
+    'ui/feedback',
+    './depends-on-property'
+], function ($, __, feedback, dependsOn) {
     'use strict';
 
     function _createCopyToClipboardHandler($field) {
@@ -350,6 +351,10 @@ define([
             while (!_.isEqual($currentTarget.parent()[0], $container[0])) {
                 $currentTarget = $currentTarget.parent();
             }
+            if ($(this).hasClass('property-depends-on')) {
+                dependsOn.toggle($(this), $currentTarget, $container);
+                return;
+            }
             $currentTarget.show();
         });
         //show or hide the list values select
@@ -367,6 +372,7 @@ define([
             elt.css('display', 'none');
             elt.find('select').prop('disabled', "disabled");
         }
+
         _toggleModeBtn('enabled');
     }
 
