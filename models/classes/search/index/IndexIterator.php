@@ -15,19 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2018-2021 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\model\search\index;
 
-use oat\oatbox\service\ServiceManager;
+use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-/**
- * Class IndexIterator
- * @package oat\tao\model\search\index
- */
 class IndexIterator extends \IteratorIterator implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
@@ -35,13 +31,10 @@ class IndexIterator extends \IteratorIterator implements ServiceLocatorAwareInte
     /** @var IndexService  */
     private $indexService = null;
 
-        /**
-     * @return \oat\oatbox\service\ConfigurableService|IndexService
-     */
-    protected function getIndexer()
+    protected function getIndexer(): IndexDocumentBuilder
     {
         if (is_null($this->indexService)) {
-            $this->indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
+            $this->indexService = $this->getServiceLocator()->get(IndexDocumentBuilder::class);
         }
 
         return $this->indexService;
