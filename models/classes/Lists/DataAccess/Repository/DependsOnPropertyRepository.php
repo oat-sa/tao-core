@@ -29,20 +29,37 @@ use oat\tao\model\Lists\Business\Domain\DependencyProperty;
 use oat\tao\model\Lists\Business\Domain\DependencyPropertyCollection;
 use tao_helpers_form_GenerisFormFactory;
 
-class DependencyPropertyRepository extends ConfigurableService
+class DependsOnPropertyRepository extends ConfigurableService
 {
-    public function findByProperty(core_kernel_classes_Property $property): DependencyPropertyCollection
-    {
-        /** @var core_kernel_classes_Class $class */
-        $class = $property->getDomain()->get(0);
+    /** @var array */
+    private $properties;
 
-        $properties = tao_helpers_form_GenerisFormFactory::getClassProperties($class);
+    public function withProperties(array $properties)
+    {
+        $this->properties = $properties;
+    }
+
+    public function findAll(array $options): DependencyPropertyCollection
+    {
         $collection = new DependencyPropertyCollection();
 
         /** @var core_kernel_classes_Property $property */
-        foreach ($properties as $prop) {
-            // @TODO Show only properties, which relates to remote list
-            // @TODO Do not show properties that already depend on the primary property - a secondary prop cannot have another secondary prop.
+        $property = $options['property'];
+
+        if (!$property->getDomain()->count()) {
+            return $collection;
+        }
+
+        /** @var core_kernel_classes_Class $class */
+        $class = $property->getDomain()->get(0);
+
+        /** @var core_kernel_classes_Property $property */
+        foreach ($this->getProperties($class) as $prop) {
+            /*
+             * @TODO Show only properties, which relates to remote list
+             * @TODO Do not show properties that already depend on the primary property
+             *      A secondary prop cannot have another secondary prop.
+             */
             if ($property->getUri() === $prop->getUri()) {
                 continue;
             }
@@ -51,5 +68,10 @@ class DependencyPropertyRepository extends ConfigurableService
         }
 
         return $collection;
+    }
+
+    private function getProperties(core_kernel_classes_Class $class): array
+    {
+        return $this->properties ?? tao_helpers_form_GenerisFormFactory::getClassProperties($class);
     }
 }

@@ -23,7 +23,7 @@
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\Lists\Presentation\Web\Factory\DependencyPropertyFormFieldFactory;
+use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
 use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\tree\TreeService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
@@ -185,33 +185,17 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         $this->form->addElement($propUriElt);
         $elementNames[] = $propUriElt;
 
-        $this->addDependentProperties($index, $property, $elementNames);
+        $element = $this->addDependsOnProperty($index, $property);
 
-        if (count($elementNames) > 0) {
+        if ($element) {
+            $this->form->addElement($element);
+
+            $elementNames[] = $element->getName();
+        }
+
+        if (!empty($elementNames)) {
             $groupTitle = $this->getGroupTitle($property);
             $this->form->createGroup("property_{$encodedUri}", $groupTitle, $elementNames);
-        }
-    }
-
-    private function addDependentProperties(
-        int $index,
-        core_kernel_classes_Property $property,
-        array &$elementNames
-    ): void {
-        /** @var DependencyPropertyFormFieldFactory $factory */
-        $factory = ServiceManager::getServiceManager()->get(DependencyPropertyFormFieldFactory::class);
-
-        $dependsOnPropertySelect = $factory->create(
-            [
-                'index' => $index,
-                'property' => $property,
-            ]
-        );
-
-        if ($dependsOnPropertySelect) {
-            $this->form->addElement($dependsOnPropertySelect);
-
-            $elementNames[] = $dependsOnPropertySelect->getName();
         }
     }
 
@@ -245,6 +229,18 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         return $element;
     }
 
+    private function addDependsOnProperty(
+        int $index,
+        core_kernel_classes_Property $property
+    ): ?tao_helpers_form_FormElement {
+        return $this->getDependsOnPropertyFormFieldFactory()->create(
+            [
+                'index' => $index,
+                'property' => $property,
+            ]
+        );
+    }
+
     /**
      * @param $range
      *
@@ -267,25 +263,6 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         $listOptions = [];
 
         foreach ($service->getLists() as $list) {
-            //FIXME
-            //FIXME
-            //FIXME
-            /*
-            1) Grab URI for list
-            2) Check if the URI is in the list_items table
-            3) Check if there is any relation to this list on list_items_dependencies
-            4) If YES, we add a new property in the element to help FE/BE to render extra field
-            */
-//            $hasDependencyList = true;
-//            $dependencyListId = 123456;
-//
-//            if ($hasDependencyList) {
-//                $element->setAttribute('dependency-list', $dependencyListId);
-//            }
-            //FIXME
-            //FIXME
-            //FIXME
-
             $listOptions[tao_helpers_Uri::encode($list->getUri())] = $list->getLabel();
             if (null !== $range && $range->getUri() === $list->getUri()) {
                 $element->setValue($list->getUri());
@@ -296,5 +273,10 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         $element->setOptions($listOptions);
 
         return $element;
+    }
+
+    private function getDependsOnPropertyFormFieldFactory(): DependsOnPropertyFormFieldFactory
+    {
+        return ServiceManager::getServiceManager()->get(DependsOnPropertyFormFieldFactory::class);
     }
 }

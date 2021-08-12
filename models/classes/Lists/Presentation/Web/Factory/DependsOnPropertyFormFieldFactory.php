@@ -24,21 +24,35 @@ namespace oat\tao\model\Lists\Presentation\Web\Factory;
 
 use core_kernel_classes_Property;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Domain\DependencyProperty;
-use oat\tao\model\Lists\DataAccess\Repository\DependencyPropertyRepository;
+use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 use tao_helpers_form_FormElement;
 use tao_helpers_form_FormFactory;
 
-class DependencyPropertyFormFieldFactory extends ConfigurableService
+class DependsOnPropertyFormFieldFactory extends ConfigurableService
 {
     public function create(array $options): ?tao_helpers_form_FormElement
     {
+        if (
+            !$this->getFeatureFlagChecker()->isEnabled(
+                FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
+            )
+        ) {
+            return null;
+        }
+
         $index = $options['index'];
 
         /** @var core_kernel_classes_Property $property */
         $property = $options['property'];
 
-        $collection = $this->getRepository()->findByProperty($property);
+        $collection = $this->getRepository()->findAll(
+            [
+                'property' => $property
+            ]
+        );
 
         if ($collection->count() === 0) {
             return null;
@@ -61,8 +75,13 @@ class DependencyPropertyFormFieldFactory extends ConfigurableService
         return $element;
     }
 
-    private function getRepository(): DependencyPropertyRepository
+    private function getRepository(): DependsOnPropertyRepository
     {
-        return $this->getServiceLocator()->get(DependencyPropertyRepository::class);
+        return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 }
