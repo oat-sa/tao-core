@@ -281,6 +281,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     public function getClassForm(core_kernel_classes_Class $class): tao_helpers_form_Form
     {
         $data = $this->getRequestParameters();
+        // print_r($data);die;
         $classData = $this->extractClassData($data);
         $propertyData = $this->extractPropertyData($data);
         $formContainer = new tao_actions_form_Clazz($class, $classData, $propertyData, $this->isElasticSearchEnabled());
@@ -313,17 +314,25 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
     private function populateSubmittedProperties($myForm, $data): void
     {
+        if (empty($data['properties'])) {
+            return;
+        }
         $elementRangeArray = [];
         $groups = $myForm->getGroups();
-        if (isset($data['properties'])) {
-            foreach ($data['properties'] as $prop) {
-                if (!empty($prop['range'])) {
-                    $elementUri = $groups['property_' . $prop['uri']]['elements'][0];
-                    if (isset($elementUri)) {
-                        $index = strstr($elementUri, '_', true);
-                        $elementRangeArray[$index . '_range_list'] = $prop['range'];
-                    }
-                }
+        
+        foreach ($data['properties'] as $prop) {
+            if (empty($prop['range'])) {
+                continue;
+            }
+            if (empty($prop['range']) && empty($prop['uri'])) {
+                continue;
+            }
+
+            $elementUri = $groups['property_' . $prop['uri']]['elements'][0] ?? null;
+
+            if (isset($elementUri)) {
+                $index = strstr($elementUri, '_', true);
+                $elementRangeArray[$index . '_range_list'] = $prop['range'];
             }
         }
 
