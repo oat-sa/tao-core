@@ -31,7 +31,7 @@ use tao_helpers_form_GenerisFormFactory;
 
 class DependsOnPropertyRepository extends ConfigurableService
 {
-    /** @var array */
+    /** @var core_kernel_classes_Property[] */
     private $properties;
 
     public function withProperties(array $properties)

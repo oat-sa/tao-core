@@ -52,7 +52,6 @@ class DependsOnPropertyFormFieldFactoryTest extends TestCase
                 [
                     FeatureFlagChecker::class => $this->featureFlagChecker,
                     DependsOnPropertyRepository::class => $this->dependsOnPropertyRepository,
-
                 ]
             )
         );
