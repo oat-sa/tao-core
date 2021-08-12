@@ -320,11 +320,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $groups = $myForm->getGroups();
         
         foreach ($data['properties'] as $prop) {
-            if (empty($prop['range'])) {
-                continue;
-            }
-
-            if (empty($prop['range']) && empty($prop['uri'])) {
+            if (empty($prop['range']) || empty($prop['uri'])) {
                 continue;
             }
 
