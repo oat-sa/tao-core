@@ -25,7 +25,7 @@ namespace oat\tao\test\unit\model\Lists\Presentation\Web\Factory;
 use core_kernel_classes_Property;
 use oat\generis\test\TestCase;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\tao\model\Lists\Business\Domain\DependencyPropertyCollection;
+use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -60,7 +60,7 @@ class DependsOnPropertyFormFieldFactoryTest extends TestCase
 
     public function testWillNotCreateWithEmptyCollection(): void
     {
-        $collection = new DependencyPropertyCollection();
+        $collection = new DependsOnPropertyCollection();
         $property = $this->createMock(core_kernel_classes_Property::class);
 
         $this->featureFlagChecker

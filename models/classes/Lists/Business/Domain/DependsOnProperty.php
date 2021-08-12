@@ -26,7 +26,7 @@ use core_kernel_classes_Property;
 use tao_helpers_Uri;
 use JsonSerializable;
 
-class DependencyProperty implements JsonSerializable
+class DependsOnProperty implements JsonSerializable
 {
     /** @var core_kernel_classes_Property */
     private $property;

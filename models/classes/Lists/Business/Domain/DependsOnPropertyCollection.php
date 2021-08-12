@@ -24,6 +24,6 @@ namespace oat\tao\model\Lists\Business\Domain;
 
 use ArrayIterator;
 
-class DependencyPropertyCollection extends ArrayIterator
+class DependsOnPropertyCollection extends ArrayIterator
 {
 }

@@ -26,7 +26,7 @@ use core_kernel_classes_Property;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
-use oat\tao\model\Lists\Business\Domain\DependencyProperty;
+use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 use tao_helpers_form_FormElement;
 use tao_helpers_form_FormFactory;
@@ -66,7 +66,7 @@ class DependsOnPropertyFormFieldFactory extends ConfigurableService
 
         $options = [];
 
-        /** @var DependencyProperty $prop */
+        /** @var DependsOnProperty $prop */
         foreach ($collection as $prop) {
             $options[$prop->getUriEncoded()] = $prop->getLabel();
         }

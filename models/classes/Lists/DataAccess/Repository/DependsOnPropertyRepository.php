@@ -25,8 +25,8 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\Lists\Business\Domain\DependencyProperty;
-use oat\tao\model\Lists\Business\Domain\DependencyPropertyCollection;
+use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
+use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use tao_helpers_form_GenerisFormFactory;
 
 class DependsOnPropertyRepository extends ConfigurableService
@@ -39,9 +39,9 @@ class DependsOnPropertyRepository extends ConfigurableService
         $this->properties = $properties;
     }
 
-    public function findAll(array $options): DependencyPropertyCollection
+    public function findAll(array $options): DependsOnPropertyCollection
     {
-        $collection = new DependencyPropertyCollection();
+        $collection = new DependsOnPropertyCollection();
 
         /** @var core_kernel_classes_Property $property */
         $property = $options['property'];
@@ -64,7 +64,7 @@ class DependsOnPropertyRepository extends ConfigurableService
                 continue;
             }
 
-            $collection->append(new DependencyProperty($prop));
+            $collection->append(new DependsOnProperty($prop));
         }
 
         return $collection;
