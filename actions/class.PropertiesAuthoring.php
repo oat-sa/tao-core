@@ -281,7 +281,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     public function getClassForm(core_kernel_classes_Class $class): tao_helpers_form_Form
     {
         $data = $this->getRequestParameters();
-        // print_r($data);die;
         $classData = $this->extractClassData($data);
         $propertyData = $this->extractPropertyData($data);
         $formContainer = new tao_actions_form_Clazz($class, $classData, $propertyData, $this->isElasticSearchEnabled());
@@ -324,6 +323,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             if (empty($prop['range'])) {
                 continue;
             }
+
             if (empty($prop['range']) && empty($prop['uri'])) {
                 continue;
             }
