@@ -78,16 +78,11 @@ Cypress.Commands.add('moveClass', (
 
 Cypress.Commands.add('moveClassFromRoot', (
     rootSelector,
-    formSelector,
     moveSelector,
     moveConfirmSelector,
-    deleteSelector,
-    confirmSelector,
     name,
     nameWhereMove,
     restResourceGetAll,
-    deleteClassUrl,
-    isItems
 ) => {
     cy.log('COMMAND: moveClassFromRoot', name)
         .get('#feedback-1, #feedback-2').should('not.exist')
@@ -96,15 +91,6 @@ Cypress.Commands.add('moveClassFromRoot', (
         .wait('@editClassLabel', { requestTimeout: 10000 })
         .get(`${rootSelector} li[title="${name}"] a`)
         .moveClass(moveSelector, moveConfirmSelector, name, nameWhereMove, restResourceGetAll)
-        .deleteClass(
-            rootSelector,
-            formSelector,
-            deleteSelector,
-            confirmSelector,
-            deleteClassUrl,
-            nameWhereMove,
-            isItems
-        );
 });
 
 Cypress.Commands.add('deleteClass', (
@@ -122,7 +108,7 @@ Cypress.Commands.add('deleteClass', (
         .get(formSelector)
         .should('exist')
 
-    cy.get(deleteSelector).click()
+    cy.get(deleteSelector).click();
 
     if (isItems) {
         cy.get('.modal-body label[for=confirm]')
@@ -142,15 +128,14 @@ Cypress.Commands.add('deleteClassFromRoot', (
     confirmSelector,
     name,
     deleteClassUrl,
-    resourceRelations,
-    isMove,
     isItems
 ) => {
+
     cy.log('COMMAND: deleteClassFromRoot', name)
         .getSettled(`${rootSelector} a:nth(0)`)
         .click()
         .get(`li[title="${name}"] a`)
-        .deleteClass(rootSelector, formSelector, deleteSelector, confirmSelector, deleteClassUrl, name, resourceRelations, isMove, isItems)
+        .deleteClass(rootSelector, formSelector, deleteSelector, confirmSelector, deleteClassUrl, name, isItems)
 });
 
 Cypress.Commands.add('addNode', (formSelector, addSelector) => {
@@ -209,6 +194,21 @@ Cypress.Commands.add('renameSelectedItem', (formSelector, editItemUrl, newName) 
         .get('button[id="Save"]')
         .click()
         .wait('@editItem', { requestTimeout: 10000 })
+        .get('#feedback-1, #feedback-2').should('not.exist')
+        .get(formSelector).should('exist')
+        .get(`${ formSelector } input[name*=label]`).should('have.value', newName)
+});
+
+Cypress.Commands.add('renameSelectedTest', (formSelector, editTestUrl, newName) => {
+    // TODO: update selector when data-testid attributes will be added
+    cy.log('COMMAND: renameSelectedItem', newName)
+        .intercept('POST', `**${ editTestUrl }`).as('editTest')
+        .get(`${ formSelector } input[name*=label]`)
+        .clear()
+        .type(newName)
+        .get('button[id="Save"]')
+        .click()
+        .wait('@editTest', { requestTimeout: 10000 })
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
         .get(`${ formSelector } input[name*=label]`).should('have.value', newName)
