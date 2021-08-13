@@ -308,7 +308,7 @@ trait GenerisServiceTrait
         if ($instance->isClass()) {
             try {
                 /** @var core_kernel_classes_Class $instance */
-                $status =  $instance->editPropertyValues($this->getProperty(OntologyRdfs::RDFS_SUBCLASSOF), $destinationClass);
+                $status = $instance->editPropertyValues($this->getProperty(OntologyRdfs::RDFS_SUBCLASSOF), $destinationClass);
                 if ($status){
                     $this->getEventManager()->trigger(new ClassMovedEvent($instance));
                 }
