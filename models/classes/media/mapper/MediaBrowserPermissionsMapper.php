@@ -29,7 +29,7 @@ use oat\tao\model\accessControl\PermissionCheckerInterface;
 
 class MediaBrowserPermissionsMapper extends ConfigurableService implements AccessControlEnablerInterface, MediaBrowserMapperInterface
 {
-    private const DATA_PERMISSIONS = 'permissions';
+    protected const DATA_PERMISSIONS = 'permissions';
 
     /** @var PermissionCheckerInterface */
     private $permissionChecker;
