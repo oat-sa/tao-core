@@ -121,13 +121,11 @@ $userLabel    = get_data('userLabel');
                     : 'li-' . $entry->getId();?>
                     <li class="<?= $className ?>">
                         <a id="<?= $entry->getId() ?>" <?php
-                            if (!is_null($entry->getBinding())): ?> href="#" data-action="<?= $entry->getBinding() ?>"
-                            <?php else : ?>
-                            href="<?php if($entry->getId()!= 'taskqueue'): ?><?= $entry->getUrl() ?><?php else : ?>#<?php endif ?>"
-                            <?php endif ?> title="<?= __($entry->getName()) ?>">
 
+                            if (!is_null($entry->getBinding())): ?> href="#" data-action="<?= $entry->getBinding() ?>"<?php
+                                else : ?> href="<?= $entry->getId()!= 'taskqueue' ? $entry->getUrl() : "#" ?>"<?php
+                            endif ?> title="<?= __($entry->getName()) ?>">
                             <?= is_null($entry->getIcon()) ? '' : Layout::renderIcon($entry->getIcon(), 'icon-extension') ?>
-
                             <?php $description = $entry->getDescription();
                             if ($description): ?>
                             <?= __($description) ?>
