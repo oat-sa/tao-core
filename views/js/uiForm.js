@@ -31,6 +31,7 @@ define([
     'context',
     'form/property',
     'form/post-render-props',
+    'form/depends-on-property',
     'util/encode',
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
@@ -44,6 +45,7 @@ define([
     context,
     property,
     postRenderProps,
+    dependsOn,
     encode,
     ckeditor,
     ckConfigurator,
@@ -567,7 +569,7 @@ define([
             /**
              * display or not the list regarding the property type
              */
-            function showPropertyList() {
+            function showPropertyList(e, isInit) {
                 var $this = $(this);
                 var $elt = $this.parent("div").next("div");
                 var propertiesTypes = ['list','tree'];
@@ -577,13 +579,12 @@ define([
                     if ($elt.css('display') === 'none') {
                         $elt.show();
                         $elt.find('select').removeAttr('disabled');
-
                     }
                 }
                 else if ($elt.css('display') !== 'none') {
                     $elt.css('display', 'none');
                     $elt.find('select').prop('disabled', false);
-                    $elt.find('select option[value=" "]').prop('selected',true);
+                    $elt.find('select option[value=" "]').attr('selected', 'selected').trigger('change');
                 }
 
                 $.each(propertiesTypes, function (i, rangedPropertyName) {
@@ -591,16 +592,29 @@ define([
                     if (re.test($this.val())) {
                         const $propValuesSelect = $elt.find('select');
                         const propValue = $propValuesSelect.val();
-
                         $propValuesSelect.html($elt.closest('.property-edit-container').find('.' + rangedPropertyName + '-template').html());
+                        const $selectedInTemplate = $propValuesSelect.find('option[selected]');
 
-                        if (propValue && propValue !== ' ' && $(`option[value="${propValue}"]`, $propValuesSelect).length) {
+                        if (!propValue || !propValue.trim()) {
+                            if (!isInit && $selectedInTemplate.length) {
+                                $propValuesSelect.find('option[value=" "]').attr('selected', 'selected');
+                            }
+
+                            return true;
+                        }
+
+                        if ($(`option[value="${propValue}"]`, $propValuesSelect).length) {
                             $propValuesSelect.val(propValue);
                         }
 
                         return true;
                     }
                 });
+            }
+
+
+            function clearPropertyListValues() {
+                $(this).parent("div").parent("div").children("ul.form-elt-list").remove();
             }
 
             /**
@@ -614,7 +628,7 @@ define([
                 //load the instances and display them (the list items)
                 $(elt).parent("div").children("ul.form-elt-list").remove();
                 classUri = $this.val();
-                if (classUri !== '' && classUri !== ' ') {
+                if (classUri && classUri.trim()) {
                     $this.parent("div").children("div.form-error").remove();
                     $.ajax({
                         url: context.root_url + 'taoBackOffice/Lists/getListElements',
@@ -631,10 +645,24 @@ define([
                                 html += '<li>' + encode.html(response[property]) + '</li>';
                             }
                             html += '</ul>';
-                            $(elt).parent("div").append(html);
+                            $(elt).after(html);
                         }
                     });
                 }
+            }
+
+            function onTypeChange(e, flag) {
+                showPropertyList.bind(this)(e, flag === 'initial');
+                dependsOn.toggle();
+            }
+
+            function onListValuesChange(e) {
+                clearPropertyListValues.bind(this)(e);
+                if (!$(this).val() || !$(this).val().trim()) {
+                    $(this).find('option[value=" "]').attr('selected', 'selected');
+                }
+                showPropertyListValues.bind(this)(e);
+                dependsOn.toggle();
             }
 
             //bind functions to the drop down:
@@ -647,11 +675,11 @@ define([
             var $propertyType = $(".property-type"),
                 $propertyListValues = $(".property-listvalues");
 
-            $propertyType.on('change', showPropertyList).trigger('change');
+            $propertyType.on('change', onTypeChange).trigger('change', 'initial');
 
             //display the values of the selected list
             $propertyListValues.off('change');
-            $propertyListValues.on('change', showPropertyListValues).trigger('change');
+            $propertyListValues.on('change', onListValuesChange).trigger('change');
 
             $propertyListValues.each(function () {
                 var elt = $(this).parent("div");

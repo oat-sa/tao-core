@@ -20,13 +20,10 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\accessControl;
+namespace oat\tao\model\Lists\Business\Domain;
 
-use oat\tao\model\Context\ContextInterface as BaseContextInterface;
+use ArrayIterator;
 
-/**
- * @deprecated Use \oat\tao\model\Context\ContextInterface
- */
-interface ContextInterface extends BaseContextInterface
+class DependsOnPropertyCollection extends ArrayIterator
 {
 }

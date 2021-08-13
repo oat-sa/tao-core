@@ -20,40 +20,43 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\accessControl;
+namespace oat\tao\model\Lists\Business\Domain;
 
-use oat\oatbox\user\User;
 use InvalidArgumentException;
 use oat\tao\model\Context\AbstractContext;
 
-class Context extends AbstractContext
+class RemoteSourceContext extends AbstractContext
 {
-    public const PARAM_CONTROLLER = 'controller';
-    public const PARAM_ACTION = 'action';
-    public const PARAM_USER = 'user';
+    public const PARAM_SOURCE_URL = 'sourceUrl';
+    public const PARAM_URI_PATH = 'uriPath';
+    public const PARAM_LABEL_PATH = 'labelPath';
+    public const PARAM_DEPENDENCY_URI_PATH = 'dependencyUriPath';
+    public const PARAM_PARSER = 'parser';
+    public const PARAM_JSON = 'json';
 
     protected function getSupportedParameters(): array
     {
         return [
-            self::PARAM_CONTROLLER,
-            self::PARAM_ACTION,
-            self::PARAM_USER,
+            self::PARAM_SOURCE_URL,
+            self::PARAM_URI_PATH,
+            self::PARAM_LABEL_PATH,
+            self::PARAM_DEPENDENCY_URI_PATH,
+            self::PARAM_PARSER,
+            self::PARAM_JSON,
         ];
     }
 
     protected function validateParameter(string $parameter, $parameterValue): void
     {
-        if (
-            in_array($parameter, [self::PARAM_CONTROLLER, self::PARAM_ACTION], true)
-            && ($parameterValue === null || is_string($parameterValue))
-        ) {
+        if ($parameter === self::PARAM_JSON && is_array($parameterValue)) {
             return;
         }
 
-        if (
-            $parameter === self::PARAM_USER
-            && ($parameterValue === null || $parameterValue instanceof User)
-        ) {
+        if ($parameter === self::PARAM_DEPENDENCY_URI_PATH && $parameterValue === null) {
+            return;
+        }
+
+        if ($parameter !== self::PARAM_JSON && is_string($parameterValue)) {
             return;
         }
 

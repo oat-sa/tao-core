@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -29,11 +29,12 @@ use oat\tao\model\search\SearchProxy;
 
 class AdvancedSearchChecker extends ConfigurableService
 {
-    public const FEATURE_FLAG_ADVANCED_SEARCH_DISABLED = 'FEATURE_FLAG_ADVANCED_SEARCH_DISABLED';
+    /** @deprecated Use oat\tao\model\featureFlag\FeatureFlagCheckerInterface::FEATURE_FLAG_ADVANCED_SEARCH_DISABLED */
+    public const FEATURE_FLAG_ADVANCED_SEARCH_DISABLED = FeatureFlagCheckerInterface::FEATURE_FLAG_ADVANCED_SEARCH_DISABLED;
 
     public function isEnabled(): bool
     {
-        return !$this->getFeatureFlagChecker()->isEnabled(self::FEATURE_FLAG_ADVANCED_SEARCH_DISABLED)
+        return !$this->getFeatureFlagChecker()->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_ADVANCED_SEARCH_DISABLED)
             && $this->getSearchService()->getAdvancedSearch();
     }
 
