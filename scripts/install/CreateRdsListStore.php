@@ -36,7 +36,7 @@ class CreateRdsListStore extends InstallAction
     public function __invoke($params = [])
     {
         [$fromSchema, $schema] = $this->getSchemas();
-        $this->createListItemsTable($schema);
+        $this->create($schema);
         $this->createListItemsDependenciesTable($schema);
         $this->migrate($fromSchema, $schema);
 
