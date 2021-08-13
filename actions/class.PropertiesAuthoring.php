@@ -304,10 +304,46 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 //save all properties values
                 if (isset($data['properties'])) {
                     $this->saveProperties($data);
+                    $this->populateSubmittedProperties($myForm, $data);
                 }
             }
         }
         return $myForm;
+    }
+
+    private function populateSubmittedProperties($myForm, $data): void
+    {
+        if (empty($data['properties'])) {
+            return;
+        }
+        $elementRangeArray = [];
+        $groups = $myForm->getGroups();
+        
+        foreach ($data['properties'] as $prop) {
+            if (empty($prop['range']) || empty($prop['uri'])) {
+                continue;
+            }
+
+            $elementUri = $groups['property_' . $prop['uri']]['elements'][0] ?? null;
+
+            if (isset($elementUri)) {
+                $index = strstr($elementUri, '_', true);
+                $elementRangeArray[$index . '_range_list'] = $prop['range'];
+            }
+        }
+
+        $elements = [];
+        foreach ($myForm->getElements() as $element) {
+            if (
+                $element instanceof tao_helpers_form_elements_xhtml_Combobox
+                && array_key_exists($element->getName(), $elementRangeArray)
+            ) {
+                $element->setValue($elementRangeArray[$element->getName()]);
+            }
+            $elements[] = $element;
+        }
+
+        $myForm->setElements($elements);
     }
 
     /**
