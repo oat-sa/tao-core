@@ -15,27 +15,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2018-2021 (original work) Open Assessment Technologies SA;
  *
  */
 
 namespace oat\tao\model;
 
+use core_kernel_classes_Class;
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
 use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\generis\model\fileReference\ResourceFileSerializer;
 use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManagerAwareTrait;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\helpers\TreeHelper;
-use oat\generis\model\OntologyAwareTrait;
-use core_kernel_classes_Class;
-use core_kernel_classes_Resource;
-use core_kernel_classes_ResourceFactory;
-use core_kernel_classes_Property;
 use oat\oatbox\session\SessionService;
+use oat\tao\helpers\TreeHelper;
+use oat\tao\model\event\ClassMovedEvent;
 
 /**
  * Trait GenerisServiceTrait
@@ -308,7 +308,11 @@ trait GenerisServiceTrait
         if ($instance->isClass()) {
             try {
                 /** @var core_kernel_classes_Class $instance */
-                return $instance->editPropertyValues($this->getProperty(OntologyRdfs::RDFS_SUBCLASSOF), $destinationClass);
+                $status = $instance->editPropertyValues($this->getProperty(OntologyRdfs::RDFS_SUBCLASSOF), $destinationClass);
+                if ($status){
+                    $this->getEventManager()->trigger(new ClassMovedEvent($instance));
+                }
+                return $status;
             } catch (\Exception $e) {
                 return false;
             }
