@@ -43,6 +43,6 @@ final class Version202108170642002234_tao extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->addReport(Report::createWarning('Nothing to execute'));
+        $this->throwIrreversibleMigrationException();
     }
 }

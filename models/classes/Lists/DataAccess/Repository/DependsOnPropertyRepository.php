@@ -26,6 +26,7 @@ use core_kernel_classes_Class;
 use oat\tao\model\TaoOntology;
 use core_kernel_classes_Property;
 use tao_helpers_form_GenerisFormFactory;
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
@@ -33,10 +34,12 @@ use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 
 class DependsOnPropertyRepository extends ConfigurableService
 {
+    use OntologyAwareTrait;
+
     /** @var core_kernel_classes_Property[] */
     private $properties;
 
-    /** @var core_kernel_classes_Class[] */
+    /** @var core_kernel_classes_Class|null[] */
     private $ranges = [];
 
     /** @var core_kernel_classes_Class */
@@ -52,11 +55,9 @@ class DependsOnPropertyRepository extends ConfigurableService
     {
         parent::__construct($options);
 
-        $this->listsClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_LIST);
-        $this->listTypeProperty = new core_kernel_classes_Property(RemoteSourcedListOntology::PROPERTY_LIST_TYPE);
-        $this->dependsOnProperty = new core_kernel_classes_Property(
-            RemoteSourcedListOntology::PROPERTY_DEPENDS_ON_PROPERTY
-        );
+        $this->listsClass = $this->getClass(TaoOntology::CLASS_URI_LIST);
+        $this->listTypeProperty = $this->getProperty(RemoteSourcedListOntology::PROPERTY_LIST_TYPE);
+        $this->dependsOnProperty = $this->getProperty(RemoteSourcedListOntology::PROPERTY_DEPENDS_ON_PROPERTY);
     }
 
     public function withProperties(array $properties)
