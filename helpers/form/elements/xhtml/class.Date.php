@@ -32,20 +32,20 @@ class tao_helpers_form_elements_xhtml_Date extends tao_helpers_form_elements_Dat
     public function render()
     {
         $returnValue = $this->renderLabel();
-        
+
         $hasUnit = ! empty($this->unit);
-        
+
         if ($hasUnit) {
             $this->addClass('has-unit');
         }
-        $returnValue .= "<input type='date' name='{$this->name}' id='{$this->name}' ";
+        $returnValue .= "<input type='date' name='{$this->name}' id='{$this->name}' data-testid='{$this->getDescription()}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value="' . _dh($this->value) . '" />';
-        
+
         if ($hasUnit) {
             $returnValue .= '<label class="unit" for="' . $this->name . '">' . _dh($this->unit) . '</label>';
         }
-        
+
         return (string) $returnValue;
     }
 }
