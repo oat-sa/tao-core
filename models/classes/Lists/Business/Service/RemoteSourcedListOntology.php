@@ -29,5 +29,7 @@ class RemoteSourcedListOntology
     public const PROPERTY_ITEM_LABEL_PATH = 'http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath';
     public const PROPERTY_DEPENDENCY_ITEM_URI_PATH = 'http://www.tao.lu/Ontologies/TAO.rdf#RemoteListDependencyItemUriPath';
     public const PROPERTY_LIST_TYPE = 'http://www.tao.lu/Ontologies/TAO.rdf#ListType';
+    public const PROPERTY_DEPENDS_ON_PROPERTY = 'http://www.tao.lu/Ontologies/TAO.rdf#DependsOnProperty';
+
     public const LIST_TYPE_REMOTE = 'http://www.tao.lu/Ontologies/TAO.rdf#ListRemote';
 }
