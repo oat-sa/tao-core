@@ -16,6 +16,8 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
+const labelSelector = '[data-testid=Label]';
+
 /**
  * Commands
  */
@@ -170,9 +172,8 @@ Cypress.Commands.add('deleteNode', (
 });
 
 Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
-    // TODO: update selector when data-testid attributes will be added
     cy.log('COMMAND: renameSelectedClass', newName)
-        .getSettled(`${ formSelector } input[name*=label]`)
+        .getSettled(`${ formSelector } ${labelSelector}`)
         .clear()
         .type(newName)
         .click()
@@ -181,14 +182,13 @@ Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
         .wait('@editClassLabel')
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
-        .get(`${ formSelector } input[name*=label]`).should('have.value', newName);
+        .get(`${ formSelector } ${labelSelector}`).should('have.value', newName);
 });
 
 Cypress.Commands.add('renameSelectedItem', (formSelector, editItemUrl, newName) => {
-    // TODO: update selector when data-testid attributes will be added
     cy.log('COMMAND: renameSelectedItem', newName)
         .intercept('POST', `**${ editItemUrl }`).as('editItem')
-        .get(`${ formSelector } input[name*=label]`)
+        .get(`${ formSelector } ${labelSelector}`)
         .clear()
         .type(newName)
         .get('button[id="Save"]')
@@ -196,14 +196,13 @@ Cypress.Commands.add('renameSelectedItem', (formSelector, editItemUrl, newName) 
         .wait('@editItem', { requestTimeout: 10000 })
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
-        .get(`${ formSelector } input[name*=label]`).should('have.value', newName)
+        .get(`${ formSelector } ${labelSelector}`).should('have.value', newName)
 });
 
 Cypress.Commands.add('renameSelectedTest', (formSelector, editTestUrl, newName) => {
-    // TODO: update selector when data-testid attributes will be added
     cy.log('COMMAND: renameSelectedItem', newName)
         .intercept('POST', `**${ editTestUrl }`).as('editTest')
-        .get(`${ formSelector } input[name*=label]`)
+        .get(`${ formSelector } ${labelSelector}`)
         .clear()
         .type(newName)
         .get('button[id="Save"]')
@@ -211,7 +210,7 @@ Cypress.Commands.add('renameSelectedTest', (formSelector, editTestUrl, newName) 
         .wait('@editTest', { requestTimeout: 10000 })
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
-        .get(`${ formSelector } input[name*=label]`).should('have.value', newName)
+        .get(`${ formSelector } ${labelSelector}`).should('have.value', newName)
 });
 
 Cypress.Commands.add('addPropertyToClass', (
