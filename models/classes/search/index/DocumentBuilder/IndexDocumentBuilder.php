@@ -27,6 +27,7 @@ use oat\generis\model\data\permission\ReverseRightLookupInterface;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
+use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\model\search\index\IndexDocument;
 use ArrayIterator;
@@ -60,6 +61,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         tao_helpers_form_elements_Combobox::WIDGET_ID,
         tao_helpers_form_elements_Radiobox::WIDGET_ID,
         SearchTextBox::WIDGET_ID,
+        SearchDropdown::WIDGET_ID,
     ];
 
     private const ROOT_CLASSES = [
