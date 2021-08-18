@@ -23,33 +23,25 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
 use core_kernel_classes_Class;
-use oat\tao\model\TaoOntology;
 use core_kernel_classes_Property;
 use tao_helpers_form_GenerisFormFactory;
-use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
-use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
+use oat\tao\model\Specification\PropertySpecificationInterface;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
+use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
+use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
 
 class DependsOnPropertyRepository extends ConfigurableService
 {
-    use OntologyAwareTrait;
-
     /** @var core_kernel_classes_Property[] */
     private $properties;
 
-    /** @var core_kernel_classes_Class */
-    private $listsClass;
+    /** @var PropertySpecificationInterface */
+    private $remoteListPropertySpecification;
 
-    /** @var core_kernel_classes_Property */
-    private $listTypeProperty;
-
-    /** @var core_kernel_classes_Property */
-    private $dependsOnProperty;
-
-    /** @var core_kernel_classes_Class[]|null[] */
-    private $ranges = [];
+    /** @var PropertySpecificationInterface */
+    private $dependentPropertySpecification;
 
     public function withProperties(array $properties)
     {
@@ -63,7 +55,10 @@ class DependsOnPropertyRepository extends ConfigurableService
         /** @var core_kernel_classes_Property $property */
         $property = $options['property'];
 
-        if (!$property->getDomain()->count() || !$this->isRemoteListProperty($property)) {
+        if (
+            !$property->getDomain()->count()
+            || !$this->getRemoteListPropertySpecification()->isSatisfiedBy($property)
+        ) {
             return $collection;
         }
 
@@ -74,8 +69,8 @@ class DependsOnPropertyRepository extends ConfigurableService
         foreach ($this->getProperties($class) as $classProperty) {
             if (
                 $property->getUri() === $classProperty->getUri()
-                || !$this->isRemoteListProperty($classProperty)
-                || $this->isDependentProperty($classProperty)
+                || !$this->getRemoteListPropertySpecification()->isSatisfiedBy($classProperty)
+                || $this->getDependentPropertySpecification()->isSatisfiedBy($classProperty)
             ) {
                 continue;
             }
@@ -91,63 +86,25 @@ class DependsOnPropertyRepository extends ConfigurableService
         return $this->properties ?? tao_helpers_form_GenerisFormFactory::getClassProperties($class);
     }
 
-    private function isRemoteListProperty(core_kernel_classes_Property $property): bool
+    private function getRemoteListPropertySpecification(): PropertySpecificationInterface
     {
-        $range = $this->getPropertyRange($property);
-
-        if ($range === null || !$range->isSubClassOf($this->getListsClass())) {
-            return false;
+        if (!isset($this->remoteListPropertySpecification)) {
+            $this->remoteListPropertySpecification = $this->getServiceLocator()->get(
+                RemoteListPropertySpecification::class
+            );
         }
 
-        $propertyType = $range->getOnePropertyValue($this->getListTypeProperty());
-
-        if ($propertyType === null || $propertyType->getUri() !== RemoteSourcedListOntology::LIST_TYPE_REMOTE) {
-            return false;
-        }
-
-        return true;
+        return $this->remoteListPropertySpecification;
     }
 
-    private function isDependentProperty(core_kernel_classes_Property $property): bool
+    private function getDependentPropertySpecification(): PropertySpecificationInterface
     {
-        return $property->getOnePropertyValue($this->getDependsOnProperty()) !== null;
-    }
-
-    private function getPropertyRange(core_kernel_classes_Property $property): ?core_kernel_classes_Class
-    {
-        $propertyUri = $property->getUri();
-
-        if (!isset($this->ranges[$propertyUri])) {
-            $this->ranges[$propertyUri] = $property->getRange();
+        if (!isset($this->dependentPropertySpecification)) {
+            $this->dependentPropertySpecification = $this->getServiceLocator()->get(
+                DependentPropertySpecification::class
+            );
         }
 
-        return $this->ranges[$propertyUri];
-    }
-
-    private function getListsClass(): core_kernel_classes_Class
-    {
-        if (!isset($this->listsClass)) {
-            $this->listsClass = $this->getClass(TaoOntology::CLASS_URI_LIST);
-        }
-
-        return $this->listsClass;
-    }
-
-    private function getListTypeProperty(): core_kernel_classes_Property
-    {
-        if (!isset($this->listTypeProperty)) {
-            $this->listTypeProperty = $this->getProperty(RemoteSourcedListOntology::PROPERTY_LIST_TYPE);
-        }
-
-        return $this->listTypeProperty;
-    }
-
-    private function getDependsOnProperty(): core_kernel_classes_Property
-    {
-        if (!isset($this->dependsOnProperty)) {
-            $this->dependsOnProperty = $this->getProperty(RemoteSourcedListOntology::PROPERTY_DEPENDS_ON_PROPERTY);
-        }
-
-        return $this->dependsOnProperty;
+        return $this->dependentPropertySpecification;
     }
 }
