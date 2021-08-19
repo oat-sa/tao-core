@@ -71,6 +71,7 @@ class DependsOnPropertyFormFieldFactory extends ConfigurableService
             $options[$prop->getUriEncoded()] = $prop->getLabel();
         }
 
+        asort($options);
         $element->setOptions($options);
 
         return $element;
