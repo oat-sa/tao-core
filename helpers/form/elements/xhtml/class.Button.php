@@ -98,6 +98,11 @@ class tao_helpers_form_elements_xhtml_Button extends tao_helpers_form_elements_B
         }
     }
 
+    /**
+     * Sets data-testid attribute
+     *
+     * @param string $testId
+     */
     public function setTestId($testId)
     {
         $this->setAttribute('data-testid', $testId);
