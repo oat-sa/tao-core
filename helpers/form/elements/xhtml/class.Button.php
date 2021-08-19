@@ -98,7 +98,6 @@ class tao_helpers_form_elements_xhtml_Button extends tao_helpers_form_elements_B
         }
     }
 
-    // Is the game worth the candle?
     public function setTestId($testId)
     {
         $this->setAttribute('data-testid', $testId);
