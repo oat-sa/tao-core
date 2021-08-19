@@ -37,6 +37,16 @@ class DependentPropertySpecificationTest extends TestCase
     /** @var core_kernel_classes_Property|MockObject */
     private $property;
 
+    protected function setUp(): void
+    {
+        $this->sut = new DependentPropertySpecification();
+
+        $this->property = $this->createMock(core_kernel_classes_Property::class);
+        $this->property
+            ->method('getProperty')
+            ->willReturn($this->createMock(core_kernel_classes_Property::class));
+    }
+
     public function testSpecificationInstance(): void
     {
         $this->assertInstanceOf(PropertySpecificationInterface::class, $this->sut);
@@ -66,15 +76,5 @@ class DependentPropertySpecificationTest extends TestCase
                 'expected' => true,
             ],
         ];
-    }
-
-    protected function setUp(): void
-    {
-        $this->sut = new DependentPropertySpecification();
-
-        $this->property = $this->createMock(core_kernel_classes_Property::class);
-        $this->property
-            ->method('getProperty')
-            ->willReturn($this->createMock(core_kernel_classes_Property::class));
     }
 }

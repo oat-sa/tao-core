@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\Business\Specification;
 
+use oat\oatbox\Configurable;
 use oat\generis\test\TestCase;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
@@ -42,6 +43,30 @@ class RemoteListPropertySpecificationTest extends TestCase
 
     /** @var core_kernel_classes_Class|MockObject */
     private $range;
+
+    protected function setUp(): void
+    {
+        $this->sut = new RemoteListPropertySpecification();
+
+        $this->range = $this->createMock(core_kernel_classes_Class::class);
+        $this->range
+            ->method('getClass')
+            ->willReturn($this->createMock(core_kernel_classes_Class::class));
+        $this->range
+            ->method('isSubClassOf')
+            ->willReturn(true);
+        $this->range
+            ->method('getProperty')
+            ->willReturn($this->createMock(core_kernel_classes_Property::class));
+
+        $this->property = $this->createMock(core_kernel_classes_Property::class);
+        $this->property
+            ->method('getUri')
+            ->willReturn('propertyUri');
+        $this->property
+            ->method('getRange')
+            ->willReturn($this->range);
+    }
 
     public function testSpecificationInstance(): void
     {
@@ -115,29 +140,5 @@ class RemoteListPropertySpecificationTest extends TestCase
             ->willReturn($propertyType);
 
         $this->assertEquals(false, $this->sut->isSatisfiedBy($this->property));
-    }
-
-    protected function setUp(): void
-    {
-        $this->sut = new RemoteListPropertySpecification();
-
-        $this->range = $this->createMock(core_kernel_classes_Class::class);
-        $this->range
-            ->method('getClass')
-            ->willReturn($this->createMock(core_kernel_classes_Class::class));
-        $this->range
-            ->method('isSubClassOf')
-            ->willReturn(true);
-        $this->range
-            ->method('getProperty')
-            ->willReturn($this->createMock(core_kernel_classes_Property::class));
-
-        $this->property = $this->createMock(core_kernel_classes_Property::class);
-        $this->property
-            ->method('getUri')
-            ->willReturn('propertyUri');
-        $this->property
-            ->method('getRange')
-            ->willReturn($this->range);
     }
 }

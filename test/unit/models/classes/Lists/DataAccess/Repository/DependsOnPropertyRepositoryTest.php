@@ -46,6 +46,9 @@ class DependsOnPropertyRepositoryTest extends TestCase
     /** @var core_kernel_classes_Property|MockObject */
     private $property;
 
+    /** @var core_kernel_classes_ContainerCollection|MockObject */
+    private $domainCollection;
+
     public function setUp(): void
     {
         $this->remoteListPropertySpecification = $this->createMock(RemoteListPropertySpecification::class);
@@ -59,18 +62,37 @@ class DependsOnPropertyRepositoryTest extends TestCase
             ])
         );
 
-        $domainCollection = $this->createMock(core_kernel_classes_ContainerCollection::class);
-        $domainCollection
-            ->method('count')
-            ->willReturn(1);
-        $domainCollection
-            ->method('get')
-            ->willReturn($this->createMock(core_kernel_classes_Class::class));
-
         $this->property = $this->createMock(core_kernel_classes_Property::class);
+        $this->domainCollection = $this->createMock(core_kernel_classes_ContainerCollection::class);
+    }
+
+    public function testFindAllWithEmptyDomain(): void
+    {
+        $this->remoteListPropertySpecification
+            ->expects($this->never())
+            ->method('isSatisfiedBy');
+        $this->dependentPropertySpecification
+            ->expects($this->never())
+            ->method('isSatisfiedBy');
+
+        $this->domainCollection
+            ->expects($this->once())
+            ->method('count')
+            ->willReturn(0);
+        $this->domainCollection
+            ->expects($this->never())
+            ->method('get');
+
         $this->property
+            ->expects($this->once())
             ->method('getDomain')
-            ->willReturn($domainCollection);
+            ->willReturn($this->domainCollection);
+
+        $this->sut->withProperties([]);
+        $propertiesCollection = $this->sut->findAll(['property' => $this->property]);
+
+        $this->assertEquals(new DependsOnPropertyCollection(), $propertiesCollection);
+        $this->assertEquals(0, $propertiesCollection->count());
     }
 
     public function testFindAllWithoutProperties(): void
@@ -83,6 +105,17 @@ class DependsOnPropertyRepositoryTest extends TestCase
             ->expects($this->never())
             ->method('isSatisfiedBy');
 
+        $this->domainCollection
+            ->method('count')
+            ->willReturn(1);
+        $this->domainCollection
+            ->method('get')
+            ->willReturn($this->createMock(core_kernel_classes_Class::class));
+
+        $this->property
+            ->expects($this->exactly(2))
+            ->method('getDomain')
+            ->willReturn($this->domainCollection);
         $this->property
             ->expects($this->never())
             ->method('getUri');
@@ -113,6 +146,18 @@ class DependsOnPropertyRepositoryTest extends TestCase
             ->method('isSatisfiedBy')
             ->willReturn(false);
 
+        $this->domainCollection
+            ->method('count')
+            ->willReturn(1);
+        $this->domainCollection
+            ->method('get')
+            ->willReturn($this->createMock(core_kernel_classes_Class::class));
+
+        $this->property = $this->createMock(core_kernel_classes_Property::class);
+        $this->property
+            ->expects($this->exactly(2))
+            ->method('getDomain')
+            ->willReturn($this->domainCollection);
         $this->property
             ->expects($this->exactly($expectedGetUriCount))
             ->method('getUri')
@@ -159,20 +204,6 @@ class DependsOnPropertyRepositoryTest extends TestCase
                 'expectedCollectionCount' => 2,
             ],
         ];
-    }
-
-    private function configureSpecifications(
-        int $expectedRemoteListPropertySpecificationCalls,
-        int $expectedDependentPropertySpecificationCalls
-    ): void {
-        $this->remoteListPropertySpecification
-            ->expects($this->exactly($expectedRemoteListPropertySpecificationCalls))
-            ->method('isSatisfiedBy')
-            ->willReturn(true);
-        $this->dependentPropertySpecification
-            ->expects($this->exactly($expectedDependentPropertySpecificationCalls))
-            ->method('isSatisfiedBy')
-            ->willReturn(false);
     }
 
     private function createProperty(string $uri): core_kernel_classes_Property
