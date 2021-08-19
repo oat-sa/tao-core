@@ -36,9 +36,7 @@ interface TaoOntology
     const CLASS_URI_MANAGEMENT_ROLE = 'http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole';
     const CLASS_URI_WORKER_ROLE = 'http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole';
     const CLASS_URI_TAO_USER = 'http://www.tao.lu/Ontologies/TAO.rdf#User';
-    const CLASS_URI_LTI_CONSUMER = 'http://www.tao.lu/Ontologies/TAOLTI.rdf#LTIConsumer';
-    const CLASS_URI_LTI_PROVIDER = 'http://www.tao.lu/Ontologies/TAOLTI.rdf#LTIProvider';
-    const CLASS_URI_LTI_PLATFORM = 'http://www.tao.lu/Ontologies/TAOLTI.rdf#Platform';
+    const CLASS_URI_TREE = 'http://www.tao.lu/Ontologies/TAO.rdf#Tree';
 
     const PROPERTY_UPDATED_AT = 'http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt';
     const PROPERTY_LIST_LEVEL = 'http://www.tao.lu/Ontologies/TAO.rdf#level';

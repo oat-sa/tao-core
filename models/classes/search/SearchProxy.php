@@ -37,13 +37,12 @@ class SearchProxy extends ConfigurableService implements Search
 
     public const OPTION_ADVANCED_SEARCH_CLASS = 'advanced_search_class';
     public const OPTION_DEFAULT_SEARCH_CLASS = 'default_search_class';
+    public const OPTION_GENERIS_SEARCH_WHITELIST = 'generis_search_whitelist';
 
-    private const GENERIS_SEARCH_WHITELIST = [
+    private const GENERIS_SEARCH_DEFAULT_WHITELIST = [
         GenerisRdf::CLASS_ROLE,
         TaoOntology::CLASS_URI_TAO_USER,
-        TaoOntology::CLASS_URI_LTI_CONSUMER,
-        TaoOntology::CLASS_URI_LTI_PROVIDER,
-        TaoOntology::CLASS_URI_LTI_PLATFORM,
+        TaoOntology::CLASS_URI_TREE,
     ];
 
     private const DISABLE_URI_SEARCH_FOR_ROOT_CLASSES = [
@@ -197,7 +196,12 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function isForcingDefaultSearch(SearchQuery $query): bool
     {
-        return in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST, true);
+        $options = [];
+        if ($this->hasOption(self::OPTION_GENERIS_SEARCH_WHITELIST)) {
+            $options = $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST);
+        }
+        $generisSearchWhitelist = array_merge(self::GENERIS_SEARCH_DEFAULT_WHITELIST, $options);
+        return in_array($query->getParentClass(), $generisSearchWhitelist, true);
     }
 
     private function allowIdentifierSearch(SearchQuery $query): bool
