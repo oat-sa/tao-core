@@ -27,6 +27,7 @@ use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\model\Lists\Business\Domain\Metadata;
 use oat\tao\model\Lists\Business\Domain\MetadataCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
@@ -53,6 +54,7 @@ class GetClassMetadataValuesService extends ConfigurableService
         CheckBox::WIDGET_ID,
         ComboBox::WIDGET_ID,
         SearchTextBox::WIDGET_ID,
+        SearchDropdown::WIDGET_ID,
     ];
     public const DATA_TYPE_LIST = 'list';
     public const DATA_TYPE_TEXT = 'text';
