@@ -57,7 +57,7 @@ class DependsOnPropertyFormFieldFactory extends ConfigurableService
 
         $index = $options['index'] ?? 0;
 
-        $element = tao_helpers_form_FormFactory::getElement("{$index}_dep-on-prop", 'Combobox');
+        $element = tao_helpers_form_FormFactory::getElement("{$index}_depends-on-property", 'Combobox');
         $element->addAttribute('class', 'property-depends-on property');
         $element->setDescription(__('Depends on property'));
         $element->setEmptyOption(' --- ' . __('select') . ' --- ');

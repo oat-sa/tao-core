@@ -361,17 +361,16 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
 
         $type = $propertyValues['type'];
-        $range = (isset($propertyValues['range']) ? tao_helpers_Uri::decode(trim($propertyValues['range'])) : null);
-        $dependsOnProperty = isset($propertyValues['dep-on-prop'])
-            ? tao_helpers_Uri::decode(trim($propertyValues['dep-on-prop']))
-            : null;
+        $range = $this->getDecodedPropertyValue($propertyValues, 'range');
+        $dependsOnPropertyUri = $this->getDecodedPropertyValue($propertyValues, 'depends-on-property');
 
         unset(
             $propertyValues['uri'],
             $propertyValues['type'],
             $propertyValues['range'],
-            $propertyValues['dep-on-prop']
+            $propertyValues['depends-on-property']
         );
+
         $rangeNotEmpty = false;
         $values = [
             ValidationRuleRegistry::PROPERTY_VALIDATION_RULE => []
@@ -412,21 +411,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $property->setMultiple($propertyMap[$type]['multiple'] == GenerisRdf::GENERIS_TRUE);
         }
 
-        $isListsDependencyEnabled = $this->getFeatureFlagChecker()->isEnabled(
-            FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
-        );
-
-        if ($isListsDependencyEnabled) {
-            $property->removePropertyValues(
-                $this->getProperty(RemoteSourcedListOntology::PROPERTY_DEPENDS_ON_PROPERTY)
-            );
-
-            if (!empty($dependsOnProperty)) {
-                $property->setDependsOnProperty($this->getProperty($dependsOnProperty));
-            } elseif (isset($propertyMap[$type]) && !empty($propertyMap[$type]['dep-on-prop'])) {
-                $property->setDependsOnProperty($this->getProperty($propertyMap[$type]['dep-on-prop']));
-            }
-        }
+        $this->setDependsOnProperty($property, $dependsOnPropertyUri);
     }
 
     protected function savePropertyIndex(array $indexValues): void
@@ -552,6 +537,38 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
         if (count($changedProperties) > 0) {
             $this->getEventManager()->trigger(new ClassPropertiesChangedEvent($changedProperties));
+        }
+    }
+
+    private function getDecodedPropertyValue(array $propertyValues, string $propertyName): ?string
+    {
+        if (!isset($propertyValues[$propertyName])) {
+            return null;
+        }
+
+        $propertyValue = trim($propertyValues[$propertyName]);
+
+        if (empty($propertyValue)) {
+            return null;
+        }
+
+        return tao_helpers_Uri::decode($propertyValue);
+    }
+
+    private function setDependsOnProperty(core_kernel_classes_Resource $property, ?string $dependsOnPropertyUri): void
+    {
+        $isListsDependencyEnabled = $this->getFeatureFlagChecker()->isEnabled(
+            FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
+        );
+
+        if ($isListsDependencyEnabled) {
+            if ($dependsOnPropertyUri === null) {
+                $property->removePropertyValues(
+                    $this->getProperty(RemoteSourcedListOntology::PROPERTY_DEPENDS_ON_PROPERTY)
+                );
+            } else {
+                $property->setDependsOnProperty($this->getProperty($dependsOnPropertyUri));
+            }
         }
     }
 
