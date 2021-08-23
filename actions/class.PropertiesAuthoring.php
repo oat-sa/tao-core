@@ -37,6 +37,7 @@ use oat\tao\model\search\tasks\IndexTrait;
 use oat\tao\model\validator\PropertyChangedValidator;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
+use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
 
 /**
  * Regrouping all actions related to authoring
@@ -318,7 +319,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         }
         $elementRangeArray = [];
         $groups = $myForm->getGroups();
-        
+
         foreach ($data['properties'] as $prop) {
             if (empty($prop['range']) || empty($prop['uri'])) {
                 continue;
@@ -356,11 +357,19 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     protected function saveSimpleProperty(array $propertyValues, core_kernel_classes_Resource $property): void
     {
         $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
+
         $type = $propertyValues['type'];
         $range = (isset($propertyValues['range']) ? tao_helpers_Uri::decode(trim($propertyValues['range'])) : null);
-        unset($propertyValues['uri']);
-        unset($propertyValues['type']);
-        unset($propertyValues['range']);
+        $dependsOnProperty = isset($propertyValues['dep-on-prop'])
+            ? tao_helpers_Uri::decode(trim($propertyValues['dep-on-prop']))
+            : null;
+
+        unset(
+            $propertyValues['uri'],
+            $propertyValues['type'],
+            $propertyValues['range'],
+            $propertyValues['dep-on-prop']
+        );
         $rangeNotEmpty = false;
         $values = [
             ValidationRuleRegistry::PROPERTY_VALIDATION_RULE => []
@@ -368,7 +377,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
         if (isset($propertyMap[$type])) {
             $values[WidgetRdf::PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
-            $rangeNotEmpty = ($propertyMap[$type]['range'] === OntologyRdfs::RDFS_RESOURCE  );
+            $rangeNotEmpty = $propertyMap[$type]['range'] === OntologyRdfs::RDFS_RESOURCE;
         }
 
         foreach ($propertyValues as $key => $value) {
@@ -399,6 +408,14 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         // set cardinality
         if (isset($propertyMap[$type]['multiple'])) {
             $property->setMultiple($propertyMap[$type]['multiple'] == GenerisRdf::GENERIS_TRUE);
+        }
+
+        // set depends on property value
+        $property->removePropertyValues($this->getProperty(RemoteSourcedListOntology::PROPERTY_DEPENDS_ON_PROPERTY));
+        if (!empty($dependsOnProperty)) {
+            $property->setDependsOnProperty($this->getProperty($dependsOnProperty));
+        } elseif (isset($propertyMap[$type]) && !empty($propertyMap[$type]['dep-on-prop'])) {
+            $property->setDependsOnProperty($this->getProperty($propertyMap[$type]['dep-on-prop']));
         }
     }
 

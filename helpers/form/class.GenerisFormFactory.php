@@ -311,7 +311,8 @@ class tao_helpers_form_GenerisFormFactory
                 'title'     => __('List - Single choice - Radio button'),
                 'widget'    => RadioBox::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
-                'multiple'  => GenerisRdf::GENERIS_FALSE
+                'multiple'  => GenerisRdf::GENERIS_FALSE,
+                'dep-on-prop' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
             ],
             'multiplenodetree' => [
                 'title'     => __('Tree - Multiple node choice '),
@@ -324,25 +325,29 @@ class tao_helpers_form_GenerisFormFactory
                 'title'     => __('List - Single choice - Drop down'),
                 'widget'    => ComboBox::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
-                'multiple'  => GenerisRdf::GENERIS_FALSE
+                'multiple'  => GenerisRdf::GENERIS_FALSE,
+                'dep-on-prop' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
             ],
             'multilist' => [
                 'title'     => __('List - Multiple choice - Check box'),
                 'widget'    => Checkbox::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
-                'multiple'  => GenerisRdf::GENERIS_TRUE
+                'multiple'  => GenerisRdf::GENERIS_TRUE,
+                'dep-on-prop' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
             ],
             'multisearchlist' => [
                 'title'     => __('List - Multiple choice - Search input'),
                 'widget'    => SearchTextBox::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
-                'multiple'  => GenerisRdf::GENERIS_TRUE
+                'multiple'  => GenerisRdf::GENERIS_TRUE,
+                'dep-on-prop' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
             ],
             'singlesearchlist' => [
                 'title'     => __('List - Single choice - Search input'),
                 'widget'    => SearchDropdown::WIDGET_ID,
                 'range'     => OntologyRdfs::RDFS_RESOURCE,
-                'multiple'  => GenerisRdf::GENERIS_FALSE
+                'multiple'  => GenerisRdf::GENERIS_FALSE,
+                'dep-on-prop' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
             ],
             'calendar' => [
                 'title'     => __('Calendar'),

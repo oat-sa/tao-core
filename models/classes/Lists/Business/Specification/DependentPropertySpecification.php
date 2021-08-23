@@ -25,16 +25,11 @@ namespace oat\tao\model\Lists\Business\Specification;
 use core_kernel_classes_Property;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Specification\PropertySpecificationInterface;
-use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
 
 class DependentPropertySpecification extends ConfigurableService implements PropertySpecificationInterface
 {
     public function isSatisfiedBy(core_kernel_classes_Property $property): bool
     {
-        $propertyDependsOnProperty = $property->getProperty(
-            RemoteSourcedListOntology::PROPERTY_DEPENDS_ON_PROPERTY
-        );
-
-        return $property->getOnePropertyValue($propertyDependsOnProperty) !== null;
+        return $property->getDependsOnProperty() !== null;
     }
 }
