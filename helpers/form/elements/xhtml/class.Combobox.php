@@ -45,7 +45,7 @@ class tao_helpers_form_elements_xhtml_Combobox extends tao_helpers_form_elements
     {
         $returnValue = $this->renderLabel();
 
-        $returnValue .= "<select name='{$this->name}' id='{$this->name}' ";
+        $returnValue .= "<select name='{$this->name}' id='{$this->name}' data-testid='{$this->getDescription()}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= '>';
         if (!empty($this->emptyOption)) {

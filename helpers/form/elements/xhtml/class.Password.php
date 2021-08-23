@@ -56,21 +56,21 @@ class tao_helpers_form_elements_xhtml_Password extends tao_helpers_form_elements
     public function render()
     {
         $returnValue = (string) '';
-        
+
         // custom label rendering
         if (! isset($this->attributes['noLabel'])) {
             $returnValue .= "<label class='form_desc' for='{$this->name}'>" . _dh($this->getDescription()) . (strlen($this->value) == 0 ? '' : ' (change)') . "</label>";
         } else {
             unset($this->attributes['noLabel']);
         }
-        $returnValue .= "<input type='password' name='{$this->name}[]' id='{$this->name}' ";
+        $returnValue .= "<input type='password' name='{$this->name}[]' id='{$this->name}' data-testid='{$this->getDescription()}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value=""  /><br /><br />';
         $returnValue .= "<label class='form_desc'></label>";
-        $returnValue .= "<input type='password' name='{$this->name}[]' id='{$this->name}' ";
+        $returnValue .= "<input type='password' name='{$this->name}[]' id='{$this->name}' data-testid='{$this->getDescription()}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value=""  />';
-        
+
         return (string) $returnValue;
     }
 
@@ -84,10 +84,10 @@ class tao_helpers_form_elements_xhtml_Password extends tao_helpers_form_elements
     public function getEvaluatedValue()
     {
         $returnValue = null;
-        
+
         $arr = $this->getRawValue();
         $returnValue = core_kernel_users_Service::getPasswordHash()->encrypt(array_shift($arr));
-        
+
         return $returnValue;
     }
 }
