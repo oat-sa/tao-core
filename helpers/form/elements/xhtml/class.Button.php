@@ -69,15 +69,15 @@ class tao_helpers_form_elements_xhtml_Button extends tao_helpers_form_elements_B
         $returnValue = $this->renderLabel();
 
         $content = _dh($this->value);
-        
+
         if ($this->icon) {
             $content = $this->iconPosition === 'before' ? $this->icon . ' ' . $content : $content . ' ' . $this->icon;
         }
-        
+
         $returnValue .= "<button type='{$this->type}' name='{$this->name}' id='{$this->name}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value="' . _dh($this->value) . '">' . $content . '</button>';
-        
+
         return $returnValue;
     }
 
@@ -96,5 +96,15 @@ class tao_helpers_form_elements_xhtml_Button extends tao_helpers_form_elements_B
         ) {
             $this->type = $type;
         }
+    }
+
+    /**
+     * Sets data-testid attribute
+     *
+     * @param string $testId
+     */
+    public function setTestId($testId)
+    {
+        $this->setAttribute('data-testid', $testId);
     }
 }

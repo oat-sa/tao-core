@@ -43,11 +43,11 @@ class tao_helpers_form_elements_xhtml_Radiobox extends tao_helpers_form_elements
     public function render()
     {
         $returnValue = $this->renderLabel();
-        
+
         $i = 0;
         $returnValue .= '<div class="form_radlst">';
         foreach ($this->options as $optionId => $optionLabel) {
-            $returnValue .= "<input type='radio' name='{$this->name}' id='{$this->name}_{$i}' value='{$optionId}' ";
+            $returnValue .= "<input type='radio' name='{$this->name}' id='{$this->name}_{$i}' value='{$optionId}' data-testid='{$this->getDescription()}' ";
             $returnValue .= $this->renderAttributes();
             if ($this->value == $optionId) {
                 $returnValue .= " checked='checked' ";
@@ -56,7 +56,7 @@ class tao_helpers_form_elements_xhtml_Radiobox extends tao_helpers_form_elements
             $i++;
         }
         $returnValue .= "</div>";
-        
+
         return (string) $returnValue;
     }
 }
