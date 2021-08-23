@@ -24,6 +24,7 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -35,6 +36,7 @@ use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\tasks\IndexTrait;
 use oat\tao\model\validator\PropertyChangedValidator;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
@@ -410,12 +412,20 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $property->setMultiple($propertyMap[$type]['multiple'] == GenerisRdf::GENERIS_TRUE);
         }
 
-        // set depends on property value
-        $property->removePropertyValues($this->getProperty(RemoteSourcedListOntology::PROPERTY_DEPENDS_ON_PROPERTY));
-        if (!empty($dependsOnProperty)) {
-            $property->setDependsOnProperty($this->getProperty($dependsOnProperty));
-        } elseif (isset($propertyMap[$type]) && !empty($propertyMap[$type]['dep-on-prop'])) {
-            $property->setDependsOnProperty($this->getProperty($propertyMap[$type]['dep-on-prop']));
+        $isListsDependencyEnabled = $this->getFeatureFlagChecker()->isEnabled(
+            FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
+        );
+
+        if ($isListsDependencyEnabled) {
+            $property->removePropertyValues(
+                $this->getProperty(RemoteSourcedListOntology::PROPERTY_DEPENDS_ON_PROPERTY)
+            );
+
+            if (!empty($dependsOnProperty)) {
+                $property->setDependsOnProperty($this->getProperty($dependsOnProperty));
+            } elseif (isset($propertyMap[$type]) && !empty($propertyMap[$type]['dep-on-prop'])) {
+                $property->setDependsOnProperty($this->getProperty($propertyMap[$type]['dep-on-prop']));
+            }
         }
     }
 
@@ -551,5 +561,10 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $advancedSearchChecker = $this->getServiceLocator()->get(AdvancedSearchChecker::class);
 
         return $advancedSearchChecker->isEnabled();
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 }
