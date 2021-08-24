@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint134\n"
-"PO-Revision-Date: 2020-07-31T09:50:50\n"
+"PO-Revision-Date: 2021-08-24T09:25:46\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: fr-FR\n"
+"Language: fr-Fr\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: fr-FR\n"
+"targetLanguage: fr-Fr\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
@@ -371,11 +371,11 @@ msgstr "Calculatrice"
 msgid "Calendar"
 msgstr "Calendrier"
 
-msgid "cancel"
-msgstr "annuler"
-
 msgid "Cancel"
 msgstr "Annuler"
+
+msgid "cancel"
+msgstr "annuler"
 
 msgid "cancel the action"
 msgstr "annuler l'action"
@@ -464,6 +464,12 @@ msgstr ""
 
 msgid "Clear the stored variables"
 msgstr "Effacer les variables enregistrées"
+
+msgid "Click to reload."
+msgstr "Cliquez pour recharger."
+
+msgid "Click to start"
+msgstr "Cliquez pour démarrer"
 
 msgid "Close"
 msgstr "Fermer"
@@ -570,10 +576,10 @@ msgstr "Données importées avec succès."
 msgid "Data imported. Some records are invalid."
 msgstr "Données importées. Certains enregistrements sont invalides."
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Langue des données"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Langue des données"
 
 msgid "Data not imported. All records are invalid."
@@ -987,10 +993,10 @@ msgstr "Ressource %s importée"
 msgid "impossible to update task status"
 msgstr "Impossible de mettre à jour l'état de la tâche"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "En cours"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "En cours"
 
 msgid "Inclusive (AND)"
@@ -1407,11 +1413,11 @@ msgstr "de"
 msgid "Off"
 msgstr "Inactif"
 
-msgid "OK"
-msgstr "OK"
-
 msgid "Ok"
 msgstr "Ok"
+
+msgid "OK"
+msgstr "OK"
 
 msgid "Old Password"
 msgstr "Ancien mot de passe"
@@ -1581,6 +1587,9 @@ msgstr "Publication"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
 msgstr "Libérer le verrou pourrait causer la perte du travail en cours par %s."
+
+msgid "Reload"
+msgstr ""
 
 msgid "Remind"
 msgstr "Rappeller"
@@ -1848,6 +1857,9 @@ msgstr ""
 
 msgid "Square root"
 msgstr "Racine carrée"
+
+msgid "Start"
+msgstr ""
 
 msgid "Start of document reached. Continuing from the end."
 msgstr "Début du document atteint. Continuation depuis la fin."
@@ -2182,10 +2194,10 @@ msgstr "Opérateur unaire +"
 msgid "Unary operator -"
 msgstr "Opérateur unaire -"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Décocher tout"
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Décocher tout"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2354,6 +2366,9 @@ msgstr "Mauvaise extension de paramètre affichée"
 
 msgid "Yes"
 msgstr "Oui"
+
+msgid "You are encountering a prolonged connectivity loss."
+msgstr ""
 
 msgid "You are not allowed to write in the class %s"
 msgstr "Vous n'avez pas le droit d'écrire dans la classe %s."
