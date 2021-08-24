@@ -561,15 +561,19 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
         );
 
-        if ($isListsDependencyEnabled) {
-            if ($dependsOnPropertyUri === null) {
-                $property->removePropertyValues(
-                    $this->getProperty(RemoteSourcedListOntology::PROPERTY_DEPENDS_ON_PROPERTY)
-                );
-            } else {
-                $property->setDependsOnProperty($this->getProperty($dependsOnPropertyUri));
-            }
+        if (!$isListsDependencyEnabled) {
+            return;
         }
+
+        if ($dependsOnPropertyUri === null) {
+            $property->removePropertyValues(
+                $this->getProperty(RemoteSourcedListOntology::PROPERTY_DEPENDS_ON_PROPERTY)
+            );
+
+            return;
+        }
+
+        $property->setDependsOnProperty($this->getProperty($dependsOnPropertyUri));
     }
 
     private function isElasticSearchEnabled(): bool
