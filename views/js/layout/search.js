@@ -36,7 +36,9 @@ define([
     const searchComponent = {
         container: null,
         searchStore: null,
-        init() {
+        panelId: '',
+        init(panelId) {
+            searchComponent.panelId = panelId;
             store('search')
                 .then(store => {
                     store.clear();
@@ -55,7 +57,7 @@ define([
      * and ctrl + k shortcut
      */
     function initializeEvents() {
-        searchComponent.container = $('.action-bar .search-area');
+        searchComponent.container = searchComponent.panelId ? $(`#panel-${searchComponent.panelId} .action-bar .search-area`) : $('.action-bar .search-area');
         const $searchBtn = $('button.icon-find', searchComponent.container);
         const $searchInput = $('input', searchComponent.container);
         const $resultsBtn = $('button.icon-ul', searchComponent.container);

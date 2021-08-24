@@ -148,7 +148,7 @@ define([
 
 
                 //search component
-                search.init();
+                search.init(section.id);
 
                 switch (section.type) {
                     case 'tree':
