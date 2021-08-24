@@ -64,18 +64,27 @@ class DependsOnPropertyRepository extends ConfigurableService
 
         /** @var core_kernel_classes_Class $class */
         $class = $property->getDomain()->get(0);
+        $propertyUri = $property->getUri();
 
         /** @var core_kernel_classes_Property $property */
         foreach ($this->getProperties($class) as $classProperty) {
             if (
-                $property->getUri() === $classProperty->getUri()
+                $propertyUri === $classProperty->getUri()
                 || !$this->getRemoteListPropertySpecification()->isSatisfiedBy($classProperty)
-                || $this->getDependentPropertySpecification()->isSatisfiedBy($classProperty)
             ) {
                 continue;
             }
 
-            $collection->append(new DependsOnProperty($classProperty));
+            if (!$this->getDependentPropertySpecification()->isSatisfiedBy($classProperty)) {
+                $collection->append(new DependsOnProperty($classProperty));
+
+                continue;
+            }
+
+            // @TODO Check for parent's (current property) children outside the foreach statement
+            if ($propertyUri === $classProperty->getDependsOnProperty()->getUri()) {
+                return new DependsOnPropertyCollection();
+            }
         }
 
         return $collection;
