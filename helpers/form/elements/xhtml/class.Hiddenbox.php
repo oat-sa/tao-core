@@ -43,10 +43,10 @@ class tao_helpers_form_elements_xhtml_Hiddenbox extends tao_helpers_form_element
     public function render()
     {
         $returnValue = $this->renderLabel();
-        $returnValue .= "<input type='password' name='{$this->name}' id='{$this->name}' ";
+        $returnValue .= "<input type='password' name='{$this->name}' id='{$this->name}' data-testid='{$this->getDescription()}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value="' . _dh($this->value) . '"  />';
-        
+
         return (string) $returnValue;
     }
 }

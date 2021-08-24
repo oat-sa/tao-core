@@ -15,20 +15,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2018-2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\model\search\tasks;
 
+use common_exception_Error;
 use common_exception_MissingParameter;
-use common_report_Report as Report;
+use oat\oatbox\reporting\Report;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\search\index\IndexIteratorFactory;
-use oat\tao\model\search\Search;
+use oat\tao\model\search\SearchProxy;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -50,11 +51,8 @@ class UpdateClassInIndex implements Action, ServiceLocatorAwareInterface, TaskAw
     }
 
     /**
-     * @param $params
-     *
-     * @return Report
-     *
      * @throws common_exception_MissingParameter
+     * @throws common_exception_Error
      */
     public function __invoke($params): Report
     {
@@ -62,7 +60,8 @@ class UpdateClassInIndex implements Action, ServiceLocatorAwareInterface, TaskAw
             throw new common_exception_MissingParameter();
         }
 
-        $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
+        /** @var SearchProxy $searchService */
+        $searchService = $this->getServiceLocator()->get(SearchProxy::SERVICE_ID);
         $numberOfIndexedResources = $searchService->index(
             $this->getIndexIteratorFactory()->create($params)
         );

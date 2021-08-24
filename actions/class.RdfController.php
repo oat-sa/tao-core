@@ -21,21 +21,25 @@
  *               2013-2021 (update and modification) Open Assessment Technologies SA;
  */
 
+use oat\oatbox\event\EventManager;
 use oat\oatbox\user\User;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
-use oat\tao\model\accessControl\ActionAccessControl;
+use oat\tao\model\event\ResourceMovedEvent;
+use oat\tao\model\search\tasks\IndexTrait;
 use oat\tao\model\accessControl\PermissionChecker;
 use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\lock\LockManager;
 use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
+use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\resources\ResourceService;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
 use tao_helpers_form_FormContainer as FormContainer;
+use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 
 /**
  * The TaoModule is an abstract controller,
@@ -50,6 +54,7 @@ use tao_helpers_form_FormContainer as FormContainer;
 abstract class tao_actions_RdfController extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
+    use IndexTrait;
 
     /** @var SignatureValidator */
     protected $signatureValidator;
@@ -416,7 +421,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $signature = $this->createFormSignature();
 
         $classUri = $class->getUri();
-        $hasWriteAccess = $this->hasWriteAccess($classUri) && $this->hasWriteAccessToAction('editClassLabel');
+        $hasWriteAccess = $this->hasWriteAccess($classUri) && $this->hasWriteAccessToAction(__FUNCTION__);
 
         $editClassLabelForm = new tao_actions_form_EditClassLabel(
             $class,
@@ -446,7 +451,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
     /**
      * Add an instance of the selected class
+     *
      * @requiresRight id WRITE
+     * @requiresRight classUri WRITE
      *
      * @throws SecurityException
      * @throws InconsistencyConfigException
@@ -496,6 +503,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     /**
      * Add a subclass to the currently selected class
      * @requiresRight id WRITE
+     * @requiresRight classUri WRITE
+     *
      * @throws Exception
      * @throws common_exception_BadRequest
      */
@@ -949,6 +958,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      *
      * @throws common_exception_BadRequest
      * @throws common_exception_MissingParameter
+     *
+     * @requiresRight id WRITE
      */
     public function delete()
     {
@@ -1115,6 +1126,47 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     }
 
     /**
+     * Copy of \tao_actions_PropertiesAuthoring::addClassProperty to split access between extensions
+     *
+     * @requiresRight id WRITE
+     */
+    public function addClassProperty(AddClassPropertyFormFactory $addClassPropertyFormFactory): void
+    {
+        if (!$this->isXmlHttpRequest()) {
+            throw new common_exception_BadRequest('wrong request mode');
+        }
+
+        $myForm = $addClassPropertyFormFactory->add(
+            $this->getPsrRequest(),
+            $this->hasWriteAccessToAction(__FUNCTION__)
+        );
+
+        $this->setData('data', $myForm->renderElements());
+        $this->setView('blank.tpl', 'tao');
+    }
+
+    /**
+     * Copy of \tao_actions_PropertiesAuthoring::removeClassProperty to split access between extensions
+     *
+     * @requiresRight classUri WRITE
+     * @throws common_Exception
+     */
+    public function removeClassProperty(RemoveClassPropertyService $removeClassPropertyService): void
+    {
+        if (!$this->isXmlHttpRequest()) {
+            throw new common_exception_BadRequest('wrong request mode');
+        }
+
+        $success = $removeClassPropertyService->remove($this->getPsrRequest());
+
+        if ($success) {
+            $this->returnJson(['success' => true]);
+        } else {
+            $this->returnError(__('Unable to remove the property.'));
+        }
+    }
+
+    /**
      * Test whenever the current user has "WRITE" access to the specified id
      *
      * @param string $resourceId
@@ -1126,11 +1178,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $permissionChecker = $this->getServiceLocator()->get(PermissionChecker::class);
 
         return $permissionChecker->hasWriteAccess($resourceId);
-    }
-
-    protected function hasWriteAccessToAction(string $action, ?User $user = null): bool
-    {
-        return $this->getActionAccessControl()->hasWriteAccess(static::class, $action, $user);
     }
 
     /**
@@ -1187,7 +1234,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             throw new InvalidArgumentException(sprintf('Instance "%s" cannot be moved to another root class', $destinationClass->getUri()));
         }
 
-        list($statuses, $instances, $classes) = $this->getInstancesList($ids);
+        [$statuses, $instances, $classes] = $this->getInstancesList($ids);
         $movableInstances = $this->getInstancesToMove($classes, $instances, $statuses);
 
         $statuses = $this->move($destinationClass, $movableInstances, $statuses);
@@ -1299,6 +1346,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                     $movableInstance->getUri(),
                     $destinationClass->getUri()
                 );
+
+                $this->getEventManager()->trigger(new ResourceMovedEvent($movableInstance, $destinationClass));
             } else {
                 $statuses[$movableInstance->getUri()]['message'] = sprintf('An error has occurred while persisting instance "%s"', $movableInstance->getUri());
             }
@@ -1382,8 +1431,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
     }
 
-    private function getActionAccessControl(): ActionAccessControl
+    private function getEventManager(): EventManager
     {
-        return $this->getServiceLocator()->get(ActionAccessControl::SERVICE_ID);
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
     }
 }

@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -24,37 +24,28 @@ declare(strict_types=1);
 
 namespace oat\tao\scripts\install;
 
-use common_persistence_sql_Driver as SqlDriver;
-use common_persistence_SqlPersistence as SqlPersistence;
-use common_report_Report as Report;
+use oat\oatbox\reporting\Report;
 use Doctrine\DBAL\Schema\Schema;
-use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\extension\InstallAction;
+use oat\generis\persistence\PersistenceManager;
+use common_persistence_SqlPersistence as SqlPersistence;
 use oat\tao\model\Lists\DataAccess\Repository\RdsValueCollectionRepository;
 
 class CreateRdsListStore extends InstallAction
 {
     public function __invoke($params = [])
     {
-        $persistence = $this->getPersistence();
-
-        /** @var SqlDriver $driver */
-        $driver = $persistence->getDriver();
-
-        /** @var Schema $schema */
-        $schema     = $driver->getSchemaManager()->createSchema();
-        $fromSchema = clone $schema;
-
+        [$fromSchema, $schema] = $this->getSchemas();
         $this->create($schema);
-
-        $queries = $persistence->getPlatForm()->getMigrateSchemaSql($fromSchema, $schema);
-
-        foreach ($queries as $query) {
-            $persistence->exec($query);
-        }
+        $this->createListItemsDependenciesTable($schema);
+        $this->migrate($fromSchema, $schema);
 
         return Report::createSuccess(
-            sprintf('Table "%s" successfully created', RdsValueCollectionRepository::TABLE_LIST_ITEMS)
+            sprintf(
+                'Tables "%s" and "%s" successfully created',
+                RdsValueCollectionRepository::TABLE_LIST_ITEMS,
+                RdsValueCollectionRepository::TABLE_LIST_ITEMS_DEPENDENCIES
+            )
         );
     }
 
@@ -62,10 +53,26 @@ class CreateRdsListStore extends InstallAction
     {
         $listItemsTable = $schema->createTable(RdsValueCollectionRepository::TABLE_LIST_ITEMS);
 
-        $listItemsTable->addColumn(RdsValueCollectionRepository::FIELD_ITEM_ID, 'integer', ['autoincrement' => true]);
-        $listItemsTable->addColumn(RdsValueCollectionRepository::FIELD_ITEM_LABEL, 'string', ['length' => 255]);
-        $listItemsTable->addColumn(RdsValueCollectionRepository::FIELD_ITEM_URI, 'string', ['length' => 255]);
-        $listItemsTable->addColumn(RdsValueCollectionRepository::FIELD_ITEM_LIST_URI, 'string', ['length' => 255]);
+        $listItemsTable->addColumn(
+            RdsValueCollectionRepository::FIELD_ITEM_ID,
+            'integer',
+            ['autoincrement' => true]
+        );
+        $listItemsTable->addColumn(
+            RdsValueCollectionRepository::FIELD_ITEM_LABEL,
+            'string',
+            ['length' => 255]
+        );
+        $listItemsTable->addColumn(
+            RdsValueCollectionRepository::FIELD_ITEM_URI,
+            'string',
+            ['length' => 255]
+        );
+        $listItemsTable->addColumn(
+            RdsValueCollectionRepository::FIELD_ITEM_LIST_URI,
+            'string',
+            ['length' => 255]
+        );
 
         $listItemsTable->setPrimaryKey([RdsValueCollectionRepository::FIELD_ITEM_ID]);
 
@@ -74,10 +81,64 @@ class CreateRdsListStore extends InstallAction
         $listItemsTable->addUniqueIndex([RdsValueCollectionRepository::FIELD_ITEM_URI]);
     }
 
+    private function getSchemas(): array
+    {
+        /** @var Schema $schema */
+        $schema = $this->getPersistence()->getDriver()->getSchemaManager()->createSchema();
+        $fromSchema = clone $schema;
+
+        return [$fromSchema, $schema];
+    }
+
+    private function createListItemsDependenciesTable(Schema $schema): void
+    {
+        $listItemsDependenciesTable = $schema->createTable(
+            RdsValueCollectionRepository::TABLE_LIST_ITEMS_DEPENDENCIES
+        );
+
+        $listItemsDependenciesTable->addColumn(
+            RdsValueCollectionRepository::FIELD_LIST_ITEM_ID,
+            'integer'
+        );
+        $listItemsDependenciesTable->addColumn(
+            RdsValueCollectionRepository::FIELD_LIST_ITEM_FIELD,
+            'string',
+            ['length' => 255]
+        );
+        $listItemsDependenciesTable->addColumn(
+            RdsValueCollectionRepository::FIELD_LIST_ITEM_VALUE,
+            'string',
+            ['length' => 255]
+        );
+
+        $listItemsDependenciesTable->addIndex([RdsValueCollectionRepository::FIELD_LIST_ITEM_ID]);
+        $listItemsDependenciesTable->addIndex([RdsValueCollectionRepository::FIELD_LIST_ITEM_FIELD]);
+        $listItemsDependenciesTable->addIndex([RdsValueCollectionRepository::FIELD_LIST_ITEM_VALUE]);
+
+        $listItemsDependenciesTable->addForeignKeyConstraint(
+            RdsValueCollectionRepository::TABLE_LIST_ITEMS,
+            [RdsValueCollectionRepository::FIELD_LIST_ITEM_ID],
+            [RdsValueCollectionRepository::FIELD_ITEM_ID]
+        );
+    }
+
+    private function migrate(Schema $fromSchema, Schema $schema): void
+    {
+        $queries = $this->getPersistence()->getPlatForm()->getMigrateSchemaSql($fromSchema, $schema);
+
+        foreach ($queries as $query) {
+            $this->getPersistence()->exec($query);
+        }
+    }
+
     private function getPersistence(): SqlPersistence
     {
-        $persistenceManager = $this->serviceLocator->get(PersistenceManager::SERVICE_ID);
+        if (!isset($this->persistence)) {
+            $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
 
-        return $persistenceManager->getPersistenceById('default');
+            $this->persistence = $persistenceManager->getPersistenceById('default');
+        }
+
+        return $this->persistence;
     }
 }

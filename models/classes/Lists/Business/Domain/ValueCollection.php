@@ -109,7 +109,8 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
         return new Value(
             $value->getId(),
             $value->getUri(),
-            $this->createNewValueLabel()
+            $this->createNewValueLabel(),
+            $value->getDependencyUri()
         );
     }
 

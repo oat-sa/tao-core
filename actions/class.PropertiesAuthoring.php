@@ -20,13 +20,11 @@
 
 declare(strict_types=1);
 
-use oat\generis\model\data\event\ClassPropertyDeletedEvent;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
-use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\helpers\form\ValidationRuleRegistry;
@@ -37,7 +35,8 @@ use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\tasks\IndexTrait;
 use oat\tao\model\validator\PropertyChangedValidator;
-use oat\tao\model\search\Search;
+use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
+use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 
 /**
  * Regrouping all actions related to authoring
@@ -84,93 +83,40 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
     /**
      * Render the add property sub form.
-     * @throws Exception
-     * @throws common_exception_BadRequest
-     * @return void
+     *
      * @requiresRight id WRITE
      */
-    public function addClassProperty(): void
+    public function addClassProperty(AddClassPropertyFormFactory $addClassPropertyFormFactory): void
     {
         if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
 
-        $class = $this->getClass($this->getRequestParameter('id'));
-
-        if ($this->hasRequestParameter('index')) {
-            $index = intval($this->getRequestParameter('index'));
-        } else {
-            $index = count($class->getProperties(false)) + 1;
-        }
-
-        $options = [
-            'index' => $index,
-            'disableIndexChanges' => $this->isElasticSearchEnabled()
-        ];
-
-        $newProperty = $class->createProperty('Property_' . $index);
-
-        $propFormContainer = new tao_actions_form_SimpleProperty($class, $newProperty, $options);
-        $myForm = $propFormContainer->getForm();
+        $myForm = $addClassPropertyFormFactory->add(
+            $this->getPsrRequest(),
+            $this->hasWriteAccessToAction(__FUNCTION__)
+        );
 
         $this->setData('data', $myForm->renderElements());
         $this->setView('blank.tpl', 'tao');
     }
 
-
     /**
      * Render the add property sub form.
-     * @throws Exception
-     * @throws common_exception_BadRequest
-     * @return void
+     *
      * @requiresRight classUri WRITE
+     * @throws common_Exception
      */
-    public function removeClassProperty(): void
+    public function removeClassProperty(RemoveClassPropertyService $removeClassPropertyService): void
     {
-        $success = false;
         if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
 
-        $class = $this->getClass($this->getRequestParameter('classUri'));
-        $property = $this->getProperty($this->getRequestParameter('uri'));
-        $propertyType = $this->getPropertyType($property);
-
-        if ($propertyType !== null) {
-            $propertyName = $this->getPropertyRealName($property->getLabel(), $propertyType->getUri());
-            $this->getEventManager()->trigger(new ClassPropertyRemovedEvent($class, $propertyName));
-        }
-
-        //delete property mode
-        foreach ($class->getProperties() as $classProperty) {
-            if ($classProperty->equals($property)) {
-                $indexes = $property->getPropertyValues($this->getProperty(OntologyIndex::PROPERTY_INDEX));
-                //delete property and the existing values of this property
-                if ($property->delete(true)) {
-                    $this->getEventManager()->trigger(
-                        new ClassPropertyDeletedEvent(
-                            $class,
-                            [
-                                'propertyUri' => $property->getUri()
-                            ]
-                        )
-                    );
-                    //delete index linked to the property
-                    foreach ($indexes as $indexUri) {
-                        $index = $this->getResource($indexUri);
-                        $index->delete(true);
-                    }
-                    $success = true;
-                    break;
-                }
-            }
-        }
+        $success = $removeClassPropertyService->remove($this->getPsrRequest());
 
         if ($success) {
-            $this->returnJson([
-                'success' => true
-            ]);
-            return;
+            $this->returnJson(['success' => true]);
         } else {
             $this->returnError(__('Unable to remove the property.'));
         }
@@ -358,10 +304,46 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 //save all properties values
                 if (isset($data['properties'])) {
                     $this->saveProperties($data);
+                    $this->populateSubmittedProperties($myForm, $data);
                 }
             }
         }
         return $myForm;
+    }
+
+    private function populateSubmittedProperties($myForm, $data): void
+    {
+        if (empty($data['properties'])) {
+            return;
+        }
+        $elementRangeArray = [];
+        $groups = $myForm->getGroups();
+        
+        foreach ($data['properties'] as $prop) {
+            if (empty($prop['range']) || empty($prop['uri'])) {
+                continue;
+            }
+
+            $elementUri = $groups['property_' . $prop['uri']]['elements'][0] ?? null;
+
+            if (isset($elementUri)) {
+                $index = strstr($elementUri, '_', true);
+                $elementRangeArray[$index . '_range_list'] = $prop['range'];
+            }
+        }
+
+        $elements = [];
+        foreach ($myForm->getElements() as $element) {
+            if (
+                $element instanceof tao_helpers_form_elements_xhtml_Combobox
+                && array_key_exists($element->getName(), $elementRangeArray)
+            ) {
+                $element->setValue($elementRangeArray[$element->getName()]);
+            }
+            $elements[] = $element;
+        }
+
+        $myForm->setElements($elements);
     }
 
     /**

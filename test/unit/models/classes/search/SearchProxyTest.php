@@ -106,11 +106,6 @@ class SearchProxyTest extends TestCase
 
     public function testSearchByIdentifier(): void
     {
-        $this->advancedSearchCheckerMock
-            ->expects($this->once())
-            ->method('isEnabled')
-            ->willReturn(false);
-
         $this->identifierSearcher
             ->method('search')
             ->willReturn(new ResultSet([], 1));
@@ -129,10 +124,6 @@ class SearchProxyTest extends TestCase
             ->expects($this->once())
             ->method('isEnabled')
             ->willReturn(false);
-
-        $this->identifierSearcher
-            ->method('search')
-            ->willReturn(new ResultSet([], 0));
 
         $this->defaultSearch
             ->method('query')

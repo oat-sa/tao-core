@@ -32,7 +32,7 @@ use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements_Checkbox
 {
     use XhtmlRenderingTrait;
-        
+
     /**
      * Short description of method feed
      *
@@ -60,7 +60,7 @@ class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements
     public function render()
     {
         $returnValue = $this->renderLabel();
-        
+
         $checkAll = false;
         if (isset($this->attributes['checkAll'])) {
             $checkAll = (bool) $this->attributes['checkAll'];
@@ -79,7 +79,7 @@ class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements
             }
 
             $returnValue .= '<div class="col-1">';
-            $returnValue .= "<input type='checkbox' value='{$optionId}' name='{$this->name}_{$i}' id='{$this->name}_{$i}' ";
+            $returnValue .= "<input type='checkbox' value='{$optionId}' name='{$this->name}_{$i}' id='{$this->name}_{$i}' data-testid='{$this->getDescription()}_{$i}' ";
             $returnValue .= $this->renderAttributes();
 
             if ($readOnly) {
@@ -104,7 +104,7 @@ class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements
             $i++;
         }
         $returnValue .= "</div>";
-        
+
         // add a small link
         if ($checkAll) {
             if ($checked == (count($this->options) - count($readOnlyOptions))) {
@@ -113,7 +113,7 @@ class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements
                 $returnValue .= "<span class='checker-container'><a id='{$this->name}_checker' class='box-checker' href='#'>" . __('Check All') . "</a></span>";
             }
         }
-        
+
         return (string) $returnValue;
     }
 

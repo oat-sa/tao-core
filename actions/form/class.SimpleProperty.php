@@ -22,6 +22,8 @@
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
 use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\tree\TreeService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
@@ -183,7 +185,15 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         $this->form->addElement($propUriElt);
         $elementNames[] = $propUriElt;
 
-        if (count($elementNames) > 0) {
+        $element = $this->addDependsOnProperty($index, $property);
+
+        if ($element) {
+            $this->form->addElement($element);
+
+            $elementNames[] = $element->getName();
+        }
+
+        if (!empty($elementNames)) {
             $groupTitle = $this->getGroupTitle($property);
             $this->form->createGroup("property_{$encodedUri}", $groupTitle, $elementNames);
         }
@@ -219,6 +229,18 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         return $element;
     }
 
+    private function addDependsOnProperty(
+        int $index,
+        core_kernel_classes_Property $property
+    ): ?tao_helpers_form_FormElement {
+        return $this->getDependsOnPropertyFormFieldFactory()->create(
+            [
+                'index' => $index,
+                'property' => $property,
+            ]
+        );
+    }
+
     /**
      * @param $range
      *
@@ -247,9 +269,13 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
             }
         }
 
-        $listOptions['new'] = ' + ' . __('Add / Edit lists');
         $element->setOptions($listOptions);
 
         return $element;
+    }
+
+    private function getDependsOnPropertyFormFieldFactory(): DependsOnPropertyFormFieldFactory
+    {
+        return ServiceManager::getServiceManager()->get(DependsOnPropertyFormFieldFactory::class);
     }
 }

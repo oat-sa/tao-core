@@ -24,6 +24,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\log\LoggerService;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\event\DataAccessControlChangedEvent;
 use oat\tao\model\listener\DataAccessControlChangedListener;
 use oat\tao\model\search\tasks\UpdateDataAccessControlInIndex;
@@ -43,6 +44,7 @@ class DataAccessControlChangedListenerTest extends TestCase
 
     /** @var MockObject|Ontology */
     private $ontology;
+    private $advancedSearchChecker;
 
     protected function setUp(): void
     {
@@ -53,12 +55,15 @@ class DataAccessControlChangedListenerTest extends TestCase
         $this->ontology = $this->createMock(Ontology::class);
 
         $this->queueDispatcher = $this->createMock(QueueDispatcherInterface::class);
+        $this->advancedSearchChecker = $this->createMock(AdvancedSearchChecker::class);
+
         $this->sut->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
                     QueueDispatcherInterface::SERVICE_ID => $this->queueDispatcher,
                     LoggerService::SERVICE_ID => $this->logger,
                     Ontology::SERVICE_ID => $this->ontology,
+                    AdvancedSearchChecker::class => $this->advancedSearchChecker,
                 ]
             )
         );
@@ -71,6 +76,7 @@ class DataAccessControlChangedListenerTest extends TestCase
     {
         $documentUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
         $resource = $this->createMock(core_kernel_classes_Resource::class);
+        $this->advancedSearchChecker->method('isEnabled')->willReturn(true);
 
         $resource->expects($this->once())->method('getUri')
             ->willReturn($documentUri);
@@ -118,6 +124,7 @@ class DataAccessControlChangedListenerTest extends TestCase
     {
         $documentUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
         $resource = $this->createMock(core_kernel_classes_Resource::class);
+        $this->advancedSearchChecker->method('isEnabled')->willReturn(true);
 
         $resource->expects($this->never())->method('getUri');
         $resource->expects($this->once())->method('isClass')

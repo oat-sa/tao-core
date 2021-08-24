@@ -60,6 +60,7 @@ use oat\tao\scripts\install\RegisterValueCollectionServices;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetContainerService;
 use oat\tao\scripts\install\SetDefaultCSPHeader;
+use oat\tao\scripts\install\SetImageAligmentConfig;
 use oat\tao\scripts\install\SetLocaleNumbersConfig;
 use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\SetServiceState;
@@ -159,7 +160,8 @@ return [
             RegisterTaoUpdateEventListener::class,
             RegisterActionAccessControl::class,
             RegisterRtlLocales::class,
-            RegisterSearchServices::class
+            RegisterSearchServices::class,
+            SetImageAligmentConfig::class
         ],
     ],
     'update' => Updater::class,
@@ -231,9 +233,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '3.4.0-sprint156',
+        'TAO_VERSION' => '2021.09',
         #TAO version label
-        'TAO_VERSION_NAME' => '3.4.0-sprint156',
+        'TAO_VERSION_NAME' => '2021.09',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable

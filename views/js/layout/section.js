@@ -77,7 +77,7 @@ define([
                 var $sectionOpener = $(this);
                 var $link = $sectionOpener.children('a');
                 var id = $link.attr('href').replace('#panel-', '');
-                var $panel = $('#panel-' + id);
+                var $panel = $(`#panel-${id}`);
                 var isActive = defaultSection ? defaultSection === id : index === 0;
 
                 $panel.removeClass('hidden');
@@ -97,8 +97,8 @@ define([
             });
 
             //to be sure at least one is active, for example when the given default section does not exists
-            if(_(this.sections).where({'active' : true }).size() === 0){
-                for(var id in this.sections){
+            if (_(this.sections).where({'active' : true }).size() === 0) {
+                for (let id in this.sections) {
                     this.sections[id].active =  true;
                     restore = false;
                     break;
@@ -141,16 +141,16 @@ define([
             $openersContainer
                 .off('click.section', 'li')
                 .on('click.section', 'li', function(e){
-                     e.preventDefault();
-                     var id = $(this).children('a').attr('href').replace('#panel-', '');
-                     var section = self.sections[id];
-                     if(!section.disabled){
-                         self.get(id).activate();
-                     }
+                    e.preventDefault();
+                    let id = $(this).children('a').attr('href').replace('#panel-', '');
+                    let section = self.sections[id];
+                    if(!section.disabled){
+                        self.get(id).activate();
+                    }
                 });
 
             //display the openers only if there is more than 1 section
-            if($('li:not(.hidden)', $openersContainer).length < 2){
+            if ($('li:not(.hidden)', $openersContainer).length < 2) {
                 $openersContainer.hide();
             } else {
                 $openersContainer.show();
@@ -168,10 +168,10 @@ define([
          * @fires SectionApi#show.section
          */
         activate : function(){
-            if(!this.selected){
+            if (!this.selected) {
                 this.current();
             }
-            if(this.options.history !== false){
+            if (this.options.history !== false) {
                 generisRouter.pushSectionState(location.href, this.selected.id, 'activate');
             }
             return this._activate();
@@ -189,7 +189,7 @@ define([
          */
         _activate : function(){
             this._show();
-            if(this.selected.activated === false){
+            if (this.selected.activated === false) {
                 this.selected.activated = true;
 
                 /**
@@ -213,10 +213,10 @@ define([
          * @fires SectionApi#show.section
          */
         show : function(){
-            if(!this.selected){
+            if (!this.selected) {
                 this.current();
             }
-            if(this.options.history !== false){
+            if (this.options.history !== false) {
                 generisRouter.pushSectionState(location.href, this.selected.id, 'show');
             }
             return this._show();
@@ -238,12 +238,12 @@ define([
             var active = _(this.sections).where({'active' : true }).first();
 
             //switch the active section if set previously
-            if(this.selected && this.selected.id !== active.id){
+            if (this.selected && this.selected.id !== active.id) {
                 _.forEach(this.sections, function(section){
                     section.active = false;
                 });
                 this.sections[this.selected.id].active = true;
-             } else {
+            } else {
                 this.current();
             }
 
@@ -292,10 +292,10 @@ define([
          * @fires SectionApi#enable.section
          */
         enable : function(){
-            if(!this.selected){
+            if (!this.selected) {
                 this.current();
             }
-            if(this.selected.disabled === true){
+            if (this.selected.disabled === true) {
                 this.selected.disabled = false;
                 this.selected.opener.removeClass('disabled');
 
@@ -316,10 +316,10 @@ define([
          * @fires SectionApi#disable.section
          */
         disable : function(){
-            if(!this.selected){
+            if (!this.selected) {
                 this.current();
             }
-            if(this.selected.disabled === false){
+            if (this.selected.disabled === false) {
                 this.selected.disabled = true;
                 this.selected.opener.addClass('disabled');
 
@@ -364,13 +364,13 @@ define([
                 $sectionPanel,
                 section;
 
-            if(!_.isObject(data)){
+            if (!_.isObject(data)) {
                 throw new TypeError("The create() method requires an object with section data as parameter.");
             }
-            if(!_.isString(data.id) || !_.isString(data.url) || !_.isString(data.name)){
+            if (!_.isString(data.id) || !_.isString(data.url) || !_.isString(data.name)) {
                 throw new TypeError("The create() method requires data with id, url and name to create a new section.");
             }
-            if(typeof data.visible === 'undefined'){
+            if (typeof data.visible === 'undefined') {
                 data.visible = true;
             }
 
@@ -378,18 +378,16 @@ define([
             section = this.selected && this.selected.id === data.id ? this.selected : undefined;
 
 
-            if(!section){
+            if (!section) {
 
                 //TODO use templates
-                $sectionPanel = $('<div id="panel-' + data.id +'" class="clear"></div>');
+                $sectionPanel = $(`<div id="panel-${data.id}" class="clear"></div>`);
                 if(data.contentBlock === true){
                     $sectionPanel.append('<section class="content-container"><ul class="plain action-bar content-action-bar horizontal-action-bar"></ul><div class="content-block"></div></section>');
                 }
-                $sectionOpener = $('<li class="small ' + (!data.visible ? 'hidden' : '') +'"><a title="'+data.name+'" data-url="'+data.url+'" href="#panel-' + data.id +'">'+data.name+'</a></li>');
+                $sectionOpener = $(`<li class="small ${  !data.visible ? 'hidden' : '' }"><a title="${data.name}" data-url="${data.url}" href="#panel-${  data.id }">${data.name}</a></li>`);
                 $openersContainer.append($sectionOpener);
                 this.scope.append($sectionPanel);
-
-
 
                 section =  {
                     id          : data.id,
@@ -405,15 +403,15 @@ define([
             section.url = section.url === data.url || data.url === undefined ? section.url : data.url;
             this.selected = section;
 
-            if(data.content){
-                if(data.contentBlock === true){
+            if (data.content) {
+                if (data.contentBlock === true) {
                     this.updateContentBlock(data.content);
                 } else {
                     section.panel.html(data.content);
                 }
 
             } else {
-                if(data.contentBlock === true){
+                if (data.contentBlock === true) {
                     this.loadContentBlock();
                 } else {
                     this.load();
@@ -435,7 +433,7 @@ define([
          */
         get : function(value){
             var section;
-            if(!_.isString(value)){
+            if (!_.isString(value)) {
                 throw new TypeError("The get() method requires a string parameter, the section id or url.");
             }
 
@@ -445,7 +443,7 @@ define([
                 this.sections[value.replace('panel-', '')] ||
                 _(this.sections).where({'url' : value }).first() ||
                 _(this.sections).where({'url' : context.root_url + value }).first();
-            if(section){
+            if (section) {
                 this.selected = section;
             } else {
                 this.current();
@@ -466,14 +464,14 @@ define([
          * @fires SectionApi#load.section
          */
         load : function load(url, data, loaded){
-            var self = this;
+            let self = this;
 
-            if(!this.selected){
+            if (!this.selected) {
                 this.current();
             }
             url = url || this.selected.url;
 
-            if(this.selected.type === 'tree'){
+            if (this.selected.type === 'tree') {
                 this.selected.panel.addClass('content-panel');
             } else {
                 this.selected.panel.removeClass('content-panel');
@@ -489,12 +487,25 @@ define([
                  */
                 self.scope.trigger('load.section', [self.selected, response]);
 
-                if(_.isFunction(loaded)){
+                if (_.isFunction(loaded)) {
                     loaded();
                 }
             });
 
             return this;
+        },
+
+        /**
+         * Clears content from the content block area.
+         **/
+        clearContentBlock: function clearContentBlock() {
+            if (!this.selected) {
+                return;
+            }
+            const $contentblock = $('.content-block', this.selected.panel);
+            if ($contentblock.length) {
+                $contentblock.empty();
+            }
         },
 
         /**
@@ -511,12 +522,12 @@ define([
         loadContentBlock : function loadContentBlock(url, data, loaded){
             var $contentblock;
 
-            if(!this.selected){
+            if (!this.selected) {
                 this.current();
             }
             url = url || this.selected.url;
 
-            if(this.selected.type === 'tree'){
+            if (this.selected.type === 'tree') {
                 this.selected.panel.addClass('content-panel');
             } else {
                 this.selected.panel.removeClass('content-panel');
@@ -524,7 +535,7 @@ define([
 
             $contentblock = $('.content-block', this.selected.panel);
 
-            if($contentblock.length){
+            if ($contentblock.length) {
 
                 //do not yet trigger event on content block load, but may be required
                 $contentblock.empty().load(url, data, loaded);
@@ -553,14 +564,13 @@ define([
 
         /**
          * Sugar to help you listen for event on sections
-         *
          * @param {String} eventName - the name of the event (without the namespace)
-         * @param {Function} cg - the event callback
+         * @param {Function} cb - the event callbacks
          * @returns {SectionApi} instance for chaining
          */
         on : function(eventName, cb){
-            var self = this;
-            this.scope.on(eventName + '.section', function(e){
+            let self = this;
+            this.scope.on(`${eventName}.section`, function() {
                 cb.apply(self, Array.prototype.slice.call(arguments, 1));
             });
             return this;
@@ -573,7 +583,7 @@ define([
          * @returns {SectionApi} instance for chaining
          */
         off : function(eventName){
-            this.scope.off(eventName + '.section');
+            this.scope.off(`${eventName  }.section`);
             return this;
         }
     };

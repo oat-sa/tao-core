@@ -15,41 +15,36 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\model\search;
 
+use core_kernel_classes_Property;
 use oat\generis\model\OntologyRdfs;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\tokenizer\ResourceTokenizer;
 use oat\tao\model\search\tokenizer\PropertyValueTokenizer;
 use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\TaoOntology;
 
 /**
- * Search Token generator to be used in Indexers
- *
  * @author Joel Bout <joel@taotesting.com>
  */
-class SearchTokenGenerator
+class SearchTokenGenerator extends ConfigurableService
 {
     use OntologyAwareTrait;
-    
+
     protected $indexMap = [];
-    
+
     protected $propertyCache = [];
 
     /**
      * returns an array of subarrays containing [index, strings]
      *
-     * @param \core_kernel_classes_Resource $resource
      * @throws \common_exception_InconsistentData
-     * @return array complex array
      */
-    public function generateTokens(\core_kernel_classes_Resource $resource)
+    public function generateTokens(\core_kernel_classes_Resource $resource): array
     {
         $tokens = [];
         foreach ($this->getProperties($resource) as $property) {
@@ -71,17 +66,17 @@ class SearchTokenGenerator
         }
         return $tokens;
     }
-    
+
     protected function getProperties(\core_kernel_classes_Resource $resource)
     {
         $classProperties = [$this->getProperty(OntologyRdfs::RDFS_LABEL)];
         foreach ($resource->getTypes() as $type) {
             $classProperties = array_merge($classProperties, $this->getPropertiesByClass($type));
         }
-        
+
         return $classProperties;
     }
-    
+
     protected function getPropertiesByClass(\core_kernel_classes_Class $type)
     {
         if (!isset($this->propertyCache[$type->getUri()])) {
@@ -90,8 +85,11 @@ class SearchTokenGenerator
         }
         return $this->propertyCache[$type->getUri()];
     }
-    
-    protected function getIndexes(\core_kernel_classes_Property $property)
+
+    /**
+     * @return OntologyIndex[]
+     */
+    protected function getIndexes(core_kernel_classes_Property $property): array
     {
         if (!isset($this->indexMap[$property->getUri()])) {
             $this->indexMap[$property->getUri()] = [];

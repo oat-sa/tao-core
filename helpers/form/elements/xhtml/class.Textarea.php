@@ -43,7 +43,7 @@ class tao_helpers_form_elements_xhtml_Textarea extends tao_helpers_form_elements
     public function render()
     {
         $returnValue = $this->renderLabel();
-        $returnValue .= "<textarea name='{$this->name}' id='{$this->name}' ";
+        $returnValue .= "<textarea name='{$this->name}' id='{$this->name}' data-testid='{$this->getDescription()}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ">" . _dh($this->value) . "</textarea>";
         return (string) $returnValue;

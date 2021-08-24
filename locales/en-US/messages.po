@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint155\n"
-"PO-Revision-Date: 2021-05-31T10:26:04\n"
+"Project-Id-Version: TAO 3.4.0-sprint157\n"
+"PO-Revision-Date: 2021-06-18T08:49:56\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
@@ -16,10 +16,10 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " AND "
+msgid " and "
 msgstr ""
 
-msgid " and "
+msgid " AND "
 msgstr ""
 
 msgid " has been deleted successfully"
@@ -452,10 +452,10 @@ msgstr ""
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
 msgid "Check-in"
@@ -471,9 +471,6 @@ msgid "Choose export format"
 msgstr ""
 
 msgid "Choose import format"
-msgstr ""
-
-msgid "City"
 msgstr ""
 
 msgid "class selected"
@@ -500,10 +497,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -513,6 +510,9 @@ msgid "Clear the date time picker"
 msgstr ""
 
 msgid "Clear the stored variables"
+msgstr ""
+
+msgid "Click to reload."
 msgstr ""
 
 msgid "Close"
@@ -587,9 +587,6 @@ msgstr ""
 msgid "count"
 msgstr ""
 
-msgid "Country"
-msgstr ""
-
 msgid "Create"
 msgstr ""
 
@@ -600,9 +597,6 @@ msgid "Created"
 msgstr ""
 
 msgid "Creating report ..."
-msgstr ""
-
-msgid "Creation At"
 msgstr ""
 
 msgid "CSP Header settings were saved successfully!"
@@ -635,10 +629,10 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
@@ -786,9 +780,6 @@ msgid "Element deleted."
 msgstr ""
 
 msgid "Email"
-msgstr ""
-
-msgid "Email address"
 msgstr ""
 
 msgid "enabled"
@@ -1087,10 +1078,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1132,10 +1123,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1357,9 +1348,6 @@ msgid "Messages"
 msgstr ""
 
 msgid "Metadata export is not available for the selected resource."
-msgstr ""
-
-msgid "Method"
 msgstr ""
 
 msgid "Microsoft Excel"
@@ -1618,9 +1606,6 @@ msgstr ""
 msgid "Page"
 msgstr ""
 
-msgid "Parameters"
-msgstr ""
-
 msgid "Pascal file (.pas)"
 msgstr ""
 
@@ -1649,9 +1634,6 @@ msgid "PDF file"
 msgstr ""
 
 msgid "Permission denied to write in the selected class"
-msgstr ""
-
-msgid "Phone number"
 msgstr ""
 
 msgid "Plain text"
@@ -1800,6 +1782,9 @@ msgid "Release"
 msgstr ""
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "Reload"
 msgstr ""
 
 msgid "Remind"
@@ -1993,10 +1978,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
 msgid "Select a class"
@@ -2081,9 +2066,6 @@ msgstr ""
 msgid "Start of document reached. Continuing from the end."
 msgstr ""
 
-msgid "State"
-msgstr ""
-
 msgid "Status"
 msgstr ""
 
@@ -2097,9 +2079,6 @@ msgid "Store the value a variable"
 msgstr ""
 
 msgid "Storing digital video data on a computer game"
-msgstr ""
-
-msgid "Street"
 msgstr ""
 
 msgid "string"
@@ -2492,9 +2471,6 @@ msgstr ""
 msgid "URI Path"
 msgstr ""
 
-msgid "URL"
-msgstr ""
-
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr ""
 
@@ -2548,9 +2524,6 @@ msgstr ""
 
 #, tao-public
 msgid "User Settings"
-msgstr ""
-
-msgid "Username"
 msgstr ""
 
 #, tao-public
@@ -2659,6 +2632,9 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
+msgid "You are encountering a prolonged connectivity loss."
+msgstr ""
+
 msgid "You are not allowed to write in the class %s"
 msgstr ""
 
@@ -2708,8 +2684,5 @@ msgid "Your TAO Password"
 msgstr ""
 
 msgid "ZIP archive"
-msgstr ""
-
-msgid "Zip Code"
 msgstr ""
 
