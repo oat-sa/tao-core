@@ -196,10 +196,7 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function isForcingDefaultSearch(SearchQuery $query): bool
     {
-        $options = [];
-        if ($this->hasOption(self::OPTION_GENERIS_SEARCH_WHITELIST)) {
-            $options = $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST);
-        }
+        $options = $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, []);
         $generisSearchWhitelist = array_merge(self::GENERIS_SEARCH_DEFAULT_WHITELIST, $options);
         return in_array($query->getParentClass(), $generisSearchWhitelist, true);
     }
