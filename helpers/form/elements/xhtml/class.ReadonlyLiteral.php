@@ -35,7 +35,7 @@ class tao_helpers_form_elements_xhtml_ReadonlyLiteral extends tao_helpers_form_e
     public function render()
     {
         $returnValue = $this->renderLabel();
-        $returnValue .= "<input type='text' readonly='readonly' disabled='disabled' name='{$this->name}' id='{$this->name}' ";
+        $returnValue .= "<input type='text' readonly='readonly' disabled='disabled' name='{$this->name}' id='{$this->name}' data-testid='{$this->getDescription()}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value="' . _dh($this->value) . '"  />';
         return (string) $returnValue;

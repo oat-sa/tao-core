@@ -211,6 +211,7 @@ class tao_helpers_form_FormFactory
         $action->setIcon('icon-save');
         $action->setValue(__('Save'));
         $action->setType('submit');
+        $action->setTestId('save');
         $action->addClass('form-submitter btn-success small');
 
         return [$action];
