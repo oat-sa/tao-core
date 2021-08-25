@@ -22,8 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Domain;
 
-use ArrayIterator;
+use oat\generis\model\resource\DependsOnPropertyCollection as GenerisDependsOnPropertyCollection;
 
-class DependsOnPropertyCollection extends ArrayIterator
+class DependsOnPropertyCollection extends GenerisDependsOnPropertyCollection
 {
 }

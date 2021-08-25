@@ -37,6 +37,7 @@ use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\tasks\IndexTrait;
 use oat\tao\model\validator\PropertyChangedValidator;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
@@ -565,15 +566,18 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             return;
         }
 
-        if ($dependsOnPropertyUri === null) {
-            $property->removePropertyValues(
-                $this->getProperty(RemoteSourcedListOntology::PROPERTY_DEPENDS_ON_PROPERTY)
-            );
+        $property->removePropertyValues(
+            $this->getProperty(RemoteSourcedListOntology::PROPERTY_DEPENDS_ON_PROPERTY)
+        );
 
+        if ($dependsOnPropertyUri === null) {
             return;
         }
 
-        $property->setDependsOnProperty($this->getProperty($dependsOnPropertyUri));
+        $dependsOnPropertyCollection = new DependsOnPropertyCollection();
+        $dependsOnPropertyCollection->append($this->getProperty($dependsOnPropertyUri));
+
+        $property->setDependsOnPropertyCollection($dependsOnPropertyCollection);
     }
 
     private function isElasticSearchEnabled(): bool

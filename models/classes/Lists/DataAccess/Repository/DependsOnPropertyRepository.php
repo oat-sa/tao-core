@@ -82,7 +82,7 @@ class DependsOnPropertyRepository extends ConfigurableService
             }
 
             // @TODO Check for parent's (current property) children outside the foreach statement
-            if ($propertyUri === $classProperty->getDependsOnProperty()->getUri()) {
+            if ($propertyUri === $classProperty->getDependsOnPropertyCollection()->current()->getUri()) {
                 return new DependsOnPropertyCollection();
             }
         }

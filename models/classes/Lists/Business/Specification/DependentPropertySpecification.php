@@ -30,6 +30,6 @@ class DependentPropertySpecification extends ConfigurableService implements Prop
 {
     public function isSatisfiedBy(core_kernel_classes_Property $property): bool
     {
-        return $property->getDependsOnProperty() !== null;
+        return $property->getDependsOnPropertyCollection()->current() !== null;
     }
 }

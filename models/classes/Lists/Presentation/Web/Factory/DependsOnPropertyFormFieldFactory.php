@@ -63,7 +63,7 @@ class DependsOnPropertyFormFieldFactory extends ConfigurableService
         $element->setEmptyOption(' --- ' . __('select') . ' --- ');
 
         $options = [];
-        $dependsOnProperty = $property->getDependsOnProperty();
+        $dependsOnProperty = $property->getDependsOnPropertyCollection()->current();
         $dependsOnPropertyUri = $dependsOnProperty !== null
             ? $dependsOnProperty->getUri()
             : null;
