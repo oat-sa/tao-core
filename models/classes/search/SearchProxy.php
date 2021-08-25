@@ -239,7 +239,7 @@ class SearchProxy extends ConfigurableService implements Search
     public function extendGenerisSearchWhiteList(array $whiteList): void
     {
         $this->setOption(
-            self::OPTION_GENERIS_SEARCH_WHITELIST, 
+            self::OPTION_GENERIS_SEARCH_WHITELIST,
             array_merge(
                 $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, []),
                 $whiteList
@@ -250,7 +250,7 @@ class SearchProxy extends ConfigurableService implements Search
     public function removeFromGenerisSearchWhiteList(array $whiteList): void
     {
         $this->setOption(
-            self::OPTION_GENERIS_SEARCH_WHITELIST, 
+            self::OPTION_GENERIS_SEARCH_WHITELIST,
             array_diff(
                 $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, []),
                 $whiteList
