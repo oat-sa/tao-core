@@ -117,7 +117,7 @@ class DependsOnPropertyRepositoryTest extends TestCase
             ->method('getDomain')
             ->willReturn($this->domainCollection);
         $this->property
-            ->expects($this->never())
+            ->expects($this->once())
             ->method('getUri');
 
         $this->sut->withProperties([]);
@@ -134,7 +134,6 @@ class DependsOnPropertyRepositoryTest extends TestCase
         array $properties,
         int $expectedRemoteListPropertySpecificationCalls,
         int $expectedDependentPropertySpecificationCalls,
-        int $expectedGetUriCount,
         int $expectedCollectionCount
     ): void {
         $this->remoteListPropertySpecification
@@ -159,7 +158,7 @@ class DependsOnPropertyRepositoryTest extends TestCase
             ->method('getDomain')
             ->willReturn($this->domainCollection);
         $this->property
-            ->expects($this->exactly($expectedGetUriCount))
+            ->expects($this->once())
             ->method('getUri')
             ->willReturn('propertyUri');
 
@@ -179,7 +178,6 @@ class DependsOnPropertyRepositoryTest extends TestCase
                 ],
                 'expectedRemoteListPropertySpecificationCalls' => 2,
                 'expectedDependentPropertySpecificationCalls' => 1,
-                'expectedGetUriCount' => 1,
                 'expectedCollectionCount' => 1,
             ],
             'Two valid properties' => [
@@ -189,7 +187,6 @@ class DependsOnPropertyRepositoryTest extends TestCase
                 ],
                 'expectedRemoteListPropertySpecificationCalls' => 3,
                 'expectedDependentPropertySpecificationCalls' => 2,
-                'expectedGetUriCount' => 2,
                 'expectedCollectionCount' => 2,
             ],
             'Two valid properties and one with the same uri' => [
@@ -200,7 +197,6 @@ class DependsOnPropertyRepositoryTest extends TestCase
                 ],
                 'expectedRemoteListPropertySpecificationCalls' => 3,
                 'expectedDependentPropertySpecificationCalls' => 2,
-                'expectedGetUriCount' => 3,
                 'expectedCollectionCount' => 2,
             ],
         ];

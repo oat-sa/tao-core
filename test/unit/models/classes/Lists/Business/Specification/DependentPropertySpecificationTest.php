@@ -27,6 +27,7 @@ use oat\generis\test\TestCase;
 use core_kernel_classes_Property;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\Specification\PropertySpecificationInterface;
+use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 
 class DependentPropertySpecificationTest extends TestCase
@@ -41,10 +42,7 @@ class DependentPropertySpecificationTest extends TestCase
     {
         $this->sut = new DependentPropertySpecification();
 
-        $this->property = $this->createMock(core_kernel_classes_Property::class);
-        $this->property
-            ->method('getProperty')
-            ->willReturn($this->createMock(core_kernel_classes_Property::class));
+
     }
 
     public function testSpecificationInstance(): void
@@ -57,11 +55,17 @@ class DependentPropertySpecificationTest extends TestCase
      */
     public function testIsSatisfiedBy(?string $propertyValue, bool $expected): void
     {
-        $this->property
-            ->method('getOnePropertyValue')
+        $collection = $this->createMock(DependsOnPropertyCollection::class);
+        $collection
+            ->method('current')
             ->willReturn($propertyValue);
 
-        $this->assertEquals($expected, $this->sut->isSatisfiedBy($this->property));
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $property
+            ->method('getDependsOnPropertyCollection')
+            ->willReturn($collection);
+
+        $this->assertEquals($expected, $this->sut->isSatisfiedBy($property));
     }
 
     public function getTestData(): array
