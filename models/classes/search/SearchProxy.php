@@ -235,4 +235,26 @@ class SearchProxy extends ConfigurableService implements Search
             $query->getParentClass()
         );
     }
+
+    public function extendGenerisSearchWhiteList(array $whiteList): void
+    {
+        $this->setOption(
+            self::OPTION_GENERIS_SEARCH_WHITELIST, 
+            array_merge(
+                $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, []),
+                $whiteList
+            )
+        );
+    }
+
+    public function removeFromGenerisSearchWhiteList(array $whiteList): void
+    {
+        $this->setOption(
+            self::OPTION_GENERIS_SEARCH_WHITELIST, 
+            array_diff(
+                $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, []),
+                $whiteList
+            )
+        );
+    }
 }

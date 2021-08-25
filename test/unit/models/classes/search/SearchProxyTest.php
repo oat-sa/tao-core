@@ -216,7 +216,7 @@ class SearchProxyTest extends TestCase
         $this->assertIsArray($result);
     }
 
-    public function testIsForcingDefaultSearch()
+    public function testIsForcingDefaultSearch(): void
     {
         $options = $this->subject->getOption(SearchProxy::OPTION_GENERIS_SEARCH_WHITELIST, []);
         $generisSearchWhitelist = array_merge(SearchProxy::GENERIS_SEARCH_DEFAULT_WHITELIST, $options);
