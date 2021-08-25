@@ -143,6 +143,28 @@ class SearchProxy extends ConfigurableService implements Search
         return $this->getIndexSearch()->supportCustomIndex();
     }
 
+    public function extendGenerisSearchWhiteList(array $whiteList): void
+    {
+        $this->setOption(
+            self::OPTION_GENERIS_SEARCH_WHITELIST,
+            array_merge(
+                $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, []),
+                $whiteList
+            )
+        );
+    }
+
+    public function removeFromGenerisSearchWhiteList(array $whiteList): void
+    {
+        $this->setOption(
+            self::OPTION_GENERIS_SEARCH_WHITELIST,
+            array_diff(
+                $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, []),
+                $whiteList
+            )
+        );
+    }
+
     private function executeSearch(SearchQuery $query): ResultSet
     {
         if ($query->isEmptySearch()) {
@@ -233,28 +255,6 @@ class SearchProxy extends ConfigurableService implements Search
             '%s AND parent_classes: "%s"',
             $query->getTerm(),
             $query->getParentClass()
-        );
-    }
-
-    public function extendGenerisSearchWhiteList(array $whiteList): void
-    {
-        $this->setOption(
-            self::OPTION_GENERIS_SEARCH_WHITELIST,
-            array_merge(
-                $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, []),
-                $whiteList
-            )
-        );
-    }
-
-    public function removeFromGenerisSearchWhiteList(array $whiteList): void
-    {
-        $this->setOption(
-            self::OPTION_GENERIS_SEARCH_WHITELIST,
-            array_diff(
-                $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, []),
-                $whiteList
-            )
         );
     }
 }
