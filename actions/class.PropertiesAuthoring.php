@@ -24,6 +24,7 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -35,8 +36,11 @@ use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\tasks\IndexTrait;
 use oat\tao\model\validator\PropertyChangedValidator;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
+use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
 
 /**
  * Regrouping all actions related to authoring
@@ -318,7 +322,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         }
         $elementRangeArray = [];
         $groups = $myForm->getGroups();
-        
+
         foreach ($data['properties'] as $prop) {
             if (empty($prop['range']) || empty($prop['uri'])) {
                 continue;
@@ -356,11 +360,18 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     protected function saveSimpleProperty(array $propertyValues, core_kernel_classes_Resource $property): void
     {
         $propertyMap = tao_helpers_form_GenerisFormFactory::getPropertyMap();
+
         $type = $propertyValues['type'];
-        $range = (isset($propertyValues['range']) ? tao_helpers_Uri::decode(trim($propertyValues['range'])) : null);
-        unset($propertyValues['uri']);
-        unset($propertyValues['type']);
-        unset($propertyValues['range']);
+        $range = $this->getDecodedPropertyValue($propertyValues, 'range');
+        $dependsOnPropertyUri = $this->getDecodedPropertyValue($propertyValues, 'depends-on-property');
+
+        unset(
+            $propertyValues['uri'],
+            $propertyValues['type'],
+            $propertyValues['range'],
+            $propertyValues['depends-on-property']
+        );
+
         $rangeNotEmpty = false;
         $values = [
             ValidationRuleRegistry::PROPERTY_VALIDATION_RULE => []
@@ -368,7 +379,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
         if (isset($propertyMap[$type])) {
             $values[WidgetRdf::PROPERTY_WIDGET] = $propertyMap[$type]['widget'];
-            $rangeNotEmpty = ($propertyMap[$type]['range'] === OntologyRdfs::RDFS_RESOURCE  );
+            $rangeNotEmpty = $propertyMap[$type]['range'] === OntologyRdfs::RDFS_RESOURCE;
         }
 
         foreach ($propertyValues as $key => $value) {
@@ -400,6 +411,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         if (isset($propertyMap[$type]['multiple'])) {
             $property->setMultiple($propertyMap[$type]['multiple'] == GenerisRdf::GENERIS_TRUE);
         }
+
+        $this->setDependsOnProperty($property, $dependsOnPropertyUri);
     }
 
     protected function savePropertyIndex(array $indexValues): void
@@ -528,11 +541,55 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         }
     }
 
+    private function getDecodedPropertyValue(array $propertyValues, string $propertyName): ?string
+    {
+        if (!isset($propertyValues[$propertyName])) {
+            return null;
+        }
+
+        $propertyValue = trim($propertyValues[$propertyName]);
+
+        if (empty($propertyValue)) {
+            return null;
+        }
+
+        return tao_helpers_Uri::decode($propertyValue);
+    }
+
+    private function setDependsOnProperty(core_kernel_classes_Resource $property, ?string $dependsOnPropertyUri): void
+    {
+        $isListsDependencyEnabled = $this->getFeatureFlagChecker()->isEnabled(
+            FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
+        );
+
+        if (!$isListsDependencyEnabled) {
+            return;
+        }
+
+        $property->removePropertyValues(
+            $this->getProperty(RemoteSourcedListOntology::PROPERTY_DEPENDS_ON_PROPERTY)
+        );
+
+        if ($dependsOnPropertyUri === null) {
+            return;
+        }
+
+        $dependsOnPropertyCollection = new DependsOnPropertyCollection();
+        $dependsOnPropertyCollection->append($this->getProperty($dependsOnPropertyUri));
+
+        $property->setDependsOnPropertyCollection($dependsOnPropertyCollection);
+    }
+
     private function isElasticSearchEnabled(): bool
     {
         /** @var AdvancedSearchChecker $advancedSearchChecker */
         $advancedSearchChecker = $this->getServiceLocator()->get(AdvancedSearchChecker::class);
 
         return $advancedSearchChecker->isEnabled();
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 }

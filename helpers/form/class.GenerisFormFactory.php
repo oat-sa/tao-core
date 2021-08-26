@@ -282,86 +282,88 @@ class tao_helpers_form_GenerisFormFactory
      * Return the map between the Property properties: range, widget, etc. to
      * shortcuts for the simplePropertyEditor
      *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return array
      */
     public static function getPropertyMap(): array
     {
         return [
             'text' => [
-                'title'     => __('Text - Short - Field'),
-                'widget'    => TextBox::WIDGET_ID,
-                'range'     => OntologyRdfs::RDFS_LITERAL,
-                'multiple'  => GenerisRdf::GENERIS_FALSE
+                'title' => __('Text - Short - Field'),
+                'widget' => TextBox::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_LITERAL,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
             ],
             'longtext' => [
-                'title'     => __('Text - Long - Box'),
-                'widget'    => TextArea::WIDGET_ID,
-                'range'     => OntologyRdfs::RDFS_LITERAL,
-                'multiple'  => GenerisRdf::GENERIS_FALSE
+                'title' => __('Text - Long - Box'),
+                'widget' => TextArea::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_LITERAL,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
             ],
             'html' => [
-                'title'     => __('Text - Long - HTML editor'),
-                'widget'    => HtmlArea::WIDGET_ID,
-                'range'     => OntologyRdfs::RDFS_LITERAL,
-                'multiple'  => GenerisRdf::GENERIS_FALSE
+                'title' => __('Text - Long - HTML editor'),
+                'widget' => HtmlArea::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_LITERAL,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
             ],
             'list' => [
-                'title'     => __('List - Single choice - Radio button'),
-                'widget'    => RadioBox::WIDGET_ID,
-                'range'     => OntologyRdfs::RDFS_RESOURCE,
-                'multiple'  => GenerisRdf::GENERIS_FALSE
+                'title' => __('List - Single choice - Radio button'),
+                'widget' => RadioBox::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_RESOURCE,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
+                'depends-on-property' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
             ],
             'multiplenodetree' => [
-                'title'     => __('Tree - Multiple node choice '),
-                'widget'    => TreeBox::WIDGET_ID,
-                'range'     => OntologyRdfs::RDFS_RESOURCE,
-                'multiple'  => GenerisRdf::GENERIS_TRUE
+                'title' => __('Tree - Multiple node choice '),
+                'widget' => TreeBox::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_RESOURCE,
+                'multiple' => GenerisRdf::GENERIS_TRUE,
             ],
-
             'longlist' => [
-                'title'     => __('List - Single choice - Drop down'),
-                'widget'    => ComboBox::WIDGET_ID,
-                'range'     => OntologyRdfs::RDFS_RESOURCE,
-                'multiple'  => GenerisRdf::GENERIS_FALSE
+                'title' => __('List - Single choice - Drop down'),
+                'widget' => ComboBox::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_RESOURCE,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
+                'depends-on-property' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
             ],
             'multilist' => [
-                'title'     => __('List - Multiple choice - Check box'),
-                'widget'    => Checkbox::WIDGET_ID,
-                'range'     => OntologyRdfs::RDFS_RESOURCE,
-                'multiple'  => GenerisRdf::GENERIS_TRUE
+                'title' => __('List - Multiple choice - Check box'),
+                'widget' => Checkbox::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_RESOURCE,
+                'multiple' => GenerisRdf::GENERIS_TRUE,
+                'depends-on-property' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
             ],
             'multisearchlist' => [
-                'title'     => __('List - Multiple choice - Search input'),
-                'widget'    => SearchTextBox::WIDGET_ID,
-                'range'     => OntologyRdfs::RDFS_RESOURCE,
-                'multiple'  => GenerisRdf::GENERIS_TRUE
+                'title' => __('List - Multiple choice - Search input'),
+                'widget' => SearchTextBox::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_RESOURCE,
+                'multiple' => GenerisRdf::GENERIS_TRUE,
+                'depends-on-property' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
             ],
             'singlesearchlist' => [
-                'title'     => __('List - Single choice - Search input'),
-                'widget'    => SearchDropdown::WIDGET_ID,
-                'range'     => OntologyRdfs::RDFS_RESOURCE,
-                'multiple'  => GenerisRdf::GENERIS_FALSE
+                'title' => __('List - Single choice - Search input'),
+                'widget' => SearchDropdown::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_RESOURCE,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
+                'depends-on-property' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
             ],
             'calendar' => [
-                'title'     => __('Calendar'),
-                'widget'    => Calendar::WIDGET_ID,
-                'range'     => OntologyRdfs::RDFS_LITERAL,
-                'multiple'  => GenerisRdf::GENERIS_FALSE
+                'title' => __('Calendar'),
+                'widget' => Calendar::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_LITERAL,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
             ],
             'password' => [
-                'title'     => __('Password'),
-                'widget'    => HiddenBox::WIDGET_ID,
-                'range'     => OntologyRdfs::RDFS_LITERAL,
-                'multiple'  => GenerisRdf::GENERIS_FALSE
+                'title' => __('Password'),
+                'widget' => HiddenBox::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_LITERAL,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
             ],
             'file' => [
-                'title'     => __('File'),
-                'widget'    => AsyncFile::WIDGET_ID,
-                'range'     => GenerisRdf::CLASS_GENERIS_FILE,
-                'multiple'  => GenerisRdf::GENERIS_FALSE
-            ]
+                'title' => __('File'),
+                'widget' => AsyncFile::WIDGET_ID,
+                'range' => GenerisRdf::CLASS_GENERIS_FILE,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
+            ],
         ];
     }
 

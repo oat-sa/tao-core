@@ -20,10 +20,11 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Domain;
+namespace oat\tao\model\Specification;
 
-use oat\generis\model\resource\DependsOnPropertyCollection as GenerisDependsOnPropertyCollection;
+use core_kernel_classes_Property;
 
-class DependsOnPropertyCollection extends GenerisDependsOnPropertyCollection
+interface PropertySpecificationInterface
 {
+    public function isSatisfiedBy(core_kernel_classes_Property $property): bool;
 }

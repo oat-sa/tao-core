@@ -24,15 +24,24 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
+use tao_helpers_form_GenerisFormFactory;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
+use oat\tao\model\Specification\PropertySpecificationInterface;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
-use tao_helpers_form_GenerisFormFactory;
+use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
+use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
 
 class DependsOnPropertyRepository extends ConfigurableService
 {
     /** @var core_kernel_classes_Property[] */
     private $properties;
+
+    /** @var PropertySpecificationInterface */
+    private $remoteListPropertySpecification;
+
+    /** @var PropertySpecificationInterface */
+    private $dependentPropertySpecification;
 
     public function withProperties(array $properties)
     {
@@ -46,25 +55,36 @@ class DependsOnPropertyRepository extends ConfigurableService
         /** @var core_kernel_classes_Property $property */
         $property = $options['property'];
 
-        if (!$property->getDomain()->count()) {
+        if (
+            !$property->getDomain()->count()
+            || !$this->getRemoteListPropertySpecification()->isSatisfiedBy($property)
+        ) {
             return $collection;
         }
 
         /** @var core_kernel_classes_Class $class */
         $class = $property->getDomain()->get(0);
+        $propertyUri = $property->getUri();
 
         /** @var core_kernel_classes_Property $property */
-        foreach ($this->getProperties($class) as $prop) {
-            /*
-             * @TODO Show only properties, which relates to remote list
-             * @TODO Do not show properties that already depend on the primary property
-             *      A secondary prop cannot have another secondary prop.
-             */
-            if ($property->getUri() === $prop->getUri()) {
+        foreach ($this->getProperties($class) as $classProperty) {
+            if (
+                $propertyUri === $classProperty->getUri()
+                || !$this->getRemoteListPropertySpecification()->isSatisfiedBy($classProperty)
+            ) {
                 continue;
             }
 
-            $collection->append(new DependsOnProperty($prop));
+            if (!$this->getDependentPropertySpecification()->isSatisfiedBy($classProperty)) {
+                $collection->append(new DependsOnProperty($classProperty));
+
+                continue;
+            }
+
+            // @TODO Check for parent's (current property) children outside the foreach statement
+            if ($propertyUri === $classProperty->getDependsOnPropertyCollection()->current()->getUri()) {
+                return new DependsOnPropertyCollection();
+            }
         }
 
         return $collection;
@@ -73,5 +93,27 @@ class DependsOnPropertyRepository extends ConfigurableService
     private function getProperties(core_kernel_classes_Class $class): array
     {
         return $this->properties ?? tao_helpers_form_GenerisFormFactory::getClassProperties($class);
+    }
+
+    private function getRemoteListPropertySpecification(): PropertySpecificationInterface
+    {
+        if (!isset($this->remoteListPropertySpecification)) {
+            $this->remoteListPropertySpecification = $this->getServiceLocator()->get(
+                RemoteListPropertySpecification::class
+            );
+        }
+
+        return $this->remoteListPropertySpecification;
+    }
+
+    private function getDependentPropertySpecification(): PropertySpecificationInterface
+    {
+        if (!isset($this->dependentPropertySpecification)) {
+            $this->dependentPropertySpecification = $this->getServiceLocator()->get(
+                DependentPropertySpecification::class
+            );
+        }
+
+        return $this->dependentPropertySpecification;
     }
 }
