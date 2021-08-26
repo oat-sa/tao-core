@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint157\n"
-"PO-Revision-Date: 2021-06-18T08:51:37\n"
+"Project-Id-Version: TAO 2021.09\n"
+"PO-Revision-Date: 2021-08-24T08:14:37\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: fr-FR\n"
@@ -195,9 +195,6 @@ msgstr "Actions"
 
 msgid "Add"
 msgstr "Ajouter"
-
-msgid "Add / Edit lists"
-msgstr ""
 
 msgid "Add a CSV file"
 msgstr "Ajouter un fichier CSV"
@@ -416,11 +413,11 @@ msgstr "Calculatrice"
 msgid "Calendar"
 msgstr "Calendrier"
 
-msgid "Cancel"
-msgstr "Annuler"
-
 msgid "cancel"
 msgstr "annuler"
+
+msgid "Cancel"
+msgstr "Annuler"
 
 msgid "cancel the action"
 msgstr "annuler l'action"
@@ -515,6 +512,9 @@ msgstr "Effacer les variables enregistrées"
 
 msgid "Click to reload."
 msgstr "Cliquez pour recharger."
+
+msgid "Click to start"
+msgstr "Cliquez pour démarrer"
 
 msgid "Close"
 msgstr "Fermer"
@@ -630,10 +630,10 @@ msgstr "Données importées avec succès."
 msgid "Data imported. Some records are invalid."
 msgstr "Données importées. Certains enregistrements sont invalides."
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Langue des données"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Langue des données"
 
 msgid "Data not imported. All records are invalid."
@@ -693,6 +693,12 @@ msgstr "Supprimer l'index de recherche pour %s"
 
 msgid "Demo Sandbox"
 msgstr "Démonstration"
+
+msgid "Dependency URI Path"
+msgstr ""
+
+msgid "Depends on property"
+msgstr ""
 
 msgid "Did you mean %s?"
 msgstr ""
@@ -1080,10 +1086,10 @@ msgstr "Ressource %s importée"
 msgid "impossible to update task status"
 msgstr "Impossible de mettre à jour l'état de la tâche"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "En cours"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "En cours"
 
 msgid "Inclusive (AND)"
@@ -1125,10 +1131,10 @@ msgstr "Installation de l'extension %s..."
 msgid "Instance saved"
 msgstr "Instance enregistrée"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Langue de l'interface"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Langue de l'interface"
 
 msgid "Invalid CSP header."
@@ -1316,9 +1322,6 @@ msgstr "Le pilote de stockage de maintenance n'est pas configuré."
 
 msgid "Manage class schema"
 msgstr "Gérer le schéma de classe"
-
-msgid "Manage data list"
-msgstr "Gestion des listes"
 
 #, tao-public
 msgid "Manage roles"
@@ -1563,11 +1566,11 @@ msgstr ""
 msgid "Ogg Vorbis video"
 msgstr ""
 
-msgid "OK"
-msgstr "OK"
-
 msgid "Ok"
 msgstr "Ok"
+
+msgid "OK"
+msgstr "OK"
 
 msgid "Old Password"
 msgstr "Ancien mot de passe"
@@ -1691,6 +1694,9 @@ msgstr "Veuillez fournir une raison"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "Merci de rapporter tout souci rencontré, ainsi que vos idées, vos commentaires et vos impressions sur le forum TAO."
+
+msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
 
 msgid "Please wait"
 msgstr "Veuillez patienter"
@@ -1828,9 +1834,6 @@ msgstr "%s fichiers supprimés"
 msgid "Removing: %s"
 msgstr "Suppression : %s"
 
-msgid "Rename"
-msgstr "Renommer"
-
 msgid "Repeat new password"
 msgstr "Confirmer le nouveau mot de passe"
 
@@ -1908,9 +1911,6 @@ msgstr "Revenir à la page de connexion"
 
 msgid "Rich Text Format file"
 msgstr ""
-
-msgid "Right click the tree to manage your lists"
-msgstr "Utilisez le clic droit pour gérer vos listes"
 
 msgid "Right parenthesis"
 msgstr "Parenthèse fermante"
@@ -2064,6 +2064,9 @@ msgstr ""
 
 msgid "Square root"
 msgstr "Racine carrée"
+
+msgid "Start"
+msgstr ""
 
 msgid "Start of document reached. Continuing from the end."
 msgstr "Début du document atteint. Continuation depuis la fin."
