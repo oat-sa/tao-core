@@ -37,10 +37,12 @@ class SearchProxy extends ConfigurableService implements Search
 
     public const OPTION_ADVANCED_SEARCH_CLASS = 'advanced_search_class';
     public const OPTION_DEFAULT_SEARCH_CLASS = 'default_search_class';
+    public const OPTION_GENERIS_SEARCH_WHITELIST = 'generis_search_whitelist';
 
-    private const GENERIS_SEARCH_WHITELIST = [
+    public const GENERIS_SEARCH_DEFAULT_WHITELIST = [
         GenerisRdf::CLASS_ROLE,
         TaoOntology::CLASS_URI_TAO_USER,
+        TaoOntology::CLASS_URI_TREE,
     ];
 
     private const DISABLE_URI_SEARCH_FOR_ROOT_CLASSES = [
@@ -141,6 +143,28 @@ class SearchProxy extends ConfigurableService implements Search
         return $this->getIndexSearch()->supportCustomIndex();
     }
 
+    public function extendGenerisSearchWhiteList(array $whiteList): void
+    {
+        $this->setOption(
+            self::OPTION_GENERIS_SEARCH_WHITELIST,
+            array_merge(
+                $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, []),
+                $whiteList
+            )
+        );
+    }
+
+    public function removeFromGenerisSearchWhiteList(array $whiteList): void
+    {
+        $this->setOption(
+            self::OPTION_GENERIS_SEARCH_WHITELIST,
+            array_diff(
+                $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, []),
+                $whiteList
+            )
+        );
+    }
+
     private function executeSearch(SearchQuery $query): ResultSet
     {
         if ($query->isEmptySearch()) {
@@ -194,7 +218,9 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function isForcingDefaultSearch(SearchQuery $query): bool
     {
-        return in_array($query->getParentClass(), self::GENERIS_SEARCH_WHITELIST, true);
+        $options = $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, []);
+        $generisSearchWhitelist = array_merge(self::GENERIS_SEARCH_DEFAULT_WHITELIST, $options);
+        return in_array($query->getParentClass(), $generisSearchWhitelist, true);
     }
 
     private function allowIdentifierSearch(SearchQuery $query): bool
