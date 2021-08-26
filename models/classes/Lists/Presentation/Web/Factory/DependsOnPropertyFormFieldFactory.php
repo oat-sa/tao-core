@@ -23,13 +23,13 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Presentation\Web\Factory;
 
 use core_kernel_classes_Property;
+use tao_helpers_form_FormElement;
+use tao_helpers_form_FormFactory;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
-use tao_helpers_form_FormElement;
-use tao_helpers_form_FormFactory;
 
 class DependsOnPropertyFormFieldFactory extends ConfigurableService
 {
@@ -44,33 +44,41 @@ class DependsOnPropertyFormFieldFactory extends ConfigurableService
             return null;
         }
 
-        $index = $options['index'] ?? 0;
-
         /** @var core_kernel_classes_Property $property */
         $property = $options['property'];
 
-        $collection = $this->getRepository()->findAll(
-            [
-                'property' => $property
-            ]
-        );
+        $collection = $this->getRepository()->findAll([
+            'property' => $property
+        ]);
 
         if ($collection->count() === 0) {
             return null;
         }
 
-        $element = tao_helpers_form_FormFactory::getElement("{$index}_dep-on-prop", 'Combobox');
+        $index = $options['index'] ?? 0;
+
+        $element = tao_helpers_form_FormFactory::getElement("{$index}_depends-on-property", 'Combobox');
         $element->addAttribute('class', 'property-depends-on property');
         $element->setDescription(__('Depends on property'));
         $element->setEmptyOption(' --- ' . __('select') . ' --- ');
 
         $options = [];
+        $dependsOnProperty = $property->getDependsOnPropertyCollection()->current();
+        $dependsOnPropertyUri = $dependsOnProperty !== null
+            ? $dependsOnProperty->getUri()
+            : null;
 
         /** @var DependsOnProperty $prop */
         foreach ($collection as $prop) {
-            $options[$prop->getUriEncoded()] = $prop->getLabel();
+            $encodedUri = $prop->getUriEncoded();
+            $options[$encodedUri] = $prop->getLabel();
+
+            if ($dependsOnPropertyUri !== null && $prop->getProperty()->getUri() === $dependsOnPropertyUri) {
+                $element->setValue($encodedUri);
+            }
         }
 
+        asort($options);
         $element->setOptions($options);
 
         return $element;
