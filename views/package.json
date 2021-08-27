@@ -18,7 +18,7 @@
         "@oat-sa/tao-core-libs": "0.4.3",
         "@oat-sa/tao-core-sdk": "1.15.0",
         "@oat-sa/tao-core-shared-libs": "1.0.3",
-        "@oat-sa/tao-core-ui": "1.34.0",
+        "@oat-sa/tao-core-ui": "github:oat-sa/tao-core-ui-fe#fix/TR-1810/change-css-scpecificity-for-the-mediaplayer-overlay",
         "codemirror": "^5.54.0",
         "decimal.js": "10.1.1",
         "dompurify": "1.0.11",
