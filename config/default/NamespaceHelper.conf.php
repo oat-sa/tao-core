@@ -4,7 +4,7 @@
  */
 
 return new oat\tao\helpers\NamespaceHelper(array(
-    'nameSpaces' => [
+    'namespaces' => [
         /**
          * @Sample
          * 'https://tao.docker.localhost/ontologies/tao.rdf'

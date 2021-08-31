@@ -27,7 +27,7 @@ use oat\oatbox\service\ConfigurableService;
 class NamespaceHelper extends ConfigurableService
 {
     public const SERVICE_ID = 'tao/NamespaceHelper';
-    private const OPTION_NAME_SPACES = 'nameSpaces';
+    private const OPTION_NAME_SPACES = 'namespaces';
 
     /** @var array */
     private $namespaces;
