@@ -39,11 +39,11 @@ class NamespaceHelperTest extends TestCase
     public function addNameSpacesTest()
     {
         $this->subject = new NamespaceHelper();
-        $this->subject->addNameSpaces(['testNameSpace']);
+        $this->subject->addNameSpaces('testNameSpace');
         $expected = ['testNameSpace'];
 
         $this->assertEqual($expected, $this->subject->getNameSpaces());
-        $this->subject->addNameSpaces(['testNameSpace2']);
+        $this->subject->addNameSpaces('testNameSpace2');
         $expected = ['testNameSpace', 'testNameSpace2'];
         $this->assertEqual($expected, $this->subject->getNameSpaces());
     }
