@@ -22,6 +22,7 @@
 use oat\generis\model\OntologyRdfs;
 use oat\tao\helpers\form\validators\ResourceSignatureValidator;
 use oat\tao\model\security\SignatureValidator;
+use oat\tao\helpers\NamespaceHelper;
 
 /**
  *
@@ -110,7 +111,7 @@ class tao_actions_form_EditClassLabel extends \tao_helpers_form_FormContainer
                 \tao_helpers_form_FormFactory::getValidator('NotEmpty'),
             ]);
             $namespace = substr($clazz->getUri(), 0, strpos($clazz->getUri(), '#'));
-            if ($namespace != LOCAL_NAMESPACE) {
+            if (in_array($namespace, $this->getNamespaceHelper()->getNameSpaces())) {
                 $readonly = \tao_helpers_form_FormFactory::getElement($element->getName(), 'Readonly');
                 $readonly->setDescription($element->getDescription());
                 $readonly->setValue($element->getRawValue());
@@ -145,5 +146,10 @@ class tao_actions_form_EditClassLabel extends \tao_helpers_form_FormContainer
         );
 
         $this->form->addElement($signature, true);
+    }
+
+    private function getNamespaceHelper(): NamespaceHelper
+    {
+        return new NamespaceHelper();
     }
 }
