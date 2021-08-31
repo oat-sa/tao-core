@@ -21,7 +21,7 @@
 
 namespace oat\tao\test\unit\helpers;
 
-use oat\generis\test\Test;
+use oat\generis\test\TestCase;
 use oat\tao\helpers\NamespaceHelper;
 
 class NamespaceHelperTest extends TestCase
@@ -29,22 +29,23 @@ class NamespaceHelperTest extends TestCase
     /** @var NamespaceHelper */
     private $subject;
 
-    public function getNameSpacesTest()
+    public function testGetNameSpaces(): void
     {
         $this->subject = new NamespaceHelper();
         $expected = [];
-        $this->assertEqual($expected, $this->subject->getNameSpaces());
+        $this->assertEquals($expected, $this->subject->getNameSpaces());
     }
 
-    public function addNameSpacesTest()
+    public function testAddNameSpaces(): void
     {
         $this->subject = new NamespaceHelper();
         $this->subject->addNameSpaces('testNameSpace');
         $expected = ['testNameSpace'];
 
-        $this->assertEqual($expected, $this->subject->getNameSpaces());
+        $this->assertEquals($expected, $this->subject->getNameSpaces());
+
         $this->subject->addNameSpaces('testNameSpace2');
         $expected = ['testNameSpace', 'testNameSpace2'];
-        $this->assertEqual($expected, $this->subject->getNameSpaces());
+        $this->assertEquals($expected, $this->subject->getNameSpaces());
     }
 }
