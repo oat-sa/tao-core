@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA
  *
  */
 
@@ -24,11 +24,6 @@ namespace oat\tao\test\unit\helpers;
 use oat\generis\test\Test;
 use oat\tao\helpers\NamespaceHelper;
 
-/**
- * Test the class tao_helpers_Display
- *
- * @author Bertrand Chevrier <bertrand@taotesting.com>
- */
 class NamespaceHelperTest extends TestCase
 {
     /** @var NamespaceHelper */
