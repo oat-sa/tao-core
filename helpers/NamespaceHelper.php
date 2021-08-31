@@ -30,32 +30,33 @@ class NamespaceHelper extends ConfigurableService
     private const OPTION_NAME_SPACES = 'nameSpaces';
 
     /** @var array */
-    private $nameSpaces = [];
+    private $namespaces;
+
+    public function __construct(array $options)
+    {
+        parent::__construct($options);
+
+        $this->namespaces = [];
+
+        if (defined(LOCAL_NAMESPACE)) {
+            $this->namespaces[] = LOCAL_NAMESPACE;
+        }
+
+        $this->namespaces = array_merge($this->namespaces, $this->getOption(self::OPTION_NAME_SPACES, []));
+    }
 
     public function getNameSpaces(): array
     {
-        if (empty($this->nameSpaces)) {
-            $configNamespaces = $this->getConfigNamespaces();
-            if (!empty($configNamespaces)) {
-                $this->addNameSpaces($configNamespaces);
-            }
-        }
-        return $this->nameSpaces;
+        return $this->namespaces;
     }
 
-    public function addNameSpaces(array $nameSpaces = []): void
+    public function addNameSpaces(string ...$namespaces): void
     {
-        $this->nameSpaces = array_merge($this->nameSpaces, $nameSpaces);
+        $this->namespaces = array_merge($this->namespaces, $namespaces);
     }
 
-    private function getConfigNamespaces(): array
+    public function isNamespaceSupported(string $namespace): bool
     {
-        $result = [];
-        if (defined(LOCAL_NAMESPACE)) {
-            array_push($result, LOCAL_NAMESPACE);
-        }
-        $configurableNamespaces = $this->getOption(self::OPTION_NAME_SPACES);
-
-        return array_merge($result, $configurableNamespaces);
+        return in_array($namespace, $this->getNamespaces());
     }
 }
