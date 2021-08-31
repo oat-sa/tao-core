@@ -26,13 +26,13 @@ use oat\oatbox\service\ConfigurableService;
 
 class NamespaceHelper extends ConfigurableService
 {
-    public const SERVICE_ID = 'tao/Namespaces';
+    public const SERVICE_ID = 'tao/NamespaceHelper';
     private const OPTION_NAME_SPACES = 'nameSpaces';
 
     /** @var array */
     private $namespaces;
 
-    public function __construct(array $options)
+    public function __construct(array $options = [])
     {
         parent::__construct($options);
 
