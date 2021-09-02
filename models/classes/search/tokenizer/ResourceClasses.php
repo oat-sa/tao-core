@@ -59,6 +59,6 @@ class ResourceClasses implements PropertyValueTokenizer
 
     private function hasReachedRootClass(core_kernel_classes_Class $class): bool
     {
-        return in_array($class->getUri(), self::CLASSES_URIS_BLACK_LIST);
+        return in_array($class->getUri(), self::CLASSES_URIS_BLACK_LIST, true);
     }
 }

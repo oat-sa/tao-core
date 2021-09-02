@@ -27,7 +27,7 @@ use oat\tao\model\search\tokenizer\ResourceClasses;
 
 class OntologyIndex extends \core_kernel_classes_Resource
 {
-    public const RDF_TYPE = "http://www.tao.lu/Ontologies/TAO.rdf#Index";
+    public const RDF_TYPE = 'http://www.tao.lu/Ontologies/TAO.rdf#Index';
     public const PROPERTY_INDEX = 'http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex';
     public const PROPERTY_INDEX_FUZZY_MATCHING = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching';
     public const PROPERTY_INDEX_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier';
