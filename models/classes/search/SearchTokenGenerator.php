@@ -26,6 +26,7 @@ use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\index\OntologyIndex;
+use oat\tao\model\search\tokenizer\ResourceClasses;
 use oat\tao\model\search\tokenizer\ResourceTokenizer;
 use oat\tao\model\search\tokenizer\PropertyValueTokenizer;
 use oat\generis\model\OntologyAwareTrait;
@@ -44,29 +45,24 @@ class SearchTokenGenerator extends ConfigurableService
     protected $propertyCache = [];
 
     /**
-     * returns an array of subarrays containing [index, strings]
-     *
      * @throws common_exception_InconsistentData
+     *
+     * @return array[][] Returns an array of subArrays containing [index, strings]
      */
     public function generateTokens(core_kernel_classes_Resource $resource): array
     {
         $tokens = [];
+
         foreach ($this->getProperties($resource) as $property) {
             $indexes = $this->getIndexes($property);
+
             if (!empty($indexes)) {
                 foreach ($indexes as $index) {
-                    $tokenizer = $index->getTokenizer();
-                    if ($tokenizer instanceof ResourceTokenizer) {
-                        $strings = $tokenizer->getStrings($resource);
-                    } elseif ($tokenizer instanceof PropertyValueTokenizer) {
-                        $strings = $this->getStrings($resource, $property, $index, $tokenizer);
-                    } else {
-                        throw new common_exception_InconsistentData('Unsupported tokenizer ' . get_class($tokenizer));
-                    }
-                    $tokens[] = [$index, $strings];
+                    $tokens[] = [$index, $this->getTokenizerStrings($index, $resource, $property)];
                 }
             }
         }
+
         return $tokens;
     }
 
@@ -104,45 +100,28 @@ class SearchTokenGenerator extends ConfigurableService
         return $this->indexMap[$property->getUri()];
     }
 
-    private function getStrings(
-        core_kernel_classes_Resource $resource,
-        core_kernel_classes_Property $property,
+    private function getTokenizerStrings(
         OntologyIndex $index,
-        PropertyValueTokenizer $tokenizer
+        core_kernel_classes_Resource $resource,
+        core_kernel_classes_Property $property
     ): array {
-        if ($index->getIdentifier() !== 'class') {
-            return $tokenizer->getStrings($resource->getPropertyValues($property));
+        $tokenizer = $index->getTokenizer();
+
+        if ($tokenizer instanceof ResourceTokenizer) {
+            return $tokenizer->getStrings($resource);
         }
 
-        $classes = [];
-
-        foreach ($resource->getTypes() as $typeClass) {
-            $classes[] = $typeClass->getLabel();
-
-            foreach ($typeClass->getParentClasses(true) as $parentClass) {
-                if ($parentClass->isClass()) {
-                    $classes[] = $parentClass->getLabel();
-                }
-
-                //FIXME @TODO PoC: Find proper way to see if it is a root class
-                if ($parentClass->getLabel() === 'Item') {
-                    break;
-                }
-            }
+        if ($tokenizer instanceof PropertyValueTokenizer) {
+            return $tokenizer instanceof ResourceClasses
+                ? $tokenizer->getStrings($resource)
+                : $tokenizer->getStrings($resource->getPropertyValues($property));
         }
 
-        //FIXME
-//        echo PHP_EOL;
-//        echo var_export($resource->getLabel(), true);
-//        echo var_export($classes, true);
-//        echo var_export(get_class($index->getTokenizer()), true);
-//        echo var_export($index->getIdentifier(), true);
-//        echo var_export($tokenizer->getStrings($resource->getPropertyValues($property)), true);
-//        echo '____________________________________';
-//        echo PHP_EOL;
-//        echo PHP_EOL;
-        //FIXME
-
-        return $classes;
+        throw new common_exception_InconsistentData(
+            sprintf(
+                'Unsupported tokenizer %s',
+                get_class($tokenizer)
+            )
+        );
     }
 }
