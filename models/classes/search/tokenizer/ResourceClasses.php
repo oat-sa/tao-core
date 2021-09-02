@@ -46,20 +46,18 @@ class ResourceClasses implements PropertyValueTokenizer
             $classes[] = $typeClass->getLabel();
 
             foreach ($typeClass->getParentClasses(true) as $parentClass) {
-                if ($this->isRootClass($parentClass)) {
+                if ($this->hasReachedRootClass($parentClass)) {
                     return $classes;
                 }
 
-                if ($parentClass->isClass()) {
-                    $classes[] = $parentClass->getLabel();
-                }
+                $classes[] = $parentClass->getLabel();
             }
         }
 
         return $classes;
     }
 
-    private function isRootClass(core_kernel_classes_Class $class): bool
+    private function hasReachedRootClass(core_kernel_classes_Class $class): bool
     {
         return in_array($class->getUri(), self::CLASSES_URIS_BLACK_LIST);
     }
