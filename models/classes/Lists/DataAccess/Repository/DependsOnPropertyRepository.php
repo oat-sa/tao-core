@@ -27,6 +27,9 @@ use core_kernel_classes_Property;
 use tao_helpers_form_GenerisFormFactory;
 use common_persistence_Manager;
 use common_persistence_SqlPersistence as SqlPersistence;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\FetchMode;
+use Doctrine\DBAL\Connection;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
@@ -34,9 +37,6 @@ use oat\tao\model\Specification\PropertySpecificationInterface;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
-use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\DBAL\FetchMode;
-use Doctrine\DBAL\Connection;
 
 class DependsOnPropertyRepository extends ConfigurableService
 {
@@ -54,13 +54,12 @@ class DependsOnPropertyRepository extends ConfigurableService
         $this->properties = $properties;
     }
 
-    public function findAll(array $options, $listUri = null): DependsOnPropertyCollection
+    public function findAll(array $options): DependsOnPropertyCollection
     {
         $collection = new DependsOnPropertyCollection();
 
         /** @var core_kernel_classes_Property $property */
-        $property = $options['property'];
-        $listUri = $listUri ?? $property->getRange()->getUri();
+        $property = $options['property'];        
 
         if (
             !$property->getDomain()->count()
@@ -68,6 +67,7 @@ class DependsOnPropertyRepository extends ConfigurableService
         ) {
             return $collection;
         }
+        $listUri = $options['listUri'] ?? $property->getRange()->getUri();
         
         $dependencies = $this->getDependencies($listUri);
         if (empty($dependencies)) {
@@ -105,7 +105,7 @@ class DependsOnPropertyRepository extends ConfigurableService
                 continue;
             }
 
-            // // @TODO Check for parent's (current property) children outside the foreach statement
+            // @TODO Check for parent's (current property) children outside the foreach statement
             // if ($propertyUri === $classProperty->getDependsOnPropertyCollection()->current()->getUri()) {
             //     return new DependsOnPropertyCollection();
             // }

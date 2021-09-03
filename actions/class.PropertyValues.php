@@ -46,29 +46,18 @@ class tao_actions_PropertyValues extends tao_actions_CommonModule
         );
     }
 
-    public function getDependOnPropertyList()
+    public function getDependOnPropertyList(): void
     {
         $property = $this->getProperty(tao_helpers_Uri::decode($this->getRequestParameter('property_uri')));
         $listUri = $this->getProperty(tao_helpers_Uri::decode($this->getRequestParameter('list_uri')))->getUri();
         $collection = $this->getRepository()->findAll(
             [
-                'property' => $property
-            ],
-            $listUri
+                'property' => $property,
+                'listUri'  => $listUri
+            ]
         );
 
-        if ($collection->count() === 0) {
-            $this->setSuccessJsonResponse([]);
-        }
-        
-        $options = [];
-        
-        foreach ($collection as $prop) {
-            $encodedUri = $prop->getUriEncoded();
-            $options[$encodedUri] = $prop->getLabel();
-        }
-        asort($options);
-        $this->setSuccessJsonResponse($options);
+        $this->setSuccessJsonResponse($collection);
     }
 
     private function getRepository(): DependsOnPropertyRepository
