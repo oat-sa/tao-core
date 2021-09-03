@@ -20,10 +20,13 @@
 
 namespace oat\tao\model\search;
 
+use common_exception_InconsistentData;
 use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\index\OntologyIndex;
+use oat\tao\model\search\tokenizer\ResourceClasses;
 use oat\tao\model\search\tokenizer\ResourceTokenizer;
 use oat\tao\model\search\tokenizer\PropertyValueTokenizer;
 use oat\generis\model\OntologyAwareTrait;
@@ -35,39 +38,35 @@ class SearchTokenGenerator extends ConfigurableService
 {
     use OntologyAwareTrait;
 
+    /** @var OntologyIndex[][] */
     protected $indexMap = [];
 
+    /** @var core_kernel_classes_Property[][] */
     protected $propertyCache = [];
 
     /**
-     * returns an array of subarrays containing [index, strings]
+     * @throws common_exception_InconsistentData
      *
-     * @throws \common_exception_InconsistentData
+     * @return array[][] Returns an array of subArrays containing [index, strings]
      */
-    public function generateTokens(\core_kernel_classes_Resource $resource): array
+    public function generateTokens(core_kernel_classes_Resource $resource): array
     {
         $tokens = [];
+
         foreach ($this->getProperties($resource) as $property) {
             $indexes = $this->getIndexes($property);
+
             if (!empty($indexes)) {
-                $values = $resource->getPropertyValues($property);
                 foreach ($indexes as $index) {
-                    $tokenizer = $index->getTokenizer();
-                    if ($tokenizer instanceof ResourceTokenizer) {
-                        $strings = $tokenizer->getStrings($resource);
-                    } elseif ($tokenizer instanceof PropertyValueTokenizer) {
-                        $strings = $tokenizer->getStrings($values);
-                    } else {
-                        throw new \common_exception_InconsistentData('Unsupported tokenizer ' . get_class($tokenizer));
-                    }
-                    $tokens[] = [$index, $strings];
+                    $tokens[] = [$index, $this->getTokenizerStrings($index, $resource, $property)];
                 }
             }
         }
+
         return $tokens;
     }
 
-    protected function getProperties(\core_kernel_classes_Resource $resource)
+    protected function getProperties(core_kernel_classes_Resource $resource)
     {
         $classProperties = [$this->getProperty(OntologyRdfs::RDFS_LABEL)];
         foreach ($resource->getTypes() as $type) {
@@ -99,5 +98,30 @@ class SearchTokenGenerator extends ConfigurableService
             }
         }
         return $this->indexMap[$property->getUri()];
+    }
+
+    private function getTokenizerStrings(
+        OntologyIndex $index,
+        core_kernel_classes_Resource $resource,
+        core_kernel_classes_Property $property
+    ): array {
+        $tokenizer = $index->getTokenizer();
+
+        if ($tokenizer instanceof ResourceTokenizer) {
+            return $tokenizer->getStrings($resource);
+        }
+
+        if ($tokenizer instanceof PropertyValueTokenizer) {
+            return $tokenizer instanceof ResourceClasses
+                ? $tokenizer->getStrings($resource)
+                : $tokenizer->getStrings($resource->getPropertyValues($property));
+        }
+
+        throw new common_exception_InconsistentData(
+            sprintf(
+                'Unsupported tokenizer %s',
+                get_class($tokenizer)
+            )
+        );
     }
 }
