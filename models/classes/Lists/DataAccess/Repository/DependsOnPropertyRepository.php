@@ -25,12 +25,18 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use tao_helpers_form_GenerisFormFactory;
+use common_persistence_Manager;
+use common_persistence_SqlPersistence as SqlPersistence;
+use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
 use oat\tao\model\Specification\PropertySpecificationInterface;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\FetchMode;
+use Doctrine\DBAL\Connection;
 
 class DependsOnPropertyRepository extends ConfigurableService
 {
@@ -48,17 +54,33 @@ class DependsOnPropertyRepository extends ConfigurableService
         $this->properties = $properties;
     }
 
-    public function findAll(array $options): DependsOnPropertyCollection
+    public function findAll(array $options, $listUri = null): DependsOnPropertyCollection
     {
         $collection = new DependsOnPropertyCollection();
 
         /** @var core_kernel_classes_Property $property */
         $property = $options['property'];
+        $listUri = $listUri ?? $property->getRange()->getUri();
 
         if (
             !$property->getDomain()->count()
             || !$this->getRemoteListPropertySpecification()->isSatisfiedBy($property)
         ) {
+            return $collection;
+        }
+        
+        $dependencies = $this->getDependencies($listUri);
+        if (empty($dependencies)) {
+            return $collection;
+        }
+
+        $dependencyListUris = $this->getDependencListUris($dependencies);
+        if (empty($dependencyListUris)) {
+            return $collection;
+        }
+
+        $parentPropertiesList = $this->getpropertiesByListUris($dependencyListUris);
+        if (empty($parentPropertiesList)) {
             return $collection;
         }
 
@@ -74,17 +96,19 @@ class DependsOnPropertyRepository extends ConfigurableService
             ) {
                 continue;
             }
-
-            if (!$this->getDependentPropertySpecification()->isSatisfiedBy($classProperty)) {
+            if (
+                !$this->getDependentPropertySpecification()->isSatisfiedBy($classProperty)
+                && in_array($classProperty->getUri(), $parentPropertiesList, true)
+            ) {
                 $collection->append(new DependsOnProperty($classProperty));
-
+            
                 continue;
             }
 
-            // @TODO Check for parent's (current property) children outside the foreach statement
-            if ($propertyUri === $classProperty->getDependsOnPropertyCollection()->current()->getUri()) {
-                return new DependsOnPropertyCollection();
-            }
+            // // @TODO Check for parent's (current property) children outside the foreach statement
+            // if ($propertyUri === $classProperty->getDependsOnPropertyCollection()->current()->getUri()) {
+            //     return new DependsOnPropertyCollection();
+            // }
         }
 
         return $collection;
@@ -115,5 +139,69 @@ class DependsOnPropertyRepository extends ConfigurableService
         }
 
         return $this->dependentPropertySpecification;
+    }
+
+    private function getPersistence(): SqlPersistence
+    {
+        return $this->getServiceManager()->get(common_persistence_Manager::SERVICE_ID)->getPersistenceById('default');
+    }
+
+    private function getQueryBuilder(): QueryBuilder
+    {
+        return $this->getPersistence()->getPlatform()->getQueryBuilder();
+    }
+
+    private function getDependencies($remoteListUri): array
+    {
+        $query = $this->getQueryBuilder();
+        $expressionBuilder = $query->expr();
+
+        $query
+            ->select('value')
+            ->from('list_items_dependencies', 'dependencies')
+            ->innerJoin(
+                'dependencies',
+                'list_items',
+                'items',
+                $expressionBuilder->eq('dependencies.list_item_id', 'items.id')
+            )
+            ->andWhere($expressionBuilder->eq('items.list_uri', ':label_uri'))
+            ->setParameter('label_uri', $remoteListUri);
+
+        return $query->execute()->fetchAll(FetchMode::COLUMN);
+    }
+
+    private function getDependencListUris($dependencies): array
+    {
+        $query = $this->getQueryBuilder();
+        $expressionBuilder = $query->expr();
+        $query
+            ->select('list_uri')
+            ->from('list_items')
+            ->andWhere($expressionBuilder->in('list_items.uri', ':label_uri'))
+            ->groupBy('list_uri')
+            ->setParameter('label_uri', $dependencies, Connection::PARAM_STR_ARRAY);
+        return $query->execute()->fetchAll(FetchMode::COLUMN);
+    }
+
+    private function getpropertiesByListUris($dependencyListUris): array
+    {
+        $query = $this->getQueryBuilder();
+        $expressionBuilder = $query->expr();
+        $query
+            ->select('subject')
+            ->from('statements')
+            ->andWhere($expressionBuilder->eq('predicate', ':predicate'))
+            ->andWhere($expressionBuilder->in('object', ':object'))
+            ->setParameters(
+                [
+                'predicate' => OntologyRdfs::RDFS_RANGE,
+                'object' => $dependencyListUris
+                ],
+                [
+                    'object' => Connection::PARAM_STR_ARRAY
+                ]
+            );
+        return $query->execute()->fetchAll(FetchMode::COLUMN);
     }
 }

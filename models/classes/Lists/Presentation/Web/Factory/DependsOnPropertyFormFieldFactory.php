@@ -64,6 +64,8 @@ class DependsOnPropertyFormFieldFactory extends ConfigurableService
 
         $options = [];
         $dependsOnProperty = $property->getDependsOnPropertyCollection()->current();
+        // echo $property->getLabel();
+        // print_r($dependsOnProperty);
         $dependsOnPropertyUri = $dependsOnProperty !== null
             ? $dependsOnProperty->getUri()
             : null;
