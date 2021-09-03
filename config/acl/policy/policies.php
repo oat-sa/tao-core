@@ -10,10 +10,12 @@ return [
         'name' => 'MainAccessPolicy',
         'version' => 1,
         'permissions' => [
-            tao_actions_Languages::class . '::changeLanguage' => [
-                TaoRoles::ANONYMOUS => ActionAccessControl::DENY,
-                TaoRoles::BACK_OFFICE => ActionAccessControl::READ,
-            ]
+            tao_actions_Languages::class => [
+                'changeLanguage' => [
+                    TaoRoles::ANONYMOUS => ActionAccessControl::DENY,
+                    TaoRoles::BACK_OFFICE => ActionAccessControl::READ,
+                ],
+            ],
         ],
         'routing' => [
             [
