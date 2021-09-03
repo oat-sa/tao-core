@@ -59,7 +59,7 @@ class DependsOnPropertyRepository extends ConfigurableService
         $collection = new DependsOnPropertyCollection();
 
         /** @var core_kernel_classes_Property $property */
-        $property = $options['property'];        
+        $property = $options['property'];
 
         if (
             !$property->getDomain()->count()
@@ -101,7 +101,7 @@ class DependsOnPropertyRepository extends ConfigurableService
                 && in_array($classProperty->getUri(), $parentPropertiesList, true)
             ) {
                 $collection->append(new DependsOnProperty($classProperty));
-            
+
                 continue;
             }
 
