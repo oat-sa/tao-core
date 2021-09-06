@@ -1,7 +1,6 @@
 <?php
 
 use oat\tao\model\accessControl\ActionAccessControl;
-use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\user\TaoRoles;
 
 return [
@@ -9,23 +8,21 @@ return [
     [
         'name' => 'MainAccessPolicy',
         'version' => 1,
-        'permissions' => [
-            tao_actions_Languages::class => [
-                'changeLanguage' => [
+        'actionPermissions' => [
+            tao_actions_PocController::class => [
+                'someActionOrFeature' => [
                     TaoRoles::ANONYMOUS => ActionAccessControl::DENY,
                     TaoRoles::BACK_OFFICE => ActionAccessControl::READ,
                 ],
             ],
         ],
-        'routing' => [
-            [
-                AccessRule::GRANT,
-                TaoRoles::ANONYMOUS,
+        'routePermissions' => [
+            TaoRoles::BACK_OFFICE => [
                 [
                     'ext' => 'tao',
-                    'mod' => 'Main',
-                    'act' => 'entry'
-                ]
+                    'mod' => 'PocController',
+                    'act' => 'index',
+                ],
             ]
         ]
     ],

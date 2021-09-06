@@ -56,7 +56,21 @@ class PolicyApplier extends ConfigurableService
                     );
                 }
 
+                /** @var array $policies */
                 $policies = require $policyFile;
+
+                foreach ($policies as $policy) {
+                    $this->applyPermissions(
+                        $policy['actionPermissions'],
+                        $policy['routePermissions']
+                    );
+
+                    $report->add(
+                        Report::createSuccess(
+                            'Added policies: ' . var_export($policy['name'], true)
+                        )
+                    );
+                }
             }
         }
 
@@ -72,6 +86,8 @@ class PolicyApplier extends ConfigurableService
                 SetRolesAccess::CONFIG_RULES => $rules,
             ],
         ];
+
+        //var_export($options); exit();
 
         if ($isRevoke) {
             array_unshift($options, '--' . SetRolesAccess::OPTION_REVOKE);

@@ -18,21 +18,32 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
  */
 
-require_once dirname(__FILE__) . '/../includes/raw_start.php';
+declare(strict_types=1);
 
-use oat\tao\model\accessControl\PolicyApplier;
-use oat\oatbox\service\ServiceManager;
-
-/** @var PolicyApplier $policyApplier */
-$policyApplier = ServiceManager::getServiceManager()->get(PolicyApplier::class);
+use oat\tao\model\accessControl\Context;
 
 /**
- * @TODO We should load the permissions files for each and every "extension"...
+ * FIXME @TODO This is just a PoC
  */
-$report = $policyApplier->applyPolicies(
-    [
-        __DIR__ . '/../config/acl/policy'
-    ]
-);
+class tao_actions_PocController extends tao_actions_CommonModule
+{
+    public function index(): void
+    {
+        $action = 'someActionOrFeature';
 
-echo helpers_Report::renderToCommandline($report);
+        $this->hasWriteAccessByContext(
+            new Context(
+                [
+                    Context::PARAM_CONTROLLER => self::class,
+                    Context::PARAM_ACTION => $action,
+                ]
+            )
+        );
+
+        if ('someActionOrFeature') {
+            echo 'I have permission to ' . $action;
+        } else {
+            echo 'I DO NOT have permission to ' . $action;
+        }
+    }
+}
