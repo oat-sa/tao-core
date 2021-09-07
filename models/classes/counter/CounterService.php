@@ -62,12 +62,14 @@ class CounterService extends ConfigurableService
     }
 
     /**
-     * @param string $eventFqcn
-     * @param string $shortName
+     * @param string      $eventFqcn
+     * @param string      $shortName
      * @param string|null $keyCallbackMethod
+     *
      * @throws CounterServiceException
      * @throws InvalidServiceManagerException
      * @throws ServiceNotFoundException
+     * @throws common_Exception
      */
     public function attach(string $eventFqcn, string $shortName, ?string $keyCallbackMethod = null): void
     {
@@ -78,13 +80,8 @@ class CounterService extends ConfigurableService
 
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-        $eventManager->attach(
-            $eventFqcn,
-            [
-                self::SERVICE_ID,
-                'increment'
-            ]
-        );
+        $eventManager->attach($eventFqcn, [self::SERVICE_ID, 'increment']);
+        $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
         $eventOptions = $this->getOption(self::OPTION_EVENTS);
         $eventOptions[$eventFqcn] = [
@@ -101,6 +98,7 @@ class CounterService extends ConfigurableService
      *
      * @throws InvalidServiceManagerException|CounterServiceException
      * @throws \oat\oatbox\service\ServiceNotFoundException
+     * @throws \common_Exception
      */
     public function detach(string $eventFqcn): void
     {
@@ -113,13 +111,8 @@ class CounterService extends ConfigurableService
 
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-        $eventManager->detach(
-            $eventFqcn,
-            [
-                self::SERVICE_ID,
-                'increment'
-            ]
-        );
+        $eventManager->detach($eventFqcn, [self::SERVICE_ID, 'increment']);
+        $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
         unset($eventOptions[$eventFqcn]);
 
@@ -150,6 +143,8 @@ class CounterService extends ConfigurableService
         if (!empty($keyCallbackMethod)) {
             $keyCallbackValue = $event->$keyCallbackMethod();
         }
+
+        // todo: set key first for kv_sql implementation to use increment
 
         $this->getPersistence()->incr($this->buildKey($eventFqcn, $keyCallbackValue));
     }
