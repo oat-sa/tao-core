@@ -15,7 +15,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
- *
  */
 
 declare(strict_types=1);
@@ -23,24 +22,10 @@ declare(strict_types=1);
 namespace oat\tao\model\counter;
 
 use Exception;
-use Throwable;
 
-/**
- *
- */
 class CounterServiceException extends Exception
 {
     public const CODE_UNKNOWN_ERROR = 0;
     public const CODE_INVALID_PERSISTENCE = 1;
     public const CODE_UNKNOWN_EVENT_TYPE = 2;
-
-    /**
-     * @param string $message
-     * @param int $code
-     * @param Throwable|null $previous
-     */
-    public function __construct($message = "", $code = 0, Throwable $previous = null)
-    {
-        parent::__construct($message, $code, $previous);
-    }
 }

@@ -15,46 +15,45 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
- *
  */
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace oat\tao\model\counter;
 
 use common_Exception;
-use common_persistence_KeyValuePersistence;
+use common_persistence_KeyValuePersistence as KeyValuePersistence;
 use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\service\ServiceNotFoundException;
 
-/**
- *
- */
 class CounterService extends ConfigurableService
 {
     public const SERVICE_ID = 'tao/CounterService';
+
     public const OPTION_PERSISTENCE = 'persistence';
     public const OPTION_COUNTER_KEY_PREFIX = 'counterKeyPrefix';
     public const OPTION_EVENTS = 'events';
+
     public const DEFAULT_PREFIX = 'tao:counter:';
+
     protected const OPTION_CALLBACK = 'keyCallbackMethod';
     protected const OPTION_SHORT_NAME = 'shortName';
 
     /**
-     * @return common_persistence_KeyValuePersistence
+     * @return KeyValuePersistence
      * @throws CounterServiceException
      */
-    protected function getPersistence(): common_persistence_KeyValuePersistence
+    protected function getPersistence(): KeyValuePersistence
     {
         $persistenceId = $this->getOption(self::OPTION_PERSISTENCE);
-        $persistence = common_persistence_KeyValuePersistence::getPersistence($persistenceId);
+        $persistence = KeyValuePersistence::getPersistence($persistenceId);
 
-        if (!$persistence instanceof common_persistence_KeyValuePersistence) {
+        if (!$persistence instanceof KeyValuePersistence) {
             $msg = "Persistence '${persistenceId}' must be an instance of '";
-            $msg .= common_persistence_KeyValuePersistence::class . "', ";
+            $msg .= KeyValuePersistence::class . "', ";
             $msg .= get_class($persistence) . ' persistence given.';
             throw new CounterServiceException($msg, CounterServiceException::CODE_INVALID_PERSISTENCE);
         }
@@ -72,58 +71,61 @@ class CounterService extends ConfigurableService
      */
     public function attach(string $eventFqcn, string $shortName, ?string $keyCallbackMethod = null): void
     {
-        if (class_exists($eventFqcn)) {
-            /** @var EventManager $eventManager */
-            $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-            $eventManager->attach(
-                $eventFqcn,
-                [
-                    self::SERVICE_ID,
-                    'increment'
-                ]
-            );
-
-            $eventOptions = $this->getOption(self::OPTION_EVENTS);
-            $eventOptions[$eventFqcn] = [
-                self::OPTION_CALLBACK => $keyCallbackMethod,
-                self::OPTION_SHORT_NAME => $shortName
-            ];
-            $this->setOption(self::OPTION_EVENTS, $eventOptions);
-
-            $this->logDebug("CounterService now listening to events with FQCN '${eventFqcn}'");
-        } else {
-            $msg = "No event class found with FQCN '${eventFqcn}' in available code base.";
+        if (!class_exists($eventFqcn)) {
+            $msg = "No event class found with FQCN '${$eventFqcn}' in available code base.";
             throw new CounterServiceException($msg, CounterServiceException::CODE_UNKNOWN_EVENT_TYPE);
         }
+
+        /** @var EventManager $eventManager */
+        $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+        $eventManager->attach(
+            $eventFqcn,
+            [
+                self::SERVICE_ID,
+                'increment'
+            ]
+        );
+
+        $eventOptions = $this->getOption(self::OPTION_EVENTS);
+        $eventOptions[$eventFqcn] = [
+            self::OPTION_CALLBACK => $keyCallbackMethod,
+            self::OPTION_SHORT_NAME => $shortName
+        ];
+        $this->setOption(self::OPTION_EVENTS, $eventOptions);
+
+        $this->logDebug("CounterService now listening to events with FQCN '${eventFqcn}'");
     }
 
     /**
      * @param string $eventFqcn
+     *
      * @throws InvalidServiceManagerException|CounterServiceException
+     * @throws \oat\oatbox\service\ServiceNotFoundException
      */
     public function detach(string $eventFqcn): void
     {
         $eventOptions = $this->getOption(self::OPTION_EVENTS);
-        if (array_key_exists($eventFqcn, $eventOptions)) {
-            /** @var EventManager $eventManager */
-            $eventManager = $this->getServiceManager(EventManager::SERVICE_ID);
-            $eventManager->detach(
-                $eventFqcn,
-                [
-                    self::SERVICE_ID,
-                    'increment'
-                ]
-            );
 
-            unset($eventOptions[$eventFqcn]);
-
-            $this->setOption(self::OPTION_EVENTS, $eventOptions);
-
-            $this->logDebug("CounterService not listening anymore to events with FQCN '${eventFqcn}'.");
-        } else {
+        if (!array_key_exists($eventFqcn, $eventOptions)) {
             $msg = "No event with FQCN '${eventFqcn}' already attached for counting.";
             throw new CounterServiceException($msg, CounterServiceException::CODE_UNKNOWN_EVENT_TYPE);
         }
+
+        /** @var EventManager $eventManager */
+        $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+        $eventManager->detach(
+            $eventFqcn,
+            [
+                self::SERVICE_ID,
+                'increment'
+            ]
+        );
+
+        unset($eventOptions[$eventFqcn]);
+
+        $this->setOption(self::OPTION_EVENTS, $eventOptions);
+
+        $this->logDebug("CounterService not listening anymore to events with FQCN '${eventFqcn}'.");
     }
 
     /**
@@ -135,25 +137,21 @@ class CounterService extends ConfigurableService
         $eventOptions = $this->getOption(self::OPTION_EVENTS);
         $eventFqcn = get_class($event);
 
-        if (array_key_exists($eventFqcn, $eventOptions)) {
-            $eventOption = $eventOptions[$eventFqcn];
-            $keyCallbackMethod = $eventOption[self::OPTION_CALLBACK];
-            $keyCallbackValue = null;
-
-            if (!empty($keyCallbackMethod)) {
-                $keyCallbackValue = call_user_func([$event, $keyCallbackMethod]);
-            }
-
-            $this->getPersistence()->incr(
-                $this->buildKey(
-                    $eventFqcn,
-                    $keyCallbackValue
-                )
+        if (!array_key_exists($eventFqcn, $eventOptions)) {
+            throw new CounterServiceException(
+                "Configuration Violation. No event with FQCN '${eventFqcn}' registered while incrementing."
             );
-        } else {
-            $msg = "Configuration Violation. No event with FQCN '${eventFqcn}' registered while incrementing.";
-            throw new CounterServiceException($msg);
         }
+
+        $eventOption = $eventOptions[$eventFqcn];
+        $keyCallbackMethod = $eventOption[self::OPTION_CALLBACK];
+        $keyCallbackValue = null;
+
+        if (!empty($keyCallbackMethod)) {
+            $keyCallbackValue = $event->$keyCallbackMethod();
+        }
+
+        $this->getPersistence()->incr($this->buildKey($eventFqcn, $keyCallbackValue));
     }
 
     /**
@@ -176,7 +174,7 @@ class CounterService extends ConfigurableService
      */
     public function get(string $eventFqcn, ?string $keyCallbackValue = null): int
     {
-        return (int)$this->getPersistence()->get($this->buildKey($eventFqcn));
+        return (int)$this->getPersistence()->get($this->buildKey($eventFqcn, $keyCallbackValue));
     }
 
     /**
@@ -194,6 +192,7 @@ class CounterService extends ConfigurableService
         }
 
         $key = $this->getOption(self::OPTION_COUNTER_KEY_PREFIX) . $counterIdentifier;
+
         if (!empty($keyCallbackValue)) {
             $key .= '_' . $keyCallbackValue;
         }
