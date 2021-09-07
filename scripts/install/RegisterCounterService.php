@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,8 +15,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
- *
  */
+
+declare(strict_types = 1);
 
 namespace oat\tao\scripts\install;
 
@@ -28,20 +28,17 @@ use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\counter\CounterService;
 
-/**
- *
- */
 class RegisterCounterService extends InstallAction
 {
-    private CONST PERSISTENCE_PRECEDENCE = ['redis', 'default_kv'];
+    private const PERSISTENCE_PRECEDENCE = ['redis', 'default_kv'];
 
     /**
-     * @param $params
+     * @param array $params
      * @throws InvalidServiceManagerException
      * @throws ServiceNotFoundException
      * @throws common_Exception
      */
-    public function __invoke($params)
+    public function __invoke($params = [])
     {
         $persistence = $this->discoverPersistenceId();
 
@@ -73,6 +70,7 @@ class RegisterCounterService extends InstallAction
     protected function discoverPersistenceId(): ?string
     {
         $persistence = null;
+
         /** @var PersistenceManager $persistenceManager */
         $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
 
