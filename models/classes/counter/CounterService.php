@@ -144,21 +144,19 @@ class CounterService extends ConfigurableService
             $keyCallbackValue = $event->$keyCallbackMethod();
         }
 
-        // todo: set key first for kv_sql implementation to use increment
-
         $this->getPersistence()->incr($this->buildKey($eventFqcn, $keyCallbackValue));
     }
 
     /**
      * @param string $eventFqcn
      * @param int|null $value
-     * @param string|null $keyCallbackValue
+     * @param string|null $suffix
      * @throws CounterServiceException
      * @throws common_Exception
      */
-    public function reset(string $eventFqcn, ?int $value = 0, ?string $keyCallbackValue = null): void
+    public function reset(string $eventFqcn, ?int $value = 0, ?string $suffix = null): void
     {
-        $this->getPersistence()->set($this->buildKey($eventFqcn, $keyCallbackValue), $value);
+        $this->getPersistence()->set($this->buildKey($eventFqcn, $suffix), $value);
     }
 
     /**
@@ -174,10 +172,10 @@ class CounterService extends ConfigurableService
 
     /**
      * @param string $eventFqcn
-     * @param string|null $keyCallbackValue
+     * @param string|null $keySuffix
      * @return string
      */
-    protected function buildKey(string $eventFqcn, ?string $keyCallbackValue = null): string
+    protected function buildKey(string $eventFqcn, ?string $keySuffix = null): string
     {
         $counterIdentifier = $eventFqcn;
         $eventOption = $this->getOption(self::OPTION_EVENTS);
@@ -188,8 +186,8 @@ class CounterService extends ConfigurableService
 
         $key = $this->getOption(self::OPTION_COUNTER_KEY_PREFIX) . $counterIdentifier;
 
-        if (!empty($keyCallbackValue)) {
-            $key .= '_' . $keyCallbackValue;
+        if (!empty($keySuffix)) {
+            $key .= '_' . $keySuffix;
         }
 
         return $key;
