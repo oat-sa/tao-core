@@ -367,3 +367,36 @@ ul.group-list {
         -webkit-border-radius: 3px;
     }
 }
+
+// TODO: move to tao-core-ui-fe
+.secondary-props-list {
+    position: relative;
+    padding-left: 30px;
+
+}
+
+.secondary-props-list > li {
+    position: relative;
+    list-style-type: circle;
+}
+
+.secondary-props-list > li::before {
+    content: '';
+    position: absolute;
+    border-top: 1px solid;
+    top: 50%;
+    left: -26px;
+    width: 10px;
+    opacity: 0.5;
+    margin-top: -1px;
+}
+
+.secondary-props-list > li::after {
+    content: '';
+    position: absolute;
+    border-left: 1px solid;
+    bottom: 50%;
+    top: -10px;
+    left: -26px;
+    opacity: 0.5;
+}

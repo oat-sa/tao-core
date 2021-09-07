@@ -115,7 +115,6 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
             //map properties widgets to form elments
 
             $element = $this->getElementFactory()->create($property);
-
             if ($element !== null) {
                 // take instance values to populate the form
                 if ($instance !== null) {
@@ -173,6 +172,8 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
         // Add elements related to class properties to the form.
         foreach ($finalElements as $element) {
             $this->form->addElement($element[0]);
+            // TODO: set proper Uri
+            // $element[0]->addAttribute('data-depends-on', 'https_2_udir_0_docker_0_localhost_1_ontologies_1_tao_0_rdf_3_i612f287cb2d8c807e9dd201860362e');
         }
 
         //add an hidden elt for the class uri
