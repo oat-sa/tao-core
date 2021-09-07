@@ -41,13 +41,14 @@ class SetImageAligmentConfig extends InstallAction
      */
     public function __invoke($params = ['mediaAlignment' => false])
     {
+        $mediaAligment = $params['mediaAlignment'] ?? false;
         ClientLibConfigRegistry::getRegistry()->register(
             'ui/image/ImgStateActive',
             [
-                'mediaAlignment' => $params['mediaAlignment']
+                'mediaAlignment' => $mediaAligment
             ]
         );
 
-        return new Report(Report::TYPE_SUCCESS, 'Set Image Aligment plugin '.($params['mediaAlignment'] ? 'enabled' : 'disabled').' in Authoring');
+        return new Report(Report::TYPE_SUCCESS, 'Set Image Aligment plugin '.($mediaAligment ? 'enabled' : 'disabled').' in Authoring');
     }
 }
