@@ -61,9 +61,22 @@ class PolicyApplier extends ConfigurableService
 
         foreach ($removedPolicies as $removedPolicyId) {
             /**
-             * FIXME @TODO Remove delete permissions
+             * FIXME @TODO Apply the difference only
+             * FIXME @TODO Remove delete permissions...
+             * FIXME @TODO How to check integrity of deletion?
              */
-            $configPolicies[$removedPolicyId];
+            $removedPolicy = $configPolicies[$removedPolicyId];
+            $this->applyPermissions(
+                $removedPolicy['permissions']['action'],
+                $removedPolicy['permissions']['route'],
+                true
+            );
+
+            $report->add(
+                Report::createSuccess(
+                    'Added policy: ' . var_export($removedPolicyId, true)
+                )
+            );
         }
 
         foreach ($newPolicies as $policy) {
@@ -87,7 +100,7 @@ class PolicyApplier extends ConfigurableService
 
             $report->add(
                 Report::createSuccess(
-                    'Added policies: ' . var_export($policy['id'], true)
+                    'Added policy: ' . var_export($policy['id'], true)
                 )
             );
         }
