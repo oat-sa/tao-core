@@ -25,15 +25,10 @@ final class Version202108081928492234_tao extends AbstractMigration
 
     /**
      * @param Schema $schema
-     * @throws InvalidServiceManagerException
-     * @throws common_Exception
-     * @throws ServiceNotFoundException
      */
     public function up(Schema $schema): void
     {
-        $registerCounterService = new RegisterCounterService();
-        $this->propagate($registerCounterService);
-        $registerCounterService([]);
+        $this->propagate(new RegisterCounterService)();
     }
 
     /**
