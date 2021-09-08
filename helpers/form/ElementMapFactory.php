@@ -190,8 +190,10 @@ class ElementMapFactory extends ConfigurableService
 
     private function getParentProperty(core_kernel_classes_Property $property): ?core_kernel_classes_Property
     {
-        return $property->getDependsOnPropertyCollection()->offsetExists(0)
-            ? $property->getDependsOnPropertyCollection()->offsetGet(0)
+        $collection = $property->getDependsOnPropertyCollection();
+
+        return $collection->offsetExists(0)
+            ? $collection->offsetGet(0)
             : null;
     }
 }
