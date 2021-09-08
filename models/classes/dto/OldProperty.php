@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,10 +32,11 @@ class OldProperty
     /** @var core_kernel_classes_Resource|null */
     private $propertyType;
 
-    public function __construct(string $label, ?core_kernel_classes_Resource $propertyType)
+    public function __construct(string $label, ?core_kernel_classes_Resource $propertyType, string $rangeUri = null)
     {
         $this->label = $label;
         $this->propertyType = $propertyType;
+        $this->rangeUri = $rangeUri;
     }
 
     public function getLabel(): string
@@ -45,5 +47,12 @@ class OldProperty
     public function getPropertyType(): ?core_kernel_classes_Resource
     {
         return $this->propertyType;
+    }
+    /**
+     * @return string|null
+     */
+    public function getrangeUri(): ?string
+    {
+        return $this->rangeUri ?? null;
     }
 }

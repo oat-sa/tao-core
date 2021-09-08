@@ -22,10 +22,10 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Domain;
 
+use ArrayIterator;
 use JsonSerializable;
-use oat\generis\model\resource\DependsOnPropertyCollection as GenerisDependsOnPropertyCollection;
 
-class DependsOnPropertyCollection extends GenerisDependsOnPropertyCollection implements JsonSerializable
+class DependsOnPropertyCollection extends ArrayIterator implements JsonSerializable
 {
     public function jsonSerialize(): array
     {

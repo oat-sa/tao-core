@@ -41,6 +41,7 @@ use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
+use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 
 /**
  * Regrouping all actions related to authoring
@@ -509,7 +510,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $oldPropertyType = $property->getOnePropertyValue(
                 $this->getProperty(WidgetRdf::PROPERTY_WIDGET)
             );
-            $oldProperty = new OldProperty($oldPropertyLabel, $oldPropertyType);
+            $oldPropertyRangeUri = $property->getRange() ? $property->getRange()->getUri() : null;
+            $oldProperty = new OldProperty($oldPropertyLabel, $oldPropertyType, $oldPropertyRangeUri);
 
             $this->saveSimpleProperty($propertyValues, $property);
 
@@ -521,6 +523,25 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             );
 
             if ($isPropertyChanged) {
+                $isRangeUriChanged = (new PropertyChangedValidator())->isRangeChanged(
+                    $currentProperty,
+                    $oldProperty
+                );
+                $isPropertyTypeChanged = (new PropertyChangedValidator())->isPropertyTypeChanged(
+                    $currentProperty,
+                    $oldProperty
+                );
+                if ($isRangeUriChanged) {
+                    $this->getDependsOnPropertyRepository()->deleteCache(
+                        [
+                            'propertyUri' => tao_helpers_Uri::decode($propertyValues['uri']),
+                            'listUri' => $oldPropertyRangeUri
+                        ]
+                    );
+                }
+                if ($isPropertyTypeChanged) {
+                    $this->getDependsOnPropertyRepository()->updateCache($property, $oldPropertyRangeUri);
+                }
                 $changedProperties[] = [
                     'class' => $this->getCurrentClass(),
                     'property' => $currentProperty,
@@ -591,5 +612,10 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getServiceLocator()->get(FeatureFlagChecker::class);
+    }
+
+    private function getDependsOnPropertyRepository(): DependsOnPropertyRepository
+    {
+        return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
     }
 }

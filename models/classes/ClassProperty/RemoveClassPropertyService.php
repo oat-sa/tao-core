@@ -30,6 +30,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\generis\model\data\event\ClassPropertyDeletedEvent;
+use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 
 class RemoveClassPropertyService extends ConfigurableService
 {
@@ -42,6 +43,7 @@ class RemoveClassPropertyService extends ConfigurableService
 
         $class = $this->getClass($parsedBody['classUri']);
         $property = $this->getProperty($parsedBody['uri']);
+        $listUri = $property->getRange() ? $property->getRange()->getUri() : "";
         $propertyType = $this->getPropertyType($property);
 
         if ($propertyType !== null) {
@@ -70,7 +72,12 @@ class RemoveClassPropertyService extends ConfigurableService
                         $index = $this->getResource($indexUri);
                         $index->delete(true);
                     }
-
+                    $this->getDependsOnPropertyRepository()->deleteCache(
+                        [
+                            'propertyUri' => $parsedBody['uri'],
+                            'listUri' => $listUri
+                        ]
+                    );
                     return true;
                 }
             }
@@ -82,5 +89,10 @@ class RemoveClassPropertyService extends ConfigurableService
     private function getEventManager(): EventManager
     {
         return $this->getServiceManager()->get(EventManager::SERVICE_ID);
+    }
+
+    private function getDependsOnPropertyRepository(): DependsOnPropertyRepository
+    {
+        return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
     }
 }
