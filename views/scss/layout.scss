@@ -1,23 +1,23 @@
 @import "inc/bootstrap";
 
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 //@TODO in the long run all icons need to be changed to vectors!
@@ -202,7 +202,7 @@ ul.group-list {
         span.has-inherited {
             background-image: url(../img/checkbox_locked.png);
         }
-        
+
         &.group, &.selectable {
             list-style: none;
             border-bottom: 1px solid #999;
@@ -373,30 +373,57 @@ ul.group-list {
     position: relative;
     padding-left: 30px;
 
-}
+    > li {
+        position: relative;
+        list-style-type: circle;
+        margin-top: 10px;
 
-.secondary-props-list > li {
-    position: relative;
-    list-style-type: circle;
-}
+        &:first-child {
+            &::after {
+                top: -20px;
+            }
+        }
 
-.secondary-props-list > li::before {
-    content: '';
-    position: absolute;
-    border-top: 1px solid;
-    top: 50%;
-    left: -26px;
-    width: 10px;
-    opacity: 0.5;
-    margin-top: -1px;
-}
+        &::marker {
+            color: #8C8C8C;
+        }
 
-.secondary-props-list > li::after {
-    content: '';
-    position: absolute;
-    border-left: 1px solid;
-    bottom: 50%;
-    top: -10px;
-    left: -26px;
-    opacity: 0.5;
+        &::before {
+            content: '';
+            position: absolute;
+            border-top: 1px solid #8C8C8C;
+            top: 50%;
+            left: -26px;
+            width: 10px;
+            opacity: 0.5;
+            margin-top: -1px;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            border-left: 1px solid #8C8C8C;
+            bottom: 50%;
+            top: -100%;
+            left: -26px;
+            opacity: 0.5;
+        }
+
+        > div {
+            display: flex;
+            align-items: center;
+
+            &.disabled {
+                background: transparent!important;
+            }
+
+            label {
+                margin: 0;
+            }
+
+            select {
+                width: calc(65% + 70px);
+            }
+        }
+    }
 }
