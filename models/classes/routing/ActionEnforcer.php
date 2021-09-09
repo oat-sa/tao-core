@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -25,6 +25,7 @@ namespace oat\tao\model\routing;
 use Context;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
+use oat\tao\model\Middleware\MiddlewareChainBuilder;
 use ReflectionException;
 use IExecutable;
 use ActionEnforcingException;
@@ -36,6 +37,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionMethod;
 use common_session_SessionManager;
+use Relay\Relay;
 use tao_models_classes_AccessDeniedException;
 use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\data\DataAccessControl;
@@ -48,8 +50,7 @@ use oat\oatbox\log\TaoLoggerAwareInterface;
 use oat\tao\model\action\CommonModuleInterface;
 
 /**
- * ActionEnforcer class
- * TODO ActionEnforcer class documentation.
+ * @TODO ActionEnforcer class documentation.
  *
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @author Joel Bout <joel@taotesting.com>
@@ -202,13 +203,11 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     }
 
     /**
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface
      * @throws ActionEnforcingException
      * @throws ReflectionException
      * @throws \common_exception_Error
      */
-    public function resolve(ServerRequestInterface $request)
+    public function resolve(ServerRequestInterface $request): ResponseInterface
     {
         $this->request = $request;
 
@@ -220,6 +219,8 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         } catch (RouterException $e) {
             throw new ActionEnforcingException($e->getMessage(), $this->getControllerClass(), $this->getAction());
         }
+
+        $this->response = $this->resolveMiddlewareChain($request, $this->getControllerClass());
 
         $controller = $this->getController();
 
@@ -246,11 +247,6 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     }
 
     /**
-     * @param ServerRequestInterface $request
-     * @param                        $controller
-     * @param string                 $action
-     *
-     * @return array
      * @throws ReflectionException
      */
     private function resolveParameters(ServerRequestInterface $request, $controller, string $action): array
@@ -277,5 +273,15 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         }
 
         return $actionParameters;
+    }
+
+    private function resolveMiddlewareChain(ServerRequestInterface $request): ResponseInterface {
+        $queue = $this->getMiddlewareChainBuilder()->build($request);
+        return (new Relay($queue))->handle($request);
+    }
+
+    private function getMiddlewareChainBuilder(): MiddlewareChainBuilder
+    {
+        return $this->getServiceManager()->get(MiddlewareChainBuilder::SERVICE_ID);
     }
 }
