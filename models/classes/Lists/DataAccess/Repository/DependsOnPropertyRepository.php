@@ -24,6 +24,7 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
+use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
 use tao_helpers_form_GenerisFormFactory;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
@@ -142,8 +143,8 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
         return $this->dependentPropertySpecification;
     }
 
-    private function getParentPropertyListUrisRepository(): ParentPropertyListRepository
+    private function getParentPropertyListUrisRepository(): ParentPropertyListRepositoryInterface
     {
-        return $this->getServiceLocator()->get(ParentPropertyListRepository::class);
+        return $this->getServiceLocator()->get(ParentPropertyListCachedRepository::class);
     }
 }
