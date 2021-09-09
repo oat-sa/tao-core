@@ -22,13 +22,10 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
-use common_persistence_Persistence;
 use core_kernel_classes_Property;
-use Doctrine\DBAL\Query\QueryBuilder;
 use InvalidArgumentException;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
-use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
@@ -71,22 +68,19 @@ class ParentPropertyListRepository extends ConfigurableService implements Parent
         }
 
         $propertyList = [];
-        $propertyListQueryBuilder = $this->getComplexSearchService()->query();
-        $propertyListQuery = $this->getComplexSearchService()->searchType($propertyListQueryBuilder, OntologyRdf::RDF_PROPERTY, true);
+
+        $search = $this->getComplexSearchService();
+        $propertyListQueryBuilder = $search->query();
+        $propertyListQuery = $search->searchType($propertyListQueryBuilder, OntologyRdf::RDF_PROPERTY, true);
         $propertyListQuery->addCriterion(OntologyRdfs::RDFS_RANGE, SupportedOperatorHelper::IN, $dependencyListUris);
         $propertyListQueryBuilder->setCriteria($propertyListQuery);
-        $propertyListResult = $this->getComplexSearchService()->getGateway()->search($propertyListQueryBuilder);
+        $propertyListResult = $search->getGateway()->search($propertyListQueryBuilder);
         
         foreach ($propertyListResult as $property) {
             $propertyList[] = $property->getUri();
         }
 
         return $propertyList;
-    }
-
-    private function getPersistence(): common_persistence_Persistence
-    {
-        return $this->getServiceManager()->get(PersistenceManager::SERVICE_ID)->getPersistenceById('default');
     }
 
     private function getRdsValueCollectionRepository(): ValueCollectionRepositoryInterface

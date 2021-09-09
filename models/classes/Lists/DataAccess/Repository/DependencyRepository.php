@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
-use common_persistence_Persistence;
 use common_persistence_SqlPersistence;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\FetchMode;

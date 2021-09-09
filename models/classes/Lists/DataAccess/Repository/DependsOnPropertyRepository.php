@@ -81,7 +81,7 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
                 continue;
             }
 
-            if ($this->isChildProperty($classProperty, $parentPropertiesUris)) {
+            if ($this->isParentProperty($classProperty, $parentPropertiesUris)) {
                 $collection->append(new DependsOnProperty($classProperty));
 
                 continue;
@@ -101,9 +101,8 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
         return $property->getDomain()->count() && $this->getRemoteListPropertySpecification()->isSatisfiedBy($property);
     }
 
-    private function isChildProperty(core_kernel_classes_Property $classProperty, array $parentPropertiesUris): bool
+    private function isParentProperty(core_kernel_classes_Property $classProperty, array $parentPropertiesUris): bool
     {
-        //@TODO Confirm with Andrei the method responsibility
         return !$this->getDependentPropertySpecification()->isSatisfiedBy($classProperty)
             && in_array($classProperty->getUri(), $parentPropertiesUris, true);
     }
