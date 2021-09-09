@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -48,16 +48,14 @@ class tao_actions_PropertyValues extends tao_actions_CommonModule
 
     public function getDependOnPropertyList(): void
     {
-        $property = $this->getProperty(tao_helpers_Uri::decode($this->getRequestParameter('property_uri')));
-        $listUri = $this->getProperty(tao_helpers_Uri::decode($this->getRequestParameter('list_uri')))->getUri();
-        $collection = $this->getRepository()->findAll(
-            [
-                'property' => $property,
-                'listUri'  => $listUri
-            ]
+        $this->setSuccessJsonResponse(
+            $this->getRepository()->findAll(
+                [
+                    'property' => $this->getProperty(tao_helpers_Uri::decode($this->getGetParameter('property_uri'))),
+                    'listUri'  => $this->getProperty(tao_helpers_Uri::decode($this->getGetParameter('list_uri')))->getUri()
+                ]
+            )
         );
-
-        $this->setSuccessJsonResponse($collection);
     }
 
     private function getRepository(): DependsOnPropertyRepository
