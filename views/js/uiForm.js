@@ -678,7 +678,7 @@ define([
                 dependsOn.toggle();
             }
 
-            function onListValuesChange(e, flag) {
+            function onListValuesChange(e) {
                 clearPropertyListValues.bind(this)(e);
                 if (!$(this).val() || !$(this).val().trim()) {
                     $(this).find('option[value=" "]').attr('selected', 'selected');
