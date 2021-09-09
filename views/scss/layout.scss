@@ -375,12 +375,18 @@ ul.group-list {
 
     > li {
         position: relative;
-        list-style-type: circle;
+        list-style-type: none;
         margin-top: 10px;
 
         &:first-child {
             &::after {
-                top: -20px;
+                top: -10px;
+            }
+        }
+
+        &:last-child {
+            &::after {
+                bottom: 50%;
             }
         }
 
@@ -403,8 +409,8 @@ ul.group-list {
             content: '';
             position: absolute;
             border-left: 1px solid #8C8C8C;
-            bottom: 50%;
-            top: -100%;
+            bottom: -5px;
+            top: -5px;
             left: -26px;
             opacity: 0.5;
         }
@@ -417,11 +423,21 @@ ul.group-list {
                 background: transparent!important;
             }
 
+            &::before {
+                content: '';
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                border: 1px solid #8C8C8C;
+                position: absolute;
+                left: -16px;
+            }
+
             label {
                 margin: 0;
             }
 
-            select {
+            select, .form_radlst {
                 width: calc(65% + 70px);
             }
         }
