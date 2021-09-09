@@ -35,7 +35,7 @@ use Relay\Relay;
 class MiddlewareRequestHandler extends ConfigurableService implements RequestHandlerInterface
 {
     public const SERVICE_ID = 'tao/MiddlewareRequestHandler';
-    public const MAP = 'map';
+    public const OPTION_MAP = 'map';
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
@@ -52,7 +52,7 @@ class MiddlewareRequestHandler extends ConfigurableService implements RequestHan
 
         $mapping = [];
 
-        $middlewareReferences = $this->getOption(self::MAP, [])[$path] ?? [];
+        $middlewareReferences = $this->getOption(self::OPTION_MAP, [])[$path] ?? [];
         foreach ($middlewareReferences as $middlewareClass) {
             $middleware = $this->getServiceLocator()->get($middlewareClass);
             if (!$middleware instanceof MiddlewareInterface) {

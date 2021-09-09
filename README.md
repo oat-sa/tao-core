@@ -3,6 +3,8 @@ tao-core
 
 [Task Queue Doc](models/classes/taskQueue/README.md)
 
+[Middlewares Doc](models/classes/Middleware/README.md)
+
 # Feature flag
 
 You can now define feature flag in environment global variables. 
