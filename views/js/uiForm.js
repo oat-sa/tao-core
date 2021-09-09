@@ -624,16 +624,39 @@ define([
                 var $this = $(this);
                 var elt = $this.parent("div");
                 var classUri;
-
-                //load the instances and display them (the list items)
+		var propertyUri;
+                
+		//load the instances and display them (the list items)
                 $(elt).parent("div").children("ul.form-elt-list").remove();
                 classUri = $this.val();
-                if (classUri && classUri.trim()) {
+                propertyUri = $this.parent().parent().parent()[0].id;
+		if (classUri && classUri.trim()) {
                     $this.parent("div").children("div.form-error").remove();
                     $.ajax({
                         url: context.root_url + 'taoBackOffice/Lists/getListElements',
                         type: "POST",
                         data: {listUri: classUri},
+                        dataType: 'json',
+                        success: function (response) {
+                            var html = "<ul class='form-elt-list'>",
+                                property;
+                            for (property in response) {
+                                if(!response.hasOwnProperty(property)) {
+                                    continue;
+                                }
+                                html += '<li>' + encode.html(response[property]) + '</li>';
+                            }
+                            html += '</ul>';
+                            $(elt).after(html);
+                        }
+                    });
+                    $.ajax({
+                        url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
+                        type: "GET",
+                        data: {
+                            list_uri: classUri,
+                            property_uri: propertyUri,
+                        },
                         dataType: 'json',
                         success: function (response) {
                             var html = "<ul class='form-elt-list'>",
