@@ -21,13 +21,13 @@
 ], function ($) {
     'use strict';
     function getSecondaryPropsList($primaryProp) {
-        let $secondaryPropsList = $primaryProp.find('.secondary-props-list')[0];
+        let $secondaryPropsList = $primaryProp.find('.secondary-props-list');
 
-        if (!$secondaryPropsList) {
+        if (!$secondaryPropsList.length) {
             $secondaryPropsList = $('<ul class="secondary-props-list"></ul>');
             $primaryProp.append($secondaryPropsList);
         }
-          
+
         return $secondaryPropsList;
     }
 
@@ -35,12 +35,12 @@
         const $secondaryList = $container.find('.secondary-props-list > li > *');
         $secondaryList.each(function() {
             if (disable) {
-                $(this).find('[data-depends-on]').attr('disabled', 'disabled');
+                $(this).find('[data-depends-on-property]').attr('disabled', 'disabled');
                 $(this).addClass('disabled');
                 return;
             }
 
-            $(this).find('[data-depends-on]').removeAttr('disabled');
+            $(this).find('[data-depends-on-property]').removeAttr('disabled');
             $(this).removeClass('disabled');
         });
     }
@@ -55,16 +55,16 @@
                 return;
             }
 
-            const $selectElt = $(this).find('select[data-depends-on]');
+            const $selectElt = $(this).find('select[data-depends-on-property]');
             if ($selectElt.length) {
                 $selectElt.each(function() {
                     $(this).find('option[selected]').removeAttr('selected');
                     $(this).find('option[value=" "]').attr('selected', 'selected');
                     $(this).trigger('change');
                 });
-                
                 return;
             }
+
             const $inputElt = $(this).find('input');
             if ($inputElt.length) {
                 $inputElt.each(function() {
@@ -75,7 +75,7 @@
     }
 
     function moveSecondaryProperty($prop, $props) {
-        const primaryPropUri = $prop.find('[data-depends-on]').data('depends-on');
+        const primaryPropUri = $prop.find('[data-depends-on-property]').data('depends-on-property');
         let $primaryProp = $($props.filter(function() {
             return !!$(this).find(`#${primaryPropUri}`).length;
         })[0]);
@@ -93,15 +93,15 @@
             console.error('Primary property not found', primaryPropUri)
             return;
         }
- 
+
         const $secondaryPropsList = getSecondaryPropsList($primaryProp);
         const $wrapper = $('<li></li>');
         $secondaryPropsList.append($wrapper);
         $wrapper.append($prop.detach());
-        
+
         if (isCheckboxes) {
             const $listWrapper = $primaryProp.find('.form_checklst');
-            
+
             $listWrapper.on('change', (e) => {
                 const isFilled = !!$listWrapper.find('input:checked').length;
                 if (!isFilled) {
@@ -129,13 +129,11 @@
 
     function moveSecondaryProperties($container) {
         const $props = $container.children();
-        // TODO: fix this before testing
+
         const $secondaryProps = $props.filter(function(index) {
-            // return !!$(this).find('[data-depends-on]').length;
-            let isDep = $(this).find('[data-depends-on]');
-            if (!isDep.length) return false;
-            return index === 6;
+            return !!$(this).find('[data-depends-on-property]').length;
         })
+
         $secondaryProps.each(function () {
             moveSecondaryProperty($(this), $props);
         })
