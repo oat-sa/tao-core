@@ -29,6 +29,8 @@ class DependsOnPropertyCollection extends ArrayIterator implements JsonSerializa
 {
     public function jsonSerialize(): array
     {
+        $options = [];
+
         /** @var DependsOnProperty $prop */
         foreach ($this->getArrayCopy() as $prop) {
             $options[$prop->getLabel()] = $prop->jsonSerialize();

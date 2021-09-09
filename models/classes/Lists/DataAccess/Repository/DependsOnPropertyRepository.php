@@ -25,15 +25,7 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use tao_helpers_form_GenerisFormFactory;
-use common_persistence_Manager;
-use common_persistence_SqlPersistence as SqlPersistence;
-use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\DBAL\FetchMode;
-use Doctrine\DBAL\Connection;
-use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\cache\SimpleCache;
-use Psr\SimpleCache\CacheInterface;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
 use oat\tao\model\Specification\PropertySpecificationInterface;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
@@ -43,8 +35,6 @@ use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
 
 class DependsOnPropertyRepository extends ConfigurableService implements DependsOnPropertyRepositoryInterface
 {
-    private const CACHE_MASK = 'dependsOnProperty-%s-%s';
-
     /** @var core_kernel_classes_Property[] */
     private $properties;
 
@@ -59,31 +49,6 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
         $this->properties = $properties;
     }
 
-    public function deleteCache(array $options): void
-    {
-        if (!isset($options['propertyUri'])) {
-            // remove or find list uri items
-            // find all properties with list Uris
-            $parentPropertiesList = $this->getpropertiesByListUris([$options['listUri']]);
-            if (empty($parentPropertiesList)) {
-                return;
-            }
-            foreach ($parentPropertiesList as $property) {
-                $this->getCache()->delete(sprintf(self::CACHE_MASK, $property, $options['listUri']));
-            }
-        }
-        $this->getCache()->delete(sprintf(self::CACHE_MASK, $options['propertyUri'], $options['listUri']));
-    }
-    public function updateCache($property, $listUri): void
-    {
-        $this->findAll(
-            [
-                    'property' => $property,
-                    'listUri'  => $listUri,
-                    'updateCache'  => true
-                ]
-        );
-    }
     public function findAll(array $options): DependsOnPropertyCollection
     {
         $collection = new DependsOnPropertyCollection();
@@ -91,71 +56,63 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
         /** @var core_kernel_classes_Property $property */
         $property = $options['property'];
 
-        if (
-            !$property->getDomain()->count()
-            || !$this->getRemoteListPropertySpecification()->isSatisfiedBy($property)
-        ) {
+        if (!$this->isRemoteListProperty($property)) {
             return $collection;
         }
-        $listUri = $options['listUri'] ?? $property->getRange()->getUri();
-        $dependentsOnPropertyJson = $this->getCache()->get(sprintf(self::CACHE_MASK, $property->getUri(), $listUri));
-        if (is_null($dependentsOnPropertyJson) || $options['updateCache'] === true) {
-            $dependencies = $this->getDependencies($listUri);
-            if (empty($dependencies)) {
-                $this->getCache()->set(sprintf(self::CACHE_MASK, $property->getUri(), $listUri), "false");
-                return $collection;
-            }
 
-            $dependencyListUris = $this->getDependencyListUris($dependencies);
-            if (empty($dependencyListUris)) {
-                $this->getCache()->set(sprintf(self::CACHE_MASK, $property->getUri(), $listUri), "false");
-                return $collection;
-            }
-            $this->getCache()->set(
-                sprintf(self::CACHE_MASK, $property->getUri(), $listUri),
-                json_encode(array("uri" => $dependencyListUris))
-            );
-        }
-        if (!empty($dependentsOnPropertyJson)) {
-            if ($dependentsOnPropertyJson == "false") {
-                return $collection;
-            }
-            $dependencyListUris = json_decode($dependentsOnPropertyJson)->uri;
-        }
-        $parentPropertiesList = $this->getpropertiesByListUris($dependencyListUris);
-        
-        if (empty($parentPropertiesList)) {
+        $parentPropertiesUris = $this->getParentPropertyListUrisRepository()->findAllUris(
+            [
+                'property' => $property,
+                'listUri' => $options['listUri'] ?? null,
+            ]
+        );
+
+        if (empty($parentPropertiesUris)) {
             return $collection;
         }
 
         /** @var core_kernel_classes_Class $class */
         $class = $property->getDomain()->get(0);
-        $propertyUri = $property->getUri();
-        
 
         /** @var core_kernel_classes_Property $property */
         foreach ($this->getProperties($class) as $classProperty) {
-            if (
-                $propertyUri === $classProperty->getUri()
-                || !$this->getRemoteListPropertySpecification()->isSatisfiedBy($classProperty)
-            ) {
+            if ($this->isPropertyNotSupported($property, $classProperty)) {
                 continue;
             }
-            if (
-                !$this->getDependentPropertySpecification()->isSatisfiedBy($classProperty)
-                && in_array($classProperty->getUri(), $parentPropertiesList, true)
-            ) {
+
+            if ($this->isChildProperty($classProperty, $parentPropertiesUris)) {
                 $collection->append(new DependsOnProperty($classProperty));
 
                 continue;
             }
 
             // @TODO Check for parent's (current property) children outside the foreach statement
-            // if ($propertyUri === $classProperty->getDependsOnPropertyCollection()->current()->getUri()) {
-            //     return new DependsOnPropertyCollection();
-            // }
+            if ($property->getUri() === $classProperty->getDependsOnPropertyCollection()->current()->getUri()) {
+                return $collection;
+            }
         }
+
         return $collection;
+    }
+
+    private function isRemoteListProperty(core_kernel_classes_Property $property): bool
+    {
+        return $property->getDomain()->count() && $this->getRemoteListPropertySpecification()->isSatisfiedBy($property);
+    }
+
+    private function isChildProperty(core_kernel_classes_Property $classProperty, array $parentPropertiesUris): bool
+    {
+        //@TODO Confirm with Andrei the method responsibility
+        return !$this->getDependentPropertySpecification()->isSatisfiedBy($classProperty)
+            && in_array($classProperty->getUri(), $parentPropertiesUris, true);
+    }
+
+    private function isPropertyNotSupported(
+        core_kernel_classes_Property $property,
+        core_kernel_classes_Property $classProperty
+    ): bool {
+        return $property->getUri() === $classProperty->getUri()
+            || !$this->getRemoteListPropertySpecification()->isSatisfiedBy($classProperty);
     }
 
     private function getProperties(core_kernel_classes_Class $class): array
@@ -185,72 +142,8 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
         return $this->dependentPropertySpecification;
     }
 
-    private function getPersistence(): SqlPersistence
+    private function getParentPropertyListUrisRepository(): ParentPropertyListRepository
     {
-        return $this->getServiceManager()->get(common_persistence_Manager::SERVICE_ID)->getPersistenceById('default');
-    }
-
-    private function getQueryBuilder(): QueryBuilder
-    {
-        return $this->getPersistence()->getPlatform()->getQueryBuilder();
-    }
-
-    public function getDependencies($remoteListUri): array
-    {
-        $query = $this->getQueryBuilder();
-        $expressionBuilder = $query->expr();
-
-        $query
-            ->select('value')
-            ->from('list_items_dependencies', 'dependencies')
-            ->innerJoin(
-                'dependencies',
-                'list_items',
-                'items',
-                $expressionBuilder->eq('dependencies.list_item_id', 'items.id')
-            )
-            ->andWhere($expressionBuilder->eq('items.list_uri', ':label_uri'))
-            ->setParameter('label_uri', $remoteListUri);
-
-        return $query->execute()->fetchAll(FetchMode::COLUMN);
-    }
-
-    public function getDependencyListUris($dependencies): array
-    {
-        $query = $this->getQueryBuilder();
-        $expressionBuilder = $query->expr();
-        $query
-            ->select('list_uri')
-            ->from('list_items')
-            ->andWhere($expressionBuilder->in('list_items.uri', ':label_uri'))
-            ->groupBy('list_uri')
-            ->setParameter('label_uri', $dependencies, Connection::PARAM_STR_ARRAY);
-        return $query->execute()->fetchAll(FetchMode::COLUMN);
-    }
-
-    public function getpropertiesByListUris($dependencyListUris): array
-    {
-        $query = $this->getQueryBuilder();
-        $expressionBuilder = $query->expr();
-        $query
-            ->select('subject')
-            ->from('statements')
-            ->andWhere($expressionBuilder->eq('predicate', ':predicate'))
-            ->andWhere($expressionBuilder->in('object', ':object'))
-            ->setParameters(
-                [
-                'predicate' => OntologyRdfs::RDFS_RANGE,
-                'object' => $dependencyListUris
-                ],
-                [
-                    'object' => Connection::PARAM_STR_ARRAY
-                ]
-            );
-        return $query->execute()->fetchAll(FetchMode::COLUMN);
-    }
-
-    private function getCache(): CacheInterface
-    {
-        return $this->getServiceLocator()->get(SimpleCache::SERVICE_ID);
+        return $this->getServiceLocator()->get(ParentPropertyListRepository::class);
     }
 }

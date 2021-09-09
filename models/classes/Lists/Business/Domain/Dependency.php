@@ -20,11 +20,30 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Contract;
+namespace oat\tao\model\Lists\Business\Domain;
 
-use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
+use JsonSerializable;
 
-interface DependsOnPropertyRepositoryInterface
+class Dependency implements JsonSerializable
 {
-    public function findAll(array $options): DependsOnPropertyCollection;
+    /** @var string */
+    private $value;
+
+    public function __construct(string $value)
+    {
+        $this->value = $value;
+    }
+
+    public function getValue(): string
+    {
+        //@TODO Maybe find better name...
+        return $this->value;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'value' => $this->value,
+        ];
+    }
 }

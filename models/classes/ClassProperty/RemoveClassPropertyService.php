@@ -24,6 +24,7 @@ namespace oat\tao\model\ClassProperty;
 
 use oat\oatbox\event\EventManager;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
 use oat\tao\model\search\tasks\IndexTrait;
 use oat\oatbox\service\ConfigurableService;
 use Psr\Http\Message\ServerRequestInterface;
@@ -72,7 +73,7 @@ class RemoveClassPropertyService extends ConfigurableService
                         $index = $this->getResource($indexUri);
                         $index->delete(true);
                     }
-                    $this->getDependsOnPropertyRepository()->deleteCache(
+                    $this->getParentPropertyListCachedRepository()->deleteCache(
                         [
                             'propertyUri' => $parsedBody['uri'],
                             'listUri' => $listUri
@@ -91,8 +92,8 @@ class RemoveClassPropertyService extends ConfigurableService
         return $this->getServiceManager()->get(EventManager::SERVICE_ID);
     }
 
-    private function getDependsOnPropertyRepository(): DependsOnPropertyRepository
+    private function getParentPropertyListCachedRepository(): ParentPropertyListCachedRepository
     {
-        return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
+        return $this->getServiceLocator()->get(ParentPropertyListCachedRepository::class);
     }
 }

@@ -20,11 +20,28 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Contract;
+namespace oat\tao\model\Lists\Business\Domain;
 
-use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
+use ArrayIterator;
+use JsonSerializable;
 
-interface DependsOnPropertyRepositoryInterface
+class DependencyCollection extends ArrayIterator implements JsonSerializable
 {
-    public function findAll(array $options): DependsOnPropertyCollection;
+    public function getListUris(): array
+    {
+        //@TODO FIXME Check if those are listUris or we should rename the method
+        $list = [];
+
+        /** @var Dependency $value */
+        foreach ($this->getArrayCopy() as $value) {
+            $list[] = $value->getValue();
+        }
+
+        return $list;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->getArrayCopy();
+    }
 }

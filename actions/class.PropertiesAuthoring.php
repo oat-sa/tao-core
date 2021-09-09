@@ -32,6 +32,7 @@ use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\dto\OldProperty;
 use oat\tao\model\event\ClassFormUpdatedEvent;
 use oat\tao\model\event\ClassPropertiesChangedEvent;
+use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\tasks\IndexTrait;
@@ -532,16 +533,14 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                     $oldProperty
                 );
                 if ($isRangeUriChanged) {
-                    $this->getDependsOnPropertyRepository()->deleteCache(
+                    $this->getParentPropertyListCachedRepository()->deleteCache(
                         [
                             'propertyUri' => tao_helpers_Uri::decode($propertyValues['uri']),
                             'listUri' => $oldPropertyRangeUri
                         ]
                     );
                 }
-                if ($isPropertyTypeChanged) {
-                    $this->getDependsOnPropertyRepository()->updateCache($property, $oldPropertyRangeUri);
-                }
+
                 $changedProperties[] = [
                     'class' => $this->getCurrentClass(),
                     'property' => $currentProperty,
@@ -614,8 +613,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 
-    private function getDependsOnPropertyRepository(): DependsOnPropertyRepository
+    private function getParentPropertyListCachedRepository(): ParentPropertyListCachedRepository
     {
-        return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
+        return $this->getServiceLocator()->get(ParentPropertyListCachedRepository::class);
     }
 }

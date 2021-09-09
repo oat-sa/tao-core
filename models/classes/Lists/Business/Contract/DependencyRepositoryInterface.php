@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Contract;
 
-use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
+use oat\tao\model\Lists\Business\Domain\DependencyCollection;
 
-interface DependsOnPropertyRepositoryInterface
+interface DependencyRepositoryInterface
 {
-    public function findAll(array $options): DependsOnPropertyCollection;
+    public function findAll(array $options): DependencyCollection;
 }

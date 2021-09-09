@@ -22,9 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Contract;
 
-use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
-
-interface DependsOnPropertyRepositoryInterface
+interface ParentPropertyListRepositoryInterface
 {
-    public function findAll(array $options): DependsOnPropertyCollection;
+    public function findAllUris(array $options): array;
 }
