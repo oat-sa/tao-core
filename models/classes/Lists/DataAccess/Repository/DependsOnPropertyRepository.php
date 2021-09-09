@@ -39,8 +39,9 @@ use oat\tao\model\Specification\PropertySpecificationInterface;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
+use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
 
-class DependsOnPropertyRepository extends ConfigurableService
+class DependsOnPropertyRepository extends ConfigurableService implements DependsOnPropertyRepositoryInterface
 {
     private const CACHE_MASK = 'dependsOnProperty-%s-%s';
 
@@ -119,7 +120,6 @@ class DependsOnPropertyRepository extends ConfigurableService
             if ($dependentsOnPropertyJson == "false") {
                 return $collection;
             }
-            echo $dependentsOnPropertyJson;
             $dependencyListUris = json_decode($dependentsOnPropertyJson)->uri;
         }
         $parentPropertiesList = $this->getpropertiesByListUris($dependencyListUris);
@@ -135,7 +135,6 @@ class DependsOnPropertyRepository extends ConfigurableService
 
         /** @var core_kernel_classes_Property $property */
         foreach ($this->getProperties($class) as $classProperty) {
-            print_r($parentPropertiesList);
             if (
                 $propertyUri === $classProperty->getUri()
                 || !$this->getRemoteListPropertySpecification()->isSatisfiedBy($classProperty)
@@ -196,7 +195,7 @@ class DependsOnPropertyRepository extends ConfigurableService
         return $this->getPersistence()->getPlatform()->getQueryBuilder();
     }
 
-    private function getDependencies($remoteListUri): array
+    public function getDependencies($remoteListUri): array
     {
         $query = $this->getQueryBuilder();
         $expressionBuilder = $query->expr();
@@ -216,7 +215,7 @@ class DependsOnPropertyRepository extends ConfigurableService
         return $query->execute()->fetchAll(FetchMode::COLUMN);
     }
 
-    private function getDependencyListUris($dependencies): array
+    public function getDependencyListUris($dependencies): array
     {
         $query = $this->getQueryBuilder();
         $expressionBuilder = $query->expr();
@@ -229,7 +228,7 @@ class DependsOnPropertyRepository extends ConfigurableService
         return $query->execute()->fetchAll(FetchMode::COLUMN);
     }
 
-    private function getpropertiesByListUris($dependencyListUris): array
+    public function getpropertiesByListUris($dependencyListUris): array
     {
         $query = $this->getQueryBuilder();
         $expressionBuilder = $query->expr();
