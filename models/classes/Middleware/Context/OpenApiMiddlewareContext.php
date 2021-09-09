@@ -26,7 +26,6 @@ use oat\tao\model\Context\AbstractContext;
 
 class OpenApiMiddlewareContext extends AbstractContext
 {
-
     public const PARAM_SCHEMA_PATH = 'path';
     public const PARAM_ROUTE = 'route';
 
