@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
 use common_persistence_Persistence;
+use common_persistence_SqlPersistence;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\FetchMode;
 use oat\generis\persistence\PersistenceManager;
@@ -64,9 +65,9 @@ class DependencyRepository extends ConfigurableService implements DependencyRepo
         return $collection;
     }
 
-    private function getPersistence(): common_persistence_Persistence
+    private function getPersistence(): common_persistence_SqlPersistence
     {
-        return $this->getServiceManager()->get(PersistenceManager::SERVICE_ID)->getPersistenceById('default');
+        return $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID)->getPersistenceById('default');
     }
 
     private function getQueryBuilder(): QueryBuilder
