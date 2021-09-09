@@ -624,11 +624,13 @@ define([
                 var $this = $(this);
                 var elt = $this.parent("div");
                 var classUri;
+		var propertyUri;
 
                 //load the instances and display them (the list items)
                 $(elt).parent("div").children("ul.form-elt-list").remove();
                 classUri = $this.val();
-                if (classUri && classUri.trim()) {
+                propertyUri = $this.parent().parent().parent()[0].id;
+		if (classUri && classUri.trim()) {
                     $this.parent("div").children("div.form-error").remove();
                     $.ajax({
                         url: context.root_url + 'taoBackOffice/Lists/getListElements',
@@ -648,6 +650,26 @@ define([
                             $(elt).after(html);
                         }
                     });
+                    $.ajax({
+                        url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
+                        type: "GET",
+                        data: {
+                            list_uri: classUri,
+                            property_uri: propertyUri,
+                        },
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response && response.data) {
+                                var html = "<div><label class='form_desc' for='child'>Depends on property</label><select id='child' class='property-listvalues property' name='child' data-testid='Depends on property'>";
+                                html += '<option value=" ">None</option>';
+                                for (property in response.data) {
+                                    html += `<option value="${ response.data[property].uri }">${ response.data[property].label }</option>`;
+                                }
+                                html += '</select>';
+                                $(elt).siblings('ul').after(html);
+                            }
+                        }
+                    });
                 }
             }
 
@@ -656,7 +678,7 @@ define([
                 dependsOn.toggle();
             }
 
-            function onListValuesChange(e) {
+            function onListValuesChange(e, flag) {
                 clearPropertyListValues.bind(this)(e);
                 if (!$(this).val() || !$(this).val().trim()) {
                     $(this).find('option[value=" "]').attr('selected', 'selected');

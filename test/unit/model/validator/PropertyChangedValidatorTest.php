@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -26,13 +26,19 @@ use oat\tao\model\validator\PropertyChangedValidator;
 
 class PropertyChangedValidatorTest extends TestCase
 {
+    /** @var PropertyChangedValidator  */
+    private $subject;
+
+    public function setUp(): void
+    {
+        $this->subject = new PropertyChangedValidator();
+    }
+
     public function testDoNotTriggerIfDoesNotHaveChanges(): void
     {
         $property = $this->createPropertyMock('');
 
-        $this->assertFalse(
-            (new PropertyChangedValidator())->isPropertyChanged($property, new OldProperty('', $property))
-        );
+        $this->assertFalse($this->subject->isPropertyChanged($property, new OldProperty('', $property)));
     }
 
     public function testDoNotTriggerIfDoesNotHavePropertyType(): void
@@ -43,18 +49,14 @@ class PropertyChangedValidatorTest extends TestCase
             ->with(new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET))
             ->willReturn(null);
 
-        $this->assertFalse(
-            (new PropertyChangedValidator())->isPropertyChanged($property, new OldProperty('', null))
-        );
+        $this->assertFalse($this->subject->isPropertyChanged($property, new OldProperty('', null)));
     }
 
     public function testTriggerIfHaveCurrentPropertyTypeButDoesNotHaveOldPropertyType(): void
     {
         $property = $this->createPropertyMock('');
 
-        $this->assertTrue(
-            (new PropertyChangedValidator())->isPropertyChanged($property, new OldProperty('', null))
-        );
+        $this->assertTrue($this->subject->isPropertyChanged($property, new OldProperty('', null)));
     }
 
     public function testTriggerIfDoesNotHaveCurrentPropertyTypeButHaveOldPropertyType(): void
@@ -62,7 +64,7 @@ class PropertyChangedValidatorTest extends TestCase
         $property = $this->createMock(core_kernel_classes_Property::class);
 
         $this->assertTrue(
-            (new PropertyChangedValidator())->isPropertyChanged(
+            $this->subject->isPropertyChanged(
                 $property,
                 new OldProperty('', $this->createMock(core_kernel_classes_Property::class))
             )
@@ -73,12 +75,7 @@ class PropertyChangedValidatorTest extends TestCase
     {
         $property = $this->createMock(core_kernel_classes_Property::class);
 
-        $this->assertTrue(
-            (new PropertyChangedValidator())->isPropertyChanged(
-                $property,
-                new OldProperty('different', $property)
-            )
-        );
+        $this->assertTrue($this->subject->isPropertyChanged($property, new OldProperty('different', $property)));
     }
 
     public function testTriggerIfHasChangesOnPropertyType(): void
@@ -90,10 +87,38 @@ class PropertyChangedValidatorTest extends TestCase
             ->method('getUri')
             ->willReturn('TextBox');
 
+        $this->assertTrue($this->subject->isPropertyChanged($property, new OldProperty('', $widgetProperty)));
+    }
+
+    public function testIsRangeChangedIsTrue(): void
+    {
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $range = $this->createMock(core_kernel_classes_Resource::class);
+        $oldProperty = $this->createMock(OldProperty::class);
+
+        $range->method('getUri')
+            ->willReturn('uri1');
+
+        $property->method('getRange')
+            ->willReturn($range);
+
+        $oldProperty->method('getRangeUri')
+            ->willReturn('uri2');
+
         $this->assertTrue(
-            (new PropertyChangedValidator())->isPropertyChanged(
+            $this->subject->isRangeChanged(
                 $property,
-                new OldProperty('', $widgetProperty)
+                $oldProperty
+            )
+        );
+    }
+
+    public function testIsRangeChangedIsFalse(): void
+    {
+        $this->assertFalse(
+            $this->subject->isRangeChanged(
+                $this->createMock(core_kernel_classes_Property::class),
+                $this->createMock(OldProperty::class)
             )
         );
     }
