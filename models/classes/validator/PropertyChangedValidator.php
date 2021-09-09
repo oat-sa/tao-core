@@ -30,24 +30,16 @@ class PropertyChangedValidator
 {
     public function isPropertyChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
     {
-        if ((string)$property->getLabel() !== $oldProperty->getLabel()) {
-            return true;
-        }
-
-        $this->isPropertyTypeChanged($property, $oldProperty);
-        
-        $this->isRangeChanged($property, $oldProperty);
-
-        return false;
+        return (string)$property->getLabel() !== $oldProperty->getLabel()
+            || $this->isPropertyTypeChanged($property, $oldProperty)
+            || $this->isRangeChanged($property, $oldProperty);
     }
+
     public function isRangeChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
     {
-        $propertyRange = $property->getRange() ? (string)$property->getRange()->getUri() : null;
-        if ($propertyRange !== $oldProperty->getrangeUri()) {
-            return true;
-        }
-        return false;
+        return ($property->getRange() ? (string)$property->getRange()->getUri() : null) !== $oldProperty->getRangeUri();
     }
+
     public function isPropertyTypeChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
     {
         $currentPropertyType = $property

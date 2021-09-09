@@ -22,19 +22,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
-use common_persistence_Persistence;
 use core_kernel_classes_Property;
-use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\DBAL\FetchMode;
-use Doctrine\DBAL\Connection;
-use oat\generis\model\OntologyRdfs;
-use oat\generis\persistence\PersistenceManager;
+use InvalidArgumentException;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\cache\SimpleCache;
-use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
 use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
-use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
-use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use Psr\SimpleCache\CacheInterface;
 
 class ParentPropertyListCachedRepository extends ConfigurableService implements ParentPropertyListRepositoryInterface
@@ -43,19 +35,16 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
 
     public function deleteCache(array $options): void
     {
-        return; //FIXME
-        if (!isset($options['propertyUri'])) {
-            // remove or find list uri items
-            // find all properties with list Uris
-            $parentPropertiesList = $this->getPropertiesByListUris([$options['listUri']]);
+        if (empty($options['listUri'])) {
+            throw new InvalidArgumentException('listUri is required to clear the cache');
+        }
 
-            if (empty($parentPropertiesList)) {
-                return;
+        if (empty($options['propertyUri'])) {
+            foreach ($this->getParentPropertyListRepository()->findAllUris($options) as $propertyUri) {
+                $this->getCache()->delete(sprintf(self::CACHE_MASK, $propertyUri, $options['listUri']));
             }
 
-            foreach ($parentPropertiesList as $property) {
-                $this->getCache()->delete(sprintf(self::CACHE_MASK, $property, $options['listUri']));
-            }
+            return;
         }
 
         $this->getCache()->delete(sprintf(self::CACHE_MASK, $options['propertyUri'], $options['listUri']));

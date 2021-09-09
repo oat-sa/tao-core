@@ -27,6 +27,7 @@ use core_kernel_classes_Property;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Connection;
+use InvalidArgumentException;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\service\ConfigurableService;
@@ -40,8 +41,15 @@ class ParentPropertyListRepository extends ConfigurableService implements Parent
     public function findAllUris(array $options): array
     {
         /** @var core_kernel_classes_Property $property */
-        $property = $options['property'];
-        $listUri = $options['listUri'] ?? $property->getRange()->getUri();
+        $property = $options['property'] ?? null;
+
+        $listUri = empty($options['listUri']) && $property
+            ? $property->getRange()->getUri()
+            : $options['listUri'];
+
+        if (empty($listUri)) {
+            throw new InvalidArgumentException('listUri must be provided as a filter');
+        }
 
         $dependencies = $this->getDependencyRepository()->findAll(
             [

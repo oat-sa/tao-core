@@ -507,39 +507,19 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             }
 
             $property = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
-            $oldPropertyLabel = $property->getLabel();
-            $oldPropertyType = $property->getOnePropertyValue(
-                $this->getProperty(WidgetRdf::PROPERTY_WIDGET)
+            $oldProperty = new OldProperty(
+                $property->getLabel(),
+                $property->getOnePropertyValue($this->getProperty(WidgetRdf::PROPERTY_WIDGET)),
+                $property->getRange() ? $property->getRange()->getUri() : null
             );
-            $oldPropertyRangeUri = $property->getRange() ? $property->getRange()->getUri() : null;
-            $oldProperty = new OldProperty($oldPropertyLabel, $oldPropertyType, $oldPropertyRangeUri);
 
             $this->saveSimpleProperty($propertyValues, $property);
 
             $currentProperty = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
+            $validator = $this->getPropertyChangedValidator();
 
-            $isPropertyChanged = (new PropertyChangedValidator())->isPropertyChanged(
-                $currentProperty,
-                $oldProperty
-            );
-
-            if ($isPropertyChanged) {
-                $isRangeUriChanged = (new PropertyChangedValidator())->isRangeChanged(
-                    $currentProperty,
-                    $oldProperty
-                );
-                $isPropertyTypeChanged = (new PropertyChangedValidator())->isPropertyTypeChanged(
-                    $currentProperty,
-                    $oldProperty
-                );
-                if ($isRangeUriChanged) {
-                    $this->getParentPropertyListCachedRepository()->deleteCache(
-                        [
-                            'propertyUri' => tao_helpers_Uri::decode($propertyValues['uri']),
-                            'listUri' => $oldPropertyRangeUri
-                        ]
-                    );
-                }
+            if ($validator->isPropertyChanged($currentProperty, $oldProperty)) {
+                $this->invalidatePropertyCache($validator, $currentProperty, $oldProperty);
 
                 $changedProperties[] = [
                     'class' => $this->getCurrentClass(),
@@ -600,6 +580,24 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $property->setDependsOnPropertyCollection($dependsOnPropertyCollection);
     }
 
+    private function invalidatePropertyCache(
+        PropertyChangedValidator $validator,
+        core_kernel_classes_Property $currentProperty,
+        OldProperty $oldProperty
+    ): void {
+        if (
+            $validator->isRangeChanged($currentProperty, $oldProperty)
+            || $validator->isPropertyTypeChanged($currentProperty, $oldProperty)
+        ) {
+            $this->getParentPropertyListCachedRepository()->deleteCache(
+                [
+                    'propertyUri' => $currentProperty->getUri(),
+                    'listUri' => $oldProperty->getRangeUri()
+                ]
+            );
+        }
+    }
+
     private function isElasticSearchEnabled(): bool
     {
         /** @var AdvancedSearchChecker $advancedSearchChecker */
@@ -616,5 +614,10 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     private function getParentPropertyListCachedRepository(): ParentPropertyListCachedRepository
     {
         return $this->getServiceLocator()->get(ParentPropertyListCachedRepository::class);
+    }
+
+    private function getPropertyChangedValidator(): PropertyChangedValidator
+    {
+        return new PropertyChangedValidator();
     }
 }
