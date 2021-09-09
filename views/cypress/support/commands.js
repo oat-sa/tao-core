@@ -44,9 +44,7 @@ Cypress.Commands.add('loginAttempt', (username, password) => {
     cy.get('#login', { timeout: 10000 }).type(username);
     cy.get('#password').type(password);
     cy.get('#connect').click();
-    cy.wait('@login', {
-        requestTimeout: 10000
-    });
+    cy.wait('@login');
 });
 
 // Preserve session cookies to stay logged in to TAO during tests

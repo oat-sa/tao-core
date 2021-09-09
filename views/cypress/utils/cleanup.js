@@ -28,9 +28,7 @@ export function tryToDeleteUser(user) {
     cy.intercept('GET', `**/Users/**/*filterquery=${user.login}`).as('usersData');
     cy.get(`${selectors.manageUserTable} .filter input[name=filter]`)
         .type(`${user.login}{enter}`);
-    cy.wait('@usersData', {
-        requestTimeout: 10000
-    }).then((interception) => {
+    cy.wait('@usersData').then((interception) => {
         if (interception.response.body.data) {
             cy.get(`${selectors.manageUserTable} table`)
                 .contains('td', user.login)
