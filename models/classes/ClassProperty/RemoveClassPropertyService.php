@@ -31,7 +31,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
 use oat\generis\model\data\event\ClassPropertyDeletedEvent;
-use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 
 class RemoveClassPropertyService extends ConfigurableService
 {

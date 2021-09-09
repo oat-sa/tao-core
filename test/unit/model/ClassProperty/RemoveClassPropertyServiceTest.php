@@ -20,29 +20,24 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Domain;
+namespace oat\tao\test\unit\model\ClassProperty;
 
-use JsonSerializable;
+use oat\generis\test\TestCase;
+use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 
-class Dependency implements JsonSerializable
+class RemoveClassPropertyServiceTest extends TestCase
 {
-    /** @var string */
-    private $value;
+    /** @var RemoveClassPropertyService */
+    private $subject;
 
-    public function __construct(string $value)
+    public function setUp(): void
     {
-        $this->value = $value;
+        $this->subject = new RemoveClassPropertyService();
     }
 
-    public function getValue(): string
+    public function testRemove()
     {
-        return $this->value;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'value' => $this->value,
-        ];
+        //@TODO Author will cover with tests
+        $this->markTestIncomplete('TODO: We need to cover this test in a next iteration');
     }
 }

@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
 use common_persistence_Persistence;
+use common_persistence_SqlPersistence;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\FetchMode;
 use oat\generis\persistence\PersistenceManager;
@@ -47,7 +48,10 @@ class DependencyRepository extends ConfigurableService implements DependencyRepo
                 'dependencies',
                 RdsValueCollectionRepository::TABLE_LIST_ITEMS,
                 'items',
-                $expressionBuilder->eq('dependencies.list_item_id', 'items.id') //@TODO get fields by constants
+                $expressionBuilder->eq(
+                    'dependencies.' . RdsValueCollectionRepository::FIELD_LIST_ITEM_ID,
+                    'items.' . RdsValueCollectionRepository::FIELD_ITEM_ID
+                )
             )
             ->andWhere($expressionBuilder->eq('items.list_uri', ':label_uri'))
             ->setParameter('label_uri', $remoteListUri);
@@ -61,9 +65,9 @@ class DependencyRepository extends ConfigurableService implements DependencyRepo
         return $collection;
     }
 
-    private function getPersistence(): common_persistence_Persistence
+    private function getPersistence(): common_persistence_SqlPersistence
     {
-        return $this->getServiceManager()->get(PersistenceManager::SERVICE_ID)->getPersistenceById('default');
+        return $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID)->getPersistenceById('default');
     }
 
     private function getQueryBuilder(): QueryBuilder

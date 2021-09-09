@@ -27,9 +27,8 @@ use JsonSerializable;
 
 class DependencyCollection extends ArrayIterator implements JsonSerializable
 {
-    public function getListUris(): array
+    public function getValues(): array
     {
-        //@TODO FIXME Check if those are listUris or we should rename the method
         $list = [];
 
         /** @var Dependency $value */
