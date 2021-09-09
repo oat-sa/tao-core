@@ -47,7 +47,10 @@ class DependencyRepository extends ConfigurableService implements DependencyRepo
                 'dependencies',
                 RdsValueCollectionRepository::TABLE_LIST_ITEMS,
                 'items',
-                $expressionBuilder->eq('dependencies.list_item_id', 'items.id') //@TODO get fields by constants
+                $expressionBuilder->eq(
+                    'dependencies.' . RdsValueCollectionRepository::FIELD_LIST_ITEM_ID,
+                    'items.' . RdsValueCollectionRepository::FIELD_ITEM_ID
+                )
             )
             ->andWhere($expressionBuilder->eq('items.list_uri', ':label_uri'))
             ->setParameter('label_uri', $remoteListUri);

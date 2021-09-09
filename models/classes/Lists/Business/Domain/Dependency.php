@@ -36,7 +36,6 @@ class Dependency implements JsonSerializable
 
     public function getValue(): string
     {
-        //@TODO Maybe find better name...
         return $this->value;
     }
 

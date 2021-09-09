@@ -55,7 +55,7 @@ class ParentPropertyListRepository extends ConfigurableService implements Parent
             [
                 'listUri' => $listUri
             ]
-        )->getListUris();
+        )->getValues();
 
         if (empty($dependencies)) {
             return [];
