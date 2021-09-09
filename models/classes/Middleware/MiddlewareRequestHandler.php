@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,23 +18,35 @@ declare(strict_types=1);
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\Middleware;
 
 use GuzzleHttp\Psr7\Response;
 use LogicException;
 use oat\oatbox\service\ConfigurableService;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Relay\Relay;
 
-class MiddlewareChainBuilder extends ConfigurableService
+class MiddlewareRequestHandler extends ConfigurableService implements RequestHandlerInterface
 {
-    public const SERVICE_ID = 'tao/MiddlewareChainBuilder';
+    public const SERVICE_ID = 'tao/MiddlewareRequestHandler';
     public const MAP = 'map';
+
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+        $queue = $this->build($request);
+        return (new Relay($queue))->handle($request);
+    }
 
     /**
      * @return MiddlewareInterface[]
      */
-    public function build(RequestInterface $request): array
+    private function build(RequestInterface $request): array
     {
         $path = $request->getUri()->getPath();
 

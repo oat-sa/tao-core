@@ -25,7 +25,7 @@ namespace oat\tao\model\routing;
 use Context;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use oat\tao\model\Middleware\MiddlewareChainBuilder;
+use oat\tao\model\Middleware\MiddlewareRequestHandler;
 use ReflectionException;
 use IExecutable;
 use ActionEnforcingException;
@@ -37,7 +37,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionMethod;
 use common_session_SessionManager;
-use Relay\Relay;
 use tao_models_classes_AccessDeniedException;
 use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\accessControl\data\DataAccessControl;
@@ -220,7 +219,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             throw new ActionEnforcingException($e->getMessage(), $this->getControllerClass(), $this->getAction());
         }
 
-        $this->response = $this->resolveMiddlewareChain($request, $this->getControllerClass());
+        $this->response = $this->getMiddlewareRequestHandler()->handle($request);
 
         $controller = $this->getController();
 
@@ -275,13 +274,8 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         return $actionParameters;
     }
 
-    private function resolveMiddlewareChain(ServerRequestInterface $request): ResponseInterface {
-        $queue = $this->getMiddlewareChainBuilder()->build($request);
-        return (new Relay($queue))->handle($request);
-    }
-
-    private function getMiddlewareChainBuilder(): MiddlewareChainBuilder
+    private function getMiddlewareRequestHandler(): MiddlewareRequestHandler
     {
-        return $this->getServiceManager()->get(MiddlewareChainBuilder::SERVICE_ID);
+        return $this->getServiceManager()->get(MiddlewareRequestHandler::SERVICE_ID);
     }
 }
