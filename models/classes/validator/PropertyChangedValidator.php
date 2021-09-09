@@ -24,9 +24,10 @@ namespace oat\tao\model\validator;
 
 use core_kernel_classes_Property;
 use oat\generis\model\WidgetRdf;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\dto\OldProperty;
 
-class PropertyChangedValidator
+class PropertyChangedValidator extends ConfigurableService
 {
     public function isPropertyChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
     {

@@ -618,6 +618,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
     private function getPropertyChangedValidator(): PropertyChangedValidator
     {
-        return new PropertyChangedValidator();
+        return $this->getServiceLocator()->get(PropertyChangedValidator::class);
     }
 }
