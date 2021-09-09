@@ -25,16 +25,17 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 use common_persistence_Persistence;
 use core_kernel_classes_Property;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\DBAL\FetchMode;
-use Doctrine\DBAL\Connection;
 use InvalidArgumentException;
+use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\service\ConfigurableService;
+use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
 use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 
 class ParentPropertyListRepository extends ConfigurableService implements ParentPropertyListRepositoryInterface
 {
@@ -69,35 +70,23 @@ class ParentPropertyListRepository extends ConfigurableService implements Parent
             return [];
         }
 
-        //@FIXME @TODO Use complex search instead... @chinnu
-        $query = $this->getQueryBuilder();
-        $expressionBuilder = $query->expr();
-        $query
-            ->select('subject')
-            ->from('statements')
-            ->andWhere($expressionBuilder->eq('predicate', ':predicate'))
-            ->andWhere($expressionBuilder->in('object', ':object'))
-            ->setParameters(
-                [
-                    'predicate' => OntologyRdfs::RDFS_RANGE,
-                    'object' => $dependencyListUris
-                ],
-                [
-                    'object' => Connection::PARAM_STR_ARRAY
-                ]
-            );
+        $propertyList = [];
+        $propertyListQueryBuilder = $this->getComplexSearchService()->query();
+        $propertyListQuery = $this->getComplexSearchService()->searchType($propertyListQueryBuilder, OntologyRdf::RDF_PROPERTY, true);
+        $propertyListQuery->addCriterion(OntologyRdfs::RDFS_RANGE, SupportedOperatorHelper::IN, $dependencyListUris);
+        $propertyListQueryBuilder->setCriteria($propertyListQuery);
+        $propertyListResult = $this->getComplexSearchService()->getGateway()->search($propertyListQueryBuilder);
+        
+        foreach ($propertyListResult as $property) {
+            $propertyList[] = $property->getUri();
+        }
 
-        return $query->execute()->fetchAll(FetchMode::COLUMN);
+        return $propertyList;
     }
 
     private function getPersistence(): common_persistence_Persistence
     {
         return $this->getServiceManager()->get(PersistenceManager::SERVICE_ID)->getPersistenceById('default');
-    }
-
-    private function getQueryBuilder(): QueryBuilder
-    {
-        return $this->getPersistence()->getPlatform()->getQueryBuilder();
     }
 
     private function getRdsValueCollectionRepository(): ValueCollectionRepositoryInterface
@@ -108,5 +97,10 @@ class ParentPropertyListRepository extends ConfigurableService implements Parent
     private function getDependencyRepository(): DependencyRepositoryInterface
     {
         return $this->getServiceLocator()->get(DependencyRepository::class);
+    }
+
+    private function getComplexSearchService(): ComplexSearchService
+    {
+        return $this->getServiceLocator()->get(ComplexSearchService::SERVICE_ID);
     }
 }
