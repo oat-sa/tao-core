@@ -659,14 +659,17 @@ define([
                         },
                         dataType: 'json',
                         success: function (response) {
-                            if (response && response.data) {
-                                var html = "<div><label class='form_desc' for='child'>Depends on property</label><select id='child' class='property-listvalues property' name='child' data-testid='Depends on property'>";
+                            if (response && response.data && response.data.length !== 0) {
+                                var html = "<div id='dependsOnProperty'><label class='form_desc' for='child'>Depends on property</label><select id='child' class='property-listvalues property' name='child' data-testid='Depends on property'>";
                                 html += '<option value=" ">None</option>';
                                 for (property in response.data) {
                                     html += `<option value="${ response.data[property].uri }">${ response.data[property].label }</option>`;
                                 }
                                 html += '</select>';
+                                $('#dependsOnProperty').remove();
                                 $(elt).siblings('ul').after(html);
+                            } else {
+                                $('#dependsOnProperty').remove();
                             }
                         }
                     });
