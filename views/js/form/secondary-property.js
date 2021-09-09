@@ -79,15 +79,6 @@
         let $primaryProp = $($props.filter(function() {
             return !!$(this).find(`#${primaryPropUri}`).length;
         })[0]);
-        let isCheckboxes = false;
-
-        // Might be a set of checkboxes. Search by label
-        if(!$primaryProp.length) {
-            $primaryProp = $($props.filter(function() {
-                return !!$(this).find(`[for="${primaryPropUri}"]`).length;
-            })[0]);
-            isCheckboxes = true;
-        }
 
         if(!$primaryProp.length) {
             console.error('Primary property not found', primaryPropUri)
@@ -98,23 +89,6 @@
         const $wrapper = $('<li></li>');
         $secondaryPropsList.append($wrapper);
         $wrapper.append($prop.detach());
-
-        if (isCheckboxes) {
-            const $listWrapper = $primaryProp.find('.form_checklst');
-
-            $listWrapper.on('change', (e) => {
-                const isFilled = !!$listWrapper.find('input:checked').length;
-                if (!isFilled) {
-                    clearSecondary($primaryProp, primaryPropUri);
-                }
-                toggleDisableSecondary($primaryProp, !isFilled);
-            });
-
-            const isFilled = !!$listWrapper.find('input:checked').length;
-            toggleDisableSecondary($primaryProp, !isFilled);
-
-            return;
-        }
 
         $primaryProp.on('change', `[name="${primaryPropUri}"]`, (e) => {
             if (!e.target.value.trim()) {
