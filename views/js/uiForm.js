@@ -625,8 +625,8 @@ define([
                 var elt = $this.parent("div");
                 var classUri;
 		var propertyUri;
-                
-		//load the instances and display them (the list items)
+
+                //load the instances and display them (the list items)
                 $(elt).parent("div").children("ul.form-elt-list").remove();
                 classUri = $this.val();
                 propertyUri = $this.parent().parent().parent()[0].id;
@@ -659,16 +659,15 @@ define([
                         },
                         dataType: 'json',
                         success: function (response) {
-                            var html = "<ul class='form-elt-list'>",
-                                property;
-                            for (property in response) {
-                                if(!response.hasOwnProperty(property)) {
-                                    continue;
+                            if (response && response.data) {
+                                var html = "<div><label class='form_desc' for='child'>Depends on property</label><select id='child' class='property-listvalues property' name='child' data-testid='Depends on property'>";
+                                html += '<option value=" ">None</option>';
+                                for (property in response.data) {
+                                    html += `<option value="${ response.data[property].uri }">${ response.data[property].label }</option>`;
                                 }
-                                html += '<li>' + encode.html(response[property]) + '</li>';
+                                html += '</select>';
+                                $(elt).siblings('ul').after(html);
                             }
-                            html += '</ul>';
-                            $(elt).after(html);
                         }
                     });
                 }
@@ -679,7 +678,7 @@ define([
                 dependsOn.toggle();
             }
 
-            function onListValuesChange(e) {
+            function onListValuesChange(e, flag) {
                 clearPropertyListValues.bind(this)(e);
                 if (!$(this).val() || !$(this).val().trim()) {
                     $(this).find('option[value=" "]').attr('selected', 'selected');
