@@ -518,9 +518,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $validator = $this->getPropertyChangedValidator();
 
             if ($validator->isPropertyChanged($currentProperty, $oldProperty)) {
-                if ($oldProperty->getRangeUri()) {
-                    $this->invalidatePropertyCache($validator, $currentProperty, $oldProperty);
-                }
+                $this->invalidatePropertyCache($validator, $currentProperty, $oldProperty);
 
                 $changedProperties[] = [
                     'class' => $this->getCurrentClass(),
@@ -587,8 +585,9 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         OldProperty $oldProperty
     ): void {
         if (
-            $validator->isRangeChanged($currentProperty, $oldProperty)
-            || $validator->isPropertyTypeChanged($currentProperty, $oldProperty)
+            $oldProperty->getRangeUri()
+            && ($validator->isRangeChanged($currentProperty, $oldProperty)
+            || $validator->isPropertyTypeChanged($currentProperty, $oldProperty))
         ) {
             $this->getParentPropertyListCachedRepository()->deleteCache(
                 [

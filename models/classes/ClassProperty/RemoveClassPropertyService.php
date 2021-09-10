@@ -85,7 +85,7 @@ class RemoveClassPropertyService extends ConfigurableService
         return false;
     }
 
-    private function invalidatePropertyCache($propertyUri, $listUri): void
+    private function invalidatePropertyCache(string $propertyUri, string $listUri): void
     {
         $this->getParentPropertyListCachedRepository()->deleteCache(
             [
