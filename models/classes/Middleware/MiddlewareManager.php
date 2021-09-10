@@ -23,11 +23,12 @@ declare(strict_types=1);
 namespace oat\tao\model\Middleware;
 
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\Context\ContextInterface;
 use oat\tao\model\Middleware\Context\MiddlewareContext;
 
 class MiddlewareManager extends ConfigurableService
 {
-    public function append(MiddlewareContext $context): self
+    public function append(ContextInterface $context): self
     {
         $middlewareId = $context->getParameter(MiddlewareContext::PARAM_MIDDLEWARE_ID);
         $route = $context->getParameter(MiddlewareContext::PARAM_ROUTE);
@@ -42,7 +43,7 @@ class MiddlewareManager extends ConfigurableService
         return $this;
     }
 
-    public function detach(MiddlewareContext $context): self
+    public function detach(ContextInterface $context): self
     {
         $middlewareId = $context->getParameter(MiddlewareContext::PARAM_MIDDLEWARE_ID);
         $route = $context->getParameter(MiddlewareContext::PARAM_ROUTE);

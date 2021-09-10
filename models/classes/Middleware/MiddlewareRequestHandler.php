@@ -48,12 +48,9 @@ class MiddlewareRequestHandler extends ConfigurableService implements RequestHan
      */
     private function build(RequestInterface $request): array
     {
-        $path = $request->getUri()->getPath();
-
         $mapping = [];
 
-        $middlewareReferences = $this->getOption(self::OPTION_MAP, [])[$path] ?? [];
-        foreach ($middlewareReferences as $middlewareClass) {
+        foreach ($this->getMatchedMiddlewareReferences($request) as $middlewareClass) {
             $middleware = $this->getServiceLocator()->get($middlewareClass);
             if (!$middleware instanceof MiddlewareInterface) {
                 throw new LogicException(sprintf('Incorrect middleware configuration for %s', $middlewareClass));
@@ -66,5 +63,13 @@ class MiddlewareRequestHandler extends ConfigurableService implements RequestHan
                 return new Response();
             }
         ]);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getMatchedMiddlewareReferences(RequestInterface $request): array
+    {
+        return $this->getOption(self::OPTION_MAP, [])[$request->getUri()->getPath()] ?? [];
     }
 }

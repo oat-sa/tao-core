@@ -23,6 +23,7 @@ namespace oat\tao\model\Middleware;
 
 use League\OpenAPIValidation\PSR7\ValidatorBuilder;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\Context\ContextInterface;
 use oat\tao\model\Middleware\Context\OpenApiMiddlewareContext;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -45,7 +46,7 @@ class OpenAPISchemaValidateRequestMiddleware extends ConfigurableService impleme
         return $handler->handle($request);
     }
 
-    public function addSchema(OpenApiMiddlewareContext $context): self
+    public function addSchema(ContextInterface $context): self
     {
         $map = $this->getOption(self::OPTION_SCHEMA_MAP, []);
         $map = array_merge_recursive(
@@ -65,7 +66,7 @@ class OpenAPISchemaValidateRequestMiddleware extends ConfigurableService impleme
         return $this;
     }
 
-    public function removeSchema(OpenApiMiddlewareContext $context): self
+    public function removeSchema(ContextInterface $context): self
     {
         $map = $this->getOption(self::OPTION_SCHEMA_MAP);
 
