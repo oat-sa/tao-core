@@ -762,6 +762,15 @@ define([
                                 serialize[this.name] = this.value;
                             }
                         });
+
+                        $('[data-depends-on-property][disabled]', myForm).each(function () {
+                            if (Array.isArray(serialize)) {
+                                serialize.push({name: this.name, value: this.value});
+                            } else {
+                                serialize[this.name] = this.value;
+                            }
+                        });
+
                         $container.load(myForm.prop('action'), serialize);
                     }
                 }

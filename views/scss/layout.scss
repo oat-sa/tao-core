@@ -1,23 +1,23 @@
 @import "inc/bootstrap";
 
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
  */
 
 //@TODO in the long run all icons need to be changed to vectors!
@@ -202,7 +202,7 @@ ul.group-list {
         span.has-inherited {
             background-image: url(../img/checkbox_locked.png);
         }
-        
+
         &.group, &.selectable {
             list-style: none;
             border-bottom: 1px solid #999;
@@ -365,5 +365,79 @@ ul.group-list {
         border-collapse: collapse;
         -moz-border-radius: 3px;
         -webkit-border-radius: 3px;
+    }
+}
+
+// TODO: move to tao-core-ui-fe
+.secondary-props-list {
+    position: relative;
+    padding-left: 30px;
+
+    > li {
+        position: relative;
+        list-style-type: none;
+        margin-top: 10px;
+
+        &:first-child {
+            &::after {
+                top: -10px;
+            }
+        }
+
+        &:last-child {
+            &::after {
+                bottom: 50%;
+            }
+        }
+
+        &::marker {
+            color: #8C8C8C;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            border-top: 1px solid #8C8C8C;
+            top: 50%;
+            left: -26px;
+            width: 10px;
+            margin-top: -1px;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            border-left: 1px solid #8C8C8C;
+            bottom: -5px;
+            top: -5px;
+            left: -26px;
+        }
+
+        > div {
+            display: flex;
+            align-items: center;
+
+            &.disabled {
+                background: transparent!important;
+            }
+
+            &::before {
+                content: '';
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                border: 1px solid #8C8C8C;
+                position: absolute;
+                left: -16px;
+            }
+
+            label {
+                margin: 0;
+            }
+
+            select, .form_radlst {
+                width: calc(65% + 70px);
+            }
+        }
     }
 }
