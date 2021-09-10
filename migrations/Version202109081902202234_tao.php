@@ -11,7 +11,6 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
 
 final class Version202109081902202234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return sprintf(

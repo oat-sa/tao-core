@@ -48,19 +48,15 @@ class OpenAPISchemaValidateRequestMiddleware extends ConfigurableService impleme
 
     public function addSchema(ContextInterface $context): self
     {
-        $map = $this->getOption(self::OPTION_SCHEMA_MAP, []);
         $map = array_merge_recursive(
-            $map,
+            $this->getOption(self::OPTION_SCHEMA_MAP, []),
             [
-                $context->getParameter(
-                    OpenApiMiddlewareContext::PARAM_ROUTE
-                ) => [
-                    $context->getParameter(
-                        OpenApiMiddlewareContext::PARAM_SCHEMA_PATH
-                    )
+                $context->getParameter(OpenApiMiddlewareContext::PARAM_ROUTE) => [
+                    $context->getParameter(OpenApiMiddlewareContext::PARAM_SCHEMA_PATH)
                 ]
             ]
         );
+        
         $this->setOption(self::OPTION_SCHEMA_MAP, $map);
 
         return $this;
@@ -78,10 +74,9 @@ class OpenAPISchemaValidateRequestMiddleware extends ConfigurableService impleme
         }
         if ($path && $route) {
             $routed = $map[$route];
-            if (($key = array_search(
-                    $path,
-                    $routed
-                )) !== false) {
+            $key = array_search($path, $routed);
+            
+            if ($key !== false) {
                 unset($routed[$key]);
                 $map[$route] = $routed;
             }
@@ -94,8 +89,6 @@ class OpenAPISchemaValidateRequestMiddleware extends ConfigurableService impleme
 
     private function getApplicableSchemas(RequestInterface $request): array
     {
-        $route = $request->getUri()->getPath();
-
-        return $this->getOption(self::OPTION_SCHEMA_MAP, [])[$route] ?? [];
+        return $this->getOption(self::OPTION_SCHEMA_MAP, [])[$request->getUri()->getPath()] ?? [];
     }
 }
