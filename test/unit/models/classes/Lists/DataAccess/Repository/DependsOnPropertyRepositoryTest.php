@@ -26,6 +26,8 @@ use oat\generis\test\TestCase;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_ContainerCollection;
+use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
+use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
@@ -49,17 +51,24 @@ class DependsOnPropertyRepositoryTest extends TestCase
     /** @var core_kernel_classes_ContainerCollection|MockObject */
     private $domainCollection;
 
+    /** @var ParentPropertyListRepositoryInterface|MockObject */
+    private $parentPropertyListRepository;
+
     public function setUp(): void
     {
         $this->remoteListPropertySpecification = $this->createMock(RemoteListPropertySpecification::class);
         $this->dependentPropertySpecification = $this->createMock(DependentPropertySpecification::class);
+        $this->parentPropertyListRepository = $this->createMock(ParentPropertyListRepositoryInterface::class);
 
         $this->sut = new DependsOnPropertyRepository();
         $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock([
-                RemoteListPropertySpecification::class => $this->remoteListPropertySpecification,
-                DependentPropertySpecification::class => $this->dependentPropertySpecification,
-            ])
+            $this->getServiceLocatorMock(
+                [
+                    RemoteListPropertySpecification::class => $this->remoteListPropertySpecification,
+                    DependentPropertySpecification::class => $this->dependentPropertySpecification,
+                    ParentPropertyListCachedRepository::class => $this->parentPropertyListRepository,
+                ]
+            )
         );
 
         $this->property = $this->createMock(core_kernel_classes_Property::class);
@@ -97,10 +106,20 @@ class DependsOnPropertyRepositoryTest extends TestCase
 
     public function testFindAllWithoutProperties(): void
     {
+        $this->parentPropertyListRepository
+            ->expects($this->once())
+            ->method('findAllUris')
+            ->willReturn(
+                [
+                    'parentUri1',
+                ]
+            );
+
         $this->remoteListPropertySpecification
             ->expects($this->once())
             ->method('isSatisfiedBy')
             ->willReturn(true);
+
         $this->dependentPropertySpecification
             ->expects($this->never())
             ->method('isSatisfiedBy');
@@ -108,6 +127,7 @@ class DependsOnPropertyRepositoryTest extends TestCase
         $this->domainCollection
             ->method('count')
             ->willReturn(1);
+
         $this->domainCollection
             ->method('get')
             ->willReturn($this->createMock(core_kernel_classes_Class::class));
@@ -116,12 +136,13 @@ class DependsOnPropertyRepositoryTest extends TestCase
             ->expects($this->exactly(2))
             ->method('getDomain')
             ->willReturn($this->domainCollection);
-        $this->property
-            ->expects($this->once())
-            ->method('getUri');
 
         $this->sut->withProperties([]);
-        $propertiesCollection = $this->sut->findAll(['property' => $this->property]);
+        $propertiesCollection = $this->sut->findAll(
+            [
+                'property' => $this->property
+            ]
+        );
 
         $this->assertEquals(new DependsOnPropertyCollection(), $propertiesCollection);
         $this->assertEquals(0, $propertiesCollection->count());
@@ -205,8 +226,7 @@ class DependsOnPropertyRepositoryTest extends TestCase
     private function createProperty(string $uri): core_kernel_classes_Property
     {
         $property = $this->createMock(core_kernel_classes_Property::class);
-        $property
-            ->expects($this->once())
+        $property->expects($this->once())
             ->method('getUri')
             ->willReturn($uri);
 
