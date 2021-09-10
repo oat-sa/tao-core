@@ -31,9 +31,9 @@ Cypress.Commands.add('addClass', (
         .intercept('POST', `**/${ addSubClassUrl }`).as('addSubClass')
         .get('[data-context=resource][data-action=subClass]')
         .click()
-        .wait('@addSubClass', { requestTimeout: 10000 })
-        .wait('@treeRender', { requestTimeout: 10000 })
-        .wait('@editClassLabel', { requestTimeout: 10000 })
+        .wait('@addSubClass')
+        .wait('@treeRender')
+        .wait('@editClassLabel')
         .get(formSelector).should('exist');
 });
 
@@ -48,7 +48,7 @@ Cypress.Commands.add('addClassToRoot', (
     cy.log('COMMAND: addClassToRoot', name)
         .getSettled(`${rootSelector} a:nth(0)`)
         .click()
-        .wait('@editClassLabel', { requestTimeout: 10000 })
+        .wait('@editClassLabel')
         .addClass(formSelector, treeRenderUrl, addSubClassUrl)
         .renameSelectedClass(formSelector, name);
 });
@@ -63,12 +63,12 @@ Cypress.Commands.add('moveClass', (
     cy.log('COMMAND: moveClass', name)
         .getSettled(`li[title="${name}"] a:nth(0)`)
         .click()
-        .wait('@editClassLabel', { requestTimeout: 10000 })
+        .wait('@editClassLabel')
         .intercept('GET', `**/${ restResourceGetAll }**`).as('classToMove')
         .get('#feedback-2, #feedback-1').should('not.exist')
         .getSettled(moveSelector)
         .click()
-        .wait('@classToMove', { requestTimeout: 10000 })
+        .wait('@classToMove')
         .getSettled(`.destination-selector a[title="${nameWhereMove}"]`)
         .click()
         .get('.actions button')
@@ -90,7 +90,7 @@ Cypress.Commands.add('moveClassFromRoot', (
         .get('#feedback-1, #feedback-2').should('not.exist')
         .getSettled(`${rootSelector} a:nth(0)`)
         .click()
-        .wait('@editClassLabel', { requestTimeout: 10000 })
+        .wait('@editClassLabel')
         .get(`${rootSelector} li[title="${name}"] a`)
         .moveClass(moveSelector, moveConfirmSelector, name, nameWhereMove, restResourceGetAll)
 });
@@ -120,7 +120,7 @@ Cypress.Commands.add('deleteClass', (
     cy.intercept('POST', `**/${ deleteClassUrl }`).as('deleteClass')
     cy.get(confirmSelector)
       .click();
-    cy.wait('@deleteClass', { requestTimeout: 10000 })
+    cy.wait('@deleteClass')
 });
 
 Cypress.Commands.add('deleteClassFromRoot', (
@@ -164,7 +164,7 @@ Cypress.Commands.add('deleteNode', (
         .intercept('POST', `**/${ editUrl }`).as('editUrl')
         .getSettled(`${rootSelector} a`)
         .contains('a', name).click()
-        .wait('@editUrl', { requestTimeout: 10000 })
+        .wait('@editUrl')
         .getSettled(deleteSelector).click()
         .getSettled('[data-control="ok"]').click()
         .getSettled(`${rootSelector} a`)
@@ -193,7 +193,7 @@ Cypress.Commands.add('renameSelectedItem', (formSelector, editItemUrl, newName) 
         .type(newName)
         .get('button[id="Save"]')
         .click()
-        .wait('@editItem', { requestTimeout: 10000 })
+        .wait('@editItem')
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
         .get(`${ formSelector } ${labelSelector}`).should('have.value', newName)
@@ -207,7 +207,7 @@ Cypress.Commands.add('renameSelectedTest', (formSelector, editTestUrl, newName) 
         .type(newName)
         .get('button[id="Save"]')
         .click()
-        .wait('@editTest', { requestTimeout: 10000 })
+        .wait('@editTest')
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
         .get(`${ formSelector } ${labelSelector}`).should('have.value', newName)
@@ -233,7 +233,7 @@ Cypress.Commands.add('addPropertyToClass', (
     cy.get(propertyEdit).find('select[class="property-listvalues property"]').select('Boolean');
     cy.intercept('POST', `**/${ editClassUrl }`).as('editClass');
     cy.get('button[type="submit"]').click();
-    cy.wait('@editClass', { requestTimeout: 10000 });
+    cy.wait('@editClass');
 });
 
 Cypress.Commands.add('assignValueToProperty', (
@@ -247,5 +247,5 @@ Cypress.Commands.add('assignValueToProperty', (
     cy.getSettled(itemForm).find(selectTrue).check();
     cy.intercept('GET', `**/${ treeRenderUrl }/getOntologyData**`).as('treeRender')
     cy.getSettled('button[type="submit"]').click();
-    cy.wait('@treeRender', { requestTimeout: 10000 })
+    cy.wait('@treeRender')
 });

@@ -30,15 +30,11 @@ describe('Test Taker Role', () => {
         tryToDeleteUser(users.user_test_taker);
         cy.intercept('GET', '**/add*').as('add');
         cy.visit(urls.addUser);
-        cy.wait('@add', {
-            requestTimeout: 10000
-        });
+        cy.wait('@add');
         cy.addUser(selectors.addUserForm, users.user_test_taker, userRoles.testTaker);
         cy.intercept('GET', '**/logout*').as('logout');
         cy.logoutAttempt();
-        cy.wait('@logout', {
-            requestTimeout: 10000
-        });
+        cy.wait('@logout');
     });
 
     describe('Login', () => {

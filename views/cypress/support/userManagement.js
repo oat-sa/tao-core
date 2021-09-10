@@ -65,9 +65,7 @@ Cypress.Commands.add('deleteUser', (userData) => {
     cy.intercept('GET', `**/Users/**/*filterquery=${userData.login}`).as('usersData')
     cy.get(`${selectors.manageUserTable} .filter input[name=filter]`)
         .type(`${userData.login}{enter}`);
-    cy.wait('@usersData', {
-        requestTimeout: 10000
-    });
+    cy.wait('@usersData');
 
     cy.get(`${selectors.manageUserTable} table`)
         .contains('td', userData.login)
