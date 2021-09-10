@@ -44,7 +44,6 @@ class RemoveClassPropertyService extends ConfigurableService
 
         $class = $this->getClass($parsedBody['classUri']);
         $property = $this->getProperty($parsedBody['uri']);
-        $listUri = $property->getRange() ? $property->getRange()->getUri() : "";
         $propertyType = $this->getPropertyType($property);
 
         if ($propertyType !== null) {
