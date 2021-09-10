@@ -22,12 +22,10 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\Business\Specification;
 
-use oat\oatbox\Configurable;
+use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\generis\test\TestCase;
 use core_kernel_classes_Property;
-use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\Specification\PropertySpecificationInterface;
-use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 
 class DependentPropertySpecificationTest extends TestCase
@@ -35,14 +33,9 @@ class DependentPropertySpecificationTest extends TestCase
     /** @var DependentPropertySpecification */
     private $sut;
 
-    /** @var core_kernel_classes_Property|MockObject */
-    private $property;
-
     protected function setUp(): void
     {
         $this->sut = new DependentPropertySpecification();
-
-
     }
 
     public function testSpecificationInstance(): void
@@ -53,16 +46,14 @@ class DependentPropertySpecificationTest extends TestCase
     /**
      * @dataProvider getTestData
      */
-    public function testIsSatisfiedBy(?string $propertyValue, bool $expected): void
+    public function testIsSatisfiedBy(?core_kernel_classes_Property $property, bool $expected): void
     {
         $collection = $this->createMock(DependsOnPropertyCollection::class);
-        $collection
-            ->method('current')
-            ->willReturn($propertyValue);
+        $collection->method('current')
+            ->willReturn($property);
 
         $property = $this->createMock(core_kernel_classes_Property::class);
-        $property
-            ->method('getDependsOnPropertyCollection')
+        $property->method('getDependsOnPropertyCollection')
             ->willReturn($collection);
 
         $this->assertEquals($expected, $this->sut->isSatisfiedBy($property));
@@ -72,11 +63,11 @@ class DependentPropertySpecificationTest extends TestCase
     {
         return [
             'No value' => [
-                'propertyValue' => null,
+                'property' => null,
                 'expected' => false,
             ],
             'Any value' => [
-                'propertyValue' => 'value',
+                'property' => $this->createMock(core_kernel_classes_Property::class),
                 'expected' => true,
             ],
         ];
