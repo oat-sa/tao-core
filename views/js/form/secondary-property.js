@@ -68,7 +68,7 @@
             const $inputElt = $(this).find('input');
             if ($inputElt.length) {
                 $inputElt.each(function() {
-                    $(this).val(null).trigger('change')
+                    $(this).val(null).trigger('change');
                 });
             }
         });
@@ -80,8 +80,7 @@
             return !!$(this).find(`#${primaryPropUri}`).length;
         })[0]);
 
-        if(!$primaryProp.length) {
-            console.error('Primary property not found', primaryPropUri)
+        if (!$primaryProp.length) {
             return;
         }
 
@@ -106,7 +105,7 @@
 
         const $secondaryProps = $props.filter(function(index) {
             return !!$(this).find('[data-depends-on-property]').length;
-        })
+        });
 
         $secondaryProps.each(function () {
             moveSecondaryProperty($(this), $props);
