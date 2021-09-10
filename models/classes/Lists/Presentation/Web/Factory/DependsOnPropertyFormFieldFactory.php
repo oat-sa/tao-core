@@ -33,6 +33,16 @@ use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 
 class DependsOnPropertyFormFieldFactory extends ConfigurableService
 {
+    /** @var tao_helpers_form_FormElement */
+    private $element;
+
+    public function withElement(tao_helpers_form_FormElement $element): self
+    {
+        $this->element = $element;
+
+        return $this;
+    }
+
     public function create(array $options): ?tao_helpers_form_FormElement
     {
         // @TODO Remove feature flag after we can rely on repository output
@@ -47,13 +57,18 @@ class DependsOnPropertyFormFieldFactory extends ConfigurableService
         /** @var core_kernel_classes_Property $property */
         $property = $options['property'];
 
-        $collection = $this->getRepository()->findAll([
-            'property' => $property
-        ]);
+        $collection = $this->getRepository()->findAll(
+            [
+                'property' => $property
+            ]
+        );
 
         $index = $options['index'] ?? 0;
 
-        $element = tao_helpers_form_FormFactory::getElement("{$index}_depends-on-property", 'Combobox');
+        $element = $this->element ?? tao_helpers_form_FormFactory::getElement(
+            "{$index}_depends-on-property",
+            'Combobox'
+        );
         $element->addAttribute('class', 'property-depends-on property');
         $element->setDescription(__('Depends on property'));
         $element->setEmptyOption(' --- ' . __('select') . ' --- ');
