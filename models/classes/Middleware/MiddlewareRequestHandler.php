@@ -37,6 +37,9 @@ class MiddlewareRequestHandler extends ConfigurableService implements RequestHan
     public const SERVICE_ID = 'tao/MiddlewareRequestHandler';
     public const OPTION_MAP = 'map';
 
+    /** @var ResponseInterface|null */
+    private $originalResponse;
+
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $queue = $this->build($request);
@@ -58,11 +61,25 @@ class MiddlewareRequestHandler extends ConfigurableService implements RequestHan
             $mapping[] = $middleware;
         }
 
-        return array_merge($mapping, [
-            function ($request, $next) {
-                return new Response();
-            }
-        ]);
+        return array_merge(
+            [
+                function ($request, $next) {
+                    return $this->originalResponse ?? new Response();
+                }
+            ],
+            $mapping,
+            [
+                function ($request, $next) {
+                    return new Response();
+                }
+            ]
+        );
+    }
+
+    public function withOriginalResponse(ResponseInterface $response): self
+    {
+        $this->originalResponse = $response;
+        return $this;
     }
 
     /**

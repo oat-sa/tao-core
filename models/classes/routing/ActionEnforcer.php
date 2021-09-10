@@ -219,7 +219,9 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             throw new ActionEnforcingException($e->getMessage(), $this->getControllerClass(), $this->getAction());
         }
 
-        $this->response = $this->getMiddlewareRequestHandler()->handle($request);
+        $this->response = $this->getMiddlewareRequestHandler()->withOriginalResponse($this->getResponse())->handle(
+            $request
+        );
 
         $controller = $this->getController();
 
