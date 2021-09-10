@@ -630,7 +630,8 @@ define([
                 $(elt).parent("div").children("ul.form-elt-list").remove();
                 classUri = $this.val();
                 propertyUri = $this.parent().parent().parent()[0].id;
-		if (classUri && classUri.trim()) {
+                propertyUri = propertyUri.replace('property_', '');
+                if (classUri && classUri.trim()) {
                     $this.parent("div").children("div.form-error").remove();
                     $.ajax({
                         url: context.root_url + 'taoBackOffice/Lists/getListElements',
