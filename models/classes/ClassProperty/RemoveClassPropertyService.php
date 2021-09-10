@@ -72,18 +72,27 @@ class RemoveClassPropertyService extends ConfigurableService
                         $index = $this->getResource($indexUri);
                         $index->delete(true);
                     }
-                    $this->getParentPropertyListCachedRepository()->deleteCache(
-                        [
-                            'propertyUri' => $parsedBody['uri'],
-                            'listUri' => $listUri
-                        ]
-                    );
+
+                    if ($property->getRange()) {
+                        $this->invalidatePropertyCache($parsedBody['uri'], $property->getRange()->getUri());
+                    }
+
                     return true;
                 }
             }
         }
 
         return false;
+    }
+
+    private function invalidatePropertyCache(string $propertyUri, string $listUri): void
+    {
+        $this->getParentPropertyListCachedRepository()->deleteCache(
+            [
+                'propertyUri' => $propertyUri,
+                'listUri' => $listUri
+            ]
+        );
     }
 
     private function getEventManager(): EventManager

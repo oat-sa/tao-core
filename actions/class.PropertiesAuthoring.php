@@ -42,7 +42,6 @@ use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
-use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 
 /**
  * Regrouping all actions related to authoring
@@ -586,8 +585,9 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         OldProperty $oldProperty
     ): void {
         if (
-            $validator->isRangeChanged($currentProperty, $oldProperty)
-            || $validator->isPropertyTypeChanged($currentProperty, $oldProperty)
+            $oldProperty->getRangeUri()
+            && ($validator->isRangeChanged($currentProperty, $oldProperty)
+            || $validator->isPropertyTypeChanged($currentProperty, $oldProperty))
         ) {
             $this->getParentPropertyListCachedRepository()->deleteCache(
                 [
