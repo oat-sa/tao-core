@@ -624,13 +624,10 @@ define([
                 const $this = $(this);
                 const elt = $this.parent("div");
                 let classUri;
-                let propertyUriToSend;
 
                 //load the instances and display them (the list items)
                 $(elt).parent("div").children("ul.form-elt-list").remove();
                 classUri = $this.val();
-                propertyUriToSend = $this.parent().parent().parent()[0].id;
-                propertyUriToSend = propertyUriToSend.replace('property_', '');
                 if (classUri && classUri.trim()) {
                     $this.parent("div").children("div.form-error").remove();
                     $.ajax({
@@ -651,28 +648,43 @@ define([
                             $(elt).after(html);
                         }
                     });
-                    $.ajax({
-                        url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
-                        type: "GET",
-                        data: {
-                            list_uri: classUri,
-                            property_uri: propertyUriToSend,
-                        },
-                        dataType: 'json',
-                        success: function (response) {
-                            $('#dependsOnProperty').remove();
-                            if (response && response.data && response.data.length !== 0) {
-                                let html = "<div id='dependsOnProperty'><label class='form_desc' for='child'>Depends on property</label><select id='child' class='property-listvalues property' name='child' data-testid='Depends on property'>";
-                                html += '<option value=" ">None</option>';
-                                for (property in response.data) {
-                                    html += `<option value="${ response.data[property].uri }">${ response.data[property].label }</option>`;
-                                }
-                                html += '</select>';
-                                $(elt).siblings('ul').after(html);
-                            }
-                        }
-                    });
                 }
+            }
+
+            function showDependsOnProperty() {
+            	const $this = $(this);
+            	const elt = $this.parent("div");
+            	let classUri;
+                let propertyUriToSend;
+		const dependsOnSelect = $('.property-depends-on');
+
+                classUri = $this.val();
+		propertyUriToSend = $this.parent().parent().parent()[0].id;
+                propertyUriToSend = propertyUriToSend.replace('property_', '');
+		
+		if (dependsOnSelect.length <= 1) {
+			$.ajax({
+				url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
+				type: "GET",
+				data: {
+				    list_uri: classUri,
+				    property_uri: propertyUriToSend,
+				},
+				dataType: 'json',
+				success: function (response) {
+				    if (response && response.data && response.data.length !== 0) {
+					let html = '<option value=" "> --- select --- </option>';
+					for (property in response.data) {
+					    html += `<option value="${ response.data[property].uri }">${ response.data[property].label }</option>`;
+					}
+					dependsOnSelect.empty().append(html);
+					dependsOn.toggle();
+				    }
+				}
+			});
+		} else {
+			dependsOn.toggle();
+		}
             }
 
             function onTypeChange(e, flag) {
@@ -686,7 +698,7 @@ define([
                     $(this).find('option[value=" "]').attr('selected', 'selected');
                 }
                 showPropertyListValues.bind(this)(e);
-                dependsOn.toggle();
+                showDependsOnProperty.bind(this)(e);
             }
 
             //bind functions to the drop down:
