@@ -87,13 +87,21 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
                 continue;
             }
 
-            // @TODO Check for parent's (current property) children outside the foreach statement
-            if ($property->getUri() === $classProperty->getDependsOnPropertyCollection()->current()->getUri()) {
+            if ($this->isSameParentProperty($property, $classProperty)) {
                 return $collection;
             }
         }
 
         return $collection;
+    }
+
+    private function isSameParentProperty(
+        core_kernel_classes_Property $property,
+        core_kernel_classes_Property $classProperty
+    ): bool {
+        $parentProperty = $classProperty->getDependsOnPropertyCollection()->current();
+
+        return $parentProperty && $property->getUri() === $parentProperty->getUri();
     }
 
     private function isRemoteListProperty(core_kernel_classes_Property $property): bool
