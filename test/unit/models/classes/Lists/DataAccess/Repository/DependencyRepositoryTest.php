@@ -109,7 +109,7 @@ class DependencyRepositoryTest extends TestCase
             $collection,
             $this->sut->findAll(
                 [
-
+                    'listUri' => 'uri1'
                 ]
             )
         );
