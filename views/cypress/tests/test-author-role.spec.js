@@ -30,15 +30,11 @@ import { tryToDeleteUser } from '../utils/cleanup';
         tryToDeleteUser(users.user_test_author);
         cy.intercept('GET', '**/add*').as('add');
         cy.visit(urls.addUser);
-        cy.wait('@add', {
-            requestTimeout: 10000
-        });
+        cy.wait('@add');
         cy.addUser(selectors.addUserForm, users.user_test_author, [userRoles.itemAuthor, userRoles.testAuthor]);
         cy.intercept('GET', '**/logout*').as('logout');
         cy.logoutAttempt();
-        cy.wait('@logout', {
-            requestTimeout: 10000
-        });
+        cy.wait('@logout');
     });
 
     describe('Login', () => {
@@ -62,11 +58,9 @@ import { tryToDeleteUser } from '../utils/cleanup';
 
         it('Has access to resource tree', function() {
             cy.intercept('GET', '**/taoItems/Items/*').as('treeItems');
-            cy.wait('@treeItems', {
-                requestTimeout: 10000
-            });
+            cy.wait('@treeItems');
             cy.get('#tree-manage_items').should('be.visible');
-            cy.get('#tree-manage_items > ul > li')
+            cy.get('#tree-manage_items > ul > li');
         });
 
         it('Has access to resource actions', function() {
@@ -81,9 +75,7 @@ import { tryToDeleteUser } from '../utils/cleanup';
             cy.get('.lft.main-menu > li > a .icon-media');
             cy.intercept('GET', '**/taoMediaManager/MediaManager/*').as('mediaData');
             cy.visit(urls.mediaManager);
-            cy.wait('@mediaData', {
-                requestTimeout: 10000
-            });
+            cy.wait('@mediaData');
         });
 
         it('Has access to resource tree', function() {
@@ -103,9 +95,7 @@ import { tryToDeleteUser } from '../utils/cleanup';
             cy.get('.lft > :nth-child(2) > a .icon-test');
             cy.intercept('GET', '**/taoTests/Tests/*').as('testsData');
             cy.visit(urls.testsManager);
-            cy.wait('@testsData', {
-                requestTimeout: 10000
-            });
+            cy.wait('@testsData');
         });
 
         it('Has access to resource tree', function() {
