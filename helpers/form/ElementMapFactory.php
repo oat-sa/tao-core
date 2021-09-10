@@ -80,6 +80,12 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
+        $parentProperty = $this->getParentProperty($property);
+
+        if ($parentProperty) {
+            $element->addAttribute('data-depends-on-property', tao_helpers_Uri::encode($parentProperty->getUri()));
+        }
+
         if ($element->getWidget() !== $widgetUri) {
             common_Logger::w(sprintf(
                 'Widget definition differs from implementation: %s != %s',
@@ -180,5 +186,14 @@ class ElementMapFactory extends ConfigurableService
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(ValueCollectionService::class);
+    }
+
+    private function getParentProperty(core_kernel_classes_Property $property): ?core_kernel_classes_Property
+    {
+        $collection = $property->getDependsOnPropertyCollection();
+
+        return $collection->offsetExists(0)
+            ? $collection->offsetGet(0)
+            : null;
     }
 }
