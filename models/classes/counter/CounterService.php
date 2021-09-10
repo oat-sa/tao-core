@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpUnhandledExceptionInspection */
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,13 +22,11 @@ declare(strict_types = 1);
 
 namespace oat\tao\model\counter;
 
-use common_Exception;
 use common_persistence_KeyValuePersistence as KeyValuePersistence;
+use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\event\Event;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\service\exception\InvalidServiceManagerException;
-use oat\oatbox\service\ServiceNotFoundException;
 
 class CounterService extends ConfigurableService
 {
@@ -42,14 +41,13 @@ class CounterService extends ConfigurableService
     protected const OPTION_CALLBACK = 'keyCallbackMethod';
     protected const OPTION_SHORT_NAME = 'shortName';
 
-    /**
-     * @return KeyValuePersistence
-     * @throws CounterServiceException
-     */
-    protected function getPersistence(): KeyValuePersistence
+    private function getPersistence(): KeyValuePersistence
     {
+        /** @var PersistenceManager $persistenceManager */
+        $persistenceManager = $this->getServiceManager()->get(PersistenceManager::SERVICE_ID);
+
         $persistenceId = $this->getOption(self::OPTION_PERSISTENCE);
-        $persistence = KeyValuePersistence::getPersistence($persistenceId);
+        $persistence = $persistenceManager->getPersistenceById($persistenceId);
 
         if (!$persistence instanceof KeyValuePersistence) {
             $msg = "Persistence '${persistenceId}' must be an instance of '";
@@ -61,16 +59,6 @@ class CounterService extends ConfigurableService
         return $persistence;
     }
 
-    /**
-     * @param string      $eventFqcn
-     * @param string      $shortName
-     * @param string|null $keyCallbackMethod
-     *
-     * @throws CounterServiceException
-     * @throws InvalidServiceManagerException
-     * @throws ServiceNotFoundException
-     * @throws common_Exception
-     */
     public function attach(string $eventFqcn, string $shortName, ?string $keyCallbackMethod = null): void
     {
         if (!class_exists($eventFqcn)) {
@@ -93,13 +81,6 @@ class CounterService extends ConfigurableService
         $this->logDebug("CounterService now listening to events with FQCN '${eventFqcn}'");
     }
 
-    /**
-     * @param string $eventFqcn
-     *
-     * @throws InvalidServiceManagerException|CounterServiceException
-     * @throws \oat\oatbox\service\ServiceNotFoundException
-     * @throws \common_Exception
-     */
     public function detach(string $eventFqcn): void
     {
         $eventOptions = $this->getOption(self::OPTION_EVENTS);
@@ -121,10 +102,6 @@ class CounterService extends ConfigurableService
         $this->logDebug("CounterService not listening anymore to events with FQCN '${eventFqcn}'.");
     }
 
-    /**
-     * @param Event $event
-     * @throws CounterServiceException
-     */
     public function increment(Event $event): void
     {
         $eventOptions = $this->getOption(self::OPTION_EVENTS);
@@ -147,34 +124,16 @@ class CounterService extends ConfigurableService
         $this->getPersistence()->incr($this->buildKey($eventFqcn, $keyCallbackValue));
     }
 
-    /**
-     * @param string $eventFqcn
-     * @param int|null $value
-     * @param string|null $suffix
-     * @throws CounterServiceException
-     * @throws common_Exception
-     */
     public function reset(string $eventFqcn, ?int $value = 0, ?string $suffix = null): void
     {
         $this->getPersistence()->set($this->buildKey($eventFqcn, $suffix), $value);
     }
 
-    /**
-     * @param string $eventFqcn
-     * @param string|null $keyCallbackValue
-     * @return int
-     * @throws CounterServiceException
-     */
     public function get(string $eventFqcn, ?string $keyCallbackValue = null): int
     {
         return (int)$this->getPersistence()->get($this->buildKey($eventFqcn, $keyCallbackValue));
     }
 
-    /**
-     * @param string $eventFqcn
-     * @param string|null $keySuffix
-     * @return string
-     */
     protected function buildKey(string $eventFqcn, ?string $keySuffix = null): string
     {
         $counterIdentifier = $eventFqcn;
