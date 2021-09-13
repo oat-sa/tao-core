@@ -657,35 +657,35 @@ define([
             	let classUri;
                 let propertyUriToSend;
                 const dependsId = $(this)[0].id.match(/\d+_/)[0];
-		const dependsOnSelect = $(`#${dependsId}property-depends-on`);
+                const dependsOnSelect = $(`#${dependsId}property-depends-on`);
 
                 classUri = $this.val();
-		propertyUriToSend = $this.parent().parent().parent()[0].id;
+                propertyUriToSend = $this.parent().parent().parent()[0].id;
                 propertyUriToSend = propertyUriToSend.replace('property_', '');
 
-		if (dependsOnSelect.length <= 1) {
-			$.ajax({
-				url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
-				type: "GET",
-				data: {
-				    list_uri: classUri,
-				    property_uri: propertyUriToSend,
-				},
-				dataType: 'json',
-				success: function (response) {
-				    if (response && response.data && response.data.length !== 0) {
-					let html = '<option value=" "> --- select --- </option>';
-					for (property in response.data) {
-					    html += `<option value="${ response.data[property].uri }">${ response.data[property].label }</option>`;
-					}
-					dependsOnSelect.empty().append(html);
-					dependsOn.toggle();
-				    }
-				}
-			});
-		} else {
-			dependsOn.toggle();
-		}
+                if (dependsOnSelect.length <= 1) {
+                    $.ajax({
+                        url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
+                        type: "GET",
+                        data: {
+                            list_uri: classUri,
+                            property_uri: propertyUriToSend,
+                        },
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response && response.data && response.data.length !== 0) {
+                                let html = '<option value=" "> --- select --- </option>';
+                                for (const propertyData in response.data) {
+                                    html += `<option value="${response.data[propertyData].uri}">${response.data[propertyData].label}</option>`;
+                                }
+                                dependsOnSelect.empty().append(html);
+                                dependsOn.toggle();
+                            }
+                        }
+                    });
+                } else {
+                    dependsOn.toggle();
+                }
             }
 
             function onTypeChange(e, flag) {
