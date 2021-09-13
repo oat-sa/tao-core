@@ -13,12 +13,11 @@
     },
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
-        "@oat-sa/e2e-runner": "1.2.1",
         "@oat-sa/expr-eval": "1.3.0",
         "@oat-sa/tao-core-libs": "0.4.3",
         "@oat-sa/tao-core-sdk": "1.15.0",
         "@oat-sa/tao-core-shared-libs": "1.0.3",
-        "@oat-sa/tao-core-ui": "1.34.1",
+        "@oat-sa/tao-core-ui": "1.35.0",
         "codemirror": "^5.54.0",
         "decimal.js": "10.1.1",
         "dompurify": "1.0.11",
@@ -34,5 +33,8 @@
         "select2": "3.5.1",
         "tooltip.js": "1.3.2",
         "url-polyfill": "1.1.12"
+    },
+    "devDependencies": {
+        "@oat-sa/e2e-runner": "^1.2.1"
     }
 }

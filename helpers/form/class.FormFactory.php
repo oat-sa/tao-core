@@ -145,7 +145,7 @@ class tao_helpers_form_FormFactory
     /**
      * @param $name
      * @param core_kernel_classes_Resource $widget
-     * @return mixed
+     * @return tao_helpers_form_FormElement
      * @throws common_Exception
      * @throws common_exception_Error
      */
