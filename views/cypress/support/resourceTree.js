@@ -133,7 +133,7 @@ Cypress.Commands.add('moveClassFromRoot', (
  * @param {String} confirmSelector - css selector for the element to confirm action
  * @param {String} deleteClassUrl - url for the deleting class POST request
  * @param {String} name - name of the class which will be deleted
- * @param {String} isConfirmCheckbox = false - if true also checks confirmation checkbox
+ * @param {Boolean} isConfirmCheckbox = false - if true also checks confirmation checkbox
  */
 Cypress.Commands.add('deleteClass', (
     rootSelector,
@@ -171,7 +171,7 @@ Cypress.Commands.add('deleteClass', (
  * @param {String} confirmSelector - css selector for the element to confirm action
  * @param {String} deleteClassUrl - url for the deleting class POST request
  * @param {String} name - name of the class which will be deleted
- * @param {String} isConfirmCheckbox = false - if true also checks confirmation checkbox
+ * @param {Boolean} isConfirmCheckbox = false - if true also checks confirmation checkbox
  */
 Cypress.Commands.add('deleteClassFromRoot', (
     rootSelector,
@@ -259,7 +259,7 @@ Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
 });
 
 /**
- * Renames selected node to the given name
+ * Renames node to the given name (node should already be selected before running this command)
  * @param {String} formSelector - css selector for the class edition form
  * @param {String} editUrl - url for the editing node POST request
  * @param {String} newName
