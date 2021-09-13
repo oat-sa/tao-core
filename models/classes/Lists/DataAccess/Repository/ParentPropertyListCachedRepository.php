@@ -35,6 +35,7 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
 
     public function deleteCache(array $options): void
     {
+        //@TODO Rework cache considering only listUri...
         if (empty($options['listUri'])) {
             throw new InvalidArgumentException('listUri is required to clear the cache');
         }
@@ -52,19 +53,20 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
 
     public function findAllUris(array $options): array
     {
+        //@TODO Rework cache considering only listUri...
         /** @var core_kernel_classes_Property $property */
-        $property = $options['property'];
-        $listUri = $options['listUri'] ?? $property->getRange()->getUri();
-
-        $cacheKey = sprintf(self::CACHE_MASK, $property->getUri(), $listUri);
-
-        if ($this->getCache()->has($cacheKey)) {
-            return $this->getCache()->get($cacheKey);
-        }
+//        $property = $options['property'];
+//        $listUri = $options['listUri'] ?? $property->getRange()->getUri();
+//
+//        $cacheKey = sprintf(self::CACHE_MASK, $property->getUri(), $listUri);
+//
+//        if ($this->getCache()->has($cacheKey)) {
+//            return $this->getCache()->get($cacheKey);
+//        }
 
         $uris = $this->getParentPropertyListRepository()->findAllUris($options);
 
-        $this->getCache()->set($cacheKey, $uris);
+        //$this->getCache()->set($cacheKey, $uris);
 
         return $uris;
     }

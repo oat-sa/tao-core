@@ -48,10 +48,19 @@ class tao_actions_PropertyValues extends tao_actions_CommonModule
 
     public function getDependOnPropertyList(): void
     {
+        $property = $this->hasGetParameter('property_uri')
+            ? $this->getProperty(tao_helpers_Uri::decode($this->getGetParameter('property_uri')))
+            : null;
+
+        $class = $this->hasGetParameter('class_uri')
+            ? $this->getClass(tao_helpers_Uri::decode($this->getGetParameter('class_uri')))
+            : null;
+
         $this->setSuccessJsonResponse(
             $this->getRepository()->findAll(
                 [
-                    'property' => $this->getProperty(tao_helpers_Uri::decode($this->getGetParameter('property_uri'))),
+                    'property' => $property,
+                    'class' => $class,
                     'listUri'  => $this->getProperty(tao_helpers_Uri::decode($this->getGetParameter('list_uri')))->getUri()
                 ]
             )

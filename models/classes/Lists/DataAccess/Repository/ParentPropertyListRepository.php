@@ -38,20 +38,13 @@ class ParentPropertyListRepository extends ConfigurableService implements Parent
 {
     public function findAllUris(array $options): array
     {
-        /** @var core_kernel_classes_Property $property */
-        $property = $options['property'] ?? null;
-
-        $listUri = empty($options['listUri']) && $property
-            ? $property->getRange()->getUri()
-            : $options['listUri'];
-
-        if (empty($listUri)) {
+        if (empty($options['listUri'])) {
             throw new InvalidArgumentException('listUri must be provided as a filter');
         }
 
         $dependencies = $this->getDependencyRepository()->findAll(
             [
-                'listUri' => $listUri
+                'listUri' => $options['listUri'],
             ]
         )->getValues();
 
@@ -75,7 +68,7 @@ class ParentPropertyListRepository extends ConfigurableService implements Parent
         $propertyListQuery->addCriterion(OntologyRdfs::RDFS_RANGE, SupportedOperatorHelper::IN, $dependencyListUris);
         $propertyListQueryBuilder->setCriteria($propertyListQuery);
         $propertyListResult = $search->getGateway()->search($propertyListQueryBuilder);
-        
+
         foreach ($propertyListResult as $property) {
             $propertyList[] = $property->getUri();
         }

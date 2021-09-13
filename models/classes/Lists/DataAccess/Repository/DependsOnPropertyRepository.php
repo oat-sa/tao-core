@@ -24,6 +24,7 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
+use InvalidArgumentException;
 use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
 use tao_helpers_form_GenerisFormFactory;
 use oat\oatbox\service\ConfigurableService;
@@ -54,17 +55,33 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
     {
         $collection = new DependsOnPropertyCollection();
 
-        /** @var core_kernel_classes_Property $property */
-        $property = $options['property'];
+        if (empty($options['property']) && empty($options['class'])) {
+            throw new InvalidArgumentException('class or property filter need to be provided');
+        }
 
-        if (!$this->isRemoteListProperty($property)) {
+        /** @var core_kernel_classes_Property $property */
+        $property = $options['property'] ?? null;
+
+        /** @var core_kernel_classes_Class $class */
+        $class = $property ? $property->getDomain()->get(0) : $options['class'] ?? null;
+
+        if (empty($options['listUri']) && $property && !$property->getRange()) {
+            return $collection;
+        }
+
+        $listUri = $this->getListUri($options, $property);
+
+        if (!$listUri) {
+            return $collection;
+        }
+
+        if ($property && !$this->isRemoteListProperty($property)) {
             return $collection;
         }
 
         $parentPropertiesUris = $this->getParentPropertyListUrisRepository()->findAllUris(
             [
-                'property' => $property,
-                'listUri' => $options['listUri'] ?? null,
+                'listUri' => $listUri,
             ]
         );
 
@@ -72,12 +89,9 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
             return $collection;
         }
 
-        /** @var core_kernel_classes_Class $class */
-        $class = $property->getDomain()->get(0);
-
         /** @var core_kernel_classes_Property $property */
         foreach ($this->getProperties($class) as $classProperty) {
-            if ($this->isPropertyNotSupported($property, $classProperty)) {
+            if ($property && $this->isPropertyNotSupported($property, $classProperty)) {
                 continue;
             }
 
@@ -87,12 +101,23 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
                 continue;
             }
 
-            if ($this->isSameParentProperty($property, $classProperty)) {
+            if ($property && $this->isSameParentProperty($property, $classProperty)) {
                 return $collection;
             }
         }
 
         return $collection;
+    }
+
+    private function getListUri(array $options, core_kernel_classes_Property $property = null): ?string
+    {
+        if (empty($options['listUri']) && $property && !$property->getRange()) {
+            return null;
+        }
+
+        return empty($options['listUri']) && $property
+            ? $property->getRange()->getUri()
+            : ($options['listUri'] ?? null);
     }
 
     private function isSameParentProperty(
