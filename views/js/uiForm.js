@@ -656,12 +656,13 @@ define([
             	const elt = $this.parent("div");
             	let classUri;
                 let propertyUriToSend;
-		const dependsOnSelect = $('.property-depends-on');
+                const dependsId = $(this)[0].id.match(/\d+_/)[0];
+		const dependsOnSelect = $(`#${dependsId}property-depends-on`);
 
                 classUri = $this.val();
 		propertyUriToSend = $this.parent().parent().parent()[0].id;
                 propertyUriToSend = propertyUriToSend.replace('property_', '');
-		
+
 		if (dependsOnSelect.length <= 1) {
 			$.ajax({
 				url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
