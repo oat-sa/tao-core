@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -25,6 +25,7 @@ namespace oat\tao\model\routing;
 use Context;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
+use oat\tao\model\Middleware\MiddlewareRequestHandler;
 use ReflectionException;
 use IExecutable;
 use ActionEnforcingException;
@@ -48,8 +49,7 @@ use oat\oatbox\log\TaoLoggerAwareInterface;
 use oat\tao\model\action\CommonModuleInterface;
 
 /**
- * ActionEnforcer class
- * TODO ActionEnforcer class documentation.
+ * @TODO ActionEnforcer class documentation.
  *
  * @author Jerome Bogaerts <jerome@taotesting.com>
  * @author Joel Bout <joel@taotesting.com>
@@ -202,13 +202,11 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     }
 
     /**
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface
      * @throws ActionEnforcingException
      * @throws ReflectionException
      * @throws \common_exception_Error
      */
-    public function resolve(ServerRequestInterface $request)
+    public function resolve(ServerRequestInterface $request): ResponseInterface
     {
         $this->request = $request;
 
@@ -220,6 +218,10 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         } catch (RouterException $e) {
             throw new ActionEnforcingException($e->getMessage(), $this->getControllerClass(), $this->getAction());
         }
+
+        $this->response = $this->getMiddlewareRequestHandler()->withOriginalResponse($this->getResponse())->handle(
+            $request
+        );
 
         $controller = $this->getController();
 
@@ -246,11 +248,6 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     }
 
     /**
-     * @param ServerRequestInterface $request
-     * @param                        $controller
-     * @param string                 $action
-     *
-     * @return array
      * @throws ReflectionException
      */
     private function resolveParameters(ServerRequestInterface $request, $controller, string $action): array
@@ -277,5 +274,10 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         }
 
         return $actionParameters;
+    }
+
+    private function getMiddlewareRequestHandler(): MiddlewareRequestHandler
+    {
+        return $this->getServiceManager()->get(MiddlewareRequestHandler::SERVICE_ID);
     }
 }
