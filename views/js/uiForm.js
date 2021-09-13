@@ -657,7 +657,7 @@ define([
             	let classUri;
                 let propertyUriToSend;
                 const dependsId = $(this)[0].id.match(/\d+_/)[0];
-                const dependsOnSelect = $(`#${dependsId}property-depends-on`);
+                const dependsOnSelect = $(document.getElementById(`${dependsId}depends-on-property`));
 
                 classUri = $this.val();
                 propertyUriToSend = $this.parent().parent().parent()[0].id;
@@ -680,11 +680,13 @@ define([
                                 }
                                 dependsOnSelect.empty().append(html);
                                 dependsOn.toggle();
+                            } else {
+                                dependsOnSelect.parent().hide();
                             }
                         }
                     });
                 } else {
-                    dependsOn.toggle();
+                    dependsOnSelect.parent().show();
                 }
             }
 
