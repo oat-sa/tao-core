@@ -652,23 +652,24 @@ define([
             }
 
             function showDependsOnProperty() {
-            	const $this = $(this);
-            	const elt = $this.parent("div");
-            	let classUri;
-                let propertyUriToSend;
+            	// const $this = $(this);
+            	// const elt = $this.parent('div');
+                const classUri = $(document.getElementById('classUri')).val();
+            	const listUri = $this.val();
+                // let propertyUriToSend;
                 const dependsId = $(this)[0].id.match(/\d+_/)[0];
                 const dependsOnSelect = $(document.getElementById(`${dependsId}depends-on-property`));
 
-                classUri = $this.val();
-                propertyUriToSend = $this.parent().parent().parent()[0].id;
-                propertyUriToSend = propertyUriToSend.replace('property_', '');
+                // propertyUriToSend = $this.parent().parent().parent()[0].id;
+                // propertyUriToSend = propertyUriToSend.replace('property_', '');
 
                 $.ajax({
                     url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
                     type: "GET",
                     data: {
-                        list_uri: classUri,
-                        property_uri: propertyUriToSend,
+                        class_uri: classUri,
+                        list_uri: listUri,
+                        // property_uri: propertyUriToSend,
                     },
                     dataType: 'json',
                     success: function (response) {
