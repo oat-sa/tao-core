@@ -212,7 +212,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
      */
     public function archive(EntityInterface $entity): bool
     {
-        return $this->updateStatus($entity->getId(), TaskLogInterface::STATUS_ARCHIVED);
+        return (bool)$this->updateStatus($entity->getId(), TaskLogInterface::STATUS_ARCHIVED);
     }
 
     /**
@@ -220,7 +220,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
      */
     public function cancel(EntityInterface $entity): bool
     {
-        return $this->updateStatus($entity->getId(), TaskLogInterface::STATUS_CANCELLED);
+        return (bool)$this->updateStatus($entity->getId(), TaskLogInterface::STATUS_CANCELLED);
     }
 
     /**
