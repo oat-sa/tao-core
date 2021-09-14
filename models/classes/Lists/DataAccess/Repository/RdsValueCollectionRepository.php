@@ -385,6 +385,10 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
      */
     private function getParentList(ValueCollectionSearchRequest $request)
     {
+        if (!$request->hasPropertyUri()) {
+            return null;
+        }
+
         $parentProperty = $this->getProperty($request->getPropertyUri())->getDependsOnPropertyCollection()->current();
 
         return $parentProperty ? $parentProperty->getRange() : null;
