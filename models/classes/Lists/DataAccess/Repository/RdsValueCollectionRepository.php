@@ -369,7 +369,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
             return;
         }
 
-        $allowedItemIds = $this->getDependencyRepository()->findItemIds(
+        $allowedItemIds = $this->getDependencyRepository()->findChildListIds(
             [
                 'parentListUris' => [$parentList->getUri()],
                 'parentListValues' => $request->getParentListValues(),

@@ -35,24 +35,16 @@ use oat\tao\model\Lists\Business\Domain\DependencyCollection;
 
 class DependencyRepository extends ConfigurableService implements DependencyRepositoryInterface
 {
-    /**
-     * @TODO FIXME Find better naming...
-     *
-     * Check better repository to apply this method.
-     */
-    public function findItemIds(array $options): array
+    public function findChildListIds(array $options): array
     {
         if (empty($options['parentListUris']) || empty($options['parentListValues'])) {
             throw new InvalidArgumentException('Parameters (parentListUris, parentListValues) are required');
         }
 
-        $parentListUris = $options['parentListUris'];
-        $parentListValues = $options['parentListValues'];
-
         $query = $this->getQueryBuilder();
         $expressionBuilder = $query->expr();
 
-        $query->select('list_item_id')
+        return $query->select('list_item_id')
             ->from(RdsValueCollectionRepository::TABLE_LIST_ITEMS_DEPENDENCIES, 'dependencies')
             ->innerJoin(
                 'dependencies',
@@ -62,10 +54,10 @@ class DependencyRepository extends ConfigurableService implements DependencyRepo
             )
             ->andWhere($expressionBuilder->in('items.list_uri', ':parent_list_uri'))
             ->andWhere($expressionBuilder->in('dependencies.value', ':parent_list_value'))
-            ->setParameter('parent_list_uri', $parentListUris, Connection::PARAM_STR_ARRAY)
-            ->setParameter('parent_list_value', $parentListValues, Connection::PARAM_STR_ARRAY);
-
-        return $query->execute()->fetchAll(FetchMode::COLUMN);
+            ->setParameter('parent_list_uri', $options['parentListUris'], Connection::PARAM_STR_ARRAY)
+            ->setParameter('parent_list_value', $options['parentListValues'], Connection::PARAM_STR_ARRAY)
+            ->execute()
+            ->fetchAll(FetchMode::COLUMN);
     }
 
     public function findAll(array $options): DependencyCollection
