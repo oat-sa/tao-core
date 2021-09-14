@@ -38,6 +38,7 @@ class ValueCollectionSearchRequestHandler extends InjectionAwareService
     public const SERVICE_ID = 'tao/ValueCollectionSearchRequestHandler';
 
     public const QUERY_PARAMETER_ID = 'propertyUri';
+    public const QUERY_PARAMETER_VALUES = 'propertyValues';
     public const QUERY_PARAMETER_SUBJECT = 'subject';
     public const QUERY_PARAMETER_EXCLUDE = 'exclude';
 
@@ -69,6 +70,9 @@ class ValueCollectionSearchRequestHandler extends InjectionAwareService
         $propertyUri = Id::decode(
             $queryParameters[self::QUERY_PARAMETER_ID]
         );
+
+        //@FIXME @TODO Pass values to search...
+        $propertyValues = (array)($queryParameters[self::QUERY_PARAMETER_VALUES] ?? []);
 
         $searchRequest = (new ValueCollectionSearchRequest())
             ->setLimit(self::SEARCH_LIMIT)
