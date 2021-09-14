@@ -24,7 +24,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
+use core_kernel_classes_ContainerCollection;
 use Doctrine\DBAL\FetchMode;
+use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use common_persistence_SqlPersistence as SqlPersistence;
 use core_kernel_classes_Class as KernelClass;
@@ -34,6 +36,7 @@ use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\persistence\PersistenceManager;
+use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\CollectionType;
 use oat\tao\model\Lists\Business\Domain\Value;
@@ -44,6 +47,8 @@ use Throwable;
 
 class RdsValueCollectionRepository extends InjectionAwareService implements ValueCollectionRepositoryInterface
 {
+    use OntologyAwareTrait;
+
     public const SERVICE_ID = 'tao/RdsValueCollectionRepository';
 
     public const TABLE_LIST_ITEMS = 'list_items';
@@ -84,6 +89,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
     {
         $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
 
+        $this->enrichQueryWithAllowedValues($searchRequest, $query);
         $this->enrichQueryWithInitialCondition($query);
         $this->enrichQueryWithSelect($searchRequest, $query);
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
@@ -351,6 +357,39 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         }
     }
 
+    private function enrichQueryWithAllowedValues(ValueCollectionSearchRequest $request, QueryBuilder $query): void
+    {
+        if (!$request->hasParentListValues()) {
+            return;
+        }
+
+        $parentList = $this->getParentList($request);
+
+        if (!$parentList) {
+            return;
+        }
+
+        $allowedItemIds = $this->getDependencyRepository()->findItemIds(
+            [
+                'parentListUris' => [$parentList->getUri()],
+                'parentListValues' => $request->getParentListValues(),
+            ]
+        );
+
+        $query->andWhere($query->expr()->in(self::FIELD_ITEM_ID, ':allowed_item_ids'))
+            ->setParameter('allowed_item_ids', $allowedItemIds, Connection::PARAM_STR_ARRAY);
+    }
+
+    /**
+     * @return KernelClass|core_kernel_classes_ContainerCollection|null
+     */
+    private function getParentList(ValueCollectionSearchRequest $request)
+    {
+        $parentProperty = $this->getProperty($request->getPropertyUri())->getDependsOnPropertyCollection()->current();
+
+        return $parentProperty ? $parentProperty->getRange() : null;
+    }
+
     private function isListsDependencyEnabled(): bool
     {
         if (!isset($this->isListsDependencyEnabled)) {
@@ -365,5 +404,10 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getServiceLocator()->get(FeatureFlagChecker::class);
+    }
+
+    private function getDependencyRepository(): DependencyRepositoryInterface
+    {
+        return $this->getServiceLocator()->get(DependencyRepository::class);
     }
 }

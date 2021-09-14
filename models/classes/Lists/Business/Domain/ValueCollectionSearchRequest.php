@@ -50,6 +50,9 @@ class ValueCollectionSearchRequest
     /** @var string */
     private $defaultLanguage;
 
+    /** @var string[] */
+    private $parentListValues;
+
     public function hasPropertyUri(): bool
     {
         return null !== $this->propertyUri;
@@ -183,5 +186,22 @@ class ValueCollectionSearchRequest
     public function setDefaultLanguage(string $defaultLanguage): void
     {
         $this->defaultLanguage = $defaultLanguage;
+    }
+
+    public function setParentListValues(string ...$values): self
+    {
+        $this->parentListValues = $values;
+
+        return $this;
+    }
+
+    public function hasParentListValues(): bool
+    {
+        return !empty($this->parentListValues);
+    }
+
+    public function getParentListValues(): array
+    {
+        return $this->parentListValues;
     }
 }

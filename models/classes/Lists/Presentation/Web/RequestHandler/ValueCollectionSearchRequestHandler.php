@@ -32,12 +32,14 @@ use oat\tao\model\Lists\Presentation\Web\RequestValidator\ValueCollectionSearchR
 use oat\tao\model\service\InjectionAwareService;
 use Psr\Http\Message\ServerRequestInterface;
 use tao_helpers_Uri as Id;
+use function foo\func;
 
 class ValueCollectionSearchRequestHandler extends InjectionAwareService
 {
     public const SERVICE_ID = 'tao/ValueCollectionSearchRequestHandler';
 
     public const QUERY_PARAMETER_ID = 'propertyUri';
+    public const QUERY_PARAMETER_PARENT_LIST_VALUES = 'parentListValues';
     public const QUERY_PARAMETER_SUBJECT = 'subject';
     public const QUERY_PARAMETER_EXCLUDE = 'exclude';
 
@@ -73,6 +75,19 @@ class ValueCollectionSearchRequestHandler extends InjectionAwareService
         $searchRequest = (new ValueCollectionSearchRequest())
             ->setLimit(self::SEARCH_LIMIT)
             ->setPropertyUri($propertyUri);
+
+        if (!empty($queryParameters[self::QUERY_PARAMETER_PARENT_LIST_VALUES])) {
+            $parentListValues = $queryParameters[self::QUERY_PARAMETER_PARENT_LIST_VALUES];
+
+            array_walk(
+                $parentListValues,
+                function (&$value) {
+                    $value = Id::decode($value);
+                }
+            );
+
+            $searchRequest->setParentListValues(...$parentListValues);
+        }
 
         $listUri = $this->getPropertyListUri($propertyUri);
 
