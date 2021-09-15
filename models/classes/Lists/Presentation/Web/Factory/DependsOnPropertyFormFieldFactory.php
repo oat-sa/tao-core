@@ -71,7 +71,7 @@ class DependsOnPropertyFormFieldFactory extends ConfigurableService
         );
         $element->addAttribute('class', 'property-depends-on property');
         $element->setDescription(__('Depends on property'));
-        $element->setEmptyOption('None');
+        $element->setEmptyOption(' --- ' . __('select') . ' --- ');
 
         if ($collection->count() === 0) {
             $element->disable();
