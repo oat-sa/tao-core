@@ -249,3 +249,33 @@ Cypress.Commands.add('assignValueToProperty', (
     cy.getSettled('button[type="submit"]').click();
     cy.wait('@treeRender')
 });
+
+
+Cypress.Commands.add('dragAndDrop', (selector) => {
+
+    //option with plugin
+    cy.get(`${selector}`)
+        .drag('div[class="qti-itemBody item-editor-drop-area hoverable"]');
+    cy.get('li[data-testid="save-the-item"]').click();
+
+    //option doesn't use plugins (one of 2)
+
+    // const dataTransfer = new DataTransfer;
+    // cy.getSettled(`${selector}`)
+    //
+    //     .trigger('dragstart',
+    //         {dataTransfer}
+    //     )
+    // cy.getSettled('div[class="qti-itemBody item-editor-drop-area hoverable"]')
+    //     .trigger('drop',
+    //         {dataTransfer}
+    //     )
+    //     .trigger('dragoverstart.gridEdit');
+    //
+    //
+    // // cy.getSettled('li[data-testid="save-the-item"]').click();
+    //
+
+    }
+);
+

@@ -21,6 +21,7 @@ import '@oat-sa/e2e-runner/support/lti.js';
 import './resourceTree'
 import './userManagement'
 import urls from '../utils/urls';
+import '@4tw/cypress-drag-drop';
 
 Cypress.Commands.add('loginAsUser', (username, password) => {
     cy.login({ url: urls.login, username, password });
