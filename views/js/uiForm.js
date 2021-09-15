@@ -652,7 +652,7 @@ define([
             }
 
             function showDependsOnProperty() {
-            	// const $this = $(this);
+            	const $this = $(this);
             	// const elt = $this.parent('div');
                 const classUri = $(document.getElementById('classUri')).val();
             	const listUri = $this.val();
@@ -675,7 +675,7 @@ define([
                     success: function (response) {
                         if (response && response.data && response.data.length !== 0) {
                             if (dependsOnSelect[0].length <= 1) {
-                                let html = '<option value=" "> --- select --- </option>';
+                                let html = '<option value=" "> None </option>';
                                 for (const propertyData in response.data) {
                                     html += `<option value="${response.data[propertyData].uri}">${response.data[propertyData].label}</option>`;
                                 }
