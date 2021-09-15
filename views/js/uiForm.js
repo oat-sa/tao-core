@@ -668,13 +668,11 @@ define([
                     dataType: 'json',
                     success: function (response) {
                         if (response && response.data && response.data.length !== 0) {
-                            if (dependsOnSelect[0].length <= 1) {
-                                let html = '<option value=" "> --- select --- </option>';
-                                for (const propertyData in response.data) {
-                                    html += `<option value="${response.data[propertyData].uri}">${response.data[propertyData].label}</option>`;
-                                }
-                                dependsOnSelect.empty().append(html);
+                            let html = '<option value=" "> --- select --- </option>';
+                            for (const propertyData in response.data) {
+                                html += `<option value="${response.data[propertyData].uri}">${response.data[propertyData].label}</option>`;
                             }
+                            dependsOnSelect.empty().append(html);
                             dependsOn.toggle();
                         } else {
                             dependsOnSelect.parent().hide();
