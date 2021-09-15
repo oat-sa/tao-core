@@ -653,29 +653,23 @@ define([
 
             function showDependsOnProperty() {
             	const $this = $(this);
-            	// const elt = $this.parent('div');
                 const classUri = $(document.getElementById('classUri')).val();
             	const listUri = $this.val();
-                // let propertyUriToSend;
                 const dependsId = $(this)[0].id.match(/\d+_/)[0];
                 const dependsOnSelect = $(document.getElementById(`${dependsId}depends-on-property`));
-
-                // propertyUriToSend = $this.parent().parent().parent()[0].id;
-                // propertyUriToSend = propertyUriToSend.replace('property_', '');
 
                 $.ajax({
                     url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
                     type: "GET",
                     data: {
                         class_uri: classUri,
-                        list_uri: listUri,
-                        // property_uri: propertyUriToSend,
+                        list_uri: listUri
                     },
                     dataType: 'json',
                     success: function (response) {
                         if (response && response.data && response.data.length !== 0) {
                             if (dependsOnSelect[0].length <= 1) {
-                                let html = '<option value=" "> None </option>';
+                                let html = '<option value=" "> --- select --- </option>';
                                 for (const propertyData in response.data) {
                                     html += `<option value="${response.data[propertyData].uri}">${response.data[propertyData].label}</option>`;
                                 }
