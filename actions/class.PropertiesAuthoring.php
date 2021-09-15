@@ -306,7 +306,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
                     $this->bindProperties($class, $classValues);
                 }
-                
+
                 //save all properties values
                 if (isset($data['properties'])) {
                     $this->saveProperties($data);
@@ -338,7 +338,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 if (trim($prop['depends-on-property'])) {
                     $elementRangeArray[$index . '_depends-on-property'] = $prop['depends-on-property'];
                     $elementRangeArray[$index . '_uri'] = $prop['uri'];
-                    $elementRangeArray[$index . '_range'] = $prop['range'];
                 }
             }
         }
