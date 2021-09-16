@@ -123,20 +123,20 @@ class ParentPropertyListRepositoryTest extends TestCase
             );
 
         $this->valueCollection
-        ->method('getListUris')
-        ->willReturn([]);
+            ->method('getListUris')
+            ->willReturn([]);
 
         $sampleValue = new Value(null, 'http://sample.com#1', '1');
         $this->valueMock
-        ->expects(self::any())
-        ->method('setUri')
-        ->with(['uri'])
-        ->willReturn($sampleValue);
+            ->expects(self::any())
+            ->method('setUri')
+            ->with(['uri'])
+            ->willReturn($sampleValue);
 
         $this->rdsCollectionRepository
-        ->method('findAll')
-        ->with(new ValueCollectionSearchRequest())
-        ->willReturn($this->valueCollection);
+            ->method('findAll')
+            ->with(new ValueCollectionSearchRequest())
+            ->willReturn($this->valueCollection);
 
         $queryBuilder = $this->createMock(QueryBuilderInterface::class);
         $criteria = $this->createMock(QueryInterface::class);
