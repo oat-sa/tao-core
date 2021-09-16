@@ -1,5 +1,3 @@
-import selectors from "../../../../taoItems/views/cypress/utils/selectors";
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -63,7 +61,7 @@ Cypress.Commands.add('addClassToRoot', (
         .getSettled(`${rootSelector} a:nth(0)`)
         .click()
         .intercept('POST', `**/${editClassLabelUrl}`).as('editClassLabel')
-        // .wait('@editClassLabel')
+        .wait('@editClassLabel')
         .addClass(formSelector, treeRenderUrl, addSubClassUrl)
         .renameSelectedClass(formSelector, name);
 });
@@ -335,18 +333,19 @@ Cypress.Commands.add('assignValueToProperty', (
 
 /**
  * Imports resource in class (class should already be selected before running this command)
- * @param {String} importItem - css selector for the import button
- * @param {String} importFilePath - path of the
- * @param {String} name
+ * @param {String} importSelector - css selector for the import button
+ * @param {String} importFilePath - path to the file to import
+ * @param {String} importUrl - url for the resource import POST request
+ * @param {String} className
  */
 Cypress.Commands.add('importToSelectedNode', (
-    importItem,
+    importSelector,
     importFilePath,
     importUrl,
-    name) => {
+    className) => {
 
     cy.log('COMMAND: import', importUrl);
-    cy.get(importItem).click();
+    cy.get(importSelector).click();
 
     cy.readFile(importFilePath, 'binary')
         .then(fileContent => {
@@ -365,15 +364,14 @@ Cypress.Commands.add('importToSelectedNode', (
                 .click()
                 .wait('@import')
 
-            return cy.isElementPresent('.feedback.feedback-info.popup [role="alert"]')
-                .then(isBackground => {
-                    // if the task was moved to the task queue (background)
-                    if (isBackground) {
-                        cy.get('.badge-component').click();
-                        cy.get('.task-element.completed').first().contains(name);
-                    } else {
+            return cy.isElementPresent('.task-report-container')
+                .then(isTaskStatus => {
+                    if (isTaskStatus) {
                         cy.get('.feedback-success.hierarchical').should('exist');
-                        cy.get(`li [title ="${name}"] a`).should('exist');
+                    } else {
+                        // the task was moved to the task queue (background)
+                        cy.get('.badge-component').click();
+                        cy.get('.task-element.completed').first().contains(className);
                     }
                 })
         });
