@@ -40,6 +40,7 @@ use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
+use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
 use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
@@ -351,13 +352,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 && array_key_exists($element->getName(), $elementRangeArray)
             ) {
                 if (strpos($element->getName(), 'depends-on-property') !== false) {
-                    $index = substr($element->getName(), 0, strpos($element->getName(), '_'));
-                    $options = $dependsOnPropertyRepository->findAll(
-                        [
-                            'property' => $this->getProperty(tao_helpers_Uri::decode($elementRangeArray[$index . '_uri'])),
-                            'listUri' => tao_helpers_Uri::decode($elementRangeArray[$index . '_range_list'])
-                        ]
-                    )->getOptionsList();
+                    $options = $this->getDependsOnPropertyOptions($element, $elementRangeArray, $dependsOnPropertyRepository);
                     $element->setOptions($options);
                 }
                 
@@ -367,6 +362,21 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         }
 
         $myForm->setElements($elements);
+    }
+
+    private function getDependsOnPropertyOptions(
+        tao_helpers_form_FormElement $element,
+        array $elementRangeArray,
+        DependsOnPropertyRepositoryInterface $dependsOnPropertyRepository
+    ): array {
+        $index = substr($element->getName(), 0, strpos($element->getName(), '_'));
+        $options = $dependsOnPropertyRepository->findAll(
+            [
+                'property' => $this->getProperty(tao_helpers_Uri::decode($elementRangeArray[$index . '_uri'])),
+                'listUri' => tao_helpers_Uri::decode($elementRangeArray[$index . '_range_list'])
+            ]
+        )->getOptionsList();
+        return $options;
     }
 
     /**
