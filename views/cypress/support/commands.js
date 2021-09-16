@@ -67,6 +67,7 @@ Cypress.Commands.add('loginAttempt', (username, password) => {
  * @param {Object} opts
  * @param {String} opts.retries
  * @param {String} opts.delay
+ * @return {JQuery}
  */
 Cypress.Commands.add('getSettled', (selector, opts = {}) => {
     const retries = opts.retries || 3;
@@ -91,6 +92,40 @@ Cypress.Commands.add('getSettled', (selector, opts = {}) => {
     return cy.wrap(null).then(() => {
         return new Cypress.Promise((resolve) => {
             return isAttached(resolve, 0);
+        }).then((el) => {
+            return cy.wrap(el);
+        });
+    });
+});
+
+/**
+ * Tries to find an element, returning only after it's present on the page or after timeout
+ * @param {String} selector - css selector of the element
+ * @param {Object} opts
+ * @param {String} opts.timeout
+ * @param {String} opts.delay
+ * @return {Boolean}
+ */
+Cypress.Commands.add('isElementPresent', (selector, opts = {}) => {
+    const timeout = opts.timeout || 7000;
+    const delay = opts.delay || 500;
+
+    const isPresent = (resolve) => {
+        const $el = Cypress.$(selector);
+        if ($el) {
+            resolve(true);
+        } else {
+            setTimeout(() => isPresent(resolve), delay);
+        }
+    };
+
+    return cy.wrap(null).then(() => {
+        return new Cypress.Promise((resolve) => {
+            setTimeout(
+                () => resolve(false),
+                timeout
+            );
+            return isPresent(resolve);
         }).then((el) => {
             return cy.wrap(el);
         });

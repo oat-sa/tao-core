@@ -365,26 +365,16 @@ Cypress.Commands.add('importToSelectedNode', (
                 .click()
                 .wait('@import')
 
-            const isTaskQueueReq = () => new Promise((resolve) => {
-                const delay = 10000;
-                const timer = setTimeout(() => { console.log('timeout'); resolve(false) }, delay);
-                cy.intercept('GET', `**/tao/TaskQueueWebApi/get**`, () => {
-                    console.log('QUEUE')
-                    clearTimeout(timer)
-                    resolve(true);
-                });
-            });
-
-            return isTaskQueueReq().then((taskQueueReq) => {
-                cy.log('QUEUE3', taskQueueReq)
-                console.log('QUEUE3', taskQueueReq)
-                if (taskQueueReq) {
-                    cy.get('.badge-component').click();
-                    cy.get('.task-element.completed').first().contains(name);
-                } else {
-                    cy.get('.feedback-success.hierarchical').should('exist');
-                    cy.get(`li [title ="${name}"] a`).should('exist');
-                }
-            })
+            return cy.isElementPresent('.feedback.feedback-info.popup [role="alert"]')
+                .then(isBackground => {
+                    // if the task was moved to the task queue (background)
+                    if (isBackground) {
+                        cy.get('.badge-component').click();
+                        cy.get('.task-element.completed').first().contains(name);
+                    } else {
+                        cy.get('.feedback-success.hierarchical').should('exist');
+                        cy.get(`li [title ="${name}"] a`).should('exist');
+                    }
+                })
         });
 });
