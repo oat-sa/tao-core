@@ -22,10 +22,18 @@ import './resourceTree'
 import './userManagement'
 import urls from '../utils/urls';
 
+/**
+ * Sends login request using the format of the TAO login form
+ * @param {String} username
+ * @param {String} password
+ */
 Cypress.Commands.add('loginAsUser', (username, password) => {
     cy.login({ url: urls.login, username, password });
 });
 
+/**
+ * Sends login request with the credentials defined via cypress variables 'adminUser' and 'adminPass'
+ */
 Cypress.Commands.add('loginAsAdmin', () => {
     const username = Cypress.env('adminUser');
     const password = Cypress.env('adminPass');
@@ -33,12 +41,18 @@ Cypress.Commands.add('loginAsAdmin', () => {
     cy.loginAsUser(username, password);
 });
 
-// Logs out using the UI
+/**
+ * Logs out using the UI
+ */
 Cypress.Commands.add('logoutAttempt', () => {
     cy.get('#logout').click()
 });
 
-// Creates a UI login attempt with provided data
+/**
+ * Creates a UI login attempt with provided data
+ * @param {String} username
+ * @param {String} password
+ */
 Cypress.Commands.add('loginAttempt', (username, password) => {
     cy.intercept('POST', '**/login*').as('login');
     cy.get('#login', { timeout: 10000 }).type(username);
@@ -47,14 +61,13 @@ Cypress.Commands.add('loginAttempt', (username, password) => {
     cy.wait('@login');
 });
 
-// Preserve session cookies to stay logged in to TAO during tests
-Cypress.Cookies.defaults({
-    preserve: (cookie) => {
-        return cookie.name.startsWith('tao_');
-    }
-});
-
-// recursively gets an element, returning only after it's determined to be attached to the DOM for good
+/**
+ * Recursively gets an element, returning only after it's determined to be attached to the DOM for good
+ * @param {String} selector - css selector of the element
+ * @param {Object} opts
+ * @param {String} opts.retries
+ * @param {String} opts.delay
+ */
 Cypress.Commands.add('getSettled', (selector, opts = {}) => {
     const retries = opts.retries || 3;
     const delay = opts.delay || 500;
@@ -82,4 +95,13 @@ Cypress.Commands.add('getSettled', (selector, opts = {}) => {
             return cy.wrap(el);
         });
     });
+});
+
+/**
+ * Preserve session cookies to stay logged in to TAO during tests
+ */
+Cypress.Cookies.defaults({
+    preserve: (cookie) => {
+        return cookie.name.startsWith('tao_');
+    }
 });
