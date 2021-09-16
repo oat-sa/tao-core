@@ -1,3 +1,5 @@
+import selectors from "../../../../taoItems/views/cypress/utils/selectors";
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,8 +32,8 @@ Cypress.Commands.add('addClass', (
     addSubClassUrl
 ) => {
     cy.log('COMMAND: addClass')
-        .intercept('GET', `**/${ treeRenderUrl }/getOntologyData**`).as('treeRender')
-        .intercept('POST', `**/${ addSubClassUrl }`).as('addSubClass')
+        .intercept('GET', `**/${treeRenderUrl}/getOntologyData**`).as('treeRender')
+        .intercept('POST', `**/${addSubClassUrl}`).as('addSubClass')
         .get('[data-context=resource][data-action=subClass]')
         .click()
         .wait('@addSubClass')
@@ -60,8 +62,8 @@ Cypress.Commands.add('addClassToRoot', (
     cy.log('COMMAND: addClassToRoot', name)
         .getSettled(`${rootSelector} a:nth(0)`)
         .click()
-        .intercept('POST', `**/${ editClassLabelUrl }`).as('editClassLabel')
-        .wait('@editClassLabel')
+        .intercept('POST', `**/${editClassLabelUrl}`).as('editClassLabel')
+        // .wait('@editClassLabel')
         .addClass(formSelector, treeRenderUrl, addSubClassUrl)
         .renameSelectedClass(formSelector, name);
 });
@@ -85,7 +87,7 @@ Cypress.Commands.add('moveClass', (
         .getSettled(`li[title="${name}"] a:nth(0)`)
         .click()
         .wait('@editClassLabel')
-        .intercept('GET', `**/${ restResourceGetAll }**`).as('classToMove')
+        .intercept('GET', `**/${restResourceGetAll}**`).as('classToMove')
         .get('#feedback-2, #feedback-1').should('not.exist')
         .getSettled(moveSelector)
         .click()
@@ -157,9 +159,9 @@ Cypress.Commands.add('deleteClass', (
             .click();
     }
 
-    cy.intercept('POST', `**/${ deleteClassUrl }`).as('deleteClass')
+    cy.intercept('POST', `**/${deleteClassUrl}`).as('deleteClass')
     cy.get(confirmSelector)
-      .click();
+        .click();
     cy.wait('@deleteClass')
 });
 
@@ -229,7 +231,7 @@ Cypress.Commands.add('deleteNode', (
     name,
 ) => {
     cy.log('COMMAND: deleteNode', name)
-        .intercept('POST', `**/${ editUrl }`).as('editUrl')
+        .intercept('POST', `**/${editUrl}`).as('editUrl')
         .getSettled(`${rootSelector} a`)
         .contains('a', name).click()
         .wait('@editUrl')
@@ -246,7 +248,7 @@ Cypress.Commands.add('deleteNode', (
  */
 Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
     cy.log('COMMAND: renameSelectedClass', newName)
-        .getSettled(`${ formSelector } ${labelSelector}`)
+        .getSettled(`${formSelector} ${labelSelector}`)
         .clear()
         .type(newName)
         .click()
@@ -255,7 +257,7 @@ Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
         .wait('@editClassLabel')
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
-        .get(`${ formSelector } ${labelSelector}`).should('have.value', newName);
+        .get(`${formSelector} ${labelSelector}`).should('have.value', newName);
 });
 
 /**
@@ -266,8 +268,8 @@ Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
  */
 Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
     cy.log('COMMAND: renameSelectedNode', newName)
-        .intercept('POST', `**${ editUrl }`).as('edit')
-        .get(`${ formSelector } ${labelSelector}`)
+        .intercept('POST', `**${editUrl}`).as('edit')
+        .get(`${formSelector} ${labelSelector}`)
         .clear()
         .type(newName)
         .get('button[id="Save"]')
@@ -275,7 +277,7 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
         .wait('@edit')
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
-        .get(`${ formSelector } ${labelSelector}`).should('have.value', newName)
+        .get(`${formSelector} ${labelSelector}`).should('have.value', newName)
 });
 
 /**
@@ -295,7 +297,7 @@ Cypress.Commands.add('addPropertyToClass', (
     propertyEdit,
     editClassUrl) => {
 
-    cy.log('COMMAND: addPropertyToClass',newPropertyName);
+    cy.log('COMMAND: addPropertyToClass', newPropertyName);
 
     cy.getSettled(`li [title ="${className}"]`).last().click();
     cy.getSettled(editClass).click();
@@ -305,7 +307,7 @@ Cypress.Commands.add('addPropertyToClass', (
     cy.get(propertyEdit).find('input').first().clear('input').type(newPropertyName);
     cy.get(propertyEdit).find('select[class="property-type property"]').select('list');
     cy.get(propertyEdit).find('select[class="property-listvalues property"]').select('Boolean');
-    cy.intercept('POST', `**/${ editClassUrl }`).as('editClass');
+    cy.intercept('POST', `**/${editClassUrl}`).as('editClass');
     cy.get('button[type="submit"]').click();
     cy.wait('@editClass');
 });
@@ -326,7 +328,63 @@ Cypress.Commands.add('assignValueToProperty', (
     cy.log('COMMAND: assignValueToProperty', nodeName, nodePropertiesForm);
     cy.getSettled(`li [title ="${nodeName}"] a`).last().click();
     cy.getSettled(nodePropertiesForm).find(selectOption).check();
-    cy.intercept('GET', `**/${ treeRenderUrl }/getOntologyData**`).as('treeRender')
+    cy.intercept('GET', `**/${treeRenderUrl}/getOntologyData**`).as('treeRender')
     cy.getSettled('button[type="submit"]').click();
     cy.wait('@treeRender')
+});
+
+/**
+ * Imports resource in class (class should already be selected before running this command)
+ * @param {String} importItem - css selector for the import button
+ * @param {String} importFilePath - path of the
+ * @param {String} name
+ */
+Cypress.Commands.add('importToSelectedNode', (
+    importItem,
+    importFilePath,
+    importUrl,
+    name) => {
+
+    cy.log('COMMAND: import', importUrl);
+    cy.get(importItem).click();
+
+    cy.readFile(importFilePath, 'binary')
+        .then(fileContent => {
+            cy.get('input[type="file"][name="content"]')
+                .attachFile({
+                        fileContent,
+                        filePath: importFilePath,
+                        encoding: 'binary',
+                        lastModified: new Date().getTime()
+                    }
+                );
+
+            cy.get('.progressbar.success').should('exist');
+
+            cy.intercept('POST', `**/${importUrl}**`).as('import').get('.form-toolbar button')
+                .click()
+                .wait('@import')
+
+            const isTaskQueueReq = () => new Promise((resolve) => {
+                const delay = 10000;
+                const timer = setTimeout(() => { console.log('timeout'); resolve(false) }, delay);
+                cy.intercept('GET', `**/tao/TaskQueueWebApi/get**`, () => {
+                    console.log('QUEUE')
+                    clearTimeout(timer)
+                    resolve(true);
+                });
+            });
+
+            return isTaskQueueReq().then((taskQueueReq) => {
+                cy.log('QUEUE3', taskQueueReq)
+                console.log('QUEUE3', taskQueueReq)
+                if (taskQueueReq) {
+                    cy.get('.badge-component').click();
+                    cy.get('.task-element.completed').first().contains(name);
+                } else {
+                    cy.get('.feedback-success.hierarchical').should('exist');
+                    cy.get(`li [title ="${name}"] a`).should('exist');
+                }
+            })
+        });
 });
