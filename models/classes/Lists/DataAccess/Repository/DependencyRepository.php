@@ -57,8 +57,8 @@ class DependencyRepository extends ConfigurableService implements DependencyRepo
 
         $collection = new DependencyCollection();
 
-        foreach ($query->execute()->fetchAll(FetchMode::COLUMN) as $colum) {
-            $collection->append(new Dependency($colum));
+        foreach ($query->execute()->fetchAll(FetchMode::COLUMN) as $column) {
+            $collection->append(new Dependency($column));
         }
 
         return $collection;

@@ -343,17 +343,19 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         }
 
         $elements = [];
+        $dependsOnPropertyRepository = $this->getRepository();
+
         foreach ($myForm->getElements() as $element) {
             if (
                 $element instanceof tao_helpers_form_elements_xhtml_Combobox
                 && array_key_exists($element->getName(), $elementRangeArray)
             ) {
-                if (substr(strstr($element->getName(), '_'), 1) == "depends-on-property") {
+                if (strpos($element->getName(), 'depends-on-property') !== false) {
                     $index = substr($element->getName(), 0, strpos($element->getName(), '_'));
-                    $options = $this->getRepository()->findAll(
+                    $options = $dependsOnPropertyRepository->findAll(
                         [
-                        'property' => $this->getProperty(tao_helpers_Uri::decode($elementRangeArray[$index . "_uri"])),
-                        'listUri' => tao_helpers_Uri::decode($elementRangeArray[$index . "_range_list"])
+                            'property' => $this->getProperty(tao_helpers_Uri::decode($elementRangeArray[$index . '_uri'])),
+                            'listUri' => tao_helpers_Uri::decode($elementRangeArray[$index . '_range_list'])
                         ]
                     )->getOptionsList();
                     $element->setOptions($options);
