@@ -19,7 +19,10 @@
 const labelSelector = '[data-testid=Label]';
 
 /**
- * Commands
+ * Creates new resource subclass
+ * @param {String} formSelector - css selector for the class edition form
+ * @param {String} treeRenderUrl - url for resource tree data GET request
+ * @param {String} addSubClassUrl - url for adding subclass POST request
  */
 Cypress.Commands.add('addClass', (
     formSelector,
@@ -37,6 +40,15 @@ Cypress.Commands.add('addClass', (
         .get(formSelector).should('exist');
 });
 
+/**
+ * Creates new resource class in the tree root
+ * @param {String} formSelector - css selector for the class edition form
+ * @param {String} rootSelector - css selector for the tree root element
+ * @param {String} name - new class name
+ * @param {String} editClassLabelUrl - url for editing subclass POST request
+ * @param {String} treeRenderUrl - url for the resource tree data GET request
+ * @param {String} addSubClassUrl - url for the adding subclass POST request
+ */
 Cypress.Commands.add('addClassToRoot', (
     rootSelector,
     formSelector,
@@ -48,11 +60,20 @@ Cypress.Commands.add('addClassToRoot', (
     cy.log('COMMAND: addClassToRoot', name)
         .getSettled(`${rootSelector} a:nth(0)`)
         .click()
+        .intercept('POST', `**/${ editClassLabelUrl }`).as('editClassLabel')
         .wait('@editClassLabel')
         .addClass(formSelector, treeRenderUrl, addSubClassUrl)
         .renameSelectedClass(formSelector, name);
 });
 
+/**
+ * Moves class to another place
+ * @param {String} moveSelector - css selector for the move button
+ * @param {String} moveConfirmSelector - css selector for the element to confirm action
+ * @param {String} name - name of the class which will be moved
+ * @param {String} nameWhereMove - name of the class to move to
+ * @param {String} restResourceGetAll - url for the rest resource GET request
+ */
 Cypress.Commands.add('moveClass', (
     moveSelector,
     moveConfirmSelector,
@@ -78,6 +99,15 @@ Cypress.Commands.add('moveClass', (
         .get(`li[title="${name}"] a`).should('not.exist');
 });
 
+/**
+ * Moves class to the tree root
+ * @param {String} rootSelector - css selector for the tree root element
+ * @param {String} moveSelector - css selector for the move button
+ * @param {String} moveConfirmSelector - css selector for the element to confirm action
+ * @param {String} name - name of the class which will be moved
+ * @param {String} nameWhereMove - name of the class to move to
+ * @param {String} restResourceGetAll - url for the rest resource GET request
+ */
 Cypress.Commands.add('moveClassFromRoot', (
     rootSelector,
     moveSelector,
@@ -95,6 +125,16 @@ Cypress.Commands.add('moveClassFromRoot', (
         .moveClass(moveSelector, moveConfirmSelector, name, nameWhereMove, restResourceGetAll)
 });
 
+/**
+ * Deletes class
+ * @param {String} rootSelector - css selector for the tree root element
+ * @param {String} formSelector - css selector for the class edition form
+ * @param {String} deleteSelector - css selector for the delete button
+ * @param {String} confirmSelector - css selector for the element to confirm action
+ * @param {String} deleteClassUrl - url for the deleting class POST request
+ * @param {String} name - name of the class which will be deleted
+ * @param {Boolean} isConfirmCheckbox = false - if true also checks confirmation checkbox
+ */
 Cypress.Commands.add('deleteClass', (
     rootSelector,
     formSelector,
@@ -102,7 +142,7 @@ Cypress.Commands.add('deleteClass', (
     confirmSelector,
     deleteClassUrl,
     name,
-    isItems = false
+    isConfirmCheckbox = false
 ) => {
     cy.log('COMMAND: deleteClass', name)
         .getSettled(`${rootSelector} a`)
@@ -112,7 +152,7 @@ Cypress.Commands.add('deleteClass', (
 
     cy.get(deleteSelector).click();
 
-    if (isItems) {
+    if (isConfirmCheckbox) {
         cy.get('.modal-body label[for=confirm]')
             .click();
     }
@@ -123,6 +163,16 @@ Cypress.Commands.add('deleteClass', (
     cy.wait('@deleteClass')
 });
 
+/**
+ * Deletes class from the tree root
+ * @param {String} rootSelector - css selector for the tree root element
+ * @param {String} formSelector - css selector for the class edition form
+ * @param {String} deleteSelector - css selector for the delete button
+ * @param {String} confirmSelector - css selector for the element to confirm action
+ * @param {String} deleteClassUrl - url for the deleting class POST request
+ * @param {String} name - name of the class which will be deleted
+ * @param {Boolean} isConfirmCheckbox = false - if true also checks confirmation checkbox
+ */
 Cypress.Commands.add('deleteClassFromRoot', (
     rootSelector,
     formSelector,
@@ -130,16 +180,21 @@ Cypress.Commands.add('deleteClassFromRoot', (
     confirmSelector,
     name,
     deleteClassUrl,
-    isItems
+    isConfirmCheckbox
 ) => {
 
     cy.log('COMMAND: deleteClassFromRoot', name)
         .getSettled(`${rootSelector} a:nth(0)`)
         .click()
         .get(`li[title="${name}"] a`)
-        .deleteClass(rootSelector, formSelector, deleteSelector, confirmSelector, deleteClassUrl, name, isItems)
+        .deleteClass(rootSelector, formSelector, deleteSelector, confirmSelector, deleteClassUrl, name, isConfirmCheckbox)
 });
 
+/**
+ * Creates new resource node
+ * @param {String} formSelector - css selector for the class edition form
+ * @param {String} addSelector - css selector for the adding class button
+ */
 Cypress.Commands.add('addNode', (formSelector, addSelector) => {
     cy.log('COMMAND: addNode');
 
@@ -147,6 +202,12 @@ Cypress.Commands.add('addNode', (formSelector, addSelector) => {
     cy.get(formSelector).should('exist');
 });
 
+/**
+ * Selects resource node with the given name (opens subtree associated with this node)
+ * @param {String} rootSelector - css selector for the tree root element
+ * @param {String} formSelector - css selector for the class edition form
+ * @param {String} name - name of the node which will be selected
+ */
 Cypress.Commands.add('selectNode', (rootSelector, formSelector, name) => {
     cy.log('COMMAND: selectNode', name);
     cy.getSettled(`${rootSelector} a:nth(0)`).click();
@@ -154,6 +215,13 @@ Cypress.Commands.add('selectNode', (rootSelector, formSelector, name) => {
     cy.get(formSelector).should('exist');
 });
 
+/**
+ * Deletes resource node with the given name
+ * @param {String} rootSelector - css selector for the tree root element
+ * @param {String} deleteSelector - css selector for the delete button
+ * @param {String} editUrl - url for the editing node POST request
+ * @param {String} name - name of the node which will be deleted
+ */
 Cypress.Commands.add('deleteNode', (
     rootSelector,
     deleteSelector,
@@ -171,6 +239,11 @@ Cypress.Commands.add('deleteNode', (
         .contains('a', name).should('not.exist');
 });
 
+/**
+ * Renames class to the given name (class should already be selected before running this command)
+ * @param {String} formSelector - css selector for the class edition form
+ * @param {String} newName
+ */
 Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
     cy.log('COMMAND: renameSelectedClass', newName)
         .getSettled(`${ formSelector } ${labelSelector}`)
@@ -185,34 +258,35 @@ Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
         .get(`${ formSelector } ${labelSelector}`).should('have.value', newName);
 });
 
-Cypress.Commands.add('renameSelectedItem', (formSelector, editItemUrl, newName) => {
-    cy.log('COMMAND: renameSelectedItem', newName)
-        .intercept('POST', `**${ editItemUrl }`).as('editItem')
+/**
+ * Renames node to the given name (node should already be selected before running this command)
+ * @param {String} formSelector - css selector for the class edition form
+ * @param {String} editUrl - url for the editing node POST request
+ * @param {String} newName
+ */
+Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
+    cy.log('COMMAND: renameSelectedNode', newName)
+        .intercept('POST', `**${ editUrl }`).as('edit')
         .get(`${ formSelector } ${labelSelector}`)
         .clear()
         .type(newName)
         .get('button[id="Save"]')
         .click()
-        .wait('@editItem')
+        .wait('@edit')
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
         .get(`${ formSelector } ${labelSelector}`).should('have.value', newName)
 });
 
-Cypress.Commands.add('renameSelectedTest', (formSelector, editTestUrl, newName) => {
-    cy.log('COMMAND: renameSelectedItem', newName)
-        .intercept('POST', `**${ editTestUrl }`).as('editTest')
-        .get(`${ formSelector } ${labelSelector}`)
-        .clear()
-        .type(newName)
-        .get('button[id="Save"]')
-        .click()
-        .wait('@editTest')
-        .get('#feedback-1, #feedback-2').should('not.exist')
-        .get(formSelector).should('exist')
-        .get(`${ formSelector } ${labelSelector}`).should('have.value', newName)
-});
-
+/**
+ * Adds new property to class (list with single selection of boolean values)
+ * @param {String} className
+ * @param {String} editClass - css selector for the edit class button
+ * @param {String} classOptions - css selector for the class options form
+ * @param {String} newPropertyName
+ * @param {String} propertyEdit - css selector for the property edition form
+ * @param {String} editClassUrl - url for the editing class POST request
+ */
 Cypress.Commands.add('addPropertyToClass', (
     className,
     editClass,
@@ -236,15 +310,22 @@ Cypress.Commands.add('addPropertyToClass', (
     cy.wait('@editClass');
 });
 
+/**
+ * Assigns value to the class property (works for the list with single selection of boolean values)
+ * @param {String} nodeName
+ * @param {String} nodePropertiesForm - css selector for the node properties edition form
+ * @param {String} selectOption - css selector for the option to select
+ * @param {String} treeRenderUrl - url for resource tree data GET request
+ */
 Cypress.Commands.add('assignValueToProperty', (
-    itemName,
-    itemForm,
-    selectTrue,
+    nodeName,
+    nodePropertiesForm,
+    selectOption,
     treeRenderUrl) => {
 
-    cy.log('COMMAND: assignValueToProperty', itemName, itemForm);
-    cy.getSettled(`li [title ="${itemName}"] a`).last().click();
-    cy.getSettled(itemForm).find(selectTrue).check();
+    cy.log('COMMAND: assignValueToProperty', nodeName, nodePropertiesForm);
+    cy.getSettled(`li [title ="${nodeName}"] a`).last().click();
+    cy.getSettled(nodePropertiesForm).find(selectOption).check();
     cy.intercept('GET', `**/${ treeRenderUrl }/getOntologyData**`).as('treeRender')
     cy.getSettled('button[type="submit"]').click();
     cy.wait('@treeRender')
