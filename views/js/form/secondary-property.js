@@ -17,9 +17,11 @@
  */
 
  define([
-    'jquery'
-], function ($) {
+    'jquery',
+    'context',
+], function ($, context) {
     'use strict';
+
     function getSecondaryPropsList($primaryProp) {
         let $secondaryPropsList = $primaryProp.find('.secondary-props-list');
 
@@ -31,8 +33,36 @@
         return $secondaryPropsList;
     }
 
+    function filterSecondaryValues($container, selectedPrimaryProperty) {
+        const $secondaryList = $container.find('.secondary-props-list > li > *');
+
+        $secondaryList.each(function() {
+            let $secondarySelect = $(this).children('select');
+
+            if ($secondarySelect.length) {
+                $.ajax({
+                    url: context.root_url + 'tao/PropertyValues/get',
+                    type: "GET",
+                    data: {
+                        propertyUri: $secondarySelect.attr('id'),
+                        parentListValues: [selectedPrimaryProperty]
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        $secondarySelect.empty().append(new Option('', ' '));
+
+                        response.data.forEach((selectOption) => {
+                            $secondarySelect.append(new Option(selectOption.label, selectOption.uri));
+                        });
+                    }
+                });
+            }
+        });
+    }
+
     function toggleDisableSecondary($container, disable = true) {
         const $secondaryList = $container.find('.secondary-props-list > li > *');
+
         $secondaryList.each(function() {
             if (disable) {
                 $(this).find('[data-depends-on-property]').attr('disabled', 'disabled');
@@ -47,6 +77,7 @@
 
     function clearSecondary($container) {
         const $secondaryList = $container.find('.secondary-props-list > li > *');
+
         $secondaryList.each(function() {
             const $select2Chosen = $(this).find('.select2-chosen');
             if ($select2Chosen.length) {
@@ -84,6 +115,8 @@
             return;
         }
 
+        // Move this logic to the init?
+        // Prevent from $.ajax triggering once per each secondaryProperty element. We need to add on('change') event listener only once
         const $secondaryPropsList = getSecondaryPropsList($primaryProp);
         const $wrapper = $('<li></li>');
         $secondaryPropsList.append($wrapper);
@@ -92,7 +125,10 @@
         $primaryProp.on('change', `[name="${primaryPropUri}"]`, (e) => {
             if (!e.target.value.trim()) {
                 clearSecondary($primaryProp, primaryPropUri);
+            } else {
+                filterSecondaryValues($primaryProp, e.target.value);
             }
+
             toggleDisableSecondary($primaryProp, !e.target.value.trim());
         });
 
@@ -100,20 +136,28 @@
         toggleDisableSecondary($primaryProp, !$primaryElt.val().trim());
     }
 
-    function moveSecondaryProperties($container) {
+    function moveSecondaryProperties($secondaryProps, $props) {
+        $secondaryProps.each(function () {
+            moveSecondaryProperty($(this), $props);
+        });
+    }
+
+    function initializeSecondaryProperties($container) {
         const $props = $container.children();
 
-        const $secondaryProps = $props.filter(function(index) {
+        let $secondaryProps = $props.filter(function(index) {
             return !!$(this).find('[data-depends-on-property]').length;
         });
 
         $secondaryProps.each(function () {
             moveSecondaryProperty($(this), $props);
-        })
+        });
     }
 
     return {
-        move: moveSecondaryProperties
+        move: moveSecondaryProperties,
+        init: initializeSecondaryProperties,
+        filter: filterSecondaryValues,
     }
 });
 
