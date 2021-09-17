@@ -26,6 +26,7 @@ use oat\generis\test\TestCase;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_ContainerCollection;
+use InvalidArgumentException;
 use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
 use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -87,35 +88,12 @@ class DependsOnPropertyRepositoryTest extends TestCase
         $this->assertEquals(0, $propertiesCollection->count());
     }
 
-    public function testFindAllWithoutProperties(): void
+    public function testFindAllWithoutPropertiesAndClass(): void
     {
-        $this->parentPropertyListRepository
-            ->expects($this->once())
-            ->method('findAllUris')
-            ->willReturn(
-                [
-                    'parentUri1',
-                ]
-            );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('class or property filter need to be provided');
 
-        $this->remoteListPropertySpecification
-            ->expects($this->once())
-            ->method('isSatisfiedBy')
-            ->willReturn(true);
-
-        $this->dependentPropertySpecification
-            ->expects($this->never())
-            ->method('isSatisfiedBy');
-
-        $this->sut->withProperties([]);
-        $propertiesCollection = $this->sut->findAll(
-            [
-                'property' => $this->createProperty('parentUri1')
-            ]
-        );
-
-        $this->assertEquals(new DependsOnPropertyCollection(), $propertiesCollection);
-        $this->assertEquals(0, $propertiesCollection->count());
+        $this->sut->findAll([]);
     }
 
     public function testFindAllWithoutValidProperty(): void
@@ -125,12 +103,7 @@ class DependsOnPropertyRepositoryTest extends TestCase
 
         $this->parentPropertyListRepository
             ->expects($this->once())
-            ->method('findAllUris')
-            ->willReturn(
-                [
-                    $parentUri,
-                ]
-            );
+            ->method('findAllUris');
 
         $this->remoteListPropertySpecification
             ->method('isSatisfiedBy')
@@ -149,7 +122,8 @@ class DependsOnPropertyRepositoryTest extends TestCase
 
         $propertiesCollection = $this->sut->findAll(
             [
-                'property' => $this->createProperty('propertyUri')
+                'property' => $this->createProperty('propertyUri'),
+                'listUri'  => "uri1"
             ]
         );
 
@@ -173,11 +147,6 @@ class DependsOnPropertyRepositoryTest extends TestCase
         $this->remoteListPropertySpecification
             ->method('isSatisfiedBy')
             ->willReturn(true);
-
-        $this->dependentPropertySpecification
-            ->method('isSatisfiedBy')
-            ->willReturn(false);
-
         $property = $this->createProperty('propertyUri');
 
         $this->sut->withProperties(
@@ -188,10 +157,45 @@ class DependsOnPropertyRepositoryTest extends TestCase
 
         $propertiesCollection = $this->sut->findAll(
             [
-                'property' => $property
+                'property' => $property,
+                'listUri'  => "uri1"
+            ]
+        );
+        $this->assertEquals(1, $propertiesCollection->count());
+        $this->assertEquals($parentProperty, $propertiesCollection->offsetGet(0)->getProperty());
+    }
+
+    public function testFindAllWithClassOnly(): void
+    {
+        $parentUri = 'parentUri';
+        $parentProperty = $this->createProperty($parentUri);
+
+        $this->parentPropertyListRepository
+            ->expects($this->once())
+            ->method('findAllUris')
+            ->willReturn(
+                [
+                    $parentUri,
+                ]
+            );
+
+        $this->remoteListPropertySpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+        $class = $this->createMock(core_kernel_classes_Class::class);
+
+        $this->sut->withProperties(
+            [
+                $parentProperty,
             ]
         );
 
+        $propertiesCollection = $this->sut->findAll(
+            [
+                'class' => $class,
+                'listUri'  => "uri1"
+            ]
+        );
         $this->assertEquals(1, $propertiesCollection->count());
         $this->assertEquals($parentProperty, $propertiesCollection->offsetGet(0)->getProperty());
     }

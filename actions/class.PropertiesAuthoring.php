@@ -32,7 +32,6 @@ use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\dto\OldProperty;
 use oat\tao\model\event\ClassFormUpdatedEvent;
 use oat\tao\model\event\ClassPropertiesChangedEvent;
-use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\tasks\IndexTrait;
@@ -41,7 +40,10 @@ use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
+use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
+use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
+use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 
 /**
  * Regrouping all actions related to authoring
@@ -325,7 +327,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $groups = $myForm->getGroups();
 
         foreach ($data['properties'] as $prop) {
-            if (empty($prop['range']) || empty($prop['uri'])) {
+            if (empty($prop['range']) || empty($prop['uri']) || empty($prop['depends-on-property'])) {
                 continue;
             }
 
@@ -334,21 +336,47 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             if (isset($elementUri)) {
                 $index = strstr($elementUri, '_', true);
                 $elementRangeArray[$index . '_range_list'] = $prop['range'];
+                if (trim($prop['depends-on-property'])) {
+                    $elementRangeArray[$index . '_depends-on-property'] = $prop['depends-on-property'];
+                    $elementRangeArray[$index . '_uri'] = $prop['uri'];
+                }
             }
         }
 
         $elements = [];
+        $dependsOnPropertyRepository = $this->getRepository();
+
         foreach ($myForm->getElements() as $element) {
             if (
                 $element instanceof tao_helpers_form_elements_xhtml_Combobox
                 && array_key_exists($element->getName(), $elementRangeArray)
             ) {
+                if (strpos($element->getName(), 'depends-on-property') !== false) {
+                    $options = $this->getDependsOnPropertyOptions($element, $elementRangeArray, $dependsOnPropertyRepository);
+                    $element->setOptions($options);
+                }
+                
                 $element->setValue($elementRangeArray[$element->getName()]);
             }
             $elements[] = $element;
         }
 
         $myForm->setElements($elements);
+    }
+
+    private function getDependsOnPropertyOptions(
+        tao_helpers_form_FormElement $element,
+        array $elementRangeArray,
+        DependsOnPropertyRepositoryInterface $dependsOnPropertyRepository
+    ): array {
+        $index = substr($element->getName(), 0, strpos($element->getName(), '_'));
+        $options = $dependsOnPropertyRepository->findAll(
+            [
+                'property' => $this->getProperty(tao_helpers_Uri::decode($elementRangeArray[$index . '_uri'])),
+                'listUri' => tao_helpers_Uri::decode($elementRangeArray[$index . '_range_list'])
+            ]
+        )->getOptionsList();
+        return $options;
     }
 
     /**
@@ -619,5 +647,10 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     private function getPropertyChangedValidator(): PropertyChangedValidator
     {
         return $this->getServiceLocator()->get(PropertyChangedValidator::class);
+    }
+
+    private function getRepository(): DependsOnPropertyRepository
+    {
+        return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
     }
 }

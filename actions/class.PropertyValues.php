@@ -61,7 +61,7 @@ class tao_actions_PropertyValues extends tao_actions_CommonModule
                 [
                     'property' => $property,
                     'class' => $class,
-                    'listUri'  => $this->getProperty(tao_helpers_Uri::decode($this->getGetParameter('list_uri')))->getUri()
+                    'listUri' => $this->getProperty(tao_helpers_Uri::decode($this->getGetParameter('list_uri')))->getUri()
                 ]
             )
         );
