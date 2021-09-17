@@ -25,8 +25,6 @@ namespace oat\tao\model\routing;
 use Context;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use oat\generis\model\DependencyInjection\MyService;
-use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\Middleware\MiddlewareRequestHandler;
 use ReflectionException;
 use IExecutable;
