@@ -25,6 +25,8 @@ namespace oat\tao\model\routing;
 use Context;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
+use oat\generis\model\DependencyInjection\MyService;
+use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\Middleware\MiddlewareRequestHandler;
 use ReflectionException;
 use IExecutable;
@@ -108,6 +110,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         $this->propagate($controller);
         if ($controller instanceof Controller) {
             $controller->setRequest($this->getRequest());
+            $controller->setPsrContainer($this->getServiceManager()->getContainer());
             $controller->setResponse($this->getResponse());
         }
         if ($controller instanceof CommonModuleInterface) {
