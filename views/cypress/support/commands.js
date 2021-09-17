@@ -18,10 +18,9 @@
 
 import '@oat-sa/e2e-runner/support/auth';
 import '@oat-sa/e2e-runner/support/lti.js';
-import './resourceTree'
-import './userManagement'
+import './resourceTree';
+import './userManagement';
 import urls from '../utils/urls';
-import '@4tw/cypress-drag-drop';
 
 Cypress.Commands.add('loginAsUser', (username, password) => {
     cy.login({ url: urls.login, username, password });
@@ -36,7 +35,7 @@ Cypress.Commands.add('loginAsAdmin', () => {
 
 // Logs out using the UI
 Cypress.Commands.add('logoutAttempt', () => {
-    cy.get('#logout').click()
+    cy.get('#logout').click();
 });
 
 // Creates a UI login attempt with provided data

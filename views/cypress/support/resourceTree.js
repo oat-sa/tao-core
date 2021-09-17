@@ -250,32 +250,60 @@ Cypress.Commands.add('assignValueToProperty', (
     cy.wait('@treeRender')
 });
 
+/**
+ * Drag one element and drop it onto another, with mouse
+ * Implementation is specific to 'jquery ui drag drop' library.
+ * @param {String} dragSelector -  element to drag selector
+ * @param {String} dropSelector  - element to drop to selector
+ */
+Cypress.Commands.add('dragAndDrop', (dragSelector, dropSelector) => {
+    cy.get(dragSelector).should('exist')
+    .get(dropSelector).should('exist');
 
-Cypress.Commands.add('dragAndDrop', (selector) => {
-
-    //option with plugin
-    cy.get(`${selector}`)
-        .drag('div[class="qti-itemBody item-editor-drop-area hoverable"]');
-    cy.get('li[data-testid="save-the-item"]').click();
-
-    //option doesn't use plugins (one of 2)
-
-    // const dataTransfer = new DataTransfer;
-    // cy.getSettled(`${selector}`)
-    //
-    //     .trigger('dragstart',
-    //         {dataTransfer}
-    //     )
-    // cy.getSettled('div[class="qti-itemBody item-editor-drop-area hoverable"]')
-    //     .trigger('drop',
-    //         {dataTransfer}
-    //     )
-    //     .trigger('dragoverstart.gridEdit');
-    //
-    //
-    // // cy.getSettled('li[data-testid="save-the-item"]').click();
-    //
-
+    function getElementCenterCoords($el) {
+        const rect = $el[0].getBoundingClientRect();
+        const x = Math.round(rect.left + rect.width / 2);
+        const y = Math.round(rect.top + rect.height / 2);
+        return { x, y };
     }
+    cy.get(dragSelector).then($draggable => {
+        // Pick up this
+        cy.get(dropSelector).then($droppable => {
+            const { x: startX, y: startY } = getElementCenterCoords($draggable);
+            const { x, y } = getElementCenterCoords($droppable);
+            cy.get('#qti-block-element-placeholder').should('not.exist');
+        
+            cy.wrap($draggable)
+            .trigger("mouseover", {force: true})
+            .trigger('mousedown', {
+                which: 1,
+                pageX: startX,
+                pageX: startY
+            })
+            .trigger('mousemove', {
+                which: 1,
+                pageX: x,
+                pageY: y,
+                clientX: x,
+                clientY: y,
+                force: true
+            });
+
+            cy.wrap($droppable)
+            .trigger("mouseover", {force: true})
+            .trigger('mousemove', {
+                which: 1,
+                pageX: x,
+                pageY: y,
+                clientX: x,
+                clientY: y,
+                force: true
+            });
+
+            cy.wrap($draggable).trigger('mouseup', { force: true });
+            cy.document().trigger('mouseup', { force: true });
+        }); // Drop over this
+    }); 
+}
 );
 
