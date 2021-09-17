@@ -22,7 +22,7 @@
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
-define([
+ define([
     'module',
     'jquery',
     'lodash',
@@ -656,16 +656,19 @@ define([
             function showDependsOnProperty() {
             	const $this = $(this);
                 const classUri = $(document.getElementById('classUri')).val();
+                let propertyUriToSend;
             	const listUri = $this.val();
                 const dependsId = $(this)[0].id.match(/\d+_/)[0];
                 const dependsOnSelect = $(document.getElementById(`${dependsId}depends-on-property`));
-
+                propertyUriToSend = $this.parent().parent().parent()[0].id;
+                propertyUriToSend = propertyUriToSend.replace('property_', '');
                 $.ajax({
                     url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
                     type: "GET",
                     data: {
                         class_uri: classUri,
-                        list_uri: listUri
+                        list_uri: listUri,
+                        property_uri: propertyUriToSend,
                     },
                     dataType: 'json',
                     success: function (response) {

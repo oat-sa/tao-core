@@ -336,7 +336,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             if (isset($elementUri)) {
                 $index = strstr($elementUri, '_', true);
                 $elementRangeArray[$index . '_range_list'] = $prop['range'];
-                if (trim($prop['depends-on-property'])) {
+                if ($prop['depends-on-property']) {
                     $elementRangeArray[$index . '_depends-on-property'] = $prop['depends-on-property'];
                     $elementRangeArray[$index . '_uri'] = $prop['uri'];
                 }
@@ -355,7 +355,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                     $options = $this->getDependsOnPropertyOptions($element, $elementRangeArray, $dependsOnPropertyRepository);
                     $element->setOptions($options);
                 }
-                
+
                 $element->setValue($elementRangeArray[$element->getName()]);
             }
             $elements[] = $element;
