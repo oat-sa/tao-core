@@ -22,35 +22,27 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Domain;
 
-use ArrayIterator;
 use JsonSerializable;
 
-class DependsOnPropertyCollection extends ArrayIterator implements JsonSerializable
+class Dependency implements JsonSerializable
 {
-    public function jsonSerialize(): array
+    /** @var string */
+    private $value;
+
+    public function __construct(string $value)
     {
-        $options = [];
-
-        /** @var DependsOnProperty $prop */
-        foreach ($this->getArrayCopy() as $prop) {
-            $options[$prop->getLabel()] = $prop->jsonSerialize();
-        }
-
-        ksort($options);
-
-        return array_values($options);
+        $this->value = $value;
     }
 
-    public function getOptionsList(): array
+    public function getValue(): string
     {
-        $options = [];
+        return $this->value;
+    }
 
-        /** @var DependsOnProperty $prop */
-        foreach ($this->getArrayCopy() as $prop) {
-            $options[$prop->jsonSerialize()['uriEncoded']] = $prop->getLabel();
-        }
-        ksort($options);
-
-        return $options;
+    public function jsonSerialize(): array
+    {
+        return [
+            'value' => $this->value,
+        ];
     }
 }

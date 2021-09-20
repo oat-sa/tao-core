@@ -24,6 +24,8 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
+use InvalidArgumentException;
+use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
 use tao_helpers_form_GenerisFormFactory;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
@@ -31,8 +33,9 @@ use oat\tao\model\Specification\PropertySpecificationInterface;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
+use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
 
-class DependsOnPropertyRepository extends ConfigurableService
+class DependsOnPropertyRepository extends ConfigurableService implements DependsOnPropertyRepositoryInterface
 {
     /** @var core_kernel_classes_Property[] */
     private $properties;
@@ -52,42 +55,101 @@ class DependsOnPropertyRepository extends ConfigurableService
     {
         $collection = new DependsOnPropertyCollection();
 
-        /** @var core_kernel_classes_Property $property */
-        $property = $options['property'];
+        if (empty($options['property']) && empty($options['class'])) {
+            throw new InvalidArgumentException('class or property filter need to be provided');
+        }
 
-        if (
-            !$property->getDomain()->count()
-            || !$this->getRemoteListPropertySpecification()->isSatisfiedBy($property)
-        ) {
+        /** @var core_kernel_classes_Property $property */
+        $property = $options['property'] ?? null;
+
+        /** @var core_kernel_classes_Class $class */
+        $class = $property ? $property->getDomain()->get(0) : $options['class'] ?? null;
+
+        if (empty($options['listUri']) && $property && !$property->getRange()) {
             return $collection;
         }
 
-        /** @var core_kernel_classes_Class $class */
-        $class = $property->getDomain()->get(0);
-        $propertyUri = $property->getUri();
+        if ($options['listUri'] && $property && !$property->getRange()) {
+            $property = null;
+        }
+
+        $listUri = $this->getListUri($options, $property);
+
+        if (!$listUri) {
+            return $collection;
+        }
+
+        if ($property && !$this->isRemoteListProperty($property)) {
+            return $collection;
+        }
+
+        $parentPropertiesUris = $this->getParentPropertyListUrisRepository()->findAllUris(
+            [
+                'listUri' => $listUri,
+            ]
+        );
+
+        if (empty($parentPropertiesUris)) {
+            return $collection;
+        }
 
         /** @var core_kernel_classes_Property $property */
         foreach ($this->getProperties($class) as $classProperty) {
-            if (
-                $propertyUri === $classProperty->getUri()
-                || !$this->getRemoteListPropertySpecification()->isSatisfiedBy($classProperty)
-            ) {
+            if ($property && $this->isPropertyNotSupported($property, $classProperty)) {
                 continue;
             }
 
-            if (!$this->getDependentPropertySpecification()->isSatisfiedBy($classProperty)) {
+            if ($this->isParentProperty($classProperty, $parentPropertiesUris)) {
                 $collection->append(new DependsOnProperty($classProperty));
 
                 continue;
             }
 
-            // @TODO Check for parent's (current property) children outside the foreach statement
-            if ($propertyUri === $classProperty->getDependsOnPropertyCollection()->current()->getUri()) {
-                return new DependsOnPropertyCollection();
+            if ($property && $this->isSameParentProperty($property, $classProperty)) {
+                return $collection;
             }
         }
 
         return $collection;
+    }
+
+    private function getListUri(array $options, core_kernel_classes_Property $property = null): ?string
+    {
+        if (empty($options['listUri']) && $property && !$property->getRange()) {
+            return null;
+        }
+
+        return empty($options['listUri']) && $property
+            ? $property->getRange()->getUri()
+            : ($options['listUri'] ?? null);
+    }
+
+    private function isSameParentProperty(
+        core_kernel_classes_Property $property,
+        core_kernel_classes_Property $classProperty
+    ): bool {
+        $parentProperty = $classProperty->getDependsOnPropertyCollection()->current();
+
+        return $parentProperty && $property->getUri() === $parentProperty->getUri();
+    }
+
+    private function isRemoteListProperty(core_kernel_classes_Property $property): bool
+    {
+        return $property->getDomain()->count() && $this->getRemoteListPropertySpecification()->isSatisfiedBy($property);
+    }
+
+    private function isParentProperty(core_kernel_classes_Property $classProperty, array $parentPropertiesUris): bool
+    {
+        return !$this->getDependentPropertySpecification()->isSatisfiedBy($classProperty)
+            && in_array($classProperty->getUri(), $parentPropertiesUris, true);
+    }
+
+    private function isPropertyNotSupported(
+        core_kernel_classes_Property $property,
+        core_kernel_classes_Property $classProperty
+    ): bool {
+        return $property->getUri() === $classProperty->getUri()
+            || !$this->getRemoteListPropertySpecification()->isSatisfiedBy($classProperty);
     }
 
     private function getProperties(core_kernel_classes_Class $class): array
@@ -115,5 +177,10 @@ class DependsOnPropertyRepository extends ConfigurableService
         }
 
         return $this->dependentPropertySpecification;
+    }
+
+    private function getParentPropertyListUrisRepository(): ParentPropertyListRepositoryInterface
+    {
+        return $this->getServiceLocator()->get(ParentPropertyListCachedRepository::class);
     }
 }
