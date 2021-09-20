@@ -61,7 +61,6 @@ Cypress.Commands.add('addClassToRoot', (
         .getSettled(`${rootSelector} a:nth(0)`)
         .click()
         .intercept('POST', `**/${editClassLabelUrl}`).as('editClassLabel')
-        .wait('@editClassLabel')
         .addClass(formSelector, treeRenderUrl, addSubClassUrl)
         .renameSelectedClass(formSelector, name);
 });
@@ -328,7 +327,7 @@ Cypress.Commands.add('assignValueToProperty', (
     cy.getSettled(nodePropertiesForm).find(selectOption).check();
     cy.intercept('GET', `**/${treeRenderUrl}/getOntologyData**`).as('treeRender')
     cy.getSettled('button[type="submit"]').click();
-    cy.wait('@treeRender')
+    cy.wait('@treeRender');
 });
 
 /**
@@ -338,7 +337,7 @@ Cypress.Commands.add('assignValueToProperty', (
  * @param {String} importUrl - url for the resource import POST request
  * @param {String} className
  */
-Cypress.Commands.add('importToSelectedNode', (
+Cypress.Commands.add('importToSelectedClass', (
     importSelector,
     importFilePath,
     importUrl,

@@ -108,28 +108,24 @@ Cypress.Commands.add('getSettled', (selector, opts = {}) => {
  * @return {Boolean}
  */
 Cypress.Commands.add('isElementPresent', (selector, opts = {}) => {
-    const timeout = opts.timeout || 7000;
+    const timeout = opts.timeout || 5000;
     const delay = opts.delay || 500;
 
     const isPresent = (resolve) => {
         const $el = Cypress.$(selector);
-        if ($el) {
+        if ($el.length) {
             resolve(true);
         } else {
             setTimeout(() => isPresent(resolve), delay);
         }
     };
 
-    return cy.wrap(null).then(() => {
-        return new Cypress.Promise((resolve) => {
-            setTimeout(
-                () => resolve(false),
-                timeout
-            );
-            return isPresent(resolve);
-        }).then((el) => {
-            return cy.wrap(el);
-        });
+    return new Cypress.Promise(resolve => {
+        setTimeout(
+            () => resolve(false),
+            timeout
+        );
+        return isPresent(resolve);
     });
 });
 
