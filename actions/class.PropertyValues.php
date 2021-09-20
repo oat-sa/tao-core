@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -26,10 +26,13 @@ use GuzzleHttp\Psr7\ServerRequest;
 use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ValueCollectionSearchRequestHandler;
+use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
+use oat\generis\model\OntologyAwareTrait;
 
 class tao_actions_PropertyValues extends tao_actions_CommonModule
 {
     use HttpJsonResponseTrait;
+    use OntologyAwareTrait;
 
     public function get(
         ServerRequest $request,
@@ -41,5 +44,31 @@ class tao_actions_PropertyValues extends tao_actions_CommonModule
                 $valueCollectionSearchRequestHandler->handle($request)
             )
         );
+    }
+
+    public function getDependOnPropertyList(): void
+    {
+        $property = $this->hasGetParameter('property_uri')
+            ? $this->getProperty(tao_helpers_Uri::decode($this->getGetParameter('property_uri')))
+            : null;
+
+        $class = $this->hasGetParameter('class_uri')
+            ? $this->getClass(tao_helpers_Uri::decode($this->getGetParameter('class_uri')))
+            : null;
+
+        $this->setSuccessJsonResponse(
+            $this->getRepository()->findAll(
+                [
+                    'property' => $property,
+                    'class' => $class,
+                    'listUri' => $this->getProperty(tao_helpers_Uri::decode($this->getGetParameter('list_uri')))->getUri()
+                ]
+            )
+        );
+    }
+
+    private function getRepository(): DependsOnPropertyRepository
+    {
+        return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
     }
 }

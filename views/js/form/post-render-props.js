@@ -356,7 +356,9 @@ define([
                 $currentTarget = $currentTarget.parent();
             }
             if ($(this).hasClass('property-depends-on')) {
-                dependsOn.toggle($(this), $currentTarget, $container);
+                if ($(this)[0].length > 1) {
+                    dependsOn.toggle($(this), $currentTarget, $container);
+                }
                 return;
             }
             $currentTarget.show();
