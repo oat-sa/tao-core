@@ -119,7 +119,6 @@ Cypress.Commands.add('moveClassFromRoot', (
         .get('#feedback-1, #feedback-2').should('not.exist')
         .getSettled(`${rootSelector} a:nth(0)`)
         .click()
-        .wait('@editClassLabel')
         .get(`${rootSelector} li[title="${name}"] a`)
         .moveClass(moveSelector, moveConfirmSelector, name, nameWhereMove, restResourceGetAll)
 });
@@ -371,7 +370,42 @@ Cypress.Commands.add('importToSelectedClass', (
                         // the task was moved to the task queue (background)
                         cy.get('.badge-component').click();
                         cy.get('.task-element.completed').first().contains(className);
+                        // close task manager
+                        cy.get('.badge-component').click();
                     }
                 })
         });
+});
+
+/**
+ * Exports resource in class (class should already be selected before running this command)
+ * @param {String} exportSelector - css selector for the export button
+ * @param {String} exportUrl - url for the resource export POST request
+ * @param {String} className
+ */
+Cypress.Commands.add('exportFromSelectedClass', (
+    exportSelector,
+    exportUrl,
+    className) => {
+
+    cy.log('COMMAND: export', exportUrl);
+
+    const downloadPath = Cypress.config('downloadsFolder');
+
+    cy.get(exportSelector).click();
+    cy.get('#exportChooser .form-toolbar button').click();
+
+    cy.task('readdir', { path: downloadPath }).then(
+        (files) => {
+            files.forEach(file => {
+                cy.readFile(`${downloadPath}/${file}`, 'binary').then(fileContent => {
+                    expect(file).to.contain(className.replaceAll(' ', '_').toLowerCase());
+                    cy.wrap(fileContent.length).should('be.gt', 0);
+
+                    // remove file as cypress doesn't remove downloads in open mode
+                    cy.task('rmfile', { path: `${downloadPath}/${file}` });
+                });
+            });
+        }
+    );
 });

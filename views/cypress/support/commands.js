@@ -17,6 +17,7 @@
  */
 
 import 'cypress-file-upload'
+require('cypress-downloadfile/lib/downloadFileCommand')
 import '@oat-sa/e2e-runner/support/auth';
 import '@oat-sa/e2e-runner/support/lti.js';
 import './resourceTree'
