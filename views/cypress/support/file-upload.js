@@ -16,25 +16,19 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
-// ***********************************************************
-// This example support/index.js is processed and
-// loaded automatically before your test files.
-//
-// This is a great place to put global configuration and
-// behavior that modifies Cypress.
-//
-// You can change the location of this file or turn off
-// automatically serving support files with the
-// 'supportFile' configuration option.
-//
-// You can read more here:
-// https://on.cypress.io/configuration
-// ***********************************************************
+import 'cypress-file-upload';
 
-// Local project commands
-import './commands';
-import './resourceTree';
-import './file-upload';
-import './userManagement';
-import './drag-and-drop';
+Cypress.Commands.add('fileUpload', (importSelector, importFilePath) => {
+    cy.log('COMMAND: fileUpload', importSelector, importFilePath);
 
+    cy.readFile(importFilePath, 'binary')
+        .then(fileContent => {
+            cy.get(importSelector)
+                .attachFile({
+                    fileContent,
+                    filePath: importFilePath,
+                    encoding: 'binary',
+                    lastModified: new Date().getTime()
+                });
+        });
+});
