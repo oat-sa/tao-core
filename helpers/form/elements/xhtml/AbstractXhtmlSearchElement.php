@@ -129,11 +129,18 @@ var normalizeResponse = function (data) { return { results: data.data.map(normal
 
 var getCurrentValues = function () { return \$input.val().split('$delimiter') };
 
+var getParentListValues = function () {
+    var primaryPropUri = \$input.parent().data('depends-on-property');
+
+    return primaryPropUri ? $('#' + primaryPropUri).val().split(',') : '';
+}
+
 var createRequestData = function (term) {
     return {
         propertyUri: '$this->name',
         subject: term,
-        exclude: getCurrentValues()
+        exclude: getCurrentValues(),
+        parentListValues: getParentListValues()
     }
 };
 javascript;
