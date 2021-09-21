@@ -367,10 +367,10 @@ Cypress.Commands.add('importToSelectedClass', (
                     if (isTaskStatus) {
                         cy.get('.feedback-success.hierarchical').should('exist');
                     } else {
-                        // the task was moved to the task queue (background)
+                        // task was moved to the task queue (background)
                         cy.get('.badge-component').click();
                         cy.get('.task-element.completed').first().contains(className);
-                        // close task manager
+                        // close the task manager
                         cy.get('.badge-component').click();
                     }
                 })
@@ -402,7 +402,7 @@ Cypress.Commands.add('exportFromSelectedClass', (
                     expect(file).to.contain(className.replaceAll(' ', '_').toLowerCase());
                     cy.wrap(fileContent.length).should('be.gt', 0);
 
-                    // remove file as cypress doesn't remove downloads in open mode
+                    // remove file as cypress doesn't remove downloads in the open mode
                     cy.task('rmfile', { path: `${downloadPath}/${file}` });
                 });
             });
