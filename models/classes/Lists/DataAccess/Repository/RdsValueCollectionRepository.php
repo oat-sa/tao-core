@@ -95,11 +95,14 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $values = [];
 
         foreach ($query->execute()->fetchAll() as $rawValue) {
-            $values[] = new Value(
+            $value = new Value(
                 (int) $rawValue[self::FIELD_ITEM_ID],
                 $rawValue[self::FIELD_ITEM_URI],
                 $rawValue[self::FIELD_ITEM_LABEL]
             );
+            $value->setListUri($rawValue[self::FIELD_ITEM_LIST_URI]);
+
+            $values[] = $value;
         }
 
         $valueCollectionUri = $searchRequest->hasValueCollectionUri()

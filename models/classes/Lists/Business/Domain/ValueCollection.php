@@ -82,6 +82,17 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
         return false;
     }
 
+    public function getListUris(): array
+    {
+        $ids = [];
+
+        foreach ($this->values as $value) {
+            $ids[] = $value->getListUri();
+        }
+
+        return $ids;
+    }
+
     /**
      * @return Value[]|Traversable
      */

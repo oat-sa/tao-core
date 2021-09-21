@@ -36,6 +36,9 @@ class Value implements JsonSerializable
     private $uri;
 
     /** @var string */
+    private $listUri;
+
+    /** @var string */
     private $label;
 
     /** @var string|null */
@@ -54,6 +57,18 @@ class Value implements JsonSerializable
         $this->label = $label;
         $this->dependencyUri = $dependencyUri;
         $this->originalUri = $id === null ? null : $uri;
+    }
+
+    public function setListUri(string $listUri): self
+    {
+        $this->listUri = $listUri;
+
+        return $this;
+    }
+
+    public function getListUri(): string
+    {
+        return $this->listUri;
     }
 
     public function getId(): ?int
