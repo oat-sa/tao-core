@@ -74,6 +74,19 @@
         init: function init() {
             var self = this;
 
+            $('body').off('change', 'input[value=notEmpty]').on('change', 'input[value=notEmpty]', function(event) {
+                let propertyToFind = $(event.target).parent().parent().parent().parent().parent()[0].id;
+                propertyToFind = propertyToFind.replace('property_', '');
+                const parentOfFinded = $(`option[value=${propertyToFind}][selected='selected']`).parent().parent().parent();
+                const child = $(parentOfFinded).find('[value=notEmpty]')[0];
+                if (event.target.checked && child) {
+                    child.disabled = true;
+                    child.checked = false;
+                } else if (!event.target.checked && child) {
+                    child.disabled = false;
+                }
+            });
+
             this.counter = 0;
             this.initGenerisFormPattern = new RegExp(['add', 'edit', 'mode', 'PropertiesAuthoring'].join('|'), 'i');
             this.initTranslationFormPattern = /translate/;
