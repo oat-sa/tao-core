@@ -21,8 +21,9 @@
  * Implementation is specific to 'jquery ui drag drop' library.
  * @param {String} dragSelector -  element to drag selector
  * @param {String} dropSelector  - element to drop to selector
+ * @param {Array} targetsSelector  - array of selectors for tagrets inside drop elements
  */
-Cypress.Commands.add('dragAndDrop', (dragSelector, dropSelector) => {
+Cypress.Commands.add('dragAndDrop', (dragSelector, dropSelector, targetsSelector) => {
     cy.get(dragSelector)
         .should('exist')
         .get(dropSelector)
@@ -34,24 +35,29 @@ Cypress.Commands.add('dragAndDrop', (dragSelector, dropSelector) => {
         const y = Math.round(rect.top + rect.height / 2);
         return { x, y };
     }
+    function getElementTopCenterCoords($el) {
+        const rect = $el[0].getBoundingClientRect();
+        const x = Math.round(rect.left + rect.width / 2);
+        const y = rect.top + Math.min(rect.height / 2,  20);
+        return { x, y };
+    }
     cy.get(dragSelector).then($draggable => {
         // Pick up this
         cy.get(dropSelector).then($droppable => {
             const { x: startX, y: startY } = getElementCenterCoords($draggable);
-            const { x, y } = getElementCenterCoords($droppable);
-            cy.get('#qti-block-element-placeholder').should('not.exist');
+            const { x: x1, y: y1 } = getElementTopCenterCoords($droppable);
 
             cy.wrap($draggable)
                 .trigger('mouseover', { force: true })
                 .trigger('mousedown', {
                     which: 1,
                     pageX: startX,
-                    pageX: startY
+                    pageY: startY
                 })
                 .trigger('mousemove', {
                     which: 1,
-                    pageX: x,
-                    pageY: y,
+                    pageX: x1,
+                    pageY: y1,
                     force: true
                 });
 
@@ -59,10 +65,40 @@ Cypress.Commands.add('dragAndDrop', (dragSelector, dropSelector) => {
                 .trigger('mouseover', { force: true })
                 .trigger('mousemove', {
                     which: 1,
-                    pageX: x,
-                    pageY: y,
+                    pageX: x1,
+                    pageY: y1,
                     force: true
                 });
+
+            if (targetsSelector) {
+                targetsSelector.forEach(targetSelector => {
+                    cy.get(targetSelector).then($target => {
+                        const { x: x2,y: y2 } = getElementCenterCoords($target.first());
+                        let target = $target.first()[0];
+                        cy.wrap($draggable).trigger('mousemove', {
+                            which: 1,
+                            pageX: x2,
+                            pageY: y2,
+                            force: true,
+                            target
+                        });
+                        cy.wrap($droppable).trigger('mousemove', {
+                            which: 1,
+                            pageX: x2,
+                            pageY: y2,
+                            force: true,
+                            target
+                        });
+                        cy.wrap($target.first()).trigger('mousemove', {
+                            which: 1,
+                            pageX: x2,
+                            pageY: y2,
+                            force: true,
+                            target
+                        });
+                    });
+                });
+            }
 
             cy.wrap($draggable).trigger('mouseup', { force: true });
             cy.document().trigger('mouseup', { force: true });
