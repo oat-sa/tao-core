@@ -18,17 +18,20 @@
 
 import 'cypress-file-upload';
 
+/**
+ * Upload file to input
+ * @param {String} importSelector -  selector for input type="file"
+ * @param {String} importFilePath  - parh to file
+ */
 Cypress.Commands.add('fileUpload', (importSelector, importFilePath) => {
     cy.log('COMMAND: fileUpload', importSelector, importFilePath);
 
-    cy.readFile(importFilePath, 'binary')
-        .then(fileContent => {
-            cy.get(importSelector)
-                .attachFile({
-                    fileContent,
-                    filePath: importFilePath,
-                    encoding: 'binary',
-                    lastModified: new Date().getTime()
-                });
+    cy.readFile(importFilePath, 'binary').then(fileContent => {
+        cy.get(importSelector).attachFile({
+            fileContent,
+            filePath: importFilePath,
+            encoding: 'binary',
+            lastModified: new Date().getTime()
         });
+    });
 });
