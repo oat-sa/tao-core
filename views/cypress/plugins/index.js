@@ -16,10 +16,11 @@ module.exports = (on, config) => {
       }
    });
 
+   // sets path for downloads
    on('before:browser:launch', (browser = {}, launchOptions) => {
       const downloadDirectory = config.downloadsFolder;
 
-      if (browser.family === 'chromium') {
+      if (browser.family === 'chromium' && browser.name !== 'electron') {
          launchOptions.preferences.default['download'] = {
             default_directory: downloadDirectory
          };
