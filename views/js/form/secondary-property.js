@@ -33,11 +33,11 @@
         return $secondaryPropsList;
     }
 
-    function filterSecondaryValues($container, selectedPrimaryProperty) {
+    function filterSecondaryValues($container, selectedPrimaryProperty, fromMultiple) {
         const $secondaryList = $container.find('.secondary-props-list > li > *');
 
-        $secondaryList.each(function() {
-            let $secondarySelect = $(this).children('select');
+        $secondaryList.each((i, secondaryProp) => {
+            let $secondarySelect = $(secondaryProp).children('select');
 
             if ($secondarySelect.length) {
                 $.ajax({
@@ -49,11 +49,19 @@
                     },
                     dataType: 'json',
                     success: function(response) {
-                        $secondarySelect.empty().append(new Option('', ' '));
+                        if (fromMultiple) {
+                            response.data.forEach((selectOption) => {
+                                if (!$secondarySelect.find(`option[value="${selectOption.uri}"]`).length) {
+                                    $secondarySelect.append(new Option(selectOption.label, selectOption.uri));
+                                }
+                            });
+                        } else {
+                            $secondarySelect.empty().append(new Option('', ' '));
 
-                        response.data.forEach((selectOption) => {
-                            $secondarySelect.append(new Option(selectOption.label, selectOption.uri));
-                        });
+                            response.data.forEach((selectOption) => {
+                                $secondarySelect.append(new Option(selectOption.label, selectOption.uri));
+                            });
+                        }
                     }
                 });
             }
@@ -63,16 +71,16 @@
     function toggleDisableSecondary($container, disable = true) {
         const $secondaryList = $container.find('.secondary-props-list > li > *');
 
-        $secondaryList.each(function() {
+        $secondaryList.each((i, secondaryProp) => {
             if (disable) {
-                $(this).find('[data-depends-on-property]').attr('disabled', 'disabled');
-                $(this).addClass('disabled');
-                clearSecondary($(this));
+                $(secondaryProp).find('[data-depends-on-property]').attr('disabled', 'disabled');
+                $(secondaryProp).addClass('disabled');
+                clearSecondary($(secondaryProp));
                 return;
             }
 
-            $(this).find('[data-depends-on-property]').removeAttr('disabled');
-            $(this).removeClass('disabled');
+            $(secondaryProp).find('[data-depends-on-property]').removeAttr('disabled');
+            $(secondaryProp).removeClass('disabled');
         });
     }
 
@@ -105,13 +113,12 @@
     function initializeSecondaryProperties($container) {
         const $props = $container.children();
         let primaryPropsMap = new Map();
-        let $secondaryProps = $props.filter(function(index) {
+        let $secondaryProps = $props.filter(function() {
             return !!$(this).find('[data-depends-on-property]').length;
         });
 
-        $secondaryProps.each(function () {
-            let $prop = $(this);
-            const primaryPropUri = $prop.find('[data-depends-on-property]').data('depends-on-property');
+        $secondaryProps.each((i, secondaryProp) => {
+            const primaryPropUri = $(secondaryProp).find('[data-depends-on-property]').data('depends-on-property');
             let $primaryProp = $($props.filter(function() {
                 return !!$(this).find(`#${primaryPropUri}`).length;
             })[0]);
@@ -120,7 +127,7 @@
                 return;
             } else {
                 primaryPropsMap.has(primaryPropUri) ? null : primaryPropsMap.set(primaryPropUri, $primaryProp);
-                moveSecondaryProperty($prop, $primaryProp);
+                moveSecondaryProperty($(secondaryProp), $primaryProp);
                 const $primaryElt = $primaryProp.find(`[name="${primaryPropUri}"]`);
                 toggleDisableSecondary($primaryProp, !$primaryElt.val().trim());
             }
@@ -131,38 +138,15 @@
         })
     }
 
-    function filterSecondaryValuesFromMultiple($container, selectedPrimaryProperties, changeEvent) {
-        const $secondaryList = $container.find('.secondary-props-list > li > *');
-
-        $secondaryList.each(function() {
-            let $secondarySelect = $(this).children('select');
-            if ($secondarySelect.length) {
-                $.ajax({
-                    url: context.root_url + 'tao/PropertyValues/get',
-                    type: "GET",
-                    data: {
-                        propertyUri: $secondarySelect.attr('id'),
-                        parentListValues: selectedPrimaryProperties
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        response.data.forEach((selectOption) => {
-                            if (!$secondarySelect.find(`option[value="${selectOption.uri}"]`).length) {
-                                $secondarySelect.append(new Option(selectOption.label, selectOption.uri));
-                            }
-                        });
-                    }
-                });
-            }
-        });
-    }
-
     function addPrimaryPropertyListener($primaryProp, primaryPropUri) {
         $primaryProp.on('change', `[name="${primaryPropUri}"]`, (e) => {
             if (e.removed || e.added) {
-                filterSecondaryValuesFromMultiple($primaryProp, e.target.value.split(), e);
+                // This is from a multiple input (i.e: multiple search input)
+                // TODO: ADF-521 - Add cascade deletion logic here when e.removed
+                filterSecondaryValues($primaryProp, e.target.value.split(','), true);
             } else {
-                filterSecondaryValues($primaryProp, e.target.value.split());
+                // This is from a single input (i.e: single dropdown)
+                filterSecondaryValues($primaryProp, e.target.value.split(','));
             }
 
             toggleDisableSecondary($primaryProp, !e.target.value.trim());
