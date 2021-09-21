@@ -1,31 +1,18 @@
 const extendConfig = require('@oat-sa/e2e-runner/plugins/extendConfig');
 const { downloadFile } = require('cypress-downloadfile/lib/addPlugin');
-const fs = require('fs');
+const { getFiles, removeFile, readFile } = require('./downloads');
 
 module.exports = (on, config) => {
    on('task', {
       downloadFile,
-      readdir({ path }) {
-         return new Promise((resolve, reject) => {
-            fs.readdir(path, (err, files) => {
-               if (err) {
-                  reject(err);
-               } else {
-                  resolve(files);
-               }
-            });
-         });
+      removeDownload(file) {
+         return removeFile(`${config.downloadsFolder}/${file}`);
       },
-      rmfile({ path }) {
-         return new Promise((resolve, reject) => {
-            fs.unlink(path, (err) => {
-               if (err) {
-                  reject(err);
-               } else {
-                  resolve(null);
-               }
-            });
-         });
+      readDownload(file) {
+         return readFile(`${config.downloadsFolder}/${file}`, 'binary');
+      },
+      getDownloads() {
+         return getFiles(config.downloadsFolder);
       }
    });
 

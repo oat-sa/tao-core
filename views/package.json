@@ -37,7 +37,6 @@
     "devDependencies": {
         "@oat-sa/e2e-runner": "^1.2.1",
         "cypress-downloadfile": "^1.2.1",
-        "cypress-file-upload": "^5.0.8",
         "fs": "0.0.1-security"
     }
 }

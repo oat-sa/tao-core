@@ -390,21 +390,20 @@ Cypress.Commands.add('exportFromSelectedClass', (
 
     cy.log('COMMAND: export', exportUrl);
 
-    const downloadPath = Cypress.config('downloadsFolder');
-
     cy.get(exportSelector).click();
     cy.get('#exportChooser .form-toolbar button').click();
 
-    cy.task('readdir', { path: downloadPath }).then(
-        (files) => {
-            files.forEach(file => {
-                cy.readFile(`${downloadPath}/${file}`, 'binary').then(fileContent => {
-                    expect(file).to.contain(className.replaceAll(' ', '_').toLowerCase());
-                    cy.wrap(fileContent.length).should('be.gt', 0);
+    cy.task('getDownloads').then(
+        files => {
+            expect(files.length).to.equal(1);
 
-                    // remove file as cypress doesn't remove downloads in the open mode
-                    cy.task('rmfile', { path: `${downloadPath}/${file}` });
-                });
+            cy.task('readDownload', files[0]).then(fileContent => {
+                expect(files[0]).to.contain(className.replaceAll(' ', '_').toLowerCase());
+
+                cy.wrap(fileContent.length).should('be.gt', 0);
+
+                // remove file as cypress doesn't remove downloads in the open mode
+                cy.task('removeDownload', files[0]);
             });
         }
     );

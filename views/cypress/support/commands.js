@@ -17,10 +17,10 @@
  */
 
 require('cypress-downloadfile/lib/downloadFileCommand');
-import 'cypress-file-upload';
+import '@oat-sa/e2e-runner/support/fileupload';
 import '@oat-sa/e2e-runner/support/auth';
 import '@oat-sa/e2e-runner/support/lti.js';
-import './resourceTree;
+import './resourceTree';
 import './userManagement';
 import urls from '../utils/urls';
 
