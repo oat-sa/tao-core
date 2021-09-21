@@ -15,10 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2016-2021 (original work) Open Assessment Technologies SA;
  */
+
+use oat\oatbox\service\ServiceManager;
 
 $params = $argv;
 array_shift($params);
@@ -45,6 +45,10 @@ try {
 
     $script = new tao_install_Setup();
     call_user_func($script, $container);
+
+    ServiceManager::getServiceManager()
+        ->getContainerBuilder()
+        ->forceBuild();
 } catch (Exception $e) {
     $container->offsetGet(\oat\oatbox\log\LoggerService::SERVICE_ID)
         ->getLogger()
