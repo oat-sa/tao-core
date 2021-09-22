@@ -26,6 +26,7 @@ use core_kernel_classes_Property;
 use oat\generis\model\WidgetRdf;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\dto\OldProperty;
+use oat\tao\helpers\form\ValidationRuleRegistry;
 
 class PropertyChangedValidator extends ConfigurableService
 {
@@ -33,7 +34,8 @@ class PropertyChangedValidator extends ConfigurableService
     {
         return (string)$property->getLabel() !== $oldProperty->getLabel()
             || $this->isPropertyTypeChanged($property, $oldProperty)
-            || $this->isRangeChanged($property, $oldProperty);
+            || $this->isRangeChanged($property, $oldProperty)
+            || $this->isValidationRulesChanged($property, $oldProperty);
     }
 
     public function isRangeChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
@@ -65,5 +67,18 @@ class PropertyChangedValidator extends ConfigurableService
         }
 
         return false;
+    }
+
+    public function isValidationRulesChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
+    {
+        $oldPropertyValidationRules = $oldProperty->getValidationRules();
+        sort($oldPropertyValidationRules);
+
+        $propertyValidationRules = $property->getPropertyValues(
+            $property->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE)
+        );
+        sort($propertyValidationRules);
+
+        return $propertyValidationRules !== $oldPropertyValidationRules;
     }
 }

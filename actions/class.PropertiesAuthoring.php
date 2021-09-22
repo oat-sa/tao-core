@@ -20,33 +20,33 @@
 
 declare(strict_types=1);
 
-use oat\generis\model\GenerisRdf;
-use oat\generis\model\OntologyAwareTrait;
-use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\generis\model\GenerisRdf;
 use oat\oatbox\event\EventManager;
-use oat\oatbox\log\LoggerAwareTrait;
-use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\dto\OldProperty;
-use oat\tao\model\event\ClassFormUpdatedEvent;
-use oat\tao\model\event\ClassPropertiesChangedEvent;
-use oat\tao\model\search\index\OntologyIndex;
-use oat\tao\model\search\index\OntologyIndexService;
+use oat\generis\model\OntologyRdfs;
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\search\tasks\IndexTrait;
+use oat\tao\model\search\index\OntologyIndex;
+use oat\tao\model\event\ClassFormUpdatedEvent;
+use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\event\ClassPropertiesChangedEvent;
+use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\validator\PropertyChangedValidator;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\generis\model\resource\DependsOnPropertyCollection;
-use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
-use oat\tao\model\Lists\DataAccess\Repository\DependentPropertiesRepository;
-use oat\tao\model\Lists\Business\Domain\DependentPropertiesRepositoryContext;
-use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
+use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
-use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
+use oat\tao\model\Lists\Business\Service\DependentPropertiesProcessor;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
-use oat\tao\model\Lists\Business\Contract\DependentPropertiesRepositoryInterface;
+use oat\tao\model\Lists\Business\Domain\DependentPropertiesProcessorContext;
+use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
+use oat\tao\model\Lists\Business\Contract\DependentPropertiesProcessorInterface;
+use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
 
 /**
  * Regrouping all actions related to authoring
@@ -449,7 +449,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         }
 
         $this->setDependsOnProperty($property, $dependsOnPropertyUri);
-        $this->processDependentProperties($property, $values);
     }
 
     protected function savePropertyIndex(array $indexValues): void
@@ -545,7 +544,10 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $oldProperty = new OldProperty(
                 $property->getLabel(),
                 $property->getOnePropertyValue($this->getProperty(WidgetRdf::PROPERTY_WIDGET)),
-                $property->getRange() ? $property->getRange()->getUri() : null
+                $property->getRange() ? $property->getRange()->getUri() : null,
+                $property->getPropertyValues(
+                    $property->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE)
+                )
             );
 
             $this->saveSimpleProperty($propertyValues, $property);
@@ -571,8 +573,18 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             }
         }
 
-        if (count($changedProperties) > 0) {
+        if (!empty($changedProperties)) {
             $this->getEventManager()->trigger(new ClassPropertiesChangedEvent($changedProperties));
+
+            $dependentPropertiesProcessor = $this->getDependentPropertiesProcessor();
+            $dependentPropertiesProcessor(
+                new DependentPropertiesProcessorContext([
+                    DependentPropertiesProcessorContext::PARAM_PROPERTIES => array_column(
+                        $changedProperties,
+                        'property'
+                    ),
+                ])
+            );
         }
     }
 
@@ -613,39 +625,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $dependsOnPropertyCollection->append($this->getProperty($dependsOnPropertyUri));
 
         $property->setDependsOnPropertyCollection($dependsOnPropertyCollection);
-    }
-
-    private function processDependentProperties(core_kernel_classes_Resource $property, array $values): void
-    {
-        $validationRules = $values[ValidationRuleRegistry::PROPERTY_VALIDATION_RULE] ?? [];
-        $requiredParentRules = ['notEmpty'];
-        $missedRules = array_diff($requiredParentRules, $validationRules);
-
-        if (empty($missedRules)) {
-            return;
-        }
-
-        $dependentProperties = $this->getDependentPropertiesRepository()->findAll(
-            new DependentPropertiesRepositoryContext([
-                DependentPropertiesRepositoryContext::PARAM_PROPERTY => $property,
-            ])
-        );
-        $validationRuleProperty = $this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE);
-
-        /** @var core_kernel_classes_Property $dependentProperty */
-        foreach ($dependentProperties as $dependentProperty) {
-            $propertyValidationRules = $dependentProperty->getPropertyValues($validationRuleProperty);
-            $newPropertyValidationRules = array_diff($propertyValidationRules, $missedRules);
-
-            if ($propertyValidationRules !== $newPropertyValidationRules) {
-                $dependentPropertyUri = $dependentProperty->getUri();
-
-                $this->propertyChangesByParent[$dependentPropertyUri] = [
-                    ValidationRuleRegistry::PROPERTY_VALIDATION_RULE => $newPropertyValidationRules,
-                ];
-                $this->bindProperties($dependentProperty, $this->propertyChangesByParent[$dependentPropertyUri]);
-            }
-        }
     }
 
     private function invalidatePropertyCache(
@@ -690,13 +669,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         return $this->getServiceLocator()->get(PropertyChangedValidator::class);
     }
 
-    private function getDependsOnPropertyRepository(): DependsOnPropertyRepository
+    private function getDependsOnPropertyRepository(): DependsOnPropertyRepositoryInterface
     {
         return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
     }
 
-    private function getDependentPropertiesRepository(): DependentPropertiesRepositoryInterface
+    private function getDependentPropertiesProcessor(): DependentPropertiesProcessorInterface
     {
-        return $this->getServiceLocator()->get(DependentPropertiesRepository::class);
+        return $this->getServiceLocator()->get(DependentPropertiesProcessor::class);
     }
 }

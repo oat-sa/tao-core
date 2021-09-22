@@ -1,5 +1,23 @@
 <?php
 
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ */
+
 declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
@@ -8,6 +26,7 @@ use core_kernel_classes_Property;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdf;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\Context\ContextInterface;
 use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\Lists\Business\Domain\DependentPropertiesRepositoryContext;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
@@ -16,11 +35,10 @@ use oat\tao\model\Lists\Business\Contract\DependentPropertiesRepositoryInterface
 class DependentPropertiesRepository extends ConfigurableService implements DependentPropertiesRepositoryInterface
 {
     /**
-     * @return core_kernel_classes_Property[]
+     * {@inheritdoc}
      */
-    public function findAll(DependentPropertiesRepositoryContext $context): array
+    public function findAll(ContextInterface $context): array
     {
-        $dependentProperties = [];
         /** @var core_kernel_classes_Property $property */
         $property = $context->getParameter(DependentPropertiesRepositoryContext::PARAM_PROPERTY);
 
@@ -37,14 +55,8 @@ class DependentPropertiesRepository extends ConfigurableService implements Depen
             $property->getUri()
         );
         $dependentPropertiesQueryBuilder->setCriteria($dependentPropertiesQuery);
-        $result = $search->getGateway()->search($dependentPropertiesQueryBuilder);
 
-        /** @var string $dependentPropertyUri */
-        foreach ($result as $dependentProperty) {
-            $dependentProperties[] = $dependentProperty;
-        }
-
-        return $dependentProperties;
+        return iterator_to_array($search->getGateway()->search($dependentPropertiesQueryBuilder));
     }
 
     private function getComplexSearchService(): ComplexSearchService

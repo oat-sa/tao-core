@@ -22,13 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Contract;
 
-use core_kernel_classes_Resource;
 use oat\tao\model\Context\ContextInterface;
 
-interface DependentPropertiesRepositoryInterface
+interface DependentPropertiesProcessorInterface
 {
-    /**
-     * @return core_kernel_classes_Resource[]
-     */
-    public function findAll(ContextInterface $context): array;
+    public function __invoke(ContextInterface $context): void;
 }

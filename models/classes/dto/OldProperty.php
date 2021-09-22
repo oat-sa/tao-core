@@ -35,11 +35,19 @@ class OldProperty
     /** @var string|null */
     private $rangeUri;
 
-    public function __construct(string $label, ?core_kernel_classes_Resource $propertyType, string $rangeUri = null)
-    {
+    /** @var array */
+    private $validationRules;
+
+    public function __construct(
+        string $label,
+        ?core_kernel_classes_Resource $propertyType,
+        string $rangeUri = null,
+        array $validationRules = []
+    ) {
         $this->label = $label;
         $this->propertyType = $propertyType;
         $this->rangeUri = $rangeUri;
+        $this->validationRules = $validationRules;
     }
 
     public function getLabel(): string
@@ -55,5 +63,10 @@ class OldProperty
     public function getRangeUri(): ?string
     {
         return $this->rangeUri;
+    }
+
+    public function getValidationRules(): array
+    {
+        return $this->validationRules;
     }
 }
