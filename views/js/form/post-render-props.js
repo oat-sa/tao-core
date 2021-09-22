@@ -311,7 +311,6 @@ define([
         if (!$properties.length) {
             if ($container.children('[name="tao.forms.instance"]').length) {
                 secondaryProps.init($container);
-                // secondaryProps.move($container);
             }
             return;
         }
