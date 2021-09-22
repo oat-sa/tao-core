@@ -80,10 +80,10 @@
                 const parentOfFinded = $(`option[value=${propertyToFind}][selected='selected']`).parent().parent().parent();
                 const child = $(parentOfFinded).find('[value=notEmpty]')[0];
                 if (event.target.checked && child) {
+                    child.disabled = false;
+                } else if (!event.target.checked && child) {
                     child.disabled = true;
                     child.checked = false;
-                } else if (!event.target.checked && child) {
-                    child.disabled = false;
                 }
             });
 
