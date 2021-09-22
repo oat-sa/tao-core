@@ -40,4 +40,17 @@ class DependsOnPropertyCollection extends ArrayIterator implements JsonSerializa
 
         return array_values($options);
     }
+
+    public function getOptionsList(): array
+    {
+        $options = [];
+
+        /** @var DependsOnProperty $prop */
+        foreach ($this->getArrayCopy() as $prop) {
+            $options[$prop->jsonSerialize()['uriEncoded']] = $prop->getLabel();
+        }
+        ksort($options);
+
+        return $options;
+    }
 }
