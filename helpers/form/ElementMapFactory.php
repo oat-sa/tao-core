@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -45,10 +46,18 @@ class ElementMapFactory extends ConfigurableService
 {
     public const SERVICE_ID = 'tao/ElementMapFactory';
 
-    public function create(
-        core_kernel_classes_Property $property,
-        core_kernel_classes_Resource $containerInstance = null
-    ): ?tao_helpers_form_FormElement {
+    /** @var core_kernel_classes_Resource */
+    private $instance;
+
+    public function withInstance(core_kernel_classes_Resource $instance): self
+    {
+        $this->instance = $instance;
+
+        return $this;
+    }
+
+    public function create(core_kernel_classes_Property $property): ?tao_helpers_form_FormElement
+    {
         //create the element from the right widget
         $property->feed();
 
@@ -120,23 +129,7 @@ class ElementMapFactory extends ConfigurableService
                     );
                 } else {
                     if ($this->isList($range)) {
-                        $searchRequest = (new ValueCollectionSearchRequest())
-                            ->setValueCollectionUri($range->getUri());
-
-                        //@FIXME @TODO Extract to proper method...
-                        if ($parentProperty && $containerInstance) {
-                            $parentPropertyValues = [];
-
-                            foreach ($containerInstance->getPropertyValuesCollection($parentProperty) as $parentPropertyValue) {
-                                $parentPropertyValues[] = (string)$parentPropertyValue;
-                            }
-
-                            $searchRequest->setPropertyUri($property->getUri());
-                            $searchRequest->setParentListValues(...$parentPropertyValues);
-                        }
-
-                        $values = $this->getValueCollectionService()
-                            ->findAll(new ValueCollectionSearchInput($searchRequest));
+                        $values = $this->getListValues($property, $range, $parentProperty);
 
                         foreach ($values as $value) {
                             $encodedUri = tao_helpers_Uri::encode($value->getUri());
@@ -208,5 +201,28 @@ class ElementMapFactory extends ConfigurableService
         return $collection->offsetExists(0)
             ? $collection->offsetGet(0)
             : null;
+    }
+
+    private function getListValues(
+        core_kernel_classes_Property $property,
+        core_kernel_classes_Resource $range,
+        core_kernel_classes_Property $parentProperty = null
+    ) {
+        $searchRequest = (new ValueCollectionSearchRequest())
+            ->setValueCollectionUri($range->getUri());
+
+        if ($parentProperty && $this->instance) {
+            $parentPropertyValues = [];
+
+            foreach ($this->instance->getPropertyValuesCollection($parentProperty) as $parentPropertyValue) {
+                $parentPropertyValues[] = (string)$parentPropertyValue;
+            }
+
+            $searchRequest->setPropertyUri($property->getUri());
+            $searchRequest->setParentListValues(...$parentPropertyValues);
+        }
+
+        return $this->getValueCollectionService()
+            ->findAll(new ValueCollectionSearchInput($searchRequest));
     }
 }
