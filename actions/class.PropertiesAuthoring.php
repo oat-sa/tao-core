@@ -58,9 +58,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     use LoggerAwareTrait;
     use IndexTrait;
 
-    /** @var array */
-    private $propertyChangesByParent = [];
-
     /**
      * @return EventManager
      */
@@ -432,8 +429,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             throw new Exception($rangeValidator->getMessage());
         }
 
-        $propertyChangesByParent = $this->propertyChangesByParent[$property->getUri()] ?? [];
-        $this->bindProperties($property, array_merge($values, $propertyChangesByParent));
+        $this->bindProperties($property, $values);
 
         // set the range
         $property->removePropertyValues($this->getProperty(OntologyRdfs::RDFS_RANGE));
