@@ -40,10 +40,13 @@ use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
+use oat\tao\model\Lists\DataAccess\Repository\DependentPropertiesRepository;
+use oat\tao\model\Lists\Business\Domain\DependentPropertiesRepositoryContext;
 use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
 use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
+use oat\tao\model\Lists\Business\Contract\DependentPropertiesRepositoryInterface;
 
 /**
  * Regrouping all actions related to authoring
@@ -54,6 +57,9 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     use OntologyAwareTrait;
     use LoggerAwareTrait;
     use IndexTrait;
+
+    /** @var array */
+    private $propertyChangesByParent = [];
 
     /**
      * @return EventManager
@@ -344,7 +350,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         }
 
         $elements = [];
-        $dependsOnPropertyRepository = $this->getRepository();
+        $dependsOnPropertyRepository = $this->getDependsOnPropertyRepository();
 
         foreach ($myForm->getElements() as $element) {
             if (
@@ -373,7 +379,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $options = $dependsOnPropertyRepository->findAll(
             [
                 'property' => $this->getProperty(tao_helpers_Uri::decode($elementRangeArray[$index . '_uri'])),
-                'listUri' => tao_helpers_Uri::decode($elementRangeArray[$index . '_range_list'])
+                'listUri' => tao_helpers_Uri::decode($elementRangeArray[$index . '_range_list']),
             ]
         )->getOptionsList();
         return $options;
@@ -403,7 +409,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
         $rangeNotEmpty = false;
         $values = [
-            ValidationRuleRegistry::PROPERTY_VALIDATION_RULE => []
+            ValidationRuleRegistry::PROPERTY_VALIDATION_RULE => [],
         ];
 
         if (isset($propertyMap[$type])) {
@@ -426,7 +432,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             throw new Exception($rangeValidator->getMessage());
         }
 
-        $this->bindProperties($property, $values);
+        $propertyChangesByParent = $this->propertyChangesByParent[$property->getUri()] ?? [];
+        $this->bindProperties($property, array_merge($values, $propertyChangesByParent));
 
         // set the range
         $property->removePropertyValues($this->getProperty(OntologyRdfs::RDFS_RANGE));
@@ -442,6 +449,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         }
 
         $this->setDependsOnProperty($property, $dependsOnPropertyUri);
+        $this->processDependentProperties($property, $values);
     }
 
     protected function savePropertyIndex(array $indexValues): void
@@ -607,6 +615,39 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $property->setDependsOnPropertyCollection($dependsOnPropertyCollection);
     }
 
+    private function processDependentProperties(core_kernel_classes_Resource $property, array $values): void
+    {
+        $validationRules = $values[ValidationRuleRegistry::PROPERTY_VALIDATION_RULE] ?? [];
+        $requiredParentRules = ['notEmpty'];
+        $missedRules = array_diff($requiredParentRules, $validationRules);
+
+        if (empty($missedRules)) {
+            return;
+        }
+
+        $dependentProperties = $this->getDependentPropertiesRepository()->findAll(
+            new DependentPropertiesRepositoryContext([
+                DependentPropertiesRepositoryContext::PARAM_PROPERTY => $property,
+            ])
+        );
+        $validationRuleProperty = $this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE);
+
+        /** @var core_kernel_classes_Property $dependentProperty */
+        foreach ($dependentProperties as $dependentProperty) {
+            $propertyValidationRules = $dependentProperty->getPropertyValues($validationRuleProperty);
+            $newPropertyValidationRules = array_diff($propertyValidationRules, $missedRules);
+
+            if ($propertyValidationRules !== $newPropertyValidationRules) {
+                $dependentPropertyUri = $dependentProperty->getUri();
+
+                $this->propertyChangesByParent[$dependentPropertyUri] = [
+                    ValidationRuleRegistry::PROPERTY_VALIDATION_RULE => $newPropertyValidationRules,
+                ];
+                $this->bindProperties($dependentProperty, $this->propertyChangesByParent[$dependentPropertyUri]);
+            }
+        }
+    }
+
     private function invalidatePropertyCache(
         PropertyChangedValidator $validator,
         core_kernel_classes_Property $currentProperty,
@@ -620,7 +661,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $this->getParentPropertyListCachedRepository()->deleteCache(
                 [
                     'propertyUri' => $currentProperty->getUri(),
-                    'listUri' => $oldProperty->getRangeUri()
+                    'listUri' => $oldProperty->getRangeUri(),
                 ]
             );
         }
@@ -649,8 +690,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         return $this->getServiceLocator()->get(PropertyChangedValidator::class);
     }
 
-    private function getRepository(): DependsOnPropertyRepository
+    private function getDependsOnPropertyRepository(): DependsOnPropertyRepository
     {
         return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
+    }
+
+    private function getDependentPropertiesRepository(): DependentPropertiesRepositoryInterface
+    {
+        return $this->getServiceLocator()->get(DependentPropertiesRepository::class);
     }
 }
