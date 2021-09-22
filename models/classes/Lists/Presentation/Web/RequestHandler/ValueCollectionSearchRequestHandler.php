@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -32,7 +32,6 @@ use oat\tao\model\Lists\Presentation\Web\RequestValidator\ValueCollectionSearchR
 use oat\tao\model\service\InjectionAwareService;
 use Psr\Http\Message\ServerRequestInterface;
 use tao_helpers_Uri as Id;
-use function foo\func;
 
 class ValueCollectionSearchRequestHandler extends InjectionAwareService
 {
