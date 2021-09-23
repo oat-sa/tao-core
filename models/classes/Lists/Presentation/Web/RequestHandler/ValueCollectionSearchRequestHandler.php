@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -38,6 +38,7 @@ class ValueCollectionSearchRequestHandler extends InjectionAwareService
     public const SERVICE_ID = 'tao/ValueCollectionSearchRequestHandler';
 
     public const QUERY_PARAMETER_ID = 'propertyUri';
+    public const QUERY_PARAMETER_PARENT_LIST_VALUES = 'parentListValues';
     public const QUERY_PARAMETER_SUBJECT = 'subject';
     public const QUERY_PARAMETER_EXCLUDE = 'exclude';
 
@@ -73,6 +74,19 @@ class ValueCollectionSearchRequestHandler extends InjectionAwareService
         $searchRequest = (new ValueCollectionSearchRequest())
             ->setLimit(self::SEARCH_LIMIT)
             ->setPropertyUri($propertyUri);
+
+        if (!empty($queryParameters[self::QUERY_PARAMETER_PARENT_LIST_VALUES])) {
+            $parentListValues = $queryParameters[self::QUERY_PARAMETER_PARENT_LIST_VALUES];
+
+            array_walk(
+                $parentListValues,
+                function (&$value) {
+                    $value = Id::decode($value);
+                }
+            );
+
+            $searchRequest->setParentListValues(...$parentListValues);
+        }
 
         $listUri = $this->getPropertyListUri($propertyUri);
 
