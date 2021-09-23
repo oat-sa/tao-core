@@ -26,7 +26,7 @@ use InvalidArgumentException;
 use core_kernel_classes_Property;
 use oat\tao\model\Context\AbstractContext;
 
-class DependentPropertiesProcessorContext extends AbstractContext
+class DependsOnPropertySynchronizerContext extends AbstractContext
 {
     public const PARAM_PROPERTIES = 'properties';
 

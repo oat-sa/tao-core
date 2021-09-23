@@ -24,7 +24,7 @@ namespace oat\tao\model\Lists\Business\Contract;
 
 use oat\tao\model\Context\ContextInterface;
 
-interface DependentPropertiesProcessorInterface
+interface DependsOnPropertySynchronizerInterface
 {
-    public function __invoke(ContextInterface $context): void;
+    public function sync(ContextInterface $context): void;
 }

@@ -29,13 +29,13 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Context\ContextInterface;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use tao_models_classes_dataBinding_GenerisInstanceDataBinder;
-use oat\tao\model\Lists\Business\Domain\DependentPropertiesProcessorContext;
 use oat\tao\model\Lists\DataAccess\Repository\DependentPropertiesRepository;
 use oat\tao\model\Lists\Business\Domain\DependentPropertiesRepositoryContext;
-use oat\tao\model\Lists\Business\Contract\DependentPropertiesProcessorInterface;
+use oat\tao\model\Lists\Business\Domain\DependsOnPropertySynchronizerContext;
+use oat\tao\model\Lists\Business\Contract\DependsOnPropertySynchronizerInterface;
 use oat\tao\model\Lists\Business\Contract\DependentPropertiesRepositoryInterface;
 
-class DependentPropertiesProcessor extends ConfigurableService implements DependentPropertiesProcessorInterface
+class DependsOnPropertySynchronizer extends ConfigurableService implements DependsOnPropertySynchronizerInterface
 {
     use OntologyAwareTrait;
 
@@ -50,13 +50,13 @@ class DependentPropertiesProcessor extends ConfigurableService implements Depend
     /** @var array[] */
     private $rulesToRemove = [];
 
-    public function __invoke(ContextInterface $context): void
+    public function sync(ContextInterface $context): void
     {
         /** @var core_kernel_classes_Property[] $properties */
-        $properties = $context->getParameter(DependentPropertiesProcessorContext::PARAM_PROPERTIES, []);
+        $properties = $context->getParameter(DependsOnPropertySynchronizerContext::PARAM_PROPERTIES, []);
         $validationRuleProperty = $this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE);
 
-        foreach ($properties as $property) {
+        foreach ($this->incrementWithParents($properties) as $property) {
             foreach ($this->getDependentProperties($property) as $dependentProperty) {
                 $this->bindProperties($dependentProperty, [
                     ValidationRuleRegistry::PROPERTY_VALIDATION_RULE => $this->getNewValidationRules(
@@ -67,6 +67,33 @@ class DependentPropertiesProcessor extends ConfigurableService implements Depend
                 ]);
             }
         }
+    }
+
+    /**
+     * @param core_kernel_classes_Property[] $properties
+     */
+    private function incrementWithParents(array $properties): array
+    {
+        $parentProperties = [];
+        $initialProperties = [];
+
+        foreach ($properties as $property) {
+            $dependsOnPropertyCollection = $property->getDependsOnPropertyCollection();
+            $initialProperties[] = $property->getUri();
+
+            if ($dependsOnPropertyCollection->count()) {
+                $parentProperty = $dependsOnPropertyCollection->current();
+                $parentProperties[$parentProperty->getUri()] = $parentProperty;
+            }
+        }
+
+        foreach ($parentProperties as $parentPropertyUri => $parentProperty) {
+            if (in_array($parentPropertyUri, $initialProperties, true)) {
+                unset($parentProperties[$parentPropertyUri]);
+            }
+        }
+
+        return array_merge($properties, $parentProperties);
     }
 
     /**

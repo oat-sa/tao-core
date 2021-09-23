@@ -41,11 +41,11 @@ use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
-use oat\tao\model\Lists\Business\Service\DependentPropertiesProcessor;
+use oat\tao\model\Lists\Business\Service\DependsOnPropertySynchronizer;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
-use oat\tao\model\Lists\Business\Domain\DependentPropertiesProcessorContext;
+use oat\tao\model\Lists\Business\Domain\DependsOnPropertySynchronizerContext;
 use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
-use oat\tao\model\Lists\Business\Contract\DependentPropertiesProcessorInterface;
+use oat\tao\model\Lists\Business\Contract\DependsOnPropertySynchronizerInterface;
 use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
 
 /**
@@ -572,10 +572,9 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         if (!empty($changedProperties)) {
             $this->getEventManager()->trigger(new ClassPropertiesChangedEvent($changedProperties));
 
-            $dependentPropertiesProcessor = $this->getDependentPropertiesProcessor();
-            $dependentPropertiesProcessor(
-                new DependentPropertiesProcessorContext([
-                    DependentPropertiesProcessorContext::PARAM_PROPERTIES => array_column(
+            $this->getDependsOnPropertySynchronizer()->sync(
+                new DependsOnPropertySynchronizerContext([
+                    DependsOnPropertySynchronizerContext::PARAM_PROPERTIES => array_column(
                         $changedProperties,
                         'property'
                     ),
@@ -670,8 +669,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
     }
 
-    private function getDependentPropertiesProcessor(): DependentPropertiesProcessorInterface
+    private function getDependsOnPropertySynchronizer(): DependsOnPropertySynchronizerInterface
     {
-        return $this->getServiceLocator()->get(DependentPropertiesProcessor::class);
+        return $this->getServiceLocator()->get(DependsOnPropertySynchronizer::class);
     }
 }
