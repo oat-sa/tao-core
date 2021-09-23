@@ -75,16 +75,18 @@
             var self = this;
 
             $('body').off('change', 'input[value=notEmpty]').on('change', 'input[value=notEmpty]', function(event) {
-                let propertyToFind = $(event.target).parent().parent().parent().parent().parent()[0].id;
-                propertyToFind = propertyToFind.replace('property_', '');
-                const parentOfFinded = $(`option[value=${propertyToFind}][selected='selected']`).parent().parent().parent();
-                const child = $(parentOfFinded).find('[value=notEmpty]')[0];
-                if (event.target.checked && child) {
-                    child.disabled = false;
-                } else if (!event.target.checked && child) {
-                    child.disabled = true;
-                    child.checked = false;
-                }
+                let primaryPropertyUri = $(event.target).closest('[id^="property_"]').attr('id').replace('property_', '');
+                const secondaryProperties = $(`option[value=${primaryPropertyUri}][selected='selected']`).closest('[id^="property_"]');
+                let secondaryPropertiesCheckbox = secondaryProperties.find('[value=notEmpty]');
+
+                secondaryPropertiesCheckbox.each((i, notEmptyCheckbox) => {
+                    if (event.target.checked) {
+                        notEmptyCheckbox.disabled = false;
+                    } else {
+                        notEmptyCheckbox.disabled = true;
+                        notEmptyCheckbox.checked = false;
+                    }
+                })
             });
 
             this.counter = 0;
