@@ -92,8 +92,8 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
         if ($this->getCache()->has($listCacheKey)) {
             $listCacheValues = $this->getCache()->get($listCacheKey);
             foreach ($listCacheValues as $value) {
-                $cacheNameList = explode('-', $value);
-                $this->getCache()->delete(sprintf(self::CACHE_MASK, $cacheNameList[1], $cacheNameList[2]));
+                [$key, $propertyUri, $listUri]  = explode('-', $value);
+                $this->getCache()->delete(sprintf(self::CACHE_MASK, $propertyUri, $listUri));
             }
             $this->getCache()->delete($listCacheKey);
         }
