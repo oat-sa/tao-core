@@ -16,9 +16,10 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
+require('cypress-downloadfile/lib/downloadFileCommand');
+import '@oat-sa/e2e-runner/support/fileupload';
 import '@oat-sa/e2e-runner/support/auth';
 import '@oat-sa/e2e-runner/support/lti.js';
-import '@oat-sa/e2e-runner/support/fileupload';
 import './resourceTree';
 import './userManagement';
 import urls from '../utils/urls';

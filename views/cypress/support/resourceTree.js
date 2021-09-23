@@ -119,7 +119,6 @@ Cypress.Commands.add('moveClassFromRoot', (
         .get('#feedback-1, #feedback-2').should('not.exist')
         .getSettled(`${rootSelector} a:nth(0)`)
         .click()
-        .wait('@editClassLabel')
         .get(`${rootSelector} li[title="${name}"] a`)
         .moveClass(moveSelector, moveConfirmSelector, name, nameWhereMove, restResourceGetAll)
 });
@@ -369,10 +368,44 @@ Cypress.Commands.add('importToSelectedClass', (
                     if (isTaskStatus) {
                         cy.get('.feedback-success.hierarchical').should('exist');
                     } else {
-                        // the task was moved to the task queue (background)
+                        // task was moved to the task queue (background)
                         cy.get('.badge-component').click();
                         cy.get('.task-element.completed').first().contains(className);
+                        // close the task manager
+                        cy.get('.badge-component').click();
                     }
                 })
         });
+});
+
+/**
+ * Exports resource in class (class should already be selected before running this command)
+ * @param {String} exportSelector - css selector for the export button
+ * @param {String} exportUrl - url for the resource export POST request
+ * @param {String} className
+ */
+Cypress.Commands.add('exportFromSelectedClass', (
+    exportSelector,
+    exportUrl,
+    className) => {
+
+    cy.log('COMMAND: export', exportUrl);
+
+    cy.get(exportSelector).click();
+    cy.get('#exportChooser .form-toolbar button').click();
+
+    cy.task('getDownloads').then(
+        files => {
+            expect(files.length).to.equal(1);
+
+            cy.task('readDownload', files[0]).then(fileContent => {
+                expect(files[0]).to.contain(className.replaceAll(' ', '_').toLowerCase());
+
+                cy.wrap(fileContent.length).should('be.gt', 0);
+
+                // remove file as cypress doesn't remove downloads in the open mode
+                cy.task('removeDownload', files[0]);
+            });
+        }
+    );
 });
