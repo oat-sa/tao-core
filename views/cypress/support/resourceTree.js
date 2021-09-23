@@ -254,7 +254,8 @@ Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
         .wait('@editClassLabel')
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
-        .get(`${formSelector} ${labelSelector}`).should('have.value', newName);
+        .get(`${formSelector} ${labelSelector}`).should('have.value', newName)
+        .wait('@treeRender');
 });
 
 /**
