@@ -26,7 +26,6 @@ use core_kernel_classes_Property;
 use InvalidArgumentException;
 use oat\generis\test\TestCase;
 use oat\oatbox\cache\SimpleCache;
-use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
 use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
 use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
 use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListRepository;
@@ -51,7 +50,7 @@ class ParentPropertyListCachedRepositoryTest extends TestCase
     {
         $this->simpleCache = $this->createMock(SimpleCache::class);
         $this->parentPropertyListRepository = $this->createMock(ParentPropertyListRepository::class);
-        $this->dependencyRepository = $this->createMock(DependsOnPropertyRepository::class);
+        $this->dependencyRepository = $this->createMock(DependencyRepository::class);
         $this->sut = new ParentPropertyListCachedRepository();
         $this->sut->setServiceLocator(
             $this->getServiceLocatorMock(
@@ -75,16 +74,32 @@ class ParentPropertyListCachedRepositoryTest extends TestCase
 
     public function testDeleteWithoutEmptyFilter(): void
     {
+        $this->dependencyRepository
+            ->expects($this->once())
+            ->method('findAllChildListUris')
+            ->willReturn(
+                [
+                    'childUri1'
+                ]
+            );
+
         $this->simpleCache
             ->expects($this->once())
+            ->method('has')
+            ->willReturn(true);
+
+        $this->simpleCache
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn(['depends_on_property-prop1-childUri1']);
+
+        $this->simpleCache
+            ->expects($this->exactly(2))
             ->method('delete');
-        $property = $this->createMock(core_kernel_classes_Property::class);
-        $propUri = $property->expects($this->once())
-            ->method('getUri')
-            ->willReturn('propertyUri');
+
         $this->sut->deleteCache(
             [
-                'propertyUri' => $propUri,
+                'propertyUri' => 'property',
                 'listUri' => 'uri',
             ]
         );
@@ -92,15 +107,15 @@ class ParentPropertyListCachedRepositoryTest extends TestCase
 
     public function testDelete(): void
     {
-        $this->parentPropertyListRepository
+        $this->simpleCache
             ->expects($this->once())
-            ->method('findAllUris')
-            ->willReturn(
-                [
-                    'propertyUri1',
-                    'propertyUri2',
-                ]
-            );
+            ->method('has')
+            ->willReturn(true);
+
+        $this->simpleCache
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn(['depends_on_property-prop1-childUri1']);
 
         $this->simpleCache
             ->expects($this->exactly(2))

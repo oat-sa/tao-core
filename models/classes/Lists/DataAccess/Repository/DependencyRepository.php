@@ -25,7 +25,6 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 use common_persistence_SqlPersistence;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\FetchMode;
-use InvalidArgumentException;
 use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
