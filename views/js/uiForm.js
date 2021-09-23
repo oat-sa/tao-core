@@ -22,7 +22,7 @@
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
-define([
+ define([
     'module',
     'jquery',
     'lodash',
@@ -475,6 +475,8 @@ define([
                             $groupNode.remove();
                         }
                     );
+
+                    document.getElementById('item-class-schema').click();
                 }
             }
 
@@ -621,9 +623,9 @@ define([
              * by selecting a list, the values are displayed
              */
             function showPropertyListValues() {
-                var $this = $(this);
-                var elt = $this.parent("div");
-                var classUri;
+                const $this = $(this);
+                const elt = $this.parent("div");
+                let classUri;
 
                 //load the instances and display them (the list items)
                 $(elt).parent("div").children("ul.form-elt-list").remove();
@@ -636,7 +638,7 @@ define([
                         data: {listUri: classUri},
                         dataType: 'json',
                         success: function (response) {
-                            var html = "<ul class='form-elt-list'>",
+                            let html = "<ul class='form-elt-list'>",
                                 property;
                             for (property in response) {
                                 if(!response.hasOwnProperty(property)) {
@@ -651,9 +653,61 @@ define([
                 }
             }
 
+            function showDependsOnProperty() {
+            	const $this = $(this);
+                const classUri = $(document.getElementById('classUri')).val();
+                let propertyUriToSend;
+            	const listUri = $this.val();
+                const dependsId = $(this)[0].id.match(/\d+_/)[0];
+                const dependsOnSelect = $(document.getElementById(`${dependsId}depends-on-property`));
+                propertyUriToSend = $this.parent().parent().parent()[0].id;
+                propertyUriToSend = propertyUriToSend.replace('property_', '');
+                $.ajax({
+                    url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
+                    type: "GET",
+                    data: {
+                        class_uri: classUri,
+                        list_uri: listUri,
+                        property_uri: propertyUriToSend,
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response && response.data && response.data.length !== 0) {
+                            const backendValues = response.data.reduce(
+                                (accumulator, currentValue) => {
+                                    accumulator.push(currentValue.uriEncoded);
+                                    return accumulator;
+                                },
+                                []
+                            );
+                            const currentValues = Object
+                                .values(dependsOnSelect[0].options)
+                                .map(entry => entry.value)
+                                .filter(entry => entry !== ' ');
+                            let haveSameData = false;
+                            currentValues.map(entry => {
+                                if (!backendValues.includes(entry)) {
+                                    haveSameData = true;
+                                }
+                                return;
+                            });
+                            if (dependsOnSelect[0].length <= 1 || haveSameData) {
+                                let html = '<option value=" "> --- select --- </option>';
+                                for (const propertyData in response.data) {
+                                    html += `<option value="${response.data[propertyData].uri}">${response.data[propertyData].label}</option>`;
+                                }
+                                dependsOnSelect.empty().append(html);
+                            }
+                            dependsOn.toggle();
+                        } else {
+                            dependsOnSelect.parent().hide();
+                        }
+                    }
+                });
+            }
+
             function onTypeChange(e, flag) {
                 showPropertyList.bind(this)(e, flag === 'initial');
-                dependsOn.toggle();
             }
 
             function onListValuesChange(e) {
@@ -662,7 +716,7 @@ define([
                     $(this).find('option[value=" "]').attr('selected', 'selected');
                 }
                 showPropertyListValues.bind(this)(e);
-                dependsOn.toggle();
+                showDependsOnProperty.bind(this)(e);
             }
 
             //bind functions to the drop down:

@@ -20,37 +20,9 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Domain;
+namespace oat\tao\model\Lists\Business\Contract;
 
-use ArrayIterator;
-use JsonSerializable;
-
-class DependsOnPropertyCollection extends ArrayIterator implements JsonSerializable
+interface ParentPropertyListRepositoryInterface
 {
-    public function jsonSerialize(): array
-    {
-        $options = [];
-
-        /** @var DependsOnProperty $prop */
-        foreach ($this->getArrayCopy() as $prop) {
-            $options[$prop->getLabel()] = $prop->jsonSerialize();
-        }
-
-        ksort($options);
-
-        return array_values($options);
-    }
-
-    public function getOptionsList(): array
-    {
-        $options = [];
-
-        /** @var DependsOnProperty $prop */
-        foreach ($this->getArrayCopy() as $prop) {
-            $options[$prop->jsonSerialize()['uriEncoded']] = $prop->getLabel();
-        }
-        ksort($options);
-
-        return $options;
-    }
+    public function findAllUris(array $options): array;
 }

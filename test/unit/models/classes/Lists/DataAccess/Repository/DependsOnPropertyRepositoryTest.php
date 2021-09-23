@@ -26,6 +26,9 @@ use oat\generis\test\TestCase;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_ContainerCollection;
+use InvalidArgumentException;
+use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
+use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
@@ -43,27 +46,25 @@ class DependsOnPropertyRepositoryTest extends TestCase
     /** @var DependentPropertySpecification|MockObject */
     private $dependentPropertySpecification;
 
-    /** @var core_kernel_classes_Property|MockObject */
-    private $property;
-
-    /** @var core_kernel_classes_ContainerCollection|MockObject */
-    private $domainCollection;
+    /** @var ParentPropertyListRepositoryInterface|MockObject */
+    private $parentPropertyListRepository;
 
     public function setUp(): void
     {
         $this->remoteListPropertySpecification = $this->createMock(RemoteListPropertySpecification::class);
         $this->dependentPropertySpecification = $this->createMock(DependentPropertySpecification::class);
+        $this->parentPropertyListRepository = $this->createMock(ParentPropertyListRepositoryInterface::class);
 
         $this->sut = new DependsOnPropertyRepository();
         $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock([
-                RemoteListPropertySpecification::class => $this->remoteListPropertySpecification,
-                DependentPropertySpecification::class => $this->dependentPropertySpecification,
-            ])
+            $this->getServiceLocatorMock(
+                [
+                    RemoteListPropertySpecification::class => $this->remoteListPropertySpecification,
+                    DependentPropertySpecification::class => $this->dependentPropertySpecification,
+                    ParentPropertyListCachedRepository::class => $this->parentPropertyListRepository,
+                ]
+            )
         );
-
-        $this->property = $this->createMock(core_kernel_classes_Property::class);
-        $this->domainCollection = $this->createMock(core_kernel_classes_ContainerCollection::class);
     }
 
     public function testFindAllWithEmptyDomain(): void
@@ -71,143 +72,152 @@ class DependsOnPropertyRepositoryTest extends TestCase
         $this->remoteListPropertySpecification
             ->expects($this->never())
             ->method('isSatisfiedBy');
+
         $this->dependentPropertySpecification
             ->expects($this->never())
             ->method('isSatisfiedBy');
 
-        $this->domainCollection
-            ->expects($this->once())
-            ->method('count')
-            ->willReturn(0);
-        $this->domainCollection
-            ->expects($this->never())
-            ->method('get');
-
-        $this->property
-            ->expects($this->once())
-            ->method('getDomain')
-            ->willReturn($this->domainCollection);
-
         $this->sut->withProperties([]);
-        $propertiesCollection = $this->sut->findAll(['property' => $this->property]);
+        $propertiesCollection = $this->sut->findAll(
+            [
+                'property' => $this->createProperty('uri', 0),
+            ]
+        );
 
         $this->assertEquals(new DependsOnPropertyCollection(), $propertiesCollection);
         $this->assertEquals(0, $propertiesCollection->count());
     }
 
-    public function testFindAllWithoutProperties(): void
+    public function testFindAllWithoutPropertiesAndClass(): void
     {
-        $this->remoteListPropertySpecification
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('class or property filter need to be provided');
+
+        $this->sut->findAll([]);
+    }
+
+    public function testFindAllWithoutValidProperty(): void
+    {
+        $parentUri = 'parentUri';
+        $parentProperty = $this->createProperty($parentUri);
+
+        $this->parentPropertyListRepository
             ->expects($this->once())
+            ->method('findAllUris');
+
+        $this->remoteListPropertySpecification
             ->method('isSatisfiedBy')
             ->willReturn(true);
+
         $this->dependentPropertySpecification
-            ->expects($this->never())
-            ->method('isSatisfiedBy');
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
 
-        $this->domainCollection
-            ->method('count')
-            ->willReturn(1);
-        $this->domainCollection
-            ->method('get')
-            ->willReturn($this->createMock(core_kernel_classes_Class::class));
+        $this->sut->withProperties(
+            [
+                $parentProperty,
+                $parentProperty,
+            ]
+        );
 
-        $this->property
-            ->expects($this->exactly(2))
-            ->method('getDomain')
-            ->willReturn($this->domainCollection);
-        $this->property
-            ->expects($this->once())
-            ->method('getUri');
+        $propertiesCollection = $this->sut->findAll(
+            [
+                'property' => $this->createProperty('propertyUri'),
+                'listUri'  => "uri1"
+            ]
+        );
 
-        $this->sut->withProperties([]);
-        $propertiesCollection = $this->sut->findAll(['property' => $this->property]);
-
-        $this->assertEquals(new DependsOnPropertyCollection(), $propertiesCollection);
         $this->assertEquals(0, $propertiesCollection->count());
     }
 
-    /**
-     * @dataProvider getDataForFindAllWithPropertiesTest
-     */
-    public function testFindAllWithProperties(
-        array $properties,
-        int $expectedRemoteListPropertySpecificationCalls,
-        int $expectedDependentPropertySpecificationCalls,
-        int $expectedCollectionCount
-    ): void {
+    public function testFindAllWithOneValidProperty(): void
+    {
+        $parentUri = 'parentUri';
+        $parentProperty = $this->createProperty($parentUri);
+
+        $this->parentPropertyListRepository
+            ->expects($this->once())
+            ->method('findAllUris')
+            ->willReturn(
+                [
+                    $parentUri,
+                ]
+            );
+
         $this->remoteListPropertySpecification
-            ->expects($this->exactly($expectedRemoteListPropertySpecificationCalls))
             ->method('isSatisfiedBy')
             ->willReturn(true);
-        $this->dependentPropertySpecification
-            ->expects($this->exactly($expectedDependentPropertySpecificationCalls))
-            ->method('isSatisfiedBy')
-            ->willReturn(false);
+        $property = $this->createProperty('propertyUri');
 
-        $this->domainCollection
-            ->method('count')
-            ->willReturn(1);
-        $this->domainCollection
-            ->method('get')
-            ->willReturn($this->createMock(core_kernel_classes_Class::class));
+        $this->sut->withProperties(
+            [
+                $parentProperty,
+            ]
+        );
 
-        $this->property = $this->createMock(core_kernel_classes_Property::class);
-        $this->property
-            ->expects($this->exactly(2))
-            ->method('getDomain')
-            ->willReturn($this->domainCollection);
-        $this->property
+        $propertiesCollection = $this->sut->findAll(
+            [
+                'property' => $property,
+                'listUri'  => "uri1"
+            ]
+        );
+        $this->assertEquals(1, $propertiesCollection->count());
+        $this->assertEquals($parentProperty, $propertiesCollection->offsetGet(0)->getProperty());
+    }
+
+    public function testFindAllWithClassOnly(): void
+    {
+        $parentUri = 'parentUri';
+        $parentProperty = $this->createProperty($parentUri);
+
+        $this->parentPropertyListRepository
             ->expects($this->once())
-            ->method('getUri')
-            ->willReturn('propertyUri');
+            ->method('findAllUris')
+            ->willReturn(
+                [
+                    $parentUri,
+                ]
+            );
 
-        $this->sut->withProperties($properties);
-        $propertiesCollection = $this->sut->findAll(['property' => $this->property]);
+        $this->remoteListPropertySpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+        $class = $this->createMock(core_kernel_classes_Class::class);
 
-        $this->assertNotEquals(new DependsOnPropertyCollection(), $propertiesCollection);
-        $this->assertEquals($expectedCollectionCount, $propertiesCollection->count());
+        $this->sut->withProperties(
+            [
+                $parentProperty,
+            ]
+        );
+
+        $propertiesCollection = $this->sut->findAll(
+            [
+                'class' => $class,
+                'listUri'  => "uri1"
+            ]
+        );
+        $this->assertEquals(1, $propertiesCollection->count());
+        $this->assertEquals($parentProperty, $propertiesCollection->offsetGet(0)->getProperty());
     }
 
-    public function getDataForFindAllWithPropertiesTest(): array
+    private function createProperty(string $uri, int $collectionSize = 1): core_kernel_classes_Property
     {
-        return [
-            'One valid property' => [
-                'properties' => [
-                    $this->createProperty('firstPropertyUri'),
-                ],
-                'expectedRemoteListPropertySpecificationCalls' => 2,
-                'expectedDependentPropertySpecificationCalls' => 1,
-                'expectedCollectionCount' => 1,
-            ],
-            'Two valid properties' => [
-                'properties' => [
-                    $this->createProperty('firstPropertyUri'),
-                    $this->createProperty('secondPropertyUri'),
-                ],
-                'expectedRemoteListPropertySpecificationCalls' => 3,
-                'expectedDependentPropertySpecificationCalls' => 2,
-                'expectedCollectionCount' => 2,
-            ],
-            'Two valid properties and one with the same uri' => [
-                'properties' => [
-                    $this->createProperty('firstPropertyUri'),
-                    $this->createProperty('secondPropertyUri'),
-                    $this->createProperty('propertyUri'),
-                ],
-                'expectedRemoteListPropertySpecificationCalls' => 3,
-                'expectedDependentPropertySpecificationCalls' => 2,
-                'expectedCollectionCount' => 2,
-            ],
-        ];
-    }
+        $domainCollection = $this->createMock(core_kernel_classes_ContainerCollection::class);
 
-    private function createProperty(string $uri): core_kernel_classes_Property
-    {
+        $domainCollection->method('count')
+            ->willReturn($collectionSize);
+
+        if ($collectionSize) {
+            $domainCollection->method('get')
+                ->willReturn($this->createMock(core_kernel_classes_Class::class));
+        }
+
         $property = $this->createMock(core_kernel_classes_Property::class);
-        $property
-            ->expects($this->once())
-            ->method('getUri')
+
+        $property->method('getDomain')
+            ->willReturn($domainCollection);
+
+        $property->method('getUri')
             ->willReturn($uri);
 
         return $property;

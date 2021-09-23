@@ -20,37 +20,24 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Domain;
+namespace oat\tao\test\unit\model\ClassProperty;
 
-use ArrayIterator;
-use JsonSerializable;
+use oat\generis\test\TestCase;
+use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 
-class DependsOnPropertyCollection extends ArrayIterator implements JsonSerializable
+class RemoveClassPropertyServiceTest extends TestCase
 {
-    public function jsonSerialize(): array
+    /** @var RemoveClassPropertyService */
+    private $subject;
+
+    public function setUp(): void
     {
-        $options = [];
-
-        /** @var DependsOnProperty $prop */
-        foreach ($this->getArrayCopy() as $prop) {
-            $options[$prop->getLabel()] = $prop->jsonSerialize();
-        }
-
-        ksort($options);
-
-        return array_values($options);
+        $this->subject = new RemoveClassPropertyService();
     }
 
-    public function getOptionsList(): array
+    public function testRemove()
     {
-        $options = [];
-
-        /** @var DependsOnProperty $prop */
-        foreach ($this->getArrayCopy() as $prop) {
-            $options[$prop->jsonSerialize()['uriEncoded']] = $prop->getLabel();
-        }
-        ksort($options);
-
-        return $options;
+        //@TODO Author will cover with tests
+        $this->markTestIncomplete('TODO: We need to cover this test in a next iteration');
     }
 }
