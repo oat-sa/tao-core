@@ -28,6 +28,8 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Context\ContextInterface;
 use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use tao_models_classes_dataBinding_GenerisInstanceDataBinder;
 use oat\tao\model\Lists\DataAccess\Repository\DependentPropertiesRepository;
 use oat\tao\model\Lists\Business\Domain\DependentPropertiesRepositoryContext;
@@ -52,19 +54,30 @@ class DependsOnPropertySynchronizer extends ConfigurableService implements Depen
 
     public function sync(ContextInterface $context): void
     {
+        $isListsDependencyEnabled = $this->getFeatureFlagChecker()->isEnabled(
+            FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
+        );
+
+        if (!$isListsDependencyEnabled) {
+            return;
+        }
+
         /** @var core_kernel_classes_Property[] $properties */
         $properties = $context->getParameter(DependsOnPropertySynchronizerContext::PARAM_PROPERTIES, []);
         $validationRuleProperty = $this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE);
 
         foreach ($this->incrementWithParents($properties) as $property) {
             foreach ($this->getDependentProperties($property) as $dependentProperty) {
-                $this->bindProperties($dependentProperty, [
-                    ValidationRuleRegistry::PROPERTY_VALIDATION_RULE => $this->getNewValidationRules(
-                        $property,
-                        $dependentProperty,
-                        $validationRuleProperty
-                    ),
-                ]);
+                $this->bindProperties(
+                    $dependentProperty,
+                    [
+                        ValidationRuleRegistry::PROPERTY_VALIDATION_RULE => $this->getNewValidationRules(
+                            $property,
+                            $dependentProperty,
+                            $validationRuleProperty
+                        ),
+                    ]
+                );
             }
         }
     }
@@ -78,11 +91,12 @@ class DependsOnPropertySynchronizer extends ConfigurableService implements Depen
         $initialProperties = [];
 
         foreach ($properties as $property) {
-            $dependsOnPropertyCollection = $property->getDependsOnPropertyCollection();
             $initialProperties[] = $property->getUri();
 
-            if ($dependsOnPropertyCollection->count()) {
-                $parentProperty = $dependsOnPropertyCollection->current();
+            $dependsOnPropertyCollection = $property->getDependsOnPropertyCollection();
+            $parentProperty = $dependsOnPropertyCollection->current();
+
+            if ($parentProperty) {
                 $parentProperties[$parentProperty->getUri()] = $parentProperty;
             }
         }
@@ -146,6 +160,11 @@ class DependsOnPropertySynchronizer extends ConfigurableService implements Depen
     {
         $binder = new tao_models_classes_dataBinding_GenerisInstanceDataBinder($property);
         $binder->bind($values);
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 
     private function getDependentPropertiesRepository(): DependentPropertiesRepositoryInterface
