@@ -108,7 +108,6 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         $this->propagate($controller);
         if ($controller instanceof Controller) {
             $controller->setRequest($this->getRequest());
-            $controller->setPsrContainer($this->getServiceManager()->getContainer());
             $controller->setResponse($this->getResponse());
         }
         if ($controller instanceof CommonModuleInterface) {

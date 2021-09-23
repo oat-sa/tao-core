@@ -44,19 +44,9 @@ abstract class Controller
     /** @var ResponseInterface */
     protected $response;
 
-    /** @var ContainerInterface */
-    private $container;
-
     public function getPsrContainer(): ContainerInterface
     {
-        return $this->container;
-    }
-
-    public function setPsrContainer(ContainerInterface $container): self
-    {
-        $this->container = $container;
-
-        return $this;
+        return $this->getServiceLocator()->getContainer();
     }
 
     /**
