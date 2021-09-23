@@ -28,5 +28,5 @@ interface DependencyRepositoryInterface
 {
     public function findAll(array $options): DependencyCollection;
 
-    public function findAllChildListUris(): array;
+    public function findAllChildListUris(array $options): array;
 }

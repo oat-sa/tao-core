@@ -25,6 +25,7 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 use common_persistence_SqlPersistence;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\FetchMode;
+use InvalidArgumentException;
 use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
@@ -64,21 +65,30 @@ class DependencyRepository extends ConfigurableService implements DependencyRepo
         return $collection;
     }
 
-    public function findAllChildListUris(): array
+    public function findAllChildListUris(array $options): array
     {
         $query = $this->getQueryBuilder();
         $expressionBuilder = $query->expr();
-
         return $query
             ->select(RdsValueCollectionRepository::FIELD_ITEM_LIST_URI)
             ->from(RdsValueCollectionRepository::TABLE_LIST_ITEMS, 'items')
-            ->innerJoin(
-                'items',
-                RdsValueCollectionRepository::TABLE_LIST_ITEMS_DEPENDENCIES,
-                'dependencies',
-                $expressionBuilder->eq(
-                    'dependencies.' . RdsValueCollectionRepository::FIELD_LIST_ITEM_ID,
-                    'items.' . RdsValueCollectionRepository::FIELD_ITEM_ID
+            ->where(
+                $expressionBuilder->in(
+                    'items.id',
+                    $this->getQueryBuilder()
+                        ->select('dependencies.' . RdsValueCollectionRepository::FIELD_LIST_ITEM_ID)
+                        ->from(RdsValueCollectionRepository::TABLE_LIST_ITEMS_DEPENDENCIES, 'dependencies')
+                        ->innerJoin(
+                            'dependencies',
+                            RdsValueCollectionRepository::TABLE_LIST_ITEMS,
+                            'items',
+                            $expressionBuilder->eq(
+                                'dependencies.' . RdsValueCollectionRepository::FIELD_LIST_ITEM_VALUE,
+                                'items.' . RdsValueCollectionRepository::FIELD_ITEM_URI
+                            )
+                        )
+                        ->andWhere($expressionBuilder->eq('items.list_uri', "'" . $options['parentListUri'] . "'"))
+                        ->getSQL()
                 )
             )
             ->groupBy(RdsValueCollectionRepository::FIELD_ITEM_LIST_URI)

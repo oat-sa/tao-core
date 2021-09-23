@@ -38,7 +38,6 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
 
     public function deleteCache(array $options): void
     {
-        //@TODO Rework cache considering only listUri...
         if (empty($options['listUri'])) {
             throw new InvalidArgumentException('listUri is required to clear the cache');
         }
@@ -46,8 +45,9 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
         if (empty($options['propertyUri'])) {
             $this->removeUsingListUri($options['listUri']);
         }
-
-        $childListUris = $this->getDependencyRepository()->findAllChildListUris();
+        $childListUris = $this->getDependencyRepository()->findAllChildListUris([
+                            'parentListUri' => $options['listUri']
+                        ]);
         foreach ($childListUris as $uri) {
             $this->removeUsingListUri($uri);
         }
@@ -71,7 +71,7 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
             $listCacheValues = array_unique(array_merge($currentValues, $listCacheValues));
         }
 
-        if ($currentValues != $listCacheValues) {
+        if ($currentValues !== $listCacheValues) {
             $this->getCache()->set($listCacheKey, $listCacheValues);
         }
         
@@ -92,8 +92,8 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
         if ($this->getCache()->has($listCacheKey)) {
             $listCacheValues = $this->getCache()->get($listCacheKey);
             foreach ($listCacheValues as $value) {
-                $string = explode('-', $value);
-                $this->getCache()->delete(sprintf(self::CACHE_MASK, $string[1], $string[2]));
+                $cacheNameList = explode('-', $value);
+                $this->getCache()->delete(sprintf(self::CACHE_MASK, $cacheNameList[1], $cacheNameList[2]));
             }
             $this->getCache()->delete($listCacheKey);
         }
