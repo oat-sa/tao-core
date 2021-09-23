@@ -1,3 +1,6 @@
+import selectors from "../../../../taoItems/views/cypress/utils/selectors";
+import urls from "../../../../taoItems/views/cypress/utils/urls";
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +20,48 @@
  */
 
 const labelSelector = '[data-testid=Label]';
+
+/**
+ * Run the setup of the platform before going to tests
+ * @param {String} treeRenderUrl - url for resource tree data GET request
+ * @param {String} editClassLabelUrl - url for resource edit class data POST request
+ * @param {String} urlsItems - url to visit related to the part of TAO we want to move
+ * @param {String} rootSelector - root selector of the part of TAO we are
+ */
+Cypress.Commands.add('setup', (
+    treeRenderUrl,
+    editClassLabelUrl,
+    urlVisit,
+    rootSelector
+) => {
+    cy.log('COMMAND: setup')
+        .loginAsAdmin()
+        .intercept('GET', `**/${ treeRenderUrl }/getOntologyData**`).as('treeRender')
+        .intercept('POST', `**/${ editClassLabelUrl }`).as('editClassLabel')
+        .visit(urlVisit)
+        .wait('@treeRender', { requestTimeout: 10000 })
+        .get(`${ rootSelector } a`)
+        .first()
+        .click()
+        .wait('@editClassLabel', { requestTimeout: 10000 });
+});
+
+/**
+ * Run the setup of the platform before going to tests
+ * @param {String} treeRenderUrl - url for resource tree data GET request
+ * @param {String} editClassLabelUrl - url for resource edit class data POST request
+ * @param {String} urlsItems - url to visit related to the part of TAO we want to move
+ * @param {String} rootSelector - root selector of the part of TAO we are
+ */
+Cypress.Commands.add('setupPage', (
+    urlVisit
+) => {
+    cy.log('COMMAND: setupPage')
+        .loginAsAdmin()
+        .intercept('POST', '**/edit*').as('edit')
+        .visit(urlVisit)
+        .wait('@edit', { requestTimeout: 10000 });
+});
 
 /**
  * Creates new resource subclass
