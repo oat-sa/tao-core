@@ -26,5 +26,7 @@ use oat\tao\model\Lists\Business\Domain\DependencyCollection;
 
 interface DependencyRepositoryInterface
 {
+    public function findChildListIds(array $options): array;
+
     public function findAll(array $options): DependencyCollection;
 }

@@ -16,6 +16,8 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
+require('cypress-downloadfile/lib/downloadFileCommand');
+import '@oat-sa/e2e-runner/support/fileupload';
 import '@oat-sa/e2e-runner/support/auth';
 import '@oat-sa/e2e-runner/support/lti.js';
 import './resourceTree';
@@ -67,6 +69,7 @@ Cypress.Commands.add('loginAttempt', (username, password) => {
  * @param {Object} opts
  * @param {String} opts.retries
  * @param {String} opts.delay
+ * @return {JQuery}
  */
 Cypress.Commands.add('getSettled', (selector, opts = {}) => {
     const retries = opts.retries || 3;
@@ -94,6 +97,36 @@ Cypress.Commands.add('getSettled', (selector, opts = {}) => {
         }).then((el) => {
             return cy.wrap(el);
         });
+    });
+});
+
+/**
+ * Tries to find an element, returning only after it's present on the page or after timeout
+ * @param {String} selector - css selector of the element
+ * @param {Object} opts
+ * @param {String} opts.timeout
+ * @param {String} opts.delay
+ * @return {Boolean}
+ */
+Cypress.Commands.add('isElementPresent', (selector, opts = {}) => {
+    const timeout = opts.timeout || 5000;
+    const delay = opts.delay || 500;
+
+    const isPresent = (resolve) => {
+        const $el = Cypress.$(selector);
+        if ($el.length) {
+            resolve(true);
+        } else {
+            setTimeout(() => isPresent(resolve), delay);
+        }
+    };
+
+    return new Cypress.Promise(resolve => {
+        setTimeout(
+            () => resolve(false),
+            timeout
+        );
+        return isPresent(resolve);
     });
 });
 
