@@ -92,9 +92,7 @@ class DependsOnPropertySynchronizer extends ConfigurableService implements Depen
 
         foreach ($properties as $property) {
             $initialProperties[] = $property->getUri();
-
-            $dependsOnPropertyCollection = $property->getDependsOnPropertyCollection();
-            $parentProperty = $dependsOnPropertyCollection->current();
+            $parentProperty = $property->getDependsOnPropertyCollection()->current();
 
             if ($parentProperty) {
                 $parentProperties[$parentProperty->getUri()] = $parentProperty;
