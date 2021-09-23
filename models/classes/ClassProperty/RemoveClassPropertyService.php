@@ -51,6 +51,8 @@ class RemoveClassPropertyService extends ConfigurableService
             $this->getEventManager()->trigger(new ClassPropertyRemovedEvent($class, $propertyName));
         }
 
+        $this->invalidatePropertyCache($property);
+
         // Delete property mode
         foreach ($class->getProperties() as $classProperty) {
             if ($classProperty->equals($property)) {
@@ -73,7 +75,6 @@ class RemoveClassPropertyService extends ConfigurableService
                         $index->delete(true);
                     }
 
-                    $this->invalidatePropertyCache($property);
 
                     return true;
                 }

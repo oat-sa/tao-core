@@ -64,6 +64,28 @@ class DependencyRepository extends ConfigurableService implements DependencyRepo
         return $collection;
     }
 
+    public function findAllChildListUris(): array
+    {
+        $query = $this->getQueryBuilder();
+        $expressionBuilder = $query->expr();
+
+        return $query
+            ->select(RdsValueCollectionRepository::FIELD_ITEM_LIST_URI)
+            ->from(RdsValueCollectionRepository::TABLE_LIST_ITEMS, 'items')
+            ->innerJoin(
+                'items',
+                RdsValueCollectionRepository::TABLE_LIST_ITEMS_DEPENDENCIES,
+                'dependencies',
+                $expressionBuilder->eq(
+                    'dependencies.' . RdsValueCollectionRepository::FIELD_LIST_ITEM_ID,
+                    'items.' . RdsValueCollectionRepository::FIELD_ITEM_ID
+                )
+            )
+            ->groupBy(RdsValueCollectionRepository::FIELD_ITEM_LIST_URI)
+            ->execute()
+            ->fetchAll(FetchMode::COLUMN);
+    }
+
     private function getPersistence(): common_persistence_SqlPersistence
     {
         return $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID)->getPersistenceById('default');

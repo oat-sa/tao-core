@@ -86,6 +86,7 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
         $parentPropertiesUris = $this->getParentPropertyListUrisRepository()->findAllUris(
             [
                 'listUri' => $listUri,
+                'property' => $property
             ]
         );
 
