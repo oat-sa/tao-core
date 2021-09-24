@@ -113,7 +113,7 @@ Cypress.Commands.add('moveClassFromRoot', (
     moveConfirmSelector,
     name,
     nameWhereMove,
-    restResourceGetAll,
+    restResourceGetAll
 ) => {
     cy.log('COMMAND: moveClassFromRoot', name)
         .get('#feedback-1, #feedback-2').should('not.exist')
@@ -147,7 +147,6 @@ Cypress.Commands.add('deleteClass', (
         .contains('a', name).click()
         .get(formSelector)
         .should('exist')
-
     cy.get(deleteSelector).click();
 
     if (isConfirmCheckbox) {
@@ -158,7 +157,7 @@ Cypress.Commands.add('deleteClass', (
     cy.intercept('POST', `**/${deleteClassUrl}`).as('deleteClass')
     cy.get(confirmSelector)
         .click();
-    cy.wait('@deleteClass')
+    cy.wait('@deleteClass');
 });
 
 /**
@@ -195,9 +194,10 @@ Cypress.Commands.add('deleteClassFromRoot', (
  */
 Cypress.Commands.add('addNode', (formSelector, addSelector) => {
     cy.log('COMMAND: addNode');
-
+    cy.intercept('GET', `**/getOntologyData**`).as('treeRender');
     cy.getSettled(addSelector).click();
     cy.get(formSelector).should('exist');
+    cy.wait('@treeRender');
 });
 
 /**
@@ -244,6 +244,7 @@ Cypress.Commands.add('deleteNode', (
  */
 Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
     cy.log('COMMAND: renameSelectedClass', newName)
+        .intercept('GET', `**/getOntologyData**`).as('treeRender')
         .getSettled(`${formSelector} ${labelSelector}`)
         .clear()
         .type(newName)
@@ -266,6 +267,7 @@ Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
 Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
     cy.log('COMMAND: renameSelectedNode', newName)
         .intercept('POST', `**${editUrl}`).as('edit')
+        .intercept('GET', `**/getOntologyData**`).as('treeRender')
         .get(`${formSelector} ${labelSelector}`)
         .clear()
         .type(newName)
@@ -275,6 +277,7 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
         .get(`${formSelector} ${labelSelector}`).should('have.value', newName)
+        .wait('@treeRender');
 });
 
 /**
