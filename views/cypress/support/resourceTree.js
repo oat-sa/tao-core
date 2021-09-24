@@ -19,6 +19,45 @@
 const labelSelector = '[data-testid=Label]';
 
 /**
+ * Run the setup of the platform
+ * @param {String} treeRenderUrl - url for resource tree data GET request
+ * @param {String} editClassLabelUrl - url for resource edit class data POST request
+ * @param {String} urlsItems - url to visit related to the part of TAO we want to move
+ * @param {String} rootSelector - root selector of the part of TAO we are
+ */
+Cypress.Commands.add('setup', (
+    treeRenderUrl,
+    editClassLabelUrl,
+    urlVisit,
+    rootSelector
+) => {
+    cy.log('COMMAND: setup')
+        .loginAsAdmin()
+        .intercept('GET', `**/${ treeRenderUrl }/getOntologyData**`).as('treeRender')
+        .intercept('POST', `**/${ editClassLabelUrl }`).as('editClassLabel')
+        .visit(urlVisit)
+        .wait('@treeRender')
+        .getSettled(`${ rootSelector } a`)
+        .first()
+        .click()
+        .wait('@editClassLabel');
+});
+
+/**
+ * Run the setup in page files of the platform
+ * @param {String} urlVisit - url to visit related to the part of TAO we want to move
+ */
+Cypress.Commands.add('setupPage', (
+    urlVisit
+) => {
+    cy.log('COMMAND: setupPage')
+        .loginAsAdmin()
+        .intercept('POST', '**/edit*').as('edit')
+        .visit(urlVisit)
+        .wait('@edit');
+});
+
+/**
  * Creates new resource subclass
  * @param {String} formSelector - css selector for the class edition form
  * @param {String} treeRenderUrl - url for resource tree data GET request
