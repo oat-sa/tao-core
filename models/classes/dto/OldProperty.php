@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\dto;
 
 use core_kernel_classes_Resource;
+use oat\generis\model\resource\DependsOnPropertyCollection;
 
 class OldProperty
 {
@@ -38,16 +39,21 @@ class OldProperty
     /** @var array */
     private $validationRules;
 
+    /** @var DependsOnPropertyCollection|null */
+    private $dependsOnPropertyCollection;
+
     public function __construct(
         string $label,
         ?core_kernel_classes_Resource $propertyType,
         string $rangeUri = null,
-        array $validationRules = []
+        array $validationRules = [],
+        DependsOnPropertyCollection $dependsOnPropertyCollection = null
     ) {
         $this->label = $label;
         $this->propertyType = $propertyType;
         $this->rangeUri = $rangeUri;
         $this->validationRules = $validationRules;
+        $this->dependsOnPropertyCollection = $dependsOnPropertyCollection;
     }
 
     public function getLabel(): string
@@ -68,5 +74,10 @@ class OldProperty
     public function getValidationRules(): array
     {
         return $this->validationRules;
+    }
+
+    public function getDependsOnPropertyCollection(): ?DependsOnPropertyCollection
+    {
+        return $this->dependsOnPropertyCollection;
     }
 }

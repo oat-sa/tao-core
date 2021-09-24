@@ -528,6 +528,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     private function saveProperties(array $properties): void
     {
         $changedProperties = [];
+
         foreach ($properties['properties'] as $i => $propertyValues) {
             //get index values
             $indexes = null;
@@ -543,7 +544,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 $property->getRange() ? $property->getRange()->getUri() : null,
                 $property->getPropertyValues(
                     $property->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE)
-                )
+                ),
+                $property->getDependsOnPropertyCollection()
             );
 
             $this->saveSimpleProperty($propertyValues, $property);
