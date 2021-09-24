@@ -26,6 +26,9 @@ use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
 
+/**
+ * @deprecated Use the new Dependency Injection Container
+ */
 abstract class InjectionAwareService extends ConfigurableService
 {
     /** @var bool */
