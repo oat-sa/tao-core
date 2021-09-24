@@ -1,6 +1,3 @@
-import selectors from "../../../../taoItems/views/cypress/utils/selectors";
-import urls from "../../../../taoItems/views/cypress/utils/urls";
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -43,7 +40,8 @@ Cypress.Commands.add('setup', (
         .getSettled(`${ rootSelector } a`)
         .first()
         .click()
-        .wait('@editClassLabel');
+        .wait('@editClassLabel')
+        .wait('@treeRender');
 });
 
 /**
