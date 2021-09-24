@@ -266,10 +266,10 @@ Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
 Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
     cy.log('COMMAND: renameSelectedNode', newName)
         .intercept('POST', `**${editUrl}`).as('edit')
-        .get(`${formSelector} ${labelSelector}`)
+        .getSettled(`${formSelector} ${labelSelector}`)
         .clear()
         .type(newName)
-        .get('button[id="Save"]')
+        .getSettled('button[id="Save"]')
         .click()
         .wait('@edit')
         .get('#feedback-1, #feedback-2').should('not.exist')
