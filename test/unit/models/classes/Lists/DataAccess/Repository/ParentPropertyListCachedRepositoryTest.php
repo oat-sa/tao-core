@@ -76,7 +76,7 @@ class ParentPropertyListCachedRepositoryTest extends TestCase
     {
         $this->dependencyRepository
             ->expects($this->once())
-            ->method('findAllChildListUris')
+            ->method('findChildListUris')
             ->willReturn(
                 [
                     'childUri1'

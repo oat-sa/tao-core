@@ -45,7 +45,7 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
         if (empty($options['propertyUri'])) {
             $this->removeUsingListUri($options['listUri']);
         }
-        $childListUris = $this->getDependencyRepository()->findAllChildListUris([
+        $childListUris = $this->getDependencyRepository()->findChildListUris([
                             'parentListUri' => $options['listUri']
                         ]);
         foreach ($childListUris as $uri) {
@@ -74,7 +74,7 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
         if ($currentValues !== $listCacheValues) {
             $this->getCache()->set($listCacheKey, $listCacheValues);
         }
-        
+
         if ($this->getCache()->has($cacheKey)) {
             return $this->getCache()->get($cacheKey);
         }

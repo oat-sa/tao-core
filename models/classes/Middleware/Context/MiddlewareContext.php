@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,20 +15,29 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Contract;
+namespace oat\tao\model\Middleware\Context;
 
-use oat\tao\model\Lists\Business\Domain\DependencyCollection;
+use oat\tao\model\Context\AbstractContext;
 
-interface DependencyRepositoryInterface
+class MiddlewareContext extends AbstractContext
 {
-    public function findChildListIds(array $options): array;
+    public const PARAM_MIDDLEWARE_ID = 'middlewareId';
+    public const PARAM_ROUTE = 'route';
 
-    public function findAll(array $options): DependencyCollection;
+    protected function getSupportedParameters(): array
+    {
+        return [
+            self::PARAM_MIDDLEWARE_ID,
+            self::PARAM_ROUTE,
+        ];
+    }
 
-    public function findChildListUris(array $options): array;
+    protected function validateParameter(string $parameter, $parameterValue): void
+    {
+    }
 }
