@@ -375,6 +375,7 @@ class tao_install_Installator
                 $callback();
             }
 
+            $this->recreateDependencyInjectionContainerCache();
             $this->setInstallationFinished();
         } catch (Exception $e) {
             if ($this->retryInstallation($e)) {
@@ -594,5 +595,12 @@ class tao_install_Installator
         $applicationService = $this->getServiceManager()->get(ApplicationService::SERVICE_ID);
         $applicationService->setOption(ApplicationService::OPTION_INSTALLATION_FINISHED, true);
         $this->getServiceManager()->register(ApplicationService::SERVICE_ID, $applicationService);
+    }
+
+    private function recreateDependencyInjectionContainerCache(): void
+    {
+        ServiceManager::getServiceManager()
+            ->getContainerBuilder()
+            ->forceBuild();
     }
 }

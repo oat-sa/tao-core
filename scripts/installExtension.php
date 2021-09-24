@@ -15,12 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2015-2021 (original work) Open Assessment Technologies SA;
  */
 
-use oat\tao\model\search\SearchService;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\InstallHelper;
 
 require_once dirname(__FILE__) . '/../includes/raw_start.php';
@@ -36,3 +34,7 @@ if (count($parms) != 1) {
 $extId = array_shift($parms);
 
 InstallHelper::installRecursively([$extId]);
+
+ServiceManager::getServiceManager()
+    ->getContainerBuilder()
+    ->forceBuild();

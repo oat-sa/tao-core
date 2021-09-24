@@ -21,6 +21,7 @@
 
 namespace oat\tao\model\http;
 
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -42,6 +43,11 @@ abstract class Controller
 
     /** @var ResponseInterface */
     protected $response;
+
+    public function getPsrContainer(): ContainerInterface
+    {
+        return $this->getServiceLocator()->getContainer();
+    }
 
     /**
      * Set Psr7 http request
