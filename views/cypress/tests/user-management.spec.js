@@ -28,9 +28,7 @@ describe('User Management', () => {
             cy.intercept('GET', '**/add*').as('add');
             cy.visit(urls.addUser);
 
-            cy.wait('@add', {
-                requestTimeout: 10000
-            });
+            cy.wait('@add');
         });
 
         describe('Visit add users page', () => {
@@ -54,9 +52,7 @@ describe('User Management', () => {
         before(() => {
             cy.loginAsAdmin();
             cy.intercept('GET', '**/Users/data*').as('usersData')
-            cy.wait('@usersData', {
-                requestTimeout: 10000
-            });
+            cy.wait('@usersData');
         });
 
         describe('Visit manage users page', () => {

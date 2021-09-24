@@ -40,7 +40,10 @@ use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
+use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
+use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
+use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 
 /**
  * Regrouping all actions related to authoring
@@ -324,7 +327,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $groups = $myForm->getGroups();
 
         foreach ($data['properties'] as $prop) {
-            if (empty($prop['range']) || empty($prop['uri'])) {
+            if (empty($prop['range']) || empty($prop['uri']) || empty($prop['depends-on-property'])) {
                 continue;
             }
 
@@ -333,21 +336,47 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             if (isset($elementUri)) {
                 $index = strstr($elementUri, '_', true);
                 $elementRangeArray[$index . '_range_list'] = $prop['range'];
+                if ($prop['depends-on-property']) {
+                    $elementRangeArray[$index . '_depends-on-property'] = $prop['depends-on-property'];
+                    $elementRangeArray[$index . '_uri'] = $prop['uri'];
+                }
             }
         }
 
         $elements = [];
+        $dependsOnPropertyRepository = $this->getRepository();
+
         foreach ($myForm->getElements() as $element) {
             if (
                 $element instanceof tao_helpers_form_elements_xhtml_Combobox
                 && array_key_exists($element->getName(), $elementRangeArray)
             ) {
+                if (strpos($element->getName(), 'depends-on-property') !== false) {
+                    $options = $this->getDependsOnPropertyOptions($element, $elementRangeArray, $dependsOnPropertyRepository);
+                    $element->setOptions($options);
+                }
+
                 $element->setValue($elementRangeArray[$element->getName()]);
             }
             $elements[] = $element;
         }
 
         $myForm->setElements($elements);
+    }
+
+    private function getDependsOnPropertyOptions(
+        tao_helpers_form_FormElement $element,
+        array $elementRangeArray,
+        DependsOnPropertyRepositoryInterface $dependsOnPropertyRepository
+    ): array {
+        $index = substr($element->getName(), 0, strpos($element->getName(), '_'));
+        $options = $dependsOnPropertyRepository->findAll(
+            [
+                'property' => $this->getProperty(tao_helpers_Uri::decode($elementRangeArray[$index . '_uri'])),
+                'listUri' => tao_helpers_Uri::decode($elementRangeArray[$index . '_range_list'])
+            ]
+        )->getOptionsList();
+        return $options;
     }
 
     /**
@@ -505,22 +534,20 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             }
 
             $property = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
-            $oldPropertyLabel = $property->getLabel();
-            $oldPropertyType = $property->getOnePropertyValue(
-                $this->getProperty(WidgetRdf::PROPERTY_WIDGET)
+            $oldProperty = new OldProperty(
+                $property->getLabel(),
+                $property->getOnePropertyValue($this->getProperty(WidgetRdf::PROPERTY_WIDGET)),
+                $property->getRange() ? $property->getRange()->getUri() : null
             );
-            $oldProperty = new OldProperty($oldPropertyLabel, $oldPropertyType);
 
             $this->saveSimpleProperty($propertyValues, $property);
 
             $currentProperty = $this->getProperty(tao_helpers_Uri::decode($propertyValues['uri']));
+            $validator = $this->getPropertyChangedValidator();
 
-            $isPropertyChanged = (new PropertyChangedValidator())->isPropertyChanged(
-                $currentProperty,
-                $oldProperty
-            );
+            if ($validator->isPropertyChanged($currentProperty, $oldProperty)) {
+                $this->invalidatePropertyCache($validator, $currentProperty, $oldProperty);
 
-            if ($isPropertyChanged) {
                 $changedProperties[] = [
                     'class' => $this->getCurrentClass(),
                     'property' => $currentProperty,
@@ -580,6 +607,25 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $property->setDependsOnPropertyCollection($dependsOnPropertyCollection);
     }
 
+    private function invalidatePropertyCache(
+        PropertyChangedValidator $validator,
+        core_kernel_classes_Property $currentProperty,
+        OldProperty $oldProperty
+    ): void {
+        if (
+            $oldProperty->getRangeUri()
+            && ($validator->isRangeChanged($currentProperty, $oldProperty)
+            || $validator->isPropertyTypeChanged($currentProperty, $oldProperty))
+        ) {
+            $this->getParentPropertyListCachedRepository()->deleteCache(
+                [
+                    'propertyUri' => $currentProperty->getUri(),
+                    'listUri' => $oldProperty->getRangeUri()
+                ]
+            );
+        }
+    }
+
     private function isElasticSearchEnabled(): bool
     {
         /** @var AdvancedSearchChecker $advancedSearchChecker */
@@ -591,5 +637,20 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getServiceLocator()->get(FeatureFlagChecker::class);
+    }
+
+    private function getParentPropertyListCachedRepository(): ParentPropertyListCachedRepository
+    {
+        return $this->getServiceLocator()->get(ParentPropertyListCachedRepository::class);
+    }
+
+    private function getPropertyChangedValidator(): PropertyChangedValidator
+    {
+        return $this->getServiceLocator()->get(PropertyChangedValidator::class);
+    }
+
+    private function getRepository(): DependsOnPropertyRepository
+    {
+        return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
     }
 }

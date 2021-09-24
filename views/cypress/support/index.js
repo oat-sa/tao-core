@@ -32,5 +32,9 @@
 // ***********************************************************
 
 // Local project commands
-import './commands'
+import './commands';
+import './resourceTree';
+import './file-upload';
+import './userManagement';
+import './drag-and-drop';
 

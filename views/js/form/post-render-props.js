@@ -20,8 +20,9 @@ define([
     'jquery',
     'i18n',
     'ui/feedback',
-    './depends-on-property'
-], function ($, __, feedback, dependsOn) {
+    './depends-on-property',
+    './secondary-property'
+], function ($, __, feedback, dependsOn, secondaryProps) {
     'use strict';
 
     function _createCopyToClipboardHandler($field) {
@@ -308,6 +309,9 @@ define([
             $properties = $container.children('div[id*="property_"]').not('.property-block');
         }
         if (!$properties.length) {
+            if ($container.children('[name="tao.forms.instance"]').length) {
+                secondaryProps.init($container);
+            }
             return;
         }
         _wrapPropsInContainer($properties);
@@ -352,7 +356,9 @@ define([
                 $currentTarget = $currentTarget.parent();
             }
             if ($(this).hasClass('property-depends-on')) {
-                dependsOn.toggle($(this), $currentTarget, $container);
+                if ($(this)[0].length > 1) {
+                    dependsOn.toggle($(this), $currentTarget, $container);
+                }
                 return;
             }
             $currentTarget.show();

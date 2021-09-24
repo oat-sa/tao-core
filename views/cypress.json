@@ -8,6 +8,7 @@
   "videosFolder": "cypress/videos",
   "defaultCommandTimeout": 35000,
   "pageLoadTimeout": 30000,
+  "requestTimeout": 10000,
   "env": {
     "configFile": "cypress/envs/env.json"
   },

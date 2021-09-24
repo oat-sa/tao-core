@@ -22,8 +22,35 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Domain;
 
-use oat\generis\model\resource\DependsOnPropertyCollection as GenerisDependsOnPropertyCollection;
+use ArrayIterator;
+use JsonSerializable;
 
-class DependsOnPropertyCollection extends GenerisDependsOnPropertyCollection
+class DependsOnPropertyCollection extends ArrayIterator implements JsonSerializable
 {
+    public function jsonSerialize(): array
+    {
+        $options = [];
+
+        /** @var DependsOnProperty $prop */
+        foreach ($this->getArrayCopy() as $prop) {
+            $options[$prop->getLabel()] = $prop->jsonSerialize();
+        }
+
+        ksort($options);
+
+        return array_values($options);
+    }
+
+    public function getOptionsList(): array
+    {
+        $options = [];
+
+        /** @var DependsOnProperty $prop */
+        foreach ($this->getArrayCopy() as $prop) {
+            $options[$prop->jsonSerialize()['uriEncoded']] = $prop->getLabel();
+        }
+        ksort($options);
+
+        return $options;
+    }
 }
