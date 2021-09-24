@@ -39,11 +39,11 @@ Cypress.Commands.add('setup', (
         .intercept('GET', `**/${ treeRenderUrl }/getOntologyData**`).as('treeRender')
         .intercept('POST', `**/${ editClassLabelUrl }`).as('editClassLabel')
         .visit(urlVisit)
-        .wait('@treeRender', { requestTimeout: 10000 })
+        .wait('@treeRender')
         .get(`${ rootSelector } a`)
         .first()
         .click()
-        .wait('@editClassLabel', { requestTimeout: 10000 });
+        .wait('@editClassLabel');
 });
 
 /**
@@ -60,7 +60,7 @@ Cypress.Commands.add('setupPage', (
         .loginAsAdmin()
         .intercept('POST', '**/edit*').as('edit')
         .visit(urlVisit)
-        .wait('@edit', { requestTimeout: 10000 });
+        .wait('@edit');
 });
 
 /**
