@@ -22,7 +22,7 @@ import urls from "../../../../taoItems/views/cypress/utils/urls";
 const labelSelector = '[data-testid=Label]';
 
 /**
- * Run the setup of the platform before going to tests
+ * Run the setup of the platform
  * @param {String} treeRenderUrl - url for resource tree data GET request
  * @param {String} editClassLabelUrl - url for resource edit class data POST request
  * @param {String} urlsItems - url to visit related to the part of TAO we want to move
@@ -40,18 +40,15 @@ Cypress.Commands.add('setup', (
         .intercept('POST', `**/${ editClassLabelUrl }`).as('editClassLabel')
         .visit(urlVisit)
         .wait('@treeRender')
-        .get(`${ rootSelector } a`)
+        .getSettled(`${ rootSelector } a`)
         .first()
         .click()
         .wait('@editClassLabel');
 });
 
 /**
- * Run the setup of the platform before going to tests
- * @param {String} treeRenderUrl - url for resource tree data GET request
- * @param {String} editClassLabelUrl - url for resource edit class data POST request
- * @param {String} urlsItems - url to visit related to the part of TAO we want to move
- * @param {String} rootSelector - root selector of the part of TAO we are
+ * Run the setup in page files of the platform
+ * @param {String} urlVisit - url to visit related to the part of TAO we want to move
  */
 Cypress.Commands.add('setupPage', (
     urlVisit
