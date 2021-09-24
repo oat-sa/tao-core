@@ -52,7 +52,7 @@ class DependsOnPropertySynchronizerContext extends AbstractContext
             if (!$value instanceof core_kernel_classes_Property) {
                 throw new InvalidArgumentException(
                     sprintf(
-                        'Context parameter %s are not valid. Values must be an instance of %s.',
+                        'Context parameter %s is not valid. Values must be an instance of %s.',
                         $parameter,
                         core_kernel_classes_Property::class
                     )
