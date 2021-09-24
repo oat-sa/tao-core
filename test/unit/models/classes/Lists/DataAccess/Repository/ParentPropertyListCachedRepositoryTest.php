@@ -161,7 +161,6 @@ class ParentPropertyListCachedRepositoryTest extends TestCase
         );
     }
 
-    //@TODO uncomment after cache rework done...
     public function testFindAllUrisFromCache(): void
     {
         $uris = [
