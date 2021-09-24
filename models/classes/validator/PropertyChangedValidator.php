@@ -73,15 +73,12 @@ class PropertyChangedValidator extends ConfigurableService
 
     public function isValidationRulesChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
     {
-        $oldPropertyValidationRules = $oldProperty->getValidationRules();
-        sort($oldPropertyValidationRules);
-
         $propertyValidationRules = $property->getPropertyValues(
             $property->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE)
         );
-        sort($propertyValidationRules);
+        $oldPropertyValidationRules = $oldProperty->getValidationRules();
 
-        return $propertyValidationRules !== $oldPropertyValidationRules;
+        return !$this->areArraysEqual($propertyValidationRules, $oldPropertyValidationRules);
     }
 
     public function isDependsOnPropertyCollectionChanged(
@@ -91,5 +88,10 @@ class PropertyChangedValidator extends ConfigurableService
         return $property->getDependsOnPropertyCollection()->isEqual(
             $oldProperty->getDependsOnPropertyCollection()
         );
+    }
+
+    private function areArraysEqual(array $array1, array $array2): bool
+    {
+        return empty(array_diff($array1, $array2)) && empty(array_diff($array2, $array1));
     }
 }

@@ -23,6 +23,7 @@ use oat\generis\model\WidgetRdf;
 use oat\tao\model\dto\OldProperty;
 use oat\generis\test\TestCase;
 use oat\tao\model\validator\PropertyChangedValidator;
+use oat\generis\model\resource\DependsOnPropertyCollection;
 
 class PropertyChangedValidatorTest extends TestCase
 {
@@ -121,6 +122,95 @@ class PropertyChangedValidatorTest extends TestCase
                 $this->createMock(OldProperty::class)
             )
         );
+    }
+
+    /**
+     * @dataProvider isValidationRulesChangedDataProvider
+     */
+    public function testIsValidationRulesChanged(
+        array $validationRules,
+        array $oldValidationRules,
+        bool $expected
+    ): void {
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $property
+            ->method('getProperty')
+            ->willReturn($this->createMock(core_kernel_classes_Property::class));
+        $property
+            ->method('getPropertyValues')
+            ->willReturn($validationRules);
+
+        $oldProperty = $this->createMock(OldProperty::class);
+        $oldProperty
+            ->method('getValidationRules')
+            ->willReturn($oldValidationRules);
+
+        $this->assertEquals($expected, $this->subject->isValidationRulesChanged($property, $oldProperty));
+    }
+
+    /**
+     * @dataProvider isDependsOnPropertyCollectionChangedDataProvider
+     */
+    public function testIsDependsOnPropertyCollectionChanged(bool $isEqual, bool $expected): void
+    {
+        $dependsOnPropertyCollection = $this->createMock(DependsOnPropertyCollection::class);
+        $dependsOnPropertyCollection
+            ->method('isEqual')
+            ->willReturn($isEqual);
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $property
+            ->method('getDependsOnPropertyCollection')
+            ->willReturn($dependsOnPropertyCollection);
+
+        $oldDependsOnPropertyCollection = $this->createMock(DependsOnPropertyCollection::class);
+        $oldProperty = $this->createMock(OldProperty::class);
+        $oldProperty
+            ->method('getDependsOnPropertyCollection')
+            ->willReturn($oldDependsOnPropertyCollection);
+
+        $this->assertEquals(
+            $expected,
+            $this->subject->isDependsOnPropertyCollectionChanged($property, $oldProperty)
+        );
+    }
+
+    public function isValidationRulesChangedDataProvider(): array
+    {
+        return [
+            [
+                'validationRules' => [],
+                'oldValidationRules' => [],
+                'expected' => false,
+            ],
+            [
+                'validationRules' => ['validationRule'],
+                'oldValidationRules' => [],
+                'expected' => true,
+            ],
+            [
+                'validationRules' => ['validationRule'],
+                'oldValidationRules' => ['validationRule'],
+                'expected' => false,
+            ],
+        ];
+    }
+
+    public function isDependsOnPropertyCollectionChangedDataProvider(): array
+    {
+        return [
+            [
+                'isEqual' => false,
+                'expected' => false,
+            ],
+            [
+                'isEqual' => true,
+                'expected' => true,
+            ],
+            [
+                'isEqual' => false,
+                'expected' => false,
+            ],
+        ];
     }
 
     private function createPropertyMock(string $widgetPropertyId = null): core_kernel_classes_Property
