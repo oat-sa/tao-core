@@ -40,8 +40,7 @@ Cypress.Commands.add('setup', (
         .getSettled(`${ rootSelector } a`)
         .first()
         .click()
-        .wait('@editClassLabel')
-        .wait('@treeRender');
+        .wait('@editClassLabel');
 });
 
 /**
