@@ -49,6 +49,7 @@ class ValueCollectionSearchRequestTest extends TestCase
         $this->assertFalse($this->subject->hasExcluded());
         $this->assertEmpty($this->subject->getExcluded());
         $this->assertFalse($this->subject->hasLimit());
+        $this->assertFalse($this->subject->hasParentListValues());
     }
 
     /**
@@ -132,5 +133,13 @@ class ValueCollectionSearchRequestTest extends TestCase
         $this->assertNotEquals($newDataLanguage, $this->subject->getDataLanguage());
         $this->subject->setDataLanguage($newDataLanguage);
         $this->assertSame($newDataLanguage, $this->subject->getDataLanguage());
+    }
+
+    public function testWithParentListValues(): void
+    {
+        $this->subject->setParentListValues(...['value']);
+
+        $this->assertTrue($this->subject->hasParentListValues());
+        $this->assertContains('value', $this->subject->getParentListValues());
     }
 }

@@ -33,12 +33,16 @@ if (count($parms) !== 1) {
 $extId = array_shift($parms);
 
 try {
-    $extensionManager = ServiceManager::getServiceManager()->get(common_ext_ExtensionsManager::SERVICE_ID);
+    $serviceManager = ServiceManager::getServiceManager();
+    $extensionManager = $serviceManager->get(common_ext_ExtensionsManager::SERVICE_ID);
 
     $extension = $extensionManager->getExtensionById($extId);
 
     $uninstaller = new tao_install_ExtensionUninstaller($extension);
     $uninstaller->uninstall();
+
+    $serviceManager->getContainerBuilder()
+        ->forceBuild();
 
     $message = __('Uninstalled %s', $extId);
 } catch (common_Exception $e) {
