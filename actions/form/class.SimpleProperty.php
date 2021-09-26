@@ -23,6 +23,7 @@
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\helpers\form\elements\xhtml\Validators;
 use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
 use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\tree\TreeService;
@@ -72,6 +73,10 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
             if (!is_null($element)) {
                 //take property values to populate the form
                 if (isset($values[$propertyProperty->getUri()])) {
+                    if ($element instanceof Validators) {
+                        $this->disableValues($property, $element);
+                    }
+
                     $propertyValues = $values[$propertyProperty->getUri()];
                     foreach ($propertyValues as $value) {
                         if (!is_null($value)) {
@@ -277,5 +282,23 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
     private function getDependsOnPropertyFormFieldFactory(): DependsOnPropertyFormFieldFactory
     {
         return ServiceManager::getServiceManager()->get(DependsOnPropertyFormFieldFactory::class);
+    }
+
+    private function disableValues(core_kernel_classes_Property $property, Validators $element): void
+    {
+        $requiredParentValues = ['notEmpty'];
+        $disabledValues = [];
+
+        foreach ($property->getDependsOnPropertyCollection() as $parentProperty) {
+            $validationRuleProperty = $this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE);
+            $validationRules = $parentProperty->getPropertyValues($validationRuleProperty);
+
+            $disabledValues = array_merge(
+                $disabledValues,
+                array_diff($requiredParentValues, $validationRules)
+            );
+        }
+
+        $element->setDisabledValues(array_unique($disabledValues));
     }
 }
