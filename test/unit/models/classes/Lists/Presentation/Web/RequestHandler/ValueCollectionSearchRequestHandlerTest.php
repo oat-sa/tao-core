@@ -111,6 +111,15 @@ class ValueCollectionSearchRequestHandlerTest extends TestCase
                     'propertyUri' => 'https_2_example_0_com_1_path_3_fragment',
                 ],
             ],
+            'Request with parent list values' => [
+                $this->createBareSearchRequest()
+                    ->setParentListValues(...['https://example.com/path#fragment'])
+                    ->setPropertyUri('https://example.com/path#fragment'),
+                [
+                    'propertyUri' => 'https_2_example_0_com_1_path_3_fragment',
+                    'parentListValues' => ['https_2_example_0_com_1_path_3_fragment'],
+                ],
+            ],
             'Request with value collection' => [
                 $this->createBareSearchRequest()
                     ->setPropertyUri('https://example.com/path#fragment')
