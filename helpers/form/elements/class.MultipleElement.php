@@ -37,6 +37,9 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
     /** @var array */
     protected $values = [];
 
+    /** @var array */
+    private $disabledValues = [];
+
     /**
      * Short description of method setOptions
      *
@@ -111,5 +114,15 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
     public function setValues(array $values)
     {
         $this->values = $values;
+    }
+
+    public function getDisabledValues(): array
+    {
+        return $this->disabledValues;
+    }
+
+    public function setDisabledValues(array $disabledValues): void
+    {
+        $this->disabledValues = $disabledValues;
     }
 }

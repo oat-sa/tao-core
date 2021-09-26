@@ -24,16 +24,20 @@ namespace oat\tao\model\validator;
 
 use core_kernel_classes_Property;
 use oat\generis\model\WidgetRdf;
+use qtism\data\content\xhtml\lists\Ol;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\dto\OldProperty;
+use oat\tao\helpers\form\ValidationRuleRegistry;
 
 class PropertyChangedValidator extends ConfigurableService
 {
     public function isPropertyChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
     {
-        return (string)$property->getLabel() !== $oldProperty->getLabel()
+        return $property->getLabel() !== $oldProperty->getLabel()
             || $this->isPropertyTypeChanged($property, $oldProperty)
-            || $this->isRangeChanged($property, $oldProperty);
+            || $this->isRangeChanged($property, $oldProperty)
+            || $this->isValidationRulesChanged($property, $oldProperty)
+            || $this->isDependsOnPropertyCollectionChanged($property, $oldProperty);
     }
 
     public function isRangeChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
@@ -65,5 +69,29 @@ class PropertyChangedValidator extends ConfigurableService
         }
 
         return false;
+    }
+
+    public function isValidationRulesChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
+    {
+        $propertyValidationRules = $property->getPropertyValues(
+            $property->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE)
+        );
+        $oldPropertyValidationRules = $oldProperty->getValidationRules();
+
+        return !$this->areArraysEqual($propertyValidationRules, $oldPropertyValidationRules);
+    }
+
+    public function isDependsOnPropertyCollectionChanged(
+        core_kernel_classes_Property $property,
+        OldProperty $oldProperty
+    ): bool {
+        return $property->getDependsOnPropertyCollection()->isEqual(
+            $oldProperty->getDependsOnPropertyCollection()
+        );
+    }
+
+    private function areArraysEqual(array $array1, array $array2): bool
+    {
+        return empty(array_diff($array1, $array2)) && empty(array_diff($array2, $array1));
     }
 }
