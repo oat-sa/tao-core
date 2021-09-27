@@ -619,6 +619,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         ) {
             $listUri = $oldProperty->getRangeUri();
         }
+
         if (empty($listUri) && $currentProperty->getRange() === null) {
             return;
         }
