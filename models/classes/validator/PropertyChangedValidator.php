@@ -57,11 +57,7 @@ class PropertyChangedValidator extends ConfigurableService
             return true;
         }
 
-        if ($currentPropertyType->getUri() !== $oldPropertyType->getUri()) {
-            return true;
-        }
-
-        return false;
+        return $currentPropertyType->getUri() !== $oldPropertyType->getUri();
     }
 
     public function isRangeChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool

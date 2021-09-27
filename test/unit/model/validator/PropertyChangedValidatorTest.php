@@ -427,7 +427,7 @@ class PropertyChangedValidatorTest extends TestCase
 
     private function createOldPropertyMock(
         string $propertyLabel,
-        ?core_kernel_classes_Resource  $propertyType,
+        ?core_kernel_classes_Resource $propertyType,
         ?DependsOnPropertyCollection $dependsOnPropertyCollection,
         array $expects = []
     ): OldProperty {
@@ -474,12 +474,14 @@ class PropertyChangedValidatorTest extends TestCase
             $mockObject
                 ->expects($this->never())
                 ->method($method);
-        } else {
-            $mockObject
-                ->expects($this->exactly($expects))
-                ->method($method)
-                ->willReturn($returnValue);
+
+            return $this;
         }
+
+        $mockObject
+            ->expects($this->exactly($expects))
+            ->method($method)
+            ->willReturn($returnValue);
 
         return $this;
     }
