@@ -49,7 +49,7 @@ Cypress.Commands.add('loginAsAdmin', () => {
  * Logs out using the UI
  */
 Cypress.Commands.add('logoutAttempt', () => {
-    cy.get('#logout').click()
+    cy.get('#logout').click();
 });
 
 /**

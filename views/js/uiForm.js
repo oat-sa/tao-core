@@ -74,6 +74,21 @@
         init: function init() {
             var self = this;
 
+            $('body').off('change', 'input[value=notEmpty]').on('change', 'input[value=notEmpty]', function(event) {
+                let primaryPropertyUri = $(event.target).closest('[id^="property_"]').attr('id').replace('property_', '');
+                const secondaryProperties = $(`option[value=${primaryPropertyUri}][selected='selected']`).closest('[id^="property_"]');
+                let secondaryPropertiesCheckbox = secondaryProperties.find('[value=notEmpty]');
+
+                secondaryPropertiesCheckbox.each((i, notEmptyCheckbox) => {
+                    if (event.target.checked) {
+                        notEmptyCheckbox.disabled = false;
+                    } else {
+                        notEmptyCheckbox.disabled = true;
+                        notEmptyCheckbox.checked = false;
+                    }
+                })
+            });
+
             this.counter = 0;
             this.initGenerisFormPattern = new RegExp(['add', 'edit', 'mode', 'PropertiesAuthoring'].join('|'), 'i');
             this.initTranslationFormPattern = /translate/;

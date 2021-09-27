@@ -17,6 +17,45 @@
  */
 
 /**
+ * Run the setup of the platform
+ * @param {String} treeRenderUrl - url for resource tree data GET request
+ * @param {String} editClassLabelUrl - url for resource edit class data POST request
+ * @param {String} urlsItems - url to visit related to the part of TAO we want to move
+ * @param {String} rootSelector - root selector of the part of TAO we are
+ */
+Cypress.Commands.add('setup', (
+    treeRenderUrl,
+    editClassLabelUrl,
+    urlVisit,
+    rootSelector
+) => {
+    cy.log('COMMAND: setup')
+        .loginAsAdmin()
+        .intercept('GET', `**/${ treeRenderUrl }/getOntologyData**`).as('treeRender')
+        .intercept('POST', `**/${ editClassLabelUrl }`).as('editClassLabel')
+        .visit(urlVisit)
+        .wait('@treeRender')
+        .getSettled(`${ rootSelector } a`)
+        .first()
+        .click()
+        .wait('@editClassLabel');
+});
+
+/**
+ * Run the setup in page files of the platform
+ * @param {String} urlVisit - url to visit related to the part of TAO we want to move
+ */
+Cypress.Commands.add('setupPage', (
+    urlVisit
+) => {
+    cy.log('COMMAND: setupPage')
+        .loginAsAdmin()
+        .intercept('POST', '**/edit*').as('edit')
+        .visit(urlVisit)
+        .wait('@edit');
+});
+
+/**
  * Creates new resource subclass
  * @param {String} formSelector - css selector for the class edition form
  * @param {String} treeRenderUrl - url for resource tree data GET request
@@ -111,7 +150,7 @@ Cypress.Commands.add('moveClassFromRoot', (
     moveConfirmSelector,
     name,
     nameWhereMove,
-    restResourceGetAll,
+    restResourceGetAll
 ) => {
     cy.log('COMMAND: moveClassFromRoot', name)
         .get('#feedback-1, #feedback-2').should('not.exist')
@@ -145,7 +184,6 @@ Cypress.Commands.add('deleteClass', (
         .contains('a', name).click()
         .get(formSelector)
         .should('exist')
-
     cy.get(deleteSelector).click();
 
     if (isConfirmCheckbox) {
@@ -156,7 +194,7 @@ Cypress.Commands.add('deleteClass', (
     cy.intercept('POST', `**/${deleteClassUrl}`).as('deleteClass')
     cy.get(confirmSelector)
         .click();
-    cy.wait('@deleteClass')
+    cy.wait('@deleteClass');
 });
 
 /**
@@ -193,9 +231,10 @@ Cypress.Commands.add('deleteClassFromRoot', (
  */
 Cypress.Commands.add('addNode', (formSelector, addSelector) => {
     cy.log('COMMAND: addNode');
-
+    cy.intercept('GET', `**/getOntologyData**`).as('treeRender');
     cy.getSettled(addSelector).click();
     cy.get(formSelector).should('exist');
+    cy.wait('@treeRender');
 });
 
 /**
