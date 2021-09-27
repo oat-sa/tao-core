@@ -84,22 +84,21 @@ class ParentPropertyListCachedRepositoryTest extends TestCase
             );
 
         $this->simpleCache
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('has')
             ->willReturn(true);
 
         $this->simpleCache
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('get')
             ->willReturn(['depends_on_property-prop1-childUri1']);
 
         $this->simpleCache
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('delete');
 
         $this->sut->deleteCache(
             [
-                'propertyUri' => 'property',
                 'listUri' => 'uri',
             ]
         );
