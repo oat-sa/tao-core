@@ -22,11 +22,10 @@ declare(strict_types=1);
 
 namespace oat\tao\model\validator;
 
-use core_kernel_classes_Property;
 use oat\generis\model\WidgetRdf;
-use qtism\data\content\xhtml\lists\Ol;
-use oat\oatbox\service\ConfigurableService;
+use core_kernel_classes_Property;
 use oat\tao\model\dto\OldProperty;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 
 class PropertyChangedValidator extends ConfigurableService
@@ -40,35 +39,33 @@ class PropertyChangedValidator extends ConfigurableService
             || $this->isDependsOnPropertyCollectionChanged($property, $oldProperty);
     }
 
-    public function isRangeChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
-    {
-        return ($property->getRange() ? (string)$property->getRange()->getUri() : null) !== $oldProperty->getRangeUri();
-    }
-
     public function isPropertyTypeChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
     {
-        $currentPropertyType = $property
-            ->getOnePropertyValue(new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET));
+        $currentPropertyType = $property->getOnePropertyValue(
+            $property->getProperty(WidgetRdf::PROPERTY_WIDGET)
+        );
         $oldPropertyType = $oldProperty->getPropertyType();
 
-        if (null === $currentPropertyType && null === $oldPropertyType) {
+        if ($currentPropertyType === null && $oldPropertyType === null) {
             return false;
         }
 
         if (
-            null !== $currentPropertyType && null === $oldPropertyType
-            || null === $currentPropertyType && null !== $oldPropertyType
+            ($currentPropertyType !== null && $oldPropertyType === null)
+            || ($currentPropertyType === null && $oldPropertyType !== null)
         ) {
             return true;
         }
 
-        $currentPropertyTypeUri = $currentPropertyType->getUri();
+        return $currentPropertyType->getUri() !== $oldPropertyType->getUri();
+    }
 
-        if ($currentPropertyTypeUri !== $oldPropertyType->getUri()) {
-            return true;
-        }
+    public function isRangeChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
+    {
+        $propertyRange = $property->getRange();
+        $propertyRangeUri = $propertyRange ? $propertyRange->getUri() : null;
 
-        return false;
+        return $propertyRangeUri !== $oldProperty->getRangeUri();
     }
 
     public function isValidationRulesChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
@@ -85,7 +82,7 @@ class PropertyChangedValidator extends ConfigurableService
         core_kernel_classes_Property $property,
         OldProperty $oldProperty
     ): bool {
-        return $property->getDependsOnPropertyCollection()->isEqual(
+        return !$property->getDependsOnPropertyCollection()->isEqual(
             $oldProperty->getDependsOnPropertyCollection()
         );
     }
