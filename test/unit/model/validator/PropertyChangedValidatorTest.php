@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,76 +20,362 @@
 
 declare(strict_types=1);
 
-use oat\generis\model\WidgetRdf;
-use oat\tao\model\dto\OldProperty;
 use oat\generis\test\TestCase;
+use oat\tao\model\dto\OldProperty;
 use oat\tao\model\validator\PropertyChangedValidator;
 use oat\generis\model\resource\DependsOnPropertyCollection;
 
 class PropertyChangedValidatorTest extends TestCase
 {
     /** @var PropertyChangedValidator  */
-    private $subject;
+    private $sut;
 
     public function setUp(): void
     {
-        $this->subject = new PropertyChangedValidator();
+        $this->sut = new PropertyChangedValidator();
     }
 
     public function testDoNotTriggerIfDoesNotHaveChanges(): void
     {
-        $property = $this->createPropertyMock('');
+        $propertyType = $this->createMock(core_kernel_classes_Resource::class);
+        $propertyType
+            ->expects($this->exactly(2))
+            ->method('getUri')
+            ->willReturn('propertyTypeUri');
 
-        $this->assertFalse($this->subject->isPropertyChanged($property, new OldProperty('', $property)));
+        $range = $this->createMock(core_kernel_classes_Class::class);
+        $range
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('rangeUri');
+
+        $dependsOnPropertyCollection = $this->createMock(DependsOnPropertyCollection::class);
+        $dependsOnPropertyCollection
+            ->expects($this->once())
+            ->method('isEqual')
+            ->willReturn(true);
+
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $property
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('propertyLabel');
+        $property
+            ->expects($this->exactly(2))
+            ->method('getProperty')
+            ->willReturn($this->createMock(core_kernel_classes_Property::class));
+        $property
+            ->expects($this->once())
+            ->method('getOnePropertyValue')
+            ->willReturn($propertyType);
+        $property
+            ->expects($this->once())
+            ->method('getRange')
+            ->willReturn($range);
+        $property
+            ->expects($this->once())
+            ->method('getPropertyValues')
+            ->willReturn([]);
+        $property
+            ->expects($this->once())
+            ->method('getDependsOnPropertyCollection')
+            ->willReturn($dependsOnPropertyCollection);
+
+        $oldProperty = $this->createMock(OldProperty::class);
+        $oldProperty
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('propertyLabel');
+        $oldProperty
+            ->expects($this->once())
+            ->method('getPropertyType')
+            ->willReturn($propertyType);
+        $oldProperty
+            ->expects($this->once())
+            ->method('getRangeUri')
+            ->willReturn('rangeUri');
+        $oldProperty
+            ->expects($this->once())
+            ->method('getValidationRules')
+            ->willReturn([]);
+        $oldProperty
+            ->expects($this->once())
+            ->method('getDependsOnPropertyCollection')
+            ->willReturn($dependsOnPropertyCollection);
+
+        $this->assertFalse($this->sut->isPropertyChanged($property, $oldProperty));
     }
 
     public function testDoNotTriggerIfDoesNotHavePropertyType(): void
     {
-        $property = $this->createMock(core_kernel_classes_Property::class);
-        $property->expects($this->once())
-            ->method('getOnePropertyValue')
-            ->with(new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET))
-            ->willReturn(null);
+        $range = $this->createMock(core_kernel_classes_Class::class);
+        $range
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('rangeUri');
 
-        $this->assertFalse($this->subject->isPropertyChanged($property, new OldProperty('', null)));
+        $dependsOnPropertyCollection = $this->createMock(DependsOnPropertyCollection::class);
+        $dependsOnPropertyCollection
+            ->expects($this->once())
+            ->method('isEqual')
+            ->willReturn(true);
+
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $property
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('propertyLabel');
+        $property
+            ->expects($this->exactly(2))
+            ->method('getProperty')
+            ->willReturn($this->createMock(core_kernel_classes_Property::class));
+        $property
+            ->expects($this->once())
+            ->method('getOnePropertyValue')
+            ->willReturn(null);
+        $property
+            ->expects($this->once())
+            ->method('getRange')
+            ->willReturn($range);
+        $property
+            ->expects($this->once())
+            ->method('getPropertyValues')
+            ->willReturn([]);
+        $property
+            ->expects($this->once())
+            ->method('getDependsOnPropertyCollection')
+            ->willReturn($dependsOnPropertyCollection);
+
+        $oldProperty = $this->createMock(OldProperty::class);
+        $oldProperty
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('propertyLabel');
+        $oldProperty
+            ->expects($this->once())
+            ->method('getPropertyType')
+            ->willReturn(null);
+        $oldProperty
+            ->expects($this->once())
+            ->method('getRangeUri')
+            ->willReturn('rangeUri');
+        $oldProperty
+            ->expects($this->once())
+            ->method('getValidationRules')
+            ->willReturn([]);
+        $oldProperty
+            ->expects($this->once())
+            ->method('getDependsOnPropertyCollection')
+            ->willReturn($dependsOnPropertyCollection);
+
+        $this->assertFalse($this->sut->isPropertyChanged($property, $oldProperty));
     }
 
     public function testTriggerIfHaveCurrentPropertyTypeButDoesNotHaveOldPropertyType(): void
     {
-        $property = $this->createPropertyMock('');
+        $propertyType = $this->createMock(core_kernel_classes_Resource::class);
+        $propertyType
+            ->expects($this->never())
+            ->method('getUri');
 
-        $this->assertTrue($this->subject->isPropertyChanged($property, new OldProperty('', null)));
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $property
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('propertyLabel');
+        $property
+            ->expects($this->once())
+            ->method('getProperty')
+            ->willReturn($this->createMock(core_kernel_classes_Property::class));
+        $property
+            ->expects($this->once())
+            ->method('getOnePropertyValue')
+            ->willReturn($propertyType);
+        $property
+            ->expects($this->never())
+            ->method('getRange');
+        $property
+            ->expects($this->never())
+            ->method('getPropertyValues');
+        $property
+            ->expects($this->never())
+            ->method('getDependsOnPropertyCollection');
+
+        $oldProperty = $this->createMock(OldProperty::class);
+        $oldProperty
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('propertyLabel');
+        $oldProperty
+            ->expects($this->once())
+            ->method('getPropertyType')
+            ->willReturn(null);
+        $oldProperty
+            ->expects($this->never())
+            ->method('getRangeUri');
+        $oldProperty
+            ->expects($this->never())
+            ->method('getValidationRules');
+        $oldProperty
+            ->expects($this->never())
+            ->method('getDependsOnPropertyCollection');
+
+        $this->assertTrue($this->sut->isPropertyChanged($property, $oldProperty));
     }
 
     public function testTriggerIfDoesNotHaveCurrentPropertyTypeButHaveOldPropertyType(): void
     {
-        $property = $this->createMock(core_kernel_classes_Property::class);
+        $propertyType = $this->createMock(core_kernel_classes_Resource::class);
+        $propertyType
+            ->expects($this->never())
+            ->method('getUri');
 
-        $this->assertTrue(
-            $this->subject->isPropertyChanged(
-                $property,
-                new OldProperty('', $this->createMock(core_kernel_classes_Property::class))
-            )
-        );
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $property
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('propertyLabel');
+        $property
+            ->expects($this->once())
+            ->method('getProperty')
+            ->willReturn($this->createMock(core_kernel_classes_Property::class));
+        $property
+            ->expects($this->once())
+            ->method('getOnePropertyValue')
+            ->willReturn(null);
+        $property
+            ->expects($this->never())
+            ->method('getRange');
+        $property
+            ->expects($this->never())
+            ->method('getPropertyValues');
+        $property
+            ->expects($this->never())
+            ->method('getDependsOnPropertyCollection');
+
+        $oldProperty = $this->createMock(OldProperty::class);
+        $oldProperty
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('propertyLabel');
+        $oldProperty
+            ->expects($this->once())
+            ->method('getPropertyType')
+            ->willReturn($propertyType);
+        $oldProperty
+            ->expects($this->never())
+            ->method('getRangeUri');
+        $oldProperty
+            ->expects($this->never())
+            ->method('getValidationRules');
+        $oldProperty
+            ->expects($this->never())
+            ->method('getDependsOnPropertyCollection');
+
+        $this->assertTrue($this->sut->isPropertyChanged($property, $oldProperty));
     }
 
     public function testTriggerIfHasChangesOnLabel(): void
     {
         $property = $this->createMock(core_kernel_classes_Property::class);
+        $property
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('newPropertyLabel');
+        $property
+            ->expects($this->never())
+            ->method('getProperty');
+        $property
+            ->expects($this->never())
+            ->method('getOnePropertyValue');
+        $property
+            ->expects($this->never())
+            ->method('getRange');
+        $property
+            ->expects($this->never())
+            ->method('getPropertyValues');
+        $property
+            ->expects($this->never())
+            ->method('getDependsOnPropertyCollection');
 
-        $this->assertTrue($this->subject->isPropertyChanged($property, new OldProperty('different', $property)));
+        $oldProperty = $this->createMock(OldProperty::class);
+        $oldProperty
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('oldPropertyLabel');
+        $oldProperty
+            ->expects($this->never())
+            ->method('getPropertyType');
+        $oldProperty
+            ->expects($this->never())
+            ->method('getRangeUri');
+        $oldProperty
+            ->expects($this->never())
+            ->method('getValidationRules');
+        $oldProperty
+            ->expects($this->never())
+            ->method('getDependsOnPropertyCollection');
+
+        $this->assertTrue($this->sut->isPropertyChanged($property, $oldProperty));
     }
 
     public function testTriggerIfHasChangesOnPropertyType(): void
     {
-        $property = $this->createPropertyMock('TextArea');
-
-        $widgetProperty = $this->createMock(core_kernel_classes_Property::class);
-        $widgetProperty->expects($this->once())
+        $newPropertyType = $this->createMock(core_kernel_classes_Resource::class);
+        $newPropertyType
+            ->expects($this->once())
             ->method('getUri')
-            ->willReturn('TextBox');
+            ->willReturn('newPropertyTypeUri');
 
-        $this->assertTrue($this->subject->isPropertyChanged($property, new OldProperty('', $widgetProperty)));
+        $oldPropertyType = $this->createMock(core_kernel_classes_Resource::class);
+        $oldPropertyType
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('oldPropertyTypeUri');
+
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $property
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('propertyLabel');
+        $property
+            ->expects($this->once())
+            ->method('getProperty')
+            ->willReturn($this->createMock(core_kernel_classes_Property::class));
+        $property
+            ->expects($this->once())
+            ->method('getOnePropertyValue')
+            ->willReturn($newPropertyType);
+        $property
+            ->expects($this->never())
+            ->method('getRange');
+        $property
+            ->expects($this->never())
+            ->method('getPropertyValues');
+        $property
+            ->expects($this->never())
+            ->method('getDependsOnPropertyCollection');
+
+        $oldProperty = $this->createMock(OldProperty::class);
+        $oldProperty
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('propertyLabel');
+        $oldProperty
+            ->expects($this->once())
+            ->method('getPropertyType')
+            ->willReturn($oldPropertyType);
+        $oldProperty
+            ->expects($this->never())
+            ->method('getRangeUri');
+        $oldProperty
+            ->expects($this->never())
+            ->method('getValidationRules');
+        $oldProperty
+            ->expects($this->never())
+            ->method('getDependsOnPropertyCollection');
+
+        $this->assertTrue($this->sut->isPropertyChanged($property, $oldProperty));
     }
 
     public function testIsRangeChangedIsTrue(): void
@@ -107,7 +394,7 @@ class PropertyChangedValidatorTest extends TestCase
             ->willReturn('uri2');
 
         $this->assertTrue(
-            $this->subject->isRangeChanged(
+            $this->sut->isRangeChanged(
                 $property,
                 $oldProperty
             )
@@ -117,7 +404,7 @@ class PropertyChangedValidatorTest extends TestCase
     public function testIsRangeChangedIsFalse(): void
     {
         $this->assertFalse(
-            $this->subject->isRangeChanged(
+            $this->sut->isRangeChanged(
                 $this->createMock(core_kernel_classes_Property::class),
                 $this->createMock(OldProperty::class)
             )
@@ -145,7 +432,7 @@ class PropertyChangedValidatorTest extends TestCase
             ->method('getValidationRules')
             ->willReturn($oldValidationRules);
 
-        $this->assertEquals($expected, $this->subject->isValidationRulesChanged($property, $oldProperty));
+        $this->assertEquals($expected, $this->sut->isValidationRulesChanged($property, $oldProperty));
     }
 
     /**
@@ -170,7 +457,7 @@ class PropertyChangedValidatorTest extends TestCase
 
         $this->assertEquals(
             $expected,
-            $this->subject->isDependsOnPropertyCollectionChanged($property, $oldProperty)
+            $this->sut->isDependsOnPropertyCollectionChanged($property, $oldProperty)
         );
     }
 
@@ -200,36 +487,16 @@ class PropertyChangedValidatorTest extends TestCase
         return [
             [
                 'isEqual' => false,
-                'expected' => false,
-            ],
-            [
-                'isEqual' => true,
                 'expected' => true,
             ],
             [
-                'isEqual' => false,
+                'isEqual' => true,
                 'expected' => false,
             ],
+            [
+                'isEqual' => false,
+                'expected' => true,
+            ],
         ];
-    }
-
-    private function createPropertyMock(string $widgetPropertyId = null): core_kernel_classes_Property
-    {
-        $property = $this->createMock(core_kernel_classes_Property::class);
-        $property->expects($this->any())->method('getUri')->willReturn('');
-        $property->expects($this->once())
-            ->method('getOnePropertyValue')
-            ->with(new core_kernel_classes_Property(WidgetRdf::PROPERTY_WIDGET))
-            ->willReturnCallback(
-                function () use ($widgetPropertyId): core_kernel_classes_Property {
-                    $widgetProperty = $this->createMock(core_kernel_classes_Property::class);
-                    $widgetProperty->expects($this->any())
-                        ->method('getUri')
-                        ->willReturn($widgetPropertyId);
-
-                    return $widgetProperty;
-                }
-            );
-        return $property;
     }
 }
