@@ -112,11 +112,9 @@ class PropertyChangedValidatorTest extends TestCase
 
     public function testTriggerIfHaveCurrentPropertyTypeButDoesNotHaveOldPropertyType(): void
     {
-        $propertyType = $this->createPropertyTypeMock();
-
         $property = $this->createPropertyMock(
             'propertyLabel',
-            $propertyType,
+            $this->createPropertyTypeMock(),
             null,
             null,
             [
