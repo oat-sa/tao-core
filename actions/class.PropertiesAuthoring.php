@@ -619,9 +619,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         ) {
             $listUri = $oldProperty->getRangeUri();
         }
+
+        if ($listUri === null || $currentProperty->getRange() === null) {
+            return;
+        }
+
         $this->getParentPropertyListCachedRepository()->deleteCache(
             [
-                'propertyUri' => $currentProperty->getUri(),
                 'listUri' => $listUri ?? $currentProperty->getRange()->getUri()
             ]
         );

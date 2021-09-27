@@ -89,7 +89,6 @@ class RemoveClassPropertyService extends ConfigurableService
         if ($property->getRange()) {
             $this->getParentPropertyListCachedRepository()->deleteCache(
                 [
-                    'propertyUri' => $property->getUri(),
                     'listUri' => $property->getRange()->getUri()
                 ]
             );
