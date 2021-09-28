@@ -144,7 +144,6 @@ class ParentPropertyListCachedRepositoryTest extends TestCase
             ->method('has')
             ->willReturn(false);
 
-
         $this->simpleCache
             ->expects($this->exactly(2))
             ->method('set');

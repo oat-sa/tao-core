@@ -113,10 +113,11 @@ class DependencyRepository extends ConfigurableService implements DependencyRepo
                                 'items.' . RdsValueCollectionRepository::FIELD_ITEM_URI
                             )
                         )
-                        ->andWhere($expressionBuilder->eq('items.list_uri', "'" . $options['parentListUri'] . "'"))
+                        ->andWhere($expressionBuilder->eq('items.list_uri', ':list_uri'))
                         ->getSQL()
                 )
             )
+            ->setParameter('list_uri', $options['parentListUri'])
             ->groupBy(RdsValueCollectionRepository::FIELD_ITEM_LIST_URI)
             ->execute()
             ->fetchAll(FetchMode::COLUMN);
