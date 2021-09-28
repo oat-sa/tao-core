@@ -101,6 +101,9 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
             $message =   __('Extension "%s" has been installed', $this->getCurrentExtension()->getId());
             $success = true;
             // reinit user session
+
+            $this->forceRebuildDependencyInjectionContainer();
+
             $session = $this->getSession()->refresh();
         } catch (common_ext_ExtensionException $e) {
             $message = $e->getMessage();
@@ -183,6 +186,8 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
             $uninstaller = new \tao_install_ExtensionUninstaller($this->getCurrentExtension());
             $success = $uninstaller->uninstall();
             $message = __('Uninstalled %s', $this->getRequestParameter('id'));
+
+            $this->forceRebuildDependencyInjectionContainer();
         } catch (\common_Exception $e) {
             $success = false;
             if ($e instanceof \common_exception_UserReadableException) {
@@ -226,5 +231,12 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
     protected function getExtensionManager()
     {
         return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
+    }
+
+    private function forceRebuildDependencyInjectionContainer(): void
+    {
+        $this->getServiceManager()
+            ->getContainerBuilder()
+            ->forceBuild();
     }
 }
