@@ -38,21 +38,26 @@ class Validators extends AbstractValidators
     public function render()
     {
         $returnValue = $this->renderLabel();
-        
+
         $i = 0;
         $returnValue .= '<div class="form_radlst form_checklst">';
         foreach ($this->getOptions() as $optionId => $optionLabel) {
             $returnValue .= "<input type='checkbox' value='{$optionId}' name='{$this->name}[]' id='{$this->name}_{$i}' ";
             $returnValue .= $this->renderAttributes();
-        
-            if (in_array($optionId, $this->values)) {
+
+            if (in_array($optionId, $this->values, true)) {
                 $returnValue .= " checked='checked' ";
             }
+
+            if (in_array($optionId, $this->getDisabledValues(), true)) {
+                $returnValue .= ' disabled ';
+            }
+
             $returnValue .= " />&nbsp;<label class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel) . "</label><br />";
             $i++;
         }
         $returnValue .= "</div>";
-        
+
         return (string) $returnValue;
     }
 }

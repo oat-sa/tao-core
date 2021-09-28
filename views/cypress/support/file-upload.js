@@ -1,5 +1,3 @@
-<?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,26 +13,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
-use oat\oatbox\service\ServiceManager;
-use oat\tao\helpers\InstallHelper;
+import '@oat-sa/e2e-runner/support/fileupload';
 
-require_once dirname(__FILE__) . '/../includes/raw_start.php';
+/**
+ * Upload file to input
+ * @param {String} importSelector -  selector for input type="file"
+ * @param {String} importFilePath  - parh to file
+ */
+Cypress.Commands.add('fileUpload', (importSelector, importFilePath) => {
+    cy.log('COMMAND: fileUpload', importSelector, importFilePath);
 
-$parms = $argv;
-array_shift($parms);
-
-if (count($parms) != 1) {
-    echo 'Usage: ' . __FILE__ . ' EXTENSION_ID ' . PHP_EOL;
-    die(1);
-}
-
-$extId = array_shift($parms);
-
-InstallHelper::installRecursively([$extId]);
-
-ServiceManager::getServiceManager()
-    ->getContainerBuilder()
-    ->forceBuild();
+    cy.readFile(importFilePath, 'binary').then(fileContent => {
+        cy.get(importSelector).attachFile({
+            fileContent,
+            filePath: importFilePath,
+            encoding: 'binary',
+            lastModified: new Date().getTime()
+        });
+    });
+});

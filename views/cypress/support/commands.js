@@ -22,6 +22,8 @@ import '@oat-sa/e2e-runner/support/auth';
 import '@oat-sa/e2e-runner/support/lti.js';
 import './resourceTree';
 import './userManagement';
+import './manageSchema';
+import './resourceProperties';
 import urls from '../utils/urls';
 
 /**
@@ -47,7 +49,7 @@ Cypress.Commands.add('loginAsAdmin', () => {
  * Logs out using the UI
  */
 Cypress.Commands.add('logoutAttempt', () => {
-    cy.get('#logout').click()
+    cy.get('#logout').click();
 });
 
 /**

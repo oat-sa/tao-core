@@ -15,26 +15,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
  */
 
-use oat\oatbox\service\ServiceManager;
-use oat\tao\helpers\InstallHelper;
+declare(strict_types=1);
 
-require_once dirname(__FILE__) . '/../includes/raw_start.php';
+namespace oat\tao\model\Lists\Business\Contract;
 
-$parms = $argv;
-array_shift($parms);
+use core_kernel_classes_Resource;
+use oat\tao\model\Context\ContextInterface;
 
-if (count($parms) != 1) {
-    echo 'Usage: ' . __FILE__ . ' EXTENSION_ID ' . PHP_EOL;
-    die(1);
+interface DependentPropertiesRepositoryInterface
+{
+    /**
+     * @return core_kernel_classes_Resource[]
+     */
+    public function findAll(ContextInterface $context): array;
 }
-
-$extId = array_shift($parms);
-
-InstallHelper::installRecursively([$extId]);
-
-ServiceManager::getServiceManager()
-    ->getContainerBuilder()
-    ->forceBuild();
