@@ -26,14 +26,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 interface RequestInterface
 {
-//    public $attributes;
-//    public $request;
-//    public $query;
-//    public $server;
-//    public $files;
-//    public $cookies;
-//    public $headers;
-
     public function request(): Request;
 
     /**
