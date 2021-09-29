@@ -24,29 +24,10 @@ declare(strict_types=1);
 
 use GuzzleHttp\Psr7\ServerRequest;
 use oat\tao\model\http\HttpJsonResponseTrait;
-use oat\tao\model\ParamConverter\Configuration\ParamConverter;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
-use oat\tao\model\Lists\DataAccess\Repository\DependentPropertiesRepository;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ValueCollectionSearchRequestHandler;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 use oat\generis\model\OntologyAwareTrait;
-
-class TestDTO
-{
-    public const CONVERTER_ID = 'oat.tao.param_converter.query';
-
-    private $propertyUri;
-
-    public function __construct(string $propertyUri)
-    {
-        $this->propertyUri = $propertyUri;
-    }
-
-    public function getPropertyUri(): string
-    {
-        return $this->propertyUri;
-    }
-}
 
 class tao_actions_PropertyValues extends tao_actions_CommonModule
 {
@@ -84,14 +65,6 @@ class tao_actions_PropertyValues extends tao_actions_CommonModule
                 ]
             )
         );
-    }
-
-    /**
-     * @ParamConverter("testDTO", converter="oat.tao.param_converter.query")
-     */
-    public function test(TestDTO $testDTO, DependentPropertiesRepository $dependentPropertiesRepository): void
-    {
-        $this->setSuccessJsonResponse([]);
     }
 
     private function getRepository(): DependsOnPropertyRepository
