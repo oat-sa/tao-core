@@ -23,9 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\ParamConverter\Request;
 
 use Throwable;
-use ReflectionType;
 use ReflectionClass;
-use ReflectionParameter;
 use Symfony\Component\HttpFoundation\Request;
 use oat\tao\model\ParamConverter\Configuration\ParamConverter;
 
