@@ -269,5 +269,5 @@ return [
     ],
     'containerServiceProviders' => [
         ParamConverterServiceProvider::class,
-    ]
+    ],
 ];

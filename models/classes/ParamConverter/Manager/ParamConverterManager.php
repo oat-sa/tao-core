@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\ParamConverter\Request;
+namespace oat\tao\model\ParamConverter\Manager;
 
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use oat\tao\model\ParamConverter\Configuration\ParamConverter;
+use oat\tao\model\ParamConverter\Request\ParamConverterInterface;
 
 class ParamConverterManager
 {
@@ -67,7 +68,6 @@ class ParamConverterManager
     public function all(): array
     {
         krsort($this->converters);
-
         $converters = [];
 
         foreach ($this->converters as $all) {
@@ -89,29 +89,11 @@ class ParamConverterManager
         }
 
         if ($converterName = $configuration->getConverter()) {
-            if (!isset($this->namedConverters[$converterName])) {
-                throw new RuntimeException(
-                    sprintf(
-                        'No converter named "%s" found for conversion of parameter "%s".',
-                        $converterName,
-                        $configuration->getName()
-                    )
-                );
-            }
-
+            $this->checkProvidedConverterName($converterName, $configuration->getName());
             /** @var ParamConverterInterface $converter */
             $converter = $this->namedConverters[$converterName];
 
-            if (!$converter->supports($configuration)) {
-                throw new RuntimeException(
-                    sprintf(
-                        'Converter "%s" does not support conversion of parameter "%s".',
-                        $converterName,
-                        $configuration->getName()
-                    )
-                );
-            }
-
+            $this->checkConverterSupport($converter, $configuration);
             $converter->apply($request, $configuration);
 
             return;
@@ -123,6 +105,34 @@ class ParamConverterManager
                     return;
                 }
             }
+        }
+    }
+
+    private function checkProvidedConverterName(string $converterName, string $parameter): void
+    {
+        if (!isset($this->namedConverters[$converterName])) {
+            throw new RuntimeException(
+                sprintf(
+                    'No converter named "%s" found for conversion of parameter "%s".',
+                    $converterName,
+                    $parameter
+                )
+            );
+        }
+    }
+
+    private function checkConverterSupport(
+        ParamConverterInterface $converter,
+        ParamConverter $configuration
+    ): void {
+        if (!$converter->supports($configuration)) {
+            throw new RuntimeException(
+                sprintf(
+                    'Converter "%s" does not support conversion of parameter "%s".',
+                    $converter->getName(),
+                    $configuration->getName()
+                )
+            );
         }
     }
 }

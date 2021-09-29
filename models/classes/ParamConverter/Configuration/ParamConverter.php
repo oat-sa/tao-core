@@ -30,10 +30,10 @@ class ParamConverter extends ConfigurationAnnotation
      */
     public function __construct(
         $data = [],
+        string $converter = null,
         string $class = null,
         array $options = [],
-        bool $isOptional = false,
-        string $converter = null
+        bool $isOptional = false
     ) {
         $values = [];
 
@@ -43,10 +43,10 @@ class ParamConverter extends ConfigurationAnnotation
             $values = $data;
         }
 
+        $values['converter'] = $values['converter'] ?? $converter;
         $values['class'] = $values['class'] ?? $class;
         $values['options'] = $values['options'] ?? $options;
         $values['isOptional'] = $values['isOptional'] ?? $isOptional;
-        $values['converter'] = $values['converter'] ?? $converter;
 
         parent::__construct($values);
     }

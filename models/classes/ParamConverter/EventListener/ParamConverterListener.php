@@ -4,19 +4,21 @@ declare(strict_types=1);
 
 namespace oat\tao\model\ParamConverter\EventListener;
 
-use ReflectionType;
 use ReflectionMethod;
-use ReflectionFunctionAbstract;
 use oat\tao\model\ParamConverter\Event\Event;
 use Symfony\Component\HttpFoundation\Request;
 use oat\tao\model\ParamConverter\Event\ParamConverterEvent;
 use oat\tao\model\ParamConverter\Configuration\ParamConverter;
+use oat\tao\model\ParamConverter\Manager\ParamConverterManager;
+use oat\tao\model\ParamConverter\Configuration\AutoConfigurator;
 use oat\tao\model\ParamConverter\Context\ParamConverterListenerContext;
-use oat\tao\model\ParamConverter\Request\ParamConverterManager;
 
 class ParamConverterListener implements ListenerInterface
 {
     public const REQUEST_ATTRIBUTE_CONVERTERS = '_converters';
+
+    /** @var AutoConfigurator */
+    private $autoConfigurator;
 
     /** @var ParamConverterManager */
     private $paramConverterManager;
@@ -24,10 +26,14 @@ class ParamConverterListener implements ListenerInterface
     /** @var bool */
     private $autoConvert;
 
-    public function __construct(ParamConverterManager $paramConverterManager, bool $autoConvert = true)
-    {
+    public function __construct(
+        AutoConfigurator $autoConfigurator,
+        ParamConverterManager $paramConverterManager,
+        bool $autoConvert = true
+    ) {
         $this->paramConverterManager = $paramConverterManager;
         $this->autoConvert = $autoConvert;
+        $this->autoConfigurator = $autoConfigurator;
     }
 
     public function handleEvent(Event $event): void
@@ -40,8 +46,30 @@ class ParamConverterListener implements ListenerInterface
         /** @var Request $request */
         $request = $context->getParameter(ParamConverterListenerContext::PARAM_REQUEST);
 
+        $configurations = $this->extractConfigurations($request);
+
+        $controller = $context->getParameter(ParamConverterListenerContext::PARAM_CONTROLLER);
+        $method = $context->getParameter(ParamConverterListenerContext::PARAM_METHOD);
+
+        // Automatically apply conversion for non-configured objects
+        if ($this->autoConvert && is_callable([$controller, $method])) {
+            $this->autoConfigurator->configure(
+                new ReflectionMethod($controller, $method),
+                $request,
+                $configurations
+            );
+        }
+
+        $this->paramConverterManager->apply($request, $configurations);
+    }
+
+    /**
+     * @return ParamConverter[]
+     */
+    private function extractConfigurations(Request $request): array
+    {
         $configurations = [];
-        $requestConfigurations = $request->attributes->get('_converters', []);
+        $requestConfigurations = $request->attributes->get(self::REQUEST_ATTRIBUTE_CONVERTERS, []);
 
         if (!is_array($requestConfigurations)) {
             $requestConfigurations = [$requestConfigurations];
@@ -52,69 +80,6 @@ class ParamConverterListener implements ListenerInterface
             $configurations[$requestConfiguration->getName()] = $requestConfiguration;
         }
 
-        $controller = $context->getParameter(ParamConverterListenerContext::PARAM_CONTROLLER);
-        $method = $context->getParameter(ParamConverterListenerContext::PARAM_METHOD);
-
-        // automatically apply conversion for non-configured objects
-        if ($this->autoConvert) {
-            if (is_callable([$controller, $method])) {
-                $reflection = new ReflectionMethod($controller, $method);
-                $configurations = $this->autoConfigure($reflection, $request, $configurations);
-            }
-        }
-
-        $this->paramConverterManager->apply($request, $configurations);
-    }
-
-    /**
-     * @param ParamConverter[] $configurations
-     *
-     * @return ParamConverter[]
-     */
-    private function autoConfigure(
-        ReflectionFunctionAbstract $reflection,
-        Request $request,
-        array $configurations
-    ): array {
-        foreach ($reflection->getParameters() as $param) {
-            $type = $param->getType();
-            $class = $this->getParamClassByType($type);
-
-            if ($class !== null && $request instanceof $class) {
-                continue;
-            }
-
-            $name = $param->getName();
-
-            if ($type) {
-                if (!isset($configurations[$name])) {
-                    $configuration = new ParamConverter([]);
-                    $configuration->setName($name);
-
-                    $configurations[$name] = $configuration;
-                }
-
-                if ($class !== null && $configurations[$name]->getClass() === null) {
-                    $configurations[$name]->setClass($class);
-                }
-            }
-
-            if (isset($configurations[$name])) {
-                $isOptional = $param->isOptional()
-                    || $param->isDefaultValueAvailable()
-                    || ($type && $type->allowsNull());
-
-                $configurations[$name]->setIsOptional($isOptional);
-            }
-        }
-
         return $configurations;
-    }
-
-    private function getParamClassByType(?ReflectionType $type): ?string
-    {
-        return $type !== null && !$type->isBuiltin()
-            ? $type->getName()
-            : null;
     }
 }

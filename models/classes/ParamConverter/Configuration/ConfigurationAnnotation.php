@@ -11,15 +11,7 @@ abstract class ConfigurationAnnotation
     public function __construct(array $values)
     {
         foreach ($values as $property => $value) {
-            $setter = 'set' . ucfirst($property);
-
-            if (method_exists($this, $setter)) {
-                $this->$setter($value);
-
-                continue;
-            } elseif (property_exists($this, $property)) {
-                $this->$property = $values;
-
+            if ($this->setViaSetter($property, $value) || $this->setDirectly($property, $value)) {
                 continue;
             }
 
@@ -31,5 +23,27 @@ abstract class ConfigurationAnnotation
                 )
             );
         }
+    }
+
+    private function setViaSetter(string $property, $value): bool
+    {
+        $isSetterExists = method_exists($this, 'set' . $property);
+
+        if ($isSetterExists) {
+            $this->{'set' . $property}($value);
+        }
+
+        return $isSetterExists;
+    }
+
+    private function setDirectly(string $property, $value): bool
+    {
+        $isPropertyExists = property_exists($this, $property);
+
+        if ($isPropertyExists) {
+            $this->$property = $value;
+        }
+
+        return $isPropertyExists;
     }
 }
