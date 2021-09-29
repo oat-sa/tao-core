@@ -25,6 +25,8 @@ namespace oat\tao\model\routing;
 use Context;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use oat\tao\model\Middleware\MiddlewareRequestHandler;
 use ReflectionException;
 use IExecutable;
@@ -47,6 +49,11 @@ use oat\tao\model\event\BeforeAction;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\log\TaoLoggerAwareInterface;
 use oat\tao\model\action\CommonModuleInterface;
+use oat\tao\model\ParamConverter\Event\ParamConverterEvent;
+use oat\tao\model\ParamConverter\Configuration\ParamConverter;
+use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
+use oat\tao\model\ParamConverter\EventListener\ParamConverterListener;
+use oat\tao\model\ParamConverter\Context\ParamConverterListenerContext;
 
 /**
  * @TODO ActionEnforcer class documentation.
@@ -253,10 +260,45 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     private function resolveParameters(ServerRequestInterface $request, $controller, string $action): array
     {
         // search parameters method
-        $reflect    = new ReflectionMethod($controller, $action);
+        $reflect = new ReflectionMethod($controller, $action);
         $parameters = $this->getParameters();
+        $actionParameters = [];
 
-        $actionParameters   = [];
+        // TODO make cleaner
+        AnnotationRegistry::registerLoader('class_exists');
+        $annotationReader = new AnnotationReader();
+        $annotations = $annotationReader->getMethodAnnotations($reflect);
+        $paramConverterConfigurations = [];
+
+        foreach ($annotations as $annotation) {
+            if ($annotation instanceof ParamConverter) {
+                $paramConverterConfigurations[] = $annotation;
+            }
+        }
+
+        if (!empty($paramConverterConfigurations)) {
+            $symfonyRequest = (new HttpFoundationFactory())->createRequest($request);
+            $symfonyRequest->attributes->set(
+                ParamConverterListener::REQUEST_ATTRIBUTE_CONVERTERS,
+                $paramConverterConfigurations
+            );
+
+            $this->getEventManager()->trigger(
+                new ParamConverterEvent(
+                    new ParamConverterListenerContext([
+                        ParamConverterListenerContext::PARAM_REQUEST => $symfonyRequest,
+                        ParamConverterListenerContext::PARAM_CONTROLLER => $controller,
+                        ParamConverterListenerContext::PARAM_METHOD => $action,
+                    ])
+                )
+            );
+
+            $convertedParameters = $symfonyRequest->attributes->all();
+            unset($convertedParameters[ParamConverterListener::REQUEST_ATTRIBUTE_CONVERTERS]);
+
+            $parameters = array_merge($parameters, $convertedParameters);
+        }
+
         foreach ($reflect->getParameters() as $param) {
             $paramName = $param->getName();
             $paramType = $param->getType();
@@ -274,6 +316,11 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         }
 
         return $actionParameters;
+    }
+
+    private function getEventManager(): EventManager
+    {
+        return $this->getServiceLocator()->getContainer()->get(EventManager::SERVICE_ID);
     }
 
     private function getMiddlewareRequestHandler(): MiddlewareRequestHandler

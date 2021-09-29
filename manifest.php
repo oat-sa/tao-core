@@ -265,5 +265,8 @@ return [
     ],
     'extra' => [
         'structures' => $extpath . 'actions' . DIRECTORY_SEPARATOR . 'structures.xml',
+    ],
+    'containerServiceProviders' => [
+        \oat\tao\model\ParamConverter\ServiceProvider\ParamConverterServiceProvider::class,
     ]
 ];
