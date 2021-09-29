@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\ParamConverter\ServiceProvider;
 
+use oat\tao\model\ParamConverter\Configuration\Configurator;
 use oat\tao\model\ParamConverter\Request\QueryParamConverter;
 use oat\tao\model\ParamConverter\Manager\ParamConverterManager;
-use oat\tao\model\ParamConverter\Configuration\AutoConfigurator;
 use oat\tao\model\ParamConverter\EventListener\ParamConverterListener;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
@@ -80,7 +80,7 @@ class ParamConverterServiceProvider implements ContainerServiceProviderInterface
         ParametersConfigurator $parameters
     ): void {
         $services
-            ->set(AutoConfigurator::class, AutoConfigurator::class)
+            ->set(Configurator::class, Configurator::class)
             ->public();
 
         $parameters->set('autoConvert', true);
@@ -89,7 +89,7 @@ class ParamConverterServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
-                    service(AutoConfigurator::class),
+                    service(Configurator::class),
                     service(ParamConverterManager::class),
                     param('autoConvert'),
                 ]

@@ -27,31 +27,31 @@ use oat\tao\model\ParamConverter\Event\Event;
 use Symfony\Component\HttpFoundation\Request;
 use oat\tao\model\ParamConverter\Event\ParamConverterEvent;
 use oat\tao\model\ParamConverter\Configuration\ParamConverter;
-use oat\tao\model\ParamConverter\Manager\ParamConverterManager;
-use oat\tao\model\ParamConverter\Configuration\AutoConfigurator;
+use oat\tao\model\ParamConverter\Configuration\ConfiguratorInterface;
 use oat\tao\model\ParamConverter\Context\ParamConverterListenerContext;
+use oat\tao\model\ParamConverter\Manager\ParamConverterManagerInterface;
 
 class ParamConverterListener implements ListenerInterface
 {
     public const REQUEST_ATTRIBUTE_CONVERTERS = '_converters';
 
-    /** @var AutoConfigurator */
-    private $autoConfigurator;
+    /** @var ConfiguratorInterface */
+    private $configurator;
 
-    /** @var ParamConverterManager */
+    /** @var ParamConverterManagerInterface */
     private $paramConverterManager;
 
     /** @var bool */
     private $autoConvert;
 
     public function __construct(
-        AutoConfigurator $autoConfigurator,
-        ParamConverterManager $paramConverterManager,
+        ConfiguratorInterface $autoConfigurator,
+        ParamConverterManagerInterface $paramConverterManager,
         bool $autoConvert = true
     ) {
+        $this->configurator = $autoConfigurator;
         $this->paramConverterManager = $paramConverterManager;
         $this->autoConvert = $autoConvert;
-        $this->autoConfigurator = $autoConfigurator;
     }
 
     public function handleEvent(Event $event): void
@@ -71,7 +71,7 @@ class ParamConverterListener implements ListenerInterface
 
         // Automatically apply conversion for non-configured objects
         if ($this->autoConvert && is_callable([$controller, $method])) {
-            $this->autoConfigurator->configure(
+            $this->configurator->configure(
                 new ReflectionMethod($controller, $method),
                 $request,
                 $configurations

@@ -26,10 +26,10 @@ use ReflectionType;
 use ReflectionFunctionAbstract;
 use Symfony\Component\HttpFoundation\Request;
 
-class AutoConfigurator
+class Configurator implements ConfiguratorInterface
 {
     /**
-     * @param ParamConverter[] $configurations
+     * {@inheritdoc}
      */
     public function configure(ReflectionFunctionAbstract $reflection, Request $request, array &$configurations): void
     {

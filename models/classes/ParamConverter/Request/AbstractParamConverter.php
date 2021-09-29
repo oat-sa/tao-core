@@ -23,8 +23,9 @@ declare(strict_types=1);
 namespace oat\tao\model\ParamConverter\Request;
 
 use Throwable;
+use ReflectionType;
 use ReflectionClass;
-use ReflectionMethod;
+use ReflectionParameter;
 use Symfony\Component\HttpFoundation\Request;
 use oat\tao\model\ParamConverter\Configuration\ParamConverter;
 
@@ -60,25 +61,30 @@ abstract class AbstractParamConverter implements ParamConverterInterface
 
     private function createObject(array $data, string $class): object
     {
-        $constructor = new ReflectionMethod($class, '__construct');
         $constructorArgs = [];
+        $reflectionClass = new ReflectionClass($class);
+        $constructor = $reflectionClass->getConstructor();
 
-        foreach ($constructor->getParameters() as $constructorParameter) {
-            $constructorParameterName = $constructorParameter->getName();
+        if ($constructor) {
+            foreach ($constructor->getParameters() as $constructorParameter) {
+                $constructorParameterName = $constructorParameter->getName();
 
-            if (array_key_exists($constructorParameterName, $data)) {
-                $constructorArgs[$constructorParameterName] = $data[$constructorParameterName];
-                unset($data[$constructorParameterName]);
+                if (array_key_exists($constructorParameterName, $data)) {
+                    $constructorArgs[$constructorParameterName] = $data[$constructorParameterName];
+                    unset($data[$constructorParameterName]);
+                }
             }
         }
 
-        $instance = (new ReflectionClass($class))->newInstanceArgs($constructorArgs);
+        $instance = $reflectionClass->newInstanceArgs($constructorArgs);
 
         foreach ($data as $queryParameter => $value) {
-            if (method_exists($instance, 'set' . $queryParameter)) {
-                $instance->{'set' . $queryParameter}($value);
-            } elseif (property_exists($instance, $queryParameter)) {
-                $instance->$queryParameter = $value;
+            if ($reflectionClass->hasMethod('set' . $queryParameter)) {
+                $reflectionClass
+                    ->getMethod('set' . $queryParameter)
+                    ->invoke($instance, $value);
+            } elseif ($reflectionClass->hasProperty($queryParameter)) {
+                $reflectionClass->getProperty($queryParameter)->setValue($instance, $value);
             }
         }
 

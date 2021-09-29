@@ -27,7 +27,7 @@ use Symfony\Component\HttpFoundation\Request;
 use oat\tao\model\ParamConverter\Configuration\ParamConverter;
 use oat\tao\model\ParamConverter\Request\ParamConverterInterface;
 
-class ParamConverterManager
+class ParamConverterManager implements ParamConverterManagerInterface
 {
     /** @var array */
     private $converters = [];
@@ -46,7 +46,7 @@ class ParamConverterManager
     }
 
     /**
-     * @param ParamConverter[] $configurations
+     * {@inheritdoc}
      */
     public function apply(Request $request, array $configurations): void
     {
@@ -56,12 +56,7 @@ class ParamConverterManager
     }
 
     /**
-     * Adds a parameter converter.
-     *
-     * Converters match either explicitly via $name or by iteration over all
-     * converters with a $priority. If you pass a $priority = null then the
-     * added converter will not be part of the iteration chain and can only
-     * be invoked explicitly.
+     * {@inheritdoc}
      */
     public function add(ParamConverterInterface $converter, ?int $priority = 0, string $name = null): void
     {
@@ -79,9 +74,7 @@ class ParamConverterManager
     }
 
     /**
-     * Returns all registered param converters.
-     *
-     * @return ParamConverterInterface[]
+     * {@inheritdoc}
      */
     public function all(): array
     {
