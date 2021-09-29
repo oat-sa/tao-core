@@ -27,11 +27,12 @@ use oat\tao\model\ParamConverter\Request\QueryParamConverter;
 use oat\tao\model\ParamConverter\Manager\ParamConverterManager;
 use oat\tao\model\ParamConverter\EventListener\ParamConverterListener;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ParametersConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class ParamConverterServiceProvider implements ContainerServiceProviderInterface
 {
