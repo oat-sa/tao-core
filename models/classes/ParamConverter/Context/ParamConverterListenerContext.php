@@ -24,7 +24,7 @@ namespace oat\tao\model\ParamConverter\Context;
 
 use InvalidArgumentException;
 use oat\tao\model\Context\AbstractContext;
-use Symfony\Component\HttpFoundation\Request;
+use oat\tao\model\HttpFoundation\Request\RequestInterface;
 
 class ParamConverterListenerContext extends AbstractContext
 {
@@ -59,7 +59,7 @@ class ParamConverterListenerContext extends AbstractContext
 
     protected function validateParameter(string $parameter, $parameterValue): void
     {
-        if ($parameter === self::PARAM_REQUEST && $parameterValue instanceof Request) {
+        if ($parameter === self::PARAM_REQUEST && $parameterValue instanceof RequestInterface) {
             return;
         }
 

@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\ParamConverter\Configuration;
 
 use ReflectionFunctionAbstract;
-use Symfony\Component\HttpFoundation\Request;
+use oat\tao\model\HttpFoundation\Request\RequestInterface;
 
 interface ConfiguratorInterface
 {
@@ -32,5 +32,9 @@ interface ConfiguratorInterface
      *
      * @param ParamConverter[] $configurations
      */
-    public function configure(ReflectionFunctionAbstract $reflection, Request $request, array &$configurations): void;
+    public function configure(
+        ReflectionFunctionAbstract $reflection,
+        RequestInterface $request,
+        array &$configurations
+    ): void;
 }

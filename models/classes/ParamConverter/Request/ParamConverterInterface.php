@@ -22,11 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\ParamConverter\Request;
 
-use Symfony\Component\HttpFoundation\Request;
+use oat\tao\model\HttpFoundation\Request\RequestInterface;
 use oat\tao\model\ParamConverter\Configuration\ParamConverter;
 
 interface ParamConverterInterface
 {
+    public const ATTRIBUTE_CONVERTED = 'converted';
+
     public function getPriority(): int;
 
     public function getName(): string;
@@ -34,7 +36,7 @@ interface ParamConverterInterface
     /**
      * Stores the object in the request.
      */
-    public function apply(Request $request, ParamConverter $configuration): bool;
+    public function apply(RequestInterface $request, ParamConverter $configuration): bool;
 
     /**
      * Checks if the object is supported.

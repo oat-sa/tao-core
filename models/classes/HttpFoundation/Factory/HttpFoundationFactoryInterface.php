@@ -20,19 +20,12 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\ParamConverter\Request;
+namespace oat\tao\model\HttpFoundation\Factory;
 
+use Psr\Http\Message\ServerRequestInterface;
 use oat\tao\model\HttpFoundation\Request\RequestInterface;
 
-class QueryParamConverter extends AbstractParamConverter
+interface HttpFoundationFactoryInterface
 {
-    public function getName(): string
-    {
-        return 'oat.tao.param_converter.query';
-    }
-
-    protected function getData(RequestInterface $request, array $options): array
-    {
-        return $request->getQueryParameters();
-    }
+    public function createRequest(ServerRequestInterface $psrRequest, bool $streamed = false): RequestInterface;
 }

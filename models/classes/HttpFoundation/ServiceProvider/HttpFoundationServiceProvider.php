@@ -20,19 +20,20 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\ParamConverter\Request;
+namespace oat\tao\model\HttpFoundation\ServiceProvider;
 
-use oat\tao\model\HttpFoundation\Request\RequestInterface;
+use oat\tao\model\HttpFoundation\Factory\HttpFoundationFactory;
+use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-class QueryParamConverter extends AbstractParamConverter
+class HttpFoundationServiceProvider implements ContainerServiceProviderInterface
 {
-    public function getName(): string
+    public function __invoke(ContainerConfigurator $configurator): void
     {
-        return 'oat.tao.param_converter.query';
-    }
+        $services = $configurator->services();
 
-    protected function getData(RequestInterface $request, array $options): array
-    {
-        return $request->getQueryParameters();
+        $services
+            ->set(HttpFoundationFactory::class, HttpFoundationFactory::class)
+            ->public();
     }
 }

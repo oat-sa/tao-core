@@ -24,7 +24,7 @@ namespace oat\tao\model\ParamConverter\EventListener;
 
 use ReflectionMethod;
 use oat\tao\model\ParamConverter\Event\Event;
-use Symfony\Component\HttpFoundation\Request;
+use oat\tao\model\HttpFoundation\Request\RequestInterface;
 use oat\tao\model\ParamConverter\Event\ParamConverterEvent;
 use oat\tao\model\ParamConverter\Configuration\ParamConverter;
 use oat\tao\model\ParamConverter\Configuration\ConfiguratorInterface;
@@ -61,7 +61,7 @@ class ParamConverterListener implements ListenerInterface
         }
 
         $context = $event->getContext();
-        /** @var Request $request */
+        /** @var RequestInterface $request */
         $request = $context->getParameter(ParamConverterListenerContext::PARAM_REQUEST);
 
         $configurations = $this->extractConfigurations($request);
@@ -84,10 +84,10 @@ class ParamConverterListener implements ListenerInterface
     /**
      * @return ParamConverter[]
      */
-    private function extractConfigurations(Request $request): array
+    private function extractConfigurations(RequestInterface $request): array
     {
         $configurations = [];
-        $requestConfigurations = $request->attributes->get(self::REQUEST_ATTRIBUTE_CONVERTERS, []);
+        $requestConfigurations = $request->getAttribute(self::REQUEST_ATTRIBUTE_CONVERTERS, []);
 
         if (!is_array($requestConfigurations)) {
             $requestConfigurations = [$requestConfigurations];

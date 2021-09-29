@@ -24,7 +24,7 @@ namespace oat\tao\model\ParamConverter\Request;
 
 use Throwable;
 use ReflectionClass;
-use Symfony\Component\HttpFoundation\Request;
+use oat\tao\model\HttpFoundation\Request\RequestInterface;
 use oat\tao\model\ParamConverter\Configuration\ParamConverter;
 
 abstract class AbstractParamConverter implements ParamConverterInterface
@@ -34,7 +34,7 @@ abstract class AbstractParamConverter implements ParamConverterInterface
         return 0;
     }
 
-    public function apply(Request $request, ParamConverter $configuration): bool
+    public function apply(RequestInterface $request, ParamConverter $configuration): bool
     {
         try {
             $object = $this->createObject(
@@ -42,7 +42,10 @@ abstract class AbstractParamConverter implements ParamConverterInterface
                 $configuration->getClass()
             );
 
-            $request->attributes->set($configuration->getName(), $object);
+            $converted = $request->getAttribute(self::ATTRIBUTE_CONVERTED, []);
+            $converted[$configuration->getName()] = $object;
+
+            $request->setAttribute(self::ATTRIBUTE_CONVERTED, $converted);
         } catch (Throwable $exception) {
             return false;
         }
@@ -55,7 +58,7 @@ abstract class AbstractParamConverter implements ParamConverterInterface
         return $configuration->getClass() !== null && $configuration->getConverter() === $this->getName();
     }
 
-    abstract protected function getData(Request $request, array $options): array;
+    abstract protected function getData(RequestInterface $request, array $options): array;
 
     private function createObject(array $data, string $class): object
     {

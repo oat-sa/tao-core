@@ -24,20 +24,26 @@ namespace oat\tao\model\ParamConverter\Configuration;
 
 use ReflectionType;
 use ReflectionFunctionAbstract;
-use Symfony\Component\HttpFoundation\Request;
+use oat\tao\model\HttpFoundation\Request\RequestInterface;
 
 class Configurator implements ConfiguratorInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function configure(ReflectionFunctionAbstract $reflection, Request $request, array &$configurations): void
-    {
+    public function configure(
+        ReflectionFunctionAbstract $reflection,
+        RequestInterface $request,
+        array &$configurations
+    ): void {
         foreach ($reflection->getParameters() as $parameter) {
             $type = $parameter->getType();
             $class = $this->getParamClassByType($type);
 
-            if ($class !== null && $request instanceof $class) {
+            if (
+                $class !== null
+                && ($request instanceof $class || $request->request() instanceof $class)
+            ) {
                 continue;
             }
 

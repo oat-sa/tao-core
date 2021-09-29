@@ -20,19 +20,27 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\ParamConverter\Request;
+namespace oat\tao\model\HttpFoundation\Factory;
 
+use Psr\Http\Message\ServerRequestInterface;
+use oat\tao\model\HttpFoundation\Request\Request;
 use oat\tao\model\HttpFoundation\Request\RequestInterface;
+use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory as SymfonyHttpFoundationFactory;
 
-class QueryParamConverter extends AbstractParamConverter
+class HttpFoundationFactory implements HttpFoundationFactoryInterface
 {
-    public function getName(): string
+    /** @var SymfonyHttpFoundationFactory */
+    private $httpFoundationFactory;
+
+    public function __construct()
     {
-        return 'oat.tao.param_converter.query';
+        $this->httpFoundationFactory = new SymfonyHttpFoundationFactory();
     }
 
-    protected function getData(RequestInterface $request, array $options): array
+    public function createRequest(ServerRequestInterface $psrRequest, bool $streamed = false): RequestInterface
     {
-        return $request->getQueryParameters();
+        $request = $this->httpFoundationFactory->createRequest($psrRequest, $streamed);
+
+        return new Request($request);
     }
 }

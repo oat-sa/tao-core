@@ -69,6 +69,7 @@ use oat\tao\scripts\install\SetUpQueueTasks;
 use oat\tao\scripts\tools\AddRtlLocale;
 use oat\tao\scripts\update\Updater;
 use oat\tao\model\ParamConverter\ServiceProvider\ParamConverterServiceProvider;
+use oat\tao\model\HttpFoundation\ServiceProvider\HttpFoundationServiceProvider;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -268,6 +269,7 @@ return [
         'structures' => $extpath . 'actions' . DIRECTORY_SEPARATOR . 'structures.xml',
     ],
     'containerServiceProviders' => [
+        HttpFoundationServiceProvider::class,
         ParamConverterServiceProvider::class,
     ],
 ];

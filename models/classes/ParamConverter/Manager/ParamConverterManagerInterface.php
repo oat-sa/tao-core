@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\ParamConverter\Manager;
 
-use Symfony\Component\HttpFoundation\Request;
+use oat\tao\model\HttpFoundation\Request\RequestInterface;
 use oat\tao\model\ParamConverter\Configuration\ParamConverter;
 use oat\tao\model\ParamConverter\Request\ParamConverterInterface;
 
@@ -34,7 +34,7 @@ interface ParamConverterManagerInterface
      *
      * @param ParamConverter[] $configurations
      */
-    public function apply(Request $request, array $configurations): void;
+    public function apply(RequestInterface $request, array $configurations): void;
 
     /**
      * Adds a parameter converter.

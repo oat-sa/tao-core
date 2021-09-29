@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\ParamConverter\Manager;
 
 use RuntimeException;
-use Symfony\Component\HttpFoundation\Request;
+use oat\tao\model\HttpFoundation\Request\RequestInterface;
 use oat\tao\model\ParamConverter\Configuration\ParamConverter;
 use oat\tao\model\ParamConverter\Request\ParamConverterInterface;
 
@@ -48,7 +48,7 @@ class ParamConverterManager implements ParamConverterManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function apply(Request $request, array $configurations): void
+    public function apply(RequestInterface $request, array $configurations): void
     {
         foreach ($configurations as $configuration) {
             $this->applyConfiguration($request, $configuration);
@@ -88,9 +88,9 @@ class ParamConverterManager implements ParamConverterManagerInterface
         return $converters;
     }
 
-    private function applyConfiguration(Request $request, ParamConverter $configuration): void
+    private function applyConfiguration(RequestInterface $request, ParamConverter $configuration): void
     {
-        $value = $request->attributes->get($configuration->getName());
+        $value = $request->getAttribute($configuration->getName());
         $className = $configuration->getClass();
 
         // If the value is already an instance of the class we are trying to convert it into

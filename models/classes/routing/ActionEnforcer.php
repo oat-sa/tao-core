@@ -16,44 +16,47 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
- *
- *
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\routing;
 
 use Context;
+use IExecutable;
+use ReflectionMethod;
+use ReflectionException;
+use ActionEnforcingException;
 use GuzzleHttp\Psr7\Response;
+use common_session_SessionManager;
 use GuzzleHttp\Psr7\ServerRequest;
+use oat\oatbox\event\EventManager;
+use oat\tao\model\http\Controller;
+use oat\oatbox\log\LoggerAwareTrait;
+use oat\tao\model\event\BeforeAction;
+use oat\tao\model\http\ResponseEmitter;
+use Psr\Http\Message\ResponseInterface;
+use oat\tao\model\accessControl\AclProxy;
+use oat\oatbox\log\TaoLoggerAwareInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use tao_models_classes_AccessDeniedException;
+use oat\tao\model\action\CommonModuleInterface;
+use oat\oatbox\service\ServiceManagerAwareTrait;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use oat\tao\model\Middleware\MiddlewareRequestHandler;
-use ReflectionException;
-use IExecutable;
-use ActionEnforcingException;
-use oat\tao\model\http\ResponseEmitter;
 use oat\oatbox\service\ServiceManagerAwareInterface;
-use oat\oatbox\service\ServiceManagerAwareTrait;
-use oat\tao\model\http\Controller;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use ReflectionMethod;
-use common_session_SessionManager;
-use tao_models_classes_AccessDeniedException;
-use oat\tao\model\accessControl\AclProxy;
+use oat\tao\model\Middleware\MiddlewareRequestHandler;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\accessControl\data\PermissionException;
+use oat\tao\model\HttpFoundation\Request\RequestInterface;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
-use oat\oatbox\event\EventManager;
-use oat\tao\model\event\BeforeAction;
-use oat\oatbox\log\LoggerAwareTrait;
-use oat\oatbox\log\TaoLoggerAwareInterface;
-use oat\tao\model\action\CommonModuleInterface;
 use oat\tao\model\ParamConverter\Event\ParamConverterEvent;
 use oat\tao\model\ParamConverter\Configuration\ParamConverter;
-use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
+use oat\tao\model\HttpFoundation\Factory\HttpFoundationFactory;
+use oat\tao\model\ParamConverter\Request\ParamConverterInterface;
 use oat\tao\model\ParamConverter\EventListener\ParamConverterListener;
 use oat\tao\model\ParamConverter\Context\ParamConverterListenerContext;
+use oat\tao\model\HttpFoundation\Factory\HttpFoundationFactoryInterface;
 
 /**
  * @TODO ActionEnforcer class documentation.
@@ -255,49 +258,18 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     }
 
     /**
+     * @param mixed $controller
+     *
      * @throws ReflectionException
      */
     private function resolveParameters(ServerRequestInterface $request, $controller, string $action): array
     {
-        // search parameters method
+        // Search parameters method
         $reflect = new ReflectionMethod($controller, $action);
         $parameters = $this->getParameters();
         $actionParameters = [];
 
-        // TODO make cleaner
-        AnnotationRegistry::registerLoader('class_exists');
-        $annotationReader = new AnnotationReader();
-        $annotations = $annotationReader->getMethodAnnotations($reflect);
-        $paramConverterConfigurations = [];
-
-        foreach ($annotations as $annotation) {
-            if ($annotation instanceof ParamConverter) {
-                $paramConverterConfigurations[] = $annotation;
-            }
-        }
-
-        if (!empty($paramConverterConfigurations)) {
-            $symfonyRequest = (new HttpFoundationFactory())->createRequest($request);
-            $symfonyRequest->attributes->set(
-                ParamConverterListener::REQUEST_ATTRIBUTE_CONVERTERS,
-                $paramConverterConfigurations
-            );
-
-            $this->getEventManager()->trigger(
-                new ParamConverterEvent(
-                    new ParamConverterListenerContext([
-                        ParamConverterListenerContext::PARAM_REQUEST => $symfonyRequest,
-                        ParamConverterListenerContext::PARAM_CONTROLLER => $controller,
-                        ParamConverterListenerContext::PARAM_METHOD => $action,
-                    ])
-                )
-            );
-
-            $convertedParameters = $symfonyRequest->attributes->all();
-            unset($convertedParameters[ParamConverterListener::REQUEST_ATTRIBUTE_CONVERTERS]);
-
-            $parameters = array_merge($parameters, $convertedParameters);
-        }
+        $this->applyParamConverters($parameters, $request, $reflect);
 
         foreach ($reflect->getParameters() as $param) {
             $paramName = $param->getName();
@@ -306,16 +278,75 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
             if (isset($parameters[$paramName])) {
                 $actionParameters[$paramName] = $parameters[$paramName];
-            } elseif($paramTypeName === ServerRequest::class) {
+            } elseif ($paramTypeName === ServerRequest::class) {
                 $actionParameters[$paramName] = $request;
-            } elseif (class_exists($paramTypeName) || interface_exists($paramTypeName)) {
+            } elseif ($paramTypeName !== null && (class_exists($paramTypeName) || interface_exists($paramTypeName))) {
                 $actionParameters[$paramName] = $this->getClassInstance($paramTypeName);
             } elseif (!$param->isDefaultValueAvailable()) {
-                $this->logWarning('Missing parameter ' . $paramName . ' for ' . $this->getControllerClass() . '@' . $action);
+                $this->logWarning(
+                    sprintf(
+                        'Missing parameter %s for %s@%s',
+                        $paramName,
+                        $this->getControllerClass(),
+                        $action
+                    )
+                );
             }
         }
 
         return $actionParameters;
+    }
+
+    private function applyParamConverters(
+        array &$parameters,
+        ServerRequestInterface $request,
+        ReflectionMethod $reflectionMethod
+    ): void {
+        $configurations = $this->getParamConverters($reflectionMethod);
+
+        if (empty($configurations)) {
+            return;
+        }
+
+        $request = $this->getHttpFoundationFactory()->createRequest($request);
+        $request->setAttribute(ParamConverterListener::REQUEST_ATTRIBUTE_CONVERTERS, $configurations);
+
+        $this->getEventManager()->trigger(
+            new ParamConverterEvent(
+                $this->createParamConverterListenerContext($request, $reflectionMethod)
+            )
+        );
+
+        $parameters = array_merge(
+            $parameters,
+            $request->getAttribute(ParamConverterInterface::ATTRIBUTE_CONVERTED, [])
+        );
+    }
+
+    private function getParamConverters(ReflectionMethod $reflectionMethod): array
+    {
+        AnnotationRegistry::registerLoader('class_exists');
+        $annotations = (new AnnotationReader())->getMethodAnnotations($reflectionMethod);
+
+        return array_filter($annotations, static function ($annotation) {
+            return $annotation instanceof ParamConverter;
+        });
+    }
+
+    private function createParamConverterListenerContext(
+        RequestInterface $request,
+        ReflectionMethod $reflectionMethod
+    ): ParamConverterListenerContext {
+        return new ParamConverterListenerContext([
+            ParamConverterListenerContext::PARAM_REQUEST => $request,
+            ParamConverterListenerContext::PARAM_CONTROLLER => $reflectionMethod->class,
+            ParamConverterListenerContext::PARAM_METHOD => $reflectionMethod->getName(),
+        ]);
+    }
+
+    private function getHttpFoundationFactory(): HttpFoundationFactoryInterface
+    {
+        return $this->getServiceLocator()->getContainer()->get(HttpFoundationFactory::class);
     }
 
     private function getEventManager(): EventManager
