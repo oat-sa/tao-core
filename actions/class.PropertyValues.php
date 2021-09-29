@@ -86,7 +86,9 @@ class tao_actions_PropertyValues extends tao_actions_CommonModule
         $this->setSuccessJsonResponse(
             array_map(
                 static function (core_kernel_classes_Resource $property) {
-                    return $property->getLabel();
+                    return [
+                        'label' => $property->getLabel(),
+                    ];
                 },
                 $dependentProperties
             )
