@@ -26,49 +26,88 @@ use core_kernel_classes_Property;
 use InvalidArgumentException;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\cache\SimpleCache;
+use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
 use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
 use Psr\SimpleCache\CacheInterface;
 
 class ParentPropertyListCachedRepository extends ConfigurableService implements ParentPropertyListRepositoryInterface
 {
-    private const CACHE_MASK = 'depends-on-property-%s-%s';
+    private const CACHE_MASK = 'depends_on_property-%s-%s';
+    private const LIST_CACHE_MASK = 'depends_on_property-%s';
 
     public function deleteCache(array $options): void
     {
-        //@TODO Rework cache considering only listUri...
         if (empty($options['listUri'])) {
             throw new InvalidArgumentException('listUri is required to clear the cache');
         }
 
-        if (empty($options['propertyUri'])) {
-            foreach ($this->getParentPropertyListRepository()->findAllUris($options) as $propertyUri) {
-                $this->getCache()->delete(sprintf(self::CACHE_MASK, $propertyUri, $options['listUri']));
-            }
+        $this->removeUsingListUri($options['listUri']);
 
-            return;
+        $childListUris = $this->getDependencyRepository()->findChildListUris(
+            [
+                'parentListUri' => $options['listUri']
+            ]
+        );
+
+        foreach ($childListUris as $uri) {
+            $this->removeUsingListUri($uri);
         }
-
-        $this->getCache()->delete(sprintf(self::CACHE_MASK, $options['propertyUri'], $options['listUri']));
     }
 
     public function findAllUris(array $options): array
     {
-        //@TODO Rework cache considering only listUri...
         /** @var core_kernel_classes_Property $property */
-//        $property = $options['property'];
-//        $listUri = $options['listUri'] ?? $property->getRange()->getUri();
-//
-//        $cacheKey = sprintf(self::CACHE_MASK, $property->getUri(), $listUri);
-//
-//        if ($this->getCache()->has($cacheKey)) {
-//            return $this->getCache()->get($cacheKey);
-//        }
+        $property = $options['property'] ?? null;
+
+        $cache = $this->getCache();
+
+        # @TODO Remove requirement from property parameter
+        if (!$property) {
+            return $this->getParentPropertyListRepository()->findAllUris($options);
+        }
+        
+        $listUri = $options['listUri'] ?? $property->getRange()->getUri();
+        $cacheKey = sprintf(self::CACHE_MASK, $property->getUri(), $listUri);
+        $listCacheKey = sprintf(self::LIST_CACHE_MASK, $listUri);
+
+        $currentValues = [];
+        $listCacheValues = [$cacheKey];
+
+        if ($cache->has($listCacheKey)) {
+            $currentValues = $cache->get($listCacheKey);
+            $listCacheValues = array_unique(array_merge($currentValues, $listCacheValues));
+        }
+
+        if ($currentValues !== $listCacheValues) {
+            $cache->set($listCacheKey, $listCacheValues);
+        }
+
+        if ($cache->has($cacheKey)) {
+            return $cache->get($cacheKey);
+        }
 
         $uris = $this->getParentPropertyListRepository()->findAllUris($options);
 
-        //$this->getCache()->set($cacheKey, $uris);
+        $cache->set($cacheKey, $uris);
 
         return $uris;
+    }
+
+    private function removeUsingListUri(string $uri): void
+    {
+        $listCacheKey = sprintf(self::LIST_CACHE_MASK, $uri);
+        $cache = $this->getCache();
+
+        if ($cache->has($listCacheKey)) {
+            $listCacheValues = $cache->get($listCacheKey);
+
+            foreach ($listCacheValues as $value) {
+                [$key, $propertyUri, $listUri]  = explode('-', $value);
+                $cache->delete(sprintf(self::CACHE_MASK, $propertyUri, $listUri));
+            }
+
+            $cache->delete($listCacheKey);
+        }
     }
 
     private function getCache(): CacheInterface
@@ -79,5 +118,10 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
     private function getParentPropertyListRepository(): ParentPropertyListRepositoryInterface
     {
         return $this->getServiceLocator()->get(ParentPropertyListRepository::class);
+    }
+
+    private function getDependencyRepository(): DependencyRepositoryInterface
+    {
+        return $this->getServiceLocator()->get(DependencyRepository::class);
     }
 }
