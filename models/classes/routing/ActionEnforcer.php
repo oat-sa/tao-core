@@ -43,7 +43,6 @@ use tao_models_classes_AccessDeniedException;
 use oat\tao\model\action\CommonModuleInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\tao\model\Middleware\MiddlewareRequestHandler;
 use oat\tao\model\accessControl\data\DataAccessControl;
@@ -325,7 +324,15 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
     private function getParamConverters(ReflectionMethod $reflectionMethod): array
     {
-        AnnotationRegistry::registerLoader('class_exists');
+        /**
+         * Ignore 'requiresRight' annotation as we don't have such annotation class in TAO.
+         *
+         * TODO Create annotation class and use it in all places instead of non-existing `requiresRight`
+         */
+        AnnotationReader::addGlobalIgnoredName('requiresRight');
+
+        // Autoload 'ParamConverter' annotation.
+        class_exists(ParamConverter::class);
         $annotations = (new AnnotationReader())->getMethodAnnotations($reflectionMethod);
 
         return array_filter($annotations, static function ($annotation) {

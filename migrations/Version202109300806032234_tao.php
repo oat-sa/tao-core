@@ -15,34 +15,38 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace oat\tao\scripts\install;
+namespace oat\tao\migrations;
 
-use oat\oatbox\reporting\Report;
+use Doctrine\DBAL\Schema\Schema;
 use oat\oatbox\event\EventManager;
-use oat\oatbox\extension\InstallAction;
-use common_ext_event_ExtensionInstalled;
-use oat\tao\model\migrations\MigrationsService;
+use oat\tao\scripts\tools\migrations\AbstractMigration;
 use oat\tao\model\ParamConverter\Event\ParamConverterEvent;
 use oat\tao\model\ParamConverter\EventListener\ParamConverterListener;
 
-class RegisterEvents extends InstallAction
+final class Version202109300806032234_tao extends AbstractMigration
 {
-    public function __invoke($params)
+    public function getDescription(): string
+    {
+        return 'Attach ParamConverterEvent to EventManager.';
+    }
+
+    public function up(Schema $schema): void
     {
         $eventManager = $this->getEventManager();
-        $eventManager->attach(
-            common_ext_event_ExtensionInstalled::class,
-            [MigrationsService::SERVICE_ID, 'extensionInstalled']
-        );
         $eventManager->attach(ParamConverterEvent::class, [ParamConverterListener::class, 'handleEvent']);
         $this->getServiceLocator()->register(EventManager::SERVICE_ID, $eventManager);
+    }
 
-        return Report::createSuccess('Events registered');
+    public function down(Schema $schema): void
+    {
+        $eventManager = $this->getEventManager();
+        $eventManager->detach(ParamConverterEvent::class, [ParamConverterListener::class, 'handleEvent']);
+        $this->getServiceLocator()->register(EventManager::SERVICE_ID, $eventManager);
     }
 
     private function getEventManager(): EventManager
