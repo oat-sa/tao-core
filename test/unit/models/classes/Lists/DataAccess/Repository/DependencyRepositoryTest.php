@@ -180,13 +180,16 @@ class DependencyRepositoryTest extends TestCase
             ->method('from')
             ->willReturnSelf();
         $this->queryBuilder
+            ->method('where')
+            ->willReturnSelf();
+        $this->queryBuilder
             ->method('innerJoin')
             ->willReturnSelf();
         $this->queryBuilder
             ->method('andWhere')
             ->willReturnSelf();
         $this->queryBuilder
-            ->method('where')
+            ->method('setParameter')
             ->willReturnSelf();
         $this->queryBuilder
             ->method('groupBy')
