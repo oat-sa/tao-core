@@ -36,6 +36,7 @@
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
     'ui/datetime/picker',
+     'ui/feedback',
 ], function (
     module,
     $,
@@ -50,6 +51,7 @@
     ckeditor,
     ckConfigurator,
     dateTimePicker,
+    feedback,
 ) {
     'use strict';
 
@@ -845,6 +847,7 @@
                 }
             }
             catch (exp) {
+                feedback().error(`_invalid value for property XYZ_`);
                 return false;
             }
             return false;
