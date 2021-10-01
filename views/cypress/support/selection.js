@@ -16,26 +16,24 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
-// ***********************************************************
-// This example support/index.js is processed and
-// loaded automatically before your test files.
-//
-// This is a great place to put global configuration and
-// behavior that modifies Cypress.
-//
-// You can change the location of this file or turn off
-// automatically serving support files with the
-// 'supportFile' configuration option.
-//
-// You can read more here:
-// https://on.cypress.io/configuration
-// ***********************************************************
-
-// Local project commands
-import './commands';
-import './resourceTree';
-import './file-upload';
-import './userManagement';
-import './drag-and-drop';
-import './selection';
-
+/**
+ * Select text within text element
+ * @param {String} selector for text element
+ */
+Cypress.Commands.add('selectTextWithin', (selector) => {
+    cy.document().then(doc => {
+        cy.window().then(win => {
+            cy.get(selector).then(textElement => {
+                if (win.getSelection) {
+                    const selection = win.getSelection();
+                    const range = doc.createRange();
+                    range.selectNodeContents(textElement.get(0));
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                } else {
+                    throw new Error("Can't select text.");
+                }
+            });
+        });
+    });
+});
