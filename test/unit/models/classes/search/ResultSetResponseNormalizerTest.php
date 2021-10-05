@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -166,7 +166,7 @@ class ResultSetResponseNormalizerTest extends TestCase
             ->method('filterByPermission')
             ->willReturn(
                 [
-                    'uri2',
+                    'uri1',
                 ]
             );
 
@@ -209,6 +209,6 @@ class ResultSetResponseNormalizerTest extends TestCase
             ],
             $result['data']
         );
-        $this->assertTrue($result['readonly']['uri1']);
+        $this->assertTrue($result['readonly']['']);
     }
 }

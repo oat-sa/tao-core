@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace oat\tao\model\search;
 
 use core_kernel_classes_Class;
-use core_kernel_classes_Resource;
 use oat\generis\model\data\permission\PermissionHelper;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\OntologyAwareTrait;
@@ -47,6 +46,8 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $resultAmount = count($resultsRaw);
 
         $response = [];
+
+        $readOnlyResources = [];
 
         $permissionHelper = $this->getPermissionHelper();
 
@@ -76,7 +77,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
                     $content['label'] = __('Access Denied');
                 }
 
-                $resource = $this->getResource($content['id']);
+                $resource = $this->getResource($content['id'] ?? '');
 
                 $readonly = false;
 
@@ -85,7 +86,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
                 foreach ($resource->getTypes() as $type) {
                     $accessibleResources = $permissionHelper
                     ->filterByPermission(
-                        array($type->getUri()),
+                        [$type->getUri()],
                         PermissionInterface::RIGHT_READ
                     );
 
@@ -102,13 +103,17 @@ class ResultSetResponseNormalizer extends ConfigurableService
                     }
                 }
 
-                $response['data'][] = $this->getResultSetFilter()->filter($content, $structure);
+                if ($readonly === true) {
+                    $content['id'] = '';
+                }
 
-                $readonlyArray[$content['id']] = $readonly;
+                $readOnlyResources[$content['id']] = $readonly;
+
+                $response['data'][] = $this->getResultSetFilter()->filter($content, $structure);
             }
         }
 
-        $response['readonly'] = $readonlyArray;
+        $response['readonly'] = $readOnlyResources;
 
         $response['success'] = true;
         $response['page'] = empty($response['data']) ? 0 : $searchQuery->getPage();
@@ -128,7 +133,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
         foreach ($parentClasses as $parentClass) {
             $accessibleResource = $permissionHelper
             ->filterByPermission(
-                array($parentClass->getUri()),
+                [$parentClass->getUri()],
                 PermissionInterface::RIGHT_READ
             );
 
@@ -136,7 +141,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
                 return true;
             }
 
-            if ($parentClass->getUri() == $topLevelClass->getUri()) {
+            if ($parentClass->getUri() === $topLevelClass->getUri()) {
                 return false;
             }
         }
