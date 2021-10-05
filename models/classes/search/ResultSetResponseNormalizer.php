@@ -22,10 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search;
 
+use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
 use oat\generis\model\data\permission\PermissionHelper;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\TaoOntology;
 
 class ResultSetResponseNormalizer extends ConfigurableService
 {
@@ -44,9 +47,12 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $resultAmount = count($resultsRaw);
 
         $response = [];
+
+        $permissionHelper = $this->getPermissionHelper();
+
         if ($resultAmount > 0) {
             $accessibleResultsMap = array_flip(
-                $this->getPermissionHelper()
+                $permissionHelper
                     ->filterByPermission(
                         array_column($resultsRaw, 'id'),
                         PermissionInterface::RIGHT_READ
@@ -54,7 +60,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
             );
 
             foreach ($resultsRaw as $content) {
-                if (!is_array($content)){
+                if (!is_array($content)) {
                     $this->logError(
                         sprintf(
                             'Search content issue detected: expected array, but %s given',
@@ -70,18 +76,39 @@ class ResultSetResponseNormalizer extends ConfigurableService
                     $content['label'] = __('Access Denied');
                 }
 
+                $resource = new core_kernel_classes_Resource($content['id']);
+
+                $readonly = false;
+
+                $topLevelClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OBJECT);
+
+                foreach ($resource->getTypes() as $type) {
+                    $accessibleResources = $permissionHelper
+                    ->filterByPermission(
+                        array($type->getUri()),
+                        PermissionInterface::RIGHT_READ
+                    );
+
+                    if (empty($accessibleResources) || !$isAccessible) {
+                        $readonly = true;
+                        break;
+                    }
+
+                    $class = $this->getClass($type->getUri());
+                    $readonly = $this->checkParentClassPermission($class, $permissionHelper, $topLevelClass);
+
+                    if ($readonly === true) {
+                        break;
+                    }
+                }
+
                 $response['data'][] = $this->getResultSetFilter()->filter($content, $structure);
+
+                $readonlyArray[$content['id']] = $readonly;
             }
         }
-        $response['readonly'] = array_fill_keys(
-            array_keys(
-                array_diff_key(
-                    $resultsRaw,
-                    $accessibleResultsMap
-                )
-            ),
-            true
-        );
+
+        $response['readonly'] = $readonlyArray;
 
         $response['success'] = true;
         $response['page'] = empty($response['data']) ? 0 : $searchQuery->getPage();
@@ -92,6 +119,28 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $response['records'] = $resultAmount;
 
         return $response;
+    }
+
+    private function checkParentClassPermission(core_kernel_classes_Class $class, PermissionHelper $permissionHelper, core_kernel_classes_Class $topLevelClass): bool
+    {
+        $parentClasses = $class->getParentClasses(true);
+
+        foreach ($parentClasses as $parentClass) {
+            $accessibleResource = $permissionHelper
+            ->filterByPermission(
+                array($parentClass->getUri()),
+                PermissionInterface::RIGHT_READ
+            );
+
+            if (empty($accessibleResource)) {
+                return true;
+            }
+
+            if ($parentClass->getUri() == $topLevelClass->getUri()) {
+                return false;
+            }
+        }
+        return false;
     }
 
     private function getPermissionHelper(): PermissionHelper
