@@ -15,13 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\search;
 
+use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\search\ResultSetFilter;
@@ -52,6 +53,9 @@ class ResultSetResponseNormalizerTest extends TestCase
     /** @var core_kernel_classes_Resource|MockObject */
     private $resourceMock;
 
+    /** @var core_kernel_classes_Class|MockObject */
+    private $class;
+
     /** @var ResultSetFilter|MockObject  */
     private $resultSetFilter;
 
@@ -63,6 +67,7 @@ class ResultSetResponseNormalizerTest extends TestCase
         $this->modelMock = $this->createMock(Ontology::class);
         $this->resourceMock = $this->createMock(core_kernel_classes_Resource::class);
         $this->resultSetFilter = $this->createMock(ResultSetFilter::class);
+        $this->class = $this->createMock(core_kernel_classes_Class::class);
 
         $this->resourceMock
             ->method('getUri')
@@ -76,6 +81,14 @@ class ResultSetResponseNormalizerTest extends TestCase
             ->method('getResource')
             ->willReturn($this->resourceMock);
 
+        $this->modelMock
+            ->method('getClass')
+            ->willReturn($this->class);
+
+        $this->resourceMock
+            ->method('getTypes')
+            ->willReturn([$this->class]);
+
         $this->resultSetMock
             ->method('getArrayCopy')
             ->willReturn(
@@ -86,11 +99,19 @@ class ResultSetResponseNormalizerTest extends TestCase
             );
 
         $this->permissionHelperMock
-            ->expects($this->once())
             ->method('filterByPermission')
             ->willReturn(
                 [
-                    'uri1',
+                    'uri2',
+                ]
+            );
+
+        $this->class
+            ->expects($this->once())
+            ->method('getParentClasses')
+            ->willReturn(
+                [
+                    $this->class
                 ]
             );
 
@@ -142,11 +163,10 @@ class ResultSetResponseNormalizerTest extends TestCase
             ->willReturn(0);
 
         $this->permissionHelperMock
-            ->expects($this->once())
             ->method('filterByPermission')
             ->willReturn(
                 [
-                    'uri1',
+                    'uri2',
                 ]
             );
 
@@ -189,6 +209,6 @@ class ResultSetResponseNormalizerTest extends TestCase
             ],
             $result['data']
         );
-        $this->assertTrue($result['readonly'][0]);
+        $this->assertTrue($result['readonly']['uri1']);
     }
 }

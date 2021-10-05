@@ -76,11 +76,11 @@ class ResultSetResponseNormalizer extends ConfigurableService
                     $content['label'] = __('Access Denied');
                 }
 
-                $resource = new core_kernel_classes_Resource($content['id']);
+                $resource = $this->getResource($content['id']);
 
                 $readonly = false;
 
-                $topLevelClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OBJECT);
+                $topLevelClass = $this->getClass(TaoOntology::CLASS_URI_OBJECT);
 
                 foreach ($resource->getTypes() as $type) {
                     $accessibleResources = $permissionHelper
