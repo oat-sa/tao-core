@@ -507,7 +507,7 @@
                     if (!dependencies.length) {
                         return regularConfirmantion() ? resolve() : reject();
                     } else {
-                        const name = $groupNode[0].innerText;
+                        const name = $groupNode.find('.property-heading-label')[0].innerText;
                         const dependantPropName = dependencies.reduce((prev, next, index) => {
                             const delimiter = index === dependencies.length - 1 ? '' : ', '
                             return prev + `${next.label}${delimiter}`;
