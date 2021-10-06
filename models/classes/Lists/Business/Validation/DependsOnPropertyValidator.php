@@ -26,8 +26,8 @@ class DependsOnPropertyValidator implements ValidatorInterface, PropertyValidato
     /** @var core_kernel_classes_Property */
     private $property;
 
-    /** @var array */
-    private $parentPropertiesValues = [];
+    /** @var DependencyRepositoryContext[] */
+    private $dependencyRepositoryContexts = [];
 
     public function __construct(DependencyRepositoryInterface $dependencyRepository)
     {
@@ -83,17 +83,16 @@ class DependsOnPropertyValidator implements ValidatorInterface, PropertyValidato
 
     /**
      * @param string|array $values
+     *
+     * @return bool
      */
     public function evaluate($values)
     {
         $values = $this->valuesToArray($values);
         $providedValidValues = [];
 
-        foreach ($this->parentPropertiesValues as $parentListItemValues) {
-            $childListItemsUris = $this->dependencyRepository->findChildListItemsUris(
-                $this->createContext($parentListItemValues)
-            );
-
+        foreach ($this->dependencyRepositoryContexts as $context) {
+            $childListItemsUris = $this->dependencyRepository->findChildListItemsUris($context);
             $providedValidValues = array_merge($providedValidValues, array_intersect($values, $childListItemsUris));
         }
 
@@ -114,20 +113,17 @@ class DependsOnPropertyValidator implements ValidatorInterface, PropertyValidato
                 continue;
             }
 
-            $this->parentPropertiesValues[] = [
-                'range' => $parentProperty->getRange()->getUri(),
-                'values' => explode(
-                    ',',
-                    $element->getInputValue() ?? ''
-                )
-            ];
+            $this->dependencyRepositoryContexts[] = $this->createContext(
+                $parentProperty->getRange()->getUri(),
+                explode(',', $element->getInputValue() ?? '')
+            );
         }
     }
 
     private function valuesToArray($values): array
     {
         if (is_string($values)) {
-            $values = [$values];
+            $values = [trim($values)];
         }
 
         if (is_array($values)) {
@@ -138,15 +134,15 @@ class DependsOnPropertyValidator implements ValidatorInterface, PropertyValidato
             }, $values);
         }
 
-        return $values;
+        return array_filter($values);
     }
 
-    private function createContext(array $parentListItemValues): DependencyRepositoryContext
+    private function createContext(string $rangeUri, array $listValues): DependencyRepositoryContext
     {
         return new DependencyRepositoryContext(
             [
-                DependencyRepositoryContext::PARAM_LIST_URIS => [$parentListItemValues['range']],
-                DependencyRepositoryContext::PARAM_DEPENDENCY_LIST_VALUES => $parentListItemValues['values'],
+                DependencyRepositoryContext::PARAM_LIST_URIS => [$rangeUri],
+                DependencyRepositoryContext::PARAM_DEPENDENCY_LIST_VALUES => $listValues,
             ]
         );
     }
