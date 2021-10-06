@@ -30,23 +30,16 @@ use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
 
 class RemoteListClassSpecification extends ConfigurableService implements ClassSpecificationInterface
 {
-    public function isSatisfiedBy(core_kernel_classes_Class $range): bool
+    public function isSatisfiedBy(core_kernel_classes_Class $class): bool
     {
-        if ($range === null || !$range->isSubClassOf($range->getClass(TaoOntology::CLASS_URI_LIST))) {
+        if (!$class->isSubClassOf($class->getClass(TaoOntology::CLASS_URI_LIST))) {
             return false;
         }
 
-        $propertyType = $range->getOnePropertyValue(
-            $range->getProperty(RemoteSourcedListOntology::PROPERTY_LIST_TYPE)
+        $propertyType = $class->getOnePropertyValue(
+            $class->getProperty(RemoteSourcedListOntology::PROPERTY_LIST_TYPE)
         );
 
-        if (
-            $propertyType === null
-            || $propertyType->getUri() !== RemoteSourcedListOntology::LIST_TYPE_REMOTE
-        ) {
-            return false;
-        }
-
-        return true;
+        return $propertyType !== null && $propertyType->getUri() === RemoteSourcedListOntology::LIST_TYPE_REMOTE;
     }
 }

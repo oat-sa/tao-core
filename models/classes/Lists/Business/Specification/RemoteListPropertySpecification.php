@@ -35,7 +35,13 @@ class RemoteListPropertySpecification extends ConfigurableService implements Pro
 
     public function isSatisfiedBy(core_kernel_classes_Property $property): bool
     {
-        return $this->getRemoteListClassSpecification()->isSatisfiedBy($this->getPropertyRange($property));
+        $class = $this->getPropertyRange($property);
+
+        if ($class === null) {
+            return false;
+        }
+
+        return $this->getRemoteListClassSpecification()->isSatisfiedBy($class);
     }
 
     private function getPropertyRange(core_kernel_classes_Property $property): ?core_kernel_classes_Class
