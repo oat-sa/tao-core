@@ -83,7 +83,7 @@ class ParentPropertyListRepository extends ConfigurableService implements Parent
 
     private function getDependencyRepository(): DependencyRepositoryInterface
     {
-        return $this->getServiceLocator()->get(DependencyRepository::class);
+        return $this->getServiceLocator()->getContainer()->get(DependencyRepository::class);
     }
 
     private function getComplexSearchService(): ComplexSearchService

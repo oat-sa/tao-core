@@ -37,6 +37,7 @@ use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterActionAccessControl;
 use oat\tao\scripts\install\RegisterClassMetadataServices;
+use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
@@ -265,5 +266,8 @@ return [
     ],
     'extra' => [
         'structures' => $extpath . 'actions' . DIRECTORY_SEPARATOR . 'structures.xml',
-    ]
+    ],
+    'containerServiceProviders' => [
+        ListsServiceProvider::class,
+    ],
 ];

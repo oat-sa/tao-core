@@ -140,6 +140,9 @@ abstract class tao_helpers_form_FormElement
      */
     protected $help = '';
 
+    /** @var mixed */
+    private $inputValue;
+
     /**
      * Short description of method __construct
      *
@@ -500,10 +503,9 @@ abstract class tao_helpers_form_FormElement
      */
     public function feed()
     {
-        if (
-            isset($_POST[$this->name])
-            && $this->name !== 'uri' && $this->name !== 'classUri'
-        ) {
+        $value = $this->getDecodedValue($this->name);
+
+        if ($value !== null) {
             $this->setValue(tao_helpers_Uri::decode($_POST[$this->name]));
         }
     }
@@ -554,9 +556,36 @@ abstract class tao_helpers_form_FormElement
         $this->breakOnFirstError = $breakOnFirstError;
     }
 
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInputValue()
+    {
+        return $this->inputValue;
+    }
+
+    public function feedInputValue(): void
+    {
+        $this->inputValue = $this->getDecodedValue($this->name);
+    }
+
     /**
      * Will render the Form Element.
      *
      */
     abstract public function render();
+
+    private function getDecodedValue(string $name): ?string
+    {
+        if (isset($_POST[$name]) && $name !== 'uri' && $name !== 'classUri') {
+            return tao_helpers_Uri::decode($_POST[$this->name]);
+        }
+
+        return null;
+    }
 }

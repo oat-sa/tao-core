@@ -829,6 +829,13 @@ abstract class tao_helpers_form_Form
         }
     }
 
+    public function evaluateInputValues(): void
+    {
+        foreach ($this->elements as $id => $element) {
+            $this->elements[$id]->feedInputValue();
+        }
+    }
+
     /**
      * evaluate the form inside the current context. Must be overridden, for
      * rendering mode: for example, it's used to populate and validate the data

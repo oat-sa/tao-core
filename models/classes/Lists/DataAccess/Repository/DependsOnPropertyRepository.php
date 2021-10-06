@@ -171,7 +171,7 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
     private function getDependentPropertySpecification(): PropertySpecificationInterface
     {
         if (!isset($this->dependentPropertySpecification)) {
-            $this->dependentPropertySpecification = $this->getServiceLocator()->get(
+            $this->dependentPropertySpecification = $this->getServiceLocator()->getContainer()->get(
                 DependentPropertySpecification::class
             );
         }

@@ -65,7 +65,7 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
         if (!$property) {
             return $this->getParentPropertyListRepository()->findAllUris($options);
         }
-        
+
         $listUri = $options['listUri'] ?? $property->getRange()->getUri();
         $cacheKey = sprintf(self::CACHE_MASK, $property->getUri(), $listUri);
         $listCacheKey = sprintf(self::LIST_CACHE_MASK, $listUri);
@@ -122,6 +122,6 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
 
     private function getDependencyRepository(): DependencyRepositoryInterface
     {
-        return $this->getServiceLocator()->get(DependencyRepository::class);
+        return $this->getServiceLocator()->getContainer()->get(DependencyRepository::class);
     }
 }
