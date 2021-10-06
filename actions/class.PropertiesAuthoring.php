@@ -634,13 +634,18 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             && ($validator->isRangeChanged($currentProperty, $oldProperty)
             || $validator->isPropertyTypeChanged($currentProperty, $oldProperty))
         ) {
-            $this->getParentPropertyListCachedRepository()->deleteCache(
-                [
-                    'propertyUri' => $currentProperty->getUri(),
-                    'listUri' => $oldProperty->getRangeUri(),
-                ]
-            );
+            $listUri = $oldProperty->getRangeUri();
         }
+
+        if (empty($listUri) && $currentProperty->getRange() === null) {
+            return;
+        }
+
+        $this->getParentPropertyListCachedRepository()->deleteCache(
+            [
+                'listUri' => $listUri ?? $currentProperty->getRange()->getUri()
+            ]
+        );
     }
 
     private function isElasticSearchEnabled(): bool

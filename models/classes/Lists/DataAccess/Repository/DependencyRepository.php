@@ -91,6 +91,38 @@ class DependencyRepository extends ConfigurableService implements DependencyRepo
         return $collection;
     }
 
+    public function findChildListUris(array $options): array
+    {
+        $query = $this->getQueryBuilder();
+        $expressionBuilder = $query->expr();
+        return $query
+            ->select(RdsValueCollectionRepository::FIELD_ITEM_LIST_URI)
+            ->from(RdsValueCollectionRepository::TABLE_LIST_ITEMS, 'items')
+            ->where(
+                $expressionBuilder->in(
+                    'items.id',
+                    $this->getQueryBuilder()
+                        ->select('dependencies.' . RdsValueCollectionRepository::FIELD_LIST_ITEM_ID)
+                        ->from(RdsValueCollectionRepository::TABLE_LIST_ITEMS_DEPENDENCIES, 'dependencies')
+                        ->innerJoin(
+                            'dependencies',
+                            RdsValueCollectionRepository::TABLE_LIST_ITEMS,
+                            'items',
+                            $expressionBuilder->eq(
+                                'dependencies.' . RdsValueCollectionRepository::FIELD_LIST_ITEM_VALUE,
+                                'items.' . RdsValueCollectionRepository::FIELD_ITEM_URI
+                            )
+                        )
+                        ->andWhere($expressionBuilder->eq('items.list_uri', ':list_uri'))
+                        ->getSQL()
+                )
+            )
+            ->setParameter('list_uri', $options['parentListUri'])
+            ->groupBy(RdsValueCollectionRepository::FIELD_ITEM_LIST_URI)
+            ->execute()
+            ->fetchAll(FetchMode::COLUMN);
+    }
+
     private function getPersistence(): common_persistence_SqlPersistence
     {
         return $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID)->getPersistenceById('default');
