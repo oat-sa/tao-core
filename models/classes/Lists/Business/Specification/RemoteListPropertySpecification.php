@@ -23,11 +23,10 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Specification;
 
 use core_kernel_classes_Class;
-use oat\tao\model\TaoOntology;
+use oat\tao\model\Specification\ClassSpecificationInterface;
 use core_kernel_classes_Property;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Specification\PropertySpecificationInterface;
-use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
 
 class RemoteListPropertySpecification extends ConfigurableService implements PropertySpecificationInterface
 {
@@ -36,24 +35,7 @@ class RemoteListPropertySpecification extends ConfigurableService implements Pro
 
     public function isSatisfiedBy(core_kernel_classes_Property $property): bool
     {
-        $range = $this->getPropertyRange($property);
-
-        if ($range === null || !$range->isSubClassOf($range->getClass(TaoOntology::CLASS_URI_LIST))) {
-            return false;
-        }
-
-        $propertyType = $range->getOnePropertyValue(
-            $range->getProperty(RemoteSourcedListOntology::PROPERTY_LIST_TYPE)
-        );
-
-        if (
-            $propertyType === null
-            || $propertyType->getUri() !== RemoteSourcedListOntology::LIST_TYPE_REMOTE
-        ) {
-            return false;
-        }
-
-        return true;
+        return $this->getRemoteListClassSpecification()->isSatisfiedBy($this->getPropertyRange($property));
     }
 
     private function getPropertyRange(core_kernel_classes_Property $property): ?core_kernel_classes_Class
@@ -65,5 +47,10 @@ class RemoteListPropertySpecification extends ConfigurableService implements Pro
         }
 
         return $this->ranges[$propertyUri];
+    }
+
+    private function getRemoteListClassSpecification(): ClassSpecificationInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(RemoteListClassSpecification::class);
     }
 }
