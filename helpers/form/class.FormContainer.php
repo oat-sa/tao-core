@@ -20,6 +20,8 @@
  *               2020-2021 (original work) Open Assessment Technologies SA
  */
 
+declare(strict_types=1);
+
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\model\security\xsrf\TokenService;

@@ -23,10 +23,9 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Specification;
 
 use core_kernel_classes_Property;
-use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Specification\PropertySpecificationInterface;
 
-class DependentPropertySpecification extends ConfigurableService implements PropertySpecificationInterface
+class DependentPropertySpecification implements PropertySpecificationInterface
 {
     public function isSatisfiedBy(core_kernel_classes_Property $property): bool
     {

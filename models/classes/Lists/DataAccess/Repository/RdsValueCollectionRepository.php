@@ -24,26 +24,26 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
-use core_kernel_classes_ContainerCollection;
+use Throwable;
 use Doctrine\DBAL\FetchMode;
-use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
-use common_persistence_SqlPersistence as SqlPersistence;
-use core_kernel_classes_Class as KernelClass;
-use core_kernel_classes_Resource as KernelResource;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
+use oat\generis\model\OntologyAwareTrait;
+use core_kernel_classes_ContainerCollection;
+use core_kernel_classes_Class as KernelClass;
+use oat\tao\model\Lists\Business\Domain\Value;
+use oat\generis\persistence\PersistenceManager;
+use oat\tao\model\service\InjectionAwareService;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use core_kernel_classes_Resource as KernelResource;
+use oat\tao\model\Lists\Business\Domain\CollectionType;
+use common_persistence_SqlPersistence as SqlPersistence;
+use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\DBAL\Query\QueryBuilder;
-use oat\generis\persistence\PersistenceManager;
+use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
-use oat\tao\model\Lists\Business\Domain\CollectionType;
-use oat\tao\model\Lists\Business\Domain\Value;
-use oat\tao\model\Lists\Business\Domain\ValueCollection;
-use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
-use oat\tao\model\service\InjectionAwareService;
-use Throwable;
 
 class RdsValueCollectionRepository extends InjectionAwareService implements ValueCollectionRepositoryInterface
 {

@@ -22,10 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\Business\Specification;
 
-use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\generis\test\TestCase;
 use core_kernel_classes_Property;
-use oat\tao\model\Specification\PropertySpecificationInterface;
+use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 
 class DependentPropertySpecificationTest extends TestCase

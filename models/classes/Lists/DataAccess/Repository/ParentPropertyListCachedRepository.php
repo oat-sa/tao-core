@@ -22,13 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
-use core_kernel_classes_Property;
 use InvalidArgumentException;
-use oat\oatbox\service\ConfigurableService;
+use core_kernel_classes_Property;
 use oat\oatbox\cache\SimpleCache;
+use Psr\SimpleCache\CacheInterface;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
 use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
-use Psr\SimpleCache\CacheInterface;
 
 class ParentPropertyListCachedRepository extends ConfigurableService implements ParentPropertyListRepositoryInterface
 {
