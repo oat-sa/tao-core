@@ -36,6 +36,9 @@
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
     'ui/datetime/picker',
+    'ui/dialog/confirmDelete',
+    'core/request',
+    'util/url',
 ], function (
     module,
     $,
@@ -50,6 +53,9 @@
     ckeditor,
     ckConfigurator,
     dateTimePicker,
+    confirmDialog,
+    request,
+    urlUtil,
 ) {
     'use strict';
 
@@ -476,26 +482,71 @@
             }
 
             /**
-             * remove a form group, ie. a property
+             * Validate if property has a dependency
              */
-            function removePropertyGroup() {
-                if (window.confirm(__('Please confirm property deletion!'))) {
-                    var $groupNode = $(this).closest(".form-group");
-
-                    property.remove(
-                        $(this).data("uri"),
-                        $("#id").val(),
-                        buildClassPropertiesAuthoringURL('removeClassProperty'),
-                        function() {
-                            $groupNode.remove();
-                        }
-                    );
-
-                    document.getElementById('item-class-schema').click();
+            async function checkForDependency(propertyUri) {
+                try {
+                    const url = urlUtil.route('getDependentProperties', 'PropertyValues', 'tao', { propertyUri })
+                    const response = await request({ url, method: 'GET', dataType: 'json'})
+                    if (response.success && response.data) { return response.data; }
+                    else { throw response; }
+                } catch (err) {
+                    console.error(err);
+                    return null;
                 }
             }
 
-            //property delete button
+            function regularConfirmantion() {
+                return window.confirm(__('Please confirm property deletion!')); 
+            }
+
+            async function getPropertyRemovalConfirmation($groupNode, uri) {
+                const dependencies = await checkForDependency(uri);
+
+                return new Promise((resolve, reject) => {
+                    if (!dependencies.length) {
+                        return regularConfirmantion() ? resolve() : reject();
+                    } else {
+                        const name = $groupNode[0].innerText;
+                        const dependantPropName = dependencies.reduce((prev, next, index) => {
+                            const delimiter = index === dependencies.length - 1 ? '' : ', '
+                            return prev + `${next.label}${delimiter}`;
+                        }, '');
+
+                        confirmDialog(
+                            `<b>${name}</b>
+                            ${__('currently has a dependency established with ')}
+                            <b>${dependantPropName}</b>.
+                            ${__('Deleting this property will also remove the dependency')}. 
+                            <br><br> ${__('Are you wish to delete it')}?`,
+                            resolve,
+                            reject
+                        );
+                    }
+                })
+            }
+
+            /**
+             * remove a form group, ie. a property
+             */
+            async function removePropertyGroup() {
+                const $groupNode = $(this).closest(".form-group");
+                try {
+                    await getPropertyRemovalConfirmation($groupNode, $(this).data("uri"));
+                } catch (err) { return; }       
+                
+                property.remove(
+                    $(this).data("uri"),
+                    $("#id").val(),
+                    buildClassPropertiesAuthoringURL('removeClassProperty'),
+                    function() {
+                        $groupNode.remove();
+                    }
+                );
+
+                document.getElementById('item-class-schema').click();
+            }
+                //property delete button
             $(".property-deleter").off('click').on('click', removePropertyGroup);
 
             //property add button
