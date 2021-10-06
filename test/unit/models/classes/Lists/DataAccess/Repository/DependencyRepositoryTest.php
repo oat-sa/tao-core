@@ -47,25 +47,21 @@ class DependencyRepositoryTest extends TestCase
         $this->queryBuilder = $this->createMock(QueryBuilder::class);
 
         $platform = $this->createMock(common_persistence_sql_Platform::class);
-        $platform->method('getQueryBuilder')
+        $platform
+            ->method('getQueryBuilder')
             ->willReturn($this->queryBuilder);
 
         $persistence = $this->createMock(common_persistence_SqlPersistence::class);
-        $persistence->method('getPlatform')
+        $persistence
+            ->method('getPlatform')
             ->willReturn($platform);
 
         $persistenceManager = $this->createMock(PersistenceManager::class);
-        $persistenceManager->method('getPersistenceById')
+        $persistenceManager
+            ->method('getPersistenceById')
             ->willReturn($persistence);
 
-        $this->sut = new DependencyRepository();
-        $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock(
-                [
-                    PersistenceManager::SERVICE_ID => $persistenceManager
-                ]
-            )
-        );
+        $this->sut = new DependencyRepository($persistenceManager);
     }
 
     public function testFindAll(): void
