@@ -546,7 +546,8 @@
 
                 document.getElementById('item-class-schema').click();
             }
-                //property delete button
+
+            //property delete button
             $(".property-deleter").off('click').on('click', removePropertyGroup);
 
             //property add button
