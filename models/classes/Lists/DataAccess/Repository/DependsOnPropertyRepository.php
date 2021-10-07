@@ -63,9 +63,11 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
         $property = $options['property'] ?? null;
 
         /** @var core_kernel_classes_Class $class */
-        $class = $property ? $property->getDomain()->get(0) : $options['class'] ?? null;
+        $class = $property
+            ? ($property->getDomain()->count() > 0 ? $property->getDomain()->get(0) : null)
+            : $options['class'] ?? null;
 
-        if (empty($options['listUri']) && $property && !$property->getRange()) {
+        if ($class === null || (empty($options['listUri']) && $property && !$property->getRange())) {
             return $collection;
         }
 

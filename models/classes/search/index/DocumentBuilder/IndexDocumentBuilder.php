@@ -218,6 +218,8 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
                 $this->getClass($class)
             );
 
+            $properties[OntologyRdfs::RDFS_LABEL] = $this->getProperty(OntologyRdfs::RDFS_LABEL);
+
             foreach ($properties as $property) {
                 /** @var Resource $propertyType |null */
                 $propertyType = $property->getOnePropertyValue(
