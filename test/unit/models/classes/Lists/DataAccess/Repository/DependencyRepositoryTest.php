@@ -159,4 +159,52 @@ class DependencyRepositoryTest extends TestCase
             )
         );
     }
+
+    public function testFindChildListUris(): void
+    {
+        $childUriList = ['uri'];
+
+        $expressionBuilder = $this->createMock(ExpressionBuilder::class);
+
+        $statement = $this->createMock(Statement::class);
+        $statement->method('fetchAll')
+            ->willReturn($childUriList);
+
+        $this->queryBuilder
+            ->method('expr')
+            ->willReturn($expressionBuilder);
+        $this->queryBuilder
+            ->method('select')
+            ->willReturnSelf();
+        $this->queryBuilder
+            ->method('from')
+            ->willReturnSelf();
+        $this->queryBuilder
+            ->method('where')
+            ->willReturnSelf();
+        $this->queryBuilder
+            ->method('innerJoin')
+            ->willReturnSelf();
+        $this->queryBuilder
+            ->method('andWhere')
+            ->willReturnSelf();
+        $this->queryBuilder
+            ->method('setParameter')
+            ->willReturnSelf();
+        $this->queryBuilder
+            ->method('groupBy')
+            ->willReturnSelf();
+
+        $this->queryBuilder->method('execute')
+            ->willReturn($statement);
+
+        $this->assertSame(
+            $childUriList,
+            $this->sut->findChildListUris(
+                [
+                    'parentListUri' => 'uri1'
+                ]
+            )
+        );
+    }
 }
