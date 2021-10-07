@@ -23,11 +23,13 @@
 declare(strict_types=1);
 
 use GuzzleHttp\Psr7\ServerRequest;
+use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
-use oat\tao\model\Lists\Presentation\Web\RequestHandler\ValueCollectionSearchRequestHandler;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
-use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\Lists\DataAccess\Repository\DependentPropertiesRepository;
+use oat\tao\model\Lists\Business\Domain\DependentPropertiesRepositoryContext;
+use oat\tao\model\Lists\Presentation\Web\RequestHandler\ValueCollectionSearchRequestHandler;
 
 class tao_actions_PropertyValues extends tao_actions_CommonModule
 {
@@ -63,6 +65,32 @@ class tao_actions_PropertyValues extends tao_actions_CommonModule
                     'class' => $class,
                     'listUri' => $this->getProperty(tao_helpers_Uri::decode($this->getGetParameter('list_uri')))->getUri()
                 ]
+            )
+        );
+    }
+
+    public function getDependentProperties(DependentPropertiesRepository $dependentPropertiesRepository): void
+    {
+        $property = $this->getProperty(
+            tao_helpers_Uri::decode(
+                $this->getGetParameter('propertyUri', '')
+            )
+        );
+
+        $dependentProperties = $dependentPropertiesRepository->findAll(
+            new DependentPropertiesRepositoryContext([
+                DependentPropertiesRepositoryContext::PARAM_PROPERTY => $property,
+            ])
+        );
+
+        $this->setSuccessJsonResponse(
+            array_map(
+                static function (core_kernel_classes_Resource $property) {
+                    return [
+                        'label' => $property->getLabel(),
+                    ];
+                },
+                $dependentProperties
             )
         );
     }

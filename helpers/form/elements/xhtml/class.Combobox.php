@@ -20,7 +20,6 @@
  *
  */
 
-use oat\tao\helpers\form\elements\ElementValue;
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
 /**
@@ -59,7 +58,7 @@ class tao_helpers_form_elements_xhtml_Combobox extends tao_helpers_form_elements
         $encodedValue = (string)$this->value;
 
         foreach ($this->options as $optionId => $optionLabel) {
-            $returnValue .= "<option value='{$optionId}' ";
+            $returnValue .= "<option value='{$optionId}' {$this->parseOptionAttributes($optionId)}";
             if ($encodedValue === $optionId) {
                 $returnValue .= " selected='selected' ";
             }
@@ -68,5 +67,16 @@ class tao_helpers_form_elements_xhtml_Combobox extends tao_helpers_form_elements
         $returnValue .= '</select>';
 
         return $returnValue;
+    }
+
+    private function parseOptionAttributes(string $option): string
+    {
+        $output = '';
+
+        foreach ($this->getOptionAttributes($option) as $attribute => $value) {
+            $output = sprintf(' %s="%s"', $attribute, $value);
+        }
+
+        return $output;
     }
 }

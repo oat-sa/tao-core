@@ -40,6 +40,23 @@ abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_for
     /** @var array */
     private $disabledValues = [];
 
+    /** @var array */
+    private $optionAttributes = [];
+
+    public function addOptionAttribute(string $optionValue, string $attribute, string $attributeValue): void
+    {
+        if (empty($this->optionAttributes[$optionValue])) {
+            $this->optionAttributes[$optionValue] = [];
+        }
+
+        $this->optionAttributes[$optionValue][$attribute] = $attributeValue;
+    }
+
+    public function getOptionAttributes(string $optionValue): array
+    {
+        return $this->optionAttributes[$optionValue] ?? [];
+    }
+
     /**
      * Short description of method setOptions
      *
