@@ -28,12 +28,11 @@ use InvalidArgumentException;
 use core_kernel_classes_Property;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\ElementValue;
-use oat\tao\helpers\form\validators\PropertyAwareInterface;
-use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 use oat\tao\model\Lists\Business\Domain\DependencyRepositoryContext;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
+use oat\tao\helpers\form\validators\CrossPropertyEvaluationAwareInterface;
 
-class DependsOnPropertyValidator implements ValidatorInterface, PropertyAwareInterface, CrossElementEvaluationAware
+class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEvaluationAwareInterface
 {
     /** @var DependencyRepositoryInterface */
     private $dependencyRepository;

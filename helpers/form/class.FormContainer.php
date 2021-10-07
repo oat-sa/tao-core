@@ -27,8 +27,8 @@ use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_form_FormFactory as FormFactory;
 use oat\tao\helpers\form\elements\xhtml\CsrfToken;
-use oat\tao\helpers\form\validators\PropertyAwareInterface;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
+use oat\tao\helpers\form\validators\CrossPropertyEvaluationAwareInterface;
 
 /**
  * This class provide a container for a specific form instance.
@@ -249,7 +249,7 @@ abstract class tao_helpers_form_FormContainer
         tao_helpers_form_FormElement $element
     ): void {
         foreach ($validators as $validator) {
-            if ($validator instanceof PropertyAwareInterface) {
+            if ($validator instanceof CrossPropertyEvaluationAwareInterface) {
                 $property = $this->getProperty(tao_helpers_Uri::decode($element->getName()));
                 $validator->setProperty($property);
             }

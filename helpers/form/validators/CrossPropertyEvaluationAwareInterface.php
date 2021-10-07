@@ -24,7 +24,7 @@ namespace oat\tao\helpers\form\validators;
 
 use core_kernel_classes_Property;
 
-interface PropertyAwareInterface
+interface CrossPropertyEvaluationAwareInterface extends CrossElementEvaluationAware
 {
     public function setProperty(core_kernel_classes_Property $property): void;
 }
