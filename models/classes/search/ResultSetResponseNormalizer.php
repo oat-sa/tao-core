@@ -72,7 +72,6 @@ class ResultSetResponseNormalizer extends ConfigurableService
                 $isAccessible = isset($accessibleResultsMap[$content['id']]);
 
                 if (!$isAccessible) {
-                    $content['label'] = __('Access Denied');
                     $hasReadAccess = false;
                 }
 
@@ -81,6 +80,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
                 }
 
                 if ($hasReadAccess === false) {
+                    $content['label'] = __('Access Denied');
                     $content['id'] = '';
                 }
 
