@@ -48,20 +48,20 @@ class ResultAccessChecker extends ConfigurableService
             );
 
             if (empty($accessibleResources)) {
-                return true;
+                return false;
             }
 
             $class = $this->getClass($type->getUri());
 
-            if ($this->checkParentClassPermission($class, $permissionHelper, $topLevelClass) === true) {
-                return true;
+            if ($this->hasReadPermissionForClass($class, $permissionHelper, $topLevelClass) === false) {
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 
-    private function checkParentClassPermission(core_kernel_classes_Class $class, PermissionHelper $permissionHelper, core_kernel_classes_Class $topLevelClass): bool
+    private function hasReadPermissionForClass(core_kernel_classes_Class $class, PermissionHelper $permissionHelper, core_kernel_classes_Class $topLevelClass): bool
     {
         $parentClasses = $class->getParentClasses(true);
 
@@ -73,14 +73,14 @@ class ResultAccessChecker extends ConfigurableService
             );
 
             if (empty($accessibleResource)) {
-                return true;
+                return false;
             }
 
             if ($parentClass->getUri() === $topLevelClass->getUri()) {
-                return false;
+                return true;
             }
         }
-        return false;
+        return true;
     }
 
     private function getPermissionHelper(): PermissionHelper

@@ -134,7 +134,7 @@ class ResultSetResponseNormalizerTest extends TestCase
 
         $this->resultAccessChecker
             ->method('hasReadAccess')
-            ->willReturn(false);
+            ->willReturn(true);
 
         $result = $this->subject->normalize($this->searchQueryMock, $this->resultSetMock, 'results');
         $this->assertResult($result);
@@ -170,7 +170,7 @@ class ResultSetResponseNormalizerTest extends TestCase
         
         $this->resultAccessChecker
             ->method('hasReadAccess')
-            ->willReturn(false);
+            ->willReturn(true);
 
         $result = $this->subject->normalize($this->searchQueryMock, $this->resultSetMock, 'result');
         $this->assertResult($result);

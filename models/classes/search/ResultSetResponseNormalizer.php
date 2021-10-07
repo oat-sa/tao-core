@@ -45,9 +45,9 @@ class ResultSetResponseNormalizer extends ConfigurableService
 
         $response = [];
 
-        $readOnlyResources = [];
+        $resourcePermissions = [];
 
-        $getResultAccessChecker = $this->getResultAccessChecker();
+        $resultAccessChecker = $this->getResultAccessChecker();
 
         if ($resultAmount > 0) {
             $accessibleResultsMap = array_flip(
@@ -73,24 +73,24 @@ class ResultSetResponseNormalizer extends ConfigurableService
 
                 if (!$isAccessible) {
                     $content['label'] = __('Access Denied');
-                    $hasReadAccess = true;
+                    $hasReadAccess = false;
                 }
 
                 if ($isAccessible) {
-                    $hasReadAccess = $getResultAccessChecker->hasReadAccess($content);
+                    $hasReadAccess = $resultAccessChecker->hasReadAccess($content);
                 }
 
-                if ($hasReadAccess === true) {
+                if ($hasReadAccess === false) {
                     $content['id'] = '';
                 }
 
-                $readOnlyResources[$content['id']] = $hasReadAccess;
+                $resourcePermissions[$content['id']] = !$hasReadAccess;
 
                 $response['data'][] = $this->getResultSetFilter()->filter($content, $structure);
             }
         }
 
-        $response['readonly'] = $readOnlyResources;
+        $response['readonly'] = $resourcePermissions;
         $response['success'] = true;
         $response['page'] = empty($response['data']) ? 0 : $searchQuery->getPage();
         $response['total'] = $totalPages;
