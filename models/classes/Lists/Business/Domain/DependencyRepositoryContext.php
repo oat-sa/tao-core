@@ -40,26 +40,24 @@ class DependencyRepositoryContext extends AbstractContext
 
     protected function validateParameter(string $parameter, $parameterValue): void
     {
-        if (is_array($parameterValue)) {
-            foreach ($parameterValue as $value) {
-                if (!is_string($value)) {
-                    throw new InvalidArgumentException(
-                        sprintf(
-                            'Context parameter %s is not valid. The values must be a string.',
-                            $parameter
-                        )
-                    );
-                }
-            }
-
-            return;
+        if (!is_array($parameterValue)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Context parameter %s is not valid. It should be an array.',
+                    $parameter
+                )
+            );
         }
 
-        throw new InvalidArgumentException(
-            sprintf(
-                'Context parameter %s is not valid.',
-                $parameter
-            )
-        );
+        foreach ($parameterValue as $value) {
+            if (!is_string($value)) {
+                throw new InvalidArgumentException(
+                    sprintf(
+                        'Context parameter %s is not valid. The values must be a string.',
+                        $parameter
+                    )
+                );
+            }
+        }
     }
 }

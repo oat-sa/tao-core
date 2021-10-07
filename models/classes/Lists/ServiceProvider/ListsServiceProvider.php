@@ -26,8 +26,9 @@ use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
 use oat\tao\model\Lists\Business\Validation\DependsOnPropertyValidator;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class ListsServiceProvider implements ContainerServiceProviderInterface
 {

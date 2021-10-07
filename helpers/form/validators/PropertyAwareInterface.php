@@ -24,7 +24,7 @@ namespace oat\tao\helpers\form\validators;
 
 use core_kernel_classes_Property;
 
-interface PropertyValidatorInterface
+interface PropertyAwareInterface
 {
     public function setProperty(core_kernel_classes_Property $property): void;
 }

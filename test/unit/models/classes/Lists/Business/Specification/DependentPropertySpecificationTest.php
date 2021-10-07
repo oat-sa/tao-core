@@ -40,12 +40,12 @@ class DependentPropertySpecificationTest extends TestCase
     /**
      * @dataProvider getTestData
      */
-    public function testIsSatisfiedBy(int $count, bool $expected): void
+    public function testIsSatisfiedBy(bool $isEmpty, bool $expected): void
     {
         $collection = $this->createMock(DependsOnPropertyCollection::class);
         $collection
-            ->method('count')
-            ->willReturn($count);
+            ->method('isEmpty')
+            ->willReturn($isEmpty);
 
         $property = $this->createMock(core_kernel_classes_Property::class);
         $property
@@ -59,11 +59,11 @@ class DependentPropertySpecificationTest extends TestCase
     {
         return [
             'No value' => [
-                'count' => 0,
+                'isEmpty' => true,
                 'expected' => false,
             ],
             'Any value' => [
-                'count' => 1,
+                'isEmpty' => false,
                 'expected' => true,
             ],
         ];

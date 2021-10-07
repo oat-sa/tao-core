@@ -29,6 +29,6 @@ class DependentPropertySpecification implements PropertySpecificationInterface
 {
     public function isSatisfiedBy(core_kernel_classes_Property $property): bool
     {
-        return $property->getDependsOnPropertyCollection()->count() > 0;
+        return !$property->getDependsOnPropertyCollection()->isEmpty();
     }
 }

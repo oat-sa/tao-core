@@ -28,12 +28,12 @@ use InvalidArgumentException;
 use core_kernel_classes_Property;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\ElementValue;
-use oat\tao\helpers\form\validators\PropertyValidatorInterface;
+use oat\tao\helpers\form\validators\PropertyAwareInterface;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 use oat\tao\model\Lists\Business\Domain\DependencyRepositoryContext;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
 
-class DependsOnPropertyValidator implements ValidatorInterface, PropertyValidatorInterface, CrossElementEvaluationAware
+class DependsOnPropertyValidator implements ValidatorInterface, PropertyAwareInterface, CrossElementEvaluationAware
 {
     /** @var DependencyRepositoryInterface */
     private $dependencyRepository;
@@ -145,11 +145,14 @@ class DependsOnPropertyValidator implements ValidatorInterface, PropertyValidato
         }
 
         if (is_array($values)) {
-            $values = array_map(static function ($value) {
-                return $value instanceof ElementValue
-                    ? $value->getUri()
-                    : $value;
-            }, $values);
+            $values = array_map(
+                static function ($value) {
+                    return $value instanceof ElementValue
+                        ? $value->getUri()
+                        : $value;
+                },
+                $values
+            );
         }
 
         return array_filter($values);

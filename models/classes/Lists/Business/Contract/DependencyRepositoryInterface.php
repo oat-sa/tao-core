@@ -33,5 +33,8 @@ interface DependencyRepositoryInterface
 
     public function findChildListUris(array $options): array;
 
+    /**
+     * @return string[]
+     */
     public function findChildListItemsUris(ContextInterface $context): array;
 }

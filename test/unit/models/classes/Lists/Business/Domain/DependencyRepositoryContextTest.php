@@ -30,30 +30,21 @@ class DependencyRepositoryContextTest extends TestCase
 {
     public function testSupportedParameters(): void
     {
-        $supportedParameters = [
-            DependencyRepositoryContext::PARAM_LIST_URIS => ['listUri'],
-            DependencyRepositoryContext::PARAM_DEPENDENCY_LIST_VALUES => ['listValue'],
-        ];
+        $context = new DependencyRepositoryContext(
+            [
+                DependencyRepositoryContext::PARAM_LIST_URIS => ['listUri'],
+                DependencyRepositoryContext::PARAM_DEPENDENCY_LIST_VALUES => ['listValue'],
+            ]
+        );
 
-        $numberOfExceptions = 0;
-
-        try {
-            new DependencyRepositoryContext($supportedParameters);
-        } catch (InvalidArgumentException $exception) {
-            ++$numberOfExceptions;
-        }
-
-        $sut = new DependencyRepositoryContext([]);
-
-        foreach ($supportedParameters as $parameter => $value) {
-            try {
-                $sut->setParameter($parameter, $value);
-            } catch (InvalidArgumentException $exception) {
-                ++$numberOfExceptions;
-            }
-        }
-
-        $this->assertEquals(0, $numberOfExceptions);
+        $this->assertEquals(
+            ['listUri'],
+            $context->getParameter(DependencyRepositoryContext::PARAM_LIST_URIS)
+        );
+        $this->assertEquals(
+            ['listValue'],
+            $context->getParameter(DependencyRepositoryContext::PARAM_DEPENDENCY_LIST_VALUES)
+        );
     }
 
     /**
@@ -65,19 +56,21 @@ class DependencyRepositoryContextTest extends TestCase
 
         foreach ($invalidValues as $invalidValue) {
             try {
-                new DependencyRepositoryContext([
-                    $parameter => $invalidValue,
-                ]);
+                new DependencyRepositoryContext(
+                    [
+                        $parameter => $invalidValue,
+                    ]
+                );
             } catch (InvalidArgumentException $exception) {
                 $this->assertContainsEquals(
                     $exception->getMessage(),
                     [
                         sprintf(
-                            'Context parameter %s is not valid. The values must be a string.',
+                            'Context parameter %s is not valid. It should be an array.',
                             $parameter
                         ),
                         sprintf(
-                            'Context parameter %s is not valid.',
+                            'Context parameter %s is not valid. The values must be a string.',
                             $parameter
                         ),
                     ]
@@ -87,119 +80,29 @@ class DependencyRepositoryContextTest extends TestCase
         }
 
         $this->assertEquals(count($invalidValues), $numberOfExceptions);
-    }
-
-    /**
-     * @dataProvider invalidValues
-     */
-    public function testSetInvalidValues(string $parameter, array $invalidValues): void
-    {
-        $numberOfExceptions = 0;
-        $sut = new DependencyRepositoryContext([]);
-
-        foreach ($invalidValues as $invalidValue) {
-            try {
-                $sut->setParameter($parameter, $invalidValue);
-            } catch (InvalidArgumentException $exception) {
-                $this->assertContainsEquals(
-                    $exception->getMessage(),
-                    [
-                        sprintf(
-                            'Context parameter %s is not valid. The values must be a string.',
-                            $parameter
-                        ),
-                        sprintf(
-                            'Context parameter %s is not valid.',
-                            $parameter
-                        ),
-                    ]
-                );
-                ++$numberOfExceptions;
-            }
-        }
-
-        $this->assertEquals(count($invalidValues), $numberOfExceptions);
-    }
-
-    public function testCreateAndGetValues(): void
-    {
-        $parametersValues = [
-            DependencyRepositoryContext::PARAM_LIST_URIS => ['listUri'],
-            DependencyRepositoryContext::PARAM_DEPENDENCY_LIST_VALUES => ['listValue']
-        ];
-
-        $sut = new DependencyRepositoryContext($parametersValues);
-
-        foreach ($parametersValues as $parameter => $value) {
-            $this->assertEquals($value, $sut->getParameter($parameter));
-        }
-    }
-
-    /**
-     * @dataProvider validValues
-     */
-    public function testSetAndGetValues(string $parameter, array $validValues): void
-    {
-        $sut = new DependencyRepositoryContext([]);
-
-        $this->assertNull($sut->getParameter($parameter));
-
-        foreach ($validValues as $validValue) {
-            $sut->setParameter($parameter, $validValue);
-            $this->assertEquals($validValue, $sut->getParameter($parameter));
-        }
     }
 
     public function invalidValues(): array
     {
-        $object = new class() {};
-
-        return [
-            'List URIs' => [
-                'parameter' => DependencyRepositoryContext::PARAM_LIST_URIS,
-                'invalidValues' => [
-                    $object,
-                    'string',
-                    123,
-                    null,
-                    [$object],
-                    [[]],
-                    [123],
-                    [null],
-                ],
-            ],
-            'List values' => [
-                'parameter' => DependencyRepositoryContext::PARAM_DEPENDENCY_LIST_VALUES,
-                'invalidValues' => [
-                    $object,
-                    'string',
-                    123,
-                    null,
-                    [$object],
-                    [[]],
-                    [123],
-                    [null],
-                ],
-            ],
+        $invalidValues = [
+            new class() {},
+            'string',
+            123,
+            null,
+            [new class() {}],
+            [[]],
+            [123],
+            [null],
         ];
-    }
 
-    public function validValues(): array
-    {
         return [
             'List URIs' => [
                 'parameter' => DependencyRepositoryContext::PARAM_LIST_URIS,
-                'values' => [
-                    [],
-                    ['string']
-                ],
+                'invalidValues' => $invalidValues,
             ],
             'List values' => [
                 'parameter' => DependencyRepositoryContext::PARAM_DEPENDENCY_LIST_VALUES,
-                'values' => [
-                    [],
-                    ['string']
-                ],
+                'invalidValues' => $invalidValues,
             ],
         ];
     }

@@ -147,7 +147,7 @@ class DependencyRepository implements DependencyRepositoryInterface
     }
 
     /**
-     * @return string[]
+     * {@inheritdoc}
      */
     public function findChildListItemsUris(ContextInterface $context): array
     {
