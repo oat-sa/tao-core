@@ -42,22 +42,19 @@ class ResultAccessChecker extends ConfigurableService
         $permissionHelper =  $this->getPermissionHelper();
 
         foreach ($resource->getTypes() as $type) {
-            $accessibleResources = $permissionHelper
-            ->filterByPermission(
+            $accessibleResources = $permissionHelper->filterByPermission(
                 [$type->getUri()],
                 PermissionInterface::RIGHT_READ
             );
 
             if (empty($accessibleResources)) {
                 return true;
-                break;
             }
 
             $class = $this->getClass($type->getUri());
 
             if ($this->checkParentClassPermission($class, $permissionHelper, $topLevelClass) === true) {
                 return true;
-                break;
             }
         }
 

@@ -47,6 +47,8 @@ class ResultSetResponseNormalizer extends ConfigurableService
 
         $readOnlyResources = [];
 
+        $getResultAccessChecker = $this->getResultAccessChecker();
+
         if ($resultAmount > 0) {
             $accessibleResultsMap = array_flip(
                 $this->getPermissionHelper()
@@ -75,7 +77,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
                 }
 
                 if ($isAccessible) {
-                    $hasReadAccess = $this->getResultAccessChecker()->hasReadAccess($content);
+                    $hasReadAccess = $getResultAccessChecker->hasReadAccess($content);
                 }
 
                 if ($hasReadAccess === true) {
