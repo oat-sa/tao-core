@@ -29,49 +29,39 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\TaoOntology;
 
-class ReadOnlyResourceChecker extends ConfigurableService
+class ResultAccessChecker extends ConfigurableService
 {
     use OntologyAwareTrait;
 
-    public function get(array $result, PermissionHelper $permissionHelper): array
+    public function hasReadAccess(array $content): bool
     {
-        foreach ($result as $content) {
-            $isAccessible = ($content['label'] !== "Access Denied") ? true : false;
+        $resource = $this->getResource($content['id']);
 
-            $resource = $this->getResource($content['id']);
-    
-            $readonly = false;
-    
-            $topLevelClass = $this->getClass(TaoOntology::CLASS_URI_OBJECT);
-    
-            foreach ($resource->getTypes() as $type) {
-                $accessibleResources = $permissionHelper
-                ->filterByPermission(
-                    [$type->getUri()],
-                    PermissionInterface::RIGHT_READ
-                );
-    
-                if (empty($accessibleResources) || !$isAccessible) {
-                    $readonly = true;
-                    break;
-                }
-    
-                $class = $this->getClass($type->getUri());
-                $readonly = $this->checkParentClassPermission($class, $permissionHelper, $topLevelClass);
-    
-                if ($readonly === true) {
-                    break;
-                }
+        $topLevelClass = $this->getClass(TaoOntology::CLASS_URI_OBJECT);
+
+        $permissionHelper =  $this->getPermissionHelper();
+
+        foreach ($resource->getTypes() as $type) {
+            $accessibleResources = $permissionHelper
+            ->filterByPermission(
+                [$type->getUri()],
+                PermissionInterface::RIGHT_READ
+            );
+
+            if (empty($accessibleResources)) {
+                return true;
+                break;
             }
-    
-            if ($readonly === true) {
-                $content['id'] = '';
+
+            $class = $this->getClass($type->getUri());
+
+            if ($this->checkParentClassPermission($class, $permissionHelper, $topLevelClass) === true) {
+                return true;
+                break;
             }
-    
-            $readOnlyResources[$content['id']] = $readonly;
         }
 
-        return $readOnlyResources;
+        return false;
     }
 
     private function checkParentClassPermission(core_kernel_classes_Class $class, PermissionHelper $permissionHelper, core_kernel_classes_Class $topLevelClass): bool
@@ -94,5 +84,10 @@ class ReadOnlyResourceChecker extends ConfigurableService
             }
         }
         return false;
+    }
+
+    private function getPermissionHelper(): PermissionHelper
+    {
+        return $this->getServiceLocator()->get(PermissionHelper::class);
     }
 }

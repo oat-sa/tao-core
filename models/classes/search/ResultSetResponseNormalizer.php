@@ -45,7 +45,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
 
         $response = [];
 
-        $permissionHelper = $this->getPermissionHelper();
+        $readOnlyResources = [];
 
         if ($resultAmount > 0) {
             $accessibleResultsMap = array_flip(
@@ -71,21 +71,23 @@ class ResultSetResponseNormalizer extends ConfigurableService
 
                 if (!$isAccessible) {
                     $content['label'] = __('Access Denied');
+                    $hasReadAccess = true;
                 }
+
+                if($isAccessible) {
+                    $hasReadAccess = $this->getResultAccessChecker()->hasReadAccess($content);
+                }
+
+                if ($hasReadAccess === true) {
+                    $content['id'] = '';
+                }
+
+                $readOnlyResources[$content['id']] = $hasReadAccess;
 
                 $response['data'][] = $this->getResultSetFilter()->filter($content, $structure);
             }
         }
-        $readOnlyResources = $this->getReadOnlyResourceChecker()->get($response['data'], $permissionHelper);
 
-        foreach ($response["data"] as $data) {
-            if (!in_array($data["id"], array_keys($readOnlyResources))) {
-                $data['id'] = "";
-            }
-            $result[] = $data;
-        }
-
-        $response["data"] = $result;
         $response['readonly'] = $readOnlyResources;
         $response['success'] = true;
         $response['page'] = empty($response['data']) ? 0 : $searchQuery->getPage();
@@ -108,8 +110,8 @@ class ResultSetResponseNormalizer extends ConfigurableService
         return $this->getServiceLocator()->get(ResultSetFilter::class);
     }
 
-    private function getReadOnlyResourceChecker(): ReadOnlyResourceChecker
+    private function getResultAccessChecker(): ResultAccessChecker
     {
-        return $this->getServiceLocator()->get(ReadOnlyResourceChecker::class);
+        return $this->getServiceLocator()->get(ResultAccessChecker::class);
     }
 }
