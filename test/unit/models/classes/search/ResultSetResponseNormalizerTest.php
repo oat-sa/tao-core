@@ -152,6 +152,7 @@ class ResultSetResponseNormalizerTest extends TestCase
             ->willReturn(0);
 
         $this->permissionHelperMock
+            ->expects($this->once())
             ->method('filterByPermission')
             ->willReturn(
                 [
