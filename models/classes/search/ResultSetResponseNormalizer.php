@@ -27,7 +27,6 @@ use oat\generis\model\data\permission\PermissionHelper;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\TaoOntology;
 
 class ResultSetResponseNormalizer extends ConfigurableService
 {
@@ -47,13 +46,11 @@ class ResultSetResponseNormalizer extends ConfigurableService
 
         $response = [];
 
-        $readOnlyResources = [];
-
         $permissionHelper = $this->getPermissionHelper();
 
         if ($resultAmount > 0) {
             $accessibleResultsMap = array_flip(
-                $permissionHelper
+                $this->getPermissionHelper()
                     ->filterByPermission(
                         array_column($resultsRaw, 'id'),
                         PermissionInterface::RIGHT_READ
@@ -77,44 +74,19 @@ class ResultSetResponseNormalizer extends ConfigurableService
                     $content['label'] = __('Access Denied');
                 }
 
-                $resource = $this->getResource($content['id'] ?? '');
-
-                $readonly = false;
-
-                $topLevelClass = $this->getClass(TaoOntology::CLASS_URI_OBJECT);
-
-                foreach ($resource->getTypes() as $type) {
-                    $accessibleResources = $permissionHelper
-                    ->filterByPermission(
-                        [$type->getUri()],
-                        PermissionInterface::RIGHT_READ
-                    );
-
-                    if (empty($accessibleResources) || !$isAccessible) {
-                        $readonly = true;
-                        break;
-                    }
-
-                    $class = $this->getClass($type->getUri());
-                    $readonly = $this->checkParentClassPermission($class, $permissionHelper, $topLevelClass);
-
-                    if ($readonly === true) {
-                        break;
-                    }
-                }
-
-                if ($readonly === true) {
-                    $content['id'] = '';
-                }
-
-                $readOnlyResources[$content['id']] = $readonly;
-
                 $response['data'][] = $this->getResultSetFilter()->filter($content, $structure);
             }
         }
+        $readOnlyResources = $this->getReadOnlyResourceChecker()->get($response['data'], $permissionHelper);
 
+        foreach ($response["data"] as $data) {
+            if(!in_array($data["id"], array_keys($readOnlyResources))){
+                $data['id'] = "";                    
+            }
+            $result[] = $data;
+        }
+        $response["data"] = $result;
         $response['readonly'] = $readOnlyResources;
-
         $response['success'] = true;
         $response['page'] = empty($response['data']) ? 0 : $searchQuery->getPage();
         $response['total'] = $totalPages;
@@ -156,5 +128,10 @@ class ResultSetResponseNormalizer extends ConfigurableService
     private function getResultSetFilter(): ResultSetFilter
     {
         return $this->getServiceLocator()->get(ResultSetFilter::class);
+    }
+
+    private function getReadOnlyResourceChecker(): ReadOnlyResourceChecker
+    {
+        return $this->getServiceLocator()->get(ReadOnlyResourceChecker::class);
     }
 }
