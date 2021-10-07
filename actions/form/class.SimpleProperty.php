@@ -24,11 +24,13 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\elements\xhtml\Validators;
+use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
 use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
 use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\tree\TreeService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\search\index\OntologyIndex;
+use Psr\Container\ContainerInterface;
 
 /**
  * Enable you to edit a property
@@ -254,7 +256,6 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
      */
     protected function getListElement($range)
     {
-
         $service = tao_models_classes_ListService::singleton();
 
         /**
@@ -266,22 +267,28 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         $element->addAttribute('disabled', 'disabled');
         $element->setEmptyOption(' --- ' . __('select') . ' --- ');
         $listOptions = [];
+        $specification = $this->getRemoteListClassSpecification();
 
         foreach ($service->getLists() as $list) {
-            $listOptions[tao_helpers_Uri::encode($list->getUri())] = $list->getLabel();
+            $encodedListUri = tao_helpers_Uri::encode($list->getUri());
+            $listOptions[$encodedListUri] = $list->getLabel();
+
             if (null !== $range && $range->getUri() === $list->getUri()) {
                 $element->setValue($list->getUri());
+            }
+
+            if ($specification->isSatisfiedBy($list)) {
+                $element->addOptionAttribute(
+                    $encodedListUri,
+                    'data-remote-list',
+                    'true'
+                );
             }
         }
 
         $element->setOptions($listOptions);
 
         return $element;
-    }
-
-    private function getDependsOnPropertyFormFieldFactory(): DependsOnPropertyFormFieldFactory
-    {
-        return ServiceManager::getServiceManager()->get(DependsOnPropertyFormFieldFactory::class);
     }
 
     private function disableValues(core_kernel_classes_Property $property, Validators $element): void
@@ -300,5 +307,20 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         }
 
         $element->setDisabledValues(array_unique($disabledValues));
+    }
+
+    private function getDependsOnPropertyFormFieldFactory(): DependsOnPropertyFormFieldFactory
+    {
+        return $this->getContainer()->get(DependsOnPropertyFormFieldFactory::class);
+    }
+
+    private function getRemoteListClassSpecification(): RemoteListClassSpecification
+    {
+        return $this->getContainer()->get(RemoteListClassSpecification::class);
+    }
+
+    private function getContainer(): ContainerInterface
+    {
+        return ServiceManager::getServiceManager()->getContainer();
     }
 }
