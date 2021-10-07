@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\search;
 
-use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\search\ResultSetFilter;
@@ -30,6 +29,7 @@ use oat\tao\model\search\SearchQuery;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\model\data\permission\PermissionHelper;
 use oat\generis\test\TestCase;
+use oat\tao\model\search\ReadOnlyResourceChecker;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\ResultSetResponseNormalizer;
 
@@ -50,14 +50,11 @@ class ResultSetResponseNormalizerTest extends TestCase
     /** @var Ontology|MockObject */
     private $modelMock;
 
-    /** @var core_kernel_classes_Resource|MockObject */
-    private $resourceMock;
-
-    /** @var core_kernel_classes_Class|MockObject */
-    private $class;
-
     /** @var ResultSetFilter|MockObject  */
     private $resultSetFilter;
+
+    /** @var ReadOnlyResourceChecker|MockObject  */
+    private $readOnlyResourceChecker;
 
     public function setUp(): void
     {
@@ -67,7 +64,7 @@ class ResultSetResponseNormalizerTest extends TestCase
         $this->modelMock = $this->createMock(Ontology::class);
         $this->resourceMock = $this->createMock(core_kernel_classes_Resource::class);
         $this->resultSetFilter = $this->createMock(ResultSetFilter::class);
-        $this->class = $this->createMock(core_kernel_classes_Class::class);
+        $this->readOnlyResourceChecker = $this->createMock(ReadOnlyResourceChecker::class);
 
         $this->resourceMock
             ->method('getUri')
@@ -80,14 +77,6 @@ class ResultSetResponseNormalizerTest extends TestCase
         $this->modelMock
             ->method('getResource')
             ->willReturn($this->resourceMock);
-
-        $this->modelMock
-            ->method('getClass')
-            ->willReturn($this->class);
-
-        $this->resourceMock
-            ->method('getTypes')
-            ->willReturn([$this->class]);
 
         $this->resultSetMock
             ->method('getArrayCopy')
@@ -106,21 +95,13 @@ class ResultSetResponseNormalizerTest extends TestCase
                 ]
             );
 
-        $this->class
-            ->expects($this->once())
-            ->method('getParentClasses')
-            ->willReturn(
-                [
-                    $this->class
-                ]
-            );
-
         $this->subject = new ResultSetResponseNormalizer();
         $this->subject->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
                     PermissionHelper::class => $this->permissionHelperMock,
-                    ResultSetFilter::class => $this->resultSetFilter
+                    ResultSetFilter::class => $this->resultSetFilter,
+                    ReadOnlyResourceChecker::class => $this->readOnlyResourceChecker
                 ]
             )
         );
@@ -146,6 +127,10 @@ class ResultSetResponseNormalizerTest extends TestCase
         $this->resultSetFilter
             ->method('filter')
             ->willReturn(['id' => 'uri']);
+
+        $this->readOnlyResourceChecker
+            ->method('get')
+            ->willReturn(['uri' => true]);
 
         $result = $this->subject->normalize($this->searchQueryMock, $this->resultSetMock, 'results');
         $this->assertResult($result);
@@ -177,6 +162,10 @@ class ResultSetResponseNormalizerTest extends TestCase
         $this->searchQueryMock
             ->method('getPage')
             ->willReturn(1);
+        
+        $this->readOnlyResourceChecker
+            ->method('get')
+            ->willReturn(['uri' => true]);
 
         $result = $this->subject->normalize($this->searchQueryMock, $this->resultSetMock, 'result');
         $this->assertResult($result);
@@ -197,7 +186,7 @@ class ResultSetResponseNormalizerTest extends TestCase
         $this->assertEquals(100, $result['totalCount']);
         $this->assertEquals(2, $result['records']);
         $this->assertCount(2, $result['data']);
-        $this->assertCount(2, $result['readonly']);
+        $this->assertCount(1, $result['readonly']);
         $this->assertEquals(
             [
                 [
@@ -209,6 +198,6 @@ class ResultSetResponseNormalizerTest extends TestCase
             ],
             $result['data']
         );
-        $this->assertTrue($result['readonly']['']);
+        $this->assertTrue($result['readonly']['uri']);
     }
 }
