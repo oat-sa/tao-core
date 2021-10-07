@@ -61,8 +61,11 @@ class ResultAccessChecker extends ConfigurableService
         return true;
     }
 
-    private function hasReadPermissionForClass(core_kernel_classes_Class $class, PermissionHelper $permissionHelper, core_kernel_classes_Class $topLevelClass): bool
-    {
+    private function hasReadPermissionForClass(
+        core_kernel_classes_Class $class,
+        PermissionHelper $permissionHelper,
+        core_kernel_classes_Class $topLevelClass
+    ): bool {
         $parentClasses = $class->getParentClasses(true);
 
         foreach ($parentClasses as $parentClass) {
