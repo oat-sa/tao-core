@@ -74,7 +74,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
                     $hasReadAccess = true;
                 }
 
-                if($isAccessible) {
+                if ($isAccessible) {
                     $hasReadAccess = $this->getResultAccessChecker()->hasReadAccess($content);
                 }
 
