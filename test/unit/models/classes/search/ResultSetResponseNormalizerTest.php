@@ -29,7 +29,7 @@ use oat\tao\model\search\SearchQuery;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\model\data\permission\PermissionHelper;
 use oat\generis\test\TestCase;
-use oat\tao\model\search\ReadOnlyResourceChecker;
+use oat\tao\model\search\ResultAccessChecker;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\ResultSetResponseNormalizer;
 
@@ -56,8 +56,8 @@ class ResultSetResponseNormalizerTest extends TestCase
     /** @var ResultSetFilter|MockObject  */
     private $resultSetFilter;
 
-    /** @var ReadOnlyResourceChecker|MockObject  */
-    private $readOnlyResourceChecker;
+    /** @var ResultAccessChecker|MockObject  */
+    private $resultAccessChecker;
 
     public function setUp(): void
     {
@@ -67,7 +67,7 @@ class ResultSetResponseNormalizerTest extends TestCase
         $this->modelMock = $this->createMock(Ontology::class);
         $this->resourceMock = $this->createMock(core_kernel_classes_Resource::class);
         $this->resultSetFilter = $this->createMock(ResultSetFilter::class);
-        $this->readOnlyResourceChecker = $this->createMock(ReadOnlyResourceChecker::class);
+        $this->resultAccessChecker = $this->createMock(ResultAccessChecker::class);
 
         $this->resourceMock
             ->method('getUri')
@@ -105,7 +105,7 @@ class ResultSetResponseNormalizerTest extends TestCase
                 [
                     PermissionHelper::class => $this->permissionHelperMock,
                     ResultSetFilter::class => $this->resultSetFilter,
-                    ReadOnlyResourceChecker::class => $this->readOnlyResourceChecker
+                    ResultAccessChecker::class => $this->resultAccessChecker
                 ]
             )
         );
@@ -132,9 +132,9 @@ class ResultSetResponseNormalizerTest extends TestCase
             ->method('filter')
             ->willReturn(['id' => 'uri']);
 
-        $this->readOnlyResourceChecker
-            ->method('get')
-            ->willReturn(['uri' => true]);
+        $this->resultAccessChecker
+            ->method('hasReadAccess')
+            ->willReturn(false);
 
         $result = $this->subject->normalize($this->searchQueryMock, $this->resultSetMock, 'results');
         $this->assertResult($result);
@@ -168,9 +168,9 @@ class ResultSetResponseNormalizerTest extends TestCase
             ->method('getPage')
             ->willReturn(1);
         
-        $this->readOnlyResourceChecker
-            ->method('get')
-            ->willReturn(['uri' => true]);
+        $this->resultAccessChecker
+            ->method('hasReadAccess')
+            ->willReturn(false);
 
         $result = $this->subject->normalize($this->searchQueryMock, $this->resultSetMock, 'result');
         $this->assertResult($result);
@@ -191,7 +191,7 @@ class ResultSetResponseNormalizerTest extends TestCase
         $this->assertEquals(100, $result['totalCount']);
         $this->assertEquals(2, $result['records']);
         $this->assertCount(2, $result['data']);
-        $this->assertCount(1, $result['readonly']);
+        $this->assertCount(2, $result['readonly']);
         $this->assertEquals(
             [
                 [
@@ -203,6 +203,6 @@ class ResultSetResponseNormalizerTest extends TestCase
             ],
             $result['data']
         );
-        $this->assertTrue($result['readonly']['uri']);
+        $this->assertFalse($result['readonly']['uri1']);
     }
 }

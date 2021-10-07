@@ -28,9 +28,9 @@ use oat\generis\model\data\Ontology;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\model\data\permission\PermissionHelper;
 use oat\generis\test\TestCase;
-use oat\tao\model\search\ReadOnlyResourceChecker;
+use oat\tao\model\search\ResultAccessChecker;
 
-class ReadOnlyResourceCheckerTest extends TestCase
+class ResultAccessCheckerTest extends TestCase
 {
     /** @var PermissionHelper|MockObject */
     private $permissionHelperMock;
@@ -79,12 +79,20 @@ class ReadOnlyResourceCheckerTest extends TestCase
                 ]
             );
 
-        $this->subject = new ReadOnlyResourceChecker();
+        $this->subject = new ResultAccessChecker();
+
+        $this->subject->setServiceLocator(
+            $this->getServiceLocatorMock(
+                [
+                    PermissionHelper::class => $this->permissionHelperMock
+                ]
+            )
+        );
 
         $this->subject->setModel($this->modelMock);
     }
 
-    public function testGetReadonlyResource()
+    public function testHasReadAccess()
     {
         $this->result = [
             [
@@ -103,8 +111,7 @@ class ReadOnlyResourceCheckerTest extends TestCase
                     'uri1',
                 ]
             );
-        $result = $this->subject->get($this->result, $this->permissionHelperMock);
-        $this->assertIsArray($result);
-        $this->assertFalse($result['uri1']);
+        $result = $this->subject->hasReadAccess($this->result, $this->permissionHelperMock);
+        $this->assertIsBool($result);
     }
 }
