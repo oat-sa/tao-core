@@ -80,8 +80,8 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $readOnlyResources = $this->getReadOnlyResourceChecker()->get($response['data'], $permissionHelper);
 
         foreach ($response["data"] as $data) {
-            if(!in_array($data["id"], array_keys($readOnlyResources))){
-                $data['id'] = "";                    
+            if (!in_array($data["id"], array_keys($readOnlyResources))) {
+                $data['id'] = "";
             }
             $result[] = $data;
         }

@@ -35,7 +35,7 @@ class ReadOnlyResourceChecker extends ConfigurableService
 
     public function get(array $result, PermissionHelper $permissionHelper): array
     {
-        foreach ($result as $content) {            
+        foreach ($result as $content) {
             $isAccessible = ($content['label'] !== "Access Denied") ? true : false;
 
             $resource = $this->getResource($content['id']);
@@ -69,7 +69,7 @@ class ReadOnlyResourceChecker extends ConfigurableService
             }
     
             $readOnlyResources[$content['id']] = $readonly;
-        }        
+        }
 
         return $readOnlyResources;
     }
