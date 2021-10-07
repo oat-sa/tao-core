@@ -94,16 +94,8 @@ class ResultAccessCheckerTest extends TestCase
 
     public function testHasReadAccess()
     {
-        $this->result = [
-            [
-                'id' => 'uri1',
-                'label' => 'label1'
-            ],
-            [
-                'id' => 'uri2',
-                'label' => 'label2'
-            ],
-        ];
+        $this->getSampleValues();
+
         $this->permissionHelperMock
             ->method('filterByPermission')
             ->willReturn(
@@ -111,7 +103,32 @@ class ResultAccessCheckerTest extends TestCase
                     'uri1',
                 ]
             );
+
         $result = $this->subject->hasReadAccess($this->result, $this->permissionHelperMock);
-        $this->assertIsBool($result);
+
+        $this->assertTrue($result);
+    }
+
+    public function testHasNoReadAccess()
+    {
+        $this->getSampleValues();
+
+        $this->permissionHelperMock
+            ->method('filterByPermission')
+            ->willReturn([]);
+
+        $result = $this->subject->hasReadAccess($this->result, $this->permissionHelperMock);
+
+        $this->assertFalse($result);
+    }
+
+    private function getSampleValues(): array
+    {
+        return $this->result = [
+            [
+                'id' => 'uri1',
+                'label' => 'label1'
+            ]
+        ];
     }
 }

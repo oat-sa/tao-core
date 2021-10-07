@@ -53,7 +53,7 @@ class ResultAccessChecker extends ConfigurableService
 
             $class = $this->getClass($type->getUri());
 
-            if ($this->hasReadPermissionForClass($class, $permissionHelper, $topLevelClass) === false) {
+            if (!$this->hasReadPermissionForClass($class, $permissionHelper, $topLevelClass)) {
                 return false;
             }
         }
