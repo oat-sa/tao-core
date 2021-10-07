@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search;
 
-use core_kernel_classes_Class;
 use oat\generis\model\data\permission\PermissionHelper;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\OntologyAwareTrait;
@@ -85,6 +84,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
             }
             $result[] = $data;
         }
+
         $response["data"] = $result;
         $response['readonly'] = $readOnlyResources;
         $response['success'] = true;
@@ -96,28 +96,6 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $response['records'] = $resultAmount;
 
         return $response;
-    }
-
-    private function checkParentClassPermission(core_kernel_classes_Class $class, PermissionHelper $permissionHelper, core_kernel_classes_Class $topLevelClass): bool
-    {
-        $parentClasses = $class->getParentClasses(true);
-
-        foreach ($parentClasses as $parentClass) {
-            $accessibleResource = $permissionHelper
-            ->filterByPermission(
-                [$parentClass->getUri()],
-                PermissionInterface::RIGHT_READ
-            );
-
-            if (empty($accessibleResource)) {
-                return true;
-            }
-
-            if ($parentClass->getUri() === $topLevelClass->getUri()) {
-                return false;
-            }
-        }
-        return false;
     }
 
     private function getPermissionHelper(): PermissionHelper
