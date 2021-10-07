@@ -50,6 +50,9 @@ class ResultSetResponseNormalizerTest extends TestCase
     /** @var Ontology|MockObject */
     private $modelMock;
 
+    /** @var core_kernel_classes_Resource|MockObject */
+    private $resourceMock;
+
     /** @var ResultSetFilter|MockObject  */
     private $resultSetFilter;
 
@@ -88,10 +91,11 @@ class ResultSetResponseNormalizerTest extends TestCase
             );
 
         $this->permissionHelperMock
+            ->expects($this->once())
             ->method('filterByPermission')
             ->willReturn(
                 [
-                    'uri2',
+                    'uri1',
                 ]
             );
 
