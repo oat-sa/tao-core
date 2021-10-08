@@ -103,4 +103,4 @@ Cypress.Commands.add('removePropertyFromClass', (nodeName, className, propertyNa
             cy.get('.property-deleter').click();
         });
     cy.on('window:confirm', () => true);
-})
+});
