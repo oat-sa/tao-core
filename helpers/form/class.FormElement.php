@@ -17,12 +17,14 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
+ *               2021 (original work) Open Assessment Technologies SA
  */
 
+declare(strict_types=1);
+
 use oat\oatbox\validator\ValidatorInterface;
-use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
+use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 
 // Defining aliases for old style class names for backward compatibility
 class_alias(SearchTextBox::class, \tao_helpers_form_elements_xhtml_Searchtextbox::class);
@@ -139,6 +141,9 @@ abstract class tao_helpers_form_FormElement
      * @var string
      */
     protected $help = '';
+
+    /** @var mixed */
+    private $inputValue;
 
     /**
      * Short description of method __construct
@@ -500,10 +505,9 @@ abstract class tao_helpers_form_FormElement
      */
     public function feed()
     {
-        if (
-            isset($_POST[$this->name])
-            && $this->name !== 'uri' && $this->name !== 'classUri'
-        ) {
+        $value = $this->getDecodedValue($this->name);
+
+        if ($value !== null) {
             $this->setValue(tao_helpers_Uri::decode($_POST[$this->name]));
         }
     }
@@ -554,9 +558,36 @@ abstract class tao_helpers_form_FormElement
         $this->breakOnFirstError = $breakOnFirstError;
     }
 
+    public function getAttributes(): array
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInputValue()
+    {
+        return $this->inputValue;
+    }
+
+    public function feedInputValue(): void
+    {
+        $this->inputValue = $this->getDecodedValue($this->name);
+    }
+
     /**
      * Will render the Form Element.
      *
      */
     abstract public function render();
+
+    private function getDecodedValue(string $name): ?string
+    {
+        if (isset($_POST[$name]) && $name !== 'uri' && $name !== 'classUri') {
+            return tao_helpers_Uri::decode($_POST[$this->name]);
+        }
+
+        return null;
+    }
 }

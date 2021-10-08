@@ -22,10 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\Business\Specification;
 
-use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\generis\test\TestCase;
 use core_kernel_classes_Property;
-use oat\tao\model\Specification\PropertySpecificationInterface;
+use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 
 class DependentPropertySpecificationTest extends TestCase
@@ -38,22 +37,19 @@ class DependentPropertySpecificationTest extends TestCase
         $this->sut = new DependentPropertySpecification();
     }
 
-    public function testSpecificationInstance(): void
-    {
-        $this->assertInstanceOf(PropertySpecificationInterface::class, $this->sut);
-    }
-
     /**
      * @dataProvider getTestData
      */
-    public function testIsSatisfiedBy(?core_kernel_classes_Property $property, bool $expected): void
+    public function testIsSatisfiedBy(bool $isEmpty, bool $expected): void
     {
         $collection = $this->createMock(DependsOnPropertyCollection::class);
-        $collection->method('current')
-            ->willReturn($property);
+        $collection
+            ->method('isEmpty')
+            ->willReturn($isEmpty);
 
         $property = $this->createMock(core_kernel_classes_Property::class);
-        $property->method('getDependsOnPropertyCollection')
+        $property
+            ->method('getDependsOnPropertyCollection')
             ->willReturn($collection);
 
         $this->assertEquals($expected, $this->sut->isSatisfiedBy($property));
@@ -63,11 +59,11 @@ class DependentPropertySpecificationTest extends TestCase
     {
         return [
             'No value' => [
-                'property' => null,
+                'isEmpty' => true,
                 'expected' => false,
             ],
             'Any value' => [
-                'property' => $this->createMock(core_kernel_classes_Property::class),
+                'isEmpty' => false,
                 'expected' => true,
             ],
         ];

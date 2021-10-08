@@ -22,18 +22,18 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
+use InvalidArgumentException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
-use InvalidArgumentException;
-use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
 use tao_helpers_form_GenerisFormFactory;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
 use oat\tao\model\Specification\PropertySpecificationInterface;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
-use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
 use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
+use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
+use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
 
 class DependsOnPropertyRepository extends ConfigurableService implements DependsOnPropertyRepositoryInterface
 {
@@ -173,7 +173,7 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
     private function getDependentPropertySpecification(): PropertySpecificationInterface
     {
         if (!isset($this->dependentPropertySpecification)) {
-            $this->dependentPropertySpecification = $this->getServiceLocator()->get(
+            $this->dependentPropertySpecification = $this->getServiceLocator()->getContainer()->get(
                 DependentPropertySpecification::class
             );
         }

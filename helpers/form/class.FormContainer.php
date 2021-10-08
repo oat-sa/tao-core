@@ -17,14 +17,18 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2020 (original work) Open Assessment Technologies SA
+ *               2020-2021 (original work) Open Assessment Technologies SA
  */
 
+declare(strict_types=1);
+
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\validator\ValidatorInterface;
-use oat\tao\helpers\form\elements\xhtml\CsrfToken;
-use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_form_FormFactory as FormFactory;
+use oat\tao\helpers\form\elements\xhtml\CsrfToken;
+use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
+use oat\tao\helpers\form\validators\CrossPropertyEvaluationAwareInterface;
 
 /**
  * This class provide a container for a specific form instance.
@@ -34,9 +38,12 @@ use tao_helpers_form_FormFactory as FormFactory;
  */
 abstract class tao_helpers_form_FormContainer
 {
+    use OntologyAwareTrait;
+
     public const CSRF_PROTECTION_OPTION = 'csrf_protection';
     public const IS_DISABLED = 'is_disabled';
     public const ADDITIONAL_VALIDATORS = 'extraValidators';
+    public const ATTRIBUTE_VALIDATORS = 'attributeValidators';
 
     /**
      * the form instance contained
@@ -95,22 +102,21 @@ abstract class tao_helpers_form_FormContainer
         // initialize the elements of the form
         $this->initElements();
 
-        $validationRules = $options[self::ADDITIONAL_VALIDATORS] ?? [];
-
-        if (!empty($validationRules)) {
-            $this->applyAdditionalValidationRules($validationRules);
-        }
-
-        if (($options[self::CSRF_PROTECTION_OPTION] ?? false) === true) {
-            $this->initCsrfProtection();
-        }
-
-        // set the values in case of default values
-        if (is_array($this->data) && !empty($this->data)) {
-            $this->form->setValues($this->data);
-        }
-
         if ($this->form !== null) {
+            $this->form->evaluateInputValues();
+
+            $this->applyAdditionalValidationRules($options);
+            $this->applyAttributeValidators($options);
+
+            if (($options[self::CSRF_PROTECTION_OPTION] ?? false) === true) {
+                $this->initCsrfProtection();
+            }
+
+            // set the values in case of default values
+            if (is_array($this->data) && !empty($this->data)) {
+                $this->form->setValues($this->data);
+            }
+
             if ($options[self::IS_DISABLED] ?? false) {
                 $this->form->disable();
             }
@@ -194,28 +200,63 @@ abstract class tao_helpers_form_FormContainer
         $this->form->addElement($csrfTokenElement, true);
     }
 
-    private function applyAdditionalValidationRules(array $validationRules): void
+    private function applyAdditionalValidationRules(array $options): void
     {
-        if ($this->getForm()) {
-            foreach ($this->getForm()->getElements() as $element) {
-                $validators = $validationRules[$element->getName()] ?? [];
-                $element->addValidators($validators);
-                $this->configureFormValidators($validators, $this->getForm());
-                $this->getForm()->addElement($element);
+        $validationRules = $options[self::ADDITIONAL_VALIDATORS] ?? [];
+
+        if (empty($validationRules)) {
+            return;
+        }
+
+        foreach ($this->getForm()->getElements() as $element) {
+            $validators = $validationRules[$element->getName()] ?? [];
+            $element->addValidators($validators);
+            $this->configureFormValidators($validators, $this->getForm(), $element);
+            $this->getForm()->addElement($element);
+        }
+    }
+
+    private function applyAttributeValidators(array $options): void
+    {
+        $attributeValidators = $options[self::ATTRIBUTE_VALIDATORS] ?? [];
+
+        if (empty($attributeValidators)) {
+            return;
+        }
+
+        foreach ($this->getForm()->getElements() as $element) {
+            $attributes = $element->getAttributes();
+            $validators = array_intersect_key($attributeValidators, $attributes);
+
+            if (empty($validators)) {
+                continue;
             }
+
+            /** @var ValidatorInterface[] $validators */
+            $validators = array_merge(...array_values($validators));
+            $element->addValidators($validators);
+            $this->configureFormValidators($validators, $this->getForm(), $element);
+            $this->getForm()->addElement($element);
         }
     }
 
     /**
      * @param ValidatorInterface[] $validators
      */
-    private function configureFormValidators(iterable $validators, tao_helpers_form_Form $form): void
-    {
+    private function configureFormValidators(
+        iterable $validators,
+        tao_helpers_form_Form $form,
+        tao_helpers_form_FormElement $element
+    ): void {
         foreach ($validators as $validator) {
-            if (!$validator instanceof CrossElementEvaluationAware) {
-                continue;
+            if ($validator instanceof CrossPropertyEvaluationAwareInterface) {
+                $property = $this->getProperty(tao_helpers_Uri::decode($element->getName()));
+                $validator->setProperty($property);
             }
-            $validator->acknowledge($form);
+
+            if ($validator instanceof CrossElementEvaluationAware) {
+                $validator->acknowledge($form);
+            }
         }
     }
 }
