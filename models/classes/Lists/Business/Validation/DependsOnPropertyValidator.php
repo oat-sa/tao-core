@@ -146,6 +146,10 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
             $values = [trim($values)];
         }
 
+        if (!is_array($values)) {
+            return [];
+        }
+
         $values = array_map(
             static function ($value) {
                 return $value instanceof ElementValue
