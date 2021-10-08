@@ -105,7 +105,7 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
      */
     public function evaluate($values)
     {
-        $values = $this->valuesToArray($values);
+        $values = $this->prepareValues($values);
         $providedValidValues = [];
 
         foreach ($this->dependencyRepositoryContexts as $context) {
@@ -137,22 +137,27 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
         }
     }
 
-    private function valuesToArray($values): array
+    /**
+     * @param string|array $values
+     */
+    private function prepareValues($values): array
     {
         if (is_string($values)) {
             $values = [trim($values)];
         }
 
-        if (is_array($values)) {
-            $values = array_map(
-                static function ($value) {
-                    return $value instanceof ElementValue
-                        ? $value->getUri()
-                        : $value;
-                },
-                $values
-            );
+        if (!is_array($values)) {
+            return [];
         }
+
+        $values = array_map(
+            static function ($value) {
+                return $value instanceof ElementValue
+                    ? $value->getUri()
+                    : $value;
+            },
+            $values
+        );
 
         return array_filter($values);
     }
