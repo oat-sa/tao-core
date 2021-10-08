@@ -243,6 +243,9 @@ abstract class tao_helpers_form_FormContainer
         }
     }
 
+    /**
+     * @param ValidatorInterface[]|CrossPropertyEvaluationAwareInterface[] $validators
+     */
     private function configureCrossPropertyValidators(
         iterable &$validators,
         tao_helpers_form_FormElement $element
@@ -260,7 +263,7 @@ abstract class tao_helpers_form_FormContainer
     }
 
     /**
-     * @param ValidatorInterface[] $validators
+     * @param ValidatorInterface[]|CrossElementEvaluationAware[] $validators
      */
     private function configureFormValidators(iterable $validators, tao_helpers_form_Form $form): void
     {
