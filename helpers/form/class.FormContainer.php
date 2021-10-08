@@ -211,7 +211,7 @@ abstract class tao_helpers_form_FormContainer
         foreach ($this->getForm()->getElements() as $element) {
             $validators = $validationRules[$element->getName()] ?? [];
             $element->addValidators($validators);
-            $this->configureFormValidators($validators, $this->getForm(), $element);
+            $this->configureFormValidators($validators, $this->getForm());
             $this->getForm()->addElement($element);
         }
     }
@@ -234,26 +234,37 @@ abstract class tao_helpers_form_FormContainer
 
             /** @var ValidatorInterface[] $validators */
             $validators = array_merge(...array_values($validators));
+
+            $this->configureCrossPropertyValidators($validators, $element);
+            $this->configureFormValidators($validators, $this->getForm());
+
             $element->addValidators($validators);
-            $this->configureFormValidators($validators, $this->getForm(), $element);
             $this->getForm()->addElement($element);
+        }
+    }
+
+    private function configureCrossPropertyValidators(
+        iterable &$validators,
+        tao_helpers_form_FormElement $element
+    ): void {
+        $property = $this->getProperty(tao_helpers_Uri::decode($element->getName()));
+
+        foreach ($validators as $index => $validator) {
+            if ($validator instanceof CrossPropertyEvaluationAwareInterface) {
+                $uniqueValidator = clone $validator;
+                $uniqueValidator->setProperty($property);
+
+                $validators[$index] = $uniqueValidator;
+            }
         }
     }
 
     /**
      * @param ValidatorInterface[] $validators
      */
-    private function configureFormValidators(
-        iterable $validators,
-        tao_helpers_form_Form $form,
-        tao_helpers_form_FormElement $element
-    ): void {
+    private function configureFormValidators(iterable $validators, tao_helpers_form_Form $form): void
+    {
         foreach ($validators as $validator) {
-            if ($validator instanceof CrossPropertyEvaluationAwareInterface) {
-                $property = $this->getProperty(tao_helpers_Uri::decode($element->getName()));
-                $validator->setProperty($property);
-            }
-
             if ($validator instanceof CrossElementEvaluationAware) {
                 $validator->acknowledge($form);
             }
