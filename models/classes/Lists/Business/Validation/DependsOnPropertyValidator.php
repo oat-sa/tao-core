@@ -143,18 +143,19 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
     private function prepareValues($values): array
     {
         if (is_string($values)) {
-            return array_filter([trim($values)]);
+            $values = [trim($values)];
         }
 
-        $result = [];
+        $values = array_map(
+            static function ($value) {
+                return $value instanceof ElementValue
+                    ? $value->getUri()
+                    : $value;
+            },
+            $values
+        );
 
-        foreach ($values as $value) {
-            if ($value instanceof ElementValue) {
-                $result[$value->getLabel()] = $value->getUri();
-            }
-        }
-
-        return $result;
+        return array_filter($values);
     }
 
     private function createContext(string $rangeUri, array $listValues): DependencyRepositoryContext
