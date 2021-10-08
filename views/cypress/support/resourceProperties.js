@@ -69,12 +69,33 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
     nodeName,
     nodePropertiesForm,
     selectOption,
-    treeRenderUrl) => {
+    treeRenderUrl,
+    editUrl) => {
 
     cy.log('COMMAND: assignValueToProperty', nodeName, nodePropertiesForm);
+    cy.intercept('POST', `**${editUrl}`).as('edit')
     cy.getSettled(`li [title ="${nodeName}"] a`).last().click();
+    cy.wait('@edit');
     cy.getSettled(nodePropertiesForm).find(selectOption).check();
     cy.intercept('GET', `**/${treeRenderUrl}/getOntologyData**`).as('treeRender')
     cy.getSettled('button[type="submit"]').click();
     cy.wait('@treeRender');
 });
+
+/**
+ * Removes a property from a class
+ * @param {String} className - Target class to remove property from
+ * @param {String} propertyName - Property to remove
+ */
+Cypress.Commands.add('removePropertyFromClass', (className, propertyName) => {
+    cy.intercept('POST', `**/${ selectors.editClassUrl }`).as('editClass');
+    cy.selectNode(selectors.root, selectors.itemClassForm, className);
+    cy.getSettled(selectors.editClass).click();
+    cy.wait('@editClass');
+    cy.getSettled(selectors.classOptions)
+        .contains('.property-block', propertyName)
+        .within(() => {
+            cy.get('.property-deleter').click();
+        })
+    cy.on('window:confirm', () => true);
+})
