@@ -31,10 +31,7 @@ abstract class AbstractContext implements ContextInterface
     public function __construct(array $parameters)
     {
         foreach ($parameters as $parameter => $parameterValue) {
-            $this->checkParameterSupport($parameter);
-            $this->validateParameter($parameter, $parameterValue);
-
-            $this->parameters[$parameter] = $parameterValue;
+            $this->setParameter($parameter, $parameterValue);
         }
     }
 

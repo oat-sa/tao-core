@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,8 +17,10 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
+ *               2021 (original work) Open Assessment Technologies SA
  */
+
+declare(strict_types=1);
 
 /**
  * Represents a form. It provides the default behavior for form management and
@@ -826,6 +829,13 @@ abstract class tao_helpers_form_Form
                 $this->removeElement($element);
             }
             unset($this->groups[$groupName]);
+        }
+    }
+
+    public function evaluateInputValues(): void
+    {
+        foreach ($this->elements as $id => $element) {
+            $this->elements[$id]->feedInputValue();
         }
     }
 

@@ -19,8 +19,10 @@
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-     (update and modification) Open Assessment Technologies SA;
- *
+ *               2021 (original work) Open Assessment Technologies SA
  */
+
+declare(strict_types=1);
 
 use oat\tao\controller\api\Users;
 use oat\tao\install\services\SetupSettingsStorage;
@@ -37,6 +39,7 @@ use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterActionAccessControl;
 use oat\tao\scripts\install\RegisterClassMetadataServices;
+use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
@@ -265,5 +268,8 @@ return [
     ],
     'extra' => [
         'structures' => $extpath . 'actions' . DIRECTORY_SEPARATOR . 'structures.xml',
-    ]
+    ],
+    'containerServiceProviders' => [
+        ListsServiceProvider::class,
+    ],
 ];

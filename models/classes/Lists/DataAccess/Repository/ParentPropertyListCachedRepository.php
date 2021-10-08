@@ -22,13 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
-use core_kernel_classes_Property;
 use InvalidArgumentException;
-use oat\oatbox\service\ConfigurableService;
+use core_kernel_classes_Property;
 use oat\oatbox\cache\SimpleCache;
+use Psr\SimpleCache\CacheInterface;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
 use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
-use Psr\SimpleCache\CacheInterface;
 
 class ParentPropertyListCachedRepository extends ConfigurableService implements ParentPropertyListRepositoryInterface
 {
@@ -65,7 +65,7 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
         if (!$property) {
             return $this->getParentPropertyListRepository()->findAllUris($options);
         }
-        
+
         $listUri = $options['listUri'] ?? $property->getRange()->getUri();
         $cacheKey = sprintf(self::CACHE_MASK, $property->getUri(), $listUri);
         $listCacheKey = sprintf(self::LIST_CACHE_MASK, $listUri);
@@ -122,6 +122,6 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
 
     private function getDependencyRepository(): DependencyRepositoryInterface
     {
-        return $this->getServiceLocator()->get(DependencyRepository::class);
+        return $this->getServiceLocator()->getContainer()->get(DependencyRepository::class);
     }
 }

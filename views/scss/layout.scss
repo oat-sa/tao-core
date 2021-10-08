@@ -416,6 +416,8 @@ ul.group-list {
         > div {
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
 
             &.disabled {
                 background: transparent!important;
@@ -436,7 +438,15 @@ ul.group-list {
             }
 
             select, .form_radlst {
-                width: calc(65% + 70px);
+                width: calc(65% + 20px);
+            }
+
+            .form_desc {
+                width: calc(35% - 20px);
+            }
+
+            .form-error {
+                width: 100%;
             }
         }
     }

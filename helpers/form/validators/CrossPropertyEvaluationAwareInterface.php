@@ -20,15 +20,11 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Specification;
+namespace oat\tao\helpers\form\validators;
 
 use core_kernel_classes_Property;
-use oat\tao\model\Specification\PropertySpecificationInterface;
 
-class DependentPropertySpecification implements PropertySpecificationInterface
+interface CrossPropertyEvaluationAwareInterface extends CrossElementEvaluationAware
 {
-    public function isSatisfiedBy(core_kernel_classes_Property $property): bool
-    {
-        return !$property->getDependsOnPropertyCollection()->isEmpty();
-    }
+    public function setProperty(core_kernel_classes_Property $property): void;
 }
