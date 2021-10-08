@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -44,6 +44,11 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $resultAmount = count($resultsRaw);
 
         $response = [];
+
+        $resourcePermissions = [];
+
+        $resultAccessChecker = $this->getResultAccessChecker();
+
         if ($resultAmount > 0) {
             $accessibleResultsMap = array_flip(
                 $this->getPermissionHelper()
@@ -54,7 +59,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
             );
 
             foreach ($resultsRaw as $content) {
-                if (!is_array($content)){
+                if (!is_array($content)) {
                     $this->logError(
                         sprintf(
                             'Search content issue detected: expected array, but %s given',
@@ -67,22 +72,25 @@ class ResultSetResponseNormalizer extends ConfigurableService
                 $isAccessible = isset($accessibleResultsMap[$content['id']]);
 
                 if (!$isAccessible) {
-                    $content['label'] = __('Access Denied');
+                    $hasReadAccess = false;
                 }
+
+                if ($isAccessible) {
+                    $hasReadAccess = $resultAccessChecker->hasReadAccess($content);
+                }
+
+                if ($hasReadAccess === false) {
+                    $content['label'] = __('Access Denied');
+                    $content['id'] = '';
+                }
+
+                $resourcePermissions[$content['id']] = !$hasReadAccess;
 
                 $response['data'][] = $this->getResultSetFilter()->filter($content, $structure);
             }
         }
-        $response['readonly'] = array_fill_keys(
-            array_keys(
-                array_diff_key(
-                    $resultsRaw,
-                    $accessibleResultsMap
-                )
-            ),
-            true
-        );
 
+        $response['readonly'] = $resourcePermissions;
         $response['success'] = true;
         $response['page'] = empty($response['data']) ? 0 : $searchQuery->getPage();
         $response['total'] = $totalPages;
@@ -102,5 +110,10 @@ class ResultSetResponseNormalizer extends ConfigurableService
     private function getResultSetFilter(): ResultSetFilter
     {
         return $this->getServiceLocator()->get(ResultSetFilter::class);
+    }
+
+    private function getResultAccessChecker(): ResultAccessChecker
+    {
+        return $this->getServiceLocator()->get(ResultAccessChecker::class);
     }
 }
