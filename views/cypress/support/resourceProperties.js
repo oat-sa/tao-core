@@ -84,8 +84,13 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
 
 /**
  * Removes a property from a class
+ * @param {String} nodeName - Node where target class exists
  * @param {String} className - Target class to remove property from
  * @param {String} propertyName - Property to remove
+ * @param {String} nodePropertiesForm - css selector for the node properties edition form
+ * @param {String} manageSchemaSelector - css selector for the manage schema button
+ * @param {String} classOptions - css selector for the class options form
+ * @param {String} editUrl - endpoint related to the load of the edit form
  */
 Cypress.Commands.add('removePropertyFromClass', (nodeName, className, propertyName, nodePropertiesForm, manageSchemaSelector, classOptions, editUrl) => {
     cy.intercept('POST', `**/${ editUrl }`).as('edit');
