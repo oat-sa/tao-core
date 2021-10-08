@@ -87,15 +87,15 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
  * @param {String} className - Target class to remove property from
  * @param {String} propertyName - Property to remove
  */
-Cypress.Commands.add('removePropertyFromClass', (className, propertyName) => {
-    cy.intercept('POST', `**/${ selectors.editClassUrl }`).as('editClass');
-    cy.selectNode(selectors.root, selectors.itemClassForm, className);
-    cy.getSettled(selectors.editClass).click();
+Cypress.Commands.add('removePropertyFromClass', (className, propertyName, nodePropertiesForm, manageSchemaSelector, classOptions, editUrl) => {
+    cy.intercept('POST', `**/${ editUrl }`).as('edit');
+    cy.selectNode(selectors.root, nodePropertiesForm, className);
+    cy.getSettled(manageSchemaSelector).click();
     cy.wait('@editClass');
-    cy.getSettled(selectors.classOptions)
+    cy.getSettled(classOptions)
         .contains('.property-block', propertyName)
         .within(() => {
             cy.get('.property-deleter').click();
-        })
+        });
     cy.on('window:confirm', () => true);
 })
