@@ -6,6 +6,4 @@ export default {
     labelSelector: '[data-testid=Label]',
 
     manageUserTable: '#user-list',
-
-    root: '[data-uri="http://www.tao.lu/Ontologies/TAOItem.rdf#Item"]',
 };
