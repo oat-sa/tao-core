@@ -252,12 +252,10 @@ abstract class tao_helpers_form_FormContainer
     ): void {
         $property = $this->getProperty(tao_helpers_Uri::decode($element->getName()));
 
-        foreach ($validators as $index => $validator) {
+        foreach ($validators as &$validator) {
             if ($validator instanceof CrossPropertyEvaluationAwareInterface) {
-                $uniqueValidator = clone $validator;
-                $uniqueValidator->setProperty($property);
-
-                $validators[$index] = $uniqueValidator;
+                $validator = clone $validator;
+                $validator->setProperty($property);
             }
         }
     }
