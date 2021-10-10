@@ -84,22 +84,23 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
 
 /**
  * Removes a property from a class
- * @param {String} nodeName - Node where target class exists
- * @param {String} className - Target class to remove property from
- * @param {String} propertyName - Property to remove
- * @param {String} nodePropertiesForm - css selector for the node properties edition form
- * @param {String} manageSchemaSelector - css selector for the manage schema button
- * @param {String} classOptions - css selector for the class options form
- * @param {String} editUrl - endpoint related to the load of the edit form
+ * @param {Object} options - Contains set of options for executing command
+ * @param {String} options.nodeName - Node where target class exists
+ * @param {String} options.className - Target class to remove property from
+ * @param {String} options.propertyName - Property to remove
+ * @param {String} options.nodePropertiesForm - css selector for the node properties edition form
+ * @param {String} options.manageSchemaSelector - css selector for the manage schema button
+ * @param {String} options.classOptions - css selector for the class options form
+ * @param {String} options.editUrl - endpoint related to the load of the edit form
  */
-Cypress.Commands.add('removePropertyFromClass', (nodeName, className, propertyName, nodePropertiesForm, manageSchemaSelector, classOptions, editUrl) => {
-    cy.log('COMMAND: removePropertyFromClass', nodeName, propertyName);
-    cy.intercept('POST', `**/${ editUrl }`).as('edit');
-    cy.selectNode(nodeName, nodePropertiesForm, className);
-    cy.getSettled(manageSchemaSelector).click();
+Cypress.Commands.add('removePropertyFromClass', (options) => {
+    cy.log('COMMAND: removePropertyFromClass', options.nodeName, options.propertyName);
+    cy.intercept('POST', `**/${ options.editUrl }`).as('edit');
+    cy.selectNode(options.nodeName, options.nodePropertiesForm, options.className);
+    cy.getSettled(options.manageSchemaSelector).click();
     cy.wait('@edit');
-    cy.getSettled(classOptions)
-        .contains('.property-block', propertyName)
+    cy.getSettled(options.classOptions)
+        .contains('.property-block', options.propertyName)
         .within(() => {
             cy.get('.property-deleter').click();
         });
