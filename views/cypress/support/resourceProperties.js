@@ -93,10 +93,11 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
  * @param {String} editUrl - endpoint related to the load of the edit form
  */
 Cypress.Commands.add('removePropertyFromClass', (nodeName, className, propertyName, nodePropertiesForm, manageSchemaSelector, classOptions, editUrl) => {
+    cy.log('COMMAND: removePropertyFromClass', nodeName, propertyName);
     cy.intercept('POST', `**/${ editUrl }`).as('edit');
     cy.selectNode(nodeName, nodePropertiesForm, className);
     cy.getSettled(manageSchemaSelector).click();
-    cy.wait('@editClass');
+    cy.wait('@edit');
     cy.getSettled(classOptions)
         .contains('.property-block', propertyName)
         .within(() => {
