@@ -69,12 +69,40 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
     nodeName,
     nodePropertiesForm,
     selectOption,
-    treeRenderUrl) => {
+    treeRenderUrl,
+    editUrl) => {
 
     cy.log('COMMAND: assignValueToProperty', nodeName, nodePropertiesForm);
+    cy.intercept('POST', `**${editUrl}`).as('edit')
     cy.getSettled(`li [title ="${nodeName}"] a`).last().click();
+    cy.wait('@edit');
     cy.getSettled(nodePropertiesForm).find(selectOption).check();
     cy.intercept('GET', `**/${treeRenderUrl}/getOntologyData**`).as('treeRender')
     cy.getSettled('button[type="submit"]').click();
     cy.wait('@treeRender');
+});
+
+/**
+ * Removes a property from a class
+ * @param {Object} options - Contains set of options for executing command
+ * @param {String} options.nodeName - Node where target class exists
+ * @param {String} options.className - Target class to remove property from
+ * @param {String} options.propertyName - Property to remove
+ * @param {String} options.nodePropertiesForm - css selector for the node properties edition form
+ * @param {String} options.manageSchemaSelector - css selector for the manage schema button
+ * @param {String} options.classOptions - css selector for the class options form
+ * @param {String} options.editUrl - endpoint related to the load of the edit form
+ */
+Cypress.Commands.add('removePropertyFromClass', (options) => {
+    cy.log('COMMAND: removePropertyFromClass', options.nodeName, options.propertyName);
+    cy.intercept('POST', `**/${ options.editUrl }`).as('edit');
+    cy.selectNode(options.nodeName, options.nodePropertiesForm, options.className);
+    cy.getSettled(options.manageSchemaSelector).click();
+    cy.wait('@edit');
+    cy.getSettled(options.classOptions)
+        .contains('.property-block', options.propertyName)
+        .within(() => {
+            cy.get('.property-deleter').click();
+        });
+    cy.on('window:confirm', () => true);
 });
