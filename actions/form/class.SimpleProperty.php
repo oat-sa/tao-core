@@ -24,7 +24,9 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\elements\xhtml\Validators;
+use oat\tao\model\Lists\Business\Contract\DependsOnPropertyUsageRepositoryInterface;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
+use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyUsageRepository;
 use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
 use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\tree\TreeService;
@@ -269,6 +271,20 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         $listOptions = [];
         $specification = $this->getRemoteListClassSpecification();
 
+        $totalUsages = $this->getDependsOnPropertyUsageRepository()->findTotalUsages($this->property);
+
+        if ($totalUsages > 0) {
+            //@FIXME @TODO Check with Cristian and Sveta best place to force blocking those fields
+            $element->addAttribute(
+                'data-force-disabled',
+                'true'
+            );
+            $element->addAttribute(
+                'data-disabled-message',
+                __('The field "List" is disabled because the property is already in use')
+            );
+        }
+
         foreach ($service->getLists() as $list) {
             $encodedListUri = tao_helpers_Uri::encode($list->getUri());
             $listOptions[$encodedListUri] = $list->getLabel();
@@ -312,6 +328,11 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
     private function getDependsOnPropertyFormFieldFactory(): DependsOnPropertyFormFieldFactory
     {
         return $this->getContainer()->get(DependsOnPropertyFormFieldFactory::class);
+    }
+
+    private function getDependsOnPropertyUsageRepository(): DependsOnPropertyUsageRepositoryInterface
+    {
+        return $this->getContainer()->get(DependsOnPropertyUsageRepository::class);
     }
 
     private function getRemoteListClassSpecification(): RemoteListClassSpecification

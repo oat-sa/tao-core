@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
-use oat\tao\model\Context\ContextInterface;
+use core_kernel_classes_Property;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\tao\model\Lists\Business\Contract\DependsOnPropertyUsageRepositoryInterface;
 
@@ -36,7 +36,7 @@ class DependsOnPropertyUsageRepository implements DependsOnPropertyUsageReposito
         $this->complexSearch = $complexSearch;
     }
 
-    public function findTotalUsages(ContextInterface $context): int
+    public function findTotalUsages(core_kernel_classes_Property $property): int
     {
         return 10; //@TODO Do the proper query with complex query
     }

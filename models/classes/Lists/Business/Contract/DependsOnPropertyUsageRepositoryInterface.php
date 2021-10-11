@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Contract;
 
-use oat\tao\model\Context\ContextInterface;
+use core_kernel_classes_Property;
 
 interface DependsOnPropertyUsageRepositoryInterface
 {
-    public function findTotalUsages(ContextInterface $context): int;
+    public function findTotalUsages(core_kernel_classes_Property $property): int;
 }
