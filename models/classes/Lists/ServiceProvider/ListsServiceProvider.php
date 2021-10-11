@@ -22,11 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\ServiceProvider;
 
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
 use oat\tao\model\Lists\Business\Validation\DependsOnPropertyValidator;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
+use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyUsageRepository;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -56,6 +58,15 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(DependencyRepository::class),
+                ]
+            );
+
+        $services
+            ->set(DependsOnPropertyUsageRepository::class, DependsOnPropertyUsageRepository::class)
+            ->public()
+            ->args(
+                [
+                    service(ComplexSearchService::SERVICE_ID),
                 ]
             );
     }
