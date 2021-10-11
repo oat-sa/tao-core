@@ -108,9 +108,21 @@ require(['jquery'], function ($) {
             data: createRequestData,
             results: normalizeResponse
         },
+        formatSelection: choice => {
+            return choice.isValid
+                ? choice.text
+                : `<span class="invalid-choice">\${choice.text}</span>`;
+        },
         initSelection: function (element, callback) {
             callback($initSelection);
         }
+    });
+
+    $('.invalid-choice').each((index, element) => {
+        $(element).parent().parent().css({
+            'borderColor': 'red',
+            'backgroundColor': '#ffb5b5',
+        });
     });
 });
 javascript;
@@ -149,11 +161,13 @@ javascript;
     private function createInitSelectionValues(): array
     {
         $result = [];
+        $invalidValues = $this->getInvalidValues();
 
         foreach ($this->getRawValue() as $value) {
             $result[] = [
-                'id'   => tao_helpers_Uri::encode($value->getUri()),
+                'id' => tao_helpers_Uri::encode($value->getUri()),
                 'text' => $value->getLabel(),
+                'isValid' => !in_array($value->getUri(), $invalidValues, true),
             ];
         }
 

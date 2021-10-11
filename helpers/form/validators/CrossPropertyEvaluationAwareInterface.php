@@ -26,5 +26,7 @@ use core_kernel_classes_Property;
 
 interface CrossPropertyEvaluationAwareInterface extends CrossElementEvaluationAware
 {
+    public const OPTION_INVALID_VALUES = 'invalidValues';
+
     public function setProperty(core_kernel_classes_Property $property): void;
 }

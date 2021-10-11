@@ -25,6 +25,7 @@ declare(strict_types=1);
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
+use oat\tao\helpers\form\validators\CrossPropertyEvaluationAwareInterface;
 
 // Defining aliases for old style class names for backward compatibility
 class_alias(SearchTextBox::class, \tao_helpers_form_elements_xhtml_Searchtextbox::class);
@@ -144,6 +145,9 @@ abstract class tao_helpers_form_FormElement
 
     /** @var mixed */
     private $inputValue;
+
+    /** @var array */
+    private $invalidValues = [];
 
     /**
      * Short description of method __construct
@@ -423,18 +427,32 @@ abstract class tao_helpers_form_FormElement
      */
     public function validate()
     {
+        if ($this->forcedValid) {
+            return true;
+        }
+
         $returnValue = true;
 
-        if (!$this->forcedValid) {
-            foreach ($this->validators as $validator) {
-                if (!$validator->evaluate($this->getRawValue())) {
-                    $this->error[] = $validator->getMessage();
-                    $returnValue = false;
-                    common_Logger::d($this->getName() . ' is invalid for ' . $validator->getName(), ['TAO']);
-                    if ($this->isBreakOnFirstError()) {
-                        break;
-                    }
-                }
+        /** @var ValidatorInterface $validator */
+        foreach ($this->validators as $validator) {
+            if ($validator->evaluate($this->getRawValue())) {
+                continue;
+            }
+
+            $returnValue = false;
+            $this->error[] = $validator->getMessage();
+            common_Logger::d(
+                sprintf('%s is invalid for %s', $this->getName(), $validator->getName()),
+                ['TAO']
+            );
+
+            if ($validator instanceof CrossPropertyEvaluationAwareInterface) {
+                $options = $validator->getOptions();
+                $this->invalidValues = $options[CrossPropertyEvaluationAwareInterface::OPTION_INVALID_VALUES] ?? [];
+            }
+
+            if ($this->isBreakOnFirstError()) {
+                break;
             }
         }
 
@@ -450,6 +468,11 @@ abstract class tao_helpers_form_FormElement
     public function getError()
     {
         return implode("\n", $this->error);
+    }
+
+    public function getInvalidValues(): array
+    {
+        return $this->invalidValues;
     }
 
     /**

@@ -24,7 +24,6 @@ namespace oat\tao\model\Lists\Business\Validation;
 
 use tao_helpers_Uri;
 use tao_helpers_form_Form;
-use InvalidArgumentException;
 use core_kernel_classes_Property;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\ElementValue;
@@ -39,6 +38,9 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
 
     /** @var array */
     private $options = [];
+
+    /** @var string */
+    private $message;
 
     /** @var core_kernel_classes_Property */
     private $property;
@@ -82,7 +84,7 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
      */
     public function getMessage()
     {
-        return __('Invalid value');
+        return $this->message;
     }
 
     /**
@@ -90,12 +92,9 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
      */
     public function setMessage($message)
     {
-        throw new InvalidArgumentException(
-            sprintf(
-                'Message for validator %s cannot be set.',
-                self::class
-            )
-        );
+        $this->message = $message;
+
+        return $this;
     }
 
     /**
@@ -113,7 +112,18 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
             $providedValidValues = array_merge($providedValidValues, array_intersect($values, $childListItemsUris));
         }
 
-        return empty(array_diff($values, $providedValidValues));
+        $invalidValues = array_diff($values, $providedValidValues);
+        $isValid = empty($invalidValues);
+
+        if (!$isValid) {
+            $this->options[CrossPropertyEvaluationAwareInterface::OPTION_INVALID_VALUES] = $invalidValues;
+            $this->message = count($invalidValues) > 1
+                ? __('The selected values must be compatible with the primary property.')
+                : __('The selected value must be compatible with the primary property.');
+        }
+
+
+        return $isValid;
     }
 
     public function setProperty(core_kernel_classes_Property $property): void
