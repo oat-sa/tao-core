@@ -15,23 +15,26 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2018 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  *
  */
 
+declare(strict_types=1);
+
 use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\action\Action;
+use oat\oatbox\log\ContainerLoggerTrait;
 use oat\oatbox\log\logger\TaoLog;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use oat\tao\model\service\InjectionAwareService;
+use Pimple\Container;
 
 class tao_install_Setup implements Action
 {
     // Adding container and logger.
-    use \oat\oatbox\log\ContainerLoggerTrait;
+    use ContainerLoggerTrait;
 
     /**
      * Setup related dependencies will be reached under this offset.
@@ -73,7 +76,7 @@ class tao_install_Setup implements Action
             $filePath = $params[0];
 
             if (!file_exists($filePath)) {
-                throw new \ErrorException('Unable to find ' . $filePath);
+                throw new ErrorException('Unable to find ' . $filePath);
             }
 
             $info = pathinfo($filePath);
@@ -87,7 +90,7 @@ class tao_install_Setup implements Action
                     break;
                 case 'yml':
                     if (extension_loaded('yaml')) {
-                        $parameters = \yaml_parse_file($filePath);
+                        $parameters = yaml_parse_file($filePath);
                         if ($parameters === false) {
                             throw new InvalidArgumentException('Your YAML file is malformed');
                         }
@@ -156,13 +159,9 @@ class tao_install_Setup implements Action
         $options['import_local'] = (isset($global['import_data']) && $global['import_data'] === true);
 
         $rootDir = dir(dirname(__FILE__) . '/../../');
-        $options['root_path'] = isset($global['root_path'])
-            ? $global['root_path']
-            : realpath($rootDir->path) . DIRECTORY_SEPARATOR;
+        $options['root_path'] = $global['root_path'] ?? realpath($rootDir->path) . DIRECTORY_SEPARATOR;
 
-        $options['file_path'] = isset($global['file_path'])
-            ? $global['file_path']
-            : $options['root_path'] . 'data' . DIRECTORY_SEPARATOR;
+        $options['file_path'] = $global['file_path'] ?? $options['root_path'] . 'data' . DIRECTORY_SEPARATOR;
 
         if (isset($global['session_name'])) {
             $options['session_name'] = $global['session_name'];
@@ -205,11 +204,11 @@ class tao_install_Setup implements Action
         }
 
         // run the actual install
-        if ($this->getContainer() instanceof \Pimple\Container) {
-            $this->getContainer()->offsetSet(\tao_install_Installator::CONTAINER_INDEX, $installOptions);
-            $installator = new \tao_install_Installator($this->getContainer());
+        if ($this->getContainer() instanceof Container) {
+            $this->getContainer()->offsetSet(tao_install_Installator::CONTAINER_INDEX, $installOptions);
+            $installator = new tao_install_Installator($this->getContainer());
         } else {
-            $installator = new \tao_install_Installator($installOptions);
+            $installator = new tao_install_Installator($installOptions);
         }
 
         $serviceManager = $installator->getServiceManager();
@@ -229,8 +228,8 @@ class tao_install_Setup implements Action
                 if (isset($config['type']) && $config['type'] === 'configurableService') {
                     $className = $config['class'];
                     $params = $config['options'];
-                    if (is_a($className, \oat\oatbox\service\ConfigurableService::class, true)) {
-                        if (is_a($className, \oat\tao\model\service\InjectionAwareService::class, true)) {
+                    if (is_a($className, ConfigurableService::class, true)) {
+                        if (is_a($className, InjectionAwareService::class, true)) {
                             $service = new $className(...$this->prepareParameters($className, $params, $serviceManager));
                         } else {
                             $service = new $className($params);
@@ -352,10 +351,17 @@ class tao_install_Setup implements Action
      */
     private function wrapPersistenceConfig($persistences)
     {
-        $installParams = $this->getCommandLineParameters($persistences['default']);
+        if ($this->isMasterSlaveConnection($persistences)) {
+            $persistences['default'] = [
+                'driver' => 'dbal',
+                'connection' => $persistences['connection'],
+            ];
+        } else {
+            $installParams = $this->getCommandLineParameters($persistences['default']);
 
-        $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
-        $persistences['default'] = $dbalConfigCreator->createDbalConfig($installParams);
+            $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
+            $persistences['default'] = $dbalConfigCreator->createDbalConfig($installParams);
+        }
 
         return [
             'type' => 'configurableService',
@@ -369,43 +375,29 @@ class tao_install_Setup implements Action
     private function getCommandLineParameters(array $defaultPersistenceConfig): array
     {
         if (isset($defaultPersistenceConfig['connection'])) {
-            if ($this->isMasterSlaveConnection($defaultPersistenceConfig)) {
-                $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
-                $options['db_host'] = $defaultPersistenceConfig['connection']['master']['host'];
-                $options['db_name'] = $defaultPersistenceConfig['connection']['master']['dbname'];
+            $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
 
-                if (isset($defaultPersistenceConfig['connection']['master']['user'])) {
-                    $options['db_user'] = $defaultPersistenceConfig['connection']['master']['user'];
-                }
+            if (isset($defaultPersistenceConfig['connection']['driverClass'])) {
+                $options['db_driverClass'] = $defaultPersistenceConfig['connection']['driverClass'];
+            }
 
-                if (isset($defaultPersistenceConfig['connection']['master']['password'])) {
-                    $options['db_pass'] = $defaultPersistenceConfig['connection']['master']['password'];
-                }
-            } else {
-                $options['db_driver'] = $defaultPersistenceConfig['connection']['driver'];
+            if (isset($defaultPersistenceConfig['connection']['driverOptions'])) {
+                $options['db_driverOptions'] = $defaultPersistenceConfig['connection']['driverOptions'];
+            }
 
-                if (isset($defaultPersistenceConfig['connection']['driverClass'])) {
-                    $options['db_driverClass'] = $defaultPersistenceConfig['connection']['driverClass'];
-                }
+            if (isset($defaultPersistenceConfig['connection']['instance'])) {
+                $options['db_instance'] = $defaultPersistenceConfig['connection']['instance'];
+            }
 
-                if (isset($defaultPersistenceConfig['connection']['driverOptions'])) {
-                    $options['db_driverOptions'] = $defaultPersistenceConfig['connection']['driverOptions'];
-                }
+            $options['db_host'] = $defaultPersistenceConfig['connection']['host'];
+            $options['db_name'] = $defaultPersistenceConfig['connection']['dbname'];
 
-                if (isset($defaultPersistenceConfig['connection']['instance'])) {
-                    $options['db_instance'] = $defaultPersistenceConfig['connection']['instance'];
-                }
+            if (isset($defaultPersistenceConfig['connection']['user'])) {
+                $options['db_user'] = $defaultPersistenceConfig['connection']['user'];
+            }
 
-                $options['db_host'] = $defaultPersistenceConfig['connection']['host'];
-                $options['db_name'] = $defaultPersistenceConfig['connection']['dbname'];
-
-                if (isset($defaultPersistenceConfig['connection']['user'])) {
-                    $options['db_user'] = $defaultPersistenceConfig['connection']['user'];
-                }
-
-                if (isset($defaultPersistenceConfig['connection']['password'])) {
-                    $options['db_pass'] = $defaultPersistenceConfig['connection']['password'];
-                }
+            if (isset($defaultPersistenceConfig['connection']['password'])) {
+                $options['db_pass'] = $defaultPersistenceConfig['connection']['password'];
             }
         } else {
             $options['db_driver'] = $defaultPersistenceConfig['driver'];
@@ -426,7 +418,12 @@ class tao_install_Setup implements Action
 
     private function isMasterSlaveConnection(array $defaultPersistenceConfig): bool
     {
-        return isset($defaultPersistenceConfig['connection']['wrapperClass'])
-            && $defaultPersistenceConfig['connection']['wrapperClass'] === '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection';
+        return
+            isset($defaultPersistenceConfig['connection']['wrapperClass'])
+            && is_a(
+                $defaultPersistenceConfig['connection']['wrapperClass'],
+                '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection',
+                true
+            );
     }
 }
