@@ -130,14 +130,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 
         $range = $property->getRange();
 
-        $rangeSelect = tao_helpers_form_FormFactory::getElement("{$this->getIndex()}_range", 'Combobox');
-        $rangeSelect->setDescription(__('List values'));
-        $rangeSelect->addAttribute('class', 'property-listvalues property');
-        $rangeSelect->setEmptyOption(' --- ' . __('select') . ' --- ');
-
-        if ($checkRange) {
-            $rangeSelect->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-        }
+        $rangeSelect = $this->createListElement($checkRange);
 
         $this->form->addElement($rangeSelect);
         $elementNames[] = $rangeSelect->getName();
@@ -271,20 +264,6 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         $listOptions = [];
         $specification = $this->getRemoteListClassSpecification();
 
-        $totalUsages = $this->getDependsOnPropertyUsageRepository()->findTotalUsages($this->property);
-
-        if ($totalUsages > 0) {
-            //@FIXME @TODO Check with Cristian and Sveta best place to force blocking those fields
-            $element->addAttribute(
-                'data-force-disabled',
-                'true'
-            );
-            $element->addAttribute(
-                'data-disabled-message',
-                __('The field "List" is disabled because the property is already in use')
-            );
-        }
-
         foreach ($service->getLists() as $list) {
             $encodedListUri = tao_helpers_Uri::encode($list->getUri());
             $listOptions[$encodedListUri] = $list->getLabel();
@@ -305,6 +284,34 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         $element->setOptions($listOptions);
 
         return $element;
+    }
+
+    private function createListElement(bool $checkRange): tao_helpers_form_FormElement
+    {
+        $rangeSelect = tao_helpers_form_FormFactory::getElement("{$this->getIndex()}_range", 'Combobox');
+        $rangeSelect->setDescription(__('List values'));
+        $rangeSelect->addAttribute('class', 'property-listvalues property');
+        $rangeSelect->setEmptyOption(' --- ' . __('select') . ' --- ');
+
+        $totalUsages = $this->getDependsOnPropertyUsageRepository()->findTotalUsages($this->property);
+
+        if ($totalUsages > 0) {
+            //@FIXME @TODO Check with Cristian and Sveta best place to force blocking those fields
+            $rangeSelect->addAttribute(
+                'data-force-disabled',
+                'true'
+            );
+            $rangeSelect->addAttribute(
+                'data-disabled-message',
+                __('The field "List" is disabled because the property is already in use')
+            );
+        }
+
+        if ($checkRange) {
+            $rangeSelect->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
+        }
+
+        return $rangeSelect;
     }
 
     private function disableValues(core_kernel_classes_Property $property, Validators $element): void
