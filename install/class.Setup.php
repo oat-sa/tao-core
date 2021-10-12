@@ -352,10 +352,10 @@ class tao_install_Setup implements Action
      */
     private function wrapPersistenceConfig($persistences)
     {
-        if ($this->isMasterSlaveConnection($persistences)) {
+        if ($this->isMasterSlaveConnection($persistences['default'])) {
             $persistences['default'] = [
                 'driver' => 'dbal',
-                'connection' => $persistences['connection'],
+                'connection' => $persistences['default']['connection'],
             ];
         } else {
             $installParams = $this->getCommandLineParameters($persistences['default']);
