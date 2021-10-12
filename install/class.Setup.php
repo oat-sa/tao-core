@@ -353,7 +353,7 @@ class tao_install_Setup implements Action
     private function wrapPersistenceConfig($persistences)
     {
         if ($this->isMasterSlaveConnection($persistences['default'])) {
-            $persistences['default'] = [
+            $defaultPersistence = [
                 'driver' => 'dbal',
                 'connection' => $persistences['default']['connection'],
             ];
@@ -361,8 +361,14 @@ class tao_install_Setup implements Action
             $installParams = $this->getCommandLineParameters($persistences['default']);
 
             $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
-            $persistences['default'] = $dbalConfigCreator->createDbalConfig($installParams);
+            $defaultPersistence = $dbalConfigCreator->createDbalConfig($installParams);
         }
+
+        if (isset($persistences['default']['sqlLoggerClass'])) {
+            $defaultPersistence['sqlLoggerClass'] = $persistences['default']['sqlLoggerClass'];
+        }
+
+        $persistences['default'] = $defaultPersistence;
 
         return [
             'type' => 'configurableService',
