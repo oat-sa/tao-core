@@ -25,7 +25,6 @@ declare(strict_types=1);
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
-use oat\tao\helpers\form\validators\CrossPropertyEvaluationAwareInterface;
 
 // Defining aliases for old style class names for backward compatibility
 class_alias(SearchTextBox::class, \tao_helpers_form_elements_xhtml_Searchtextbox::class);
