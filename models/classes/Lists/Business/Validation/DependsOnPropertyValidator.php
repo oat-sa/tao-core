@@ -24,15 +24,19 @@ namespace oat\tao\model\Lists\Business\Validation;
 
 use tao_helpers_Uri;
 use tao_helpers_form_Form;
-use core_kernel_classes_Property;
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\ElementValue;
+use oat\tao\helpers\form\elements\ElementAware;
+use tao_helpers_form_FormElement as FormElement;
+use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 use oat\tao\model\Lists\Business\Domain\DependencyRepositoryContext;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
-use oat\tao\helpers\form\validators\CrossPropertyEvaluationAwareInterface;
 
-class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEvaluationAwareInterface
+class DependsOnPropertyValidator implements ValidatorInterface, ElementAware, CrossElementEvaluationAware
 {
+    use OntologyAwareTrait;
+
     /** @var DependencyRepositoryInterface */
     private $dependencyRepository;
 
@@ -42,8 +46,8 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
     /** @var string */
     private $message;
 
-    /** @var core_kernel_classes_Property */
-    private $property;
+    /** @var FormElement */
+    private $element;
 
     /** @var DependencyRepositoryContext[] */
     private $dependencyRepositoryContexts = [];
@@ -116,23 +120,23 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
         $isValid = empty($invalidValues);
 
         if (!$isValid) {
-            $this->options[self::OPTION_INVALID_VALUES] = $invalidValues;
-            $this->message = count($invalidValues) > 1
-                ? __('The selected values must be compatible with the primary property.')
-                : __('The selected value must be compatible with the primary property.');
+            $this->element->setInvalidValues($invalidValues);
+            $this->message = __('The selected value(s) must be compatible with the primary property.');
         }
 
         return $isValid;
     }
 
-    public function setProperty(core_kernel_classes_Property $property): void
+    public function setElement(FormElement $element): void
     {
-        $this->property = $property;
+        $this->element = $element;
     }
 
     public function acknowledge(tao_helpers_form_Form $form): void
     {
-        foreach ($this->property->getDependsOnPropertyCollection() as $parentProperty) {
+        $property = $this->getProperty(tao_helpers_Uri::decode($this->element->getName()));
+
+        foreach ($property->getDependsOnPropertyCollection() as $parentProperty) {
             $element = $form->getElement(tao_helpers_Uri::encode($parentProperty->getUri()));
 
             if ($element === null) {

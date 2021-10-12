@@ -118,8 +118,8 @@ require(['jquery'], function ($) {
         }
     });
 
-    \$input.parent().find('.invalid-choice').each((index, element) => {
-        $(element).parent().parent().css({
+    \$input.parent().find('.select2-search-choice:has(.invalid-choice)').each((index, element) => {
+        $(element).css({
             'borderColor': '#ba122b',
             'backgroundColor': '#f4d0d3',
         });

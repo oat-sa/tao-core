@@ -439,17 +439,7 @@ abstract class tao_helpers_form_FormElement
             }
 
             $returnValue = false;
-
             $this->error[] = $validator->getMessage();
-            $this->invalidValues = array_merge(
-                $this->invalidValues,
-                $validator->getOptions()[ValidatorInterface::OPTION_INVALID_VALUES] ?? []
-            );
-
-            common_Logger::d(
-                sprintf('%s is invalid for %s', $this->getName(), $validator->getName()),
-                ['TAO']
-            );
 
             if ($this->isBreakOnFirstError()) {
                 break;
@@ -473,6 +463,11 @@ abstract class tao_helpers_form_FormElement
     public function getInvalidValues(): array
     {
         return $this->invalidValues;
+    }
+
+    public function setInvalidValues(array $invalidValues): void
+    {
+        $this->invalidValues = $invalidValues;
     }
 
     /**
