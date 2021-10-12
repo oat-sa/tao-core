@@ -24,9 +24,9 @@ declare(strict_types=1);
 
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\model\security\xsrf\TokenService;
-use oat\tao\helpers\form\elements\ElementAware;
 use tao_helpers_form_FormFactory as FormFactory;
 use oat\tao\helpers\form\elements\xhtml\CsrfToken;
+use oat\tao\helpers\form\elements\FormElementAware;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 
 /**
@@ -241,12 +241,12 @@ abstract class tao_helpers_form_FormContainer
     }
 
     /**
-     * @param ValidatorInterface[]|ElementAware[] $validators
+     * @param ValidatorInterface[]|FormElementAware[] $validators
      */
     private function propagateElement(iterable &$validators, tao_helpers_form_FormElement $element): void
     {
         foreach ($validators as &$validator) {
-            if ($validator instanceof ElementAware) {
+            if ($validator instanceof FormElementAware) {
                 $validator = clone $validator;
                 $validator->setElement($element);
             }

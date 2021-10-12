@@ -26,14 +26,14 @@ use tao_helpers_Uri;
 use tao_helpers_form_Form;
 use oat\generis\model\data\Ontology;
 use oat\oatbox\validator\ValidatorInterface;
-use oat\tao\helpers\form\elements\ElementAware;
 use oat\tao\helpers\form\elements\ElementValue;
 use tao_helpers_form_FormElement as FormElement;
+use oat\tao\helpers\form\elements\FormElementAware;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 use oat\tao\model\Lists\Business\Domain\DependencyRepositoryContext;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
 
-class DependsOnPropertyValidator implements ValidatorInterface, ElementAware, CrossElementEvaluationAware
+class DependsOnPropertyValidator implements ValidatorInterface, FormElementAware, CrossElementEvaluationAware
 {
     /** @var DependencyRepositoryInterface */
     private $dependencyRepository;
