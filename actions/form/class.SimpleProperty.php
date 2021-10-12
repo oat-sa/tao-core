@@ -256,11 +256,9 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         /**
          * @var tao_helpers_form_elements_xhtml_Combobox $element
          */
-        $element = tao_helpers_form_FormFactory::getElement("{$this->getIndex()}_range_list", 'Combobox');
-        $element->setDescription(__('List values'));
-        $element->addAttribute('class', 'property-template list-template');
-        $element->addAttribute('disabled', 'disabled');
-        $element->setEmptyOption(' --- ' . __('select') . ' --- ');
+        $element = $this->createEmptyListValues('range_list', 'property-template list-template');
+        $element->disable();
+
         $listOptions = [];
         $specification = $this->getRemoteListClassSpecification();
 
@@ -288,15 +286,11 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 
     private function createListElement(bool $checkRange): tao_helpers_form_FormElement
     {
-        $rangeSelect = tao_helpers_form_FormFactory::getElement("{$this->getIndex()}_range", 'Combobox');
-        $rangeSelect->setDescription(__('List values'));
-        $rangeSelect->addAttribute('class', 'property-listvalues property');
-        $rangeSelect->setEmptyOption(' --- ' . __('select') . ' --- ');
+        $rangeSelect = $this->createEmptyListValues('range', 'property-listvalues property');
 
         $totalUsages = $this->getDependsOnPropertyUsageRepository()->findTotalUsages($this->property);
 
         if ($totalUsages > 0) {
-            //@FIXME @TODO Check with Cristian and Sveta best place to force blocking those fields
             $rangeSelect->disable();
             $rangeSelect->addAttribute(
                 'data-force-disabled',
@@ -313,6 +307,16 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         }
 
         return $rangeSelect;
+    }
+
+    private function createEmptyListValues(string $suffix, string $classes): tao_helpers_form_FormElement
+    {
+        $element = tao_helpers_form_FormFactory::getElement("{$this->getIndex()}_$suffix", 'Combobox');
+        $element->setDescription(__('List values'));
+        $element->addAttribute('class', $classes);
+        $element->setEmptyOption(' --- ' . __('select') . ' --- ');
+
+        return $element;
     }
 
     private function disableValues(core_kernel_classes_Property $property, Validators $element): void

@@ -24,6 +24,8 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 
 use core_kernel_classes_Property;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
+use oat\generis\model\OntologyRdfs;
+use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\Lists\Business\Contract\DependsOnPropertyUsageRepositoryInterface;
 
 class DependsOnPropertyUsageRepository implements DependsOnPropertyUsageRepositoryInterface
@@ -38,6 +40,24 @@ class DependsOnPropertyUsageRepository implements DependsOnPropertyUsageReposito
 
     public function findTotalUsages(core_kernel_classes_Property $property): int
     {
-        return 10; //@TODO Do the proper query with complex query
+        $queryBuilder = $this->complexSearch->query();
+
+        $query = $this->complexSearch->searchType(
+            $queryBuilder,
+            OntologyRdfs::RDFS_RESOURCE,
+            true
+        );
+        $query->addCriterion(
+            $property->getUri(),
+            SupportedOperatorHelper::IS_NOT_NULL,
+            null
+        );
+
+        $queryBuilder->setCriteria($query);
+
+        return $this->complexSearch
+            ->getGateway()
+            ->search($queryBuilder)
+            ->total();
     }
 }
