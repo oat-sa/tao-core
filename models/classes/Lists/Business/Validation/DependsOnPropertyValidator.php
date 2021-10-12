@@ -116,12 +116,11 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
         $isValid = empty($invalidValues);
 
         if (!$isValid) {
-            $this->options[CrossPropertyEvaluationAwareInterface::OPTION_INVALID_VALUES] = $invalidValues;
+            $this->options[self::OPTION_INVALID_VALUES] = $invalidValues;
             $this->message = count($invalidValues) > 1
                 ? __('The selected values must be compatible with the primary property.')
                 : __('The selected value must be compatible with the primary property.');
         }
-
 
         return $isValid;
     }

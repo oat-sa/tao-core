@@ -118,10 +118,10 @@ require(['jquery'], function ($) {
         }
     });
 
-    $('.invalid-choice').each((index, element) => {
+    \$input.parent().find('.invalid-choice').each((index, element) => {
         $(element).parent().parent().css({
-            'borderColor': 'red',
-            'backgroundColor': '#ffb5b5',
+            'borderColor': '#ba122b',
+            'backgroundColor': '#f4d0d3',
         });
     });
 });
