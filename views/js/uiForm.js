@@ -497,7 +497,7 @@
             }
 
             function regularConfirmantion() {
-                return window.confirm(__('Please confirm property deletion!')); 
+                return window.confirm(__('Please confirm property deletion!'));
             }
 
             async function getPropertyRemovalConfirmation($groupNode, uri) {
@@ -533,8 +533,8 @@
                 const $groupNode = $(this).closest(".form-group");
                 try {
                     await getPropertyRemovalConfirmation($groupNode, $(this).data("uri"));
-                } catch (err) { return; }       
-                
+                } catch (err) { return; }
+
                 property.remove(
                     $(this).data("uri"),
                     $("#id").val(),
@@ -720,6 +720,16 @@
                 }
             }
 
+            function getDependsOnPropertySupportedTypes()
+            {
+                //@TODO @FIXME Get it from a central place
+                return [
+                    'longlist', // List - Single choice - Drop down
+                    'multisearchlist', // List - Multiple choice - Search input
+                    'singlesearchlist' // List - Single choice - Search input
+                ];
+            }
+
             function showDependsOnProperty() {
             	const $this = $(this);
                 const classUri = $(document.getElementById('classUri')).val();
@@ -727,6 +737,19 @@
             	const listUri = $this.val();
                 const dependsId = $(this)[0].id.match(/\d+_/)[0];
                 const dependsOnSelect = $(document.getElementById(`${dependsId}depends-on-property`));
+
+                //@TODO @FIXME Validate with FE the change
+                const typeSelect = $(document.getElementById(`${dependsId}type`));
+
+                if (!getDependsOnPropertySupportedTypes().includes(typeSelect.val())) {
+                    dependsOnSelect.parent().hide();
+                    dependsOnSelect.val('');
+                    return;
+                }
+
+                dependsOnSelect.parent().show();
+                //@TODO @FIXME Validate with FE the change
+
                 propertyUriToSend = $this.parent().parent().parent()[0].id;
                 propertyUriToSend = propertyUriToSend.replace('property_', '');
                 $.ajax({
@@ -775,6 +798,11 @@
 
             function onTypeChange(e, flag) {
                 showPropertyList.bind(this)(e, flag === 'initial');
+
+                const fieldIndex = $(this)[0].id.match(/\d+_/)[0];
+                const rangeSelect = $(document.getElementById(`${fieldIndex}range`));
+
+                showDependsOnProperty.bind(rangeSelect)(e);
             }
 
             function onListValuesChange(e) {
