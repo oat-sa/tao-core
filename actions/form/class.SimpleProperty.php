@@ -297,6 +297,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 
         if ($totalUsages > 0) {
             //@FIXME @TODO Check with Cristian and Sveta best place to force blocking those fields
+            $rangeSelect->disable();
             $rangeSelect->addAttribute(
                 'data-force-disabled',
                 'true'

@@ -647,7 +647,19 @@
                 if (re.test($this.val())) {
                     if ($elt.css('display') === 'none') {
                         $elt.show();
-                        $elt.find('select').removeAttr('disabled');
+
+                        const propertyListSelect = $elt.find('select');
+
+                        if (propertyListSelect.attr('data-force-disabled') !== 'true') {
+                            propertyListSelect.removeAttr('disabled');
+                        }
+
+                        //@TODO Add propoer CSS class
+                        if (propertyListSelect.attr('data-disabled-message')) {
+                            propertyListSelect.after(
+                                '<div class="disabled">' + propertyListSelect.attr('data-disabled-message') + '</div>'
+                            );
+                        }
                     }
                 }
                 else if ($elt.css('display') !== 'none') {
