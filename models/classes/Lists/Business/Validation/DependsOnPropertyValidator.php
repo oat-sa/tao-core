@@ -152,9 +152,11 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
 
         $values = array_map(
             static function ($value) {
-                return $value instanceof ElementValue
+                $uri = $value instanceof ElementValue
                     ? $value->getUri()
                     : $value;
+
+                return tao_helpers_Uri::decode($uri);
             },
             $values
         );
