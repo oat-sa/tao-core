@@ -24,10 +24,12 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\elements\xhtml\Validators;
+use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
 use oat\tao\model\Lists\Business\Contract\DependsOnPropertyUsageRepositoryInterface;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyUsageRepository;
 use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
+use oat\tao\model\Specification\ClassSpecificationInterface;
 use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\tree\TreeService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
@@ -108,23 +110,9 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         }
 
         //build the type list from the "widget/range to type" map
-        $typeElt = tao_helpers_form_FormFactory::getElement("{$index}_type", 'Combobox');
-        $typeElt->setDescription(__('Type'));
-        $typeElt->addAttribute('class', 'property-type property');
-        $typeElt->setEmptyOption(' --- ' . __('select') . ' --- ');
-        $options = [];
         $checkRange = false;
-        foreach (tao_helpers_form_GenerisFormFactory::getPropertyMap() as $typeKey => $map) {
-            $options[$typeKey] = $map['title'];
-            $widget = $property->getWidget();
-            if ($widget instanceof core_kernel_classes_Resource) {
-                if ($widget->getUri() == $map['widget']) {
-                    $typeElt->setValue($typeKey);
-                    $checkRange = is_null($map['range']);
-                }
-            }
-        }
-        $typeElt->setOptions($options);
+        $typeElt = $this->getElementPropertyTypeFactory()->create($property, $index, $checkRange);
+
         $this->form->addElement($typeElt);
         $elementNames[] = $typeElt->getName();
 
@@ -287,7 +275,6 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
     private function createListElement(bool $checkRange): tao_helpers_form_FormElement
     {
         $rangeSelect = $this->createEmptyListValues('range', 'property-listvalues property');
-
         $totalUsages = $this->getDependsOnPropertyUsageRepository()->findTotalUsages($this->property);
 
         if ($totalUsages > 0) {
@@ -347,9 +334,14 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         return $this->getContainer()->get(DependsOnPropertyUsageRepository::class);
     }
 
-    private function getRemoteListClassSpecification(): RemoteListClassSpecification
+    private function getRemoteListClassSpecification(): ClassSpecificationInterface
     {
         return $this->getContainer()->get(RemoteListClassSpecification::class);
+    }
+
+    private function getElementPropertyTypeFactory(): ElementPropertyTypeFactory
+    {
+        return $this->getContainer()->get(ElementPropertyTypeFactory::class);
     }
 
     private function getContainer(): ContainerInterface

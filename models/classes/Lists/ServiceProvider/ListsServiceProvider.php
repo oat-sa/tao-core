@@ -24,6 +24,7 @@ namespace oat\tao\model\Lists\ServiceProvider;
 
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\persistence\PersistenceManager;
+use oat\tao\model\Lists\Business\Specification\PrimaryOrSecondaryPropertySpecification;
 use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
 use oat\tao\model\Lists\Business\Validation\DependsOnPropertyValidator;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
@@ -69,5 +70,9 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
                     service(ComplexSearchService::SERVICE_ID),
                 ]
             );
+
+        $services
+            ->set(PrimaryOrSecondaryPropertySpecification::class, PrimaryOrSecondaryPropertySpecification::class)
+            ->public();
     }
 }
