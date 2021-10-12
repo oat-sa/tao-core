@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\ServiceProvider;
 
+use oat\generis\model\data\Ontology;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
 use oat\tao\model\Lists\Business\Validation\DependsOnPropertyValidator;
@@ -56,6 +57,7 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(DependencyRepository::class),
+                    service(Ontology::SERVICE_ID),
                 ]
             );
     }

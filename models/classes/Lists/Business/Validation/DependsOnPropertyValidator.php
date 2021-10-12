@@ -24,7 +24,7 @@ namespace oat\tao\model\Lists\Business\Validation;
 
 use tao_helpers_Uri;
 use tao_helpers_form_Form;
-use oat\generis\model\OntologyAwareTrait;
+use oat\generis\model\data\Ontology;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\ElementAware;
 use oat\tao\helpers\form\elements\ElementValue;
@@ -35,10 +35,11 @@ use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
 
 class DependsOnPropertyValidator implements ValidatorInterface, ElementAware, CrossElementEvaluationAware
 {
-    use OntologyAwareTrait;
-
     /** @var DependencyRepositoryInterface */
     private $dependencyRepository;
+
+    /** @var Ontology */
+    private $ontology;
 
     /** @var array */
     private $options = [];
@@ -52,9 +53,10 @@ class DependsOnPropertyValidator implements ValidatorInterface, ElementAware, Cr
     /** @var DependencyRepositoryContext[] */
     private $dependencyRepositoryContexts = [];
 
-    public function __construct(DependencyRepositoryInterface $dependencyRepository)
+    public function __construct(DependencyRepositoryInterface $dependencyRepository, Ontology $ontology)
     {
         $this->dependencyRepository = $dependencyRepository;
+        $this->ontology = $ontology;
     }
 
     /**
@@ -134,7 +136,7 @@ class DependsOnPropertyValidator implements ValidatorInterface, ElementAware, Cr
 
     public function acknowledge(tao_helpers_form_Form $form): void
     {
-        $property = $this->getProperty(tao_helpers_Uri::decode($this->element->getName()));
+        $property = $this->ontology->getProperty(tao_helpers_Uri::decode($this->element->getName()));
 
         foreach ($property->getDependsOnPropertyCollection() as $parentProperty) {
             $element = $form->getElement(tao_helpers_Uri::encode($parentProperty->getUri()));
