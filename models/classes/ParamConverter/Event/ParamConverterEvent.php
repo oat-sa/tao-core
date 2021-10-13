@@ -22,19 +22,19 @@ declare(strict_types=1);
 
 namespace oat\tao\model\ParamConverter\Event;
 
-use oat\tao\model\Context\ContextInterface;
+use oat\tao\model\ParamConverter\Context\ParamConverterListenerContextInterface;
 
 class ParamConverterEvent implements Event
 {
-    /** @var ContextInterface */
+    /** @var ParamConverterListenerContextInterface */
     private $context;
 
-    public function __construct(ContextInterface $context)
+    public function __construct(ParamConverterListenerContextInterface $context)
     {
         $this->context = $context;
     }
 
-    public function getContext(): ContextInterface
+    public function getContext(): ParamConverterListenerContextInterface
     {
         return $this->context;
     }

@@ -28,6 +28,11 @@ namespace oat\tao\model\ParamConverter\Configuration;
  */
 class ParamConverter extends ConfigurationAnnotation
 {
+    public const OPTION_CREATION_RULE = 'creationRule';
+
+    public const RULE_CREATE = 'create';
+    public const RULE_DESERIALIZE = 'deserialize';
+
     /** @var string */
     private $name;
 

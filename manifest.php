@@ -50,6 +50,7 @@ use oat\tao\scripts\install\RegisterValidationRules;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
+use oat\tao\model\Serializer\SerializerServiceProvider;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterActionAccessControl;
@@ -60,6 +61,7 @@ use oat\tao\scripts\install\RegisterTaoUpdateEventListener;
 use oat\tao\scripts\install\RegisterResourceRelationService;
 use oat\tao\scripts\install\RegisterValueCollectionServices;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
+use oat\tao\model\ParamConverter\ParamConverterServiceProvider;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
@@ -67,7 +69,6 @@ use oat\tao\scripts\install\RegisterDataAccessControlChangedEvent;
 use oat\tao\scripts\install\RegisterDataAccessControlChangedListener;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
 use oat\tao\model\HttpFoundation\ServiceProvider\HttpFoundationServiceProvider;
-use oat\tao\model\ParamConverter\ServiceProvider\ParamConverterServiceProvider;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -267,6 +268,7 @@ return [
         'structures' => $extpath . 'actions' . DIRECTORY_SEPARATOR . 'structures.xml',
     ],
     'containerServiceProviders' => [
+        SerializerServiceProvider::class,
         HttpFoundationServiceProvider::class,
         ParamConverterServiceProvider::class,
     ],

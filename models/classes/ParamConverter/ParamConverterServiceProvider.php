@@ -20,8 +20,10 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\ParamConverter\ServiceProvider;
+namespace oat\tao\model\ParamConverter;
 
+use oat\tao\model\Serializer\Serializer;
+use oat\tao\model\ParamConverter\Factory\ObjectFactory;
 use oat\tao\model\ParamConverter\Configuration\Configurator;
 use oat\tao\model\ParamConverter\Request\QueryParamConverter;
 use oat\tao\model\ParamConverter\Manager\ParamConverterManager;
@@ -52,10 +54,22 @@ class ParamConverterServiceProvider implements ContainerServiceProviderInterface
 
     private function provideConverters(ServicesConfigurator $services): void
     {
+        $services
+            ->set(ObjectFactory::class, ObjectFactory::class)
+            ->args(
+                [
+                    service(Serializer::class),
+                ]
+            );
+
         foreach (self::PARAM_CONVERTERS as $paramConverter) {
             $services
                 ->set($paramConverter, $paramConverter)
-                ->public();
+                ->args(
+                    [
+                        service(ObjectFactory::class),
+                    ]
+                );
         }
     }
 
@@ -63,7 +77,6 @@ class ParamConverterServiceProvider implements ContainerServiceProviderInterface
     {
         $services
             ->set(ParamConverterManager::class, ParamConverterManager::class)
-            ->public()
             ->args(
                 [
                     array_map(
@@ -80,9 +93,7 @@ class ParamConverterServiceProvider implements ContainerServiceProviderInterface
         ServicesConfigurator $services,
         ParametersConfigurator $parameters
     ): void {
-        $services
-            ->set(Configurator::class, Configurator::class)
-            ->public();
+        $services->set(Configurator::class, Configurator::class);
 
         $parameters->set('autoConvert', true);
         $services

@@ -23,12 +23,21 @@ declare(strict_types=1);
 namespace oat\tao\model\ParamConverter\Request;
 
 use Throwable;
-use ReflectionClass;
 use oat\tao\model\HttpFoundation\Request\RequestInterface;
 use oat\tao\model\ParamConverter\Configuration\ParamConverter;
+use oat\tao\model\ParamConverter\Context\ObjectFactoryContext;
+use oat\tao\model\ParamConverter\Factory\ObjectFactoryInterface;
 
 abstract class AbstractParamConverter implements ParamConverterInterface
 {
+    /** @var ObjectFactoryInterface */
+    private $objectFactory;
+
+    public function __construct(ObjectFactoryInterface $objectFactory)
+    {
+        $this->objectFactory = $objectFactory;
+    }
+
     public function getPriority(): int
     {
         return 0;
@@ -37,10 +46,9 @@ abstract class AbstractParamConverter implements ParamConverterInterface
     public function apply(RequestInterface $request, ParamConverter $configuration): bool
     {
         try {
-            $object = $this->createObject(
-                $this->getData($request, $configuration->getOptions()),
-                $configuration->getClass()
-            );
+            $options = $configuration->getOptions();
+            $data = $this->getData($request, $options);
+            $object = $this->createObject($data, $configuration->getClass(), $options);
 
             $converted = $request->getAttribute(self::ATTRIBUTE_CONVERTED, []);
             $converted[$configuration->getName()] = $object;
@@ -60,35 +68,22 @@ abstract class AbstractParamConverter implements ParamConverterInterface
 
     abstract protected function getData(RequestInterface $request, array $options): array;
 
-    private function createObject(array $data, string $class): object
+    private function createObject(array $data, string $class, array $options): object
     {
-        $constructorArgs = [];
-        $reflectionClass = new ReflectionClass($class);
-        $constructor = $reflectionClass->getConstructor();
+        $rule = $options[ParamConverter::OPTION_CREATION_RULE] ?? null;
+        $context = new ObjectFactoryContext(
+            [
+                ObjectFactoryContext::PARAM_CLASS => $class,
+                ObjectFactoryContext::PARAM_DATA => $data,
+            ]
+        );
 
-        if ($constructor) {
-            foreach ($constructor->getParameters() as $constructorParameter) {
-                $constructorParameterName = $constructorParameter->getName();
-
-                if (array_key_exists($constructorParameterName, $data)) {
-                    $constructorArgs[$constructorParameterName] = $data[$constructorParameterName];
-                    unset($data[$constructorParameterName]);
-                }
-            }
+        if ($rule === ParamConverter::RULE_CREATE) {
+            $object = $this->objectFactory->create($context);
+        } else {
+            $object = $this->objectFactory->deserialize($context);
         }
 
-        $instance = $reflectionClass->newInstanceArgs($constructorArgs);
-
-        foreach ($data as $queryParameter => $value) {
-            if ($reflectionClass->hasMethod('set' . $queryParameter)) {
-                $reflectionClass
-                    ->getMethod('set' . $queryParameter)
-                    ->invoke($instance, $value);
-            } elseif ($reflectionClass->hasProperty($queryParameter)) {
-                $reflectionClass->getProperty($queryParameter)->setValue($instance, $value);
-            }
-        }
-
-        return $instance;
+        return $object;
     }
 }

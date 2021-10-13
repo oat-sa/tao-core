@@ -28,7 +28,6 @@ use oat\tao\model\HttpFoundation\Request\RequestInterface;
 use oat\tao\model\ParamConverter\Event\ParamConverterEvent;
 use oat\tao\model\ParamConverter\Configuration\ParamConverter;
 use oat\tao\model\ParamConverter\Configuration\ConfiguratorInterface;
-use oat\tao\model\ParamConverter\Context\ParamConverterListenerContext;
 use oat\tao\model\ParamConverter\Manager\ParamConverterManagerInterface;
 
 class ParamConverterListener implements ListenerInterface
@@ -61,13 +60,12 @@ class ParamConverterListener implements ListenerInterface
         }
 
         $context = $event->getContext();
-        /** @var RequestInterface $request */
-        $request = $context->getParameter(ParamConverterListenerContext::PARAM_REQUEST);
+        $request = $context->getRequest();
 
         $configurations = $this->extractConfigurations($request);
 
-        $controller = $context->getParameter(ParamConverterListenerContext::PARAM_CONTROLLER);
-        $method = $context->getParameter(ParamConverterListenerContext::PARAM_METHOD);
+        $controller = $context->getController();
+        $method = $context->getMethod();
 
         // Automatically apply conversion for non-configured objects
         if ($this->autoConvert && is_callable([$controller, $method])) {

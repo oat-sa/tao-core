@@ -26,7 +26,7 @@ use InvalidArgumentException;
 use oat\tao\model\Context\AbstractContext;
 use oat\tao\model\HttpFoundation\Request\RequestInterface;
 
-class ParamConverterListenerContext extends AbstractContext
+class ParamConverterListenerContext extends AbstractContext implements ParamConverterListenerContextInterface
 {
     public const PARAM_REQUEST = 'request';
     public const PARAM_CONTROLLER = 'controller';
@@ -37,6 +37,21 @@ class ParamConverterListenerContext extends AbstractContext
         $this->checkRequiredParameters($parameters);
 
         parent::__construct($parameters);
+    }
+
+    public function getRequest(): RequestInterface
+    {
+        return $this->getParameter(self::PARAM_REQUEST);
+    }
+
+    public function getController(): string
+    {
+        return $this->getParameter(self::PARAM_CONTROLLER);
+    }
+
+    public function getMethod(): string
+    {
+        return $this->getParameter(self::PARAM_METHOD);
     }
 
     protected function getRequiredParameters(): array
@@ -64,13 +79,9 @@ class ParamConverterListenerContext extends AbstractContext
         }
 
         if (
-            $parameter === self::PARAM_CONTROLLER
-            && (is_string($parameterValue) || is_object($parameterValue))
+            in_array($parameter, [self::PARAM_CONTROLLER, self::PARAM_METHOD], true)
+            && is_string($parameterValue)
         ) {
-            return;
-        }
-
-        if ($parameter === self::PARAM_METHOD && is_string($parameterValue)) {
             return;
         }
 

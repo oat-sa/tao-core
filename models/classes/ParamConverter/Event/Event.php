@@ -23,9 +23,9 @@ declare(strict_types=1);
 namespace oat\tao\model\ParamConverter\Event;
 
 use oat\oatbox\event\Event as BaseEvent;
-use oat\tao\model\Context\ContextInterface;
+use oat\tao\model\ParamConverter\Context\ParamConverterListenerContextInterface;
 
 interface Event extends BaseEvent
 {
-    public function getContext(): ContextInterface;
+    public function getContext(): ParamConverterListenerContextInterface;
 }
