@@ -15,8 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -25,9 +24,9 @@ namespace oat\tao\helpers\form\Factory;
 
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
-use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
-use oat\tao\model\Lists\Business\Specification\PrimaryOrSecondaryPropertySpecification;
+use oat\tao\helpers\form\Specification\WidgetChangeableSpecification;
+use oat\tao\model\Specification\PropertySpecificationInterface;
 use tao_helpers_form_FormElement;
 use tao_helpers_form_FormFactory;
 use tao_helpers_form_GenerisFormFactory;
@@ -35,13 +34,19 @@ use tao_helpers_form_GenerisFormFactory;
 class ElementPropertyTypeFactory
 {
     /**
-     * @var PrimaryOrSecondaryPropertySpecification
+     * @var PropertySpecificationInterface
      */
     private $primaryOrSecondaryPropertySpecification;
 
-    public function __construct(PrimaryOrSecondaryPropertySpecification $primaryOrSecondaryPropertySpecification)
-    {
+    /** @var WidgetChangeableSpecification */
+    private $widgetChangeableSpecification;
+
+    public function __construct(
+        PropertySpecificationInterface $primaryOrSecondaryPropertySpecification,
+        WidgetChangeableSpecification $widgetChangeableSpecification
+    ) {
         $this->primaryOrSecondaryPropertySpecification = $primaryOrSecondaryPropertySpecification;
+        $this->widgetChangeableSpecification = $widgetChangeableSpecification;
     }
 
     public function create(
@@ -57,22 +62,22 @@ class ElementPropertyTypeFactory
         $options = [];
         $widget = $property->getWidget();
 
-        $isPrimaryOrSecondary = $this->primaryOrSecondaryPropertySpecification->isSatisfiedBy($property);
-
-        $this->disableElementIfNecessary($isPrimaryOrSecondary, $property, $element);
+        $this->disable($property, $element);
 
         foreach (tao_helpers_form_GenerisFormFactory::getPropertyMap() as $typeKey => $map) {
-            if (!$this->isWidgetAllowed($map['widget'], $property, $isPrimaryOrSecondary)) {
+            if (!$this->widgetChangeableSpecification->isSatisfiedBy($map['widget'], $property)) {
                 continue;
             }
 
             $options[$typeKey] = $map['title'];
 
-            if ($widget instanceof core_kernel_classes_Resource) {
-                if ($widget->getUri() == $map['widget']) {
-                    $element->setValue($typeKey);
-                    $checkRange = is_null($map['range']);
-                }
+            if (!$widget instanceof core_kernel_classes_Resource) {
+                continue;
+            }
+
+            if ($widget->getUri() === $map['widget']) {
+                $element->setValue($typeKey);
+                $checkRange = is_null($map['range']);
             }
         }
 
@@ -81,33 +86,12 @@ class ElementPropertyTypeFactory
         return $element;
     }
 
-    private function isWidgetAllowed(
-        string $widgetId,
-        core_kernel_classes_Property $property,
-        bool $isPrimaryOrSecondary
-    ): bool {
-        if (!$isPrimaryOrSecondary) {
-            return true;
-        }
-
-        return true; //FIXME Evaluate allowed types here...
-
-        $widget = $property->getWidget();
-        SearchDropdown::WIDGET_ID;
-        SearchDropdown::WIDGET_ID;
-    }
-
-    private function disableElementIfNecessary(
-        bool $isPrimaryOrSecondary,
-        core_kernel_classes_Property $property,
-        tao_helpers_form_FormElement $element
-    ): void {
-        $widget = $property->getWidget();
-
+    private function disable(core_kernel_classes_Property $property, tao_helpers_form_FormElement $element): void
+    {
         if (
-            $isPrimaryOrSecondary
-            && $widget instanceof core_kernel_classes_Resource
-            && SearchTextBox::WIDGET_ID === $widget->getUri()
+            $this->primaryOrSecondaryPropertySpecification->isSatisfiedBy($property)
+            && $property->getWidget() instanceof core_kernel_classes_Resource
+            && SearchTextBox::WIDGET_ID === $property->getWidget()->getUri()
         ) {
             $element->disable();
         }

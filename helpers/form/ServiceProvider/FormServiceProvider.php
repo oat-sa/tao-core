@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\helpers\form\ServiceProvider;
 
 use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
+use oat\tao\helpers\form\Specification\WidgetChangeableSpecification;
 use oat\tao\model\Lists\Business\Specification\PrimaryOrSecondaryPropertySpecification;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -36,11 +37,21 @@ class FormServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services
+            ->set(WidgetChangeableSpecification::class, WidgetChangeableSpecification::class)
+            ->public()
+            ->args(
+                [
+                    service(PrimaryOrSecondaryPropertySpecification::class),
+                ]
+            );
+
+        $services
             ->set(ElementPropertyTypeFactory::class, ElementPropertyTypeFactory::class)
             ->public()
             ->args(
                 [
                     service(PrimaryOrSecondaryPropertySpecification::class),
+                    service(WidgetChangeableSpecification::class),
                 ]
             );
     }

@@ -27,8 +27,15 @@ use oat\tao\model\Specification\PropertySpecificationInterface;
 
 class PrimaryOrSecondaryPropertySpecification implements PropertySpecificationInterface
 {
+    /** @var bool[] */
+    private $cache = [];
+
     public function isSatisfiedBy(core_kernel_classes_Property $property): bool
     {
-        return !$property->getDependsOnPropertyCollection()->isEmpty() || true; //FIXME Check how to discover if it is a parent
+        if (!array_key_exists($property->getUri(), $this->cache)) {
+            $this->cache[$property->getUri()] = !$property->getDependsOnPropertyCollection()->isEmpty() || true; //FIXME Check how to discover if it is a parent
+        }
+
+        return $this->cache[$property->getUri()];
     }
 }
