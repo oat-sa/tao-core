@@ -69,6 +69,7 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(ComplexSearchService::SERVICE_ID),
+                    service(PrimaryOrSecondaryPropertySpecification::class),
                 ]
             );
 

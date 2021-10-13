@@ -27,19 +27,30 @@ use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\OntologyRdfs;
 use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\Lists\Business\Contract\DependsOnPropertyUsageRepositoryInterface;
+use oat\tao\model\Specification\PropertySpecificationInterface;
 
 class DependsOnPropertyUsageRepository implements DependsOnPropertyUsageRepositoryInterface
 {
     /** @var ComplexSearchService */
     private $complexSearch;
 
-    public function __construct(ComplexSearchService $complexSearch)
-    {
+    /** @var PropertySpecificationInterface */
+    private $primaryOrSecondaryPropertySpecification;
+
+    public function __construct(
+        ComplexSearchService $complexSearch,
+        PropertySpecificationInterface $primaryOrSecondaryPropertySpecification
+    ) {
         $this->complexSearch = $complexSearch;
+        $this->primaryOrSecondaryPropertySpecification = $primaryOrSecondaryPropertySpecification;
     }
 
     public function findTotalUsages(core_kernel_classes_Property $property): int
     {
+        if (!$this->primaryOrSecondaryPropertySpecification->isSatisfiedBy($property)) {
+            return 0;
+        }
+
         $queryBuilder = $this->complexSearch->query();
 
         $query = $this->complexSearch->searchType(
