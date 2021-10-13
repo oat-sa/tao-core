@@ -19,7 +19,10 @@
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-     (update and modification) Open Assessment Technologies SA;
+ *               2021 (original work) Open Assessment Technologies SA
  */
+
+declare(strict_types=1);
 
 use oat\tao\model\user\TaoRoles;
 use oat\tao\controller\api\Users;
@@ -60,6 +63,7 @@ use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterTaoUpdateEventListener;
 use oat\tao\scripts\install\RegisterResourceRelationService;
 use oat\tao\scripts\install\RegisterValueCollectionServices;
+use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
 use oat\tao\model\ParamConverter\ParamConverterServiceProvider;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
@@ -268,6 +272,7 @@ return [
         'structures' => $extpath . 'actions' . DIRECTORY_SEPARATOR . 'structures.xml',
     ],
     'containerServiceProviders' => [
+        ListsServiceProvider::class,
         SerializerServiceProvider::class,
         HttpFoundationServiceProvider::class,
         ParamConverterServiceProvider::class,

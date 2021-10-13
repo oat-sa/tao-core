@@ -22,17 +22,16 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
-use core_kernel_classes_Property;
 use InvalidArgumentException;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\search\helper\SupportedOperatorHelper;
-use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
-use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
-use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
+use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
+use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
 
 class ParentPropertyListRepository extends ConfigurableService implements ParentPropertyListRepositoryInterface
 {
@@ -83,7 +82,7 @@ class ParentPropertyListRepository extends ConfigurableService implements Parent
 
     private function getDependencyRepository(): DependencyRepositoryInterface
     {
-        return $this->getServiceLocator()->get(DependencyRepository::class);
+        return $this->getServiceLocator()->getContainer()->get(DependencyRepository::class);
     }
 
     private function getComplexSearchService(): ComplexSearchService

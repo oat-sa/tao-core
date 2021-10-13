@@ -35,7 +35,7 @@ use oat\tao\model\search\SearchTokenGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\NullLogger;
 
-class GenerisIndexDocumentBuilderTest extends TestCase
+class IndexDocumentBuilderTest extends TestCase
 {
     use OntologyMockTrait;
 

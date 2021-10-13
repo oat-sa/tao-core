@@ -20,15 +20,11 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Specification;
+namespace oat\tao\model\Specification;
 
-use core_kernel_classes_Property;
-use oat\tao\model\Specification\PropertySpecificationInterface;
+use core_kernel_classes_Class;
 
-class DependentPropertySpecification implements PropertySpecificationInterface
+interface ClassSpecificationInterface
 {
-    public function isSatisfiedBy(core_kernel_classes_Property $property): bool
-    {
-        return !$property->getDependsOnPropertyCollection()->isEmpty();
-    }
+    public function isSatisfiedBy(core_kernel_classes_Class $class): bool;
 }

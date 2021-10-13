@@ -22,13 +22,24 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Specification;
 
-use core_kernel_classes_Property;
-use oat\tao\model\Specification\PropertySpecificationInterface;
+use core_kernel_classes_Class;
+use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\Specification\ClassSpecificationInterface;
+use oat\tao\model\TaoOntology;
+use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
 
-class DependentPropertySpecification implements PropertySpecificationInterface
+class RemoteListClassSpecification extends ConfigurableService implements ClassSpecificationInterface
 {
-    public function isSatisfiedBy(core_kernel_classes_Property $property): bool
+    public function isSatisfiedBy(core_kernel_classes_Class $class): bool
     {
-        return !$property->getDependsOnPropertyCollection()->isEmpty();
+        if (!$class->isSubClassOf($class->getClass(TaoOntology::CLASS_URI_LIST))) {
+            return false;
+        }
+
+        $propertyType = $class->getOnePropertyValue(
+            $class->getProperty(RemoteSourcedListOntology::PROPERTY_LIST_TYPE)
+        );
+
+        return $propertyType !== null && $propertyType->getUri() === RemoteSourcedListOntology::LIST_TYPE_REMOTE;
     }
 }

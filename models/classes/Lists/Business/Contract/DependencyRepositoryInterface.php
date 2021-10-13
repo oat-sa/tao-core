@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Contract;
 
+use oat\tao\model\Context\ContextInterface;
 use oat\tao\model\Lists\Business\Domain\DependencyCollection;
 
 interface DependencyRepositoryInterface
@@ -29,4 +30,11 @@ interface DependencyRepositoryInterface
     public function findChildListIds(array $options): array;
 
     public function findAll(array $options): DependencyCollection;
+
+    public function findChildListUris(array $options): array;
+
+    /**
+     * @return string[]
+     */
+    public function findChildListItemsUris(ContextInterface $context): array;
 }

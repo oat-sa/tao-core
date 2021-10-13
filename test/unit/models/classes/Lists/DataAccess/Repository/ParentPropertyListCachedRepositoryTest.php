@@ -26,8 +26,10 @@ use core_kernel_classes_Property;
 use InvalidArgumentException;
 use oat\generis\test\TestCase;
 use oat\oatbox\cache\SimpleCache;
+use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
 use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
 use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListRepository;
+use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ParentPropertyListCachedRepositoryTest extends TestCase
@@ -41,10 +43,14 @@ class ParentPropertyListCachedRepositoryTest extends TestCase
     /** @var ParentPropertyListRepository|MockObject */
     private $parentPropertyListRepository;
 
+    /** @var DependsOnPropertyRepository|MockObject */
+    private $dependencyRepository;
+
     public function setUp(): void
     {
         $this->simpleCache = $this->createMock(SimpleCache::class);
         $this->parentPropertyListRepository = $this->createMock(ParentPropertyListRepository::class);
+        $this->dependencyRepository = $this->createMock(DependencyRepository::class);
         $this->sut = new ParentPropertyListCachedRepository();
         $this->sut->setServiceLocator(
             $this->getServiceLocatorMock(
@@ -52,6 +58,7 @@ class ParentPropertyListCachedRepositoryTest extends TestCase
 
                     SimpleCache::SERVICE_ID => $this->simpleCache,
                     ParentPropertyListRepository::class => $this->parentPropertyListRepository,
+                    DependencyRepository::class => $this->dependencyRepository,
                 ]
             )
         );
@@ -67,13 +74,31 @@ class ParentPropertyListCachedRepositoryTest extends TestCase
 
     public function testDeleteWithoutEmptyFilter(): void
     {
-        $this->simpleCache
+        $this->dependencyRepository
             ->expects($this->once())
+            ->method('findChildListUris')
+            ->willReturn(
+                [
+                    'childUri1'
+                ]
+            );
+
+        $this->simpleCache
+            ->expects($this->exactly(2))
+            ->method('has')
+            ->willReturn(true);
+
+        $this->simpleCache
+            ->expects($this->exactly(2))
+            ->method('get')
+            ->willReturn(['depends_on_property-prop1-childUri1']);
+
+        $this->simpleCache
+            ->expects($this->exactly(4))
             ->method('delete');
 
         $this->sut->deleteCache(
             [
-                'propertyUri' => $this->createMock(core_kernel_classes_Property::class),
                 'listUri' => 'uri',
             ]
         );
@@ -81,15 +106,15 @@ class ParentPropertyListCachedRepositoryTest extends TestCase
 
     public function testDelete(): void
     {
-        $this->parentPropertyListRepository
+        $this->simpleCache
             ->expects($this->once())
-            ->method('findAllUris')
-            ->willReturn(
-                [
-                    'propertyUri1',
-                    'propertyUri2',
-                ]
-            );
+            ->method('has')
+            ->willReturn(true);
+
+        $this->simpleCache
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn(['depends_on_property-prop1-childUri1']);
 
         $this->simpleCache
             ->expects($this->exactly(2))
@@ -114,15 +139,14 @@ class ParentPropertyListCachedRepositoryTest extends TestCase
             ->method('findAllUris')
             ->willReturn($uris);
 
-        //@TODO uncomment after cache rework done...
-        // $this->simpleCache
-        //     ->expects($this->once())
-        //     ->method('has')
-        //     ->willReturn(false);
+        $this->simpleCache
+            ->expects($this->exactly(2))
+            ->method('has')
+            ->willReturn(false);
 
-        // $this->simpleCache
-        //     ->expects($this->once())
-        //     ->method('set');
+        $this->simpleCache
+            ->expects($this->exactly(2))
+            ->method('set');
 
         $this->assertSame(
             $uris,
@@ -135,32 +159,31 @@ class ParentPropertyListCachedRepositoryTest extends TestCase
         );
     }
 
-    //@TODO uncomment after cache rework done...
-    // public function testFindAllUrisFromCache(): void
-    // {
-    //     $uris = [
-    //         'propertyUri1',
-    //         'propertyUri2',
-    //     ];
+    public function testFindAllUrisFromCache(): void
+    {
+        $uris = [
+            'propertyUri1',
+            'propertyUri2',
+        ];
 
-    //     $this->simpleCache
-    //         ->expects($this->once())
-    //         ->method('has')
-    //         ->willReturn(true);
+        $this->simpleCache
+            ->expects($this->exactly(2))
+            ->method('has')
+            ->willReturn(true);
 
-    //     $this->simpleCache
-    //         ->expects($this->once())
-    //         ->method('get')
-    //         ->willReturn($uris);
+        $this->simpleCache
+            ->expects($this->exactly(2))
+            ->method('get')
+            ->willReturn($uris);
 
-    //     $this->assertSame(
-    //         $uris,
-    //         $this->sut->findAllUris(
-    //             [
-    //                 'listUri' => 'uri',
-    //                 'property' => $this->createMock(core_kernel_classes_Property::class),
-    //             ]
-    //         )
-    //     );
-    // }
+        $this->assertSame(
+            $uris,
+            $this->sut->findAllUris(
+                [
+                    'listUri' => 'uri',
+                    'property' => $this->createMock(core_kernel_classes_Property::class),
+                ]
+            )
+        );
+    }
 }
