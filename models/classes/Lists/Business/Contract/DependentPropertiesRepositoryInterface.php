@@ -31,4 +31,6 @@ interface DependentPropertiesRepositoryInterface
      * @return core_kernel_classes_Resource[]
      */
     public function findAll(ContextInterface $context): array;
+
+    public function findTotalChild(ContextInterface $context): int;
 }

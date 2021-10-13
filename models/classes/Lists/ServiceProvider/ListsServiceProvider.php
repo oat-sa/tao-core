@@ -29,6 +29,7 @@ use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
 use oat\tao\model\Lists\Business\Validation\DependsOnPropertyValidator;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
+use oat\tao\model\Lists\DataAccess\Repository\DependentPropertiesRepository;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyUsageRepository;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -73,6 +74,11 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
 
         $services
             ->set(PrimaryOrSecondaryPropertySpecification::class, PrimaryOrSecondaryPropertySpecification::class)
-            ->public();
+            ->public()
+            ->args(
+                [
+                    service(DependentPropertiesRepository::class),
+                ]
+            );
     }
 }

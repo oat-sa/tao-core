@@ -23,6 +23,8 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Specification;
 
 use core_kernel_classes_Property;
+use oat\tao\model\Lists\Business\Contract\DependentPropertiesRepositoryInterface;
+use oat\tao\model\Lists\Business\Domain\DependentPropertiesRepositoryContext;
 use oat\tao\model\Specification\PropertySpecificationInterface;
 
 class PrimaryOrSecondaryPropertySpecification implements PropertySpecificationInterface
@@ -30,10 +32,25 @@ class PrimaryOrSecondaryPropertySpecification implements PropertySpecificationIn
     /** @var bool[] */
     private $cache = [];
 
+    /** @var DependentPropertiesRepositoryInterface */
+    private $dependentPropertiesRepository;
+
+    public function __construct(DependentPropertiesRepositoryInterface $dependentPropertiesRepository)
+    {
+        $this->dependentPropertiesRepository = $dependentPropertiesRepository;
+    }
+
     public function isSatisfiedBy(core_kernel_classes_Property $property): bool
     {
         if (!array_key_exists($property->getUri(), $this->cache)) {
-            $this->cache[$property->getUri()] = !$property->getDependsOnPropertyCollection()->isEmpty() || true; //FIXME Check how to discover if it is a parent
+            $context = new DependentPropertiesRepositoryContext(
+                [
+                    DependentPropertiesRepositoryContext::PARAM_PROPERTY => $property,
+                ]
+            );
+
+            $this->cache[$property->getUri()] = !$property->getDependsOnPropertyCollection()->isEmpty()
+                || $this->dependentPropertiesRepository->findTotalChild($context) > 0;
         }
 
         return $this->cache[$property->getUri()];

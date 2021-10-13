@@ -26,6 +26,7 @@ use core_kernel_classes_Property;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdf;
 use oat\oatbox\service\ConfigurableService;
+use oat\search\base\ResultSetInterface;
 use oat\tao\model\Context\ContextInterface;
 use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\Lists\Business\Domain\DependentPropertiesRepositoryContext;
@@ -38,6 +39,22 @@ class DependentPropertiesRepository extends ConfigurableService implements Depen
      * {@inheritdoc}
      */
     public function findAll(ContextInterface $context): array
+    {
+        return iterator_to_array($this->executeSearch($context));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findTotalChild(ContextInterface $context): int
+    {
+        return $this->executeSearch($context)->total();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    private function executeSearch(ContextInterface $context): ResultSetInterface
     {
         /** @var core_kernel_classes_Property $property */
         $property = $context->getParameter(DependentPropertiesRepositoryContext::PARAM_PROPERTY);
@@ -56,7 +73,7 @@ class DependentPropertiesRepository extends ConfigurableService implements Depen
         );
         $dependentPropertiesQueryBuilder->setCriteria($dependentPropertiesQuery);
 
-        return iterator_to_array($search->getGateway()->search($dependentPropertiesQueryBuilder));
+        return $search->getGateway()->search($dependentPropertiesQueryBuilder);
     }
 
     private function getComplexSearchService(): ComplexSearchService
