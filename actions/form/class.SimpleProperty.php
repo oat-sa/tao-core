@@ -241,12 +241,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
      */
     protected function getListElement($range)
     {
-        return $this->getElementPropertyListValuesFactory()->create(
-            $this->property,
-            $this->data,
-            $this->getIndex(),
-            $range
-        );
+        return $this->getElementPropertyListValuesFactory()->create($this->getIndex(), $range);
     }
 
     private function disableValues(core_kernel_classes_Property $property, Validators $element): void

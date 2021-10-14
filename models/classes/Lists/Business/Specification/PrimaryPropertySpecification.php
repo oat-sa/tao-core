@@ -23,32 +23,33 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Specification;
 
 use core_kernel_classes_Property;
+use oat\tao\model\Lists\Business\Contract\DependentPropertiesRepositoryInterface;
+use oat\tao\model\Lists\Business\Domain\DependentPropertiesRepositoryContext;
 use oat\tao\model\Specification\PropertySpecificationInterface;
 
-class PrimaryOrSecondaryPropertySpecification implements PropertySpecificationInterface
+class PrimaryPropertySpecification implements PropertySpecificationInterface
 {
     /** @var bool[] */
     private $cache = [];
 
-    /** @var PropertySpecificationInterface */
-    private $primaryPropertySpecification;
+    /** @var DependentPropertiesRepositoryInterface */
+    private $dependentPropertiesRepository;
 
-    /** @var PropertySpecificationInterface */
-    private $secondaryPropertySpecification;
-
-    public function __construct(
-        PropertySpecificationInterface $primaryPropertySpecification,
-        PropertySpecificationInterface $secondaryPropertySpecification
-    ) {
-        $this->primaryPropertySpecification = $primaryPropertySpecification;
-        $this->secondaryPropertySpecification = $secondaryPropertySpecification;
+    public function __construct(DependentPropertiesRepositoryInterface $dependentPropertiesRepository)
+    {
+        $this->dependentPropertiesRepository = $dependentPropertiesRepository;
     }
 
     public function isSatisfiedBy(core_kernel_classes_Property $property): bool
     {
         if (!array_key_exists($property->getUri(), $this->cache)) {
-            $this->cache[$property->getUri()] = $this->secondaryPropertySpecification->isSatisfiedBy($property)
-                || $this->primaryPropertySpecification->isSatisfiedBy($property);
+            $context = new DependentPropertiesRepositoryContext(
+                [
+                    DependentPropertiesRepositoryContext::PARAM_PROPERTY => $property,
+                ]
+            );
+
+            $this->cache[$property->getUri()] = $this->dependentPropertiesRepository->findTotalChild($context) > 0;
         }
 
         return $this->cache[$property->getUri()];

@@ -34,7 +34,7 @@ use tao_models_classes_ListService;
 class ElementPropertyListValuesFactory
 {
     /** @var PropertySpecificationInterface */
-    private $primaryOrSecondaryPropertySpecification;
+    private $primaryPropertySpecification;
 
     /** @var tao_helpers_form_elements_xhtml_Combobox */
     private $element;
@@ -46,11 +46,11 @@ class ElementPropertyListValuesFactory
     private $remoteListClassSpecification;
 
     public function __construct(
-        PropertySpecificationInterface $primaryOrSecondaryPropertySpecification,
+        PropertySpecificationInterface $primaryPropertySpecification,
         ClassSpecificationInterface $remoteListClassSpecification,
         tao_models_classes_ListService $listService = null
     ) {
-        $this->primaryOrSecondaryPropertySpecification = $primaryOrSecondaryPropertySpecification;
+        $this->primaryPropertySpecification = $primaryPropertySpecification;
         $this->remoteListClassSpecification = $remoteListClassSpecification;
         $this->listService = $listService ?? tao_models_classes_ListService::singleton();
     }
@@ -63,8 +63,6 @@ class ElementPropertyListValuesFactory
     }
 
     public function create(
-        core_kernel_classes_Property $property,
-        array $newData,
         int $index,
         core_kernel_classes_Resource $range = null
     ): tao_helpers_form_elements_xhtml_Combobox {
@@ -103,7 +101,10 @@ class ElementPropertyListValuesFactory
     ): tao_helpers_form_elements_xhtml_Combobox {
         $element = $this->createBasic($index, 'range', 'property-listvalues property');
 
-        if ($this->primaryOrSecondaryPropertySpecification->isSatisfiedBy($property)) {
+        if (
+            $this->becameSecondaryProperty($index, $newData)
+            || $this->primaryPropertySpecification->isSatisfiedBy($property)
+        ) {
             $element->disable();
             $element->addAttribute(
                 'data-force-disabled',
@@ -135,5 +136,10 @@ class ElementPropertyListValuesFactory
     private function createElement(int $index, string $suffix): tao_helpers_form_elements_xhtml_Combobox
     {
         return $this->element ?? tao_helpers_form_FormFactory::getElement("{$index}_$suffix", 'Combobox');
+    }
+
+    private function becameSecondaryProperty(int $index, array $newData): bool
+    {
+        return !empty(trim($newData[$index . '_depends-on-property'] ?? ''));
     }
 }

@@ -27,6 +27,7 @@ use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
 use oat\tao\helpers\form\Specification\WidgetChangeableSpecification;
 use oat\tao\model\Lists\Business\Specification\PrimaryOrSecondaryPropertySpecification;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -62,7 +63,7 @@ class FormServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
-                    service(PrimaryOrSecondaryPropertySpecification::class),
+                    service(PrimaryPropertySpecification::class),
                     service(RemoteListClassSpecification::class),
                 ]
             );
