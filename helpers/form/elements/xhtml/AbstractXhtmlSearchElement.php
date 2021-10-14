@@ -109,6 +109,10 @@ require(['jquery'], function ($) {
             results: normalizeResponse
         },
         formatSelection: choice => {
+            if (!choice) {
+                return choice;
+            }
+
             return choice.isValid
                 ? choice.text
                 : `<span class="invalid-choice">\${choice.text}</span>`;
