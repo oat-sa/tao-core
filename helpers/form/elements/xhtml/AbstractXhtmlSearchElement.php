@@ -119,7 +119,7 @@ require(['jquery'], function ($) {
     });
 
     \$input.parent().find('.select2-search-choice:has(.invalid-choice)').each((index, element) => {
-	$(element).css('select2-search-choice-error');
+	    $(element).addClass('select2-search-choice-error');
     });
 });
 javascript;
