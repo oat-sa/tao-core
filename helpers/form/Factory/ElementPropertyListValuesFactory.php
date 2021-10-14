@@ -67,10 +67,11 @@ class ElementPropertyListValuesFactory
         return $this;
     }
 
-    public function create(
-        int $index,
-        core_kernel_classes_Resource $range = null
-    ): tao_helpers_form_elements_xhtml_Combobox {
+    /**
+     * @param mixed|core_kernel_classes_Resource|null $range
+     */
+    public function create(int $index, $range = null): tao_helpers_form_elements_xhtml_Combobox
+    {
         $element = $this->createBasic($index, 'range_list', 'property-template list-template');
         $element->disable();
 
@@ -80,7 +81,7 @@ class ElementPropertyListValuesFactory
             $encodedListUri = tao_helpers_Uri::encode($list->getUri());
             $listOptions[$encodedListUri] = $list->getLabel();
 
-            if (null !== $range && $range->getUri() === $list->getUri()) {
+            if ($range instanceof core_kernel_classes_Resource && $range->getUri() === $list->getUri()) {
                 $element->setValue($list->getUri());
             }
 
@@ -101,7 +102,6 @@ class ElementPropertyListValuesFactory
     public function createEmpty(
         core_kernel_classes_Property $property,
         array $newData,
-        bool $checkRange,
         int $index
     ): tao_helpers_form_elements_xhtml_Combobox {
         $element = $this->createBasic($index, 'range', 'property-listvalues property');
@@ -119,10 +119,6 @@ class ElementPropertyListValuesFactory
                 'data-disabled-message',
                 __('The field "List" is disabled because the property is part of a dependency')
             );
-        }
-
-        if ($checkRange) {
-            $element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         }
 
         return $element;

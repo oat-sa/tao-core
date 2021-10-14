@@ -28,7 +28,7 @@ use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\model\Specification\PropertySpecificationInterface;
 use tao_helpers_form_elements_Combobox;
-use tao_helpers_form_FormElement;
+use tao_helpers_form_elements_xhtml_Combobox;
 use tao_helpers_form_FormFactory;
 use tao_helpers_form_GenerisFormFactory;
 
@@ -42,7 +42,7 @@ class ElementPropertyTypeFactory
     /** @var array */
     private $propertyMap;
 
-    /** @var tao_helpers_form_FormElement */
+    /** @var tao_helpers_form_elements_xhtml_Combobox */
     private $element;
 
     /** @var PropertySpecificationInterface */
@@ -66,7 +66,7 @@ class ElementPropertyTypeFactory
         return $this;
     }
 
-    public function withElement(tao_helpers_form_FormElement $element): self
+    public function withElement(tao_helpers_form_elements_xhtml_Combobox $element): self
     {
         $this->element = $element;
 
@@ -76,9 +76,8 @@ class ElementPropertyTypeFactory
     public function create(
         core_kernel_classes_Property $property,
         array $newData,
-        int $index,
-        &$checkRange
-    ): ?tao_helpers_form_FormElement {
+        int $index
+    ): ?tao_helpers_form_elements_xhtml_Combobox {
         $element = $this->createElement($index);
         $element->setDescription(__('Type'));
         $element->addAttribute('class', 'property-type property');
@@ -98,7 +97,6 @@ class ElementPropertyTypeFactory
 
             if ($selectedWidgetUri && $selectedWidgetUri === $map['widget']) {
                 $element->setValue($typeKey);
-                $checkRange = is_null($map['range']);
             }
         }
 
@@ -107,7 +105,7 @@ class ElementPropertyTypeFactory
         return $element;
     }
 
-    private function createElement(int $index): tao_helpers_form_FormElement
+    private function createElement(int $index): tao_helpers_form_elements_xhtml_Combobox
     {
         return $this->element ?? tao_helpers_form_FormFactory::getElement("{$index}_type", 'Combobox');
     }
@@ -123,7 +121,7 @@ class ElementPropertyTypeFactory
 
     private function disable(
         core_kernel_classes_Property $property,
-        tao_helpers_form_FormElement $element,
+        tao_helpers_form_elements_xhtml_Combobox $element,
         array $newData,
         int $index
     ): void {

@@ -107,8 +107,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         }
 
         //build the type list from the "widget/range to type" map
-        $checkRange = false;
-        $typeElt = $this->getElementPropertyTypeFactory()->create($property, $this->data, $index, $checkRange);
+        $typeElt = $this->getElementPropertyTypeFactory()->create($property, $this->data, $index);
 
         $this->form->addElement($typeElt);
         $elementNames[] = $typeElt->getName();
@@ -118,7 +117,6 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         $rangeSelect = $this->getElementPropertyListValuesFactory()->createEmpty(
             $this->property,
             $this->data,
-            $checkRange,
             $this->getIndex()
         );
 
