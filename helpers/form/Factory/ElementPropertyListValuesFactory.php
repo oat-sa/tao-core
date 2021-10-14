@@ -45,12 +45,17 @@ class ElementPropertyListValuesFactory
     /** @var ClassSpecificationInterface */
     private $remoteListClassSpecification;
 
+    /** @var PropertySpecificationInterface */
+    private $dependentPropertySpecification;
+
     public function __construct(
         PropertySpecificationInterface $primaryPropertySpecification,
+        PropertySpecificationInterface $dependentPropertySpecification,
         ClassSpecificationInterface $remoteListClassSpecification,
         tao_models_classes_ListService $listService = null
     ) {
         $this->primaryPropertySpecification = $primaryPropertySpecification;
+        $this->dependentPropertySpecification = $dependentPropertySpecification;
         $this->remoteListClassSpecification = $remoteListClassSpecification;
         $this->listService = $listService ?? tao_models_classes_ListService::singleton();
     }
@@ -102,8 +107,8 @@ class ElementPropertyListValuesFactory
         $element = $this->createBasic($index, 'range', 'property-listvalues property');
 
         if (
-            $this->becameSecondaryProperty($index, $newData)
-            || $this->primaryPropertySpecification->isSatisfiedBy($property)
+            $this->isSecondaryProperty($property, $newData, $index) ||
+            $this->primaryPropertySpecification->isSatisfiedBy($property)
         ) {
             $element->disable();
             $element->addAttribute(
@@ -138,8 +143,14 @@ class ElementPropertyListValuesFactory
         return $this->element ?? tao_helpers_form_FormFactory::getElement("{$index}_$suffix", 'Combobox');
     }
 
-    private function becameSecondaryProperty(int $index, array $newData): bool
+    public function isSecondaryProperty(core_kernel_classes_Property $property, array $newData, int $index): bool
     {
-        return !empty(trim($newData[$index . '_depends-on-property'] ?? ''));
+        $dependsOnProperty = $newData[$index . '_depends-on-property'] ?? null;
+
+        if ($dependsOnProperty === null) {
+            return $this->dependentPropertySpecification->isSatisfiedBy($property);
+        }
+
+        return !empty(trim($dependsOnProperty));
     }
 }

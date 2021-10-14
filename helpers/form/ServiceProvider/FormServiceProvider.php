@@ -24,8 +24,7 @@ namespace oat\tao\helpers\form\ServiceProvider;
 
 use oat\tao\helpers\form\Factory\ElementPropertyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
-use oat\tao\helpers\form\Specification\WidgetChangeableSpecification;
-use oat\tao\model\Lists\Business\Specification\PrimaryOrSecondaryPropertySpecification;
+use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
@@ -40,21 +39,12 @@ class FormServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services
-            ->set(WidgetChangeableSpecification::class, WidgetChangeableSpecification::class)
-            ->public()
-            ->args(
-                [
-                    service(PrimaryOrSecondaryPropertySpecification::class),
-                ]
-            );
-
-        $services
             ->set(ElementPropertyTypeFactory::class, ElementPropertyTypeFactory::class)
             ->public()
             ->args(
                 [
-                    service(PrimaryOrSecondaryPropertySpecification::class),
-                    service(WidgetChangeableSpecification::class),
+                    service(PrimaryPropertySpecification::class),
+                    service(DependentPropertySpecification::class)
                 ]
             );
 
@@ -64,6 +54,7 @@ class FormServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(PrimaryPropertySpecification::class),
+                    service(DependentPropertySpecification::class),
                     service(RemoteListClassSpecification::class),
                 ]
             );

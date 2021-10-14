@@ -24,20 +24,20 @@ namespace oat\tao\helpers\form\Factory;
 
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
-use oat\tao\helpers\form\Specification\WidgetChangeableSpecification;
 use oat\tao\model\Specification\PropertySpecificationInterface;
+use tao_helpers_form_elements_Combobox;
 use tao_helpers_form_FormElement;
 use tao_helpers_form_FormFactory;
 use tao_helpers_form_GenerisFormFactory;
 
 class ElementPropertyTypeFactory
 {
-    /** @var PropertySpecificationInterface */
-    private $primaryOrSecondaryPropertySpecification;
-
-    /** @var WidgetChangeableSpecification */
-    private $widgetChangeableSpecification;
+    private const RESTRICTED_TYPES = [
+        tao_helpers_form_elements_Combobox::WIDGET_ID,
+        SearchDropdown::WIDGET_ID
+    ];
 
     /** @var array */
     private $propertyMap;
@@ -45,12 +45,18 @@ class ElementPropertyTypeFactory
     /** @var tao_helpers_form_FormElement */
     private $element;
 
+    /** @var PropertySpecificationInterface */
+    private $primaryPropertySpecification;
+
+    /** @var PropertySpecificationInterface */
+    private $dependentPropertySpecification;
+
     public function __construct(
-        PropertySpecificationInterface $primaryOrSecondaryPropertySpecification,
-        WidgetChangeableSpecification $widgetChangeableSpecification
+        PropertySpecificationInterface $primaryPropertySpecification,
+        PropertySpecificationInterface $dependentPropertySpecification
     ) {
-        $this->primaryOrSecondaryPropertySpecification = $primaryOrSecondaryPropertySpecification;
-        $this->widgetChangeableSpecification = $widgetChangeableSpecification;
+        $this->dependentPropertySpecification = $dependentPropertySpecification;
+        $this->primaryPropertySpecification = $primaryPropertySpecification;
     }
 
     public function withPropertyMap(array $propertyMap): self
@@ -79,18 +85,18 @@ class ElementPropertyTypeFactory
         $element->setEmptyOption(' --- ' . __('select') . ' --- ');
 
         $options = [];
-        $widgetUri = $this->getWidgetUri($property, $index, $newData);
+        $selectedWidgetUri = $this->getSelectedWidgetUri($property, $index, $newData);
 
-        $this->disable($property, $element);
+        $this->disable($property, $element, $newData, $index);
 
         foreach ($this->getPropertyMap() as $typeKey => $map) {
-            if (!$this->widgetChangeableSpecification->isSatisfiedBy($map['widget'], $property)) {
+            if (!$this->isWidgetSupported($property, $newData, $index, $map['widget'])) {
                 continue;
             }
 
             $options[$typeKey] = $map['title'];
 
-            if ($widgetUri && $widgetUri === $map['widget']) {
+            if ($selectedWidgetUri && $selectedWidgetUri === $map['widget']) {
                 $element->setValue($typeKey);
                 $checkRange = is_null($map['range']);
             }
@@ -115,30 +121,69 @@ class ElementPropertyTypeFactory
         return $this->propertyMap;
     }
 
-    private function disable(core_kernel_classes_Property $property, tao_helpers_form_FormElement $element): void
-    {
+    private function disable(
+        core_kernel_classes_Property $property,
+        tao_helpers_form_FormElement $element,
+        array $newData,
+        int $index
+    ): void {
         if (
-            $this->primaryOrSecondaryPropertySpecification->isSatisfiedBy($property)
-            && $property->getWidget() instanceof core_kernel_classes_Resource
-            && SearchTextBox::WIDGET_ID === $property->getWidget()->getUri()
+            !$this->primaryPropertySpecification->isSatisfiedBy($property) &&
+            !$this->isSecondaryProperty($property, $newData, $index)
         ) {
+            return;
+        }
+
+        if (SearchTextBox::WIDGET_ID === $property->getWidget()->getUri()) {
             $element->disable();
         }
     }
 
-    private function getWidgetUri(core_kernel_classes_Property $property, int $index, array $data): ?string
+    private function getSelectedWidgetUri(core_kernel_classes_Property $property, int $index, array $data): ?string
     {
-        $selectedType = $data[$index . '_type'];
-        $selectedType = $this->getPropertyMap()[$selectedType]['widget'] ?? null;
+        $widgetMapKey = $data[$index . '_type'] ?? null;
+        $selectedWidgetUri = $this->getPropertyMap()[$widgetMapKey]['widget'] ?? null;
 
-        if ($selectedType !== null) {
-            return $selectedType;
+        return $selectedWidgetUri === null
+            ? $this->getPreviousWidgetUri($property)
+            : $selectedWidgetUri;
+    }
+
+    private function getPreviousWidgetUri(core_kernel_classes_Property $property): ?string
+    {
+        return $property->getWidget() instanceof core_kernel_classes_Resource
+            ? $property->getWidget()->getUri()
+            : null;
+    }
+
+    public function isWidgetSupported(
+        core_kernel_classes_Property $property,
+        array $newData,
+        int $index,
+        string $targetWidgetUri
+    ): bool {
+        if (
+            !$this->primaryPropertySpecification->isSatisfiedBy($property) &&
+            !$this->isSecondaryProperty($property, $newData, $index)
+        ) {
+            return true;
         }
 
-        if ($property->getWidget() instanceof core_kernel_classes_Resource) {
-            return $property->getWidget()->getUri();
+        if (in_array($this->getPreviousWidgetUri($property), self::RESTRICTED_TYPES)) {
+            return in_array($targetWidgetUri, self::RESTRICTED_TYPES);
         }
 
-        return null;
+        return true;
+    }
+
+    public function isSecondaryProperty(core_kernel_classes_Property $property, array $newData, int $index): bool
+    {
+        $dependsOnProperty = $newData[$index . '_depends-on-property'] ?? null;
+
+        if ($dependsOnProperty === null) {
+            return $this->dependentPropertySpecification->isSatisfiedBy($property);
+        }
+
+        return !empty(trim($dependsOnProperty));
     }
 }
