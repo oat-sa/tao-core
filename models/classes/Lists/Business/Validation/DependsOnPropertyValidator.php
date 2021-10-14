@@ -47,7 +47,7 @@ class DependsOnPropertyValidator implements ValidatorInterface, FormElementAware
     /** @var string */
     private $message;
 
-    /** @var FormElement */
+    /** @var tao_helpers_form_FormElement */
     private $element;
 
     /** @var DependencyRepositoryContext[] */
