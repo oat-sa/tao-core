@@ -794,7 +794,7 @@
                                 return;
                             });
                             if (dependsOnSelect[0].length <= 1 || haveSameData) {
-                                let html = '<option value=" "> --- select --- </option>';
+                                let html = '<option value=" "> --- ' + __('none') + ' --- </option>';
                                 for (const propertyData in response.data) {
                                     html += `<option value="${response.data[propertyData].uri}">${response.data[propertyData].label}</option>`;
                                 }
