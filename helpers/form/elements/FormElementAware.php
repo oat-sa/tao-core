@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\helpers\form\elements;
 
-use tao_helpers_form_FormElement as FormElement;
+use tao_helpers_form_FormElement;
 
 interface FormElementAware
 {
-    public function setElement(FormElement $element): void;
+    public function setElement(tao_helpers_form_FormElement $element): void;
 }

@@ -24,10 +24,10 @@ namespace oat\tao\model\Lists\Business\Validation;
 
 use tao_helpers_Uri;
 use tao_helpers_form_Form;
+use tao_helpers_form_FormElement;
 use oat\generis\model\data\Ontology;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\ElementValue;
-use tao_helpers_form_FormElement as FormElement;
 use oat\tao\helpers\form\elements\FormElementAware;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 use oat\tao\model\Lists\Business\Domain\DependencyRepositoryContext;
@@ -129,7 +129,7 @@ class DependsOnPropertyValidator implements ValidatorInterface, FormElementAware
         return $isValid;
     }
 
-    public function setElement(FormElement $element): void
+    public function setElement(tao_helpers_form_FormElement $element): void
     {
         $this->element = $element;
     }
