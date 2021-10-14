@@ -119,10 +119,7 @@ require(['jquery'], function ($) {
     });
 
     \$input.parent().find('.select2-search-choice:has(.invalid-choice)').each((index, element) => {
-	$(element).css({
-	    'borderColor': '#ba122b',
-	    'backgroundColor': '#f4d0d3',
-	});
+	$(element).css('select2-search-choice-error');
     });
 });
 javascript;
