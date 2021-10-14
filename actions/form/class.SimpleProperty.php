@@ -24,12 +24,9 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\elements\xhtml\Validators;
+use oat\tao\helpers\form\Factory\ElementPropertyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
-use oat\tao\model\Lists\Business\Specification\PrimaryOrSecondaryPropertySpecification;
-use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
 use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
-use oat\tao\model\Specification\ClassSpecificationInterface;
-use oat\tao\model\Specification\PropertySpecificationInterface;
 use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\tree\TreeService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
@@ -111,14 +108,19 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 
         //build the type list from the "widget/range to type" map
         $checkRange = false;
-        $typeElt = $this->getElementPropertyTypeFactory()->create($property, $index, $checkRange);
+        $typeElt = $this->getElementPropertyTypeFactory()->create($property, $this->data, $index, $checkRange);
 
         $this->form->addElement($typeElt);
         $elementNames[] = $typeElt->getName();
 
         $range = $property->getRange();
 
-        $rangeSelect = $this->createListElement($checkRange);
+        $rangeSelect = $this->getElementPropertyListValuesFactory()->createEmpty(
+            $this->property,
+            $this->data,
+            $checkRange,
+            $this->getIndex()
+        );
 
         $this->form->addElement($rangeSelect);
         $elementNames[] = $rangeSelect->getName();
@@ -239,70 +241,12 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
      */
     protected function getListElement($range)
     {
-        $service = tao_models_classes_ListService::singleton();
-
-        /**
-         * @var tao_helpers_form_elements_xhtml_Combobox $element
-         */
-        $element = $this->createEmptyListValues('range_list', 'property-template list-template');
-        $element->disable();
-
-        $listOptions = [];
-        $specification = $this->getRemoteListClassSpecification();
-
-        foreach ($service->getLists() as $list) {
-            $encodedListUri = tao_helpers_Uri::encode($list->getUri());
-            $listOptions[$encodedListUri] = $list->getLabel();
-
-            if (null !== $range && $range->getUri() === $list->getUri()) {
-                $element->setValue($list->getUri());
-            }
-
-            if ($specification->isSatisfiedBy($list)) {
-                $element->addOptionAttribute(
-                    $encodedListUri,
-                    'data-remote-list',
-                    'true'
-                );
-            }
-        }
-
-        $element->setOptions($listOptions);
-
-        return $element;
-    }
-
-    private function createListElement(bool $checkRange): tao_helpers_form_FormElement
-    {
-        $rangeSelect = $this->createEmptyListValues('range', 'property-listvalues property');
-
-        if ($this->getPrimaryOrSecondaryPropertySpecification()->isSatisfiedBy($this->property)) {
-            $rangeSelect->disable();
-            $rangeSelect->addAttribute(
-                'data-force-disabled',
-                'true'
-            );
-            $rangeSelect->addAttribute(
-                'data-disabled-message',
-                __('The field "List" is disabled because the property is part of a dependency')
-            );
-        }
-
-        if ($checkRange) {
-            $rangeSelect->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-        }
-
-        return $rangeSelect;
-    }
-
-    private function createEmptyListValues(string $suffix, string $classes): tao_helpers_form_FormElement
-    {
-        $element = tao_helpers_form_FormFactory::getElement("{$this->getIndex()}_$suffix", 'Combobox');
-        $element->setDescription(__('List values'));
-        $element->addAttribute('class', $classes);
-        $element->setEmptyOption(' --- ' . __('select') . ' --- ');
-
-        return $element;
+        return $this->getElementPropertyListValuesFactory()->create(
+            $this->property,
+            $this->data,
+            $this->getIndex(),
+            $range
+        );
     }
 
     private function disableValues(core_kernel_classes_Property $property, Validators $element): void
@@ -328,19 +272,14 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         return $this->getContainer()->get(DependsOnPropertyFormFieldFactory::class);
     }
 
-    private function getPrimaryOrSecondaryPropertySpecification(): PropertySpecificationInterface
-    {
-        return $this->getContainer()->get(PrimaryOrSecondaryPropertySpecification::class);
-    }
-
-    private function getRemoteListClassSpecification(): ClassSpecificationInterface
-    {
-        return $this->getContainer()->get(RemoteListClassSpecification::class);
-    }
-
     private function getElementPropertyTypeFactory(): ElementPropertyTypeFactory
     {
         return $this->getContainer()->get(ElementPropertyTypeFactory::class);
+    }
+
+    private function getElementPropertyListValuesFactory(): ElementPropertyListValuesFactory
+    {
+        return $this->getContainer()->get(ElementPropertyListValuesFactory::class);
     }
 
     private function getContainer(): ContainerInterface
