@@ -25,11 +25,11 @@ use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\elements\xhtml\Validators;
 use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
-use oat\tao\model\Lists\Business\Contract\DependsOnPropertyUsageRepositoryInterface;
+use oat\tao\model\Lists\Business\Specification\PrimaryOrSecondaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
-use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyUsageRepository;
 use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
 use oat\tao\model\Specification\ClassSpecificationInterface;
+use oat\tao\model\Specification\PropertySpecificationInterface;
 use oat\tao\model\TaoOntology;
 use oat\taoBackOffice\model\tree\TreeService;
 use oat\tao\helpers\form\ValidationRuleRegistry;
@@ -275,9 +275,8 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
     private function createListElement(bool $checkRange): tao_helpers_form_FormElement
     {
         $rangeSelect = $this->createEmptyListValues('range', 'property-listvalues property');
-        $totalUsages = $this->getDependsOnPropertyUsageRepository()->findTotalUsages($this->property);
 
-        if ($totalUsages > 0) {
+        if ($this->getPrimaryOrSecondaryPropertySpecification()->isSatisfiedBy($this->property)) {
             $rangeSelect->disable();
             $rangeSelect->addAttribute(
                 'data-force-disabled',
@@ -285,7 +284,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
             );
             $rangeSelect->addAttribute(
                 'data-disabled-message',
-                __('The field "List" is disabled because the property is already in use')
+                __('The field "List" is disabled because the property is part of a dependency')
             );
         }
 
@@ -329,9 +328,9 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         return $this->getContainer()->get(DependsOnPropertyFormFieldFactory::class);
     }
 
-    private function getDependsOnPropertyUsageRepository(): DependsOnPropertyUsageRepositoryInterface
+    private function getPrimaryOrSecondaryPropertySpecification(): PropertySpecificationInterface
     {
-        return $this->getContainer()->get(DependsOnPropertyUsageRepository::class);
+        return $this->getContainer()->get(PrimaryOrSecondaryPropertySpecification::class);
     }
 
     private function getRemoteListClassSpecification(): ClassSpecificationInterface
