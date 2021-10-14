@@ -45,6 +45,7 @@ class DependsOnPropertyUsageRepository implements DependsOnPropertyUsageReposito
         $this->primaryOrSecondaryPropertySpecification = $primaryOrSecondaryPropertySpecification;
     }
 
+    //@TODO Check if this is still required and remove if not...
     public function findTotalUsages(core_kernel_classes_Property $property): int
     {
         if (!$this->primaryOrSecondaryPropertySpecification->isSatisfiedBy($property)) {

@@ -24,6 +24,7 @@ namespace oat\tao\model\Lists\Business\Contract;
 
 use core_kernel_classes_Property;
 
+//@TODO Check if this is still required and remove if not...
 interface DependsOnPropertyUsageRepositoryInterface
 {
     public function findTotalUsages(core_kernel_classes_Property $property): int;

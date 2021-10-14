@@ -70,7 +70,7 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(ComplexSearchService::SERVICE_ID),
-                    service(PrimaryOrSecondaryPropertySpecification::class),
+                    service(PrimaryOrSecondaryPropertySpecification::class), //@TODO Check if this is still required and remove if not...
                 ]
             );
 
@@ -83,6 +83,7 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
                 ]
             );
 
+        //@TODO Check if this is still required and remove if not...
         $services
             ->set(PrimaryOrSecondaryPropertySpecification::class, PrimaryOrSecondaryPropertySpecification::class)
             ->public()
