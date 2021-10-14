@@ -117,6 +117,13 @@ require(['jquery'], function ($) {
             callback($initSelection);
         }
     });
+
+    \$input.parent().find('.select2-search-choice:has(.invalid-choice)').each((index, element) => {
+	$(element).css({
+	    'borderColor': '#ba122b',
+	    'backgroundColor': '#f4d0d3',
+	});
+    });
 });
 javascript;
     }
