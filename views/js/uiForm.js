@@ -517,7 +517,7 @@
                             `<b>${name}</b>
                             ${__('currently has a dependency established with ')}
                             <b>${dependantPropName}</b>.
-                            ${__('Deleting this property will also remove the dependency')}. 
+                            ${__('Deleting this property will also remove the dependency')}.
                             <br><br> ${__('Are you wish to delete it')}?`,
                             resolve,
                             reject
@@ -642,26 +642,22 @@
                 var $this = $(this);
                 var $elt = $this.parent("div").next("div");
                 var propertiesTypes = ['list','tree'];
-
                 var re = new RegExp(propertiesTypes.join('$|').concat('$'));
+
                 if (re.test($this.val())) {
                     if ($elt.css('display') === 'none') {
                         $elt.show();
 
                         const propertyListSelect = $elt.find('select');
 
-                        if (propertyListSelect.attr('data-force-disabled') !== 'true') {
-                            propertyListSelect.removeAttr('disabled');
-                        }
-
-                        //@TODO Add propoer CSS class
                         if (propertyListSelect.attr('data-disabled-message')) {
                             propertyListSelect.after(
-                                '<div class="disabled">' + propertyListSelect.attr('data-disabled-message') + '</div>'
+                                '<div class="form_disabled_message">' + propertyListSelect.attr('data-disabled-message') + '</div>'
                             );
                         }
                     }
                 }
+
                 else if ($elt.css('display') !== 'none') {
                     $elt.css('display', 'none');
                     $elt.find('select').prop('disabled', false);
@@ -732,16 +728,6 @@
                 }
             }
 
-            function getDependsOnPropertySupportedTypes()
-            {
-                //@TODO @FIXME Get it from a central place
-                return [
-                    'longlist', // List - Single choice - Drop down
-                    'multisearchlist', // List - Multiple choice - Search input
-                    'singlesearchlist' // List - Single choice - Search input
-                ];
-            }
-
             function showDependsOnProperty() {
             	const $this = $(this);
                 const classUri = $(document.getElementById('classUri')).val();
@@ -749,18 +735,7 @@
             	const listUri = $this.val();
                 const dependsId = $(this)[0].id.match(/\d+_/)[0];
                 const dependsOnSelect = $(document.getElementById(`${dependsId}depends-on-property`));
-
-                //@TODO @FIXME Validate with FE the change
                 const typeSelect = $(document.getElementById(`${dependsId}type`));
-
-                if (!getDependsOnPropertySupportedTypes().includes(typeSelect.val())) {
-                    dependsOnSelect.parent().hide();
-                    dependsOnSelect.val('');
-                    return;
-                }
-
-                dependsOnSelect.parent().show();
-                //@TODO @FIXME Validate with FE the change
 
                 propertyUriToSend = $this.parent().parent().parent()[0].id;
                 propertyUriToSend = propertyUriToSend.replace('property_', '');
@@ -774,7 +749,7 @@
                     },
                     dataType: 'json',
                     success: function (response) {
-                        if (response && response.data && response.data.length !== 0) {
+                        if (response && response.data && response.data.length !== 0 && dependsOn.getSupportedTypes().includes(typeSelect.val())) {
                             const backendValues = response.data.reduce(
                                 (accumulator, currentValue) => {
                                     accumulator.push(currentValue.uriEncoded);
