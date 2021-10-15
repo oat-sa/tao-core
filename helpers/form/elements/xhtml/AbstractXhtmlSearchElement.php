@@ -165,10 +165,12 @@ javascript;
         $invalidValues = $this->getInvalidValues();
 
         foreach ($this->getRawValue() as $value) {
+            $encodedUri = tao_helpers_Uri::encode($value->getUri());
+
             $result[] = [
-                'id' => tao_helpers_Uri::encode($value->getUri()),
+                'id' => $encodedUri,
                 'text' => $value->getLabel(),
-                'isValid' => !in_array($value->getUri(), $invalidValues, true),
+                'isValid' => !array_key_exists($encodedUri, $invalidValues),
             ];
         }
 
