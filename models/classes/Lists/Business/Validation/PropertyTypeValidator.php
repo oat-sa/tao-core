@@ -22,12 +22,17 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Validation;
 
+use core_kernel_classes_Property;
 use InvalidArgumentException;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
+use oat\tao\helpers\form\validators\CrossPropertyEvaluationAwareInterface;
 use tao_helpers_form_Form;
 
-class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluationAware
+class PropertyTypeValidator implements
+    ValidatorInterface,
+    CrossElementEvaluationAware,
+    CrossPropertyEvaluationAwareInterface
 {
 //    /** @var Ontology */
 //    private $ontology;
@@ -45,8 +50,8 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
 //        // 2) Is child or parent, must respect restrict types
 //    }
 
-    /** @var array */
-    private $options = [];
+    /** @var core_kernel_classes_Property */
+    private $property;
 
     /**
      * {@inheritdoc}
@@ -59,32 +64,14 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
     /**
      * {@inheritdoc}
      */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setOptions(array $options)
-    {
-        $this->options = $options;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getMessage()
     {
-        return __('Some error here...'); //FIXME Use proper message
+        return __('Invalid valueeeeee1');
     }
 
     protected function getDefaultMessage()
     {
-        return __('Some error here (default)...');
+        return __('Invalid valueeeeeee2');
     }
 
     /**
@@ -105,7 +92,17 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
      */
     public function evaluate($values)
     {
-        return true; //FIXME Change to false and it crashes the application
+        //FIXME Apply proper validation
+
+        if (is_string($values)) {
+            return !empty(trim($values));
+        }
+
+        if (is_array($values)) {
+            return count($values) >= 1;
+        }
+
+        return is_scalar($values);
     }
 
     public function acknowledge(tao_helpers_form_Form $form): void
@@ -113,5 +110,20 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
         //$property = $this->ontology->getProperty(tao_helpers_Uri::decode($this->element->getName()));
         $form;
         //FIXME Prepare validation
+    }
+
+    public function getOptions()
+    {
+        // TODO: Implement getOptions() method.
+    }
+
+    public function setOptions(array $options)
+    {
+        // TODO: Implement setOptions() method.
+    }
+
+    public function setProperty(core_kernel_classes_Property $property): void
+    {
+        $this->property = $property;
     }
 }

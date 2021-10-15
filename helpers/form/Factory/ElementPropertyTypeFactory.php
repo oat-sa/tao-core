@@ -24,6 +24,7 @@ namespace oat\tao\helpers\form\Factory;
 
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\model\Specification\PropertySpecificationInterface;
@@ -51,12 +52,17 @@ class ElementPropertyTypeFactory
     /** @var PropertySpecificationInterface */
     private $dependentPropertySpecification;
 
+    /** @var ValidatorInterface */
+    private $propertyTypeValidator;
+
     public function __construct(
         PropertySpecificationInterface $primaryPropertySpecification,
-        PropertySpecificationInterface $dependentPropertySpecification
+        PropertySpecificationInterface $dependentPropertySpecification,
+        ValidatorInterface $propertyTypeValidator
     ) {
         $this->dependentPropertySpecification = $dependentPropertySpecification;
         $this->primaryPropertySpecification = $primaryPropertySpecification;
+        $this->propertyTypeValidator = $propertyTypeValidator;
     }
 
     public function withPropertyMap(array $propertyMap): self
@@ -101,6 +107,7 @@ class ElementPropertyTypeFactory
             }
         }
 
+        $element->addValidator($this->propertyTypeValidator);
         $element->setOptions($options);
 
         return $element;
