@@ -52,18 +52,20 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
     private $disableIndexChanges;
 
     /**
-     * @param core_kernel_classes_Class $clazz
-     * @param array $classData
-     * @param array $propertyData
-     * @param bool $disableIndexChanges
      * @throws common_Exception
      */
-    public function __construct(core_kernel_classes_Class $clazz, array $classData, array $propertyData, bool $disableIndexChanges = false)
-    {
+    public function __construct(
+        core_kernel_classes_Class $clazz,
+        array $classData,
+        array $propertyData,
+        bool $disableIndexChanges = false,
+        array $options = []
+    ) {
         $this->clazz    = $clazz;
         $this->propertyData = $propertyData;
         $this->disableIndexChanges = $disableIndexChanges;
-        parent::__construct($classData);
+
+        parent::__construct($classData, $options);
     }
 
     /**

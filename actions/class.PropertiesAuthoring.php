@@ -27,6 +27,7 @@ use oat\tao\model\dto\OldProperty;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\Lists\Business\Validation\PropertyTypeValidator;
 use oat\tao\model\search\tasks\IndexTrait;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\event\ClassFormUpdatedEvent;
@@ -269,18 +270,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     }
 
     /**
-     * @param core_kernel_classes_Class $clazz
-     * @param array $classData
-     * @param array $propertyData
-     * @return tao_helpers_form_Form
-     */
-    private function getForm(core_kernel_classes_Class $clazz, array $classData, array $propertyData)
-    {
-        $formContainer = new tao_actions_form_Clazz($clazz, $classData, $propertyData);
-        return $formContainer->getForm();
-    }
-
-    /**
      * Create an edit form for a class and its property
      * and handle the submitted data on save
      *
@@ -293,7 +282,19 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $data = $this->getRequestParameters();
         $classData = $this->extractClassData($data);
         $propertyData = $this->extractPropertyData($data);
-        $formContainer = new tao_actions_form_Clazz($class, $classData, $propertyData, $this->isElasticSearchEnabled());
+        $formContainer = new tao_actions_form_Clazz(
+            $class,
+            $classData,
+            $propertyData,
+            $this->isElasticSearchEnabled(),
+            [
+                tao_helpers_form_FormContainer::ATTRIBUTE_VALIDATORS => [
+                    'data-property-type' => [
+                        new PropertyTypeValidator(),
+                    ]
+                ]
+            ]
+        );
         $myForm = $formContainer->getForm();
 
         if ($myForm->isSubmited()) {

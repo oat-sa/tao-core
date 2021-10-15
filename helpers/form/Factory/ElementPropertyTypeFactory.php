@@ -78,13 +78,14 @@ class ElementPropertyTypeFactory
         array $newData,
         int $index
     ): ?tao_helpers_form_elements_xhtml_Combobox {
+        $options = [];
+        $selectedWidgetUri = $this->getSelectedWidgetUri($property, $index, $newData);
+
         $element = $this->createElement($index);
         $element->setDescription(__('Type'));
         $element->addAttribute('class', 'property-type property');
+        $element->addAttribute('data-property-type', $selectedWidgetUri);
         $element->setEmptyOption(' --- ' . __('select') . ' --- ');
-
-        $options = [];
-        $selectedWidgetUri = $this->getSelectedWidgetUri($property, $index, $newData);
 
         $this->disable($property, $element, $newData, $index);
 
