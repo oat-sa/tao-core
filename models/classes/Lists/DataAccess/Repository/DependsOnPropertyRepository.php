@@ -71,7 +71,7 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
             return $collection;
         }
 
-        if ($options['listUri'] && $property && !$property->getRange()) {
+        if (isset($options['listUri']) && $property && !$property->getRange()) {
             $property = null;
         }
 
