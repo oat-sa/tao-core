@@ -85,18 +85,20 @@ class ElementPropertyTypeFactory
         int $index
     ): ?tao_helpers_form_elements_xhtml_Combobox {
         $options = [];
+        $hasWidgetRestrictions = false;
         $selectedWidgetUri = $this->getSelectedWidgetUri($property, $index, $newData);
 
         $element = $this->createElement($index);
         $element->setDescription(__('Type'));
         $element->addAttribute('class', 'property-type property');
         $element->addAttribute('data-property-type', $selectedWidgetUri);
-        $element->setEmptyOption(' --- ' . __('select') . ' --- ');
 
         $this->disable($property, $element, $newData, $index);
 
         foreach ($this->getPropertyMap() as $typeKey => $map) {
             if (!$this->isWidgetSupported($property, $newData, $index, $map['widget'])) {
+                $hasWidgetRestrictions = true;
+
                 continue;
             }
 
@@ -105,6 +107,10 @@ class ElementPropertyTypeFactory
             if ($selectedWidgetUri && $selectedWidgetUri === $map['widget']) {
                 $element->setValue($typeKey);
             }
+        }
+
+        if (!$hasWidgetRestrictions) {
+            $element->setEmptyOption(' --- ' . __('select') . ' --- ');
         }
 
         $element->addValidator($this->propertyTypeValidator);
