@@ -24,6 +24,8 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\elements\xhtml\Validators;
+use oat\tao\helpers\form\Factory\ElementFactoryContext;
+use oat\tao\helpers\form\Factory\ElementFactoryInterface;
 use oat\tao\helpers\form\Factory\ElementPropertyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
 use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
@@ -107,7 +109,15 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         }
 
         //build the type list from the "widget/range to type" map
-        $typeElt = $this->getElementPropertyTypeFactory()->create($property, $this->data, $index);
+        $typeElt = $this->getElementPropertyTypeFactory()->create(
+            new ElementFactoryContext(
+                [
+                    ElementFactoryContext::PARAM_PROPERTY => $property,
+                    ElementFactoryContext::PARAM_INDEX => $index,
+                    ElementFactoryContext::PARAM_DATA => $this->data,
+                ]
+            )
+        );
 
         $this->form->addElement($typeElt);
         $elementNames[] = $typeElt->getName();
@@ -265,7 +275,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         return $this->getContainer()->get(DependsOnPropertyFormFieldFactory::class);
     }
 
-    private function getElementPropertyTypeFactory(): ElementPropertyTypeFactory
+    private function getElementPropertyTypeFactory(): ElementFactoryInterface
     {
         return $this->getContainer()->get(ElementPropertyTypeFactory::class);
     }

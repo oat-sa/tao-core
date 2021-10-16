@@ -26,13 +26,14 @@ use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
+use oat\tao\model\Context\ContextInterface;
 use oat\tao\model\Specification\PropertySpecificationInterface;
 use tao_helpers_form_elements_Combobox;
 use tao_helpers_form_elements_xhtml_Combobox;
 use tao_helpers_form_FormFactory;
 use tao_helpers_form_GenerisFormFactory;
 
-class ElementPropertyTypeFactory
+class ElementPropertyTypeFactory implements ElementFactoryInterface
 {
     public const PROPERTY_TYPE_ATTRIBUTE = 'data-property-type';
 
@@ -75,11 +76,17 @@ class ElementPropertyTypeFactory
         return $this;
     }
 
-    public function create(
-        core_kernel_classes_Property $property,
-        array $newData,
-        int $index
-    ): ?tao_helpers_form_elements_xhtml_Combobox {
+    public function create(ContextInterface $context): ?tao_helpers_form_elements_xhtml_Combobox
+    {
+        /** @var core_kernel_classes_Property $property */
+        $property = $context->getParameter(ElementFactoryContext::PARAM_PROPERTY);
+
+        /** @var array $newData */
+        $newData = $context->getParameter(ElementFactoryContext::PARAM_DATA);
+
+        /** @var int $index */
+        $index = $context->getParameter(ElementFactoryContext::PARAM_INDEX);
+
         $options = [];
         $hasWidgetRestrictions = false;
         $selectedWidgetUri = $this->getSelectedWidgetUri($property, $index, $newData);
