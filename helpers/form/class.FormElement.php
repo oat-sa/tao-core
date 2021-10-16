@@ -405,6 +405,14 @@ abstract class tao_helpers_form_FormElement
     }
 
     /**
+     * @return ValidatorInterface[]
+     */
+    public function getValidators(): array
+    {
+        return $this->validators;
+    }
+
+    /**
      * Short description of method setForcedValid
      *
      * @access public

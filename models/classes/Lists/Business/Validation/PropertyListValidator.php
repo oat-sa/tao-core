@@ -24,38 +24,16 @@ namespace oat\tao\model\Lists\Business\Validation;
 
 use core_kernel_classes_Property;
 use InvalidArgumentException;
-use oat\generis\model\data\Ontology;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 use oat\tao\helpers\form\validators\CrossPropertyEvaluationAwareInterface;
-use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
-use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use tao_helpers_form_Form;
 
-class PropertyTypeValidator implements
+class PropertyListValidator implements
     ValidatorInterface,
     CrossElementEvaluationAware,
     CrossPropertyEvaluationAwareInterface
 {
-    /** @var Ontology */
-    private $ontology;
-
-    /** @var DependentPropertySpecification */
-    private $dependentPropertySpecification;
-
-    /** @var PrimaryPropertySpecification */
-    private $primaryPropertySpecification;
-
-    public function __construct(
-        Ontology $ontology,
-        DependentPropertySpecification $dependentPropertySpecification,
-        PrimaryPropertySpecification $primaryPropertySpecification
-    ) {
-        $this->ontology = $ontology;
-        $this->dependentPropertySpecification = $dependentPropertySpecification;
-        $this->primaryPropertySpecification = $primaryPropertySpecification;
-    }
-
     /** @var core_kernel_classes_Property */
     private $property;
 
@@ -98,35 +76,11 @@ class PropertyTypeValidator implements
      */
     public function evaluate($values)
     {
-        // 0) This is a parent and I am using not allowed types
-        // 0) This is a parent and I am using not allowed types
-        // 1) Is child or parent, cannot change List Values
-        // 2) Is child or parent, must respect restrict types
-
-
-
-
-        //FIXME Apply proper validation
-
-        if (is_string($values)) {
-            return !empty(trim($values));
-        }
-
-        if (is_array($values)) {
-            return count($values) >= 1;
-        }
-
-        return is_scalar($values);
+        return true;
     }
 
     public function acknowledge(tao_helpers_form_Form $form): void
     {
-        $isChild = $this->dependentPropertySpecification->isSatisfiedBy($this->property);
-        $isParent = $this->primaryPropertySpecification->isSatisfiedBy($this->property);
-
-        //$property = $this->ontology->getProperty(tao_helpers_Uri::decode($this->element->getName()));
-        $form;
-        //FIXME Prepare validation
     }
 
     public function getOptions()

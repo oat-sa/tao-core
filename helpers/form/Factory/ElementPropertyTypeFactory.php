@@ -24,7 +24,6 @@ namespace oat\tao\helpers\form\Factory;
 
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
-use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\model\Specification\PropertySpecificationInterface;
@@ -52,17 +51,12 @@ class ElementPropertyTypeFactory
     /** @var PropertySpecificationInterface */
     private $dependentPropertySpecification;
 
-    /** @var ValidatorInterface */
-    private $propertyTypeValidator;
-
     public function __construct(
         PropertySpecificationInterface $primaryPropertySpecification,
-        PropertySpecificationInterface $dependentPropertySpecification,
-        ValidatorInterface $propertyTypeValidator
+        PropertySpecificationInterface $dependentPropertySpecification
     ) {
         $this->dependentPropertySpecification = $dependentPropertySpecification;
         $this->primaryPropertySpecification = $primaryPropertySpecification;
-        $this->propertyTypeValidator = $propertyTypeValidator;
     }
 
     public function withPropertyMap(array $propertyMap): self
@@ -93,7 +87,7 @@ class ElementPropertyTypeFactory
         $element->addAttribute('class', 'property-type property');
         $element->addAttribute('data-property-type', $selectedWidgetUri);
 
-        $this->disable($property, $element, $newData, $index);
+        $this->disable($property, $element, $newData, $index, $selectedWidgetUri);
 
         foreach ($this->getPropertyMap() as $typeKey => $map) {
             if (!$this->isWidgetSupported($property, $newData, $index, $map['widget'])) {
@@ -113,7 +107,6 @@ class ElementPropertyTypeFactory
             $element->setEmptyOption(' --- ' . __('select') . ' --- ');
         }
 
-        $element->addValidator($this->propertyTypeValidator);
         $element->setOptions($options);
 
         return $element;
@@ -137,7 +130,8 @@ class ElementPropertyTypeFactory
         core_kernel_classes_Property $property,
         tao_helpers_form_elements_xhtml_Combobox $element,
         array $newData,
-        int $index
+        int $index,
+        string $selectedWidgetUri = null
     ): void {
         if (
             !$this->primaryPropertySpecification->isSatisfiedBy($property) &&
@@ -146,7 +140,7 @@ class ElementPropertyTypeFactory
             return;
         }
 
-        if (SearchTextBox::WIDGET_ID === $property->getWidget()->getUri()) {
+        if (SearchTextBox::WIDGET_ID === $selectedWidgetUri) {
             $element->disable();
         }
     }

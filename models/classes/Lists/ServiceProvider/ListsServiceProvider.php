@@ -22,10 +22,12 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\ServiceProvider;
 
+use oat\generis\model\data\Ontology;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\Lists\Business\Specification\PrimaryOrSecondaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
+use oat\tao\model\Lists\Business\Validation\PropertyListValidator;
 use oat\tao\model\Lists\Business\Validation\PropertyTypeValidator;
 use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
 use oat\tao\model\Lists\Business\Validation\DependsOnPropertyValidator;
@@ -67,6 +69,17 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
 
         $services
             ->set(PropertyTypeValidator::class, PropertyTypeValidator::class)
+            ->public()
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
+                    service(DependentPropertySpecification::class),
+                    service(PrimaryPropertySpecification::class)
+                ]
+            );
+
+        $services
+            ->set(PropertyListValidator::class, PropertyListValidator::class)
             ->public();
 
         $services

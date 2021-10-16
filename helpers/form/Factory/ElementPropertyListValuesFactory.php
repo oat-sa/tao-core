@@ -130,6 +130,7 @@ class ElementPropertyListValuesFactory
         $element->setDescription(__('List values'));
         $element->addAttribute('class', $classes);
         $element->setEmptyOption(' --- ' . __('select') . ' --- ');
+        $element->addAttribute('data-property-list', true);
 
         return $element;
     }

@@ -23,10 +23,13 @@ declare(strict_types=1);
 use oat\generis\model\WidgetRdf;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\model\dto\OldProperty;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\Lists\Business\Validation\PropertyListValidator;
+use oat\tao\model\Lists\Business\Validation\PropertyTypeValidator;
 use oat\tao\model\search\tasks\IndexTrait;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\event\ClassFormUpdatedEvent;
@@ -281,7 +284,22 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $data = $this->getRequestParameters();
         $classData = $this->extractClassData($data);
         $propertyData = $this->extractPropertyData($data);
-        $formContainer = new tao_actions_form_Clazz($class, $classData, $propertyData, $this->isElasticSearchEnabled());
+        $formContainer = new tao_actions_form_Clazz(
+            $class,
+            $classData,
+            $propertyData,
+            $this->isElasticSearchEnabled(),
+            [
+                tao_helpers_form_FormContainer::ATTRIBUTE_VALIDATORS => [
+                    'data-property-type' => [
+                        $this->getPropertyTypeValidator(),
+                    ],
+                    'data-property-list' => [
+                        $this->getPropertyListValidator(),
+                    ]
+                ]
+            ]
+        );
         $myForm = $formContainer->getForm();
 
         if ($myForm->isSubmited()) {
@@ -657,6 +675,16 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     private function getPropertyChangedValidator(): PropertyChangedValidator
     {
         return $this->getServiceLocator()->get(PropertyChangedValidator::class);
+    }
+
+    private function getPropertyTypeValidator(): ValidatorInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(PropertyTypeValidator::class);
+    }
+
+    private function getPropertyListValidator(): ValidatorInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(PropertyListValidator::class);
     }
 
     private function getDependsOnPropertyRepository(): DependsOnPropertyRepositoryInterface
