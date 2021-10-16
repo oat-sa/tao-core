@@ -46,7 +46,7 @@ class FormServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(PrimaryPropertySpecification::class),
-                    service(DependentPropertySpecification::class)
+                    service(SecondaryPropertySpecification::class)
                 ]
             );
 
