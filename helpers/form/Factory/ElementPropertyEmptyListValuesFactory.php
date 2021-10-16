@@ -24,6 +24,8 @@ namespace oat\tao\helpers\form\Factory;
 
 use core_kernel_classes_Property;
 use oat\tao\model\Context\ContextInterface;
+use oat\tao\model\Lists\Business\Specification\PropertySpecificationContext;
+use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use oat\tao\model\Specification\PropertySpecificationInterface;
 use tao_helpers_form_elements_xhtml_Combobox;
 
@@ -35,15 +37,15 @@ class ElementPropertyEmptyListValuesFactory extends AbstractElementPropertyListV
     /** @var PropertySpecificationInterface */
     private $primaryPropertySpecification;
 
-    /** @var PropertySpecificationInterface */
-    private $dependentPropertySpecification;
+    /** @var SecondaryPropertySpecification */
+    private $secondaryPropertySpecification;
 
     public function __construct(
         PropertySpecificationInterface $primaryPropertySpecification,
-        PropertySpecificationInterface $dependentPropertySpecification
+        SecondaryPropertySpecification $secondaryPropertySpecification
     ) {
         $this->primaryPropertySpecification = $primaryPropertySpecification;
-        $this->dependentPropertySpecification = $dependentPropertySpecification;
+        $this->secondaryPropertySpecification = $secondaryPropertySpecification;
     }
 
     public function create(ContextInterface $context): tao_helpers_form_elements_xhtml_Combobox
@@ -63,10 +65,17 @@ class ElementPropertyEmptyListValuesFactory extends AbstractElementPropertyListV
         $element->setEmptyOption(' --- ' . __('select') . ' --- ');
         $element->addAttribute(self::PROPERTY_LIST_ATTRIBUTE, true);
 
-        if (
-            $this->isSecondaryProperty($property, $newData, $index) ||
-            $this->primaryPropertySpecification->isSatisfiedBy($property)
-        ) {
+        $isSecondaryProperty = $this->secondaryPropertySpecification->isSatisfiedBy(
+            new PropertySpecificationContext(
+                [
+                    PropertySpecificationContext::PARAM_PROPERTY => $property,
+                    PropertySpecificationContext::PARAM_FORM_INDEX => $index,
+                    PropertySpecificationContext::PARAM_FORM_DATA => $newData
+                ]
+            )
+        );
+
+        if ($isSecondaryProperty || $this->primaryPropertySpecification->isSatisfiedBy($property)) {
             $element->disable();
             $element->addAttribute(
                 self::ATTRIBUTE_FORCE_DISABLED,
@@ -79,16 +88,5 @@ class ElementPropertyEmptyListValuesFactory extends AbstractElementPropertyListV
         }
 
         return $element;
-    }
-
-    private function isSecondaryProperty(core_kernel_classes_Property $property, array $newData, int $index): bool
-    {
-        $dependsOnProperty = $newData[$index . '_depends-on-property'] ?? null;
-
-        if ($dependsOnProperty === null) {
-            return $this->dependentPropertySpecification->isSatisfiedBy($property);
-        }
-
-        return !empty(trim($dependsOnProperty));
     }
 }

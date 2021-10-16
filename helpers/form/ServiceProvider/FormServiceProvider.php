@@ -29,6 +29,7 @@ use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
+use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -55,7 +56,7 @@ class FormServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(PrimaryPropertySpecification::class),
-                    service(DependentPropertySpecification::class)
+                    service(SecondaryPropertySpecification::class),
                 ]
             );
 

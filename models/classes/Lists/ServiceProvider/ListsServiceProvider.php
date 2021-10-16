@@ -25,6 +25,7 @@ namespace oat\tao\model\Lists\ServiceProvider;
 use oat\generis\model\data\Ontology;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
+use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use oat\tao\model\Lists\Business\Validation\PropertyListValidator;
 use oat\tao\model\Lists\Business\Validation\PropertyTypeValidator;
 use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
@@ -85,6 +86,15 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(DependentPropertiesRepository::class),
+                ]
+            );
+
+        $services
+            ->set(SecondaryPropertySpecification::class, SecondaryPropertySpecification::class)
+            ->public()
+            ->args(
+                [
+                    service(DependentPropertySpecification::class),
                 ]
             );
     }
