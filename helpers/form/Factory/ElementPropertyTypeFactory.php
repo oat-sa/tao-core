@@ -34,6 +34,8 @@ use tao_helpers_form_GenerisFormFactory;
 
 class ElementPropertyTypeFactory
 {
+    public const PROPERTY_TYPE_ATTRIBUTE = 'data-property-type';
+
     private const RESTRICTED_TYPES = [
         tao_helpers_form_elements_Combobox::WIDGET_ID,
         SearchDropdown::WIDGET_ID
@@ -85,7 +87,7 @@ class ElementPropertyTypeFactory
         $element = $this->createElement($index);
         $element->setDescription(__('Type'));
         $element->addAttribute('class', 'property-type property');
-        $element->addAttribute('data-property-type', $selectedWidgetUri);
+        $element->addAttribute(self::PROPERTY_TYPE_ATTRIBUTE, $selectedWidgetUri);
 
         $this->disable($property, $element, $newData, $index, $selectedWidgetUri);
 

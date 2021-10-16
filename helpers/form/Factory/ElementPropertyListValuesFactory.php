@@ -33,6 +33,9 @@ use tao_models_classes_ListService;
 
 class ElementPropertyListValuesFactory
 {
+    public const PROPERTY_LIST_ATTRIBUTE = 'data-property-list';
+    public const OPTION_REMOTE_LIST_ATTRIBUTE = 'data-remote-list';
+
     /** @var PropertySpecificationInterface */
     private $primaryPropertySpecification;
 
@@ -88,7 +91,7 @@ class ElementPropertyListValuesFactory
             if ($this->remoteListClassSpecification->isSatisfiedBy($list)) {
                 $element->addOptionAttribute(
                     $encodedListUri,
-                    'data-remote-list',
+                    self::OPTION_REMOTE_LIST_ATTRIBUTE,
                     'true'
                 );
             }
@@ -112,10 +115,6 @@ class ElementPropertyListValuesFactory
         ) {
             $element->disable();
             $element->addAttribute(
-                'data-force-disabled',
-                'true'
-            );
-            $element->addAttribute(
                 'data-disabled-message',
                 __('The field "List" is disabled because the property is part of a dependency')
             );
@@ -130,7 +129,7 @@ class ElementPropertyListValuesFactory
         $element->setDescription(__('List values'));
         $element->addAttribute('class', $classes);
         $element->setEmptyOption(' --- ' . __('select') . ' --- ');
-        $element->addAttribute('data-property-list', true);
+        $element->addAttribute(self::PROPERTY_LIST_ATTRIBUTE, true);
 
         return $element;
     }

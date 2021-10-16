@@ -24,6 +24,8 @@ use oat\generis\model\WidgetRdf;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\validator\ValidatorInterface;
+use oat\tao\helpers\form\Factory\ElementPropertyListValuesFactory;
+use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
 use oat\tao\model\dto\OldProperty;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\log\LoggerAwareTrait;
@@ -289,16 +291,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $classData,
             $propertyData,
             $this->isElasticSearchEnabled(),
-            [
-                tao_helpers_form_FormContainer::ATTRIBUTE_VALIDATORS => [
-                    'data-property-type' => [
-                        $this->getPropertyTypeValidator(),
-                    ],
-                    'data-property-list' => [
-                        $this->getPropertyListValidator(),
-                    ]
-                ]
-            ]
+            $this->getClassFormValidators()
         );
         $myForm = $formContainer->getForm();
 
@@ -695,5 +688,19 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     private function getDependsOnPropertySynchronizer(): DependsOnPropertySynchronizerInterface
     {
         return $this->getServiceLocator()->get(DependsOnPropertySynchronizer::class);
+    }
+
+    private function getClassFormValidators(): array
+    {
+        return [
+            tao_helpers_form_FormContainer::ATTRIBUTE_VALIDATORS => [
+                ElementPropertyTypeFactory::PROPERTY_TYPE_ATTRIBUTE => [
+                    $this->getPropertyTypeValidator(),
+                ],
+                ElementPropertyListValuesFactory::PROPERTY_LIST_ATTRIBUTE => [
+                    $this->getPropertyListValidator(),
+                ]
+            ]
+        ];
     }
 }
