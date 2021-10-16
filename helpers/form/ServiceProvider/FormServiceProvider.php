@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\helpers\form\ServiceProvider;
 
+use oat\tao\helpers\form\Factory\ElementPropertyEmptyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementPropertyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
@@ -49,12 +50,20 @@ class FormServiceProvider implements ContainerServiceProviderInterface
             );
 
         $services
-            ->set(ElementPropertyListValuesFactory::class, ElementPropertyListValuesFactory::class)
+            ->set(ElementPropertyEmptyListValuesFactory::class, ElementPropertyEmptyListValuesFactory::class)
             ->public()
             ->args(
                 [
                     service(PrimaryPropertySpecification::class),
-                    service(DependentPropertySpecification::class),
+                    service(DependentPropertySpecification::class)
+                ]
+            );
+
+        $services
+            ->set(ElementPropertyListValuesFactory::class, ElementPropertyListValuesFactory::class)
+            ->public()
+            ->args(
+                [
                     service(RemoteListClassSpecification::class),
                 ]
             );

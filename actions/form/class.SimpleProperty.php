@@ -26,6 +26,7 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\elements\xhtml\Validators;
 use oat\tao\helpers\form\Factory\ElementFactoryContext;
 use oat\tao\helpers\form\Factory\ElementFactoryInterface;
+use oat\tao\helpers\form\Factory\ElementPropertyEmptyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementPropertyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
 use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
@@ -124,10 +125,14 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 
         $range = $property->getRange();
 
-        $rangeSelect = $this->getElementPropertyListValuesFactory()->createEmpty(
-            $this->property,
-            $this->data,
-            $this->getIndex()
+        $rangeSelect = $this->getElementPropertyEmptyListValuesFactory()->create(
+            new ElementFactoryContext(
+                [
+                    ElementFactoryContext::PARAM_PROPERTY => $this->property,
+                    ElementFactoryContext::PARAM_INDEX => $this->getIndex(),
+                    ElementFactoryContext::PARAM_DATA => $this->data,
+                ]
+            )
         );
 
         $this->form->addElement($rangeSelect);
@@ -249,7 +254,14 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
      */
     protected function getListElement($range)
     {
-        return $this->getElementPropertyListValuesFactory()->create($this->getIndex(), $range);
+        return $this->getElementPropertyListValuesFactory()->create(
+            new ElementFactoryContext(
+                [
+                    ElementFactoryContext::PARAM_INDEX => $this->getIndex(),
+                    ElementFactoryContext::PARAM_RANGE => $range,
+                ]
+            )
+        );
     }
 
     private function disableValues(core_kernel_classes_Property $property, Validators $element): void
@@ -280,9 +292,14 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         return $this->getContainer()->get(ElementPropertyTypeFactory::class);
     }
 
-    private function getElementPropertyListValuesFactory(): ElementPropertyListValuesFactory
+    private function getElementPropertyListValuesFactory(): ElementFactoryInterface
     {
         return $this->getContainer()->get(ElementPropertyListValuesFactory::class);
+    }
+
+    private function getElementPropertyEmptyListValuesFactory(): ElementFactoryInterface
+    {
+        return $this->getContainer()->get(ElementPropertyEmptyListValuesFactory::class);
     }
 
     private function getContainer(): ContainerInterface

@@ -76,7 +76,7 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
         return $this;
     }
 
-    public function create(ContextInterface $context): ?tao_helpers_form_elements_xhtml_Combobox
+    public function create(ContextInterface $context): tao_helpers_form_elements_xhtml_Combobox
     {
         /** @var core_kernel_classes_Property $property */
         $property = $context->getParameter(ElementFactoryContext::PARAM_PROPERTY);

@@ -24,7 +24,7 @@ use oat\generis\model\WidgetRdf;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\validator\ValidatorInterface;
-use oat\tao\helpers\form\Factory\ElementPropertyListValuesFactory;
+use oat\tao\helpers\form\Factory\AbstractElementPropertyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
 use oat\tao\model\dto\OldProperty;
 use oat\generis\model\OntologyRdfs;
@@ -697,7 +697,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 ElementPropertyTypeFactory::PROPERTY_TYPE_ATTRIBUTE => [
                     $this->getPropertyTypeValidator(),
                 ],
-                ElementPropertyListValuesFactory::PROPERTY_LIST_ATTRIBUTE => [
+                AbstractElementPropertyListValuesFactory::PROPERTY_LIST_ATTRIBUTE => [
                     $this->getPropertyListValidator(),
                 ]
             ]

@@ -22,10 +22,25 @@ declare(strict_types=1);
 
 namespace oat\tao\helpers\form\Factory;
 
-use oat\tao\model\Context\ContextInterface;
 use tao_helpers_form_elements_xhtml_Combobox;
+use tao_helpers_form_FormFactory;
 
-interface ElementFactoryInterface
+abstract class AbstractElementPropertyListValuesFactory implements ElementFactoryInterface
 {
-    public function create(ContextInterface $context): tao_helpers_form_elements_xhtml_Combobox;
+    public const PROPERTY_LIST_ATTRIBUTE = 'data-property-list';
+
+    /** @var tao_helpers_form_elements_xhtml_Combobox */
+    private $element;
+
+    public function withElement(tao_helpers_form_elements_xhtml_Combobox $element): self
+    {
+        $this->element = $element;
+
+        return $this;
+    }
+
+    protected function createElement(int $index, string $suffix = null): tao_helpers_form_elements_xhtml_Combobox
+    {
+        return $this->element ?? tao_helpers_form_FormFactory::getElement("{$index}_$suffix", 'Combobox');
+    }
 }

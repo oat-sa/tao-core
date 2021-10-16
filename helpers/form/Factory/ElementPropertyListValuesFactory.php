@@ -22,25 +22,16 @@ declare(strict_types=1);
 
 namespace oat\tao\helpers\form\Factory;
 
-use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use oat\tao\model\Context\ContextInterface;
 use oat\tao\model\Specification\ClassSpecificationInterface;
-use oat\tao\model\Specification\PropertySpecificationInterface;
 use tao_helpers_form_elements_xhtml_Combobox;
-use tao_helpers_form_FormFactory;
 use tao_helpers_Uri;
 use tao_models_classes_ListService;
 
-class ElementPropertyListValuesFactory
+class ElementPropertyListValuesFactory extends AbstractElementPropertyListValuesFactory
 {
-    public const PROPERTY_LIST_ATTRIBUTE = 'data-property-list';
     public const OPTION_REMOTE_LIST_ATTRIBUTE = 'data-remote-list';
-
-    /** @var PropertySpecificationInterface */
-    private $primaryPropertySpecification;
-
-    /** @var tao_helpers_form_elements_xhtml_Combobox */
-    private $element;
 
     /** @var tao_models_classes_ListService|null */
     private $listService;
@@ -48,34 +39,27 @@ class ElementPropertyListValuesFactory
     /** @var ClassSpecificationInterface */
     private $remoteListClassSpecification;
 
-    /** @var PropertySpecificationInterface */
-    private $dependentPropertySpecification;
-
     public function __construct(
-        PropertySpecificationInterface $primaryPropertySpecification,
-        PropertySpecificationInterface $dependentPropertySpecification,
         ClassSpecificationInterface $remoteListClassSpecification,
         tao_models_classes_ListService $listService = null
     ) {
-        $this->primaryPropertySpecification = $primaryPropertySpecification;
-        $this->dependentPropertySpecification = $dependentPropertySpecification;
         $this->remoteListClassSpecification = $remoteListClassSpecification;
         $this->listService = $listService ?? tao_models_classes_ListService::singleton();
     }
 
-    public function withElement(tao_helpers_form_elements_xhtml_Combobox $element): self
+    public function create(ContextInterface $context): tao_helpers_form_elements_xhtml_Combobox
     {
-        $this->element = $element;
+        /** @var int $index */
+        $index = $context->getParameter(ElementFactoryContext::PARAM_INDEX);
 
-        return $this;
-    }
+        /** @var mixed|core_kernel_classes_Resource|null $range */
+        $range = $context->getParameter(ElementFactoryContext::PARAM_RANGE);
 
-    /**
-     * @param mixed|core_kernel_classes_Resource|null $range
-     */
-    public function create(int $index, $range = null): tao_helpers_form_elements_xhtml_Combobox
-    {
-        $element = $this->createBasic($index, 'range_list', 'property-template list-template');
+        $element = $this->createElement($index, 'range_list');
+        $element->setDescription(__('List values'));
+        $element->addAttribute('class', 'property-template list-template');
+        $element->setEmptyOption(' --- ' . __('select') . ' --- ');
+        $element->addAttribute(self::PROPERTY_LIST_ATTRIBUTE, true);
         $element->disable();
 
         $listOptions = [];
@@ -100,53 +84,5 @@ class ElementPropertyListValuesFactory
         $element->setOptions($listOptions);
 
         return $element;
-    }
-
-    public function createEmpty(
-        core_kernel_classes_Property $property,
-        array $newData,
-        int $index
-    ): tao_helpers_form_elements_xhtml_Combobox {
-        $element = $this->createBasic($index, 'range', 'property-listvalues property');
-
-        if (
-            $this->isSecondaryProperty($property, $newData, $index) ||
-            $this->primaryPropertySpecification->isSatisfiedBy($property)
-        ) {
-            $element->disable();
-            $element->addAttribute(
-                'data-disabled-message',
-                __('The field "List" is disabled because the property is part of a dependency')
-            );
-        }
-
-        return $element;
-    }
-
-    private function createBasic(int $index, string $suffix, string $classes): tao_helpers_form_elements_xhtml_Combobox
-    {
-        $element = $this->createElement($index, $suffix);
-        $element->setDescription(__('List values'));
-        $element->addAttribute('class', $classes);
-        $element->setEmptyOption(' --- ' . __('select') . ' --- ');
-        $element->addAttribute(self::PROPERTY_LIST_ATTRIBUTE, true);
-
-        return $element;
-    }
-
-    private function createElement(int $index, string $suffix): tao_helpers_form_elements_xhtml_Combobox
-    {
-        return $this->element ?? tao_helpers_form_FormFactory::getElement("{$index}_$suffix", 'Combobox');
-    }
-
-    public function isSecondaryProperty(core_kernel_classes_Property $property, array $newData, int $index): bool
-    {
-        $dependsOnProperty = $newData[$index . '_depends-on-property'] ?? null;
-
-        if ($dependsOnProperty === null) {
-            return $this->dependentPropertySpecification->isSatisfiedBy($property);
-        }
-
-        return !empty(trim($dependsOnProperty));
     }
 }
