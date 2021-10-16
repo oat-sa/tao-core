@@ -39,7 +39,7 @@ abstract class AbstractElementPropertyListValuesFactory implements ElementFactor
         return $this;
     }
 
-    protected function createElement(int $index, string $suffix = null): tao_helpers_form_elements_xhtml_Combobox
+    protected function createElement(int $index, string $suffix): tao_helpers_form_elements_xhtml_Combobox
     {
         return $this->element ?? tao_helpers_form_FormFactory::getElement("{$index}_$suffix", 'Combobox');
     }
