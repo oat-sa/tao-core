@@ -23,44 +23,50 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Validation;
 
 use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
 use InvalidArgumentException;
 use oat\generis\model\data\Ontology;
 use oat\oatbox\validator\ValidatorInterface;
+use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
-use oat\tao\helpers\form\validators\CrossPropertyEvaluationAwareInterface;
-use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
+use oat\tao\model\Lists\Business\Specification\PropertySpecificationContext;
+use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use tao_helpers_form_Form;
+use tao_helpers_form_FormElement;
 
-class PropertyTypeValidator implements
-    ValidatorInterface,
-    CrossElementEvaluationAware,
-    CrossPropertyEvaluationAwareInterface
+class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluationAware
 {
     /** @var Ontology */
     private $ontology;
 
-    /** @var DependentPropertySpecification */
-    private $dependentPropertySpecification;
-
     /** @var PrimaryPropertySpecification */
     private $primaryPropertySpecification;
 
+    /** @var SecondaryPropertySpecification */
+    private $secondaryPropertySpecification;
+
+    /** @var tao_helpers_form_FormElement */
+    private $element;
+
+    /** @var array */
+    private $options;
+
+    /** @var tao_helpers_form_Form */
+    private $form;
+
     public function __construct(
         Ontology $ontology,
-        DependentPropertySpecification $dependentPropertySpecification,
-        PrimaryPropertySpecification $primaryPropertySpecification
+        PrimaryPropertySpecification $primaryPropertySpecification,
+        SecondaryPropertySpecification $secondaryPropertySpecification
     ) {
         $this->ontology = $ontology;
-        $this->dependentPropertySpecification = $dependentPropertySpecification;
         $this->primaryPropertySpecification = $primaryPropertySpecification;
+        $this->secondaryPropertySpecification = $secondaryPropertySpecification;
     }
 
-    /** @var core_kernel_classes_Property */
-    private $property;
-
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getName()
     {
@@ -68,20 +74,15 @@ class PropertyTypeValidator implements
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getMessage()
     {
-        return __('Invalid valueeeeee1');
-    }
-
-    protected function getDefaultMessage()
-    {
-        return __('Invalid valueeeeeee2');
+        return __('Invalid value');
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setMessage($message)
     {
@@ -94,53 +95,81 @@ class PropertyTypeValidator implements
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function evaluate($values)
     {
-        // 0) This is a parent and I am using not allowed types
-        // 0) This is a parent and I am using not allowed types
-        // 1) Is child or parent, cannot change List Values
-        // 2) Is child or parent, must respect restrict types
+        $index = $this->getElementIndex();
+        $property = $this->getProperty($index);
 
-
-
-
-        //FIXME Apply proper validation
-
-        if (is_string($values)) {
-            return !empty(trim($values));
+        if ($property === null) {
+            return true;
         }
 
-        if (is_array($values)) {
-            return count($values) >= 1;
+        if ($this->isNotPrimaryOrSecondary($property, $index)) {
+            return true;
         }
 
-        return is_scalar($values);
+        $previousWidgetUri = $property->getWidget() instanceof core_kernel_classes_Resource
+            ? $property->getWidget()->getUri()
+            : null;
+
+        if ($previousWidgetUri === SearchTextBox::WIDGET_ID && $values === 'multisearchlist') {
+            return true;
+        }
+
+        if (is_string($values) && !in_array($values, ['singlesearchlist', 'longlist'])) {
+            return false;
+        }
+
+        return true;
     }
 
     public function acknowledge(tao_helpers_form_Form $form): void
     {
-        $isChild = $this->dependentPropertySpecification->isSatisfiedBy($this->property);
-        $isParent = $this->primaryPropertySpecification->isSatisfiedBy($this->property);
-
-        //$property = $this->ontology->getProperty(tao_helpers_Uri::decode($this->element->getName()));
-        $form;
-        //FIXME Prepare validation
+        $this->form = $form;
     }
 
     public function getOptions()
     {
-        // TODO: Implement getOptions() method.
+        return $this->options;
     }
 
     public function setOptions(array $options)
     {
-        // TODO: Implement setOptions() method.
+        $this->options = $options;
     }
 
-    public function setProperty(core_kernel_classes_Property $property): void
+    public function setElement(tao_helpers_form_FormElement $element): void
     {
-        $this->property = $property;
+        $this->element = $element;
+    }
+
+    private function isNotPrimaryOrSecondary(core_kernel_classes_Property $property, int $index): bool
+    {
+        return !$this->primaryPropertySpecification->isSatisfiedBy($property) &&
+            !$this->secondaryPropertySpecification->isSatisfiedBy(
+                new PropertySpecificationContext(
+                    [
+                        PropertySpecificationContext::PARAM_PROPERTY => $property,
+                        PropertySpecificationContext::PARAM_FORM_INDEX => $index,
+                        PropertySpecificationContext::PARAM_FORM_DATA => $this->form->getValues()
+                    ]
+                )
+            );
+    }
+
+    private function getElementIndex(): int
+    {
+        return (int)(explode('_', $this->element->getName())[0] ?? 0);
+    }
+
+    private function getProperty(int $index): ?core_kernel_classes_Property
+    {
+        $propertyUri = $newData[$index . '_uri'] ?? null;
+
+        return $propertyUri === null
+            ? null
+            : $this->ontology->getProperty($propertyUri);
     }
 }

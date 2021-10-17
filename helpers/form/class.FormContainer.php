@@ -257,6 +257,11 @@ abstract class tao_helpers_form_FormContainer
                 $validator = clone $validator;
                 $validator->setProperty($property);
             }
+
+            //@TODO @FIXME Use interface coming from other PR
+            if (method_exists($validator, 'setElement')) {
+                $validator->setElement($element);
+            }
         }
     }
 

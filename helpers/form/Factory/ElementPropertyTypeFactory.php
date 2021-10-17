@@ -39,7 +39,7 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
 {
     public const PROPERTY_TYPE_ATTRIBUTE = 'data-property-type';
 
-    private const RESTRICTED_TYPES = [
+    public const DEPENDENT_RESTRICTED_TYPES = [
         tao_helpers_form_elements_Combobox::WIDGET_ID,
         SearchDropdown::WIDGET_ID
     ];
@@ -186,14 +186,14 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
             return true;
         }
 
-        if (in_array($this->getPreviousWidgetUri($property), self::RESTRICTED_TYPES)) {
-            return in_array($targetWidgetUri, self::RESTRICTED_TYPES);
+        if (in_array($this->getPreviousWidgetUri($property), self::DEPENDENT_RESTRICTED_TYPES)) {
+            return in_array($targetWidgetUri, self::DEPENDENT_RESTRICTED_TYPES);
         }
 
         return true;
     }
 
-    public function isSecondaryProperty(core_kernel_classes_Property $property, array $newData, int $index): bool
+    private function isSecondaryProperty(core_kernel_classes_Property $property, array $newData, int $index): bool
     {
         return $this->secondaryPropertySpecification->isSatisfiedBy(
             new PropertySpecificationContext(
