@@ -22,16 +22,17 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Validation;
 
-use core_kernel_classes_Property;
-use core_kernel_classes_Resource;
 use InvalidArgumentException;
 use oat\generis\model\data\Ontology;
 use oat\oatbox\validator\ValidatorInterface;
+use oat\tao\helpers\form\Decorator\ElementDecorator;
+use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\PropertySpecificationContext;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
+use tao_helpers_form_elements_Combobox;
 use tao_helpers_form_Form;
 use tao_helpers_form_FormElement;
 
@@ -52,8 +53,8 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
     /** @var array */
     private $options;
 
-    /** @var tao_helpers_form_Form */
-    private $form;
+    /** @var ElementDecorator */
+    private $elementDecorator;
 
     public function __construct(
         Ontology $ontology,
@@ -99,26 +100,15 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
      */
     public function evaluate($values)
     {
-        $index = $this->getElementIndex();
-        $property = $this->getProperty($index);
-
-        if ($property === null) {
+        if (!$this->isPrimaryOrSecondary()) {
             return true;
         }
 
-        if ($this->isNotPrimaryOrSecondary($property, $index)) {
+        if ($this->isAllowedSearchTexBoxForPrimaryOrSecondaryProperty()) {
             return true;
         }
 
-        $previousWidgetUri = $property->getWidget() instanceof core_kernel_classes_Resource
-            ? $property->getWidget()->getUri()
-            : null;
-
-        if ($previousWidgetUri === SearchTextBox::WIDGET_ID && $values === 'multisearchlist') {
-            return true;
-        }
-
-        if (is_string($values) && !in_array($values, ['singlesearchlist', 'longlist'])) {
+        if ($this->isAllowedSingleChoiceForPrimaryOrSecondaryProperty()) {
             return false;
         }
 
@@ -127,7 +117,7 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
 
     public function acknowledge(tao_helpers_form_Form $form): void
     {
-        $this->form = $form;
+        $this->elementDecorator = new ElementDecorator($this->ontology, $form, $this->element);
     }
 
     public function getOptions()
@@ -145,31 +135,55 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
         $this->element = $element;
     }
 
-    private function isNotPrimaryOrSecondary(core_kernel_classes_Property $property, int $index): bool
+    private function isAllowedSearchTexBoxForPrimaryOrSecondaryProperty(): bool
     {
-        return !$this->primaryPropertySpecification->isSatisfiedBy($property) &&
-            !$this->secondaryPropertySpecification->isSatisfiedBy(
+        return $this->elementDecorator->getCurrentWidgetUri() === SearchTextBox::WIDGET_ID &&
+            $this->elementDecorator->getNewWidgetUri() === SearchTextBox::WIDGET_ID;
+    }
+
+    private function isAllowedSingleChoiceForPrimaryOrSecondaryProperty(): bool
+    {
+        if (
+            in_array(
+                $this->elementDecorator->getCurrentWidgetUri(),
+                [
+                    tao_helpers_form_elements_Combobox::WIDGET_ID,
+                    SearchDropdown::WIDGET_ID
+                ]
+            )
+        ) {
+            return in_array(
+                $this->elementDecorator->getNewWidgetUri(),
+                [
+                    tao_helpers_form_elements_Combobox::WIDGET_ID,
+                    SearchDropdown::WIDGET_ID
+                ]
+            );
+        }
+
+        return in_array(
+            $this->elementDecorator->getNewWidgetUri(),
+            [
+                tao_helpers_form_elements_Combobox::WIDGET_ID,
+                SearchDropdown::WIDGET_ID,
+                SearchTextBox::WIDGET_ID
+            ]
+        );
+    }
+
+    private function isPrimaryOrSecondary(): bool
+    {
+        $property = $this->elementDecorator->getProperty();
+
+        return $this->primaryPropertySpecification->isSatisfiedBy($property) ||
+            $this->secondaryPropertySpecification->isSatisfiedBy(
                 new PropertySpecificationContext(
                     [
                         PropertySpecificationContext::PARAM_PROPERTY => $property,
-                        PropertySpecificationContext::PARAM_FORM_INDEX => $index,
-                        PropertySpecificationContext::PARAM_FORM_DATA => $this->form->getValues()
+                        PropertySpecificationContext::PARAM_FORM_INDEX => $this->elementDecorator->getIndex(),
+                        PropertySpecificationContext::PARAM_FORM_DATA => $this->elementDecorator->getFormData()
                     ]
                 )
             );
-    }
-
-    private function getElementIndex(): int
-    {
-        return (int)(explode('_', $this->element->getName())[0] ?? 0);
-    }
-
-    private function getProperty(int $index): ?core_kernel_classes_Property
-    {
-        $propertyUri = $newData[$index . '_uri'] ?? null;
-
-        return $propertyUri === null
-            ? null
-            : $this->ontology->getProperty($propertyUri);
     }
 }
