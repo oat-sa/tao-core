@@ -22,12 +22,14 @@ declare(strict_types=1);
 
 namespace oat\tao\helpers\form\Decorator;
 
+use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use tao_helpers_form_Form;
 use tao_helpers_form_FormElement;
 use tao_helpers_form_GenerisFormFactory as tao_helpers_form_GenerisFormFactoryAlias;
+use tao_helpers_Uri;
 
 class ElementDecorator
 {
@@ -75,6 +77,17 @@ class ElementDecorator
             $this->cache[__METHOD__] = $propertyUri === null
                 ? null
                 : $this->ontology->getProperty($propertyUri);
+        }
+
+        return $this->cache[__METHOD__];
+    }
+
+    public function getClassByInputValue(): ?core_kernel_classes_Class
+    {
+        if (!array_key_exists(__METHOD__, $this->cache)) {
+            $this->cache[__METHOD__] = empty($this->element->getInputValue())
+                ? null
+                : $this->ontology->getClass(tao_helpers_Uri::decode((string)$this->element->getInputValue()));
         }
 
         return $this->cache[__METHOD__];

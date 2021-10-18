@@ -25,6 +25,7 @@ namespace oat\tao\model\Lists\ServiceProvider;
 use oat\generis\model\data\Ontology;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
+use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use oat\tao\model\Lists\Business\Validation\PropertyListValidator;
 use oat\tao\model\Lists\Business\Validation\PropertyTypeValidator;
@@ -78,7 +79,15 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
 
         $services
             ->set(PropertyListValidator::class, PropertyListValidator::class)
-            ->public();
+            ->public()
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
+                    service(PrimaryPropertySpecification::class),
+                    service(SecondaryPropertySpecification::class),
+                    service(RemoteListClassSpecification::class),
+                ]
+            );
 
         $services
             ->set(PrimaryPropertySpecification::class, PrimaryPropertySpecification::class)

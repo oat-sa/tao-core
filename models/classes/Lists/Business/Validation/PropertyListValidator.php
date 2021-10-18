@@ -22,23 +22,55 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Validation;
 
-use core_kernel_classes_Property;
 use InvalidArgumentException;
+use oat\generis\model\data\Ontology;
 use oat\oatbox\validator\ValidatorInterface;
+use oat\tao\helpers\form\Decorator\ElementDecorator;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
-use oat\tao\helpers\form\validators\CrossPropertyEvaluationAwareInterface;
+use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
+use oat\tao\model\Lists\Business\Specification\PropertySpecificationContext;
+use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
+use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use tao_helpers_form_Form;
+use tao_helpers_form_FormElement;
 
-class PropertyListValidator implements
-    ValidatorInterface,
-    CrossElementEvaluationAware,
-    CrossPropertyEvaluationAwareInterface
+class PropertyListValidator implements ValidatorInterface, CrossElementEvaluationAware
 {
-    /** @var core_kernel_classes_Property */
-    private $property;
+    /** @var Ontology */
+    private $ontology;
+
+    /** @var PrimaryPropertySpecification */
+    private $primaryPropertySpecification;
+
+    /** @var SecondaryPropertySpecification */
+    private $secondaryPropertySpecification;
+
+    /** @var tao_helpers_form_FormElement */
+    private $element;
+
+    /** @var array */
+    private $options;
+
+    /** @var ElementDecorator */
+    private $elementDecorator;
+
+    /** @var RemoteListClassSpecification */
+    private $remoteListClassSpecification;
+
+    public function __construct(
+        Ontology $ontology,
+        PrimaryPropertySpecification $primaryPropertySpecification,
+        SecondaryPropertySpecification $secondaryPropertySpecification,
+        RemoteListClassSpecification $remoteListClassSpecification
+    ) {
+        $this->ontology = $ontology;
+        $this->primaryPropertySpecification = $primaryPropertySpecification;
+        $this->secondaryPropertySpecification = $secondaryPropertySpecification;
+        $this->remoteListClassSpecification = $remoteListClassSpecification;
+    }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getName()
     {
@@ -46,20 +78,15 @@ class PropertyListValidator implements
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getMessage()
     {
-        return __('Invalid valueeeeee1');
-    }
-
-    protected function getDefaultMessage()
-    {
-        return __('Invalid valueeeeeee2');
+        return __('Invalid value');
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setMessage($message)
     {
@@ -72,29 +99,57 @@ class PropertyListValidator implements
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function evaluate($values)
     {
-        return true;
+        if (!$this->isPrimaryOrSecondary()) {
+            return true;
+        }
+
+        return $this->isRemoteListForPrimaryOrSecondary();
     }
 
     public function acknowledge(tao_helpers_form_Form $form): void
     {
+        $this->elementDecorator = new ElementDecorator($this->ontology, $form, $this->element);
     }
 
     public function getOptions()
     {
-        // TODO: Implement getOptions() method.
+        return $this->options;
     }
 
     public function setOptions(array $options)
     {
-        // TODO: Implement setOptions() method.
+        $this->options = $options;
     }
 
-    public function setProperty(core_kernel_classes_Property $property): void
+    public function setElement(tao_helpers_form_FormElement $element): void
     {
-        $this->property = $property;
+        $this->element = $element;
+    }
+
+    private function isRemoteListForPrimaryOrSecondary(): bool
+    {
+        $class = $this->elementDecorator->getClassByInputValue();
+
+        return $class && $this->remoteListClassSpecification->isSatisfiedBy($class);
+    }
+
+    private function isPrimaryOrSecondary(): bool
+    {
+        $property = $this->elementDecorator->getProperty();
+
+        return $this->primaryPropertySpecification->isSatisfiedBy($property) ||
+            $this->secondaryPropertySpecification->isSatisfiedBy(
+                new PropertySpecificationContext(
+                    [
+                        PropertySpecificationContext::PARAM_PROPERTY => $property,
+                        PropertySpecificationContext::PARAM_FORM_INDEX => $this->elementDecorator->getIndex(),
+                        PropertySpecificationContext::PARAM_FORM_DATA => $this->elementDecorator->getFormData()
+                    ]
+                )
+            );
     }
 }
