@@ -109,31 +109,23 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
             }
         }
 
-        //build the type list from the "widget/range to type" map
-        $typeElt = $this->getElementPropertyTypeFactory()->create(
-            new ElementFactoryContext(
-                [
-                    ElementFactoryContext::PARAM_PROPERTY => $property,
-                    ElementFactoryContext::PARAM_INDEX => $index,
-                    ElementFactoryContext::PARAM_DATA => $this->data,
-                ]
-            )
+        $elementContext = new ElementFactoryContext(
+            [
+                ElementFactoryContext::PARAM_PROPERTY => $property,
+                ElementFactoryContext::PARAM_INDEX => $index,
+                ElementFactoryContext::PARAM_DATA => $this->data,
+            ]
         );
+
+        //build the type list from the "widget/range to type" map
+        $typeElt = $this->getElementPropertyTypeFactory()->create($elementContext);
 
         $this->form->addElement($typeElt);
         $elementNames[] = $typeElt->getName();
 
         $range = $property->getRange();
 
-        $rangeSelect = $this->getElementPropertyEmptyListValuesFactory()->create(
-            new ElementFactoryContext(
-                [
-                    ElementFactoryContext::PARAM_PROPERTY => $this->property,
-                    ElementFactoryContext::PARAM_INDEX => $this->getIndex(),
-                    ElementFactoryContext::PARAM_DATA => $this->data,
-                ]
-            )
-        );
+        $rangeSelect = $this->getElementPropertyEmptyListValuesFactory()->create($elementContext);
 
         $this->form->addElement($rangeSelect);
         $elementNames[] = $rangeSelect->getName();

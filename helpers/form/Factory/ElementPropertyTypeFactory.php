@@ -204,8 +204,8 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
             return true;
         }
 
-        if (in_array($this->getPreviousWidgetUri($property), self::DEPENDENT_RESTRICTED_TYPES)) {
-            return in_array($targetWidgetUri, self::DEPENDENT_RESTRICTED_TYPES);
+        if (in_array($this->getPreviousWidgetUri($property), self::DEPENDENT_RESTRICTED_TYPES, true)) {
+            return in_array($targetWidgetUri, self::DEPENDENT_RESTRICTED_TYPES, true);
         }
 
         return true;

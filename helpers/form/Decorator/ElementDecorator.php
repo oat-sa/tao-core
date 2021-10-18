@@ -28,7 +28,7 @@ use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use tao_helpers_form_Form;
 use tao_helpers_form_FormElement;
-use tao_helpers_form_GenerisFormFactory as tao_helpers_form_GenerisFormFactoryAlias;
+use tao_helpers_form_GenerisFormFactory;
 use tao_helpers_Uri;
 
 class ElementDecorator
@@ -109,7 +109,7 @@ class ElementDecorator
     public function getNewWidgetUri(): ?string
     {
         if (!array_key_exists(__METHOD__, $this->cache)) {
-            $this->cache[__METHOD__] = tao_helpers_form_GenerisFormFactoryAlias::getWidgetUriById(
+            $this->cache[__METHOD__] = tao_helpers_form_GenerisFormFactory::getWidgetUriById(
                 (string)$this->element->getInputValue()
             );
         }
