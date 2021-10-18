@@ -63,7 +63,7 @@
         $wrapper.hide();
     }
 
-    function getsupportedTypes() {
+    function getSupportedTypes() {
         return [
             'longlist', // List - Single choice - Drop down
             'multisearchlist', // List - Multiple choice - Search input
@@ -73,7 +73,7 @@
 
     return {
         toggle: toggleDependsOn,
-        getSupportedTypes: getsupportedTypes
+        getSupportedTypes: getSupportedTypes
     }
 });
 
