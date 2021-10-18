@@ -647,13 +647,14 @@
                 if (re.test($this.val())) {
                     if ($elt.css('display') === 'none') {
                         $elt.show();
-
                         const propertyListSelect = $elt.find('select');
 
                         if (propertyListSelect.attr('data-disabled-message')) {
                             propertyListSelect.after(
                                 '<div class="form_disabled_message">' + propertyListSelect.attr('data-disabled-message') + '</div>'
                             );
+                        } else {
+                            propertyListSelect.removeAttr('disabled');
                         }
                     }
                 }
