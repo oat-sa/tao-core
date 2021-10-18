@@ -85,9 +85,9 @@ class ElementDecorator
     public function getClassByInputValue(): ?core_kernel_classes_Class
     {
         if (!array_key_exists(__METHOD__, $this->cache)) {
-            $this->cache[__METHOD__] = empty($this->element->getInputValue())
+            $this->cache[__METHOD__] = empty($this->element->getRawValue())
                 ? null
-                : $this->ontology->getClass(tao_helpers_Uri::decode((string)$this->element->getInputValue()));
+                : $this->ontology->getClass(tao_helpers_Uri::decode((string)$this->element->getRawValue()));
         }
 
         return $this->cache[__METHOD__];

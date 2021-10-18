@@ -24,6 +24,7 @@ namespace oat\tao\helpers\form\Factory;
 
 use core_kernel_classes_Property;
 use oat\tao\model\Context\ContextInterface;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Specification\PropertySpecificationContext;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use oat\tao\model\Specification\PropertySpecificationInterface;
@@ -40,12 +41,17 @@ class ElementPropertyEmptyListValuesFactory extends AbstractElementPropertyListV
     /** @var SecondaryPropertySpecification */
     private $secondaryPropertySpecification;
 
+    /** @var FeatureFlagCheckerInterface */
+    private $featureFlagChecker;
+
     public function __construct(
         PropertySpecificationInterface $primaryPropertySpecification,
-        SecondaryPropertySpecification $secondaryPropertySpecification
+        SecondaryPropertySpecification $secondaryPropertySpecification,
+        FeatureFlagCheckerInterface $featureFlagChecker
     ) {
         $this->primaryPropertySpecification = $primaryPropertySpecification;
         $this->secondaryPropertySpecification = $secondaryPropertySpecification;
+        $this->featureFlagChecker = $featureFlagChecker;
     }
 
     public function create(ContextInterface $context): tao_helpers_form_elements_xhtml_Combobox
@@ -64,6 +70,12 @@ class ElementPropertyEmptyListValuesFactory extends AbstractElementPropertyListV
         $element->addAttribute('class', 'property-listvalues property');
         $element->setEmptyOption(' --- ' . __('select') . ' --- ');
         $element->addAttribute(self::PROPERTY_LIST_ATTRIBUTE, true);
+
+        if (
+            !$this->featureFlagChecker->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED)
+        ) {
+            return $element;
+        }
 
         $isSecondaryProperty = $this->secondaryPropertySpecification->isSatisfiedBy(
             new PropertySpecificationContext(

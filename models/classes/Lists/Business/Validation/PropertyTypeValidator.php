@@ -29,6 +29,7 @@ use oat\tao\helpers\form\Decorator\ElementDecorator;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\PropertySpecificationContext;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
@@ -56,14 +57,19 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
     /** @var ElementDecorator */
     private $elementDecorator;
 
+    /** @var FeatureFlagCheckerInterface */
+    private $featureFlagChecker;
+
     public function __construct(
         Ontology $ontology,
         PrimaryPropertySpecification $primaryPropertySpecification,
-        SecondaryPropertySpecification $secondaryPropertySpecification
+        SecondaryPropertySpecification $secondaryPropertySpecification,
+        FeatureFlagCheckerInterface $featureFlagChecker
     ) {
         $this->ontology = $ontology;
         $this->primaryPropertySpecification = $primaryPropertySpecification;
         $this->secondaryPropertySpecification = $secondaryPropertySpecification;
+        $this->featureFlagChecker = $featureFlagChecker;
     }
 
     /**
@@ -100,6 +106,12 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
      */
     public function evaluate($values)
     {
+        if (
+            !$this->featureFlagChecker->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED)
+        ) {
+            return true;
+        }
+
         if (!$this->isPrimaryOrSecondary()) {
             return true;
         }

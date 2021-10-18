@@ -24,6 +24,7 @@ namespace oat\tao\model\Lists\ServiceProvider;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\persistence\PersistenceManager;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
@@ -74,6 +75,7 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
                     service(Ontology::SERVICE_ID),
                     service(PrimaryPropertySpecification::class),
                     service(SecondaryPropertySpecification::class),
+                    service(FeatureFlagChecker::class),
                 ]
             );
 
@@ -86,6 +88,7 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
                     service(PrimaryPropertySpecification::class),
                     service(SecondaryPropertySpecification::class),
                     service(RemoteListClassSpecification::class),
+                    service(FeatureFlagChecker::class),
                 ]
             );
 

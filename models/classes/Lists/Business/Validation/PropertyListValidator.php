@@ -27,6 +27,7 @@ use oat\generis\model\data\Ontology;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\Decorator\ElementDecorator;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\PropertySpecificationContext;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
@@ -57,16 +58,21 @@ class PropertyListValidator implements ValidatorInterface, CrossElementEvaluatio
     /** @var RemoteListClassSpecification */
     private $remoteListClassSpecification;
 
+    /** @var FeatureFlagCheckerInterface */
+    private $featureFlagChecker;
+
     public function __construct(
         Ontology $ontology,
         PrimaryPropertySpecification $primaryPropertySpecification,
         SecondaryPropertySpecification $secondaryPropertySpecification,
-        RemoteListClassSpecification $remoteListClassSpecification
+        RemoteListClassSpecification $remoteListClassSpecification,
+        FeatureFlagCheckerInterface $featureFlagChecker
     ) {
         $this->ontology = $ontology;
         $this->primaryPropertySpecification = $primaryPropertySpecification;
         $this->secondaryPropertySpecification = $secondaryPropertySpecification;
         $this->remoteListClassSpecification = $remoteListClassSpecification;
+        $this->featureFlagChecker = $featureFlagChecker;
     }
 
     /**
@@ -103,6 +109,12 @@ class PropertyListValidator implements ValidatorInterface, CrossElementEvaluatio
      */
     public function evaluate($values)
     {
+        if (
+            !$this->featureFlagChecker->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED)
+        ) {
+            return true;
+        }
+
         if (!$this->isPrimaryOrSecondary()) {
             return true;
         }

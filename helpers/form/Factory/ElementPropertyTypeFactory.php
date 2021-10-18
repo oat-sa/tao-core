@@ -27,6 +27,7 @@ use core_kernel_classes_Resource;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\model\Context\ContextInterface;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Specification\PropertySpecificationContext;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use oat\tao\model\Specification\PropertySpecificationInterface;
@@ -39,7 +40,7 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
 {
     public const PROPERTY_TYPE_ATTRIBUTE = 'data-property-type';
 
-    public const DEPENDENT_RESTRICTED_TYPES = [
+    private const DEPENDENT_RESTRICTED_TYPES = [
         tao_helpers_form_elements_Combobox::WIDGET_ID,
         SearchDropdown::WIDGET_ID
     ];
@@ -56,12 +57,17 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
     /** @var SecondaryPropertySpecification */
     private $secondaryPropertySpecification;
 
+    /** @var FeatureFlagCheckerInterface */
+    private $featureFlagChecker;
+
     public function __construct(
         PropertySpecificationInterface $primaryPropertySpecification,
-        SecondaryPropertySpecification $secondaryPropertySpecification
+        SecondaryPropertySpecification $secondaryPropertySpecification,
+        FeatureFlagCheckerInterface $featureFlagChecker
     ) {
         $this->primaryPropertySpecification = $primaryPropertySpecification;
         $this->secondaryPropertySpecification = $secondaryPropertySpecification;
+        $this->featureFlagChecker = $featureFlagChecker;
     }
 
     public function withPropertyMap(array $propertyMap): self
@@ -145,6 +151,12 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
         string $selectedWidgetUri = null
     ): void {
         if (
+            !$this->featureFlagChecker->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED)
+        ) {
+            return;
+        }
+
+        if (
             !$this->primaryPropertySpecification->isSatisfiedBy($property) &&
             !$this->isSecondaryProperty($property, $newData, $index)
         ) {
@@ -179,6 +191,12 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
         int $index,
         string $targetWidgetUri
     ): bool {
+        if (
+            !$this->featureFlagChecker->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED)
+        ) {
+            return true;
+        }
+
         if (
             !$this->primaryPropertySpecification->isSatisfiedBy($property) &&
             !$this->isSecondaryProperty($property, $newData, $index)
