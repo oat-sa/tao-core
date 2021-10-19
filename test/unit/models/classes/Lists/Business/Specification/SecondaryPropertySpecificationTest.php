@@ -22,8 +22,11 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\Business\Specification;
 
+use core_kernel_classes_Property;
 use oat\generis\test\TestCase;
+use oat\tao\model\Context\ContextInterface;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
+use oat\tao\model\Lists\Business\Specification\PropertySpecificationContext;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 
 class SecondaryPropertySpecificationTest extends TestCase
@@ -45,6 +48,52 @@ class SecondaryPropertySpecificationTest extends TestCase
 
     public function testIsSatisfiedBy(): void
     {
-        $this->markTestIncomplete('TODO');
+        $formData = [];
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $context = $this->createMock(ContextInterface::class);
+        $context->method('getParameter')
+            ->willReturnCallback(
+                function ($param) use ($property, $formData) {
+                    if ($param === PropertySpecificationContext::PARAM_FORM_INDEX) {
+                        return 1;
+                    }
+
+                    if ($param === PropertySpecificationContext::PARAM_PROPERTY) {
+                        return $property;
+                    }
+
+                    if ($param === PropertySpecificationContext::PARAM_FORM_DATA) {
+                        return $formData;
+                    }
+                }
+            );
+
+        $this->dependentPropertySpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $this->assertTrue($this->sut->isSatisfiedBy($context));
+    }
+
+    public function testIsSatisfiedByUsingFormData(): void
+    {
+        $formData = [
+            '1_depends-on-property' => 'something'
+        ];
+        $context = $this->createMock(ContextInterface::class);
+        $context->method('getParameter')
+            ->willReturnCallback(
+                function ($param) use ($formData) {
+                    if ($param === PropertySpecificationContext::PARAM_FORM_INDEX) {
+                        return 1;
+                    }
+
+                    if ($param === PropertySpecificationContext::PARAM_FORM_DATA) {
+                        return $formData;
+                    }
+                }
+            );
+
+        $this->assertTrue($this->sut->isSatisfiedBy($context));
     }
 }
