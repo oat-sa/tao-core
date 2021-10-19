@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,11 +19,11 @@
  *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+declare(strict_types = 1);
+
 namespace oat\tao\helpers\translation;
 
-use \common_exception_Error;
-use \common_exception_InvalidArgumentType;
-use \common_Logger;
+use common_ext_Extension;
 
 /**
  * This class enables you to generate a bundle of translations, for a language and extensions.
@@ -36,9 +35,9 @@ use \common_Logger;
  */
 class TranslationBundle
 {
-
     /**
-     * The bundle langCode, formated as a locale: en-US, fr-FR, etc.
+     * The bundle langCode, formatted as a locale: en-US, fr-FR, etc.
+     *
      * @var string
      */
     private $langCode;
@@ -67,23 +66,12 @@ class TranslationBundle
      * $extensions = ['tao', 'taoItems']
      *
      * @param string $langCode
-     * @param common_ext_Extension[]
-     * @throws \InvalidArgumentException
+     * @param array  $extensions
+     * @param string $basePath
+     * @param string $taoVersion
      */
-    public function __construct($langCode, $extensions, $basePath, $taoVersion = '')
+    public function __construct(string $langCode, array $extensions, string $basePath, string $taoVersion = '')
     {
-        if (!is_string($langCode)) {
-            throw new \InvalidArgumentException('$langCode argument should be a string.');
-        }
-        if (!is_string($basePath)) {
-            throw new \InvalidArgumentException('$basePath argument should be a string.');
-        }
-        if (!is_string($taoVersion)) {
-            throw new \InvalidArgumentException('$taoVersion argument should be a string.');
-        }
-        if (!is_array($extensions)) {
-            throw new \InvalidArgumentException('$extensions argument should be an array.');
-        }
         if (empty($langCode) || empty($extensions) || empty($basePath)) {
             throw new \InvalidArgumentException('$langCode, $extensions and $basePath arguments should not be empty.');
         }
@@ -98,10 +86,11 @@ class TranslationBundle
      * Get a deterministic identifier from bundle data: one id for same langCode and extensions
      * @return string the identifier
      */
-    public function getSerial()
+    public function getSerial(): string
     {
         $ids = $this->extensions;
         sort($ids);
+
         return md5($this->langCode . '_' . implode('-', $ids));
     }
 
@@ -110,7 +99,7 @@ class TranslationBundle
      * @param string $directory the path
      * @return string|false the path of the generated bundle or false
      */
-    public function generateTo($directory)
+    public function generateTo(string $directory)
     {
         $translations = [];
         
@@ -118,16 +107,16 @@ class TranslationBundle
             $jsFilePath = $this->basePath . '/' . $extension . '/locales/' . $this->langCode . '/messages_po.js';
             if (file_exists($jsFilePath)) {
                 $translate = json_decode(file_get_contents($jsFilePath), false);
-                if ($translate != null) {
+                if ($translate !== null) {
                     $translations = array_merge($translations, (array)$translate);
                 }
             }
         }
         //the bundle contains as well some translations
         $content = [
-            'serial' =>  $this->getSerial(),
-            'date'   => time(),
-            'translations' =>   $translations
+            'serial' => $this->getSerial(),
+            'date' => time(),
+            'translations' => $translations,
         ];
         
         if (!empty($this->taoVersion)) {
@@ -143,6 +132,7 @@ class TranslationBundle
                 return $file;
             }
         }
+
         return false;
     }
 }

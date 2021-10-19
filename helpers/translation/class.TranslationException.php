@@ -31,10 +31,4 @@
  */
 class tao_helpers_translation_TranslationException extends Exception
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
 }

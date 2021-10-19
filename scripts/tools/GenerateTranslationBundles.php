@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,13 +15,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 /**
  * This script aims at generating client-side translation bundles while
  * TAO is not installed yet. It creates a translation bundle per locale
- * found accross the code base.
+ * found across the code base.
  *
  * An optional argument 'p' can be given to the script in order to indicate
  * the path to the root of your TAO platform. In case of 'p' is not given,
@@ -37,11 +35,17 @@
  * Example usage #2 (current directory is NOT the root of the TAO platform):
  * sudo -u www-data php tao/scripts/tools/GenerateTranslationBundles.php -v -p /path/to/tao
  */
+
 require(__DIR__ . '/../../../vendor/autoload.php');
 
 $options = getopt('p:v');
-$path = (!isset($options['p'])) ? realpath(getcwd()) : realpath($options['p']);
+
+$path = (!isset($options['p']))
+    ? realpath(getcwd())
+    : realpath($options['p']);
+
 $verbose = isset($options['v']);
+
 $extensions = [];
 $locales = [];
 
@@ -52,16 +56,19 @@ if (!is_writable("${path}/tao/views/locales") || !is_dir("${path}/tao/views/loca
 
 // Scan extensions to find out all locales.
 foreach (array_filter(glob("${path}/*"), 'is_dir') as $dir) {
+
     if (is_readable("${dir}/manifest.php")) {
+        // todo: replace manifest by composer.json file
+
         // This is an extension.
         $extensionId = basename($dir);
         $extensions[] = $extensionId;
         
         if (is_readable("${dir}/locales") && is_dir("${dir}/locales")) {
-            // We have a locales directory. Let's retrieve locales we don't know yet.
+            // We have a locale's directory. Let's retrieve locales we don't know yet.
             foreach (array_filter(glob("${dir}/locales/*"), 'is_dir') as $localeDir) {
                 $locale = basename($localeDir);
-                $newLocale = !in_array($locale, $locales);
+                $newLocale = !in_array($locale, $locales, true);
                 
                 if ($newLocale) {
                     $locales[] = $locale;
