@@ -672,12 +672,12 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
     private function getPropertyTypeValidator(): ValidatorInterface
     {
-        return $this->getServiceManager()->getContainer()->get(PropertyTypeValidator::class);
+        return $this->getPsrContainer()->get(PropertyTypeValidator::class);
     }
 
     private function getPropertyListValidator(): ValidatorInterface
     {
-        return $this->getServiceManager()->getContainer()->get(PropertyListValidator::class);
+        return $this->getPsrContainer()->get(PropertyListValidator::class);
     }
 
     private function getDependsOnPropertyRepository(): DependsOnPropertyRepositoryInterface

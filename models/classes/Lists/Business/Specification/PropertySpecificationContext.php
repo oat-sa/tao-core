@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Specification;
 
+use core_kernel_classes_Property;
+use InvalidArgumentException;
 use oat\tao\model\Context\AbstractContext;
 
 class PropertySpecificationContext extends AbstractContext
@@ -41,6 +43,23 @@ class PropertySpecificationContext extends AbstractContext
 
     protected function validateParameter(string $parameter, $parameterValue): void
     {
-        //@TODO Add validation
+        if ($parameter === self::PARAM_PROPERTY && $parameterValue instanceof core_kernel_classes_Property) {
+            return;
+        }
+
+        if ($parameter === self::PARAM_FORM_INDEX && is_int($parameterValue)) {
+            return;
+        }
+
+        if ($parameter === self::PARAM_FORM_DATA && is_array($parameterValue)) {
+            return;
+        }
+
+        throw new InvalidArgumentException(
+            sprintf(
+                'Invalid argument for %s',
+                $parameter
+            )
+        );
     }
 }
