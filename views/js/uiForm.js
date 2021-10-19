@@ -776,7 +776,7 @@
                                 }
                                 dependsOnSelect.empty().append(html);
                             }
-                            dependsOn.toggle();
+                            dependsOn.toggle(dependsOnSelect, dependsOnSelect.parent(), $this.closest('.property-edit-container'));
                         } else {
                             dependsOnSelect.parent().hide();
                         }
