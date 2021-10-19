@@ -54,6 +54,8 @@ class PropertySpecificationContextTest extends TestCase
 
     public function testGetters(): void
     {
-        $this->markTestIncomplete('TODO');
+        $this->assertSame(1, $this->sut->getParameter(PropertySpecificationContext::PARAM_FORM_INDEX));
+        $this->assertSame($this->property, $this->sut->getParameter(PropertySpecificationContext::PARAM_PROPERTY));
+        $this->assertSame($this->data, $this->sut->getParameter(PropertySpecificationContext::PARAM_FORM_DATA));
     }
 }

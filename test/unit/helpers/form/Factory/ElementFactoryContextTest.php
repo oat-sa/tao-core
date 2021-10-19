@@ -55,6 +55,9 @@ class ElementFactoryContextTest extends TestCase
 
     public function testGetters(): void
     {
-        $this->markTestIncomplete('TODO');
+        $this->assertNull($this->sut->getParameter(ElementFactoryContext::PARAM_RANGE));
+        $this->assertSame(1, $this->sut->getParameter(ElementFactoryContext::PARAM_INDEX));
+        $this->assertSame($this->property, $this->sut->getParameter(ElementFactoryContext::PARAM_PROPERTY));
+        $this->assertSame($this->data, $this->sut->getParameter(ElementFactoryContext::PARAM_DATA));
     }
 }
