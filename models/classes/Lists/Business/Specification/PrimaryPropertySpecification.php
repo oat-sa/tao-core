@@ -49,7 +49,7 @@ class PrimaryPropertySpecification implements PropertySpecificationInterface
                 ]
             );
 
-            $this->cache[$property->getUri()] = $this->dependentPropertiesRepository->findTotalChild($context) > 0;
+            $this->cache[$property->getUri()] = $this->dependentPropertiesRepository->findTotalChildren($context) > 0;
         }
 
         return $this->cache[$property->getUri()];

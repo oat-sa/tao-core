@@ -32,5 +32,5 @@ interface DependentPropertiesRepositoryInterface
      */
     public function findAll(ContextInterface $context): array;
 
-    public function findTotalChild(ContextInterface $context): int;
+    public function findTotalChildren(ContextInterface $context): int;
 }

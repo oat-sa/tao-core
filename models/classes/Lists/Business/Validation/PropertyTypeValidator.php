@@ -161,7 +161,8 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
                 [
                     tao_helpers_form_elements_Combobox::WIDGET_ID,
                     SearchDropdown::WIDGET_ID
-                ]
+                ],
+                true
             )
         ) {
             return in_array(
@@ -169,7 +170,8 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
                 [
                     tao_helpers_form_elements_Combobox::WIDGET_ID,
                     SearchDropdown::WIDGET_ID
-                ]
+                ],
+                true
             );
         }
 
@@ -179,7 +181,8 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
                 tao_helpers_form_elements_Combobox::WIDGET_ID,
                 SearchDropdown::WIDGET_ID,
                 SearchTextBox::WIDGET_ID
-            ]
+            ],
+            true
         );
     }
 

@@ -46,7 +46,7 @@ class DependentPropertiesRepository extends ConfigurableService implements Depen
     /**
      * {@inheritdoc}
      */
-    public function findTotalChild(ContextInterface $context): int
+    public function findTotalChildren(ContextInterface $context): int
     {
         return $this->executeSearch($context)->total();
     }
