@@ -651,7 +651,7 @@
 
                         if (propertyListSelect.attr('data-disabled-message')) {
                             propertyListSelect.after(
-                                '<div class="form_disabled_message">' + propertyListSelect.attr('data-disabled-message') + '</div>'
+                                `<div class="form_disabled_message">${propertyListSelect.attr('data-disabled-message')}</div>`
                             );
                         } else {
                             propertyListSelect.removeAttr('disabled');
@@ -750,7 +750,12 @@
                     },
                     dataType: 'json',
                     success: function (response) {
-                        if (response && response.data && response.data.length !== 0 && dependsOn.getSupportedTypes().includes(typeSelect.val())) {
+                        if (
+                            response
+                            && response.data
+                            && response.data.length !== 0
+                            && dependsOn.getSupportedTypes().includes(typeSelect.val())
+                        ) {
                             const backendValues = response.data.reduce(
                                 (accumulator, currentValue) => {
                                     accumulator.push(currentValue.uriEncoded);
@@ -770,7 +775,7 @@
                                 return;
                             });
                             if (dependsOnSelect[0].length <= 1 || haveSameData) {
-                                let html = '<option value=" "> --- ' + __('none') + ' --- </option>';
+                                let html = `<option value=" "> --- ${__('none')} --- </option>`;
                                 for (const propertyData in response.data) {
                                     html += `<option value="${response.data[propertyData].uri}">${response.data[propertyData].label}</option>`;
                                 }
