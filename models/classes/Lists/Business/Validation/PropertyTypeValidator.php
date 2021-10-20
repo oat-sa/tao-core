@@ -117,15 +117,7 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
             return true;
         }
 
-        if ($this->isAllowedSearchTexBoxForPrimaryOrSecondaryProperty()) {
-            return true;
-        }
-
-        if ($this->isAllowedSingleChoiceForPrimaryOrSecondaryProperty()) {
-            return true;
-        }
-
-        return false;
+        return $this->isWidgetAllowedForPrimaryOrSecondaryProperty();
     }
 
     public function acknowledge(tao_helpers_form_Form $form): void
@@ -148,34 +140,8 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
         $this->element = $element;
     }
 
-    private function isAllowedSearchTexBoxForPrimaryOrSecondaryProperty(): bool
+    private function isWidgetAllowedForPrimaryOrSecondaryProperty(): bool
     {
-        return $this->elementDecorator->getCurrentWidgetUri() === SearchTextBox::WIDGET_ID &&
-            $this->elementDecorator->getNewWidgetUri() === SearchTextBox::WIDGET_ID;
-    }
-
-    private function isAllowedSingleChoiceForPrimaryOrSecondaryProperty(): bool
-    {
-        if (
-            in_array(
-                $this->elementDecorator->getCurrentWidgetUri(),
-                [
-                    tao_helpers_form_elements_Combobox::WIDGET_ID,
-                    SearchDropdown::WIDGET_ID
-                ],
-                true
-            )
-        ) {
-            return in_array(
-                $this->elementDecorator->getNewWidgetUri(),
-                [
-                    tao_helpers_form_elements_Combobox::WIDGET_ID,
-                    SearchDropdown::WIDGET_ID
-                ],
-                true
-            );
-        }
-
         return in_array(
             $this->elementDecorator->getNewWidgetUri(),
             [
