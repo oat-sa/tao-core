@@ -108,9 +108,22 @@ require(['jquery'], function ($) {
             data: createRequestData,
             results: normalizeResponse
         },
+        formatSelection: choice => {
+            if (!choice) {
+                return choice;
+            }
+
+            return choice.isValid
+                ? choice.text
+                : `<span class="invalid-choice">\${choice.text}</span>`;
+        },
         initSelection: function (element, callback) {
             callback($initSelection);
         }
+    });
+
+    \$input.parent().find('.select2-search-choice:has(.invalid-choice)').each((index, element) => {
+        $(element).addClass('select2-search-choice-error');
     });
 });
 javascript;
@@ -149,11 +162,15 @@ javascript;
     private function createInitSelectionValues(): array
     {
         $result = [];
+        $invalidValues = $this->getInvalidValues();
 
         foreach ($this->getRawValue() as $value) {
+            $encodedUri = tao_helpers_Uri::encode($value->getUri());
+
             $result[] = [
-                'id'   => tao_helpers_Uri::encode($value->getUri()),
+                'id' => $encodedUri,
                 'text' => $value->getLabel(),
+                'isValid' => !array_key_exists($encodedUri, $invalidValues),
             ];
         }
 

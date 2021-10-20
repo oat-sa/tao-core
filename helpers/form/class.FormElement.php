@@ -145,6 +145,9 @@ abstract class tao_helpers_form_FormElement
     /** @var mixed */
     private $inputValue;
 
+    /** @var array */
+    private $invalidValues = [];
+
     /**
      * Short description of method __construct
      *
@@ -431,18 +434,23 @@ abstract class tao_helpers_form_FormElement
      */
     public function validate()
     {
+        if ($this->forcedValid) {
+            return true;
+        }
+
         $returnValue = true;
 
-        if (!$this->forcedValid) {
-            foreach ($this->validators as $validator) {
-                if (!$validator->evaluate($this->getRawValue())) {
-                    $this->error[] = $validator->getMessage();
-                    $returnValue = false;
-                    common_Logger::d($this->getName() . ' is invalid for ' . $validator->getName(), ['TAO']);
-                    if ($this->isBreakOnFirstError()) {
-                        break;
-                    }
-                }
+        /** @var ValidatorInterface $validator */
+        foreach ($this->validators as $validator) {
+            if ($validator->evaluate($this->getRawValue())) {
+                continue;
+            }
+
+            $returnValue = false;
+            $this->error[] = $validator->getMessage();
+
+            if ($this->isBreakOnFirstError()) {
+                break;
             }
         }
 
@@ -458,6 +466,16 @@ abstract class tao_helpers_form_FormElement
     public function getError()
     {
         return implode("\n", $this->error);
+    }
+
+    public function getInvalidValues(): array
+    {
+        return $this->invalidValues;
+    }
+
+    public function setInvalidValues(array $invalidValues): void
+    {
+        $this->invalidValues = $invalidValues;
     }
 
     /**

@@ -24,31 +24,39 @@ namespace oat\tao\model\Lists\Business\Validation;
 
 use tao_helpers_Uri;
 use tao_helpers_form_Form;
-use InvalidArgumentException;
-use core_kernel_classes_Property;
+use tao_helpers_form_FormElement;
+use oat\generis\model\data\Ontology;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\ElementValue;
+use oat\tao\helpers\form\elements\FormElementAware;
+use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 use oat\tao\model\Lists\Business\Domain\DependencyRepositoryContext;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
-use oat\tao\helpers\form\validators\CrossPropertyEvaluationAwareInterface;
 
-class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEvaluationAwareInterface
+class DependsOnPropertyValidator implements ValidatorInterface, FormElementAware, CrossElementEvaluationAware
 {
     /** @var DependencyRepositoryInterface */
     private $dependencyRepository;
 
+    /** @var Ontology */
+    private $ontology;
+
     /** @var array */
     private $options = [];
 
-    /** @var core_kernel_classes_Property */
-    private $property;
+    /** @var string */
+    private $message;
+
+    /** @var tao_helpers_form_FormElement */
+    private $element;
 
     /** @var DependencyRepositoryContext[] */
     private $dependencyRepositoryContexts = [];
 
-    public function __construct(DependencyRepositoryInterface $dependencyRepository)
+    public function __construct(DependencyRepositoryInterface $dependencyRepository, Ontology $ontology)
     {
         $this->dependencyRepository = $dependencyRepository;
+        $this->ontology = $ontology;
     }
 
     /**
@@ -82,7 +90,7 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
      */
     public function getMessage()
     {
-        return __('Invalid value');
+        return $this->message;
     }
 
     /**
@@ -90,12 +98,9 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
      */
     public function setMessage($message)
     {
-        throw new InvalidArgumentException(
-            sprintf(
-                'Message for validator %s cannot be set.',
-                self::class
-            )
-        );
+        $this->message = $message;
+
+        return $this;
     }
 
     /**
@@ -113,17 +118,27 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
             $providedValidValues = array_merge($providedValidValues, array_intersect($values, $childListItemsUris));
         }
 
-        return empty(array_diff($values, $providedValidValues));
+        $invalidValues = array_diff($values, $providedValidValues);
+        $isValid = empty($invalidValues);
+
+        if (!$isValid) {
+            $this->element->setInvalidValues($invalidValues);
+            $this->message = __('The selected value(s) must be compatible with the primary property.');
+        }
+
+        return $isValid;
     }
 
-    public function setProperty(core_kernel_classes_Property $property): void
+    public function setElement(tao_helpers_form_FormElement $element): void
     {
-        $this->property = $property;
+        $this->element = $element;
     }
 
     public function acknowledge(tao_helpers_form_Form $form): void
     {
-        foreach ($this->property->getDependsOnPropertyCollection() as $parentProperty) {
+        $property = $this->ontology->getProperty(tao_helpers_Uri::decode($this->element->getName()));
+
+        foreach ($property->getDependsOnPropertyCollection() as $parentProperty) {
             $element = $form->getElement(tao_helpers_Uri::encode($parentProperty->getUri()));
 
             if ($element === null) {

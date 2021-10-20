@@ -64,6 +64,7 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(DependencyRepository::class),
+                    service(Ontology::SERVICE_ID),
                 ]
             );
 
