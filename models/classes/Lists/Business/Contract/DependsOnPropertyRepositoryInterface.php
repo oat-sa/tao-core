@@ -26,5 +26,10 @@ use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 
 interface DependsOnPropertyRepositoryInterface
 {
-    public function findAll(array $options): DependsOnPropertyCollection;
+    public const FILTER_PROPERTY = 'property';
+    public const FILTER_PROPERTY_WIDGET_URI = 'propertyWidgetUri';
+    public const FILTER_CLASS = 'class';
+    public const FILTER_LIST_URI = 'listUri';
+
+    public function findAll(array $filter): DependsOnPropertyCollection;
 }

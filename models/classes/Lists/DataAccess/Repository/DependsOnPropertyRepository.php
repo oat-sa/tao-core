@@ -25,6 +25,7 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 use InvalidArgumentException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
+use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
 use tao_helpers_form_GenerisFormFactory;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
@@ -51,31 +52,35 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
         $this->properties = $properties;
     }
 
-    public function findAll(array $options): DependsOnPropertyCollection
+    public function findAll(array $filter): DependsOnPropertyCollection
     {
         $collection = new DependsOnPropertyCollection();
 
-        if (empty($options['property']) && empty($options['class'])) {
+        if (empty($filter[self::FILTER_PROPERTY]) && empty($filter[self::FILTER_CLASS])) {
             throw new InvalidArgumentException('class or property filter need to be provided');
         }
 
         /** @var core_kernel_classes_Property $property */
-        $property = $options['property'] ?? null;
+        $property = $filter[self::FILTER_PROPERTY] ?? null;
+
+        if (!$this->isPropertyWidgetAllowed($filter)) {
+            return $collection;
+        }
 
         /** @var core_kernel_classes_Class $class */
         $class = $property
             ? ($property->getDomain()->count() > 0 ? $property->getDomain()->get(0) : null)
-            : $options['class'] ?? null;
+            : $filter[self::FILTER_CLASS] ?? null;
 
-        if ($class === null || (empty($options['listUri']) && $property && !$property->getRange())) {
+        if ($class === null || (empty($filter[self::FILTER_LIST_URI]) && $property && !$property->getRange())) {
             return $collection;
         }
 
-        if (isset($options['listUri']) && $property && !$property->getRange()) {
+        if (isset($filter[self::FILTER_LIST_URI]) && $property && !$property->getRange()) {
             $property = null;
         }
 
-        $listUri = $this->getListUri($options, $property);
+        $listUri = $this->getListUri($filter, $property);
 
         if (!$listUri) {
             return $collection;
@@ -184,5 +189,24 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
     private function getParentPropertyListUrisRepository(): ParentPropertyListRepositoryInterface
     {
         return $this->getServiceLocator()->get(ParentPropertyListCachedRepository::class);
+    }
+
+    private function isPropertyWidgetAllowed(array $filter): bool
+    {
+        /** @var core_kernel_classes_Property $property */
+        $property = $filter[self::FILTER_PROPERTY] ?? null;
+
+        $widgetUri = $filter[self::FILTER_PROPERTY_WIDGET_URI] ?? null;
+        $widgetUri = $widgetUri ?? ($property && $property->getWidget() ? $property->getWidget()->getUri() : null);
+
+        if ($widgetUri === null) {
+            return true;
+        }
+
+        return in_array(
+            $widgetUri,
+            ElementPropertyTypeFactory::DEPENDENT_RESTRICTED_TYPES,
+            true
+        );
     }
 }

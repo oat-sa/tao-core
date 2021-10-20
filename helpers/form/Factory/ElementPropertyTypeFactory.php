@@ -45,7 +45,7 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
         SearchDropdown::WIDGET_ID
     ];
 
-    private const DEPENDENT_RESTRICTED_TYPES = [
+    public const DEPENDENT_RESTRICTED_TYPES = [
         tao_helpers_form_elements_Combobox::WIDGET_ID,
         SearchDropdown::WIDGET_ID,
         SearchTextBox::WIDGET_ID
