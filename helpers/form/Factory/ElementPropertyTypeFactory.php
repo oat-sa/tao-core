@@ -40,9 +40,15 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
 {
     public const PROPERTY_TYPE_ATTRIBUTE = 'data-property-type';
 
-    private const DEPENDENT_RESTRICTED_TYPES = [
+    private const DEPENDENT_SINGLE_RESTRICTED_TYPES = [
         tao_helpers_form_elements_Combobox::WIDGET_ID,
         SearchDropdown::WIDGET_ID
+    ];
+
+    private const DEPENDENT_RESTRICTED_TYPES = [
+        tao_helpers_form_elements_Combobox::WIDGET_ID,
+        SearchDropdown::WIDGET_ID,
+        SearchTextBox::WIDGET_ID
     ];
 
     /** @var array */
@@ -204,11 +210,21 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
             return true;
         }
 
-        if (in_array($this->getPreviousWidgetUri($property), self::DEPENDENT_RESTRICTED_TYPES, true)) {
-            return in_array($targetWidgetUri, self::DEPENDENT_RESTRICTED_TYPES, true);
+        $previewsWidget = $this->getPreviousWidgetUri($property);
+
+        if ($previewsWidget === $targetWidgetUri) {
+            return true;
         }
 
-        return true;
+        if (in_array($previewsWidget, self::DEPENDENT_SINGLE_RESTRICTED_TYPES, true)) {
+            return in_array($targetWidgetUri, self::DEPENDENT_SINGLE_RESTRICTED_TYPES, true);
+        }
+
+        if ($previewsWidget === SearchTextBox::WIDGET_ID) {
+            return $targetWidgetUri === SearchTextBox::WIDGET_ID;
+        }
+
+        return in_array($targetWidgetUri, self::DEPENDENT_RESTRICTED_TYPES, true);
     }
 
     private function isSecondaryProperty(core_kernel_classes_Property $property, array $newData, int $index): bool
