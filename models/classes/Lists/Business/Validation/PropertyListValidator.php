@@ -26,6 +26,7 @@ use InvalidArgumentException;
 use oat\generis\model\data\Ontology;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\Decorator\ElementDecorator;
+use oat\tao\helpers\form\elements\FormElementAware;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
@@ -35,7 +36,7 @@ use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use tao_helpers_form_Form;
 use tao_helpers_form_FormElement;
 
-class PropertyListValidator implements ValidatorInterface, CrossElementEvaluationAware
+class PropertyListValidator implements ValidatorInterface, CrossElementEvaluationAware, FormElementAware
 {
     /** @var Ontology */
     private $ontology;

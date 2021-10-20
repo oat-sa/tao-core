@@ -26,6 +26,7 @@ use InvalidArgumentException;
 use oat\generis\model\data\Ontology;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\Decorator\ElementDecorator;
+use oat\tao\helpers\form\elements\FormElementAware;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
@@ -37,7 +38,7 @@ use tao_helpers_form_elements_Combobox;
 use tao_helpers_form_Form;
 use tao_helpers_form_FormElement;
 
-class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluationAware
+class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluationAware, FormElementAware
 {
     /** @var Ontology */
     private $ontology;
