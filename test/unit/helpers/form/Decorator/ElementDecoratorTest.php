@@ -105,7 +105,7 @@ class ElementDecoratorTest extends TestCase
         $this->assertSame(self::FORM_DATA, $this->sut->getFormData());
         $this->assertSame(1, $this->sut->getIndex());
         $this->assertSame($property, $this->sut->getProperty());
-        $this->assertSame($class, $this->sut->getClassByInputValue());
+        $this->assertSame($class, $this->sut->getRangeClass());
         $this->assertSame(tao_helpers_form_elements_Combobox::WIDGET_ID, $this->sut->getCurrentWidgetUri());
         $this->assertSame(tao_helpers_form_elements_Combobox::WIDGET_ID, $this->sut->getNewWidgetUri());
     }

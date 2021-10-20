@@ -82,12 +82,14 @@ class ElementDecorator
         return $this->cache[__METHOD__];
     }
 
-    public function getClassByInputValue(): ?core_kernel_classes_Class
+    public function getRangeClass(): ?core_kernel_classes_Class
     {
         if (!array_key_exists(__METHOD__, $this->cache)) {
-            $this->cache[__METHOD__] = empty($this->element->getRawValue())
+            $uri = $this->getFormData()[$this->getIndex() . '_range'] ?? null;
+
+            $this->cache[__METHOD__] = empty($uri)
                 ? null
-                : $this->ontology->getClass(tao_helpers_Uri::decode((string)$this->element->getRawValue()));
+                : $this->ontology->getClass(tao_helpers_Uri::decode($uri));
         }
 
         return $this->cache[__METHOD__];
@@ -110,7 +112,7 @@ class ElementDecorator
     {
         if (!array_key_exists(__METHOD__, $this->cache)) {
             $this->cache[__METHOD__] = tao_helpers_form_GenerisFormFactory::getWidgetUriById(
-                (string)$this->element->getInputValue()
+                (string)$this->element->getRawValue()
             );
         }
 

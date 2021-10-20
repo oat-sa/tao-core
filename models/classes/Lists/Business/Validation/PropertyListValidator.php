@@ -145,7 +145,7 @@ class PropertyListValidator implements ValidatorInterface, CrossElementEvaluatio
 
     private function isRemoteListForPrimaryOrSecondary(): bool
     {
-        $class = $this->elementDecorator->getClassByInputValue();
+        $class = $this->elementDecorator->getRangeClass();
 
         return $class && $this->remoteListClassSpecification->isSatisfiedBy($class);
     }

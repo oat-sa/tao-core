@@ -122,10 +122,10 @@ class PropertyTypeValidator implements ValidatorInterface, CrossElementEvaluatio
         }
 
         if ($this->isAllowedSingleChoiceForPrimaryOrSecondaryProperty()) {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     public function acknowledge(tao_helpers_form_Form $form): void
