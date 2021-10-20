@@ -747,6 +747,7 @@
                         class_uri: classUri,
                         list_uri: listUri,
                         property_uri: propertyUriToSend,
+                        type: typeSelect.val()
                     },
                     dataType: 'json',
                     success: function (response) {
