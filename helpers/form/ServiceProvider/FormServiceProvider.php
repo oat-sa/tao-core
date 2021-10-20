@@ -25,6 +25,7 @@ namespace oat\tao\helpers\form\ServiceProvider;
 use oat\tao\helpers\form\Factory\ElementPropertyEmptyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementPropertyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
+use oat\tao\helpers\form\Specification\DependencyPropertyWidgetSpecification;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
@@ -47,6 +48,7 @@ class FormServiceProvider implements ContainerServiceProviderInterface
                 [
                     service(PrimaryPropertySpecification::class),
                     service(SecondaryPropertySpecification::class),
+                    service(DependencyPropertyWidgetSpecification::class),
                     service(FeatureFlagChecker::class),
                 ]
             );
@@ -70,5 +72,8 @@ class FormServiceProvider implements ContainerServiceProviderInterface
                     service(RemoteListClassSpecification::class)
                 ]
             );
+
+        $services
+            ->set(DependencyPropertyWidgetSpecification::class, DependencyPropertyWidgetSpecification::class);
     }
 }

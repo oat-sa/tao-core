@@ -24,14 +24,13 @@ namespace oat\tao\helpers\form\Factory;
 
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
-use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
+use oat\tao\helpers\form\Specification\DependencyPropertyWidgetSpecification;
 use oat\tao\model\Context\ContextInterface;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Specification\PropertySpecificationContext;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use oat\tao\model\Specification\PropertySpecificationInterface;
-use tao_helpers_form_elements_Combobox;
 use tao_helpers_form_elements_xhtml_Combobox;
 use tao_helpers_form_FormFactory;
 use tao_helpers_form_GenerisFormFactory;
@@ -39,17 +38,6 @@ use tao_helpers_form_GenerisFormFactory;
 class ElementPropertyTypeFactory implements ElementFactoryInterface
 {
     public const PROPERTY_TYPE_ATTRIBUTE = 'data-property-type';
-
-    private const DEPENDENT_SINGLE_RESTRICTED_TYPES = [
-        tao_helpers_form_elements_Combobox::WIDGET_ID,
-        SearchDropdown::WIDGET_ID
-    ];
-
-    public const DEPENDENT_RESTRICTED_TYPES = [
-        tao_helpers_form_elements_Combobox::WIDGET_ID,
-        SearchDropdown::WIDGET_ID,
-        SearchTextBox::WIDGET_ID
-    ];
 
     /** @var array */
     private $propertyMap;
@@ -66,14 +54,19 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
     /** @var FeatureFlagCheckerInterface */
     private $featureFlagChecker;
 
+    /** @var DependencyPropertyWidgetSpecification */
+    private $dependencyPropertyWidgetSpecification;
+
     public function __construct(
         PropertySpecificationInterface $primaryPropertySpecification,
         SecondaryPropertySpecification $secondaryPropertySpecification,
+        DependencyPropertyWidgetSpecification $dependencyPropertyWidgetSpecification,
         FeatureFlagCheckerInterface $featureFlagChecker
     ) {
         $this->primaryPropertySpecification = $primaryPropertySpecification;
         $this->secondaryPropertySpecification = $secondaryPropertySpecification;
         $this->featureFlagChecker = $featureFlagChecker;
+        $this->dependencyPropertyWidgetSpecification = $dependencyPropertyWidgetSpecification;
     }
 
     public function withPropertyMap(array $propertyMap): self
@@ -113,7 +106,7 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
         $this->disable($property, $element, $newData, $index, $selectedWidgetUri);
 
         foreach ($this->getPropertyMap() as $typeKey => $map) {
-            if (!$this->isWidgetSupported($property, $newData, $index, $map['widget'])) {
+            if (!$this->isWidgetSupported($property, $newData, $index, $map['widget'], $selectedWidgetUri)) {
                 $hasWidgetRestrictions = true;
 
                 continue;
@@ -195,7 +188,8 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
         core_kernel_classes_Property $property,
         array $newData,
         int $index,
-        string $targetWidgetUri
+        string $targetWidgetUri,
+        string $selectedWidgetUri = null
     ): bool {
         if (
             !$this->featureFlagChecker->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED)
@@ -212,19 +206,8 @@ class ElementPropertyTypeFactory implements ElementFactoryInterface
 
         $previewsWidget = $this->getPreviousWidgetUri($property);
 
-        if ($previewsWidget === $targetWidgetUri) {
-            return true;
-        }
-
-        if (in_array($previewsWidget, self::DEPENDENT_SINGLE_RESTRICTED_TYPES, true)) {
-            return in_array($targetWidgetUri, self::DEPENDENT_SINGLE_RESTRICTED_TYPES, true);
-        }
-
-        if ($previewsWidget === SearchTextBox::WIDGET_ID) {
-            return $targetWidgetUri === SearchTextBox::WIDGET_ID;
-        }
-
-        return in_array($targetWidgetUri, self::DEPENDENT_RESTRICTED_TYPES, true);
+        return $this->dependencyPropertyWidgetSpecification
+            ->isSatisfiedBy($targetWidgetUri, $selectedWidgetUri, $previewsWidget);
     }
 
     private function isSecondaryProperty(core_kernel_classes_Property $property, array $newData, int $index): bool

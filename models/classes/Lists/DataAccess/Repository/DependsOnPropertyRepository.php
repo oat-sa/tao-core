@@ -25,7 +25,9 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 use InvalidArgumentException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
-use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
+use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
+use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
+use tao_helpers_form_elements_Combobox;
 use tao_helpers_form_GenerisFormFactory;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
@@ -38,6 +40,12 @@ use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
 
 class DependsOnPropertyRepository extends ConfigurableService implements DependsOnPropertyRepositoryInterface
 {
+    public const DEPENDENT_RESTRICTED_TYPES = [
+        tao_helpers_form_elements_Combobox::WIDGET_ID,
+        SearchDropdown::WIDGET_ID,
+        SearchTextBox::WIDGET_ID
+    ];
+
     /** @var core_kernel_classes_Property[] */
     private $properties;
 
@@ -203,10 +211,6 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
             return true;
         }
 
-        return in_array(
-            $widgetUri,
-            ElementPropertyTypeFactory::DEPENDENT_RESTRICTED_TYPES,
-            true
-        );
+        return in_array($widgetUri, self::DEPENDENT_RESTRICTED_TYPES, true);
     }
 }

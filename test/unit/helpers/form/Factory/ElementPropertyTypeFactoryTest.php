@@ -26,6 +26,7 @@ use core_kernel_classes_Property;
 use oat\generis\test\TestCase;
 use oat\tao\helpers\form\Factory\ElementFactoryContext;
 use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
+use oat\tao\helpers\form\Specification\DependencyPropertyWidgetSpecification;
 use oat\tao\model\Context\ContextInterface;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
@@ -53,10 +54,14 @@ class ElementPropertyTypeFactoryTest extends TestCase
     /** @var array */
     private $propertyMap;
 
+    /** @var DependencyPropertyWidgetSpecification|MockObject */
+    private $dependencyPropertyWidgetSpecification;
+
     public function setUp(): void
     {
         $this->primaryPropertySpecification = $this->createMock(PropertySpecificationInterface::class);
         $this->secondaryPropertySpecification = $this->createMock(SecondaryPropertySpecification::class);
+        $this->dependencyPropertyWidgetSpecification = $this->createMock(DependencyPropertyWidgetSpecification::class);
         $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
         $this->element = $this->getMockBuilder(tao_helpers_form_elements_xhtml_Combobox::class)
             ->setMethodsExcept(
@@ -80,6 +85,7 @@ class ElementPropertyTypeFactoryTest extends TestCase
         $this->sut = new ElementPropertyTypeFactory(
             $this->primaryPropertySpecification,
             $this->secondaryPropertySpecification,
+            $this->dependencyPropertyWidgetSpecification,
             $this->featureFlagChecker
         );
         $this->sut->withElement($this->element);
@@ -119,6 +125,10 @@ class ElementPropertyTypeFactoryTest extends TestCase
             ->willReturn(true);
 
         $this->secondaryPropertySpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $this->dependencyPropertyWidgetSpecification
             ->method('isSatisfiedBy')
             ->willReturn(true);
 

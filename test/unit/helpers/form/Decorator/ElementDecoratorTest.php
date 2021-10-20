@@ -37,6 +37,7 @@ class ElementDecoratorTest extends TestCase
 {
     private const FORM_DATA = [
         '1_uri' => 'someUri',
+        '1_range' => 'classUri',
     ];
 
     /** @var ElementDecorator */
@@ -86,10 +87,6 @@ class ElementDecoratorTest extends TestCase
 
         $this->element
             ->method('getRawValue')
-            ->willReturn('classUri');
-
-        $this->element
-            ->method('getInputValue')
             ->willReturn('longlist');
 
         $this->ontology
