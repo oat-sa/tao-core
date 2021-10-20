@@ -22,10 +22,15 @@ declare(strict_types=1);
 
 namespace oat\tao\helpers\test\unit\helpers\form\Factory;
 
+use core_kernel_classes_Class;
 use oat\generis\test\TestCase;
+use oat\tao\helpers\form\Factory\AbstractElementPropertyListValuesFactory;
+use oat\tao\helpers\form\Factory\ElementFactoryContext;
 use oat\tao\helpers\form\Factory\ElementPropertyListValuesFactory;
+use oat\tao\model\Context\ContextInterface;
 use oat\tao\model\Specification\ClassSpecificationInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use tao_helpers_form_elements_xhtml_Combobox;
 use tao_models_classes_ListService;
 
 class ElementPropertyListValuesFactoryTest extends TestCase
@@ -39,19 +44,90 @@ class ElementPropertyListValuesFactoryTest extends TestCase
     /** @var MockObject|tao_models_classes_ListService */
     private $listService;
 
+    /** @var MockObject|tao_helpers_form_elements_xhtml_Combobox */
+    private $element;
+
     public function setUp(): void
     {
         $this->remoteListClassSpecification = $this->createMock(ClassSpecificationInterface::class);
         $this->listService = $this->createMock(tao_models_classes_ListService::class);
+        $this->element = $this->getMockBuilder(tao_helpers_form_elements_xhtml_Combobox::class)
+            ->setMethodsExcept(
+                [
+                    'setEmptyOption',
+                    'setOptions',
+                    'getOptions',
+                    'setValue',
+                    'getRawValue',
+                    'disable',
+                    'addAttribute',
+                    'getAttributes',
+                    'addOptionAttribute',
+                    'getOptionAttributes',
+                ]
+            )->getMock();
 
         $this->sut = new ElementPropertyListValuesFactory(
             $this->remoteListClassSpecification,
             $this->listService
         );
+        $this->sut->withElement($this->element);
     }
 
     public function testCreate(): void
     {
-        $this->markTestIncomplete('TODO');
+        $listClass = $this->createMock(core_kernel_classes_Class::class);
+        $listClass->method('getLabel')
+            ->willReturn('label');
+        $listClass->method('getUri')
+            ->willReturn('listUri');
+
+        $context = $this->createMock(ContextInterface::class);
+        $context->method('getParameter')
+            ->willReturnCallback(
+                function ($param) use ($listClass) {
+                    if ($param === ElementFactoryContext::PARAM_INDEX) {
+                        return 1;
+                    }
+
+                    if ($param === ElementFactoryContext::PARAM_RANGE) {
+                        return $listClass;
+                    }
+                }
+            );
+
+        $this->listService
+            ->method('getLists')
+            ->willReturn(
+                [
+                    $listClass,
+                ]
+            );
+
+        $this->remoteListClassSpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $element = $this->sut->create($context);
+
+        $this->assertSame(
+            'listUri',
+            $element->getRawValue()
+        );
+        $this->assertSame(
+            [
+                'listUri' => 'label'
+            ],
+            $element->getOptions()
+        );
+        $this->assertSame(
+            'true',
+            $element->getOptionAttributes('listUri')[ElementPropertyListValuesFactory::OPTION_REMOTE_LIST_ATTRIBUTE]
+            ?? null
+        );
+        $this->assertSame(
+            true,
+            $element->getAttributes()[AbstractElementPropertyListValuesFactory::PROPERTY_LIST_ATTRIBUTE] ?? null
+        );
     }
 }

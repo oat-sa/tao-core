@@ -65,7 +65,7 @@ class ElementPropertyTypeFactoryTest extends TestCase
                     'setOptions',
                     'getOptions',
                     'setValue',
-                    'getValue',
+                    'getRawValue',
                     'addAttribute',
                     'getAttributes',
                 ]
@@ -124,6 +124,10 @@ class ElementPropertyTypeFactoryTest extends TestCase
 
         $element = $this->sut->create($context);
 
+        $this->assertSame(
+            'longlist',
+            $element->getRawValue()
+        );
         $this->assertSame(
             [
                 'longlist' => 'Combobox Title'
