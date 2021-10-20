@@ -26,8 +26,9 @@ use tao_helpers_form_Form;
 use oat\generis\test\TestCase;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
+use tao_helpers_form_FormElement;
+use oat\generis\model\data\Ontology;
 use PHPUnit\Framework\MockObject\MockObject;
-use tao_helpers_form_elements_xhtml_Textbox;
 use oat\tao\helpers\form\elements\ElementValue;
 use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\tao\model\Lists\Business\Validation\DependsOnPropertyValidator;
@@ -41,10 +42,15 @@ class DependsOnPropertyValidatorTest extends TestCase
     /** @var DependsOnPropertyValidator */
     private $sut;
 
+    /** @var Ontology|MockObject */
+    private $ontology;
+
     protected function setUp(): void
     {
         $this->dependencyRepository = $this->createMock(DependencyRepositoryInterface::class);
-        $this->sut = new DependsOnPropertyValidator($this->dependencyRepository);
+        $this->ontology = $this->createMock(Ontology::class);
+
+        $this->sut = new DependsOnPropertyValidator($this->dependencyRepository, $this->ontology);
     }
 
     /**
@@ -54,17 +60,21 @@ class DependsOnPropertyValidatorTest extends TestCase
      */
     public function testEvaluate(bool $expected, array $childListItemsUris, $values): void
     {
-        $this->dependencyRepository
-            ->method('findChildListItemsUris')
-            ->willReturn($childListItemsUris);
-
         $property = $this->createMock(core_kernel_classes_Property::class);
         $property
             ->expects($this->once())
             ->method('getDependsOnPropertyCollection')
             ->willReturn($this->createDependsOnPropertyCollection());
 
-        $this->sut->setProperty($property);
+        $this->ontology
+            ->method('getProperty')
+            ->willReturn($property);
+
+        $this->dependencyRepository
+            ->method('findChildListItemsUris')
+            ->willReturn($childListItemsUris);
+
+        $this->sut->setElement($this->createElementMock());
         $this->sut->acknowledge($this->createFormMock());
 
         $this->assertEquals($expected, $this->sut->evaluate($values));
@@ -177,11 +187,6 @@ class DependsOnPropertyValidatorTest extends TestCase
 
     private function createFormMock(): tao_helpers_form_Form
     {
-        $element = $this->createMock(tao_helpers_form_elements_xhtml_Textbox::class);
-        $element
-            ->method('getInputValue')
-            ->willReturn('uri');
-
         $form = $this->getMockForAbstractClass(
             tao_helpers_form_Form::class,
             [],
@@ -193,8 +198,32 @@ class DependsOnPropertyValidatorTest extends TestCase
         );
         $form
             ->method('getElement')
-            ->willReturn($element);
+            ->willReturn($this->createElementMock());
 
         return $form;
+    }
+
+    private function createElementMock():  tao_helpers_form_FormElement
+    {
+        $element = $this->getMockForAbstractClass(
+            tao_helpers_form_FormElement::class,
+            [],
+            '',
+            false,
+            true,
+            true,
+            [
+                'getInputValue',
+                'getName',
+            ]
+        );
+        $element
+            ->method('getInputValue')
+            ->willReturn('uri');
+        $element
+            ->method('getName')
+            ->willReturn('name');
+
+        return $element;
     }
 }

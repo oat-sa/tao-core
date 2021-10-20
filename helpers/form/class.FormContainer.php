@@ -22,13 +22,12 @@
 
 declare(strict_types=1);
 
-use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_form_FormFactory as FormFactory;
 use oat\tao\helpers\form\elements\xhtml\CsrfToken;
+use oat\tao\helpers\form\elements\FormElementAware;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
-use oat\tao\helpers\form\validators\CrossPropertyEvaluationAwareInterface;
 
 /**
  * This class provide a container for a specific form instance.
@@ -38,8 +37,6 @@ use oat\tao\helpers\form\validators\CrossPropertyEvaluationAwareInterface;
  */
 abstract class tao_helpers_form_FormContainer
 {
-    use OntologyAwareTrait;
-
     public const CSRF_PROTECTION_OPTION = 'csrf_protection';
     public const IS_DISABLED = 'is_disabled';
     public const ADDITIONAL_VALIDATORS = 'extraValidators';
@@ -235,7 +232,7 @@ abstract class tao_helpers_form_FormContainer
             /** @var ValidatorInterface[] $validators */
             $validators = array_merge(...array_values($validators));
 
-            $this->configureCrossPropertyValidators($validators, $element);
+            $this->propagateElement($validators, $element);
             $this->configureFormValidators($validators, $this->getForm());
 
             $element->addValidators($validators);
@@ -244,18 +241,14 @@ abstract class tao_helpers_form_FormContainer
     }
 
     /**
-     * @param ValidatorInterface[]|CrossPropertyEvaluationAwareInterface[] $validators
+     * @param ValidatorInterface[]|FormElementAware[] $validators
      */
-    private function configureCrossPropertyValidators(
-        iterable &$validators,
-        tao_helpers_form_FormElement $element
-    ): void {
-        $property = $this->getProperty(tao_helpers_Uri::decode($element->getName()));
-
+    private function propagateElement(iterable &$validators, tao_helpers_form_FormElement $element): void
+    {
         foreach ($validators as &$validator) {
-            if ($validator instanceof CrossPropertyEvaluationAwareInterface) {
+            if ($validator instanceof FormElementAware) {
                 $validator = clone $validator;
-                $validator->setProperty($property);
+                $validator->setElement($element);
             }
         }
     }
