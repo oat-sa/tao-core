@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\Business\Specification;
 
+use core_kernel_classes_Property;
 use oat\generis\test\TestCase;
 use oat\tao\model\Lists\Business\Contract\DependentPropertiesRepositoryInterface;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
@@ -45,6 +46,23 @@ class PrimaryPropertySpecificationTest extends TestCase
 
     public function testIsSatisfiedBy(): void
     {
-        $this->markTestIncomplete('TODO');
+        $this->dependentPropertiesRepository
+            ->method('findTotalChildren')
+            ->willReturn(1);
+
+        $property = $this->createMock(core_kernel_classes_Property::class);
+
+        $this->assertTrue($this->sut->isSatisfiedBy($property));
+    }
+
+    public function testIsNotSatisfiedBy(): void
+    {
+        $this->dependentPropertiesRepository
+            ->method('findTotalChildren')
+            ->willReturn(0);
+
+        $property = $this->createMock(core_kernel_classes_Property::class);
+
+        $this->assertFalse($this->sut->isSatisfiedBy($property));
     }
 }
