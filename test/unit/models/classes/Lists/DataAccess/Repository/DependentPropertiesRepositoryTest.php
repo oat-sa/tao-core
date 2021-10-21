@@ -28,6 +28,7 @@ use core_kernel_classes_Property;
 use oat\generis\model\OntologyRdf;
 use oat\search\base\QueryInterface;
 use oat\search\base\QueryBuilderInterface;
+use oat\search\base\ResultSetInterface;
 use oat\search\base\SearchGateWayInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\Lists\DataAccess\Repository\DependentPropertiesRepository;
@@ -56,25 +57,42 @@ class DependentPropertiesRepositoryTest extends TestCase
 
     public function testFindAll(): void
     {
-        $property = $this->createMock(core_kernel_classes_Property::class);
-        $property
-            ->method('getUri')
-            ->willReturn('propertyUri');
+        $this->mockFindSearch();
 
         $context = $this->createMock(DependentPropertiesRepositoryContext::class);
         $context
             ->method('getParameter')
             ->willReturn($this->createMock(core_kernel_classes_Property::class));
 
+        $this->assertSame([], $this->sut->findAll($context));
+    }
+
+    public function testFindTotalChildren(): void
+    {
+        $this->mockFindSearch();
+
+        $context = $this->createMock(DependentPropertiesRepositoryContext::class);
+        $context
+            ->method('getParameter')
+            ->willReturn($this->createMock(core_kernel_classes_Property::class));
+
+        $this->assertSame(1, $this->sut->findTotalChildren($context));
+    }
+
+    private function mockFindSearch(): void
+    {
         $queryBuilder = $this->createMock(QueryBuilderInterface::class);
         $queryBuilder
             ->method('setCriteria')
             ->willReturnSelf();
 
+        $result = $this->createMock(ResultSetInterface::class);
+        $result->method('total')
+            ->willReturn(1);
         $gateway = $this->createMock(SearchGateWayInterface::class);
         $gateway
             ->method('search')
-            ->willReturn(new ArrayIterator([$property]));
+            ->willReturn($result);
 
         $this->complexSearchService
             ->method('query')
@@ -86,7 +104,5 @@ class DependentPropertiesRepositoryTest extends TestCase
         $this->complexSearchService
             ->method('getGateway')
             ->willReturn($gateway);
-
-        $this->assertEquals([$property], $this->sut->findAll($context));
     }
 }

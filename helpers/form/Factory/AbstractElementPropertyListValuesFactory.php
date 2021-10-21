@@ -20,17 +20,27 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Contract;
+namespace oat\tao\helpers\form\Factory;
 
-use core_kernel_classes_Resource;
-use oat\tao\model\Context\ContextInterface;
+use tao_helpers_form_elements_xhtml_Combobox;
+use tao_helpers_form_FormFactory;
 
-interface DependentPropertiesRepositoryInterface
+abstract class AbstractElementPropertyListValuesFactory implements ElementFactoryInterface
 {
-    /**
-     * @return core_kernel_classes_Resource[]
-     */
-    public function findAll(ContextInterface $context): array;
+    public const PROPERTY_LIST_ATTRIBUTE = 'data-property-list';
 
-    public function findTotalChildren(ContextInterface $context): int;
+    /** @var tao_helpers_form_elements_xhtml_Combobox */
+    private $element;
+
+    public function withElement(tao_helpers_form_elements_xhtml_Combobox $element): self
+    {
+        $this->element = $element;
+
+        return $this;
+    }
+
+    protected function createElement(int $index, string $suffix): tao_helpers_form_elements_xhtml_Combobox
+    {
+        return $this->element ?? tao_helpers_form_FormFactory::getElement("{$index}_$suffix", 'Combobox');
+    }
 }

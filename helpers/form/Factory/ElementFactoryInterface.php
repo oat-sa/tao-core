@@ -20,17 +20,12 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Contract;
+namespace oat\tao\helpers\form\Factory;
 
-use core_kernel_classes_Resource;
 use oat\tao\model\Context\ContextInterface;
+use tao_helpers_form_elements_xhtml_Combobox;
 
-interface DependentPropertiesRepositoryInterface
+interface ElementFactoryInterface
 {
-    /**
-     * @return core_kernel_classes_Resource[]
-     */
-    public function findAll(ContextInterface $context): array;
-
-    public function findTotalChildren(ContextInterface $context): int;
+    public function create(ContextInterface $context): tao_helpers_form_elements_xhtml_Combobox;
 }

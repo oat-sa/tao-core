@@ -497,7 +497,7 @@
             }
 
             function regularConfirmantion() {
-                return window.confirm(__('Please confirm property deletion!')); 
+                return window.confirm(__('Please confirm property deletion!'));
             }
 
             async function getPropertyRemovalConfirmation($groupNode, uri) {
@@ -517,7 +517,7 @@
                             `<b>${name}</b>
                             ${__('currently has a dependency established with ')}
                             <b>${dependantPropName}</b>.
-                            ${__('Deleting this property will also remove the dependency')}. 
+                            ${__('Deleting this property will also remove the dependency')}.
                             <br><br> ${__('Are you wish to delete it')}?`,
                             resolve,
                             reject
@@ -533,8 +533,8 @@
                 const $groupNode = $(this).closest(".form-group");
                 try {
                     await getPropertyRemovalConfirmation($groupNode, $(this).data("uri"));
-                } catch (err) { return; }       
-                
+                } catch (err) { return; }
+
                 property.remove(
                     $(this).data("uri"),
                     $("#id").val(),
@@ -642,14 +642,23 @@
                 var $this = $(this);
                 var $elt = $this.parent("div").next("div");
                 var propertiesTypes = ['list','tree'];
-
                 var re = new RegExp(propertiesTypes.join('$|').concat('$'));
+
                 if (re.test($this.val())) {
                     if ($elt.css('display') === 'none') {
                         $elt.show();
-                        $elt.find('select').removeAttr('disabled');
+                        const propertyListSelect = $elt.find('select');
+
+                        if (propertyListSelect.attr('data-disabled-message')) {
+                            propertyListSelect.after(
+                                `<div class="form_disabled_message">${propertyListSelect.attr('data-disabled-message')}</div>`
+                            );
+                        } else {
+                            propertyListSelect.removeAttr('disabled');
+                        }
                     }
                 }
+
                 else if ($elt.css('display') !== 'none') {
                     $elt.css('display', 'none');
                     $elt.find('select').prop('disabled', false);
@@ -727,6 +736,8 @@
             	const listUri = $this.val();
                 const dependsId = $(this)[0].id.match(/\d+_/)[0];
                 const dependsOnSelect = $(document.getElementById(`${dependsId}depends-on-property`));
+                const typeSelect = $(document.getElementById(`${dependsId}type`));
+
                 propertyUriToSend = $this.parent().parent().parent()[0].id;
                 propertyUriToSend = propertyUriToSend.replace('property_', '');
                 $.ajax({
@@ -736,10 +747,16 @@
                         class_uri: classUri,
                         list_uri: listUri,
                         property_uri: propertyUriToSend,
+                        type: typeSelect.val()
                     },
                     dataType: 'json',
                     success: function (response) {
-                        if (response && response.data && response.data.length !== 0) {
+                        if (
+                            response
+                            && response.data
+                            && response.data.length !== 0
+                            && dependsOn.getSupportedTypes().includes(typeSelect.val())
+                        ) {
                             const backendValues = response.data.reduce(
                                 (accumulator, currentValue) => {
                                     accumulator.push(currentValue.uriEncoded);
@@ -759,13 +776,13 @@
                                 return;
                             });
                             if (dependsOnSelect[0].length <= 1 || haveSameData) {
-                                let html = '<option value=" "> --- select --- </option>';
+                                let html = `<option value=" "> --- ${__('none')} --- </option>`;
                                 for (const propertyData in response.data) {
                                     html += `<option value="${response.data[propertyData].uri}">${response.data[propertyData].label}</option>`;
                                 }
                                 dependsOnSelect.empty().append(html);
                             }
-                            dependsOn.toggle();
+                            dependsOn.toggle(dependsOnSelect, dependsOnSelect.parent(), $this.closest('.property-edit-container'));
                         } else {
                             dependsOnSelect.parent().hide();
                         }
@@ -775,6 +792,11 @@
 
             function onTypeChange(e, flag) {
                 showPropertyList.bind(this)(e, flag === 'initial');
+
+                const fieldIndex = $(this)[0].id.match(/\d+_/)[0];
+                const rangeSelect = $(document.getElementById(`${fieldIndex}range`));
+
+                showDependsOnProperty.bind(rangeSelect)(e);
             }
 
             function onListValuesChange(e) {

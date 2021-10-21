@@ -278,6 +278,11 @@ class tao_helpers_form_GenerisFormFactory
         return $returnValue;
     }
 
+    public static function getWidgetUriById(string $id): ?string
+    {
+        return self::getPropertyMap()[$id]['widget'] ?? null;
+    }
+
     /**
      * Return the map between the Property properties: range, widget, etc. to
      * shortcuts for the simplePropertyEditor
