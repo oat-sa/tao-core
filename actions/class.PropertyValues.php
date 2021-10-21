@@ -105,6 +105,6 @@ class tao_actions_PropertyValues extends tao_actions_CommonModule
 
     private function getRepository(): DependsOnPropertyRepository
     {
-        return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
+        return $this->getPsrContainer()->get(DependsOnPropertyRepository::class);
     }
 }

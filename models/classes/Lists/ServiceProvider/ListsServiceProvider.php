@@ -27,6 +27,7 @@ use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
+use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use oat\tao\model\Lists\Business\Validation\PropertyListValidator;
 use oat\tao\model\Lists\Business\Validation\PropertyTypeValidator;
@@ -35,6 +36,8 @@ use oat\tao\model\Lists\Business\Validation\DependsOnPropertyValidator;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 use oat\tao\model\Lists\DataAccess\Repository\DependentPropertiesRepository;
+use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
+use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -55,6 +58,17 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(PersistenceManager::SERVICE_ID),
+                ]
+            );
+
+        $services
+            ->set(DependsOnPropertyRepository::class, DependsOnPropertyRepository::class)
+            ->public()
+            ->args(
+                [
+                    service(RemoteListPropertySpecification::class),
+                    service(DependentPropertySpecification::class),
+                    service(ParentPropertyListCachedRepository::class),
                 ]
             );
 

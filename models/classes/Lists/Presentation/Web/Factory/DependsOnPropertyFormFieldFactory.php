@@ -101,7 +101,7 @@ class DependsOnPropertyFormFieldFactory extends ConfigurableService
 
     private function getRepository(): DependsOnPropertyRepository
     {
-        return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
+        return $this->getServiceManager()->getContainer()->get(DependsOnPropertyRepository::class);
     }
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
