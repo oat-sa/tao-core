@@ -128,6 +128,11 @@ class PropertyListValidator implements ValidatorInterface, CrossElementEvaluatio
         $this->elementDecorator = new ElementDecorator($this->ontology, $form, $this->element);
     }
 
+    public function withElementDecorator(ElementDecorator $elementDecorator): void
+    {
+        $this->elementDecorator = $elementDecorator;
+    }
+
     public function getOptions()
     {
         return $this->options;

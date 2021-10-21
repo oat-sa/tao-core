@@ -22,12 +22,15 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\Business\Validation;
 
+use core_kernel_classes_Property;
 use oat\generis\model\data\Ontology;
+use oat\tao\helpers\form\Decorator\ElementDecorator;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use oat\tao\model\Lists\Business\Validation\PropertyTypeValidator;
 use oat\generis\test\TestCase;
+use tao_helpers_form_elements_Combobox;
 
 class PropertyTypeValidatorTest extends TestCase
 {
@@ -63,6 +66,31 @@ class PropertyTypeValidatorTest extends TestCase
 
     public function testEvaluate(): void
     {
-        $this->markTestIncomplete('TODO');
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $elementDecorator = $this->createMock(ElementDecorator::class);
+
+        $elementDecorator
+            ->method('getProperty')
+            ->willReturn($property);
+
+        $elementDecorator
+            ->method('getNewWidgetUri')
+            ->willReturn(tao_helpers_form_elements_Combobox::WIDGET_ID);
+
+        $this->featureFlagChecker
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $this->primaryPropertySpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $this->secondaryPropertySpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $this->sut->withElementDecorator($elementDecorator);
+
+        $this->assertTrue($this->sut->evaluate('doesNotMatter'));
     }
 }

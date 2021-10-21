@@ -22,7 +22,10 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\Business\Validation;
 
+use core_kernel_classes_Class;
+use core_kernel_classes_Property;
 use oat\generis\model\data\Ontology;
+use oat\tao\helpers\form\Decorator\ElementDecorator;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
@@ -69,6 +72,36 @@ class PropertyListValidatorTest extends TestCase
 
     public function testEvaluate(): void
     {
-        $this->markTestIncomplete('TODO');
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $elementDecorator = $this->createMock(ElementDecorator::class);
+
+        $elementDecorator
+            ->method('getProperty')
+            ->willReturn($property);
+
+        $elementDecorator
+            ->method('getRangeClass')
+            ->willReturn($class);
+
+        $this->featureFlagChecker
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $this->primaryPropertySpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $this->secondaryPropertySpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $this->remoteListClassSpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $this->sut->withElementDecorator($elementDecorator);
+
+        $this->assertTrue($this->sut->evaluate('doesNotMatter'));
     }
 }
