@@ -23,13 +23,18 @@
 ], function ($, context, request) {
     'use strict';
 
-    function filterSelectOptions(allowedOptions, $secondarySelect) {
+    function filterSelectOptions(allowedOptions, $secondarySelect, fromMultiple) {
+        let currentValue = $secondarySelect.val().trim()
+ 
+        if (!fromMultiple && !allowedOptions.contains(currentValue)) {
+            $secondarySelect.empty().append(new Option('', ' '));
+        }
+        
+        // TODO: remove old options that are not allowed.
+        // current solution leads to duplication of options
         allowedOptions.forEach((selectOption) => {
-            if (!$secondarySelect.find(`option[value="${selectOption.uri}"]`).length) {
-                $secondarySelect.append(new Option(selectOption.label, selectOption.uri));
-            }
+            $secondarySelect.append(new Option(selectOption.label, selectOption.uri));
         });
-        return;
     }
 
     function filterSelect2Options(allowedOptions, $secondarySelect) {
@@ -49,66 +54,24 @@
         input.val(newVal).trigger('change');
     }
 
-    function filterMultipleSelect2({ selects, allowedOptions }) {
+    async function processFiltering(selects, allowedOptions, persistValues) {
         selects.forEach($secondarySelect => {
-            filterSelect2Options(allowedOptions, $secondarySelect);
-        })
-    }
-
-    async function processFiltering(selects, requests, fromMultiplePrimary) {
-        await Promise.all(requests);
-        
-        if (!fromMultiplePrimary) {
-            $secondarySelect.empty().append(new Option('', ' '));
-
-            requests.forEach((selectOption) => {
-                $secondarySelect.append(new Option(selectOption.label, selectOption.uri));
-            });
-        }
-
-        const multiselects = await selects.reduce(async (accumulator, { request, $secondarySelect }) => {
-            if (!$secondarySelect) {
-                return accumulator;
-            }
-            
-            const { data } = await request;
             let isSelect2 = $secondarySelect.hasClass('select2-container');
-            let isMultiselect = $secondarySelect.hasClass('select2-container-multi');
-            
-            // Collect all multiselects
             if (isSelect2) {
-                accumulator.selects.push($secondarySelect);
-                accumulator.allowedOptions.push(...data);
-                return accumulator;
+                filterSelect2Options(allowedOptions, $secondarySelect);
+                return;
             }
-            
-            // single value select2
-            if (isSelect2) {
-                filterSelect2Options(data, $secondarySelect);
-                return accumulator;
-            }
-
-            // <select>
-            filterSelectOptions(data, $secondarySelect);  
-
-            return accumulator;
-        
-        }, {
-            selects: [],
-            allowedOptions: []
+            filterSelectOptions(allowedOptions, $secondarySelect, persistValues); 
         });
-        
-        filterMultipleSelect2(multiselects);
     }
 
     function getAllowedSecondaryValues(data) {
         return request({ url: context.root_url + 'tao/PropertyValues/get', data, method: 'GET', dataType: 'json'});
     }
 
-    async function filterSecondaryValues($container, selectedPrimaryProperty, fromMultiplePrimary) {
+    async function filterSecondaryValues($container, selectedPrimaryProperty, persistValues) {
         const $secondaryList = $container.find('.secondary-props-list > li > *');
-
-        const requests = [];
+        const allowedOptions = [];
         const selects = [];
 
         for (let secondaryProp of $secondaryList.toArray()) {
@@ -117,18 +80,16 @@
 
             const data = {
                 propertyUri: $secondarySelect.attr('id'),
-                parentListValues: selectedPrimaryProperty
+                parentListValues: selectedPrimaryProperty,
             }
 
-            requests.push(getAllowedSecondaryValues(data));
-            selects.push({
-                request: requests[requests.length - 1],
-                $secondarySelect,
-            });
+            const response = await getAllowedSecondaryValues(data);
+            allowedOptions.push(...response.data);
+            selects.push($secondarySelect);
         }
-
-        processFiltering(selects, requests, fromMultiplePrimary);
+        
+        processFiltering(selects, allowedOptions, persistValues);
     }
 
-    return filterSecondaryValues
+    return filterSecondaryValues;
 });
