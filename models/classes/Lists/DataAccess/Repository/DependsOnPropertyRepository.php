@@ -156,7 +156,8 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
     private function isParentProperty(core_kernel_classes_Property $classProperty, array $parentPropertiesUris): bool
     {
         return !$this->getDependentPropertySpecification()->isSatisfiedBy($classProperty)
-            && in_array($classProperty->getUri(), $parentPropertiesUris, true);
+            && in_array($classProperty->getUri(), $parentPropertiesUris, true)
+            && $this->isParentPropertyWidgetAllowed($classProperty);
     }
 
     private function isPropertyNotSupported(
@@ -212,5 +213,10 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
         }
 
         return in_array($widgetUri, self::DEPENDENT_RESTRICTED_TYPES, true);
+    }
+
+    private function isParentPropertyWidgetAllowed(core_kernel_classes_Property $property): bool
+    {
+        return $property->getWidget() && in_array($property->getWidget()->getUri(), self::DEPENDENT_RESTRICTED_TYPES, true);
     }
 }
