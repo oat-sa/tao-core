@@ -40,11 +40,11 @@
         if (!$container.length) {
             return;
         }
-    
+
         $dependsOnSelectbox = $dependsOnSelectbox || $container.find('.property-depends-on');
         if (!$dependsOnSelectbox.length) {
            return;
-        }   
+        }
 
         if (!$wrapper) {
             $wrapper = $dependsOnSelectbox;
@@ -63,8 +63,17 @@
         $wrapper.hide();
     }
 
+    function getSupportedTypes() {
+        return [
+            'longlist', // List - Single choice - Drop down
+            'multisearchlist', // List - Multiple choice - Search input
+            'singlesearchlist' // List - Single choice - Search input
+        ];
+    }
+
     return {
         toggle: toggleDependsOn,
+        getSupportedTypes: getSupportedTypes
     }
 });
 

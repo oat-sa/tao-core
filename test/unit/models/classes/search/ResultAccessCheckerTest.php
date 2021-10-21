@@ -32,6 +32,11 @@ use oat\tao\model\search\ResultAccessChecker;
 
 class ResultAccessCheckerTest extends TestCase
 {
+    private const SAMPLE_VALUES = [
+        'id' => 'uri1',
+        'label' => 'label1'
+    ];
+
     /** @var PermissionHelper|MockObject */
     private $permissionHelperMock;
 
@@ -44,6 +49,9 @@ class ResultAccessCheckerTest extends TestCase
     /** @var core_kernel_classes_Class|MockObject */
     private $class;
 
+    /** @var ResultAccessChecker */
+    private $subject;
+
     public function setUp(): void
     {
         $this->permissionHelperMock = $this->createMock(PermissionHelper::class);
@@ -54,7 +62,7 @@ class ResultAccessCheckerTest extends TestCase
         $this->modelMock
             ->method('getResource')
             ->willReturn($this->resourceMock);
-        
+
         $this->resourceMock
             ->method('getUri')
             ->willReturn('uri1');
@@ -80,7 +88,6 @@ class ResultAccessCheckerTest extends TestCase
             );
 
         $this->subject = new ResultAccessChecker();
-
         $this->subject->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
@@ -94,8 +101,6 @@ class ResultAccessCheckerTest extends TestCase
 
     public function testHasReadAccess()
     {
-        $this->getSampleValues();
-
         $this->permissionHelperMock
             ->method('filterByPermission')
             ->willReturn(
@@ -104,31 +109,19 @@ class ResultAccessCheckerTest extends TestCase
                 ]
             );
 
-        $result = $this->subject->hasReadAccess($this->result, $this->permissionHelperMock);
+        $result = $this->subject->hasReadAccess(self::SAMPLE_VALUES);
 
         $this->assertTrue($result);
     }
 
     public function testHasNoReadAccess()
     {
-        $this->getSampleValues();
-
         $this->permissionHelperMock
             ->method('filterByPermission')
             ->willReturn([]);
 
-        $result = $this->subject->hasReadAccess($this->result, $this->permissionHelperMock);
+        $result = $this->subject->hasReadAccess(self::SAMPLE_VALUES);
 
         $this->assertFalse($result);
-    }
-
-    private function getSampleValues(): array
-    {
-        return $this->result = [
-            [
-                'id' => 'uri1',
-                'label' => 'label1'
-            ]
-        ];
     }
 }

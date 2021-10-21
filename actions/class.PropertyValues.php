@@ -25,6 +25,7 @@ declare(strict_types=1);
 use GuzzleHttp\Psr7\ServerRequest;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\http\HttpJsonResponseTrait;
+use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 use oat\tao\model\Lists\DataAccess\Repository\DependentPropertiesRepository;
@@ -58,12 +59,19 @@ class tao_actions_PropertyValues extends tao_actions_CommonModule
             ? $this->getClass(tao_helpers_Uri::decode($this->getGetParameter('class_uri')))
             : null;
 
+        $widgetUri = $this->hasGetParameter('type')
+            ? tao_helpers_form_GenerisFormFactory::getWidgetUriById($this->getGetParameter('type'))
+            : null;
+
         $this->setSuccessJsonResponse(
             $this->getRepository()->findAll(
                 [
-                    'property' => $property,
-                    'class' => $class,
-                    'listUri' => $this->getProperty(tao_helpers_Uri::decode($this->getGetParameter('list_uri')))->getUri()
+                    DependsOnPropertyRepositoryInterface::FILTER_PROPERTY_WIDGET_URI => $widgetUri,
+                    DependsOnPropertyRepositoryInterface::FILTER_PROPERTY => $property,
+                    DependsOnPropertyRepositoryInterface::FILTER_CLASS => $class,
+                    DependsOnPropertyRepositoryInterface::FILTER_LIST_URI => $this->getProperty(
+                        tao_helpers_Uri::decode($this->getGetParameter('list_uri'))
+                    )->getUri()
                 ]
             )
         );
