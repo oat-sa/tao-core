@@ -25,11 +25,11 @@
 
     function filterSelectOptions(allowedOptions, $secondarySelect, fromMultiple) {
         let currentValue = $secondarySelect.val().trim()
- 
+
         if (!fromMultiple && !allowedOptions.contains(currentValue)) {
             $secondarySelect.empty().append(new Option('', ' '));
         }
-        
+
         // TODO: remove old options that are not allowed.
         // current solution leads to duplication of options
         allowedOptions.forEach((selectOption) => {
@@ -61,7 +61,7 @@
                 filterSelect2Options(allowedOptions, $secondarySelect);
                 return;
             }
-            filterSelectOptions(allowedOptions, $secondarySelect, persistValues); 
+            filterSelectOptions(allowedOptions, $secondarySelect, persistValues);
         });
     }
 
@@ -79,7 +79,7 @@
             if (!$secondarySelect.length) { return; }
 
             const data = {
-                propertyUri: $secondarySelect.attr('id'),
+                propertyUri: $secondarySelect.attr('id').replace('s2id_', ''),
                 parentListValues: selectedPrimaryProperty,
             }
 
@@ -87,7 +87,7 @@
             allowedOptions.push(...response.data);
             selects.push($secondarySelect);
         }
-        
+
         processFiltering(selects, allowedOptions, persistValues);
     }
 
