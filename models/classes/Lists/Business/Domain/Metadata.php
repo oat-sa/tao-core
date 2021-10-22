@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,8 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2020|2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -29,6 +29,9 @@ class Metadata implements JsonSerializable
 {
     /** @var string */
     private $label;
+
+    /** @var string */
+    private $alias;
 
     /** @var string */
     private $type;
@@ -109,10 +112,23 @@ class Metadata implements JsonSerializable
         return $this;
     }
 
+    public function getAlias(): ?string
+    {
+        return $this->alias;
+    }
+
+    public function setAlias(string $alias): self
+    {
+        $this->alias = $alias;
+
+        return $this;
+    }
+
     public function jsonSerialize(): array
     {
         return [
             'label' => $this->label,
+            'alias' => $this->alias,
             'type' => $this->type,
             'values' => $this->values,
             'propertyUri' => tao_helpers_Uri::encode($this->propertyUri),
