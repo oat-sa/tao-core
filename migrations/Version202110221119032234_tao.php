@@ -5,19 +5,17 @@ declare(strict_types=1);
 namespace oat\tao\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\Exception\IrreversibleMigration;
 use oat\tao\scripts\SyncModels;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
+use Doctrine\Migrations\Exception\IrreversibleMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
-final class Version202110190628472235_tao extends AbstractMigration
+
+final class Version202110221119032234_tao extends AbstractMigration
 {
 
     public function getDescription(): string
     {
-        return 'Update Ontology models';
+        return 'This migration will add ur-IN locale to RTL map';
     }
 
     public function up(Schema $schema): void
@@ -30,7 +28,7 @@ final class Version202110190628472235_tao extends AbstractMigration
     public function down(Schema $schema): void
     {
         throw new IrreversibleMigration(
-            'The models should be updated via `SyncModels` script after reverting their RDF definitions.'
+            'You cannot remove locales from configuration'
         );
     }
 }
