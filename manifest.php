@@ -25,6 +25,7 @@
 declare(strict_types=1);
 
 use oat\tao\controller\api\Users;
+use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
 use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\routing\ApiRoute;
@@ -271,5 +272,6 @@ return [
     ],
     'containerServiceProviders' => [
         ListsServiceProvider::class,
+        FormServiceProvider::class,
     ],
 ];

@@ -23,10 +23,15 @@ declare(strict_types=1);
 use oat\generis\model\WidgetRdf;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\validator\ValidatorInterface;
+use oat\tao\helpers\form\Factory\AbstractElementPropertyListValuesFactory;
+use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
 use oat\tao\model\dto\OldProperty;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\Lists\Business\Validation\PropertyListValidator;
+use oat\tao\model\Lists\Business\Validation\PropertyTypeValidator;
 use oat\tao\model\search\tasks\IndexTrait;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\event\ClassFormUpdatedEvent;
@@ -269,18 +274,6 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
     }
 
     /**
-     * @param core_kernel_classes_Class $clazz
-     * @param array $classData
-     * @param array $propertyData
-     * @return tao_helpers_form_Form
-     */
-    private function getForm(core_kernel_classes_Class $clazz, array $classData, array $propertyData)
-    {
-        $formContainer = new tao_actions_form_Clazz($clazz, $classData, $propertyData);
-        return $formContainer->getForm();
-    }
-
-    /**
      * Create an edit form for a class and its property
      * and handle the submitted data on save
      *
@@ -293,7 +286,13 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $data = $this->getRequestParameters();
         $classData = $this->extractClassData($data);
         $propertyData = $this->extractPropertyData($data);
-        $formContainer = new tao_actions_form_Clazz($class, $classData, $propertyData, $this->isElasticSearchEnabled());
+        $formContainer = new tao_actions_form_Clazz(
+            $class,
+            $classData,
+            $propertyData,
+            $this->isElasticSearchEnabled(),
+            $this->getClassFormValidators()
+        );
         $myForm = $formContainer->getForm();
 
         if ($myForm->isSubmited()) {
@@ -671,13 +670,37 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         return $this->getServiceLocator()->get(PropertyChangedValidator::class);
     }
 
+    private function getPropertyTypeValidator(): ValidatorInterface
+    {
+        return $this->getPsrContainer()->get(PropertyTypeValidator::class);
+    }
+
+    private function getPropertyListValidator(): ValidatorInterface
+    {
+        return $this->getPsrContainer()->get(PropertyListValidator::class);
+    }
+
     private function getDependsOnPropertyRepository(): DependsOnPropertyRepositoryInterface
     {
-        return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
+        return $this->getPsrContainer()->get(DependsOnPropertyRepository::class);
     }
 
     private function getDependsOnPropertySynchronizer(): DependsOnPropertySynchronizerInterface
     {
         return $this->getServiceLocator()->get(DependsOnPropertySynchronizer::class);
+    }
+
+    private function getClassFormValidators(): array
+    {
+        return [
+            tao_helpers_form_FormContainer::ATTRIBUTE_VALIDATORS => [
+                ElementPropertyTypeFactory::PROPERTY_TYPE_ATTRIBUTE => [
+                    $this->getPropertyTypeValidator(),
+                ],
+                AbstractElementPropertyListValuesFactory::PROPERTY_LIST_ATTRIBUTE => [
+                    $this->getPropertyListValidator(),
+                ]
+            ]
+        ];
     }
 }

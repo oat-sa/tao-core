@@ -71,7 +71,7 @@ class DependsOnPropertyFormFieldFactory extends ConfigurableService
         );
         $element->addAttribute('class', 'property-depends-on property');
         $element->setDescription(__('Depends on property'));
-        $element->setEmptyOption(' --- ' . __('select') . ' --- ');
+        $element->setEmptyOption(' --- ' . __('none') . ' --- ');
 
         if ($collection->count() === 0) {
             $element->disable();
@@ -101,7 +101,7 @@ class DependsOnPropertyFormFieldFactory extends ConfigurableService
 
     private function getRepository(): DependsOnPropertyRepository
     {
-        return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
+        return $this->getServiceManager()->getContainer()->get(DependsOnPropertyRepository::class);
     }
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
