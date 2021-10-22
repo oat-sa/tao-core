@@ -26,7 +26,7 @@
     function filterSelectOptions(allowedOptions, $secondarySelect, fromMultiple) {
         let currentValue = $secondarySelect.val().trim()
 
-        if (!fromMultiple && !allowedOptions.contains(currentValue)) {
+        if (!fromMultiple && !allowedOptions.some(e => e.label === currentValue)) {
             $secondarySelect.empty().append(new Option('', ' '));
         }
 
