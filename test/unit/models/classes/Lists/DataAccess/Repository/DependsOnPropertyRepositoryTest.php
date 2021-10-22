@@ -22,18 +22,19 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\DataAccess\Repository;
 
+use core_kernel_classes_Resource;
 use oat\generis\test\TestCase;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_ContainerCollection;
 use InvalidArgumentException;
 use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
-use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
+use tao_helpers_form_elements_Combobox;
 
 class DependsOnPropertyRepositoryTest extends TestCase
 {
@@ -55,15 +56,10 @@ class DependsOnPropertyRepositoryTest extends TestCase
         $this->dependentPropertySpecification = $this->createMock(DependentPropertySpecification::class);
         $this->parentPropertyListRepository = $this->createMock(ParentPropertyListRepositoryInterface::class);
 
-        $this->sut = new DependsOnPropertyRepository();
-        $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock(
-                [
-                    RemoteListPropertySpecification::class => $this->remoteListPropertySpecification,
-                    DependentPropertySpecification::class => $this->dependentPropertySpecification,
-                    ParentPropertyListCachedRepository::class => $this->parentPropertyListRepository,
-                ]
-            )
+        $this->sut = new DependsOnPropertyRepository(
+            $this->remoteListPropertySpecification,
+            $this->dependentPropertySpecification,
+            $this->parentPropertyListRepository
         );
     }
 
@@ -213,12 +209,19 @@ class DependsOnPropertyRepositoryTest extends TestCase
         }
 
         $property = $this->createMock(core_kernel_classes_Property::class);
+        $widget = $this->createMock(core_kernel_classes_Resource::class);
 
         $property->method('getDomain')
             ->willReturn($domainCollection);
 
         $property->method('getUri')
             ->willReturn($uri);
+
+        $property->method('getWidget')
+            ->willReturn($widget);
+
+        $widget->method('getUri')
+            ->willReturn(tao_helpers_form_elements_Combobox::WIDGET_ID);
 
         return $property;
     }
