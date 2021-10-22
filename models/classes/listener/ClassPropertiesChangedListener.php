@@ -24,6 +24,7 @@ namespace oat\tao\model\listener;
 use core_kernel_classes_Property;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\tao\model\dto\OldProperty;
 use oat\tao\model\event\ClassPropertiesChangedEvent;
 use oat\tao\model\search\tasks\RenameIndexProperties;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
@@ -38,7 +39,7 @@ class ClassPropertiesChangedListener extends ConfigurableService
         if ( !$this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
             return;
         }
-        
+
         $taskMessage = __('Updating search index');
 
         $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
@@ -50,11 +51,18 @@ class ClassPropertiesChangedListener extends ConfigurableService
                         throw new RuntimeException('property data is empty');
                     }
 
-                    /** @var core_kernel_classes_Property $oldPropertyType */
-                    $oldPropertyType = $property['oldProperty']->getPropertyType();
+                    /** @var core_kernel_classes_Property $propertyObject */
+                    $propertyObject = $property['property'];
+
+                    /** @var OldProperty $oldProperty */
+                    $oldProperty = $property['oldProperty'];
+
+                    $oldPropertyType = $oldProperty->getPropertyType();
+
                     return [
-                        'uri' => $property['property']->getUri(),
-                        'oldLabel' => $property['oldProperty']->getLabel(),
+                        'uri' => $propertyObject->getUri(),
+                        'oldLabel' => $oldProperty->getLabel(),
+                        'oldAlias' => $oldProperty->getAlias(),
                         'oldPropertyType' => $oldPropertyType === null ? null : $oldPropertyType->getUri(),
                     ];
                 },

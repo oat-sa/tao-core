@@ -23,8 +23,10 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Service;
 
 use core_kernel_classes_Class;
+use core_kernel_classes_Literal;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
@@ -96,11 +98,11 @@ class GetClassMetadataValuesService extends ConfigurableService
 
             $metadata = (new Metadata())
                 ->setLabel($property->getLabel())
+                ->setAlias($this->getAlias($property))
                 ->setType($this->isListWidget($property) ? self::DATA_TYPE_LIST : self::DATA_TYPE_TEXT)
                 ->setValues($values)
                 ->setUri($uri)
                 ->setPropertyUri($property->getUri());
-
 
             $collection->addMetadata($metadata);
         }
@@ -159,6 +161,19 @@ class GetClassMetadataValuesService extends ConfigurableService
         }
 
         return sprintf(self::BASE_LIST_ITEMS_URI, urlencode($property->getUri()));
+    }
+
+    private function getAlias(core_kernel_classes_Property $property): ?string
+    {
+        $alias = $property->getOnePropertyValue($property->getProperty(GenerisRdf::PROPERTY_ALIAS));
+
+        if ($alias instanceof core_kernel_classes_Literal) {
+            $aliasValue = trim($alias->__toString());
+
+            return empty($aliasValue) ? null : $aliasValue;
+        }
+
+        return null;
     }
 
     private function isWidget(core_kernel_classes_Property $property): bool

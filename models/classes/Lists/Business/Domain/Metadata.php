@@ -45,6 +45,9 @@ class Metadata implements JsonSerializable
     /** @var string|null  */
     private $propertyUri;
 
+    /** @var string|null  */
+    private $classLabel;
+
     public function getLabel(): string
     {
         return $this->label;
@@ -117,9 +120,21 @@ class Metadata implements JsonSerializable
         return $this->alias;
     }
 
-    public function setAlias(string $alias): self
+    public function setAlias(?string $alias): self
     {
         $this->alias = $alias;
+
+        return $this;
+    }
+
+    public function getClassLabel(): ?string
+    {
+        return $this->classLabel;
+    }
+
+    public function setClassLabel(?string $classLabel): self
+    {
+        $this->classLabel = $classLabel;
 
         return $this;
     }
@@ -133,6 +148,9 @@ class Metadata implements JsonSerializable
             'values' => $this->values,
             'propertyUri' => tao_helpers_Uri::encode($this->propertyUri),
             'uri' => $this->uri,
+            'class' => [
+                'label' => $this->classLabel
+            ],
         ];
     }
 }
