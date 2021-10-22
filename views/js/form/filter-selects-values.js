@@ -45,13 +45,20 @@
         }
 
         let newVal = input.val().split(',').reduce((accumulator, option) => {
-            if (allowedOptions.includes(option)) {
-                accumulator.push(option);
-            }
-            return accumulator;
-        }, []).join(',');
+            allowedOptions.forEach((selectOption) => {
+                if (selectOption.uri === option) {
+                    accumulator.push(selectOption)
+                }
+            })
 
-        input.val(newVal).trigger('change');
+            return accumulator;
+        }, []);
+
+        newVal = newVal.map((selectedValue) => {
+            return {id: selectedValue.uri, text: selectedValue.label}
+        });
+
+        input.select2('data', newVal);
     }
 
     async function processFiltering(selects, allowedOptions, persistValues) {
