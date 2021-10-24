@@ -48,6 +48,9 @@ class Metadata implements JsonSerializable
     /** @var string|null  */
     private $classLabel;
 
+    /** @var bool */
+    private $isDuplicated = false;
+
     public function getLabel(): string
     {
         return $this->label;
@@ -139,6 +142,18 @@ class Metadata implements JsonSerializable
         return $this;
     }
 
+    public function isDuplicated(): bool
+    {
+        return $this->isDuplicated;
+    }
+
+    public function markAsDuplicated(): self
+    {
+        $this->isDuplicated = true;
+
+        return $this;
+    }
+
     public function jsonSerialize(): array
     {
         return [
@@ -146,6 +161,7 @@ class Metadata implements JsonSerializable
             'alias' => $this->alias,
             'type' => $this->type,
             'values' => $this->values,
+            'isDuplicated' => $this->isDuplicated,
             'propertyUri' => tao_helpers_Uri::encode($this->propertyUri),
             'uri' => $this->uri,
             'class' => [
