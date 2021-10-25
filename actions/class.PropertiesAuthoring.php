@@ -682,7 +682,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
 
     private function getDependsOnPropertyRepository(): DependsOnPropertyRepositoryInterface
     {
-        return $this->getServiceLocator()->get(DependsOnPropertyRepository::class);
+        return $this->getPsrContainer()->get(DependsOnPropertyRepository::class);
     }
 
     private function getDependsOnPropertySynchronizer(): DependsOnPropertySynchronizerInterface
