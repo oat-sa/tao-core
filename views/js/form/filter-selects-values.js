@@ -26,50 +26,70 @@
     function filterSelectOptions(allowedOptions, $secondarySelect, fromMultiple) {
         let currentValue = $secondarySelect.val().trim()
 
-        if (!fromMultiple && !allowedOptions.some(e => e.label === currentValue)) {
+        if (!fromMultiple) {
             $secondarySelect.empty().append(new Option('', ' '));
-        }
 
-        // TODO: remove old options that are not allowed.
-        // current solution leads to duplication of options
-        allowedOptions.forEach((selectOption) => {
-            $secondarySelect.append(new Option(selectOption.label, selectOption.uri));
-        });
+            allowedOptions.forEach(option => {
+                $secondarySelect.append(new Option(option.label, option.uri));
+            });
+        } else {
+            // Remove all except currentValue (if it is allowed to stay) and default " "
+            $secondarySelect.find('option').each(function(i, existingOption) {
+                if (existingOption.value !== " "
+                    && (
+                        existingOption.value.trim() !== currentValue
+                        || !allowedOptions.find(opt => opt.uri === currentValue)
+                    )
+                ) {
+                    existingOption.remove();
+                }
+            });
+
+            // Add allowedOptions except currentValue
+            allowedOptions.forEach(option => {
+                if (option.uri.trim() !== currentValue) {
+                    $secondarySelect.append(new Option(option.label, option.uri));
+                }
+            });
+        }
     }
 
     function filterSelect2Options(allowedOptions, $secondarySelect) {
         let input = $secondarySelect.next('input');
+        let newVal = [];
 
         if (!input) {
             return;
         }
 
-        let newVal = input.val().split(',').reduce((accumulator, option) => {
-            allowedOptions.forEach((selectOption) => {
-                if (selectOption.uri === option) {
-                    accumulator.push(selectOption)
-                }
-            })
+        input.val().split(',').forEach(value => {
+            let existingAvailableValue = allowedOptions.find(opt => opt.uri === value);
 
-            return accumulator;
-        }, []);
-
-        newVal = newVal.map((selectedValue) => {
-            return {id: selectedValue.uri, text: selectedValue.label}
+            if (existingAvailableValue) {
+                newVal.push(existingAvailableValue);
+            };
         });
 
-        input.select2('data', newVal);
+        if (newVal.length) {
+            newVal = newVal.map(selectedValue => {
+                return {id: selectedValue.uri, text: selectedValue.label}
+            });
+
+            input.select2('data', newVal);
+        } else {
+            input.select2('val', '');
+        }
     }
 
-    async function processFiltering(selects, allowedOptions, persistValues) {
-        selects.forEach($secondarySelect => {
+    async function processFiltering($secondarySelect, allowedOptions, persistValues) {
             let isSelect2 = $secondarySelect.hasClass('select2-container');
+
             if (isSelect2) {
                 filterSelect2Options(allowedOptions, $secondarySelect);
                 return;
             }
+
             filterSelectOptions(allowedOptions, $secondarySelect, persistValues);
-        });
     }
 
     function getAllowedSecondaryValues(data) {
@@ -78,10 +98,9 @@
 
     async function filterSecondaryValues($container, selectedPrimaryProperty, persistValues) {
         const $secondaryList = $container.find('.secondary-props-list > li > *');
-        const allowedOptions = [];
-        const selects = [];
 
         for (let secondaryProp of $secondaryList.toArray()) {
+            let allowedOptions = [];
             let $secondarySelect = $(secondaryProp).find('select, .select2-container');
             if (!$secondarySelect.length) { return; }
 
@@ -92,10 +111,8 @@
 
             const response = await getAllowedSecondaryValues(data);
             allowedOptions.push(...response.data);
-            selects.push($secondarySelect);
+            processFiltering($secondarySelect, allowedOptions, persistValues);
         }
-
-        processFiltering(selects, allowedOptions, persistValues);
     }
 
     return filterSecondaryValues;
