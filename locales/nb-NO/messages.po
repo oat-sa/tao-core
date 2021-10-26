@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint157\n"
-"PO-Revision-Date: 2021-06-18T08:54:18\n"
+"Project-Id-Version: TAO 2021.10\n"
+"PO-Revision-Date: 2021-10-26T12:01:10\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nb-NO\n"
@@ -196,9 +196,6 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-msgid "Add / Edit lists"
-msgstr ""
-
 msgid "Add a CSV file"
 msgstr ""
 
@@ -237,9 +234,6 @@ msgid "Adobe Flash file"
 msgstr ""
 
 msgid "Advanced search, add filters"
-msgstr ""
-
-msgid "aliases:"
 msgstr ""
 
 msgid "all"
@@ -315,16 +309,10 @@ msgstr ""
 msgid "Are you sure you want to delete it?"
 msgstr ""
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
+msgid "Are you wish to delete it"
 msgstr ""
 
 msgid "Arguments separator"
-msgstr ""
-
-msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -388,9 +376,6 @@ msgstr ""
 msgid "Bitmap image"
 msgstr ""
 
-msgid "boolean"
-msgstr ""
-
 msgid "Browse folders:"
 msgstr ""
 
@@ -452,16 +437,13 @@ msgstr ""
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
-msgstr ""
-
 msgid "Check all"
 msgstr ""
 
-msgid "Check-in"
+msgid "Check All"
 msgstr ""
 
-msgid "choices:"
+msgid "Check-in"
 msgstr ""
 
 msgid "Choose a value..."
@@ -497,10 +479,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -513,6 +495,9 @@ msgid "Clear the stored variables"
 msgstr ""
 
 msgid "Click to reload."
+msgstr ""
+
+msgid "Click to start"
 msgstr ""
 
 msgid "Close"
@@ -531,12 +516,6 @@ msgid "Collecting of abandoned actions in the action queue ..."
 msgstr ""
 
 msgid "Column"
-msgstr ""
-
-msgid "command"
-msgstr ""
-
-msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
@@ -584,9 +563,6 @@ msgstr ""
 msgid "Cosine"
 msgstr ""
 
-msgid "count"
-msgstr ""
-
 msgid "Create"
 msgstr ""
 
@@ -620,6 +596,9 @@ msgstr ""
 msgid "Current playback position"
 msgstr ""
 
+msgid "currently has a dependency established with "
+msgstr ""
+
 msgid "Data imported"
 msgstr ""
 
@@ -629,10 +608,10 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
@@ -657,9 +636,6 @@ msgid "date time range"
 msgstr ""
 
 msgid "Default search"
-msgstr ""
-
-msgid "default:"
 msgstr ""
 
 msgid "Define the default values"
@@ -690,10 +666,16 @@ msgstr ""
 msgid "Deleting search index for %s"
 msgstr ""
 
+msgid "Deleting this property will also remove the dependency"
+msgstr ""
+
 msgid "Demo Sandbox"
 msgstr ""
 
-msgid "Did you mean %s?"
+msgid "Dependency URI Path"
+msgstr ""
+
+msgid "Depends on property"
 msgstr ""
 
 msgid "Digit 0"
@@ -816,9 +798,6 @@ msgid "Error in value"
 msgstr ""
 
 msgid "Error: %s"
-msgstr ""
-
-msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
@@ -961,9 +940,6 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr ""
 
-msgid "generated-value"
-msgstr ""
-
 msgid "Generis Form"
 msgstr ""
 
@@ -1039,9 +1015,6 @@ msgstr ""
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr ""
 
-msgid "Implications failed:"
-msgstr ""
-
 msgid "Import"
 msgstr ""
 
@@ -1078,10 +1051,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -1168,9 +1141,6 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr ""
 
@@ -1180,7 +1150,7 @@ msgstr ""
 msgid "invalid regular expression"
 msgstr ""
 
-msgid "Invalid values:"
+msgid "Invalid value"
 msgstr ""
 
 msgid "items per page"
@@ -1313,9 +1283,6 @@ msgid "Maintenance storage driver is not set"
 msgstr ""
 
 msgid "Manage class schema"
-msgstr ""
-
-msgid "Manage data list"
 msgstr ""
 
 #, tao-public
@@ -1515,10 +1482,7 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
+msgid "none"
 msgstr ""
 
 msgid "Not started"
@@ -1541,9 +1505,6 @@ msgid "notifications drivers aren\'t persistent. use a persistent database stora
 msgstr ""
 
 msgid "Nth root"
-msgstr ""
-
-msgid "number"
 msgstr ""
 
 msgid "Number of elements"
@@ -1690,6 +1651,9 @@ msgstr ""
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
 
+msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
 msgid "Please wait"
 msgstr ""
 
@@ -1700,9 +1664,6 @@ msgid "PNG image"
 msgstr ""
 
 msgid "Position"
-msgstr ""
-
-msgid "Positionals:"
 msgstr ""
 
 msgid "Post install processing"
@@ -1826,9 +1787,6 @@ msgstr ""
 msgid "Removing: %s"
 msgstr ""
 
-msgid "Rename"
-msgstr ""
-
 msgid "Repeat new password"
 msgstr ""
 
@@ -1839,9 +1797,6 @@ msgid "Request a password reset via Email."
 msgstr ""
 
 msgid "require notification ID"
-msgstr ""
-
-msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -1905,9 +1860,6 @@ msgid "Return to sign in page"
 msgstr ""
 
 msgid "Rich Text Format file"
-msgstr ""
-
-msgid "Right click the tree to manage your lists"
 msgstr ""
 
 msgid "Right parenthesis"
@@ -1978,10 +1930,10 @@ msgstr ""
 msgid "Security settings"
 msgstr ""
 
-msgid "Select"
+msgid "select"
 msgstr ""
 
-msgid "select"
+msgid "Select"
 msgstr ""
 
 msgid "Select a class"
@@ -2063,6 +2015,9 @@ msgstr ""
 msgid "Square root"
 msgstr ""
 
+msgid "Start"
+msgstr ""
+
 msgid "Start of document reached. Continuing from the end."
 msgstr ""
 
@@ -2079,9 +2034,6 @@ msgid "Store the value a variable"
 msgstr ""
 
 msgid "Storing digital video data on a computer game"
-msgstr ""
-
-msgid "string"
 msgstr ""
 
 msgid "Submit"
@@ -2207,6 +2159,9 @@ msgstr ""
 msgid "The column "
 msgstr ""
 
+msgid "The field \"List\" is disabled because the property is part of a dependency"
+msgstr ""
+
 msgid "The following criteria are not applicable to the selected class and have been removed from the search"
 msgstr ""
 
@@ -2223,6 +2178,9 @@ msgid "The lock has been released"
 msgstr ""
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
+msgstr ""
+
+msgid "The selected value(s) must be compatible with the primary property."
 msgstr ""
 
 msgid "The server has sent an empty response"
@@ -2313,9 +2271,6 @@ msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
-msgstr ""
-
-msgid "Too many non-option arguments: got %s, maximum of %s"
 msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
@@ -2417,10 +2372,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
