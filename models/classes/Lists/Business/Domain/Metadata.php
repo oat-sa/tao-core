@@ -30,7 +30,7 @@ class Metadata implements JsonSerializable
     /** @var string */
     private $label;
 
-    /** @var string */
+    /** @var string|null */
     private $alias;
 
     /** @var string */
