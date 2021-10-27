@@ -109,6 +109,16 @@ class MigrationAction extends ScriptAction
             $taskReport = $taskLogEntity->getReport();
 
             if (0 === strcasecmp($taskLogEntity->getStatus()->getLabel(), TaskLogInterface::STATUS_FAILED)) {
+                $this->logError(
+                    sprintf(
+                        'Task "%s" (%s) failed running from "%s". Report message: "%s"',
+                        $task->getLabel(),
+                        $task->getId(),
+                        __CLASS__,
+                        $taskLogEntity->getReport()->getAllMessages()
+                    )
+                );
+
                 throw new RuntimeException('task failed please refer logs');
             }
         } catch (Throwable $e) {

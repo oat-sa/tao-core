@@ -61,7 +61,8 @@ class ClassPropertiesChangedListenerTest extends TestCase
         );
     }
 
-    public function testRenameClassProperties(): void {
+    public function testRenameClassProperties(): void
+    {
         $this->advancedSearchChecker->method('isEnabled')->willReturn(true);
         $this->queueDispatcher->expects($this->once())
             ->method('createTask')
@@ -71,6 +72,7 @@ class ClassPropertiesChangedListenerTest extends TestCase
                     [
                         'uri' => null,
                         'oldLabel' => 'test',
+                        'oldAlias' => 'old alias',
                         'oldPropertyType' => null,
                     ]
                 ],
@@ -83,7 +85,7 @@ class ClassPropertiesChangedListenerTest extends TestCase
             new ClassPropertiesChangedEvent(
                 [
                     [
-                        'oldProperty' => new OldProperty('test', null),
+                        'oldProperty' => new OldProperty('test', null, null, [], null, 'old alias'),
                         'property' => $this->createMock(core_kernel_classes_Property::class)
                     ]
                 ]
@@ -91,7 +93,7 @@ class ClassPropertiesChangedListenerTest extends TestCase
         );
     }
 
-    public function testRenameClassPropertiesNonQueued(): void 
+    public function testRenameClassPropertiesNonQueued(): void
     {
         $this->advancedSearchChecker->method('isEnabled')->willReturn(false);
         $this->queueDispatcher->expects($this->never())
