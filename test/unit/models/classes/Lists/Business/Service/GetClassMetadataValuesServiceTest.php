@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Lists\Business\Service;
 
 use core_kernel_classes_Class;
-use core_kernel_classes_ContainerCollection;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\test\MockObject;
@@ -50,9 +49,6 @@ class GetClassMetadataValuesServiceTest extends TestCase
     /** @var core_kernel_classes_Resource|MockObject */
     private $resourceMock;
 
-    /** @var core_kernel_classes_ContainerCollection|MockObject */
-    private $containerCollection;
-
     /** @var ValueCollectionService|MockObject */
     private $valueCollectionServiceMock;
 
@@ -66,7 +62,6 @@ class GetClassMetadataValuesServiceTest extends TestCase
         $this->classMock = $this->createMock(core_kernel_classes_Class::class);
         $this->propertyMock = $this->createMock(core_kernel_classes_Property::class);
         $this->resourceMock = $this->createMock(core_kernel_classes_Resource::class);
-        $this->containerCollection = $this->createMock(core_kernel_classes_ContainerCollection::class);
         $this->valueMock = $this->createMock(Value::class);
 
         $this->subject->setServiceLocator(

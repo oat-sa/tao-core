@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,8 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2020|2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -30,6 +30,9 @@ class Metadata implements JsonSerializable
     /** @var string */
     private $label;
 
+    /** @var string|null */
+    private $alias;
+
     /** @var string */
     private $type;
 
@@ -41,6 +44,12 @@ class Metadata implements JsonSerializable
 
     /** @var string|null  */
     private $propertyUri;
+
+    /** @var string|null  */
+    private $classLabel;
+
+    /** @var bool */
+    private $isDuplicated = false;
 
     public function getLabel(): string
     {
@@ -109,14 +118,55 @@ class Metadata implements JsonSerializable
         return $this;
     }
 
+    public function getAlias(): ?string
+    {
+        return $this->alias;
+    }
+
+    public function setAlias(?string $alias): self
+    {
+        $this->alias = $alias;
+
+        return $this;
+    }
+
+    public function getClassLabel(): ?string
+    {
+        return $this->classLabel;
+    }
+
+    public function setClassLabel(?string $classLabel): self
+    {
+        $this->classLabel = $classLabel;
+
+        return $this;
+    }
+
+    public function isDuplicated(): bool
+    {
+        return $this->isDuplicated;
+    }
+
+    public function markAsDuplicated(): self
+    {
+        $this->isDuplicated = true;
+
+        return $this;
+    }
+
     public function jsonSerialize(): array
     {
         return [
             'label' => $this->label,
+            'alias' => $this->alias,
             'type' => $this->type,
             'values' => $this->values,
+            'isDuplicated' => $this->isDuplicated,
             'propertyUri' => tao_helpers_Uri::encode($this->propertyUri),
             'uri' => $this->uri,
+            'class' => [
+                'label' => $this->classLabel
+            ],
         ];
     }
 }
