@@ -75,7 +75,7 @@
                 return {id: selectedValue.uri, text: selectedValue.label}
             });
 
-            input.select2('data', newVal);
+            input.select2('data', newVal.length > 1 ? newVal : newVal[0]);
         } else {
             input.select2('val', '');
         }
