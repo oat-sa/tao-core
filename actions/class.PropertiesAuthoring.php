@@ -544,7 +544,8 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 $property->getPropertyValues(
                     $property->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE)
                 ),
-                $property->getDependsOnPropertyCollection()
+                $property->getDependsOnPropertyCollection(),
+                $property->getAlias()
             );
 
             $this->saveSimpleProperty($propertyValues, $property);
