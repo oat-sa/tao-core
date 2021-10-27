@@ -43,7 +43,7 @@ class AdvancedSearchCheckerTest extends TestCase
     public function setUp(): void
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
-        $this->search = $this->createMock(SearchProxy::class);
+        $this->search = $this->createMock(SearchInterface::class);
         $this->advancedSearchChecker = new AdvancedSearchChecker();
         $this->advancedSearchChecker->setServiceLocator(
             $this->getServiceLocatorMock(
@@ -58,7 +58,7 @@ class AdvancedSearchCheckerTest extends TestCase
     /**
      * @dataProvider isEnabledDataProvider
      */
-    public function testIsEnabled(bool $advancedSearchDisabled, SearchInterface $advancedSearch, bool $expected): void
+    public function testIsEnabled(bool $advancedSearchDisabled, bool $supportsCustomIndex, bool $expected): void
     {
         $this->featureFlagChecker
             ->expects(static::once())
@@ -66,8 +66,8 @@ class AdvancedSearchCheckerTest extends TestCase
             ->willReturn($advancedSearchDisabled);
 
         $this->search
-            ->method('getAdvancedSearch')
-            ->willReturn($advancedSearch);
+            ->method('supportCustomIndex')
+            ->willReturn($supportsCustomIndex);
 
         $this->assertEquals($expected, $this->advancedSearchChecker->isEnabled());
     }
@@ -77,13 +77,23 @@ class AdvancedSearchCheckerTest extends TestCase
         return [
             [
                 'advancedSearchDisabled' => true,
-                'advancedSearch' => $this->createMock(SearchInterface::class),
+                'supportsCustomIndex' => true,
                 'expected' => false,
             ],
             [
                 'advancedSearchDisabled' => false,
-                'advancedSearch' => $this->createMock(SearchInterface::class),
+                'supportsCustomIndex' => false,
+                'expected' => false,
+            ],
+            [
+                'advancedSearchDisabled' => false,
+                'supportsCustomIndex' => true,
                 'expected' => true,
+            ],
+            [
+                'advancedSearchDisabled' => true,
+                'supportsCustomIndex' => false,
+                'expected' => false,
             ],
         ];
     }
