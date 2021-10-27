@@ -50,18 +50,14 @@ class DependsOnPropertyFormFieldFactoryTest extends TestCase
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
         $this->dependsOnPropertyRepository = $this->createMock(DependsOnPropertyRepository::class);
-        $this->element = $this->createMock(tao_helpers_form_elements_xhtml_Combobox::class);
 
-        $this->sut = new DependsOnPropertyFormFieldFactory();
-        $this->sut->withElement($this->element);
-        $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock(
-                [
-                    FeatureFlagChecker::class => $this->featureFlagChecker,
-                    DependsOnPropertyRepository::class => $this->dependsOnPropertyRepository,
-                ]
-            )
+        $this->sut = new DependsOnPropertyFormFieldFactory(
+            $this->featureFlagChecker,
+            $this->dependsOnPropertyRepository
         );
+
+        $this->element = $this->createMock(tao_helpers_form_elements_xhtml_Combobox::class);
+        $this->sut->withElement($this->element);
     }
 
     public function testWillNotCreateWithEmptyCollection(): void
