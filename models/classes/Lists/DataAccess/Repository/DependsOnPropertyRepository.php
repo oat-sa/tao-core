@@ -29,16 +29,13 @@ use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use tao_helpers_form_elements_Combobox;
 use tao_helpers_form_GenerisFormFactory;
-use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
 use oat\tao\model\Specification\PropertySpecificationInterface;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
-use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
-use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
 use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
 
-class DependsOnPropertyRepository extends ConfigurableService implements DependsOnPropertyRepositoryInterface
+class DependsOnPropertyRepository implements DependsOnPropertyRepositoryInterface
 {
     public const DEPENDENT_RESTRICTED_TYPES = [
         tao_helpers_form_elements_Combobox::WIDGET_ID,
@@ -54,6 +51,19 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
 
     /** @var PropertySpecificationInterface */
     private $dependentPropertySpecification;
+
+    /** @var ParentPropertyListRepositoryInterface */
+    private $parentPropertyListRepository;
+
+    public function __construct(
+        PropertySpecificationInterface $remoteListPropertySpecification,
+        PropertySpecificationInterface $dependentPropertySpecification,
+        ParentPropertyListRepositoryInterface $parentPropertyListRepository
+    ) {
+        $this->remoteListPropertySpecification = $remoteListPropertySpecification;
+        $this->dependentPropertySpecification = $dependentPropertySpecification;
+        $this->parentPropertyListRepository = $parentPropertyListRepository;
+    }
 
     public function withProperties(array $properties)
     {
@@ -98,7 +108,7 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
             return $collection;
         }
 
-        $parentPropertiesUris = $this->getParentPropertyListUrisRepository()->findAllUris(
+        $parentPropertiesUris = $this->parentPropertyListRepository->findAllUris(
             [
                 'listUri' => $listUri
             ]
@@ -150,13 +160,14 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
 
     private function isRemoteListProperty(core_kernel_classes_Property $property): bool
     {
-        return $property->getDomain()->count() && $this->getRemoteListPropertySpecification()->isSatisfiedBy($property);
+        return $property->getDomain()->count() && $this->remoteListPropertySpecification->isSatisfiedBy($property);
     }
 
     private function isParentProperty(core_kernel_classes_Property $classProperty, array $parentPropertiesUris): bool
     {
-        return !$this->getDependentPropertySpecification()->isSatisfiedBy($classProperty)
-            && in_array($classProperty->getUri(), $parentPropertiesUris, true);
+        return !$this->dependentPropertySpecification->isSatisfiedBy($classProperty)
+            && in_array($classProperty->getUri(), $parentPropertiesUris, true)
+            && $this->isParentPropertyWidgetAllowed($classProperty);
     }
 
     private function isPropertyNotSupported(
@@ -164,39 +175,12 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
         core_kernel_classes_Property $classProperty
     ): bool {
         return $property->getUri() === $classProperty->getUri()
-            || !$this->getRemoteListPropertySpecification()->isSatisfiedBy($classProperty);
+            || !$this->remoteListPropertySpecification->isSatisfiedBy($classProperty);
     }
 
     private function getProperties(core_kernel_classes_Class $class): array
     {
         return $this->properties ?? tao_helpers_form_GenerisFormFactory::getClassProperties($class);
-    }
-
-    private function getRemoteListPropertySpecification(): PropertySpecificationInterface
-    {
-        if (!isset($this->remoteListPropertySpecification)) {
-            $this->remoteListPropertySpecification = $this->getServiceLocator()->get(
-                RemoteListPropertySpecification::class
-            );
-        }
-
-        return $this->remoteListPropertySpecification;
-    }
-
-    private function getDependentPropertySpecification(): PropertySpecificationInterface
-    {
-        if (!isset($this->dependentPropertySpecification)) {
-            $this->dependentPropertySpecification = $this->getServiceLocator()->getContainer()->get(
-                DependentPropertySpecification::class
-            );
-        }
-
-        return $this->dependentPropertySpecification;
-    }
-
-    private function getParentPropertyListUrisRepository(): ParentPropertyListRepositoryInterface
-    {
-        return $this->getServiceLocator()->get(ParentPropertyListCachedRepository::class);
     }
 
     private function isPropertyWidgetAllowed(array $filter): bool
@@ -212,5 +196,11 @@ class DependsOnPropertyRepository extends ConfigurableService implements Depends
         }
 
         return in_array($widgetUri, self::DEPENDENT_RESTRICTED_TYPES, true);
+    }
+
+    private function isParentPropertyWidgetAllowed(core_kernel_classes_Property $property): bool
+    {
+        return $property->getWidget()
+            && in_array($property->getWidget()->getUri(), self::DEPENDENT_RESTRICTED_TYPES, true);
     }
 }
