@@ -53,6 +53,11 @@ class DependsOnPropertyValidatorTest extends TestCase
         $this->sut = new DependsOnPropertyValidator($this->dependencyRepository, $this->ontology);
     }
 
+    public function testIsPreValidationRequired(): void
+    {
+        $this->assertTrue($this->sut->isPreValidationRequired());
+    }
+
     /**
      * @dataProvider dataProvider
      *
