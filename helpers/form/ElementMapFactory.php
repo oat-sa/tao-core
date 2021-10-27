@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
- *
  */
 
 declare(strict_types=1);
@@ -24,24 +23,24 @@ declare(strict_types=1);
 namespace oat\tao\helpers\form;
 
 use common_Logger;
+use tao_helpers_Uri;
+use tao_helpers_Context;
 use core_kernel_classes_Class;
+use oat\tao\model\TaoOntology;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use tao_helpers_form_FormElement;
+use tao_helpers_form_FormFactory;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\form\elements\TreeAware;
-use oat\tao\model\Lists\Business\Domain\ValueCollection;
-use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
-use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
-use oat\tao\model\Lists\Business\Service\ValueCollectionService;
-use oat\tao\model\TaoOntology;
-use tao_helpers_Context;
 use tao_helpers_form_elements_AsyncFile as AsyncFile;
 use tao_helpers_form_elements_Authoring as Authoring;
+use oat\tao\model\Lists\Business\Domain\ValueCollection;
+use oat\tao\model\Lists\Business\Service\ValueCollectionService;
+use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use tao_helpers_form_elements_GenerisAsyncFile as GenerisAsyncFile;
-use tao_helpers_form_FormElement;
-use tao_helpers_form_FormFactory;
-use tao_helpers_Uri;
+use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 
 class ElementMapFactory extends ConfigurableService
 {
