@@ -30,6 +30,7 @@ use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\form\elements\TreeAware;
+use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
@@ -207,9 +208,14 @@ class ElementMapFactory extends ConfigurableService
         core_kernel_classes_Property $property,
         core_kernel_classes_Resource $range,
         core_kernel_classes_Property $parentProperty = null
-    ) {
-        $searchRequest = (new ValueCollectionSearchRequest())
-            ->setValueCollectionUri($range->getUri());
+    ): ValueCollection {
+        $searchRequest = (new ValueCollectionSearchRequest())->setValueCollectionUri($range->getUri());
+
+        $selectedValue = $this->instance->getOnePropertyValue($property)->literal;
+
+        if (!empty($selectedValue)) {
+            $searchRequest->setSelectedValues($selectedValue);
+        }
 
         if ($parentProperty && $this->instance) {
             $parentPropertyValues = [];
@@ -222,7 +228,6 @@ class ElementMapFactory extends ConfigurableService
             $searchRequest->setParentListValues(...$parentPropertyValues);
         }
 
-        return $this->getValueCollectionService()
-            ->findAll(new ValueCollectionSearchInput($searchRequest));
+        return $this->getValueCollectionService()->findAll(new ValueCollectionSearchInput($searchRequest));
     }
 }

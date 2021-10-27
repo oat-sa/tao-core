@@ -79,9 +79,8 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
     public function evaluate()
     {
         $this->initElements();
-        $submitKey = $this->name . '_sent';
 
-        if (isset($_POST[$submitKey])) {
+        if (isset($_POST[$this->name . '_sent'])) {
             $this->submited = true;
 
             // Set posted values
@@ -90,6 +89,8 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
             }
 
             $this->validate();
+        } else {
+            $this->preValidate();
         }
     }
 
@@ -150,7 +151,6 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
         $returnValue = true;
         $this->valid = true;
 
-        /** @var tao_helpers_form_FormElement $element */
         foreach ($this->elements as $element) {
             if (!$element->validate()) {
                 $this->valid = false;
@@ -158,5 +158,18 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
         }
 
         return $returnValue;
+    }
+
+    private function preValidate(): void
+    {
+        $this->valid = true;
+
+        foreach ($this->elements as $element) {
+            $element->preValidate();
+
+            if (!$element->isValid()) {
+                $this->valid = false;
+            }
+        }
     }
 }

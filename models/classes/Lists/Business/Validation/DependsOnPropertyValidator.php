@@ -29,11 +29,17 @@ use oat\generis\model\data\Ontology;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\ElementValue;
 use oat\tao\helpers\form\elements\FormElementAware;
+use oat\tao\helpers\form\elements\AbstractSearchElement;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
+use oat\tao\helpers\form\validators\PreliminaryValidationInterface;
 use oat\tao\model\Lists\Business\Domain\DependencyRepositoryContext;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
 
-class DependsOnPropertyValidator implements ValidatorInterface, FormElementAware, CrossElementEvaluationAware
+class DependsOnPropertyValidator implements
+    ValidatorInterface,
+    FormElementAware,
+    CrossElementEvaluationAware,
+    PreliminaryValidationInterface
 {
     /** @var DependencyRepositoryInterface */
     private $dependencyRepository;
@@ -57,6 +63,11 @@ class DependsOnPropertyValidator implements ValidatorInterface, FormElementAware
     {
         $this->dependencyRepository = $dependencyRepository;
         $this->ontology = $ontology;
+    }
+
+    public function isPreValidationRequired(): bool
+    {
+        return true;
     }
 
     /**
@@ -147,7 +158,7 @@ class DependsOnPropertyValidator implements ValidatorInterface, FormElementAware
 
             $this->dependencyRepositoryContexts[] = $this->createContext(
                 $parentProperty->getRange()->getUri(),
-                explode(',', $element->getInputValue() ?? '')
+                $this->getElementValues($element)
             );
         }
     }
@@ -177,6 +188,19 @@ class DependsOnPropertyValidator implements ValidatorInterface, FormElementAware
         );
 
         return array_filter($values);
+    }
+
+    private function getElementValues(tao_helpers_form_FormElement $element): array
+    {
+        $listValues = explode(',', $element->getInputValue() ?? '');
+
+        if ($element instanceof AbstractSearchElement) {
+            $listValues = array_merge($element->getValues(), $listValues);
+        } else {
+            $listValues = array_merge([$element->getRawValue()], $listValues);
+        }
+
+        return $this->prepareValues($listValues);
     }
 
     private function createContext(string $rangeUri, array $listValues): DependencyRepositoryContext

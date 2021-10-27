@@ -25,19 +25,20 @@ namespace oat\tao\model\Lists\ServiceProvider;
 use oat\generis\model\data\Ontology;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
-use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
-use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
-use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use oat\tao\model\Lists\Business\Validation\PropertyListValidator;
 use oat\tao\model\Lists\Business\Validation\PropertyTypeValidator;
 use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
 use oat\tao\model\Lists\Business\Validation\DependsOnPropertyValidator;
-use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
-use oat\tao\model\Lists\DataAccess\Repository\DependentPropertiesRepository;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
+use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
+use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
+use oat\tao\model\Lists\DataAccess\Repository\DependentPropertiesRepository;
+use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
+use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
+use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
 use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
+use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -122,6 +123,16 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(DependentPropertySpecification::class),
+                ]
+            );
+
+        $services
+            ->set(DependsOnPropertyFormFieldFactory::class, DependsOnPropertyFormFieldFactory::class)
+            ->public()
+            ->args(
+                [
+                    service(FeatureFlagChecker::class),
+                    service(DependsOnPropertyRepository::class),
                 ]
             );
     }
