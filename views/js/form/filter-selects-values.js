@@ -93,7 +93,7 @@
     }
 
     function getAllowedSecondaryValues(data) {
-        return request({ url: context.root_url + 'tao/PropertyValues/get', data, method: 'GET', dataType: 'json'});
+        return request({ url: context.root_url + 'tao/PropertyValues/get', data, method: 'GET', dataType: 'json', noToken: true });
     }
 
     async function filterSecondaryValues($container, selectedPrimaryProperty, persistValues) {
