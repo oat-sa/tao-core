@@ -32,19 +32,35 @@ define([
     'ui/destination/selector',
     'uri',
     'ui/feedback',
-    'ui/dialog/confirm',
-], function($, __, _, Promise, request, section, binder, permissionsManager, resourceProviderFactory, destinationSelectorFactory, uri, feedback, confirmDialog) {
+    'ui/dialog/confirm'
+], function(
+    $,
+    __,
+    _,
+    Promise,
+    request,
+    section,
+    binder,
+    permissionsManager,
+    resourceProviderFactory,
+    destinationSelectorFactory,
+    uri,
+    feedback,
+    confirmDialog
+) {
     'use strict';
 
-    var messages = {
-        confirmMove: __('The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?')
+    const messages = {
+        confirmMove: __(
+            'The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?'
+        )
     };
 
     /**
      * Cleans up the main panel and creates a container
      * @returns {jQuery}
      */
-    var emptyPanel = function cleanupPanel() {
+    const emptyPanel = function cleanupPanel() {
         section.current().updateContentBlock('<div class="main-container flex-container-form-main"></div>');
         return $(section.selected.panel).find('.main-container');
     };
@@ -56,8 +72,7 @@ define([
      *
      * @exports layout/actions/common
      */
-    var commonActions = function commonActions(){
-
+    const commonActions = function commonActions() {
         /**
          * Register the load action: load the url and into the content container
          *
@@ -67,7 +82,7 @@ define([
          * @param {String} [actionContext.uri]
          * @param {String} [actionContext.classUri]
          */
-        binder.register('load', function load(actionContext){
+        binder.register('load', function load(actionContext) {
             section.current().loadContentBlock(this.url, _.pick(actionContext, ['uri', 'classUri', 'id']));
         });
 
@@ -79,8 +94,13 @@ define([
          * @param {Object} actionContext - the current actionContext
          * @param {String} actionContext.classUri - the URI of the parent class
          */
-        binder.register('loadClass', function load(actionContext){
-            section.current().loadContentBlock(this.url, {classUri: actionContext.classUri, id: uri.decode(actionContext.classUri)});
+        binder.register('loadClass', function load(actionContext) {
+            section
+                .current()
+                .loadContentBlock(this.url, {
+                    classUri: actionContext.classUri,
+                    id: uri.decode(actionContext.classUri)
+                });
         });
 
         /**
@@ -94,10 +114,10 @@ define([
          *
          * @fires layout/tree#addnode.taotree
          */
-        binder.register('subClass', function subClass(actionContext){
-            var classUri = uri.decode(actionContext.classUri);
-            var signature = actionContext.signature;
-            var self = this;
+        binder.register('subClass', function subClass(actionContext) {
+            const classUri = uri.decode(actionContext.classUri);
+            let signature = actionContext.signature;
+            const self = this;
             if (actionContext.type !== 'class') {
                 signature = actionContext.classSignature;
             }
@@ -109,29 +129,29 @@ define([
 
             return request({
                 url: self.url,
-                method: "POST",
-                data: {id: classUri, type: 'class', signature: signature},
-                dataType: 'json',
-            })
-            .then(function(response) {
+                method: 'POST',
+                data: { id: classUri, type: 'class', signature: signature },
+                dataType: 'json'
+            }).then(function(response) {
                 if (response.success && response.uri) {
                     if (actionContext.tree) {
-                        $(actionContext.tree).trigger('addnode.taotree', [{
-                            uri       : uri.decode(response.uri),
-                            label     : response.label,
-                            parent    : uri.decode(actionContext.classUri),
-                            cssClass  : 'node-class'
-                        }]);
+                        $(actionContext.tree).trigger('addnode.taotree', [
+                            {
+                                uri: uri.decode(response.uri),
+                                label: response.label,
+                                parent: uri.decode(actionContext.classUri),
+                                cssClass: 'node-class'
+                            }
+                        ]);
                     }
 
                     //return format (resourceSelector)
                     return {
-                        uri       : uri.decode(response.uri),
-                        label     : response.label,
-                        classUri  : uri.decode(actionContext.classUri),
-                        type      : 'class'
+                        uri: uri.decode(response.uri),
+                        label: response.label,
+                        classUri: uri.decode(actionContext.classUri),
+                        type: 'class'
                     };
-
                 } else {
                     throw new Error(__('Adding the new class has failed'));
                 }
@@ -149,39 +169,39 @@ define([
          *
          * @fires layout/tree#addnode.taotree
          */
-        binder.register('instanciate', function instanciate(actionContext){
-            var self = this;
-            var classUri = uri.decode(actionContext.classUri);
-            var signature = actionContext.signature;
+        binder.register('instanciate', function instanciate(actionContext) {
+            const self = this;
+            const classUri = uri.decode(actionContext.classUri);
+            let signature = actionContext.signature;
             if (actionContext.type !== 'class') {
                 signature = actionContext.classSignature;
             }
             return request({
                 url: self.url,
-                method: "POST",
-                data: {id: classUri, type: 'instance', signature: signature},
+                method: 'POST',
+                data: { id: classUri, type: 'instance', signature: signature },
                 dataType: 'json'
-            })
-            .then(function(response) {
+            }).then(function(response) {
                 if (response.success && response.uri) {
                     //backward compat format for jstree
-                    if(actionContext.tree){
-                        $(actionContext.tree).trigger('addnode.taotree', [{
-                            uri       : uri.decode(response.uri),
-                            label     : response.label,
-                            parent    : uri.decode(actionContext.classUri),
-                            cssClass  : 'node-instance'
-                        }]);
+                    if (actionContext.tree) {
+                        $(actionContext.tree).trigger('addnode.taotree', [
+                            {
+                                uri: uri.decode(response.uri),
+                                label: response.label,
+                                parent: uri.decode(actionContext.classUri),
+                                cssClass: 'node-instance'
+                            }
+                        ]);
                     }
 
                     //return format (resourceSelector)
                     return {
-                        uri       : uri.decode(response.uri),
-                        label     : response.label,
-                        classUri  : uri.decode(actionContext.classUri),
-                        type      : 'instance'
+                        uri: uri.decode(response.uri),
+                        label: response.label,
+                        classUri: uri.decode(actionContext.classUri),
+                        type: 'instance'
                     };
-
                 } else {
                     throw new Error(__('Adding the new resource has failed'));
                 }
@@ -200,38 +220,38 @@ define([
          *
          * @fires layout/tree#addnode.taotree
          */
-        binder.register('duplicateNode', function duplicateNode(actionContext){
-            var self = this;
+        binder.register('duplicateNode', function duplicateNode(actionContext) {
+            const self = this;
             return request({
                 url: self.url,
-                method: "POST",
+                method: 'POST',
                 data: {
                     uri: actionContext.id,
                     classUri: uri.decode(actionContext.classUri),
                     signature: actionContext.signature
                 },
-                dataType: 'json',
-            })
-            .then(function(response) {
+                dataType: 'json'
+            }).then(function(response) {
                 if (response.success && response.uri) {
                     //backward compat format for jstree
-                    if(actionContext.tree){
-                        $(actionContext.tree).trigger('addnode.taotree', [{
-                            uri       : uri.decode(response.uri),
-                            label     : response.label,
-                            parent    : uri.decode(actionContext.classUri),
-                            cssClass  : 'node-instance'
-                        }]);
+                    if (actionContext.tree) {
+                        $(actionContext.tree).trigger('addnode.taotree', [
+                            {
+                                uri: uri.decode(response.uri),
+                                label: response.label,
+                                parent: uri.decode(actionContext.classUri),
+                                cssClass: 'node-instance'
+                            }
+                        ]);
                     }
 
                     //return format (resourceSelector)
                     return {
-                        uri       : uri.decode(response.uri),
-                        label     : response.label,
-                        classUri  : uri.decode(actionContext.classUri),
-                        type      : 'instance'
+                        uri: uri.decode(response.uri),
+                        label: response.label,
+                        classUri: uri.decode(actionContext.classUri),
+                        type: 'instance'
                     };
-
                 } else {
                     throw new Error(__('Node duplication has failed'));
                 }
@@ -249,43 +269,47 @@ define([
          *
          * @fires layout/tree#removenode.taotree
          */
-        binder.register('removeNode', function remove(actionContext){
-            var self = this;
-            var data = {};
+        binder.register('removeNode', function remove(actionContext) {
+            const self = this;
+            const data = {};
 
-            data.uri        = uri.decode(actionContext.uri);
-            data.classUri   = uri.decode(actionContext.classUri);
-            data.id         = actionContext.id;
-            data.signature  = actionContext.signature;
+            data.uri = uri.decode(actionContext.uri);
+            data.classUri = uri.decode(actionContext.classUri);
+            data.id = actionContext.id;
+            data.signature = actionContext.signature;
 
-            return new Promise( function (resolve, reject){
-                confirmDialog(__("Please confirm deletion"), function accept(){
-                    request({
-                        url: self.url,
-                        method: "POST",
-                        data: data,
-                        dataType: 'json',
-                    })
-                    .then(function(response) {
-                        if (response.success && response.deleted) {
-                            feedback().success(response.message || __('Resource deleted'));
+            return new Promise(function(resolve, reject) {
+                confirmDialog(
+                    __('Please confirm deletion'),
+                    function accept() {
+                        request({
+                            url: self.url,
+                            method: 'POST',
+                            data: data,
+                            dataType: 'json'
+                        }).then(function(response) {
+                            if (response.success && response.deleted) {
+                                feedback().success(response.message || __('Resource deleted'));
 
-                            if (actionContext.tree){
-                                $(actionContext.tree).trigger('removenode.taotree', [{
-                                    id : actionContext.uri || actionContext.classUri
-                                }]);
+                                if (actionContext.tree) {
+                                    $(actionContext.tree).trigger('removenode.taotree', [
+                                        {
+                                            id: actionContext.uri || actionContext.classUri
+                                        }
+                                    ]);
+                                }
+                                return resolve({
+                                    uri: actionContext.uri || actionContext.classUri
+                                });
+                            } else {
+                                reject(response.msg || __('Unable to delete the selected resource'));
                             }
-                            return resolve({
-                                uri : actionContext.uri || actionContext.classUri
-                            });
-
-                        } else {
-                            reject(response.msg || __("Unable to delete the selected resource"));
-                        }
-                    });
-                }, function cancel(){
-                    reject({ cancel : true });
-                });
+                        });
+                    },
+                    function cancel() {
+                        reject({ cancel: true });
+                    }
+                );
             });
         });
 
@@ -297,66 +321,68 @@ define([
          * @param {Object[]|Object} actionContexts - single or multiple action contexts
          * @returns {Promise<String[]>} with the list of deleted ids/uris
          */
-        binder.register('removeNodes', function removeNodes(actionContexts){
-            var self = this;
-            var confirmMessage = '';
-            var data = {};
-            var classes;
-            var instances;
+        binder.register('removeNodes', function removeNodes(actionContexts) {
+            const self = this;
+            let confirmMessage = '';
+            const data = {};
+            let classes;
+            let instances;
 
-            if(!_.isArray(actionContexts)){
+            if (!_.isArray(actionContexts)) {
                 actionContexts = [actionContexts];
             }
 
-            classes = _.filter(actionContexts, { type : 'class' });
-            instances = _.filter(actionContexts, { type : 'instance' });
+            classes = _.filter(actionContexts, { type: 'class' });
+            instances = _.filter(actionContexts, { type: 'instance' });
 
-            data.ids = _.map(actionContexts, function (elem) {
-                return {id: elem.id, signature: elem.signature};
+            data.ids = _.map(actionContexts, function(elem) {
+                return { id: elem.id, signature: elem.signature };
             });
 
-            if(actionContexts.length === 1){
+            if (actionContexts.length === 1) {
                 confirmMessage = __('Please confirm deletion');
-            } else if(actionContexts.length > 1){
-                if(instances.length){
-                    if(instances.length === 1){
+            } else if (actionContexts.length > 1) {
+                if (instances.length) {
+                    if (instances.length === 1) {
                         confirmMessage = __('an instance');
                     } else {
                         confirmMessage = __('%s instances', instances.length);
                     }
                 }
-                if(classes.length){
-                    if(confirmMessage){
+                if (classes.length) {
+                    if (confirmMessage) {
                         confirmMessage += __(' and ');
                     }
-                    if(classes.length === 1){
+                    if (classes.length === 1) {
                         confirmMessage = __('a class');
                     } else {
                         confirmMessage += __('%s classes', classes.length);
                     }
                 }
-                confirmMessage =  __('Please confirm deletion of %s.', confirmMessage);
+                confirmMessage = __('Please confirm deletion of %s.', confirmMessage);
             }
 
-            return new Promise( function (resolve, reject){
-
-                confirmDialog(confirmMessage, function accept(){
-                    request({
-                        url: self.url,
-                        method: "POST",
-                        data: data,
-                        dataType: 'json',
-                    })
-                    .then(function(response) {
-                        if (response.success && response.deleted) {
-                            resolve(response.deleted);
-                        } else {
-                            reject(new Error(response.message || __("Unable to delete the selected resources")));
-                        }
-                    });
-                }, function cancel(){
-                    reject({ cancel : true });
-                });
+            return new Promise(function(resolve, reject) {
+                confirmDialog(
+                    confirmMessage,
+                    function accept() {
+                        request({
+                            url: self.url,
+                            method: 'POST',
+                            data: data,
+                            dataType: 'json'
+                        }).then(function(response) {
+                            if (response.success && response.deleted) {
+                                resolve(response.deleted);
+                            } else {
+                                reject(new Error(response.message || __('Unable to delete the selected resources')));
+                            }
+                        });
+                    },
+                    function cancel() {
+                        reject({ cancel: true });
+                    }
+                );
             });
         });
 
@@ -369,37 +395,38 @@ define([
          * @param {String} [actionContext.uri]
          * @param {String} [actionContext.classUri]
          */
-        binder.register('moveNode', function remove(actionContext){
-            var data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed', 'signature']);
+        binder.register('moveNode', function remove(actionContext) {
+            const data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed', 'signature']);
 
             //wrap into a private function for recusion calls
-            var _moveNode = function _moveNode(url){
+            const _moveNode = function _moveNode(url) {
                 request({
                     url: url,
-                    method: "POST",
+                    method: 'POST',
                     data: data,
-                    dataType: 'json',
-                })
-                .then(function(response) {
-                    var message;
-                    var i;
+                    dataType: 'json'
+                }).then(function(response) {
+                    let message;
+                    let i;
 
                     if (response && response.status === true) {
                         return;
                     } else if (response && response.status === 'diff') {
-                        message = __("Moving this element will replace the properties of the previous class by those of the destination class :");
-                        message += "\n";
+                        message = __(
+                            'Moving this element will replace the properties of the previous class by those of the destination class :'
+                        );
+                        message += '\n';
                         for (i = 0; i < response.data.length; i++) {
                             if (response.data[i].label) {
                                 message += `- ${response.data[i].label}\n`;
                             }
                         }
-                        message += `${__("Please confirm this operation.")}\n`;
+                        message += `${__('Please confirm this operation.')}\n`;
 
                         // eslint-disable-next-line no-alert
                         if (window.confirm(message)) {
                             data.confirmed = true;
-                            return  _moveNode(url, data);
+                            return _moveNode(url, data);
                         }
                     }
 
@@ -421,28 +448,28 @@ define([
          *
          * @fires layout/tree#removenode.taotree
          */
-        binder.register('launchEditor', function launchEditor(actionContext){
-
-            var data = _.pick(actionContext, ['id']);
-            var wideDifferenciator = '[data-content-target="wide"]';
+        binder.register('launchEditor', function launchEditor(actionContext) {
+            const data = _.pick(actionContext, ['id']);
+            const wideDifferenciator = '[data-content-target="wide"]';
 
             $.ajax({
                 url: this.url,
-                type: "GET",
+                type: 'GET',
                 data: data,
                 dataType: 'html',
-                success: function(response){
-                    var $response = $($.parseHTML(response, document, true));
+                success: function(response) {
+                    const $response = $($.parseHTML(response, document, true));
                     //check if the editor should be displayed widely or in the content area
-                    if($response.is(wideDifferenciator) || $response.find(wideDifferenciator).length){
-                        section.create({
-                            id : 'authoring',
-                            name : __('Authoring'),
-                            url : this.url,
-                            content : $response,
-                            visible : false
-                        })
-                        .show();
+                    if ($response.is(wideDifferenciator) || $response.find(wideDifferenciator).length) {
+                        section
+                            .create({
+                                id: 'authoring',
+                                name: __('Authoring'),
+                                url: this.url,
+                                content: $response,
+                                visible: false
+                            })
+                            .show();
                     } else {
                         section.updateContentBlock($response);
                     }
@@ -458,26 +485,25 @@ define([
          * @param {Object[]|Object} actionContext - single or multiple action contexts
          * @returns {Promise<String>} with the new resource URI
          */
-        binder.register('copyTo',  function copyTo (actionContext){
+        binder.register('copyTo', function copyTo(actionContext) {
             //create the container manually...
-            var $container = emptyPanel();
+            const $container = emptyPanel();
 
             //get the resource provider configured with the action URL
-            var resourceProvider = resourceProviderFactory({
-                copyTo : {
-                    url : this.url
+            const resourceProvider = resourceProviderFactory({
+                copyTo: {
+                    url: this.url
                 }
             });
 
-            return new Promise( function (resolve, reject){
-
+            return new Promise(function(resolve, reject) {
                 //set up a destination selector
                 destinationSelectorFactory($container, {
                     classUri: actionContext.rootClassUri,
-                    preventSelection : function preventSelection(nodeUri, node, $node){
+                    preventSelection: function preventSelection(nodeUri, node, $node) {
                         //prevent selection on nodes without WRITE permissions
-                        if( $node.length &&  $node.data('access') === 'partial' || $node.data('access') === 'denied'){
-                            if(! permissionsManager.hasPermission(nodeUri, 'WRITE') ) {
+                        if (($node.length && $node.data('access') === 'partial') || $node.data('access') === 'denied') {
+                            if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
                                 feedback().warning(__('You are not allowed to write in the class %s', node.label));
                                 return true;
                             }
@@ -485,47 +511,46 @@ define([
                         return false;
                     }
                 })
-                .on('query', function(params) {
-                    var self = this;
+                    .on('query', function(params) {
+                        const self = this;
 
-                    //asks only classes
-                    params.classOnly = true;
-                    resourceProvider
-                        .getResources(params, true)
-                        .then(function(resources){
-                            //ask the server the resources from the component query
-                            self.update(resources, params);
-                        })
-                        .catch(function(err){
-                            self.trigger('error', err);
-                        });
-                })
-                .on('select', function(destinationClassUri){
-                    var self = this;
-                    if(!_.isEmpty(destinationClassUri)){
-                        this.disable();
-
+                        //asks only classes
+                        params.classOnly = true;
                         resourceProvider
-                            .copyTo(actionContext.id, destinationClassUri, actionContext.signature)
-                            .then(function(result){
-                                if(result && result.uri){
-
-                                    feedback().success(__('Resource copied'));
-
-                                    //backward compatible for jstree
-                                    if(actionContext.tree){
-                                        $(actionContext.tree).trigger('refresh.taotree', [result]);
-                                    }
-                                    return resolve(result);
-                                }
-                                return reject(new Error(__('Unable to copy the resource')));
+                            .getResources(params, true)
+                            .then(function(resources) {
+                                //ask the server the resources from the component query
+                                self.update(resources, params);
                             })
-                            .catch(function(err){
+                            .catch(function(err) {
                                 self.trigger('error', err);
                             });
-                    }
-                })
-                .on('error', reject);
+                    })
+                    .on('select', function(destinationClassUri) {
+                        const self = this;
+                        if (!_.isEmpty(destinationClassUri)) {
+                            this.disable();
+
+                            resourceProvider
+                                .copyTo(actionContext.id, destinationClassUri, actionContext.signature)
+                                .then(function(result) {
+                                    if (result && result.uri) {
+                                        feedback().success(__('Resource copied'));
+
+                                        //backward compatible for jstree
+                                        if (actionContext.tree) {
+                                            $(actionContext.tree).trigger('refresh.taotree', [result]);
+                                        }
+                                        return resolve(result);
+                                    }
+                                    return reject(new Error(__('Unable to copy the resource')));
+                                })
+                                .catch(function(err) {
+                                    self.trigger('error', err);
+                                });
+                        }
+                    })
+                    .on('error', reject);
             });
         });
 
@@ -539,13 +564,13 @@ define([
          */
         binder.register('moveTo', function moveTo(actionContext) {
             //create the container manually...
-            var $container = emptyPanel();
+            const $container = emptyPanel();
 
             //backward compatible for jstree
-            var tree = actionContext.tree;
+            const tree = actionContext.tree;
 
             //get the resource provider configured with the action URL
-            var resourceProvider = resourceProviderFactory({
+            const resourceProvider = resourceProviderFactory({
                 moveTo: {
                     url: this.url
                 }
@@ -555,11 +580,11 @@ define([
                 actionContext = [actionContext];
             }
 
-            return new Promise(function (resolve, reject) {
-                var rootClassUri = _.pluck(actionContext, 'rootClassUri').pop();
-                var selectedUri = _.pluck(actionContext, 'id');
-                var selectedData = _.map(actionContext, function (a) {
-                    return {id: a.id, signature: a.signature};
+            return new Promise(function(resolve, reject) {
+                const rootClassUri = _.pluck(actionContext, 'rootClassUri').pop();
+                const selectedUri = _.pluck(actionContext, 'id');
+                const selectedData = _.map(actionContext, function(a) {
+                    return { id: a.id, signature: a.signature };
                 });
 
                 //set up a destination selector
@@ -570,10 +595,10 @@ define([
                     classUri: rootClassUri,
                     confirm: messages.confirmMove,
                     preventSelection: function preventSelection(nodeUri, node, $node) {
-                        var uriList = [];
+                        let uriList = [];
 
                         //prevent selection on nodes without WRITE permissions
-                        if ($node.length && $node.data('access') === 'partial' || $node.data('access') === 'denied') {
+                        if (($node.length && $node.data('access') === 'partial') || $node.data('access') === 'denied') {
                             if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
                                 feedback().warning(__('You are not allowed to write in the class %s', node.label));
                                 return true;
@@ -589,49 +614,55 @@ define([
 
                         //prevent selection on nodes that are already the containers of the resources or the resources themselves
                         if (_.intersection(selectedUri, uriList).length) {
-                            feedback().warning(__('You cannot move the selected resources in the class %s', node.label));
+                            feedback().warning(
+                                __('You cannot move the selected resources in the class %s', node.label)
+                            );
                             return true;
                         }
 
                         return false;
                     }
                 })
-                    .on('query', function (params) {
-                        var self = this;
+                    .on('query', function(params) {
+                        const self = this;
 
                         //asks only classes
                         params.classOnly = true;
                         resourceProvider
                             .getResources(params, true)
-                            .then(function (resources) {
+                            .then(function(resources) {
                                 //ask the server the resources from the component query
                                 self.update(resources, params);
                             })
-                            .catch(function (err) {
+                            .catch(function(err) {
                                 self.trigger('error', err);
                             });
                         if (tree) {
                             // in parallel load resorces in tree
-                            $(tree).find(`[data-uri="${params.classUri}"].closed`).click();
+                            $(tree)
+                                .find(`[data-uri="${params.classUri}"].closed`)
+                                .click();
                         }
                     })
-                    .on('select', function (destinationClassUri) {
-                        var self = this;
+                    .on('select', function(destinationClassUri) {
+                        const self = this;
                         if (tree) {
                             // in parallel load resorces in tree
-                            $(tree).find(`[data-uri="${destinationClassUri}"].closed`).click();
+                            $(tree)
+                                .find(`[data-uri="${destinationClassUri}"].closed`)
+                                .click();
                         }
                         if (!_.isEmpty(destinationClassUri)) {
                             this.disable();
 
                             resourceProvider
                                 .moveTo(selectedData, destinationClassUri)
-                                .then(function (results) {
-                                    var failed = [];
-                                    var success = [];
+                                .then(function(results) {
+                                    const failed = [];
+                                    const success = [];
                                     let firstResUri = null;
-                                    _.forEach(results, function (result, resUri) {
-                                        var resource = _.find(actionContext, {uri: resUri});
+                                    _.forEach(results, function(result, resUri) {
+                                        const resource = _.find(actionContext, { uri: resUri });
                                         if (result.success) {
                                             success.push(resource);
                                             if (!firstResUri) {
@@ -645,7 +676,9 @@ define([
                                     if (!success.length) {
                                         feedback().error(__('Unable to move the resources'));
                                     } else if (failed.length) {
-                                        feedback().warning(__('Some resources have not been moved: %s', failed.join(', ')));
+                                        feedback().warning(
+                                            __('Some resources have not been moved: %s', failed.join(', '))
+                                        );
                                     } else {
                                         feedback().success(__('Resources moved'));
                                     }
@@ -662,20 +695,24 @@ define([
                                             if ($(tree).find(`[data-uri="${destinationClassUri}"]:not(.leaf)`).length) {
                                                 if ($(tree).find(`[data-uri="${destinationClassUri}"].closed`).length) {
                                                     // open destination class
-                                                    $(tree).find(`[data-uri="${destinationClassUri}"].closed a`).click();
+                                                    $(tree)
+                                                        .find(`[data-uri="${destinationClassUri}"].closed a`)
+                                                        .click();
                                                     if (firstResUri) {
                                                         attempts = 0;
                                                         const timerIdRes = setInterval(() => {
                                                             attempts++;
                                                             if ($(tree).find(`[data-uri="${firstResUri}"]`).length) {
                                                                 // click on moved resource
-                                                                $(tree).find(`[data-uri="${firstResUri}"] a`).click();
+                                                                $(tree)
+                                                                    .find(`[data-uri="${firstResUri}"] a`)
+                                                                    .click();
                                                                 clearInterval(timerIdRes);
                                                             }
                                                             if (attempts > 20) {
                                                                 clearInterval(timerId);
                                                             }
-                                                        } , 500);
+                                                        }, 500);
                                                     }
                                                 }
                                                 clearInterval(timerId);
@@ -683,11 +720,11 @@ define([
                                             if (attempts > 20) {
                                                 clearInterval(timerId);
                                             }
-                                        } , 500);
+                                        }, 500);
                                     }
                                     return resolve(destinationClassUri);
                                 })
-                                .catch(function (err) {
+                                .catch(function(err) {
                                     self.trigger('error', err);
                                 });
                         }
@@ -699,5 +736,3 @@ define([
 
     return commonActions;
 });
-
-
