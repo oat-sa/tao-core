@@ -22,14 +22,16 @@ declare(strict_types=1);
 
 namespace oat\tao\helpers\form\Decorator;
 
+use tao_helpers_Uri;
+use tao_helpers_form_Form;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
-use oat\generis\model\data\Ontology;
-use tao_helpers_form_Form;
 use tao_helpers_form_FormElement;
+use oat\generis\model\data\Ontology;
 use tao_helpers_form_GenerisFormFactory;
-use tao_helpers_Uri;
+use oat\tao\helpers\form\elements\ElementValue;
+use oat\tao\helpers\form\elements\AbstractSearchElement;
 
 class ElementDecorator
 {
@@ -60,10 +62,19 @@ class ElementDecorator
         return $this->form->getValues();
     }
 
+    public function getName(): string
+    {
+        if (!array_key_exists(__METHOD__, $this->cache)) {
+            $this->cache[__METHOD__] = $this->element->getName();
+        }
+
+        return $this->cache[__METHOD__];
+    }
+
     public function getIndex(): int
     {
         if (!array_key_exists(__METHOD__, $this->cache)) {
-            $this->cache[__METHOD__] = (int)(explode('_', $this->element->getName())[0] ?? 0);
+            $this->cache[__METHOD__] = (int) (explode('_', $this->getName())[0] ?? 0);
         }
 
         return $this->cache[__METHOD__];
@@ -72,11 +83,14 @@ class ElementDecorator
     public function getProperty(): ?core_kernel_classes_Property
     {
         if (!array_key_exists(__METHOD__, $this->cache)) {
-            $propertyUri = $this->getFormData()[$this->getIndex() . '_uri'] ?? null;
+            $propertyUri = $this->getFormData()[$this->getIndex() . '_uri']
+                ?? tao_helpers_Uri::decode($this->getName());
 
-            $this->cache[__METHOD__] = $propertyUri === null
-                ? null
-                : $this->ontology->getProperty($propertyUri);
+            $property = $this->ontology->getProperty($propertyUri);
+
+            $this->cache[__METHOD__] = $property->exists()
+                ? $property
+                : null;
         }
 
         return $this->cache[__METHOD__];
@@ -86,10 +100,11 @@ class ElementDecorator
     {
         if (!array_key_exists(__METHOD__, $this->cache)) {
             $uri = $this->getFormData()[$this->getIndex() . '_range'] ?? null;
-
-            $this->cache[__METHOD__] = empty($uri)
+            $range = empty($uri)
                 ? null
                 : $this->ontology->getClass(tao_helpers_Uri::decode($uri));
+
+            $this->cache[__METHOD__] = $range ?? $this->getProperty()->getRange();
         }
 
         return $this->cache[__METHOD__];
@@ -117,5 +132,76 @@ class ElementDecorator
         }
 
         return $this->cache[__METHOD__];
+    }
+
+    public function getListValues(): array
+    {
+        if (!array_key_exists(__METHOD__, $this->cache)) {
+            $listValues = array_filter(explode(',', $this->element->getInputValue() ?? ''));
+
+            if (empty($listValues)) {
+                $listValues = $this->element instanceof AbstractSearchElement
+                    ? $this->element->getValues()
+                    : [$this->element->getRawValue()];
+            }
+
+            $this->cache[__METHOD__] = $this->transformListValuesToUris($listValues);
+        }
+
+        return $this->cache[__METHOD__];
+    }
+
+    /**
+     * @return ElementDecorator[]
+     */
+    public function getParentElementsDecorators(): array
+    {
+        if (!array_key_exists(__METHOD__, $this->cache)) {
+            if ($this->getProperty() === null) {
+                return [];
+            }
+
+            $parentDecorators = [];
+
+            foreach ($this->getProperty()->getDependsOnPropertyCollection() as $parentProperty) {
+                $parentElement = $this->form->getElement(tao_helpers_Uri::encode($parentProperty->getUri()));
+
+                if ($parentElement !== null) {
+                    $parentDecorators[] = new self($this->ontology, $this->form, $parentElement);
+                }
+            }
+
+            $this->cache[__METHOD__] = $parentDecorators;
+        }
+
+        return $this->cache[__METHOD__];
+    }
+
+    /**
+     * @param string|array $values
+     *
+     * @return string[]
+     */
+    private function transformListValuesToUris($values): array
+    {
+        if (is_string($values)) {
+            $values = [trim($values)];
+        }
+
+        if (!is_array($values)) {
+            return [];
+        }
+
+        $uris = [];
+
+        foreach ($values as $value) {
+            $uri = $value instanceof ElementValue
+                ? $value->getUri()
+                : trim($value ?? '');
+
+            $uris[tao_helpers_Uri::encode($uri)] = tao_helpers_Uri::decode($uri);
+        }
+
+        return array_filter($uris);
     }
 }

@@ -22,14 +22,12 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Validation;
 
-use tao_helpers_Uri;
 use tao_helpers_form_Form;
 use tao_helpers_form_FormElement;
 use oat\generis\model\data\Ontology;
 use oat\oatbox\validator\ValidatorInterface;
-use oat\tao\helpers\form\elements\ElementValue;
 use oat\tao\helpers\form\elements\FormElementAware;
-use oat\tao\helpers\form\elements\AbstractSearchElement;
+use oat\tao\helpers\form\Decorator\ElementDecorator;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
 use oat\tao\helpers\form\validators\PreliminaryValidationInterface;
 use oat\tao\model\Lists\Business\Domain\DependencyRepositoryContext;
@@ -56,8 +54,8 @@ class DependsOnPropertyValidator implements
     /** @var tao_helpers_form_FormElement */
     private $element;
 
-    /** @var DependencyRepositoryContext[] */
-    private $dependencyRepositoryContexts = [];
+    /** @var ElementDecorator */
+    private $elementDecorator;
 
     public function __construct(DependencyRepositoryInterface $dependencyRepository, Ontology $ontology)
     {
@@ -115,21 +113,12 @@ class DependsOnPropertyValidator implements
     }
 
     /**
-     * @param string|array $values
-     *
      * @return bool
      */
     public function evaluate($values)
     {
-        $values = $this->prepareValues($values);
-        $providedValidValues = [];
-
-        foreach ($this->dependencyRepositoryContexts as $context) {
-            $childListItemsUris = $this->dependencyRepository->findChildListItemsUris($context);
-            $providedValidValues = array_merge($providedValidValues, array_intersect($values, $childListItemsUris));
-        }
-
-        $invalidValues = array_diff($values, $providedValidValues);
+        $providedValues = $this->elementDecorator->getListValues();
+        $invalidValues = $this->getInvalidValues($providedValues);
         $isValid = empty($invalidValues);
 
         if (!$isValid) {
@@ -147,60 +136,28 @@ class DependsOnPropertyValidator implements
 
     public function acknowledge(tao_helpers_form_Form $form): void
     {
-        $property = $this->ontology->getProperty(tao_helpers_Uri::decode($this->element->getName()));
+        $this->elementDecorator = new ElementDecorator($this->ontology, $form, $this->element);
+    }
 
-        foreach ($property->getDependsOnPropertyCollection() as $parentProperty) {
-            $element = $form->getElement(tao_helpers_Uri::encode($parentProperty->getUri()));
+    private function getInvalidValues(array $providedValues): array
+    {
+        $validValues = [];
 
-            if ($element === null) {
+        foreach ($this->elementDecorator->getParentElementsDecorators() as $elementDecorator) {
+            if (empty($elementDecorator->getListValues())) {
                 continue;
             }
 
-            $this->dependencyRepositoryContexts[] = $this->createContext(
-                $parentProperty->getRange()->getUri(),
-                $this->getElementValues($element)
+            $context = $this->createContext(
+                $elementDecorator->getRangeClass()->getUri(),
+                $elementDecorator->getListValues()
             );
-        }
-    }
+            $childListItemsUris = $this->dependencyRepository->findChildListItemsUris($context);
 
-    /**
-     * @param string|array $values
-     */
-    private function prepareValues($values): array
-    {
-        if (is_string($values)) {
-            $values = [trim($values)];
+            $validValues = array_merge($validValues, array_intersect($providedValues, $childListItemsUris));
         }
 
-        if (!is_array($values)) {
-            return [];
-        }
-
-        $values = array_map(
-            static function ($value) {
-                $uri = $value instanceof ElementValue
-                    ? $value->getUri()
-                    : $value;
-
-                return tao_helpers_Uri::decode($uri);
-            },
-            $values
-        );
-
-        return array_filter($values);
-    }
-
-    private function getElementValues(tao_helpers_form_FormElement $element): array
-    {
-        $listValues = array_filter(explode(',', $element->getInputValue() ?? ''));
-
-        if (empty($listValues)) {
-            $listValues = $element instanceof AbstractSearchElement
-                ? $element->getValues()
-                : [$element->getRawValue()];
-        }
-
-        return $this->prepareValues($listValues);
+        return array_diff($providedValues, $validValues);
     }
 
     private function createContext(string $rangeUri, array $listValues): DependencyRepositoryContext
