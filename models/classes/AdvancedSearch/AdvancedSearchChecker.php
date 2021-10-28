@@ -25,6 +25,7 @@ namespace oat\tao\model\AdvancedSearch;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\search\SearchInterface;
 use oat\tao\model\search\SearchProxy;
 
 class AdvancedSearchChecker extends ConfigurableService
@@ -35,7 +36,7 @@ class AdvancedSearchChecker extends ConfigurableService
     public function isEnabled(): bool
     {
         return !$this->getFeatureFlagChecker()->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_ADVANCED_SEARCH_DISABLED)
-            && $this->getSearchService()->getAdvancedSearch();
+            && $this->getSearchService()->supportCustomIndex();
     }
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
@@ -43,7 +44,7 @@ class AdvancedSearchChecker extends ConfigurableService
         return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 
-    private function getSearchService(): SearchProxy
+    private function getSearchService(): SearchInterface
     {
         return $this->getServiceLocator()->get(SearchProxy::SERVICE_ID);
     }

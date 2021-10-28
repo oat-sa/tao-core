@@ -140,7 +140,7 @@ class SearchProxy extends ConfigurableService implements Search
      */
     public function supportCustomIndex()
     {
-        return $this->getIndexSearch()->supportCustomIndex();
+        return $this->getAdvancedSearch() !== null;
     }
 
     public function extendGenerisSearchWhiteList(array $whiteList): void
