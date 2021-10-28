@@ -36,7 +36,7 @@ class AdvancedSearchChecker extends ConfigurableService
     public function isEnabled(): bool
     {
         return !$this->getFeatureFlagChecker()->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_ADVANCED_SEARCH_DISABLED)
-            && $this->getSearchService()->getAdvancedSearch();
+            && $this->getSearchService()->supportCustomIndex();
     }
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
