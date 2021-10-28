@@ -192,12 +192,12 @@ class DependsOnPropertyValidator implements
 
     private function getElementValues(tao_helpers_form_FormElement $element): array
     {
-        $listValues = explode(',', $element->getInputValue() ?? '');
+        $listValues = array_filter(explode(',', $element->getInputValue() ?? ''));
 
-        if ($element instanceof AbstractSearchElement) {
-            $listValues = array_merge($element->getValues(), $listValues);
-        } else {
-            $listValues = array_merge([$element->getRawValue()], $listValues);
+        if (empty($listValues)) {
+            $listValues = $element instanceof AbstractSearchElement
+                ? $element->getValues()
+                : [$element->getRawValue()];
         }
 
         return $this->prepareValues($listValues);

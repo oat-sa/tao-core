@@ -80,18 +80,20 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
     {
         $this->initElements();
 
-        if (isset($_POST[$this->name . '_sent'])) {
-            $this->submited = true;
-
-            // Set posted values
-            foreach ($this->elements as $id => $element) {
-                $this->elements[$id]->feed();
-            }
-
-            $this->validate();
-        } else {
+        if (!isset($_POST[$this->name . '_sent'])) {
             $this->preValidate();
+
+            return;
         }
+
+        $this->submited = true;
+
+        // Set posted values
+        foreach ($this->elements as $id => $element) {
+            $this->elements[$id]->feed();
+        }
+
+        $this->validate();
     }
 
     /**
