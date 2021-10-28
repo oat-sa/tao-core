@@ -610,10 +610,12 @@ define([
                             .catch(function (err) {
                                 self.trigger('error', err);
                             });
+                        // in parallel load resorces in tree
+                        $(tree).find(`li#${uri.encode(params.classUri)}.closed`).click();
                     })
                     .on('select', function (destinationClassUri) {
                         var self = this;
-
+                        $(tree).find(`li#${uri.encode(destinationClassUri)}.closed`).click();
                         if (!_.isEmpty(destinationClassUri)) {
                             this.disable();
 
@@ -622,11 +624,14 @@ define([
                                 .then(function (results) {
                                     var failed = [];
                                     var success = [];
-
+                                    let firstResUri = null;
                                     _.forEach(results, function (result, resUri) {
                                         var resource = _.find(actionContext, {uri: resUri});
                                         if (result.success) {
                                             success.push(resource);
+                                            if (!firstResUri) {
+                                                firstResUri = resUri;
+                                            }
                                         } else {
                                             failed.push(result.message);
                                         }
@@ -643,6 +648,37 @@ define([
                                     //backward compatible for jstree
                                     if (tree) {
                                         $(tree).trigger('refresh.taotree', [destinationClassUri]);
+                                        // in case resource moved to empty destination class(.leaf) it will not be selected automativally after refresh
+                                        // we need to wait when after refresh class will be displayed as filled
+                                        // attempts - protection in case class will be removed or other unexpected situations
+                                        let attempts = 0;
+                                        const timerId = setInterval(() => {
+                                            attempts++;
+                                            if ($(`li#${uri.encode(destinationClassUri)}:not(.leaf)`).length) {
+                                                if ($(tree).find(`li#${uri.encode(destinationClassUri)}.closed`).length) {
+                                                    // open destination class
+                                                    $(tree).find(`li#${uri.encode(destinationClassUri)}.closed a`).click();
+                                                    if (firstResUri) {
+                                                        attempts = 0;
+                                                        const timerIdRes = setInterval(() => {
+                                                            attempts++;
+                                                            if ($(`#${uri.encode(firstResUri)}`).length) {
+                                                                // click on moved resource
+                                                                $(tree).find(`#${uri.encode(firstResUri)} a`).click();
+                                                                clearInterval(timerIdRes);
+                                                            }
+                                                            if (attempts > 20) {
+                                                                clearInterval(timerId);
+                                                            }
+                                                        } , 500);
+                                                    }
+                                                }
+                                                clearInterval(timerId);
+                                            }
+                                            if (attempts > 20) {
+                                                clearInterval(timerId);
+                                            }
+                                        } , 500);
                                     }
                                     return resolve(destinationClassUri);
                                 })
