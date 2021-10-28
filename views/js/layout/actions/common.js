@@ -611,11 +611,12 @@ define([
                                 self.trigger('error', err);
                             });
                         // in parallel load resorces in tree
-                        $(tree).find(`li#${uri.encode(params.classUri)}.closed`).click();
+                        $(tree).find(`[data-uri="${params.classUri}"].closed`).click();
                     })
                     .on('select', function (destinationClassUri) {
                         var self = this;
-                        $(tree).find(`li#${uri.encode(destinationClassUri)}.closed`).click();
+                        // in parallel load resorces in tree
+                        $(tree).find(`[data-uri="${destinationClassUri}"].closed`).click();
                         if (!_.isEmpty(destinationClassUri)) {
                             this.disable();
 
@@ -654,17 +655,18 @@ define([
                                         let attempts = 0;
                                         const timerId = setInterval(() => {
                                             attempts++;
-                                            if ($(`li#${uri.encode(destinationClassUri)}:not(.leaf)`).length) {
-                                                if ($(tree).find(`li#${uri.encode(destinationClassUri)}.closed`).length) {
+                                            if ($(`[data-uri="${destinationClassUri}"].node-class:not(.leaf)`).length ||
+                                                $(`[data-uri="${destinationClassUri}"].class:not(.empty)`).length) {
+                                                if ($(tree).find(`[data-uri="${destinationClassUri}"].closed`).length) {
                                                     // open destination class
-                                                    $(tree).find(`li#${uri.encode(destinationClassUri)}.closed a`).click();
+                                                    $(tree).find(`li#${destinationClassUri}.closed a`).click();
                                                     if (firstResUri) {
                                                         attempts = 0;
                                                         const timerIdRes = setInterval(() => {
                                                             attempts++;
-                                                            if ($(`#${uri.encode(firstResUri)}`).length) {
+                                                            if ($(`[data-uri="${firstResUri}"]`).length) {
                                                                 // click on moved resource
-                                                                $(tree).find(`#${uri.encode(firstResUri)} a`).click();
+                                                                $(tree).find(`[data-uri="${firstResUri}"] a`).click();
                                                                 clearInterval(timerIdRes);
                                                             }
                                                             if (attempts > 20) {
