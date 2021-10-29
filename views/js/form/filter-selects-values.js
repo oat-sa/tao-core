@@ -24,7 +24,7 @@
     'use strict';
 
     function filterSelectOptions(allowedOptions, $secondarySelect, fromMultiple) {
-        let currentValue = $secondarySelect.val().trim()
+        const currentValue = $secondarySelect.val().trim();
 
         if (!fromMultiple) {
             $secondarySelect.empty().append(new Option('', ' '));
@@ -34,8 +34,8 @@
             });
         } else {
             // Remove all except currentValue (if it is allowed to stay) and default " "
-            $secondarySelect.find('option').each(function(i, existingOption) {
-                if (existingOption.value !== " "
+            $secondarySelect.find('option').each((i, existingOption) => {
+                if (existingOption.value !== ' '
                     && (
                         existingOption.value.trim() !== currentValue
                         || !allowedOptions.find(opt => opt.uri === currentValue)
@@ -55,15 +55,16 @@
     }
 
     function filterSelect2Options(allowedOptions, $secondarySelect) {
-        let input = $secondarySelect.next('input');
+        const input = $secondarySelect.next('input');
         let newVal = [];
+        let existingAvailableValue;
 
         if (!input) {
             return;
         }
 
         input.val().split(',').forEach(value => {
-            let existingAvailableValue = allowedOptions.find(opt => opt.uri === value);
+            existingAvailableValue = allowedOptions.find(opt => opt.uri === value);
 
             if (existingAvailableValue) {
                 newVal.push(existingAvailableValue);
@@ -82,10 +83,11 @@
     }
 
     async function processFiltering($secondarySelect, allowedOptions, persistValues) {
-            let isSelect2 = $secondarySelect.hasClass('select2-container');
+            const isSelect2 = $secondarySelect.hasClass('select2-container');
 
             if (isSelect2) {
                 filterSelect2Options(allowedOptions, $secondarySelect);
+
                 return;
             }
 
@@ -93,7 +95,13 @@
     }
 
     function getAllowedSecondaryValues(data) {
-        return request({ url: context.root_url + 'tao/PropertyValues/get', data, method: 'GET', dataType: 'json', noToken: true });
+        return request({
+            url: context.root_url + 'tao/PropertyValues/get',
+            data,
+            method: 'GET',
+            dataType: 'json',
+            noToken: true
+        });
     }
 
     async function filterSecondaryValues($container, selectedPrimaryProperty, persistValues) {
@@ -101,8 +109,11 @@
 
         for (let secondaryProp of $secondaryList.toArray()) {
             let allowedOptions = [];
-            let $secondarySelect = $(secondaryProp).find('select, .select2-container');
-            if (!$secondarySelect.length) { return; }
+            const $secondarySelect = $(secondaryProp).find('select, .select2-container');
+
+            if (!$secondarySelect.length) {
+                return;
+            }
 
             const data = {
                 propertyUri: $secondarySelect.attr('id').replace('s2id_', ''),
