@@ -531,6 +531,7 @@
              */
             async function removePropertyGroup() {
                 const $groupNode = $(this).closest(".form-group");
+
                 try {
                     await getPropertyRemovalConfirmation($groupNode, $(this).data("uri"));
                 } catch (err) { return; }
@@ -541,10 +542,9 @@
                     buildClassPropertiesAuthoringURL('removeClassProperty'),
                     function() {
                         $groupNode.remove();
+                        $("[id$='-class-schema']").click();
                     }
                 );
-
-                document.getElementById('item-class-schema').click();
             }
 
             //property delete button

@@ -52,7 +52,14 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
     {
         $indexProperties = [];
         foreach ($properties as $propertyData) {
-            if (!isset($propertyData['oldLabel'], $propertyData['oldPropertyType'], $propertyData['uri'])) {
+            if (
+                !isset(
+                    $propertyData['oldLabel'],
+                    $propertyData['oldAlias'],
+                    $propertyData['oldPropertyType'],
+                    $propertyData['uri']
+                )
+            ) {
                 continue;
             }
 
