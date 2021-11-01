@@ -62,19 +62,10 @@ class ElementDecorator
         return $this->form->getValues();
     }
 
-    public function getName(): string
-    {
-        if (!array_key_exists(__METHOD__, $this->cache)) {
-            $this->cache[__METHOD__] = $this->element->getName();
-        }
-
-        return $this->cache[__METHOD__];
-    }
-
     public function getIndex(): int
     {
         if (!array_key_exists(__METHOD__, $this->cache)) {
-            $this->cache[__METHOD__] = (int) (explode('_', $this->getName())[0] ?? 0);
+            $this->cache[__METHOD__] = (int) (explode('_', $this->element->getName())[0] ?? 0);
         }
 
         return $this->cache[__METHOD__];
@@ -84,7 +75,7 @@ class ElementDecorator
     {
         if (!array_key_exists(__METHOD__, $this->cache)) {
             $propertyUri = $this->getFormData()[$this->getIndex() . '_uri']
-                ?? tao_helpers_Uri::decode($this->getName());
+                ?? tao_helpers_Uri::decode($this->element->getName());
 
             $property = $this->ontology->getProperty($propertyUri);
 
@@ -154,24 +145,24 @@ class ElementDecorator
     /**
      * @return ElementDecorator[]
      */
-    public function getParentElementsDecorators(): array
+    public function getPrimaryElementsDecorators(): array
     {
         if (!array_key_exists(__METHOD__, $this->cache)) {
             if ($this->getProperty() === null) {
                 return [];
             }
 
-            $parentDecorators = [];
+            $primaryDecorators = [];
 
-            foreach ($this->getProperty()->getDependsOnPropertyCollection() as $parentProperty) {
-                $parentElement = $this->form->getElement(tao_helpers_Uri::encode($parentProperty->getUri()));
+            foreach ($this->getProperty()->getDependsOnPropertyCollection() as $primaryProperty) {
+                $primaryElement = $this->form->getElement(tao_helpers_Uri::encode($primaryProperty->getUri()));
 
-                if ($parentElement !== null) {
-                    $parentDecorators[] = new self($this->ontology, $this->form, $parentElement);
+                if ($primaryElement !== null) {
+                    $primaryDecorators[] = new self($this->ontology, $this->form, $primaryElement);
                 }
             }
 
-            $this->cache[__METHOD__] = $parentDecorators;
+            $this->cache[__METHOD__] = $primaryDecorators;
         }
 
         return $this->cache[__METHOD__];

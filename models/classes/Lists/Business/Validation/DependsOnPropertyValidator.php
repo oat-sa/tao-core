@@ -143,7 +143,7 @@ class DependsOnPropertyValidator implements
     {
         $validValues = [];
 
-        foreach ($this->elementDecorator->getParentElementsDecorators() as $elementDecorator) {
+        foreach ($this->elementDecorator->getPrimaryElementsDecorators() as $elementDecorator) {
             if (empty($elementDecorator->getListValues())) {
                 continue;
             }
