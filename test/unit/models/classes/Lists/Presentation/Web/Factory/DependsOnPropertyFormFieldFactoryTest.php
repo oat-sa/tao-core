@@ -22,15 +22,16 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\Presentation\Web\Factory;
 
-use core_kernel_classes_Property;
 use oat\generis\test\TestCase;
+use core_kernel_classes_Property;
+use PHPUnit\Framework\MockObject\MockObject;
+use tao_helpers_form_elements_xhtml_Combobox;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
-use PHPUnit\Framework\MockObject\MockObject;
-use tao_helpers_form_elements_xhtml_Combobox;
+use oat\generis\model\resource\DependsOnPropertyCollection as GenerisDependsOnPropertyCollection;
 
 class DependsOnPropertyFormFieldFactoryTest extends TestCase
 {
@@ -62,39 +63,107 @@ class DependsOnPropertyFormFieldFactoryTest extends TestCase
 
     public function testWillNotCreateWithEmptyCollection(): void
     {
-        $property1 = $this->createMock(core_kernel_classes_Property::class);
-        $property1->method('getUri')
-            ->willReturn('uri1');
-        $property1->method('getLabel')
-            ->willReturn('property label 2');
-
-        $property2 = $this->createMock(core_kernel_classes_Property::class);
-        $property2->method('getUri')
-            ->willReturn('uri2');
-        $property2->method('getLabel')
-            ->willReturn('property label 2');
-
-        $collection = new DependsOnPropertyCollection();
-        $collection->append(new DependsOnProperty($property1));
-        $collection->append(new DependsOnProperty($property2));
-
-        $property = $this->createMock(core_kernel_classes_Property::class);
-
         $this->featureFlagChecker
+            ->expects($this->once())
             ->method('isEnabled')
             ->willReturn(true);
 
-        $this->dependsOnPropertyRepository
-            ->method('findAll')
-            ->willReturn($collection);
+        $dependsOnProperty1 = $this->createMock(DependsOnProperty::class);
+        $dependsOnProperty1
+            ->expects($this->once())
+            ->method('getUriEncoded')
+            ->willReturn('uri1');
+        $dependsOnProperty1
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('property label 1');
 
-        $element = $this->sut->create(
+        $dependsOnProperty2 = $this->createMock(DependsOnProperty::class);
+        $dependsOnProperty2
+            ->expects($this->once())
+            ->method('getUriEncoded')
+            ->willReturn('uri2');
+        $dependsOnProperty2
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('property label 2');
+
+        $dependsOnPropertyCollection = $this->createIteratorMock(
+            DependsOnPropertyCollection::class,
             [
-                'index' => 0,
-                'property' => $property,
+                $dependsOnProperty1,
+                $dependsOnProperty2,
             ]
         );
 
-        $this->assertInstanceOf(tao_helpers_form_elements_xhtml_Combobox::class, $element);
+        $this->dependsOnPropertyRepository
+            ->expects($this->once())
+            ->method('findAll')
+            ->willReturn($dependsOnPropertyCollection);
+
+        $property = $this->createMock(core_kernel_classes_Property::class);
+
+        $this->element
+            ->expects($this->never())
+            ->method('setValue');
+        $this->element
+            ->expects($this->once())
+            ->method('setOptions');
+
+        $this->sut->create(
+            [
+                DependsOnPropertyFormFieldFactory::OPTION_INDEX => 0,
+                DependsOnPropertyFormFieldFactory::OPTION_PROPERTY => $property,
+            ]
+        );
+    }
+
+    public function testCreateWithPrimaryProperty(): void
+    {
+        $this->featureFlagChecker
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $primaryProperty = $this->createMock(core_kernel_classes_Property::class);
+        $primaryProperty
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('primaryPropertyUri');
+        $primaryProperty
+            ->expects($this->once())
+            ->method('getLabel')
+            ->willReturn('primaryPropertyLabel');
+
+        $dependsOnPropertyCollection = $this->createIteratorMock(
+            GenerisDependsOnPropertyCollection::class,
+            [
+                $primaryProperty,
+            ]
+        );
+
+        $secondaryProperty = $this->createMock(core_kernel_classes_Property::class);
+        $secondaryProperty
+            ->expects($this->once())
+            ->method('getDependsOnPropertyCollection')
+            ->willReturn($dependsOnPropertyCollection);
+
+        $this->dependsOnPropertyRepository
+            ->expects($this->never())
+            ->method('findAll');
+
+        $this->element
+            ->expects($this->once())
+            ->method('setValue');
+        $this->element
+            ->expects($this->once())
+            ->method('setOptions');
+
+        $this->sut->create(
+            [
+                DependsOnPropertyFormFieldFactory::OPTION_INDEX => 0,
+                DependsOnPropertyFormFieldFactory::OPTION_PROPERTY => $secondaryProperty,
+            ]
+        );
     }
 }

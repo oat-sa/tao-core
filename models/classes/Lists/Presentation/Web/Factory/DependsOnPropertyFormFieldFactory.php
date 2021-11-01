@@ -32,6 +32,9 @@ use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
 
 class DependsOnPropertyFormFieldFactory
 {
+    public const OPTION_INDEX = 'index';
+    public const OPTION_PROPERTY = 'property';
+
     /** @var FeatureFlagCheckerInterface */
     private $featureFlagChecker;
 
@@ -63,8 +66,8 @@ class DependsOnPropertyFormFieldFactory
             return null;
         }
 
-        $element = $this->initElement($options['index'] ?? 0);
-        $this->configureElement($element, $options['property']);
+        $element = $this->initElement($options[self::OPTION_INDEX] ?? 0);
+        $this->configureElement($element, $options[self::OPTION_PROPERTY]);
 
         return $element;
     }
@@ -91,27 +94,27 @@ class DependsOnPropertyFormFieldFactory
 
     private function configureElement(
         tao_helpers_form_FormElement $element,
-        core_kernel_classes_Property $property
+        core_kernel_classes_Property $secondaryProperty
     ): void {
-        $dependsOnProperty = $property->getDependsOnPropertyCollection()->current();
+        $primaryProperty = $secondaryProperty->getDependsOnPropertyCollection()->current();
 
-        if ($dependsOnProperty !== null) {
-            $this->configureWithDependency($element, $dependsOnProperty);
+        if ($primaryProperty !== null) {
+            $this->configureWithDependency($element, $primaryProperty);
 
             return;
         }
 
-        $this->configureWithPossibleDependencies($element, $property);
+        $this->configureWithPossibleDependencies($element, $secondaryProperty);
     }
 
     private function configureWithDependency(
         tao_helpers_form_FormElement $element,
-        core_kernel_classes_Property $dependsOnProperty
+        core_kernel_classes_Property $primaryProperty
     ): void {
-        $dependsOnPropertyEncodedUri = tao_helpers_Uri::encode($dependsOnProperty->getUri());
+        $dependsOnPropertyEncodedUri = tao_helpers_Uri::encode($primaryProperty->getUri());
 
         $element->setValue($dependsOnPropertyEncodedUri);
-        $element->setOptions([$dependsOnPropertyEncodedUri => $dependsOnProperty->getLabel()]);
+        $element->setOptions([$dependsOnPropertyEncodedUri => $primaryProperty->getLabel()]);
     }
 
     private function configureWithPossibleDependencies(
