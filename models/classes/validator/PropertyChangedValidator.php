@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\validator;
 
+use oat\generis\model\GenerisRdf;
 use oat\generis\model\WidgetRdf;
 use core_kernel_classes_Property;
 use oat\tao\model\dto\OldProperty;
@@ -33,6 +34,7 @@ class PropertyChangedValidator extends ConfigurableService
     public function isPropertyChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
     {
         return $property->getLabel() !== $oldProperty->getLabel()
+            || $this->isAliasChanged($property, $oldProperty)
             || $this->isPropertyTypeChanged($property, $oldProperty)
             || $this->isRangeChanged($property, $oldProperty)
             || $this->isValidationRulesChanged($property, $oldProperty)
@@ -76,6 +78,11 @@ class PropertyChangedValidator extends ConfigurableService
         $oldPropertyValidationRules = $oldProperty->getValidationRules();
 
         return !$this->areArraysEqual($propertyValidationRules, $oldPropertyValidationRules);
+    }
+
+    public function isAliasChanged(core_kernel_classes_Property $property, OldProperty $oldProperty): bool
+    {
+        return $property->getAlias() !== $oldProperty->getAlias();
     }
 
     public function isDependsOnPropertyCollectionChanged(
