@@ -78,8 +78,10 @@ class ElementDecoratorTest extends TestCase
             ->method('getUri')
             ->willReturn('primaryPropertyUri');
 
-        $dependsOnPropertyCollection = new DependsOnPropertyCollection();
-        $dependsOnPropertyCollection->append($primaryProperty);
+        $dependsOnPropertyCollection = $this->createIteratorMock(
+            DependsOnPropertyCollection::class,
+            [$primaryProperty]
+        );
 
         $property = $this->createMock(core_kernel_classes_Property::class);
         $property
