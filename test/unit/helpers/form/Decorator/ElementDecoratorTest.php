@@ -29,6 +29,7 @@ use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use tao_helpers_form_FormElement;
 use oat\generis\model\data\Ontology;
+use oat\generis\test\IteratorMockTrait;
 use tao_helpers_form_elements_Combobox;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\helpers\form\Decorator\ElementDecorator;
@@ -36,6 +37,8 @@ use oat\generis\model\resource\DependsOnPropertyCollection;
 
 class ElementDecoratorTest extends TestCase
 {
+    use IteratorMockTrait;
+
     private const FORM_DATA = [
         '1_uri' => 'someUri',
         '1_range' => 'classUri',

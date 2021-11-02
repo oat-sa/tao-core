@@ -28,6 +28,7 @@ use oat\generis\test\TestCase;
 use core_kernel_classes_Property;
 use tao_helpers_form_FormElement;
 use oat\generis\model\data\Ontology;
+use oat\generis\test\IteratorMockTrait;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\helpers\form\elements\ElementValue;
 use oat\tao\helpers\form\elements\AbstractSearchElement;
@@ -37,6 +38,8 @@ use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
 
 class DependsOnPropertyValidatorTest extends TestCase
 {
+    use IteratorMockTrait;
+
     private const DECODED_PROPERTY = 'https://test.test/property#identifier';
     private const ENCODED_PROPERTY = 'https_2_test_0_test_1_property_3_identifier';
 

@@ -24,6 +24,7 @@ namespace oat\tao\test\unit\model\Lists\Presentation\Web\Factory;
 
 use oat\generis\test\TestCase;
 use core_kernel_classes_Property;
+use oat\generis\test\IteratorMockTrait;
 use PHPUnit\Framework\MockObject\MockObject;
 use tao_helpers_form_elements_xhtml_Combobox;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
@@ -35,6 +36,8 @@ use oat\generis\model\resource\DependsOnPropertyCollection as GenerisDependsOnPr
 
 class DependsOnPropertyFormFieldFactoryTest extends TestCase
 {
+    use IteratorMockTrait;
+
     /** @var DependsOnPropertyFormFieldFactory */
     private $sut;
 
