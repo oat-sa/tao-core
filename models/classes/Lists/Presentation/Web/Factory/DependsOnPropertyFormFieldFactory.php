@@ -82,9 +82,9 @@ class DependsOnPropertyFormFieldFactory
     private function initElement(int $index): tao_helpers_form_FormElement
     {
         $element = $this->element ?? tao_helpers_form_FormFactory::getElement(
-                $index . '_depends-on-property',
-                'Combobox'
-            );
+            $index . '_depends-on-property',
+            'Combobox'
+        );
         $element->addAttribute('class', 'property-depends-on property');
         $element->setDescription(__('Depends on property'));
         $element->setEmptyOption(' --- ' . __('none') . ' --- ');
