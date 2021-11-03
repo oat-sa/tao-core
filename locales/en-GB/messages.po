@@ -1537,7 +1537,7 @@ msgstr ""
 msgid "Notifications"
 msgstr ""
 
-msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgid "notifications drivers aren't persistent. use a persistent database storage driver"
 msgstr ""
 
 msgid "Nth root"
