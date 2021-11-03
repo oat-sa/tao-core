@@ -20,6 +20,8 @@
  *
  */
 
+use oat\oatbox\log\LoggerService;
+
 $params = $argv;
 array_shift($params);
 $filePath = array_shift($params);
@@ -37,20 +39,19 @@ if (empty($filePath) || ($filePath !== ltrim($filePath, '-'))) {
     exit(1);
 }
 
-try {
-    require_once dirname(__FILE__) . '/../install/init.php';
+require_once __DIR__ . '/../install/init.php';
 
-    // Adding file path to the dependency container.
+try {
+
     $container->offsetSet(tao_install_Setup::CONTAINER_INDEX, [$filePath]);
 
-    $script = new tao_install_Setup();
-    call_user_func($script, $container);
-} catch (Exception $e) {
-    $container->offsetGet(\oat\oatbox\log\LoggerService::SERVICE_ID)
-        ->getLogger()
-        ->error($e->getMessage());
+    (new tao_install_Setup)($container);
 
-    if (PHP_SAPI == 'cli') {
-        exit($e->getCode() == 0 ? 1 : $e->getCode());
+} catch (Exception $e) {
+    $container->offsetGet(LoggerService::SERVICE_ID)
+        ->getLogger()->error($e->getMessage());
+
+    if (PHP_SAPI === 'cli') {
+        exit($e->getCode() === 0 ? 1 : $e->getCode());
     }
 }

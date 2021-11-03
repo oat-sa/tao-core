@@ -21,9 +21,13 @@
  *               2013-     (update and modification) Open Assessment Technologies SA;
  */
 
+use oat\oatbox\log\logger\TaoLog;
+use oat\oatbox\log\LoggerService;
+use oat\oatbox\log\VerboseLoggerFactory;
 use oat\tao\model\mvc\DotEnvReader;
+use Pimple\Container;
 
-$root = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR;
+$root = dirname(__DIR__, 2) . '/' . DIRECTORY_SEPARATOR;
 define('TAO_INSTALL_PATH', $root);
 
 // only script that may use the quick TZ fix
@@ -40,9 +44,9 @@ if (tao_install_utils_System::isTAOInstalled()) {
 new DotEnvReader();
 
 // Logger service initialization.
-$loggerService = new \oat\oatbox\log\LoggerService();
+$loggerService = new LoggerService();
 $loggerService->addLogger(
-    \oat\oatbox\log\VerboseLoggerFactory::getInstance(
+    VerboseLoggerFactory::getInstance(
         empty($argv)
             ? ['-nc', '-vv'] // For no color visualization but showing the notices.
             : $argv
@@ -50,7 +54,7 @@ $loggerService->addLogger(
 );
 
 $loggerService->addLogger(
-    new \oat\oatbox\log\logger\TaoLog([
+    new TaoLog([
         'appenders' => [
             [
                 'class' => 'SingleFileAppender',
@@ -62,8 +66,4 @@ $loggerService->addLogger(
 );
 
 // Initializing the dependency container.
-$container = new \Pimple\Container(
-    [
-        \oat\oatbox\log\LoggerService::SERVICE_ID => $loggerService,
-    ]
-);
+$container = new Container([LoggerService::SERVICE_ID => $loggerService]);
