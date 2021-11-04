@@ -73,4 +73,9 @@ abstract class AbstractSearchElement extends tao_helpers_form_FormElement
             $this->values[$encodedValue] = new ElementValue($encodedValue, $value);
         }
     }
+
+    public function getValues(): array
+    {
+        return $this->values;
+    }
 }

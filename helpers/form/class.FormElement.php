@@ -25,6 +25,7 @@ declare(strict_types=1);
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
+use oat\tao\helpers\form\validators\PreliminaryValidationInterface;
 
 // Defining aliases for old style class names for backward compatibility
 class_alias(SearchTextBox::class, \tao_helpers_form_elements_xhtml_Searchtextbox::class);
@@ -147,6 +148,9 @@ abstract class tao_helpers_form_FormElement
 
     /** @var array */
     private $invalidValues = [];
+
+    /** @var bool */
+    private $isValid = true;
 
     /**
      * Short description of method __construct
@@ -455,6 +459,26 @@ abstract class tao_helpers_form_FormElement
         }
 
         return $returnValue;
+    }
+
+    public function preValidate(): void
+    {
+        /** @var ValidatorInterface $validator */
+        foreach ($this->validators as $validator) {
+            if (
+                $validator instanceof PreliminaryValidationInterface
+                && $validator->isPreValidationRequired()
+                && !$validator->evaluate($this->getRawValue())
+            ) {
+                $this->isValid = false;
+                $this->error[] = $validator->getMessage();
+            }
+        }
+    }
+
+    public function isValid(): bool
+    {
+        return $this->isValid;
     }
 
     /**
