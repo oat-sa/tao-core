@@ -47,6 +47,9 @@ class DependsOnPropertyRepository implements DependsOnPropertyRepositoryInterfac
     private $properties;
 
     /** @var PropertySpecificationInterface */
+    private $primaryPropertySpecification;
+
+    /** @var PropertySpecificationInterface */
     private $remoteListPropertySpecification;
 
     /** @var PropertySpecificationInterface */
@@ -56,10 +59,12 @@ class DependsOnPropertyRepository implements DependsOnPropertyRepositoryInterfac
     private $parentPropertyListRepository;
 
     public function __construct(
+        PropertySpecificationInterface $primaryPropertySpecification,
         PropertySpecificationInterface $remoteListPropertySpecification,
         PropertySpecificationInterface $dependentPropertySpecification,
         ParentPropertyListRepositoryInterface $parentPropertyListRepository
     ) {
+        $this->primaryPropertySpecification = $primaryPropertySpecification;
         $this->remoteListPropertySpecification = $remoteListPropertySpecification;
         $this->dependentPropertySpecification = $dependentPropertySpecification;
         $this->parentPropertyListRepository = $parentPropertyListRepository;
@@ -81,7 +86,10 @@ class DependsOnPropertyRepository implements DependsOnPropertyRepositoryInterfac
         /** @var core_kernel_classes_Property $property */
         $property = $filter[self::FILTER_PROPERTY] ?? null;
 
-        if (!$this->isPropertyWidgetAllowed($filter)) {
+        if (
+            ($property && $this->primaryPropertySpecification->isSatisfiedBy($property))
+            || !$this->isPropertyWidgetAllowed($filter)
+        ) {
             return $collection;
         }
 
@@ -120,19 +128,14 @@ class DependsOnPropertyRepository implements DependsOnPropertyRepositoryInterfac
 
         /** @var core_kernel_classes_Property $property */
         foreach ($this->getProperties($class) as $classProperty) {
-            if ($property && $this->isPropertyNotSupported($property, $classProperty)) {
+            if (
+                ($property && $this->isPropertyNotSupported($property, $classProperty))
+                || !$this->isParentProperty($classProperty, $parentPropertiesUris)
+            ) {
                 continue;
             }
 
-            if ($this->isParentProperty($classProperty, $parentPropertiesUris)) {
-                $collection->append(new DependsOnProperty($classProperty));
-
-                continue;
-            }
-
-            if ($property && $this->isSameParentProperty($property, $classProperty)) {
-                return $collection;
-            }
+            $collection->append(new DependsOnProperty($classProperty));
         }
 
         return $collection;

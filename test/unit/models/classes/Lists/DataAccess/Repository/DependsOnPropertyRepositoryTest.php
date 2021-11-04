@@ -22,24 +22,29 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\DataAccess\Repository;
 
-use core_kernel_classes_Resource;
-use oat\generis\test\TestCase;
-use core_kernel_classes_Class;
-use core_kernel_classes_Property;
-use core_kernel_classes_ContainerCollection;
 use InvalidArgumentException;
-use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
+use core_kernel_classes_Class;
+use oat\generis\test\TestCase;
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
+use tao_helpers_form_elements_Combobox;
 use PHPUnit\Framework\MockObject\MockObject;
+use core_kernel_classes_ContainerCollection;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
+use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
-use tao_helpers_form_elements_Combobox;
+use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
+use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
 
 class DependsOnPropertyRepositoryTest extends TestCase
 {
     /** @var DependsOnPropertyRepository */
     private $sut;
+
+    /** @var PrimaryPropertySpecification|MockObject */
+    private $primaryPropertySpecification;
 
     /** @var RemoteListPropertySpecification|MockObject */
     private $remoteListPropertySpecification;
@@ -52,19 +57,51 @@ class DependsOnPropertyRepositoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->remoteListPropertySpecification = $this->createMock(RemoteListPropertySpecification::class);
+        $this->primaryPropertySpecification = $this->createMock(PrimaryPropertySpecification::class);
+        $this->remoteListPropertySpecification = $this->createMock(
+            RemoteListPropertySpecification::class
+        );
         $this->dependentPropertySpecification = $this->createMock(DependentPropertySpecification::class);
-        $this->parentPropertyListRepository = $this->createMock(ParentPropertyListRepositoryInterface::class);
+        $this->parentPropertyListRepository = $this->createMock(
+            ParentPropertyListRepositoryInterface::class
+        );
 
         $this->sut = new DependsOnPropertyRepository(
+            $this->primaryPropertySpecification,
             $this->remoteListPropertySpecification,
             $this->dependentPropertySpecification,
             $this->parentPropertyListRepository
         );
     }
 
+    public function testFindAllWithPrimaryProperty(): void
+    {
+        $this->primaryPropertySpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $property
+            ->expects($this->never())
+            ->method('getWidget');
+        $property
+            ->expects($this->never())
+            ->method('getDomain');
+
+        $this->assertEquals(
+            new DependsOnPropertyCollection(),
+            $this->sut->findAll([DependsOnPropertyRepositoryInterface::FILTER_PROPERTY => $property])
+        );
+    }
+
     public function testFindAllWithEmptyDomain(): void
     {
+        $this->primaryPropertySpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
+            ->willReturn(false);
+
         $this->remoteListPropertySpecification
             ->expects($this->never())
             ->method('isSatisfiedBy');
@@ -76,7 +113,7 @@ class DependsOnPropertyRepositoryTest extends TestCase
         $this->sut->withProperties([]);
         $propertiesCollection = $this->sut->findAll(
             [
-                'property' => $this->createProperty('uri', 0),
+                DependsOnPropertyRepositoryInterface::FILTER_PROPERTY => $this->createProperty('uri', 0),
             ]
         );
 
@@ -101,6 +138,11 @@ class DependsOnPropertyRepositoryTest extends TestCase
             ->expects($this->once())
             ->method('findAllUris');
 
+        $this->primaryPropertySpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
+            ->willReturn(false);
+
         $this->remoteListPropertySpecification
             ->method('isSatisfiedBy')
             ->willReturn(true);
@@ -118,8 +160,8 @@ class DependsOnPropertyRepositoryTest extends TestCase
 
         $propertiesCollection = $this->sut->findAll(
             [
-                'property' => $this->createProperty('propertyUri'),
-                'listUri'  => "uri1"
+                DependsOnPropertyRepositoryInterface::FILTER_PROPERTY => $this->createProperty('propertyUri'),
+                DependsOnPropertyRepositoryInterface::FILTER_LIST_URI => 'uri1',
             ]
         );
 
@@ -140,6 +182,11 @@ class DependsOnPropertyRepositoryTest extends TestCase
                 ]
             );
 
+        $this->primaryPropertySpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
+            ->willReturn(false);
+
         $this->remoteListPropertySpecification
             ->method('isSatisfiedBy')
             ->willReturn(true);
@@ -153,8 +200,8 @@ class DependsOnPropertyRepositoryTest extends TestCase
 
         $propertiesCollection = $this->sut->findAll(
             [
-                'property' => $property,
-                'listUri'  => "uri1"
+                DependsOnPropertyRepositoryInterface::FILTER_PROPERTY => $property,
+                DependsOnPropertyRepositoryInterface::FILTER_LIST_URI => 'uri1',
             ]
         );
         $this->assertEquals(1, $propertiesCollection->count());
@@ -175,6 +222,10 @@ class DependsOnPropertyRepositoryTest extends TestCase
                 ]
             );
 
+        $this->primaryPropertySpecification
+            ->expects($this->never())
+            ->method('isSatisfiedBy');
+
         $this->remoteListPropertySpecification
             ->method('isSatisfiedBy')
             ->willReturn(true);
@@ -188,8 +239,8 @@ class DependsOnPropertyRepositoryTest extends TestCase
 
         $propertiesCollection = $this->sut->findAll(
             [
-                'class' => $class,
-                'listUri'  => "uri1"
+                DependsOnPropertyRepositoryInterface::FILTER_CLASS => $class,
+                DependsOnPropertyRepositoryInterface::FILTER_LIST_URI => 'uri1',
             ]
         );
         $this->assertEquals(1, $propertiesCollection->count());
@@ -200,27 +251,33 @@ class DependsOnPropertyRepositoryTest extends TestCase
     {
         $domainCollection = $this->createMock(core_kernel_classes_ContainerCollection::class);
 
-        $domainCollection->method('count')
+        $domainCollection
+            ->method('count')
             ->willReturn($collectionSize);
 
         if ($collectionSize) {
-            $domainCollection->method('get')
+            $domainCollection
+                ->method('get')
                 ->willReturn($this->createMock(core_kernel_classes_Class::class));
         }
 
         $property = $this->createMock(core_kernel_classes_Property::class);
         $widget = $this->createMock(core_kernel_classes_Resource::class);
 
-        $property->method('getDomain')
+        $property
+            ->method('getDomain')
             ->willReturn($domainCollection);
 
-        $property->method('getUri')
+        $property
+            ->method('getUri')
             ->willReturn($uri);
 
-        $property->method('getWidget')
+        $property
+            ->method('getWidget')
             ->willReturn($widget);
 
-        $widget->method('getUri')
+        $widget
+            ->method('getUri')
             ->willReturn(tao_helpers_form_elements_Combobox::WIDGET_ID);
 
         return $property;

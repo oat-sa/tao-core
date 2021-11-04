@@ -22,19 +22,35 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Presentation\Web\Factory;
 
+use tao_helpers_Uri;
 use core_kernel_classes_Property;
 use tao_helpers_form_FormElement;
 use tao_helpers_form_FormFactory;
-use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
-use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
+use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
 
-class DependsOnPropertyFormFieldFactory extends ConfigurableService
+class DependsOnPropertyFormFieldFactory
 {
+    public const OPTION_INDEX = 'index';
+    public const OPTION_PROPERTY = 'property';
+
+    /** @var FeatureFlagCheckerInterface */
+    private $featureFlagChecker;
+
+    /** @var DependsOnPropertyRepositoryInterface */
+    private $dependsOnPropertyRepository;
+
     /** @var tao_helpers_form_FormElement */
     private $element;
+
+    public function __construct(
+        FeatureFlagCheckerInterface $featureFlagChecker,
+        DependsOnPropertyRepositoryInterface $dependsOnPropertyRepository
+    ) {
+        $this->featureFlagChecker = $featureFlagChecker;
+        $this->dependsOnPropertyRepository = $dependsOnPropertyRepository;
+    }
 
     public function withElement(tao_helpers_form_FormElement $element): self
     {
@@ -46,66 +62,81 @@ class DependsOnPropertyFormFieldFactory extends ConfigurableService
     public function create(array $options): ?tao_helpers_form_FormElement
     {
         // @TODO Remove feature flag after we can rely on repository output
-        if (
-            !$this->getFeatureFlagChecker()->isEnabled(
-                FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
-            )
-        ) {
+        if (!$this->isListsDependencyEnabled()) {
             return null;
         }
 
-        /** @var core_kernel_classes_Property $property */
-        $property = $options['property'];
+        $element = $this->initElement($options[self::OPTION_INDEX] ?? 0);
+        $this->configureElement($element, $options[self::OPTION_PROPERTY]);
 
-        $collection = $this->getRepository()->findAll(
-            [
-                'property' => $property
-            ]
+        return $element;
+    }
+
+    private function isListsDependencyEnabled(): bool
+    {
+        return $this->featureFlagChecker->isEnabled(
+            FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
         );
+    }
 
-        $index = $options['index'] ?? 0;
-
+    private function initElement(int $index): tao_helpers_form_FormElement
+    {
         $element = $this->element ?? tao_helpers_form_FormFactory::getElement(
-            "{$index}_depends-on-property",
+            $index . '_depends-on-property',
             'Combobox'
         );
         $element->addAttribute('class', 'property-depends-on property');
         $element->setDescription(__('Depends on property'));
         $element->setEmptyOption(' --- ' . __('none') . ' --- ');
 
+        return $element;
+    }
+
+    private function configureElement(
+        tao_helpers_form_FormElement $element,
+        core_kernel_classes_Property $secondaryProperty
+    ): void {
+        $primaryProperty = $secondaryProperty->getDependsOnPropertyCollection()->current();
+
+        if ($primaryProperty !== null) {
+            $this->configureWithDependency($element, $primaryProperty);
+
+            return;
+        }
+
+        $this->configureWithPossibleDependencies($element, $secondaryProperty);
+    }
+
+    private function configureWithDependency(
+        tao_helpers_form_FormElement $element,
+        core_kernel_classes_Property $primaryProperty
+    ): void {
+        $dependsOnPropertyEncodedUri = tao_helpers_Uri::encode($primaryProperty->getUri());
+
+        $element->setValue($dependsOnPropertyEncodedUri);
+        $element->setOptions([$dependsOnPropertyEncodedUri => $primaryProperty->getLabel()]);
+    }
+
+    private function configureWithPossibleDependencies(
+        tao_helpers_form_FormElement $element,
+        core_kernel_classes_Property $property
+    ): void {
+        $collection = $this->dependsOnPropertyRepository->findAll(['property' => $property]);
+
         if ($collection->count() === 0) {
             $element->disable();
+
+            return;
         }
 
         $options = [];
-        $dependsOnProperty = $property->getDependsOnPropertyCollection()->current();
-        $dependsOnPropertyUri = $dependsOnProperty !== null
-            ? $dependsOnProperty->getUri()
-            : null;
 
-        /** @var DependsOnProperty $prop */
-        foreach ($collection as $prop) {
-            $encodedUri = $prop->getUriEncoded();
-            $options[$encodedUri] = $prop->getLabel();
-
-            if ($dependsOnPropertyUri !== null && $prop->getProperty()->getUri() === $dependsOnPropertyUri) {
-                $element->setValue($encodedUri);
-            }
+        /** @var DependsOnProperty $dependsOnProperty */
+        foreach ($collection as $dependsOnProperty) {
+            $options[$dependsOnProperty->getUriEncoded()] = $dependsOnProperty->getLabel();
         }
 
         asort($options);
         $element->setOptions($options);
-
-        return $element;
-    }
-
-    private function getRepository(): DependsOnPropertyRepository
-    {
-        return $this->getServiceManager()->getContainer()->get(DependsOnPropertyRepository::class);
-    }
-
-    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
-    {
-        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 }
