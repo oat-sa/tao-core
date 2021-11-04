@@ -50,6 +50,7 @@ class ValueCollectionSearchRequestTest extends TestCase
         $this->assertEmpty($this->subject->getExcluded());
         $this->assertFalse($this->subject->hasLimit());
         $this->assertFalse($this->subject->hasParentListValues());
+        $this->assertEmpty($this->subject->getSelectedValues());
     }
 
     /**
@@ -141,5 +142,12 @@ class ValueCollectionSearchRequestTest extends TestCase
 
         $this->assertTrue($this->subject->hasParentListValues());
         $this->assertContains('value', $this->subject->getParentListValues());
+    }
+
+    public function testWithSelectedValues(): void
+    {
+        $this->subject->setSelectedValues('value');
+
+        $this->assertEquals(['value'], $this->subject->getSelectedValues());
     }
 }
