@@ -47,6 +47,7 @@
 Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
     cy.log('COMMAND: renameSelectedNode', newName)
         .intercept('POST', `**${editUrl}`).as('edit')
+        .intercept('GET', `**/getOntologyData**`).as('treeRender')
         .get(`${formSelector} ${selectors.labelSelector}`)
         .clear()
         .type(newName)
@@ -55,6 +56,7 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
         .wait('@edit')
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
+        .wait('@treeRender')
         .get(`${formSelector} ${selectors.labelSelector}`).should('have.value', newName)
 });
 
