@@ -376,8 +376,15 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
             ]
         );
 
-        $query->andWhere($query->expr()->in(self::FIELD_ITEM_ID, ':allowed_item_ids'))
-            ->setParameter('allowed_item_ids', $allowedItemIds, Connection::PARAM_STR_ARRAY);
+        $query
+            ->andWhere(
+                $query->expr()->orX(
+                    $query->expr()->in(self::FIELD_ITEM_ID, ':allowed_item_ids'),
+                    $query->expr()->in(self::FIELD_ITEM_URI, ':allowed_item_uris')
+                )
+            )
+            ->setParameter('allowed_item_ids', $allowedItemIds, Connection::PARAM_STR_ARRAY)
+            ->setParameter('allowed_item_uris', $request->getSelectedValues(), Connection::PARAM_STR_ARRAY);
     }
 
     /**

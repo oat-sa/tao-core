@@ -19,7 +19,8 @@
  define([
     'jquery',
     'context',
-], function ($, context) {
+    './filter-selects-values'
+], function ($, context, filterSecondaryValues) {
     'use strict';
 
     function getSecondaryPropsList($primaryProp) {
@@ -31,41 +32,6 @@
         }
 
         return $secondaryPropsList;
-    }
-
-    function filterSecondaryValues($container, selectedPrimaryProperty, fromMultiple) {
-        const $secondaryList = $container.find('.secondary-props-list > li > *');
-
-        $secondaryList.each((i, secondaryProp) => {
-            let $secondarySelect = $(secondaryProp).children('select');
-
-            if ($secondarySelect.length) {
-                $.ajax({
-                    url: context.root_url + 'tao/PropertyValues/get',
-                    type: "GET",
-                    data: {
-                        propertyUri: $secondarySelect.attr('id'),
-                        parentListValues: selectedPrimaryProperty
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (fromMultiple) {
-                            response.data.forEach((selectOption) => {
-                                if (!$secondarySelect.find(`option[value="${selectOption.uri}"]`).length) {
-                                    $secondarySelect.append(new Option(selectOption.label, selectOption.uri));
-                                }
-                            });
-                        } else {
-                            $secondarySelect.empty().append(new Option('', ' '));
-
-                            response.data.forEach((selectOption) => {
-                                $secondarySelect.append(new Option(selectOption.label, selectOption.uri));
-                            });
-                        }
-                    }
-                });
-            }
-        });
     }
 
     function toggleDisableSecondary($container, disable = true) {
@@ -142,7 +108,6 @@
         $primaryProp.on('change', `[name="${primaryPropUri}"]`, (e) => {
             if (e.removed || e.added) {
                 // This is from a multiple input (i.e: multiple search input)
-                // TODO: ADF-521 - Add cascade deletion logic here when e.removed
                 filterSecondaryValues($primaryProp, e.target.value.split(','), true);
             } else {
                 // This is from a single input (i.e: single dropdown)

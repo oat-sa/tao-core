@@ -96,11 +96,11 @@ class GetClassMetadataValuesService extends ConfigurableService
 
             $metadata = (new Metadata())
                 ->setLabel($property->getLabel())
+                ->setAlias($property->getAlias())
                 ->setType($this->isListWidget($property) ? self::DATA_TYPE_LIST : self::DATA_TYPE_TEXT)
                 ->setValues($values)
                 ->setUri($uri)
                 ->setPropertyUri($property->getUri());
-
 
             $collection->addMetadata($metadata);
         }

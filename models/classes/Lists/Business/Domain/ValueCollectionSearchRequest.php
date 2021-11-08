@@ -53,6 +53,9 @@ class ValueCollectionSearchRequest
     /** @var string[] */
     private $parentListValues;
 
+    /** @var string[] */
+    private $selectedValues = [];
+
     public function hasPropertyUri(): bool
     {
         return null !== $this->propertyUri;
@@ -203,5 +206,17 @@ class ValueCollectionSearchRequest
     public function getParentListValues(): array
     {
         return $this->parentListValues;
+    }
+
+    public function getSelectedValues(): array
+    {
+        return $this->selectedValues;
+    }
+
+    public function setSelectedValues(string ...$values): self
+    {
+        $this->selectedValues = $values;
+
+        return $this;
     }
 }
