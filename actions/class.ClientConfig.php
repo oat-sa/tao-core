@@ -20,8 +20,8 @@
 
 declare(strict_types=1);
 
-use oat\tao\model\routing\Resolver;
 use oat\tao\model\menu\MenuService;
+use oat\tao\model\routing\Resolver;
 use tao_helpers_Date as DateHelper;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\asset\AssetService;
