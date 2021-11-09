@@ -31,4 +31,6 @@ interface JsonLdTripleEncoderInterface
     public const RDF_LABEL = 'http://www.w3.org/2000/01/rdf-schema#label';
 
     public function encode(core_kernel_classes_Triple $triple, array $dataToEncode): array;
+
+    public function isWidgetSupported(string $widgetUri): bool;
 }
