@@ -28,6 +28,7 @@ use Throwable;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Psr\Container\ContainerInterface;
 use oat\generis\model\OntologyAwareTrait;
 use core_kernel_classes_ContainerCollection;
 use core_kernel_classes_Class as KernelClass;
@@ -359,7 +360,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
     private function enrichQueryWithAllowedValues(ValueCollectionSearchRequest $request, QueryBuilder $query): void
     {
-        if (!$request->hasParentListValues()) {
+        if (!$this->isListsDependencyEnabled() || !$request->hasParentListValues()) {
             return;
         }
 
@@ -414,11 +415,16 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
-        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
+        return $this->getContainer()->get(FeatureFlagChecker::class);
     }
 
     private function getDependencyRepository(): DependencyRepositoryInterface
     {
-        return $this->getServiceLocator()->getContainer()->get(DependencyRepository::class);
+        return $this->getContainer()->get(DependencyRepository::class);
+    }
+
+    private function getContainer(): ContainerInterface
+    {
+        return $this->getServiceLocator()->getContainer();
     }
 }

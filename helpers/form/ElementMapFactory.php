@@ -27,6 +27,7 @@ use tao_helpers_Uri;
 use tao_helpers_Context;
 use core_kernel_classes_Class;
 use oat\tao\model\TaoOntology;
+use core_kernel_classes_Literal;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use tao_helpers_form_FormElement;
@@ -210,10 +211,10 @@ class ElementMapFactory extends ConfigurableService
     ): ValueCollection {
         $searchRequest = (new ValueCollectionSearchRequest())->setValueCollectionUri($range->getUri());
 
-        $selectedValue = $this->instance->getOnePropertyValue($property)->literal;
+        $selectedValue = $this->instance->getOnePropertyValue($property);
 
-        if (!empty($selectedValue)) {
-            $searchRequest->setSelectedValues($selectedValue);
+        if ($selectedValue instanceof core_kernel_classes_Literal && !empty($selectedValue->literal)) {
+            $searchRequest->setSelectedValues($selectedValue->literal);
         }
 
         if ($parentProperty && $this->instance) {
