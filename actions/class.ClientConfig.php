@@ -22,10 +22,12 @@ use oat\oatbox\user\UserLanguageService;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\asset\AssetService;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_Date as DateHelper;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
 /**
  * Generates client side configuration.
@@ -89,20 +91,25 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         $this->setData('tao_base_www', $tao_base_www);
 
         $this->setData('context', json_encode([
-            'root_url'       => ROOT_URL,
-            'base_url'       => $base_url,
-            'taobase_www'    => $tao_base_www,
-            'base_www'       => $base_www,
-            'base_lang'      => $lang,
-            'locale'         => $langCode,
-            'base_authoring_lang'  => $this->getUserLanguageService()->getAuthoringLanguage(),
-            'timeout'        => $this->getClientTimeout(),
-            'extension'      => $resolver->getExtensionId(),
-            'module'         => $resolver->getControllerShortName(),
-            'action'         => $resolver->getMethodName(),
+            'root_url' => ROOT_URL,
+            'base_url' => $base_url,
+            'taobase_www' => $tao_base_www,
+            'base_www' => $base_www,
+            'base_lang' => $lang,
+            'locale' => $langCode,
+            'base_authoring_lang' => $this->getUserLanguageService()->getAuthoringLanguage(),
+            'timeout' => $this->getClientTimeout(),
+            'extension' => $resolver->getExtensionId(),
+            'module' => $resolver->getControllerShortName(),
+            'action' => $resolver->getMethodName(),
             'shownExtension' => $this->getShownExtension(),
             'shownStructure' => $this->getShownStructure(),
-            'bundle'         => tao_helpers_Mode::is(tao_helpers_Mode::PRODUCTION)
+            'bundle' => tao_helpers_Mode::is(tao_helpers_Mode::PRODUCTION),
+            'featureFlags' => [
+                FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED => $this->getFeatureFlagChecker()->isEnabled(
+                    FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
+                ),
+            ],
         ]));
 
         $this->setView('client_config.tpl');
@@ -196,5 +203,10 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
     private function getUserLanguageService(): UserLanguageService
     {
         return $this->getServiceLocator()->get(UserLanguageService::SERVICE_ID);
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getPsrContainer()->get(FeatureFlagChecker::class);
     }
 }
