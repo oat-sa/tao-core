@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\export;
+namespace oat\tao\model\export\Metadata\JsonLd;
 
 use core_kernel_classes_Triple;
 

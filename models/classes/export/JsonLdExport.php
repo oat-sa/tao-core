@@ -26,7 +26,7 @@ use core_kernel_classes_Resource;
 use core_kernel_classes_Triple;
 use JsonSerializable;
 use oat\generis\model\OntologyRdf;
-use stdClass;
+use oat\tao\model\export\Metadata\JsonLd\JsonLdTripleEncoderInterface;
 
 /**
  * A custom Json LD exporter for single resources
