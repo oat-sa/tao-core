@@ -23,6 +23,7 @@ namespace oat\tao\model\export;
 use core_kernel_classes_Class;
 use core_kernel_classes_ContainerCollection;
 use core_kernel_classes_Resource;
+use core_kernel_classes_Triple;
 use JsonSerializable;
 use oat\generis\model\OntologyRdf;
 use stdClass;
@@ -161,9 +162,9 @@ class JsonLdExport implements JsonSerializable
             } else {
                 $data[$key] = $this->encodeValue($triple->object, $triple->predicate);
             }
-
-            $this->encodeTriple($triple, $data);
         }
+
+        $data = $this->encodeTriples($data, ...$triples);
 
         // Enforce serialization to object if context is empty
         $data['@context'] = (object) $data['@context'];
@@ -171,11 +172,15 @@ class JsonLdExport implements JsonSerializable
         return $data;
     }
 
-    private function encodeTriple(stdClass $triple, array $data): void
+    private function encodeTriples(array $data, core_kernel_classes_Triple ...$triples): array
     {
         foreach ($this->tripleEncoders as $tripleEncoder) {
-            $data = $tripleEncoder->encode($triple, $data);
+            foreach ($triples as $triple) {
+                $data = $tripleEncoder->encode($triple, $data);
+            }
         }
+
+        return $data;
     }
 
     /**
