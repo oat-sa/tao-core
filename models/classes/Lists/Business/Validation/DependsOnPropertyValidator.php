@@ -22,33 +22,50 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Validation;
 
-use tao_helpers_Uri;
 use tao_helpers_form_Form;
-use InvalidArgumentException;
-use core_kernel_classes_Property;
+use tao_helpers_form_FormElement;
+use oat\generis\model\data\Ontology;
 use oat\oatbox\validator\ValidatorInterface;
-use oat\tao\helpers\form\elements\ElementValue;
+use oat\tao\helpers\form\elements\FormElementAware;
+use oat\tao\helpers\form\Decorator\ElementDecorator;
+use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
+use oat\tao\helpers\form\validators\PreliminaryValidationInterface;
 use oat\tao\model\Lists\Business\Domain\DependencyRepositoryContext;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
-use oat\tao\helpers\form\validators\CrossPropertyEvaluationAwareInterface;
 
-class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEvaluationAwareInterface
+class DependsOnPropertyValidator implements
+    ValidatorInterface,
+    FormElementAware,
+    CrossElementEvaluationAware,
+    PreliminaryValidationInterface
 {
     /** @var DependencyRepositoryInterface */
     private $dependencyRepository;
 
+    /** @var Ontology */
+    private $ontology;
+
     /** @var array */
     private $options = [];
 
-    /** @var core_kernel_classes_Property */
-    private $property;
+    /** @var string */
+    private $message;
 
-    /** @var DependencyRepositoryContext[] */
-    private $dependencyRepositoryContexts = [];
+    /** @var tao_helpers_form_FormElement */
+    private $element;
 
-    public function __construct(DependencyRepositoryInterface $dependencyRepository)
+    /** @var ElementDecorator */
+    private $elementDecorator;
+
+    public function __construct(DependencyRepositoryInterface $dependencyRepository, Ontology $ontology)
     {
         $this->dependencyRepository = $dependencyRepository;
+        $this->ontology = $ontology;
+    }
+
+    public function isPreValidationRequired(): bool
+    {
+        return true;
     }
 
     /**
@@ -82,7 +99,7 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
      */
     public function getMessage()
     {
-        return __('Invalid value');
+        return $this->message;
     }
 
     /**
@@ -90,78 +107,57 @@ class DependsOnPropertyValidator implements ValidatorInterface, CrossPropertyEva
      */
     public function setMessage($message)
     {
-        throw new InvalidArgumentException(
-            sprintf(
-                'Message for validator %s cannot be set.',
-                self::class
-            )
-        );
+        $this->message = $message;
+
+        return $this;
     }
 
     /**
-     * @param string|array $values
-     *
      * @return bool
      */
     public function evaluate($values)
     {
-        $values = $this->prepareValues($values);
-        $providedValidValues = [];
+        $providedValues = $this->elementDecorator->getListValues();
+        $invalidValues = $this->getInvalidValues($providedValues);
+        $isValid = empty($invalidValues);
 
-        foreach ($this->dependencyRepositoryContexts as $context) {
-            $childListItemsUris = $this->dependencyRepository->findChildListItemsUris($context);
-            $providedValidValues = array_merge($providedValidValues, array_intersect($values, $childListItemsUris));
+        if (!$isValid) {
+            $this->element->setInvalidValues($invalidValues);
+            $this->message = __('The selected value(s) must be compatible with the primary property.');
         }
 
-        return empty(array_diff($values, $providedValidValues));
+        return $isValid;
     }
 
-    public function setProperty(core_kernel_classes_Property $property): void
+    public function setElement(tao_helpers_form_FormElement $element): void
     {
-        $this->property = $property;
+        $this->element = $element;
     }
 
     public function acknowledge(tao_helpers_form_Form $form): void
     {
-        foreach ($this->property->getDependsOnPropertyCollection() as $parentProperty) {
-            $element = $form->getElement(tao_helpers_Uri::encode($parentProperty->getUri()));
+        $this->elementDecorator = new ElementDecorator($this->ontology, $form, $this->element);
+    }
 
-            if ($element === null) {
+    private function getInvalidValues(array $providedValues): array
+    {
+        $validValues = [];
+
+        foreach ($this->elementDecorator->getPrimaryElementsDecorators() as $elementDecorator) {
+            if (empty($elementDecorator->getListValues())) {
                 continue;
             }
 
-            $this->dependencyRepositoryContexts[] = $this->createContext(
-                $parentProperty->getRange()->getUri(),
-                explode(',', $element->getInputValue() ?? '')
+            $context = $this->createContext(
+                $elementDecorator->getRangeClass()->getUri(),
+                $elementDecorator->getListValues()
             );
-        }
-    }
+            $childListItemsUris = $this->dependencyRepository->findChildListItemsUris($context);
 
-    /**
-     * @param string|array $values
-     */
-    private function prepareValues($values): array
-    {
-        if (is_string($values)) {
-            $values = [trim($values)];
+            $validValues = array_merge($validValues, array_intersect($providedValues, $childListItemsUris));
         }
 
-        if (!is_array($values)) {
-            return [];
-        }
-
-        $values = array_map(
-            static function ($value) {
-                $uri = $value instanceof ElementValue
-                    ? $value->getUri()
-                    : $value;
-
-                return tao_helpers_Uri::decode($uri);
-            },
-            $values
-        );
-
-        return array_filter($values);
+        return array_diff($providedValues, $validValues);
     }
 
     private function createContext(string $rangeUri, array $listValues): DependencyRepositoryContext

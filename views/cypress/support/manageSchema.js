@@ -18,32 +18,29 @@
 
 /**
  * Adds new property to class (list with single selection of boolean values)
- * @param {String} className
- * @param {String} editClass - css selector for the edit class button
- * @param {String} classOptions - css selector for the class options form
- * @param {String} newPropertyName
- * @param {String} propertyEdit - css selector for the property edition form
- * @param {String} editClassUrl - url for the editing class POST request
+ * @param {Object} options - Configuration object containing all target variables
+ * @param {String} options.className
+ * @param {String} options.manageSchemaSelector - css selector for the edit class button
+ * @param {String} options.classOptions - css selector for the class options form
+ * @param {String} options.propertyName
+ * @param {String} options.propertyAlias
+ * @param {String} options.propertyEditSelector - css selector for the property edition form
+ * @param {String} options.editUrl - url for the editing class POST request
  */
- Cypress.Commands.add('addPropertyToClass', (
-    className,
-    editClass,
-    classOptions,
-    newPropertyName,
-    propertyEdit,
-    editClassUrl) => {
+ Cypress.Commands.add('addPropertyToClass', (options) => {
 
-    cy.log('COMMAND: addPropertyToClass', newPropertyName);
+    cy.log('COMMAND: addPropertyToClass', options.propertyName);
 
-    cy.getSettled(`li [title ="${className}"]`).last().click();
-    cy.getSettled(editClass).click();
-    cy.getSettled(classOptions).find('a[class="btn-info property-adder small"]').click();
+    cy.getSettled(`li [title ="${options.className}"]`).last().click();
+    cy.getSettled(options.manageSchemaSelector).click();
+    cy.getSettled(options.classOptions).find('a[class="btn-info property-adder small"]').click();
 
     cy.getSettled('span[class="icon-edit"]').last().click();
-    cy.get(propertyEdit).find('input').first().clear('input').type(newPropertyName);
-    cy.get(propertyEdit).find('select[class="property-type property"]').select('list');
-    cy.get(propertyEdit).find('select[class="property-listvalues property"]').select('Boolean');
-    cy.intercept('POST', `**/${editClassUrl}`).as('editClass');
+    cy.get(options.propertyEditSelector).find('input[data-testid="Label"]').clear().type(options.propertyName);
+    cy.get(options.propertyEditSelector).find('input[data-testid="Alias"]').clear().type(options.propertyAlias);
+    cy.get(options.propertyEditSelector).find('select[class="property-type property"]').select('list');
+    cy.get(options.propertyEditSelector).find('select[class="property-listvalues property"]').select('Boolean');
+    cy.intercept('POST', `**/${options.editUrl}`).as('editClass');
     cy.get('button[type="submit"]').click();
     cy.wait('@editClass');
 });

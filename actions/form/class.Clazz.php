@@ -24,6 +24,8 @@ declare(strict_types=1);
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\helpers\NamespaceHelper;
 
 /**
  * Short description of class tao_actions_form_Clazz
@@ -52,18 +54,20 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
     private $disableIndexChanges;
 
     /**
-     * @param core_kernel_classes_Class $clazz
-     * @param array $classData
-     * @param array $propertyData
-     * @param bool $disableIndexChanges
      * @throws common_Exception
      */
-    public function __construct(core_kernel_classes_Class $clazz, array $classData, array $propertyData, bool $disableIndexChanges = false)
-    {
+    public function __construct(
+        core_kernel_classes_Class $clazz,
+        array $classData,
+        array $propertyData,
+        bool $disableIndexChanges = false,
+        array $options = []
+    ) {
         $this->clazz    = $clazz;
         $this->propertyData = $propertyData;
         $this->disableIndexChanges = $disableIndexChanges;
-        parent::__construct($classData);
+
+        parent::__construct($classData, $options);
     }
 
     /**
@@ -201,10 +205,6 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
         $hiddenId->addClass('global');
         $this->form->addElement($hiddenId);
 
-
-        $localNamespace = common_ext_NamespaceManager::singleton()->getLocalNamespace()->getUri();
-
-
         //class properties edition: add a group form for each property
 
         $classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz());
@@ -214,7 +214,8 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
 
         foreach ($classProperties as $classProperty) {
             $i++;
-            $useEditor = (bool)preg_match("/^" . preg_quote($localNamespace, '/') . "/", $classProperty->getUri());
+            $namespace = substr($classProperty->getUri(), 0, strpos($classProperty->getUri(), '#'));
+            $useEditor = $this->getNamespaceHelper()->isNamespaceSupported($namespace);
 
             $parentProp = true;
             $domains    = $classProperty->getDomain();
@@ -267,5 +268,10 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
         });
 
         return array_intersect_key($constants['user'], array_flip($keys));
+    }
+
+    private function getNamespaceHelper(): NamespaceHelper
+    {
+        return ServiceManager::getServiceManager()->get(NamespaceHelper::SERVICE_ID);
     }
 }

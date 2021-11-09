@@ -63,6 +63,7 @@ use oat\tao\scripts\install\RegisterResourceWatcherService;
 use oat\tao\scripts\install\RegisterTaoUpdateEventListener;
 use oat\tao\scripts\install\RegisterResourceRelationService;
 use oat\tao\scripts\install\RegisterValueCollectionServices;
+use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
 use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
 use oat\tao\model\ParamConverter\ParamConverterServiceProvider;
@@ -276,5 +277,6 @@ return [
         SerializerServiceProvider::class,
         HttpFoundationServiceProvider::class,
         ParamConverterServiceProvider::class,
+        FormServiceProvider::class,
     ],
 ];
