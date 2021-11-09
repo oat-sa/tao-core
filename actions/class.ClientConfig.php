@@ -29,9 +29,9 @@ use oat\oatbox\user\UserLanguageService;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\oatbox\user\UserLanguageServiceInterface;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\clientConfig\ClientConfigService;
-use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\featureFlag\FeatureFlagListService;
+use oat\tao\model\featureFlag\FeatureFlagListServiceInterface;
 
 /**
  * Generates client side configuration.
@@ -106,11 +106,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
             'shownExtension' => $this->getShownExtension(),
             'shownStructure' => $this->getShownStructure(),
             'bundle' => tao_helpers_Mode::is(tao_helpers_Mode::PRODUCTION),
-            'featureFlags' => [
-                FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED => $this->getFeatureFlagChecker()->isEnabled(
-                    FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
-                ),
-            ],
+            'featureFlags' => $this->getFeatureFlagListService()->list(),
         ]));
 
         $this->setView('client_config.tpl');
@@ -216,13 +212,13 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         return $this->getPsrContainer()->get(UserLanguageService::SERVICE_ID);
     }
 
-    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
-    {
-        return $this->getPsrContainer()->get(FeatureFlagChecker::class);
-    }
-
     private function getExtensionManager(): common_ext_ExtensionsManager
     {
         return $this->getPsrContainer()->get(common_ext_ExtensionsManager::SERVICE_ID);
+    }
+
+    private function getFeatureFlagListService(): FeatureFlagListServiceInterface
+    {
+        return $this->getPsrContainer()->get(FeatureFlagListService::class);
     }
 }
