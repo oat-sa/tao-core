@@ -67,6 +67,7 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
+                    service(FeatureFlagChecker::class),
                     service(PrimaryPropertySpecification::class),
                     service(RemoteListPropertySpecification::class),
                     service(DependentPropertySpecification::class),
