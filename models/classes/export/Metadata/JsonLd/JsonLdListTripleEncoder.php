@@ -28,14 +28,11 @@ use core_kernel_classes_Triple;
 use oat\generis\model\data\Ontology;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
-use oat\tao\model\export\Metadata\JsonLd\JsonLdTripleEncoderInterface;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
-use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\Business\Specification\LocalListClassSpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
-use oat\tao\model\TaoOntology;
 use tao_helpers_form_elements_Checkbox;
 use tao_helpers_form_elements_Combobox;
 use tao_helpers_form_elements_Radiobox;
@@ -97,9 +94,7 @@ class JsonLdListTripleEncoder implements JsonLdTripleEncoderInterface
         $values = $this->valueCollectionService->findAll(new ValueCollectionSearchInput($request));
         $value = $values->extractValueByUri($triple->object);
 
-        $dataToEncode[$key][self::RDF_TYPE] = $isRemoteList
-            ? RemoteSourcedListOntology::LIST_TYPE_REMOTE
-            : TaoOntology::CLASS_URI_LIST;
+        $dataToEncode[$key][self::RDF_TYPE] = $property->getWidget()->getUri();
         $dataToEncode[$key][self::RDF_VALUE][] = [
             self::RDF_VALUE => $triple->object,
             self::RDF_LABEL => $value ? $value->getLabel() : null,

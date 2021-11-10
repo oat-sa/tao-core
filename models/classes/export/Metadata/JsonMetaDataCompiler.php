@@ -42,6 +42,7 @@ class JsonMetaDataCompiler implements ResourceMetadataCompilerInterface
      */
     public function compile(core_kernel_classes_Resource $resource)
     {
+        //@TODO Consider move this class to taoDeliveryRdf DataStore
         $jsonExporter = new JsonLdExport($resource);
         $jsonExporter->addTripleEncoder($this->jsonLdTripleEncoder);
 
