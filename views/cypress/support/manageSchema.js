@@ -16,6 +16,8 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
+import selectors from "../../../../taoItems/views/cypress/utils/selectors";
+
 /**
  * Adds new property to class (list with single selection of boolean values)
  * @param {Object} options - Configuration object containing all target variables
@@ -43,4 +45,27 @@
     cy.intercept('POST', `**/${options.editUrl}`).as('editClass');
     cy.get('button[type="submit"]').click();
     cy.wait('@editClass');
+});
+
+Cypress.Commands.add('findInputInManageSchema', (options) => {
+
+   cy.log('COMMAND: findInputInManageSchema', options.input);
+
+   cy.getSettled('span[class="icon-edit"]').last().click();
+
+   switch(options.type) {
+      case 'checkbox':
+         cy.get(selectors.propertyEdit).find(options.input).first().check({ force: true });
+         break;
+      case 'radio':
+         cy.get(selectors.propertyEdit).find(options.input).eq(options.position).check({ force: true });
+         break;
+      case 'text':
+         cy.get(selectors.propertyEdit).find(options.input).eq(position).clear(options.input).type(newPropertyName);
+         break;
+   }
+
+   cy.intercept('POST', `**/${options.editClassSelector}`).as('editClass');
+   cy.get('button[type="submit"]').click();
+   cy.wait('@editClass');
 });
