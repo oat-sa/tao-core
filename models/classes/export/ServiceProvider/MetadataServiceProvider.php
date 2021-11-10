@@ -27,7 +27,6 @@ use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\export\Metadata\JsonLd\JsonLdBasicTripleEncoder;
 use oat\tao\model\export\Metadata\JsonLd\JsonLdListTripleEncoder;
 use oat\tao\model\export\Metadata\JsonLd\JsonLdTripleEncoderProxy;
-use oat\tao\model\export\Metadata\JsonMetaDataCompiler;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\Business\Specification\LocalListClassSpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
@@ -77,14 +76,6 @@ class MetadataServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(Ontology::SERVICE_ID),
-                ]
-            );
-
-        $services->set(JsonMetaDataCompiler::class, JsonMetaDataCompiler::class)
-            ->public()
-            ->args(
-                [
-                    service(JsonLdTripleEncoderProxy::class)
                 ]
             );
     }

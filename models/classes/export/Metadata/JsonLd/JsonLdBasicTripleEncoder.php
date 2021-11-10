@@ -24,6 +24,7 @@ namespace oat\tao\model\export\Metadata\JsonLd;
 
 use core_kernel_classes_Triple;
 use oat\generis\model\data\Ontology;
+use oat\generis\model\GenerisRdf;
 use tao_helpers_form_elements_Calendar;
 use tao_helpers_form_elements_Hiddenbox;
 use tao_helpers_form_elements_Htmlarea;
@@ -48,6 +49,7 @@ class JsonLdBasicTripleEncoder implements JsonLdTripleEncoderInterface
 
         $dataToEncode[$key] = [
             self::RDF_TYPE => $property->getWidget()->getUri(),
+            GenerisRdf::PROPERTY_ALIAS => $property->getAlias(),
             self::RDF_VALUE => $triple->object,
         ];
 

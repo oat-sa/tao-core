@@ -26,6 +26,7 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Triple;
 use oat\generis\model\data\Ontology;
+use oat\generis\model\GenerisRdf;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
@@ -95,6 +96,7 @@ class JsonLdListTripleEncoder implements JsonLdTripleEncoderInterface
         $value = $values->extractValueByUri($triple->object);
 
         $dataToEncode[$key][self::RDF_TYPE] = $property->getWidget()->getUri();
+        $dataToEncode[$key][GenerisRdf::PROPERTY_ALIAS] = $property->getAlias();
         $dataToEncode[$key][self::RDF_VALUE][] = [
             self::RDF_VALUE => $triple->object,
             self::RDF_LABEL => $value ? $value->getLabel() : null,
