@@ -42,7 +42,6 @@ use oat\tao\model\featureFlag\FeatureFlagListServiceInterface;
  */
 class tao_actions_ClientConfig extends tao_actions_CommonModule
 {
-
     /**
      * Get the require.js' config file
      */
@@ -121,11 +120,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
     {
         $config = $this->getExtensionManager()->getExtensionById('tao')->getConfig('js');
 
-        if ($config !== null && isset($config['crossorigin'])) {
-            return $config['crossorigin'];
-        }
-
-        return false;
+        return $config['crossorigin'] ?? false;
     }
 
     /**

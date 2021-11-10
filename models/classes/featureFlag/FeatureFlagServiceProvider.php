@@ -31,8 +31,9 @@ class FeatureFlagServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
     {
-        $configurator
-            ->services()
+        $services = $configurator->services();
+
+        $services
             ->set(FeatureFlagListService::class, FeatureFlagListService::class)
             ->public()
             ->args(
