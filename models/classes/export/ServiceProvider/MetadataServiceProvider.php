@@ -41,18 +41,12 @@ class MetadataServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services->set(JsonLdBasicTripleEncoder::class, JsonLdBasicTripleEncoder::class)
-            ->public()
-            ->args(
-                [
-                    service(Ontology::SERVICE_ID),
-                ]
-            );
+            ->public();
 
         $services->set(JsonLdListTripleEncoder::class, JsonLdListTripleEncoder::class)
             ->public()
             ->args(
                 [
-                    service(Ontology::SERVICE_ID),
                     service(ValueCollectionService::SERVICE_ID),
                     service(RemoteListClassSpecification::class),
                     service(LocalListClassSpecification::class),

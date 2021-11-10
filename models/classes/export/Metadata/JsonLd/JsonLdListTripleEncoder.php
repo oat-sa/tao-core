@@ -25,7 +25,6 @@ namespace oat\tao\model\export\Metadata\JsonLd;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Triple;
-use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
@@ -41,9 +40,6 @@ use tao_helpers_form_elements_Treebox;
 
 class JsonLdListTripleEncoder implements JsonLdTripleEncoderInterface
 {
-    /** @var Ontology */
-    private $ontology;
-
     /** @var ValueCollectionService */
     private $valueCollectionService;
 
@@ -54,20 +50,21 @@ class JsonLdListTripleEncoder implements JsonLdTripleEncoderInterface
     private $localListClassSpecification;
 
     public function __construct(
-        Ontology $ontology,
         ValueCollectionService $valueCollectionService,
         RemoteListClassSpecification $remoteListClassSpecification,
         LocalListClassSpecification $localListClassSpecification
     ) {
-        $this->ontology = $ontology;
         $this->valueCollectionService = $valueCollectionService;
         $this->remoteListClassSpecification = $remoteListClassSpecification;
         $this->localListClassSpecification = $localListClassSpecification;
     }
 
-    public function encode(core_kernel_classes_Triple $triple, array $dataToEncode): array
-    {
-        $property = $this->ontology->getProperty($triple->predicate);
+    public function encode(
+        array $dataToEncode,
+        core_kernel_classes_Triple $triple,
+        core_kernel_classes_Property $property = null,
+        core_kernel_classes_Property $widget = null
+    ): array {
         $propertyRange = $property->getRange();
 
         if (!$propertyRange instanceof core_kernel_classes_Class) {

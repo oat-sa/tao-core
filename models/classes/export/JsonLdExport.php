@@ -126,15 +126,17 @@ class JsonLdExport implements JsonSerializable
         ];
 
         if (!empty($this->types)) {
-            $data['@type'] = $this->transFromArray($this->types);
+            $data['@type'] = $this->encodeValues($this->types);
         }
 
         if (!$this->triples instanceof core_kernel_classes_ContainerCollection) {
             return $data;
         }
 
+        /** @var core_kernel_classes_Triple[] $triples */
         $triples = $this->triples->toArray();
         $map = [];
+
         foreach ($triples as $key => $triple) {
             if (in_array($triple->predicate, $this->blackList)) {
                 continue;
@@ -168,17 +170,6 @@ class JsonLdExport implements JsonSerializable
 
         // Enforce serialization to object if context is empty
         $data['@context'] = (object) $data['@context'];
-
-        return $data;
-    }
-
-    private function encodeTriples(array $data, core_kernel_classes_Triple ...$triples): array
-    {
-        foreach ($this->tripleEncoders as $tripleEncoder) {
-            foreach ($triples as $triple) {
-                $data = $tripleEncoder->encode($triple, $data);
-            }
-        }
 
         return $data;
     }
@@ -247,11 +238,21 @@ class JsonLdExport implements JsonSerializable
         return $value;
     }
 
+    private function encodeTriples(array $data, core_kernel_classes_Triple ...$triples): array
+    {
+        foreach ($this->tripleEncoders as $tripleEncoder) {
+            foreach ($triples as $triple) {
+                $data = $tripleEncoder->encode($data, $triple);
+            }
+        }
+
+        return $data;
+    }
+
     /**
-     * @param array $values
-     * @return mixed
+     * @return string|array
      */
-    private function transFromArray($values)
+    private function encodeValues(array $values)
     {
         if (count($values) > 1) {
             $encoded = [];

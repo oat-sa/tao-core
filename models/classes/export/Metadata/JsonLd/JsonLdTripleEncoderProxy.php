@@ -22,11 +22,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model\export\Metadata\JsonLd;
 
+use core_kernel_classes_Property;
 use core_kernel_classes_Triple;
 use oat\generis\model\data\Ontology;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
-use oat\tao\model\export\Metadata\JsonLd\JsonLdTripleEncoderInterface;
 use tao_helpers_form_elements_Calendar;
 use tao_helpers_form_elements_Checkbox;
 use tao_helpers_form_elements_Combobox;
@@ -60,12 +60,21 @@ class JsonLdTripleEncoderProxy implements JsonLdTripleEncoderInterface
     private $encoders = [];
 
     /** @var array */
-    private $allowedWidgets;
+    private $allowedWidgets = self::ALLOWED_WIDGETS;
+
+    /** @var core_kernel_classes_Property[] */
+    private $propertyCache = [];
+
+    /** @var core_kernel_classes_Property[] */
+    private $widgetCache = [];
 
     public function __construct(Ontology $ontology, array $allowedWidgets = [])
     {
         $this->ontology = $ontology;
-        $this->allowedWidgets = empty($allowedWidgets) ? self::ALLOWED_WIDGETS : $allowedWidgets;
+
+        if (!empty($allowedWidgets)) {
+            $this->allowedWidgets = $allowedWidgets;
+        }
     }
 
     public function addEncoder(JsonLdTripleEncoderInterface $encoder): void
@@ -73,18 +82,27 @@ class JsonLdTripleEncoderProxy implements JsonLdTripleEncoderInterface
         $this->encoders[] = $encoder;
     }
 
-    public function encode(core_kernel_classes_Triple $triple, array $dataToEncode): array
-    {
-        $property = $this->ontology->getProperty($triple->predicate);
-        $widgetUri = $property->getWidget() ? $property->getWidget()->getUri() : null;
+    public function encode(
+        array $dataToEncode,
+        core_kernel_classes_Triple $triple,
+        core_kernel_classes_Property $property = null,
+        core_kernel_classes_Property $widget = null
+    ): array {
+        $property = $this->getProperty($triple);
+        $widget = $this->getWidget($triple);
 
-        if ($widgetUri === null) {
+        if ($widget === null) {
             return $dataToEncode;
         }
 
         foreach ($this->encoders as $encoder) {
-            if ($encoder->isWidgetSupported($widgetUri)) {
-                $dataToEncode = $encoder->encode($triple, $dataToEncode);
+            if ($encoder->isWidgetSupported($widget->getUri())) {
+                $dataToEncode = $encoder->encode(
+                    $dataToEncode,
+                    $triple,
+                    $property,
+                    $widget
+                );
             }
         }
 
@@ -94,5 +112,23 @@ class JsonLdTripleEncoderProxy implements JsonLdTripleEncoderInterface
     public function isWidgetSupported(string $widgetUri): bool
     {
         return in_array($widgetUri, $this->allowedWidgets, true);
+    }
+
+    private function getProperty(core_kernel_classes_Triple $triple): core_kernel_classes_Property
+    {
+        if (!isset($this->propertyCache[$triple->predicate])) {
+            $this->propertyCache[$triple->predicate] = $this->ontology->getProperty($triple->predicate);
+        }
+
+        return $this->propertyCache[$triple->predicate];
+    }
+
+    private function getWidget(core_kernel_classes_Triple $triple): ?core_kernel_classes_Property
+    {
+        if (!array_key_exists($triple->predicate, $this->widgetCache)) {
+            $this->widgetCache[$triple->predicate] = $this->getProperty($triple)->getWidget();
+        }
+
+        return $this->widgetCache[$triple->predicate];
     }
 }

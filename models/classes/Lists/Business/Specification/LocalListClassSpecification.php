@@ -31,9 +31,11 @@ class LocalListClassSpecification implements ClassSpecificationInterface
 {
     public function isSatisfiedBy(core_kernel_classes_Class $class): bool
     {
-        return $class->isSubClassOf($class->getClass(TaoOntology::CLASS_URI_LIST)) &&
-            $class->getOnePropertyValue(
-                $class->getProperty(RemoteSourcedListOntology::PROPERTY_LIST_TYPE)
-            ) === null;
+        return $class->isSubClassOf($class->getClass(TaoOntology::CLASS_URI_LIST)) && $this->isNotRemoteList($class);
+    }
+
+    private function isNotRemoteList(core_kernel_classes_Class $class): bool
+    {
+        return $class->getOnePropertyValue($class->getProperty(RemoteSourcedListOntology::PROPERTY_LIST_TYPE)) === null;
     }
 }
