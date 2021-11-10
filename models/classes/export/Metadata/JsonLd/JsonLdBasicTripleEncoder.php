@@ -25,6 +25,7 @@ namespace oat\tao\model\export\Metadata\JsonLd;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Triple;
+use InvalidArgumentException;
 use tao_helpers_form_elements_Calendar;
 use tao_helpers_form_elements_Hiddenbox;
 use tao_helpers_form_elements_Htmlarea;
@@ -39,6 +40,10 @@ class JsonLdBasicTripleEncoder implements JsonLdTripleEncoderInterface
         core_kernel_classes_Property $property = null,
         core_kernel_classes_Resource $widget = null
     ): array {
+        if ($property === null || $widget === null) {
+            throw new InvalidArgumentException('The parameters $property and $widget are required');
+        }
+
         $key = $this->getMetadataKey($triple, $dataToEncode);
 
         $dataToEncode[$key] = [

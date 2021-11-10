@@ -26,7 +26,7 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Triple;
-use oat\generis\model\GenerisRdf;
+use InvalidArgumentException;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
@@ -66,6 +66,10 @@ class JsonLdListTripleEncoder implements JsonLdTripleEncoderInterface
         core_kernel_classes_Property $property = null,
         core_kernel_classes_Resource $widget = null
     ): array {
+        if ($property === null || $widget === null) {
+            throw new InvalidArgumentException('The parameters $property and $widget are required');
+        }
+
         $propertyRange = $property->getRange();
 
         if (!$propertyRange instanceof core_kernel_classes_Class) {
