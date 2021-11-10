@@ -61,7 +61,7 @@ Cypress.Commands.add('findInputInManageSchema', (options) => {
          cy.get(selectors.propertyEdit).find(options.input).eq(options.position).check({ force: true });
          break;
       case 'text':
-         cy.get(selectors.propertyEdit).find(options.input).eq(position).clear(options.input).type(newPropertyName);
+         cy.get(selectors.propertyEdit).find(options.input).eq(options.position).clear(options.input).type(newPropertyName);
          break;
    }
 
