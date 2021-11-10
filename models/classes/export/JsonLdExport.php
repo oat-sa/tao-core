@@ -121,7 +121,7 @@ class JsonLdExport implements JsonSerializable
 
     public function addTripleEncoder(JsonLdTripleEncoderInterface $encoder): self
     {
-        $this->tripleEncoders[] = $encoder;
+        $this->tripleEncoders[get_class($encoder)] = $encoder;
 
         return $this;
     }

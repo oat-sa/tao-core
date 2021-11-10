@@ -85,20 +85,20 @@ class JsonLdListTripleEncoder implements JsonLdTripleEncoderInterface
 
         $key = $this->getMetadataKey($triple, $dataToEncode);
 
-        if (empty($dataToEncode[$key][self::RDF_TYPE])) {
+        if (empty($dataToEncode[$key][self::CONTEXT_TYPE])) {
             $dataToEncode[$key] = [
-                self::CONTEXT_TYPE => null,
+                self::CONTEXT_TYPE => $widget->getUri(),
+                self::CONTEXT_ALIAS => $property->getAlias(),
                 self::CONTEXT_VALUE => [],
             ];
         }
 
         $request = $this->prepareSearch($propertyRange, $property, $triple, $isRemoteList);
 
-        $values = $this->valueCollectionService->findAll(new ValueCollectionSearchInput($request));
-        $value = $values->extractValueByUri($triple->object);
+        $value = $this->valueCollectionService
+            ->findAll(new ValueCollectionSearchInput($request))
+            ->extractValueByUri($triple->object);
 
-        $dataToEncode[$key][self::CONTEXT_TYPE] = $widget->getUri();
-        $dataToEncode[$key][self::CONTEXT_ALIAS] = $property->getAlias();
         $dataToEncode[$key][self::CONTEXT_VALUE][] = [
             self::CONTEXT_VALUE => $triple->object,
             self::CONTEXT_LABEL => $value ? $value->getLabel() : null,
