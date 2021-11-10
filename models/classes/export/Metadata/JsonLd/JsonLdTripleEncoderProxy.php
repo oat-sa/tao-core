@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\export\Metadata\JsonLd;
 
 use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
 use core_kernel_classes_Triple;
 use oat\generis\model\data\Ontology;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
@@ -86,7 +87,7 @@ class JsonLdTripleEncoderProxy implements JsonLdTripleEncoderInterface
         array $dataToEncode,
         core_kernel_classes_Triple $triple,
         core_kernel_classes_Property $property = null,
-        core_kernel_classes_Property $widget = null
+        core_kernel_classes_Resource $widget = null
     ): array {
         $property = $this->getProperty($triple);
         $widget = $this->getWidget($triple);
@@ -123,7 +124,7 @@ class JsonLdTripleEncoderProxy implements JsonLdTripleEncoderInterface
         return $this->propertyCache[$triple->predicate];
     }
 
-    private function getWidget(core_kernel_classes_Triple $triple): ?core_kernel_classes_Property
+    private function getWidget(core_kernel_classes_Triple $triple): ?core_kernel_classes_Resource
     {
         if (!array_key_exists($triple->predicate, $this->widgetCache)) {
             $this->widgetCache[$triple->predicate] = $this->getProperty($triple)->getWidget();

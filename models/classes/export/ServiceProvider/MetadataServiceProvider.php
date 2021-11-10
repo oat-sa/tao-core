@@ -24,6 +24,7 @@ namespace oat\tao\model\export\ServiceProvider;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\export\JsonLdExport;
 use oat\tao\model\export\Metadata\JsonLd\JsonLdBasicTripleEncoder;
 use oat\tao\model\export\Metadata\JsonLd\JsonLdListTripleEncoder;
 use oat\tao\model\export\Metadata\JsonLd\JsonLdTripleEncoderProxy;
@@ -72,5 +73,9 @@ class MetadataServiceProvider implements ContainerServiceProviderInterface
                     service(Ontology::SERVICE_ID),
                 ]
             );
+
+        $services->set(JsonLdExport::class, JsonLdExport::class)
+            ->public()
+            ->args([]);
     }
 }

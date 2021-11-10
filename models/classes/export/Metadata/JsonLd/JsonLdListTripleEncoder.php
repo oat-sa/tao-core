@@ -24,6 +24,7 @@ namespace oat\tao\model\export\Metadata\JsonLd;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
 use core_kernel_classes_Triple;
 use oat\generis\model\GenerisRdf;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
@@ -63,7 +64,7 @@ class JsonLdListTripleEncoder implements JsonLdTripleEncoderInterface
         array $dataToEncode,
         core_kernel_classes_Triple $triple,
         core_kernel_classes_Property $property = null,
-        core_kernel_classes_Property $widget = null
+        core_kernel_classes_Resource $widget = null
     ): array {
         $propertyRange = $property->getRange();
 
@@ -82,8 +83,8 @@ class JsonLdListTripleEncoder implements JsonLdTripleEncoderInterface
 
         if (empty($dataToEncode[$key][self::RDF_TYPE])) {
             $dataToEncode[$key] = [
-                self::RDF_TYPE => null,
-                self::RDF_VALUE => [],
+                self::CONTEXT_TYPE => null,
+                self::CONTEXT_VALUE => [],
             ];
         }
 
@@ -92,11 +93,11 @@ class JsonLdListTripleEncoder implements JsonLdTripleEncoderInterface
         $values = $this->valueCollectionService->findAll(new ValueCollectionSearchInput($request));
         $value = $values->extractValueByUri($triple->object);
 
-        $dataToEncode[$key][self::RDF_TYPE] = $property->getWidget()->getUri();
-        $dataToEncode[$key][GenerisRdf::PROPERTY_ALIAS] = $property->getAlias();
-        $dataToEncode[$key][self::RDF_VALUE][] = [
-            self::RDF_VALUE => $triple->object,
-            self::RDF_LABEL => $value ? $value->getLabel() : null,
+        $dataToEncode[$key][self::CONTEXT_TYPE] = $widget->getUri();
+        $dataToEncode[$key][self::CONTEXT_ALIAS] = $property->getAlias();
+        $dataToEncode[$key][self::CONTEXT_VALUE][] = [
+            self::CONTEXT_VALUE => $triple->object,
+            self::CONTEXT_LABEL => $value ? $value->getLabel() : null,
         ];
 
         return $dataToEncode;

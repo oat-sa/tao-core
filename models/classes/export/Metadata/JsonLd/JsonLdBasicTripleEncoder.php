@@ -23,8 +23,8 @@ declare(strict_types=1);
 namespace oat\tao\model\export\Metadata\JsonLd;
 
 use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
 use core_kernel_classes_Triple;
-use oat\generis\model\GenerisRdf;
 use tao_helpers_form_elements_Calendar;
 use tao_helpers_form_elements_Hiddenbox;
 use tao_helpers_form_elements_Htmlarea;
@@ -37,14 +37,14 @@ class JsonLdBasicTripleEncoder implements JsonLdTripleEncoderInterface
         array $dataToEncode,
         core_kernel_classes_Triple $triple,
         core_kernel_classes_Property $property = null,
-        core_kernel_classes_Property $widget = null
+        core_kernel_classes_Resource $widget = null
     ): array {
         $key = $this->getMetadataKey($triple, $dataToEncode);
 
         $dataToEncode[$key] = [
-            self::RDF_TYPE => $widget->getUri(),
-            GenerisRdf::PROPERTY_ALIAS => $property->getAlias(),
-            self::RDF_VALUE => $triple->object,
+            self::CONTEXT_TYPE => $widget->getUri(),
+            self::CONTEXT_ALIAS => $property->getAlias(),
+            self::CONTEXT_VALUE => $triple->object,
         ];
 
         return $dataToEncode;

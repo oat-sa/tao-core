@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\export\Metadata\JsonLd;
 
 use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
 use core_kernel_classes_Triple;
 
 interface JsonLdTripleEncoderInterface
@@ -31,11 +32,16 @@ interface JsonLdTripleEncoderInterface
     public const RDF_VALUE = 'http://www.w3.org/2000/01/rdf-schema#value';
     public const RDF_LABEL = 'http://www.w3.org/2000/01/rdf-schema#label';
 
+    public const CONTEXT_VALUE = 'value';
+    public const CONTEXT_TYPE = 'type';
+    public const CONTEXT_ALIAS = 'alias';
+    public const CONTEXT_LABEL = 'label';
+
     public function encode(
         array $dataToEncode,
         core_kernel_classes_Triple $triple,
         core_kernel_classes_Property $property = null,
-        core_kernel_classes_Property $widget = null
+        core_kernel_classes_Resource $widget = null
     ): array;
 
     public function isWidgetSupported(string $widgetUri): bool;

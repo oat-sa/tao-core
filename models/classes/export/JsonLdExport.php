@@ -68,13 +68,24 @@ class JsonLdExport implements JsonSerializable
         $this->blackList[] = $propertyUri;
     }
 
+    /**
+     * @deprecated Do not use $resource in the constructor, use setResource instead.
+     *             This class is now instantiated in the DI container.
+     */
     public function __construct(core_kernel_classes_Resource $resource = null)
     {
         if (!is_null($resource)) {
-            $this->setTriples($resource->getRdfTriples());
-            $this->setTypes($resource->getTypes());
-            $this->setUri($resource->getUri());
+            $this->setResource($resource);
         }
+    }
+
+    public function setResource(core_kernel_classes_Resource $resource): self
+    {
+        $this->setTriples($resource->getRdfTriples());
+        $this->setTypes($resource->getTypes());
+        $this->setUri($resource->getUri());
+
+        return $this;
     }
 
     public function setTriples(core_kernel_classes_ContainerCollection $triples)
