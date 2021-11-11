@@ -76,6 +76,11 @@ class MetadataServiceProvider implements ContainerServiceProviderInterface
 
         $services->set(JsonLdExport::class, JsonLdExport::class)
             ->public()
-            ->args([]);
+            ->args(
+                [
+                    null,
+                    service(Ontology::SERVICE_ID)
+                ]
+            );
     }
 }

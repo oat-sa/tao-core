@@ -22,9 +22,11 @@ namespace oat\tao\model\export;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_ContainerCollection;
+use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Triple;
 use JsonSerializable;
+use oat\generis\model\data\Ontology;
 use oat\generis\model\OntologyRdf;
 use oat\tao\model\export\Metadata\JsonLd\JsonLdTripleEncoderInterface;
 
@@ -40,6 +42,9 @@ class JsonLdExport implements JsonSerializable
 {
     /** @var core_kernel_classes_ContainerCollection */
     private $triples;
+
+    /** @var Ontology */
+    private $ontology;
 
     /** @var core_kernel_classes_Class[] */
     private $types;
@@ -59,24 +64,16 @@ class JsonLdExport implements JsonSerializable
     private $tripleEncoders = [];
 
     /**
-     * Blacklist a property
-     *
-     * @param string $propertyUri
-     */
-    public function blackList($propertyUri)
-    {
-        $this->blackList[] = $propertyUri;
-    }
-
-    /**
      * @deprecated Do not use $resource in the constructor, use setResource instead.
      *             This class is now instantiated in the DI container.
      */
-    public function __construct(core_kernel_classes_Resource $resource = null)
+    public function __construct(core_kernel_classes_Resource $resource = null, Ontology $ontology = null)
     {
         if (!is_null($resource)) {
             $this->setResource($resource);
         }
+
+        $this->ontology = $ontology;
     }
 
     public function setResource(core_kernel_classes_Resource $resource): self
@@ -88,7 +85,7 @@ class JsonLdExport implements JsonSerializable
         return $this;
     }
 
-    public function setTriples(core_kernel_classes_ContainerCollection $triples)
+    public function setTriples(core_kernel_classes_ContainerCollection $triples): void
     {
         $this->triples = $triples;
     }
@@ -101,20 +98,22 @@ class JsonLdExport implements JsonSerializable
         $this->types = $types;
     }
 
-    /**
-     * @param string $uri
-     */
-    public function setUri($uri)
+    public function setUri(string $uri): void
     {
         $this->uri = $uri;
     }
 
-    public function registerEncoder($propertyUri, callable $encoder)
+    public function blackList(string $propertyUri): void
+    {
+        $this->blackList[] = $propertyUri;
+    }
+
+    public function registerEncoder($propertyUri, callable $encoder): void
     {
         $this->encoders[$propertyUri] = $encoder;
     }
 
-    public function getEncoders()
+    public function getEncoders(): array
     {
         return $this->encoders;
     }
@@ -222,9 +221,13 @@ class JsonLdExport implements JsonSerializable
      */
     protected function generateId($uri)
     {
-        $property = new \core_kernel_classes_Property($uri);
+        $property = $this->ontology
+            ? $this->ontology->getProperty($uri)
+            : new core_kernel_classes_Property($uri);
+
         $label = strtolower(trim($property->getLabel()));
         $label = preg_replace(['/\s/', '[^a-z\-]'], ['-', ''], $label);
+
         return empty($label) ? 'key' : $label;
     }
 
