@@ -98,6 +98,7 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
 Cypress.Commands.add('removePropertyFromClass', (options) => {
     cy.log('COMMAND: removePropertyFromClass', options.nodeName, options.propertyName);
     cy.intercept('POST', `**/${ options.editUrl }`).as('edit');
+    cy.intercept('POST', '**/removeClassProperty').as('removeClassProperty');
     cy.selectNode(options.nodeName, options.nodePropertiesForm, options.className);
     cy.getSettled(options.manageSchemaSelector).click();
     cy.wait('@edit');
@@ -107,4 +108,5 @@ Cypress.Commands.add('removePropertyFromClass', (options) => {
             cy.get('.property-deleter').click();
         });
     cy.on('window:confirm', () => true);
+    cy.wait('@removeClassProperty').its('response.body').its('success').should('eq', true);
 });

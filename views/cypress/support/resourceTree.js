@@ -108,31 +108,35 @@ Cypress.Commands.add('addClassToRoot', (
  * @param {String} moveConfirmSelector - css selector for the element to confirm action
  * @param {String} name - name of the class which will be moved
  * @param {String} nameWhereMove - name of the class to move to
- * @param {String} restResourceGetAll - url for the rest resource GET request
+ * @param {String} resourceGetAllUrl - url for the rest resource GET request
  */
 Cypress.Commands.add('moveClass', (
     moveSelector,
     moveConfirmSelector,
     name,
     nameWhereMove,
-    restResourceGetAll
+    resourceGetAllUrl,
+    moveClassUrl = 'moveClass'
 ) => {
     cy.log('COMMAND: moveClass', name)
         .getSettled(`li[title="${name}"] a:nth(0)`)
         .click()
         .wait('@editClassLabel')
-        .intercept('GET', `**/${restResourceGetAll}**`).as('classToMove')
+        .intercept('GET', `**/${resourceGetAllUrl}**`).as('classToMove')
         .get('#feedback-2, #feedback-1').should('not.exist')
         .getSettled(moveSelector)
         .click()
         .wait('@classToMove')
         .getSettled(`.destination-selector a[title="${nameWhereMove}"]`)
         .click()
+        .intercept('POST', `**/${moveClassUrl}*`).as('moveClass')
+        .intercept('GET', '**/getOntologyData**').as('treeRenderAfterMove')
         .get('.actions button')
         .click()
         .get(moveConfirmSelector)
         .click()
-        .get(`li[title="${name}"] a`).should('not.exist');
+        .wait('@moveClass').its('response.body').its('success').should('eq', true)
+        .wait('@treeRenderAfterMove');
 });
 
 /**
@@ -142,7 +146,7 @@ Cypress.Commands.add('moveClass', (
  * @param {String} moveConfirmSelector - css selector for the element to confirm action
  * @param {String} name - name of the class which will be moved
  * @param {String} nameWhereMove - name of the class to move to
- * @param {String} restResourceGetAll - url for the rest resource GET request
+ * @param {String} resourceGetAllUrl - url for the rest resource GET request
  */
 Cypress.Commands.add('moveClassFromRoot', (
     rootSelector,
@@ -150,14 +154,15 @@ Cypress.Commands.add('moveClassFromRoot', (
     moveConfirmSelector,
     name,
     nameWhereMove,
-    restResourceGetAll
+    resourceGetAllUrl,
+    moveClassUrl = 'moveClass'
 ) => {
     cy.log('COMMAND: moveClassFromRoot', name)
         .get('#feedback-1, #feedback-2').should('not.exist')
         .getSettled(`${rootSelector} a:nth(0)`)
         .click()
         .get(`${rootSelector} li[title="${name}"] a`)
-        .moveClass(moveSelector, moveConfirmSelector, name, nameWhereMove, restResourceGetAll)
+        .moveClass(moveSelector, moveConfirmSelector, name, nameWhereMove, resourceGetAllUrl, moveClassUrl)
 });
 
 /**
@@ -180,8 +185,8 @@ Cypress.Commands.add('deleteClass', (
     isConfirmCheckbox = false
 ) => {
     cy.log('COMMAND: deleteClass', name)
-        .getSettled(`${rootSelector} a`)
-        .contains('a', name).click()
+        .getSettled(`${rootSelector} a:nth(0)`)
+        .get(`li[title="${name}"] a:nth(0)`).click()
         .get(formSelector)
         .should('exist')
     cy.get(deleteSelector).click();
