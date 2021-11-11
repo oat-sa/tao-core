@@ -98,6 +98,29 @@ abstract class AbstractXhtmlSearchElement extends AbstractSearchElement
 require(['jquery'], function ($) {
     $baseVariables
 
+    var successCallback = function(callback, initialSelection, multiple) {
+        $.ajax({
+            url: '$searchUrl',
+            data: createRequestData('   '),
+            global: false,
+            success: function(response) {
+                let parsedResponse = normalizeResponse(response).results;
+
+                if (multiple) {
+                    initialSelection.forEach(selection => {
+                        let index = parsedResponse.findIndex(parsedSelection => parsedSelection.id === selection.id);
+                        if (index !== -1) {
+                            selection.text = parsedResponse[index].text;
+                        }
+                    });
+                } else {
+                    initialSelection.text = parsedResponse.find(selection => selection.id === initialSelection.id).text;
+                }
+                callback(initialSelection);
+            }
+        });
+    }
+
     \$input.select2({
         width: '100%',
         multiple: $multipleValue,
@@ -118,7 +141,17 @@ require(['jquery'], function ($) {
                 : `<span class="invalid-choice">\${choice.text}</span>`;
         },
         initSelection: function (element, callback) {
-            callback($initSelection);
+            let initialSelection = $initSelection;
+
+            if (initialSelection) {
+                if (Array.isArray(initialSelection)) {
+                    initialSelection.find(function (selection) {
+                        return selection.id === selection.text;
+                    }) ? successCallback(callback, initialSelection, true) : callback(initialSelection);
+                } else {
+                    initialSelection.id === initialSelection.text ? successCallback(callback, initialSelection) : callback(initialSelection);
+                }
+            }
         }
     });
 
@@ -156,6 +189,7 @@ var createRequestData = function (term) {
         parentListValues: getParentListValues()
     }
 };
+
 javascript;
     }
 
