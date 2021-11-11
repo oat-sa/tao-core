@@ -496,10 +496,18 @@
                 }
             }
 
+            function regularConfirmantion() {
+                return window.confirm(__('Please confirm property deletion!'));
+            }
+
             async function getPropertyRemovalConfirmation($groupNode, uri) {
                 const dependencies = await checkForDependency(uri);
 
                 return new Promise((resolve, reject) => {
+                    if (!dependencies.length) {
+                        return regularConfirmantion() ? resolve() : reject();
+                    }
+
                     const name = $groupNode.find('.property-heading-label')[0].innerText;
                     const dependantPropName = dependencies.reduce((prev, next, index) => {
                         const delimiter = index === dependencies.length - 1 ? '' : ', '
