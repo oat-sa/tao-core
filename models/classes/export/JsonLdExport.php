@@ -85,22 +85,28 @@ class JsonLdExport implements JsonSerializable
         return $this;
     }
 
-    public function setTriples(core_kernel_classes_ContainerCollection $triples): void
+    public function setTriples(core_kernel_classes_ContainerCollection $triples): self
     {
         $this->triples = $triples;
+
+        return $this;
     }
 
     /**
      * @param array $types
      */
-    public function setTypes($types)
+    public function setTypes($types): self
     {
         $this->types = $types;
+
+        return $this;
     }
 
-    public function setUri(string $uri): void
+    public function setUri(string $uri): self
     {
         $this->uri = $uri;
+
+        return $this;
     }
 
     public function blackList(string $propertyUri): void
