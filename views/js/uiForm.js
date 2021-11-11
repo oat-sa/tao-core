@@ -36,7 +36,7 @@
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
     'ui/datetime/picker',
-    'ui/dialog/confirmDelete',
+    'ui/dialog/confirm',
     'core/request',
     'util/url',
 ], function (
