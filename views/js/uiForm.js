@@ -496,33 +496,27 @@
                 }
             }
 
-            function regularConfirmantion() {
-                return window.confirm(__('Please confirm property deletion!'));
-            }
-
             async function getPropertyRemovalConfirmation($groupNode, uri) {
                 const dependencies = await checkForDependency(uri);
 
                 return new Promise((resolve, reject) => {
-                    if (!dependencies.length) {
-                        return regularConfirmantion() ? resolve() : reject();
-                    } else {
-                        const name = $groupNode.find('.property-heading-label')[0].innerText;
-                        const dependantPropName = dependencies.reduce((prev, next, index) => {
-                            const delimiter = index === dependencies.length - 1 ? '' : ', '
-                            return prev + `${next.label}${delimiter}`;
-                        }, '');
+                    const name = $groupNode.find('.property-heading-label')[0].innerText;
+                    const dependantPropName = dependencies.reduce((prev, next, index) => {
+                        const delimiter = index === dependencies.length - 1 ? '' : ', '
+                        return prev + `${next.label}${delimiter}`;
+                    }, '');
 
-                        confirmDialog(
-                            `<b>${name}</b>
-                            ${__('currently has a dependency established with ')}
-                            <b>${dependantPropName}</b>.
-                            ${__('Deleting this property will also remove the dependency')}.
-                            <br><br> ${__('Are you wish to delete it')}?`,
-                            resolve,
-                            reject
-                        );
-                    }
+                    let message = `<b>${name}</b>
+                        ${__('currently has a dependency established with ')}
+                        <b>${dependantPropName}</b>.
+                        ${__('Deleting this property will also remove the dependency')}.
+                        <br><br> ${__('Are you sure you wish to delete it')}?`
+
+                    confirmDialog(
+                        message,
+                        resolve,
+                        reject
+                    );
                 })
             }
 
