@@ -57,7 +57,9 @@ class JsonLdBasicTripleEncoder implements JsonLdTripleEncoderInterface
 
     private function getMetadataKey(core_kernel_classes_Triple $triple, array $dataToEncode): ?string
     {
-        return array_flip((array)$dataToEncode['@context'] ?? [])[$triple->predicate] ?? null;
+        $context = (array)($dataToEncode['@context'] ?? []);
+
+        return array_flip($context)[$triple->predicate] ?? null;
     }
 
     public function isWidgetSupported(string $widgetUri): bool

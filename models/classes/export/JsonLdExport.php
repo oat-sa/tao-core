@@ -43,7 +43,7 @@ class JsonLdExport implements JsonSerializable
     /** @var core_kernel_classes_ContainerCollection */
     private $triples;
 
-    /** @var Ontology */
+    /** @var Ontology|null */
     private $ontology;
 
     /** @var core_kernel_classes_Class[] */
