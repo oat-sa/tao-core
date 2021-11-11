@@ -20,13 +20,20 @@
 
 namespace oat\tao\test\unit\model\export\Metadata;
 
+use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Triple;
 use InvalidArgumentException;
 use oat\generis\test\TestCase;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
-use oat\tao\model\export\Metadata\JsonLd\JsonLdBasicTripleEncoder;
+use oat\tao\model\export\Metadata\JsonLd\JsonLdListTripleEncoder;
+use oat\tao\model\Lists\Business\Domain\Value;
+use oat\tao\model\Lists\Business\Domain\ValueCollection;
+use oat\tao\model\Lists\Business\Service\ValueCollectionService;
+use oat\tao\model\Lists\Business\Specification\LocalListClassSpecification;
+use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
+use PHPUnit\Framework\MockObject\MockObject;
 use stdClass;
 use tao_helpers_form_elements_Calendar;
 use tao_helpers_form_elements_Checkbox;
@@ -38,21 +45,61 @@ use tao_helpers_form_elements_Textarea;
 use tao_helpers_form_elements_Textbox;
 use tao_helpers_form_elements_Treebox;
 
-class JsonLdBasicTripleEncoderTest extends TestCase
+class JsonLdListTripleEncoderTest extends TestCase
 {
-    /** @var JsonLdBasicTripleEncoder */
+    /** @var ValueCollectionService|MockObject */
+    private $valueCollectionService;
+
+    /** @var RemoteListClassSpecification|MockObject */
+    private $remoteListClassSpecification;
+
+    /** @var LocalListClassSpecification|MockObject */
+    private $localListClassSpecification;
+
+    /** @var JsonLdListTripleEncoder */
     private $sut;
 
     public function setUp(): void
     {
-        $this->sut = new JsonLdBasicTripleEncoder();
+        $this->valueCollectionService = $this->createMock(ValueCollectionService::class);
+        $this->remoteListClassSpecification = $this->createMock(RemoteListClassSpecification::class);
+        $this->localListClassSpecification = $this->createMock(LocalListClassSpecification::class);
+        $this->sut = new JsonLdListTripleEncoder(
+            $this->valueCollectionService,
+            $this->remoteListClassSpecification,
+            $this->localListClassSpecification
+        );
     }
 
     public function testEncode(): void
     {
+        $this->remoteListClassSpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $this->localListClassSpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $value = $this->createMock(Value::class);
+        $value->method('getLabel')
+            ->willReturn('label');
+
+        $valueCollection = $this->createMock(ValueCollection::class);
+        $valueCollection->method('extractValueByUri')
+            ->willReturn($value);
+
+        $this->valueCollectionService
+            ->method('findAll')
+            ->willReturn($valueCollection);
+
+        $range = $this->createMock(core_kernel_classes_Class::class);
+
         $property = $this->createMock(core_kernel_classes_Property::class);
         $property->method('getAlias')
             ->willReturn('Property_Alias');
+        $property->method('getRange')
+            ->willReturn($range);
 
         $widget = $this->createMock(core_kernel_classes_Property::class);
         $widget->method('getUri')
@@ -77,9 +124,14 @@ class JsonLdBasicTripleEncoderTest extends TestCase
             [
                 '@context' => $context,
                 'property_label' => [
-                    'type' => tao_helpers_form_elements_Textbox::WIDGET_ID,
                     'alias' => 'Property_Alias',
-                    'value' => 'triple_object',
+                    'type' => tao_helpers_form_elements_Textbox::WIDGET_ID,
+                    'value' => [
+                        [
+                            'value' => 'triple_object',
+                            'label' => 'label',
+                        ],
+                    ],
                 ],
             ],
             $this->sut->encode($data, $triple, $property, $widget)
@@ -106,47 +158,47 @@ class JsonLdBasicTripleEncoderTest extends TestCase
     {
         return [
             [
-                tao_helpers_form_elements_Textbox::WIDGET_ID,
-                true,
-            ],
-            [
-                tao_helpers_form_elements_Textarea::WIDGET_ID,
-                true,
-            ],
-            [
-                tao_helpers_form_elements_Htmlarea::WIDGET_ID,
-                true,
-            ],
-            [
-                tao_helpers_form_elements_Calendar::WIDGET_ID,
-                true,
-            ],
-            [
-                tao_helpers_form_elements_Hiddenbox::WIDGET_ID,
-                true,
-            ],
-            [
                 tao_helpers_form_elements_Radiobox::WIDGET_ID,
-                false,
+                true,
             ],
             [
                 tao_helpers_form_elements_Treebox::WIDGET_ID,
-                false,
+                true,
             ],
             [
                 tao_helpers_form_elements_Combobox::WIDGET_ID,
-                false,
+                true,
             ],
             [
                 tao_helpers_form_elements_Checkbox::WIDGET_ID,
-                false,
+                true,
             ],
             [
                 SearchTextBox::WIDGET_ID,
-                false,
+                true,
             ],
             [
                 SearchDropdown::WIDGET_ID,
+                true,
+            ],
+            [
+                tao_helpers_form_elements_Textbox::WIDGET_ID,
+                false,
+            ],
+            [
+                tao_helpers_form_elements_Textarea::WIDGET_ID,
+                false,
+            ],
+            [
+                tao_helpers_form_elements_Htmlarea::WIDGET_ID,
+                false,
+            ],
+            [
+                tao_helpers_form_elements_Calendar::WIDGET_ID,
+                false,
+            ],
+            [
+                tao_helpers_form_elements_Hiddenbox::WIDGET_ID,
                 false,
             ],
         ];

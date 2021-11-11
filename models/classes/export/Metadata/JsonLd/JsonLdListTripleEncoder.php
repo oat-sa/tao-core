@@ -129,7 +129,7 @@ class JsonLdListTripleEncoder implements JsonLdTripleEncoderInterface
 
     private function getMetadataKey(core_kernel_classes_Triple $triple, array $dataToEncode): ?string
     {
-        return array_flip($dataToEncode['@context'] ?? [])[$triple->predicate] ?? null;
+        return array_flip((array)$dataToEncode['@context'] ?? [])[$triple->predicate] ?? null;
     }
 
     public function isWidgetSupported(string $widgetUri): bool
