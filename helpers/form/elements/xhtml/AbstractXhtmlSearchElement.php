@@ -98,7 +98,7 @@ abstract class AbstractXhtmlSearchElement extends AbstractSearchElement
 require(['jquery'], function ($) {
     $baseVariables
 
-    var successCallback = function(callback, initialSelection, multiple) {
+    var getPropertyDataAndParseUri = function(callback, initialSelection, multiple) {
         $.ajax({
             url: '$searchUrl',
             data: createRequestData('   '),
@@ -142,14 +142,15 @@ require(['jquery'], function ($) {
         },
         initSelection: function (element, callback) {
             let initialSelection = $initSelection;
+
             if (initialSelection) {
-                if (Array.isArray(initialSelection)) {
-                    initialSelection.find(function (selection) {
-                        return selection.id === selection.text;
-                    }) ? successCallback(callback, initialSelection, $multipleValue) : callback(initialSelection);
-                } else {
-                    initialSelection.id === initialSelection.text ? successCallback(callback, initialSelection, $multipleValue) : callback(initialSelection);
+                if ((Array.isArray(initialSelection)
+                    && initialSelection.find(selection => selection.id === selection.text))
+                    || initialSelection.id === initialSelection.text) {
+                        return getPropertyDataAndParseUri(callback, initialSelection, $multipleValue);
                 }
+
+                callback(initialSelection);
             }
         }
     });
