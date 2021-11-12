@@ -49,7 +49,13 @@ class JsonLdBasicTripleEncoder implements JsonLdTripleEncoderInterface
         $dataToEncode[$key] = [
             self::CONTEXT_TYPE => $widget->getUri(),
             self::CONTEXT_ALIAS => $property->getAlias(),
-            self::CONTEXT_VALUE => $triple->object,
+            self::CONTEXT_LABEL => $property->getLabel(),
+            self::CONTEXT_VALUE => [
+                [
+                    self::CONTEXT_LABEL => null,
+                    self::CONTEXT_VALUE => $triple->object,
+                ]
+            ]
         ];
 
         return $dataToEncode;

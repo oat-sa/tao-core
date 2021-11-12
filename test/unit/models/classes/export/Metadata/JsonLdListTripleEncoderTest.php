@@ -98,6 +98,8 @@ class JsonLdListTripleEncoderTest extends TestCase
         $property = $this->createMock(core_kernel_classes_Property::class);
         $property->method('getAlias')
             ->willReturn('Property_Alias');
+        $property->method('getLabel')
+            ->willReturn('Property_Label');
         $property->method('getRange')
             ->willReturn($range);
 
@@ -125,6 +127,7 @@ class JsonLdListTripleEncoderTest extends TestCase
                 '@context' => $context,
                 'property_label' => [
                     'alias' => 'Property_Alias',
+                    'label' => 'Property_Label',
                     'type' => tao_helpers_form_elements_Textbox::WIDGET_ID,
                     'value' => [
                         [

@@ -53,6 +53,8 @@ class JsonLdBasicTripleEncoderTest extends TestCase
         $property = $this->createMock(core_kernel_classes_Property::class);
         $property->method('getAlias')
             ->willReturn('Property_Alias');
+        $property->method('getLabel')
+            ->willReturn('Property_Label');
 
         $widget = $this->createMock(core_kernel_classes_Property::class);
         $widget->method('getUri')
@@ -79,7 +81,13 @@ class JsonLdBasicTripleEncoderTest extends TestCase
                 'property_label' => [
                     'type' => tao_helpers_form_elements_Textbox::WIDGET_ID,
                     'alias' => 'Property_Alias',
-                    'value' => 'triple_object',
+                    'label' => 'Property_Label',
+                    'value' => [
+                        [
+                            'label' => null,
+                            'value' => 'triple_object'
+                        ]
+                    ],
                 ],
             ],
             $this->sut->encode($data, $triple, $property, $widget)

@@ -89,6 +89,7 @@ class JsonLdListTripleEncoder implements JsonLdTripleEncoderInterface
             $dataToEncode[$key] = [
                 self::CONTEXT_TYPE => $widget->getUri(),
                 self::CONTEXT_ALIAS => $property->getAlias(),
+                self::CONTEXT_LABEL => $property->getLabel(),
                 self::CONTEXT_VALUE => [],
             ];
         }
