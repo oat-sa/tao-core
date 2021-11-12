@@ -142,14 +142,13 @@ require(['jquery'], function ($) {
         },
         initSelection: function (element, callback) {
             let initialSelection = $initSelection;
-
             if (initialSelection) {
                 if (Array.isArray(initialSelection)) {
                     initialSelection.find(function (selection) {
                         return selection.id === selection.text;
-                    }) ? successCallback(callback, initialSelection, true) : callback(initialSelection);
+                    }) ? successCallback(callback, initialSelection, $multipleValue) : callback(initialSelection);
                 } else {
-                    initialSelection.id === initialSelection.text ? successCallback(callback, initialSelection) : callback(initialSelection);
+                    initialSelection.id === initialSelection.text ? successCallback(callback, initialSelection, $multipleValue) : callback(initialSelection);
                 }
             }
         }
