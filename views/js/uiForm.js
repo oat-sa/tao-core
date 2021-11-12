@@ -514,7 +514,7 @@
                         return prev + `${next.label}${delimiter}`;
                     }, '');
 
-                    let message = `<b>${name}</b>
+                    const message = `<b>${name}</b>
                         ${__('currently has a dependency established with ')}
                         <b>${dependantPropName}</b>.
                         ${__('Deleting this property will also remove the dependency')}.
