@@ -57,6 +57,7 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
         .wait('@treeRender')
+        .wait('@edit')
         .get(`${formSelector} ${selectors.labelSelector}`).should('have.value', newName)
 });
 
