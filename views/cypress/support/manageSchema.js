@@ -55,13 +55,13 @@ Cypress.Commands.add('findInputInManageSchema', (options) => {
 
    switch(options.type) {
       case 'checkbox':
-         cy.get(selectors.propertyEdit).find(options.input).first().check({ force: true });
+         cy.get(options.propertyEdit).find(options.input).first().check({ force: true });
          break;
       case 'radio':
-         cy.get(selectors.propertyEdit).find(options.input).eq(options.position).check({ force: true });
+         cy.get(options.propertyEdit).find(options.input).eq(options.position).check({ force: true });
          break;
       case 'text':
-         cy.get(selectors.propertyEdit).find(options.input).eq(options.position).clear(options.input).type(newPropertyName);
+         cy.get(options.propertyEdit).find(options.input).eq(options.position).clear(options.input).type(options.newValue);
          break;
    }
 
