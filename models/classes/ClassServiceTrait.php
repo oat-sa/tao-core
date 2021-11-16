@@ -22,15 +22,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model;
 
-use common_Logger;
-use common_exception_Error;
 use core_kernel_classes_Class;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\resources\Service\ClassDeleter;
-use oat\tao\model\accessControl\PermissionChecker;
 use oat\tao\model\resources\Service\ClassDeleterInterface;
-use oat\tao\model\accessControl\PermissionCheckerInterface;
 
 trait ClassServiceTrait
 {
