@@ -131,7 +131,7 @@ msgid "<del>Options</del>"
 msgstr "<del>オプション</del>"
 
 msgid "<strong> %s </strong> has been moved to the background."
-msgstr "<strong> %s </strong> は，背景に移動されました"
+msgstr "<strong> %s </strong> は，バックグラウンド処理中です"
 
 msgid "> Extension %s succesfully installed."
 msgstr ">　拡張機能　%s のインストールが終了しました"
@@ -235,6 +235,9 @@ msgstr ""
 
 msgid "Adobe Flash file"
 msgstr ""
+
+msgid "Advanced Mode"
+msgstr "詳細モード"
 
 msgid "Advanced search, add filters"
 msgstr "高度な検索（フィルタ追加）"
@@ -667,7 +670,7 @@ msgid "Define the default values"
 msgstr "デフォルト値を定義します"
 
 msgid "Deg"
-msgstr "レベル"
+msgstr "Deg"
 
 msgid "Degree"
 msgstr "レベル"
@@ -775,6 +778,9 @@ msgstr "クラス編集：%s"
 msgid "Edit Instance"
 msgstr "インスタンス編集"
 
+msgid "Edit sources that can embed this platform in an iFrame"
+msgstr "このプラットフォームをiFrameに埋め込みできるソースを設定"
+
 msgid "Element"
 msgstr "エレメント"
 
@@ -833,7 +839,7 @@ msgid "Executing task %s failed"
 msgstr "タスク %s の実行にエラーになりました。"
 
 msgid "exp"
-msgstr "指数"
+msgstr "exp"
 
 msgid "Exponent"
 msgstr "指数"
@@ -1084,7 +1090,7 @@ msgid "In Progress"
 msgstr "処理中"
 
 msgid "In progress"
-msgstr "処理中"
+msgstr "実施中"
 
 msgid "Inclusive (AND)"
 msgstr "包括（AND)"
@@ -1135,16 +1141,16 @@ msgid "Invalid CSP header."
 msgstr "CSPヘッダーが無効です"
 
 msgid "Invalid date range (must be after or the same as: %s)"
-msgstr "日付の範囲が無効（%sより後か同じでなければなりません）"
+msgstr "日付の範囲が無効（%s以降か同じにしてください）"
 
 msgid "Invalid date range (must be after: %s)"
-msgstr "日付の範囲が無効（%sより後である必要があります）"
+msgstr "日付の範囲が無効（%s以降にしてください）"
 
 msgid "Invalid date range (must be before or the same as: %s)"
-msgstr "日付の範囲が無効（%sより前か同じでなければなりません）"
+msgstr "日付の範囲が無効（%s以前か同じにしてください）"
 
 msgid "Invalid date range (must be before: %s)"
-msgstr "日付の範囲が無効（%sより前である必要があります）"
+msgstr "日付の範囲が無効（%s以前にしてください）"
 
 msgid "Invalid field length"
 msgstr "不正なフィールド長"
@@ -1186,7 +1192,7 @@ msgid "Invalid values:"
 msgstr ""
 
 msgid "items per page"
-msgstr "ページあたりのアイテム"
+msgstr "件／ページ"
 
 msgid "Javascript code"
 msgstr ""
@@ -1246,7 +1252,7 @@ msgid "List values"
 msgstr ""
 
 msgid "ln"
-msgstr "入力"
+msgstr "ln"
 
 msgid "Load more"
 msgstr "再読み込み"
@@ -1270,7 +1276,7 @@ msgid "locked by %s"
 msgstr "％sによってロックされています"
 
 msgid "log"
-msgstr "ログ"
+msgstr "log"
 
 msgid "Log in"
 msgstr "ログイン"
@@ -1511,6 +1517,9 @@ msgstr ""
 msgid "no label"
 msgstr "ラベルがありません"
 
+msgid "No results found"
+msgstr "検索結果はありません。"
+
 msgid "No Task yet"
 msgstr "タスクがありません"
 
@@ -1692,6 +1701,9 @@ msgstr "その理由を記入してください"
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "バグの報告やアイデア，コメントなどTAOフォーラムにフィードバックしてください"
 
+msgid "Please try in %s."
+msgstr "%sでお試しください。"
+
 msgid "Please wait"
 msgstr "お待ちください"
 
@@ -1732,11 +1744,14 @@ msgid "Previous page"
 msgstr "前のページ"
 
 msgid "Proceed"
-msgstr "続行"
+msgstr "開始"
 
 #, tao-public
 msgid "Properties"
 msgstr "プロパティ"
+
+msgid "Property's label field is required"
+msgstr "プロパティのラベルは必須です"
 
 msgid "Provided URL is not valid"
 msgstr "指定されたURLは有効ではありません"
@@ -1990,7 +2005,7 @@ msgid "Select a class"
 msgstr "クラスを選択"
 
 msgid "Select a destination"
-msgstr "指定先を選択"
+msgstr "コピー先を選択"
 
 msgid "Select a language"
 msgstr "言語を選択"
@@ -2040,6 +2055,9 @@ msgstr ""
 
 msgid "Sign change"
 msgstr "符号入れ替え"
+
+msgid "Simple Mode"
+msgstr "シンプルモード"
 
 msgid "sin"
 msgstr "sin"
@@ -2195,7 +2213,7 @@ msgid "Text document file format (Staroffice)"
 msgstr ""
 
 msgid "The action will be applied to"
-msgstr "操作が適用されます"
+msgstr "操作が適用されます："
 
 msgid "The action will be applied to the following"
 msgstr "以下に操作が適用されます"
@@ -2213,7 +2231,7 @@ msgid "The following criteria are not applicable to the selected class and have 
 msgstr ""
 
 msgid "The format of this field is not valid."
-msgstr "このフィールドの形式は有効ではありません"
+msgstr "形式が正しくありません"
 
 msgid "The imported file is not properly UTF-8 encoded."
 msgstr "インポートされたファイルが正しくUTF-8でエンコードされていません"
@@ -2237,7 +2255,7 @@ msgid "The value for the property \"%s\" must be unique."
 msgstr "プロパティ\"%s\"は一意である必要があります"
 
 msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
-msgstr "このフィールドは指定の通りに入力してください（YYYY-MM-DD）"
+msgstr "このフィールドは次の形式にしてください：YYYY-MM-DD"
 
 msgid "The value of this field must be an integer"
 msgstr "このフィールドの値は整数でなければなりません"
