@@ -39,6 +39,7 @@ use oat\tao\model\resources\Service\ClassDeleter;
 use oat\tao\model\accessControl\PermissionChecker;
 use tao_helpers_form_FormContainer as FormContainer;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
+use oat\tao\model\resources\Contract\ClassDeleterInterface;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 
@@ -1053,13 +1054,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         } else {
             $label = $class->getLabel();
 
-            $classDeleter = $this->getPsrContainer()->get(ClassDeleter::class);
-            $classDeleter->delete($class, $this->getRootClass());
+            $classDeleter = $this->getClassDeleter();
+            $classDeleter->delete($class);
 
             $success = true;
             $deleted = $classDeleter->isDeleted($class);
 
-            $msg = $success
+            $msg = $deleted
                 ? __('%s has been deleted', $label)
                 : __('Unable to delete %s', $label);
         }
@@ -1443,5 +1444,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     private function getEventManager(): EventManager
     {
         return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+    }
+
+    private function getClassDeleter(): ClassDeleterInterface
+    {
+        return $this->getPsrContainer()->get(ClassDeleter::class);
     }
 }

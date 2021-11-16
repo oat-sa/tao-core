@@ -26,7 +26,7 @@ use core_kernel_classes_Class;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\resources\Service\ClassDeleter;
-use oat\tao\model\resources\Service\ClassDeleterInterface;
+use oat\tao\model\resources\Contract\ClassDeleterInterface;
 
 trait ClassServiceTrait
 {
@@ -57,7 +57,7 @@ trait ClassServiceTrait
     public function deleteClass(core_kernel_classes_Class $class)
     {
         $classDeleter = $this->getClassDeleter();
-        $classDeleter->delete($class, $this->getRootClass());
+        $classDeleter->delete($class);
 
         return $classDeleter->isDeleted($class);
     }

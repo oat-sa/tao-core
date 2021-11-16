@@ -20,13 +20,24 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\resources\Service;
+namespace oat\tao\model\resources\Specification;
 
 use core_kernel_classes_Class;
+use oat\tao\model\Specification\ClassSpecificationInterface;
+use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 
-interface ClassDeleterInterface
+class RootClassSpecification implements ClassSpecificationInterface
 {
-    public function delete(core_kernel_classes_Class $class, core_kernel_classes_Class $rootClass): void;
+    /** @var RootClassesListServiceInterface */
+    private $rootClassesListService;
 
-    public function isDeleted(core_kernel_classes_Class $class): bool;
+    public function __construct(RootClassesListServiceInterface $rootClassesListService)
+    {
+        $this->rootClassesListService = $rootClassesListService;
+    }
+
+    public function isSatisfiedBy(core_kernel_classes_Class $class): bool
+    {
+        return array_key_exists($class->getUri(), $this->rootClassesListService->list());
+    }
 }

@@ -22,16 +22,22 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Service;
 
+use InvalidArgumentException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\accessControl\PermissionCheckerInterface;
+use oat\tao\model\resources\Contract\ClassDeleterInterface;
+use oat\tao\model\Specification\ClassSpecificationInterface;
 
 class ClassDeleter implements ClassDeleterInterface
 {
     private const PROPERTY_INDEX = OntologyIndex::PROPERTY_INDEX;
+
+    /** @var ClassSpecificationInterface */
+    private $rootClassSpecification;
 
     /** @var PermissionCheckerInterface */
     private $permissionChecker;
@@ -39,17 +45,23 @@ class ClassDeleter implements ClassDeleterInterface
     /** @var Ontology */
     private $ontology;
 
-    public function __construct(PermissionCheckerInterface $permissionChecker, Ontology $ontology)
-    {
+    public function __construct(
+        ClassSpecificationInterface $rootClassSpecification,
+        PermissionCheckerInterface $permissionChecker,
+        Ontology $ontology
+    ) {
+        $this->rootClassSpecification = $rootClassSpecification;
         $this->permissionChecker = $permissionChecker;
         $this->ontology = $ontology;
     }
 
-    public function delete(core_kernel_classes_Class $class, core_kernel_classes_Class $rootClass): void
+    public function delete(core_kernel_classes_Class $class): void
     {
-        if (!$class->equals($rootClass)) {
-            $this->deleteClassRecursively($class);
+        if ($this->rootClassSpecification->isSatisfiedBy($class)) {
+            throw new InvalidArgumentException('The class provided for deletion cannot be the root class.');
         }
+
+        $this->deleteClassRecursively($class);
     }
 
     public function isDeleted(core_kernel_classes_Class $class): bool
@@ -68,10 +80,18 @@ class ClassDeleter implements ClassDeleterInterface
         return $this->deleteClass($class, $isClassDeletable);
     }
 
+    /**
+     * @param bool $isClassDeletable Class is not deletable if it contains at least one protected sub class,
+     *                               instance or property
+     */
     private function deleteClass(core_kernel_classes_Class $class, bool $isClassDeletable): bool
     {
-        return $this->deleteInstances($class->getInstances())
+        $classUri = $class->getUri();
+
+        return $this->permissionChecker->hasReadAccess($classUri)
+            && $this->deleteInstances($class->getInstances())
             && $isClassDeletable
+            && $this->permissionChecker->hasWriteAccess($classUri)
             && $this->deleteProperties($class->getProperties())
             && $class->delete();
     }

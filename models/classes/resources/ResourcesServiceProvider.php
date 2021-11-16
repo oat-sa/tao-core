@@ -25,6 +25,8 @@ namespace oat\tao\model\resources;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\resources\Service\ClassDeleter;
 use oat\tao\model\accessControl\PermissionChecker;
+use oat\tao\model\resources\Service\RootClassesListService;
+use oat\tao\model\resources\Specification\RootClassSpecification;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -37,10 +39,27 @@ class ResourcesServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services
+            ->set(RootClassesListService::class, RootClassesListService::class)
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
+                ]
+            );
+
+        $services
+            ->set(RootClassSpecification::class, RootClassSpecification::class)
+            ->args(
+                [
+                    service(RootClassesListService::class),
+                ]
+            );
+
+        $services
             ->set(ClassDeleter::class, ClassDeleter::class)
             ->public()
             ->args(
                 [
+                    service(RootClassSpecification::class),
                     service(PermissionChecker::class),
                     service(Ontology::SERVICE_ID),
                 ]
