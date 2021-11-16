@@ -15,22 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2018-2021 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model;
 
+use common_Logger;
+use common_exception_Error;
+use core_kernel_classes_Class;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\OntologyIndex;
+use oat\tao\model\resources\Service\ClassDeleter;
+use oat\tao\model\accessControl\PermissionChecker;
+use oat\tao\model\resources\Service\ClassDeleterInterface;
+use oat\tao\model\accessControl\PermissionCheckerInterface;
 
-/**
- * Trait ClassServiceTrait
- * @package oat\tao\model
- */
 trait ClassServiceTrait
 {
-
     /**
      * Returns the root class of this service
      *
@@ -50,38 +53,17 @@ trait ClassServiceTrait
     }
 
     /**
-     * Delete a subclass
+     * @deprecated Please, use \oat\tao\model\resources\Service\ClassDeleter::delete() to delete class
+     *             and \oat\tao\model\resources\Service\ClassDeleter::isDeleted() to check if class was deleted or not
      *
-     * @access public
-     * @param \core_kernel_classes_Class $clazz
-     * @return boolean
-     * @throws \common_exception_Error
+     * @return bool
      */
-    public function deleteClass(\core_kernel_classes_Class $clazz)
+    public function deleteClass(core_kernel_classes_Class $class)
     {
-        $returnValue = (bool) false;
-        
-        if ($clazz->isSubClassOf($this->getRootClass()) && ! $clazz->equals($this->getRootClass())) {
-            $returnValue = true;
-            
-            $instances = $clazz->getInstances();
-            foreach ($instances as $instance) {
-                $this->deleteResource($instance);
-            }
-            
-            $subclasses = $clazz->getSubClasses(false);
-            foreach ($subclasses as $subclass) {
-                $returnValue = $returnValue && $this->deleteClass($subclass);
-            }
-            foreach ($clazz->getProperties() as $classProperty) {
-                $returnValue = $returnValue && $this->deleteClassProperty($classProperty);
-            }
-            $returnValue = $returnValue && $clazz->delete();
-        } else {
-            \common_Logger::w('Tried to delete class ' . $clazz->getUri() . ' as if it were a subclass of ' . $this->getRootClass()->getUri());
-        }
-        
-        return (bool) $returnValue;
+        $classDeleter = $this->getClassDeleter();
+        $classDeleter->delete($class, $this->getRootClass());
+
+        return $classDeleter->isDeleted($class);
     }
 
     /**
@@ -123,5 +105,10 @@ trait ClassServiceTrait
     public function getServiceManager()
     {
         return ServiceManager::getServiceManager();
+    }
+
+    private function getClassDeleter(): ClassDeleterInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(ClassDeleter::class);
     }
 }

@@ -27,6 +27,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\event\ResourceMovedEvent;
 use oat\tao\model\search\tasks\IndexTrait;
+use oat\tao\model\resources\Service\ClassDeleter;
 use oat\tao\model\accessControl\PermissionChecker;
 use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\lock\LockManager;
@@ -1046,19 +1047,29 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         );
 
         $class = $this->getClass($id);
+
         if ($this->getRootClass()->equals($class)) {
             $success = false;
+            $deleted = false;
             $msg = __('You cannot delete the root node');
         } else {
             $label = $class->getLabel();
-            $success = $this->getClassService()->deleteClass($class);
-            $msg = $success ? __('%s has been deleted', $label) : __('Unable to delete %s', $label);
+
+            $classDeleter = $this->getPsrContainer()->get(ClassDeleter::class);
+            $classDeleter->delete($class, $this->getRootClass());
+
+            $success = true;
+            $deleted = $classDeleter->isDeleted($class);
+
+            $msg = $success
+                ? __('%s has been deleted', $label)
+                : __('Unable to delete %s', $label);
         }
 
         $this->returnJson([
             'success' => $success,
             'message' => $msg,
-            'deleted' => $success
+            'deleted' => $deleted,
         ]);
     }
 
