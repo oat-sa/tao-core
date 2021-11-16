@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model;
 
+use InvalidArgumentException;
 use core_kernel_classes_Class;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\OntologyIndex;
@@ -57,7 +58,12 @@ trait ClassServiceTrait
     public function deleteClass(core_kernel_classes_Class $class)
     {
         $classDeleter = $this->getClassDeleter();
-        $classDeleter->delete($class);
+
+        try {
+            $classDeleter->delete($class);
+        } catch (InvalidArgumentException $exception) {
+            return false;
+        }
 
         return $classDeleter->isDeleted($class);
     }

@@ -1055,9 +1055,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $label = $class->getLabel();
 
             $classDeleter = $this->getClassDeleter();
-            $classDeleter->delete($class);
 
-            $success = true;
+            try {
+                $classDeleter->delete($class);
+                $success = true;
+            } catch (InvalidArgumentException $exception) {
+                $success = false;
+            }
+
             $deleted = $classDeleter->isDeleted($class);
 
             $msg = $deleted
