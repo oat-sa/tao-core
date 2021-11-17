@@ -180,7 +180,7 @@ define([
      * @param $properties
      * @private
      */
-    function _wrapPropsInContainer($properties) {
+    function _wrapPropsInContainer($properties, featureFlags) {
         var $propertyContainer = getPropertyContainer(),
             // the reason why this is not done via a simple counter is that
             // the function could have been called multiple times, e.g. when
@@ -208,7 +208,7 @@ define([
                             $editContainer.addClass('property-edit-container');
 
 
-                            _hideProperties($editContainer);
+                            _hideProperties($editContainer, featureFlags);
                             _hideIndexes($editContainer);
 
                             if ($propertyMode.hasClass('property-mode-simple')) {
@@ -296,7 +296,7 @@ define([
      *
      * @param $properties (optional)
      */
-    function init($properties) {
+    function init($properties, featureFlags) {
         var $container = $('.content-block .xhtml_form:first form');
         if (!$container.length) {
             return;
@@ -314,7 +314,7 @@ define([
             }
             return;
         }
-        _wrapPropsInContainer($properties);
+        _wrapPropsInContainer($properties, featureFlags);
         _upgradeButtons($container, 'radio');
         _upgradeButtons($container, 'checkbox');
         _toggleModeBtn('disabled');
@@ -338,9 +338,12 @@ define([
 
     }
 
-    function _hideProperties($container) {
+    function _hideProperties($container, featureFlags) {
         $('.property', $container).each(function () {
             var $currentTarget = $(this);
+            if ($currentTarget.val() === 'notEmpty' && !featureFlags.FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED) {
+                $currentTarget.hide();
+            }
             while (!_.isEqual($currentTarget.parent()[0], $container[0])) {
                 $currentTarget = $currentTarget.parent();
             }

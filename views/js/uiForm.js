@@ -196,7 +196,7 @@
             });
 
             // modify properties
-            postRenderProps.init();
+            postRenderProps.init(context.featureFlags);
         },
 
         /**
@@ -730,16 +730,21 @@
             }
 
             function showDependsOnProperty() {
-            	const $this = $(this);
+                if (!context.featureFlags.FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED) {
+                    return;
+                }
+
+                const $this = $(this);
                 const classUri = $(document.getElementById('classUri')).val();
                 let propertyUriToSend;
-            	const listUri = $this.val();
+                const listUri = $this.val();
                 const dependsId = $(this)[0].id.match(/\d+_/)[0];
                 const dependsOnSelect = $(document.getElementById(`${dependsId}depends-on-property`));
                 const typeSelect = $(document.getElementById(`${dependsId}type`));
 
                 propertyUriToSend = $this.parent().parent().parent()[0].id;
                 propertyUriToSend = propertyUriToSend.replace('property_', '');
+
                 $.ajax({
                     url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
                     type: "GET",
