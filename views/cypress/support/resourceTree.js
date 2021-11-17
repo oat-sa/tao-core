@@ -130,7 +130,7 @@ Cypress.Commands.add('moveClass', (
         .getSettled(`.destination-selector a[title="${nameWhereMove}"]`)
         .click()
         .intercept('POST', `**/${moveClassUrl}*`).as('moveClass')
-        .intercept('GET', '**/getOntologyData**').as('treeRenderAfterMove')
+        .intercept('GET', '**/getOntologyData*').as('treeRenderAfterMove')
         .get('.actions button')
         .click()
         .get(moveConfirmSelector)
@@ -197,9 +197,11 @@ Cypress.Commands.add('deleteClass', (
     }
 
     cy.intercept('POST', `**/${deleteClassUrl}`).as('deleteClass')
+    cy.intercept('POST', '**/edit*').as('edit')
     cy.get(confirmSelector)
         .click();
     cy.wait('@deleteClass');
+    cy.wait('@edit');
 });
 
 /**
@@ -223,9 +225,11 @@ Cypress.Commands.add('deleteClassFromRoot', (
 ) => {
 
     cy.log('COMMAND: deleteClassFromRoot', name)
+        .intercept('POST', '**/edit*').as('edit')
         .getSettled(`${rootSelector} a:nth(0)`)
         .click()
         .get(`li[title="${name}"] a`)
+        .wait('@edit')
         .deleteClass(rootSelector, formSelector, deleteSelector, confirmSelector, deleteClassUrl, name, isConfirmCheckbox)
 });
 
@@ -237,9 +241,11 @@ Cypress.Commands.add('deleteClassFromRoot', (
 Cypress.Commands.add('addNode', (formSelector, addSelector) => {
     cy.log('COMMAND: addNode');
     cy.intercept('GET', `**/getOntologyData**`).as('treeRender');
+    cy.intercept('POST', '**/edit*').as('edit');
     cy.getSettled(addSelector).click();
     cy.get(formSelector).should('exist');
     cy.wait('@treeRender');
+    cy.wait('@edit');
 });
 
 /**

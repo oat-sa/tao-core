@@ -25,6 +25,8 @@
  */
  Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
     cy.log('COMMAND: renameSelectedClass', newName)
+        .intercept('POST', '**/editClassLabel*').as('editClassLabel')
+        .intercept('POST', '**/getOntologyData*').as('treeRender')
         .getSettled(`${formSelector} ${selectors.labelSelector}`)
         .clear()
         .type(newName)
@@ -35,7 +37,8 @@
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
         .get(`${formSelector} ${selectors.labelSelector}`).should('have.value', newName)
-        .wait('@treeRender');
+        .wait('@treeRender')
+        .wait('@editClassLabel');
 });
 
 /**
@@ -45,7 +48,7 @@
  * @param {String} newName
  */
 Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
-    cy.log('COMMAND: renameSelectedNode', newName)
+    cy.log('COMMAND: renameSelectedNode', newName)        
         .intercept('POST', `**${editUrl}`).as('edit')
         .intercept('GET', `**/getOntologyData**`).as('treeRender')
         .get(`${formSelector} ${selectors.labelSelector}`)
