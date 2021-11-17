@@ -45,6 +45,9 @@ class ClassDeleter implements ClassDeleterInterface
     /** @var Ontology */
     private $ontology;
 
+    /** @var core_kernel_classes_Property */
+    private $propertyIndex;
+
     public function __construct(
         ClassSpecificationInterface $rootClassSpecification,
         PermissionCheckerInterface $permissionChecker,
@@ -53,6 +56,8 @@ class ClassDeleter implements ClassDeleterInterface
         $this->rootClassSpecification = $rootClassSpecification;
         $this->permissionChecker = $permissionChecker;
         $this->ontology = $ontology;
+
+        $this->propertyIndex = $ontology->getProperty(self::PROPERTY_INDEX);
     }
 
     public function delete(core_kernel_classes_Class $class): void
@@ -128,7 +133,7 @@ class ClassDeleter implements ClassDeleterInterface
 
     private function deleteProperty(core_kernel_classes_Property $property): bool
     {
-        $indexes = $property->getPropertyValues($this->ontology->getProperty(self::PROPERTY_INDEX));
+        $indexes = $property->getPropertyValues($this->propertyIndex);
 
         if (!$property->delete(true)) {
             return false;
