@@ -71,9 +71,14 @@
         ];
     }
 
+    function hasAnyDependency($container) {
+        return _isHiddenDependsOn($container);
+    }
+
     return {
         toggle: toggleDependsOn,
-        getSupportedTypes: getSupportedTypes
+        getSupportedTypes: getSupportedTypes,
+        hasAnyDependency: hasAnyDependency
     }
 });
 
