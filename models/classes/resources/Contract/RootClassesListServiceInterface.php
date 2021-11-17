@@ -22,7 +22,17 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Contract;
 
+use core_kernel_classes_Class;
+
 interface RootClassesListServiceInterface
 {
+    /**
+     * @return core_kernel_classes_Class[]
+     */
     public function list(): array;
+
+    /**
+     * @return string[]
+     */
+    public function listUris(): array;
 }

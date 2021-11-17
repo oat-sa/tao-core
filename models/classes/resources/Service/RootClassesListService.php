@@ -22,7 +22,10 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Service;
 
+use oat\tao\model\menu\Tree;
+use oat\tao\model\menu\Section;
 use oat\tao\model\menu\MenuService;
+use oat\tao\model\menu\Perspective;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 
@@ -31,27 +34,53 @@ class RootClassesListService implements RootClassesListServiceInterface
     /** @var Ontology */
     private $ontology;
 
-    public function __construct(Ontology $ontology)
+    /** @var Perspective[] */
+    private $perspectives;
+
+    /**
+     * @param Perspective[]|null $perspectives
+     */
+    public function __construct(Ontology $ontology, array $perspectives = null)
     {
         $this->ontology = $ontology;
+        $this->perspectives = $perspectives ?? MenuService::getAllPerspectives();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function list(): array
     {
         $rootClasses = [];
 
-        foreach (MenuService::getAllPerspectives() as $perspective) {
-            foreach ($perspective->getChildren() as $structure) {
-                foreach ($structure->getTrees() as $tree) {
-                    $rootNode = $tree->get('rootNode');
+        foreach ($this->listUris() as $rootClassUri) {
+            $rootClasses[] = $this->ontology->getClass($rootClassUri);
+        }
 
-                    if (!empty($rootNode)) {
-                        $rootClasses[$rootNode] = $this->ontology->getClass($rootNode);
+        return $rootClasses;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function listUris(): array
+    {
+        $rootClassesUris = [];
+
+        foreach ($this->perspectives as $perspective) {
+            /** @var Section $structure */
+            foreach ($perspective->getChildren() as $structure) {
+                /** @var Tree $tree */
+                foreach ($structure->getTrees() as $tree) {
+                    $rootClassUri = $tree->get('rootNode');
+
+                    if (!empty($rootClassUri)) {
+                        $rootClassesUris[] = $rootClassUri;
                     }
                 }
             }
         }
 
-        return $rootClasses;
+        return $rootClassesUris;
     }
 }

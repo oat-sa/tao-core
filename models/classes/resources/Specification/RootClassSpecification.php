@@ -38,6 +38,6 @@ class RootClassSpecification implements ClassSpecificationInterface
 
     public function isSatisfiedBy(core_kernel_classes_Class $class): bool
     {
-        return array_key_exists($class->getUri(), $this->rootClassesListService->list());
+        return in_array($class->getUri(), $this->rootClassesListService->listUris(), true);
     }
 }

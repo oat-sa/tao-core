@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model;
 
-use InvalidArgumentException;
+use Throwable;
 use core_kernel_classes_Class;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\OntologyIndex;
@@ -61,11 +61,11 @@ trait ClassServiceTrait
 
         try {
             $classDeleter->delete($class);
-        } catch (InvalidArgumentException $exception) {
+
+            return $classDeleter->isDeleted($class);
+        } catch (Throwable $exception) {
             return false;
         }
-
-        return $classDeleter->isDeleted($class);
     }
 
     /**

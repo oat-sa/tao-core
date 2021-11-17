@@ -104,13 +104,9 @@ class ClassDeleter implements ClassDeleterInterface
         $status = true;
 
         foreach ($instances as $instance) {
-            if (!$this->permissionChecker->hasWriteAccess($instance->getUri())) {
+            if (!$this->permissionChecker->hasWriteAccess($instance->getUri()) || !$instance->delete()) {
                 $status = false;
-
-                continue;
             }
-
-            $instance->delete();
         }
 
         return $status;
