@@ -25,6 +25,7 @@ namespace oat\tao\helpers\form\elements\xhtml;
 
 use oat\tao\helpers\form\elements\ElementValue;
 use oat\tao\helpers\form\elements\AbstractSearchElement;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use tao_helpers_Display;
 use tao_helpers_form_elements_xhtml_Hidden;
 use tao_helpers_Uri;
@@ -149,12 +150,15 @@ var getParentListValues = function () {
 }
 
 var createRequestData = function (term) {
-    return {
+    const objectToRespond = {
         propertyUri: '$this->name',
         subject: term,
-        exclude: getCurrentValues(),
-        parentListValues: getParentListValues()
+        exclude: getCurrentValues()
     }
+    if (ifFlagIsEnabled()) {
+        objectToRespond['parentListValues'] = getParentListValues()
+    }
+    return objectToRespond
 };
 javascript;
     }
@@ -191,5 +195,10 @@ javascript;
         $input->setValue(implode(static::VALUE_DELIMITER, $uris));
 
         return $input;
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceLocator()
     }
 }
