@@ -510,10 +510,16 @@
                     }
 
                     const name = $groupNode.find('.property-heading-label')[0].innerText;
-                    const dependantPropName = dependencies.reduce((prev, next, index) => {
-                        const delimiter = index === dependencies.length - 1 ? '' : ', '
-                        return prev + `${next.label}${delimiter}`;
-                    }, '');
+                    let dependantPropName;
+
+                    if (dependsOnValue) {
+                        dependantPropName = dependsOnValue;
+                    } else {
+                        dependantPropName = dependencies.reduce((prev, next, index) => {
+                            const delimiter = index === dependencies.length - 1 ? '' : ', '
+                            return prev + `${next.label}${delimiter}`;
+                        }, '');
+                    }
 
                     const message = `<b>${name}</b>
                         ${__('currently has a dependency established with ')}
