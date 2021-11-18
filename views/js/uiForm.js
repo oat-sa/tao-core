@@ -502,9 +502,10 @@
 
             async function getPropertyRemovalConfirmation($groupNode, uri) {
                 const dependencies = await checkForDependency(uri);
+                const dependsOnValue = $($groupNode).find('select[id$="_depends-on-property"]').val();
 
                 return new Promise((resolve, reject) => {
-                    if (!dependencies.length) {
+                    if (!dependencies.length && !dependsOnValue) {
                         return regularConfirmantion() ? resolve() : reject();
                     }
 
