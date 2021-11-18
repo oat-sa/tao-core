@@ -98,6 +98,34 @@ abstract class AbstractXhtmlSearchElement extends AbstractSearchElement
 require(['jquery'], function ($) {
     $baseVariables
 
+    var getPropertyDataAndParseUri = function(callback, initialSelection, multiple) {
+        $.ajax({
+            url: '$searchUrl',
+            data: {
+                propertyUri: '$this->name',
+                subject: '   ',
+                exclude: [],
+                parentListValues: getParentListValues()
+            },
+            global: false,
+            success: function(response) {
+                let parsedResponse = normalizeResponse(response).results;
+
+                if (multiple) {
+                    initialSelection.forEach(selection => {
+                        let index = parsedResponse.findIndex(parsedSelection => parsedSelection.id === selection.id);
+                        if (index !== -1) {
+                            selection.text = parsedResponse[index].text;
+                        }
+                    });
+                } else {
+                    initialSelection.text = parsedResponse.find(selection => selection.id === initialSelection.id).text;
+                }
+                callback(initialSelection);
+            }
+        });
+    }
+
     \$input.select2({
         width: '100%',
         multiple: $multipleValue,
@@ -118,7 +146,17 @@ require(['jquery'], function ($) {
                 : `<span class="invalid-choice">\${choice.text}</span>`;
         },
         initSelection: function (element, callback) {
-            callback($initSelection);
+            let initialSelection = $initSelection;
+
+            if (initialSelection) {
+                if ((Array.isArray(initialSelection)
+                    && initialSelection.find(selection => selection.id === selection.text))
+                    || initialSelection.id === initialSelection.text) {
+                        return getPropertyDataAndParseUri(callback, initialSelection, $multipleValue);
+                }
+
+                callback(initialSelection);
+            }
         }
     });
 
@@ -148,7 +186,7 @@ var getParentListValues = function () {
     return primaryPropUri ? $('#' + primaryPropUri).val().split(',') : '';
 }
 
-var createRequestData = function (term) {
+var createRequestData = function (term, exclude) {
     return {
         propertyUri: '$this->name',
         subject: term,
@@ -156,6 +194,7 @@ var createRequestData = function (term) {
         parentListValues: getParentListValues()
     }
 };
+
 javascript;
     }
 
