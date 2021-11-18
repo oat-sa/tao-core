@@ -512,7 +512,7 @@
                     const name = $groupNode.find('.property-heading-label')[0].innerText;
                     let dependantPropName;
 
-                    if (dependsOnValue) {
+                    if (!dependencies.length) {
                         dependantPropName = $($groupNode).find('select[id$="_depends-on-property"] option:selected').text();
                     } else {
                         dependantPropName = dependencies.reduce((prev, next, index) => {
