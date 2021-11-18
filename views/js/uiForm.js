@@ -834,8 +834,13 @@
             function filterDependsOnProperty() {
                 const $changedProperty = $(this);
                 let primaryPropertyUri = $(this).closest('[id^="property_"]').attr('id').replace('property_', '');
+
                 $(`option[value=${primaryPropertyUri}]`).each((i, option) => {
                     option.disabled = !!$changedProperty.val().trim();
+
+                    if (option.selected && option.disabled) {
+                        option.parentElement.value = ' ';
+                    }
                 });
             }
 
