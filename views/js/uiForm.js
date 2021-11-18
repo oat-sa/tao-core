@@ -831,6 +831,10 @@
                 });
             }
 
+            /**
+             * Filter the list of options available on the "depends on" select
+             * based on the properties that already have a dependency declared
+             */
             function filterDependsOnProperty() {
                 const $changedProperty = $(this);
                 let primaryPropertyUri = $(this).closest('[id^="property_"]').attr('id').replace('property_', '');
@@ -862,10 +866,6 @@
                 showDependsOnProperty.bind(this)(e);
             }
 
-            /**
-             * On change of depends on property, the values are filtered
-             * @param {event} e
-             */
             function onDependsOnPropertyChange(e) {
                 filterDependsOnProperty.bind(this)(e);
             }
