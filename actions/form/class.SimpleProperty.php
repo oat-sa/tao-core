@@ -20,21 +20,23 @@
  *
  */
 
+use oat\tao\model\TaoOntology;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
+use Psr\Container\ContainerInterface;
 use oat\oatbox\service\ServiceManager;
+use oat\taoBackOffice\model\tree\TreeService;
+use oat\tao\model\search\index\OntologyIndex;
+use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\helpers\form\elements\xhtml\Validators;
 use oat\tao\helpers\form\Factory\ElementFactoryContext;
 use oat\tao\helpers\form\Factory\ElementFactoryInterface;
-use oat\tao\helpers\form\Factory\ElementPropertyEmptyListValuesFactory;
-use oat\tao\helpers\form\Factory\ElementPropertyListValuesFactory;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
+use oat\tao\helpers\form\Factory\ElementPropertyListValuesFactory;
+use oat\tao\helpers\form\Factory\ElementPropertyEmptyListValuesFactory;
 use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
-use oat\tao\model\TaoOntology;
-use oat\taoBackOffice\model\tree\TreeService;
-use oat\tao\helpers\form\ValidationRuleRegistry;
-use oat\tao\model\search\index\OntologyIndex;
-use Psr\Container\ContainerInterface;
 
 /**
  * Enable you to edit a property
@@ -258,6 +260,14 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 
     private function disableValues(core_kernel_classes_Property $property, Validators $element): void
     {
+        $isListsDependencyEnabled = $this->getFeatureFlagChecker()->isEnabled(
+            FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
+        );
+
+        if (!$isListsDependencyEnabled) {
+            return;
+        }
+
         $requiredParentValues = ['notEmpty'];
         $disabledValues = [];
 
@@ -292,6 +302,11 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
     private function getElementPropertyEmptyListValuesFactory(): ElementFactoryInterface
     {
         return $this->getContainer()->get(ElementPropertyEmptyListValuesFactory::class);
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getContainer()->get(FeatureFlagChecker::class);
     }
 
     private function getContainer(): ContainerInterface
