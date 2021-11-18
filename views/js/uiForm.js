@@ -829,6 +829,10 @@
                 showDependsOnProperty.bind(this)(e);
             }
 
+            /**
+             * On change of depends on property, the values are filtered
+             * @param {event} e
+             */
             function onDependsOnPropertyChange(e) {
                 filterDependsOnProperty.bind(this)(e);
             }
