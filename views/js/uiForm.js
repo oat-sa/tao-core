@@ -513,7 +513,7 @@
                     let dependantPropName;
 
                     if (dependsOnValue) {
-                        dependantPropName = dependsOnValue;
+                        dependantPropName = $($groupNode).find('select[id$="_depends-on-property"] option:selected').text();
                     } else {
                         dependantPropName = dependencies.reduce((prev, next, index) => {
                             const delimiter = index === dependencies.length - 1 ? '' : ', '
