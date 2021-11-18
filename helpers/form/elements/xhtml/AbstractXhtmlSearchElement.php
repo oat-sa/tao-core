@@ -101,7 +101,12 @@ require(['jquery'], function ($) {
     var getPropertyDataAndParseUri = function(callback, initialSelection, multiple) {
         $.ajax({
             url: '$searchUrl',
-            data: createRequestData('   '),
+            data: {
+                propertyUri: '$this->name',
+                subject: '   ',
+                exclude: [],
+                parentListValues: getParentListValues()
+            },
             global: false,
             success: function(response) {
                 let parsedResponse = normalizeResponse(response).results;
@@ -181,7 +186,7 @@ var getParentListValues = function () {
     return primaryPropUri ? $('#' + primaryPropUri).val().split(',') : '';
 }
 
-var createRequestData = function (term) {
+var createRequestData = function (term, exclude) {
     return {
         propertyUri: '$this->name',
         subject: term,
