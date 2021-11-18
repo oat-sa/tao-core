@@ -196,7 +196,7 @@
             });
 
             // modify properties
-            postRenderProps.init(context.featureFlags);
+            postRenderProps.init();
         },
 
         /**
