@@ -530,7 +530,15 @@
                     confirmDialog(
                         message,
                         resolve,
-                        reject
+                        reject,
+                        {
+                            buttons: {
+                                labels: {
+                                    ok:__('Delete'),
+                                    cancel: __('Cancel')
+                                }
+                            }
+                        }
                     );
                 })
             }
