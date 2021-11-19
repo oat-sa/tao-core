@@ -484,7 +484,18 @@
             /**
              * Validate if property has a dependency
              */
-            async function checkForDependency(propertyUri) {
+            async function checkForDependency(propertyUri, $groupNode) {
+                if (!context.featureFlags.FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED) {
+                    return;
+                }
+
+                const typeSelectVal = $groupNode.find('select[id$="type"]').val();
+                const listSelectVal = $groupNode.find('select[id$="range"] option:selected').data('remote-list');
+
+                if (!dependsOn.getSupportedTypes().includes(typeSelectVal) || !listSelectVal) {
+                    return;
+                }
+
                 try {
                     const url = urlUtil.route('getDependentProperties', 'PropertyValues', 'tao', { propertyUri })
                     const response = await request({ url, method: 'GET', dataType: 'json'})
@@ -501,7 +512,7 @@
             }
 
             async function getPropertyRemovalConfirmation($groupNode, uri) {
-                const dependencies = await checkForDependency(uri);
+                const dependencies = await checkForDependency(uri, $groupNode);
 
                 return new Promise((resolve, reject) => {
                     if (!dependencies.length) {
@@ -741,9 +752,18 @@
                 const dependsId = $(this)[0].id.match(/\d+_/)[0];
                 const dependsOnSelect = $(document.getElementById(`${dependsId}depends-on-property`));
                 const typeSelect = $(document.getElementById(`${dependsId}type`));
+                const listSelect = $(`#${dependsId}range option:selected`);
 
                 propertyUriToSend = $this.parent().parent().parent()[0].id;
                 propertyUriToSend = propertyUriToSend.replace('property_', '');
+
+                if (!dependsOn.getSupportedTypes().includes(typeSelect.val())) {
+                    return;
+                }
+
+                if (!listSelect.data('remote-list')) {
+                    return;
+                }
 
                 $.ajax({
                     url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
@@ -760,7 +780,6 @@
                             response
                             && response.data
                             && response.data.length !== 0
-                            && dependsOn.getSupportedTypes().includes(typeSelect.val())
                         ) {
                             const backendValues = response.data.reduce(
                                 (accumulator, currentValue) => {
@@ -796,6 +815,9 @@
             }
 
             function onTypeChange(e, flag) {
+                List - single choice - dropdown
+                List - single choice - search
+                List - multiple choice - search
                 showPropertyList.bind(this)(e, flag === 'initial');
 
                 const fieldIndex = $(this)[0].id.match(/\d+_/)[0];
