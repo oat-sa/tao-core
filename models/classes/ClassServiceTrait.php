@@ -62,7 +62,7 @@ trait ClassServiceTrait
         try {
             $classDeleter->delete($class);
 
-            return $classDeleter->isDeleted($class);
+            return true;
         } catch (Throwable $exception) {
             return false;
         }

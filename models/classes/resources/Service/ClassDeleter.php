@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Service;
 
-use InvalidArgumentException;
+use Throwable;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
@@ -31,6 +31,8 @@ use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\accessControl\PermissionCheckerInterface;
 use oat\tao\model\resources\Contract\ClassDeleterInterface;
 use oat\tao\model\Specification\ClassSpecificationInterface;
+use oat\tao\model\resources\Exception\ClassDeletionException;
+use oat\tao\model\resources\Exception\PartialClassDeletionException;
 
 class ClassDeleter implements ClassDeleterInterface
 {
@@ -63,15 +65,32 @@ class ClassDeleter implements ClassDeleterInterface
     public function delete(core_kernel_classes_Class $class): void
     {
         if ($this->rootClassSpecification->isSatisfiedBy($class)) {
-            throw new InvalidArgumentException(__('You cannot delete the root node'));
+            throw new ClassDeletionException(
+                'The class provided for deletion cannot be the root class.',
+                __('You cannot delete the root node')
+            );
         }
 
-        $this->deleteClassRecursively($class);
-    }
+        try {
+            $this->deleteClassRecursively($class);
+        } catch (Throwable $exception) {
+            throw new PartialClassDeletionException(
+                sprintf(
+                    'Unable to delete class "%s::%s" (%s).',
+                    $class->getLabel(),
+                    $class->getUri(),
+                    $exception->getMessage()
+                ),
+                __('Unable to delete the selected resource')
+            );
+        }
 
-    public function isDeleted(core_kernel_classes_Class $class): bool
-    {
-        return !$class->exists();
+        if ($class->exists()) {
+            throw new PartialClassDeletionException(
+                'Unable to delete the selected resource because you do not have the required rights to delete part of its content.',
+                __('Unable to delete the selected resource because you do not have the required rights to delete part of its content.')
+            );
+        }
     }
 
     private function deleteClassRecursively(core_kernel_classes_Class $class): bool

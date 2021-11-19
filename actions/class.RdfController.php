@@ -41,7 +41,9 @@ use tao_helpers_form_FormContainer as FormContainer;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 use oat\tao\model\resources\Contract\ClassDeleterInterface;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
+use oat\tao\model\resources\Exception\ClassDeletionException;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
+use oat\tao\model\resources\Exception\PartialClassDeletionException;
 
 /**
  * The TaoModule is an abstract controller,
@@ -1051,24 +1053,19 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         try {
             $classDeleter->delete($class);
-            $deleted = $classDeleter->isDeleted($class);
             $success = true;
-            $msg = $deleted
-                ? __('%s has been deleted', $label)
-                : __(
-                    'Unable to delete the selected resource because you do not have the required rights to delete part of its content.',
-                    $label
-                );
-        } catch (Throwable $exception) {
-            $success = false;
+            $deleted = true;
+            $message = __('%s has been deleted', $label);
+        } catch (PartialClassDeletionException | ClassDeletionException $exception) {
+            $success = $exception instanceof PartialClassDeletionException;
             $deleted = false;
-            $msg = $exception->getMessage();
+
+            $message = $exception->getUserMessage();
         }
 
         $this->returnJson([
             'success' => $success,
-            'message' => $msg,
-            'msg' => $msg,
+            'message' => $message,
             'deleted' => $deleted,
         ]);
     }

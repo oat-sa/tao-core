@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\resources\Service;
 
-use InvalidArgumentException;
 use core_kernel_classes_Class;
 use oat\generis\test\TestCase;
 use core_kernel_classes_Property;
@@ -32,6 +31,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\resources\Service\ClassDeleter;
 use oat\tao\model\accessControl\PermissionCheckerInterface;
 use oat\tao\model\Specification\ClassSpecificationInterface;
+use oat\tao\model\resources\Exception\ClassDeletionException;
+use oat\tao\model\resources\Exception\PartialClassDeletionException;
 
 /**
  * @TODO Refactor tests - code duplicates
@@ -162,10 +163,6 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('delete')
             ->willReturn(true);
-        $class
-            ->expects($this->once())
-            ->method('exists')
-            ->willReturn(false);
 
         $classPropertyIndexResource = $this->createMock(core_kernel_classes_Resource::class);
         $classPropertyIndexResource
@@ -200,7 +197,6 @@ class ClassDeleterTest extends TestCase
             );
 
         $this->sut->delete($class);
-        $this->assertTrue($this->sut->isDeleted($class));
     }
 
     public function testDeleteRootClass(): void
@@ -214,7 +210,7 @@ class ClassDeleterTest extends TestCase
             ->expects($this->never())
             ->method('hasReadAccess');
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(ClassDeletionException::class);
 
         $this->sut->delete($this->createMock(core_kernel_classes_Class::class));
     }
@@ -244,8 +240,9 @@ class ClassDeleterTest extends TestCase
             ->method('exists')
             ->willReturn(true);
 
+        $this->expectException(PartialClassDeletionException::class);
+
         $this->sut->delete($class);
-        $this->assertFalse($this->sut->isDeleted($class));
     }
 
     public function testDeleteNoAccessToSubClass(): void
@@ -309,8 +306,9 @@ class ClassDeleterTest extends TestCase
             ->method('exists')
             ->willReturn(true);
 
+        $this->expectException(PartialClassDeletionException::class);
+
         $this->sut->delete($class);
-        $this->assertFalse($this->sut->isDeleted($class));
     }
 
     public function testDeleteReadAccessToClasses(): void
@@ -391,8 +389,9 @@ class ClassDeleterTest extends TestCase
             ->method('exists')
             ->willReturn(true);
 
+        $this->expectException(PartialClassDeletionException::class);
+
         $this->sut->delete($class);
-        $this->assertFalse($this->sut->isDeleted($class));
     }
 
     public function testDeleteWithoutAccessToClassInstances(): void
@@ -499,8 +498,9 @@ class ClassDeleterTest extends TestCase
             ->with('subClassPropertyIndexUri')
             ->willReturn($subClassPropertyIndexResource);
 
+        $this->expectException(PartialClassDeletionException::class);
+
         $this->sut->delete($class);
-        $this->assertFalse($this->sut->isDeleted($class));
     }
 
     public function testDeleteWithoutAccessToSubClassInstances(): void
@@ -584,8 +584,9 @@ class ClassDeleterTest extends TestCase
             ->expects($this->never())
             ->method('getResource');
 
+        $this->expectException(PartialClassDeletionException::class);
+
         $this->sut->delete($class);
-        $this->assertFalse($this->sut->isDeleted($class));
     }
 
     public function testDeleteWithoutWriteAccessToClass(): void
@@ -693,8 +694,9 @@ class ClassDeleterTest extends TestCase
             ->with('subClassPropertyIndexUri')
             ->willReturn($subClassPropertyIndexResource);
 
+        $this->expectException(PartialClassDeletionException::class);
+
         $this->sut->delete($class);
-        $this->assertFalse($this->sut->isDeleted($class));
     }
 
     public function testDeleteWithoutWriteAccessToSubClass(): void
@@ -779,7 +781,8 @@ class ClassDeleterTest extends TestCase
             ->expects($this->never())
             ->method('getResource');
 
+        $this->expectException(PartialClassDeletionException::class);
+
         $this->sut->delete($class);
-        $this->assertFalse($this->sut->isDeleted($class));
     }
 }

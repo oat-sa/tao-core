@@ -20,17 +20,8 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\resources\Contract;
+namespace oat\tao\model\resources\Exception;
 
-use core_kernel_classes_Class;
-use oat\tao\model\resources\Exception\ClassDeletionException;
-use oat\tao\model\resources\Exception\PartialClassDeletionException;
-
-interface ClassDeleterInterface
+class PartialClassDeletionException extends ClassDeletionException
 {
-    /**
-     * @throws ClassDeletionException
-     * @throws PartialClassDeletionException
-     */
-    public function delete(core_kernel_classes_Class $class): void;
 }

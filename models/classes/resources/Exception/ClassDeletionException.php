@@ -20,17 +20,26 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\resources\Contract;
+namespace oat\tao\model\resources\Exception;
 
-use core_kernel_classes_Class;
-use oat\tao\model\resources\Exception\ClassDeletionException;
-use oat\tao\model\resources\Exception\PartialClassDeletionException;
+use Exception;
+use Throwable;
+use common_exception_UserReadableException;
 
-interface ClassDeleterInterface
+class ClassDeletionException extends Exception implements common_exception_UserReadableException
 {
-    /**
-     * @throws ClassDeletionException
-     * @throws PartialClassDeletionException
-     */
-    public function delete(core_kernel_classes_Class $class): void;
+    /** @var string */
+    private $userMessage;
+
+    public function __construct(string $message, string $userMessage, int $code = 500, Throwable $throwable = null)
+    {
+        $this->userMessage = $userMessage;
+
+        parent::__construct($message, $code, $throwable);
+    }
+
+    public function getUserMessage(): string
+    {
+        return $this->userMessage;
+    }
 }
