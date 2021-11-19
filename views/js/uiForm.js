@@ -757,11 +757,7 @@
                 propertyUriToSend = $this.parent().parent().parent()[0].id;
                 propertyUriToSend = propertyUriToSend.replace('property_', '');
 
-                if (!dependsOn.getSupportedTypes().includes(typeSelect.val())) {
-                    return;
-                }
-
-                if (!listSelect.data('remote-list')) {
+                if (!dependsOn.getSupportedTypes().includes(typeSelect.val()) || !listSelect.data('remote-list')) {
                     return;
                 }
 
@@ -815,9 +811,6 @@
             }
 
             function onTypeChange(e, flag) {
-                List - single choice - dropdown
-                List - single choice - search
-                List - multiple choice - search
                 showPropertyList.bind(this)(e, flag === 'initial');
 
                 const fieldIndex = $(this)[0].id.match(/\d+_/)[0];
