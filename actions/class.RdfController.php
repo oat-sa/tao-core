@@ -1046,33 +1046,29 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         );
 
         $class = $this->getClass($id);
+        $label = $class->getLabel();
+        $classDeleter = $this->getClassDeleter();
 
-        if ($this->getRootClass()->equals($class)) {
-            $success = false;
-            $deleted = false;
-            $msg = __('You cannot delete the root node');
-        } else {
-            $label = $class->getLabel();
-
-            $classDeleter = $this->getClassDeleter();
-
-            try {
-                $classDeleter->delete($class);
-                $success = true;
-            } catch (Throwable $exception) {
-                $success = false;
-            }
-
+        try {
+            $classDeleter->delete($class);
             $deleted = $classDeleter->isDeleted($class);
-
+            $success = true;
             $msg = $deleted
                 ? __('%s has been deleted', $label)
-                : __('Unable to delete %s', $label);
+                : __(
+                    'Unable to delete the selected resource because you do not have the required rights to delete part of its content.',
+                    $label
+                );
+        } catch (Throwable $exception) {
+            $success = false;
+            $deleted = false;
+            $msg = $exception->getMessage();
         }
 
         $this->returnJson([
             'success' => $success,
             'message' => $msg,
+            'msg' => $msg,
             'deleted' => $deleted,
         ]);
     }

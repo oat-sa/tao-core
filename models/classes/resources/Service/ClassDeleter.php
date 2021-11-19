@@ -63,7 +63,7 @@ class ClassDeleter implements ClassDeleterInterface
     public function delete(core_kernel_classes_Class $class): void
     {
         if ($this->rootClassSpecification->isSatisfiedBy($class)) {
-            throw new InvalidArgumentException('The class provided for deletion cannot be the root class.');
+            throw new InvalidArgumentException(__('You cannot delete the root node'));
         }
 
         $this->deleteClassRecursively($class);
