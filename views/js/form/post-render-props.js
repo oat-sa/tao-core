@@ -19,10 +19,18 @@
 define([
     'jquery',
     'i18n',
+    'context',
     'ui/feedback',
     './depends-on-property',
     './secondary-property'
-], function ($, __, feedback, dependsOn, secondaryProps) {
+], function (
+    $,
+    __,
+    context,
+    feedback,
+    dependsOn,
+    secondaryProps
+) {
     'use strict';
 
     function _createCopyToClipboardHandler($field) {
@@ -180,7 +188,7 @@ define([
      * @param $properties
      * @private
      */
-    function _wrapPropsInContainer($properties, featureFlags) {
+    function _wrapPropsInContainer($properties) {
         var $propertyContainer = getPropertyContainer(),
             // the reason why this is not done via a simple counter is that
             // the function could have been called multiple times, e.g. when
@@ -208,7 +216,7 @@ define([
                             $editContainer.addClass('property-edit-container');
 
 
-                            _hideProperties($editContainer, featureFlags);
+                            _hideProperties($editContainer);
                             _hideIndexes($editContainer);
 
                             if ($propertyMode.hasClass('property-mode-simple')) {
@@ -296,7 +304,7 @@ define([
      *
      * @param $properties (optional)
      */
-    function init($properties, featureFlags) {
+    function init($properties) {
         var $container = $('.content-block .xhtml_form:first form');
         if (!$container.length) {
             return;
@@ -314,7 +322,7 @@ define([
             }
             return;
         }
-        _wrapPropsInContainer($properties, featureFlags);
+        _wrapPropsInContainer($properties);
         _upgradeButtons($container, 'radio');
         _upgradeButtons($container, 'checkbox');
         _toggleModeBtn('disabled');
@@ -338,10 +346,10 @@ define([
 
     }
 
-    function _hideProperties($container, featureFlags) {
+    function _hideProperties($container) {
         $('.property', $container).each(function () {
             var $currentTarget = $(this);
-            if ($currentTarget.val() === 'notEmpty' && !featureFlags.FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED) {
+            if ($currentTarget.val() === 'notEmpty' && !context.featureFlags.FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED) {
                 $currentTarget.hide();
             }
             while (!_.isEqual($currentTarget.parent()[0], $container[0])) {

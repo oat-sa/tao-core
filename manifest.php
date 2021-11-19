@@ -29,6 +29,7 @@ use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
 use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\export\ServiceProvider\MetadataServiceProvider;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\model\user\TaoRoles;
@@ -274,6 +275,7 @@ return [
     'containerServiceProviders' => [
         ListsServiceProvider::class,
         FormServiceProvider::class,
+        MetadataServiceProvider::class,
         FeatureFlagServiceProvider::class,
     ],
 ];
