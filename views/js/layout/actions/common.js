@@ -282,10 +282,14 @@ define([
                         } else {
                             if (response.success && !response.deleted) {
                                 $(actionContext.tree).trigger('refresh.taotree');
-                                reject(response.msg || __('Unable to delete the selected resource because you do not have the required rights to delete part of its content.'));
+                                reject(response.msg
+                                       || response.message
+                                       || __('Unable to delete the selected resource because you do not have the required rights to delete part of its content.'));
                             }
 
-                            reject(response.msg || __("Unable to delete the selected resource"));
+                            reject(response.msg
+                                   || response.message
+                                   || __("Unable to delete the selected resource"));
                         }
                     });
                 }, function cancel(){
