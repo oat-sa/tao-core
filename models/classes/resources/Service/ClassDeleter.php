@@ -76,6 +76,10 @@ class ClassDeleter implements ClassDeleterInterface
 
     private function deleteClassRecursively(core_kernel_classes_Class $class): bool
     {
+        if (!$this->permissionChecker->hasReadAccess($class->getUri())) {
+            return false;
+        }
+
         $isClassDeletable = true;
 
         foreach ($class->getSubClasses() as $subClass) {
@@ -91,12 +95,9 @@ class ClassDeleter implements ClassDeleterInterface
      */
     private function deleteClass(core_kernel_classes_Class $class, bool $isClassDeletable): bool
     {
-        $classUri = $class->getUri();
-
-        return $this->permissionChecker->hasReadAccess($classUri)
-            && $this->deleteInstances($class->getInstances())
+        return $this->deleteInstances($class->getInstances())
             && $isClassDeletable
-            && $this->permissionChecker->hasWriteAccess($classUri)
+            && $this->permissionChecker->hasWriteAccess($class->getUri())
             && $this->deleteProperties($class->getProperties())
             && $class->delete();
     }

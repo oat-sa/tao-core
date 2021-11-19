@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\resources\Service;
 
+use InvalidArgumentException;
 use core_kernel_classes_Class;
 use oat\generis\test\TestCase;
 use core_kernel_classes_Property;
@@ -33,7 +34,7 @@ use oat\tao\model\accessControl\PermissionCheckerInterface;
 use oat\tao\model\Specification\ClassSpecificationInterface;
 
 /**
- * @TODO Improve tests
+ * @TODO Refactor tests - code duplicates
  */
 class ClassDeleterTest extends TestCase
 {
@@ -69,6 +70,15 @@ class ClassDeleterTest extends TestCase
             ->method('isSatisfiedBy')
             ->willReturn(false);
 
+        $this->permissionChecker
+            ->expects($this->exactly(2))
+            ->method('hasReadAccess')
+            ->willReturn(true);
+        $this->permissionChecker
+            ->expects($this->exactly(4))
+            ->method('hasWriteAccess')
+            ->willReturn(true);
+
         $subClassInstance = $this->createMock(core_kernel_classes_Resource::class);
         $subClassInstance
             ->expects($this->once())
@@ -91,13 +101,13 @@ class ClassDeleterTest extends TestCase
 
         $subClass = $this->createMock(core_kernel_classes_Class::class);
         $subClass
+            ->expects($this->exactly(2))
+            ->method('getUri')
+            ->willReturn('subClassUri');
+        $subClass
             ->expects($this->once())
             ->method('getSubClasses')
             ->willReturn([]);
-        $subClass
-            ->expects($this->once())
-            ->method('getUri')
-            ->willReturn('subClassUri');
         $subClass
             ->expects($this->once())
             ->method('getInstances')
@@ -133,13 +143,13 @@ class ClassDeleterTest extends TestCase
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class
+            ->expects($this->exactly(2))
+            ->method('getUri')
+            ->willReturn('classUri');
+        $class
             ->expects($this->once())
             ->method('getSubClasses')
             ->willReturn([$subClass]);
-        $class
-            ->expects($this->once())
-            ->method('getUri')
-            ->willReturn('classUri');
         $class
             ->expects($this->once())
             ->method('getInstances')
@@ -156,15 +166,6 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('exists')
             ->willReturn(false);
-
-        $this->permissionChecker
-            ->expects($this->exactly(2))
-            ->method('hasReadAccess')
-            ->willReturn(true);
-        $this->permissionChecker
-            ->expects($this->exactly(4))
-            ->method('hasWriteAccess')
-            ->willReturn(true);
 
         $classPropertyIndexResource = $this->createMock(core_kernel_classes_Resource::class);
         $classPropertyIndexResource
@@ -200,5 +201,585 @@ class ClassDeleterTest extends TestCase
 
         $this->sut->delete($class);
         $this->assertTrue($this->sut->isDeleted($class));
+    }
+
+    public function testDeleteRootClass(): void
+    {
+        $this->rootClassSpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $this->permissionChecker
+            ->expects($this->never())
+            ->method('hasReadAccess');
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->sut->delete($this->createMock(core_kernel_classes_Class::class));
+    }
+
+    public function testDeleteNoAccessToClass(): void
+    {
+        $this->rootClassSpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
+            ->willReturn(false);
+
+        $this->permissionChecker
+            ->expects($this->once())
+            ->method('hasReadAccess')
+            ->willReturn(false);
+
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classUri');
+        $class
+            ->expects($this->never())
+            ->method('getSubClasses');
+        $class
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
+
+        $this->sut->delete($class);
+        $this->assertFalse($this->sut->isDeleted($class));
+    }
+
+    public function testDeleteNoAccessToSubClass(): void
+    {
+        $this->rootClassSpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
+            ->willReturn(false);
+
+        $this->permissionChecker
+            ->expects($this->exactly(2))
+            ->method('hasReadAccess')
+            ->willReturnCallback(
+                static function (string $uri): bool {
+                    return $uri === 'classUri';
+                }
+            );
+        $this->permissionChecker
+            ->expects($this->once())
+            ->method('hasWriteAccess')
+            ->with('classInstanceUri')
+            ->willReturn(true);
+
+        $subClass = $this->createMock(core_kernel_classes_Class::class);
+        $subClass
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('subClassUri');
+        $subClass
+            ->expects($this->never())
+            ->method('getSubClasses');
+
+        $classInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $classInstance
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classInstanceUri');
+        $classInstance
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classUri');
+        $class
+            ->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn([$subClass]);
+        $class
+            ->expects($this->once())
+            ->method('getInstances')
+            ->willReturn([$classInstance]);
+        $class
+            ->expects($this->never())
+            ->method('getProperties');
+        $class
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
+
+        $this->sut->delete($class);
+        $this->assertFalse($this->sut->isDeleted($class));
+    }
+
+    public function testDeleteReadAccessToClasses(): void
+    {
+        $this->rootClassSpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
+            ->willReturn(false);
+
+        $this->permissionChecker
+            ->expects($this->exactly(2))
+            ->method('hasReadAccess')
+            ->willReturn(true);
+        $this->permissionChecker
+            ->expects($this->exactly(3))
+            ->method('hasWriteAccess')
+            ->willReturnCallback(
+                static function (string $uri): bool {
+                    return $uri !== 'subClassUri';
+                }
+            );
+
+        $subClassInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $subClassInstance
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('subClassInstanceUri');
+        $subClassInstance
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $subClass = $this->createMock(core_kernel_classes_Class::class);
+        $subClass
+            ->expects($this->exactly(2))
+            ->method('getUri')
+            ->willReturn('subClassUri');
+        $subClass
+            ->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn([]);
+        $subClass
+            ->expects($this->once())
+            ->method('getInstances')
+            ->willReturn([$subClassInstance]);
+        $subClass
+            ->expects($this->never())
+            ->method('getProperties');
+
+        $classInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $classInstance
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classInstanceUri');
+        $classInstance
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classUri');
+        $class
+            ->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn([$subClass]);
+        $class
+            ->expects($this->once())
+            ->method('getInstances')
+            ->willReturn([$classInstance]);
+        $class
+            ->expects($this->never())
+            ->method('getProperties');
+        $class
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
+
+        $this->sut->delete($class);
+        $this->assertFalse($this->sut->isDeleted($class));
+    }
+
+    public function testDeleteWithoutAccessToClassInstances(): void
+    {
+        $this->rootClassSpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
+            ->willReturn(false);
+
+        $this->permissionChecker
+            ->expects($this->exactly(2))
+            ->method('hasReadAccess')
+            ->willReturn(true);
+        $this->permissionChecker
+            ->expects($this->exactly(3))
+            ->method('hasWriteAccess')
+            ->willReturnCallback(
+                static function (string $uri): bool {
+                    return $uri !== 'classInstanceUri';
+                }
+            );
+
+        $subClassInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $subClassInstance
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('subClassInstanceUri');
+        $subClassInstance
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $subClassProperty = $this->createMock(core_kernel_classes_Property::class);
+        $subClassProperty
+            ->expects($this->once())
+            ->method('getPropertyValues')
+            ->willReturn(['subClassPropertyIndexUri']);
+        $subClassProperty
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $subClass = $this->createMock(core_kernel_classes_Class::class);
+        $subClass
+            ->expects($this->exactly(2))
+            ->method('getUri')
+            ->willReturn('subClassUri');
+        $subClass
+            ->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn([]);
+        $subClass
+            ->expects($this->once())
+            ->method('getInstances')
+            ->willReturn([$subClassInstance]);
+        $subClass
+            ->expects($this->once())
+            ->method('getProperties')
+            ->willReturn([$subClassProperty]);
+        $subClass
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $classInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $classInstance
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classInstanceUri');
+        $classInstance
+            ->expects($this->never())
+            ->method('delete');
+
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classUri');
+        $class
+            ->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn([$subClass]);
+        $class
+            ->expects($this->once())
+            ->method('getInstances')
+            ->willReturn([$classInstance]);
+        $class
+            ->expects($this->never())
+            ->method('getProperties');
+        $class
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
+
+        $subClassPropertyIndexResource = $this->createMock(core_kernel_classes_Resource::class);
+        $subClassPropertyIndexResource
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $this->ontology
+            ->expects($this->once())
+            ->method('getResource')
+            ->with('subClassPropertyIndexUri')
+            ->willReturn($subClassPropertyIndexResource);
+
+        $this->sut->delete($class);
+        $this->assertFalse($this->sut->isDeleted($class));
+    }
+
+    public function testDeleteWithoutAccessToSubClassInstances(): void
+    {
+        $this->rootClassSpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
+            ->willReturn(false);
+
+        $this->permissionChecker
+            ->expects($this->exactly(2))
+            ->method('hasReadAccess')
+            ->willReturn(true);
+        $this->permissionChecker
+            ->expects($this->exactly(2))
+            ->method('hasWriteAccess')
+            ->willReturnCallback(
+                static function (string $uri): bool {
+                    return $uri === 'classInstanceUri';
+                }
+            );
+
+        $subClassInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $subClassInstance
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('subClassInstanceUri');
+        $subClassInstance
+            ->expects($this->never())
+            ->method('delete');
+
+        $subClass = $this->createMock(core_kernel_classes_Class::class);
+        $subClass
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('subClassUri');
+        $subClass
+            ->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn([]);
+        $subClass
+            ->expects($this->once())
+            ->method('getInstances')
+            ->willReturn([$subClassInstance]);
+        $subClass
+            ->expects($this->never())
+            ->method('getProperties');
+
+        $classInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $classInstance
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classInstanceUri');
+        $classInstance
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classUri');
+        $class
+            ->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn([$subClass]);
+        $class
+            ->expects($this->once())
+            ->method('getInstances')
+            ->willReturn([$classInstance]);
+        $class
+            ->expects($this->never())
+            ->method('getProperties');
+        $class
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
+
+        $this->ontology
+            ->expects($this->never())
+            ->method('getResource');
+
+        $this->sut->delete($class);
+        $this->assertFalse($this->sut->isDeleted($class));
+    }
+
+    public function testDeleteWithoutWriteAccessToClass(): void
+    {
+        $this->rootClassSpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
+            ->willReturn(false);
+
+        $this->permissionChecker
+            ->expects($this->exactly(2))
+            ->method('hasReadAccess')
+            ->willReturn(true);
+        $this->permissionChecker
+            ->expects($this->exactly(4))
+            ->method('hasWriteAccess')
+            ->willReturnCallback(
+                static function (string $uri): bool {
+                    return $uri !== 'classUri';
+                }
+            );
+
+        $subClassInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $subClassInstance
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('subClassInstanceUri');
+        $subClassInstance
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $subClassProperty = $this->createMock(core_kernel_classes_Property::class);
+        $subClassProperty
+            ->expects($this->once())
+            ->method('getPropertyValues')
+            ->willReturn(['subClassPropertyIndexUri']);
+        $subClassProperty
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $subClass = $this->createMock(core_kernel_classes_Class::class);
+        $subClass
+            ->expects($this->exactly(2))
+            ->method('getUri')
+            ->willReturn('subClassUri');
+        $subClass
+            ->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn([]);
+        $subClass
+            ->expects($this->once())
+            ->method('getInstances')
+            ->willReturn([$subClassInstance]);
+        $subClass
+            ->expects($this->once())
+            ->method('getProperties')
+            ->willReturn([$subClassProperty]);
+        $subClass
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $classInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $classInstance
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classInstanceUri');
+        $classInstance
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class
+            ->expects($this->exactly(2))
+            ->method('getUri')
+            ->willReturn('classUri');
+        $class
+            ->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn([$subClass]);
+        $class
+            ->expects($this->once())
+            ->method('getInstances')
+            ->willReturn([$classInstance]);
+        $class
+            ->expects($this->never())
+            ->method('getProperties');
+        $class
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
+
+        $subClassPropertyIndexResource = $this->createMock(core_kernel_classes_Resource::class);
+        $subClassPropertyIndexResource
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $this->ontology
+            ->expects($this->once())
+            ->method('getResource')
+            ->with('subClassPropertyIndexUri')
+            ->willReturn($subClassPropertyIndexResource);
+
+        $this->sut->delete($class);
+        $this->assertFalse($this->sut->isDeleted($class));
+    }
+
+    public function testDeleteWithoutWriteAccessToSubClass(): void
+    {
+        $this->rootClassSpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
+            ->willReturn(false);
+
+        $this->permissionChecker
+            ->expects($this->exactly(2))
+            ->method('hasReadAccess')
+            ->willReturn(true);
+        $this->permissionChecker
+            ->expects($this->exactly(3))
+            ->method('hasWriteAccess')
+            ->willReturnCallback(
+                static function (string $uri): bool {
+                    return $uri !== 'subClassUri';
+                }
+            );
+
+        $subClassInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $subClassInstance
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('subClassInstanceUri');
+        $subClassInstance
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $subClass = $this->createMock(core_kernel_classes_Class::class);
+        $subClass
+            ->expects($this->exactly(2))
+            ->method('getUri')
+            ->willReturn('subClassUri');
+        $subClass
+            ->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn([]);
+        $subClass
+            ->expects($this->once())
+            ->method('getInstances')
+            ->willReturn([$subClassInstance]);
+        $subClass
+            ->expects($this->never())
+            ->method('getProperties');
+
+        $classInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $classInstance
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classInstanceUri');
+        $classInstance
+            ->expects($this->once())
+            ->method('delete')
+            ->willReturn(true);
+
+        $class = $this->createMock(core_kernel_classes_Class::class);
+        $class
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classUri');
+        $class
+            ->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn([$subClass]);
+        $class
+            ->expects($this->once())
+            ->method('getInstances')
+            ->willReturn([$classInstance]);
+        $class
+            ->expects($this->never())
+            ->method('getProperties');
+        $class
+            ->expects($this->once())
+            ->method('exists')
+            ->willReturn(true);
+
+        $this->ontology
+            ->expects($this->never())
+            ->method('getResource');
+
+        $this->sut->delete($class);
+        $this->assertFalse($this->sut->isDeleted($class));
     }
 }
