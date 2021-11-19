@@ -493,7 +493,7 @@
                 const listSelectVal = $groupNode.find('select[id$="range"] option:selected').data('remote-list');
 
                 if (!dependsOn.getSupportedTypes().includes(typeSelectVal) || !listSelectVal) {
-                    return;
+                    return [];
                 }
 
                 try {
