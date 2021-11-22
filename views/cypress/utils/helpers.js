@@ -38,3 +38,11 @@ export function getFullUrl(url, trailing = '') {
     }
     return url;
 }
+
+/**
+ * Get random number
+ * @returns {Number}
+ */
+ export function getRandomNumber() {
+   return Math.floor(Math.random() * 1000);
+}

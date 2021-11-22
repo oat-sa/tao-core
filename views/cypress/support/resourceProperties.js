@@ -25,6 +25,8 @@
  */
  Cypress.Commands.add('renameSelectedClass', (formSelector, newName) => {
     cy.log('COMMAND: renameSelectedClass', newName)
+        .intercept('POST', '**/editClassLabel*').as('editClassLabel')
+        .intercept('POST', '**/getOntologyData*').as('treeRender')
         .getSettled(`${formSelector} ${selectors.labelSelector}`)
         .clear()
         .type(newName)
@@ -35,7 +37,8 @@
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
         .get(`${formSelector} ${selectors.labelSelector}`).should('have.value', newName)
-        .wait('@treeRender');
+        .wait('@treeRender')
+        .wait('@editClassLabel');
 });
 
 /**
@@ -45,7 +48,7 @@
  * @param {String} newName
  */
 Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
-    cy.log('COMMAND: renameSelectedNode', newName)
+    cy.log('COMMAND: renameSelectedNode', newName)        
         .intercept('POST', `**${editUrl}`).as('edit')
         .intercept('GET', `**/getOntologyData**`).as('treeRender')
         .get(`${formSelector} ${selectors.labelSelector}`)
@@ -57,6 +60,7 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
         .get('#feedback-1, #feedback-2').should('not.exist')
         .get(formSelector).should('exist')
         .wait('@treeRender')
+        .wait('@edit')
         .get(`${formSelector} ${selectors.labelSelector}`).should('have.value', newName)
 });
 
@@ -98,6 +102,7 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
 Cypress.Commands.add('removePropertyFromClass', (options) => {
     cy.log('COMMAND: removePropertyFromClass', options.nodeName, options.propertyName);
     cy.intercept('POST', `**/${ options.editUrl }`).as('edit');
+    cy.intercept('POST', '**/removeClassProperty').as('removeClassProperty');
     cy.selectNode(options.nodeName, options.nodePropertiesForm, options.className);
     cy.getSettled(options.manageSchemaSelector).click();
     cy.wait('@edit');
@@ -107,4 +112,5 @@ Cypress.Commands.add('removePropertyFromClass', (options) => {
             cy.get('.property-deleter').click();
         });
     cy.on('window:confirm', () => true);
+    cy.wait('@removeClassProperty').its('response.body').its('success').should('eq', true);
 });

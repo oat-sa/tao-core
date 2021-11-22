@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 use oat\tao\controller\api\Users;
 use oat\tao\model\resources\ResourcesServiceProvider;
+use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
 use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\func\AccessRule;
@@ -276,6 +277,7 @@ return [
         ListsServiceProvider::class,
         FormServiceProvider::class,
         MetadataServiceProvider::class,
+        FeatureFlagServiceProvider::class,
         ResourcesServiceProvider::class,
     ],
 ];

@@ -19,10 +19,18 @@
 define([
     'jquery',
     'i18n',
+    'context',
     'ui/feedback',
     './depends-on-property',
     './secondary-property'
-], function ($, __, feedback, dependsOn, secondaryProps) {
+], function (
+    $,
+    __,
+    context,
+    feedback,
+    dependsOn,
+    secondaryProps
+) {
     'use strict';
 
     function _createCopyToClipboardHandler($field) {
@@ -341,6 +349,9 @@ define([
     function _hideProperties($container) {
         $('.property', $container).each(function () {
             var $currentTarget = $(this);
+            if ($currentTarget.val() === 'notEmpty' && !context.featureFlags.FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED) {
+                $currentTarget.hide();
+            }
             while (!_.isEqual($currentTarget.parent()[0], $container[0])) {
                 $currentTarget = $currentTarget.parent();
             }

@@ -27,6 +27,7 @@ use tao_helpers_Uri;
 use tao_helpers_Context;
 use core_kernel_classes_Class;
 use oat\tao\model\TaoOntology;
+use core_kernel_classes_Literal;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use tao_helpers_form_FormElement;
@@ -34,9 +35,11 @@ use tao_helpers_form_FormFactory;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\form\elements\TreeAware;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use tao_helpers_form_elements_AsyncFile as AsyncFile;
 use tao_helpers_form_elements_Authoring as Authoring;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use tao_helpers_form_elements_GenerisAsyncFile as GenerisAsyncFile;
@@ -91,10 +94,16 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
-        $parentProperty = $this->getParentProperty($property);
+        $isListsDependencyEnabled = $this->getFeatureFlagChecker()->isEnabled(
+            FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
+        );
 
-        if ($parentProperty) {
-            $element->addAttribute('data-depends-on-property', tao_helpers_Uri::encode($parentProperty->getUri()));
+        if ($isListsDependencyEnabled) {
+            $parentProperty = $this->getParentProperty($property);
+
+            if ($parentProperty) {
+                $element->addAttribute('data-depends-on-property', tao_helpers_Uri::encode($parentProperty->getUri()));
+            }
         }
 
         if ($element->getWidget() !== $widgetUri) {
@@ -210,10 +219,10 @@ class ElementMapFactory extends ConfigurableService
     ): ValueCollection {
         $searchRequest = (new ValueCollectionSearchRequest())->setValueCollectionUri($range->getUri());
 
-        $selectedValue = $this->instance->getOnePropertyValue($property)->literal;
+        $selectedValue = $this->instance->getOnePropertyValue($property);
 
-        if (!empty($selectedValue)) {
-            $searchRequest->setSelectedValues($selectedValue);
+        if ($selectedValue instanceof core_kernel_classes_Literal && !empty($selectedValue->literal)) {
+            $searchRequest->setSelectedValues($selectedValue->literal);
         }
 
         if ($parentProperty && $this->instance) {
@@ -228,5 +237,10 @@ class ElementMapFactory extends ConfigurableService
         }
 
         return $this->getValueCollectionService()->findAll(new ValueCollectionSearchInput($searchRequest));
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceLocator()->getContainer()->get(FeatureFlagChecker::class);
     }
 }

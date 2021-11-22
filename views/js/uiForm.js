@@ -36,7 +36,7 @@
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
     'ui/datetime/picker',
-    'ui/dialog/confirmDelete',
+    'ui/dialog/confirm',
     'core/request',
     'util/url',
 ], function (
@@ -484,7 +484,18 @@
             /**
              * Validate if property has a dependency
              */
-            async function checkForDependency(propertyUri) {
+            async function checkForDependency(propertyUri, $groupNode) {
+                if (!context.featureFlags.FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED) {
+                    return;
+                }
+
+                const typeSelectVal = $groupNode.find('select[id$="type"]').val();
+                const listSelectVal = $groupNode.find('select[id$="range"] option:selected').data('remote-list');
+
+                if (!dependsOn.getSupportedTypes().includes(typeSelectVal) || !listSelectVal) {
+                    return [];
+                }
+
                 try {
                     const url = urlUtil.route('getDependentProperties', 'PropertyValues', 'tao', { propertyUri })
                     const response = await request({ url, method: 'GET', dataType: 'json'})
@@ -501,28 +512,45 @@
             }
 
             async function getPropertyRemovalConfirmation($groupNode, uri) {
-                const dependencies = await checkForDependency(uri);
+                const dependencies = await checkForDependency(uri, $groupNode);
+                const dependsOnValue = $($groupNode).find('select[id$="_depends-on-property"]').val();
 
                 return new Promise((resolve, reject) => {
-                    if (!dependencies.length) {
+                    if (!dependencies.length && dependsOnValue === ' ') {
                         return regularConfirmantion() ? resolve() : reject();
+                    }
+
+                    const name = $groupNode.find('.property-heading-label')[0].innerText;
+                    let dependantPropName;
+
+                    if (!dependencies.length) {
+                        dependantPropName = $($groupNode).find('select[id$="_depends-on-property"] option:selected').text();
                     } else {
-                        const name = $groupNode.find('.property-heading-label')[0].innerText;
-                        const dependantPropName = dependencies.reduce((prev, next, index) => {
+                        dependantPropName = dependencies.reduce((prev, next, index) => {
                             const delimiter = index === dependencies.length - 1 ? '' : ', '
                             return prev + `${next.label}${delimiter}`;
                         }, '');
-
-                        confirmDialog(
-                            `<b>${name}</b>
-                            ${__('currently has a dependency established with ')}
-                            <b>${dependantPropName}</b>.
-                            ${__('Deleting this property will also remove the dependency')}.
-                            <br><br> ${__('Are you wish to delete it')}?`,
-                            resolve,
-                            reject
-                        );
                     }
+
+                    const message = `<b>${name}</b>
+                        ${__('currently has a dependency established with ')}
+                        <b>${dependantPropName}</b>.
+                        ${__('Deleting this property will also remove the dependency')}.
+                        <br><br> ${__('Are you sure you wish to delete it')}?`
+
+                    confirmDialog(
+                        message,
+                        resolve,
+                        reject,
+                        {
+                            buttons: {
+                                labels: {
+                                    ok:__('Delete'),
+                                    cancel: __('Cancel')
+                                }
+                            }
+                        }
+                    );
                 })
             }
 
@@ -730,16 +758,26 @@
             }
 
             function showDependsOnProperty() {
-            	const $this = $(this);
+                if (!context.featureFlags.FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED) {
+                    return;
+                }
+
+                const $this = $(this);
                 const classUri = $(document.getElementById('classUri')).val();
                 let propertyUriToSend;
-            	const listUri = $this.val();
+                const listUri = $this.val();
                 const dependsId = $(this)[0].id.match(/\d+_/)[0];
                 const dependsOnSelect = $(document.getElementById(`${dependsId}depends-on-property`));
                 const typeSelect = $(document.getElementById(`${dependsId}type`));
+                const listSelect = $(`#${dependsId}range option:selected`);
 
                 propertyUriToSend = $this.parent().parent().parent()[0].id;
                 propertyUriToSend = propertyUriToSend.replace('property_', '');
+
+                if (!dependsOn.getSupportedTypes().includes(typeSelect.val()) || !listSelect.data('remote-list')) {
+                    return;
+                }
+
                 $.ajax({
                     url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
                     type: "GET",
@@ -755,7 +793,6 @@
                             response
                             && response.data
                             && response.data.length !== 0
-                            && dependsOn.getSupportedTypes().includes(typeSelect.val())
                         ) {
                             const backendValues = response.data.reduce(
                                 (accumulator, currentValue) => {
