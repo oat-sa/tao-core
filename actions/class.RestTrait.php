@@ -19,7 +19,10 @@
  *
  */
 
+use oat\oatbox\log\logger\AdvancedLogger;
 use oat\tao\helpers\RestExceptionHandler;
+use oat\tao\model\http\Controller;
+use Psr\Log\LoggerInterface;
 
 trait tao_actions_RestTrait
 {
@@ -98,6 +101,10 @@ trait tao_actions_RestTrait
     {
         $handler = new RestExceptionHandler();
         $handler->sendHeader($exception);
+
+        $this->logException($exception);
+
+        //FIXME @TODO Log errors here
 
         $data = [];
         if ($withMessage) {
@@ -187,5 +194,26 @@ trait tao_actions_RestTrait
             $defaultMessage = $exception->getMessage();
         }
         return ($exception instanceof common_exception_UserReadableException) ? $exception->getUserMessage() :  $defaultMessage;
+    }
+
+    private function logException(Throwable $exception): void
+    {
+        $logger = $this->getAdvancedLogger();
+
+        if ($logger) {
+            $logger->error(
+                $exception->getMessage(),
+                [
+                    AdvancedLogger::CONTEXT_EXCEPTION => $exception
+                ]
+            );
+        }
+    }
+
+    private function getAdvancedLogger(): ?LoggerInterface
+    {
+        return $this instanceof Controller && method_exists($this, 'getPsrContainer')
+            ? $this->getPsrContainer()->get(AdvancedLogger::class)
+            : null;
     }
 }
