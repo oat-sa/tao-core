@@ -104,8 +104,6 @@ trait tao_actions_RestTrait
 
         $this->logException($exception);
 
-        //FIXME @TODO Log errors here
-
         $data = [];
         if ($withMessage) {
             $data['success']    =  false;
@@ -212,7 +210,7 @@ trait tao_actions_RestTrait
 
     private function getAdvancedLogger(): ?LoggerInterface
     {
-        return $this instanceof Controller && method_exists($this, 'getPsrContainer')
+        return $this instanceof Controller
             ? $this->getPsrContainer()->get(AdvancedLogger::class)
             : null;
     }
