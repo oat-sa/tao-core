@@ -36,7 +36,7 @@
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
     'ui/datetime/picker',
-    'ui/dialog/confirmDelete',
+    'ui/dialog/confirm',
     'core/request',
     'util/url',
 ], function (
@@ -513,27 +513,44 @@
 
             async function getPropertyRemovalConfirmation($groupNode, uri) {
                 const dependencies = await checkForDependency(uri, $groupNode);
+                const dependsOnValue = $($groupNode).find('select[id$="_depends-on-property"]').val();
 
                 return new Promise((resolve, reject) => {
-                    if (!dependencies.length) {
+                    if (!dependencies.length && dependsOnValue === ' ') {
                         return regularConfirmantion() ? resolve() : reject();
+                    }
+
+                    const name = $groupNode.find('.property-heading-label')[0].innerText;
+                    let dependantPropName;
+
+                    if (!dependencies.length) {
+                        dependantPropName = $($groupNode).find('select[id$="_depends-on-property"] option:selected').text();
                     } else {
-                        const name = $groupNode.find('.property-heading-label')[0].innerText;
-                        const dependantPropName = dependencies.reduce((prev, next, index) => {
+                        dependantPropName = dependencies.reduce((prev, next, index) => {
                             const delimiter = index === dependencies.length - 1 ? '' : ', '
                             return prev + `${next.label}${delimiter}`;
                         }, '');
-
-                        confirmDialog(
-                            `<b>${name}</b>
-                            ${__('currently has a dependency established with ')}
-                            <b>${dependantPropName}</b>.
-                            ${__('Deleting this property will also remove the dependency')}.
-                            <br><br> ${__('Are you wish to delete it')}?`,
-                            resolve,
-                            reject
-                        );
                     }
+
+                    const message = `<b>${name}</b>
+                        ${__('currently has a dependency established with ')}
+                        <b>${dependantPropName}</b>.
+                        ${__('Deleting this property will also remove the dependency')}.
+                        <br><br> ${__('Are you sure you wish to delete it')}?`
+
+                    confirmDialog(
+                        message,
+                        resolve,
+                        reject,
+                        {
+                            buttons: {
+                                labels: {
+                                    ok:__('Delete'),
+                                    cancel: __('Cancel')
+                                }
+                            }
+                        }
+                    );
                 })
             }
 
