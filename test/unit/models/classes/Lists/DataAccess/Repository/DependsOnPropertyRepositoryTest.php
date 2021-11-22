@@ -30,6 +30,7 @@ use core_kernel_classes_Resource;
 use tao_helpers_form_elements_Combobox;
 use PHPUnit\Framework\MockObject\MockObject;
 use core_kernel_classes_ContainerCollection;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
@@ -42,6 +43,9 @@ class DependsOnPropertyRepositoryTest extends TestCase
 {
     /** @var DependsOnPropertyRepository */
     private $sut;
+
+    /** @var FeatureFlagCheckerInterface|MockObject */
+    private $featureFlagChecker;
 
     /** @var PrimaryPropertySpecification|MockObject */
     private $primaryPropertySpecification;
@@ -57,6 +61,7 @@ class DependsOnPropertyRepositoryTest extends TestCase
 
     public function setUp(): void
     {
+        $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
         $this->primaryPropertySpecification = $this->createMock(PrimaryPropertySpecification::class);
         $this->remoteListPropertySpecification = $this->createMock(
             RemoteListPropertySpecification::class
@@ -67,6 +72,7 @@ class DependsOnPropertyRepositoryTest extends TestCase
         );
 
         $this->sut = new DependsOnPropertyRepository(
+            $this->featureFlagChecker,
             $this->primaryPropertySpecification,
             $this->remoteListPropertySpecification,
             $this->dependentPropertySpecification,
@@ -74,8 +80,32 @@ class DependsOnPropertyRepositoryTest extends TestCase
         );
     }
 
+    public function testWithDisabledFeatureFlag(): void
+    {
+        $this->featureFlagChecker
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(false);
+
+        $this->primaryPropertySpecification
+            ->expects($this->never())
+            ->method('isSatisfiedBy');
+
+        $property = $this->createMock(core_kernel_classes_Property::class);
+
+        $this->assertEquals(
+            new DependsOnPropertyCollection(),
+            $this->sut->findAll([DependsOnPropertyRepositoryInterface::FILTER_PROPERTY => $property])
+        );
+    }
+
     public function testFindAllWithPrimaryProperty(): void
     {
+        $this->featureFlagChecker
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(true);
+
         $this->primaryPropertySpecification
             ->expects($this->once())
             ->method('isSatisfiedBy')
@@ -97,6 +127,11 @@ class DependsOnPropertyRepositoryTest extends TestCase
 
     public function testFindAllWithEmptyDomain(): void
     {
+        $this->featureFlagChecker
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(true);
+
         $this->primaryPropertySpecification
             ->expects($this->once())
             ->method('isSatisfiedBy')
@@ -123,6 +158,11 @@ class DependsOnPropertyRepositoryTest extends TestCase
 
     public function testFindAllWithoutPropertiesAndClass(): void
     {
+        $this->featureFlagChecker
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(true);
+
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('class or property filter need to be provided');
 
@@ -131,6 +171,11 @@ class DependsOnPropertyRepositoryTest extends TestCase
 
     public function testFindAllWithoutValidProperty(): void
     {
+        $this->featureFlagChecker
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(true);
+
         $parentUri = 'parentUri';
         $parentProperty = $this->createProperty($parentUri);
 
@@ -170,6 +215,11 @@ class DependsOnPropertyRepositoryTest extends TestCase
 
     public function testFindAllWithOneValidProperty(): void
     {
+        $this->featureFlagChecker
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(true);
+
         $parentUri = 'parentUri';
         $parentProperty = $this->createProperty($parentUri);
 
@@ -210,6 +260,11 @@ class DependsOnPropertyRepositoryTest extends TestCase
 
     public function testFindAllWithClassOnly(): void
     {
+        $this->featureFlagChecker
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(true);
+
         $parentUri = 'parentUri';
         $parentProperty = $this->createProperty($parentUri);
 
