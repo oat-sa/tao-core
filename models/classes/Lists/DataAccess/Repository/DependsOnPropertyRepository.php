@@ -25,11 +25,13 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 use InvalidArgumentException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
-use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
-use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use tao_helpers_form_elements_Combobox;
 use tao_helpers_form_GenerisFormFactory;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
+use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\model\Lists\Business\Domain\DependsOnProperty;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Specification\PropertySpecificationInterface;
 use oat\tao\model\Lists\Business\Domain\DependsOnPropertyCollection;
 use oat\tao\model\Lists\Business\Contract\DependsOnPropertyRepositoryInterface;
@@ -43,8 +45,8 @@ class DependsOnPropertyRepository implements DependsOnPropertyRepositoryInterfac
         SearchTextBox::WIDGET_ID
     ];
 
-    /** @var core_kernel_classes_Property[] */
-    private $properties;
+    /** @var FeatureFlagCheckerInterface */
+    private $featureFlagChecker;
 
     /** @var PropertySpecificationInterface */
     private $primaryPropertySpecification;
@@ -58,12 +60,17 @@ class DependsOnPropertyRepository implements DependsOnPropertyRepositoryInterfac
     /** @var ParentPropertyListRepositoryInterface */
     private $parentPropertyListRepository;
 
+    /** @var core_kernel_classes_Property[] */
+    private $properties;
+
     public function __construct(
+        FeatureFlagCheckerInterface $featureFlagChecker,
         PropertySpecificationInterface $primaryPropertySpecification,
         PropertySpecificationInterface $remoteListPropertySpecification,
         PropertySpecificationInterface $dependentPropertySpecification,
         ParentPropertyListRepositoryInterface $parentPropertyListRepository
     ) {
+        $this->featureFlagChecker = $featureFlagChecker;
         $this->primaryPropertySpecification = $primaryPropertySpecification;
         $this->remoteListPropertySpecification = $remoteListPropertySpecification;
         $this->dependentPropertySpecification = $dependentPropertySpecification;
@@ -78,6 +85,10 @@ class DependsOnPropertyRepository implements DependsOnPropertyRepositoryInterfac
     public function findAll(array $filter): DependsOnPropertyCollection
     {
         $collection = new DependsOnPropertyCollection();
+
+        if (!$this->featureFlagChecker->isEnabled(FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED)) {
+            return $collection;
+        }
 
         if (empty($filter[self::FILTER_PROPERTY]) && empty($filter[self::FILTER_CLASS])) {
             throw new InvalidArgumentException('class or property filter need to be provided');
