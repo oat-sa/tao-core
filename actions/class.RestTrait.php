@@ -20,6 +20,7 @@
  */
 
 use oat\oatbox\log\logger\AdvancedLogger;
+use oat\oatbox\log\logger\extender\ContextExtenderInterface;
 use oat\tao\helpers\RestExceptionHandler;
 use oat\tao\model\http\Controller;
 use Psr\Log\LoggerInterface;
@@ -202,7 +203,7 @@ trait tao_actions_RestTrait
             $logger->error(
                 $exception->getMessage(),
                 [
-                    AdvancedLogger::CONTEXT_EXCEPTION => $exception
+                    ContextExtenderInterface::CONTEXT_EXCEPTION => $exception
                 ]
             );
         }
