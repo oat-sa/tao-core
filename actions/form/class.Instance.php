@@ -17,8 +17,7 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2017      (update and modification) Open Assessment Technologies SA ;
- *
+ *               2017-2021 (update and modification) Open Assessment Technologies SA ;
  */
 
 use oat\generis\model\OntologyRdfs;
@@ -38,7 +37,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
-
  */
 class tao_actions_form_Instance extends tao_actions_form_Generis
 {
@@ -114,7 +112,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
 
             //map properties widgets to form elements
             $elementFactory = $this->getElementFactory();
-            if($instance != null) {
+            if ($instance != null) {
                 $elementFactory->withInstance($instance);
             }
 
@@ -179,7 +177,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
             $this->form->addElement($element[0]);
         }
 
-        //add an hidden elt for the class uri
+        // Add a hidden element for the class uri
         $classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
         $classUriElt->setValue(tao_helpers_Uri::encode($clazz->getUri()));
         $this->form->addElement($classUriElt, true);
