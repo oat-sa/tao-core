@@ -112,10 +112,13 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
                 continue;
             }
 
-            //map properties widgets to form elments
-            $element = $this->getElementFactory()
-                ->withInstance($instance)
-                ->create($property);
+            //map properties widgets to form elements
+            $elementFactory = $this->getElementFactory();
+            if($instance != null) {
+                $elementFactory->withInstance($instance);
+            }
+
+            $element = $elementFactory->create($property);
 
             if ($element !== null) {
                 // take instance values to populate the form
