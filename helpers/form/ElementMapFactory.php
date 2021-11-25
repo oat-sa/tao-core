@@ -219,13 +219,15 @@ class ElementMapFactory extends ConfigurableService
     ): ValueCollection {
         $searchRequest = (new ValueCollectionSearchRequest())->setValueCollectionUri($range->getUri());
 
-        $selectedValue = $this->instance->getOnePropertyValue($property);
+        if ($this->instance instanceof core_kernel_classes_Resource) {
+            $selectedValue = $this->instance->getOnePropertyValue($property);
 
-        if ($selectedValue instanceof core_kernel_classes_Literal && !empty($selectedValue->literal)) {
-            $searchRequest->setSelectedValues($selectedValue->literal);
+            if ($selectedValue instanceof core_kernel_classes_Literal && !empty($selectedValue->literal)) {
+                $searchRequest->setSelectedValues($selectedValue->literal);
+            }
         }
 
-        if ($parentProperty && $this->instance) {
+        if ($parentProperty && $this->instance instanceof core_kernel_classes_Resource) {
             $parentPropertyValues = [];
 
             foreach ($this->instance->getPropertyValuesCollection($parentProperty) as $parentPropertyValue) {
