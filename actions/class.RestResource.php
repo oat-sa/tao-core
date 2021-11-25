@@ -20,8 +20,11 @@
  */
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\log\logger\AdvancedLogger;
+use oat\oatbox\log\logger\extender\ContextExtenderInterface;
 use oat\tao\model\resources\ResourceService;
 use oat\oatbox\log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class tao_actions_RestResourceController
@@ -312,6 +315,13 @@ class tao_actions_RestResource extends tao_actions_CommonModule
      */
     protected function returnFailure(Exception $exception, $withMessage = true)
     {
+        $this->getAdvancedLogger()->error(
+            $exception->getMessage(),
+            [
+                ContextExtenderInterface::CONTEXT_EXCEPTION => $exception
+            ]
+        );
+
         $data = [];
         if ($withMessage) {
             $data['success'] = false;
@@ -357,5 +367,10 @@ class tao_actions_RestResource extends tao_actions_CommonModule
     protected function getResourceService()
     {
         return $this->getServiceLocator()->get(ResourceService::SERVICE_ID);
+    }
+
+    private function getAdvancedLogger(): LoggerInterface
+    {
+        return $this->getPsrContainer()->get(AdvancedLogger::class);
     }
 }
