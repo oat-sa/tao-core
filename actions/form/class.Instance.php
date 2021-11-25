@@ -178,7 +178,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
             $this->form->addElement($element[0]);
         }
 
-        // Add a hidden element for the class uri
+        //add an hidden elt for the class uri
         $classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
         $classUriElt->setValue(tao_helpers_Uri::encode($clazz->getUri()));
         $this->form->addElement($classUriElt, true);
