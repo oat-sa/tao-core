@@ -112,6 +112,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
 
             //map properties widgets to form elements
             $elementFactory = $this->getElementFactory();
+
             if ($instance instanceof core_kernel_classes_Resource) {
                 $elementFactory->withInstance($instance);
             }
