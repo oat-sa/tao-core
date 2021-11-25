@@ -225,17 +225,17 @@ class ElementMapFactory extends ConfigurableService
             if ($selectedValue instanceof core_kernel_classes_Literal && !empty($selectedValue->literal)) {
                 $searchRequest->setSelectedValues($selectedValue->literal);
             }
-        }
 
-        if ($parentProperty && $this->instance instanceof core_kernel_classes_Resource) {
-            $parentPropertyValues = [];
+            if ($parentProperty) {
+                $parentPropertyValues = [];
 
-            foreach ($this->instance->getPropertyValuesCollection($parentProperty) as $parentPropertyValue) {
-                $parentPropertyValues[] = (string)$parentPropertyValue;
+                foreach ($this->instance->getPropertyValuesCollection($parentProperty) as $parentPropertyValue) {
+                    $parentPropertyValues[] = (string)$parentPropertyValue;
+                }
+
+                $searchRequest->setPropertyUri($property->getUri());
+                $searchRequest->setParentListValues(...$parentPropertyValues);
             }
-
-            $searchRequest->setPropertyUri($property->getUri());
-            $searchRequest->setParentListValues(...$parentPropertyValues);
         }
 
         return $this->getValueCollectionService()->findAll(new ValueCollectionSearchInput($searchRequest));
