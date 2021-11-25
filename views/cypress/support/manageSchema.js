@@ -47,6 +47,16 @@ import selectors from "../../../../taoItems/views/cypress/utils/selectors";
     cy.wait('@editClass');
 });
 
+/**
+ * Find an input in manage schema
+ * @param {Object} options - configuration object containing all target variables
+ * @param {String} options.input - input selector
+ * @param {String} options.position - position of the tinput in the form
+ * @param {String} options.type - type of the input
+ * @param {String} options.editClassSelector - url for wait on submit
+ * @param {String} options.propertyEdit - selector of property
+ * @param {String} options.newValue - new value to asign to that input
+ */
 Cypress.Commands.add('findInputInManageSchema', (options) => {
 
    cy.log('COMMAND: findInputInManageSchema', options.input);
