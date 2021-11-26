@@ -70,7 +70,6 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
                     [
                         'classUri' => $classUri,
                         'classPermissions' => $classPermissions[$classUri],
-                        ContextExtenderInterface::CONTEXT_INCLUDE_USER_ROLES => true,
                     ]
                 );
             }
@@ -125,7 +124,6 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
                 [
                     'instanceUri' => $uri,
                     'instancePermissions' => $permissions[$uri],
-                    ContextExtenderInterface::CONTEXT_INCLUDE_USER_ROLES => true,
                 ]
             );
         }
@@ -159,10 +157,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
                 $exception = new ResourceAccessDeniedException($uri);
                 $this->getAdvancedLogger()->error(
                     $exception->getMessage(),
-                    [
-                        ContextExtenderInterface::CONTEXT_EXCEPTION => $exception,
-                        ContextExtenderInterface::CONTEXT_INCLUDE_USER_ROLES => true,
-                    ]
+                    [ContextExtenderInterface::CONTEXT_EXCEPTION => $exception]
                 );
 
                 throw $exception;
@@ -204,10 +199,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
             $exception = new ResourceAccessDeniedException($resourceUri);
             $this->getAdvancedLogger()->error(
                 $exception->getMessage(),
-                [
-                    ContextExtenderInterface::CONTEXT_EXCEPTION => $exception,
-                    ContextExtenderInterface::CONTEXT_INCLUDE_USER_ROLES => true,
-                ]
+                [ContextExtenderInterface::CONTEXT_EXCEPTION => $exception]
             );
 
             throw $exception;
@@ -275,6 +267,6 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
 
     private function getAdvancedLogger(): LoggerInterface
     {
-        return $this->getServiceManager()->getContainer()->get(AdvancedLogger::class);
+        return $this->getServiceManager()->getContainer()->get(AdvancedLogger::ACL_LOGGER);
     }
 }

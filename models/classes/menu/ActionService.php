@@ -52,12 +52,13 @@ class ActionService extends ConfigurableService
     public function hasAccess(MenuAction $action, common_user_User $user, array $node)
     {
         $resolvedAction = $this->getResolvedAction($action);
+        $advancedLogger = $this->getAdvancedLogger();
 
         if ($resolvedAction !== null && $user !== null) {
             if ($node['type'] = $resolvedAction['context'] || $resolvedAction['context'] == 'resource') {
                 foreach ($resolvedAction['required'] as $key) {
                     if (!array_key_exists($key, $node)) {
-                        $this->logAccessData(
+                        $advancedLogger->info(
                             sprintf(
                                 'Undefined access level (%d): missing required key "%s".',
                                 self::ACCESS_UNDEFINED,
@@ -74,19 +75,19 @@ class ActionService extends ConfigurableService
                         ? self::ACCESS_GRANTED
                         : self::ACCESS_DENIED;
                 } catch (Throwable $exception) {
-                    $this->logAccessData(
+                    $advancedLogger->error(
                         sprintf(
                             'Unable to resolve permission for action "%s": %s',
                             $action->getId(),
                             $exception->getMessage()
                         ),
-                        $exception
+                        [ContextExtenderInterface::CONTEXT_EXCEPTION => $exception]
                     );
                 }
             }
         }
 
-        $this->logAccessData(
+        $advancedLogger->info(
             sprintf(
                 'Undefined access level (%d).',
                 self::ACCESS_UNDEFINED
@@ -143,7 +144,6 @@ class ActionService extends ConfigurableService
                     ),
                     [
                         ContextExtenderInterface::CONTEXT_EXCEPTION => $exception,
-                        ContextExtenderInterface::CONTEXT_INCLUDE_USER_ROLES => true,
                     ]
                 );
             }
@@ -184,13 +184,13 @@ class ActionService extends ConfigurableService
             } catch (ResolverException | Throwable $exception) {
                 $this->resolvedActions[$actionId] = null;
 
-                $this->logAccessData(
+                $this->getAdvancedLogger()->error(
                     sprintf(
                         'Do not handle permissions for action: %s %s',
                         $action->getName(),
                         $action->getUrl()
                     ),
-                    $exception
+                    [ContextExtenderInterface::CONTEXT_EXCEPTION => $exception]
                 );
             }
         }
@@ -198,23 +198,8 @@ class ActionService extends ConfigurableService
         return $this->resolvedActions[$actionId];
     }
 
-    private function logAccessData(string $message, Throwable $exception = null): void
-    {
-        $type = 'info';
-        $context = [
-            ContextExtenderInterface::CONTEXT_INCLUDE_USER_ROLES => true,
-        ];
-
-        if ($exception) {
-            $type = 'error';
-            $context[ContextExtenderInterface::CONTEXT_EXCEPTION] = $exception;
-        }
-
-        $this->getAdvancedLogger()->{$type}($message, $context);
-    }
-
     private function getAdvancedLogger(): LoggerInterface
     {
-        return $this->getServiceManager()->getContainer()->get(AdvancedLogger::class);
+        return $this->getServiceManager()->getContainer()->get(AdvancedLogger::ACL_LOGGER);
     }
 }

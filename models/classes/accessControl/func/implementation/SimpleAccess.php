@@ -31,7 +31,6 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\FuncHelper;
 use oat\tao\model\accessControl\func\FuncAccessControl;
-use oat\oatbox\log\logger\extender\ContextExtenderInterface;
 
 /**
  * Simple ACL Implementation deciding whenever or not to allow access
@@ -75,10 +74,7 @@ class SimpleAccess extends ConfigurableService implements FuncAccessControl
         $inWhiteList = $this->inWhiteList($controller, $action);
 
         if ($inWhiteList === false) {
-            $this->getAdvancedLogger()->info(
-                'Access denied.',
-                [ContextExtenderInterface::CONTEXT_INCLUDE_USER_ROLES => true]
-            );
+            $this->getAdvancedLogger()->info('Access denied.');
         }
 
         return $inWhiteList;
@@ -209,6 +205,6 @@ class SimpleAccess extends ConfigurableService implements FuncAccessControl
 
     private function getAdvancedLogger(): LoggerInterface
     {
-        return $this->getServiceManager()->getContainer()->get(AdvancedLogger::class);
+        return $this->getServiceManager()->getContainer()->get(AdvancedLogger::ACL_LOGGER);
     }
 }

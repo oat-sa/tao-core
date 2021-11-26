@@ -90,7 +90,6 @@ class DataAccessControl implements AccessControl
                     'User does not have lock for resource.',
                     [
                         'resourceId' => $resourceId,
-                        ContextExtenderInterface::CONTEXT_INCLUDE_USER_ROLES => true,
                     ]
                 );
 
@@ -112,7 +111,6 @@ class DataAccessControl implements AccessControl
                         'requiredPermission' => $right,
                         'resourceId' => $id,
                         'resourcePermissions' => $permissions[$id],
-                        ContextExtenderInterface::CONTEXT_INCLUDE_USER_ROLES => true,
                     ]
                 );
 
@@ -147,6 +145,6 @@ class DataAccessControl implements AccessControl
 
     private function getAdvancedLogger(): LoggerInterface
     {
-        return ServiceManager::getServiceManager()->getContainer()->get(AdvancedLogger::class);
+        return ServiceManager::getServiceManager()->getContainer()->get(AdvancedLogger::ACL_LOGGER);
     }
 }
