@@ -16,7 +16,6 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
-import selectors from "../../../../taoItems/views/cypress/utils/selectors";
 
 /**
  * Adds new property to class (list with single selection of boolean values)
