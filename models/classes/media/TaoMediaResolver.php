@@ -22,6 +22,7 @@
 namespace oat\tao\model\media;
 
 use oat\tao\model\media\sourceStrategy\HttpSource;
+use oat\tao\model\media\sourceStrategy\InlineSource;
 use oat\oatbox\service\ServiceManager;
 
 /**
@@ -30,7 +31,7 @@ use oat\oatbox\service\ServiceManager;
  */
 class TaoMediaResolver
 {
-    
+
     /**
      * Resolve a taomedia url to a media asset
      *
@@ -46,6 +47,8 @@ class TaoMediaResolver
             $mediaSource = $mediaService->getMediaSource($urlParts['host']);
             $mediaId = (isset($urlParts['path'])) ? trim($urlParts['path'], '/') : '';
             return new MediaAsset($mediaSource, $mediaId);
+        } elseif (isset($urlParts['scheme']) && $urlParts['scheme'] === 'data') {
+            return new MediaAsset(new InlineSource(), $url);
         } elseif (isset($urlParts['scheme']) && in_array($urlParts['scheme'], ['http','https'])) {
             return new MediaAsset(new HttpSource(), $url);
         } else {
