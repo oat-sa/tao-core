@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
- *
  */
 
 declare(strict_types=1);
@@ -207,19 +206,26 @@ class ElementMapFactory extends ConfigurableService
         core_kernel_classes_Property $property,
         core_kernel_classes_Resource $range,
         core_kernel_classes_Property $parentProperty = null
-    ) {
-        $searchRequest = (new ValueCollectionSearchRequest())
-            ->setValueCollectionUri($range->getUri());
+    ): ValueCollection {
+        $searchRequest = (new ValueCollectionSearchRequest())->setValueCollectionUri($range->getUri());
 
-        if ($parentProperty && $this->instance) {
-            $parentPropertyValues = [];
+        if ($this->instance instanceof core_kernel_classes_Resource) {
+            $selectedValue = $this->instance->getOnePropertyValue($property);
 
-            foreach ($this->instance->getPropertyValuesCollection($parentProperty) as $parentPropertyValue) {
-                $parentPropertyValues[] = (string)$parentPropertyValue;
+            if ($selectedValue instanceof core_kernel_classes_Literal && !empty($selectedValue->literal)) {
+                $searchRequest->setSelectedValues($selectedValue->literal);
             }
 
-            $searchRequest->setPropertyUri($property->getUri());
-            $searchRequest->setParentListValues(...$parentPropertyValues);
+            if ($parentProperty) {
+                $parentPropertyValues = [];
+
+                foreach ($this->instance->getPropertyValuesCollection($parentProperty) as $parentPropertyValue) {
+                    $parentPropertyValues[] = (string)$parentPropertyValue;
+                }
+
+                $searchRequest->setPropertyUri($property->getUri());
+                $searchRequest->setParentListValues(...$parentPropertyValues);
+            }
         }
 
         return $this->getValueCollectionService()
