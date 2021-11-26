@@ -63,3 +63,20 @@ const propertiesWithListValues = [
     cy.get('button[type="submit"]').click();
     cy.wait('@editClass');
 });
+
+Cypress.Commands.add('validateClassProperty', (options, property) => {
+   cy.getSettled(options.classOptions)
+   .contains('.property-heading-label', property.name)
+   .siblings('.property-heading-toolbar')
+   .contains(options.className)
+   .within(() => {
+      cy.get('.icon-edit').click();
+   });
+   cy.getSettled('.property-edit-container-open [data-testid="Label"]').should('have.value', property.name);
+   cy.getSettled('.property-edit-container-open [data-testid="Type"]').should('have.value', property.type);
+
+   if (propertiesWithListValues.includes(property.type)) {
+      cy.getSettled('.property-edit-container [data-testid="List values"]').should('have.value', selectors.booleanListValue);
+   }
+   cy.getSettled('.property-edit-container-open .icon-edit').click();
+})
