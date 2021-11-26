@@ -104,13 +104,13 @@ class DataAccessControl implements AccessControl
         $permissions = $this->getPermissionProvider()->getPermissions($user, array_keys($required));
 
         foreach ($required as $id => $right) {
-            if (!isset($permissions[$id]) || !in_array($right, $permissions[$id])) {
+            if (!isset($permissions[$id]) || !in_array($right, $permissions[$id], true)) {
                 $this->getAdvancedLogger()->info(
                     'User does not have required permission for resource.',
                     [
                         'requiredPermission' => $right,
                         'resourceId' => $id,
-                        'resourcePermissions' => $permissions[$id],
+                        'resourcePermissions' => $permissions[$id] ?? [],
                     ]
                 );
 
