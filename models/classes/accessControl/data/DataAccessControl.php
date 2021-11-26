@@ -145,6 +145,6 @@ class DataAccessControl implements AccessControl
 
     private function getAdvancedLogger(): LoggerInterface
     {
-        return ServiceManager::getServiceManager()->getContainer()->get(AdvancedLogger::ACL_LOGGER);
+        return ServiceManager::getServiceManager()->getContainer()->get(AdvancedLogger::ACL_SERVICE_ID);
     }
 }

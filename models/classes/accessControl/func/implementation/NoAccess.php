@@ -56,6 +56,6 @@ class NoAccess extends ConfigurableService implements FuncAccessControl
 
     private function getAdvancedLogger(): LoggerInterface
     {
-        return $this->getServiceManager()->getContainer()->get(AdvancedLogger::ACL_LOGGER);
+        return $this->getServiceManager()->getContainer()->get(AdvancedLogger::ACL_SERVICE_ID);
     }
 }
