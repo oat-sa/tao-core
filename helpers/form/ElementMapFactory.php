@@ -219,21 +219,23 @@ class ElementMapFactory extends ConfigurableService
     ): ValueCollection {
         $searchRequest = (new ValueCollectionSearchRequest())->setValueCollectionUri($range->getUri());
 
-        $selectedValue = $this->instance->getOnePropertyValue($property);
+        if ($this->instance instanceof core_kernel_classes_Resource) {
+            $selectedValue = $this->instance->getOnePropertyValue($property);
 
-        if ($selectedValue instanceof core_kernel_classes_Literal && !empty($selectedValue->literal)) {
-            $searchRequest->setSelectedValues($selectedValue->literal);
-        }
-
-        if ($parentProperty && $this->instance) {
-            $parentPropertyValues = [];
-
-            foreach ($this->instance->getPropertyValuesCollection($parentProperty) as $parentPropertyValue) {
-                $parentPropertyValues[] = (string)$parentPropertyValue;
+            if ($selectedValue instanceof core_kernel_classes_Literal && !empty($selectedValue->literal)) {
+                $searchRequest->setSelectedValues($selectedValue->literal);
             }
 
-            $searchRequest->setPropertyUri($property->getUri());
-            $searchRequest->setParentListValues(...$parentPropertyValues);
+            if ($parentProperty) {
+                $parentPropertyValues = [];
+
+                foreach ($this->instance->getPropertyValuesCollection($parentProperty) as $parentPropertyValue) {
+                    $parentPropertyValues[] = (string)$parentPropertyValue;
+                }
+
+                $searchRequest->setPropertyUri($property->getUri());
+                $searchRequest->setParentListValues(...$parentPropertyValues);
+            }
         }
 
         return $this->getValueCollectionService()->findAll(new ValueCollectionSearchInput($searchRequest));
