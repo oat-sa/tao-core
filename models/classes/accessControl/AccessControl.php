@@ -15,29 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2013-2021 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\accessControl;
 
 use oat\oatbox\user\User;
 
-/**
- * Interface for Access Control Implementations
- */
 interface AccessControl
 {
-    
     /**
-     * Returns whenever or not the user can execute the action
-     * whith the given parameters
+     * Returns whenever or not the user can execute the action with the given parameters
      *
-     * @param string $userId
      * @param string $controllerName
      * @param string $actionName
      * @param array $parameters
-     * @return boolean
+     *
+     * @return bool
      */
     public function hasAccess(User $user, $controllerName, $actionName, $parameters);
 }
