@@ -16,6 +16,15 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
+const propertiesWithListValues = [
+   'list',
+   'multiplenodetree',
+   'longlist',
+   'multilist',
+   'multisearchlist',
+   'singlesearchlist'
+];
+
 /**
  * Adds new property to class (list with single selection of boolean values)
  * @param {Object} options - Configuration object containing all target variables
@@ -28,6 +37,8 @@
  * @param {String} options.editUrl - url for the editing class POST request
  */
  Cypress.Commands.add('addPropertyToClass', (options) => {
+   options.propertyType = options.propertyType || 'list';
+   options.propertyListValue = options.propertyListValue || 'Boolean';
 
     cy.log('COMMAND: addPropertyToClass', options.propertyName);
 
@@ -37,9 +48,17 @@
 
     cy.getSettled('span[class="icon-edit"]').last().click();
     cy.get(options.propertyEditSelector).find('input[data-testid="Label"]').clear().type(options.propertyName);
-    cy.get(options.propertyEditSelector).find('input[data-testid="Alias"]').clear().type(options.propertyAlias);
-    cy.get(options.propertyEditSelector).find('select[class="property-type property"]').select('list');
-    cy.get(options.propertyEditSelector).find('select[class="property-listvalues property"]').select('Boolean');
+
+    if (options.propertyAlias) {
+      cy.get(options.propertyEditSelector).find('input[data-testid="Alias"]').clear().type(options.propertyAlias);
+    }
+
+    cy.get(options.propertyEditSelector).find('select[class="property-type property"]').select(options.propertyType);
+
+    if (propertiesWithListValues.includes(options.propertyType)) {
+      cy.get(options.propertyEditSelector).find('select[class="property-listvalues property"]').select(options.propertyListValue);
+    }
+
     cy.intercept('POST', `**/${options.editUrl}`).as('editClass');
     cy.get('button[type="submit"]').click();
     cy.wait('@editClass');
