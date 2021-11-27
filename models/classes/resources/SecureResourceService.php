@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,21 +15,22 @@ declare(strict_types=1);
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013-2020   (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2013-2021 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\resources;
 
+use oat\oatbox\user\User;
 use common_exception_Error;
 use Psr\Log\LoggerInterface;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use oat\oatbox\log\logger\AdvancedLogger;
-use oat\generis\model\data\permission\PermissionInterface;
-use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\session\SessionService;
-use oat\oatbox\user\User;
+use oat\oatbox\log\logger\AdvancedLogger;
+use oat\oatbox\service\ConfigurableService;
+use oat\generis\model\data\permission\PermissionInterface;
 use oat\oatbox\log\logger\extender\ContextExtenderInterface;
 
 class SecureResourceService extends ConfigurableService implements SecureResourceServiceInterface
@@ -53,25 +52,13 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
         $permissionService = $this->getPermissionProvider();
 
         if ($subClasses) {
-            $advancedLogger = $this->getAdvancedLogger();
-
             foreach ($subClasses as $subClass) {
                 $classUri = $subClass->getUri();
                 $classPermissions = $permissionService->getPermissions($this->getUser(), [$classUri]);
 
                 if ($this->hasAccess($classPermissions[$classUri])) {
                     $accessibleInstances[] = $this->getAllChildren($subClass);
-
-                    continue;
                 }
-
-                $advancedLogger->info(
-                    'User does not have enough permissions for the class.',
-                    [
-                        'classUri' => $classUri,
-                        'classPermissions' => $classPermissions[$classUri],
-                    ]
-                );
             }
         }
 
@@ -108,24 +95,13 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
         );
 
         $accessibleInstances = [];
-        $advancedLogger = $this->getAdvancedLogger();
 
         foreach ($instances as $child) {
             $uri = $child->getUri();
 
             if ($this->hasAccess($permissions[$uri])) {
                 $accessibleInstances[$uri] = $child;
-
-                continue;
             }
-
-            $advancedLogger->info(
-                'User does not have enough permissions for the instance.',
-                [
-                    'instanceUri' => $uri,
-                    'instancePermissions' => $permissions[$uri],
-                ]
-            );
         }
 
         return $accessibleInstances;
@@ -154,13 +130,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
 
         foreach ($permissions as $uri => $permission) {
             if (empty($permission) || !$this->hasAccess($permission, $permissionsToCheck)) {
-                $exception = new ResourceAccessDeniedException($uri);
-                $this->getAdvancedLogger()->error(
-                    $exception->getMessage(),
-                    [ContextExtenderInterface::CONTEXT_EXCEPTION => $exception]
-                );
-
-                throw $exception;
+                $this->throwResourceAccessDeniedException($uri);
             }
         }
     }
@@ -196,13 +166,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
         $permissions = $permissionService->getPermissions($this->getUser(), [$resourceUri]);
 
         if (!$this->hasAccess($permissions[$resourceUri], $permissionsToCheck)) {
-            $exception = new ResourceAccessDeniedException($resourceUri);
-            $this->getAdvancedLogger()->error(
-                $exception->getMessage(),
-                [ContextExtenderInterface::CONTEXT_EXCEPTION => $exception]
-            );
-
-            throw $exception;
+            $this->throwResourceAccessDeniedException($resourceUri);
         }
 
         $parentUris = $this->getParentUris(
@@ -263,6 +227,17 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
         }
 
         return $this->user;
+    }
+
+    private function throwResourceAccessDeniedException(string $uri): void
+    {
+        $exception = new ResourceAccessDeniedException($uri);
+        $this->getAdvancedLogger()->error(
+            $exception->getMessage(),
+            [ContextExtenderInterface::CONTEXT_EXCEPTION => $exception]
+        );
+
+        throw $exception;
     }
 
     private function getAdvancedLogger(): LoggerInterface
