@@ -16,6 +16,7 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
+<<<<<<< HEAD
 const propertiesWithListValues = [
    'list',
    'multiplenodetree',
@@ -24,6 +25,8 @@ const propertiesWithListValues = [
    'multisearchlist',
    'singlesearchlist'
 ];
+=======
+>>>>>>> develop
 
 /**
  * Adds new property to class (list with single selection of boolean values)
@@ -92,4 +95,37 @@ Cypress.Commands.add('validateClassProperty', (options, property) => {
       cy.getSettled('.property-edit-container-open [data-testid="List values"]').should('have.value', property.listValue);
    }
    cy.getSettled('.property-edit-container-open .icon-edit').click();
-})
+});
+
+/*
+ * Find an input in manage schema
+ * @param {Object} options - configuration object containing all target variables
+ * @param {String} options.input - input selector
+ * @param {String} options.position - position of the tinput in the form
+ * @param {String} options.type - type of the input
+ * @param {String} options.editClassSelector - url for wait on submit
+ * @param {String} options.propertyEdit - selector of property
+ * @param {String} options.newValue - new value to asign to that input
+ */
+Cypress.Commands.add('findInputInManageSchema', (options) => {
+
+   cy.log('COMMAND: findInputInManageSchema', options.input);
+
+   cy.getSettled('span[class="icon-edit"]').last().click();
+
+   switch(options.type) {
+      case 'checkbox':
+         cy.get(options.propertyEdit).find(options.input).first().check({ force: true });
+         break;
+      case 'radio':
+         cy.get(options.propertyEdit).find(options.input).eq(options.position).check({ force: true });
+         break;
+      case 'text':
+         cy.get(options.propertyEdit).find(options.input).eq(options.position).clear({ force: true }).type(options.newValue);
+         break;
+   }
+
+   cy.intercept('POST', `**/${options.editClassSelector}`).as('editClass');
+   cy.get('button[type="submit"]').click();
+   cy.wait('@editClass');
+});
