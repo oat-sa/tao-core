@@ -16,7 +16,6 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
-<<<<<<< HEAD
 const propertiesWithListValues = [
    'list',
    'multiplenodetree',
@@ -25,8 +24,6 @@ const propertiesWithListValues = [
    'multisearchlist',
    'singlesearchlist'
 ];
-=======
->>>>>>> develop
 
 /**
  * Adds new property to class (list with single selection of boolean values)
