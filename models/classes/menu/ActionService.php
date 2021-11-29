@@ -136,7 +136,7 @@ class ActionService extends ConfigurableService
                     $resolvedAction['action']
                 );
             } catch (Throwable $exception) {
-                $this->getAdvancedLogger()->error(
+                $this->getAdvancedLogger()->warning(
                     sprintf(
                         'Do not handle permissions for action: %s %s',
                         $action->getName(),
@@ -184,7 +184,7 @@ class ActionService extends ConfigurableService
             } catch (ResolverException | Throwable $exception) {
                 $this->resolvedActions[$actionId] = null;
 
-                $this->getAdvancedLogger()->error(
+                $this->getAdvancedLogger()->warning(
                     sprintf(
                         'Do not handle permissions for action: %s %s',
                         $action->getName(),

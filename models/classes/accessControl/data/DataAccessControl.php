@@ -87,8 +87,9 @@ class DataAccessControl implements AccessControl
         foreach ($required as $resourceId => $right) {
             if ($right === 'WRITE' && !$this->hasWritePrivilege($user, $resourceId)) {
                 $this->getAdvancedLogger()->info(
-                    'User does not have lock for resource.',
+                    'User does not have required permissions for the resource.',
                     [
+                        'requiredPermission' => $right,
                         'resourceId' => $resourceId,
                     ]
                 );
@@ -106,7 +107,7 @@ class DataAccessControl implements AccessControl
         foreach ($required as $id => $right) {
             if (!isset($permissions[$id]) || !in_array($right, $permissions[$id], true)) {
                 $this->getAdvancedLogger()->info(
-                    'User does not have required permission for resource.',
+                    'User does not have required permission for the resource.',
                     [
                         'requiredPermission' => $right,
                         'resourceId' => $id,
