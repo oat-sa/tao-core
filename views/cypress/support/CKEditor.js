@@ -16,6 +16,11 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
+/**
+ * Command for programatically typing in a CKEditor
+ * @param {propertyName} string - The name of the property to type in
+ * @param {content} string - The content to type
+ */
 Cypress.Commands.add("typeInCKEditor", (propertyName, content) => {
     cy.window()
     .then(win => {
