@@ -64,7 +64,20 @@ const propertiesWithListValues = [
     cy.wait('@editClass');
 });
 
+/**
+ * Validates a property in a class
+ * @param {Object} options - Configuration object containing all target variables
+ * @param {String} options.className - name of the class
+ * @param {String} options.classOptions - css selector for the class options form
+ * @param {Object} property - property to validate
+ * @param {String} property.name - name of the property
+ * @param {String} property.type - type of the property
+ * @param {String} property.listValue - list value of the property
+ */
+
 Cypress.Commands.add('validateClassProperty', (options, property) => {
+   cy.log('COMMAND: validateClassProperty', property.name);
+
    cy.getSettled(options.classOptions)
    .contains('.property-heading-label', property.name)
    .siblings('.property-heading-toolbar')
@@ -75,8 +88,8 @@ Cypress.Commands.add('validateClassProperty', (options, property) => {
    cy.getSettled('.property-edit-container-open [data-testid="Label"]').should('have.value', property.name);
    cy.getSettled('.property-edit-container-open [data-testid="Type"]').should('have.value', property.type);
 
-   if (propertiesWithListValues.includes(property.type)) {
-      cy.getSettled('.property-edit-container [data-testid="List values"]').should('have.value', selectors.booleanListValue);
+   if (property.listValue) {
+      cy.getSettled('.property-edit-container-open [data-testid="List values"]').should('have.value', property.listValue);
    }
    cy.getSettled('.property-edit-container-open .icon-edit').click();
 })
