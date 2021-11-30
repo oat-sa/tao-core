@@ -15,78 +15,81 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2013-2021 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\model\accessControl\func\implementation;
 
-use oat\generis\model\GenerisRdf;
-use oat\tao\model\user\TaoRoles;
-use oat\tao\model\accessControl\func\FuncAccessControl;
-use oat\tao\model\accessControl\func\AccessRule;
-use common_ext_ExtensionsManager;
-use oat\tao\model\accessControl\func\FuncHelper;
-use oat\tao\helpers\ControllerHelper;
 use oat\oatbox\user\User;
+use Psr\Log\LoggerInterface;
+use oat\tao\model\user\TaoRoles;
+use oat\generis\model\GenerisRdf;
+use common_ext_ExtensionsManager;
+use oat\tao\helpers\ControllerHelper;
+use oat\oatbox\log\logger\AdvancedLogger;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\accessControl\func\FuncHelper;
+use oat\tao\model\accessControl\func\FuncAccessControl;
 
 /**
  * Simple ACL Implementation deciding whenever or not to allow access
- * strictly by the BASEUSER role and a whitelist
+ * strictly by the BASE_USER role and a whitelist
  *
- * Not to be used in production, since testtakers cann access the backoffice
+ * Not to be used in production, since test-takers can access the backoffice
  *
- * @access public
  * @author Joel Bout, <joel@taotesting.com>
- * @package tao
-
  */
 class SimpleAccess extends ConfigurableService implements FuncAccessControl
 {
-    
-    const WHITELIST_KEY = 'SimpleAclWhitelist';
-    
+    public const WHITELIST_KEY = 'SimpleAclWhitelist';
+
+    /** @var array */
     private $controllers = [];
-    
-    /**
-     *
-     */
+
     public function __construct($options = [])
     {
         parent::__construct($options);
-        $data = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::WHITELIST_KEY);
+
+        $data = common_ext_ExtensionsManager::singleton()
+            ->getExtensionById('tao')
+            ->getConfig(self::WHITELIST_KEY);
+
         if (is_array($data)) {
             $this->controllers = $data;
         }
     }
 
     /**
-     * (non-PHPdoc)
-     * @see \oat\tao\model\accessControl\func\FuncAccessControl::accessPossible()
+     * {@inheritdoc}
      */
     public function accessPossible(User $user, $controller, $action)
     {
-        $isUser = false;
         foreach ($user->getRoles() as $role) {
-            if ($role == TaoRoles::BASE_USER) {
-                $isUser = true;
-                break;
+            if ($role === TaoRoles::BASE_USER) {
+                return true;
             }
         }
-        return $isUser || $this->inWhiteList($controller, $action);
+
+        $inWhiteList = $this->inWhiteList($controller, $action);
+
+        if ($inWhiteList === false) {
+            $this->getAdvancedLogger()->info('Access denied.');
+        }
+
+        return $inWhiteList;
     }
-    
+
     public function applyRule(AccessRule $rule)
     {
         if ($rule->getRole()->getUri() == GenerisRdf::INSTANCE_ROLE_ANONYMOUS) {
             $mask = $rule->getMask();
-            
+
             if (is_string($mask)) {
                 if (strpos($mask, '@') == false) {
                     $this->whiteListController($mask);
                 } else {
-                    list($controller, $action) = explode('@', $mask, 2);
+                    [$controller, $action] = explode('@', $mask, 2);
                     $this->whiteListAction($controller, $action);
                 }
             } else {
@@ -99,10 +102,15 @@ class SimpleAccess extends ConfigurableService implements FuncAccessControl
                 } elseif (isset($mask['controller'])) {
                     $this->whiteListController($mask['controller']);
                 } elseif (isset($mask['act']) && strpos($mask['act'], '@') !== false) {
-                    list($controller, $action) = explode('@', $mask['act'], 2);
+                    [$controller, $action] = explode('@', $mask['act'], 2);
                     $this->whiteListAction($controller, $action);
                 } else {
-                    \common_Logger::w('Unregoginised mask keys: ' . implode(',', array_keys($mask)));
+                    $this->getAdvancedLogger()->warning(
+                        sprintf(
+                            'Unrecognised mask keys: %s',
+                            implode(',', array_keys($mask))
+                        )
+                    );
                 }
             }
         }
@@ -124,8 +132,10 @@ class SimpleAccess extends ConfigurableService implements FuncAccessControl
                 unset($this->controllers[FuncHelper::getClassName($mask['ext'], $mask['mod'])]);
             } elseif (isset($mask['ext']) && isset($mask['mod']) && isset($mask['act'])) {
                 $controller = FuncHelper::getClassName($mask['ext'], $mask['mod']);
+
                 if (isset($this->controllers[$controller])) {
                     unset($this->controllers[$controller][$mask['act']]);
+
                     if (0 === count($this->controllers[$controller])) {
                         unset($this->controllers[$controller]);
                     }
@@ -133,37 +143,44 @@ class SimpleAccess extends ConfigurableService implements FuncAccessControl
             } elseif (isset($mask['controller'])) {
                 unset($this->controllers[$mask['controller']]);
             } elseif (isset($mask['act']) && strpos($mask['act'], '@') !== false) {
-                list($controller, $action) = explode('@', $mask['act'], 2);
+                [$controller, $action] = explode('@', $mask['act'], 2);
+
                 if (isset($this->controllers[$controller])) {
                     unset($this->controllers[$controller][$action]);
+
                     if (0 === count($this->controllers[$controller])) {
                         unset($this->controllers[$controller]);
                     }
                 }
             } else {
-                \common_Logger::w('Unrecognised mask keys: ' . implode(',', array_keys($mask)));
+                $this->getAdvancedLogger()->warning(
+                    sprintf(
+                        'Unrecognised mask keys: %s',
+                        implode(',', array_keys($mask))
+                    )
+                );
             }
+
             $ext->setConfig(self::WHITELIST_KEY, $this->controllers);
         }
     }
-    
+
     private function inWhiteList($controllerName, $action)
     {
         return isset($this->controllers[$controllerName])
-            ? is_array($this->controllers[$controllerName])
-                ? isset($this->controllers[$controllerName][$action])
-                : true
-            : false;
-        return false;
+            && (
+                !is_array($this->controllers[$controllerName])
+                || isset($this->controllers[$controllerName][$action])
+            );
     }
-    
+
     private function whiteListExtension($extensionId)
     {
         foreach (ControllerHelper::getControllers($extensionId) as $controllerClassName) {
             $this->whiteListController($controllerClassName);
         }
     }
-    
+
     private function whiteListController($controller)
     {
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
@@ -172,15 +189,22 @@ class SimpleAccess extends ConfigurableService implements FuncAccessControl
         $this->controllers[$controller] = '*';
         $ext->setConfig(self::WHITELIST_KEY, $this->controllers);
     }
-    
+
     private function whiteListAction($controller, $action)
     {
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         // reread controllers to reduce collision risk
         $this->controllers = $ext->hasConfig(self::WHITELIST_KEY) ? $ext->getConfig(self::WHITELIST_KEY) : [];
+
         if (!isset($this->controllers[$controller]) || is_array($this->controllers[$controller])) {
             $this->controllers[$controller][$action] = '*';
         }
+
         $ext->setConfig(self::WHITELIST_KEY, $this->controllers);
+    }
+
+    private function getAdvancedLogger(): LoggerInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(AdvancedLogger::ACL_SERVICE_ID);
     }
 }
