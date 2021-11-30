@@ -15,107 +15,137 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 Open Assessment Technologies SA;
+ * Copyright (c) 2017-2021 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\model\menu;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\accessControl\AclProxy;
-use oat\tao\model\accessControl\ActionResolver;
-use \common_user_User;
+use Throwable;
+use common_user_User;
+use ResolverException;
+use Psr\Log\LoggerInterface;
 use oat\tao\helpers\ControllerHelper;
+use oat\oatbox\log\logger\AdvancedLogger;
+use oat\tao\model\accessControl\AclProxy;
+use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\accessControl\ActionResolver;
+use oat\oatbox\log\logger\extender\ContextExtenderInterface;
 use oat\taoBackOffice\model\menuStructure\Action as MenuAction;
 
 /**
- * Manage Menu Actions
- *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 class ActionService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/menuaction';
+    public const SERVICE_ID = 'tao/menuaction';
 
-    /**
-     * Expose the access levels
-     */
-    const ACCESS_DENIED    = 0;
-    const ACCESS_GRANTED   = 1;
-    const ACCESS_UNDEFINED = 2;
+    public const ACCESS_DENIED = 0;
+    public const ACCESS_GRANTED = 1;
+    public const ACCESS_UNDEFINED = 2;
 
-    /**
-     * Keep an index of resolved actions
-     */
+    /** Keep an index of resolved actions */
     private $resolvedActions = [];
 
     /**
-     * Has a node access to an action
-     * @param MenuAction        $action the menu action
-     * @param common_user_User  $user   the user to check
-     * @param array             $node   the node/resource to verify
-     * @return int                      the access level
+     * @return int The access level
      */
     public function hasAccess(MenuAction $action, common_user_User $user, array $node)
     {
-
         $resolvedAction = $this->getResolvedAction($action);
-        if (!is_null($resolvedAction) && !is_null($user)) {
+        $advancedLogger = $this->getAdvancedLogger();
+
+        if ($resolvedAction !== null && $user !== null) {
             if ($node['type'] = $resolvedAction['context'] || $resolvedAction['context'] == 'resource') {
                 foreach ($resolvedAction['required'] as $key) {
                     if (!array_key_exists($key, $node)) {
-                        //missing required key
+                        $advancedLogger->info(
+                            sprintf(
+                                'Undefined access level (%d): missing required key "%s".',
+                                self::ACCESS_UNDEFINED,
+                                $key
+                            )
+                        );
+
                         return self::ACCESS_UNDEFINED;
                     }
                 }
+
                 try {
-                    if (AclProxy::hasAccess($user, $resolvedAction['controller'], $resolvedAction['action'], $node)) {
-                        return self::ACCESS_GRANTED;
-                    }
-                    return self::ACCESS_DENIED;
-                } catch (\Exception $e) {
-                    \common_Logger::w('Unable to resolve permission for action ' . $action->getId() . ' : ' . $e->getMessage());
+                    return AclProxy::hasAccess($user, $resolvedAction['controller'], $resolvedAction['action'], $node)
+                        ? self::ACCESS_GRANTED
+                        : self::ACCESS_DENIED;
+                } catch (Throwable $exception) {
+                    $advancedLogger->error(
+                        sprintf(
+                            'Unable to resolve permission for action "%s": %s',
+                            $action->getId(),
+                            $exception->getMessage()
+                        ),
+                        [ContextExtenderInterface::CONTEXT_EXCEPTION => $exception]
+                    );
                 }
             }
         }
+
+        $advancedLogger->info(
+            sprintf(
+                'Undefined access level (%d).',
+                self::ACCESS_UNDEFINED
+            )
+        );
+
         return self::ACCESS_UNDEFINED;
     }
 
     /**
-     * Compute the permissions of a node against a list of actions
-     * @param MenuAction[]      $actions the menu actions
-     * @param common_user_User  $user   the user to check
-     * @param array             $node   the node/resource to verify
-     * @return array                    the computed permissions as actionId => boolean
+     * Compute the permissions of a node against a list of actions (as actionId => boolean)
+     *
+     * @param MenuAction[] $actions
+     *
+     * @return array
      */
-    public function computePermissions(array $actions, \common_user_User $user, array $node)
+    public function computePermissions(array $actions, common_user_User $user, array $node)
     {
         $permissions = [];
+
         foreach ($actions as $action) {
             $access = $this->hasAccess($action, $user, $node);
-            if ($access != self::ACCESS_UNDEFINED) {
-                $permissions[$action->getId()] = ($access == self::ACCESS_GRANTED);
+
+            if ($access !== self::ACCESS_UNDEFINED) {
+                $permissions[$action->getId()] = $access === self::ACCESS_GRANTED;
             }
         }
+
         return $permissions;
     }
 
     /**
      * Get the rights required for the given action
-     * @param MenuAction $action
-     * @return array the required rights
+     *
+     * @return array
      */
     public function getRequiredRights(MenuAction $action)
     {
         $rights = [];
         $resolvedAction = $this->getResolvedAction($action);
-        if (!is_null($resolvedAction)) {
+
+        if ($resolvedAction !== null) {
             try {
-                $rights  = ControllerHelper::getRequiredRights(
+                $rights = ControllerHelper::getRequiredRights(
                     $resolvedAction['controller'],
                     $resolvedAction['action']
                 );
-            } catch (\Exception $e) {
-                \common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
+            } catch (Throwable $exception) {
+                $this->getAdvancedLogger()->warning(
+                    sprintf(
+                        'Do not handle permissions for action: %s %s',
+                        $action->getName(),
+                        $action->getUrl()
+                    ),
+                    [
+                        ContextExtenderInterface::CONTEXT_EXCEPTION => $exception,
+                    ]
+                );
             }
         }
 
@@ -125,24 +155,25 @@ class ActionService extends ConfigurableService
 
     /**
      * Get the action resolved against itself in the current context
-     * @param MenuAction $action the action
-     * @return array the resolved action
+     *
+     * @return array
      */
     private function getResolvedAction(MenuAction $action)
     {
         $actionId = $action->getId();
+
         if (!isset($this->resolvedActions[$actionId])) {
             try {
                 if ($action->getContext() == '*') {
-                    //we assume the star context is not permission aware
+                    // We assume the star context is not permission aware
                     $this->resolvedActions[$actionId] = null;
                 } else {
                     $resolver = new ActionResolver($action->getUrl());
                     $resolvedAction = [
-                        'id'         => $action->getId(),
-                        'context'    => $action->getContext(),
+                        'id' => $action->getId(),
+                        'context' => $action->getContext(),
                         'controller' => $resolver->getController(),
-                        'action'     => $resolver->getAction(),
+                        'action' => $resolver->getAction(),
                     ];
                     $resolvedAction['required'] = array_keys(
                         ControllerHelper::getRequiredRights($resolvedAction['controller'], $resolvedAction['action'])
@@ -150,15 +181,25 @@ class ActionService extends ConfigurableService
 
                     $this->resolvedActions[$actionId] = $resolvedAction;
                 }
-            } catch (\ResolverException $re) {
+            } catch (ResolverException | Throwable $exception) {
                 $this->resolvedActions[$actionId] = null;
-                \common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
-            } catch (\Exception $e) {
-                $this->resolvedActions[$actionId] = null;
-                \common_Logger::d('do not handle permissions for action : ' . $action->getName() . ' ' . $action->getUrl());
+
+                $this->getAdvancedLogger()->warning(
+                    sprintf(
+                        'Do not handle permissions for action: %s %s',
+                        $action->getName(),
+                        $action->getUrl()
+                    ),
+                    [ContextExtenderInterface::CONTEXT_EXCEPTION => $exception]
+                );
             }
         }
 
         return $this->resolvedActions[$actionId];
+    }
+
+    private function getAdvancedLogger(): LoggerInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(AdvancedLogger::ACL_SERVICE_ID);
     }
 }
