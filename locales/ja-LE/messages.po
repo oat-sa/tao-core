@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2021.10\n"
-"PO-Revision-Date: 2021-10-18T09:18:03\n"
+"PO-Revision-Date: 2021-12-01T17:04:28\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-LE\n"
@@ -212,6 +212,9 @@ msgstr ""
 msgid "Add file(s)"
 msgstr "ファイル追加"
 
+msgid "Add index"
+msgstr ""
+
 msgid "Add property"
 msgstr "プロパティ追加"
 
@@ -310,7 +313,7 @@ msgstr "バージョン管理リソースを削除してもよろしいですか
 msgid "Are you sure you want to delete it?"
 msgstr "削除してよろしいですか？"
 
-msgid "Are you wish to delete it"
+msgid "Are you sure you wish to delete it"
 msgstr ""
 
 msgid "Arguments separator"
@@ -438,14 +441,17 @@ msgstr "＜パスワード変更＞"
 msgid "Change the sign of the current operand"
 msgstr "現在の演算子を変更します。"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "すべて確認してください"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "すべて確認してください"
 
 msgid "Check-in"
 msgstr "チェックイン"
+
+msgid "Choose a type for your property first"
+msgstr ""
 
 msgid "Choose a value..."
 msgstr "値を選択..."
@@ -1053,10 +1059,10 @@ msgstr "\"%s リソースをインポート"
 msgid "impossible to update task status"
 msgstr "タスクステータスを更新できません"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "処理中"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "処理中"
 
 msgid "Inclusive (AND)"
@@ -1098,10 +1104,10 @@ msgstr "%s拡張機能をインストールしています..."
 msgid "Instance saved"
 msgstr "インスタンスが保存されました"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "インタフェース言語"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "インタフェース言語"
 
 msgid "Invalid CSP header."
@@ -1149,10 +1155,16 @@ msgstr "ログイン名またはパスワードが無効です。再度やり直
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
 msgstr "ログイン名またはパスワードが無効です。アカウントはロックされています。管理者に問合せてください。"
 
+msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
+msgstr ""
+
 msgid "invalid regular expression"
 msgstr "無効な正規表現です"
 
 msgid "Invalid value"
+msgstr ""
+
+msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
 msgstr ""
 
 msgid "items per page"
@@ -1304,6 +1316,9 @@ msgstr "バージョンファイル管理"
 msgid "Map the properties to the CSV columns"
 msgstr "CSVの列にプロパティをマッピング"
 
+msgid "maximum %s"
+msgstr ""
+
 msgid "Maximum selection reached"
 msgstr "これ以上選択できません"
 
@@ -1356,6 +1371,9 @@ msgid "MIME encapsulation of aggregate HTML documents"
 msgstr ""
 
 msgid "Mind mapping software application (free mind open source)"
+msgstr ""
+
+msgid "minimum %s"
 msgstr ""
 
 msgid "minutes"
@@ -1483,6 +1501,9 @@ msgstr "タスクがありません"
 
 msgid "Node duplication has failed"
 msgstr "ノードのコピーに失敗しました"
+
+msgid "none"
+msgstr ""
 
 msgid "Not started"
 msgstr "開始していません"
@@ -1653,6 +1674,12 @@ msgstr "バグの報告やアイデア，コメントなどTAOフォーラムに
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr ""
 
+msgid "Please set 'min' and/or 'max' options!"
+msgstr ""
+
+msgid "Please try in %s."
+msgstr ""
+
 msgid "Please wait"
 msgstr "お待ちください"
 
@@ -1769,6 +1796,9 @@ msgid "Remove"
 msgstr "削除"
 
 msgid "Remove criteria"
+msgstr ""
+
+msgid "remove index"
 msgstr ""
 
 msgid "Remove Message"
@@ -1929,10 +1959,10 @@ msgstr "セキュリティ"
 msgid "Security settings"
 msgstr "セキュリティ設定"
 
-msgid "Select"
+msgid "select"
 msgstr "選択"
 
-msgid "select"
+msgid "Select"
 msgstr "選択"
 
 msgid "Select a class"
@@ -2158,6 +2188,9 @@ msgstr "操作は適用されません："
 msgid "The column "
 msgstr "行"
 
+msgid "The field \"List\" is disabled because the property is part of a dependency"
+msgstr ""
+
 msgid "The following criteria are not applicable to the selected class and have been removed from the search"
 msgstr ""
 
@@ -2175,6 +2208,9 @@ msgstr "ロックが解除されました"
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
 msgstr "ソースフォルダーのプロパティは、対象クラスのプロパティに置き換えられます。これにより、メタデータが失われる可能性があります。続けますか？"
+
+msgid "The selected value(s) must be compatible with the primary property."
+msgstr ""
 
 msgid "The server has sent an empty response"
 msgstr "サーバは空のレスポンスを送信しました。"
@@ -2317,11 +2353,11 @@ msgstr "デモモードではパスワードの変更ができません。"
 msgid "Unable to copy the resource"
 msgstr "リソースをコピーできません"
 
-msgid "Unable to delete %s"
-msgstr "削除できません : %s"
-
 msgid "Unable to delete the selected resource"
 msgstr "選択されたリソースを削除できません。"
+
+msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
+msgstr ""
 
 msgid "Unable to delete the selected resources"
 msgstr "選択されたリソースを削除できません。"
@@ -2364,6 +2400,9 @@ msgstr "単項演算子(+)"
 
 msgid "Unary operator -"
 msgstr "単項演算子(-)"
+
+msgid "Unauthorized files have been removed"
+msgstr ""
 
 msgid "Uncheck All"
 msgstr "全て無効"
