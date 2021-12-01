@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2021.10\n"
-"PO-Revision-Date: 2021-11-29T22:12:24\n"
+"PO-Revision-Date: 2021-12-01T16:42:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -12,6 +12,9 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+
+msgid ""
+msgstr ""
 
 msgid " and "
 msgstr " と "
@@ -438,10 +441,10 @@ msgstr "＜パスワード変更＞"
 msgid "Change the sign of the current operand"
 msgstr "現在の演算子を変更します。"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "すべて確認してください"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "すべて確認してください"
 
 msgid "Check-in"
@@ -483,10 +486,10 @@ msgstr "すべてのデータをクリア"
 msgid "Clear expression"
 msgstr "表示をクリア"
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr "履歴をクリア"
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr "履歴をクリア"
 
 msgid "Clear selection"
@@ -1056,11 +1059,11 @@ msgstr "\"%s リソースをインポート"
 msgid "impossible to update task status"
 msgstr "タスクステータスを更新できません"
 
-msgid "In progress"
-msgstr "実施中"
-
 msgid "In Progress"
 msgstr "処理中"
+
+msgid "In progress"
+msgstr "実施中"
 
 msgid "Inclusive (AND)"
 msgstr "包括（AND)"
@@ -1313,6 +1316,9 @@ msgstr "バージョンファイル管理"
 msgid "Map the properties to the CSV columns"
 msgstr "CSVの列にプロパティをマッピング"
 
+msgid "maximum %s"
+msgstr ""
+
 msgid "Maximum selection reached"
 msgstr "これ以上選択できません"
 
@@ -1365,6 +1371,9 @@ msgid "MIME encapsulation of aggregate HTML documents"
 msgstr ""
 
 msgid "Mind mapping software application (free mind open source)"
+msgstr ""
+
+msgid "minimum %s"
 msgstr ""
 
 msgid "minutes"
@@ -1663,6 +1672,9 @@ msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "バグの報告やアイデア，コメントなどTAOフォーラムにフィードバックしてください"
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please set 'min' and/or 'max' options!"
 msgstr ""
 
 msgid "Please try in %s."
@@ -2392,10 +2404,10 @@ msgstr "単項演算子(-)"
 msgid "Unauthorized files have been removed"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "全て無効"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "全て無効"
 
 msgid "Undefined amount of the pages for pagination"
