@@ -16,6 +16,14 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
+const propertiesWithListValues = [
+   'list',
+   'multiplenodetree',
+   'longlist',
+   'multilist',
+   'multisearchlist',
+   'singlesearchlist'
+];
 
 /**
  * Adds new property to class (list with single selection of boolean values)
@@ -29,6 +37,8 @@
  * @param {String} options.editUrl - url for the editing class POST request
  */
  Cypress.Commands.add('addPropertyToClass', (options) => {
+   options.propertyType = options.propertyType || 'list';
+   options.propertyListValue = options.propertyListValue || 'Boolean';
 
     cy.log('COMMAND: addPropertyToClass', options.propertyName);
 
@@ -38,15 +48,53 @@
 
     cy.getSettled('span[class="icon-edit"]').last().click();
     cy.get(options.propertyEditSelector).find('input[data-testid="Label"]').clear().type(options.propertyName);
-    cy.get(options.propertyEditSelector).find('input[data-testid="Alias"]').clear().type(options.propertyAlias);
-    cy.get(options.propertyEditSelector).find('select[class="property-type property"]').select('list');
-    cy.get(options.propertyEditSelector).find('select[class="property-listvalues property"]').select('Boolean');
+
+    if (options.propertyAlias) {
+      cy.get(options.propertyEditSelector).find('input[data-testid="Alias"]').clear().type(options.propertyAlias);
+    }
+
+    cy.get(options.propertyEditSelector).find('select[class="property-type property"]').select(options.propertyType);
+
+    if (propertiesWithListValues.includes(options.propertyType)) {
+      cy.get(options.propertyEditSelector).find('select[class="property-listvalues property"]').select(options.propertyListValue);
+    }
+
     cy.intercept('POST', `**/${options.editUrl}`).as('editClass');
     cy.get('button[type="submit"]').click();
     cy.wait('@editClass');
 });
 
 /**
+ * Validates a property in a class
+ * @param {Object} options - Configuration object containing all target variables
+ * @param {String} options.className - name of the class
+ * @param {String} options.classOptions - css selector for the class options form
+ * @param {Object} property - property to validate
+ * @param {String} property.name - name of the property
+ * @param {String} property.type - type of the property
+ * @param {String} property.listValue - list value of the property
+ */
+
+Cypress.Commands.add('validateClassProperty', (options, property) => {
+   cy.log('COMMAND: validateClassProperty', property.name);
+
+   cy.getSettled(options.classOptions)
+   .contains('.property-heading-label', property.name)
+   .siblings('.property-heading-toolbar')
+   .contains(options.className)
+   .within(() => {
+      cy.get('.icon-edit').click();
+   });
+   cy.getSettled('.property-edit-container-open [data-testid="Label"]').should('have.value', property.name);
+   cy.getSettled('.property-edit-container-open [data-testid="Type"]').should('have.value', property.type);
+
+   if (property.listValue) {
+      cy.getSettled('.property-edit-container-open [data-testid="List values"]').should('have.value', property.listValue);
+   }
+   cy.getSettled('.property-edit-container-open .icon-edit').click();
+});
+
+/*
  * Find an input in manage schema
  * @param {Object} options - configuration object containing all target variables
  * @param {String} options.input - input selector
