@@ -17,8 +17,7 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2017      (update and modification) Open Assessment Technologies SA ;
- *
+ *               2017-2021 (update and modification) Open Assessment Technologies SA;
  */
 
 use oat\generis\model\OntologyRdfs;
@@ -38,7 +37,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
-
  */
 class tao_actions_form_Instance extends tao_actions_form_Generis
 {
@@ -112,10 +110,14 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
                 continue;
             }
 
-            //map properties widgets to form elments
-            $element = $this->getElementFactory()
-                ->withInstance($instance)
-                ->create($property);
+            //map properties widgets to form elements
+            $elementFactory = $this->getElementFactory();
+
+            if ($instance instanceof core_kernel_classes_Resource) {
+                $elementFactory->withInstance($instance);
+            }
+
+            $element = $elementFactory->create($property);
 
             if ($element !== null) {
                 // take instance values to populate the form

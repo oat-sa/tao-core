@@ -23,6 +23,8 @@ declare(strict_types=1);
 namespace oat\tao\model\accessControl;
 
 use oat\oatbox\user\User;
+use Psr\Log\LoggerInterface;
+use oat\oatbox\log\logger\AdvancedLogger;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Context\ContextInterface;
 use common_session_SessionManager as SessionManager;
@@ -207,15 +209,13 @@ class ActionAccessControl extends ConfigurableService
         }
 
         if ($roleIsListed) {
-            $this->logWarning(
-                sprintf(
-                    'User roles "%s" permissions "%s" do not have allowed permissions "%s" for controller "%s::%s',
-                    implode(', ', $userRoles),
-                    implode(', ', $permissions),
-                    implode(', ', $allowedPermissions),
-                    $controller,
-                    $action
-                )
+            $this->getAdvancedLogger()->warning(
+                'User does not have enough permissions for this action',
+                [
+                    'action' => sprintf('"%s::%s"', $controller, $action),
+                    'actionPermissions' => $permissions,
+                    'allowedPermissions' => $allowedPermissions,
+                ]
             );
         }
 
@@ -245,5 +245,10 @@ class ActionAccessControl extends ConfigurableService
     private function getUser(): User
     {
         return SessionManager::getSession()->getUser();
+    }
+
+    private function getAdvancedLogger(): LoggerInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(AdvancedLogger::ACL_SERVICE_ID);
     }
 }
