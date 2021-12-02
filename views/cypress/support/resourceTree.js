@@ -197,20 +197,19 @@ Cypress.Commands.add('deleteClass', (
         if(isAsset){
             cy.get('button[data-control="ok"]')
                 .click();
-            cy.intercept('POST', `**/${deleteClassUrl}`).as('deleteClass')
-            cy.intercept('POST', '**/edit*').as('edit')
-            cy.wait('@edit');
         } else {
             cy.get('.modal-body label[for=confirm]')
                 .click();
-            cy.intercept('POST', `**/${deleteClassUrl}`).as('deleteClass')
-            cy.intercept('POST', '**/edit*').as('edit')
-            cy.get(confirmSelector)
-                .click();
-            cy.wait('@deleteClass');
-            cy.wait('@edit');
         }
     }
+    cy.intercept('POST', `**/${deleteClassUrl}`).as('deleteClass')
+    cy.intercept('POST', '**/edit*').as('edit')
+    if (!isAsset) {
+        cy.get(confirmSelector)
+            .click();
+        cy.wait('@deleteClass');
+    }
+    cy.wait('@edit');
 });
 
 /**
