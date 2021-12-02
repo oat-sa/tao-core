@@ -140,3 +140,12 @@ Cypress.Cookies.defaults({
         return cookie.name.startsWith('tao_');
     }
 });
+/**
+ * save Item and check that is saved successfully, Item authoring
+ */
+Cypress.Commands.add('saveItem', (selector, opts = {}) => {
+    cy.intercept('POST', '**/saveItem*').as('saveItem');
+    cy.get('[data-testid="save-the-item"]').click();
+    cy.wait('@saveItem').its('response.body').its('success').should('eq', true);
+    cy.log('ITEM SAVED');
+});
