@@ -24,6 +24,7 @@ import './resourceTree';
 import './userManagement';
 import './manageSchema';
 import './resourceProperties';
+import './CKEditor';
 import urls from '../utils/urls';
 
 /**
