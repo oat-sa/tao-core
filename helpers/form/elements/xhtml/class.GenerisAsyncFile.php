@@ -217,7 +217,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
 													});
 
 													if(files.length !== givenLength){
-														error.push( "Unauthorized files have been removed");
+														error.push(__("Unauthorized files have been removed"));
 													}
 
 												}

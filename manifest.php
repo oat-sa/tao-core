@@ -51,12 +51,14 @@ use oat\tao\scripts\install\SetImageAligmentConfig;
 use oat\tao\scripts\install\SetLocaleNumbersConfig;
 use oat\tao\scripts\install\RegisterValidationRules;
 use oat\tao\scripts\install\SetupMaintenanceService;
+use oat\tao\model\resources\ResourcesServiceProvider;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterTaskQueueServices;
 use oat\tao\model\Serializer\SerializerServiceProvider;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
 use oat\tao\scripts\install\RegisterSignatureGenerator;
 use oat\tao\scripts\install\RegisterActionAccessControl;
+use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\scripts\install\RegisterSessionCookieService;
 use oat\tao\scripts\install\RegisterClassMetadataServices;
 use oat\tao\scripts\install\RegisterResourceWatcherService;
@@ -69,6 +71,7 @@ use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
 use oat\tao\model\ParamConverter\ParamConverterServiceProvider;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
+use oat\tao\model\export\ServiceProvider\MetadataServiceProvider;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
 use oat\tao\scripts\install\RegisterDataAccessControlChangedEvent;
 use oat\tao\scripts\install\RegisterDataAccessControlChangedListener;
@@ -278,5 +281,8 @@ return [
         HttpFoundationServiceProvider::class,
         ParamConverterServiceProvider::class,
         FormServiceProvider::class,
+        MetadataServiceProvider::class,
+        FeatureFlagServiceProvider::class,
+        ResourcesServiceProvider::class,
     ],
 ];

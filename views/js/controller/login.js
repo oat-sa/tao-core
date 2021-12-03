@@ -25,11 +25,13 @@ define([
     'lodash',
     'i18n',
     'module',
+    'context',
     'layout/loading-bar',
     'layout/version-warning',
     'ui/login/login',
+    'util/locale',
     'core/store'
-], function ($, _, __, module, loadingBar, versionWarning, loginComponent, store) {
+], function ($, _, __, module, context, loadingBar, versionWarning, loginComponent, locale, store) {
     'use strict';
 
     var _defaults = {
@@ -49,8 +51,7 @@ define([
         /**
          * Controller entry point
          */
-        start: function start(){
-
+        start: function start() {
             var conf = _.defaults({}, module.config(), _defaults);
             var login = loginComponent($('#login-box-inner-container'), conf);
 
@@ -62,6 +63,9 @@ define([
             }).on('submit.login', function() {
                 loadingBar.start();
             });
+
+            // adding attr for RTL languages
+            $('.small-navi').attr({dir: locale.getLanguageDirection(context.locale)});
         }
     };
 });

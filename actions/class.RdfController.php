@@ -21,25 +21,29 @@
  *               2013-2021 (update and modification) Open Assessment Technologies SA;
  */
 
-use oat\oatbox\event\EventManager;
 use oat\oatbox\user\User;
-use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\event\EventManager;
 use oat\generis\model\OntologyRdfs;
-use oat\tao\model\event\ResourceMovedEvent;
-use oat\tao\model\search\tasks\IndexTrait;
-use oat\tao\model\accessControl\PermissionChecker;
-use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\lock\LockManager;
-use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
-use oat\tao\model\ClassProperty\RemoveClassPropertyService;
-use oat\tao\model\metadata\exception\InconsistencyConfigException;
+use oat\tao\model\menu\ActionService;
+use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\search\tasks\IndexTrait;
+use oat\tao\model\event\ResourceMovedEvent;
 use oat\tao\model\resources\ResourceService;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
+use oat\tao\model\controller\SignedFormInstance;
+use oat\tao\model\resources\Service\ClassDeleter;
+use oat\tao\model\accessControl\PermissionChecker;
 use tao_helpers_form_FormContainer as FormContainer;
+use oat\tao\model\ClassProperty\RemoveClassPropertyService;
+use oat\tao\model\resources\Contract\ClassDeleterInterface;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
+use oat\tao\model\resources\Exception\ClassDeletionException;
+use oat\tao\model\metadata\exception\InconsistencyConfigException;
+use oat\tao\model\resources\Exception\PartialClassDeletionException;
 
 /**
  * The TaoModule is an abstract controller,
@@ -48,8 +52,6 @@ use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
- * @package tao
-
  */
 abstract class tao_actions_RdfController extends tao_actions_CommonModule
 {
@@ -1046,19 +1048,25 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         );
 
         $class = $this->getClass($id);
-        if ($this->getRootClass()->equals($class)) {
-            $success = false;
-            $msg = __('You cannot delete the root node');
-        } else {
-            $label = $class->getLabel();
-            $success = $this->getClassService()->deleteClass($class);
-            $msg = $success ? __('%s has been deleted', $label) : __('Unable to delete %s', $label);
+        $label = $class->getLabel();
+        $classDeleter = $this->getClassDeleter();
+
+        try {
+            $classDeleter->delete($class);
+            $success = true;
+            $deleted = true;
+            $message = __('%s has been deleted', $label);
+        } catch (PartialClassDeletionException | ClassDeletionException $exception) {
+            $success = $exception instanceof PartialClassDeletionException;
+            $deleted = false;
+
+            $message = $exception->getUserMessage();
         }
 
         $this->returnJson([
             'success' => $success,
-            'message' => $msg,
-            'deleted' => $success
+            'message' => $message,
+            'deleted' => $deleted,
         ]);
     }
 
@@ -1434,5 +1442,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     private function getEventManager(): EventManager
     {
         return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+    }
+
+    private function getClassDeleter(): ClassDeleterInterface
+    {
+        return $this->getPsrContainer()->get(ClassDeleter::class);
     }
 }

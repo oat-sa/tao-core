@@ -25,6 +25,7 @@ namespace oat\tao\model\Lists\ServiceProvider;
 use oat\generis\model\data\Ontology;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\Lists\Business\Specification\LocalListClassSpecification;
 use oat\tao\model\Lists\Business\Validation\PropertyListValidator;
 use oat\tao\model\Lists\Business\Validation\PropertyTypeValidator;
 use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
@@ -67,6 +68,7 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
+                    service(FeatureFlagChecker::class),
                     service(PrimaryPropertySpecification::class),
                     service(RemoteListPropertySpecification::class),
                     service(DependentPropertySpecification::class),
@@ -126,6 +128,10 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
                     service(DependentPropertySpecification::class),
                 ]
             );
+
+        $services
+            ->set(LocalListClassSpecification::class, LocalListClassSpecification::class)
+            ->public();
 
         $services
             ->set(DependsOnPropertyFormFieldFactory::class, DependsOnPropertyFormFieldFactory::class)
