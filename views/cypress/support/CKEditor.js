@@ -1,5 +1,3 @@
-<?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,28 +13,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA ;
  */
 
-declare(strict_types=1);
-
-namespace oat\tao\model\accessControl\func;
-
-use oat\oatbox\user\User;
-
-interface FuncAccessControl
-{
-    /**
-     * Returns whenever or not a user has access to a specified call
-     *
-     * @param string $controller
-     * @param string $action
-     *
-     * @return bool
-     */
-    public function accessPossible(User $user, $controller, $action);
-
-    public function applyRule(AccessRule $rule);
-
-    public function revokeRule(AccessRule $rule);
-}
+/**
+ * Command for programatically typing in a CKEditor
+ * @param {propertyName} string - The name of the property to type in
+ * @param {content} string - The content to type
+ */
+Cypress.Commands.add("typeInCKEditor", (propertyName, content) => {
+    cy.window()
+    .then(win => {
+        const propertyUri = Cypress.$('[data-testid="' + propertyName + '"]').attr('id');
+        win.CKEDITOR.instances[propertyUri].setData(content);
+    });
+});

@@ -159,18 +159,14 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         if (!is_null($property->getRange())) {
             $addIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_add", 'Free');
             $addIndexElt->setValue(
-                "<a href='#' class='btn-info index-adder small index'><span class='icon-add'></span> " . __(
-                    'Add index'
-                ) . "</a><div class='clearfix'></div>"
+                "<a href='#' class='btn-info index-adder small index'><span class='icon-add'></span> " . __('Add index') . "</a><div class='clearfix'></div>"
             );
             $this->form->addElement($addIndexElt);
             $elementNames[] = $addIndexElt;
         } else {
             $addIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_p", 'Free');
             $addIndexElt->setValue(
-                "<p class='index' >" . __(
-                    'Choose a type for your property first'
-                ) . "</p>"
+                "<p class='index' >" . __('Choose a type for your property first') . "</p>"
             );
             $this->form->addElement($addIndexElt);
             $elementNames[] = $addIndexElt;

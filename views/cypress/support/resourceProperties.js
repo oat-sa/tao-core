@@ -48,7 +48,7 @@
  * @param {String} newName
  */
 Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
-    cy.log('COMMAND: renameSelectedNode', newName)        
+    cy.log('COMMAND: renameSelectedNode', newName)
         .intercept('POST', `**${editUrl}`).as('edit')
         .intercept('GET', `**/getOntologyData**`).as('treeRender')
         .get(`${formSelector} ${selectors.labelSelector}`)
@@ -65,7 +65,7 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
 });
 
 /**
- * Assigns value to the class property (works for the list with single selection of boolean values)
+ * Assigns value to the item property (works for the list with single selection of boolean values)
  * @param {String} nodeName
  * @param {String} nodePropertiesForm - css selector for the node properties edition form
  * @param {String} selectOption - css selector for the option to select
@@ -86,6 +86,78 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
     cy.intercept('GET', `**/${treeRenderUrl}/getOntologyData**`).as('treeRender')
     cy.getSettled('button[type="submit"]').click();
     cy.wait('@treeRender');
+});
+
+/**
+ * Assigns value to the CKEditor property
+ * @param {Object} property - property to assign value to
+ * @param {String} property.name - name of the property
+ * @param {String} value - value to assign
+ */
+Cypress.Commands.add('assignValueToCKEditor', (property, value) => {
+    cy.log('COMMAND: assignValueToCKEditor', property.name);
+    cy.get(`[data-testid="${property.name}"]`);
+    cy.typeInCKEditor(property.name, value);
+});
+
+/**
+ * Assigns value to the Select2 property
+ * It differentiates between single and multiple select based on if the value parameter is an array or not
+ * @param {Object} property - property to assign value to
+ * @param {String} property.name - name of the property
+ * @param {String} value - value to assign
+ */
+Cypress.Commands.add('assignValueToSelect2Property', (property, value) => {
+    cy.log('COMMAND: assignValueToSelect2Property', property.name);
+    cy.get(`[data-testid="${property.name}"]`);
+
+    // Multiple choice search input
+    if (Array.isArray(value)) {
+        value.forEach((val) => {
+            cy.get(`[data-testid="${property.name}"]`).click();
+            cy.get(`[data-testid="${property.name}"] input.select2-input`).type('   ', {force: true});
+            cy.contains('.select2-results .select2-result', val).click();
+        });
+    }
+    // Single choice search input
+    else {
+        cy.get(`[data-testid="${property.name}"]`).click();
+        cy.get('.select2-search input').type(value);
+        cy.contains('.select2-results .select2-match', value).click();
+    }
+});
+
+/**
+ * Assigns value to the text property
+ * @param {Object} property - property to assign value to
+ * @param {String} property.name - name of the property
+ * @param {String} value - value to assign
+*/
+Cypress.Commands.add('assignValueToTextProperty', (property, value) => {
+    cy.log('COMMAND: assignValueToTextProperty', property.name);
+    cy.get(`[data-testid="${property.name}"]`).clear().type(value);
+});
+
+/**
+ * Assigns value to the checkbox/radio property
+ * @param {Object} property - property to assign value to
+ * @param {String} property.name - name of the property
+ * @param {String} value - value to assign
+*/
+Cypress.Commands.add('assignValueToCheckProperty', (property, value) => {
+    cy.log('COMMAND: assignValueToCheckProperty', property.name);
+    cy.get(`[data-testid*="${property.name}"]`).check(value);
+});
+
+/**
+ * Assigns value to the select property
+ * @param {Object} property - property to assign value to
+ * @param {String} property.name - name of the property
+ * @param {String} value - value to assign
+*/
+Cypress.Commands.add('assignValueToSelectProperty', (property, value) => {
+    cy.log('COMMAND: assignValueToSelectProperty', property.name);
+    cy.get(`[data-testid="${property.name}"]`).select(value);
 });
 
 /**

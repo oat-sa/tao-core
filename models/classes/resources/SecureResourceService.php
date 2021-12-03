@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,19 +15,23 @@ declare(strict_types=1);
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013-2020   (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2013-2021 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\resources;
 
+use oat\oatbox\user\User;
 use common_exception_Error;
+use Psr\Log\LoggerInterface;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use oat\generis\model\data\permission\PermissionInterface;
-use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\session\SessionService;
-use oat\oatbox\user\User;
+use oat\oatbox\log\logger\AdvancedLogger;
+use oat\oatbox\service\ConfigurableService;
+use oat\generis\model\data\permission\PermissionInterface;
+use oat\oatbox\log\logger\extender\ContextExtenderInterface;
 
 class SecureResourceService extends ConfigurableService implements SecureResourceServiceInterface
 {
@@ -46,9 +48,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
     public function getAllChildren(core_kernel_classes_Class $resource): array
     {
         $subClasses = $resource->getSubClasses(false);
-
         $accessibleInstances = [[]];
-
         $permissionService = $this->getPermissionProvider();
 
         if ($subClasses) {
@@ -98,6 +98,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
 
         foreach ($instances as $child) {
             $uri = $child->getUri();
+
             if ($this->hasAccess($permissions[$uri])) {
                 $accessibleInstances[$uri] = $child;
             }
@@ -108,8 +109,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
 
     private function hasAccess(array $permissions, array $permissionsToCheck = ['READ']): bool
     {
-        return
-            $permissions === [PermissionInterface::RIGHT_UNSUPPORTED]
+        return $permissions === [PermissionInterface::RIGHT_UNSUPPORTED]
             || empty(array_diff($permissionsToCheck, $permissions));
     }
 
@@ -129,11 +129,8 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
         );
 
         foreach ($permissions as $uri => $permission) {
-            if (
-                empty($permission)
-                || !$this->hasAccess($permission, $permissionsToCheck)
-            ) {
-                throw new ResourceAccessDeniedException($uri);
+            if (empty($permission) || !$this->hasAccess($permission, $permissionsToCheck)) {
+                $this->throwResourceAccessDeniedException($uri);
             }
         }
     }
@@ -169,7 +166,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
         $permissions = $permissionService->getPermissions($this->getUser(), [$resourceUri]);
 
         if (!$this->hasAccess($permissions[$resourceUri], $permissionsToCheck)) {
-            throw new ResourceAccessDeniedException($resourceUri);
+            $this->throwResourceAccessDeniedException($resourceUri);
         }
 
         $parentUris = $this->getParentUris(
@@ -230,5 +227,21 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
         }
 
         return $this->user;
+    }
+
+    private function throwResourceAccessDeniedException(string $uri): void
+    {
+        $exception = new ResourceAccessDeniedException($uri);
+        $this->getAdvancedLogger()->error(
+            $exception->getMessage(),
+            [ContextExtenderInterface::CONTEXT_EXCEPTION => $exception]
+        );
+
+        throw $exception;
+    }
+
+    private function getAdvancedLogger(): LoggerInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(AdvancedLogger::ACL_SERVICE_ID);
     }
 }

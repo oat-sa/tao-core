@@ -179,12 +179,11 @@ class tao_actions_Main extends tao_actions_CommonModule
 
                                 $diffInSeconds = $endTime->getTimestamp() - $reference->getTimestamp();
 
-                                $msg .= __(
-                                    'Please try in %s.',
-                                    $diffInSeconds > 60
-                                        ? tao_helpers_Date::displayInterval($statusDetails['remaining'], tao_helpers_Date::FORMAT_INTERVAL_LONG)
-                                        : $diffInSeconds . ' ' . ($diffInSeconds == 1 ? __('second') : __('seconds'))
-                                );
+                                $humanDiff = $diffInSeconds > 60
+                                    ? tao_helpers_Date::displayInterval($statusDetails['remaining'], tao_helpers_Date::FORMAT_INTERVAL_LONG)
+                                    : $diffInSeconds . ' ' . ($diffInSeconds === 1 ? __('second') : __('seconds'));
+
+                                $msg .= __('Please try in %s.', $humanDiff);
                             }
                         } else {
                             $msg = __('Your account has been locked, please contact your administrator.');
