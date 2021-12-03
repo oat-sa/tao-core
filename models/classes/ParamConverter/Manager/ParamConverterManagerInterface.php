@@ -43,10 +43,8 @@ interface ParamConverterManagerInterface
      * converters with a $priority. If you pass a $priority = null then the
      * added converter will not be part of the iteration chain and can only
      * be invoked explicitly.
-     *
-     * @param int|null $priority the priority (between -10 and 10)
      */
-    public function add(ParamConverterInterface $converter, ?int $priority = 0, string $name = null): void;
+    public function add(ParamConverterInterface $converter, string $name = null, ?int $priority = 0): void;
 
     /**
      * Returns all registered param converters.

@@ -29,21 +29,11 @@ use oat\tao\model\ParamConverter\Request\ParamConverterInterface;
 
 class ParamConverterManager implements ParamConverterManagerInterface
 {
-    /** @var array */
+    /** @var array<int, ParamConverterInterface[]> */
     private $converters = [];
 
-    /** @var array */
+    /** @var array<string, ParamConverterInterface> */
     private $namedConverters = [];
-
-    /**
-     * @param ParamConverterInterface[] $converters
-     */
-    public function __construct(array $converters = [])
-    {
-        foreach ($converters as $converter) {
-            $this->add($converter, $converter->getPriority(), $converter->getName());
-        }
-    }
 
     /**
      * {@inheritdoc}
@@ -58,7 +48,7 @@ class ParamConverterManager implements ParamConverterManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function add(ParamConverterInterface $converter, ?int $priority = 0, string $name = null): void
+    public function add(ParamConverterInterface $converter, string $name = null, ?int $priority = 0): void
     {
         if ($priority !== null) {
             if (!isset($this->converters[$priority])) {
@@ -95,7 +85,7 @@ class ParamConverterManager implements ParamConverterManagerInterface
 
         // If the value is already an instance of the class we are trying to convert it into
         // we should continue as no conversion is required
-        if (is_object($value) && $value instanceof $className) {
+        if ($value instanceof $className) {
             return;
         }
 
@@ -132,15 +122,13 @@ class ParamConverterManager implements ParamConverterManagerInterface
         }
     }
 
-    private function checkConverterSupport(
-        ParamConverterInterface $converter,
-        ParamConverter $configuration
-    ): void {
+    private function checkConverterSupport(ParamConverterInterface $converter, ParamConverter $configuration): void
+    {
         if (!$converter->supports($configuration)) {
             throw new RuntimeException(
                 sprintf(
                     'Converter "%s" does not support conversion of parameter "%s".',
-                    $converter->getName(),
+                    $configuration->getConverter(),
                     $configuration->getName()
                 )
             );

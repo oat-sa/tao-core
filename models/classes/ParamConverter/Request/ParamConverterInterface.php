@@ -29,10 +29,6 @@ interface ParamConverterInterface
 {
     public const ATTRIBUTE_CONVERTED = 'converted';
 
-    public function getPriority(): int;
-
-    public function getName(): string;
-
     /**
      * Stores the object in the request.
      */

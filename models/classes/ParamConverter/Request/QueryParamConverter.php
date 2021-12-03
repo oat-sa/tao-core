@@ -26,11 +26,6 @@ use oat\tao\model\HttpFoundation\Request\RequestInterface;
 
 class QueryParamConverter extends AbstractParamConverter
 {
-    public function getName(): string
-    {
-        return 'oat.tao.param_converter.query';
-    }
-
     protected function getData(RequestInterface $request, array $options): array
     {
         return $request->getQueryParameters();

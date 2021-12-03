@@ -38,11 +38,6 @@ abstract class AbstractParamConverter implements ParamConverterInterface
         $this->objectFactory = $objectFactory;
     }
 
-    public function getPriority(): int
-    {
-        return 0;
-    }
-
     public function apply(RequestInterface $request, ParamConverter $configuration): bool
     {
         try {
@@ -63,7 +58,7 @@ abstract class AbstractParamConverter implements ParamConverterInterface
 
     public function supports(ParamConverter $configuration): bool
     {
-        return $configuration->getClass() !== null && $configuration->getConverter() === $this->getName();
+        return $configuration->getClass() !== null;
     }
 
     abstract protected function getData(RequestInterface $request, array $options): array;

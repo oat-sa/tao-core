@@ -31,30 +31,30 @@ use oat\tao\model\ParamConverter\EventListener\ParamConverterListener;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ParametersConfigurator;
 
-use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class ParamConverterServiceProvider implements ContainerServiceProviderInterface
 {
     private const PARAM_CONVERTERS = [
-        QueryParamConverter::class,
+        'oat.tao.param_converter.query' => QueryParamConverter::class,
     ];
+
+    /** @var ServicesConfigurator */
+    private $services;
 
     public function __invoke(ContainerConfigurator $configurator): void
     {
-        $services = $configurator->services();
-        $parameters = $configurator->parameters();
+        $this->services = $configurator->services();
 
-        $this->provideConverters($services);
-        $this->provideParamConverterManager($services);
-        $this->provideParamConverterListener($services, $parameters);
+        $this->provideConverters();
+        $this->provideParamConverterManager();
+        $this->provideParamConverterListener();
     }
 
-    private function provideConverters(ServicesConfigurator $services): void
+    private function provideConverters(): void
     {
-        $services
+        $this->services
             ->set(ObjectFactory::class, ObjectFactory::class)
             ->args(
                 [
@@ -63,7 +63,7 @@ class ParamConverterServiceProvider implements ContainerServiceProviderInterface
             );
 
         foreach (self::PARAM_CONVERTERS as $paramConverter) {
-            $services
+            $this->services
                 ->set($paramConverter, $paramConverter)
                 ->args(
                     [
@@ -73,37 +73,34 @@ class ParamConverterServiceProvider implements ContainerServiceProviderInterface
         }
     }
 
-    private function provideParamConverterManager(ServicesConfigurator $services): void
+    private function provideParamConverterManager(): void
     {
-        $services
-            ->set(ParamConverterManager::class, ParamConverterManager::class)
-            ->args(
+        $this->services->set(ParamConverterManager::class, ParamConverterManager::class);
+        $paramConverterManager = $this->services->get(ParamConverterManager::class);
+
+        foreach (self::PARAM_CONVERTERS as $name => $paramConverterId) {
+            $paramConverterManager->call(
+                'add',
                 [
-                    array_map(
-                        static function (string $paramConverter) {
-                            return service($paramConverter);
-                        },
-                        self::PARAM_CONVERTERS
-                    ),
+                    service($paramConverterId),
+                    $name,
                 ]
             );
+        }
     }
 
-    private function provideParamConverterListener(
-        ServicesConfigurator $services,
-        ParametersConfigurator $parameters
-    ): void {
-        $services->set(Configurator::class, Configurator::class);
+    private function provideParamConverterListener(): void
+    {
+        $this->services->set(Configurator::class, Configurator::class);
 
-        $parameters->set('autoConvert', true);
-        $services
+        $this->services
             ->set(ParamConverterListener::class, ParamConverterListener::class)
             ->public()
             ->args(
                 [
                     service(Configurator::class),
                     service(ParamConverterManager::class),
-                    param('autoConvert'),
+                    true,
                 ]
             );
     }
