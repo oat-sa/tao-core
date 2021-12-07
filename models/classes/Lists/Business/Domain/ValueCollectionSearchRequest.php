@@ -38,6 +38,9 @@ class ValueCollectionSearchRequest
     /** @var string[] */
     private $excluded = [];
 
+    /** @var int */
+    private $offset = 0;
+
     /** @var int|null */
     private $limit;
 
@@ -143,6 +146,23 @@ class ValueCollectionSearchRequest
     public function addExcluded(string $excluded): self
     {
         $this->excluded[] = $excluded;
+
+        return $this;
+    }
+
+    public function hasOffset(): bool
+    {
+        return $this->offset > 0;
+    }
+
+    public function getOffset(): int
+    {
+        return $this->offset;
+    }
+
+    public function setOffset(int $offset): self
+    {
+        $this->offset = $offset;
 
         return $this;
     }

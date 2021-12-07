@@ -728,28 +728,34 @@
              */
             function showPropertyListValues() {
                 const $this = $(this);
-                const elt = $this.parent("div");
+                const elt = $this.parent('div');
                 let classUri;
 
                 //load the instances and display them (the list items)
-                $(elt).parent("div").children("ul.form-elt-list").remove();
+                $(elt).parent('div').children('ul.form-elt-list').remove();
                 classUri = $this.val();
+
                 if (classUri && classUri.trim()) {
-                    $this.parent("div").children("div.form-error").remove();
+                    $this.parent('div').children('div.form-error').remove();
+
                     $.ajax({
                         url: context.root_url + 'taoBackOffice/Lists/getListElements',
-                        type: "POST",
-                        data: {listUri: classUri},
-                        dataType: 'json',
+                        type: 'GET',
+                        data: {
+                            listUri: classUri,
+                        },
                         success: function (response) {
-                            let html = "<ul class='form-elt-list'>",
+                            let html = '<ul class="form-elt-list">',
                                 property;
+
                             for (property in response) {
                                 if(!response.hasOwnProperty(property)) {
                                     continue;
                                 }
+
                                 html += '<li>' + encode.html(response[property]) + '</li>';
                             }
+
                             html += '</ul>';
                             $(elt).after(html);
                         }
