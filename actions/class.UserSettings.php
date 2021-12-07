@@ -30,12 +30,11 @@ use tao_helpers_form_FormContainer as FormContainer;
 use tao_helpers_Display as DisplayHelper;
 
 /**
- * This controller provide the actions to manage the user settings
+ * This controller provides actions to manage the user settings
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- *
  */
 class tao_actions_UserSettings extends tao_actions_CommonModule
 {
@@ -69,10 +68,20 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
      */
     public function properties()
     {
+        // @todo IoD etc
+        $userSettingsService = new \oat\tao\model\user\implementation\UserSettingsServiceImpl(TIME_ZONE);
+        $userSettingsService->setServiceLocator($this->getServiceLocator());
+
+        $userSettings = $userSettingsService->getUserSettings($this->getUserService()->getCurrentUser());
+
+        $presenter = new \oat\tao\model\user\UserSettingsFormFieldsPresenter($userSettings);
+
+
         $myFormContainer = new tao_actions_form_UserSettings(
-            $this->getUserSettings(),
+            $presenter->getFormFields(),
             [FormContainer::CSRF_PROTECTION_OPTION => true]
         );
+
         $myForm = $myFormContainer->getForm();
         if ($myForm->isSubmited() && $myForm->isValid()) {
             $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
@@ -132,10 +141,13 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
                 $this->getProperty(GenerisRdf::PROPERTY_USER_TIMEZONE)
             ]
         );
+
+        // @todo Move this logic to the model
         $langs = [];
         if (!empty($props[GenerisRdf::PROPERTY_USER_UILG])) {
             $langs['ui_lang'] = current($props[GenerisRdf::PROPERTY_USER_UILG])->getUri();
         }
+
         if (!empty($props[GenerisRdf::PROPERTY_USER_DEFLG])) {
             $langs['data_lang'] = current($props[GenerisRdf::PROPERTY_USER_DEFLG])->getUri();
         }
