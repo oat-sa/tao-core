@@ -42,7 +42,7 @@ class UserSettingsFormFieldsPresenter
      * - data_lang: Language selected to access the data in persistent memory.
      * - timezone:  Timezone selected to display times and dates.
      *
-     * @return core_kernel_classes_Resource[] The URIs of the languages.
+     * @return string[] The URIs of the languages.
      */
     public function getFormFields(): array
     {
