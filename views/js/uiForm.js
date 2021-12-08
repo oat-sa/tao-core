@@ -486,7 +486,7 @@
              */
             async function checkForDependency(propertyUri, $groupNode) {
                 if (!context.featureFlags.FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED) {
-                    return;
+                    return [];
                 }
 
                 const typeSelectVal = $groupNode.find('select[id$="type"]').val();
@@ -513,7 +513,7 @@
 
             async function getPropertyRemovalConfirmation($groupNode, uri) {
                 const dependencies = await checkForDependency(uri, $groupNode);
-                const dependsOnValue = $($groupNode).find('select[id$="_depends-on-property"]').val();
+                const dependsOnValue = $($groupNode).find('select[id$="_depends-on-property"]').val() || ' ';
 
                 return new Promise((resolve, reject) => {
                     if (!dependencies.length && dependsOnValue === ' ') {
