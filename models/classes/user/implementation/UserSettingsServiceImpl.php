@@ -15,18 +15,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA.
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\user\implementation;
 
+use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\user\UserSettings;
 use oat\tao\model\user\UserSettingsService;
 use core_kernel_classes_Resource;
-
-use Laminas\ServiceManager\ServiceLocatorAwareTrait;
-use oat\generis\model\OntologyAwareTrait;
 
 class UserSettingsServiceImpl implements UserSettingsService
 {
