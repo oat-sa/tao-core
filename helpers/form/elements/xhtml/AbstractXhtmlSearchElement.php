@@ -68,8 +68,9 @@ abstract class AbstractXhtmlSearchElement extends AbstractSearchElement
             $this->createClientCode()
         );
         $html[] = sprintf(
-            '<div%s>%s</div>',
+            '<div%s data-testid="%s">%s</div>',
             $this->renderAttributes(),
+            $this->getDescription(),
             $this->createHiddenInput()->render() . ($label ?? '')
         );
 

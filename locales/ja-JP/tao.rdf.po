@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint157\n"
-"PO-Revision-Date: 2021-06-18T08:53:20\n"
+"Project-Id-Version: TAO 2021.10\n"
+"PO-Revision-Date: 2021-12-01T16:55:32\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -84,6 +84,16 @@ msgstr "リモートリストタイプ"
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list type"
 msgstr "リモートリストタイプ"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListDependencyItemUriPath
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Remote list dependency source uri path"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListDependencyItemUriPath
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Remote list dependency source uri path"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"

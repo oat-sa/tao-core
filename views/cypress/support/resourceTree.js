@@ -174,6 +174,7 @@ Cypress.Commands.add('moveClassFromRoot', (
  * @param {String} deleteClassUrl - url for the deleting class POST request
  * @param {String} name - name of the class which will be deleted
  * @param {Boolean} isConfirmCheckbox = false - if true also checks confirmation checkbox
+ * @param {Boolean} isAsset = false - if true handles confirmation checkbox differently (works different for asset)
  */
 Cypress.Commands.add('deleteClass', (
     rootSelector,
@@ -182,7 +183,8 @@ Cypress.Commands.add('deleteClass', (
     confirmSelector,
     deleteClassUrl,
     name,
-    isConfirmCheckbox = false
+    isConfirmCheckbox = false,
+    isAsset = false
 ) => {
     cy.log('COMMAND: deleteClass', name)
         .getSettled(`${rootSelector} a:nth(0)`)
@@ -192,15 +194,21 @@ Cypress.Commands.add('deleteClass', (
     cy.get(deleteSelector).click();
 
     if (isConfirmCheckbox) {
-        cy.get('.modal-body label[for=confirm]')
-            .click();
+        if(isAsset){
+            cy.get('button[data-control="ok"]')
+                .click();
+        } else {
+            cy.get('.modal-body label[for=confirm]')
+                .click();
+        }
     }
-
     cy.intercept('POST', `**/${deleteClassUrl}`).as('deleteClass')
     cy.intercept('POST', '**/edit*').as('edit')
-    cy.get(confirmSelector)
-        .click();
-    cy.wait('@deleteClass');
+    if (!isAsset) {
+        cy.get(confirmSelector)
+            .click();
+        cy.wait('@deleteClass');
+    }
     cy.wait('@edit');
 });
 
@@ -213,6 +221,7 @@ Cypress.Commands.add('deleteClass', (
  * @param {String} deleteClassUrl - url for the deleting class POST request
  * @param {String} name - name of the class which will be deleted
  * @param {Boolean} isConfirmCheckbox = false - if true also checks confirmation checkbox
+ * @param {Boolean} isAsset = false - if true handles confirmation checkbox differently (works different for asset)
  */
 Cypress.Commands.add('deleteClassFromRoot', (
     rootSelector,
@@ -221,7 +230,8 @@ Cypress.Commands.add('deleteClassFromRoot', (
     confirmSelector,
     name,
     deleteClassUrl,
-    isConfirmCheckbox
+    isConfirmCheckbox,
+    isAsset
 ) => {
 
     cy.log('COMMAND: deleteClassFromRoot', name)
@@ -230,7 +240,7 @@ Cypress.Commands.add('deleteClassFromRoot', (
         .click()
         .get(`li[title="${name}"] a`)
         .wait('@edit')
-        .deleteClass(rootSelector, formSelector, deleteSelector, confirmSelector, deleteClassUrl, name, isConfirmCheckbox)
+        .deleteClass(rootSelector, formSelector, deleteSelector, confirmSelector, deleteClassUrl, name, isConfirmCheckbox, isAsset)
 });
 
 /**
