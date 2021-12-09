@@ -122,6 +122,14 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             ? $className::SERVICE_ID
             : $className;
 
+        //FIXME @TODO Profile for performance issues
+        $container = $this->getServiceManager()->getContainer();
+
+        if ($container->has($serviceId)) {
+            return $container->get($serviceId);
+        }
+        //FIXME @TODO Profile for performance issues
+
         return $this->getServiceLocator()->has($serviceId)
             ? $this->getServiceLocator()->get($serviceId)
             : $this->propagate(new $className);
