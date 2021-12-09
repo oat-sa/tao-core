@@ -27,13 +27,18 @@ use oat\tao\model\iconBuilder\IconBuilderTrait;
  *
  * @access		public
  * @author		Dieter Raber, <dieter@taotesting.com>
- * @date		2021-05-28 09:42:27
+ * @date		2021-12-09 09:04:40
  * @package		tao
  */
 class tao_helpers_Icon
 {
     use IconBuilderTrait;
 
+    public const CLASS_INFO_BARE = 'icon-info-bare';
+    public const CLASS_BOOKMARK_OUTLINE = 'icon-bookmark-outline';
+    public const CLASS_BOOKMARK = 'icon-bookmark';
+    public const CLASS_INDICATOR = 'icon-indicator';
+    public const CLASS_ADD_SUBSECTION = 'icon-add-subsection';
     public const CLASS_WRAP_INLINE = 'icon-wrap-inline';
     public const CLASS_WRAP_LEFT = 'icon-wrap-left';
     public const CLASS_WRAP_RIGHT = 'icon-wrap-right';
@@ -254,6 +259,31 @@ class tao_helpers_Icon
     public const CLASS_HIGHLIGHTER = 'icon-highlighter';
     public const CLASS_ELIMINATE_CROSSED = 'icon-eliminate-crossed';
     public const CLASS_PLAY_FROM_HERE = 'icon-play-from-here';
+
+    public static function iconInfoBare(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_INFO_BARE, $options);
+    }
+
+    public static function iconBookmarkOutline(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_BOOKMARK_OUTLINE, $options);
+    }
+
+    public static function iconBookmark(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_BOOKMARK, $options);
+    }
+
+    public static function iconIndicator(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_INDICATOR, $options);
+    }
+
+    public static function iconAddSubsection(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_ADD_SUBSECTION, $options);
+    }
 
     public static function iconWrapInline(array $options = [])
     {
