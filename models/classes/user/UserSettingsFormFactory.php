@@ -46,7 +46,7 @@ class UserSettingsFormFactory
         if (!empty($this->userSettings->getUILanguageCode())) {
             $fields['ui_lang'] = $this->userSettings->getUILanguageCode();
         }
-        if (!empty($props[GenerisRdf::PROPERTY_USER_DEFLG])) {
+        if (!empty($this->userSettings->getDataLanguageCode())) {
             $fields['data_lang'] = $this->userSettings->getDataLanguageCode();
         }
 
