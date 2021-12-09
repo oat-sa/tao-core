@@ -28,10 +28,10 @@ use DomainException;
 class UserSettingsBuilder
 {
     /** @var string|null */
-    private $dataLanguageCode = null;
+    private $dataLanguageCode;
 
     /** @var string|null */
-    private $uiLanguageCode = null;
+    private $uiLanguageCode;
 
     /** @var string */
     private $timezone;
@@ -45,14 +45,14 @@ class UserSettingsBuilder
         $this->timezone = $defaultTimezone;
     }
 
-    public function withDataLanguage(string $dataLanguage = null): self
+    public function withDataLanguage(string $dataLanguage): self
     {
         $this->dataLanguageCode = trim($dataLanguage) ?: null;
 
         return $this;
     }
 
-    public function withUILanguage(string $uiLanguage = null): self
+    public function withUILanguage(string $uiLanguage): self
     {
         $this->uiLanguageCode = trim($uiLanguage) ?: null;
 
@@ -62,7 +62,7 @@ class UserSettingsBuilder
     /**
      * @param string|\Stringable $timezone
      */
-    public function withTimezone($timezone = null): self
+    public function withTimezone($timezone): self
     {
         $this->timezone = trim((string)$timezone) ?: null;
 
