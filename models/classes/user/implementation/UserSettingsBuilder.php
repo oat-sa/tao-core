@@ -59,9 +59,12 @@ class UserSettingsBuilder
         return $this;
     }
 
-    public function withTimezone(string $timezone = null): self
+    /**
+     * @param string|\Stringable $timezone
+     */
+    public function withTimezone($timezone = null): self
     {
-        $this->timezone = trim($timezone) ?: null;
+        $this->timezone = trim((string)$timezone) ?: null;
 
         return $this;
     }
