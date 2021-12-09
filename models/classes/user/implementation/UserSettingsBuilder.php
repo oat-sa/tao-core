@@ -39,7 +39,7 @@ class UserSettingsBuilder
     public function __construct(string $defaultTimezone)
     {
         if (empty($defaultTimezone)) {
-            throw new DomainException("Default Timezone is required");
+            throw new DomainException('Default Timezone is required');
         }
 
         $this->timezone = $defaultTimezone;
