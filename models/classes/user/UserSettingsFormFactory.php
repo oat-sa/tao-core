@@ -25,11 +25,9 @@ namespace oat\tao\model\user;
 use oat\generis\model\GenerisRdf;
 use tao_helpers_form_FormContainer;
 use tao_actions_form_UserSettings;
-use tao_helpers_form_xhtml_Form;
+use tao_helpers_form_Form;
 
-// @todo Rename this class as UserSettingsFormFactory
-
-class UserSettingsFormFieldsPresenter
+class UserSettingsFormFactory
 {
     /** @var UserSettings */
     private $userSettings;
@@ -39,35 +37,7 @@ class UserSettingsFormFieldsPresenter
         $this->userSettings = $userSettings;
     }
 
-    // @todo merge getFormFields into this new method
-    public function getForm() : tao_actions_form_UserSettings
-    {
-        $opts = [
-            tao_helpers_form_FormContainer::CSRF_PROTECTION_OPTION => true
-        ];
-
-        $formBuilder = new tao_actions_form_UserSettings(
-            $this->getFormFields(),
-            $opts
-        );
-
-        //$myFormContainer = $formBuilder->getForm();
-
-        return $formBuilder->getForm();
-    }
-
-    /**
-     * Get the settings for a given user.
-     *
-     * This method returns a Resource array with the following keys:
-     *
-     * - ui_lang:   Language selected for the Graphical User Interface.
-     * - data_lang: Language selected to access the data in persistent memory.
-     * - timezone:  Timezone selected to display times and dates.
-     *
-     * @return string[] The URIs of the languages.
-     */
-    public function getFormFields(): array
+    public function getForm(bool $csrf = true): tao_helpers_form_Form
     {
         $fields = [
             'timezone' => $this->userSettings->getTimezone(),
@@ -76,11 +46,17 @@ class UserSettingsFormFieldsPresenter
         if (!empty($this->userSettings->getUILanguageCode())) {
             $fields['ui_lang'] = $this->userSettings->getUILanguageCode();
         }
-
         if (!empty($props[GenerisRdf::PROPERTY_USER_DEFLG])) {
             $fields['data_lang'] = $this->userSettings->getDataLanguageCode();
         }
 
-        return $fields;
+        $formBuilder = new tao_actions_form_UserSettings(
+            $fields,
+            [
+                tao_helpers_form_FormContainer::CSRF_PROTECTION_OPTION => $csrf
+            ]
+        );
+
+        return $formBuilder->getForm();
     }
 }
