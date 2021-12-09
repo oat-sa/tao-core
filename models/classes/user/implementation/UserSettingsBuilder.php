@@ -47,21 +47,21 @@ class UserSettingsBuilder
 
     public function withDataLanguage(string $dataLanguage = null): self
     {
-        $this->dataLanguageCode = trim($dataLanguage) ?? null;
+        $this->dataLanguageCode = trim($dataLanguage) ?: null;
 
         return $this;
     }
 
     public function withUILanguage(string $uiLanguage = null): self
     {
-        $this->uiLanguageCode = trim($uiLanguage) ?? null;
+        $this->uiLanguageCode = trim($uiLanguage) ?: null;
 
         return $this;
     }
 
     public function withTimezone(string $timezone = null): self
     {
-        $this->timezone = trim($timezone) ?? null;
+        $this->timezone = trim($timezone) ?: null;
 
         return $this;
     }
