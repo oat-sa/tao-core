@@ -23,6 +23,11 @@ declare(strict_types=1);
 namespace oat\tao\model\user;
 
 use oat\generis\model\GenerisRdf;
+use tao_helpers_form_FormContainer;
+use tao_actions_form_UserSettings;
+use tao_helpers_form_xhtml_Form;
+
+// @todo Rename this class as UserSettingsFormFactory
 
 class UserSettingsFormFieldsPresenter
 {
@@ -32,6 +37,23 @@ class UserSettingsFormFieldsPresenter
     public function __construct(UserSettings $userSettings)
     {
         $this->userSettings = $userSettings;
+    }
+
+    // @todo merge getFormFields into this new method
+    public function getForm() : tao_actions_form_UserSettings
+    {
+        $opts = [
+            tao_helpers_form_FormContainer::CSRF_PROTECTION_OPTION => true
+        ];
+
+        $formBuilder = new tao_actions_form_UserSettings(
+            $this->getFormFields(),
+            $opts
+        );
+
+        //$myFormContainer = $formBuilder->getForm();
+
+        return $formBuilder->getForm();
     }
 
     /**

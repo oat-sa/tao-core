@@ -18,7 +18,7 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2018 (update and modification) Open Assessment Technologies SA;
+ *               2013-2021 (update and modification) Open Assessment Technologies SA;
  *
  */
 
@@ -26,6 +26,8 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\service\ApplicationService;
+use oat\tao\model\user\UserSettingsFormFactory;
+use oat\tao\model\user\UserSettingsService;
 use tao_helpers_form_FormContainer as FormContainer;
 use tao_helpers_Display as DisplayHelper;
 
@@ -68,21 +70,14 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
      */
     public function properties()
     {
-        // @todo IoD etc
-        $userSettingsService = new \oat\tao\model\user\implementation\UserSettingsServiceImpl(TIME_ZONE);
+        $userSettingsService = $this->getUserSettingsService();
         $userSettingsService->setServiceLocator($this->getServiceLocator());
 
         $userSettings = $userSettingsService->getUserSettings($this->getUserService()->getCurrentUser());
 
-        $presenter = new \oat\tao\model\user\UserSettingsFormFieldsPresenter($userSettings);
+        $presenter = new UserSettingsFormFactory($userSettings);
+        $myForm = $presenter->getForm();
 
-
-        $myFormContainer = new tao_actions_form_UserSettings(
-            $presenter->getFormFields(),
-            [FormContainer::CSRF_PROTECTION_OPTION => true]
-        );
-
-        $myForm = $myFormContainer->getForm();
         if ($myForm->isSubmited() && $myForm->isValid()) {
             $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
 
@@ -118,50 +113,16 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
         $this->setView('form/settings_user.tpl');
     }
 
-
-    /**
-     * Get the settings of the current user. This method returns an associative array with the following keys:
-     *
-     * - 'ui_lang': The value associated to this key is a core_kernel_classes_Resource object which represents the language
-     * selected for the Graphical User Interface.
-     * - 'data_lang': The value associated to this key is a core_kernel_classes_Resource object which respresents the language
-     * selected to access the data in persistent memory.
-     * - 'timezone': The value associated to this key is a core_kernel_classes_Resource object which respresents the timezone
-     * selected to display times and dates.
-     *
-     * @return array The URIs of the languages.
-     */
-    private function getUserSettings()
-    {
-        $currentUser = $this->getUserService()->getCurrentUser();
-        $props = $currentUser->getPropertiesValues(
-            [
-                $this->getProperty(GenerisRdf::PROPERTY_USER_UILG),
-                $this->getProperty(GenerisRdf::PROPERTY_USER_DEFLG),
-                $this->getProperty(GenerisRdf::PROPERTY_USER_TIMEZONE)
-            ]
-        );
-
-        // @todo Move this logic to the model
-        $langs = [];
-        if (!empty($props[GenerisRdf::PROPERTY_USER_UILG])) {
-            $langs['ui_lang'] = current($props[GenerisRdf::PROPERTY_USER_UILG])->getUri();
-        }
-
-        if (!empty($props[GenerisRdf::PROPERTY_USER_DEFLG])) {
-            $langs['data_lang'] = current($props[GenerisRdf::PROPERTY_USER_DEFLG])->getUri();
-        }
-        $langs['timezone'] = !empty($props[GenerisRdf::PROPERTY_USER_TIMEZONE])
-            ? (string)current($props[GenerisRdf::PROPERTY_USER_TIMEZONE])
-            : TIME_ZONE;
-        return $langs;
-    }
-
     /**
      * @return tao_models_classes_UserService
      */
     protected function getUserService()
     {
         return $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
+    }
+
+    protected function getUserSettingsService(): UserSettingsService
+    {
+        return $this->getPsrContainer()->get(UserSettingsService::class);
     }
 }

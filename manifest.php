@@ -32,6 +32,7 @@ use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
 use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\export\ServiceProvider\MetadataServiceProvider;
+use oat\tao\model\user\UserSettingsServiceProvider;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
@@ -284,5 +285,6 @@ return [
         ResourcesServiceProvider::class,
         RoutingServiceProvider::class,
         ImportServiceProvider::class,
+        UserSettingsServiceProvider::class
     ],
 ];
