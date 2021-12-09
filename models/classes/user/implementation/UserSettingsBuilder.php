@@ -28,13 +28,13 @@ use DomainException;
 class UserSettingsBuilder
 {
     /** @var string|null */
-    protected $dataLanguageCode = null;
+    private $dataLanguageCode = null;
 
     /** @var string|null */
-    protected $uiLanguageCode = null;
+    private $uiLanguageCode = null;
 
     /** @var string */
-    protected $timezone;
+    private $timezone;
 
     public function __construct(string $defaultTimezone)
     {

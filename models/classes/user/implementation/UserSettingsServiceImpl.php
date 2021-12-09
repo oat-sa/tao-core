@@ -35,7 +35,7 @@ class UserSettingsServiceImpl implements UserSettingsService
     use OntologyAwareTrait;
 
     /** @var string */
-    protected $defaultTimeZone;
+    private $defaultTimeZone;
 
     public function __construct(string $defaultTimeZone)
     {
