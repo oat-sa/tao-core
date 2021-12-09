@@ -22,11 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\user;
 
-/**
- * Settings for the current user.
- *
- * Right now this interface is used to return settings related with user language
- */
 interface UserSettings
 {
     public function getUILanguageCode(): ?string;
