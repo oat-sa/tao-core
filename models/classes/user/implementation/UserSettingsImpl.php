@@ -27,10 +27,10 @@ use oat\tao\model\user\UserSettings;
 class UserSettingsImpl implements UserSettings
 {
     /** @var string|null */
-    private $dataLanguageCode = null;
+    private $dataLanguageCode;
 
     /** @var string|null */
-    private $uiLanguageCode = null;
+    private $uiLanguageCode;
 
     /** @var string */
     private $timezone;
