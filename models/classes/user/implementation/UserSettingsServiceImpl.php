@@ -55,15 +55,15 @@ class UserSettingsServiceImpl implements UserSettingsService
         $builder = new UserSettingsBuilder($this->defaultTimeZone);
 
         if (!empty($props[GenerisRdf::PROPERTY_USER_UILG])) {
-            $builder->withUILanguage(current($props[GenerisRdf::PROPERTY_USER_UILG])->getUri());
+            $builder->setUILanguage(current($props[GenerisRdf::PROPERTY_USER_UILG])->getUri());
         }
 
         if (!empty($props[GenerisRdf::PROPERTY_USER_DEFLG])) {
-            $builder->withDataLanguage(current($props[GenerisRdf::PROPERTY_USER_DEFLG])->getUri());
+            $builder->setDataLanguage(current($props[GenerisRdf::PROPERTY_USER_DEFLG])->getUri());
         }
 
         if (!empty($props[GenerisRdf::PROPERTY_USER_TIMEZONE])) {
-            $builder->withTimezone(current($props[GenerisRdf::PROPERTY_USER_TIMEZONE]));
+            $builder->setTimezone(current($props[GenerisRdf::PROPERTY_USER_TIMEZONE]));
         }
 
         return $builder->build();

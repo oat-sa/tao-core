@@ -45,14 +45,14 @@ class UserSettingsBuilder
         $this->timezone = $defaultTimezone;
     }
 
-    public function withDataLanguage(string $dataLanguage): self
+    public function setDataLanguage(string $dataLanguage): self
     {
         $this->dataLanguageCode = trim($dataLanguage) ?: null;
 
         return $this;
     }
 
-    public function withUILanguage(string $uiLanguage): self
+    public function setUILanguage(string $uiLanguage): self
     {
         $this->uiLanguageCode = trim($uiLanguage) ?: null;
 
@@ -62,7 +62,7 @@ class UserSettingsBuilder
     /**
      * @param string|\Stringable $timezone
      */
-    public function withTimezone($timezone): self
+    public function setTimezone($timezone): self
     {
         $this->timezone = trim((string)$timezone) ?: null;
 
