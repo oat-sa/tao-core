@@ -23,26 +23,13 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Specification;
 
 use core_kernel_classes_Class;
-use oat\generis\model\GenerisRdf;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\Specification\ClassSpecificationInterface;
 
-class LocalListClassSpecification implements ClassSpecificationInterface
+class ListClassSpecification implements ClassSpecificationInterface
 {
-    /** @var ClassSpecificationInterface */
-    private $remoteListClassSpecification;
-
-    public function __construct(ClassSpecificationInterface $remoteListClassSpecification)
-    {
-        $this->remoteListClassSpecification = $remoteListClassSpecification;
-    }
-
     public function isSatisfiedBy(core_kernel_classes_Class $class): bool
     {
-        return $this->isBoolean($class) || !$this->remoteListClassSpecification->isSatisfiedBy($class);
-    }
-
-    private function isBoolean(core_kernel_classes_Class $class): bool
-    {
-        return $class->getUri() === GenerisRdf::GENERIS_BOOLEAN;
+        return $class->isSubClassOf($class->getClass(TaoOntology::CLASS_URI_LIST));
     }
 }

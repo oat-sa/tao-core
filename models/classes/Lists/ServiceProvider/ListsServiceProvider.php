@@ -25,17 +25,19 @@ namespace oat\tao\model\Lists\ServiceProvider;
 use oat\generis\model\data\Ontology;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\tao\model\Lists\Business\Specification\LocalListClassSpecification;
 use oat\tao\model\Lists\Business\Validation\PropertyListValidator;
 use oat\tao\model\Lists\Business\Validation\PropertyTypeValidator;
 use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
+use oat\tao\model\Lists\Business\Specification\ListClassSpecification;
 use oat\tao\model\Lists\Business\Validation\DependsOnPropertyValidator;
 use oat\tao\model\Lists\DataAccess\Repository\DependsOnPropertyRepository;
+use oat\tao\model\Lists\Business\Specification\LocalListClassSpecification;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\Lists\Business\Specification\PrimaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
 use oat\tao\model\Lists\DataAccess\Repository\DependentPropertiesRepository;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
+use oat\tao\model\Lists\Business\Specification\EditableListClassSpecification;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
 use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
@@ -131,7 +133,12 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
 
         $services
             ->set(LocalListClassSpecification::class, LocalListClassSpecification::class)
-            ->public();
+            ->public()
+            ->args(
+                [
+                    service(RemoteListClassSpecification::class),
+                ]
+            );
 
         $services
             ->set(DependsOnPropertyFormFieldFactory::class, DependsOnPropertyFormFieldFactory::class)
@@ -140,6 +147,19 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
                 [
                     service(FeatureFlagChecker::class),
                     service(DependsOnPropertyRepository::class),
+                ]
+            );
+
+        $services
+            ->set(ListClassSpecification::class, ListClassSpecification::class)
+            ->public();
+
+        $services
+            ->set(EditableListClassSpecification::class, EditableListClassSpecification::class)
+            ->public()
+            ->args(
+                [
+                    service(ListClassSpecification::class),
                 ]
             );
     }

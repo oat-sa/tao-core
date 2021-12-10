@@ -23,26 +23,22 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Specification;
 
 use core_kernel_classes_Class;
-use oat\generis\model\GenerisRdf;
+use tao_models_classes_LanguageService;
 use oat\tao\model\Specification\ClassSpecificationInterface;
 
-class LocalListClassSpecification implements ClassSpecificationInterface
+class EditableListClassSpecification implements ClassSpecificationInterface
 {
     /** @var ClassSpecificationInterface */
-    private $remoteListClassSpecification;
+    private $listClassSpecification;
 
-    public function __construct(ClassSpecificationInterface $remoteListClassSpecification)
+    public function __construct(ClassSpecificationInterface $listClassSpecification)
     {
-        $this->remoteListClassSpecification = $remoteListClassSpecification;
+        $this->listClassSpecification = $listClassSpecification;
     }
 
     public function isSatisfiedBy(core_kernel_classes_Class $class): bool
     {
-        return $this->isBoolean($class) || !$this->remoteListClassSpecification->isSatisfiedBy($class);
-    }
-
-    private function isBoolean(core_kernel_classes_Class $class): bool
-    {
-        return $class->getUri() === GenerisRdf::GENERIS_BOOLEAN;
+        return $this->listClassSpecification->isSatisfiedBy($class)
+            && $class->getUri() !== tao_models_classes_LanguageService::CLASS_URI_LANGUAGES;
     }
 }
