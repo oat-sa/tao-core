@@ -43,7 +43,7 @@ class UserSettingsServiceImpl implements UserSettingsService
         $this->ontology = $ontology;
     }
 
-    public function getUserSettings(core_kernel_classes_Resource $user): UserSettings
+    public function get(core_kernel_classes_Resource $user): UserSettings
     {
         $props = $user->getPropertiesValues(
             [

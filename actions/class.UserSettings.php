@@ -70,9 +70,9 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
      */
     public function properties()
     {
-        $userSettingsService = $this->getUserSettingsService();
-
-        $userSettings = $userSettingsService->getUserSettings($this->getUserService()->getCurrentUser());
+        $userSettings = $this->getUserSettingsService()->get(
+            $this->getUserService()->getCurrentUser()
+        );
 
         $presenter = new UserSettingsFormFactory($userSettings);
         $myForm = $presenter->getForm();
