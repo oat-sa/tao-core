@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\ServiceProvider;
 
-use GuzzleHttp\Psr7\ServerRequest;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\http\formatter\ResponseFormatter;

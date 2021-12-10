@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -26,7 +26,6 @@ use oat\tao\model\http\response\ErrorJsonResponse;
 use oat\tao\model\http\response\SuccessJsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use GuzzleHttp\Psr7\Response;
 
 class tao_actions_Languages
 {
@@ -49,10 +48,9 @@ class tao_actions_Languages
         $this->ontology = $ontology;
     }
 
-    public function index(): ResponseInterface
+    public function index(ResponseInterface $response): ResponseInterface
     {
         try {
-            $response = new Response(); //@TODO Get if from container
             $this->responseFormatter
                 ->withExpiration(time() + 60);
 
