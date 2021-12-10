@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\user\implementation;
 
-use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\user\UserSettings;
@@ -31,8 +30,6 @@ use core_kernel_classes_Resource;
 
 class UserSettingsServiceImpl implements UserSettingsService
 {
-    use ServiceLocatorAwareTrait;
-
     /** @var Ontology */
     private $ontology;
 

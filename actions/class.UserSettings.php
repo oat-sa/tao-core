@@ -71,7 +71,6 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
     public function properties()
     {
         $userSettingsService = $this->getUserSettingsService();
-        $userSettingsService->setServiceLocator($this->getServiceLocator());
 
         $userSettings = $userSettingsService->getUserSettings($this->getUserService()->getCurrentUser());
 
