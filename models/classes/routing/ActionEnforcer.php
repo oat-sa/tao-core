@@ -105,7 +105,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             throw new ActionEnforcingException('Controller "' . $controllerClass . '" could not be loaded.', $controllerClass, $this->getAction());
         }
 
-        $controller = $this->getControllerClassInstance($controllerClass);
+        $controller = $this->getControllerInstance($controllerClass);
 
         $this->propagate($controller);
         if ($controller instanceof Controller) {
@@ -279,7 +279,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         return $this->propagate(new $className);
     }
 
-    private function getControllerClassInstance(string $className): object
+    private function getControllerInstance(string $className): object
     {
         return $this->getActionFinder()->find($className) ?? $this->propagate(new $className);
     }
