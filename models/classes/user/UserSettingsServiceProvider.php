@@ -24,10 +24,7 @@ namespace oat\tao\model\user;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\tao\model\accessControl\PermissionChecker;
-use oat\tao\model\resources\Service\ClassDeleter;
-use oat\tao\model\resources\Service\RootClassesListService;
-use oat\tao\model\resources\Specification\RootClassSpecification;
+use oat\oatbox\user\UserTimezoneServiceInterface;
 use oat\tao\model\user\implementation\UserSettingsServiceImpl;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -44,7 +41,7 @@ class UserSettingsServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
-                    TIME_ZONE,
+                    service(UserTimezoneServiceInterface::SERVICE_ID),
                     service(Ontology::SERVICE_ID),
                 ]
             );

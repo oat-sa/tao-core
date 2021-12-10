@@ -24,6 +24,7 @@ namespace oat\tao\model\user\implementation;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
+use oat\oatbox\user\UserTimezoneServiceInterface;
 use oat\tao\model\user\UserSettings;
 use oat\tao\model\user\UserSettingsService;
 use core_kernel_classes_Resource;
@@ -36,9 +37,9 @@ class UserSettingsServiceImpl implements UserSettingsService
     /** @var string */
     private $defaultTimeZone;
 
-    public function __construct(string $defaultTimeZone, Ontology $ontology)
+    public function __construct(UserTimezoneServiceInterface $userTimezoneService, Ontology $ontology)
     {
-        $this->defaultTimeZone = $defaultTimeZone;
+        $this->defaultTimeZone = $userTimezoneService->getDefaultTimezone();
         $this->ontology = $ontology;
     }
 
@@ -52,20 +53,22 @@ class UserSettingsServiceImpl implements UserSettingsService
             ]
         );
 
-        $builder = new UserSettingsBuilder($this->defaultTimeZone);
-
         if (!empty($props[GenerisRdf::PROPERTY_USER_UILG])) {
-            $builder->setUILanguage(current($props[GenerisRdf::PROPERTY_USER_UILG])->getUri());
+            $uiLanguageCode = current($props[GenerisRdf::PROPERTY_USER_UILG])->getUri();
         }
 
         if (!empty($props[GenerisRdf::PROPERTY_USER_DEFLG])) {
-            $builder->setDataLanguage(current($props[GenerisRdf::PROPERTY_USER_DEFLG])->getUri());
+            $dataLanguageCode = current($props[GenerisRdf::PROPERTY_USER_DEFLG])->getUri();
         }
 
         if (!empty($props[GenerisRdf::PROPERTY_USER_TIMEZONE])) {
-            $builder->setTimezone(current($props[GenerisRdf::PROPERTY_USER_TIMEZONE]));
+            $timezone = (string) current($props[GenerisRdf::PROPERTY_USER_TIMEZONE]);
         }
 
-        return $builder->build();
+        return new UserSettingsImpl(
+            $timezone ?? $this->defaultTimeZone,
+            $uiLanguageCode ?? null,
+            $dataLanguageCode ?? null
+        );
     }
 }
