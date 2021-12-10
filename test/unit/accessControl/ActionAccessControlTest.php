@@ -23,9 +23,9 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\accessControl;
 
 use oat\generis\test\TestCase;
-use oat\oatbox\log\LoggerService;
 use common_test_TestUser as TestUser;
 use oat\tao\model\accessControl\Context;
+use oat\oatbox\log\logger\AdvancedLogger;
 use oat\tao\model\Context\ContextInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\accessControl\ActionAccessControl;
@@ -36,7 +36,7 @@ class ActionAccessControlTest extends TestCase
     private const TEST_ACTION = 'testAction';
 
     /** @var ActionAccessControl */
-    private $actionAccessControl;
+    private $sut;
 
     /** @var TestUser */
     private $user;
@@ -46,11 +46,11 @@ class ActionAccessControlTest extends TestCase
 
     public function setUp(): void
     {
-        $this->actionAccessControl = new ActionAccessControl();
-        $this->actionAccessControl->setServiceLocator(
+        $this->sut = new ActionAccessControl();
+        $this->sut->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
-                    LoggerService::SERVICE_ID => $this->createMock(LoggerService::class)
+                    AdvancedLogger::ACL_SERVICE_ID => $this->createMock(AdvancedLogger::class),
                 ]
             )
         );
@@ -82,7 +82,7 @@ class ActionAccessControlTest extends TestCase
     {
         $this->assertEmpty($this->getActionAccessControlPermissions());
 
-        $this->actionAccessControl->addPermissions([
+        $this->sut->addPermissions([
             self::TEST_CONTROLLER => [self::TEST_ACTION => ['role1' => 'READ']],
         ]);
         $this->assertEquals(
@@ -90,7 +90,7 @@ class ActionAccessControlTest extends TestCase
             $this->getActionAccessControlPermissions()
         );
 
-        $this->actionAccessControl->addPermissions([
+        $this->sut->addPermissions([
             self::TEST_CONTROLLER => [self::TEST_ACTION => ['role2' => 'WRITE']],
         ]);
         $this->assertEquals(
@@ -98,7 +98,7 @@ class ActionAccessControlTest extends TestCase
             $this->getActionAccessControlPermissions()
         );
 
-        $this->actionAccessControl->addPermissions([
+        $this->sut->addPermissions([
             self::TEST_CONTROLLER => [self::TEST_ACTION => ['role1' => 'GRANT']],
         ]);
         $this->assertEquals(
@@ -117,7 +117,7 @@ class ActionAccessControlTest extends TestCase
             $this->getActionAccessControlPermissions()
         );
 
-        $this->actionAccessControl->removePermissions([
+        $this->sut->removePermissions([
             self::TEST_CONTROLLER => [self::TEST_ACTION => ['role1']],
         ]);
         $this->assertEquals(
@@ -125,7 +125,7 @@ class ActionAccessControlTest extends TestCase
             $this->getActionAccessControlPermissions()
         );
 
-        $this->actionAccessControl->removePermissions([
+        $this->sut->removePermissions([
             self::TEST_CONTROLLER => [self::TEST_ACTION => ['role2', 'role3']],
         ]);
         $this->assertEmpty($this->getActionAccessControlPermissions());
@@ -195,12 +195,12 @@ class ActionAccessControlTest extends TestCase
 
     private function getActionAccessControlPermissions(): array
     {
-        return $this->actionAccessControl->getOption(ActionAccessControl::OPTION_PERMISSIONS, []);
+        return $this->sut->getOption(ActionAccessControl::OPTION_PERMISSIONS, []);
     }
 
     private function configureActionAccessControl(array $permissions): void
     {
-        $this->actionAccessControl->setOption(ActionAccessControl::OPTION_PERMISSIONS, [
+        $this->sut->setOption(ActionAccessControl::OPTION_PERMISSIONS, [
             self::TEST_CONTROLLER => [
                 self::TEST_ACTION => $permissions,
             ],
@@ -209,16 +209,16 @@ class ActionAccessControlTest extends TestCase
 
     private function hasReadAccess(): bool
     {
-        return $this->actionAccessControl->contextHasReadAccess($this->context);
+        return $this->sut->contextHasReadAccess($this->context);
     }
 
     private function hasWriteAccess(): bool
     {
-        return $this->actionAccessControl->contextHasWriteAccess($this->context);
+        return $this->sut->contextHasWriteAccess($this->context);
     }
 
     private function hasGrantAccess(): bool
     {
-        return $this->actionAccessControl->contextHasGrantAccess($this->context);
+        return $this->sut->contextHasGrantAccess($this->context);
     }
 }
