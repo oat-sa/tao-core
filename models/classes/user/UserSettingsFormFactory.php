@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\user;
 
-use oat\generis\model\GenerisRdf;
 use tao_helpers_form_FormContainer;
 use tao_actions_form_UserSettings;
 use tao_helpers_form_Form;
