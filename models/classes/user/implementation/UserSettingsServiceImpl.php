@@ -23,8 +23,8 @@ declare(strict_types=1);
 namespace oat\tao\model\user\implementation;
 
 use Laminas\ServiceManager\ServiceLocatorAwareTrait;
+use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
-use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\user\UserSettings;
 use oat\tao\model\user\UserSettingsService;
 use core_kernel_classes_Resource;
@@ -32,23 +32,26 @@ use core_kernel_classes_Resource;
 class UserSettingsServiceImpl implements UserSettingsService
 {
     use ServiceLocatorAwareTrait;
-    use OntologyAwareTrait;
+
+    /** @var Ontology */
+    private $ontology;
 
     /** @var string */
     private $defaultTimeZone;
 
-    public function __construct(string $defaultTimeZone)
+    public function __construct(string $defaultTimeZone, Ontology $ontology)
     {
         $this->defaultTimeZone = $defaultTimeZone;
+        $this->ontology = $ontology;
     }
 
     public function getUserSettings(core_kernel_classes_Resource $user): UserSettings
     {
         $props = $user->getPropertiesValues(
             [
-                $this->getProperty(GenerisRdf::PROPERTY_USER_UILG),
-                $this->getProperty(GenerisRdf::PROPERTY_USER_DEFLG),
-                $this->getProperty(GenerisRdf::PROPERTY_USER_TIMEZONE)
+                $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_UILG),
+                $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_DEFLG),
+                $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_TIMEZONE)
             ]
         );
 

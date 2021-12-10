@@ -44,7 +44,8 @@ class UserSettingsServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
-                    TIME_ZONE
+                    TIME_ZONE,
+                    service(Ontology::SERVICE_ID),
                 ]
             );
     }
