@@ -33,7 +33,7 @@ use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\export\ServiceProvider\MetadataServiceProvider;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
-use oat\tao\model\ServiceProvider\ActionServiceProvider;
+use oat\tao\model\routing\ServiceProvider\ActionServiceProvider;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;

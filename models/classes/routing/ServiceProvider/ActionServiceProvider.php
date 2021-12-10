@@ -20,30 +20,24 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\ServiceProvider;
+namespace oat\tao\model\routing\ServiceProvider;
 
-use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\tao\model\http\formatter\ResponseFormatter;
-use Psr\Http\Message\ServerRequestInterface;
+use oat\tao\model\routing\Service\ActionFinder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use tao_actions_Languages;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-//@TODO Check if this is the best namespace
 class ActionServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
 
-        $services->set(tao_actions_Languages::class, tao_actions_Languages::class)
+        $services->set(ActionFinder::class, ActionFinder::class)
             ->args(
                 [
-                    service(ResponseFormatter::class),
-                    service(Ontology::SERVICE_ID),
-                    service(ServerRequestInterface::class),
+                    service(ContainerServiceProviderInterface::CONTAINER_SERVICE_ID),
                 ]
             )
             ->public();
