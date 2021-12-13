@@ -70,6 +70,9 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     private $request;
     private $response;
 
+    /** @var ContainerInterface */
+    private $container;
+
     public function __construct($extensionId, $controller, $action, array $parameters)
     {
         $this->extension = $extensionId;
@@ -298,7 +301,11 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
     private function getContainer(): ContainerInterface
     {
-        return $this->getServiceManager()->getContainer();
+        if (!$this->container) {
+            $this->container = $this->getServiceManager()->getContainer();
+        }
+
+        return $this->container;
     }
 
     private function getMiddlewareRequestHandler(): MiddlewareRequestHandler

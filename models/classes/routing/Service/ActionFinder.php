@@ -22,6 +22,7 @@ namespace oat\tao\model\routing\Service;
 
 use Psr\Container\ContainerInterface;
 use oat\tao\model\http\Controller;
+use Psr\Log\LoggerInterface;
 use ReflectionClass;
 
 class ActionFinder
@@ -29,9 +30,13 @@ class ActionFinder
     /** @var ContainerInterface */
     private $container;
 
-    public function __construct(ContainerInterface $container)
+    /** @var LoggerInterface */
+    private $logger;
+
+    public function __construct(ContainerInterface $container, LoggerInterface $logger)
     {
         $this->container = $container;
+        $this->logger = $logger;
     }
 
     public function find(string $className): ?object
@@ -50,7 +55,7 @@ class ActionFinder
 
         $constructorParameters = $reflectionClass->getConstructor()->getParameters();
 
-        if (count($constructorParameters) < 1) {
+        if (empty($constructorParameters)) {
             return null;
         }
 
@@ -60,14 +65,28 @@ class ActionFinder
             $paramClass = $parameter->getClass();
 
             if (!$paramClass) {
-                continue;
+                $this->logger->info(
+                    sprintf(
+                        'Non-object parameters are not supported for action "%s" constructor: %s',
+                        $className,
+                        $parameter->getName()
+                    )
+                );
+
+                return null;
             }
 
-            $paramClassName = $paramClass->getName();
-
-            $paramServiceId = $this->getServiceId($paramClassName);
+            $paramServiceId = $this->getServiceId($paramClass->getName());
 
             if (!$this->container->has($paramServiceId)) {
+                $this->logger->info(
+                    sprintf(
+                        'Service "%s" does not exist for action "%s"',
+                        $paramServiceId,
+                        $className
+                    )
+                );
+
                 return null;
             }
 
