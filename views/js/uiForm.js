@@ -743,6 +743,7 @@
                         type: 'GET',
                         data: {
                             listUri: classUri,
+                            limit: 0,
                         },
                         success: function (response) {
                             let html = '<ul class="form-elt-list">',
