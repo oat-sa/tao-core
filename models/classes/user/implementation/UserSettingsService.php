@@ -25,11 +25,11 @@ namespace oat\tao\model\user\implementation;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\user\UserTimezoneServiceInterface;
-use oat\tao\model\user\UserSettings;
-use oat\tao\model\user\UserSettingsService;
+use oat\tao\model\user\UserSettingsInterface;
+use oat\tao\model\user\UserSettingsServiceInterface;
 use core_kernel_classes_Resource;
 
-class UserSettingsServiceImpl implements UserSettingsService
+class UserSettingsService implements UserSettingsServiceInterface
 {
     /** @var Ontology */
     private $ontology;
@@ -43,7 +43,7 @@ class UserSettingsServiceImpl implements UserSettingsService
         $this->ontology = $ontology;
     }
 
-    public function get(core_kernel_classes_Resource $user): UserSettings
+    public function get(core_kernel_classes_Resource $user): UserSettingsInterface
     {
         $props = $user->getPropertiesValues(
             [
@@ -65,7 +65,7 @@ class UserSettingsServiceImpl implements UserSettingsService
             $timezone = (string) current($props[GenerisRdf::PROPERTY_USER_TIMEZONE]);
         }
 
-        return new UserSettingsImpl(
+        return new UserSettings(
             $timezone ?? $this->defaultTimeZone,
             $uiLanguageCode ?? null,
             $dataLanguageCode ?? null

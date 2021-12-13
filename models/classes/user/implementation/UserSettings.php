@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\user\implementation;
 
-use oat\tao\model\user\UserSettings;
+use oat\tao\model\user\UserSettingsInterface;
 
-class UserSettingsImpl implements UserSettings
+class UserSettings implements UserSettingsInterface
 {
     /** @var string|null */
     private $dataLanguageCode;

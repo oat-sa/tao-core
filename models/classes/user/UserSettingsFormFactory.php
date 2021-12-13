@@ -28,10 +28,10 @@ use tao_helpers_form_Form;
 
 class UserSettingsFormFactory
 {
-    /** @var UserSettings */
+    /** @var UserSettingsInterface */
     private $userSettings;
 
-    public function __construct(UserSettings $userSettings)
+    public function __construct(UserSettingsInterface $userSettings)
     {
         $this->userSettings = $userSettings;
     }

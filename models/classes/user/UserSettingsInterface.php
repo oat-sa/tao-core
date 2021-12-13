@@ -22,9 +22,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model\user;
 
-use core_kernel_classes_Resource;
-
-interface UserSettingsService
+interface UserSettingsInterface
 {
-    public function get(core_kernel_classes_Resource $user): UserSettings;
+    public function getUILanguageCode(): ?string;
+
+    public function getDataLanguageCode(): ?string;
+
+    public function getTimezone(): string;
 }

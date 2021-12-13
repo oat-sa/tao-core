@@ -25,7 +25,7 @@ namespace oat\tao\model\user;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\user\UserTimezoneServiceInterface;
-use oat\tao\model\user\implementation\UserSettingsServiceImpl;
+use oat\tao\model\user\implementation\UserSettingsService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -37,7 +37,7 @@ class UserSettingsServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services
-            ->set(UserSettingsService::class, UserSettingsServiceImpl::class)
+            ->set(UserSettingsServiceInterface::class, UserSettingsService::class)
             ->public()
             ->args(
                 [

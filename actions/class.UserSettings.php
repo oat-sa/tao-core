@@ -27,7 +27,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\service\ApplicationService;
 use oat\tao\model\user\UserSettingsFormFactory;
-use oat\tao\model\user\UserSettingsService;
+use oat\tao\model\user\UserSettingsServiceInterface;
 use tao_helpers_form_FormContainer as FormContainer;
 use tao_helpers_Display as DisplayHelper;
 
@@ -120,8 +120,8 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
         return $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
     }
 
-    protected function getUserSettingsService(): UserSettingsService
+    protected function getUserSettingsService(): UserSettingsServiceInterface
     {
-        return $this->getPsrContainer()->get(UserSettingsService::class);
+        return $this->getPsrContainer()->get(UserSettingsServiceInterface::class);
     }
 }
