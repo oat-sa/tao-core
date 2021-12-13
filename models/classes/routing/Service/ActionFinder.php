@@ -24,6 +24,7 @@ use Psr\Container\ContainerInterface;
 use oat\tao\model\http\Controller;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
+use ReflectionNamedType;
 
 class ActionFinder
 {
@@ -62,10 +63,11 @@ class ActionFinder
         $params = [];
 
         foreach ($constructorParameters as $parameter) {
-            $paramClass = $parameter->getClass();
+            $paramClassType = $parameter->getType();
+            $paramClass = $paramClassType instanceof ReflectionNamedType ? $paramClassType->getName() : null;
 
-            if (!$paramClass) {
-                $this->logger->info(
+            if ($paramClass === null) {
+                $this->logger->debug(
                     sprintf(
                         'Non-object parameters are not supported for action "%s" constructor: %s',
                         $className,
@@ -76,10 +78,10 @@ class ActionFinder
                 return null;
             }
 
-            $paramServiceId = $this->getServiceId($paramClass->getName());
+            $paramServiceId = $this->getServiceId($paramClass);
 
             if (!$this->container->has($paramServiceId)) {
-                $this->logger->info(
+                $this->logger->warning(
                     sprintf(
                         'Service "%s" does not exist for action "%s"',
                         $paramServiceId,
