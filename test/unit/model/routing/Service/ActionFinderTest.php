@@ -25,7 +25,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use stdClass;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use oat\generis\test\TestCase;
 
 class DummyDependencyClass
@@ -56,16 +55,12 @@ class ActionFinderTest extends TestCase
     /** @var MockObject|ContainerInterface */
     private $container;
 
-    /** @var MockObject|LoggerInterface */
-    private $logger;
-
     public function setUp(): void
     {
         parent::setUp();
 
         $this->container = $this->createMock(ContainerInterface::class);
-        $this->logger = $this->createMock(LoggerInterface::class);
-        $this->sut = new ActionFinder($this->container, $this->logger);
+        $this->sut = new ActionFinder($this->container, $this->createMock(LoggerInterface::class));
     }
 
     public function testFindFromContainerWillReturnObject(): void
@@ -99,7 +94,7 @@ class ActionFinderTest extends TestCase
         $this->container
             ->method('has')
             ->willReturnCallback(
-                function (string $class) use ($dummyDependencyClass) {
+                static function (string $class) use ($dummyDependencyClass): bool {
                     return $class === DummyDependencyClass::class;
                 }
             );

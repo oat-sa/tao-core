@@ -110,6 +110,6 @@ class ActionFinder
         return $className === $serviceId
             && class_exists($className)
             && method_exists($className, '__construct')
-            && !in_array(Controller::class, class_implements($className), true);
+            && !is_subclass_of($className, Controller::class);
     }
 }

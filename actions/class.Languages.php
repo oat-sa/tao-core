@@ -25,26 +25,18 @@ use oat\tao\model\http\formatter\ResponseFormatter;
 use oat\tao\model\http\response\ErrorJsonResponse;
 use oat\tao\model\http\response\SuccessJsonResponse;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 class tao_actions_Languages
 {
     /** @var ResponseFormatter */
     private $responseFormatter;
 
-    /** @var ServerRequestInterface */
-    private $request;
-
     /** @var Ontology */
     private $ontology;
 
-    public function __construct(
-        ResponseFormatter $responseFormatter,
-        Ontology $ontology,
-        ServerRequestInterface $request
-    ) {
+    public function __construct(ResponseFormatter $responseFormatter, Ontology $ontology)
+    {
         $this->responseFormatter = $responseFormatter;
-        $this->request = $request;
         $this->ontology = $ontology;
     }
 
