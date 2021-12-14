@@ -136,7 +136,7 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
-                    service(RemoteListClassSpecification::class),
+                    service(ListClassSpecification::class),
                 ]
             );
 
