@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,9 +15,10 @@ declare(strict_types=1);
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\resources;
 
@@ -28,43 +27,41 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use core_kernel_users_GenerisUser;
-use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\test\GenerisTestCase;
 use oat\oatbox\session\SessionService;
-use oat\tao\model\resources\ResourceAccessDeniedException;
-use oat\tao\model\resources\SecureResourceService;
+use oat\oatbox\log\logger\AdvancedLogger;
 use PHPUnit\Framework\MockObject\MockObject;
+use oat\tao\model\resources\SecureResourceService;
+use oat\generis\model\data\permission\PermissionInterface;
+use oat\tao\model\resources\ResourceAccessDeniedException;
 
 class SecureResourceServiceTest extends GenerisTestCase
 {
-    /**
-     * @var SecureResourceService
-     */
-    private $service;
-    /**
-     * @var PermissionInterface
-     */
+    /** @var SecureResourceService */
+    private $sut;
+
+    /** @var PermissionInterface */
     private $permissionInterface;
 
     public function setUp(): void
     {
-        $this->service = new SecureResourceService();
-
+        $this->sut = new SecureResourceService();
         $this->permissionInterface = $this->createMock(PermissionInterface::class);
 
         $user = $this->createMock(core_kernel_users_GenerisUser::class);
         $sessionService = $this->createMock(SessionService::class);
+        $sessionService
+            ->expects($this->once())
+            ->method('getCurrentUser')
+            ->willReturn($user);
 
-        $sessionService->expects($this->once())->method('getCurrentUser')->willReturn($user);
-
-        $serviceLocator = $this->getServiceLocatorMock(
-            [
+        $this->sut->setServiceLocator(
+            $this->getServiceLocatorMock([
+                AdvancedLogger::ACL_SERVICE_ID => $this->createMock(AdvancedLogger::class),
                 PermissionInterface::SERVICE_ID => $this->permissionInterface,
-                SessionService::SERVICE_ID      => $sessionService,
-            ]
+                SessionService::SERVICE_ID => $sessionService,
+            ])
         );
-
-        $this->service->setServiceLocator($serviceLocator);
     }
 
     /**
@@ -82,7 +79,7 @@ class SecureResourceServiceTest extends GenerisTestCase
             $this->getChildrenResources()
         );
 
-        $children = $this->service->getAllChildren($class);
+        $children = $this->sut->getAllChildren($class);
 
         $this->assertCount(4, $children);
     }
@@ -115,7 +112,7 @@ class SecureResourceServiceTest extends GenerisTestCase
         $class->method('getSubClasses')->willReturn([$forbiddenClass, $accessibleClass]);
         $class->method('getUri')->willReturn('http://resource5_grant_read_write');
 
-        $children = $this->service->getAllChildren($class);
+        $children = $this->sut->getAllChildren($class);
 
         $this->assertCount(1, $children);
         $this->assertEquals('http://resource6_unsupported', current($children)->getUri());
@@ -158,7 +155,7 @@ class SecureResourceServiceTest extends GenerisTestCase
         $class->method('getSubClasses')->willReturn([$forbiddenClass, $accessibleClass]);
         $class->method('getUri')->willReturn('http://resource5_grant_read_write');
 
-        $this->service->validatePermissions(
+        $this->sut->validatePermissions(
             [$accessibleItem1],
             ['READ']
         );
@@ -167,11 +164,10 @@ class SecureResourceServiceTest extends GenerisTestCase
     /**
      * @param array $resourceUris
      * @param array $permissionsToCheck
-     * @param bool  $hasAccess
+     * @param bool $hasAccess
      *
      * @throws common_exception_Error
      * @dataProvider provideResources
-     *
      */
     public function testValidatePermissions(array $resourceUris, array $permissionsToCheck, bool $hasAccess): void
     {
@@ -199,7 +195,7 @@ class SecureResourceServiceTest extends GenerisTestCase
             $resources[] = $mock;
         }
 
-        $this->service->validatePermissions($resources, $permissionsToCheck);
+        $this->sut->validatePermissions($resources, $permissionsToCheck);
     }
 
     public function provideResources(): array
@@ -208,62 +204,62 @@ class SecureResourceServiceTest extends GenerisTestCase
             [
                 [
                     'http://resource2_no_access',
-                    'http://resource1_read'
+                    'http://resource1_read',
                 ],
                 ['READ'],
-                false
+                false,
             ],
             [
                 [
                     'http://resource4_read_write',
-                    'http://resource5_grant_read_write'
+                    'http://resource5_grant_read_write',
                 ],
                 ['READ'],
-                true
+                true,
             ],
             [
                 [
                     'http://resource4_read_write',
-                    'http://resource5_grant_read_write'
+                    'http://resource5_grant_read_write',
                 ],
                 ['WRITE', 'READ'],
-                true
+                true,
             ],
             [
                 [
                     'http://resource4_read_write',
-                    'http://resource5_grant_read_write'
+                    'http://resource5_grant_read_write',
                 ],
                 ['GRANT'],
-                false
+                false,
             ],
             [
                 [
                     'http://resource6_unsupported',
                 ],
                 ['READ'],
-                true
+                true,
             ],
             [
                 [
                     'http://resource6_unsupported',
                 ],
                 ['WRITE'],
-                true
+                true,
             ],
             [
                 [
                     'http://resource6_unsupported',
                 ],
                 ['READ', 'WRITE'],
-                true
+                true,
             ],
             [
                 [
                     'http://resource6_unsupported',
                 ],
                 ['WHATEVER'],
-                true
+                true,
             ],
         ];
     }
