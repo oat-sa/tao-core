@@ -737,6 +737,7 @@
 
                 if (classUri && classUri.trim()) {
                     $this.parent('div').children('div.form-error').remove();
+                    const isRemoteList = !!$this.find('option:selected').attr('data-remote-list');
 
                     $.ajax({
                         url: context.root_url + 'taoBackOffice/Lists/getListElements',
@@ -749,12 +750,16 @@
                             let html = '<ul class="form-elt-list">',
                                 property;
 
-                            for (property in response) {
-                                if(!response.hasOwnProperty(property)) {
+                            for (property in response.data.elements) {
+                                if (!response.data.elements.hasOwnProperty(property)) {
                                     continue;
                                 }
 
-                                html += '<li>' + encode.html(response[property]) + '</li>';
+                                html += `<li>${encode.html(response.data.elements[property].label)}</li>`;
+                            }
+
+                            if (isRemoteList && response.data.totalCount > response.data.elements.length) {
+                                html += `<li>...</li>`;
                             }
 
                             html += '</ul>';
