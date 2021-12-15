@@ -77,12 +77,16 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
         $currentUser = $this->getUserService()->getCurrentUser();
         $userSettings = $this->getUserSettingsService()->get($currentUser);
 
-        $presenter = new UserSettingsFormFactory($userSettings);
+        $languageService = $this->getLanguageService();
+        $userLangService = $this->getUserLanguageService();
+
+        $defaultUserLangCode = $userLangService->getDefaultLanguage();
+        $defaultLanguage = $languageService->getLanguageByCode($defaultUserLangCode);
+
+        $presenter = new UserSettingsFormFactory($userSettings, $defaultLanguage);
         $settingsForm = $presenter->getForm();
 
         if ($settingsForm->isSubmited() && $settingsForm->isValid()) {
-            $userLangService = $this->getUserLanguageService();
-
             $userSettings = [
                 GenerisRdf::PROPERTY_USER_TIMEZONE => $settingsForm->getValue('timezone'),
             ];
@@ -137,6 +141,11 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
     protected function getUserLanguageService(): UserLanguageServiceInterface
     {
         return $this->getPsrContainer()->get(UserLanguageServiceInterface::class);
+    }
+
+    protected function getLanguageService(): tao_models_classes_LanguageService
+    {
+        return tao_models_classes_LanguageService::singleton();
     }
 
     private function isDemoMode(): bool

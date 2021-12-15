@@ -31,15 +31,20 @@ class UserSettingsFormFactory
     /** @var UserSettingsInterface */
     private $userSettings;
 
-    public function __construct(UserSettingsInterface $userSettings)
+    /** @var string */
+    private $defaultLanguage;
+
+    public function __construct(UserSettingsInterface $userSettings, string $defaultLanguage)
     {
         $this->userSettings = $userSettings;
+        $this->defaultLanguage = trim($defaultLanguage);
     }
 
     public function getForm(bool $csrf = true): tao_helpers_form_Form
     {
         $fields = [
             'timezone' => $this->userSettings->getTimezone(),
+            'ui_lang' => $this->defaultLanguage,
         ];
 
         if (!empty($this->userSettings->getUILanguageCode())) {
