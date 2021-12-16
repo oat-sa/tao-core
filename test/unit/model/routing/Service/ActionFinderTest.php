@@ -20,6 +20,7 @@
 
 namespace oat\test\model\routing\Service;
 
+use oat\tao\model\routing\Contract\ActionInterface;
 use oat\tao\model\routing\Service\ActionFinder;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Container\ContainerInterface;
@@ -31,7 +32,7 @@ class DummyDependencyClass
 {
 }
 
-class DummyActionControllerClass
+class DummyActionControllerClass implements ActionInterface
 {
     /** @var DummyDependencyClass */
     private $dummyDependencyClass;

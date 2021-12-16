@@ -21,8 +21,8 @@
 namespace oat\tao\model\routing\Service;
 
 use oat\tao\model\routing\Contract\ActionFinderInterface;
+use oat\tao\model\routing\Contract\ActionInterface;
 use Psr\Container\ContainerInterface;
-use oat\tao\model\http\Controller;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use ReflectionNamedType;
@@ -49,7 +49,7 @@ class ActionFinder implements ActionFinderInterface
             return $this->container->get($serviceId);
         }
 
-        if (!$this->isAutoWiredController($className, $serviceId)) {
+        if (!$this->isAutoWiredController($className)) {
             return null;
         }
 
@@ -106,11 +106,8 @@ class ActionFinder implements ActionFinderInterface
             : $className;
     }
 
-    private function isAutoWiredController(string $className, string $serviceId): bool
+    private function isAutoWiredController(string $className): bool
     {
-        return $className === $serviceId
-            && class_exists($className)
-            && method_exists($className, '__construct')
-            && !is_subclass_of($className, Controller::class);
+        return class_exists($className) && is_subclass_of($className, ActionInterface::class);
     }
 }

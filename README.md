@@ -147,4 +147,4 @@ Lists Dependency feature.
 
 # Routing
 
-Check more information about [routing here](./models/classes/routing/README.md)
+Check more information about actions/controllers and [routing here](./models/classes/routing/README.md)
