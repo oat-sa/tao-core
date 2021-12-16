@@ -20,13 +20,14 @@
 
 namespace oat\tao\model\routing\Service;
 
+use oat\tao\model\routing\Contract\ActionFinderInterface;
 use Psr\Container\ContainerInterface;
 use oat\tao\model\http\Controller;
 use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use ReflectionNamedType;
 
-class ActionFinder
+class ActionFinder implements ActionFinderInterface
 {
     /** @var ContainerInterface */
     private $container;

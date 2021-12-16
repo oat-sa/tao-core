@@ -24,9 +24,10 @@ use oat\generis\model\data\Ontology;
 use oat\tao\model\http\formatter\ResponseFormatter;
 use oat\tao\model\http\response\ErrorJsonResponse;
 use oat\tao\model\http\response\SuccessJsonResponse;
+use oat\tao\model\routing\Contract\ActionInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class tao_actions_Languages
+class tao_actions_Languages implements ActionInterface
 {
     /** @var ResponseFormatter */
     private $responseFormatter;

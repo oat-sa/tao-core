@@ -26,6 +26,7 @@ use Context;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use oat\tao\model\Middleware\MiddlewareRequestHandler;
+use oat\tao\model\routing\Contract\ActionFinderInterface;
 use oat\tao\model\routing\Service\ActionFinder;
 use Psr\Container\ContainerInterface;
 use ReflectionException;
@@ -294,7 +295,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             : $className;
     }
 
-    private function getActionFinder(): ActionFinder
+    private function getActionFinder(): ActionFinderInterface
     {
         return $this->getContainer()->get(ActionFinder::class);
     }
