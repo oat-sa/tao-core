@@ -56,10 +56,10 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
             $passwordForm = $passwordFormContainer->getForm();
 
             if ($passwordForm->isSubmited() && $passwordForm->isValid()) {
-                $user = $this->getUserService()->getCurrentUser();
                 $newPassword = $passwordForm->getValue('newpassword');
+                $userService = $this->getUserService();
+                $userService->setPassword($userService->getCurrentUser(), $newPassword);
 
-                $this->getUserService()->setPassword($user, $newPassword);
                 $this->setData('message', __('Password changed'));
             }
 
@@ -123,27 +123,27 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
         $this->setView('form/settings_user.tpl');
     }
 
-    protected function getExtensionManager(): common_ext_ExtensionsManager
+    private function getExtensionManager(): common_ext_ExtensionsManager
     {
         return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
     }
 
-    protected function getUserService(): tao_models_classes_UserService
+    private function getUserService(): tao_models_classes_UserService
     {
         return $this->getPsrContainer()->get(tao_models_classes_UserService::class);
     }
 
-    protected function getUserSettingsService(): UserSettingsServiceInterface
+    private function getUserSettingsService(): UserSettingsServiceInterface
     {
         return $this->getPsrContainer()->get(UserSettingsServiceInterface::class);
     }
 
-    protected function getUserLanguageService(): UserLanguageServiceInterface
+    private function getUserLanguageService(): UserLanguageServiceInterface
     {
         return $this->getPsrContainer()->get(UserLanguageServiceInterface::class);
     }
 
-    protected function getLanguageService(): tao_models_classes_LanguageService
+    private function getLanguageService(): tao_models_classes_LanguageService
     {
         return tao_models_classes_LanguageService::singleton();
     }
