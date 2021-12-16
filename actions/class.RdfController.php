@@ -38,10 +38,13 @@ use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\resources\Service\ClassDeleter;
 use oat\tao\model\accessControl\PermissionChecker;
 use tao_helpers_form_FormContainer as FormContainer;
+use oat\tao\model\resources\Service\ResourceDeleter;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 use oat\tao\model\resources\Contract\ClassDeleterInterface;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\resources\Exception\ClassDeletionException;
+use oat\tao\model\resources\Contract\ResourceDeleterInterface;
+use oat\tao\model\resources\Exception\ResourceDeletionException;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\resources\Exception\PartialClassDeletionException;
 
@@ -1009,11 +1012,20 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         );
 
         $resource = $this->getResource($this->getRequestParameter('id'));
-        $deleted = $this->getClassService()->deleteResource($resource);
+
+        try {
+            $this->getResourceDeleter()->delete($resource);
+            $deleted = true;
+            $message = __('Successfully deleted %s', $resource->getLabel());
+        } catch (ResourceDeletionException $exception) {
+            $deleted = false;
+            $message = $exception->getUserMessage();
+        }
+
         return $this->returnJson([
             'success' => $deleted,
-            'message' => __('Successfully deleted %s', $resource->getLabel()),
-            'deleted' => $deleted
+            'message' => $message,
+            'deleted' => $deleted,
         ]);
     }
 
@@ -1447,5 +1459,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     private function getClassDeleter(): ClassDeleterInterface
     {
         return $this->getPsrContainer()->get(ClassDeleter::class);
+    }
+
+    private function getResourceDeleter(): ResourceDeleterInterface
+    {
+        return $this->getPsrContainer()->get(ResourceDeleter::class);
     }
 }

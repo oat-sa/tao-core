@@ -15,13 +15,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\resources\Exception;
+namespace oat\tao\model\resources\Contract;
 
-class ClassDeletionException extends ResourceDeletionException
+use core_kernel_classes_Resource;
+use oat\tao\model\resources\Exception\ResourceDeletionException;
+
+interface ResourceDeleterInterface
 {
+    /**
+     * @throws ResourceDeletionException
+     */
+    public function delete(core_kernel_classes_Resource $resource): void;
 }

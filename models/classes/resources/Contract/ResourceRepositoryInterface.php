@@ -15,13 +15,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\resources\Exception;
+namespace oat\tao\model\resources\Contract;
 
-class ClassDeletionException extends ResourceDeletionException
+use RuntimeException;
+use InvalidArgumentException;
+use oat\tao\model\Context\ContextInterface;
+
+interface ResourceRepositoryInterface
 {
+    /**
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     */
+    public function delete(ContextInterface $context): void;
 }

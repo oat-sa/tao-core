@@ -25,13 +25,14 @@ namespace oat\tao\model\resources\Service;
 use Throwable;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
-use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\accessControl\PermissionCheckerInterface;
 use oat\tao\model\resources\Contract\ClassDeleterInterface;
 use oat\tao\model\Specification\ClassSpecificationInterface;
 use oat\tao\model\resources\Exception\ClassDeletionException;
+use oat\tao\model\resources\Context\ResourceRepositoryContext;
+use oat\tao\model\resources\Contract\ResourceRepositoryInterface;
 use oat\tao\model\resources\Exception\PartialClassDeletionException;
 
 class ClassDeleter implements ClassDeleterInterface
@@ -47,17 +48,25 @@ class ClassDeleter implements ClassDeleterInterface
     /** @var Ontology */
     private $ontology;
 
+    /** @var ResourceRepositoryInterface */
+    private $resourceRepositoryProxy;
+
     /** @var core_kernel_classes_Property */
     private $propertyIndex;
+
+    /** @var core_kernel_classes_Class|null */
+    private $selectedClass;
 
     public function __construct(
         ClassSpecificationInterface $rootClassSpecification,
         PermissionCheckerInterface $permissionChecker,
-        Ontology $ontology
+        Ontology $ontology,
+        ResourceRepositoryInterface $resourceRepositoryProxy
     ) {
         $this->rootClassSpecification = $rootClassSpecification;
         $this->permissionChecker = $permissionChecker;
         $this->ontology = $ontology;
+        $this->resourceRepositoryProxy = $resourceRepositoryProxy;
 
         $this->propertyIndex = $ontology->getProperty(self::PROPERTY_INDEX);
     }
@@ -72,6 +81,7 @@ class ClassDeleter implements ClassDeleterInterface
         }
 
         try {
+            $this->selectedClass = $class;
             $this->deleteClassRecursively($class);
         } catch (Throwable $exception) {
             throw new PartialClassDeletionException(
@@ -109,27 +119,57 @@ class ClassDeleter implements ClassDeleterInterface
     }
 
     /**
-     * @param bool $isClassDeletable Class is not deletable if it contains at least one protected sub class,
+     * @param bool $isClassDeletable Class is not deletable if it contains at least one protected subclass,
      *                               instance or property
      */
     private function deleteClass(core_kernel_classes_Class $class, bool $isClassDeletable): bool
     {
-        return $this->deleteInstances($class->getInstances())
-            && $isClassDeletable
-            && $this->permissionChecker->hasWriteAccess($class->getUri())
-            && $this->deleteProperties($class->getProperties())
-            && $class->delete();
+        if ($this->deleteClassContent($class, $isClassDeletable)) {
+            $this->resourceRepositoryProxy->delete(
+                new ResourceRepositoryContext(
+                    [
+                        ResourceRepositoryContext::PARAM_REPOSITORY => ResourceRepositoryContext::REPO_CLASS,
+                        ResourceRepositoryContext::PARAM_CLASS => $class,
+                        ResourceRepositoryContext::PARAM_SELECTED_CLASS => $this->selectedClass,
+                    ]
+                )
+            );
+
+            return true;
+        }
+
+        return false;
     }
 
-    /**
-     * @param core_kernel_classes_Resource[] $instances
-     */
-    private function deleteInstances(array $instances): bool
+    private function deleteClassContent(core_kernel_classes_Class $class, bool $isClassDeletable): bool
+    {
+        return $this->deleteInstances($class)
+            && $isClassDeletable
+            && $this->permissionChecker->hasWriteAccess($class->getUri())
+            && $this->deleteProperties($class->getProperties());
+    }
+
+    private function deleteInstances(core_kernel_classes_Class $class): bool
     {
         $status = true;
 
-        foreach ($instances as $instance) {
-            if (!$this->permissionChecker->hasWriteAccess($instance->getUri()) || !$instance->delete()) {
+        foreach ($class->getInstances() as $instance) {
+            if (!$this->permissionChecker->hasWriteAccess($instance->getUri())) {
+                $status = false;
+            }
+
+            try {
+                $this->resourceRepositoryProxy->delete(
+                    new ResourceRepositoryContext(
+                        [
+                            ResourceRepositoryContext::PARAM_REPOSITORY => ResourceRepositoryContext::REPO_RESOURCE,
+                            ResourceRepositoryContext::PARAM_RESOURCE => $instance,
+                            ResourceRepositoryContext::PARAM_SELECTED_CLASS => $this->selectedClass,
+                            ResourceRepositoryContext::PARAM_PARENT_CLASS => $class,
+                        ]
+                    )
+                );
+            } catch (Throwable $exception) {
                 $status = false;
             }
         }

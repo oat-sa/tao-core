@@ -22,6 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Exception;
 
-class PartialClassDeletionException extends ClassDeletionException
+class PartialClassDeletionException extends ResourceDeletionException
 {
 }
