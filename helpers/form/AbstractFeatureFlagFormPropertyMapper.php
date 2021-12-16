@@ -34,7 +34,7 @@ abstract class AbstractFeatureFlagFormPropertyMapper extends ConfigurableService
     {
         $excludedProperties = [];
 
-        foreach ($this->getOption(self::OPTION_FEATURE_FLAG_FORM_FIELDS) as $field => $featureFlags) {
+        foreach ($this->getOption(self::OPTION_FEATURE_FLAG_FORM_FIELDS, []) as $field => $featureFlags) {
             foreach ($featureFlags as $featureFlag) {
                 if (!$this->getFeatureFlagChecker()->isEnabled($featureFlag)) {
                     $excludedProperties[] = $field;
