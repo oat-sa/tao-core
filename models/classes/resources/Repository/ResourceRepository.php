@@ -22,13 +22,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Repository;
 
-use Throwable;
 use RuntimeException;
 use InvalidArgumentException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\oatbox\event\EventManager;
-use oat\generis\model\OntologyRdf;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\Context\ContextInterface;
 use core_kernel_persistence_ResourceInterface;

@@ -49,7 +49,10 @@ class ClassDeleter implements ClassDeleterInterface
     private $ontology;
 
     /** @var ResourceRepositoryInterface */
-    private $resourceRepositoryProxy;
+    private $resourceRepository;
+
+    /** @var ResourceRepositoryInterface */
+    private $classRepository;
 
     /** @var core_kernel_classes_Property */
     private $propertyIndex;
@@ -61,12 +64,14 @@ class ClassDeleter implements ClassDeleterInterface
         ClassSpecificationInterface $rootClassSpecification,
         PermissionCheckerInterface $permissionChecker,
         Ontology $ontology,
-        ResourceRepositoryInterface $resourceRepositoryProxy
+        ResourceRepositoryInterface $resourceRepository,
+        ResourceRepositoryInterface $classRepository
     ) {
         $this->rootClassSpecification = $rootClassSpecification;
         $this->permissionChecker = $permissionChecker;
         $this->ontology = $ontology;
-        $this->resourceRepositoryProxy = $resourceRepositoryProxy;
+        $this->resourceRepository = $resourceRepository;
+        $this->classRepository = $classRepository;
 
         $this->propertyIndex = $ontology->getProperty(self::PROPERTY_INDEX);
     }
@@ -125,10 +130,9 @@ class ClassDeleter implements ClassDeleterInterface
     private function deleteClass(core_kernel_classes_Class $class, bool $isClassDeletable): bool
     {
         if ($this->deleteClassContent($class, $isClassDeletable)) {
-            $this->resourceRepositoryProxy->delete(
+            $this->classRepository->delete(
                 new ResourceRepositoryContext(
                     [
-                        ResourceRepositoryContext::PARAM_REPOSITORY => ResourceRepositoryContext::REPO_CLASS,
                         ResourceRepositoryContext::PARAM_CLASS => $class,
                         ResourceRepositoryContext::PARAM_SELECTED_CLASS => $this->selectedClass,
                     ]
@@ -159,10 +163,9 @@ class ClassDeleter implements ClassDeleterInterface
             }
 
             try {
-                $this->resourceRepositoryProxy->delete(
+                $this->resourceRepository->delete(
                     new ResourceRepositoryContext(
                         [
-                            ResourceRepositoryContext::PARAM_REPOSITORY => ResourceRepositoryContext::REPO_RESOURCE,
                             ResourceRepositoryContext::PARAM_RESOURCE => $instance,
                             ResourceRepositoryContext::PARAM_SELECTED_CLASS => $this->selectedClass,
                             ResourceRepositoryContext::PARAM_PARENT_CLASS => $class,

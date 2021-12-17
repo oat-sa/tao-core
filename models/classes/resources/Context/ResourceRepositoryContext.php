@@ -29,20 +29,15 @@ use oat\tao\model\Context\AbstractContext;
 
 class ResourceRepositoryContext extends AbstractContext
 {
-    public const PARAM_REPOSITORY = 'repository';
     public const PARAM_RESOURCE = 'resource';
     public const PARAM_CLASS = 'class';
     public const PARAM_DELETE_REFERENCE = 'deleteReference';
     public const PARAM_SELECTED_CLASS = 'selectedClass';
     public const PARAM_PARENT_CLASS = 'parentClass';
 
-    public const REPO_RESOURCE = 'resource';
-    public const REPO_CLASS = 'class';
-
     protected function getSupportedParameters(): array
     {
         return [
-            self::PARAM_REPOSITORY,
             self::PARAM_RESOURCE,
             self::PARAM_CLASS,
             self::PARAM_DELETE_REFERENCE,
@@ -53,13 +48,6 @@ class ResourceRepositoryContext extends AbstractContext
 
     protected function validateParameter(string $parameter, $parameterValue): void
     {
-        if (
-            $parameter === self::PARAM_REPOSITORY
-            && in_array($parameterValue, [self::REPO_RESOURCE, self::REPO_CLASS], true)
-        ) {
-            return;
-        }
-
         if ($parameter === self::PARAM_RESOURCE && $parameterValue instanceof core_kernel_classes_Resource) {
             return;
         }
