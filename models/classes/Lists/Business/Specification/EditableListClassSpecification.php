@@ -23,11 +23,10 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Specification;
 
 use core_kernel_classes_Class;
-use oat\generis\model\GenerisRdf;
+use tao_models_classes_LanguageService;
 use oat\tao\model\Specification\ClassSpecificationInterface;
-use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
 
-class LocalListClassSpecification implements ClassSpecificationInterface
+class EditableListClassSpecification implements ClassSpecificationInterface
 {
     /** @var ClassSpecificationInterface */
     private $listClassSpecification;
@@ -39,21 +38,7 @@ class LocalListClassSpecification implements ClassSpecificationInterface
 
     public function isSatisfiedBy(core_kernel_classes_Class $class): bool
     {
-        return (
-                $this->listClassSpecification->isSatisfiedBy($class)
-                || $this->isBoolean($class)
-            ) && $this->isNotRemoteList($class);
-    }
-
-    private function isBoolean(core_kernel_classes_Class $class): bool
-    {
-        return $class->getUri() === GenerisRdf::GENERIS_BOOLEAN;
-    }
-
-    private function isNotRemoteList(core_kernel_classes_Class $class): bool
-    {
-        $propertyListType = $class->getProperty(RemoteSourcedListOntology::PROPERTY_LIST_TYPE);
-
-        return $class->getOnePropertyValue($propertyListType) === null;
+        return $this->listClassSpecification->isSatisfiedBy($class)
+            && $class->getUri() !== tao_models_classes_LanguageService::CLASS_URI_LANGUAGES;
     }
 }
