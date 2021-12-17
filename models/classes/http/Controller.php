@@ -32,6 +32,12 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @package oat\tao\model\http
  * @author Moyon Camille
+ *
+ * @deprecated Controllers shall be decoupled, using composition and Middlewares, not inheritance.
+ *             They can be used with DI services (including PSR Request and Response) which will be autowired.
+ *             More information here:
+ *               - https://github.com/oat-sa/generis/tree/master/core/DependencyInjection
+ *               - https://github.com/oat-sa/tao-core/tree/master/models/classes/routing
  */
 abstract class Controller
 {
