@@ -151,6 +151,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
             return false;
         } finally {
             if (isset($exception)) {
+                //$this->logInfo('======= COUNTER =========> ' . $counter . ' URI: ' . $valueCollection->getUri()); //FIXME
                 $platform->rollBack();
             }
         }
@@ -222,6 +223,10 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
             $platform->commit();
         } catch (Throwable $e) {
+            $this->logInfo('=============> List URI: ' . $valueCollection->getUri() . ' uri: ' . $value->getUri());
+
+
+
             $platform->rollBack();
         }
     }

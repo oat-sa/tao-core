@@ -15,36 +15,57 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-use oat\generis\model\OntologyAwareTrait;
-use oat\tao\model\http\Controller;
-use oat\tao\model\http\HttpJsonResponseTrait;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use oat\generis\model\data\Ontology;
+use oat\tao\model\http\formatter\ResponseFormatter;
+use oat\tao\model\http\response\ErrorJsonResponse;
+use oat\tao\model\http\response\SuccessJsonResponse;
+use oat\tao\model\routing\Contract\ActionInterface;
+use Psr\Http\Message\ResponseInterface;
 
-class tao_actions_Languages extends Controller implements ServiceLocatorAwareInterface
+class tao_actions_Languages implements ActionInterface
 {
-    use ServiceLocatorAwareTrait;
-    use HttpJsonResponseTrait;
-    use OntologyAwareTrait;
+    /** @var ResponseFormatter */
+    private $responseFormatter;
 
-    public function index(): void
+    /** @var Ontology */
+    private $ontology;
+
+    public function __construct(ResponseFormatter $responseFormatter, Ontology $ontology)
+    {
+        $this->responseFormatter = $responseFormatter;
+        $this->ontology = $ontology;
+    }
+
+    public function index(ResponseInterface $response): ResponseInterface
     {
         try {
-            $this->getResponseFormatter()
+            $this->responseFormatter
                 ->withExpiration(time() + 60);
 
-            $this->setSuccessJsonResponse(
-                tao_helpers_I18n::getAvailableLangsByUsage(
-                    $this->getResource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)
+            return $this->responseFormatter
+                ->withJsonHeader()
+                ->withStatusCode(200)
+                ->withBody(
+                    new SuccessJsonResponse(
+                        tao_helpers_I18n::getAvailableLangsByUsage(
+                            $this->ontology->getResource(
+                                tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA
+                            )
+                        )
+                    )
                 )
-            );
+                ->format($response);
         } catch (Throwable $exception) {
-            $this->setErrorJsonResponse($exception->getMessage());
+            return $this->responseFormatter
+                ->withJsonHeader()
+                ->withStatusCode(400)
+                ->withBody(new ErrorJsonResponse(0, $exception->getMessage(), []))
+                ->format($response);
         }
     }
 }
