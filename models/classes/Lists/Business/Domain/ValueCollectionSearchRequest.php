@@ -38,8 +38,8 @@ class ValueCollectionSearchRequest
     /** @var string[] */
     private $excluded = [];
 
-    /** @var int */
-    private $offset = 0;
+    /** @var int|null */
+    private $offset;
 
     /** @var int|null */
     private $limit;
@@ -152,10 +152,10 @@ class ValueCollectionSearchRequest
 
     public function hasOffset(): bool
     {
-        return $this->offset > 0;
+        return $this->offset !== null && $this->offset >= 0;
     }
 
-    public function getOffset(): int
+    public function getOffset(): ?int
     {
         return $this->offset;
     }
