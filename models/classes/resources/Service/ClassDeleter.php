@@ -31,8 +31,8 @@ use oat\tao\model\accessControl\PermissionCheckerInterface;
 use oat\tao\model\resources\Contract\ClassDeleterInterface;
 use oat\tao\model\Specification\ClassSpecificationInterface;
 use oat\tao\model\resources\Exception\ClassDeletionException;
-use oat\tao\model\resources\Context\ResourceRepositoryContext;
-use oat\tao\model\resources\Contract\ResourceRepositoryInterface;
+use oat\generis\model\resource\Context\ResourceRepositoryContext;
+use oat\generis\model\resource\Contract\ResourceRepositoryInterface;
 use oat\tao\model\resources\Exception\PartialClassDeletionException;
 
 class ClassDeleter implements ClassDeleterInterface
@@ -203,7 +203,14 @@ class ClassDeleter implements ClassDeleterInterface
         }
 
         foreach ($indexes as $indexUri) {
-            $this->ontology->getResource($indexUri)->delete(true);
+            $this->resourceRepository->delete(
+                new ResourceRepositoryContext(
+                    [
+                        ResourceRepositoryContext::PARAM_RESOURCE => $this->ontology->getResource($indexUri),
+                        ResourceRepositoryContext::PARAM_DELETE_REFERENCE => true,
+                    ]
+                )
+            );
         }
 
         return true;

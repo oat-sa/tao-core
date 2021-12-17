@@ -22,14 +22,12 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources;
 
-use oat\oatbox\event\EventManager;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\resources\Service\ClassDeleter;
 use oat\tao\model\accessControl\PermissionChecker;
-use oat\tao\model\resources\Service\ResourceDeleter;
-use oat\tao\model\resources\Repository\ClassRepository;
-use oat\tao\model\resources\Repository\ResourceRepository;
+use oat\generis\model\resource\Repository\ClassRepository;
 use oat\tao\model\resources\Service\RootClassesListService;
+use oat\generis\model\resource\Repository\ResourceRepository;
 use oat\tao\model\resources\Specification\RootClassSpecification;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -59,24 +57,6 @@ class ResourcesServiceProvider implements ContainerServiceProviderInterface
             );
 
         $services
-            ->set(ClassRepository::class, ClassRepository::class)
-            ->args(
-                [
-                    service(Ontology::SERVICE_ID),
-                    service(EventManager::SERVICE_ID),
-                ]
-            );
-
-        $services
-            ->set(ResourceRepository::class, ResourceRepository::class)
-            ->args(
-                [
-                    service(Ontology::SERVICE_ID),
-                    service(EventManager::SERVICE_ID),
-                ]
-            );
-
-        $services
             ->set(ClassDeleter::class, ClassDeleter::class)
             ->public()
             ->args(
@@ -86,15 +66,6 @@ class ResourcesServiceProvider implements ContainerServiceProviderInterface
                     service(Ontology::SERVICE_ID),
                     service(ResourceRepository::class),
                     service(ClassRepository::class),
-                ]
-            );
-
-        $services
-            ->set(ResourceDeleter::class, ResourceDeleter::class)
-            ->public()
-            ->args(
-                [
-                    service(ResourceRepository::class),
                 ]
             );
     }

@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Exception;
 
+use oat\generis\model\resource\exception\ResourceDeletionException;
+
 class ClassDeletionException extends ResourceDeletionException
 {
 }

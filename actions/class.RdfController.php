@@ -38,13 +38,12 @@ use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\resources\Service\ClassDeleter;
 use oat\tao\model\accessControl\PermissionChecker;
 use tao_helpers_form_FormContainer as FormContainer;
-use oat\tao\model\resources\Service\ResourceDeleter;
+use oat\generis\model\resource\Service\ResourceDeleter;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 use oat\tao\model\resources\Contract\ClassDeleterInterface;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
 use oat\tao\model\resources\Exception\ClassDeletionException;
-use oat\tao\model\resources\Contract\ResourceDeleterInterface;
-use oat\tao\model\resources\Exception\ResourceDeletionException;
+use oat\generis\model\resource\Contract\ResourceDeleterInterface;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\resources\Exception\PartialClassDeletionException;
 

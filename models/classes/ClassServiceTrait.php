@@ -28,9 +28,9 @@ use core_kernel_classes_Resource;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\resources\Service\ClassDeleter;
-use oat\tao\model\resources\Service\ResourceDeleter;
+use oat\generis\model\resource\Service\ResourceDeleter;
 use oat\tao\model\resources\Contract\ClassDeleterInterface;
-use oat\tao\model\resources\Contract\ResourceDeleterInterface;
+use oat\generis\model\resource\Contract\ResourceDeleterInterface;
 
 trait ClassServiceTrait
 {
@@ -42,7 +42,7 @@ trait ClassServiceTrait
     abstract public function getRootClass();
 
     /**
-     * @deprecated Use \oat\tao\model\resources\Service\ResourceDeleter::delete()
+     * @deprecated Use \oat\generis\model\resource\Service\ResourceDeleter::delete()
      *
      * @return bool
      */
