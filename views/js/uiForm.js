@@ -749,7 +749,7 @@
                                 property;
 
                             for (property in response.data.elements) {
-                                if (!response.data.elements.hasOwnProperty(property)) {
+                                if (!Object.prototype.hasOwnProperty.call(response.data.elements, property)) {
                                     continue;
                                 }
 
