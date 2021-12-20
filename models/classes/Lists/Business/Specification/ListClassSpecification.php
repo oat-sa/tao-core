@@ -20,10 +20,16 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\resources\Exception;
+namespace oat\tao\model\Lists\Business\Specification;
 
-use oat\generis\model\resource\exception\ResourceDeletionException;
+use core_kernel_classes_Class;
+use oat\tao\model\TaoOntology;
+use oat\tao\model\Specification\ClassSpecificationInterface;
 
-class PartialClassDeletionException extends ResourceDeletionException
+class ListClassSpecification implements ClassSpecificationInterface
 {
+    public function isSatisfiedBy(core_kernel_classes_Class $class): bool
+    {
+        return $class->isSubClassOf($class->getClass(TaoOntology::CLASS_URI_LIST));
+    }
 }

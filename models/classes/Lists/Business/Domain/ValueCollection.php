@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -25,9 +25,9 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Domain;
 
 use Countable;
-use IteratorAggregate;
-use JsonSerializable;
 use Traversable;
+use JsonSerializable;
+use IteratorAggregate;
 
 class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
 {
@@ -36,6 +36,8 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
 
     /** @var Value[] */
     private $values = [];
+
+    private $totalCount = 0;
 
     public function __construct(string $uri = null, Value ...$values)
     {
@@ -109,6 +111,16 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
     public function count(): int
     {
         return count($this->values);
+    }
+
+    public function getTotalCount(): int
+    {
+        return $this->totalCount;
+    }
+
+    public function setTotalCount(int $totalCount): void
+    {
+        $this->totalCount = $totalCount;
     }
 
     private function ensureValueProperties(Value $value): Value

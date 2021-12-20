@@ -25,17 +25,24 @@ namespace oat\tao\model\Lists\Business\Specification;
 use core_kernel_classes_Class;
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\Specification\ClassSpecificationInterface;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
 
 class LocalListClassSpecification implements ClassSpecificationInterface
 {
+    /** @var ClassSpecificationInterface */
+    private $listClassSpecification;
+
+    public function __construct(ClassSpecificationInterface $listClassSpecification)
+    {
+        $this->listClassSpecification = $listClassSpecification;
+    }
+
     public function isSatisfiedBy(core_kernel_classes_Class $class): bool
     {
         return (
-            $class->isSubClassOf($class->getClass(TaoOntology::CLASS_URI_LIST))
-            || $this->isBoolean($class)
-        ) && $this->isNotRemoteList($class);
+                $this->listClassSpecification->isSatisfiedBy($class)
+                || $this->isBoolean($class)
+            ) && $this->isNotRemoteList($class);
     }
 
     private function isBoolean(core_kernel_classes_Class $class): bool
@@ -45,6 +52,8 @@ class LocalListClassSpecification implements ClassSpecificationInterface
 
     private function isNotRemoteList(core_kernel_classes_Class $class): bool
     {
-        return $class->getOnePropertyValue($class->getProperty(RemoteSourcedListOntology::PROPERTY_LIST_TYPE)) === null;
+        $propertyListType = $class->getProperty(RemoteSourcedListOntology::PROPERTY_LIST_TYPE);
+
+        return $class->getOnePropertyValue($propertyListType) === null;
     }
 }

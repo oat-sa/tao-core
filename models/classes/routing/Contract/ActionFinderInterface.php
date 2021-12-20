@@ -15,15 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA; *
  */
 
-declare(strict_types=1);
+namespace oat\tao\model\routing\Contract;
 
-namespace oat\tao\model\resources\Exception;
-
-use oat\generis\model\resource\exception\ResourceDeletionException;
-
-class PartialClassDeletionException extends ResourceDeletionException
+interface ActionFinderInterface
 {
+    public function find(string $className): ?object;
 }

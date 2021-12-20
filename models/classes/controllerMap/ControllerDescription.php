@@ -15,14 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\model\controllerMap;
 
 use oat\tao\model\http\Controller;
+use oat\tao\model\routing\Contract\ActionInterface;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -69,15 +68,21 @@ class ControllerDescription
     public function getActions()
     {
         $actions = [];
+
         foreach ($this->class->getMethods(ReflectionMethod::IS_PUBLIC) as $m) {
             if ($m->isConstructor() || $m->isDestructor() || in_array($m->name, self::$BLACK_LIST)) {
                 continue;
             }
 
-            if (is_subclass_of($m->class, 'Module') || is_subclass_of($m->class, Controller::class)) {
+            if (
+                is_subclass_of($m->class, 'Module') ||
+                is_subclass_of($m->class, Controller::class) ||
+                $this->class->implementsInterface(ActionInterface::class)
+            ) {
                 $actions[] = new ActionDescription($m);
             }
         }
+
         return $actions;
     }
 }

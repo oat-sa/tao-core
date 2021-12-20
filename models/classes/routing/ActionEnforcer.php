@@ -26,6 +26,9 @@ use Context;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use oat\tao\model\Middleware\MiddlewareRequestHandler;
+use oat\tao\model\routing\Contract\ActionFinderInterface;
+use oat\tao\model\routing\Service\ActionFinder;
+use Psr\Container\ContainerInterface;
 use ReflectionException;
 use IExecutable;
 use ActionEnforcingException;
@@ -68,6 +71,9 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     private $request;
     private $response;
 
+    /** @var ContainerInterface */
+    private $container;
+
     public function __construct($extensionId, $controller, $action, array $parameters)
     {
         $this->extension = $extensionId;
@@ -103,7 +109,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             throw new ActionEnforcingException('Controller "' . $controllerClass . '" could not be loaded.', $controllerClass, $this->getAction());
         }
 
-        $controller = $this->getClassInstance($controllerClass);
+        $controller = $this->getControllerInstance($controllerClass);
 
         $this->propagate($controller);
         if ($controller instanceof Controller) {
@@ -114,17 +120,6 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             $controller->initialize();
         }
         return $controller;
-    }
-
-    private function getClassInstance(string $className): object
-    {
-        $serviceId = defined("$className::SERVICE_ID")
-            ? $className::SERVICE_ID
-            : $className;
-
-        return $this->getServiceLocator()->has($serviceId)
-            ? $this->getServiceLocator()->get($serviceId)
-            : $this->propagate(new $className);
     }
 
     protected function getRequest()
@@ -274,6 +269,44 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         }
 
         return $actionParameters;
+    }
+
+    private function getClassInstance(string $className): object
+    {
+        $serviceId = $this->getServiceId($className);
+        $container = $this->getContainer();
+
+        if ($container->has($serviceId)) {
+            return $container->get($serviceId);
+        }
+
+        return $this->propagate(new $className);
+    }
+
+    private function getControllerInstance(string $className): object
+    {
+        return $this->getActionFinder()->find($className) ?? $this->propagate(new $className);
+    }
+
+    private function getServiceId(string $className): string
+    {
+        return defined("$className::SERVICE_ID")
+            ? $className::SERVICE_ID
+            : $className;
+    }
+
+    private function getActionFinder(): ActionFinderInterface
+    {
+        return $this->getContainer()->get(ActionFinder::class);
+    }
+
+    private function getContainer(): ContainerInterface
+    {
+        if (!$this->container) {
+            $this->container = $this->getServiceManager()->getContainer();
+        }
+
+        return $this->container;
     }
 
     private function getMiddlewareRequestHandler(): MiddlewareRequestHandler

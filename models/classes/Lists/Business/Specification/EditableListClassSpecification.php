@@ -20,10 +20,25 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\resources\Exception;
+namespace oat\tao\model\Lists\Business\Specification;
 
-use oat\generis\model\resource\exception\ResourceDeletionException;
+use core_kernel_classes_Class;
+use tao_models_classes_LanguageService;
+use oat\tao\model\Specification\ClassSpecificationInterface;
 
-class PartialClassDeletionException extends ResourceDeletionException
+class EditableListClassSpecification implements ClassSpecificationInterface
 {
+    /** @var ClassSpecificationInterface */
+    private $listClassSpecification;
+
+    public function __construct(ClassSpecificationInterface $listClassSpecification)
+    {
+        $this->listClassSpecification = $listClassSpecification;
+    }
+
+    public function isSatisfiedBy(core_kernel_classes_Class $class): bool
+    {
+        return $this->listClassSpecification->isSatisfiedBy($class)
+            && $class->getUri() !== tao_models_classes_LanguageService::CLASS_URI_LANGUAGES;
+    }
 }

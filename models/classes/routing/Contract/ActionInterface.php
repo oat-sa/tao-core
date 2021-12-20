@@ -15,15 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA; *
  */
 
-declare(strict_types=1);
+namespace oat\tao\model\routing\Contract;
 
-namespace oat\tao\model\resources\Exception;
-
-use oat\generis\model\resource\exception\ResourceDeletionException;
-
-class PartialClassDeletionException extends ResourceDeletionException
+/**
+ * This interface intent is to help identifying Action/Controller to be parsed for specific purposes (ACL, etc)
+ * It does not contain any methods on purpose, cause we do not want to force any behavior on action/controllers.
+ *
+ * For the sake of backward compatibility, we were forced to create this interface,
+ * but it will be removed in the future.
+ */
+interface ActionInterface
 {
 }
