@@ -36,8 +36,7 @@ class UserSettingsFormFactory
         UserSettingsInterface $userSettings,
         string $uiLanguage,
         array $params = []
-    ): tao_helpers_form_Form
-    {
+    ): tao_helpers_form_Form {
         $fields = [
             'timezone' => $userSettings->getTimezone(),
             'ui_lang' => $uiLanguage,
