@@ -26,19 +26,28 @@ use common_Exception;
 use tao_actions_form_UserSettings;
 use tao_helpers_form_Form;
 use tao_helpers_form_FormContainer;
+use tao_models_classes_LanguageService;
 
 class UserSettingsFormFactory
 {
+    /** @var tao_models_classes_LanguageService */
+    private $languageService;
+
+    public function __construct(tao_models_classes_LanguageService $languageService = null)
+    {
+        $this->languageService = $languageService;
+    }
+
     /**
      * @throws common_Exception
      */
     public function create(
         UserSettingsInterface $userSettings,
-        string $uiLanguage,
+        string $uiLanguage = null,
         array $params = []
     ): tao_helpers_form_Form {
         $fields = [
-            'timezone' => $userSettings->getTimezone(),
+            'timezone' => trim($userSettings->getTimezone()),
             'ui_lang' => $uiLanguage,
         ];
 
@@ -50,12 +59,15 @@ class UserSettingsFormFactory
             $fields['data_lang'] = $userSettings->getDataLanguageCode();
         }
 
-        $formBuilder = new tao_actions_form_UserSettings(
-            $fields,
-            [
-                tao_helpers_form_FormContainer::CSRF_PROTECTION_OPTION => (bool) $params['useCSRFProtection'] ?? true
-            ]
-        );
+        $options = [
+            tao_helpers_form_FormContainer::CSRF_PROTECTION_OPTION => (bool) ($params['useCSRFProtection'] ?? true),
+        ];
+
+        if ($this->languageService != null) {
+            $options['LanguageService'] = $this->languageService;
+        }
+
+        $formBuilder = new tao_actions_form_UserSettings($fields, $options);
 
         return $formBuilder->getForm();
     }

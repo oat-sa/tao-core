@@ -25,7 +25,7 @@ use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\oatbox\user\UserTimezoneServiceInterface;
 
 /**
- * This container initialize the settings form.
+ * This container initializes the settings form.
  *
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
@@ -34,6 +34,31 @@ use oat\oatbox\user\UserTimezoneServiceInterface;
  */
 class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
 {
+    /** @var tao_models_classes_LanguageService */
+    private $languageService;
+
+    /** @var ServiceManager */
+    private $serviceManager;
+
+    /** @var UserTimezoneServiceInterface */
+    private $userTimezoneService;
+
+    public function __construct(array $data = [], array $options = [])
+    {
+        if (isset($options['LanguageService'])) {
+            $this->setLanguageService($options['LanguageService']);
+        }
+
+        if (isset($options['ServiceManager'])) {
+            $this->setServiceManager($options['ServiceManager']);
+        }
+
+        if (isset($options['UserTimezoneService'])) {
+            $this->setUserTimezoneService($options['UserTimezoneService']);
+        }
+
+        parent::__construct($data, $options);
+    }
 
     /**
      * @inheritdoc
@@ -49,11 +74,6 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
         $this->form->setActions($actions);
     }
 
-    private function getServiceManager(): ServiceManager
-    {
-        return oat\oatbox\service\ServiceManager::getServiceManager();
-    }
-
     /**
      * @inheritdoc
      * @throws common_Exception
@@ -61,7 +81,7 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
      */
     protected function initElements()
     {
-        $langService = tao_models_classes_LanguageService::singleton();
+        $langService = $this->getLanguageService();
         $userLangService = $this->getServiceManager()->get(UserLanguageServiceInterface::class);
 
         // Retrieve languages available for a GUI usage.
@@ -94,11 +114,6 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
         $this->addTimezoneEl($this->form);
     }
 
-    private function getUserTimezoneService(): UserTimezoneServiceInterface
-    {
-        return $this->getServiceManager()->get(UserTimezoneServiceInterface::SERVICE_ID);
-    }
-
     private function addTimezoneEl($form): void
     {
         if ($this->getUserTimezoneService()->isUserTimezoneEnabled()) {
@@ -113,5 +128,49 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
 
             $form->addElement($tzElement);
         }
+    }
+
+    private function getUserTimezoneService(): UserTimezoneServiceInterface
+    {
+        if(!$this->userTimezoneService) {
+            $this->userTimezoneService = $this->getServiceManager()->get(
+                UserTimezoneServiceInterface::SERVICE_ID
+            );
+        }
+
+        return $this->userTimezoneService;
+    }
+
+    public function setUserTimezoneService(UserTimezoneServiceInterface $userTimezoneService): void
+    {
+        $this->userTimezoneService = $userTimezoneService;
+    }
+
+    private function getLanguageService(): tao_models_classes_LanguageService
+    {
+        if(!$this->languageService) {
+            $this->languageService = tao_models_classes_LanguageService::singleton();
+        }
+
+        return $this->languageService;
+    }
+
+    public function setLanguageService(tao_models_classes_LanguageService $languageService): void
+    {
+        $this->languageService = $languageService;
+    }
+
+    private function getServiceManager(): ServiceManager
+    {
+        if(!$this->serviceManager) {
+            $this->serviceManager =  oat\oatbox\service\ServiceManager::getServiceManager();
+        }
+
+        return $this->serviceManager;
+    }
+
+    public function setServiceManager(ServiceManager $serviceManager): void
+    {
+        $this->serviceManager = $serviceManager;
     }
 }
