@@ -28,6 +28,7 @@ use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\service\ApplicationService;
 use oat\tao\model\user\UserSettingsFormFactory;
 use oat\tao\model\user\UserSettingsServiceInterface;
+use oat\tao\model\user\implementation\UserSettingsService;
 use tao_helpers_form_FormContainer as FormContainer;
 use tao_helpers_Display as DisplayHelper;
 
@@ -135,7 +136,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
 
     private function getUserSettingsService(): UserSettingsServiceInterface
     {
-        return $this->getPsrContainer()->get(UserSettingsServiceInterface::class);
+        return $this->getPsrContainer()->get(UserSettingsService::class);
     }
 
     private function getUserLanguageService(): UserLanguageServiceInterface

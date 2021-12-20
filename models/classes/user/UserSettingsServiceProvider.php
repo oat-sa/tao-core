@@ -37,7 +37,7 @@ class UserSettingsServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services
-            ->set(UserSettingsServiceInterface::class, UserSettingsService::class)
+            ->set(UserSettingsService::class, UserSettingsService::class)
             ->public()
             ->args(
                 [
