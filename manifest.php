@@ -32,11 +32,12 @@ use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
 use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\export\ServiceProvider\MetadataServiceProvider;
-use oat\tao\model\user\UserSettingsServiceProvider;
+use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
 use oat\tao\model\user\TaoRoles;
+use oat\tao\model\user\UserSettingsServiceProvider;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -46,7 +47,6 @@ use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterActionAccessControl;
 use oat\tao\scripts\install\RegisterClassMetadataServices;
-use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
@@ -285,6 +285,6 @@ return [
         ResourcesServiceProvider::class,
         RoutingServiceProvider::class,
         ImportServiceProvider::class,
-        UserSettingsServiceProvider::class
+        UserSettingsServiceProvider::class,
     ],
 ];
