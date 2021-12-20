@@ -45,5 +45,9 @@ class UserSettingsServiceProvider implements ContainerServiceProviderInterface
                     service(Ontology::SERVICE_ID),
                 ]
             );
+
+        $services
+            ->set(UserSettingsFormFactory::class, UserSettingsFormFactory::class)
+            ->public();
     }
 }

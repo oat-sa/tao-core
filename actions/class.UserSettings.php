@@ -75,34 +75,32 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
      */
     public function properties()
     {
-        $currentUser = $this->getUserService()->getCurrentUser();
-        $userSettings = $this->getUserSettingsService()->get($currentUser);
-
-        $languageService = $this->getLanguageService();
         $userLangService = $this->getUserLanguageService();
+        $currentUser = $this->getUserService()->getCurrentUser();
 
-        $defaultUserLangCode = $userLangService->getDefaultLanguage();
-        $defaultLanguage = $languageService->getLanguageByCode($defaultUserLangCode);
-
-        $presenter = new UserSettingsFormFactory($userSettings, $defaultLanguage);
-        $settingsForm = $presenter->create();
+        $settingsForm = $this->getUserSettingsFormFactory()->create(
+            $this->getUserSettingsService()->get($currentUser),
+            $this->getLanguageService()->getLanguageByCode(
+                $userLangService->getDefaultLanguage()
+            )
+        );
 
         if ($settingsForm->isSubmited() && $settingsForm->isValid()) {
-            $userSettings = [
+            $userSettingsData = [
                 GenerisRdf::PROPERTY_USER_TIMEZONE => $settingsForm->getValue('timezone'),
             ];
 
             $uiLang = $this->getResource($settingsForm->getValue('ui_lang'));
-            $userSettings[GenerisRdf::PROPERTY_USER_UILG] = $uiLang->getUri();
+            $userSettingsData[GenerisRdf::PROPERTY_USER_UILG] = $uiLang->getUri();
 
             if ($userLangService->isDataLanguageEnabled()) {
                 $dataLang = $this->getResource($settingsForm->getValue('data_lang'));
-                $userSettings[GenerisRdf::PROPERTY_USER_DEFLG] = $dataLang->getUri();
+                $userSettingsData[GenerisRdf::PROPERTY_USER_DEFLG] = $dataLang->getUri();
             }
 
             $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($currentUser);
 
-            if ($binder->bind($userSettings)) {
+            if ($binder->bind($userSettingsData)) {
                 $this->getSession()->refresh();
 
                 $uiLangCode = tao_models_classes_LanguageService::singleton()->getCode($uiLang);
@@ -137,6 +135,11 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
     private function getUserSettingsService(): UserSettingsServiceInterface
     {
         return $this->getPsrContainer()->get(UserSettingsService::class);
+    }
+
+    private function getUserSettingsFormFactory(): UserSettingsFormFactory
+    {
+        return $this->getPsrContainer()->get(UserSettingsFormFactory::class);
     }
 
     private function getUserLanguageService(): UserLanguageServiceInterface

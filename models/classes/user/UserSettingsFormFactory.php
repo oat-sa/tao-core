@@ -22,37 +22,33 @@ declare(strict_types=1);
 
 namespace oat\tao\model\user;
 
-use tao_helpers_form_FormContainer;
+use common_Exception;
 use tao_actions_form_UserSettings;
 use tao_helpers_form_Form;
+use tao_helpers_form_FormContainer;
 
 class UserSettingsFormFactory
 {
-    /** @var UserSettingsInterface */
-    private $userSettings;
-
-    /** @var string */
-    private $defaultLanguage;
-
-    public function __construct(UserSettingsInterface $userSettings, string $defaultLanguage)
-    {
-        $this->userSettings = $userSettings;
-        $this->defaultLanguage = trim($defaultLanguage);
-    }
-
-    public function create(array $params = []): tao_helpers_form_Form
+    /**
+     * @throws common_Exception
+     */
+    public function create(
+        UserSettingsInterface $userSettings,
+        string $uiLanguage,
+        array $params = []
+    ): tao_helpers_form_Form
     {
         $fields = [
-            'timezone' => $this->userSettings->getTimezone(),
-            'ui_lang' => $this->defaultLanguage,
+            'timezone' => $userSettings->getTimezone(),
+            'ui_lang' => $uiLanguage,
         ];
 
-        if (!empty($this->userSettings->getUILanguageCode())) {
-            $fields['ui_lang'] = $this->userSettings->getUILanguageCode();
+        if (!empty($userSettings->getUILanguageCode())) {
+            $fields['ui_lang'] = $userSettings->getUILanguageCode();
         }
 
-        if (!empty($this->userSettings->getDataLanguageCode())) {
-            $fields['data_lang'] = $this->userSettings->getDataLanguageCode();
+        if (!empty($userSettings->getDataLanguageCode())) {
+            $fields['data_lang'] = $userSettings->getDataLanguageCode();
         }
 
         $formBuilder = new tao_actions_form_UserSettings(
