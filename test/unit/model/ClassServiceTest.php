@@ -31,27 +31,6 @@ use tao_models_classes_ClassService;
  */
 class ClassServiceTest extends TestCase
 {
-    public function testDeleteResource(): void
-    {
-        $instance = $this->getMockForAbstractClass(
-            tao_models_classes_ClassService::class,
-            [],
-            '',
-            false,
-            false,
-            true,
-            []
-        );
-
-        $resourceProphet = $this->prophesize(core_kernel_classes_Resource::class);
-        $resourceProphet
-            ->delete()
-            ->willReturn($resourceProphet);
-        $resourceMock = $resourceProphet->reveal();
-
-        $this->assertSame($resourceMock, $instance->deleteResource($resourceMock));
-    }
-
     public function testDeletePropertyIndex(): void
     {
         $instance = $this->getMockForAbstractClass(

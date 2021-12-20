@@ -24,6 +24,9 @@ namespace oat\tao\model\Context;
 
 use InvalidArgumentException;
 
+/**
+ * @deprecated Use \oat\generis\model\Context\AbstractContext instead
+ */
 abstract class AbstractContext implements ContextInterface
 {
     protected $parameters = [];
@@ -35,6 +38,9 @@ abstract class AbstractContext implements ContextInterface
         }
     }
 
+    /**
+     * @deprecated Use \oat\generis\model\Context\AbstractContext::getParameter() instead
+     */
     public function getParameter(string $parameter, $default = null)
     {
         $this->checkParameterSupport($parameter);
@@ -42,6 +48,9 @@ abstract class AbstractContext implements ContextInterface
         return $this->parameters[$parameter] ?? $default;
     }
 
+    /**
+     * @deprecated Use \oat\generis\model\Context\AbstractContext::setParameter() instead
+     */
     public function setParameter(string $parameter, $parameterValue): void
     {
         $this->checkParameterSupport($parameter);

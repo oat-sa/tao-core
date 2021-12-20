@@ -24,10 +24,13 @@ namespace oat\tao\model;
 
 use Throwable;
 use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\resources\Service\ClassDeleter;
+use oat\generis\model\resource\Service\ResourceDeleter;
 use oat\tao\model\resources\Contract\ClassDeleterInterface;
+use oat\generis\model\resource\Contract\ResourceDeleterInterface;
 
 trait ClassServiceTrait
 {
@@ -39,28 +42,30 @@ trait ClassServiceTrait
     abstract public function getRootClass();
 
     /**
-     * Delete a resource
+     * @deprecated Use \oat\generis\model\resource\Service\ResourceDeleter::delete()
      *
-     * @param \core_kernel_classes_Resource $resource
-     * @return boolean
+     * @return bool
      */
-    public function deleteResource(\core_kernel_classes_Resource $resource)
+    public function deleteResource(core_kernel_classes_Resource $resource)
     {
-        return $resource->delete();
+        try {
+            $this->getResourceDeleter()->delete($resource);
+
+            return true;
+        } catch (Throwable $exception) {
+            return false;
+        }
     }
 
     /**
-     * @deprecated Please, use \oat\tao\model\resources\Service\ClassDeleter::delete() to delete class
-     *             and \oat\tao\model\resources\Service\ClassDeleter::isDeleted() to check if class was deleted or not
+     * @deprecated Use \oat\tao\model\resources\Service\ClassDeleter::delete()
      *
      * @return bool
      */
     public function deleteClass(core_kernel_classes_Class $class)
     {
-        $classDeleter = $this->getClassDeleter();
-
         try {
-            $classDeleter->delete($class);
+            $this->getClassDeleter()->delete($class);
 
             return true;
         } catch (Throwable $exception) {
@@ -83,7 +88,7 @@ trait ClassServiceTrait
         if ($returnValue = $property->delete(true)) {
             //delete index linked to the property
             foreach ($indexes as $indexUri) {
-                $index = new \core_kernel_classes_Resource($indexUri);
+                $index = new core_kernel_classes_Resource($indexUri);
                 $returnValue = $this->deletePropertyIndex($index);
             }
         }
@@ -96,7 +101,7 @@ trait ClassServiceTrait
      * @param \core_kernel_classes_Resource $index
      * @return bool
      */
-    public function deletePropertyIndex(\core_kernel_classes_Resource $index)
+    public function deletePropertyIndex(core_kernel_classes_Resource $index)
     {
         return $index->delete(true);
     }
@@ -112,5 +117,10 @@ trait ClassServiceTrait
     private function getClassDeleter(): ClassDeleterInterface
     {
         return $this->getServiceManager()->getContainer()->get(ClassDeleter::class);
+    }
+
+    private function getResourceDeleter(): ResourceDeleterInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(ResourceDeleter::class);
     }
 }

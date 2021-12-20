@@ -22,24 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Exception;
 
-use Exception;
-use Throwable;
-use common_exception_UserReadableException;
+use oat\generis\model\resource\exception\ResourceDeletionException;
 
-class ClassDeletionException extends Exception implements common_exception_UserReadableException
+class ClassDeletionException extends ResourceDeletionException
 {
-    /** @var string */
-    private $userMessage;
-
-    public function __construct(string $message, string $userMessage, int $code = 500, Throwable $throwable = null)
-    {
-        $this->userMessage = $userMessage;
-
-        parent::__construct($message, $code, $throwable);
-    }
-
-    public function getUserMessage(): string
-    {
-        return $this->userMessage;
-    }
 }

@@ -22,17 +22,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Context;
 
-interface ContextInterface
-{
-    /**
-     * @param mixed $default
-     *
-     * @return mixed
-     */
-    public function getParameter(string $parameter, $default = null);
+use oat\generis\model\Context\ContextInterface as GenerisContextInterface;
 
-    /**
-     * @param mixed $parameterValue
-     */
-    public function setParameter(string $parameter, $parameterValue): void;
+/**
+ * @deprecated Use \oat\generis\model\Context\ContextInterface instead
+ */
+interface ContextInterface extends GenerisContextInterface
+{
 }
