@@ -84,7 +84,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
         $defaultLanguage = $languageService->getLanguageByCode($defaultUserLangCode);
 
         $presenter = new UserSettingsFormFactory($userSettings, $defaultLanguage);
-        $settingsForm = $presenter->getForm();
+        $settingsForm = $presenter->create();
 
         if ($settingsForm->isSubmited() && $settingsForm->isValid()) {
             $userSettings = [

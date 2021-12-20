@@ -40,7 +40,7 @@ class UserSettingsFormFactory
         $this->defaultLanguage = trim($defaultLanguage);
     }
 
-    public function getForm(bool $csrf = true): tao_helpers_form_Form
+    public function create(array $params = []): tao_helpers_form_Form
     {
         $fields = [
             'timezone' => $this->userSettings->getTimezone(),
@@ -58,7 +58,7 @@ class UserSettingsFormFactory
         $formBuilder = new tao_actions_form_UserSettings(
             $fields,
             [
-                tao_helpers_form_FormContainer::CSRF_PROTECTION_OPTION => $csrf
+                tao_helpers_form_FormContainer::CSRF_PROTECTION_OPTION => (bool) $params['useCSRFProtection'] ?? true
             ]
         );
 
