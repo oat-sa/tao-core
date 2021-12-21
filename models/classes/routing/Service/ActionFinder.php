@@ -54,8 +54,7 @@ class ActionFinder implements ActionFinderInterface
         }
 
         $reflectionClass = new ReflectionClass($className);
-
-        $constructorParameters = $reflectionClass->getConstructor()->getParameters();
+        $constructorParameters = $this->getConstructorParameters($reflectionClass);
 
         if (empty($constructorParameters)) {
             return null;
@@ -97,6 +96,13 @@ class ActionFinder implements ActionFinderInterface
         }
 
         return $reflectionClass->newInstanceArgs($params);
+    }
+
+    private function getConstructorParameters(ReflectionClass $reflectionClass): array
+    {
+        $constructor = $reflectionClass->getConstructor();
+
+        return $constructor ? $constructor->getParameters() : [];
     }
 
     private function getServiceId(string $className): string
