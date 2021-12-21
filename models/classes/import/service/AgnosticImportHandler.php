@@ -24,6 +24,8 @@ namespace oat\tao\model\import\service;
 
 use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
+use oat\tao\model\import\Processor\ImportFileErrorHandlerInterface;
+use oat\tao\model\import\Processor\ImportFileProcessorInterface;
 use oat\tao\model\upload\UploadService;
 use tao_helpers_form_Form;
 use oat\tao\model\import\TaskParameterProviderInterface;
@@ -36,15 +38,35 @@ class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, 
     /** @var UploadService */
     private $uploadService;
 
-    /** @var string */
+    /** @var string|null */
     private $label;
 
-    /** @var tao_helpers_form_Form */
+    /** @var tao_helpers_form_Form|null */
     private $form;
+
+    /** @var ImportFileProcessorInterface|null */
+    private $fileProcessor;
+
+    /** @var ImportFileErrorHandlerInterface|null */
+    private $errorHandler;
 
     public function __construct(UploadService $uploadService)
     {
         $this->uploadService = $uploadService;
+    }
+
+    public function withFileProcessor(ImportFileProcessorInterface $fileProcessor): self
+    {
+        $this->fileProcessor = $fileProcessor;
+
+        return $this;
+    }
+
+    public function withErrorHandler(ImportFileErrorHandlerInterface $errorHandler): self
+    {
+        $this->errorHandler = $errorHandler;
+
+        return $this;
     }
 
     /**
@@ -99,35 +121,31 @@ class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, 
 
     private function processFile(File $file): Report
     {
-        // @TODO Upload processing here - Will be done in future task.
-        //FIXME @TODO Improve report messages
-        $report = Report::create(
+        if ($this->fileProcessor) {
+            return $this->fileProcessor->process($file);
+        }
+
+        $subReport = Report::create(
             Report::TYPE_SUCCESS,
-            'Import with %s success',
+            'Imported %s with success',
             [
-                'bla bla'
+                $file->getBasename()
             ]
-        );
+        )->setData([]);
 
-        $report->setData([]);
-
-        $report2 = Report::create(
-            Report::TYPE_SUCCESS,
-            'Import with %s success',
-            [
-                'bla bla'
-            ]
-        );
-
-        $report2->setData([]);
-
-        $report->add($report2);
+        $report = Report::createSuccess(__('Imported successfully finished!'))
+            ->setData([])
+            ->add($subReport);
 
         return $report;
     }
 
     private function handleException(Throwable $exception): Report
     {
+        if ($this->errorHandler) {
+            return $this->errorHandler->handle($exception);
+        }
+
         return Report::create(
             Report::TYPE_ERROR,
             $exception->getMessage()
