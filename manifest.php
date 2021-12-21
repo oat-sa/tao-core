@@ -25,6 +25,7 @@
 declare(strict_types=1);
 
 use oat\tao\controller\api\Users;
+use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\resources\ResourcesServiceProvider;
 use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
@@ -34,6 +35,7 @@ use oat\tao\model\export\ServiceProvider\MetadataServiceProvider;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
+use oat\tao\model\taskQueue\ServiceProvider\TaskQueueServiceProvider;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
@@ -282,5 +284,7 @@ return [
         FeatureFlagServiceProvider::class,
         ResourcesServiceProvider::class,
         RoutingServiceProvider::class,
+        ImportServiceProvider::class,
+        TaskQueueServiceProvider::class
     ],
 ];

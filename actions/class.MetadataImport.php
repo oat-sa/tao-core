@@ -18,30 +18,84 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+use oat\tao\model\import\Factory\ImportFormFactory;
+use oat\tao\model\import\service\AggregatedImportHandler;
 use oat\tao\model\routing\Contract\ActionInterface;
+use oat\tao\model\TaoOntology;
+use oat\tao\model\task\ImportByHandler;
+use oat\tao\model\taskQueue\QueueDispatcher;
+use oat\tao\model\taskQueue\Service\TaskJsonReporter;
+use Psr\Http\Message\ResponseInterface;
 
 class tao_actions_MetadataImport implements ActionInterface
 {
-    use \oat\tao\model\mvc\RendererTrait;
+    /** @var ImportFormFactory */
+    private $formFactory;
 
-    public function index(): void
+    /** @var ResponseInterface */
+    private $response;
+
+    /** @var tao_models_classes_import_CsvImporter */
+    private $csvImporter;
+
+    /** @var QueueDispatcher */
+    private $queueDispatcher;
+
+    /** @var TaskJsonReporter */
+    private $taskJsonReporter;
+
+    public function __construct(
+        ImportFormFactory $formFactory,
+        AggregatedImportHandler $csvImporter,
+        ResponseInterface $response,
+        QueueDispatcher $queueDispatcher,
+        TaskJsonReporter $taskJsonReporter
+    ) {
+        $this->formFactory = $formFactory;
+        $this->response = $response;
+        $this->csvImporter = $csvImporter;
+        $this->queueDispatcher = $queueDispatcher;
+        $this->taskJsonReporter = $taskJsonReporter;
+    }
+
+    public function index(): ResponseInterface
     {
-        //FIXME
-        //FIXME
-        //FIXME
-        //FIXME
-        $this->setView('security/view.tpl');
-
-        $formFactory = new tao_actions_form_CspHeader(
-            [tao_actions_form_CspHeader::SETTINGS_DATA => []]
-        );
-
-        $form = $formFactory->getForm();
+        $response = $this->response;
+        $form = $this->formFactory
+            ->addHandler($this->csvImporter)
+            ->create(
+                [
+                    ImportFormFactory::PARAM_TITLE => __('Import  statistical analysis metadata')
+                ]
+            );
 
         if ($form->isSubmited() && $form->isValid()) {
-            $this->setData('cspHeaderFormSuccess', __('CSP Header settings were saved successfully!'));
+            $task = $this->queueDispatcher->createTask(
+                new ImportByHandler(),
+                [
+                    ImportByHandler::PARAM_IMPORT_HANDLER_SERVICE_ID => get_class($this->csvImporter),
+                    ImportByHandler::PARAM_FORM_VALUES => $this->csvImporter->getTaskParameters($form),
+                    ImportByHandler::PARAM_PARENT_CLASS => TaoOntology::CLASS_URI_ITEM,
+                    //\common_session_SessionManager::getSession()->getUser()->getIdentifier(),
+                    ImportByHandler::PARAM_OWNER => null
+                ],
+                __('Import %s"', $this->csvImporter->getLabel())
+            );
+
+            $response->getBody()->write(
+                json_encode(
+                    [
+                        'success' => true,
+                        'data' => $this->taskJsonReporter->report($task)
+                    ]
+                )
+            );
+
+            return $response;
         }
 
-        $this->setData('cspHeaderForm', $form->render());
+        $response->getBody()->write($this->formFactory->getRenderer()->render());
+
+        return $response;
     }
 }
