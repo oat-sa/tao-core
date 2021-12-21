@@ -37,7 +37,6 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
     public const OPTION_SERVICE_MANAGER = 'ServiceManager';
     public const OPTION_USERTIMEZONE_SERVICE = 'UserTimezoneService';
 
-
     /** @var tao_models_classes_LanguageService */
     private $languageService;
 
