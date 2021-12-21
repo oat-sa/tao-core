@@ -30,7 +30,6 @@ use oat\oatbox\user\UserTimezoneServiceInterface;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
-
  */
 class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
 {
@@ -132,7 +131,7 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
 
     private function getUserTimezoneService(): UserTimezoneServiceInterface
     {
-        if(!$this->userTimezoneService) {
+        if (!$this->userTimezoneService) {
             $this->userTimezoneService = $this->getServiceManager()->get(
                 UserTimezoneServiceInterface::SERVICE_ID
             );
@@ -148,7 +147,7 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
 
     private function getLanguageService(): tao_models_classes_LanguageService
     {
-        if(!$this->languageService) {
+        if (!$this->languageService) {
             $this->languageService = tao_models_classes_LanguageService::singleton();
         }
 
@@ -162,8 +161,8 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
 
     private function getServiceManager(): ServiceManager
     {
-        if(!$this->serviceManager) {
-            $this->serviceManager =  oat\oatbox\service\ServiceManager::getServiceManager();
+        if (!$this->serviceManager) {
+            $this->serviceManager = ServiceManager::getServiceManager();
         }
 
         return $this->serviceManager;
