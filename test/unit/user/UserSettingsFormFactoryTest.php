@@ -36,7 +36,7 @@ use core_kernel_persistence_smoothsql_SmoothModel;
 use ReflectionProperty;
 
 /**
- * @runClassInSeparateProcess
+ * @runClassInSeparateProcess since this test changes global state
  */
 class UserSettingsFormFactoryTest extends TestCase
 {
