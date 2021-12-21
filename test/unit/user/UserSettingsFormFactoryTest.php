@@ -57,10 +57,6 @@ class UserSettingsFormFactoryTest extends TestCase
     {
         parent::setUpBeforeClass();
 
-        if (!defined('CONFIG_PATH')) {
-            define('CONFIG_PATH', '/var/www/html/' . 'config/');
-        }
-
         // Overriding WidgetRegistry::$widgetCache initial value since it would
         // be initialized by calling common_cache_FileCache::singleton() if it
         // is null, and tao_helpers_form_FormFactory makes use of it via static
