@@ -124,7 +124,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
 
     private function getExtensionManager(): common_ext_ExtensionsManager
     {
-        return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
+        return $this->getPsrContainer()->get(common_ext_ExtensionsManager::SERVICE_ID);
     }
 
     private function getUserService(): tao_models_classes_UserService
