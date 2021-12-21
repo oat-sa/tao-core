@@ -61,7 +61,7 @@ class CreateRdsListStore extends InstallAction
         $listItemsTable->addColumn(
             RdsValueCollectionRepository::FIELD_ITEM_LABEL,
             'string',
-            ['length' => 255]
+            ['length' => 512]
         );
         $listItemsTable->addColumn(
             RdsValueCollectionRepository::FIELD_ITEM_URI,
