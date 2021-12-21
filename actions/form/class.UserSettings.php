@@ -23,6 +23,7 @@
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\oatbox\user\UserTimezoneServiceInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * This container initializes the settings form.
@@ -34,14 +35,14 @@ use oat\oatbox\user\UserTimezoneServiceInterface;
 class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
 {
     public const OPTION_LANGUAGE_SERVICE = 'LanguageService';
-    public const OPTION_SERVICE_MANAGER = 'ServiceManager';
+    public const OPTION_CONTAINER_SERVICE = 'Container';
     public const OPTION_USERTIMEZONE_SERVICE = 'UserTimezoneService';
 
     /** @var tao_models_classes_LanguageService */
     private $languageService;
 
-    /** @var ServiceManager */
-    private $serviceManager;
+    /** @var ContainerInterface */
+    private $container;
 
     /** @var UserTimezoneServiceInterface */
     private $userTimezoneService;
@@ -52,8 +53,8 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
             $this->setLanguageService($options[self::OPTION_LANGUAGE_SERVICE]);
         }
 
-        if (isset($options[self::OPTION_SERVICE_MANAGER])) {
-            $this->setServiceManager($options[self::OPTION_SERVICE_MANAGER]);
+        if (isset($options[self::OPTION_CONTAINER_SERVICE])) {
+            $this->setContainer($options[self::OPTION_CONTAINER_SERVICE]);
         }
 
         if (isset($options[self::OPTION_USERTIMEZONE_SERVICE])) {
@@ -61,6 +62,21 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
         }
 
         parent::__construct($data, $options);
+    }
+
+    public function setUserTimezoneService(UserTimezoneServiceInterface $userTimezoneService): void
+    {
+        $this->userTimezoneService = $userTimezoneService;
+    }
+
+    public function setContainer(ContainerInterface $container): void
+    {
+        $this->container = $container;
+    }
+
+    public function setLanguageService(tao_models_classes_LanguageService $languageService): void
+    {
+        $this->languageService = $languageService;
     }
 
     /**
@@ -85,7 +101,7 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
     protected function initElements()
     {
         $langService = $this->getLanguageService();
-        $userLangService = $this->getServiceManager()->get(UserLanguageServiceInterface::class);
+        $userLangService = $this->getContainer()->get(UserLanguageServiceInterface::class);
 
         // Retrieve languages available for a GUI usage.
         $guiUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI);
@@ -136,17 +152,12 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
     private function getUserTimezoneService(): UserTimezoneServiceInterface
     {
         if (!$this->userTimezoneService) {
-            $this->userTimezoneService = $this->getServiceManager()->get(
+            $this->userTimezoneService = $this->getContainer()->get(
                 UserTimezoneServiceInterface::SERVICE_ID
             );
         }
 
         return $this->userTimezoneService;
-    }
-
-    public function setUserTimezoneService(UserTimezoneServiceInterface $userTimezoneService): void
-    {
-        $this->userTimezoneService = $userTimezoneService;
     }
 
     private function getLanguageService(): tao_models_classes_LanguageService
@@ -158,22 +169,12 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
         return $this->languageService;
     }
 
-    public function setLanguageService(tao_models_classes_LanguageService $languageService): void
+    private function getContainer(): ContainerInterface
     {
-        $this->languageService = $languageService;
-    }
-
-    private function getServiceManager(): ServiceManager
-    {
-        if (!$this->serviceManager) {
-            $this->serviceManager = ServiceManager::getServiceManager();
+        if (!$this->container) {
+            $this->container = ServiceManager::getServiceManager()->getContainer();
         }
 
-        return $this->serviceManager;
-    }
-
-    public function setServiceManager(ServiceManager $serviceManager): void
-    {
-        $this->serviceManager = $serviceManager;
+        return $this->container;
     }
 }
