@@ -25,16 +25,22 @@ namespace oat\tao\model\import\service;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\upload\UploadService;
-use oat\taoQtiItem\model\import\CsvImportForm;
 use tao_helpers_form_Form;
 use oat\tao\model\import\TaskParameterProviderInterface;
+use tao_models_classes_import_CsvUploadForm;
 use tao_models_classes_import_ImportHandler;
 use Throwable;
 
-class AggregatedImportHandler implements tao_models_classes_import_ImportHandler, TaskParameterProviderInterface
+class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, TaskParameterProviderInterface
 {
     /** @var UploadService */
     private $uploadService;
+
+    /** @var string */
+    private $label;
+
+    /** @var tao_helpers_form_Form */
+    private $form;
 
     public function __construct(UploadService $uploadService)
     {
@@ -46,7 +52,7 @@ class AggregatedImportHandler implements tao_models_classes_import_ImportHandler
      */
     public function getLabel()
     {
-        return __('CSV metadata');
+        return $this->label ?? 'Import';
     }
 
     /**
@@ -54,14 +60,25 @@ class AggregatedImportHandler implements tao_models_classes_import_ImportHandler
      */
     public function getForm()
     {
-        $form = new CsvImportForm(
-            [],
-            [
-                'classUri' => null
-            ]
-        );
+        if ($this->form) {
+            return $this->form;
+        }
 
-        return $form->getForm();
+        return (new tao_models_classes_import_CsvUploadForm())->getForm();
+    }
+
+    public function withLabel(string $label): self
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    public function withForm(tao_helpers_form_Form $form): self
+    {
+        $this->form = $form;
+
+        return $this;
     }
 
     /**
@@ -72,38 +89,65 @@ class AggregatedImportHandler implements tao_models_classes_import_ImportHandler
         try {
             $uploadedFile = $this->uploadService->fetchUploadedFile($form);
 
-            $this->processFile($uploadedFile);
+            return $this->processFile($uploadedFile);
         } catch (Throwable $exception) {
-            return Report::create(
-                Report::TYPE_ERROR,
-                $exception->getMessage()
-            );
+            return $this->handleException($exception);
         } finally {
             $this->uploadService->remove($uploadedFile);
         }
-
-        return Report::create(
-            Report::TYPE_SUCCESS,
-            'Import with success'
-        );
     }
 
-    private function processFile(File $file): void
+    private function processFile(File $file): Report
     {
         // @TODO Upload processing here - Will be done in future task.
+        //FIXME @TODO Improve report messages
+        $report = Report::create(
+            Report::TYPE_SUCCESS,
+            'Import with %s success',
+            [
+                'bla bla'
+            ]
+        );
+
+        $report->setData([]);
+
+        $report2 = Report::create(
+            Report::TYPE_SUCCESS,
+            'Import with %s success',
+            [
+                'bla bla'
+            ]
+        );
+
+        $report2->setData([]);
+
+        $report->add($report2);
+
+        return $report;
+    }
+
+    private function handleException(Throwable $exception): Report
+    {
+        return Report::create(
+            Report::TYPE_ERROR,
+            $exception->getMessage()
+        );
     }
 
     /**
      * @inheritDoc
      */
-    public function getTaskParameters(tao_helpers_form_Form $importForm)
+    public function getTaskParameters(tao_helpers_form_Form $importForm): array
     {
-        $file = $this->uploadService->getUploadedFlyFile(
-            $importForm->getValue('importFile') ?: $importForm->getValue('source')['uploaded_file']
-        );
+        $file = $this->uploadService->getUploadedFlyFile($this->getUploadedFile($importForm));
 
         return [
             'uploaded_file' => $file->getPrefix(),
         ];
+    }
+
+    private function getUploadedFile(tao_helpers_form_Form $importForm): string
+    {
+        return $importForm->getValue('importFile') ?: $importForm->getValue('source')['uploaded_file'];
     }
 }

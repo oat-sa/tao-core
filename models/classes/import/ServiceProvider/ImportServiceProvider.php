@@ -26,7 +26,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\import\Factory\ImportFormFactory;
 use oat\tao\model\upload\UploadService;
-use oat\tao\model\import\service\AggregatedImportHandler;
+use oat\tao\model\import\service\AgnosticImportHandler;
 use Psr\Http\Message\ServerRequestInterface;
 use Renderer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -46,11 +46,12 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
         $services->set(tao_models_classes_import_CsvImporter::class, tao_models_classes_import_CsvImporter::class)
             ->public();
 
-        $services->set(AggregatedImportHandler::class, AggregatedImportHandler::class)
+        $services->set(AgnosticImportHandler::class, AgnosticImportHandler::class)
             ->public()
             ->args(
                 [
                     service(UploadService::SERVICE_ID),
+                    service(Ontology::SERVICE_ID),
                 ]
             );
 

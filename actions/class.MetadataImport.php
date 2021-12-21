@@ -18,84 +18,40 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-use oat\tao\model\import\Factory\ImportFormFactory;
-use oat\tao\model\import\service\AggregatedImportHandler;
-use oat\tao\model\routing\Contract\ActionInterface;
+use oat\tao\model\import\Form\MetadataImportForm;
+use oat\tao\model\import\service\AgnosticImportHandler;
 use oat\tao\model\TaoOntology;
-use oat\tao\model\task\ImportByHandler;
-use oat\tao\model\taskQueue\QueueDispatcher;
-use oat\tao\model\taskQueue\Service\TaskJsonReporter;
-use Psr\Http\Message\ResponseInterface;
 
-class tao_actions_MetadataImport implements ActionInterface
+class tao_actions_MetadataImport extends tao_actions_Import
 {
-    /** @var ImportFormFactory */
-    private $formFactory;
-
-    /** @var ResponseInterface */
-    private $response;
-
-    /** @var tao_models_classes_import_CsvImporter */
-    private $csvImporter;
-
-    /** @var QueueDispatcher */
-    private $queueDispatcher;
-
-    /** @var TaskJsonReporter */
-    private $taskJsonReporter;
-
-    public function __construct(
-        ImportFormFactory $formFactory,
-        AggregatedImportHandler $csvImporter,
-        ResponseInterface $response,
-        QueueDispatcher $queueDispatcher,
-        TaskJsonReporter $taskJsonReporter
-    ) {
-        $this->formFactory = $formFactory;
-        $this->response = $response;
-        $this->csvImporter = $csvImporter;
-        $this->queueDispatcher = $queueDispatcher;
-        $this->taskJsonReporter = $taskJsonReporter;
+    protected function getFormTitle(): string
+    {
+        return __('Import statistical analysis metadata');
     }
 
-    public function index(): ResponseInterface
+    protected function getAvailableImportHandlers()
     {
-        $response = $this->response;
-        $form = $this->formFactory
-            ->addHandler($this->csvImporter)
-            ->create(
-                [
-                    ImportFormFactory::PARAM_TITLE => __('Import  statistical analysis metadata')
-                ]
-            );
+        return [
+            $this->getAgnosticImportHandler()
+                ->withLabel(__('CSV file'))
+                ->withForm((new MetadataImportForm())->getForm())
+        ];
+    }
 
-        if ($form->isSubmited() && $form->isValid()) {
-            $task = $this->queueDispatcher->createTask(
-                new ImportByHandler(),
-                [
-                    ImportByHandler::PARAM_IMPORT_HANDLER_SERVICE_ID => get_class($this->csvImporter),
-                    ImportByHandler::PARAM_FORM_VALUES => $this->csvImporter->getTaskParameters($form),
-                    ImportByHandler::PARAM_PARENT_CLASS => TaoOntology::CLASS_URI_ITEM,
-                    //\common_session_SessionManager::getSession()->getUser()->getIdentifier(),
-                    ImportByHandler::PARAM_OWNER => null
-                ],
-                __('Import %s"', $this->csvImporter->getLabel())
-            );
+    protected function getImportHandlerServiceIdMap(): array
+    {
+        return [
+            AgnosticImportHandler::class => AgnosticImportHandler::class,
+        ];
+    }
 
-            $response->getBody()->write(
-                json_encode(
-                    [
-                        'success' => true,
-                        'data' => $this->taskJsonReporter->report($task)
-                    ]
-                )
-            );
+    protected function getCurrentClass(): core_kernel_classes_Class
+    {
+        return $this->getClass(TaoOntology::CLASS_URI_ITEM);
+    }
 
-            return $response;
-        }
-
-        $response->getBody()->write($this->formFactory->getRenderer()->render());
-
-        return $response;
+    private function getAgnosticImportHandler(): AgnosticImportHandler
+    {
+        return $this->getPsrContainer()->get(AgnosticImportHandler::class);
     }
 }
