@@ -35,7 +35,6 @@ use oat\tao\model\export\ServiceProvider\MetadataServiceProvider;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
-use oat\tao\model\taskQueue\ServiceProvider\TaskQueueServiceProvider;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
@@ -285,6 +284,5 @@ return [
         ResourcesServiceProvider::class,
         RoutingServiceProvider::class,
         ImportServiceProvider::class,
-        TaskQueueServiceProvider::class
     ],
 ];
