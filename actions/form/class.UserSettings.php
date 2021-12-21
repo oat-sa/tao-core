@@ -33,6 +33,11 @@ use oat\oatbox\user\UserTimezoneServiceInterface;
  */
 class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
 {
+    public const OPTION_LANGUAGE_SERVICE = 'LanguageService';
+    public const OPTION_SERVICE_MANAGER = 'ServiceManager';
+    public const OPTION_USERTIMEZONE_SERVICE = 'UserTimezoneService';
+
+
     /** @var tao_models_classes_LanguageService */
     private $languageService;
 
@@ -44,16 +49,16 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
 
     public function __construct(array $data = [], array $options = [])
     {
-        if (isset($options['LanguageService'])) {
-            $this->setLanguageService($options['LanguageService']);
+        if (isset($options[self::OPTION_LANGUAGE_SERVICE])) {
+            $this->setLanguageService($options[self::OPTION_LANGUAGE_SERVICE]);
         }
 
-        if (isset($options['ServiceManager'])) {
-            $this->setServiceManager($options['ServiceManager']);
+        if (isset($options[self::OPTION_SERVICE_MANAGER])) {
+            $this->setServiceManager($options[self::OPTION_SERVICE_MANAGER]);
         }
 
-        if (isset($options['UserTimezoneService'])) {
-            $this->setUserTimezoneService($options['UserTimezoneService']);
+        if (isset($options[self::OPTION_USERTIMEZONE_SERVICE])) {
+            $this->setUserTimezoneService($options[self::OPTION_USERTIMEZONE_SERVICE]);
         }
 
         parent::__construct($data, $options);
