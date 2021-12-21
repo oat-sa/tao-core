@@ -165,7 +165,7 @@ class tao_actions_Import extends tao_actions_CommonModule
     {
         $data = [
             ImportByHandler::PARAM_PARENT_CLASS => $this->getCurrentClass()->getUri(),
-            ImportByHandler::PARAM_OWNER => \common_session_SessionManager::getSession()->getUser()->getIdentifier(),
+            ImportByHandler::PARAM_OWNER => common_session_SessionManager::getSession()->getUser()->getIdentifier(),
             ImportByHandler::PARAM_FORM_VALUES => $this->getTaskParams($importer, $importForm),
         ];
 
@@ -178,7 +178,7 @@ class tao_actions_Import extends tao_actions_CommonModule
             return $data;
         }
 
-        $data[ImportByHandler::PARAM_IMPORT_HANDLER] = get_class($importer);
+        $data[ImportByHandler::PARAM_IMPORT_HANDLER] = $importerClass;
 
         return $data;
     }
