@@ -24,6 +24,7 @@ namespace oat\tao\migrations;
 
 use common_report_Report as Report;
 use Doctrine\DBAL\Schema\Schema;
+use oat\tao\model\menu\SectionVisibilityFilter;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\accessControl\func\AclProxy;
 use oat\tao\model\accessControl\func\AccessRule;
@@ -41,6 +42,18 @@ final class Version202112210823010101_tao extends AbstractMigration
         AclProxy::applyRule($this->createRule());
 
         $this->addReport(Report::createInfo('Apply permission for MetadataImport'));
+
+        $sectionVisibilityFilter = $this->getServiceManager()->get(SectionVisibilityFilter::SERVICE_ID);
+
+        $options = $sectionVisibilityFilter->getOption(SectionVisibilityFilter::OPTION_FEATURE_FLAG_SECTIONS, []);
+        $options['settings_metadata_import'] = [
+            'FEATURE_FLAG_STATISTIC_METADATA_IMPORT'
+        ];
+        $sectionVisibilityFilter->setOption(SectionVisibilityFilter::OPTION_FEATURE_FLAG_SECTIONS, $options);
+
+        $this->getServiceManager()->register(SectionVisibilityFilter::SERVICE_ID, $sectionVisibilityFilter);
+
+        $this->addReport(Report::createInfo('Add feature flag visibility for settings_metadata_import'));
     }
 
     public function down(Schema $schema): void
@@ -48,6 +61,18 @@ final class Version202112210823010101_tao extends AbstractMigration
         AclProxy::revokeRule($this->createRule());
 
         $this->addReport(Report::createInfo('Revoke permission for MetadataImport'));
+
+        $sectionVisibilityFilter = $this->getServiceManager()->get(SectionVisibilityFilter::SERVICE_ID);
+
+        $options = $sectionVisibilityFilter->getOption(SectionVisibilityFilter::OPTION_FEATURE_FLAG_SECTIONS, []);
+
+        unset($options['settings_metadata_import']);
+
+        $sectionVisibilityFilter->setOption(SectionVisibilityFilter::OPTION_FEATURE_FLAG_SECTIONS, $options);
+
+        $this->getServiceManager()->register(SectionVisibilityFilter::SERVICE_ID, $sectionVisibilityFilter);
+
+        $this->addReport(Report::createInfo('Remove feature flag visibility for settings_metadata_import'));
     }
 
     private function createRule(): AccessRule
