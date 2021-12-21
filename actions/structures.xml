@@ -63,9 +63,10 @@
     <structure id="settings" name="Settings" level="8" group="settings">
         <description/>
         <icon id="icon-settings" src=""/>
-        <sections>
+        <sections>ActionFinder
             <section id="settings_ext_mng" name="Extensions manager" url="/tao/ExtensionsManager/index"/>
             <section id="settings_security" name="Security" url="/tao/Security/index"/>
+            <section id="settings_metadata_import" name="Import statistical analysis metadata" url="/tao/MetadataImport/index"/>
         </sections>
     </structure>
 
