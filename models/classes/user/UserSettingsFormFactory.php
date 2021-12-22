@@ -30,6 +30,8 @@ use tao_models_classes_LanguageService;
 
 class UserSettingsFormFactory
 {
+    public const PARAM_USE_CSRF_PROTECTION = 'useCSRFProtection';
+
     /** @var tao_models_classes_LanguageService */
     private $languageService;
 
@@ -60,8 +62,8 @@ class UserSettingsFormFactory
         }
 
         $options = [
-            'LanguageService' => $this->languageService,
-            tao_helpers_form_FormContainer::CSRF_PROTECTION_OPTION => (bool) ($params['useCSRFProtection'] ?? true),
+            tao_actions_form_UserSettings::OPTION_LANGUAGE_SERVICE => $this->languageService,
+            tao_helpers_form_FormContainer::CSRF_PROTECTION_OPTION => (bool) ($params[self::PARAM_USE_CSRF_PROTECTION] ?? true),
         ];
 
         $formBuilder = new tao_actions_form_UserSettings($fields, $options);

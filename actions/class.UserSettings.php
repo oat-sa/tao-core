@@ -82,7 +82,10 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
             $this->getUserSettingsService()->get($currentUser),
             $this->getLanguageService()->getLanguageByCode(
                 $userLangService->getDefaultLanguage()
-            )
+            ),
+            [
+                UserSettingsFormFactory::PARAM_USE_CSRF_PROTECTION => true
+            ]
         );
 
         if ($settingsForm->isSubmited() && $settingsForm->isValid()) {
