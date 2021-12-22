@@ -76,7 +76,8 @@ class UserSettingsFormFactory
         return $fields;
     }
 
-    public function createFormOptions(array $params = []): array {
+    public function createFormOptions(array $params = []): array
+    {
         return [
             tao_actions_form_UserSettings::OPTION_LANGUAGE_SERVICE => $this->languageService,
             tao_helpers_form_FormContainer::CSRF_PROTECTION_OPTION => (bool) ($params[self::PARAM_USE_CSRF_PROTECTION] ?? true),
