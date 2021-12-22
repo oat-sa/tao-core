@@ -208,19 +208,21 @@ class UserSettingsFormFactoryTest extends TestCase
 
     private function getLanguage(string $name, string $code): core_kernel_classes_Resource
     {
-        $lang = new core_kernel_classes_Resource(
-            new core_kernel_classes_Class(
-                'http://www.tao.lu/Ontologies/TAO.rdf#Languages'
-            )
-        );
+        $language = $this->createMock(core_kernel_classes_Resource::class);
+        $language
+            ->method('getUri')
+            ->willReturn('http://www.tao.lu/Ontologies/TAO.rdf#Languages');
+        $language
+            ->method('getModel')
+            ->willReturn($this->ontologyMock);
+        $language
+            ->method('getLabel')
+            ->willReturn($name);
+        $language
+            ->method('getProperty')
+            ->with(OntologyRdf::RDF_VALUE)
+            ->willReturn($code);
 
-        $lang->setModel($this->ontologyMock);
-        $lang->setLabel($name);
-        $lang->setPropertyValue(
-            $this->ontologyMock->getProperty(OntologyRdf::RDF_VALUE),
-            $code
-        );
-
-        return $lang;
+        return $language;
     }
 }
