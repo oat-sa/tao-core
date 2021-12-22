@@ -48,6 +48,18 @@ class UserSettingsFormFactory
         string $uiLanguage = null,
         array $params = []
     ): tao_helpers_form_Form {
+        $formBuilder = new tao_actions_form_UserSettings(
+            $this->createFormFields($userSettings, $uiLanguage),
+            $this->createFormOptions($params)
+        );
+
+        return $formBuilder->getForm();
+    }
+
+    public function createFormFields(
+        UserSettingsInterface $userSettings,
+        string $uiLanguage = null
+    ): array {
         $fields = [
             'timezone' => trim($userSettings->getTimezone()),
             'ui_lang' => $uiLanguage,
@@ -61,13 +73,13 @@ class UserSettingsFormFactory
             $fields['data_lang'] = $userSettings->getDataLanguageCode();
         }
 
-        $options = [
+        return $fields;
+    }
+
+    public function createFormOptions(array $params = []): array {
+        return [
             tao_actions_form_UserSettings::OPTION_LANGUAGE_SERVICE => $this->languageService,
             tao_helpers_form_FormContainer::CSRF_PROTECTION_OPTION => (bool) ($params[self::PARAM_USE_CSRF_PROTECTION] ?? true),
         ];
-
-        $formBuilder = new tao_actions_form_UserSettings($fields, $options);
-
-        return $formBuilder->getForm();
     }
 }

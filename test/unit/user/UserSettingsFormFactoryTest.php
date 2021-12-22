@@ -25,21 +25,15 @@ namespace oat\tao\test\unit\models\classes\service;
 use oat\generis\model\OntologyRdf;
 use oat\generis\test\OntologyMockTrait;
 use oat\generis\test\TestCase;
-use oat\oatbox\service\ServiceManager;
 use oat\oatbox\user\UserLanguageServiceInterface;
-use oat\oatbox\user\UserTimezoneServiceInterface;
-use oat\tao\helpers\form\WidgetRegistry;
 use oat\tao\model\user\implementation\UserSettings;
 use oat\tao\model\user\UserSettingsFormFactory;
 use tao_models_classes_LanguageService;
 use core_kernel_classes_Resource;
-use core_kernel_classes_Class;
 use core_kernel_persistence_smoothsql_SmoothModel;
-use ReflectionProperty;
+use tao_actions_form_UserSettings;
+use tao_helpers_form_FormContainer;
 
-/**
- * @runClassInSeparateProcess since this test changes global state
- */
 class UserSettingsFormFactoryTest extends TestCase
 {
     use OntologyMockTrait;
@@ -53,48 +47,18 @@ class UserSettingsFormFactoryTest extends TestCase
     /** @var core_kernel_persistence_smoothsql_SmoothModel */
     private $ontologyMock;
 
-    private $cache = [];
-
-    public static function setUpBeforeClass(): void
-    {
-        parent::setUpBeforeClass();
-
-        // Overriding WidgetRegistry::$widgetCache initial value since it would
-        // be initialized by calling common_cache_FileCache::singleton() if it
-        // is null, and tao_helpers_form_FormFactory makes use of it via static
-        // calls.
-        //
-        // In turn, the form factory is used by tao_helpers_form_FormContainer,
-        // which is extended by tao_actions_form_UserSettings.
-        //
-        $reflector = new ReflectionProperty(WidgetRegistry::class, 'widgetCache');
-        $reflector->setAccessible(true);
-        $reflector->setValue(null, []);
-    }
-
-    public static function tearDownAfterClass(): void
-    {
-        $reflector = new \ReflectionProperty(WidgetRegistry::class, 'widgetCache');
-        $reflector->setAccessible(true);
-        $reflector->setValue(null);
-
-        parent::tearDownAfterClass();
-    }
+    /**
+     * @var tao_models_classes_LanguageService
+     */
+    private $languageService;
 
     public function setUp(): void
     {
         $this->ontologyMock = $this->getOntologyMock();
-
-        // Inject services used by the WidgetRegistry
-        $serviceManagerMock = $this->getServiceLocatorMock([
-            UserLanguageServiceInterface::class => $this->getUserLanguageServiceMock(),
-            UserTimezoneServiceInterface::SERVICE_ID => $this->getUserTimezoneServiceMock(),
-        ]);
-
-        ServiceManager::setServiceManager($serviceManagerMock);
-
+        $this->languageService = $this->getLanguageServiceMock();
         $this->userSettings = $this->createMock(UserSettings::class);
-        $this->sut = new UserSettingsFormFactory($this->getLanguageServiceMock());
+
+        $this->sut = new UserSettingsFormFactory($this->languageService);
     }
 
     /**
@@ -119,11 +83,24 @@ class UserSettingsFormFactoryTest extends TestCase
             ->method('getTimezone')
             ->willReturn($userTimezone);
 
-        $form = $this->sut->create($this->userSettings, $defaultUiLanguage);
+        // Just testing options and fields that would be used to instantiate
+        // tao_actions_form_UserSettings, avoiding the complications related
+        // with mocking the base FormContainer and WidgetRegistry classes.
+        $options = $this->sut->createFormOptions();
+        $fields = $this->sut->createFormFields($this->userSettings, $defaultUiLanguage);
 
-        $this->assertEquals($expectedUiLanguage, $form->getValue('ui_lang'));
-        $this->assertEquals($expectedDataLanguage, $form->getValue('data_lang'));
-        $this->assertEquals($expectedTimezone, $form->getValue('timezone'));
+        $this->assertEquals($expectedUiLanguage, $fields['ui_lang'] ?? null);
+        $this->assertEquals($expectedDataLanguage, $fields['data_lang'] ?? null);
+        $this->assertEquals($expectedTimezone, $fields['timezone']);
+
+        $this->assertSame(
+            $this->languageService,
+            $options[tao_actions_form_UserSettings::OPTION_LANGUAGE_SERVICE]
+        );
+        $this->assertEquals(
+            true,
+            $options[tao_helpers_form_FormContainer::CSRF_PROTECTION_OPTION]
+        );
     }
 
     public function createDataProvider(): array
@@ -171,19 +148,6 @@ class UserSettingsFormFactoryTest extends TestCase
                 'userDataLanguage' => null,
             ],
         ];
-    }
-
-    private function getUserTimezoneServiceMock(): UserTimezoneServiceInterface
-    {
-        $serviceMock = $this->createMock(UserTimezoneServiceInterface::class);
-        $serviceMock
-            ->method('getDefaultTimezone')
-            ->willReturn('Europe/Minsk');
-        $serviceMock
-            ->method('isUserTimezoneEnabled')
-            ->willReturn(true);
-
-        return $serviceMock;
     }
 
     private function getLanguageServiceMock(): tao_models_classes_LanguageService
