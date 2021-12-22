@@ -20,40 +20,23 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\user;
+namespace oat\tao\model;
 
-use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\oatbox\user\UserTimezoneServiceInterface;
-use oat\tao\model\user\implementation\UserSettingsService;
+use Symfony\Component\DependencyInjection\Loader\Configurator\Traits\FactoryTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_models_classes_LanguageService;
 
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
-
-class UserSettingsServiceProvider implements ContainerServiceProviderInterface
+class LanguageServiceProvider implements ContainerServiceProviderInterface
 {
+    use FactoryTrait;
+
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
-
         $services
-            ->set(UserSettingsService::class, UserSettingsService::class)
+            ->set(tao_models_classes_LanguageService::class, tao_models_classes_LanguageService::class)
             ->public()
-            ->args(
-                [
-                    service(UserTimezoneServiceInterface::SERVICE_ID),
-                    service(Ontology::SERVICE_ID),
-                ]
-            );
-
-        $services
-            ->set(UserSettingsFormFactory::class, UserSettingsFormFactory::class)
-            ->public()
-            ->args(
-                [
-                    service(tao_models_classes_LanguageService::class),
-                ]
-            );
+            ->factory(tao_models_classes_LanguageService::class . '::singleton');
     }
 }

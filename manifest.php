@@ -38,6 +38,7 @@ use oat\tao\model\routing\LegacyRoute;
 use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\user\UserSettingsServiceProvider;
+use oat\tao\model\LanguageServiceProvider;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -282,6 +283,7 @@ return [
         FormServiceProvider::class,
         MetadataServiceProvider::class,
         FeatureFlagServiceProvider::class,
+        LanguageServiceProvider::class,
         ResourcesServiceProvider::class,
         RoutingServiceProvider::class,
         ImportServiceProvider::class,

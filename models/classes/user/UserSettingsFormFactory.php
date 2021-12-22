@@ -33,7 +33,7 @@ class UserSettingsFormFactory
     /** @var tao_models_classes_LanguageService */
     private $languageService;
 
-    public function __construct(tao_models_classes_LanguageService $languageService = null)
+    public function __construct(tao_models_classes_LanguageService $languageService)
     {
         $this->languageService = $languageService;
     }
@@ -60,12 +60,9 @@ class UserSettingsFormFactory
         }
 
         $options = [
+            'LanguageService' => $this->languageService,
             tao_helpers_form_FormContainer::CSRF_PROTECTION_OPTION => (bool) ($params['useCSRFProtection'] ?? true),
         ];
-
-        if ($this->languageService != null) {
-            $options['LanguageService'] = $this->languageService;
-        }
 
         $formBuilder = new tao_actions_form_UserSettings($fields, $options);
 
