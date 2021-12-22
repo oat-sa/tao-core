@@ -133,11 +133,9 @@ class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, 
             ]
         )->setData([]);
 
-        $report = Report::createSuccess(__('Imported successfully finished!'))
+        return Report::createSuccess(__('Imported successfully finished!'))
             ->setData([])
             ->add($subReport);
-
-        return $report;
     }
 
     private function handleException(Throwable $exception): Report
