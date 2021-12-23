@@ -17,7 +17,7 @@
         "@oat-sa/tao-core-libs": "0.4.4",
         "@oat-sa/tao-core-sdk": "1.16.3",
         "@oat-sa/tao-core-shared-libs": "1.0.3",
-        "@oat-sa/tao-core-ui": "1.47.0",
+        "@oat-sa/tao-core-ui": "git+https://github.com/oat-sa/tao-core-ui-fe.git#fix/TR-3292/restoring_focusing_flow_for_checkboxes",
         "codemirror": "^5.54.0",
         "decimal.js": "10.1.1",
         "dompurify": "1.0.11",
