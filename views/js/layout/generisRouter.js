@@ -62,6 +62,7 @@ define([
             });
             var newQuery = _.clone(currentQuery);
             var baseUrlHasSection = currentQuery.section;
+            var baseUrlHasUri = currentQuery.uri;
 
             var stateUrl;
             var newState = {
@@ -93,6 +94,11 @@ define([
                     this.trigger('replacesectionstate', stateUrl);
                 }
                 topState = newState;
+            } else if (sectionId && baseUrlHasSection && baseUrlHasUri && !this.hasRestorableState()) {
+                // case with redirect to imported resource
+                stateUrl = urlUtil.build(parsedUrl.path, newQuery);
+                window.history.pushState(newState, null, stateUrl);
+                this.trigger('pushsectionstate', stateUrl);
             }
         },
 
