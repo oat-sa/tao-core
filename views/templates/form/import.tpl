@@ -80,7 +80,6 @@ $msg .= '<ul>';
                 }
             }
         }).on('continue', function(){
-            debugger
             refreshTree(this.selectedNode);
         }).on('error', function(err){
             if (err.code === 200) {
