@@ -23,28 +23,18 @@
  **
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define([
-    'jquery',
-    'lodash',
-    'core/eventifier',
-    'util/url'
-], function(
-    $,
-    _,
-    eventifier,
-    urlUtil
-) {
+define(['jquery', 'lodash', 'core/eventifier', 'util/url'], function($, _, eventifier, urlUtil) {
     'use strict';
 
     /**
      * Keep track of the latest known state
      */
-    var topState;
+    let topState;
 
     /**
      * The router instance
      */
-    var generisRouter = eventifier({
+    const generisRouter = eventifier({
         /**
          * To be called on section initial loading or section change.
          * This method create a new history state or replace the current one. It might be called as a convenient way
@@ -56,25 +46,24 @@ define([
          * @param {('activate'|'show')} restoreWith - the method needed to restore the section
          */
         pushSectionState: function pushSectionState(baseUrl, sectionId, restoreWith) {
-            var parsedUrl = urlUtil.parse(baseUrl);
-            var currentQuery = _.mapValues(parsedUrl.query, function(value, key) {
-                return (key === 'uri') ? decodeURIComponent(value) : value;
+            const parsedUrl = urlUtil.parse(baseUrl);
+            const currentQuery = _.mapValues(parsedUrl.query, function(value, key) {
+                return key === 'uri' ? decodeURIComponent(value) : value;
             });
-            var newQuery = _.clone(currentQuery);
-            var baseUrlHasSection = currentQuery.section;
-            var baseUrlHasUri = currentQuery.uri;
+            const newQuery = _.clone(currentQuery);
+            const baseUrlHasSection = currentQuery.section;
+            const baseUrlHasUri = currentQuery.uri;
 
-            var stateUrl;
-            var newState = {
+            let stateUrl;
+            const newState = {
                 sectionId: sectionId,
-                restoreWith : restoreWith || 'activate',
+                restoreWith: restoreWith || 'activate',
                 nodeUri: currentQuery.uri
             };
 
             if (!baseUrlHasSection) {
                 // adding missing section parameter
                 newQuery.section = sectionId;
-
             } else if (sectionId !== currentQuery.section) {
                 // changing section, we need to remove any uri
                 newQuery.section = sectionId;
@@ -88,7 +77,6 @@ define([
                 if (baseUrlHasSection) {
                     window.history.pushState(newState, null, stateUrl);
                     this.trigger('pushsectionstate', stateUrl);
-
                 } else {
                     window.history.replaceState(newState, null, stateUrl);
                     this.trigger('replacesectionstate', stateUrl);
@@ -112,32 +100,30 @@ define([
          * @param {String} nodeUri - to be saved in the state and added to the Url. Should be given as a plain non-encoded URI (ex: http://tao/mytao.rdf#i151378052813779)
          */
         pushNodeState: function pushNodeState(baseUrl, nodeUri) {
-            var parsedUrl = urlUtil.parse(baseUrl);
-            var currentQuery = _.mapValues(parsedUrl.query, function(value, key) {
-                return (key === 'uri') ? decodeURIComponent(value) : value;
+            const parsedUrl = urlUtil.parse(baseUrl);
+            const currentQuery = _.mapValues(parsedUrl.query, function(value, key) {
+                return key === 'uri' ? decodeURIComponent(value) : value;
             });
-            var newQuery = _.clone(currentQuery);
-            var baseUrlHasUri = currentQuery.uri;
+            const newQuery = _.clone(currentQuery);
+            const baseUrlHasUri = currentQuery.uri;
 
-            var currentState = window.history.state || {};
-            var newState = {
+            const currentState = window.history.state || {};
+            const newState = {
                 sectionId: currentState.sectionId || currentQuery.section || '',
-                restoreWith : currentState.restoreWith || 'activate',
+                restoreWith: currentState.restoreWith || 'activate',
                 nodeUri: nodeUri
             };
-            var stateUrl;
 
             if (nodeUri !== currentQuery.uri) {
                 newQuery.uri = nodeUri;
             }
 
             if (nodeUri && !_.isEqual(currentQuery, newQuery)) {
-                stateUrl = urlUtil.build(parsedUrl.path, newQuery);
+                const stateUrl = urlUtil.build(parsedUrl.path, newQuery);
 
                 if (baseUrlHasUri) {
                     window.history.pushState(newState, null, stateUrl);
                     this.trigger('pushnodestate', stateUrl);
-
                 } else {
                     window.history.replaceState(newState, null, stateUrl);
                     this.trigger('replacenodestate', stateUrl);
@@ -151,8 +137,8 @@ define([
          * @param {Boolean} fromPopState - if this method has been called following a popState event
          */
         restoreState: function restoreState(fromPopState) {
-            var state = window.history.state || {};
-            if(this.hasRestorableState()){
+            const state = window.history.state || {};
+            if (this.hasRestorableState()) {
                 // generisRouter has already been used
                 if (fromPopState) {
                     topState = topState || {};
@@ -161,13 +147,13 @@ define([
                     if (topState.sectionId !== state.sectionId) {
                         this.trigger('section' + state.restoreWith, state.sectionId);
 
-                    // changing uri
+                        // changing uri
                     } else if (state.nodeUri) {
                         this.trigger('urichange', state.nodeUri, state.sectionId);
                     }
 
-                // we are restoring in section initialisation: we only need to deal with the section,
-                // as uri will be read and set during tree initialisation
+                    // we are restoring in section initialisation: we only need to deal with the section,
+                    // as uri will be read and set during tree initialisation
                 } else {
                     this.trigger('section' + state.restoreWith, state.sectionId);
                 }
@@ -179,7 +165,7 @@ define([
          * Check that the current state contains the minimum information to restore a state
          */
         hasRestorableState: function hasRestorableState() {
-            var state = window.history.state;
+            const state = window.history.state;
             return state && state.restoreWith && state.sectionId;
         },
 
@@ -187,7 +173,7 @@ define([
          * Add the listener that triggers the actual routing events
          */
         init: function init() {
-            $(window).on('popstate.generisRouter', function () {
+            $(window).on('popstate.generisRouter', function() {
                 generisRouter.restoreState(true);
             });
         },

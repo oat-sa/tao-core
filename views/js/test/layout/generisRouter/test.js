@@ -172,7 +172,7 @@ define(['lodash', 'jquery', 'layout/generisRouter'], function(_, $, generisRoute
             }
         ])
         .test('Does not change state', function(data, assert) {
-            var ready = assert.async(); 
+            var ready = assert.async();
             generisRouter
                 .off('.test')
                 .on('pushsectionstate.test', function() {
