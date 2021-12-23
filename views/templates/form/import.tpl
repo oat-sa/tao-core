@@ -45,7 +45,7 @@ $msg .= '<ul>';
          */
         var refreshTree = function refreshTree(uriResource){
             var tree = $('.section-trees');
-            if (tree.length) {
+            if (tree.length && tree.is(':visible')) {
                 actionManager.trigger('refresh', {
                     uri : uriResource
                 });
@@ -80,6 +80,7 @@ $msg .= '<ul>';
                 }
             }
         }).on('continue', function(){
+            debugger
             refreshTree(this.selectedNode);
         }).on('error', function(err){
             if (err.code === 200) {
