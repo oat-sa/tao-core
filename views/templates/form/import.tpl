@@ -33,7 +33,7 @@ $msg .= '<ul>';
         'ui/taskQueueButton/standardButton'
     ], function($, __, feedback, urlHelper, actionManager, taskQueue, taskCreationButtonFactory) {
 
-        var $container = $('.content-block'),
+        var $container = $('.content-block:visible'),
             $form = $('#import'),
             $oldSubmitter = $form.find('.form-submitter'),
             $uploader = $form.find('.file-uploader'),
