@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -33,8 +33,25 @@ class MetadataImportForm extends tao_models_classes_import_CsvUploadForm
     /** @var array */
     private $requestData = [];
 
-    public function __construct(array $data = [], array $options = [])
-    {
+    /** @var tao_helpers_form_FormElement */
+    private $fileUploadElement;
+
+    /** @var tao_helpers_form_FormElement */
+    private $hiddenImportElement;
+
+    /** @var tao_helpers_form_FormElement */
+    private $submitElement;
+
+    public function __construct(
+        array $data = [],
+        array $options = [],
+        tao_helpers_form_FormElement $fileUploadElement = null,
+        tao_helpers_form_FormElement $hiddenImportElement = null,
+        tao_helpers_form_FormElement $submitElement = null
+    ) {
+        $this->fileUploadElement = $fileUploadElement;
+        $this->hiddenImportElement = $hiddenImportElement;
+        $this->submitElement = $submitElement;
         $options[tao_models_classes_import_CsvUploadForm::IS_OPTION_FIRST_COLUMN_ENABLE] = false;
 
         parent::__construct($data, $options);
@@ -53,7 +70,7 @@ class MetadataImportForm extends tao_models_classes_import_CsvUploadForm
     public function initForm()
     {
         $this->form = new tao_helpers_form_xhtml_Form('export');
-        $submitElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
+        $submitElt = $this->submitElement ?? tao_helpers_form_FormFactory::getElement('import', 'Free');
         $submitElt->setValue(
             '<a href="#" class="form-submitter btn-success small"><span class="icon-import"></span> ' .
             __('Import') .
@@ -71,7 +88,10 @@ class MetadataImportForm extends tao_models_classes_import_CsvUploadForm
     {
         $this->form->addElement($this->getFileUploadElement());
 
-        $csvSentElt = tao_helpers_form_FormFactory::getElement('import_sent_csv', 'Hidden');
+        $csvSentElt = $this->hiddenImportElement ?? tao_helpers_form_FormFactory::getElement(
+            'import_sent_csv',
+            'Hidden'
+        );
         $csvSentElt->setValue(1);
 
         $this->form->addElement($csvSentElt);
@@ -79,7 +99,7 @@ class MetadataImportForm extends tao_models_classes_import_CsvUploadForm
 
     private function getFileUploadElement(): tao_helpers_form_FormElement
     {
-        $element = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
+        $element = $this->fileUploadElement ?? tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
         $element->addValidators(
             [
                 tao_helpers_form_FormFactory::getValidator(

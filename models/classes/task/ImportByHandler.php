@@ -59,10 +59,7 @@ class ImportByHandler extends AbstractAction
     private function getImporter(array $params): tao_models_classes_import_ImportHandler
     {
         if (isset($params[self::PARAM_IMPORT_HANDLER_SERVICE_ID])) {
-            /** @var tao_models_classes_import_ImportHandler $importer */
-            $importer = $this->getContainer()->get($params[self::PARAM_IMPORT_HANDLER_SERVICE_ID]);
-
-            return $importer;
+            return $this->getContainer()->get($params[self::PARAM_IMPORT_HANDLER_SERVICE_ID]);
         }
 
         if (!isset($params[self::PARAM_IMPORT_HANDLER]) || !class_exists($params[self::PARAM_IMPORT_HANDLER])) {

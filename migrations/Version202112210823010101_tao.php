@@ -15,15 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\migrations;
 
-use common_report_Report as Report;
 use Doctrine\DBAL\Schema\Schema;
+use oat\oatbox\reporting\Report;
 use oat\tao\model\menu\SectionVisibilityFilter;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\accessControl\func\AclProxy;
