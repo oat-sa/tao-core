@@ -119,6 +119,18 @@ class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, 
         }
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getTaskParameters(tao_helpers_form_Form $importForm): array
+    {
+        $file = $this->uploadService->getUploadedFlyFile($this->getUploadedFile($importForm));
+
+        return [
+            'uploaded_file' => $file->getPrefix(),
+        ];
+    }
+
     private function processFile(File $file): Report
     {
         if ($this->fileProcessor) {
@@ -148,18 +160,6 @@ class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, 
             Report::TYPE_ERROR,
             $exception->getMessage()
         );
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getTaskParameters(tao_helpers_form_Form $importForm): array
-    {
-        $file = $this->uploadService->getUploadedFlyFile($this->getUploadedFile($importForm));
-
-        return [
-            'uploaded_file' => $file->getPrefix(),
-        ];
     }
 
     private function getUploadedFile(tao_helpers_form_Form $importForm): string
