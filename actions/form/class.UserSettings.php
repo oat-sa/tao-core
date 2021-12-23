@@ -49,15 +49,24 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
 
     public function __construct(array $data = [], array $options = [])
     {
-        if (isset($options[self::OPTION_LANGUAGE_SERVICE])) {
+        if (
+            isset($options[self::OPTION_LANGUAGE_SERVICE])
+            && $options[self::OPTION_LANGUAGE_SERVICE] instanceof tao_models_classes_LanguageService
+        ) {
             $this->setLanguageService($options[self::OPTION_LANGUAGE_SERVICE]);
         }
 
-        if (isset($options[self::OPTION_CONTAINER_SERVICE])) {
+        if (
+            isset($options[self::OPTION_CONTAINER_SERVICE])
+            && $options[self::OPTION_CONTAINER_SERVICE] instanceof ContainerInterface
+        ) {
             $this->setContainer($options[self::OPTION_CONTAINER_SERVICE]);
         }
 
-        if (isset($options[self::OPTION_USERTIMEZONE_SERVICE])) {
+        if (
+            isset($options[self::OPTION_USERTIMEZONE_SERVICE])
+            && $options[self::OPTION_USERTIMEZONE_SERVICE] instanceof UserTimezoneServiceInterface
+        ) {
             $this->setUserTimezoneService($options[self::OPTION_USERTIMEZONE_SERVICE]);
         }
 
