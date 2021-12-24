@@ -45,6 +45,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
+use function Webmozart\Assert\Tests\StaticAnalysis\throws;
 
 class RdsValueCollectionRepository extends InjectionAwareService implements ValueCollectionRepositoryInterface
 {
@@ -121,13 +122,6 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
     public function persist(ValueCollection $valueCollection): bool
     {
-        if ($valueCollection->hasDuplicates()) {
-            throw new ValueConflictException(
-                sprintf('List "%s" has duplicated values.', $valueCollection->getUri()),
-                __('List "%s" has duplicated values.', $valueCollection->getUri())
-            );
-        }
-
         $this->verifyListElementsUniqueness($valueCollection);
 
         $platform = $this->getPersistence()->getPlatForm();
@@ -216,10 +210,17 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
             $this->insertListItemsDependency($qb, $value);
 
             $platform->commit();
-        } catch (Throwable $e) {
-            $this->logInfo('=============> List URI: ' . $valueCollection->getUri() . ' uri: ' . $value->getUri());
-
-
+        } catch (Throwable $exception) {
+            $this->logError(
+                sprintf(
+                    'Cannot persist list element "%s" ("%s") for list "%s". Exception: %s. Message: %s',
+                    $value->getLabel(),
+                    $value->getUri(),
+                    $valueCollection->getUri(),
+                    get_class($exception),
+                    $exception->getMessage()
+                )
+            );
 
             $platform->rollBack();
         }
@@ -227,6 +228,25 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
     private function verifyListElementsUniqueness(ValueCollection $valueCollection): void
     {
+        if ($valueCollection->hasDuplicates()) {
+            $duplicatedValues = implode('", "', $valueCollection->getDuplicatedValues(5)->getUris());
+            $valueConflictException = new ValueConflictException(
+                sprintf(
+                    'List "%s" has duplicated values: "%s"',
+                    $valueCollection->getUri(),
+                    $duplicatedValues
+                ),
+                __(
+                    'List "%s" has duplicated values: "%s"',
+                    $valueCollection->getUri(),
+                    $duplicatedValues
+                )
+            );
+            $this->logError($valueConflictException->getMessage());
+
+            throw $valueConflictException;
+        }
+
         $queryBuilder = $this->getQueryBuilder();
         $expr = $queryBuilder->expr();
 
@@ -247,20 +267,25 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
             )
             ->setParameter('listUri', $valueCollection->getUri())
             ->setParameter('uris', $valueCollection->getUris(), Connection::PARAM_STR_ARRAY)
+            ->setMaxResults(5)
             ->execute()
             ->fetchAll(FetchMode::COLUMN);
 
         if (!empty($existingUris)) {
-            throw new ValueConflictException(
+            $existingUrisList = implode('", "', $existingUris);
+            $valueConflictException = new ValueConflictException(
                 sprintf(
                     'List contains elements whose URIs are already defined: "%s"',
-                    implode('", ', $existingUris)
+                    $existingUrisList
                 ),
                 __(
                     'List contains elements whose URIs are already defined: "%s"',
-                    implode('", ', array_slice($existingUris, 0, 5))
+                    $existingUrisList
                 )
             );
+            $this->logError($valueConflictException->getMessage());
+
+            throw $valueConflictException;
         }
     }
 
