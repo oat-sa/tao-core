@@ -39,9 +39,6 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
 
     private $totalCount = 0;
 
-    /** @var bool */
-    private $isReloading = false;
-
     public function __construct(string $uri = null, Value ...$values)
     {
         $this->uri = $uri;
@@ -136,16 +133,6 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
     public function setTotalCount(int $totalCount): void
     {
         $this->totalCount = $totalCount;
-    }
-
-    public function isReloading(): bool
-    {
-        return $this->isReloading;
-    }
-
-    public function setReloading(bool $isReloading): void
-    {
-        $this->isReloading = $isReloading;
     }
 
     private function ensureValueProperties(Value $value): Value

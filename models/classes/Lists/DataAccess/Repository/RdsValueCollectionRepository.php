@@ -227,21 +227,25 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
     private function verifyListElementsUniqueness(ValueCollection $valueCollection): void
     {
-        if ($valueCollection->isReloading()) {
-            return;
-        }
-
         $queryBuilder = $this->getQueryBuilder();
+        $expr = $queryBuilder->expr();
 
         $existingUris = $queryBuilder
             ->select('items.' . self::FIELD_ITEM_URI)
             ->from(self::TABLE_LIST_ITEMS, 'items')
             ->where(
-                $queryBuilder->expr()->in(
+                $expr->neq(
+                    'items.' . self::FIELD_ITEM_LIST_URI,
+                    ':listUri'
+                )
+            )
+            ->andWhere(
+                $expr->in(
                     'items.' . self::FIELD_ITEM_URI,
                     ':uris'
                 )
             )
+            ->setParameter('listUri', $valueCollection->getUri())
             ->setParameter('uris', $valueCollection->getUris(), Connection::PARAM_STR_ARRAY)
             ->execute()
             ->fetchAll(FetchMode::COLUMN);
