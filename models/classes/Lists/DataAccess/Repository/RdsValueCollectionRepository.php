@@ -123,8 +123,8 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
     {
         if ($valueCollection->hasDuplicates()) {
             throw new ValueConflictException(
-                sprintf('List "%s" has duplicate values.', $valueCollection->getUri()),
-                __('List "%s" has duplicate values.', $valueCollection->getUri())
+                sprintf('List "%s" has duplicated values.', $valueCollection->getUri()),
+                __('List "%s" has duplicated values.', $valueCollection->getUri())
             );
         }
 
@@ -144,15 +144,15 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
             return true;
         } catch (ValueConflictException $exception) {
-            throw new ValueConflictException($exception->getMessage());
+            throw $exception;
         } catch (UniqueConstraintViolationException $exception) {
             throw new ValueConflictException(
                 sprintf(
-                    'List "%s" has duplicate values. (%s)',
+                    'List "%s" has duplicated values. (%s)',
                     $valueCollection->getUri(),
                     $exception->getMessage()
                 ),
-                __('List "%s" has duplicate values.', $valueCollection->getUri())
+                __('List "%s" has duplicated values.', $valueCollection->getUri())
             );
         } catch (Throwable $exception) {
             return false;
