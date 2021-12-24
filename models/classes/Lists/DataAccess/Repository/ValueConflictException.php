@@ -24,8 +24,24 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
+use Throwable;
 use DomainException;
+use common_exception_UserReadableException;
 
-class ValueConflictException extends DomainException
+class ValueConflictException extends DomainException implements common_exception_UserReadableException
 {
+    /** @var string */
+    private $userMessage;
+
+    public function __construct(string $message, string $userMessage = '', int $code = 500, Throwable $previous = null)
+    {
+        $this->userMessage = $userMessage ?: $message;
+
+        parent::__construct($message, $code, $previous);
+    }
+
+    public function getUserMessage(): string
+    {
+        return $this->userMessage;
+    }
 }

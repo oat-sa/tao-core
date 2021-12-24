@@ -39,6 +39,9 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
 
     private $totalCount = 0;
 
+    /** @var bool */
+    private $isReloading = false;
+
     public function __construct(string $uri = null, Value ...$values)
     {
         $this->uri = $uri;
@@ -56,27 +59,28 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
     public function addValue(Value $value): self
     {
         $value = $this->ensureValueProperties($value);
-
-        if ($value->getUri() === '') {
-            $this->values[] = $value;
-        } else {
-            $this->values[$value->getUri()] = $value;
-        }
+        $this->values[] = $value;
 
         return $this;
     }
 
     public function extractValueByUri(string $uri): ?Value
     {
-        return $this->values[$uri] ?? null;
+        foreach ($this->values as $value) {
+            if ($value->getUri() === $uri) {
+                return $value;
+            }
+        }
+
+        return null;
     }
 
     public function hasDuplicates(): bool
     {
-        foreach ($this->values as $uri => $value) {
+        foreach ($this->values as $value) {
             $duplicationCandidate = $this->extractValueByUri($value->getUri());
 
-            if (null !== $duplicationCandidate && $duplicationCandidate !== $value) {
+            if ($duplicationCandidate !== null && $duplicationCandidate !== $value) {
                 return true;
             }
         }
@@ -90,6 +94,17 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
 
         foreach ($this->values as $value) {
             $ids[] = $value->getListUri();
+        }
+
+        return $ids;
+    }
+
+    public function getUris(): array
+    {
+        $ids = [];
+
+        foreach ($this->values as $value) {
+            $ids[] = $value->getUri();
         }
 
         return $ids;
@@ -121,6 +136,16 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
     public function setTotalCount(int $totalCount): void
     {
         $this->totalCount = $totalCount;
+    }
+
+    public function isReloading(): bool
+    {
+        return $this->isReloading;
+    }
+
+    public function setReloading(bool $isReloading): void
+    {
+        $this->isReloading = $isReloading;
     }
 
     private function ensureValueProperties(Value $value): Value

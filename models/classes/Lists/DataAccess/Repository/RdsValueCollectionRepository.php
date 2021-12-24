@@ -27,20 +27,20 @@ namespace oat\tao\model\Lists\DataAccess\Repository;
 use Throwable;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Connection;
+use core_kernel_classes_Class;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Psr\Container\ContainerInterface;
+use common_persistence_SqlPersistence;
 use oat\generis\model\OntologyAwareTrait;
 use core_kernel_classes_ContainerCollection;
-use core_kernel_classes_Class as KernelClass;
 use oat\tao\model\Lists\Business\Domain\Value;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
-use core_kernel_classes_Resource as KernelResource;
 use oat\tao\model\Lists\Business\Domain\CollectionType;
-use common_persistence_SqlPersistence as SqlPersistence;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\oatbox\log\logger\extender\ContextExtenderInterface;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
@@ -88,7 +88,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
     public function findAll(ValueCollectionSearchRequest $searchRequest): ValueCollection
     {
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+        $query = $this->getQueryBuilder();
 
         $this->enrichQueryWithAllowedValues($searchRequest, $query);
         $this->enrichQueryWithInitialCondition($query);
@@ -122,15 +122,15 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
     public function persist(ValueCollection $valueCollection): bool
     {
         if ($valueCollection->hasDuplicates()) {
-            throw new ValueConflictException("Value Collection {$valueCollection->getUri()} has duplicate values.");
+            throw new ValueConflictException(
+                sprintf('List "%s" has duplicate values.', $valueCollection->getUri()),
+                __('List "%s" has duplicate values.', $valueCollection->getUri())
+            );
         }
 
-        foreach ($valueCollection as $value) {
-            $this->verifyUriUniqueness($value);
-        }
+        $this->verifyListElementsUniqueness($valueCollection);
 
         $platform = $this->getPersistence()->getPlatForm();
-
         $platform->beginTransaction();
 
         try {
@@ -144,14 +144,27 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
             return true;
         } catch (ValueConflictException $exception) {
-            throw $exception;
+            throw new ValueConflictException($exception->getMessage());
         } catch (UniqueConstraintViolationException $exception) {
-            throw new ValueConflictException(__('List item URI duplications found'));
+            throw new ValueConflictException(
+                sprintf(
+                    'List "%s" has duplicate values. (%s)',
+                    $valueCollection->getUri(),
+                    $exception->getMessage()
+                ),
+                __('List "%s" has duplicate values.', $valueCollection->getUri())
+            );
         } catch (Throwable $exception) {
             return false;
         } finally {
             if (isset($exception)) {
-                //$this->logInfo('======= COUNTER =========> ' . $counter . ' URI: ' . $valueCollection->getUri()); //FIXME
+                $this->logError(
+                    sprintf('List "%s" persistence failed', $valueCollection->getUri()),
+                    [
+                        ContextExtenderInterface::CONTEXT_EXCEPTION => $exception,
+                    ]
+                );
+
                 $platform->rollBack();
             }
         }
@@ -159,7 +172,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
     public function delete(string $valueCollectionUri): void
     {
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+        $query = $this->getQueryBuilder();
 
         $this->deleteListItemsDependencies($query, $valueCollectionUri);
 
@@ -171,32 +184,13 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
     public function count(ValueCollectionSearchRequest $searchRequest): int
     {
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+        $query = $this->getQueryBuilder();
 
         $this->enrichQueryWithInitialCondition($query);
         $this->enrichQueryWithSelect($searchRequest, $query);
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
 
         return $query->execute()->rowCount();
-    }
-
-    /**
-     * @noinspection PhpDocMissingThrowsInspection
-     *
-     * @param Value $value
-     *
-     * @throws ValueConflictException
-     */
-    protected function verifyUriUniqueness(Value $value): void
-    {
-        if (!$value->hasModifiedUri()) {
-            return;
-        }
-
-        /** @noinspection PhpUnhandledExceptionInspection */
-        if ((new KernelResource($value->getUri()))->exists() || (new KernelClass($value->getUri()))->exists()) {
-            throw new ValueConflictException("Value with {$value->getUri()} is already defined");
-        }
     }
 
     protected function insert(ValueCollection $valueCollection, Value $value): void
@@ -228,6 +222,41 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
 
             $platform->rollBack();
+        }
+    }
+
+    private function verifyListElementsUniqueness(ValueCollection $valueCollection): void
+    {
+        if ($valueCollection->isReloading()) {
+            return;
+        }
+
+        $queryBuilder = $this->getQueryBuilder();
+
+        $existingUris = $queryBuilder
+            ->select('items.' . self::FIELD_ITEM_URI)
+            ->from(self::TABLE_LIST_ITEMS, 'items')
+            ->where(
+                $queryBuilder->expr()->in(
+                    'items.' . self::FIELD_ITEM_URI,
+                    ':uris'
+                )
+            )
+            ->setParameter('uris', $valueCollection->getUris(), Connection::PARAM_STR_ARRAY)
+            ->execute()
+            ->fetchAll(FetchMode::COLUMN);
+
+        if (!empty($existingUris)) {
+            throw new ValueConflictException(
+                sprintf(
+                    'List contains elements whose URIs are already defined: "%s"',
+                    implode('", ', $existingUris)
+                ),
+                __(
+                    'List contains elements whose URIs are already defined: "%s"',
+                    implode('", ', array_slice($existingUris, 0, 5))
+                )
+            );
         }
     }
 
@@ -279,7 +308,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
         $query
             ->andWhere(
-                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->like(
+                $this->getQueryBuilder()->expr()->like(
                     sprintf('LOWER(%s)', self::FIELD_ITEM_LABEL),
                     ':label'
                 )
@@ -297,7 +326,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
 
         $query
             ->andWhere(
-                $this->getPersistence()->getPlatForm()->getQueryBuilder()->expr()->notIn(
+                $this->getQueryBuilder()->expr()->notIn(
                     self::FIELD_ITEM_LABEL,
                     ':excluded_value_uri'
                 )
@@ -320,7 +349,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
             ->setParameter('uris', $searchRequest->getUris(), Connection::PARAM_STR_ARRAY);
     }
 
-    private function getPersistence(): SqlPersistence
+    private function getPersistence(): common_persistence_SqlPersistence
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->persistenceManager->getPersistenceById($this->persistenceId);
@@ -394,7 +423,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
     }
 
     /**
-     * @return KernelClass|core_kernel_classes_ContainerCollection|null
+     * @return core_kernel_classes_Class|core_kernel_classes_ContainerCollection|null
      */
     private function getParentList(ValueCollectionSearchRequest $request)
     {
@@ -431,5 +460,10 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
     private function getContainer(): ContainerInterface
     {
         return $this->getServiceLocator()->getContainer();
+    }
+
+    private function getQueryBuilder(): QueryBuilder
+    {
+        return $this->getPersistence()->getPlatForm()->getQueryBuilder();
     }
 }
