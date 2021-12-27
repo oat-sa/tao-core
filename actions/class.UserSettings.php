@@ -22,6 +22,8 @@
  *
  */
 
+declare(strict_types=1);
+
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\user\UserLanguageServiceInterface;
@@ -75,38 +77,39 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
      */
     public function properties()
     {
-        $userLangService = $this->getUserLanguageService();
-        $currentUser = $this->getUserService()->getCurrentUser();
+        $userResource = $this->getUserService()->getCurrentUser();
+        $uiLanguage = $this->getLanguageService()->getLanguageByCode(
+            $this->getUserLanguageService()->getInterfaceLanguage(
+                $this->getSession()->getUser()
+            )
+        );
 
         $settingsForm = $this->getUserSettingsFormFactory()->create(
-            $this->getUserSettingsService()->get($currentUser),
-            $this->getLanguageService()->getLanguageByCode(
-                $userLangService->getDefaultLanguage()
-            ),
+            $this->getUserSettingsService()->get($userResource),
+            $uiLanguage ? $uiLanguage->getUri() : null,
             [
                 UserSettingsFormFactory::PARAM_USE_CSRF_PROTECTION => true
             ]
         );
 
         if ($settingsForm->isSubmited() && $settingsForm->isValid()) {
+            $uiLang = $this->getResource($settingsForm->getValue('ui_lang'));
             $userSettingsData = [
                 GenerisRdf::PROPERTY_USER_TIMEZONE => $settingsForm->getValue('timezone'),
+                GenerisRdf::PROPERTY_USER_UILG => $uiLang->getUri(),
             ];
 
-            $uiLang = $this->getResource($settingsForm->getValue('ui_lang'));
-            $userSettingsData[GenerisRdf::PROPERTY_USER_UILG] = $uiLang->getUri();
-
-            if ($userLangService->isDataLanguageEnabled()) {
+            if ($this->getUserLanguageService()->isDataLanguageEnabled()) {
                 $dataLang = $this->getResource($settingsForm->getValue('data_lang'));
                 $userSettingsData[GenerisRdf::PROPERTY_USER_DEFLG] = $dataLang->getUri();
             }
 
-            $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($currentUser);
+            $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($userResource);
 
             if ($binder->bind($userSettingsData)) {
                 $this->getSession()->refresh();
 
-                $uiLangCode = tao_models_classes_LanguageService::singleton()->getCode($uiLang);
+                $uiLangCode = $this->getLanguageService()->getCode($uiLang);
                 $extension = $this->getExtensionManager()->getExtensionById('tao');
                 tao_helpers_I18n::init($extension, $uiLangCode);
 
@@ -117,10 +120,10 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
 
         $this->setData(
             'formTitle',
-            __('My settings (%s)', DisplayHelper::htmlEscape($currentUser->getLabel()))
+            __('My settings (%s)', DisplayHelper::htmlEscape($userResource->getLabel()))
         );
 
-        $this->setData('myForm', $settingsForm->render());
+        $this->setData('settingsForm', $settingsForm->render());
 
         $this->setView('form/settings_user.tpl');
     }
