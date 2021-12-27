@@ -15,22 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2018-2021 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model;
 
+use Throwable;
+use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\OntologyIndex;
+use oat\tao\model\resources\Service\ClassDeleter;
+use oat\generis\model\resource\Service\ResourceDeleter;
+use oat\tao\model\resources\Contract\ClassDeleterInterface;
+use oat\generis\model\resource\Contract\ResourceDeleterInterface;
 
-/**
- * Trait ClassServiceTrait
- * @package oat\tao\model
- */
 trait ClassServiceTrait
 {
-
     /**
      * Returns the root class of this service
      *
@@ -39,49 +42,35 @@ trait ClassServiceTrait
     abstract public function getRootClass();
 
     /**
-     * Delete a resource
+     * @deprecated Use \oat\generis\model\resource\Service\ResourceDeleter::delete()
      *
-     * @param \core_kernel_classes_Resource $resource
-     * @return boolean
+     * @return bool
      */
-    public function deleteResource(\core_kernel_classes_Resource $resource)
+    public function deleteResource(core_kernel_classes_Resource $resource)
     {
-        return $resource->delete();
+        try {
+            $this->getResourceDeleter()->delete($resource);
+
+            return true;
+        } catch (Throwable $exception) {
+            return false;
+        }
     }
 
     /**
-     * Delete a subclass
+     * @deprecated Use \oat\tao\model\resources\Service\ClassDeleter::delete()
      *
-     * @access public
-     * @param \core_kernel_classes_Class $clazz
-     * @return boolean
-     * @throws \common_exception_Error
+     * @return bool
      */
-    public function deleteClass(\core_kernel_classes_Class $clazz)
+    public function deleteClass(core_kernel_classes_Class $class)
     {
-        $returnValue = (bool) false;
-        
-        if ($clazz->isSubClassOf($this->getRootClass()) && ! $clazz->equals($this->getRootClass())) {
-            $returnValue = true;
-            
-            $instances = $clazz->getInstances();
-            foreach ($instances as $instance) {
-                $this->deleteResource($instance);
-            }
-            
-            $subclasses = $clazz->getSubClasses(false);
-            foreach ($subclasses as $subclass) {
-                $returnValue = $returnValue && $this->deleteClass($subclass);
-            }
-            foreach ($clazz->getProperties() as $classProperty) {
-                $returnValue = $returnValue && $this->deleteClassProperty($classProperty);
-            }
-            $returnValue = $returnValue && $clazz->delete();
-        } else {
-            \common_Logger::w('Tried to delete class ' . $clazz->getUri() . ' as if it were a subclass of ' . $this->getRootClass()->getUri());
+        try {
+            $this->getClassDeleter()->delete($class);
+
+            return true;
+        } catch (Throwable $exception) {
+            return false;
         }
-        
-        return (bool) $returnValue;
     }
 
     /**
@@ -99,7 +88,7 @@ trait ClassServiceTrait
         if ($returnValue = $property->delete(true)) {
             //delete index linked to the property
             foreach ($indexes as $indexUri) {
-                $index = new \core_kernel_classes_Resource($indexUri);
+                $index = new core_kernel_classes_Resource($indexUri);
                 $returnValue = $this->deletePropertyIndex($index);
             }
         }
@@ -112,7 +101,7 @@ trait ClassServiceTrait
      * @param \core_kernel_classes_Resource $index
      * @return bool
      */
-    public function deletePropertyIndex(\core_kernel_classes_Resource $index)
+    public function deletePropertyIndex(core_kernel_classes_Resource $index)
     {
         return $index->delete(true);
     }
@@ -123,5 +112,15 @@ trait ClassServiceTrait
     public function getServiceManager()
     {
         return ServiceManager::getServiceManager();
+    }
+
+    private function getClassDeleter(): ClassDeleterInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(ClassDeleter::class);
+    }
+
+    private function getResourceDeleter(): ResourceDeleterInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(ResourceDeleter::class);
     }
 }

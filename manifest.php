@@ -25,12 +25,16 @@
 declare(strict_types=1);
 
 use oat\tao\controller\api\Users;
+use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
+use oat\tao\model\resources\ResourcesServiceProvider;
+use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
 use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\export\ServiceProvider\MetadataServiceProvider;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
+use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
@@ -231,6 +235,7 @@ return [
         [AccessRule::GRANT, TaoRoles::PROPERTY_MANAGER, 'tao_actions_PropertiesAuthoring'],
         [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, Users::class],
         [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, Users::class],
+        [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, ['ext' => 'tao','mod' => 'MetadataImport']],
     ],
     'routes' => [
         '/tao/api'  => ['class' => ApiRoute::class],
@@ -238,9 +243,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2021.10',
+        'TAO_VERSION' => '2022.01',
         #TAO version label
-        'TAO_VERSION_NAME' => '2021.10',
+        'TAO_VERSION_NAME' => '2022.01',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
@@ -275,5 +280,9 @@ return [
         ListsServiceProvider::class,
         FormServiceProvider::class,
         MetadataServiceProvider::class,
+        FeatureFlagServiceProvider::class,
+        ResourcesServiceProvider::class,
+        RoutingServiceProvider::class,
+        ImportServiceProvider::class,
     ],
 ];

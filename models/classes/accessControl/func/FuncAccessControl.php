@@ -15,41 +15,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\accessControl\func;
 
 use oat\oatbox\user\User;
 
-/**
- * Interface for functionality based access control
- */
 interface FuncAccessControl
 {
-    
     /**
      * Returns whenever or not a user has access to a specified call
      *
-     * @param User $user
      * @param string $controller
      * @param string $action
-     * @return boolean
+     *
+     * @return bool
      */
     public function accessPossible(User $user, $controller, $action);
-    
-    /**
-     * Apply a rule
-     *
-     * @param AccessRule $rule
-     */
+
     public function applyRule(AccessRule $rule);
-    
-    /**
-     * Revoke a rule
-     *
-     * @param AccessRule $rule
-     */
+
     public function revokeRule(AccessRule $rule);
 }

@@ -199,7 +199,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
         
         // initialize the Uploader Js component
         $returnValue .= '
-                 require([\'jquery\',  \'ui/feedback\', \'ui/uploader\'], function($, feedback){
+                 require([\'jquery\', \'i18n\',  \'ui/feedback\', \'ui/uploader\'], function($, __, feedback){
 					 $("#' . $this->buildWidgetContainerId() . '").uploader({
 							 uploadUrl: "' . ROOT_URL . 'tao/File/upload",
 							autoUpload: "' . $auto . '"  ,
@@ -217,7 +217,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
 													});
 
 													if(files.length !== givenLength){
-														error.push( "Unauthorized files have been removed");
+														error.push(__("Unauthorized files have been removed"));
 													}
 
 												}
