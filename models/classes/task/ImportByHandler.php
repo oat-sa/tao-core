@@ -22,8 +22,11 @@
 namespace oat\tao\model\task;
 
 use common_report_Report as Report;
+use InvalidArgumentException;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\AbstractAction;
+use Psr\Container\ContainerInterface;
+use tao_models_classes_import_ImportHandler;
 
 /**
  * General import task.
@@ -34,10 +37,11 @@ class ImportByHandler extends AbstractAction
 {
     use OntologyAwareTrait;
 
-    const PARAM_IMPORT_HANDLER = 'import_handler';
-    const PARAM_FORM_VALUES = 'form_values';
-    const PARAM_PARENT_CLASS = 'parent_class_uri';
-    const PARAM_OWNER = 'owner';
+    public const PARAM_IMPORT_HANDLER = 'import_handler';
+    public const PARAM_IMPORT_HANDLER_SERVICE_ID = 'import_handler_service_id';
+    public const PARAM_FORM_VALUES = 'form_values';
+    public const PARAM_PARENT_CLASS = 'parent_class_uri';
+    public const PARAM_OWNER = 'owner';
 
     /**
      * @param array $params
@@ -45,15 +49,33 @@ class ImportByHandler extends AbstractAction
      */
     public function __invoke($params)
     {
-        if (!isset($params[self::PARAM_IMPORT_HANDLER]) || !class_exists($params[self::PARAM_IMPORT_HANDLER])) {
-            throw new \InvalidArgumentException('Please provide a valid import handler');
+        return $this->getImporter($params)->import(
+            $this->getClass($params[self::PARAM_PARENT_CLASS]),
+            $params[self::PARAM_FORM_VALUES],
+            $params[self::PARAM_OWNER]
+        );
+    }
+
+    private function getImporter(array $params): tao_models_classes_import_ImportHandler
+    {
+        if (isset($params[self::PARAM_IMPORT_HANDLER_SERVICE_ID])) {
+            return $this->getContainer()->get($params[self::PARAM_IMPORT_HANDLER_SERVICE_ID]);
         }
 
-        /** @var \tao_models_classes_import_ImportHandler $importer */
+        if (!isset($params[self::PARAM_IMPORT_HANDLER]) || !class_exists($params[self::PARAM_IMPORT_HANDLER])) {
+            throw new InvalidArgumentException('Please provide a valid import handler');
+        }
+
+        /** @var tao_models_classes_import_ImportHandler $importer */
         $importer = new $params[self::PARAM_IMPORT_HANDLER]();
 
         $this->propagate($importer);
 
-        return $importer->import($this->getClass($params[self::PARAM_PARENT_CLASS]), $params[self::PARAM_FORM_VALUES], $params[self::PARAM_OWNER]);
+        return $importer;
+    }
+
+    private function getContainer(): ContainerInterface
+    {
+        return $this->getServiceManager()->getContainer();
     }
 }

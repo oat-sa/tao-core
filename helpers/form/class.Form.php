@@ -703,7 +703,7 @@ abstract class tao_helpers_form_Form
      * @access public
      * @author Cédric Alfonsi, <cedric.alfonsi@tudor.lu>
      * @param  string $name
-     * @return boolean
+     * @return boolean|string
      */
     public function getValue($name)
     {
