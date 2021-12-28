@@ -21,6 +21,11 @@
     'lodash'
 ], function ($, _) {
     'use strict';
+    /**
+     * Returns if the depedsOn select is hidden or not
+     * @param {jQuery} $container - the container of the property
+     * @returns {Boolean}
+     */
     function _isHiddenDependsOn($container) {
         const $typeElt = $('.property-type', $container);
         if (!$typeElt || !$typeElt.val() || !$typeElt.val().trim()) {
@@ -35,6 +40,12 @@
         return true;
     }
 
+    /**
+     * Toggles the visibility of the dependsOn select
+     * @param {jQuery} $dependsOnSelectbox - the selectbox of the dependsOn
+     * @param {jQuery} $wrapper - the wrapper of the dependsOn selectbox
+     * @param {jQuery} $container - the container of the property
+     */
     function toggleDependsOn($dependsOnSelectbox, $wrapper, $container) {
         $container = $container || $('.property-edit-container-open .property-heading-label ~ .property-edit-container');
         if (!$container.length) {
@@ -62,7 +73,10 @@
         $dependsOnSelectbox.prop('disabled', "disabled");
         $wrapper.hide();
     }
-
+    /**
+     * Get the supported types for the dependsOn select box to be displayed
+     * @returns {Array}
+     */
     function getSupportedTypes() {
         return [
             'longlist', // List - Single choice - Drop down
@@ -71,9 +85,19 @@
         ];
     }
 
+    /**
+     * Check if the property has any current dependency by checking the dependson selectbox
+     * @param {jQuery} $container
+     * @returns {Boolean}
+     */
+    function hasAnyDependency($container) {
+        return _isHiddenDependsOn($container);
+    }
+
     return {
         toggle: toggleDependsOn,
-        getSupportedTypes: getSupportedTypes
+        getSupportedTypes: getSupportedTypes,
+        hasAnyDependency: hasAnyDependency
     }
 });
 
