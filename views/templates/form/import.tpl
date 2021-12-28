@@ -33,7 +33,7 @@ $msg .= '<ul>';
         'ui/taskQueueButton/standardButton'
     ], function($, __, feedback, urlHelper, actionManager, taskQueue, taskCreationButtonFactory) {
 
-        var $container = $('.content-block'),
+        var $container = $('.content-block:visible'),
             $form = $('#import'),
             $oldSubmitter = $form.find('.form-submitter'),
             $uploader = $form.find('.file-uploader'),
@@ -45,7 +45,7 @@ $msg .= '<ul>';
          */
         var refreshTree = function refreshTree(uriResource){
             var tree = $('.section-trees');
-            if (tree.length) {
+            if (tree.length && tree.is(':visible')) {
                 actionManager.trigger('refresh', {
                     uri : uriResource
                 });
