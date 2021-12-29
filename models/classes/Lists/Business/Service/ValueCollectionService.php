@@ -84,7 +84,6 @@ class ValueCollectionService extends InjectionAwareService
 
     /**
      * @param ValueCollection $valueCollection
-     * @param int $maxItems
      *
      * @return bool
      *
