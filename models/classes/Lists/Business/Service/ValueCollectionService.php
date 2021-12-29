@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -33,6 +33,7 @@ use oat\tao\model\Lists\Business\Input\ValueCollectionDeleteInput;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
 use oat\tao\model\service\InjectionAwareService;
+use OverflowException;
 
 class ValueCollectionService extends InjectionAwareService
 {
@@ -40,6 +41,9 @@ class ValueCollectionService extends InjectionAwareService
 
     /** @var ValueCollectionRepositoryInterface */
     private $repositories;
+
+    /** @var int */
+    private $maxItems = 0;
 
     public function __construct(ValueCollectionRepositoryInterface ...$repositories)
     {
@@ -84,9 +88,14 @@ class ValueCollectionService extends InjectionAwareService
      * @return bool
      *
      * @throws ValueConflictException
+     * @throws OverflowException
      */
     public function persist(ValueCollection $valueCollection): bool
     {
+        if ($this->maxItems > 0 && $valueCollection->count() > $this->maxItems) {
+            throw new OverflowException("Collection exceeds the allowed number of items");
+        }
+
         foreach ($this->repositories as $repository) {
             if ($repository->isApplicable($valueCollection->getUri())) {
                 return $repository->persist($valueCollection);
@@ -114,6 +123,11 @@ class ValueCollectionService extends InjectionAwareService
         }
 
         return 0;
+    }
+
+    public function setMaxItems(int $maxItems): void
+    {
+        $this->maxItems = $maxItems;
     }
 
     private function setUserDataLanguage(ValueCollectionSearchRequest $searchRequest): void
