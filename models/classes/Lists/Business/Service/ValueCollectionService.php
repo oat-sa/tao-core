@@ -42,6 +42,9 @@ class ValueCollectionService extends InjectionAwareService
     /** @var ValueCollectionRepositoryInterface */
     private $repositories;
 
+    /** @var int */
+    private $maxItems = 0;
+
     public function __construct(ValueCollectionRepositoryInterface ...$repositories)
     {
         parent::__construct();
@@ -88,9 +91,9 @@ class ValueCollectionService extends InjectionAwareService
      * @throws ValueConflictException
      * @throws OverflowException
      */
-    public function persist(ValueCollection $valueCollection, int $maxItems = 0): bool
+    public function persist(ValueCollection $valueCollection): bool
     {
-        if ($maxItems > 0 && $valueCollection->count() > $maxItems) {
+        if ($this->maxItems > 0 && $valueCollection->count() > $this->maxItems) {
             throw new OverflowException("Collection exceeds the allowed number of items");
         }
 
@@ -121,6 +124,11 @@ class ValueCollectionService extends InjectionAwareService
         }
 
         return 0;
+    }
+
+    public function setMaxItems(int $maxItems): void
+    {
+        $this->maxItems = $maxItems;
     }
 
     private function setUserDataLanguage(ValueCollectionSearchRequest $searchRequest): void
