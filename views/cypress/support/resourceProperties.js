@@ -38,7 +38,8 @@
         .get(formSelector).should('exist')
         .get(`${formSelector} ${selectors.labelSelector}`).should('have.value', newName)
         .wait('@treeRender')
-        .wait('@editClassLabel');
+        .wait('@editClassLabel')
+        .getSettled(`li[title="${newName}"]`);
 });
 
 /**
@@ -62,6 +63,7 @@ Cypress.Commands.add('renameSelectedNode', (formSelector, editUrl, newName) => {
         .wait('@treeRender')
         .wait('@edit')
         .get(`${formSelector} ${selectors.labelSelector}`).should('have.value', newName)
+        .getSettled(`li[title="${newName}"]`);
 });
 
 /**
