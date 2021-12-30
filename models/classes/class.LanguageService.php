@@ -33,7 +33,6 @@ use oat\generis\model\kernel\persistence\file\FileIterator;
  * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
  * @package tao
-
  */
 class tao_models_classes_LanguageService extends tao_models_classes_GenerisService
 {

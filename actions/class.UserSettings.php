@@ -18,24 +18,28 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2018 (update and modification) Open Assessment Technologies SA;
+ *               2013-2021 (update and modification) Open Assessment Technologies SA;
  *
  */
+
+declare(strict_types=1);
 
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\service\ApplicationService;
+use oat\tao\model\user\UserSettingsFormFactory;
+use oat\tao\model\user\UserSettingsServiceInterface;
+use oat\tao\model\user\implementation\UserSettingsService;
 use tao_helpers_form_FormContainer as FormContainer;
 use tao_helpers_Display as DisplayHelper;
 
 /**
- * This controller provide the actions to manage the user settings
+ * This controller provides actions to manage the user settings
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
- *
  */
 class tao_actions_UserSettings extends tao_actions_CommonModule
 {
@@ -47,18 +51,22 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
     public function password()
     {
         $this->setData('formTitle', __("Change password"));
-        if ($this->getServiceLocator()->get(ApplicationService::SERVICE_ID)->isDemo()) {
+
+        if ($this->isDemoMode()) {
             $this->setData('myForm', __('Unable to change passwords in demo mode'));
         } else {
-            $myFormContainer = new tao_actions_form_UserPassword([], [FormContainer::CSRF_PROTECTION_OPTION => true]);
-            $myForm = $myFormContainer->getForm();
-            if ($myForm->isSubmited() && $myForm->isValid()) {
-                $user = $this->getUserService()->getCurrentUser();
-                $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID)
-                    ->setPassword($user, $myForm->getValue('newpassword'));
+            $passwordFormContainer = new tao_actions_form_UserPassword([], [FormContainer::CSRF_PROTECTION_OPTION => true]);
+            $passwordForm = $passwordFormContainer->getForm();
+
+            if ($passwordForm->isSubmited() && $passwordForm->isValid()) {
+                $newPassword = $passwordForm->getValue('newpassword');
+                $userService = $this->getUserService();
+                $userService->setPassword($userService->getCurrentUser(), $newPassword);
+
                 $this->setData('message', __('Password changed'));
             }
-            $this->setData('myForm', $myForm->render());
+
+            $this->setData('myForm', $passwordForm->render());
         }
 
         $this->setView('form/settings_user.tpl');
@@ -69,87 +77,89 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
      */
     public function properties()
     {
-        $myFormContainer = new tao_actions_form_UserSettings(
-            $this->getUserSettings(),
-            [FormContainer::CSRF_PROTECTION_OPTION => true]
+        $userResource = $this->getUserService()->getCurrentUser();
+        $uiLanguage = $this->getLanguageService()->getLanguageByCode(
+            $this->getUserLanguageService()->getInterfaceLanguage(
+                $this->getSession()->getUser()
+            )
         );
-        $myForm = $myFormContainer->getForm();
-        if ($myForm->isSubmited() && $myForm->isValid()) {
-            $userLangService = $this->getServiceLocator()->get(UserLanguageServiceInterface::class);
 
-            $currentUser = $this->getUserService()->getCurrentUser();
-            $userSettings = [
-                GenerisRdf::PROPERTY_USER_TIMEZONE => $myForm->getValue('timezone'),
+        $settingsForm = $this->getUserSettingsFormFactory()->create(
+            $this->getUserSettingsService()->get($userResource),
+            $uiLanguage ? $uiLanguage->getUri() : null,
+            [
+                UserSettingsFormFactory::PARAM_USE_CSRF_PROTECTION => true
+            ]
+        );
+
+        if ($settingsForm->isSubmited() && $settingsForm->isValid()) {
+            $uiLang = $this->getResource($settingsForm->getValue('ui_lang'));
+            $userSettingsData = [
+                GenerisRdf::PROPERTY_USER_TIMEZONE => $settingsForm->getValue('timezone'),
+                GenerisRdf::PROPERTY_USER_UILG => $uiLang->getUri(),
             ];
 
-            $uiLang = $this->getResource($myForm->getValue('ui_lang'));
-            $userSettings[GenerisRdf::PROPERTY_USER_UILG] = $uiLang->getUri();
-            if ($userLangService->isDataLanguageEnabled()) {
-                $dataLang = $this->getResource($myForm->getValue('data_lang'));
-                $userSettings[GenerisRdf::PROPERTY_USER_DEFLG] = $dataLang->getUri();
+            if ($this->getUserLanguageService()->isDataLanguageEnabled()) {
+                $dataLang = $this->getResource($settingsForm->getValue('data_lang'));
+                $userSettingsData[GenerisRdf::PROPERTY_USER_DEFLG] = $dataLang->getUri();
             }
 
-            $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($currentUser);
+            $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($userResource);
 
-            if ($binder->bind($userSettings)) {
+            if ($binder->bind($userSettingsData)) {
                 $this->getSession()->refresh();
-                $uiLangCode = tao_models_classes_LanguageService::singleton()->getCode($uiLang);
-                $extension = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID)->getExtensionById('tao');
+
+                $uiLangCode = $this->getLanguageService()->getCode($uiLang);
+                $extension = $this->getExtensionManager()->getExtensionById('tao');
                 tao_helpers_I18n::init($extension, $uiLangCode);
 
                 $this->setData('message', __('Settings updated'));
-
                 $this->setData('reload', true);
             }
         }
-        $userLabel = $this->getUserService()->getCurrentUser()->getLabel();
-        $this->setData('formTitle', __('My settings (%s)', DisplayHelper::htmlEscape($userLabel)));
-        $this->setData('myForm', $myForm->render());
+
+        $this->setData(
+            'formTitle',
+            __('My settings (%s)', DisplayHelper::htmlEscape($userResource->getLabel()))
+        );
+
+        $this->setData('settingsForm', $settingsForm->render());
 
         $this->setView('form/settings_user.tpl');
     }
 
-
-    /**
-     * Get the settings of the current user. This method returns an associative array with the following keys:
-     *
-     * - 'ui_lang': The value associated to this key is a core_kernel_classes_Resource object which represents the language
-     * selected for the Graphical User Interface.
-     * - 'data_lang': The value associated to this key is a core_kernel_classes_Resource object which respresents the language
-     * selected to access the data in persistent memory.
-     * - 'timezone': The value associated to this key is a core_kernel_classes_Resource object which respresents the timezone
-     * selected to display times and dates.
-     *
-     * @return array The URIs of the languages.
-     */
-    private function getUserSettings()
+    private function getExtensionManager(): common_ext_ExtensionsManager
     {
-        $currentUser = $this->getUserService()->getCurrentUser();
-        $props = $currentUser->getPropertiesValues(
-            [
-                $this->getProperty(GenerisRdf::PROPERTY_USER_UILG),
-                $this->getProperty(GenerisRdf::PROPERTY_USER_DEFLG),
-                $this->getProperty(GenerisRdf::PROPERTY_USER_TIMEZONE)
-            ]
-        );
-        $langs = [];
-        if (!empty($props[GenerisRdf::PROPERTY_USER_UILG])) {
-            $langs['ui_lang'] = current($props[GenerisRdf::PROPERTY_USER_UILG])->getUri();
-        }
-        if (!empty($props[GenerisRdf::PROPERTY_USER_DEFLG])) {
-            $langs['data_lang'] = current($props[GenerisRdf::PROPERTY_USER_DEFLG])->getUri();
-        }
-        $langs['timezone'] = !empty($props[GenerisRdf::PROPERTY_USER_TIMEZONE])
-            ? (string)current($props[GenerisRdf::PROPERTY_USER_TIMEZONE])
-            : TIME_ZONE;
-        return $langs;
+        return $this->getPsrContainer()->get(common_ext_ExtensionsManager::SERVICE_ID);
     }
 
-    /**
-     * @return tao_models_classes_UserService
-     */
-    protected function getUserService()
+    private function getUserService(): tao_models_classes_UserService
     {
-        return $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
+        return $this->getPsrContainer()->get(tao_models_classes_UserService::class);
+    }
+
+    private function getUserSettingsService(): UserSettingsServiceInterface
+    {
+        return $this->getPsrContainer()->get(UserSettingsService::class);
+    }
+
+    private function getUserSettingsFormFactory(): UserSettingsFormFactory
+    {
+        return $this->getPsrContainer()->get(UserSettingsFormFactory::class);
+    }
+
+    private function getUserLanguageService(): UserLanguageServiceInterface
+    {
+        return $this->getPsrContainer()->get(UserLanguageServiceInterface::class);
+    }
+
+    private function getLanguageService(): tao_models_classes_LanguageService
+    {
+        return tao_models_classes_LanguageService::singleton();
+    }
+
+    private function isDemoMode(): bool
+    {
+        return $this->getPsrContainer()->get(ApplicationService::SERVICE_ID)->isDemo();
     }
 }
