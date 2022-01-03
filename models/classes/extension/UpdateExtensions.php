@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,63 +18,67 @@
  *
  */
 
+declare(strict_types = 1);
+
 namespace oat\tao\model\extension;
 
-use common_ext_ManifestException as ManifestException;
+use common_Exception;
+use common_exception_Error;
+use common_ext_UpdateExtensions;
 use common_ext_UpdaterNotFoundException as UpdaterNotFoundException;
-use common_report_Report as Report;
+use common_Logger;
+use Exception;
+use helpers_ExtensionHelper;
+use helpers_Report;
 use oat\oatbox\event\EventManagerAwareTrait;
+use oat\oatbox\extension\exception\ManifestException;
 use oat\oatbox\log\LoggerAggregator;
-use oat\oatbox\service\ServiceNotFoundException;
+use oat\oatbox\reporting\Report;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\event\TaoUpdateEvent;
 use oat\tao\model\migrations\MigrationsService;
 use common_ext_ExtensionsManager as ExtensionManager;
 use common_ext_Extension as Extension;
+use tao_models_classes_LanguageService;
 
 /**
- * Extends the generis updater to take into account
- * the translation files
+ * Extends the generis updater to take into account the translation files
  */
-class UpdateExtensions extends \common_ext_UpdateExtensions
+class UpdateExtensions extends common_ext_UpdateExtensions
 {
     use EventManagerAwareTrait;
+
     /**
-     * (non-PHPdoc)
-     * @see \oat\oatbox\action\Action::__invoke()
+     * @throws common_exception_Error
+     * @throws common_Exception
      */
-    public function __invoke($params)
+    public function __invoke($params = []): Report
     {
-        try {
-            $loggers = [
-                $this->getLogger(),
-                $this->getServiceLocator()->get(UpdateLogger::SERVICE_ID)
-            ];
-            $this->setLogger(new LoggerAggregator($loggers));
-        } catch (ServiceNotFoundException $e) {
-            // update script to add update logger hasn't run yet, ignore
-        }
+        $this->setLogger(new LoggerAggregator([
+            $this->getLogger(),
+            $this->getServiceLocator()->get(UpdateLogger::SERVICE_ID),
+        ]));
+
         $report = parent::__invoke($params);
 
         $migrationsReport = $this->getServiceLocator()->get(MigrationsService::class)->migrate();
-        $this->logInfo(\helpers_Report::renderToCommandline($migrationsReport, false));
+        $this->logInfo(helpers_Report::renderToCommandline($migrationsReport, false));
         $report->add($migrationsReport);
 
         // regenerate locales
-        $files = \tao_models_classes_LanguageService::singleton()->generateAll();
-        if (count($files) > 0) {
-            $report->add(new Report(Report::TYPE_SUCCESS, __('Successfully updated %s client translation bundles', count($files))));
-        } else {
-            $report->add(new Report(Report::TYPE_ERROR, __('No client translation bundles updated')));
-        }
+        $files = tao_models_classes_LanguageService::singleton()->generateAll();
+
+        $report->add(
+            count($files) > 0
+                ? Report::createSuccess(__('Successfully updated %s client translation bundles', count($files)))
+                : Report::createError(__('No client translation bundles updated'))
+        );
 
         $updateId = $this->generateUpdateId();
         $this->updateCacheBuster($report, $updateId);
 
-        $postUpdateReport = $this->runPostUpdateScripts();
-        $report->add($postUpdateReport);
-
-        $report->add(new Report(Report::TYPE_INFO, __('Update ID : %s', $updateId)));
+        $report->add($this->runPostUpdateScripts());
+        $report->add(Report::createInfo(__('Update ID : %s', $updateId)));
 
         $this->getEventManager()->trigger(new TaoUpdateEvent($report));
 
@@ -84,58 +87,55 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
 
     /**
      * Generate a unique ID per update
-     * @return string the new id
      */
-    protected function generateUpdateId()
+    protected function generateUpdateId(): string
     {
-        return uniqid();
+        return uniqid('', true);
     }
 
     /**
      * Update the asset service to save the cache buster value (the update id)
-     *
-     * @param Report $report
-     * @param string $updateid
+     * @throws common_exception_Error
      */
-    private function updateCacheBuster(Report $report, $updateid)
+    private function updateCacheBuster(Report $report, string $updateId): void
     {
         try {
             $assetService = $this->getServiceLocator()->get(AssetService::SERVICE_ID);
-            $assetService->setCacheBuster($updateid);
+            $assetService->setCacheBuster($updateId);
             $this->getServiceLocator()->register(AssetService::SERVICE_ID, $assetService);
-        } catch (\Exception $e) {
-            \common_Logger::e($e->getMessage());
-            $report->add(
-                new Report(Report::TYPE_WARNING, __('Unable to update the asset service')));
+        } catch (Exception $e) {
+            common_Logger::e($e->getMessage());
+            $report->add(Report::createWarning(__('Unable to update the asset service')));
         }
     }
 
     /**
-     * @throws \common_exception_Error
+     * @throws common_exception_Error
      */
-    private function runPostUpdateScripts()
+    private function runPostUpdateScripts(): Report
     {
-        $report = new Report(Report::TYPE_INFO, 'Post update actions:');
-        $extManager = $this->getServiceLocator()->get(ExtensionManager::SERVICE_ID);
-        $sorted = \helpers_ExtensionHelper::sortByDependencies($extManager->getInstalledExtensions());
-        foreach ($sorted as $ext) {
-            $postUpdateExtensionReport = $this->runPostUpdateScript($ext);
-            if ($postUpdateExtensionReport !== null) {
-                $report->add($postUpdateExtensionReport);
+        $report = Report::createInfo('Post-update actions:');
+
+        /** @var ExtensionManager $extensionManager */
+        $extensionManager = $this->getServiceLocator()->get(ExtensionManager::SERVICE_ID);
+
+        $extensions = helpers_ExtensionHelper::sortByDependencies($extensionManager->getInstalledExtensions());
+
+        foreach ($extensions as $extension) {
+            $postUpdateReport = $this->runPostUpdateScript($extension);
+
+            if ($postUpdateReport !== null) {
+                $report->add($postUpdateReport);
             }
         }
+
         if (!$report->hasChildren()) {
-            $report->add(
-                new Report(Report::TYPE_INFO, 'No actions to be executed'));
+            $report->add(Report::createInfo('No actions to be executed'));
         }
+
         return $report;
     }
 
-    /**
-     * @param Extension $ext
-     *
-     * @return Report|null
-     */
     private function runPostUpdateScript(Extension $ext): ?Report
     {
         try {
@@ -143,7 +143,7 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         } catch (UpdaterNotFoundException $e) {
             return Report::createSuccess(sprintf('No postprocessing defined for %s', $ext->getName()));
         } catch (ManifestException $e) {
-            return new Report(Report::TYPE_WARNING, $e->getMessage());
+            return Report::createWarning($e->getMessage());
         }
     }
 }
