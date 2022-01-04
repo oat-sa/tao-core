@@ -322,6 +322,12 @@ body > footer {
     display: block;
 }
 
+body[dir="rtl"] {
+    & .content-wrap>header>.lft {
+        float: none;
+    }
+}
+
 // everything required for mobile navi
 @mixin mobile-navi () {
     .dark-bar {
