@@ -23,6 +23,8 @@ declare(strict_types=1);
 namespace oat\tao\helpers\form;
 
 use common_Logger;
+use oat\tao\model\Lists\Business\Specification\PresortedListSpecification;
+use oat\tao\model\Specification\PropertySpecificationInterface;
 use tao_helpers_Uri;
 use tao_helpers_Context;
 use core_kernel_classes_Class;
@@ -98,6 +100,7 @@ class ElementMapFactory extends ConfigurableService
             FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
         );
 
+        $parentProperty = null;
         if ($isListsDependencyEnabled) {
             $parentProperty = $this->getParentProperty($property);
 
@@ -116,66 +119,21 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
-        //use the property label as element description
+        // Use the property label as element description
         $propDesc = (trim($property->getLabel()) !== '')
             ? $property->getLabel()
             : str_replace(LOCAL_NAMESPACE, '', $propertyUri);
 
         $element->setDescription($propDesc);
 
-        //multi elements use the property range as options
         if (method_exists($element, 'setOptions')) {
-            $range = $property->getRange();
+            $element->setOptions(
+                $this->getElementOptions($element, $property, $parentProperty)
+            );
 
-            if ($range !== null) {
-                $options = [];
-
-                if ($element instanceof TreeAware) {
-                    $sortedOptions = $element->rangeToTree(
-                        $propertyUri === OntologyRdfs::RDFS_RANGE
-                            ? new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE)
-                            : $range
-                    );
-                } else {
-                    if ($this->isList($range)) {
-                        $values = $this->getListValues($property, $range, $parentProperty);
-
-                        foreach ($values as $value) {
-                            $encodedUri = tao_helpers_Uri::encode($value->getUri());
-                            $options[$encodedUri] = [$encodedUri, $value->getLabel()];
-                        }
-                    } else {
-                        foreach ($range->getInstances(true) as $rangeInstance) {
-                            $level = $rangeInstance->getOnePropertyValue(
-                                new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL)
-                            );
-                            if (null === $level) {
-                                $encodedUri = tao_helpers_Uri::encode($rangeInstance->getUri());
-                                $options[$encodedUri] = [$encodedUri, $rangeInstance->getLabel()];
-                            } else {
-                                $level = ($level instanceof core_kernel_classes_Resource)
-                                    ? $level->getUri()
-                                    : (string)$level;
-                                $options[$level] = [
-                                    tao_helpers_Uri::encode($rangeInstance->getUri()),
-                                    $rangeInstance->getLabel()
-                                ];
-                            }
-                        }
-                    }
-                    ksort($options);
-                    $sortedOptions = [];
-                    foreach ($options as $id => $values) {
-                        $sortedOptions[$values[0]] = $values[1];
-                    }
-                    //set the default value to an empty space
-                    if (method_exists($element, 'setEmptyOption')) {
-                        $element->setEmptyOption(' ');
-                    }
-                }
-
-                //complete the options listing
-                $element->setOptions($sortedOptions);
+            // Set the default value to an empty space
+            if (method_exists($element, 'setEmptyOption')) {
+                $element->setEmptyOption(' ');
             }
         }
 
@@ -184,6 +142,68 @@ class ElementMapFactory extends ConfigurableService
         }
 
         return $element;
+    }
+
+    private function getElementOptions(
+        tao_helpers_form_FormElement $element,
+        core_kernel_classes_Property $property,
+        ?core_kernel_classes_Property $parentProperty
+    ): array
+    {
+        // Multi elements use the property range as options
+        $range = $property->getRange();
+        if ($range === null) {
+            return [];
+        }
+
+        $propertyUri = $property->getUri();
+
+        if ($element instanceof TreeAware) {
+            return $element->rangeToTree(
+                $propertyUri === OntologyRdfs::RDFS_RANGE
+                    ? new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE)
+                    : $range
+            );
+        }
+
+        $options = [];
+        $presortedListSpec = $this->getPresortedListSpecification();
+
+        if ($this->isList($range)) {
+            $values = $this->getListValues($property, $range, $parentProperty);
+
+            foreach ($values as $value) {
+                $encodedUri = tao_helpers_Uri::encode($value->getUri());
+                $options[$encodedUri] = [$encodedUri, $value->getLabel()];
+            }
+        } else {
+            $levelProperty = new core_kernel_classes_Property(
+                TaoOntology::PROPERTY_LIST_LEVEL
+            );
+
+            foreach ($range->getInstances(true) as $rangeInstance) {
+                $level = $rangeInstance->getOnePropertyValue($levelProperty);
+                $encodedUri = tao_helpers_Uri::encode($rangeInstance->getUri());
+
+                if (null === $level) {
+                    $options[$encodedUri] = [$encodedUri, $rangeInstance->getLabel()];
+                } else if ($level instanceof core_kernel_classes_Resource) {
+                    $options[$level->getUri()] = [$encodedUri, $rangeInstance->getLabel()];
+                } else {
+                    $options[(string)$level] = [$encodedUri, $rangeInstance->getLabel()];
+                }
+            }
+        }
+
+        if (!$presortedListSpec->isSatisfiedBy($property)) {
+            ksort($options);
+        }
+
+        foreach ($options as $values) {
+            $sortedOptions[$values[0]] = $values[1];
+        }
+
+        return $sortedOptions;
     }
 
     private function isList($range): bool
@@ -244,5 +264,10 @@ class ElementMapFactory extends ConfigurableService
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getServiceLocator()->getContainer()->get(FeatureFlagChecker::class);
+    }
+
+    private function getPresortedListSpecification(): PropertySpecificationInterface
+    {
+        return $this->getServiceLocator()->getContainer()->get(PresortedListSpecification::class);
     }
 }
