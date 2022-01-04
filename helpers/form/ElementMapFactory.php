@@ -131,9 +131,11 @@ class ElementMapFactory extends ConfigurableService
                 $this->getElementOptions($element, $property, $parentProperty)
             );
 
-            // Set the default value to an empty space
-            if (method_exists($element, 'setEmptyOption')) {
-                $element->setEmptyOption(' ');
+            if($property->getRange() != null && !($element instanceof TreeAware)) {
+                // Set the default value to an empty space
+                if (method_exists($element, 'setEmptyOption')) {
+                    $element->setEmptyOption(' ');
+                }
             }
         }
 

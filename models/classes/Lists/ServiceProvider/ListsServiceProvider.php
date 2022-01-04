@@ -24,7 +24,6 @@ namespace oat\tao\model\Lists\ServiceProvider;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\Lists\Business\Specification\DependentPropertySpecification;
