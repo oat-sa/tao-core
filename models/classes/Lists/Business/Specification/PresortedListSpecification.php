@@ -32,8 +32,6 @@ use core_kernel_classes_Class;
 /**
  * Presorted lists are lists that are considered "already sorted", so UI
  * components can skip sorting the options for them.
- *
- * @todo Unit tests
  */
 class PresortedListSpecification implements PropertySpecificationInterface
 {
