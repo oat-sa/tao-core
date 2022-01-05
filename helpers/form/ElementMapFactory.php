@@ -127,15 +127,63 @@ class ElementMapFactory extends ConfigurableService
         $element->setDescription($propDesc);
 
         if (method_exists($element, 'setOptions')) {
-            $element->setOptions(
-                $this->getElementOptions($element, $property, $parentProperty)
-            );
+            // Multi elements use the property range as options
+            $range = $property->getRange();
 
-            if ($property->getRange() != null && !($element instanceof TreeAware)) {
-                // Set the default value to an empty space
-                if (method_exists($element, 'setEmptyOption')) {
-                    $element->setEmptyOption(' ');
+            if ($range !== null) {
+                $options = [];
+
+                if ($element instanceof TreeAware) {
+                    $sortedOptions = $element->rangeToTree(
+                        $propertyUri === OntologyRdfs::RDFS_RANGE
+                            ? new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE)
+                            : $range
+                    );
+                } else {
+                    if ($this->isList($range)) {
+                        $values = $this->getListValues($property, $range, $parentProperty);
+
+                        foreach ($values as $value) {
+                            $encodedUri = tao_helpers_Uri::encode($value->getUri());
+                            $options[$encodedUri] = [$encodedUri, $value->getLabel()];
+                        }
+                    } else {
+                        foreach ($range->getInstances(true) as $rangeInstance) {
+                            $level = $rangeInstance->getOnePropertyValue(
+                                new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL)
+                            );
+                            if (null === $level) {
+                                $encodedUri = tao_helpers_Uri::encode($rangeInstance->getUri());
+                                $options[$encodedUri] = [$encodedUri, $rangeInstance->getLabel()];
+                            } else {
+                                $level = ($level instanceof core_kernel_classes_Resource)
+                                    ? $level->getUri()
+                                    : (string)$level;
+                                $options[$level] = [
+                                    tao_helpers_Uri::encode($rangeInstance->getUri()),
+                                    $rangeInstance->getLabel()
+                                ];
+                            }
+                        }
+                    }
+
+                    if (!$this->getPresortedListSpecification()->isSatisfiedBy($property)) {
+                        ksort($options);
+                    }
+
+                    $sortedOptions = [];
+                    foreach ($options as $values) {
+                        $sortedOptions[$values[0]] = $values[1];
+                    }
+
+                    //set the default value to an empty space
+                    if (method_exists($element, 'setEmptyOption')) {
+                        $element->setEmptyOption(' ');
+                    }
                 }
+
+                //complete the options listing
+                $element->setOptions($sortedOptions);
             }
         }
 
@@ -144,67 +192,6 @@ class ElementMapFactory extends ConfigurableService
         }
 
         return $element;
-    }
-
-    private function getElementOptions(
-        tao_helpers_form_FormElement $element,
-        core_kernel_classes_Property $property,
-        ?core_kernel_classes_Property $parentProperty
-    ): array {
-        // Multi elements use the property range as options
-        $range = $property->getRange();
-        if ($range === null) {
-            return [];
-        }
-
-        $propertyUri = $property->getUri();
-
-        if ($element instanceof TreeAware) {
-            return $element->rangeToTree(
-                $propertyUri === OntologyRdfs::RDFS_RANGE
-                    ? new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE)
-                    : $range
-            );
-        }
-
-        $options = [];
-        $presortedListSpec = $this->getPresortedListSpecification();
-
-        if ($this->isList($range)) {
-            $values = $this->getListValues($property, $range, $parentProperty);
-
-            foreach ($values as $value) {
-                $encodedUri = tao_helpers_Uri::encode($value->getUri());
-                $options[$encodedUri] = [$encodedUri, $value->getLabel()];
-            }
-        } else {
-            $levelProperty = new core_kernel_classes_Property(
-                TaoOntology::PROPERTY_LIST_LEVEL
-            );
-
-            foreach ($range->getInstances(true) as $rangeInstance) {
-                $level = $rangeInstance->getOnePropertyValue($levelProperty);
-                $encodedUri = tao_helpers_Uri::encode($rangeInstance->getUri());
-
-                if (null === $level) {
-                    $options[$encodedUri] = [$encodedUri, $rangeInstance->getLabel()];
-                } elseif ($level instanceof core_kernel_classes_Resource) {
-                    $options[$level->getUri()] = [$encodedUri, $rangeInstance->getLabel()];
-                } else {
-                    $options[(string)$level] = [$encodedUri, $rangeInstance->getLabel()];
-                }
-            }
-        }
-
-        if (!$presortedListSpec->isSatisfiedBy($property)) {
-            ksort($options);
-        }
-
-        foreach ($options as $values) {
-            $sortedOptions[$values[0]] = $values[1];
-        }
-
-        return $sortedOptions;
     }
 
     private function isList($range): bool
