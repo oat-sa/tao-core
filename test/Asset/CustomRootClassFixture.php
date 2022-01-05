@@ -19,7 +19,17 @@
 
 namespace oat\tao\test\Asset;
 
-class CustomRootClassFixture
-{
+use core_kernel_classes_Class;
 
+class CustomRootClassFixture extends core_kernel_classes_Class
+{
+    public function __construct()
+    {
+        parent::__construct('test://mock');
+    }
+
+    public function isClass()
+    {
+        return true;
+    }
 }
