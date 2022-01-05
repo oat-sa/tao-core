@@ -18,116 +18,136 @@
 
 
 import urls from '../utils/urls';
-import { getRandomNumber } from '../../../../tao/views/cypress/utils/helpers';
 import selectorsItem from '../../../../taoQtiItem/views/cypress/utils/selectors';
 
-const className = `Test E2E class generisSearch`;
-const classNameEmpty = `Test E2E class generisSearch empty`;
+const className = `Test E2E class GenerisSearch`;
+const classNameEmpty = `Test E2E class GenerisSearchEmpty`;
 const search = 'gen';
+const totalMockedItems = 22;
+const entriesPerPage = 20;
+const entriesOnLastPage = 2;
+/**
+ * Test case params
+ * @param {Object} testingCases - Configuration for search scenarios
+ * @param {String} testingCases.search - string to search for
+ * @param {number} testingCases.expectSearch - expected results on the page
+ * @param {String} testingCases.filter - apply filter
+ * @param {number} testingCases.filterExpect - expected results on the page after filtering
+ */
+    const testingCases = [
+    //Case: 0
+    {
+        search: 'E2E GenerisSearchItem_1',
+        expectSearch: 10,
+        filter: className,
+        filterExpect: 3
+    },
+    //Case: 1
+    {
+        search: 'E2E GenerisSearchItem_20',
+        expectSearch: 1,
+        filter: classNameEmpty,
+        expectAfter: 0
+    }
+];
+
+/**
+ * Create entries to search against for
+ */
+function createData() {
+    cy.addClassToRoot(
+        selectorsItem.root,
+        selectorsItem.itemClassForm,
+        className,
+        selectorsItem.editClassLabelUrl,
+        selectorsItem.treeRenderUrl,
+        selectorsItem.addSubClassUrl
+    );
+
+    for(let i = 1; i < totalMockedItems; i++) {
+        cy.addNode(selectorsItem.itemForm, selectorsItem.addItem, `E2E GenerisSearchItem_${i}`);
+    }
+
+    cy.addClassToRoot(
+        selectorsItem.root,
+        selectorsItem.itemClassForm,
+        classNameEmpty,
+        selectorsItem.editClassLabelUrl,
+        selectorsItem.treeRenderUrl,
+        selectorsItem.addSubClassUrl
+    );
+}
+
+/**
+ * Remove entries that was created by test case
+ */
+function clearData () {
+    cy.getSettled(`${selectorsItem.root}`).then(($resourceTree)=>{
+        [className, classNameEmpty].forEach((name) => {
+            if ($resourceTree.find(`li[title="${name}"]`).length > 0) {
+                cy.deleteClassFromRoot(
+                    selectorsItem.root,
+                    selectorsItem.itemClassForm,
+                    selectorsItem.deleteClass,
+                    selectorsItem.deleteConfirm,
+                    name,
+                    selectorsItem.deleteClassUrl,
+                    true
+                );
+            } else {
+                cy.log(`${name} is not exists`);
+            }
+        });
+    });
+}
 
 describe('Generis search', () => {
     before(() => {
-        // TODO: Cleanup (if needed)
-
         cy.loginAsAdmin();
         cy.intercept('POST', '**/edit*').as('editItem');
         cy.visit('/tao/Main/index?structure=items&ext=taoItems&section=manage_items');
         cy.wait('@editItem');
 
-        // TODO: Avoid multiple add
-        // cy.addClassToRoot(
-        //     selectorsItem.root,
-        //     selectorsItem.itemClassForm,
-        //     className,
-        //     selectorsItem.editClassLabelUrl,
-        //     selectorsItem.treeRenderUrl,
-        //     selectorsItem.addSubClassUrl
-        // );
-        // TODO: More uniq names
-        // ['Generis 1', 'Generis 2', 'Generis 3'].forEach((itemName)=>{
-        //     cy.addNode(selectorsItem.itemForm, selectorsItem.addItem, itemName);
-        // });
-
-        // cy.addClassToRoot(
-        //     selectorsItem.root,
-        //     selectorsItem.itemClassForm,
-        //     classNameEmpty,
-        //     selectorsItem.editClassLabelUrl,
-        //     selectorsItem.treeRenderUrl,
-        //     selectorsItem.addSubClassUrl
-        // );
+        clearData();
+        createData();
     });
 
     after(() => {
-        // TODO: Cleanup before & after
+        cy.intercept('POST', '**/edit*').as('editItem');
+        cy.visit('/tao/Main/index?structure=items&ext=taoItems&section=manage_items');
+        cy.wait('@editItem');
 
-        // cy.visit('/tao/Main/index?structure=items&ext=taoItems&section=manage_items');
-        // cy.wait('@editItem');
-
-        // cy.deleteClassFromRoot(
-        //     selectorsItem.root,
-        //     selectorsItem.itemClassForm,
-        //     selectorsItem.deleteClass,
-        //     selectorsItem.deleteConfirm,
-        //     className,
-        //     selectorsItem.deleteClassUrl,
-        //     true
-        // );
-
-        // cy.deleteClassFromRoot(
-        //     selectorsItem.root,
-        //     selectorsItem.itemClassForm,
-        //     selectorsItem.deleteClass,
-        //     selectorsItem.deleteConfirm,
-        //     classNameEmpty,
-        //     selectorsItem.deleteClassUrl,
-        //     true
-        // );
+        clearData();
     });
 
     afterEach(() => {
-        cy.getSettled('#modal-close-btn').click();
+        cy.intercept('POST', '**/edit*').as('editItem');
+        cy.visit('/tao/Main/index?structure=items&ext=taoItems&section=manage_items');
+        cy.wait('@editItem');
+        // or Close search popup
+        // cy.getSettled('#modal-close-btn').click();
     });
-
-    /**
-     * Test case params
-     * @param {String} testingCases.search - string to search for
-     * @param {string[]} testingCases.method - nodes to create
-     * @param {number} testingCases.path - expected results
-     * @returns {Function} cy.wait - response for search request
-     */
-    const testingCases = [
-        //Case: 0
-        {
-            search: 'Generis',
-            expectSearch: 3,
-            filter: className,
-            filterExpect: 3
-        },
-        //Case: 1
-        {
-            search: 'Generissearch 1',
-            expectSearch: 1,
-            filter: classNameEmpty,
-            expectAfter: 0
-        }
-    ];
 
     testingCases.forEach((testCase, index) => {
         it(`${index}: Search for ${testCase.search} in ${testCase.filter}, expecting: ${testCase.expectSearch}`, function () {
             // Search for 'it'
             cy.searchFor({search: testCase.search})
                 .then((interception) => {
-                    assert.equal(interception.response.body.records, testCase.expectSearch, 'Total records');
+                    assert.exists(interception.response.body, 'response body');
+                    assert.isTrue(interception.response.body.success, 'Response is successful');
+                    assert.equal(interception.response.body.records, testCase.expectSearch, 'Records received');
 
+                    // response.body.data is missing when 0 results
                     if(testCase.expectSearch > 0) {
-                        assert.equal(interception.response.body.data.length, testCase.expectSearch, 'Data entries');
+                        assert.equal(interception.response.body.data.length, testCase.expectSearch, 'Total of data entries');
                     }
                 });
-            cy.getSettled('.search-modal').should('be.visible');
+            cy.getSettled('.search-modal')
+                .should('be.visible');
 
             // Validate search result
-            cy.get('[data-item-identifier]').should('have.length', testCase.expectSearch);
+            cy.get('[data-item-identifier]')
+                .should('have.length', testCase.expectSearch);
 
             // Apply filter
             // cy.getSettled('.class-filter').should('be.visible').click();
@@ -139,54 +159,135 @@ describe('Generis search', () => {
         });
     });
 
-    xit('Test filtering', function () {
+    it('Test filtering', function () {
         // Go to search popup
         cy.searchFor({search});
-        cy.getSettled('.search-modal').should('be.visible');
-        cy.get('[data-item-identifier]').should('have.length.gt', 0);
+        cy.getSettled('.search-modal')
+            .should('be.visible');
+        cy.get('[data-item-identifier]')
+            .should('have.length.gt', 0);
 
         // Select filter
-        cy.getSettled('.class-filter').should('be.visible').click();
-        cy.get(`a[title="${classNameEmpty}"]`).should('be.visible').click();
+        cy.getSettled('.class-filter')
+            .should('be.visible')
+            .click();
+        cy.get(`a[title="${classNameEmpty}"]`)
+            .should('be.visible')
+            .click();
 
         // Search again
-        cy.getSettled('button').contains('Search').click();
-        cy.get('[data-item-identifier]').should('have.length', 0);
+        cy.getSettled('button')
+            .contains('Search')
+            .click();
+        cy.get('[data-item-identifier]')
+            .should('have.length', 0);
     });
 
-    xit('Clear button', function () {
+    it('Clear button', function () {
         // Go to search popup
         cy.searchFor({search});
-        cy.getSettled('.search-modal').should('be.visible');
+        cy.getSettled('.search-modal')
+            .should('be.visible');
 
         // Make sure that state is full
-        cy.getSettled('[data-item-identifier]').should('have.length.gt', 0);
-        cy.getSettled('[placeholder="Search Item"]').should('have.value', search);
-        cy.getSettled('.class-filter').should('be.visible').click();
-        cy.get(`a[title="${classNameEmpty}"]`).should('be.visible').click();
-        cy.getSettled('.class-filter').should('be.visible').should('have.value', classNameEmpty);
+        cy.getSettled('[data-item-identifier]')
+            .should('have.length.gt', 0);
+        cy.getSettled('[placeholder="Search Item"]')
+            .should('have.value', search);
+        cy.getSettled('.class-filter')
+            .should('be.visible')
+            .click();
+        cy.get(`a[title="${classNameEmpty}"]`)
+            .should('be.visible')
+            .click();
+        cy.getSettled('.class-filter')
+            .should('be.visible')
+            .should('have.value', classNameEmpty);
 
-        // Hit the red button
-        cy.getSettled('button').contains('Clear').click();
+        // Hit the 'red button' clear
+        cy.getSettled('button')
+            .contains('Clear')
+            .click();
 
         // Check state after clear
-        cy.get('[data-item-identifier]').should('have.length', 0);
-        cy.getSettled('[placeholder="Search Item"]').should('be.empty');
-        cy.getSettled('.class-filter').should('be.visible').should('have.value', 'Item');
+        cy.get('[data-item-identifier]')
+            .should('have.length', 0);
+        cy.getSettled('[placeholder="Search Item"]')
+            .should('be.empty');
+        cy.getSettled('.class-filter')
+            .should('be.visible')
+            .should('have.value', 'Item');
     });
 
-    xit('Pagination test', function () {
+    it('Pagination test', function () {
         // TODO: adapt initialization
         // Go to search popup
-         cy.searchFor({search: 'g'});
-         cy.getSettled('.search-modal').should('be.visible');
+        cy.searchFor({search: 'E2E GenerisSearchItem_'})
+            .then((interception) => {
+                assert.exists(interception.response.body, 'Response body');
+                assert.isTrue(interception.response.body.success, 'Response is successful');
+                assert.isAbove(interception.response.body.totalCount, entriesPerPage, `Total records are above per page limit (${entriesPerPage})`);
+                assert.equal(interception.response.body.page, 1, 'First page of search results');
+                assert.equal(interception.response.body.records, entriesPerPage, 'Records received');
+            });
+        cy.getSettled('.search-modal')
+            .should('be.visible');
 
-        // Make sure that state is full
-        cy.getSettled('[data-item-identifier]').should('have.length.gt', 25);
+        // Make sure that amount of entries are complete the page
+        cy.getSettled('[data-item-identifier]')
+            .should('have.length', entriesPerPage);
 
-        // TODO: add click on next
+        // Validate pagination and click() on the next page button
+        cy.getSettled('.pagination button')
+            .contains('Previous')
+            .scrollIntoView()
+            .should('be.visible')
+            .should('be.disabled');
+        cy.getSettled('.pagination button')
+            .contains('Next')
+            .should('be.visible')
+            .should('not.be.disabled')
+            .click();
 
-        // TODO: validate search data
-        cy.get('[data-item-identifier]').should('have.length', 4);
+        // cy.intercept('GET', '**/tao/Search/search*').as('searchForNextPage');
+        cy.wait('@searchFor')
+            .then((interception) => {
+                assert.equal(interception.response.body.page, 2, 'Second page of search results');
+                assert.equal(interception.response.body.records, entriesOnLastPage, 'Records received');
+            });
+
+        // Validate results on second page
+        cy.get('[data-item-identifier]')
+            .should('have.length', entriesOnLastPage);
+        cy.getSettled('.pagination button')
+            .contains('Next')
+            .scrollIntoView()
+            .should('be.visible')
+            .should('be.disabled');
+        cy.getSettled('.pagination button')
+            .contains('Previous')
+            .should('be.visible')
+            .should('not.be.disabled')
+            .click();
+
+        // Back to the first page
+        cy.wait('@searchFor')
+            .then((interception) => {
+                assert.equal(interception.response.body.page, 1, 'Second page of search results');
+                assert.equal(interception.response.body.records, entriesPerPage, 'Records received');
+            });
+
+        // Validate the first page, again
+        cy.getSettled('[data-item-identifier]')
+            .should('have.length', entriesPerPage);
+        cy.getSettled('.pagination button')
+            .contains('Previous')
+            .scrollIntoView()
+            .should('be.visible')
+            .should('be.disabled');
+        cy.getSettled('.pagination button')
+            .contains('Next')
+            .should('be.visible')
+            .should('not.be.disabled');
     });
 });

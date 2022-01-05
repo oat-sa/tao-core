@@ -25,14 +25,14 @@
  * @returns {Function} cy.wait - response for search request
  */
 Cypress.Commands.add('searchFor', (settings) => {
-    let defaultSettings = {
+    const defaultSettings = {
         search: '',
         method: 'GET',
         path: '**/tao/Search/search*'
     };
     settings = Object.assign(defaultSettings, settings);
 
-    cy.log('COMMAND: searchFor');
+    cy.log('COMMAND: searchFor', settings.search);
     cy.intercept(settings.method, settings.path).as('searchFor');
     cy.getSettled('input[name=query]')
         .should('be.visible')
