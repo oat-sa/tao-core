@@ -131,7 +131,7 @@ class ElementMapFactory extends ConfigurableService
                 $this->getElementOptions($element, $property, $parentProperty)
             );
 
-            if($property->getRange() != null && !($element instanceof TreeAware)) {
+            if ($property->getRange() != null && !($element instanceof TreeAware)) {
                 // Set the default value to an empty space
                 if (method_exists($element, 'setEmptyOption')) {
                     $element->setEmptyOption(' ');
@@ -150,8 +150,7 @@ class ElementMapFactory extends ConfigurableService
         tao_helpers_form_FormElement $element,
         core_kernel_classes_Property $property,
         ?core_kernel_classes_Property $parentProperty
-    ): array
-    {
+    ): array {
         // Multi elements use the property range as options
         $range = $property->getRange();
         if ($range === null) {
@@ -189,7 +188,7 @@ class ElementMapFactory extends ConfigurableService
 
                 if (null === $level) {
                     $options[$encodedUri] = [$encodedUri, $rangeInstance->getLabel()];
-                } else if ($level instanceof core_kernel_classes_Resource) {
+                } elseif ($level instanceof core_kernel_classes_Resource) {
                     $options[$level->getUri()] = [$encodedUri, $rangeInstance->getLabel()];
                 } else {
                     $options[(string)$level] = [$encodedUri, $rangeInstance->getLabel()];

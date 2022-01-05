@@ -42,8 +42,7 @@ class PresortedListSpecificationTest extends TestCase
         bool $expected,
         core_kernel_classes_Property $property,
         core_kernel_classes_Class $rootListClass = null
-    ): void
-    {
+    ): void {
         $sut = new PresortedListSpecification($rootListClass);
 
         $this->assertEquals($expected, $sut->isSatisfiedBy($property));
@@ -156,8 +155,7 @@ class PresortedListSpecificationTest extends TestCase
         bool $isList,
         bool $isClass = true,
         string $rangeObjectType = core_kernel_classes_Class::class
-    ): core_kernel_classes_Property
-    {
+    ): core_kernel_classes_Property {
         $rangeClass = $this->createMock($rangeObjectType);
 
         if (is_a($rangeClass, \core_kernel_classes_Resource::class)) {

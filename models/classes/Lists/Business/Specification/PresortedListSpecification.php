@@ -28,7 +28,6 @@ use tao_helpers_form_elements_Combobox;
 use tao_helpers_form_elements_Checkbox;
 use core_kernel_classes_Class;
 
-
 /**
  * Presorted lists are lists that are considered "already sorted", so UI
  * components can skip sorting the options for them.
