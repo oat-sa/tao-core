@@ -77,7 +77,7 @@ const clearData = () => {
         });
 }
 
-describe('Generis search', () => {
+describe('Search: Generis search', () => {
     before(() => {
         cy.loginAsAdmin();
 
