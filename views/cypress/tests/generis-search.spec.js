@@ -18,94 +18,72 @@
 
 
 import urls from '../utils/urls';
-import selectorsItem from '../../../../taoQtiItem/views/cypress/utils/selectors';
+import selectors from '../utils/selectors';
 
-const className = `Test E2E class GenerisSearch`;
-const classNameEmpty = `Test E2E class GenerisSearchEmpty`;
-const search = 'gen';
-const totalMockedItems = 22;
-const entriesPerPage = 20;
-const entriesOnLastPage = 2;
-/**
- * Test case params
- * @param {Object} testingCases - Configuration for search scenarios
- * @param {String} testingCases.search - string to search for
- * @param {number} testingCases.expectSearch - expected results on the page
- * @param {String} testingCases.filter - apply filter
- * @param {number} testingCases.filterExpect - expected results on the page after filtering
- */
-    const testingCases = [
-    //Case: 0
-    {
-        search: 'E2E GenerisSearchItem_1',
-        expectSearch: 10,
-        filter: className,
-        filterExpect: 3
-    },
-    //Case: 1
-    {
-        search: 'E2E GenerisSearchItem_20',
-        expectSearch: 1,
-        filter: classNameEmpty,
-        expectAfter: 0
-    }
-];
+const NAME_BIG = 'Test E2E class GenerisSearchBig';
+const NAME_SMALL = 'Test E2E class GenerisSearchSmall';
+const NAME_EMPTY = 'Test E2E class GenerisSearchEmpty';
+const search = 'Test E2E class GenerisSearch';
+const testItemsGroup = {
+    [NAME_BIG]: 16,
+    [NAME_SMALL]: 5,
+    [NAME_EMPTY]: 0
+};
 
 /**
  * Create entries to search against for
  */
-function createData() {
-    cy.addClassToRoot(
-        selectorsItem.root,
-        selectorsItem.itemClassForm,
-        className,
-        selectorsItem.editClassLabelUrl,
-        selectorsItem.treeRenderUrl,
-        selectorsItem.addSubClassUrl
-    );
+const createData = () => {
+    Object.keys(testItemsGroup).forEach((name) => {
+        cy.addClassToRoot(
+            selectors.resourceTree.items.root,
+            selectors.resourceTree.items.itemClassForm,
+            name,
+            selectors.resourceTree.items.editClassLabelUrl,
+            selectors.resourceTree.items.treeRenderUrl,
+            selectors.resourceTree.items.addSubClassUrl
+        );
 
-    for(let i = 1; i < totalMockedItems; i++) {
-        cy.addNode(selectorsItem.itemForm, selectorsItem.addItem, `E2E GenerisSearchItem_${i}`);
-    }
-
-    cy.addClassToRoot(
-        selectorsItem.root,
-        selectorsItem.itemClassForm,
-        classNameEmpty,
-        selectorsItem.editClassLabelUrl,
-        selectorsItem.treeRenderUrl,
-        selectorsItem.addSubClassUrl
-    );
+        for(let i = 1; i <= testItemsGroup[name]; i++) {
+            cy.addNode(
+                selectors.resourceTree.items.itemForm,
+                selectors.resourceTree.items.addItem
+            );
+        }
+    });
 }
 
 /**
  * Remove entries that was created by test case
  */
-function clearData () {
-    cy.getSettled(`${selectorsItem.root}`).then(($resourceTree)=>{
-        [className, classNameEmpty].forEach((name) => {
-            if ($resourceTree.find(`li[title="${name}"]`).length > 0) {
-                cy.deleteClassFromRoot(
-                    selectorsItem.root,
-                    selectorsItem.itemClassForm,
-                    selectorsItem.deleteClass,
-                    selectorsItem.deleteConfirm,
-                    name,
-                    selectorsItem.deleteClassUrl,
-                    true
-                );
-            } else {
-                cy.log(`${name} is not exists`);
-            }
+const clearData = () => {
+    cy.getSettled(`${selectors.resourceTree.items.root}`)
+        .then(($resourceTree) => {
+            Object.keys(testItemsGroup).forEach((name) => {
+                const copies = $resourceTree.find(`li[title="${name}"]`).length;
+
+                // Possible duplicates
+                for(let i = 0; i < copies; i++) {
+                    cy.deleteClassFromRoot(
+                        selectors.resourceTree.items.root,
+                        selectors.resourceTree.items.itemClassForm,
+                        selectors.resourceTree.items.deleteClass,
+                        selectors.resourceTree.items.deleteConfirm,
+                        name,
+                        selectors.resourceTree.items.deleteClassUrl,
+                        true
+                    );
+                }
+            });
         });
-    });
 }
 
 describe('Generis search', () => {
     before(() => {
         cy.loginAsAdmin();
-        cy.intercept('POST', '**/edit*').as('editItem');
-        cy.visit('/tao/Main/index?structure=items&ext=taoItems&section=manage_items');
+
+        cy.intercept('POST', urls.edit).as('editItem');
+        cy.visit(urls.itemsManager);
         cy.wait('@editItem');
 
         clearData();
@@ -113,181 +91,246 @@ describe('Generis search', () => {
     });
 
     after(() => {
-        cy.intercept('POST', '**/edit*').as('editItem');
-        cy.visit('/tao/Main/index?structure=items&ext=taoItems&section=manage_items');
+        cy.intercept('POST', urls.edit).as('editItem');
+        cy.visit(urls.itemsManager);
         cy.wait('@editItem');
 
         clearData();
     });
 
-    afterEach(() => {
-        cy.intercept('POST', '**/edit*').as('editItem');
-        cy.visit('/tao/Main/index?structure=items&ext=taoItems&section=manage_items');
-        cy.wait('@editItem');
-        // or Close search popup
-        // cy.getSettled('#modal-close-btn').click();
-    });
+    context('Testing without page reload between cases', () => {
+        [{
+            search: search,
+            expected: 20,
+            total: 21
+        },{
+            search: (`${NAME_BIG} 9`),
+            expected: 1,
+            total: 1,
+        }].forEach((testcase, index) => {
+            it(`${index}: Search for "${testcase.search}", expecting: ${testcase.expected} of ${testcase.total}`, () => {
+                // Search for 'testcase.search'
+                cy.searchFor({search: testcase.search})
+                    .then((interception) => {
+                        // Validate response
+                        assert.exists(interception.response.body, 'Response body');
+                        assert.isTrue(interception.response.body.success, 'Successful state');
+                        assert.equal(interception.response.body.records, testcase.expected, 'Records');
+                        assert.equal(interception.response.body.totalCount, testcase.total, 'Total');
 
-    testingCases.forEach((testCase, index) => {
-        it(`${index}: Search for ${testCase.search} in ${testCase.filter}, expecting: ${testCase.expectSearch}`, function () {
-            // Search for 'it'
-            cy.searchFor({search: testCase.search})
-                .then((interception) => {
-                    assert.exists(interception.response.body, 'response body');
-                    assert.isTrue(interception.response.body.success, 'Response is successful');
-                    assert.equal(interception.response.body.records, testCase.expectSearch, 'Records received');
+                        // response.body.data is missing when 0 results
+                        if(testcase.expected > 0) {
+                            assert.equal(interception.response.body.data.length, testcase.expected, 'Total of data entries');
+                        }
+                    });
+                cy.getSettled(selectors.search.modal.dialog)
+                    .should('be.visible');
 
-                    // response.body.data is missing when 0 results
-                    if(testCase.expectSearch > 0) {
-                        assert.equal(interception.response.body.data.length, testCase.expectSearch, 'Total of data entries');
-                    }
-                });
-            cy.getSettled('.search-modal')
-                .should('be.visible');
+                // Validate search results
+                cy.getSettled(selectors.search.modal.textInput)
+                    .should('be.visible')
+                    .should('have.value', testcase.search);
+                cy.get(selectors.search.modal.entries)
+                    .should('be.visible')
+                    .should('have.length', testcase.expected);
 
-            // Validate search result
-            cy.get('[data-item-identifier]')
-                .should('have.length', testCase.expectSearch);
-
-            // Apply filter
-            // cy.getSettled('.class-filter').should('be.visible').click();
-            // cy.get(`a[title="${filter}"]`).should('be.visible').click();
-
-            // Search again
-            // cy.getSettled('button').contains('Search').click();
-            // cy.get('[data-item-identifier]').should('have.length', testCase.filterExpect);
+                // Validate initial search input
+                cy.getSettled(selectors.search.modal.closeButton)
+                    .click();
+                cy.getSettled(selectors.search.textInput)
+                    .should('be.visible')
+                    .should('have.value', testcase.search);
+                cy.getSettled(selectors.search.openResultsButton)
+                    .should('be.visible')
+                    .should('have.text', testcase.total);
+            });
         });
     });
 
-    it('Test filtering', function () {
-        // Go to search popup
-        cy.searchFor({search});
-        cy.getSettled('.search-modal')
-            .should('be.visible');
-        cy.get('[data-item-identifier]')
-            .should('have.length.gt', 0);
+    context('Testing with page reload between cases', () => {
+        beforeEach(() => {
+            cy.intercept('POST', urls.edit).as('editItem');
+            cy.visit(urls.itemsManager);
+            cy.wait('@editItem');
+        });
 
-        // Select filter
-        cy.getSettled('.class-filter')
-            .should('be.visible')
-            .click();
-        cy.get(`a[title="${classNameEmpty}"]`)
-            .should('be.visible')
-            .click();
+        [{
+            lookup: NAME_BIG,
+            filter: NAME_BIG,
+            expected: testItemsGroup[NAME_BIG]
+        },{
+            lookup: NAME_SMALL,
+            filter: NAME_EMPTY,
+            expected: 0
+        },{
+            lookup: NAME_SMALL,
+            filter: NAME_BIG,
+            expected: 0
+        }].forEach((testcase, index) => {
+            it(`${index}: Filter for "${testcase.lookup}" within "${testcase.filter}", expecting: ${testcase.expected}`, () => {
+                // Go to search popup
+                cy.searchFor({search});
+                cy.getSettled(selectors.search.modal.dialog)
+                    .should('be.visible');
 
-        // Search again
-        cy.getSettled('button')
-            .contains('Search')
-            .click();
-        cy.get('[data-item-identifier]')
-            .should('have.length', 0);
-    });
+                // Select filter
+                cy.getSettled(selectors.search.modal.textInput)
+                    .clear()
+                    .type(testcase.lookup);
+                cy.getSettled(selectors.search.modal.filterButton)
+                    .should('be.visible')
+                    .click();
+                cy.getSettled(`a[title="${testcase.filter}"]`)
+                    .scrollIntoView()
+                    .should('be.visible')
+                    .click();
 
-    it('Clear button', function () {
-        // Go to search popup
-        cy.searchFor({search});
-        cy.getSettled('.search-modal')
-            .should('be.visible');
+                // Search again
+                cy.getSettled('button').contains('Search')
+                    .click();
+                cy.wait('@searchFor');
 
-        // Make sure that state is full
-        cy.getSettled('[data-item-identifier]')
-            .should('have.length.gt', 0);
-        cy.getSettled('[placeholder="Search Item"]')
-            .should('have.value', search);
-        cy.getSettled('.class-filter')
-            .should('be.visible')
-            .click();
-        cy.get(`a[title="${classNameEmpty}"]`)
-            .should('be.visible')
-            .click();
-        cy.getSettled('.class-filter')
-            .should('be.visible')
-            .should('have.value', classNameEmpty);
-
-        // Hit the 'red button' clear
-        cy.getSettled('button')
-            .contains('Clear')
-            .click();
-
-        // Check state after clear
-        cy.get('[data-item-identifier]')
-            .should('have.length', 0);
-        cy.getSettled('[placeholder="Search Item"]')
-            .should('be.empty');
-        cy.getSettled('.class-filter')
-            .should('be.visible')
-            .should('have.value', 'Item');
-    });
-
-    it('Pagination test', function () {
-        // TODO: adapt initialization
-        // Go to search popup
-        cy.searchFor({search: 'E2E GenerisSearchItem_'})
-            .then((interception) => {
-                assert.exists(interception.response.body, 'Response body');
-                assert.isTrue(interception.response.body.success, 'Response is successful');
-                assert.isAbove(interception.response.body.totalCount, entriesPerPage, `Total records are above per page limit (${entriesPerPage})`);
-                assert.equal(interception.response.body.page, 1, 'First page of search results');
-                assert.equal(interception.response.body.records, entriesPerPage, 'Records received');
+                // Validate filtered results
+                cy.get(selectors.search.modal.entries)
+                    .should('have.length', testcase.expected);
             });
-        cy.getSettled('.search-modal')
-            .should('be.visible');
+        });
 
-        // Make sure that amount of entries are complete the page
-        cy.getSettled('[data-item-identifier]')
-            .should('have.length', entriesPerPage);
+        it('Restore search results', () => {
+                // Search for 'testcase.search'
+                cy.searchFor({search: NAME_SMALL});
+                cy.getSettled(selectors.search.modal.dialog)
+                    .should('be.visible');
 
-        // Validate pagination and click() on the next page button
-        cy.getSettled('.pagination button')
-            .contains('Previous')
-            .scrollIntoView()
-            .should('be.visible')
-            .should('be.disabled');
-        cy.getSettled('.pagination button')
-            .contains('Next')
-            .should('be.visible')
-            .should('not.be.disabled')
-            .click();
+                // Soft check of search results
+                cy.get(selectors.search.modal.entries)
+                    .should('be.visible')
+                    .should('have.length', testItemsGroup[NAME_SMALL]);
 
-        // cy.intercept('GET', '**/tao/Search/search*').as('searchForNextPage');
-        cy.wait('@searchFor')
-            .then((interception) => {
-                assert.equal(interception.response.body.page, 2, 'Second page of search results');
-                assert.equal(interception.response.body.records, entriesOnLastPage, 'Records received');
+                // Validate initial search input
+                cy.getSettled(selectors.search.modal.closeButton)
+                    .click();
+                cy.getSettled(selectors.search.textInput)
+                    .should('be.visible')
+                    .should('have.value', NAME_SMALL);
+                cy.getSettled(selectors.search.openResultsButton)
+                    .should('be.visible')
+                    .should('have.text', testItemsGroup[NAME_SMALL])
+                    .click();
+                cy.getSettled(selectors.search.modal.dialog)
+                    .should('be.visible');
+
+                // Validate restored search results
+                cy.getSettled(selectors.search.modal.textInput)
+                    .should('be.visible')
+                    .should('have.value', NAME_SMALL);
+                cy.get(selectors.search.modal.entries)
+                    .should('be.visible')
+                    .should('have.length', testItemsGroup[NAME_SMALL]);
             });
 
-        // Validate results on second page
-        cy.get('[data-item-identifier]')
-            .should('have.length', entriesOnLastPage);
-        cy.getSettled('.pagination button')
-            .contains('Next')
-            .scrollIntoView()
-            .should('be.visible')
-            .should('be.disabled');
-        cy.getSettled('.pagination button')
-            .contains('Previous')
-            .should('be.visible')
-            .should('not.be.disabled')
-            .click();
+        it('Clear search form using clear button', () => {
+            // Go to search popup
+            cy.searchFor({search});
+            cy.getSettled(selectors.search.modal.dialog)
+                .should('be.visible');
 
-        // Back to the first page
-        cy.wait('@searchFor')
-            .then((interception) => {
-                assert.equal(interception.response.body.page, 1, 'Second page of search results');
-                assert.equal(interception.response.body.records, entriesPerPage, 'Records received');
-            });
+            // Make sure that state is full
+            cy.get(selectors.search.modal.entries)
+                .should('have.length.gt', 0);
+            cy.getSettled(selectors.search.modal.textInput)
+                .should('have.value', search);
 
-        // Validate the first page, again
-        cy.getSettled('[data-item-identifier]')
-            .should('have.length', entriesPerPage);
-        cy.getSettled('.pagination button')
-            .contains('Previous')
-            .scrollIntoView()
-            .should('be.visible')
-            .should('be.disabled');
-        cy.getSettled('.pagination button')
-            .contains('Next')
-            .should('be.visible')
-            .should('not.be.disabled');
+            cy.getSettled(selectors.search.modal.filterButton)
+                .should('be.visible')
+                .click();
+            cy.getSettled(`a[title="${NAME_EMPTY}"]`)
+                .scrollIntoView()
+                .should('be.visible')
+                .click();
+            cy.getSettled(selectors.search.modal.filterButton)
+                .should('be.visible')
+                .should('have.value', NAME_EMPTY);
+
+            // Hit the 'red button' clear
+            cy.getSettled('button').contains('Clear')
+                .click();
+
+            // Check state after clear
+            cy.get(selectors.search.modal.entries)
+                .should('not.exist');
+            cy.getSettled(selectors.search.modal.textInput)
+                .should('be.empty');
+            cy.getSettled(selectors.search.modal.filterButton)
+                .should('be.visible')
+                .should('have.value', 'Item');
+        });
+
+        it('Pagination through search results', () => {
+            const entriesPerPage = 20;
+            const entriesOnLastPage = 1; // entriesPerPage - sum of all testItemsGroup[].nodes
+
+            // Go to search popup
+            cy.searchFor({search})
+                .then((interception) => {
+                    assert.exists(interception.response.body, 'Response body');
+                    assert.isTrue(interception.response.body.success, 'Response is successful');
+                    assert.isAbove(interception.response.body.totalCount, entriesPerPage, `Total records are above per page limit (${entriesPerPage})`);
+                    assert.equal(interception.response.body.page, 1, 'First page of search results');
+                    assert.equal(interception.response.body.records, entriesPerPage, 'Records received');
+                });
+            cy.getSettled(selectors.search.modal.dialog)
+                .should('be.visible');
+
+            // Make sure that amount of entries are complete the page
+            cy.get(selectors.search.modal.entries)
+                .should('have.length', entriesPerPage);
+
+            // Validate pagination and click() on the next page button
+            cy.getSettled(selectors.search.modal.paginationButton).contains('Previous')
+                .scrollIntoView()
+                .should('be.visible')
+                .should('be.disabled');
+            cy.getSettled(selectors.search.modal.paginationButton).contains('Next')
+                .should('be.visible')
+                .should('not.be.disabled')
+                .click();
+
+            cy.wait('@searchFor')
+                .then((interception) => {
+                    assert.equal(interception.response.body.page, 2, 'Second page of search results');
+                    assert.equal(interception.response.body.records, entriesOnLastPage, 'Records received');
+                });
+
+            // Validate results on second page
+            cy.get(selectors.search.modal.entries)
+                .should('have.length', entriesOnLastPage);
+            cy.getSettled(selectors.search.modal.paginationButton).contains('Next')
+                .scrollIntoView()
+                .should('be.visible')
+                .should('be.disabled');
+            cy.getSettled(selectors.search.modal.paginationButton).contains('Previous')
+                .should('be.visible')
+                .should('not.be.disabled')
+                .click();
+
+            // Back to the first page
+            cy.wait('@searchFor')
+                .then((interception) => {
+                    assert.equal(interception.response.body.page, 1, 'Second page of search results');
+                    assert.equal(interception.response.body.records, entriesPerPage, 'Records received');
+                });
+
+            // Validate the first page, again
+            cy.get(selectors.search.modal.entries)
+                .should('have.length', entriesPerPage);
+            cy.getSettled(selectors.search.modal.paginationButton).contains('Previous')
+                .scrollIntoView()
+                .should('be.visible')
+                .should('be.disabled');
+            cy.getSettled(selectors.search.modal.paginationButton).contains('Next')
+                .should('be.visible')
+                .should('not.be.disabled');
+        });
     });
 });
