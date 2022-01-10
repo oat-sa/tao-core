@@ -21,26 +21,5 @@ export default {
             closeButton: '#modal-close-btn',
             paginationButton: '.search-modal .pagination button',
         }
-    },
-
-    // ResourceTree
-    resourceTree: {
-        items: {
-            root: '[data-uri="http://www.tao.lu/Ontologies/TAOItem.rdf#Item"]',
-
-            itemForm: 'form[action="/taoItems/Items/editItem"]',
-            itemClassForm: 'form[action="/taoItems/Items/editClassLabel"]',
-
-            addItem: '[data-context="resource"][data-action="instanciate"]',
-            addSubClassUrl: 'taoItems/Items/addSubClass',
-
-            editClassLabelUrl: 'taoItems/Items/editClassLabel',
-
-            deleteClass: '[data-context="class"][data-action="deleteItemClass"]',
-            deleteConfirm: '[data-control="delete"]',
-            deleteClassUrl: 'taoItems/Items/deleteClass',
-
-            treeRenderUrl: 'taoItems/Items',
-        }
     }
 };

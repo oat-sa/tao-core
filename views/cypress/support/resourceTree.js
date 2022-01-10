@@ -96,6 +96,7 @@ Cypress.Commands.add('addClassToRoot', (
 ) => {
     cy.log('COMMAND: addClassToRoot', name)
         .getSettled(`${rootSelector} a:nth(0)`)
+        .scrollIntoView()
         .click()
         .intercept('POST', `**/${editClassLabelUrl}`).as('editClassLabel')
         .addClass(formSelector, treeRenderUrl, addSubClassUrl)
@@ -252,7 +253,7 @@ Cypress.Commands.add('addNode', (formSelector, addSelector) => {
     cy.log('COMMAND: addNode');
     cy.intercept('GET', `**/getOntologyData**`).as('treeRender');
     cy.intercept('POST', '**/edit*').as('edit');
-    cy.getSettled(addSelector).click();
+    cy.getSettled(addSelector).scrollIntoView().click();
     cy.get(formSelector).should('exist');
     cy.wait('@treeRender');
     cy.wait('@edit');
