@@ -25,6 +25,7 @@
 declare(strict_types=1);
 
 use oat\tao\controller\api\Users;
+use oat\tao\model\config\ConfigServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\resources\ResourcesServiceProvider;
 use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
@@ -289,5 +290,6 @@ return [
         ImportServiceProvider::class,
         UserSettingsServiceProvider::class,
         StatisticalMetadataServiceProvider::class,
+        ConfigServiceProvider::class,
     ],
 ];
