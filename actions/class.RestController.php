@@ -44,7 +44,10 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule impl
     {
         if ($this->hasHeader("Accept")) {
             try {
-                $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->getAcceptableMimeTypes(), $this->getHeader("Accept")));
+                $this->responseEncoding = tao_helpers_Http::acceptHeader(
+                    $this->getAcceptableMimeTypes(),
+                    $this->getHeader("Accept")
+                ) ?? $this->responseEncoding;
             } catch (common_exception_ClientException $e) {
                 header('Content-Type: ' . $this->responseEncoding);
                 $this->setServiceLocator(ServiceManager::getServiceManager());
