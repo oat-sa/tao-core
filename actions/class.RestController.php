@@ -20,6 +20,7 @@
  */
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\action\RestControllerInterface;
 use oat\tao\model\routing\AnnotationReader\security;
 
@@ -45,6 +46,8 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule impl
             try {
                 $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->getAcceptableMimeTypes(), $this->getHeader("Accept")));
             } catch (common_exception_ClientException $e) {
+                header('Content-Type: ' . $this->responseEncoding);
+                $this->setServiceLocator(ServiceManager::getServiceManager());
                 $this->returnFailure($e);
             }
         }
