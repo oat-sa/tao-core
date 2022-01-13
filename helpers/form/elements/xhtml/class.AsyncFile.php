@@ -65,16 +65,16 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
     public function render()
     {
         $widgetName = 'Uploader_' . md5($this->name);
-        
+
         $returnValue = $this->renderLabel();
         $returnValue .= "<input type='hidden' name='{$this->name}' id='{$this->name}' value='' />";
         $returnValue .= "<div id='{$widgetName}_container' class='form-elt-container file-uploader'>";
-        
+
         // get the upload max size
         $fileSize = SystemHelper::getFileUploadLimit();
-        
+
         $mimetypes = [];
-        
+
         // add a client validation
         foreach ($this->validators as $validator) {
             // get the valid file extensions
@@ -95,7 +95,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
                 }
             }
         }
-        
+
         // default value for 'auto' is 'true':
         $auto = 'true';
         if (isset($this->attributes['auto'])) {
@@ -104,7 +104,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
             }
             unset($this->attributes['auto']);
         }
-        
+
         // initialize the Uploader Js component
         $returnValue .= '<script type="text/javascript">
 				require([\'jquery\',  \'ui/feedback\', \'ui/uploader\'], function($, feedback){
@@ -126,7 +126,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
 													});
 
 													if(files.length !== givenLength){
-														error.push( "Unauthorized files have been removed");
+														error.push("' . __("Unauthorized files have been removed") . '");
 													}
 
 												}
@@ -157,7 +157,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
 			});
 			</script>';
         $returnValue .= "</div>";
-        
+
         return (string) $returnValue;
     }
 
