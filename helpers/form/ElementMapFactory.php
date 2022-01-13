@@ -62,7 +62,7 @@ class ElementMapFactory extends ConfigurableService
 
     public function create(core_kernel_classes_Property $property): ?tao_helpers_form_FormElement
     {
-        //create the element from the right widget
+        // Create the element from the right widget
         $property->feed();
 
         $widgetResource = $property->getWidget();
@@ -73,7 +73,7 @@ class ElementMapFactory extends ConfigurableService
         $widgetUri   = $widgetResource->getUri();
         $propertyUri = $property->getUri();
 
-        //authoring widget is not used in standalone mode
+        // Authoring widget is not used in standalone mode
         if (
             $widgetUri === Authoring::WIDGET_ID
             && tao_helpers_Context::check('STANDALONE_MODE')
@@ -81,7 +81,7 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
-        // horrible hack to fix file widget
+        // Horrible hack to fix file widget
         if ($widgetUri === AsyncFile::WIDGET_ID) {
             $widgetResource = new core_kernel_classes_Resource(GenerisAsyncFile::WIDGET_ID);
         }
@@ -131,15 +131,15 @@ class ElementMapFactory extends ConfigurableService
             $range = $property->getRange();
 
             if ($range !== null) {
-                $options = [];
-
                 if ($element instanceof TreeAware) {
-                    $sortedOptions = $element->rangeToTree(
+                    $options = $element->rangeToTree(
                         $propertyUri === OntologyRdfs::RDFS_RANGE
                             ? new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE)
                             : $range
                     );
                 } else {
+                    $options = [];
+
                     if ($this->isList($range)) {
                         $values = $this->getListValues($property, $range, $parentProperty);
 
@@ -169,20 +169,18 @@ class ElementMapFactory extends ConfigurableService
                         ksort($options);
                     }
 
-                    $sortedOptions = [];
-
-                    foreach ($options as $values) {
-                        $sortedOptions[$values[0]] = $values[1];
+                    foreach ($options as [$uri, $label]) {
+                        $options[$uri] = $label;
                     }
 
-                    //set the default value to an empty space
+                    // Set the default value to an empty space
                     if (method_exists($element, 'setEmptyOption')) {
                         $element->setEmptyOption(' ');
                     }
                 }
 
-                //complete the options listing
-                $element->setOptions($sortedOptions);
+                // Complete the options listing
+                $element->setOptions($options);
             }
         }
 
