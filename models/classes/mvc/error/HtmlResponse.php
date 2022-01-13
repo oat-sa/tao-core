@@ -42,6 +42,17 @@ class HtmlResponse extends ResponseAbstract
         $returnUrl = (parse_url($referer, PHP_URL_HOST) === parse_url(ROOT_URL, PHP_URL_HOST))
             ? htmlentities($referer, ENT_QUOTES)
             : false;
-        require Template::getTemplate('error/error' . $this->httpCode . '.tpl', 'tao');
+        require $this->createTemplatePath();
+    }
+
+    private function createTemplatePath(): string
+    {
+        $path = Template::getTemplate("error/error{$this->httpCode}.tpl", 'tao');
+
+        if (!file_exists($path)) {
+            return Template::getTemplate('error/user_error.tpl', 'tao');
+        }
+
+        return $path;
     }
 }
