@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -23,8 +23,6 @@ declare(strict_types=1);
 namespace oat\tao\helpers\form;
 
 use common_Logger;
-use oat\tao\model\Lists\Business\Specification\PresortedListSpecification;
-use oat\tao\model\Specification\PropertySpecificationInterface;
 use tao_helpers_Uri;
 use tao_helpers_Context;
 use core_kernel_classes_Class;
@@ -35,6 +33,7 @@ use core_kernel_classes_Resource;
 use tao_helpers_form_FormElement;
 use tao_helpers_form_FormFactory;
 use oat\generis\model\OntologyRdfs;
+use Psr\Container\ContainerInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\form\elements\TreeAware;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
@@ -97,10 +96,11 @@ class ElementMapFactory extends ConfigurableService
         }
 
         $isListsDependencyEnabled = $this->getFeatureFlagChecker()->isEnabled(
-            FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
+            FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
         );
 
         $parentProperty = null;
+
         if ($isListsDependencyEnabled) {
             $parentProperty = $this->getParentProperty($property);
 
@@ -165,13 +165,12 @@ class ElementMapFactory extends ConfigurableService
                                 ];
                             }
                         }
-                    }
 
-                    if (!$this->getPresortedListSpecification()->isSatisfiedBy($property)) {
                         ksort($options);
                     }
 
                     $sortedOptions = [];
+
                     foreach ($options as $values) {
                         $sortedOptions[$values[0]] = $values[1];
                     }
@@ -203,12 +202,6 @@ class ElementMapFactory extends ConfigurableService
         return $range->isSubClassOf(
             new core_kernel_classes_Class(TaoOntology::CLASS_URI_LIST)
         );
-    }
-
-    private function getValueCollectionService(): ValueCollectionService
-    {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->getServiceLocator()->get(ValueCollectionService::class);
     }
 
     private function getParentProperty(core_kernel_classes_Property $property): ?core_kernel_classes_Property
@@ -249,13 +242,18 @@ class ElementMapFactory extends ConfigurableService
         return $this->getValueCollectionService()->findAll(new ValueCollectionSearchInput($searchRequest));
     }
 
-    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    private function getValueCollectionService(): ValueCollectionService
     {
-        return $this->getServiceLocator()->getContainer()->get(FeatureFlagChecker::class);
+        return $this->getContainer()->get(ValueCollectionService::class);
     }
 
-    private function getPresortedListSpecification(): PropertySpecificationInterface
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
-        return $this->getServiceLocator()->getContainer()->get(PresortedListSpecification::class);
+        return $this->getContainer()->get(FeatureFlagChecker::class);
+    }
+
+    private function getContainer(): ContainerInterface
+    {
+        return $this->getServiceManager()->getContainer();
     }
 }
