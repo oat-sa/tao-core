@@ -39,6 +39,9 @@ class ValueCollectionSearchRequest
     private $excluded = [];
 
     /** @var int|null */
+    private $offset;
+
+    /** @var int|null */
     private $limit;
 
     /** @var string[] */
@@ -52,6 +55,9 @@ class ValueCollectionSearchRequest
 
     /** @var string[] */
     private $parentListValues;
+
+    /** @var string[] */
+    private $selectedValues = [];
 
     public function hasPropertyUri(): bool
     {
@@ -144,6 +150,23 @@ class ValueCollectionSearchRequest
         return $this;
     }
 
+    public function hasOffset(): bool
+    {
+        return $this->offset !== null && $this->offset >= 0;
+    }
+
+    public function getOffset(): ?int
+    {
+        return $this->offset;
+    }
+
+    public function setOffset(int $offset): self
+    {
+        $this->offset = $offset;
+
+        return $this;
+    }
+
     public function hasLimit(): bool
     {
         return null !== $this->limit;
@@ -203,5 +226,17 @@ class ValueCollectionSearchRequest
     public function getParentListValues(): array
     {
         return $this->parentListValues;
+    }
+
+    public function getSelectedValues(): array
+    {
+        return $this->selectedValues;
+    }
+
+    public function setSelectedValues(string ...$values): self
+    {
+        $this->selectedValues = $values;
+
+        return $this;
     }
 }

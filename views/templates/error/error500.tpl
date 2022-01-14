@@ -27,9 +27,7 @@
             <div>
                 <h2 class="error-page__form__title"><?= __('Something unexpected happened.') ?></h2>
                 <p class="error-page__form__message">
-                    <?= __(
-                        'It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:'
-                    ) ?>
+                    <?= __('It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:') ?>
                 </p>
                 <div class="error-page__form__action-bar">
                     <a class="button" href="<?= ROOT_URL ?>"><?= __('go back to home page') ?></a>

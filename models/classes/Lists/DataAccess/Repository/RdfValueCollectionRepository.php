@@ -283,7 +283,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $query->addOrderBy('element.id');
     }
 
-    private function enrichWithSelect(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): QueryBuilder
+    private function enrichWithSelect(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): void
     {
         $query->select(
             'collection.object as collection_uri',
@@ -293,11 +293,13 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             'element.l_language as datalanguage'
         );
 
+        if ($searchRequest->hasOffset()) {
+            $query->setFirstResult($searchRequest->getOffset());
+        }
+
         if ($searchRequest->hasLimit()) {
             $query->setMaxResults($searchRequest->getLimit());
         }
-
-        return $query;
     }
 
     private function enrichQueryWithPropertySearchConditions(

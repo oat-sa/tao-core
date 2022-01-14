@@ -25,13 +25,21 @@
 declare(strict_types=1);
 
 use oat\tao\controller\api\Users;
+use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
+use oat\tao\model\resources\ResourcesServiceProvider;
+use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
 use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\export\ServiceProvider\MetadataServiceProvider;
+use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
+use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
 use oat\tao\model\taskQueue\ServiceProvider\TaskAggregationServiceProvider;
 use oat\tao\model\user\TaoRoles;
+use oat\tao\model\user\UserSettingsServiceProvider;
+use oat\tao\model\LanguageServiceProvider;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -41,7 +49,6 @@ use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterActionAccessControl;
 use oat\tao\scripts\install\RegisterClassMetadataServices;
-use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
@@ -274,6 +281,13 @@ return [
     'containerServiceProviders' => [
         ListsServiceProvider::class,
         FormServiceProvider::class,
+        MetadataServiceProvider::class,
+        FeatureFlagServiceProvider::class,
+        LanguageServiceProvider::class,
+        ResourcesServiceProvider::class,
+        RoutingServiceProvider::class,
+        ImportServiceProvider::class,
+        UserSettingsServiceProvider::class,
         TaskAggregationServiceProvider::class,
     ],
 ];

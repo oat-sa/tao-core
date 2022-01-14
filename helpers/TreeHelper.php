@@ -51,6 +51,13 @@ class TreeHelper
             foreach ($resource->getTypes() as $type) {
                 $toTest[$type->getUri()] = [];
             }
+
+            $subClassProp = $resource->getOnePropertyValue(
+                $resource->getModel()->getProperty(OntologyRdfs::RDFS_SUBCLASSOF)
+            );
+            if ($subClassProp !== null) {
+                $toTest[$subClassProp->getUri()] = [];
+            }
         }
         $toOpen = [$rootNode->getUri()];
         while (!empty($toTest)) {

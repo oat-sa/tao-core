@@ -145,7 +145,7 @@ class ValueCollectionTest extends TestCase
                 'uri'    => 'http://example.com#2',
                 'values' => [
                     new Value(1, 'https://example.com#1', '1'),
-                    new Value(2, 'https://example.com#1', '2'),
+                    new Value(2, 'https://example.com#2', '2'),
                 ],
             ],
         ];
@@ -177,6 +177,7 @@ class ValueCollectionTest extends TestCase
             'Overwrite value in collection'                 => [
                 'expected' => new ValueCollection(
                     null,
+                    new Value(1, 'https://example.com#1', '1'),
                     new Value(1, 'https://example.com#1', '2')
                 ),
                 'sut'      => new ValueCollection(

@@ -24,6 +24,7 @@ import './resourceTree';
 import './userManagement';
 import './manageSchema';
 import './resourceProperties';
+import './CKEditor';
 import urls from '../utils/urls';
 
 /**
@@ -111,7 +112,7 @@ Cypress.Commands.add('getSettled', (selector, opts = {}) => {
  * @return {Boolean}
  */
 Cypress.Commands.add('isElementPresent', (selector, opts = {}) => {
-    const timeout = opts.timeout || 5000;
+    const timeout = opts.timeout || 10000;
     const delay = opts.delay || 500;
 
     const isPresent = (resolve) => {

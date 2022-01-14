@@ -66,6 +66,7 @@
         <sections>
             <section id="settings_ext_mng" name="Extensions manager" url="/tao/ExtensionsManager/index"/>
             <section id="settings_security" name="Security" url="/tao/Security/index"/>
+            <section id="settings_metadata_import" name="Import statistical analysis metadata" url="/tao/MetadataImport/index"/>
         </sections>
     </structure>
 

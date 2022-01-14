@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -25,9 +25,9 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Domain;
 
 use Countable;
-use IteratorAggregate;
-use JsonSerializable;
 use Traversable;
+use JsonSerializable;
+use IteratorAggregate;
 
 class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
 {
@@ -36,6 +36,8 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
 
     /** @var Value[] */
     private $values = [];
+
+    private $totalCount = 0;
 
     public function __construct(string $uri = null, Value ...$values)
     {
@@ -54,32 +56,45 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
     public function addValue(Value $value): self
     {
         $value = $this->ensureValueProperties($value);
-
-        if ($value->getUri() === '') {
-            $this->values[] = $value;
-        } else {
-            $this->values[$value->getUri()] = $value;
-        }
+        $this->values[] = $value;
 
         return $this;
     }
 
     public function extractValueByUri(string $uri): ?Value
     {
-        return $this->values[$uri] ?? null;
+        foreach ($this->values as $value) {
+            if ($value->getUri() === $uri) {
+                return $value;
+            }
+        }
+
+        return null;
     }
 
     public function hasDuplicates(): bool
     {
-        foreach ($this->values as $uri => $value) {
+        return $this->getDuplicatedValues(1)->count() > 0;
+    }
+
+    public function getDuplicatedValues(int $limit = null): ValueCollection
+    {
+        $duplicates = new ValueCollection();
+        $counter = 0;
+
+        foreach ($this->values as $value) {
             $duplicationCandidate = $this->extractValueByUri($value->getUri());
 
-            if (null !== $duplicationCandidate && $duplicationCandidate !== $value) {
-                return true;
+            if ($duplicationCandidate !== null && $duplicationCandidate !== $value) {
+                $duplicates->addValue($value);
+
+                if ($limit !== null && ++$counter >= $limit) {
+                    break;
+                }
             }
         }
 
-        return false;
+        return $duplicates;
     }
 
     public function getListUris(): array
@@ -88,6 +103,17 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
 
         foreach ($this->values as $value) {
             $ids[] = $value->getListUri();
+        }
+
+        return $ids;
+    }
+
+    public function getUris(): array
+    {
+        $ids = [];
+
+        foreach ($this->values as $value) {
+            $ids[] = $value->getUri();
         }
 
         return $ids;
@@ -109,6 +135,16 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
     public function count(): int
     {
         return count($this->values);
+    }
+
+    public function getTotalCount(): int
+    {
+        return $this->totalCount;
+    }
+
+    public function setTotalCount(int $totalCount): void
+    {
+        $this->totalCount = $totalCount;
     }
 
     private function ensureValueProperties(Value $value): Value

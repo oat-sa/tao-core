@@ -7,7 +7,7 @@
 
     <h2><?=get_data('formTitle')?></h2>
     <div class="form-content">
-    	<?=get_data('myForm')?>
+        <?=get_data('settingsForm')?>
     </div>
 
     <script>

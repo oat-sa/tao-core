@@ -22,12 +22,14 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\Business\Specification;
 
-use oat\generis\test\TestCase;
 use core_kernel_classes_Class;
+use oat\generis\test\TestCase;
 use core_kernel_classes_Property;
-use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
 use PHPUnit\Framework\MockObject\MockObject;
+use oat\tao\model\Specification\ClassSpecificationInterface;
 use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
+use oat\tao\model\Lists\Business\Specification\ListClassSpecification;
+use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
 
 class RemoteListClassSpecificationTest extends TestCase
 {
@@ -39,16 +41,27 @@ class RemoteListClassSpecificationTest extends TestCase
     /** @var core_kernel_classes_Class|MockObject */
     private $class;
 
+    /** @var ClassSpecificationInterface|MockObject */
+    private $listClassSpecification;
+
     protected function setUp(): void
     {
-        $this->sut = new RemoteListClassSpecification();
-        $this->class = $this->createMock(core_kernel_classes_Class::class);
-        $this->class
-            ->method('getClass')
-            ->willReturn($this->createMock(core_kernel_classes_Class::class));
-        $this->class
-            ->method('isSubClassOf')
+        $this->listClassSpecification = $this->createMock(ClassSpecificationInterface::class);
+        $this->listClassSpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
             ->willReturn(true);
+
+        $this->sut = new RemoteListClassSpecification();
+        $this->sut->setServiceManager(
+            $this->getServiceLocatorMock(
+                [
+                    ListClassSpecification::class => $this->listClassSpecification,
+                ]
+            )
+        );
+
+        $this->class = $this->createMock(core_kernel_classes_Class::class);
         $this->class
             ->method('getProperty')
             ->willReturn($this->createMock(core_kernel_classes_Property::class));
@@ -84,8 +97,9 @@ class RemoteListClassSpecificationTest extends TestCase
 
     public function testIsSatisfiedByWithInvalidSubClass(): void
     {
-        $this->class
-            ->method('isSubClassOf')
+        $this->listClassSpecification
+            ->expects($this->once())
+            ->method('isSatisfiedBy')
             ->willReturn(false);
 
         $this->assertFalse($this->sut->isSatisfiedBy($this->class));

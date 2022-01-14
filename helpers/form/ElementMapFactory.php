@@ -15,8 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -24,23 +23,28 @@ declare(strict_types=1);
 namespace oat\tao\helpers\form;
 
 use common_Logger;
+use tao_helpers_Uri;
+use tao_helpers_Context;
 use core_kernel_classes_Class;
+use oat\tao\model\TaoOntology;
+use core_kernel_classes_Literal;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
-use oat\generis\model\OntologyRdfs;
-use oat\oatbox\service\ConfigurableService;
-use oat\tao\helpers\form\elements\TreeAware;
-use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
-use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
-use oat\tao\model\Lists\Business\Service\ValueCollectionService;
-use oat\tao\model\TaoOntology;
-use tao_helpers_Context;
-use tao_helpers_form_elements_AsyncFile as AsyncFile;
-use tao_helpers_form_elements_Authoring as Authoring;
-use tao_helpers_form_elements_GenerisAsyncFile as GenerisAsyncFile;
 use tao_helpers_form_FormElement;
 use tao_helpers_form_FormFactory;
-use tao_helpers_Uri;
+use oat\generis\model\OntologyRdfs;
+use Psr\Container\ContainerInterface;
+use oat\oatbox\service\ConfigurableService;
+use oat\tao\helpers\form\elements\TreeAware;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use tao_helpers_form_elements_AsyncFile as AsyncFile;
+use tao_helpers_form_elements_Authoring as Authoring;
+use oat\tao\model\Lists\Business\Domain\ValueCollection;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\Lists\Business\Service\ValueCollectionService;
+use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
+use tao_helpers_form_elements_GenerisAsyncFile as GenerisAsyncFile;
+use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 
 class ElementMapFactory extends ConfigurableService
 {
@@ -58,7 +62,7 @@ class ElementMapFactory extends ConfigurableService
 
     public function create(core_kernel_classes_Property $property): ?tao_helpers_form_FormElement
     {
-        //create the element from the right widget
+        // Create the element from the right widget
         $property->feed();
 
         $widgetResource = $property->getWidget();
@@ -69,7 +73,7 @@ class ElementMapFactory extends ConfigurableService
         $widgetUri   = $widgetResource->getUri();
         $propertyUri = $property->getUri();
 
-        //authoring widget is not used in standalone mode
+        // Authoring widget is not used in standalone mode
         if (
             $widgetUri === Authoring::WIDGET_ID
             && tao_helpers_Context::check('STANDALONE_MODE')
@@ -77,7 +81,7 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
-        // horrible hack to fix file widget
+        // Horrible hack to fix file widget
         if ($widgetUri === AsyncFile::WIDGET_ID) {
             $widgetResource = new core_kernel_classes_Resource(GenerisAsyncFile::WIDGET_ID);
         }
@@ -91,10 +95,18 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
-        $parentProperty = $this->getParentProperty($property);
+        $isListsDependencyEnabled = $this->getFeatureFlagChecker()->isEnabled(
+            FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
+        );
 
-        if ($parentProperty) {
-            $element->addAttribute('data-depends-on-property', tao_helpers_Uri::encode($parentProperty->getUri()));
+        $parentProperty = null;
+
+        if ($isListsDependencyEnabled) {
+            $parentProperty = $this->getParentProperty($property);
+
+            if ($parentProperty) {
+                $element->addAttribute('data-depends-on-property', tao_helpers_Uri::encode($parentProperty->getUri()));
+            }
         }
 
         if ($element->getWidget() !== $widgetUri) {
@@ -107,27 +119,27 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
-        //use the property label as element description
+        // Use the property label as element description
         $propDesc = (trim($property->getLabel()) !== '')
             ? $property->getLabel()
             : str_replace(LOCAL_NAMESPACE, '', $propertyUri);
 
         $element->setDescription($propDesc);
 
-        //multi elements use the property range as options
         if (method_exists($element, 'setOptions')) {
+            // Multi elements use the property range as options
             $range = $property->getRange();
 
             if ($range !== null) {
-                $options = [];
-
                 if ($element instanceof TreeAware) {
-                    $sortedOptions = $element->rangeToTree(
+                    $options = $element->rangeToTree(
                         $propertyUri === OntologyRdfs::RDFS_RANGE
                             ? new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE)
                             : $range
                     );
                 } else {
+                    $options = [];
+
                     if ($this->isList($range)) {
                         $values = $this->getListValues($property, $range, $parentProperty);
 
@@ -153,20 +165,22 @@ class ElementMapFactory extends ConfigurableService
                                 ];
                             }
                         }
+
+                        ksort($options);
                     }
-                    ksort($options);
-                    $sortedOptions = [];
-                    foreach ($options as $id => $values) {
-                        $sortedOptions[$values[0]] = $values[1];
+
+                    foreach ($options as [$uri, $label]) {
+                        $options[$uri] = $label;
                     }
-                    //set the default value to an empty space
+
+                    // Set the default value to an empty space
                     if (method_exists($element, 'setEmptyOption')) {
                         $element->setEmptyOption(' ');
                     }
                 }
 
-                //complete the options listing
-                $element->setOptions($sortedOptions);
+                // Complete the options listing
+                $element->setOptions($options);
             }
         }
 
@@ -188,12 +202,6 @@ class ElementMapFactory extends ConfigurableService
         );
     }
 
-    private function getValueCollectionService(): ValueCollectionService
-    {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->getServiceLocator()->get(ValueCollectionService::class);
-    }
-
     private function getParentProperty(core_kernel_classes_Property $property): ?core_kernel_classes_Property
     {
         $collection = $property->getDependsOnPropertyCollection();
@@ -207,22 +215,43 @@ class ElementMapFactory extends ConfigurableService
         core_kernel_classes_Property $property,
         core_kernel_classes_Resource $range,
         core_kernel_classes_Property $parentProperty = null
-    ) {
-        $searchRequest = (new ValueCollectionSearchRequest())
-            ->setValueCollectionUri($range->getUri());
+    ): ValueCollection {
+        $searchRequest = (new ValueCollectionSearchRequest())->setValueCollectionUri($range->getUri());
 
-        if ($parentProperty && $this->instance) {
-            $parentPropertyValues = [];
+        if ($this->instance instanceof core_kernel_classes_Resource) {
+            $selectedValue = $this->instance->getOnePropertyValue($property);
 
-            foreach ($this->instance->getPropertyValuesCollection($parentProperty) as $parentPropertyValue) {
-                $parentPropertyValues[] = (string)$parentPropertyValue;
+            if ($selectedValue instanceof core_kernel_classes_Literal && !empty($selectedValue->literal)) {
+                $searchRequest->setSelectedValues($selectedValue->literal);
             }
 
-            $searchRequest->setPropertyUri($property->getUri());
-            $searchRequest->setParentListValues(...$parentPropertyValues);
+            if ($parentProperty) {
+                $parentPropertyValues = [];
+
+                foreach ($this->instance->getPropertyValuesCollection($parentProperty) as $parentPropertyValue) {
+                    $parentPropertyValues[] = (string)$parentPropertyValue;
+                }
+
+                $searchRequest->setPropertyUri($property->getUri());
+                $searchRequest->setParentListValues(...$parentPropertyValues);
+            }
         }
 
-        return $this->getValueCollectionService()
-            ->findAll(new ValueCollectionSearchInput($searchRequest));
+        return $this->getValueCollectionService()->findAll(new ValueCollectionSearchInput($searchRequest));
+    }
+
+    private function getValueCollectionService(): ValueCollectionService
+    {
+        return $this->getContainer()->get(ValueCollectionService::class);
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getContainer()->get(FeatureFlagChecker::class);
+    }
+
+    private function getContainer(): ContainerInterface
+    {
+        return $this->getServiceManager()->getContainer();
     }
 }
