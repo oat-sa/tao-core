@@ -22,6 +22,7 @@ namespace oat\tao\model\mvc\error;
 
 use common_exception_MethodNotAllowed;
 use common_exception_RestApi;
+use common_exception_ValidationFailed;
 use Exception;
 use common_exception_MissingParameter;
 use common_exception_BadRequest;
@@ -99,6 +100,7 @@ class ExceptionInterpretor implements ServiceLocatorAwareInterface
             case tao_models_classes_MissingRequestParameterException::class:
             case common_exception_MissingParameter::class:
             case common_exception_BadRequest::class:
+            case common_exception_ValidationFailed::class:
                 $this->returnHttpCode = StatusCode::HTTP_BAD_REQUEST;
                 break;
             case 'tao_models_classes_AccessDeniedException':
