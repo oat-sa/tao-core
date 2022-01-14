@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\StatisticalMetadata\Import\Processor;
 
+use League\Csv\Reader;
+use League\Csv\Exception;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
 use core_kernel_classes_Resource;
@@ -34,6 +36,8 @@ use oat\tao\model\StatisticalMetadata\Contract\StatisticalMetadataRepositoryInte
 class ImportStatisticalMetadataProcessor implements ImportFileProcessorInterface
 {
     private const HEADER_METADATA_PREFIX = 'metadata_';
+    private const HEADER_ITEM_ID = 'itemId';
+    private const HEADER_TEST_ID = 'testId';
 
     /** @var StatisticalMetadataRepositoryInterface */
     private $statisticalMetadataRepository;
@@ -49,72 +53,84 @@ class ImportStatisticalMetadataProcessor implements ImportFileProcessorInterface
         $this->ontology = $ontology;
     }
 
+    // @TODO Extract validation to a separate service
     public function process(File $file): Report
     {
-        $stream = $file->readStream();
-        $metadataUris = $this->extractMetadataUris(fgetcsv($stream, 0, ';'));
-        $metadataUrisCount = count($metadataUris);
+        if (!$file->exists()) {
+            return Report::createError('File not exists.');
+        }
 
-        $totalCount = 0;
+        try {
+            // @TODO Extract \League\Csv\Reader to a separate service
+            $csv = Reader::createFromStream($file->readStream());
+            $csv->setDelimiter(';');
+            $csv->setHeaderOffset(0);
+        } catch (Exception $exception) {
+            return Report::createError($exception->getMessage());
+        }
+
+        $header = $csv->getHeader();
+        $header = $this->replaceHeaderMetadataWithUris($header);
+
         $updatedResourcesCount = 0;
+        $reports = [];
 
-        while ($line = fgetcsv($stream, 0, ';')) {
-            if ($line[0] === null) {
-                continue;
-            }
+        foreach ($csv->getRecords($header) as $line => $record) {
+            $resourceId = $record[self::HEADER_ITEM_ID] ?: $record[self::HEADER_TEST_ID] ?: null;
 
-            ++$totalCount;
+            if ($resourceId === null) {
+                $reports[] = Report::createWarning(
+                    sprintf(
+                        'Resource ID (%s or %s) at line %d was not provided.',
+                        self::HEADER_ITEM_ID,
+                        self::HEADER_TEST_ID,
+                        $line
+                    )
+                );
 
-            $metadataValues = array_slice($line, 2);
-            $resourceId = $line[0] ?: $line[1];
-
-            if (count($metadataValues) !== $metadataUrisCount || empty($resourceId)) {
                 continue;
             }
 
             $resource = $this->ontology->getResource($resourceId);
 
             if (!$resource->exists()) {
+                $reports[] = Report::createWarning(
+                    sprintf(
+                        'Resource with ID "%s" at line %d not exists.',
+                        $resourceId,
+                        $line
+                    )
+                );
+
                 continue;
             }
 
-            $this->bindProperties($resource, array_combine($metadataUris, $metadataValues));
+            unset($record[self::HEADER_ITEM_ID], $record[self::HEADER_TEST_ID]);
+
+            $this->bindProperties($resource, $record);
             ++$updatedResourcesCount;
         }
 
-        return Report::createSuccess(
-            sprintf(
-                'Statistical analysis metadata import successful: %d/%d row%s imported.',
-                $updatedResourcesCount,
-                $totalCount,
-                $updatedResourcesCount > 1 ? 's are' : ' is'
-            )
-        );
+        return $this->buildFinalReport($csv->count(), $updatedResourcesCount, $reports);
     }
 
-    private function extractMetadataUris(array $line): array
+    private function replaceHeaderMetadataWithUris(array $header): array
     {
-        $metadata = array_slice($line, 2);
-        $this->replaceMetadataWithUris($metadata);
-
-        return $metadata;
-    }
-
-    private function replaceMetadataWithUris(array &$metadata): void
-    {
-        foreach ($this->findMetadataProperties($metadata) as $metadataProperty) {
+        foreach ($this->findMetadataProperties($header) as $metadataProperty) {
             $position = array_search(
                 self::HEADER_METADATA_PREFIX . $metadataProperty->getAlias(),
-                $metadata,
+                $header,
                 true
             );
-            $metadata[$position] = $metadataProperty->getUri();
+            $header[$position] = $metadataProperty->getUri();
         }
+
+        return $header;
     }
 
-    private function findMetadataProperties(array $metadata): array
+    private function findMetadataProperties(array $header): array
     {
-        $aliases = $this->extractMetadataAliases($metadata);
+        $aliases = $this->extractMetadataAliases($header);
 
         return $this->statisticalMetadataRepository->findProperties(
             [
@@ -123,22 +139,53 @@ class ImportStatisticalMetadataProcessor implements ImportFileProcessorInterface
         );
     }
 
-    /**
-     * @return string[]
-     */
-    private function extractMetadataAliases(array $metadata): array
+    private function extractMetadataAliases(array $header): array
     {
-        return array_map(
-            static function (string $metadataName): string {
-                return str_replace(self::HEADER_METADATA_PREFIX, '', $metadataName);
-            },
-            $metadata
-        );
+        $metadataAliases = [];
+
+        foreach ($header as $name) {
+            if (strpos($name, self::HEADER_METADATA_PREFIX) === 0) {
+                $metadataAliases[] = str_replace(self::HEADER_METADATA_PREFIX, '', $name);
+            }
+        }
+
+        return $metadataAliases;
     }
 
     private function bindProperties(core_kernel_classes_Resource $resource, array $values): void
     {
         $binder = new tao_models_classes_dataBinding_GenerisInstanceDataBinder($resource);
         $binder->bind($values);
+    }
+
+    // @TODO Extract reporting to a separate service
+    private function buildFinalReport(int $totalCount, int $updatedResourcesCount, array $reports): Report
+    {
+        $errorsCount = $totalCount - $updatedResourcesCount;
+
+        if ($errorsCount) {
+            $message = sprintf(
+                'Imported %d/%d %s. %d errors.',
+                $updatedResourcesCount,
+                $totalCount,
+                $totalCount > 1 ? 'rows' : 'row',
+                $errorsCount
+            );
+
+            $report = $errorsCount === $totalCount
+                ? Report::createError($message)
+                : Report::createWarning($message);
+
+            return $report->add($reports);
+        }
+
+        return Report::createSuccess(
+            sprintf(
+                'Statistical analysis metadata import successful: imported %d/%d %s.',
+                $updatedResourcesCount,
+                $totalCount,
+                $totalCount > 1 ? 'rows' : 'row'
+            )
+        );
     }
 }

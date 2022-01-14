@@ -62,7 +62,7 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
             ->call(
                 'withLabel',
                 [
-                    __('statistical analysis metadata'),
+                    __('CSV file'),
                 ]
             );
     }
