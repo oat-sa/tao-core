@@ -26,6 +26,8 @@ use RuntimeException;
 use League\Csv\Reader;
 use League\Csv\Exception;
 use InvalidArgumentException;
+use oat\tao\model\TaoOntology;
+use core_kernel_classes_Class;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
 use core_kernel_classes_Resource;
@@ -52,12 +54,21 @@ class ImportStatisticalMetadataProcessor implements ImportFileProcessorInterface
     /** @var Ontology */
     private $ontology;
 
+    /** @var core_kernel_classes_Class */
+    private $itemRootClass;
+
+    /** @var core_kernel_classes_Class */
+    private $testRootClass;
+
     public function __construct(
         StatisticalMetadataRepositoryInterface $statisticalMetadataRepository,
         Ontology $ontology
     ) {
         $this->statisticalMetadataRepository = $statisticalMetadataRepository;
         $this->ontology = $ontology;
+
+        $this->itemRootClass = $ontology->getClass(TaoOntology::CLASS_URI_ITEM);
+        $this->testRootClass = $ontology->getClass(TaoOntology::CLASS_URI_TEST);
     }
 
     public function process(File $file): Report
@@ -82,8 +93,9 @@ class ImportStatisticalMetadataProcessor implements ImportFileProcessorInterface
 
         foreach ($csv->getRecords($header) as $line => $record) {
             try {
-                $resourceId = $this->extractResourceId($record, $line);
-                $resource = $this->getResource($resourceId, $line);
+                $resourceHeader = $this->extractResourceHeader($record, $line);
+                $resource = $this->getResource($record[$resourceHeader], $line);
+                $this->validateResourceType($resource, $resourceHeader, $line);
             } catch (InvalidArgumentException | RuntimeException $exception) {
                 $reports[] = Report::createWarning($exception->getMessage());
 
@@ -133,22 +145,24 @@ class ImportStatisticalMetadataProcessor implements ImportFileProcessorInterface
         return $metadataAliases;
     }
 
-    private function extractResourceId(array $record, int $line): string
+    private function extractResourceHeader(array $record, int $line): string
     {
-        $resourceId = $record[self::HEADER_ITEM_ID] ?: $record[self::HEADER_TEST_ID] ?: null;
-
-        if ($resourceId === null) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Resource ID (%s or %s) at line %d was not provided.',
-                    self::HEADER_ITEM_ID,
-                    self::HEADER_TEST_ID,
-                    $line
-                )
-            );
+        if (!empty($record[self::HEADER_ITEM_ID])) {
+            return self::HEADER_ITEM_ID;
         }
 
-        return $resourceId;
+        if (!empty($record[self::HEADER_TEST_ID])) {
+            return self::HEADER_TEST_ID;
+        }
+
+        throw new InvalidArgumentException(
+            sprintf(
+                'Resource ID (%s or %s) at line %d was not provided.',
+                self::HEADER_ITEM_ID,
+                self::HEADER_TEST_ID,
+                $line
+            )
+        );
     }
 
     private function getResource(string $resourceId, int $line): core_kernel_classes_Resource
@@ -166,6 +180,26 @@ class ImportStatisticalMetadataProcessor implements ImportFileProcessorInterface
         }
 
         return $resource;
+    }
+
+    private function validateResourceType(
+        core_kernel_classes_Resource $resource,
+        string $resourceHeader,
+        int $line
+    ): void {
+        $resourceRootClass = $resourceHeader === self::HEADER_ITEM_ID
+            ? $this->itemRootClass
+            : $this->testRootClass;
+
+        if (!$resource->isInstanceOf($resourceRootClass)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'The specified resource identifier "%s" in line %d is not valid, has the wrong instance type.',
+                    $resource->getUri(),
+                    $line
+                )
+            );
+        }
     }
 
     private function getMetadataToBind(array $record, array $metadataMap, core_kernel_classes_Resource $resource): array
