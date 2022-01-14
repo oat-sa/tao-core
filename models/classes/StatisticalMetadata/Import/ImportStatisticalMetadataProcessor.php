@@ -157,10 +157,10 @@ class ImportStatisticalMetadataProcessor implements ImportFileProcessorInterface
 
         throw new InvalidArgumentException(
             sprintf(
-                'Resource ID (%s or %s) at line %d was not provided.',
+                'Line %d: resource ID (header: %s or %s) not specified.',
+                $line,
                 self::HEADER_ITEM_ID,
-                self::HEADER_TEST_ID,
-                $line
+                self::HEADER_TEST_ID
             )
         );
     }
@@ -172,9 +172,9 @@ class ImportStatisticalMetadataProcessor implements ImportFileProcessorInterface
         if (!$resource->exists()) {
             throw new RuntimeException(
                 sprintf(
-                    'Resource with ID "%s" at line %d not exists.',
-                    $resourceId,
-                    $line
+                    'Line %d: resource with ID "%s" does not exist.',
+                    $line,
+                    $resourceId
                 )
             );
         }
@@ -194,9 +194,9 @@ class ImportStatisticalMetadataProcessor implements ImportFileProcessorInterface
         if (!$resource->isInstanceOf($resourceRootClass)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'The specified resource identifier "%s" in line %d is not valid, has the wrong instance type.',
-                    $resource->getUri(),
-                    $line
+                    'Line %d: resource with ID "%s" is not valid, has the wrong instance type.',
+                    $line,
+                    $resource->getUri()
                 )
             );
         }
