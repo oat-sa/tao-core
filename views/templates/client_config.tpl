@@ -54,7 +54,7 @@ require.config({
         'moment'            : '../node_modules/moment/min/moment-with-locales',
         'handlebars'        : '../node_modules/handlebars/dist/handlebars',
         'class'             : 'lib/class',
-        'raphael'           : 'lib/raphael/raphael',
+        'raphael'           : '../node_modules/raphael/raphael',
         'scale.raphael'     : 'lib/raphael/scale.raphael',
         'spin'              : 'lib/spin.min',
         'pdfjs-dist/build/pdf'        : 'lib/pdfjs/build/pdf',
