@@ -26,6 +26,7 @@ use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Connection;
 use InvalidArgumentException;
 use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
 use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\StatisticalMetadata\Model\MetadataProperty;
@@ -34,8 +35,6 @@ use oat\tao\model\StatisticalMetadata\Contract\StatisticalMetadataRepositoryInte
 class StatisticalMetadataRepository implements StatisticalMetadataRepositoryInterface
 {
     public const FILTER_ALIASES = 'aliases';
-
-    private const PROPERTY_ALIAS = GenerisRdf::PROPERTY_ALIAS;
 
     /** @var PersistenceManager */
     private $persistenceManager;
@@ -60,19 +59,29 @@ class StatisticalMetadataRepository implements StatisticalMetadataRepositoryInte
         }
 
         $queryBuilder = $this->getQueryBuilder();
+        $expr = $queryBuilder->expr();
 
         return $queryBuilder
             ->select(
                 [
                     'st.subject as uri',
                     'st.object as alias',
+                    'domain.object as domain'
                 ]
             )
             ->from('statements', 'st')
-            ->where('st.predicate = :predicate')
-            ->andWhere($queryBuilder->expr()->in('st.object', ':aliases'))
-            ->setParameter('predicate', self::PROPERTY_ALIAS)
+            ->leftJoin(
+                'st',
+                'statements',
+                'domain',
+                $expr->eq('domain.subject', 'st.subject')
+            )
+            ->where('st.predicate = :propertyAlias')
+            ->andWhere($expr->in('st.object', ':aliases'))
+            ->andWhere('domain.predicate = :domain')
+            ->setParameter('propertyAlias', GenerisRdf::PROPERTY_ALIAS)
             ->setParameter('aliases', $filters[self::FILTER_ALIASES], Connection::PARAM_STR_ARRAY)
+            ->setParameter('domain', OntologyRdfs::RDFS_DOMAIN)
             ->execute()
             ->fetchAll(FetchMode::CUSTOM_OBJECT, MetadataProperty::class);
     }

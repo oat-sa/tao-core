@@ -25,28 +25,11 @@ namespace oat\tao\model\StatisticalMetadata\Model;
 class MetadataProperty
 {
     /** @var string */
-    private $uri;
+    public $uri;
 
     /** @var string */
-    private $alias;
+    public $alias;
 
-    public function getUri(): string
-    {
-        return $this->uri;
-    }
-
-    public function setUri(string $uri): void
-    {
-        $this->uri = $uri;
-    }
-
-    public function getAlias(): string
-    {
-        return $this->alias;
-    }
-
-    public function setAlias(string $alias): void
-    {
-        $this->alias = $alias;
-    }
+    /** @var string */
+    public $domain;
 }

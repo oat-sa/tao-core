@@ -26,8 +26,8 @@ use oat\generis\model\data\Ontology;
 use oat\generis\persistence\PersistenceManager;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\StatisticalMetadata\Repository\StatisticalMetadataRepository;
+use oat\tao\model\StatisticalMetadata\Import\ImportStatisticalMetadataProcessor;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use oat\tao\model\StatisticalMetadata\Import\Processor\ImportStatisticalMetadataProcessor;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
