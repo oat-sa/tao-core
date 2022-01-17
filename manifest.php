@@ -19,7 +19,7 @@
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-     (update and modification) Open Assessment Technologies SA;
- *               2021 (original work) Open Assessment Technologies SA
+ *               2021-2022 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -77,8 +77,8 @@ use oat\tao\scripts\install\SetServiceFileStorage;
 use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\SetUpQueueTasks;
-use oat\tao\scripts\tools\AddRtlLocale;
 use oat\tao\scripts\update\Updater;
+use oat\tao\model\StatisticalMetadata\StatisticalMetadataServiceProvider;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -288,5 +288,6 @@ return [
         RoutingServiceProvider::class,
         ImportServiceProvider::class,
         UserSettingsServiceProvider::class,
+        StatisticalMetadataServiceProvider::class,
     ],
 ];
