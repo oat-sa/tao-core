@@ -22,6 +22,9 @@
  */
 
 use oat\generis\model\OntologyRdf;
+use oat\tao\model\event\MetadataModified;
+use oat\oatbox\event\EventManager;
+use oat\oatbox\service\ServiceManager;
 
 /**
  * A data binder focusing on binding a source of data to a generis instance
@@ -29,40 +32,24 @@ use oat\generis\model\OntologyRdf;
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
-
  */
 class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_models_classes_dataBinding_AbstractDataBinder
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    /**
-     * A target Resource.
-     *
-     * @var core_kernel_classes_Resource
-     */
+    /** @var core_kernel_classes_Resource */
     private $targetInstance;
 
-    /***
-     * @var \oat\oatbox\event\EventManager
-     */
+    /** @var \oat\oatbox\event\EventManager */
     private $eventManager;
-
-    // --- OPERATIONS ---
 
     /**
      * Creates a new instance of binder.
      *
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  Resource targetInstance The
-     * @return mixed
      */
     public function __construct(
         core_kernel_classes_Resource $targetInstance,
-        \oat\oatbox\event\EventManager $eventManager = null
+        EventManager $eventManager = null
     ) {
         $this->targetInstance = $targetInstance;
         $this->eventManager = $eventManager;
@@ -77,20 +64,14 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
      */
     protected function getTargetInstance()
     {
-        $returnValue = null;
-
-        
-        $returnValue = $this->targetInstance;
-        
-
-        return $returnValue;
+        return $this->targetInstance;
     }
 
     /**
      * Simply bind data from the source to a specific generis class instance.
      *
      * The array of the data to be bound must contain keys that are property
-     * The repspective values can be either scalar or vector (array) values or
+     * The respective values can be either scalar or vector (array) values or
      * values.
      *
      * - If the element of the $data array is scalar, it is simply bound using
@@ -104,97 +85,111 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
      */
     public function bind($data)
     {
-        $returnValue = null;
-
-        $eventManager = $this->getEventManager();
+        $instance = $this->getTargetInstance();
 
         try {
-            $instance = $this->getTargetInstance();
-
             foreach ($data as $propertyUri => $propertyValue) {
-                if ($propertyUri == OntologyRdf::RDF_TYPE) {
-                    foreach ($instance->getTypes() as $type) {
-                        $instance->removeType($type);
-                    }
-
-                    $propertyValue = $data[OntologyRdf::RDF_TYPE];
-                    if (!is_array($propertyValue)) {
-                        $types = [$propertyValue];
-                        foreach ($types as $type) {
-                            $instance->setType(
-                                new core_kernel_classes_Class($type)
-                            );
-                        }
-                    }
-
-                    continue;
-                }
-
-                $prop = new core_kernel_classes_Property($propertyUri);
-                $values = $instance->getPropertyValuesCollection($prop);
-                if ($values->count() > 0) {
-                    if (is_array($propertyValue)) {
-                        $instance->removePropertyValues($prop);
-                        foreach ($propertyValue as $aPropertyValue) {
-                            $instance->setPropertyValue(
-                                $prop,
-                                $aPropertyValue
-                            );
-                        }
-                    } elseif (is_string($propertyValue)) {
-                        $instance->editPropertyValues(
-                            $prop,
-                            $propertyValue
-                        );
-
-                        if (strlen(trim($propertyValue)) == 0) {
-                            // Fix for ADF-869 is probably to be done here
-                            //
-                            // It seems MySQL would remove the value because it silently truncates
-                            // strings containing only whitespaces (so the next pattern matches the
-                            // value just inserted), while Postgres will keep the whitespace and
-                            // the next pattern won't match anything
-                            //
-                            // If the property value is an empty space (the default value in a select
-                            // input field), delete the corresponding triplet (and not all property
-                            // values).
-                            //if the property value is an empty space(the default value in a select input field), delete the corresponding triplet (and not all property values)
-                            $instance->removePropertyValues($prop, ['pattern' => '']);
-                        }
-                    }
+                if (($propertyUri == OntologyRdf::RDF_TYPE) && (null != $propertyValue)) {
+                    $this->bindTypes($instance, $data[OntologyRdf::RDF_TYPE]);
                 } else {
-                    if (is_array($propertyValue)) {
-                        foreach ($propertyValue as $aPropertyValue) {
-                            $instance->setPropertyValue(
-                                $prop,
-                                $aPropertyValue
-                            );
-                        }
-                    } elseif (is_string($propertyValue) && strlen(trim($propertyValue)) !== 0) {
-                        $instance->setPropertyValue(
-                            $prop,
-                            $propertyValue
-                        );
-                    }
+                    $this->bindProperty($instance, $propertyUri, $propertyValue);
+                    $this->getEventManager()->trigger(
+                        new MetadataModified($instance, $propertyUri, $propertyValue)
+                    );
                 }
-                $eventManager->trigger(new \oat\tao\model\event\MetadataModified($instance, $propertyUri, $propertyValue));
             }
-            
-            $returnValue = $instance;
-        } catch (common_Exception $e) {
-            $msg = "An error occured while binding property values to instance '': " . $e->getMessage();
-            $instanceUri = $instance->getUri();
-            throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException($msg);
-        }
-        
 
-        return $returnValue;
+            return $instance;
+        } catch (Exception $e) {
+            throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException(
+                sprintf(
+                    "An error occurred while binding property values to instance '%s': %s",
+                    $this->getTargetInstance()->getUri(),
+                    $e->getMessage()
+                )
+            );
+        }
     }
 
-    private function getEventManager(): \oat\oatbox\event\EventManager
+    /**
+     * @return void
+     */
+    private function bindTypes(core_kernel_classes_Resource &$instance, $propertyValue)
+    {
+        foreach ($instance->getTypes() as $type) {
+            $instance->removeType($type);
+        }
+
+        if (!is_array($propertyValue)) {
+            $types = [$propertyValue];
+            foreach ($types as $type) {
+                $instance->setType(new core_kernel_classes_Class($type));
+            }
+        }
+    }
+
+    /**
+     * @return void
+     */
+    private function bindProperty(
+        core_kernel_classes_Resource &$instance,
+        $propertyUri,
+        $propertyValue
+    ) {
+        $prop = new core_kernel_classes_Property($propertyUri);
+        $values = $instance->getPropertyValuesCollection($prop);
+
+        if ($values->count() > 0) {
+            if (is_array($propertyValue)) {
+                $instance->removePropertyValues($prop);
+                foreach ($propertyValue as $aPropertyValue) {
+                    $instance->setPropertyValue(
+                        $prop,
+                        $aPropertyValue
+                    );
+                }
+            } elseif (is_string($propertyValue)) {
+                $instance->editPropertyValues(
+                    $prop,
+                    $propertyValue
+                );
+
+                if (strlen(trim($propertyValue)) == 0) {
+                    // Fix for ADF-869 is probably to be done here
+                    //
+                    // It seems MySQL would remove the value because it silently truncates
+                    // strings containing only whitespaces (so the next pattern matches the
+                    // value just inserted), while Postgres will keep the whitespace and
+                    // the next pattern won't match anything
+                    //
+                    // If the property value is an empty space (the default value in a select
+                    // input field), delete the corresponding triplet (and not all property
+                    // values).
+                    //if the property value is an empty space(the default value in a select input field), delete the corresponding tuble (instead of all property values)
+                    $instance->removePropertyValues($prop, ['pattern' => '']);
+                }
+            }
+        } else {
+            if (is_array($propertyValue)) {
+                foreach ($propertyValue as $aPropertyValue) {
+                    $instance->setPropertyValue(
+                        $prop,
+                        $aPropertyValue
+                    );
+                }
+            } elseif (is_string($propertyValue) && strlen(trim($propertyValue)) !== 0) {
+                $instance->setPropertyValue(
+                    $prop,
+                    $propertyValue
+                );
+            }
+        }
+    }
+
+    private function getEventManager(): EventManager
     {
         if ($this->eventManager == null) {
-            $this->eventManager = \oat\oatbox\service\ServiceManager::getServiceManager()->get(\oat\oatbox\event\EventManager::CONFIG_ID);
+            $this->eventManager = ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);
         }
 
         return $this->eventManager;
