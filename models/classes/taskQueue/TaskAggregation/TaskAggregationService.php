@@ -26,6 +26,7 @@ use oat\oatbox\reporting\Report;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
+use Psr\Log\LoggerInterface;
 
 class TaskAggregationService
 {
@@ -35,13 +36,17 @@ class TaskAggregationService
     private $queueDispatcher;
     /** @var TaskLogInterface */
     private $taskLog;
+    /** @var LoggerInterface */
+    private $logger;
 
     public function __construct(
         QueueDispatcherInterface $queueDispatcher,
-        TaskLogInterface         $taskLog
+        TaskLogInterface         $taskLog,
+        LoggerInterface $logger
     ) {
         $this->queueDispatcher = $queueDispatcher;
         $this->taskLog = $taskLog;
+        $this->logger = $logger;
     }
 
     public function extractTaskParamsForAggregation(string $queueName, int $limitForAggregation = 10): array
@@ -63,6 +68,7 @@ class TaskAggregationService
             }
             $this->taskForAggregationById[$task->getId()] = $task;
             $paramsForAggregation[$task->getId()] = $task->getParameters();
+            $this->logger->info(sprintf('Task %s is aggregated', $task->getId()));
         }
 
         return $paramsForAggregation;

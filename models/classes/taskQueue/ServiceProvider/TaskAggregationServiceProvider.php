@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\taskQueue\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\oatbox\log\LoggerService;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\TaskAggregation\TaskAggregationService;
 use oat\tao\model\taskQueue\TaskLogInterface;
@@ -41,6 +42,7 @@ class TaskAggregationServiceProvider implements ContainerServiceProviderInterfac
             ->args([
                 service(QueueDispatcherInterface::SERVICE_ID),
                 service(TaskLogInterface::SERVICE_ID),
+                service(LoggerService::SERVICE_ID)
             ]);
     }
 }
