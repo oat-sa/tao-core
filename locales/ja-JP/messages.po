@@ -2231,7 +2231,7 @@ msgid "The following criteria are not applicable to the selected class and have 
 msgstr ""
 
 msgid "The format of this field is not valid."
-msgstr "形式が正しくありません"
+msgstr "このフィールドの形式は有効ではありません"
 
 msgid "The imported file is not properly UTF-8 encoded."
 msgstr "インポートされたファイルが正しくUTF-8でエンコードされていません"
