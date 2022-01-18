@@ -72,7 +72,7 @@ class GenerisInstanceDataBinderTest extends TestCase
     public function testBindScalarWithPreviousValue(): void
     {
         $this->eventManagerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('trigger')
             ->with($this->callback(function (MetadataModified $e): bool {
                 return (
@@ -82,7 +82,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             }));
 
         $this->resource
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setType')
             ->with($this->callback(function (core_kernel_classes_Class $c) {
                 return ($c->getUri() == self::URI_TYPE_1);
@@ -142,7 +142,7 @@ class GenerisInstanceDataBinderTest extends TestCase
     public function testBindEmptyValue(): void
     {
         $this->eventManagerMock
-            ->expects(self::at(0))
+            ->expects($this->at(0))
             ->method('trigger')
             ->with($this->callback(function (MetadataModified $e): bool {
                 return (
@@ -152,7 +152,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             }));
 
         $this->eventManagerMock
-            ->expects(self::at(1))
+            ->expects($this->at(1))
             ->method('trigger')
             ->with($this->callback(function (MetadataModified $e): bool {
                 return (
@@ -162,7 +162,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             }));
 
         $this->resource
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('setType')
             ->with($this->callback(function (core_kernel_classes_Class $c) {
                 return ($c->getUri() == self::URI_TYPE_1)
@@ -244,7 +244,7 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->assertSame($this->resource, $resource);
     }
 
-    public function testBindNewTypes(): void
+    public function testBindNewTypesToExistingInstance(): void
     {
         $this->eventManagerMock
             ->expects(self::never())
@@ -288,5 +288,64 @@ class GenerisInstanceDataBinderTest extends TestCase
         // The binder returns the former instance with the changes applied
         //
         $this->assertSame($this->resource, $resource);
+    }
+
+    public function testDontSetNewValuesIfTheyAreEmpty(): void
+    {
+        // The event is triggered even if the property value stays the same
+        //
+        $this->eventManagerMock
+            ->expects($this->at(0))
+            ->method('trigger')
+            ->with($this->callback(function (MetadataModified $e): bool {
+                return (
+                    $e->getResource()->getLabel() == $this->resource->getUri()
+                    && ($e->getMetadataUri() == self::URI_PROPERTY_1)
+                    && ($e->getMetadataValue() == '  '));
+            }));
+
+        $this->resource
+            ->expects($this->never())
+            ->method('setType');
+
+        $this->resource
+            ->method('getTypes')
+            ->willReturn([]);
+
+        $this->resource
+            ->method('getPropertyValuesCollection')
+            ->will($this->returnCallback(
+                function (core_kernel_classes_Property $property) {
+                    if (($property->getUri() == self::URI_PROPERTY_1) ||
+                        ($property->getUri() == self::URI_PROPERTY_2) ) {
+                        return new core_kernel_classes_ContainerCollection(
+                            new common_Object()
+                        );
+                    }
+
+                    $this->fail(
+                        "Unexpected property: {$property->getUri()}"
+                    );
+                }
+            ));
+
+        $this->resource
+            ->expects($this->never())
+            ->method('editPropertyValues');
+
+        $this->resource
+            ->expects($this->never())
+            ->method('removePropertyValues');
+
+        $this->resource
+            ->expects($this->never())
+            ->method('setPropertyValue');
+
+        // Binding an empty value for URI_PROPERTY_1 , which already has no values,
+        // should not trigger setting, editing nor removal calls.
+        //
+        $this->sut->bind([
+            self::URI_PROPERTY_1 => '  ',
+        ]);
     }
 }
