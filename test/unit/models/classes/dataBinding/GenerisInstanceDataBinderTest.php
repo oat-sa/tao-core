@@ -348,4 +348,37 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_PROPERTY_1 => '  ',
         ]);
     }
+
+    public function testExceptionsAreWrappedAndRethrown(): void
+    {
+        $this->eventManagerMock
+            ->expects($this->never())
+            ->method('trigger');
+
+        $this->resource
+            ->expects($this->never())
+            ->method('setType');
+
+        $this->resource
+            ->method('getTypes')
+            ->willReturn([
+                new core_kernel_classes_Class(self::URI_TYPE_1)
+            ]);
+
+        $this->resource
+            ->method('getPropertyValuesCollection')
+            ->willThrowException(new \Exception("error", 123));
+
+        $this->expectException(
+            \tao_models_classes_dataBinding_GenerisInstanceDataBindingException::class
+        );
+
+        $this->expectExceptionMessage(
+            "Error binding property values to instance"
+        );
+
+        $this->sut->bind([
+            self::URI_PROPERTY_2 => 'Value 2',
+        ]);
+    }
 }
