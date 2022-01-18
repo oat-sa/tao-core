@@ -139,6 +139,72 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->assertSame($this->resource, $resource);
     }
 
+    public function testBindArrayWithPreviousValue(): void
+    {
+        $this->eventManagerMock
+            ->expects($this->at(0))
+            ->method('trigger')
+            ->with($this->callback(function (MetadataModified $e): bool {
+                return (
+                    $e->getResource()->getLabel() == $this->resource->getUri()
+                    && ($e->getMetadataUri() == self::URI_PROPERTY_1)
+                    && ($e->getMetadataValue() == ['one', 'two']));
+            }));
+
+        $this->resource
+            ->expects($this->once())
+            ->method('setType')
+            ->with($this->callback(function (core_kernel_classes_Class $c) {
+                return ($c->getUri() == self::URI_TYPE_1);
+            }))
+            ->willReturn(true);
+
+        $this->resource
+            ->method('getTypes')
+            ->willReturn([
+                new core_kernel_classes_Class(self::URI_TYPE_1)
+            ]);
+
+        // There is a previous value for prop1 and its new value is a scalar:
+        // The data binder should call editPropertyValues() on the resource.
+        //
+        $this->resource
+            ->method('getPropertyValuesCollection')
+            ->will($this->returnCallback(
+                function (core_kernel_classes_Property $p) {
+                    if ($p->getUri() == self::URI_PROPERTY_1) {
+                        $ret = new core_kernel_classes_ContainerCollection(
+                            new common_Object()
+                        );
+                        $ret->add(
+                            new core_kernel_classes_Resource(
+                                'http://a.resource/'
+                            )
+                        );
+
+                        return $ret;
+                    }
+                }
+            ));
+
+        $this->resource
+            ->expects($this->exactly(2))
+            ->method('setPropertyValue')
+            ->withConsecutive(
+                [$this->anything(), 'one'],
+                [$this->anything(), 'two']
+            );
+
+        $resource = $this->sut->bind([
+            self::URI_CLASS_TYPE => self::URI_TYPE_1,
+            self::URI_PROPERTY_1 => ['one', 'two']
+        ]);
+
+        // The binder returns the former instance with the changes applied
+        //
+        $this->assertSame($this->resource, $resource);
+    }
+
     public function testBindEmptyValue(): void
     {
         $this->eventManagerMock
