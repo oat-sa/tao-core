@@ -31,7 +31,6 @@ use oat\generis\test\MockObject;
 use oat\generis\test\OntologyMockTrait;
 use oat\generis\test\TestCase;
 use oat\oatbox\event\EventManager;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\MetadataModified;
 use tao_models_classes_dataBinding_GenerisInstanceDataBinder;
 
@@ -54,22 +53,9 @@ class GenerisInstanceDataBinderTest extends TestCase
     /** @var core_kernel_classes_Resource|EventManager */
     private $eventManagerMock;
 
-    /** @var core_kernel_classes_Resource|ServiceManager */
-    private $serviceManagerMock;
-
     public function setUp(): void
     {
         $this->eventManagerMock = $this->createMock(EventManager::class);
-        $this->serviceManagerMock = $this->createMock(ServiceManager::class);
-        $services = [
-            EventManager::SERVICE_ID => $this->eventManagerMock,
-        ];
-
-        $this->serviceManagerMock
-            ->method('get')
-            ->willReturnCallback(function ($id) use ($services) {
-                return $services[$id];
-            });
 
         $this->resource = $this->createMock(
             core_kernel_classes_Resource::class
@@ -141,14 +127,16 @@ class GenerisInstanceDataBinderTest extends TestCase
             ));
 
         // Binding a single class type and a single, non-empty value for
-        // URI_PROPERTY_1 which should trigger editPropertyValues().
+        // URI_PROPERTY_1, which should trigger editPropertyValues().
         //
         $resource = $this->sut->bind([
             self::URI_CLASS_TYPE => self::URI_TYPE_1,
             self::URI_PROPERTY_1 => 'Value 1'
         ]);
 
-        $this->assertClassesMatch([self::URI_TYPE_1], $resource);
+        // The binder returns the former instance with the changes applied
+        //
+        $this->assertSame($this->resource, $resource);
     }
 
     public function testBindEmptyValue(): void
@@ -243,7 +231,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             );
 
         // Binding multiple values for the class type, and an empty value for
-        // URI_PROPERTY_1 that should trigger removePropertyValues().
+        // URI_PROPERTY_1, which should trigger removePropertyValues().
         //
         $resource = $this->sut->bind([
             self::URI_CLASS_TYPE => [self::URI_TYPE_1, self::URI_TYPE_2],
@@ -251,26 +239,54 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_PROPERTY_2 => 'Value 2',
         ]);
 
-        $this->assertClassesMatch(
-            ['http://test.com/Type1', 'http://test.com/Type2'],
-            $resource
-        );
+        // The binder returns the former instance with the changes applied
+        //
+        $this->assertSame($this->resource, $resource);
     }
 
-    private function assertClassesMatch(
-        array $expected,
-        core_kernel_classes_Resource $resource
-    ): void {
-        $classes = array_map(
-            function (core_kernel_classes_Class $class) {
-                return $class->getUri();
-            },
-            $resource->getTypes()
-        );
+    public function testBindNewTypes(): void
+    {
+        $this->eventManagerMock
+            ->expects(self::never())
+            ->method('trigger');
 
-        // Guarantee a consistent class order in tests
-        sort($classes);
+        $this->resource
+            ->method('getTypes')
+            ->willReturn([
+                new core_kernel_classes_Class(self::URI_TYPE_1),
+            ]);
 
-        $this->assertEquals($expected, $classes);
+        $this->resource
+            ->expects(self::exactly(1))
+            ->method('removeType')
+            ->with($this->callback(function (core_kernel_classes_Class $c) {
+                return ($c->getUri() == self::URI_TYPE_1);
+            }))
+            ->willReturn(true);
+
+        $this->resource
+            ->expects(self::exactly(1))
+            ->method('setType')
+            ->with($this->callback(function (core_kernel_classes_Class $c) {
+                return ($c->getUri() == self::URI_TYPE_2);
+            }))
+            ->willReturn(true);
+
+        // There are no properties other than types for this test
+        //
+        $this->resource
+            ->expects(self::never())
+            ->method('getPropertyValuesCollection');
+
+        // Binding multiple values for the class type, and an empty value for
+        // URI_PROPERTY_1, which should trigger removePropertyValues().
+        //
+        $resource = $this->sut->bind([
+            self::URI_CLASS_TYPE => [self::URI_TYPE_2],
+        ]);
+
+        // The binder returns the former instance with the changes applied
+        //
+        $this->assertSame($this->resource, $resource);
     }
 }
