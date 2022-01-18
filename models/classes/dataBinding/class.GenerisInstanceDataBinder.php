@@ -68,7 +68,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     }
 
     /**
-     * Simply bind data from the source to a specific generis class instance.
+     * Bind data from the source to a specific generis class instance.
      *
      * The array of the data to be bound must contain keys that are property
      * The respective values can be either scalar or vector (array) values or
@@ -76,12 +76,15 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
      *
      * - If the element of the $data array is scalar, it is simply bound using
      * - If the element of the $data array is a vector, the property values are
-     * with the values of the vector.
+     *   with the values of the vector.
      *
      * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  array data An array of values where keys are Property URIs and values are either scalar or vector values.
+     * @param array data An array of values where keys are Property URIs and
+     *                    values are either scalar or vector values.
+     *
      * @return mixed
+     * @throws Exception
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
      */
     public function bind($data)
     {
@@ -111,20 +114,15 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         }
     }
 
-    /**
-     * @return void
-     */
     private function bindTypes(core_kernel_classes_Resource &$instance, $propertyValue)
     {
         foreach ($instance->getTypes() as $type) {
             $instance->removeType($type);
         }
 
-        if (!is_array($propertyValue)) {
-            $types = [$propertyValue];
-            foreach ($types as $type) {
-                $instance->setType(new core_kernel_classes_Class($type));
-            }
+        $types = !is_array($propertyValue) ? [$propertyValue] : $propertyValue;
+        foreach ($types as $type) {
+            $instance->setType(new core_kernel_classes_Class($type));
         }
     }
 
@@ -134,54 +132,58 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     private function bindProperty(
         core_kernel_classes_Resource &$instance,
         $propertyUri,
-        $propertyValue
+        $newValue
     ) {
         $prop = new core_kernel_classes_Property($propertyUri);
         $values = $instance->getPropertyValuesCollection($prop);
 
         if ($values->count() > 0) {
-            if (is_array($propertyValue)) {
-                $instance->removePropertyValues($prop);
-                foreach ($propertyValue as $aPropertyValue) {
-                    $instance->setPropertyValue(
-                        $prop,
-                        $aPropertyValue
-                    );
-                }
-            } elseif (is_string($propertyValue)) {
-                $instance->editPropertyValues(
-                    $prop,
-                    $propertyValue
-                );
-
-                if (strlen(trim($propertyValue)) == 0) {
-                    // Fix for ADF-869 is probably to be done here
-                    //
-                    // It seems MySQL would remove the value because it silently truncates
-                    // strings containing only whitespaces (so the next pattern matches the
-                    // value just inserted), while Postgres will keep the whitespace and
-                    // the next pattern won't match anything
-                    //
-                    // If the property value is an empty space (the default value in a select
-                    // input field), delete the corresponding triplet (and not all property
-                    // values).
-                    //if the property value is an empty space(the default value in a select input field), delete the corresponding tuble (instead of all property values)
-                    $instance->removePropertyValues($prop, ['pattern' => '']);
-                }
-            }
+            $this->bindPropertyWithPreviousValues($instance, $prop, $newValue);
         } else {
-            if (is_array($propertyValue)) {
-                foreach ($propertyValue as $aPropertyValue) {
-                    $instance->setPropertyValue(
-                        $prop,
-                        $aPropertyValue
-                    );
+            // @todo Check here if the value is empty: If it is, do not store it
+            if (is_array($newValue)) {
+                foreach ($newValue as $aPropertyValue) {
+                    $instance->setPropertyValue($prop, $aPropertyValue);
                 }
-            } elseif (is_string($propertyValue) && strlen(trim($propertyValue)) !== 0) {
-                $instance->setPropertyValue(
-                    $prop,
-                    $propertyValue
-                );
+            } elseif (is_string($newValue) && strlen(trim($newValue)) !== 0) {
+                $instance->setPropertyValue($prop, $newValue);
+            }
+        }
+    }
+
+    private function bindPropertyWithPreviousValues(
+        core_kernel_classes_Resource &$instance,
+        core_kernel_classes_Property $property,
+        $propertyValue
+    ) {
+        if (is_array($propertyValue)) {
+            $instance->removePropertyValues($property);
+
+            foreach ($propertyValue as $aPropertyValue) {
+                $instance->setPropertyValue($property, $aPropertyValue);
+            }
+        } elseif (is_string($propertyValue)) {
+            $instance->editPropertyValues($property, $propertyValue);
+
+            if (strlen(trim($propertyValue)) == 0) {
+
+                // Fix for ADF-869 is probably to be done here
+                //
+                // It seems MySQL would remove the value because it silently truncates
+                // strings containing only whitespaces (so the next pattern matches the
+                // value just inserted), while Postgres will keep the whitespace and
+                // the next pattern won't match anything
+                //
+                // If the property value is an empty space (the default value in a select
+                // input field), delete the corresponding triplet (and not all property
+                // values).
+                //if the property value is an empty space(the default value in a select input field), delete the corresponding tuple (instead of all property values)
+                $instance->removePropertyValues($property, ['pattern' => '']);
+
+                // Setting an empty value for the property: Delete the statement
+                //$instance->removePropertyValues($property);
+            } else {
+                $instance->editPropertyValues($property, $propertyValue);
             }
         }
     }

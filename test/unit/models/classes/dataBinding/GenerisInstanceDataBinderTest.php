@@ -22,17 +22,29 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\action;
 
+use common_Object;
+use core_kernel_classes_Resource;
+use core_kernel_classes_Class;
+use core_kernel_classes_ContainerCollection;
+use core_kernel_classes_Property;
 use oat\generis\test\MockObject;
+use oat\generis\test\OntologyMockTrait;
 use oat\generis\test\TestCase;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\event\MetadataModified;
 use tao_models_classes_dataBinding_GenerisInstanceDataBinder;
-use core_kernel_classes_Resource;
-
 
 class GenerisInstanceDataBinderTest extends TestCase
 {
+    const URI_CLASS_TYPE = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
+    const URI_PROPERTY_1 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#p1';
+    const URI_PROPERTY_2 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#p2';
+    const URI_TYPE_1 = 'http://test.com/Type1';
+    const URI_TYPE_2 = 'http://test.com/Type2';
+
+    use OntologyMockTrait;
+
     /** @var tao_models_classes_dataBinding_GenerisInstanceDataBinder */
     private $sut;
 
@@ -59,146 +71,176 @@ class GenerisInstanceDataBinderTest extends TestCase
                 return $services[$id];
             });
 
-        $this->resource = $this->createMock(core_kernel_classes_Resource::class);
-        $this->resource
-            ->method('getTypes')
-            ->willReturn(
-                [
-                    new \core_kernel_classes_Class('http://test.com/Type1'),
-                    new \core_kernel_classes_Class('http://test.com/Type2'),
-                ]
-            );
-
-        $this->sut = new tao_models_classes_dataBinding_GenerisInstanceDataBinder(
-            $this->resource,
-            $this->eventManagerMock
+        $this->resource = $this->createMock(
+            core_kernel_classes_Resource::class
         );
+        $this->resource->setModel($this->getOntologyMock());
+
+        $this->sut =
+            new tao_models_classes_dataBinding_GenerisInstanceDataBinder(
+                $this->resource,
+                $this->eventManagerMock
+            );
     }
 
-    public function testBind(): void
+    public function testBindScalarWithPreviousValue(): void
     {
         $this->eventManagerMock
             ->expects(self::once())
             ->method('trigger')
-            ->with($this->callback(function (MetadataModified $event): bool {
-                // NOTE: trigger() won't be called for the type property
+            ->with($this->callback(function (MetadataModified $e): bool {
                 return (
-                    $event->getResource()->getLabel() == $this->resource->getUri()
-                    && ($event->getMetadataUri() == 'http://www.w3.org/1999/02/22-rdf-syntax-ns#prop1')
-                    && ($event->getMetadataValue() == 'Value 1')
-                );
+                    $e->getResource()->getLabel() == $this->resource->getUri()
+                    && ($e->getMetadataUri() == self::URI_PROPERTY_1)
+                    && ($e->getMetadataValue() == 'Value 1'));
             }));
 
         $this->resource
+            ->expects(self::once())
             ->method('setType')
-            ->withConsecutive(
-                [
-                    $this->callback(function (\core_kernel_classes_Class $class): bool {
-                        return (
-                            $class->getUri() == 'http://test.com/Type1'
-                        );
-                    })
-                ]
-            );
+            ->with($this->callback(function (core_kernel_classes_Class $c) {
+                return ($c->getUri() == self::URI_TYPE_1);
+            }))
+            ->willReturn(true);
 
         $this->resource
-            ->method('getPropertyValuesCollection')
-            ->will($this->returnCallback(
-                function (\core_kernel_classes_Property $property) {
-                    if ($property->getUri() == 'http://www.w3.org/1999/02/22-rdf-syntax-ns#prop1') {
-                        return new \core_kernel_classes_ContainerCollection(
-                            new \common_Object()
-                        );
-                    }
-                })
-            );
-
-        $data = [
-            // type with a scalar value
-            'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' => 'http://test.com/Type1',
-            'http://www.w3.org/1999/02/22-rdf-syntax-ns#prop1' => 'Value 1'
-        ];
-
-        $resource = $this->sut->bind($data);
-
-        $this->assertClassesMatch(['http://test.com/Type1', 'http://test.com/Type2'], $resource);
-
-    }
-
-    public function testBind2(): void
-    {
-        $this->eventManagerMock
-            ->expects(self::exactly(2))
-            ->method('trigger')
-            ->withConsecutive(
-                [
-                    $this->callback(function (MetadataModified $event): bool {
-                        // NOTE: trigger() won't be called for the type property
-                        return (
-                            $event->getResource()->getLabel() == $this->resource->getUri()
-                            && ($event->getMetadataUri() == 'http://www.w3.org/1999/02/22-rdf-syntax-ns#prop1')
-                            && ($event->getMetadataValue() == 'Value 1')
-                        );
-                    })
-                ],
-                [
-                    $this->callback(function (MetadataModified $event): bool {
-                        // NOTE: trigger() won't be called for the type property
-                        return (
-                            $event->getResource()->getLabel() == $this->resource->getUri()
-                            && ($event->getMetadataUri() == 'http://www.w3.org/1999/02/22-rdf-syntax-ns#prop2')
-                            && ($event->getMetadataValue() == 'Value 2')
-                        );
-                    })
-                ]
-            );
-
-        $this->resource
-            ->method('setType')
-            ->withConsecutive([
-                $this->callback(function (\core_kernel_classes_Class $class): bool {
-                    return ($class->getUri() == 'http://test.com/Type1');
-                }),
-                $this->callback(function (\core_kernel_classes_Class $class): bool {
-                    return ($class->getUri() == 'http://test.com/Type2');
-                })
+            ->method('getTypes')
+            ->willReturn([
+                new core_kernel_classes_Class(self::URI_TYPE_1)
             ]);
 
+        // There is a previous value for prop1 and its new value is a scalar:
+        // The data binder should call editPropertyValues() on the resource.
+        //
         $this->resource
             ->method('getPropertyValuesCollection')
             ->will($this->returnCallback(
-                function (\core_kernel_classes_Property $property) {
-                    if ($property->getUri() == 'http://www.w3.org/1999/02/22-rdf-syntax-ns#prop1') {
-                        $collection = new \core_kernel_classes_ContainerCollection($this->resource);
-                        $collection->add(new \core_kernel_classes_Literal('Value 1'));
-                        return $collection;
+                function (core_kernel_classes_Property $p) {
+                    if ($p->getUri() == self::URI_PROPERTY_1) {
+                        $ret = new core_kernel_classes_ContainerCollection(
+                            new common_Object()
+                        );
+                        $ret->add(
+                            new core_kernel_classes_Resource(
+                                'http://a.resource/'
+                            )
+                        );
+
+                        return $ret;
                     }
-                    if ($property->getUri() == 'http://www.w3.org/1999/02/22-rdf-syntax-ns#prop2') {
-                        $collection = new \core_kernel_classes_ContainerCollection($this->resource);
-                        $collection->add(new \core_kernel_classes_Literal('Value 2'));
-                        return $collection;
+                }
+            ));
+
+        $this->resource
+            ->expects($this->once())
+            ->method('editPropertyValues')
+            ->with($this->callback(
+                function (\core_kernel_classes_Property $property, $_v=null) {
+                    return ($property->getUri() == self::URI_PROPERTY_1);
+                })
+            );
+
+        // Type with a scalar value
+        $resource = $this->sut->bind([
+            self::URI_CLASS_TYPE => self::URI_TYPE_1,
+            self::URI_PROPERTY_1 => 'Value 1'
+        ]);
+
+        $this->assertClassesMatch([self::URI_TYPE_1], $resource);
+    }
+
+    public function testBindEmptyValue(): void
+    {
+        $this->eventManagerMock
+            ->expects(self::at(0))
+            ->method('trigger')
+            ->with($this->callback(function (MetadataModified $e): bool {
+                return (
+                    $e->getResource()->getLabel() == $this->resource->getUri()
+                    && ($e->getMetadataUri() == self::URI_PROPERTY_1)
+                    && ($e->getMetadataValue() == ' '));
+            }));
+
+        $this->eventManagerMock
+            ->expects(self::at(1))
+            ->method('trigger')
+            ->with($this->callback(function (MetadataModified $e): bool {
+                return (
+                    $e->getResource()->getLabel() == $this->resource->getUri()
+                    && ($e->getMetadataUri() == self::URI_PROPERTY_2)
+                    && ($e->getMetadataValue() == 'Value 2'));
+            }));
+
+        $this->resource
+            ->expects(self::exactly(2))
+            ->method('setType')
+            ->with($this->callback(function (core_kernel_classes_Class $c) {
+                return ($c->getUri() == self::URI_TYPE_1)
+                    || ($c->getUri() == self::URI_TYPE_2);
+            }))
+            ->willReturn(true);
+
+        $this->resource
+            ->method('getTypes')
+            ->willReturn([
+                new core_kernel_classes_Class(self::URI_TYPE_1),
+                new core_kernel_classes_Class(self::URI_TYPE_2)
+            ]);
+
+        // There is a previous value for prop1 and its new value is empty:
+        // The data binder will call removePropertyValues() for the property.
+        //
+        $this->resource
+            ->method('getPropertyValuesCollection')
+            ->will($this->returnCallback(
+                function (core_kernel_classes_Property $property) {
+                    if ($property->getUri() == self::URI_PROPERTY_1) {
+                        $c = new core_kernel_classes_ContainerCollection(
+                            new common_Object()
+                        );
+                        $c->add(new core_kernel_classes_Resource(
+                            'http://a.resource/1'
+                        ));
+
+                        return $c;
                     }
 
-                    $this->fail("getPropertyValuesCollection for unexpected property: {$property->getUri()}");
+                    if ($property->getUri() == self::URI_PROPERTY_2) {
+                        $c = new core_kernel_classes_ContainerCollection(
+                            new common_Object()
+                        );
+                        $c->add(new core_kernel_classes_Resource(
+                            'http://a.resource/2'
+                        ));
+                        return $c;
+                    }
+
+                    $this->fail(
+                        "Unexpected property: {$property->getUri()}"
+                    );
                 })
             );
 
         $this->resource
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(1))
             ->method('editPropertyValues')
-            ->willReturnCallback(function (\core_kernel_classes_Property $property, $value = null) {
-                    if (($property->getUri() == 'http://www.w3.org/1999/02/22-rdf-syntax-ns#prop1')
-                        && ($value == 'Value 1')) {
-                        return;
-                    }
-                    if (($property->getUri() == 'http://www.w3.org/1999/02/22-rdf-syntax-ns#prop2')
-                        && ($value == 'Value 2')) {
-                        return;
-                    }
+            ->willReturnCallback(function (core_kernel_classes_Property $property, $value = null) {
+                $this->assertEquals('Value 2', $value);
+                $this->assertEquals(
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#p2',
+                    $property->getUri()
+                );
+            });
 
-                    $this->fail("editPropertyValues for unexpected property: {$property->getUri()}");
-                }
-            );
+        $this->resource
+            ->expects($this->exactly(1))
+            ->method('removePropertyValues')
+            ->willReturnCallback(function (core_kernel_classes_Property $property, $opts = []) {
+                $this->assertEquals(
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#p1',
+                    $property->getUri()
+                );
+            });
 
         $data = [
             // type with multiple values
@@ -206,34 +248,29 @@ class GenerisInstanceDataBinderTest extends TestCase
                 'http://test.com/Type1',
                 'http://test.com/Type2',
             ],
-            'http://www.w3.org/1999/02/22-rdf-syntax-ns#prop1' => 'Value 1',
-            'http://www.w3.org/1999/02/22-rdf-syntax-ns#prop2' => 'Value 2',
+            // p1 is the property to be deleted (since it has an empty value)
+            'http://www.w3.org/1999/02/22-rdf-syntax-ns#p1' => ' ',
+            'http://www.w3.org/1999/02/22-rdf-syntax-ns#p2' => 'Value 2',
         ];
 
         $resource = $this->sut->bind($data);
 
-        $this->assertClassesMatch(['http://test.com/Type1', 'http://test.com/Type2'], $resource);
-        /*$prop1 = $resource->getPropertyValues(
-            new \core_kernel_classes_Property('http://www.w3.org/1999/02/22-rdf-syntax-ns#prop1')
+        $this->assertClassesMatch(
+            ['http://test.com/Type1', 'http://test.com/Type2'],
+            $resource
         );
-
-        $prop2 = $resource->getPropertyValues(
-            new \core_kernel_classes_Property('http://www.w3.org/1999/02/22-rdf-syntax-ns#prop2')
-        );*/
-
-        //$this->assertCount(1, $prop1);
-        //$this->assertCount(1, $prop2);
-        /*$this->assertEquals('Value 1', $prop1[0]);
-        $this->assertEquals('Value 2', $prop2[0]);*/
     }
 
-    private function assertClassesMatch(array $expected, core_kernel_classes_Resource $resource)
+    private function assertClassesMatch(
+        array $expected,
+        core_kernel_classes_Resource $resource
+    ): void
     {
-        $classes = array_map(function (\core_kernel_classes_Class $class) {
+        $classes = array_map(function (core_kernel_classes_Class $class) {
             return $class->getUri();
         }, $resource->getTypes());
 
-        // Used to guarantee we always get the classes in the same order in tests.
+        // Guarantee a consistent class order in tests
         sort($classes);
 
         $this->assertEquals($expected, $classes);
