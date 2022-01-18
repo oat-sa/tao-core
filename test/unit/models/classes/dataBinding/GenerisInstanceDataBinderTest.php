@@ -140,7 +140,9 @@ class GenerisInstanceDataBinderTest extends TestCase
                 }
             ));
 
-        // Type with a scalar value
+        // Binding a single class type and a single, non-empty value for
+        // URI_PROPERTY_1 which should trigger editPropertyValues().
+        //
         $resource = $this->sut->bind([
             self::URI_CLASS_TYPE => self::URI_TYPE_1,
             self::URI_PROPERTY_1 => 'Value 1'
@@ -225,12 +227,9 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->expects($this->exactly(1))
             ->method('editPropertyValues')
             ->willReturnCallback(
-                function (core_kernel_classes_Property $property, $v = null) {
+                function (core_kernel_classes_Property $p, $v = null) {
                     $this->assertEquals('Value 2', $v);
-                    $this->assertEquals(
-                        'http://www.w3.org/1999/02/22-rdf-syntax-ns#p2',
-                        $property->getUri()
-                    );
+                    $this->assertEquals(self::URI_PROPERTY_2, $p->getUri());
                 }
             );
 
@@ -238,26 +237,19 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->expects($this->exactly(1))
             ->method('removePropertyValues')
             ->willReturnCallback(
-                function (core_kernel_classes_Property $property, $opts = []) {
-                    $this->assertEquals(
-                        'http://www.w3.org/1999/02/22-rdf-syntax-ns#p1',
-                        $property->getUri()
-                    );
+                function (core_kernel_classes_Property $p, $opts = []) {
+                    $this->assertEquals(self::URI_PROPERTY_1, $p->getUri());
                 }
             );
 
-        $data = [
-            // type with multiple values
-            'http://www.w3.org/1999/02/22-rdf-syntax-ns#type' => [
-                'http://test.com/Type1',
-                'http://test.com/Type2',
-            ],
-            // p1 is the property to be deleted (since it has an empty value)
-            'http://www.w3.org/1999/02/22-rdf-syntax-ns#p1' => ' ',
-            'http://www.w3.org/1999/02/22-rdf-syntax-ns#p2' => 'Value 2',
-        ];
-
-        $resource = $this->sut->bind($data);
+        // Binding multiple values for the class type, and an empty value for
+        // URI_PROPERTY_1 that should trigger removePropertyValues().
+        //
+        $resource = $this->sut->bind([
+            self::URI_CLASS_TYPE => [self::URI_TYPE_1, self::URI_TYPE_2],
+            self::URI_PROPERTY_1 => ' ',
+            self::URI_PROPERTY_2 => 'Value 2',
+        ]);
 
         $this->assertClassesMatch(
             ['http://test.com/Type1', 'http://test.com/Type2'],
