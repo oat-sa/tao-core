@@ -38,11 +38,11 @@ class GenerisInstanceDataBinderTest extends TestCase
 {
     use OntologyMockTrait;
 
-    const URI_CLASS_TYPE = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
-    const URI_PROPERTY_1 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#p1';
-    const URI_PROPERTY_2 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#p2';
-    const URI_TYPE_1 = 'http://test.com/Type1';
-    const URI_TYPE_2 = 'http://test.com/Type2';
+    private const URI_CLASS_TYPE = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
+    private const URI_PROPERTY_1 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#p1';
+    private const URI_PROPERTY_2 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#p2';
+    private const URI_TYPE_1 = 'http://test.com/Type1';
+    private const URI_TYPE_2 = 'http://test.com/Type2';
 
     /** @var tao_models_classes_dataBinding_GenerisInstanceDataBinder */
     private $sut;
@@ -184,10 +184,11 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->method('getPropertyValuesCollection')
             ->will($this->returnCallback(
                 function (core_kernel_classes_Property $property) {
+                    $c = new core_kernel_classes_ContainerCollection(
+                        new common_Object()
+                    );
+
                     if ($property->getUri() == self::URI_PROPERTY_1) {
-                        $c = new core_kernel_classes_ContainerCollection(
-                            new common_Object()
-                        );
                         $c->add(new core_kernel_classes_Resource(
                             'http://a.resource/1'
                         ));
@@ -196,9 +197,6 @@ class GenerisInstanceDataBinderTest extends TestCase
                     }
 
                     if ($property->getUri() == self::URI_PROPERTY_2) {
-                        $c = new core_kernel_classes_ContainerCollection(
-                            new common_Object()
-                        );
                         $c->add(new core_kernel_classes_Resource(
                             'http://a.resource/2'
                         ));
@@ -316,8 +314,10 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->method('getPropertyValuesCollection')
             ->will($this->returnCallback(
                 function (core_kernel_classes_Property $property) {
-                    if (($property->getUri() == self::URI_PROPERTY_1) ||
-                        ($property->getUri() == self::URI_PROPERTY_2) ) {
+                    if (
+                        ($property->getUri() == self::URI_PROPERTY_1)
+                        || ($property->getUri() == self::URI_PROPERTY_2)
+                    ) {
                         return new core_kernel_classes_ContainerCollection(
                             new common_Object()
                         );
