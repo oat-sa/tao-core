@@ -27,7 +27,7 @@ use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
 
 /**
- * A data binder focusing on binding a source of data to a generis instance
+ * A data binder focusing on binding a source of data to a Generis instance.
  *
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
@@ -38,7 +38,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     /** @var core_kernel_classes_Resource */
     private $targetInstance;
 
-    /** @var \oat\oatbox\event\EventManager */
+    /** @var EventManager */
     private $eventManager;
 
     /**
@@ -68,7 +68,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     }
 
     /**
-     * Bind data from the source to a specific generis class instance.
+     * Bind data from the source to a specific Generis class instance.
      *
      * The array of the data to be bound must contain keys that are property
      * The respective values can be either scalar or vector (array) values or
@@ -91,13 +91,13 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         $instance = $this->getTargetInstance();
 
         try {
-            foreach ($data as $propertyUri => $propertyValue) {
-                if (($propertyUri == OntologyRdf::RDF_TYPE) && (null != $propertyValue)) {
+            foreach ($data as $propUri => $value) {
+                if (($propUri == OntologyRdf::RDF_TYPE) && (null != $value)) {
                     $this->bindTypes($instance, $data[OntologyRdf::RDF_TYPE]);
                 } else {
-                    $this->bindProperty($instance, $propertyUri, $propertyValue);
+                    $this->bindProperty($instance, $propUri, $value);
                     $this->getEventManager()->trigger(
-                        new MetadataModified($instance, $propertyUri, $propertyValue)
+                        new MetadataModified($instance, $propUri, $value)
                     );
                 }
             }
@@ -106,7 +106,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         } catch (Exception $e) {
             throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException(
                 sprintf(
-                    "An error occurred while binding property values to instance '%s': %s",
+                    "Error binding property values to instance '%s': %s",
                     $this->getTargetInstance()->getUri(),
                     $e->getMessage()
                 )
@@ -114,8 +114,10 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         }
     }
 
-    private function bindTypes(core_kernel_classes_Resource &$instance, $propertyValue)
-    {
+    private function bindTypes(
+        core_kernel_classes_Resource &$instance,
+        $propertyValue
+    ) {
         foreach ($instance->getTypes() as $type) {
             $instance->removeType($type);
         }
@@ -130,7 +132,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
      * @return void
      */
     private function bindProperty(
-        core_kernel_classes_Resource &$instance,
+        core_kernel_classes_Resource $instance,
         $propertyUri,
         $newValue
     ) {
@@ -139,20 +141,17 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
 
         if ($values->count() > 0) {
             $this->bindPropertyWithPreviousValues($instance, $prop, $newValue);
-        } else {
-            // @todo Check here if the value is empty: If it is, do not store it
-            if (is_array($newValue)) {
-                foreach ($newValue as $aPropertyValue) {
-                    $instance->setPropertyValue($prop, $aPropertyValue);
-                }
-            } elseif (is_string($newValue) && strlen(trim($newValue)) !== 0) {
-                $instance->setPropertyValue($prop, $newValue);
+        } elseif (is_array($newValue)) {
+            foreach ($newValue as $aPropertyValue) {
+                $instance->setPropertyValue($prop, $aPropertyValue);
             }
+        } elseif (is_string($newValue) && !self::isEmptyValue($newValue)) {
+            $instance->setPropertyValue($prop, $newValue);
         }
     }
 
     private function bindPropertyWithPreviousValues(
-        core_kernel_classes_Resource &$instance,
+        core_kernel_classes_Resource $instance,
         core_kernel_classes_Property $property,
         $propertyValue
     ) {
@@ -163,29 +162,19 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
                 $instance->setPropertyValue($property, $aPropertyValue);
             }
         } elseif (is_string($propertyValue)) {
-            $instance->editPropertyValues($property, $propertyValue);
-
-            if (strlen(trim($propertyValue)) == 0) {
-
-                // Fix for ADF-869 is probably to be done here
-                //
-                // It seems MySQL would remove the value because it silently truncates
-                // strings containing only whitespaces (so the next pattern matches the
-                // value just inserted), while Postgres will keep the whitespace and
-                // the next pattern won't match anything
-                //
-                // If the property value is an empty space (the default value in a select
-                // input field), delete the corresponding triplet (and not all property
-                // values).
-                //if the property value is an empty space(the default value in a select input field), delete the corresponding tuple (instead of all property values)
-                $instance->removePropertyValues($property, ['pattern' => '']);
-
-                // Setting an empty value for the property: Delete the statement
-                //$instance->removePropertyValues($property);
+            if (self::isEmptyValue($propertyValue)) {
+                // Setting an empty value for a scalar property deletes
+                // the statement
+                $instance->removePropertyValues($property);
             } else {
                 $instance->editPropertyValues($property, $propertyValue);
             }
         }
+    }
+
+    private static function isEmptyValue($value): bool
+    {
+        return (('' == $value) || (' ' == $value) || strlen(trim($value)) == 0);
     }
 
     private function getEventManager(): EventManager

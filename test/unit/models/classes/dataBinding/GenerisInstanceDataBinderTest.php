@@ -37,13 +37,13 @@ use tao_models_classes_dataBinding_GenerisInstanceDataBinder;
 
 class GenerisInstanceDataBinderTest extends TestCase
 {
+    use OntologyMockTrait;
+
     const URI_CLASS_TYPE = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
     const URI_PROPERTY_1 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#p1';
     const URI_PROPERTY_2 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#p2';
     const URI_TYPE_1 = 'http://test.com/Type1';
     const URI_TYPE_2 = 'http://test.com/Type2';
-
-    use OntologyMockTrait;
 
     /** @var tao_models_classes_dataBinding_GenerisInstanceDataBinder */
     private $sut;
@@ -135,10 +135,10 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->expects($this->once())
             ->method('editPropertyValues')
             ->with($this->callback(
-                function (\core_kernel_classes_Property $property, $_v=null) {
+                function (\core_kernel_classes_Property $property, $_ = null) {
                     return ($property->getUri() == self::URI_PROPERTY_1);
-                })
-            );
+                }
+            ));
 
         // Type with a scalar value
         $resource = $this->sut->bind([
@@ -218,29 +218,33 @@ class GenerisInstanceDataBinderTest extends TestCase
                     $this->fail(
                         "Unexpected property: {$property->getUri()}"
                     );
-                })
-            );
+                }
+            ));
 
         $this->resource
             ->expects($this->exactly(1))
             ->method('editPropertyValues')
-            ->willReturnCallback(function (core_kernel_classes_Property $property, $value = null) {
-                $this->assertEquals('Value 2', $value);
-                $this->assertEquals(
-                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#p2',
-                    $property->getUri()
-                );
-            });
+            ->willReturnCallback(
+                function (core_kernel_classes_Property $property, $v = null) {
+                    $this->assertEquals('Value 2', $v);
+                    $this->assertEquals(
+                        'http://www.w3.org/1999/02/22-rdf-syntax-ns#p2',
+                        $property->getUri()
+                    );
+                }
+            );
 
         $this->resource
             ->expects($this->exactly(1))
             ->method('removePropertyValues')
-            ->willReturnCallback(function (core_kernel_classes_Property $property, $opts = []) {
-                $this->assertEquals(
-                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#p1',
-                    $property->getUri()
-                );
-            });
+            ->willReturnCallback(
+                function (core_kernel_classes_Property $property, $opts = []) {
+                    $this->assertEquals(
+                        'http://www.w3.org/1999/02/22-rdf-syntax-ns#p1',
+                        $property->getUri()
+                    );
+                }
+            );
 
         $data = [
             // type with multiple values
@@ -264,11 +268,13 @@ class GenerisInstanceDataBinderTest extends TestCase
     private function assertClassesMatch(
         array $expected,
         core_kernel_classes_Resource $resource
-    ): void
-    {
-        $classes = array_map(function (core_kernel_classes_Class $class) {
-            return $class->getUri();
-        }, $resource->getTypes());
+    ): void {
+        $classes = array_map(
+            function (core_kernel_classes_Class $class) {
+                return $class->getUri();
+            },
+            $resource->getTypes()
+        );
 
         // Guarantee a consistent class order in tests
         sort($classes);
