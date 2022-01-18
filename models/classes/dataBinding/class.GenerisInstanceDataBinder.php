@@ -103,13 +103,15 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
             }
 
             return $instance;
-        } catch (Exception $e) {
+        } catch (Throwable $error) {
             throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException(
                 sprintf(
                     "Error binding property values to instance '%s': %s",
                     $this->getTargetInstance()->getUri(),
-                    $e->getMessage()
-                )
+                    $error->getMessage()
+                ),
+                0,
+                $error
             );
         }
     }
@@ -133,7 +135,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
      */
     private function bindProperty(
         core_kernel_classes_Resource $instance,
-        $propertyUri,
+        string $propertyUri,
         $newValue
     ) {
         $prop = new core_kernel_classes_Property($propertyUri);
@@ -172,7 +174,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         }
     }
 
-    private static function isEmptyValue($value): bool
+    private static function isEmptyValue(string $value): bool
     {
         return (('' == $value) || (' ' == $value) || strlen(trim($value)) == 0);
     }
