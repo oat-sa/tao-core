@@ -33,6 +33,7 @@ use oat\generis\test\TestCase;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\event\MetadataModified;
 use tao_models_classes_dataBinding_GenerisInstanceDataBinder;
+use tao_models_classes_dataBinding_GenerisInstanceDataBindingException;
 
 class GenerisInstanceDataBinderTest extends TestCase
 {
@@ -121,13 +122,80 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->expects($this->once())
             ->method('editPropertyValues')
             ->with($this->callback(
-                function (\core_kernel_classes_Property $property, $_ = null) {
+                function (core_kernel_classes_Property $property, $_ = null) {
                     return ($property->getUri() == self::URI_PROPERTY_1);
                 }
             ));
 
         // Binding a single class type and a single, non-empty value for
         // URI_PROPERTY_1, which should trigger editPropertyValues().
+        //
+        $resource = $this->sut->bind([
+            self::URI_CLASS_TYPE => self::URI_TYPE_1,
+            self::URI_PROPERTY_1 => 'Value 1'
+        ]);
+
+        // The binder returns the former instance with the changes applied
+        //
+        $this->assertSame($this->resource, $resource);
+    }
+
+    public function testBindScalarWithNoPreviousValue(): void
+    {
+        $this->eventManagerMock
+            ->expects($this->once())
+            ->method('trigger')
+            ->with($this->callback(function (MetadataModified $e): bool {
+                return (
+                    $e->getResource()->getLabel() == $this->resource->getUri()
+                    && ($e->getMetadataUri() == self::URI_PROPERTY_1)
+                    && ($e->getMetadataValue() == 'Value 1'));
+            }));
+
+        $this->resource
+            ->expects($this->once())
+            ->method('setType')
+            ->with($this->callback(function (core_kernel_classes_Class $c) {
+                return ($c->getUri() == self::URI_TYPE_1);
+            }))
+            ->willReturn(true);
+
+        $this->resource
+            ->method('getTypes')
+            ->willReturn([
+                new core_kernel_classes_Class(self::URI_TYPE_1)
+            ]);
+
+        // There is no previous value for prop1 and its new value is a scalar:
+        // The data binder should call setPropertyValue() on the resource.
+        //
+        $this->resource
+            ->method('getPropertyValuesCollection')
+            ->will($this->returnCallback(
+                function (core_kernel_classes_Property $p) {
+                    if ($p->getUri() == self::URI_PROPERTY_1) {
+                        return new core_kernel_classes_ContainerCollection(
+                            new common_Object()
+                        );
+                    }
+                }
+            ));
+
+        $this->resource
+            ->expects($this->once())
+            ->method('setPropertyValue')
+            ->with(
+                $this->callback(
+                    function (core_kernel_classes_Property $property, $_ = null) {
+                        return ($property->getUri() == self::URI_PROPERTY_1);
+                    }
+                ),
+                'Value 1'
+            );
+
+        // Binding a single class type and a single, non-empty value for
+        // URI_PROPERTY_1 (which doesn't have a previous value), which
+        // should trigger setPropertyValue().
         //
         $resource = $this->sut->bind([
             self::URI_CLASS_TYPE => self::URI_TYPE_1,
@@ -436,7 +504,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->willThrowException(new \Exception("error", 123));
 
         $this->expectException(
-            \tao_models_classes_dataBinding_GenerisInstanceDataBindingException::class
+            tao_models_classes_dataBinding_GenerisInstanceDataBindingException::class
         );
 
         $this->expectExceptionMessage(
