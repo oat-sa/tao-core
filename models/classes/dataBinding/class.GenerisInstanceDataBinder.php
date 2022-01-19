@@ -82,7 +82,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
      * @param array data An array of values where keys are Property URIs and
      *                    values are either scalar or vector values.
      *
-     * @return mixed
+     * @return core_kernel_classes_Resource
      * @throws Exception
      * @author Jerome Bogaerts, <jerome@taotesting.com>
      */
@@ -119,7 +119,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     private function bindTypes(
         core_kernel_classes_Resource &$instance,
         $propertyValue
-    ) {
+    ): void {
         foreach ($instance->getTypes() as $type) {
             $instance->removeType($type);
         }
@@ -130,14 +130,11 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         }
     }
 
-    /**
-     * @return void
-     */
     private function bindProperty(
         core_kernel_classes_Resource $instance,
         string $propertyUri,
         $newValue
-    ) {
+    ): void {
         $prop = new core_kernel_classes_Property($propertyUri);
         $values = $instance->getPropertyValuesCollection($prop);
 
@@ -156,7 +153,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         core_kernel_classes_Resource $instance,
         core_kernel_classes_Property $property,
         $propertyValue
-    ) {
+    ): void {
         if (is_array($propertyValue)) {
             $instance->removePropertyValues($property);
 
