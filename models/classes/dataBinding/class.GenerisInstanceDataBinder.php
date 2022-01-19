@@ -47,11 +47,13 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
      */
-    public function __construct(
-        core_kernel_classes_Resource $targetInstance,
-        EventManager $eventManager = null
-    ) {
+    public function __construct(core_kernel_classes_Resource $targetInstance)
+    {
         $this->targetInstance = $targetInstance;
+    }
+
+    public function withEventManager(EventManager $eventManager): void
+    {
         $this->eventManager = $eventManager;
     }
 
@@ -175,6 +177,8 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     {
         return (('' == $value) || (' ' == $value) || strlen(trim($value)) == 0);
     }
+
+
 
     private function getEventManager(): EventManager
     {

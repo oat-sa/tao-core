@@ -86,9 +86,10 @@ class GenerisInstanceDataBinderTest extends TestCase
 
         $this->sut =
             new tao_models_classes_dataBinding_GenerisInstanceDataBinder(
-                $this->resource,
-                $this->eventManagerMock
+                $this->resource
             );
+
+        $this->sut->withEventManager($this->eventManagerMock);
     }
 
     public function testBindScalarWithPreviousValue(): void
