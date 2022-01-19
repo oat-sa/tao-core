@@ -128,7 +128,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
 
         $types = !is_array($propertyValue) ? [$propertyValue] : $propertyValue;
         foreach ($types as $type) {
-            $instance->setType(new core_kernel_classes_Class($type));
+            $instance->setType($instance->getClass($type));
         }
     }
 
@@ -137,7 +137,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         string $propertyUri,
         $newValue
     ): void {
-        $prop = new core_kernel_classes_Property($propertyUri);
+        $prop = $instance->getProperty($propertyUri);
         $values = $instance->getPropertyValuesCollection($prop);
 
         if ($values->count() > 0) {

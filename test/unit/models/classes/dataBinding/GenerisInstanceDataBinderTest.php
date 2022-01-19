@@ -27,7 +27,6 @@ use core_kernel_classes_Class;
 use core_kernel_classes_ContainerCollection;
 use core_kernel_classes_Property;
 use oat\generis\test\MockObject;
-use oat\generis\test\OntologyMockTrait;
 use oat\generis\test\TestCase;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\event\MetadataModified;
@@ -36,19 +35,23 @@ use tao_models_classes_dataBinding_GenerisInstanceDataBindingException;
 
 class GenerisInstanceDataBinderTest extends TestCase
 {
-    use OntologyMockTrait;
-
     private const URI_CLASS_TYPE = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
     private const URI_PROPERTY_1 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#p1';
     private const URI_PROPERTY_2 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#p2';
-    private const URI_TYPE_1 = 'http://test.com/Type1';
-    private const URI_TYPE_2 = 'http://test.com/Type2';
+    private const URI_TYPE_1 = 'http://example.com/Type1';
+    private const URI_TYPE_2 = 'http://example.com/Type2';
 
     /** @var tao_models_classes_dataBinding_GenerisInstanceDataBinder */
     private $sut;
 
     /** @var core_kernel_classes_Resource|MockObject */
     private $resource;
+
+    /** @var core_kernel_classes_Property|MockObject */
+    private $property1;
+
+    /** @var core_kernel_classes_Property|MockObject */
+    private $property2;
 
     /** @var EventManager|MockObject */
     private $eventManagerMock;
@@ -63,10 +66,40 @@ class GenerisInstanceDataBinderTest extends TestCase
     {
         $this->eventManagerMock = $this->createMock(EventManager::class);
 
+        $classType1 = $this->createMock(core_kernel_classes_Class::class);
+        $classType1
+            ->method('getUri')
+            ->willReturn(self::URI_TYPE_1);
+
+        $classType2 = $this->createMock(core_kernel_classes_Class::class);
+        $classType2
+            ->method('getUri')
+            ->willReturn(self::URI_TYPE_2);
+
         $this->resource = $this->createMock(
             core_kernel_classes_Resource::class
         );
-        $this->resource->setModel($this->getOntologyMock());
+
+        $this->resource
+            ->method('getClass')
+            ->willReturnMap([
+                [self::URI_TYPE_1, $classType1],
+                [self::URI_TYPE_2, $classType2],
+            ]);
+
+        $this->property1 = $this->createMock(core_kernel_classes_Property::class);
+        $this->property1
+            ->method('getUri')
+            ->willReturn(self::URI_PROPERTY_1);
+
+        $this->property2 = $this->createMock(core_kernel_classes_Property::class);
+        $this->property2
+            ->method('getUri')
+            ->willReturn(self::URI_PROPERTY_2);
+
+        $this->resource
+            ->method('getUri')
+            ->willReturn('http://test/resource');
 
         $this->nonEmptyCollectionMock = $this->createMock(
             core_kernel_classes_ContainerCollection::class
@@ -99,7 +132,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->method('trigger')
             ->with($this->callback(function (MetadataModified $e): bool {
                 return (
-                    $e->getResource()->getLabel() == $this->resource->getUri()
+                    $e->getResource()->getUri() == $this->resource->getUri()
                     && ($e->getMetadataUri() == self::URI_PROPERTY_1)
                     && ($e->getMetadataValue() == 'Value 1'));
             }));
@@ -117,6 +150,11 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->willReturn([
                 new core_kernel_classes_Class(self::URI_TYPE_1)
             ]);
+
+        $this->resource
+            ->method('getProperty')
+            ->with(self::URI_PROPERTY_1)
+            ->willReturn($this->property1);
 
         // There is a previous value for prop1 and its new value is a scalar:
         // The data binder should call editPropertyValues() on the resource.
@@ -160,7 +198,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->method('trigger')
             ->with($this->callback(function (MetadataModified $e): bool {
                 return (
-                    $e->getResource()->getLabel() == $this->resource->getUri()
+                    $e->getResource()->getUri() == $this->resource->getUri()
                     && ($e->getMetadataUri() == self::URI_PROPERTY_1)
                     && ($e->getMetadataValue() == 'Value 1'));
             }));
@@ -178,6 +216,11 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->willReturn([
                 new core_kernel_classes_Class(self::URI_TYPE_1)
             ]);
+
+        $this->resource
+            ->method('getProperty')
+            ->with(self::URI_PROPERTY_1)
+            ->willReturn($this->property1);
 
         // There is no previous value for prop1 and its new value is a scalar:
         // The data binder should call setPropertyValue() on the resource.
@@ -225,7 +268,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->method('trigger')
             ->with($this->callback(function (MetadataModified $e): bool {
                 return (
-                    $e->getResource()->getLabel() == $this->resource->getUri()
+                    $e->getResource()->getUri() == $this->resource->getUri()
                     && ($e->getMetadataUri() == self::URI_PROPERTY_1)
                     && ($e->getMetadataValue() == ['one', 'two']));
             }));
@@ -243,6 +286,11 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->willReturn([
                 new core_kernel_classes_Class(self::URI_TYPE_1)
             ]);
+
+        $this->resource
+            ->method('getProperty')
+            ->with(self::URI_PROPERTY_1)
+            ->willReturn($this->property1);
 
         // There is a previous value for prop1 and its new value is an array:
         // The data binder should call setPropertyValue() on the resource, but
@@ -289,7 +337,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->method('trigger')
             ->with($this->callback(function (MetadataModified $e): bool {
                 return (
-                    $e->getResource()->getLabel() == $this->resource->getUri()
+                    $e->getResource()->getUri() == $this->resource->getUri()
                     && ($e->getMetadataUri() == self::URI_PROPERTY_1)
                     && ($e->getMetadataValue() == ['Value 1', 'Value 2']));
             }));
@@ -307,6 +355,11 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->willReturn([
                 new core_kernel_classes_Class(self::URI_TYPE_1)
             ]);
+
+        $this->resource
+            ->method('getProperty')
+            ->with(self::URI_PROPERTY_1)
+            ->willReturn($this->property1);
 
         // There is no previous value for prop1 and its new value is a scalar:
         // The data binder should call setPropertyValue() on the resource.
@@ -352,7 +405,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->method('trigger')
             ->with($this->callback(function (MetadataModified $e): bool {
                 return (
-                    $e->getResource()->getLabel() == $this->resource->getUri()
+                    $e->getResource()->getUri() == $this->resource->getUri()
                     && ($e->getMetadataUri() == self::URI_PROPERTY_1)
                     && ($e->getMetadataValue() == ' '));
             }));
@@ -362,7 +415,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->method('trigger')
             ->with($this->callback(function (MetadataModified $e): bool {
                 return (
-                    $e->getResource()->getLabel() == $this->resource->getUri()
+                    $e->getResource()->getUri() == $this->resource->getUri()
                     && ($e->getMetadataUri() == self::URI_PROPERTY_2)
                     && ($e->getMetadataValue() == 'Value 2'));
             }));
@@ -381,6 +434,13 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->willReturn([
                 new core_kernel_classes_Class(self::URI_TYPE_1),
                 new core_kernel_classes_Class(self::URI_TYPE_2)
+            ]);
+
+        $this->resource
+            ->method('getProperty')
+            ->willReturnMap([
+                [self::URI_PROPERTY_1, $this->property1],
+                [self::URI_PROPERTY_2, $this->property2],
             ]);
 
         // There is a previous value for prop1 and its new value is empty:
@@ -458,6 +518,13 @@ class GenerisInstanceDataBinderTest extends TestCase
             }))
             ->willReturn(true);
 
+        $this->resource
+            ->method('getProperty')
+            ->willReturnMap([
+                [self::URI_PROPERTY_1, $this->property1],
+                [self::URI_PROPERTY_2, $this->property2],
+            ]);
+
         // There are no properties other than types for this test
         $this->resource
             ->expects(self::never())
@@ -480,7 +547,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->method('trigger')
             ->with($this->callback(function (MetadataModified $e): bool {
                 return (
-                    $e->getResource()->getLabel() == $this->resource->getUri()
+                    $e->getResource()->getUri() == $this->resource->getUri()
                     && ($e->getMetadataUri() == self::URI_PROPERTY_1)
                     && ($e->getMetadataValue() == '  '));
             }));
@@ -492,6 +559,11 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->resource
             ->method('getTypes')
             ->willReturn([]);
+
+        $this->resource
+            ->method('getProperty')
+            ->with(self::URI_PROPERTY_1)
+            ->willReturn($this->property1);
 
         $this->resource
             ->method('getPropertyValuesCollection')
@@ -544,6 +616,11 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->willReturn([
                 new core_kernel_classes_Class(self::URI_TYPE_1)
             ]);
+
+        $this->resource
+            ->method('getProperty')
+            ->with(self::URI_PROPERTY_1)
+            ->willReturn($this->property1);
 
         $this->resource
             ->method('getPropertyValuesCollection')
