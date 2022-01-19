@@ -41,7 +41,7 @@ class tao_models_classes_Parser
      * @var string
      */
     protected $content = null;
-
+    
     /**
      * Short description of attribute source
      *
@@ -156,7 +156,7 @@ class tao_models_classes_Parser
             $this->fileExtension = $options['extension'];
         }
     }
-
+    
     public function getSource()
     {
         return $this->source;
@@ -175,7 +175,7 @@ class tao_models_classes_Parser
         //You know sometimes you think you have enough time, but it is not always true ...
         //(timeout in hudson with the generis-hard test suite)
         helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::MEDIUM);
-
+        
         $content = $this->getContent();
         if (!empty($content)) {
             try {
@@ -184,7 +184,7 @@ class tao_models_classes_Parser
                 $dom = new DomDocument();
                 $dom->formatOutput = true;
                 $dom->preserveWhiteSpace = false;
-
+                
                 $this->valid = $dom->loadXML($content);
 
                 if ($this->valid && !empty($schema)) {
@@ -199,12 +199,12 @@ class tao_models_classes_Parser
                 $this->addError($de);
             }
         }
-
-
+        
+        
         helpers_TimeOutHelper::reset();
         return (bool) $this->valid;
     }
-
+    
     /**
      * Excecute parser validation and stops at the first valid one, and returns the identified schema
      *
@@ -225,7 +225,7 @@ class tao_models_classes_Parser
 
         return $returnValue;
     }
-
+    
     /**
      * Short description of method isValid
      *
@@ -310,7 +310,7 @@ class tao_models_classes_Parser
             ];
         }
     }
-
+    
     /**
      * Get XML content.
      *
@@ -363,10 +363,10 @@ class tao_models_classes_Parser
                 $this->addError($e);
             }
         }
-
+        
         return $this->content;
     }
-
+    
     /**
      * Short description of method addErrors
      *
