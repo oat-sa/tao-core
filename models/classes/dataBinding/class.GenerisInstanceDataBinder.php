@@ -92,8 +92,8 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
 
         try {
             foreach ($data as $propUri => $value) {
-                if (($propUri == OntologyRdf::RDF_TYPE) && (null != $value)) {
-                    $this->bindTypes($instance, $data[OntologyRdf::RDF_TYPE]);
+                if ($propUri === OntologyRdf::RDF_TYPE && null !== $value) {
+                    $this->bindTypes($instance, $value);
                 } else {
                     $this->bindProperty($instance, $propUri, $value);
                     $this->getEventManager()->trigger(
@@ -106,7 +106,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         } catch (Throwable $error) {
             throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException(
                 sprintf(
-                    "Error binding property values to instance '%s': %s",
+                    'Error binding property values to instance "%s": %s',
                     $this->getTargetInstance()->getUri(),
                     $error->getMessage()
                 ),
