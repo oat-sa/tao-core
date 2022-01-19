@@ -1146,9 +1146,6 @@ msgstr "تم العثور على تكرارات قائمة البند URI"
 msgid "List values"
 msgstr "List values"
 
-msgid "ln"
-msgstr ""
-
 msgid "Load more"
 msgstr "تحميل المزيد "
 
@@ -1169,9 +1166,6 @@ msgstr "جارٍ تحميل حالة المهمة ..."
 
 msgid "locked by %s"
 msgstr "مؤمن من قبل٪ s"
-
-msgid "log"
-msgstr ""
 
 msgid "Log in"
 msgstr "تسجيل الدخول"

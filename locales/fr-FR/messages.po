@@ -1251,9 +1251,6 @@ msgstr ""
 msgid "List values"
 msgstr ""
 
-msgid "ln"
-msgstr "ln"
-
 msgid "Load more"
 msgstr "Charger plus"
 
@@ -1274,9 +1271,6 @@ msgstr "État du chargement de la tâche..."
 
 msgid "locked by %s"
 msgstr "verrouillé par %s"
-
-msgid "log"
-msgstr "journal"
 
 msgid "Log in"
 msgstr "Se connecter"
