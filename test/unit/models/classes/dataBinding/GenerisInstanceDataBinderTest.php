@@ -51,8 +51,14 @@ class GenerisInstanceDataBinderTest extends TestCase
     /** @var core_kernel_classes_Resource|MockObject */
     private $resource;
 
-    /** @var core_kernel_classes_Resource|EventManager */
+    /** @var EventManager|MockObject */
     private $eventManagerMock;
+
+    /** @var core_kernel_classes_ContainerCollection|MockObject */
+    private $emptyCollectionMock;
+
+    /** @var core_kernel_classes_ContainerCollection|MockObject */
+    private $nonEmptyCollectionMock;
 
     public function setUp(): void
     {
@@ -62,6 +68,22 @@ class GenerisInstanceDataBinderTest extends TestCase
             core_kernel_classes_Resource::class
         );
         $this->resource->setModel($this->getOntologyMock());
+
+        $this->nonEmptyCollectionMock = $this->createMock(
+            core_kernel_classes_ContainerCollection::class
+        );
+
+        $this->nonEmptyCollectionMock
+            ->method('count')
+            ->willReturn(1);
+
+        $this->emptyCollectionMock = $this->createMock(
+            core_kernel_classes_ContainerCollection::class
+        );
+
+        $this->emptyCollectionMock
+            ->method('count')
+            ->willReturn(0);
 
         $this->sut =
             new tao_models_classes_dataBinding_GenerisInstanceDataBinder(
@@ -102,19 +124,12 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->resource
             ->method('getPropertyValuesCollection')
             ->will($this->returnCallback(
-                function (core_kernel_classes_Property $p) {
-                    if ($p->getUri() == self::URI_PROPERTY_1) {
-                        $ret = new core_kernel_classes_ContainerCollection(
-                            new common_Object()
-                        );
-                        $ret->add(
-                            new core_kernel_classes_Resource(
-                                'http://a.resource/'
-                            )
-                        );
-
-                        return $ret;
+                function (core_kernel_classes_Property $property) {
+                    if ($property->getUri() == self::URI_PROPERTY_1) {
+                        return $this->nonEmptyCollectionMock;
                     }
+
+                    $this->fail("Unexpected property: {$property->getUri()}");
                 }
             ));
 
@@ -170,12 +185,12 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->resource
             ->method('getPropertyValuesCollection')
             ->will($this->returnCallback(
-                function (core_kernel_classes_Property $p) {
-                    if ($p->getUri() == self::URI_PROPERTY_1) {
-                        return new core_kernel_classes_ContainerCollection(
-                            new common_Object()
-                        );
+                function (core_kernel_classes_Property $property) {
+                    if ($property->getUri() == self::URI_PROPERTY_1) {
+                        return $this->emptyCollectionMock;
                     }
+
+                    $this->fail("Unexpected property: {$property->getUri()}");
                 }
             ));
 
@@ -192,8 +207,8 @@ class GenerisInstanceDataBinderTest extends TestCase
             );
 
         // Binding a single class type and a single, non-empty value for
-        // URI_PROPERTY_1 (which doesn't have a previous value), which
-        // should trigger setPropertyValue().
+        // URI_PROPERTY_1 (which doesn't have a previous value), which should
+        // trigger setPropertyValue().
         //
         $resource = $this->sut->bind([
             self::URI_CLASS_TYPE => self::URI_TYPE_1,
@@ -229,27 +244,27 @@ class GenerisInstanceDataBinderTest extends TestCase
                 new core_kernel_classes_Class(self::URI_TYPE_1)
             ]);
 
-        // There is a previous value for prop1 and its new value is a scalar:
-        // The data binder should call editPropertyValues() on the resource.
-        //
+        // There is a previous value for prop1 and its new value is an array:
+        // The data binder should call setPropertyValue() on the resource, but
+        // removePropertyValues should be called first.
         $this->resource
             ->method('getPropertyValuesCollection')
             ->will($this->returnCallback(
-                function (core_kernel_classes_Property $p) {
-                    if ($p->getUri() == self::URI_PROPERTY_1) {
-                        $ret = new core_kernel_classes_ContainerCollection(
-                            new common_Object()
-                        );
-                        $ret->add(
-                            new core_kernel_classes_Resource(
-                                'http://a.resource/'
-                            )
-                        );
-
-                        return $ret;
+                function (core_kernel_classes_Property $property) {
+                    if ($property->getUri() == self::URI_PROPERTY_1) {
+                        return $this->nonEmptyCollectionMock;
                     }
+
+                    $this->fail("Unexpected property: {$property->getUri()}");
                 }
             ));
+
+        $this->resource
+            ->expects($this->once())
+            ->method('removePropertyValues')
+            ->with($this->callback(function (core_kernel_classes_Property $p) {
+                return ($p->getUri() == self::URI_PROPERTY_1);
+            }));
 
         $this->resource
             ->expects($this->exactly(2))
@@ -295,23 +310,21 @@ class GenerisInstanceDataBinderTest extends TestCase
 
         // There is no previous value for prop1 and its new value is a scalar:
         // The data binder should call setPropertyValue() on the resource.
-        //
         $this->resource
             ->method('getPropertyValuesCollection')
             ->will($this->returnCallback(
-                function (core_kernel_classes_Property $p) {
-                    if ($p->getUri() == self::URI_PROPERTY_1) {
-                        return new core_kernel_classes_ContainerCollection(
-                            new common_Object()
-                        );
+                function (core_kernel_classes_Property $property) {
+                    if ($property->getUri() == self::URI_PROPERTY_1) {
+                        return $this->emptyCollectionMock;
                     }
+
+                    $this->fail("Unexpected property: {$property->getUri()}");
                 }
             ));
 
         $this->resource
             ->expects($this->never())
             ->method('removePropertyValues');
-
 
         $this->resource
             ->expects($this->exactly(2))
@@ -322,9 +335,8 @@ class GenerisInstanceDataBinderTest extends TestCase
             );
 
         // Binding a single class type and a single, non-empty value for
-        // URI_PROPERTY_1 (which doesn't have a previous value), which
-        // should trigger setPropertyValue().
-        //
+        // URI_PROPERTY_1 (which doesn't have a previous value), which should
+        // trigger setPropertyValue().
         $resource = $this->sut->bind([
             self::URI_CLASS_TYPE => self::URI_TYPE_1,
             self::URI_PROPERTY_1 => ['Value 1', 'Value 2']
@@ -373,33 +385,18 @@ class GenerisInstanceDataBinderTest extends TestCase
 
         // There is a previous value for prop1 and its new value is empty:
         // The data binder will call removePropertyValues() for the property.
-        //
         $this->resource
             ->method('getPropertyValuesCollection')
             ->will($this->returnCallback(
                 function (core_kernel_classes_Property $property) {
-                    $c = new core_kernel_classes_ContainerCollection(
-                        new common_Object()
-                    );
-
                     if ($property->getUri() == self::URI_PROPERTY_1) {
-                        $c->add(new core_kernel_classes_Resource(
-                            'http://a.resource/1'
-                        ));
-
-                        return $c;
+                        return $this->nonEmptyCollectionMock;
                     }
-
                     if ($property->getUri() == self::URI_PROPERTY_2) {
-                        $c->add(new core_kernel_classes_Resource(
-                            'http://a.resource/2'
-                        ));
-                        return $c;
+                        return $this->nonEmptyCollectionMock;
                     }
 
-                    $this->fail(
-                        "Unexpected property: {$property->getUri()}"
-                    );
+                    $this->fail("Unexpected property: {$property->getUri()}");
                 }
             ));
 
@@ -424,7 +421,6 @@ class GenerisInstanceDataBinderTest extends TestCase
 
         // Binding multiple values for the class type, and an empty value for
         // URI_PROPERTY_1, which should trigger removePropertyValues().
-        //
         $resource = $this->sut->bind([
             self::URI_CLASS_TYPE => [self::URI_TYPE_1, self::URI_TYPE_2],
             self::URI_PROPERTY_1 => ' ',
@@ -463,14 +459,12 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->willReturn(true);
 
         // There are no properties other than types for this test
-        //
         $this->resource
             ->expects(self::never())
             ->method('getPropertyValuesCollection');
 
         // Binding multiple values for the class type, and an empty value for
         // URI_PROPERTY_1, which should trigger removePropertyValues().
-        //
         $resource = $this->sut->bind([
             self::URI_CLASS_TYPE => [self::URI_TYPE_2],
         ]);
@@ -481,7 +475,6 @@ class GenerisInstanceDataBinderTest extends TestCase
     public function testDontSetNewValuesIfTheyAreEmpty(): void
     {
         // The event is triggered even if the property value stays the same
-        //
         $this->eventManagerMock
             ->expects($this->at(0))
             ->method('trigger')
@@ -504,18 +497,14 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->method('getPropertyValuesCollection')
             ->will($this->returnCallback(
                 function (core_kernel_classes_Property $property) {
-                    if (
-                        ($property->getUri() == self::URI_PROPERTY_1)
-                        || ($property->getUri() == self::URI_PROPERTY_2)
-                    ) {
-                        return new core_kernel_classes_ContainerCollection(
-                            new common_Object()
-                        );
+                    if ($property->getUri() == self::URI_PROPERTY_1) {
+                        return $this->emptyCollectionMock;
+                    }
+                    if ($property->getUri() == self::URI_PROPERTY_2) {
+                        return $this->emptyCollectionMock;
                     }
 
-                    $this->fail(
-                        "Unexpected property: {$property->getUri()}"
-                    );
+                    $this->fail("Unexpected property: {$property->getUri()}");
                 }
             ));
 
@@ -531,9 +520,8 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->expects($this->never())
             ->method('setPropertyValue');
 
-        // Binding an empty value for URI_PROPERTY_1 , which already has no values,
-        // should not trigger setting, editing nor removal calls.
-        //
+        // Binding an empty value for URI_PROPERTY_1 , which already has no
+        // values, should not trigger setting, editing nor removal calls.
         $resource = $this->sut->bind([
             self::URI_PROPERTY_1 => '  ',
         ]);
@@ -580,7 +568,6 @@ class GenerisInstanceDataBinderTest extends TestCase
     {
         // Used to check that the binder returns the former instance with
         // the changes applied
-        //
         $this->assertSame($this->resource, $resource);
     }
 }
