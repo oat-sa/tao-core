@@ -175,10 +175,8 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
 
     private static function isEmptyValue(string $value): bool
     {
-        return (('' == $value) || (' ' == $value) || strlen(trim($value)) == 0);
+        return '' === $value || ' ' === $value || strlen(trim($value)) == 0;
     }
-
-
 
     private function getEventManager(): EventManager
     {
