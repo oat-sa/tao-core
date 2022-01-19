@@ -135,9 +135,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_PROPERTY_1 => 'Value 1'
         ]);
 
-        // The binder returns the former instance with the changes applied
-        //
-        $this->assertSame($this->resource, $resource);
+        $this->assertIsTheFormerInstance($resource);
     }
 
     public function testBindScalarWithNoPreviousValue(): void
@@ -202,9 +200,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_PROPERTY_1 => 'Value 1'
         ]);
 
-        // The binder returns the former instance with the changes applied
-        //
-        $this->assertSame($this->resource, $resource);
+        $this->assertIsTheFormerInstance($resource);
     }
 
     public function testBindArrayWithPreviousValue(): void
@@ -268,9 +264,73 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_PROPERTY_1 => ['one', 'two']
         ]);
 
-        // The binder returns the former instance with the changes applied
+        $this->assertIsTheFormerInstance($resource);
+    }
+
+    public function testBindArrayWithNoPreviousValue(): void
+    {
+        $this->eventManagerMock
+            ->expects($this->at(0))
+            ->method('trigger')
+            ->with($this->callback(function (MetadataModified $e): bool {
+                return (
+                    $e->getResource()->getLabel() == $this->resource->getUri()
+                    && ($e->getMetadataUri() == self::URI_PROPERTY_1)
+                    && ($e->getMetadataValue() == ['Value 1', 'Value 2']));
+            }));
+
+        $this->resource
+            ->expects($this->once())
+            ->method('setType')
+            ->with($this->callback(function (core_kernel_classes_Class $c) {
+                return ($c->getUri() == self::URI_TYPE_1);
+            }))
+            ->willReturn(true);
+
+        $this->resource
+            ->method('getTypes')
+            ->willReturn([
+                new core_kernel_classes_Class(self::URI_TYPE_1)
+            ]);
+
+        // There is no previous value for prop1 and its new value is a scalar:
+        // The data binder should call setPropertyValue() on the resource.
         //
-        $this->assertSame($this->resource, $resource);
+        $this->resource
+            ->method('getPropertyValuesCollection')
+            ->will($this->returnCallback(
+                function (core_kernel_classes_Property $p) {
+                    if ($p->getUri() == self::URI_PROPERTY_1) {
+                        return new core_kernel_classes_ContainerCollection(
+                            new common_Object()
+                        );
+                    }
+                }
+            ));
+
+        $this->resource
+            ->expects($this->never())
+            ->method('removePropertyValues');
+
+
+        $this->resource
+            ->expects($this->exactly(2))
+            ->method('setPropertyValue')
+            ->withConsecutive(
+                [$this->anything(), 'Value 1'],
+                [$this->anything(), 'Value 2']
+            );
+
+        // Binding a single class type and a single, non-empty value for
+        // URI_PROPERTY_1 (which doesn't have a previous value), which
+        // should trigger setPropertyValue().
+        //
+        $resource = $this->sut->bind([
+            self::URI_CLASS_TYPE => self::URI_TYPE_1,
+            self::URI_PROPERTY_1 => ['Value 1', 'Value 2']
+        ]);
+
+        $this->assertIsTheFormerInstance($resource);
     }
 
     public function testBindEmptyValue(): void
@@ -371,9 +431,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_PROPERTY_2 => 'Value 2',
         ]);
 
-        // The binder returns the former instance with the changes applied
-        //
-        $this->assertSame($this->resource, $resource);
+        $this->assertIsTheFormerInstance($resource);
     }
 
     public function testBindNewTypesToExistingInstance(): void
@@ -417,9 +475,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_CLASS_TYPE => [self::URI_TYPE_2],
         ]);
 
-        // The binder returns the former instance with the changes applied
-        //
-        $this->assertSame($this->resource, $resource);
+        $this->assertIsTheFormerInstance($resource);
     }
 
     public function testDontSetNewValuesIfTheyAreEmpty(): void
@@ -478,9 +534,11 @@ class GenerisInstanceDataBinderTest extends TestCase
         // Binding an empty value for URI_PROPERTY_1 , which already has no values,
         // should not trigger setting, editing nor removal calls.
         //
-        $this->sut->bind([
+        $resource = $this->sut->bind([
             self::URI_PROPERTY_1 => '  ',
         ]);
+
+        $this->assertIsTheFormerInstance($resource);
     }
 
     public function testExceptionsAreWrappedAndRethrown(): void
@@ -511,8 +569,18 @@ class GenerisInstanceDataBinderTest extends TestCase
             "Error binding property values to instance"
         );
 
-        $this->sut->bind([
+        $resource = $this->sut->bind([
             self::URI_PROPERTY_2 => 'Value 2',
         ]);
+
+        $this->assertIsTheFormerInstance($resource);
+    }
+
+    private function assertIsTheFormerInstance($resource): void
+    {
+        // Used to check that the binder returns the former instance with
+        // the changes applied
+        //
+        $this->assertSame($this->resource, $resource);
     }
 }
