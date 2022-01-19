@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\action;
 
-use common_Object;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Class;
 use core_kernel_classes_ContainerCollection;
