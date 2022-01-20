@@ -133,7 +133,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->with($this->callback(function (MetadataModified $event): bool {
                 return (
                     $event->getResource()->getUri() == $this->target->getUri()
-                    && $event->getMetadataUri() == self::URI_PROPERTY_1
+                    && $event->getMetadataUri() === self::URI_PROPERTY_1
                     && $event->getMetadataValue() == 'Value 1');
             }));
 
@@ -163,11 +163,11 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->method('getPropertyValuesCollection')
             ->will($this->returnCallback(
                 function (core_kernel_classes_Property $property) {
-                    if ($property->getUri() == self::URI_PROPERTY_1) {
+                    if ($property->getUri() === self::URI_PROPERTY_1) {
                         return $this->nonEmptyCollectionMock;
                     }
 
-                    $this->fail("Unexpected property: {$property->getUri()}");
+                    $this->fail('Unexpected property: ' . $property->getUri());
                 }
             ));
 
@@ -176,7 +176,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->method('editPropertyValues')
             ->with($this->callback(
                 function (core_kernel_classes_Property $property, $_ = null) {
-                    return ($property->getUri() == self::URI_PROPERTY_1);
+                    return ($property->getUri() === self::URI_PROPERTY_1);
                 }
             ));
 
@@ -233,7 +233,7 @@ class GenerisInstanceDataBinderTest extends TestCase
                         return $this->emptyCollectionMock;
                     }
 
-                    $this->fail("Unexpected property: {$property->getUri()}");
+                    $this->fail('Unexpected property: ' . $property->getUri());
                 }
             ));
 
@@ -303,7 +303,7 @@ class GenerisInstanceDataBinderTest extends TestCase
                         return $this->nonEmptyCollectionMock;
                     }
 
-                    $this->fail("Unexpected property: {$property->getUri()}");
+                    $this->fail('Unexpected property: ' . $property->getUri());
                 }
             ));
 
@@ -371,7 +371,7 @@ class GenerisInstanceDataBinderTest extends TestCase
                         return $this->emptyCollectionMock;
                     }
 
-                    $this->fail("Unexpected property: {$property->getUri()}");
+                    $this->fail('Unexpected property: ' . $property->getUri());
                 }
             ));
 
@@ -456,7 +456,7 @@ class GenerisInstanceDataBinderTest extends TestCase
                         return $this->nonEmptyCollectionMock;
                     }
 
-                    $this->fail("Unexpected property: {$property->getUri()}");
+                    $this->fail('Unexpected property: ' . $property->getUri());
                 }
             ));
 
@@ -576,7 +576,7 @@ class GenerisInstanceDataBinderTest extends TestCase
                         return $this->emptyCollectionMock;
                     }
 
-                    $this->fail("Unexpected property: {$property->getUri()}");
+                    $this->fail('Unexpected property: ' . $property->getUri());
                 }
             ));
 
