@@ -38,7 +38,7 @@ class PasswordConstraintsService extends ConfigurableService implements Password
             $result &= $validator->evaluate($password);
         }
 
-        return $result;
+        return (bool) $result;
     }
 
     public function getErrors(): array
@@ -63,23 +63,10 @@ class PasswordConstraintsService extends ConfigurableService implements Password
     private function loadValidators(): array
     {
         $validatorsLoader =  new PasswordValidatorLoader();
-        $this->validators = $validatorsLoader->load($this->getConfig());
+        $this->validators = $validatorsLoader->load(
+            $this->getOption(self::OPTION_CONSTRAINTS)
+        );
 
         return $this->validators;
-    }
-
-    protected function getConfig(): array
-    {
-        return $this->getOption(self::OPTION_CONSTRAINTS);
-//        if (tao_install_utils_System::isTAOInstalled() && $this->getServiceLocator()->has(common_ext_ExtensionsManager::SERVICE_ID)) {
-//            $ext = $this->getServiceLocator()
-//                ->get(common_ext_ExtensionsManager::SERVICE_ID)
-//                ->getExtensionById('tao');
-//            $config = $ext->getConfig(self::OPTION_CONSTRAINTS);
-//        } else {
-//            $config = require_once(__DIR__ . '/../../../config/default/passwordConstraints.conf.php');
-//        }
-//
-//        return (array) $config['constraints'];
     }
 }
