@@ -15,54 +15,42 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (update and modification) Open Assessment Technologies SA;
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\import\ServiceProvider;
+namespace oat\tao\model\StatisticalMetadata;
 
-use oat\tao\model\upload\UploadService;
-use oat\tao\model\import\service\AgnosticImportHandler;
+use oat\generis\model\data\Ontology;
+use oat\generis\persistence\PersistenceManager;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\StatisticalMetadata\Repository\StatisticalMetadataRepository;
 use oat\tao\model\StatisticalMetadata\Import\ImportStatisticalMetadataProcessor;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-class ImportServiceProvider implements ContainerServiceProviderInterface
+class StatisticalMetadataServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
 
         $services
-            ->set(AgnosticImportHandler::class, AgnosticImportHandler::class)
-            ->public()
+            ->set(StatisticalMetadataRepository::class, StatisticalMetadataRepository::class)
             ->args(
                 [
-                    service(UploadService::SERVICE_ID),
+                    service(PersistenceManager::SERVICE_ID),
                 ]
             );
 
         $services
-            ->set(AgnosticImportHandler::STATISTICAL_METADATA_SERVICE_ID, AgnosticImportHandler::class)
-            ->public()
+            ->set(ImportStatisticalMetadataProcessor::class, ImportStatisticalMetadataProcessor::class)
             ->args(
                 [
-                    service(UploadService::SERVICE_ID),
-                ]
-            )
-            ->call(
-                'withFileProcessor',
-                [
-                    service(ImportStatisticalMetadataProcessor::class),
-                ]
-            )
-            ->call(
-                'withLabel',
-                [
-                    __('CSV file'),
+                    service(StatisticalMetadataRepository::class),
+                    service(Ontology::SERVICE_ID),
                 ]
             );
     }

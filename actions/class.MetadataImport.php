@@ -15,14 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2021-2022 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
+use oat\tao\model\TaoOntology;
 use oat\tao\model\import\Form\MetadataImportForm;
 use oat\tao\model\import\service\AgnosticImportHandler;
-use oat\tao\model\TaoOntology;
 
 class tao_actions_MetadataImport extends tao_actions_Import
 {
@@ -35,7 +35,6 @@ class tao_actions_MetadataImport extends tao_actions_Import
     {
         return [
             $this->getAgnosticImportHandler()
-                ->withLabel(__('CSV file'))
                 ->withForm(
                     (new MetadataImportForm())
                         ->withRequestData($this->getPostParameters())
@@ -47,7 +46,7 @@ class tao_actions_MetadataImport extends tao_actions_Import
     protected function getImportHandlerServiceIdMap(): array
     {
         return [
-            AgnosticImportHandler::class => AgnosticImportHandler::class,
+            AgnosticImportHandler::class => AgnosticImportHandler::STATISTICAL_METADATA_SERVICE_ID,
         ];
     }
 
@@ -58,6 +57,6 @@ class tao_actions_MetadataImport extends tao_actions_Import
 
     private function getAgnosticImportHandler(): AgnosticImportHandler
     {
-        return $this->getPsrContainer()->get(AgnosticImportHandler::class);
+        return $this->getPsrContainer()->get(AgnosticImportHandler::STATISTICAL_METADATA_SERVICE_ID);
     }
 }

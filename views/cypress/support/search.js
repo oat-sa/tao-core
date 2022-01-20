@@ -26,7 +26,7 @@
  */
 Cypress.Commands.add('searchFor', (settings) => {
     const defaultSettings = {
-        search: '',
+        search: ' ',
         method: 'GET',
         path: '**/tao/Search/search*'
     };

@@ -37,6 +37,7 @@ import './resourceTree';
 import './file-upload';
 import './userManagement';
 import './drag-and-drop';
+import './genericUIInteractions';
 import './search';
 import './selection';
 
