@@ -607,6 +607,67 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->assertIsTargetInstance($resource);
     }
 
+    public function testZeroIsNotHandledAsAnEmptyValue(): void
+    {
+        $this->eventManagerMock
+            ->expects($this->once())
+            ->method('trigger')
+            ->with($this->callback(function (MetadataModified $event): bool {
+                return (
+                    $event->getResource()->getUri() === $this->target->getUri()
+                    && $event->getMetadataUri() === self::URI_PROPERTY_1
+                    && $event->getMetadataValue() === '0');
+            }));
+
+        $this->target
+            ->expects($this->never())
+            ->method('setType');
+
+        $this->target
+            ->method('getTypes')
+            ->willReturn([
+                $this->classType1
+            ]);
+
+        $this->target
+            ->method('getProperty')
+            ->with(self::URI_PROPERTY_1)
+            ->willReturn($this->property1);
+
+        // There is no previous value for prop1 and its new value is a scalar:
+        // The data binder should call setPropertyValue() on the resource.
+        //
+        $this->target
+            ->method('getPropertyValuesCollection')
+            ->will($this->returnCallback(
+                function (core_kernel_classes_Property $property) {
+                    if ($property->getUri() === self::URI_PROPERTY_1) {
+                        return $this->emptyCollectionMock;
+                    }
+
+                    $this->fail('Unexpected property: ' . $property->getUri());
+                }
+            ));
+
+        $this->target
+            ->expects($this->once())
+            ->method('setPropertyValue')
+            ->with(
+                $this->callback(
+                    function (core_kernel_classes_Property $property, $_value = null) {
+                        return ($property->getUri() === self::URI_PROPERTY_1);
+                    }
+                ),
+                '0'
+            );
+
+        $resource = $this->sut->bind([
+            self::URI_PROPERTY_1 => '0'
+        ]);
+
+        $this->assertIsTargetInstance($resource);
+    }
+
     public function testExceptionsAreWrappedAndRethrown(): void
     {
         $this->eventManagerMock
