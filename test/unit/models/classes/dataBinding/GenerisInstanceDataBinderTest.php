@@ -266,11 +266,11 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->eventManagerMock
             ->expects($this->at(0))
             ->method('trigger')
-            ->with($this->callback(function (MetadataModified $e): bool {
+            ->with($this->callback(function (MetadataModified $event): bool {
                 return (
-                    $e->getResource()->getUri() === $this->target->getUri()
-                    && $e->getMetadataUri() === self::URI_PROPERTY_1
-                    && $e->getMetadataValue() == ['one', 'two']);
+                    $event->getResource()->getUri() === $this->target->getUri()
+                    && $event->getMetadataUri() === self::URI_PROPERTY_1
+                    && $event->getMetadataValue() == ['one', 'two']);
             }));
 
         $this->target
@@ -335,11 +335,11 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->eventManagerMock
             ->expects($this->at(0))
             ->method('trigger')
-            ->with($this->callback(function (MetadataModified $e): bool {
+            ->with($this->callback(function (MetadataModified $event): bool {
                 return (
-                    $e->getResource()->getUri() === $this->target->getUri()
-                    && $e->getMetadataUri() === self::URI_PROPERTY_1
-                    && $e->getMetadataValue() == ['Value 1', 'Value 2']);
+                    $event->getResource()->getUri() === $this->target->getUri()
+                    && $event->getMetadataUri() === self::URI_PROPERTY_1
+                    && $event->getMetadataValue() == ['Value 1', 'Value 2']);
             }));
 
         $this->target
@@ -403,21 +403,21 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->eventManagerMock
             ->expects($this->at(0))
             ->method('trigger')
-            ->with($this->callback(function (MetadataModified $e): bool {
+            ->with($this->callback(function (MetadataModified $event): bool {
                 return (
-                    $e->getResource()->getUri() === $this->target->getUri()
-                    && $e->getMetadataUri() === self::URI_PROPERTY_1
-                    && $e->getMetadataValue() === ' ');
+                    $event->getResource()->getUri() === $this->target->getUri()
+                    && $event->getMetadataUri() === self::URI_PROPERTY_1
+                    && $event->getMetadataValue() === ' ');
             }));
 
         $this->eventManagerMock
             ->expects($this->at(1))
             ->method('trigger')
-            ->with($this->callback(function (MetadataModified $e): bool {
+            ->with($this->callback(function (MetadataModified $event): bool {
                 return (
-                    $e->getResource()->getUri() === $this->target->getUri()
-                    && $e->getMetadataUri() === self::URI_PROPERTY_2
-                    && $e->getMetadataValue() === 'Value 2');
+                    $event->getResource()->getUri() === $this->target->getUri()
+                    && $event->getMetadataUri() === self::URI_PROPERTY_2
+                    && $event->getMetadataValue() === 'Value 2');
             }));
 
         $this->target
