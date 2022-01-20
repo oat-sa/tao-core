@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,9 +20,22 @@
 
 declare(strict_types = 1);
 
-namespace oat\tao\model\config;
+namespace oat\tao\scripts\install;
 
-class SyncConfigService
+use oat\oatbox\extension\InstallAction;
+use oat\oatbox\filesystem\FileSystemService;
+use oat\tao\model\config\BackupConfigService;
+
+class AddConfigFileSystem extends InstallAction
 {
+    public function __invoke($params)
+    {
+        /** @var FileSystemService $fileSystemManager */
+        $fileSystemManager = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
 
+        if (!$fileSystemService->hasDirectory(BackupConfigService::FILE_SYSTEM_ID)) {
+            $fileSystemManager->createFileSystem(BackupConfigService::FILE_SYSTEM_ID);
+            $this->registerService(FileSystemService::SERVICE_ID, $fileSystemManager);
+        }
+    }
 }

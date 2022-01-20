@@ -39,9 +39,5 @@ class ConfigServiceProvider implements ContainerServiceProviderInterface
                 service(FileSystemService::SERVICE_ID)
             ])
             ->public();
-
-        $services->set(SyncConfigService::class, SyncConfigService::class)
-            ->args([])
-            ->public();
     }
 }

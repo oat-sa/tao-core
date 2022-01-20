@@ -22,10 +22,16 @@ declare(strict_types = 1);
 require_once __DIR__ . '/../includes/raw_start.php';
 
 use oat\oatbox\reporting\Report;
+use oat\tao\model\config\BackupConfigService;
 use oat\tao\model\extension\UpdateExtensions;
 use oat\oatbox\service\ServiceManager;
 
 $serviceManager = ServiceManager::getServiceManager();
+
+/** @var BackupConfigService $backupConfigService */
+$backupConfigService = $serviceManager->getContainerBuilder()->get(BackupConfigService::class);
+
+$backupConfigService->makeCopy();
 
 $report = $serviceManager->propagate(new UpdateExtensions())();
 

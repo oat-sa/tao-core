@@ -41,6 +41,7 @@ use oat\tao\model\user\TaoRoles;
 use oat\tao\model\user\UserSettingsServiceProvider;
 use oat\tao\model\LanguageServiceProvider;
 use oat\tao\scripts\install\AddArchiveService;
+use oat\tao\scripts\install\AddConfigFileSystem;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\CreateRdsListStore;
@@ -173,7 +174,8 @@ return [
             RegisterActionAccessControl::class,
             RegisterRtlLocales::class,
             RegisterSearchServices::class,
-            SetImageAligmentConfig::class
+            SetImageAligmentConfig::class,
+            AddConfigFileSystem::class,
         ],
     ],
     'update' => Updater::class,
