@@ -48,6 +48,12 @@ class GenerisInstanceDataBinderTest extends TestCase
     /** @var core_kernel_classes_Resource|MockObject */
     private $target;
 
+    /** @var core_kernel_classes_Class|MockObject */
+    private $classType1;
+
+    /** @var core_kernel_classes_Class|MockObject */
+    private $classType2;
+
     /** @var core_kernel_classes_Property|MockObject */
     private $property1;
 
@@ -67,13 +73,13 @@ class GenerisInstanceDataBinderTest extends TestCase
     {
         $this->eventManagerMock = $this->createMock(EventManager::class);
 
-        $classType1 = $this->createMock(core_kernel_classes_Class::class);
-        $classType1
+        $this->classType1 = $this->createMock(core_kernel_classes_Class::class);
+        $this->classType1
             ->method('getUri')
             ->willReturn(self::URI_TYPE_1);
 
-        $classType2 = $this->createMock(core_kernel_classes_Class::class);
-        $classType2
+        $this->classType2 = $this->createMock(core_kernel_classes_Class::class);
+        $this->classType2
             ->method('getUri')
             ->willReturn(self::URI_TYPE_2);
 
@@ -84,8 +90,8 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->target
             ->method('getClass')
             ->willReturnMap([
-                [self::URI_TYPE_1, $classType1],
-                [self::URI_TYPE_2, $classType2],
+                [self::URI_TYPE_1, $this->classType1],
+                [self::URI_TYPE_2, $this->classType2],
             ]);
 
         $this->property1 = $this->createMock(core_kernel_classes_Property::class);
@@ -148,7 +154,7 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->target
             ->method('getTypes')
             ->willReturn([
-                new core_kernel_classes_Class(self::URI_TYPE_1)
+                $this->classType1
             ]);
 
         $this->target
@@ -214,7 +220,7 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->target
             ->method('getTypes')
             ->willReturn([
-                new core_kernel_classes_Class(self::URI_TYPE_1)
+                $this->classType1
             ]);
 
         $this->target
@@ -284,7 +290,7 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->target
             ->method('getTypes')
             ->willReturn([
-                new core_kernel_classes_Class(self::URI_TYPE_1)
+                $this->classType1
             ]);
 
         $this->target
@@ -353,7 +359,7 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->target
             ->method('getTypes')
             ->willReturn([
-                new core_kernel_classes_Class(self::URI_TYPE_1)
+                $this->classType1
             ]);
 
         $this->target
@@ -432,8 +438,8 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->target
             ->method('getTypes')
             ->willReturn([
-                new core_kernel_classes_Class(self::URI_TYPE_1),
-                new core_kernel_classes_Class(self::URI_TYPE_2)
+                $this->classType1,
+                $this->classType2
             ]);
 
         $this->target
@@ -614,7 +620,7 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->target
             ->method('getTypes')
             ->willReturn([
-                new core_kernel_classes_Class(self::URI_TYPE_1)
+                $this->classType1
             ]);
 
         $this->target
