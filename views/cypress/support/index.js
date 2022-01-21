@@ -40,4 +40,4 @@ import './drag-and-drop';
 import './genericUIInteractions';
 import './search';
 import './selection';
-
+import './manageList';
