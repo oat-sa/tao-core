@@ -26,6 +26,11 @@ use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\Traits\FactoryTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_models_classes_LanguageService;
+use oat\tao\model\Language\AscendingLabelListSorterComparator;
+use oat\tao\model\Language\Service\LanguageListElementSortService;
+use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
 
 class LanguageServiceProvider implements ContainerServiceProviderInterface
 {
@@ -38,5 +43,16 @@ class LanguageServiceProvider implements ContainerServiceProviderInterface
             ->set(tao_models_classes_LanguageService::class, tao_models_classes_LanguageService::class)
             ->public()
             ->factory(tao_models_classes_LanguageService::class . '::singleton');
+
+        $services
+            ->set(LanguageClassSpecification::class, LanguageClassSpecification::class)
+            ->public();
+
+        $services
+            ->set(LanguageListElementSortService::class, LanguageListElementSortService::class)
+            ->public()
+            ->args([
+                inline_service(AscendingLabelListSorterComparator::class),
+            ]);
     }
 }
