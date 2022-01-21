@@ -1234,9 +1234,6 @@ msgstr ""
 msgid "List values"
 msgstr ""
 
-msgid "ln"
-msgstr "入力"
-
 msgid "Load more"
 msgstr "再読み込み"
 
@@ -1257,9 +1254,6 @@ msgstr "読込中..."
 
 msgid "locked by %s"
 msgstr "％sによってロックされています"
-
-msgid "log"
-msgstr "ログ"
 
 msgid "Log in"
 msgstr "ログイン"
