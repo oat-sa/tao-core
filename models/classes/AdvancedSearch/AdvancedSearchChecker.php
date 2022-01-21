@@ -44,37 +44,27 @@ class AdvancedSearchChecker extends ConfigurableService
 
     public function getDisabledSections(): array
     {
-        if (!isset($_ENV[self::CONFIG_ADVANCED_SEARCH_DISABLED_SECTIONS])) {
-            return $this->getDefaultDisabledSections();
-        }
-
-        $disabledSections = [];
-
-        $conf = $_ENV[self::CONFIG_ADVANCED_SEARCH_DISABLED_SECTIONS];
-        foreach (explode(',', $conf) as $section) {
-            switch (trim($section)) {
-                case 'results':
-                    $disabledSections[] = 'results';
-                    break;
-                case 'taoBooklet_main':
-                    $disabledSections[] = 'taoBooklet_main';
-                    break;
-            }
-        }
-
-        return $disabledSections;
-    }
-
-    // @todo Confirm if we want to disable results & taoBooklet_main by default
-    //       or none at all
-    private function getDefaultDisabledSections(): array
-    {
         $disabledSections = [
             'results',
         ];
 
         if ($this->getExtensionsManager()->isEnabled('taoBooklet')) {
             $disabledSections[] = 'taoBooklet_main';
+        }
+
+        if (isset($_ENV[self::CONFIG_ADVANCED_SEARCH_DISABLED_SECTIONS])) {
+            $conf = $_ENV[self::CONFIG_ADVANCED_SEARCH_DISABLED_SECTIONS];
+
+            foreach (explode(',', $conf) as $section) {
+                switch (trim($section)) {
+                    case 'results':
+                        $disabledSections[] = 'results';
+                        break;
+                    case 'taoBooklet_main':
+                        $disabledSections[] = 'taoBooklet_main';
+                        break;
+                }
+            }
         }
 
         return $disabledSections;
