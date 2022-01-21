@@ -56,13 +56,9 @@ class AdvancedSearchChecker extends ConfigurableService
             $conf = $_ENV[self::CONFIG_ADVANCED_SEARCH_DISABLED_SECTIONS];
 
             foreach (explode(',', $conf) as $section) {
-                switch (trim($section)) {
-                    case 'results':
-                        $disabledSections[] = 'results';
-                        break;
-                    case 'taoBooklet_main':
-                        $disabledSections[] = 'taoBooklet_main';
-                        break;
+                $section = trim($section);
+                if ($section != '' && !in_array($section, $disabledSections)) {
+                    $disabledSections[] = trim($section);
                 }
             }
         }
