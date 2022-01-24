@@ -194,7 +194,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_PROPERTY_1 => 'Value 1'
         ]);
 
-        $this->assertIsTargetInstance($resource);
+        $this->assertSame($this->target, $resource);
     }
 
     public function testBindScalarWithNoPreviousValue(): void
@@ -264,7 +264,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_PROPERTY_1 => 'Value 1'
         ]);
 
-        $this->assertIsTargetInstance($resource);
+        $this->assertSame($this->target, $resource);
     }
 
     public function testBindArrayWithPreviousValue(): void
@@ -333,7 +333,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_PROPERTY_1 => ['one', 'two']
         ]);
 
-        $this->assertIsTargetInstance($resource);
+        $this->assertSame($this->target, $resource);
     }
 
     public function testBindArrayWithNoPreviousValue(): void
@@ -401,7 +401,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_PROPERTY_1 => ['Value 1', 'Value 2']
         ]);
 
-        $this->assertIsTargetInstance($resource);
+        $this->assertSame($this->target, $resource);
     }
 
     public function testBindEmptyValue(): void
@@ -493,7 +493,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_PROPERTY_2 => 'Value 2',
         ]);
 
-        $this->assertIsTargetInstance($resource);
+        $this->assertSame($this->target, $resource);
     }
 
     public function testBindNewTypesToExistingInstance(): void
@@ -542,7 +542,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_CLASS_TYPE => [self::URI_TYPE_2],
         ]);
 
-        $this->assertIsTargetInstance($resource);
+        $this->assertSame($this->target, $resource);
     }
 
     public function testDontSetNewValuesIfTheyAreEmpty(): void
@@ -604,7 +604,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_PROPERTY_1 => '  ',
         ]);
 
-        $this->assertIsTargetInstance($resource);
+        $this->assertSame($this->target, $resource);
     }
 
     public function testZeroIsNotHandledAsAnEmptyValue(): void
@@ -665,7 +665,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_PROPERTY_1 => '0'
         ]);
 
-        $this->assertIsTargetInstance($resource);
+        $this->assertSame($this->target, $resource);
     }
 
     public function testExceptionsAreWrappedAndRethrown(): void
@@ -703,13 +703,6 @@ class GenerisInstanceDataBinderTest extends TestCase
             self::URI_PROPERTY_2 => 'Value 2',
         ]);
 
-        $this->assertIsTargetInstance($resource);
-    }
-
-    private function assertIsTargetInstance($resource): void
-    {
-        // Used to check that the binder returns the former instance with
-        // the changes applied
         $this->assertSame($this->target, $resource);
     }
 }
