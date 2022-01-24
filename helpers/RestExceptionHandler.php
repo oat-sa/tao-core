@@ -53,6 +53,9 @@ class RestExceptionHandler
 
             case \common_exception_MethodNotAllowed::class:
                 header("HTTP/1.0 405 Method Not Allowed");
+                if ($exception->getAllowedMethods()) {
+                    header('Allow: ' . implode(', ', $exception->getAllowedMethods()));
+                }
                 break;
 
             case \common_exception_NotAcceptable::class:

@@ -109,7 +109,10 @@ abstract class ResponseAbstract implements ResponseInterface, ServiceLocatorAwar
     {
         $context = Context::getInstance();
         $context->getResponse()->setContentHeader($this->contentType);
-        header(HTTPToolkit::statusCodeHeader($this->httpCode));
+
+        $statusCodeHeader = HTTPToolkit::statusCodeHeader($this->httpCode);
+        $statusCodeHeader ? header($statusCodeHeader) : http_response_code($this->httpCode);
+
         if (!empty($this->allowMethodsHeader)) {
             header('Allow: ' . implode(', ', $this->allowMethodsHeader));
         }

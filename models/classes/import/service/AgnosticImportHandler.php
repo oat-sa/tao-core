@@ -35,6 +35,8 @@ use Throwable;
 
 class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, TaskParameterProviderInterface
 {
+    public const STATISTICAL_METADATA_SERVICE_ID = self::class . '::STATISTICAL_METADATA';
+
     /** @var UploadService */
     private $uploadService;
 

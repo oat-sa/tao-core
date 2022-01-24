@@ -126,7 +126,7 @@ class tao_helpers_Http
 
     /**
      * @author "Patrick Plichart, <patrick@taotesting.com>"
-     * @return string
+     * @return string[]
      */
     public static function getFiles()
     {
@@ -214,17 +214,20 @@ class tao_helpers_Http
         }
         arsort($acceptTypes);
         if (!$supportedMimeTypes) {
-            return $acceptTypes;
+            return reset($acceptTypes);
         }
         $supportedMimeTypes = array_map('strtolower', (array) $supportedMimeTypes);
         // let’s check our supported types:
         foreach ($acceptTypes as $mime => $q) {
+            if ($mime === '*/*') {
+                return null;
+            }
+
             if ($q && in_array(trim($mime), $supportedMimeTypes)) {
                 return trim($mime);
             }
         }
         throw new common_exception_NotAcceptable();
-        return null;
     }
 
     /**

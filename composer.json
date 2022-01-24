@@ -81,7 +81,8 @@
         "flow/jsonpath": "~0.5",
         "jtl-software/opsgenie-client": "2.0.2",
         "league/openapi-psr7-validator": "0.9",
-        "relay/relay": "~2.0"
+        "relay/relay": "~2.0",
+        "league/csv": "^9.6"
     },
     "autoload": {
         "psr-4": {

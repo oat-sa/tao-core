@@ -15,19 +15,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\featureFlag;
+namespace oat\tao\model\StatisticalMetadata\Contract;
 
-interface FeatureFlagCheckerInterface
+use oat\tao\model\StatisticalMetadata\Model\MetadataProperty;
+
+interface StatisticalMetadataRepositoryInterface
 {
-    public const FEATURE_FLAG_ADVANCED_SEARCH_DISABLED = 'FEATURE_FLAG_ADVANCED_SEARCH_DISABLED';
-    public const FEATURE_FLAG_TABULAR_IMPORT = 'FEATURE_FLAG_TABULAR_IMPORT_ENABLED';
-    public const FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED = 'FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED';
-    public const FEATURE_FLAG_STATISTIC_METADATA_IMPORT = 'FEATURE_FLAG_STATISTIC_METADATA_IMPORT';
-
-    public function isEnabled(string $feature): bool;
+    /**
+     * @return MetadataProperty[]
+     */
+    public function findProperties(array $filters): array;
 }
