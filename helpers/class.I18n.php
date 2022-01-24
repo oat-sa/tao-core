@@ -17,12 +17,11 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2013-2022 (update and modification) Open Assessment Technologies SA;
  *
  */
 
 use oat\generis\model\OntologyRdf;
-use oat\tao\model\TaoOntology;
 
 /**
  * Internationalization helper.
@@ -158,7 +157,7 @@ class tao_helpers_I18n
                     ];
                 }
 
-                uasort(self::$availableLangs, function ($item1, $item2) {
+                usort(self::$availableLangs, function ($item1, $item2) {
                     return strnatcmp($item1['label'], $item2['label']);
                 });
 

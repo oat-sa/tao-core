@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -43,7 +43,7 @@ class LanguageListElementSortService implements ListElementSorterInterface
     public function getSortedListCollectionValues(ValueCollection $valueCollection): array
     {
         $values = iterator_to_array($valueCollection);
-        uasort($values, $this->comparator);
+        usort($values, $this->comparator);
         return $values;
     }
 }
