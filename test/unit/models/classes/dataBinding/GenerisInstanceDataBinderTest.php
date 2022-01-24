@@ -182,7 +182,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->method('editPropertyValues')
             ->with($this->callback(
                 function (core_kernel_classes_Property $property, $value = null) {
-                    return ($property->getUri() === self::URI_PROPERTY_1);
+                    return $property->getUri() === self::URI_PROPERTY_1;
                 }
             ));
 
@@ -213,7 +213,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->expects($this->once())
             ->method('setType')
             ->with($this->callback(function (core_kernel_classes_Class $class) {
-                return ($class->getUri() === self::URI_TYPE_1);
+                return $class->getUri() === self::URI_TYPE_1;
             }))
             ->willReturn(true);
 
@@ -249,7 +249,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->with(
                 $this->callback(
                     function (core_kernel_classes_Property $property, $value = null) {
-                        return ($property->getUri() === self::URI_PROPERTY_1);
+                        return $property->getUri() === self::URI_PROPERTY_1;
                     }
                 ),
                 'Value 1'
