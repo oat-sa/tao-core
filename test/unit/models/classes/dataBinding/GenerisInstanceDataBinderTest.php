@@ -691,7 +691,7 @@ class GenerisInstanceDataBinderTest extends TestCase
 
         $this->target
             ->method('getPropertyValuesCollection')
-            ->willThrowException(new Exception("error", 123));
+            ->willThrowException(new Exception('error', 123));
 
         $this->expectException(
             tao_models_classes_dataBinding_GenerisInstanceDataBindingException::class
