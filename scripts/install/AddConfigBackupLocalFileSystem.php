@@ -26,7 +26,7 @@ use oat\oatbox\extension\InstallAction;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\config\BackupConfigService;
 
-class AddConfigFileSystem extends InstallAction
+class AddConfigBackupLocalFileSystem extends InstallAction
 {
     public function __invoke($params)
     {
