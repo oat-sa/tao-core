@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -30,6 +30,11 @@ class tao_actions_AdvancedSearch extends CommonModule
 
     public function status(AdvancedSearchChecker $advancedSearchChecker): void
     {
-        $this->setSuccessJsonResponse(['enabled' => $advancedSearchChecker->isEnabled()]);
+        $this->setSuccessJsonResponse(
+            [
+                'enabled' => $advancedSearchChecker->isEnabled(),
+                'whitelist' => $advancedSearchChecker->getDisabledSections()
+            ]
+        );
     }
 }
