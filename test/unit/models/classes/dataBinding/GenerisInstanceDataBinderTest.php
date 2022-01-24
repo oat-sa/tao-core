@@ -697,9 +697,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             tao_models_classes_dataBinding_GenerisInstanceDataBindingException::class
         );
 
-        $this->expectExceptionMessage(
-            "Error binding property values to instance"
-        );
+        $this->expectExceptionMessage('Error binding property values to instance');
 
         $resource = $this->sut->bind([
             self::URI_PROPERTY_2 => 'Value 2',
