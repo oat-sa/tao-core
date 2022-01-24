@@ -22,14 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\StatisticalMetadata\Contract;
 
-use oat\tao\model\StatisticalMetadata\Model\MetadataProperty;
-
-interface StatisticalMetadataRepositoryInterface
+interface Header
 {
-    public const FILTER_ALIASES = 'aliases';
-
-    /**
-     * @return MetadataProperty[]
-     */
-    public function findProperties(array $filters): array;
+    public const ITEM_ID = 'itemId';
+    public const TEST_ID = 'testId';
+    public const METADATA_PREFIX = 'metadata_';
 }

@@ -20,16 +20,27 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\StatisticalMetadata\Contract;
+namespace oat\tao\model\StatisticalMetadata\Import\Extractor;
 
-use oat\tao\model\StatisticalMetadata\Model\MetadataProperty;
+use oat\tao\model\StatisticalMetadata\Contract\Header;
 
-interface StatisticalMetadataRepositoryInterface
+class MetadataAliasesExtractor
 {
-    public const FILTER_ALIASES = 'aliases';
+    /** @var MetadataHeadersExtractor */
+    private $metadataHeadersExtractor;
 
-    /**
-     * @return MetadataProperty[]
-     */
-    public function findProperties(array $filters): array;
+    public function __construct(MetadataHeadersExtractor $metadataHeadersExtractor)
+    {
+        $this->metadataHeadersExtractor = $metadataHeadersExtractor;
+    }
+
+    public function extract(array $header): array
+    {
+        return array_map(
+            static function (string $metadataHeader): string {
+                return str_replace(Header::METADATA_PREFIX, '', $metadataHeader);
+            },
+            $this->metadataHeadersExtractor->extract($header)
+        );
+    }
 }

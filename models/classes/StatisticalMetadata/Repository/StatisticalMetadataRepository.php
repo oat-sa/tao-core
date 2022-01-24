@@ -34,7 +34,7 @@ use oat\tao\model\StatisticalMetadata\Contract\StatisticalMetadataRepositoryInte
 
 class StatisticalMetadataRepository implements StatisticalMetadataRepositoryInterface
 {
-    public const FILTER_ALIASES = 'aliases';
+    private const WIDGET = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#widget';
 
     /** @var PersistenceManager */
     private $persistenceManager;
@@ -66,7 +66,8 @@ class StatisticalMetadataRepository implements StatisticalMetadataRepositoryInte
                 [
                     'st.subject as uri',
                     'st.object as alias',
-                    'domain.object as domain'
+                    'domain.object as domain',
+                    'widget.object as widget'
                 ]
             )
             ->from('statements', 'st')
@@ -76,12 +77,20 @@ class StatisticalMetadataRepository implements StatisticalMetadataRepositoryInte
                 'domain',
                 $expr->eq('domain.subject', 'st.subject')
             )
+            ->leftJoin(
+                'st',
+                'statements',
+                'widget',
+                $expr->eq('widget.subject', 'st.subject')
+            )
             ->where('st.predicate = :propertyAlias')
             ->andWhere($expr->in('st.object', ':aliases'))
             ->andWhere('domain.predicate = :domain')
+            ->andWhere('widget.predicate = :widget')
             ->setParameter('propertyAlias', GenerisRdf::PROPERTY_ALIAS)
             ->setParameter('aliases', $filters[self::FILTER_ALIASES], Connection::PARAM_STR_ARRAY)
             ->setParameter('domain', OntologyRdfs::RDFS_DOMAIN)
+            ->setParameter('widget', self::WIDGET)
             ->execute()
             ->fetchAll(FetchMode::CUSTOM_OBJECT, MetadataProperty::class);
     }

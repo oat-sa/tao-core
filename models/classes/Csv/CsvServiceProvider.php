@@ -20,16 +20,18 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\StatisticalMetadata\Contract;
+namespace oat\tao\model\Csv;
 
-use oat\tao\model\StatisticalMetadata\Model\MetadataProperty;
+use oat\tao\model\Csv\Factory\ReaderFactory;
+use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-interface StatisticalMetadataRepositoryInterface
+class CsvServiceProvider implements ContainerServiceProviderInterface
 {
-    public const FILTER_ALIASES = 'aliases';
+    public function __invoke(ContainerConfigurator $configurator): void
+    {
+        $services = $configurator->services();
 
-    /**
-     * @return MetadataProperty[]
-     */
-    public function findProperties(array $filters): array;
+        $services->set(ReaderFactory::class, ReaderFactory::class);
+    }
 }

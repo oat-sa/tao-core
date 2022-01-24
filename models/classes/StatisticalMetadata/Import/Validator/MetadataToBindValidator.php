@@ -20,16 +20,29 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\StatisticalMetadata\Contract;
+namespace oat\tao\model\StatisticalMetadata\Import\Validator;
 
-use oat\tao\model\StatisticalMetadata\Model\MetadataProperty;
+use InvalidArgumentException;
+use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
 
-interface StatisticalMetadataRepositoryInterface
+class MetadataToBindValidator
 {
-    public const FILTER_ALIASES = 'aliases';
+    public function validateMetadataValue($value): void
+    {
+        if (!is_string($value)) {
+            throw new InvalidArgumentException('metadata value must be a string.');
+        }
+    }
 
-    /**
-     * @return MetadataProperty[]
-     */
-    public function findProperties(array $filters): array;
+    public function validateRelationToResource(
+        core_kernel_classes_Resource $resource,
+        core_kernel_classes_Class $metadataDomain
+    ): void {
+        if (!$resource->isInstanceOf($metadataDomain)) {
+            throw new InvalidArgumentException(
+                'provided metadata does not belong to the provided resource.'
+            );
+        }
+    }
 }

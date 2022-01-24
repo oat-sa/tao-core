@@ -32,4 +32,7 @@ class MetadataProperty
 
     /** @var string */
     public $domain;
+
+    /** @var string */
+    public $widget;
 }
