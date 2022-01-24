@@ -482,8 +482,8 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->expects($this->exactly(1))
             ->method('removePropertyValues')
             ->willReturnCallback(
-                function (core_kernel_classes_Property $p, $opts = []) {
-                    $this->assertEquals(self::URI_PROPERTY_1, $p->getUri());
+                function (core_kernel_classes_Property $property, $opts = []) {
+                    $this->assertEquals(self::URI_PROPERTY_1, $property->getUri());
                 }
             );
 
