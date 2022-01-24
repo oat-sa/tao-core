@@ -29,7 +29,7 @@ use oat\oatbox\service\ServiceManager;
 $serviceManager = ServiceManager::getServiceManager();
 
 /** @var BackupConfigService $backupConfigService */
-$backupConfigService = $serviceManager->getContainerBuilder()->get(BackupConfigService::class);
+$backupConfigService = $serviceManager->getContainer()->get(BackupConfigService::class);
 
 $backupConfigService->makeCopy();
 

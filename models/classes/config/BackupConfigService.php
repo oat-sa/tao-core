@@ -23,10 +23,15 @@ declare(strict_types = 1);
 namespace oat\tao\model\config;
 
 use oat\oatbox\filesystem\FileSystemService;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use ZipArchive;
 
-class BackupConfigService
+class BackupConfigService implements BackupConfigServiceInterface
 {
     public const FILE_SYSTEM_ID = 'config';
+
+    protected const BACKUP_FILE_PREFIX = 'backup-';
 
     /** @var FileSystemService */
     private $fileSystemService;
@@ -36,8 +41,42 @@ class BackupConfigService
         $this->fileSystemService = $fileSystemService;
     }
 
-    public function makeCopy()
+    public function makeCopy(): void
     {
+        $directory = $this->fileSystemService->getDirectory(self::FILE_SYSTEM_ID);
 
+        $target = $directory->getFile($this->generateBackupFileName());
+        $target->write(file_get_contents($this->archiveConfigDirectory(CONFIG_PATH)));
+    }
+
+    protected function generateBackupFileName(): string
+    {
+        return self::BACKUP_FILE_PREFIX . date('Ymd-His') . '.zip';
+    }
+
+    protected function archiveConfigDirectory(string $directory): string
+    {
+        $filename = tempnam(sys_get_temp_dir(), "zip");
+
+        $zip = new ZipArchive();
+        $zip->open($filename, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($directory),
+            RecursiveIteratorIterator::LEAVES_ONLY
+        );
+
+        foreach ($files as $file)
+        {
+            if ($file->isDir()) {
+                continue;
+            }
+            $filePath = $file->getRealPath();
+            $zip->addFile($filePath, substr($filePath, strlen($directory)));
+        }
+
+        $zip->close();
+
+        return $filename;
     }
 }

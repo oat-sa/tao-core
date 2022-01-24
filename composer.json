@@ -59,6 +59,7 @@
         "php": "^7.1",
         "ext-json": "*",
         "ext-mbstring": "*",
+        "ext-zip": "*",
         "doctrine/dbal": "^2.10",
         "ezyang/htmlpurifier": "^4.9",
         "guzzlehttp/guzzle": "6.5.5",
