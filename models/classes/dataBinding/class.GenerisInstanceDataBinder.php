@@ -93,13 +93,13 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         $instance = $this->getTargetInstance();
 
         try {
-            foreach ($data as $propUri => $value) {
-                if ($propUri === OntologyRdf::RDF_TYPE && null !== $value) {
+            foreach ($data as $propertyUri => $value) {
+                if ($propertyUri === OntologyRdf::RDF_TYPE && null !== $value) {
                     $this->bindTypes($instance, $value);
                 } else {
-                    $this->bindProperty($instance, $propUri, $value);
+                    $this->bindProperty($instance, $propertyUri, $value);
                     $this->getEventManager()->trigger(
-                        new MetadataModified($instance, $propUri, $value)
+                        new MetadataModified($instance, $propertyUri, $value)
                     );
                 }
             }
@@ -119,7 +119,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     }
 
     private function bindTypes(
-        core_kernel_classes_Resource &$instance,
+        core_kernel_classes_Resource $instance,
         $propertyValue
     ): void {
         foreach ($instance->getTypes() as $type) {
@@ -127,6 +127,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         }
 
         $types = !is_array($propertyValue) ? [$propertyValue] : $propertyValue;
+
         foreach ($types as $type) {
             $instance->setType($instance->getClass($type));
         }
@@ -146,7 +147,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
             foreach ($newValue as $aPropertyValue) {
                 $instance->setPropertyValue($prop, $aPropertyValue);
             }
-        } elseif (is_string($newValue) && !self::isEmptyValue($newValue)) {
+        } elseif (is_string($newValue) && !$this->isEmptyValue($newValue)) {
             $instance->setPropertyValue($prop, $newValue);
         }
     }
@@ -163,7 +164,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
                 $instance->setPropertyValue($property, $aPropertyValue);
             }
         } elseif (is_string($propertyValue)) {
-            if (self::isEmptyValue($propertyValue)) {
+            if ($this->isEmptyValue($propertyValue)) {
                 // Setting an empty value for a scalar property deletes
                 // the statement
                 $instance->removePropertyValues($property);
@@ -173,14 +174,14 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         }
     }
 
-    private static function isEmptyValue(string $value): bool
+    private function isEmptyValue(string $value): bool
     {
         return '' === $value || ' ' === $value || strlen(trim($value)) == 0;
     }
 
     private function getEventManager(): EventManager
     {
-        if ($this->eventManager == null) {
+        if ($this->eventManager === null) {
             $this->eventManager = ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);
         }
 
