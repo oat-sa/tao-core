@@ -27,14 +27,24 @@
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
-
  */
 class tao_models_classes_dataBinding_GenerisInstanceDataBindingException extends tao_models_classes_dataBinding_DataBindingException
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
+    public function __construct(
+        core_kernel_classes_Resource $instance,
+        string $message,
+        int $code = 0,
+        Throwable $previous = null
+    )
+    {
+        parent::__construct(
+            sprintf(
+                'Error binding property values to instance "%s": %s',
+                $instance->getUri(),
+                $message
+            ),
+            $code,
+            $previous
+        );
+    }
 }

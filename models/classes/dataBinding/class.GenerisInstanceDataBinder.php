@@ -107,11 +107,8 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
             return $instance;
         } catch (Throwable $error) {
             throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException(
-                sprintf(
-                    'Error binding property values to instance "%s": %s',
-                    $this->getTargetInstance()->getUri(),
-                    $error->getMessage()
-                ),
+                $this->getTargetInstance(),
+                $error->getMessage(),
                 0,
                 $error
             );

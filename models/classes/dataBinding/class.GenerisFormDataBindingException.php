@@ -31,10 +31,21 @@
  */
 class tao_models_classes_dataBinding_GenerisFormDataBindingException extends tao_models_classes_dataBinding_DataBindingException
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
+    public function __construct(
+        string $message,
+        core_kernel_classes_Resource $instance = null,
+        int $code = 0,
+        Throwable $previous = null
+    )
+    {
+        parent::__construct(
+            sprintf(
+                'Error binding form property values to instance "%s": %s',
+                $instance ? $instance->getUri() : '',
+                $message
+            ),
+            $code,
+            $previous
+        );
+    }
 }
