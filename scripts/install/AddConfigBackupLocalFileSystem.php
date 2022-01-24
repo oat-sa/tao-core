@@ -33,7 +33,7 @@ class AddConfigFileSystem extends InstallAction
         /** @var FileSystemService $fileSystemManager */
         $fileSystemManager = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
 
-        if (!$fileSystemService->hasDirectory(BackupConfigService::FILE_SYSTEM_ID)) {
+        if (!$fileSystemManager->hasDirectory(BackupConfigService::FILE_SYSTEM_ID)) {
             $fileSystemManager->createFileSystem(BackupConfigService::FILE_SYSTEM_ID);
             $this->registerService(FileSystemService::SERVICE_ID, $fileSystemManager);
         }
