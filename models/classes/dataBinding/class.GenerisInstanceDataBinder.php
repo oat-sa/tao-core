@@ -64,7 +64,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
      * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @return core_kernel_classes_Resource
      */
-    protected function getTargetInstance()
+    protected function getTargetInstance(): core_kernel_classes_Resource
     {
         return $this->targetInstance;
     }
