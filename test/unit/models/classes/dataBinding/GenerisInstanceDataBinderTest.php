@@ -30,6 +30,7 @@ use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\event\MetadataModified;
+use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use tao_models_classes_dataBinding_GenerisInstanceDataBinder;
 use tao_models_classes_dataBinding_GenerisInstanceDataBindingException;
 use Exception;
@@ -133,15 +134,7 @@ class GenerisInstanceDataBinderTest extends TestCase
 
     public function testBindScalarWithPreviousValue(): void
     {
-        $this->eventManagerMock
-            ->expects($this->once())
-            ->method('trigger')
-            ->with($this->callback(function (MetadataModified $event): bool {
-                return (
-                    $event->getResource()->getUri() == $this->target->getUri()
-                    && $event->getMetadataUri() === self::URI_PROPERTY_1
-                    && $event->getMetadataValue() == 'Value 1');
-            }));
+        $this->expectsEvent($this->once(), self::URI_PROPERTY_1, 'Value 1');
 
         $this->target
             ->expects($this->once())
@@ -199,15 +192,7 @@ class GenerisInstanceDataBinderTest extends TestCase
 
     public function testBindScalarWithNoPreviousValue(): void
     {
-        $this->eventManagerMock
-            ->expects($this->once())
-            ->method('trigger')
-            ->with($this->callback(function (MetadataModified $event): bool {
-                return (
-                    $event->getResource()->getUri() === $this->target->getUri()
-                    && $event->getMetadataUri() === self::URI_PROPERTY_1
-                    && $event->getMetadataValue() === 'Value 1');
-            }));
+        $this->expectsEvent($this->once(), self::URI_PROPERTY_1, 'Value 1');
 
         $this->target
             ->expects($this->once())
@@ -269,15 +254,7 @@ class GenerisInstanceDataBinderTest extends TestCase
 
     public function testBindArrayWithPreviousValue(): void
     {
-        $this->eventManagerMock
-            ->expects($this->at(0))
-            ->method('trigger')
-            ->with($this->callback(function (MetadataModified $event): bool {
-                return (
-                    $event->getResource()->getUri() === $this->target->getUri()
-                    && $event->getMetadataUri() === self::URI_PROPERTY_1
-                    && $event->getMetadataValue() == ['one', 'two']);
-            }));
+        $this->expectsEvent($this->at(0), self::URI_PROPERTY_1, ['one', 'two'], true);
 
         $this->target
             ->expects($this->once())
@@ -340,15 +317,7 @@ class GenerisInstanceDataBinderTest extends TestCase
 
     public function testBindArrayWithNoPreviousValue(): void
     {
-        $this->eventManagerMock
-            ->expects($this->at(0))
-            ->method('trigger')
-            ->with($this->callback(function (MetadataModified $event): bool {
-                return (
-                    $event->getResource()->getUri() === $this->target->getUri()
-                    && $event->getMetadataUri() === self::URI_PROPERTY_1
-                    && $event->getMetadataValue() == ['Value 1', 'Value 2']);
-            }));
+        $this->expectsEvent($this->at(0), self::URI_PROPERTY_1, ['Value 1', 'Value 2']);
 
         $this->target
             ->expects($this->once())
@@ -408,25 +377,8 @@ class GenerisInstanceDataBinderTest extends TestCase
 
     public function testBindEmptyValue(): void
     {
-        $this->eventManagerMock
-            ->expects($this->at(0))
-            ->method('trigger')
-            ->with($this->callback(function (MetadataModified $event): bool {
-                return (
-                    $event->getResource()->getUri() === $this->target->getUri()
-                    && $event->getMetadataUri() === self::URI_PROPERTY_1
-                    && $event->getMetadataValue() === ' ');
-            }));
-
-        $this->eventManagerMock
-            ->expects($this->at(1))
-            ->method('trigger')
-            ->with($this->callback(function (MetadataModified $event): bool {
-                return (
-                    $event->getResource()->getUri() === $this->target->getUri()
-                    && $event->getMetadataUri() === self::URI_PROPERTY_2
-                    && $event->getMetadataValue() === 'Value 2');
-            }));
+        $this->expectsEvent($this->at(0), self::URI_PROPERTY_1, ' ');
+        $this->expectsEvent($this->at(1), self::URI_PROPERTY_2, 'Value 2');
 
         $this->target
             ->expects($this->exactly(2))
@@ -550,15 +502,7 @@ class GenerisInstanceDataBinderTest extends TestCase
     public function testDontSetNewValuesIfTheyAreEmpty(): void
     {
         // The event is triggered even if the property value stays the same
-        $this->eventManagerMock
-            ->expects($this->at(0))
-            ->method('trigger')
-            ->with($this->callback(function (MetadataModified $event): bool {
-                return (
-                    $event->getResource()->getUri() === $this->target->getUri()
-                    && $event->getMetadataUri() === self::URI_PROPERTY_1
-                    && $event->getMetadataValue() === '  ');
-            }));
+        $this->expectsEvent($this->at(0), self::URI_PROPERTY_1, '  ');
 
         $this->target
             ->expects($this->never())
@@ -611,15 +555,7 @@ class GenerisInstanceDataBinderTest extends TestCase
 
     public function testZeroIsNotHandledAsAnEmptyValue(): void
     {
-        $this->eventManagerMock
-            ->expects($this->once())
-            ->method('trigger')
-            ->with($this->callback(function (MetadataModified $event): bool {
-                return (
-                    $event->getResource()->getUri() === $this->target->getUri()
-                    && $event->getMetadataUri() === self::URI_PROPERTY_1
-                    && $event->getMetadataValue() === '0');
-            }));
+        $this->expectsEvent($this->once(), self::URI_PROPERTY_1, '0');
 
         $this->target
             ->expects($this->never())
@@ -706,5 +642,27 @@ class GenerisInstanceDataBinderTest extends TestCase
         ]);
 
         $this->assertSame($this->target, $resource);
+    }
+
+    private function expectsEvent(
+        InvocationOrder $invocationRule,
+        string $property,
+        $value
+    ): void {
+        $this->eventManagerMock
+            ->expects($invocationRule)
+            ->method('trigger')
+            ->with(
+                $this->callback(function (MetadataModified $event) use (
+                    $property,
+                    $value
+                ) {
+                    return (
+                        $event->getResource()->getUri() === $this->target->getUri()
+                        && $event->getMetadataUri() === $property
+                        && $event->getMetadataValue() === $value
+                    );
+                })
+            );
     }
 }
