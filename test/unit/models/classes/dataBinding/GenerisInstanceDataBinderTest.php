@@ -316,9 +316,11 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->target
             ->expects($this->once())
             ->method('removePropertyValues')
-            ->with($this->callback(function (core_kernel_classes_Property $p) {
-                return $p->getUri() === self::URI_PROPERTY_1;
-            }));
+            ->with($this->callback(
+                function (core_kernel_classes_Property $propoerty) {
+                    return $propoerty->getUri() === self::URI_PROPERTY_1;
+                }
+            ));
 
         $this->target
             ->expects($this->exactly(2))
