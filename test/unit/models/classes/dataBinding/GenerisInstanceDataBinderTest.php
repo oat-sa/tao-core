@@ -499,7 +499,7 @@ class GenerisInstanceDataBinderTest extends TestCase
     public function testBindNewTypesToExistingInstance(): void
     {
         $this->eventManagerMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('trigger');
 
         $this->target
@@ -509,7 +509,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ]);
 
         $this->target
-            ->expects(self::exactly(1))
+            ->expects($this->exactly(1))
             ->method('removeType')
             ->with($this->callback(function (core_kernel_classes_Class $class) {
                 return $class->getUri() === self::URI_TYPE_1;
@@ -517,7 +517,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->willReturn(true);
 
         $this->target
-            ->expects(self::exactly(1))
+            ->expects($this->exactly(1))
             ->method('setType')
             ->with($this->callback(function (core_kernel_classes_Class $class) {
                 return $class->getUri() === self::URI_TYPE_2;
@@ -533,7 +533,7 @@ class GenerisInstanceDataBinderTest extends TestCase
 
         // There are no properties other than types for this test
         $this->target
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getPropertyValuesCollection');
 
         // Binding multiple values for the class type, and an empty value for
