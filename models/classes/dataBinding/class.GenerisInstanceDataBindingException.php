@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,8 +36,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBindingException extends
         string $message,
         int $code = 0,
         Throwable $previous = null
-    )
-    {
+    ) {
         parent::__construct(
             sprintf(
                 'Error binding property values to instance "%s": %s',
