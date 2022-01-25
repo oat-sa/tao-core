@@ -58,7 +58,7 @@ class AdvancedSearchChecker extends ConfigurableService
             foreach (explode(',', $conf) as $section) {
                 $section = trim($section);
                 if ($section != '' && !in_array($section, $disabledSections)) {
-                    $disabledSections[] = trim($section);
+                    $disabledSections[] = $section;
                 }
             }
         }
