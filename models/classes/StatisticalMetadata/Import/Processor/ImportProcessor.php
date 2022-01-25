@@ -120,6 +120,7 @@ class ImportProcessor implements ImportFileProcessorInterface
         return $this->buildFinalReport($csv->count(), $updatedResourcesCount);
     }
 
+    // @TODO Move to a separate service
     private function getMetadataToBind(
         array $record,
         array $metadataMap,
@@ -139,6 +140,7 @@ class ImportProcessor implements ImportFileProcessorInterface
 
             ++$possibleMetadataToBindCount;
 
+            // @TODO Extract to a separate method
             try {
                 $this->metadataToBindValidator->validateRelationToResource(
                     $resource,
@@ -162,6 +164,7 @@ class ImportProcessor implements ImportFileProcessorInterface
         }
 
         if ($errors) {
+            // @FIXME Throw an exception instead of error/warning
             $this->reports[] = $possibleMetadataToBindCount === $errors
                 ? Report::createError(sprintf('Line %d: import failed', $line), null, $reports)
                 : Report::createWarning(sprintf('Line %d: partially imported', $line), null, $reports);
