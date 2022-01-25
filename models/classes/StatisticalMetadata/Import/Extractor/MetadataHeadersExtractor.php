@@ -26,14 +26,8 @@ use oat\tao\model\StatisticalMetadata\Contract\Header;
 
 class MetadataHeadersExtractor
 {
-    private $metadataHeaders;
-
     public function extract(array $header): array
     {
-        if (!isset($this->metadataHeaders)) {
-            $this->metadataHeaders = preg_grep(sprintf('/^%s/', Header::METADATA_PREFIX), $header);
-        }
-
-        return $this->metadataHeaders;
+        return preg_grep(sprintf('/^%s/', Header::METADATA_PREFIX), $header);
     }
 }
