@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,16 +21,10 @@
  *
  */
 
-namespace oat\tao\model\dataBinding;
-
 /**
- * Exception to be thrown when an errors occurs at Data Binding time.
- *
- * @access public
- * @author Jerome Bogaerts, <jerome@taotesting.com>
- * @package tao
+ * @deprecated Use oat\tao\model\dataBinding\DataBindingException instead.
  */
-class DataBindingException extends common_Exception
+class tao_models_classes_dataBinding_DataBindingException extends common_Exception
 {
 
 }
