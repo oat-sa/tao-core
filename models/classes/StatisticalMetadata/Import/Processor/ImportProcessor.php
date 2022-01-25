@@ -126,12 +126,16 @@ class ImportProcessor implements ImportFileProcessorInterface
         int $line
     ): array {
         $metadataToBind = [];
+        $reports = [];
+        $possibleMetadataToBindCount = 0;
 
         // Since the metadata map has been checked for uniqueness, $metadataProperties contains only one value
         foreach ($metadataMap as $metadata => $metadataProperties) {
             if (empty($record[$metadata])) {
                 continue;
             }
+
+            ++$possibleMetadataToBindCount;
 
             try {
                 $this->metadataToBindValidator->validateRelationToResource(
@@ -140,10 +144,9 @@ class ImportProcessor implements ImportFileProcessorInterface
                 );
                 $this->metadataToBindValidator->validateMetadataValue($record[$metadata]);
             } catch (InvalidArgumentException $exception) {
-                $this->reports[] = Report::createWarning(
+                $reports[] = Report::createWarning(
                     sprintf(
-                        'Line %d, metadata "%s": %s',
-                        $line,
+                        'Metadata "%s": %s',
                         $metadata,
                         $exception->getMessage()
                     )
@@ -153,6 +156,12 @@ class ImportProcessor implements ImportFileProcessorInterface
             }
 
             $metadataToBind[$metadataProperties[0][StatisticalMetadataMapper::KEY_URI]] = $record[$metadata];
+        }
+
+        if ($possibleMetadataToBindCount) {
+            $this->reports[] = $possibleMetadataToBindCount === count($reports)
+                ? Report::createError(sprintf('Line %d: import failed', $line), null, $reports)
+                : Report::createWarning(sprintf('Line %d: partially imported', $line), null, $reports);
         }
 
         return $metadataToBind;
