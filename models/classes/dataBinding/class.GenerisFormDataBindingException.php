@@ -18,36 +18,15 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
-  *              2022 (update and modification) Open Assessment Technologies SA;
+ *               2022 (update and modification) Open Assessment Technologies SA;
  */
 
-use oat\tao\model\dataBinding\DataBindingException;
+use oat\tao\model\dataBinding\GenerisFormDataBindingException;
 
 /**
- * Exception to be thrown when an error occurs when binding data coming from a
- * Instance Form to the Generis persistent memory.
- *
- * @access public
- * @author Jerome Bogaerts, <jerome@taotesting.com>
- * @package tao
-
+ * @deprecated Use oat\tao\model\dataBinding\GenerisFormDataBindingException instead.
  */
-class GenerisFormDataBindingException extends DataBindingException
+class tao_models_classes_dataBinding_GenerisFormDataBindingException extends GenerisFormDataBindingException
 {
-    public function __construct(
-        string $message,
-        core_kernel_classes_Resource $instance = null,
-        int $code = 0,
-        Throwable $previous = null
-    ) {
-        parent::__construct(
-            sprintf(
-                'Error binding form property values to instance "%s": %s',
-                $instance ? $instance->getUri() : '',
-                $message
-            ),
-            $code,
-            $previous
-        );
-    }
+
 }

@@ -590,7 +590,7 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      * @param string|null $hashForKey
      *
      * @return boolean
-     * @throws tao_models_classes_dataBinding_GenerisFormDataBindingException
+     * @throws GenerisFormDataBindingException
      */
     public function triggerUpdatedEvent(Resource $user, array $values, $hashForKey)
     {

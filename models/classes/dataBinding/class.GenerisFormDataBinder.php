@@ -74,7 +74,7 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
 
             return $instance;
         } catch (common_Exception $e) {
-            throw new tao_models_classes_dataBinding_GenerisFormDataBindingException(
+            throw new GenerisFormDataBindingException(
                 $e->getMessage(),
                 $instance ?? null,
                 0,

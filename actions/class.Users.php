@@ -233,7 +233,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      * @return void
      * @throws Exception
      * @throws \oat\generis\model\user\PasswordConstraintsException
-     * @throws tao_models_classes_dataBinding_GenerisFormDataBindingException
+     * @throws GenerisFormDataBindingException
      */
     public function add()
     {
@@ -328,7 +328,7 @@ class tao_actions_Users extends tao_actions_CommonModule
      * @throws Exception
      * @throws \oat\generis\model\user\PasswordConstraintsException
      * @throws common_exception_Error
-     * @throws tao_models_classes_dataBinding_GenerisFormDataBindingException
+     * @throws GenerisFormDataBindingException
      */
     public function edit()
     {
