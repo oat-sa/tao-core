@@ -15,13 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\model\search;
 
+use common_ext_ExtensionsManager;
 use Exception;
 use InvalidArgumentException;
 use oat\generis\model\GenerisRdf;
@@ -29,6 +30,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\TaoOntology;
+use oat\taoBooklet\model\BookletClassService;
 use Psr\Http\Message\ServerRequestInterface;
 
 class SearchProxy extends ConfigurableService implements Search
@@ -165,6 +167,25 @@ class SearchProxy extends ConfigurableService implements Search
         );
     }
 
+    /**
+     * Gets the whitelist of RDF URLs that can be used with Advanced Search.
+     *
+     * @return string[]
+     */
+    public function getWhitelist(): array
+    {
+        $whitelist = $this->getOption(
+            self::OPTION_GENERIS_SEARCH_WHITELIST,
+            self::GENERIS_SEARCH_DEFAULT_WHITELIST
+        );
+
+        if ($this->getExtensionsManager()->isEnabled('taoBooklet')) {
+            return array_merge($whitelist, [BookletClassService::CLASS_URI]);
+        }
+
+        return $whitelist;
+    }
+
     private function executeSearch(SearchQuery $query): ResultSet
     {
         if ($query->isEmptySearch()) {
@@ -256,5 +277,10 @@ class SearchProxy extends ConfigurableService implements Search
             $query->getTerm(),
             $query->getParentClass()
         );
+    }
+
+    private function getExtensionsManager(): common_ext_ExtensionsManager
+    {
+        return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
     }
 }

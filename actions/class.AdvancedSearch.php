@@ -23,17 +23,21 @@ declare(strict_types=1);
 use oat\tao\model\http\HttpJsonResponseTrait;
 use tao_actions_CommonModule as CommonModule;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\tao\model\search\SearchProxy;
 
 class tao_actions_AdvancedSearch extends CommonModule
 {
     use HttpJsonResponseTrait;
 
-    public function status(AdvancedSearchChecker $advancedSearchChecker): void
+    public function status(
+        AdvancedSearchChecker $advancedSearchChecker,
+        SearchProxy $search
+    ): void
     {
         $this->setSuccessJsonResponse(
             [
                 'enabled' => $advancedSearchChecker->isEnabled(),
-                'whitelist' => $advancedSearchChecker->getDisabledSections()
+                'whitelist' => $search->getWhitelist(),
             ]
         );
     }

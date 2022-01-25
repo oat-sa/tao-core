@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -34,6 +34,7 @@ use oat\tao\model\search\SearchQuery;
 use oat\tao\model\search\SearchQueryFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ServerRequestInterface;
+use common_ext_ExtensionsManager;
 
 class SearchProxyTest extends TestCase
 {
@@ -72,6 +73,7 @@ class SearchProxyTest extends TestCase
         $this->advancedSearch = $this->createMock(SearchInterface::class);
         $this->searchQueryFactoryMock = $this->createMock(SearchQueryFactory::class);
         $this->resultSetResponseNormalizerMock = $this->createMock(ResultSetResponseNormalizer::class);
+        $this->extensionsManager = $this->createMock(common_ext_ExtensionsManager::class);
 
         $this->resultSetMock = $this->createMock(ResultSet::class);
         $this->requestMock = $this->createMock(ServerRequestInterface::class);
@@ -98,7 +100,8 @@ class SearchProxyTest extends TestCase
                     AdvancedSearchChecker::class => $this->advancedSearchCheckerMock,
                     SearchQueryFactory::class => $this->searchQueryFactoryMock,
                     ResultSetResponseNormalizer::class => $this->resultSetResponseNormalizerMock,
-                    IdentifierSearcher::class => $this->identifierSearcher
+                    IdentifierSearcher::class => $this->identifierSearcher,
+                    common_ext_ExtensionsManager::SERVICE_ID => $this->extensionsManager,
                 ]
             )
         );
@@ -221,5 +224,39 @@ class SearchProxyTest extends TestCase
         $options = $this->subject->getOption(SearchProxy::OPTION_GENERIS_SEARCH_WHITELIST, []);
         $generisSearchWhitelist = array_merge(SearchProxy::GENERIS_SEARCH_DEFAULT_WHITELIST, $options);
         $this->assertTrue(in_array(GenerisRdf::CLASS_ROLE, $generisSearchWhitelist));
+    }
+
+    /**
+     * @dataProvider getWhitelistDataProvider
+     */
+    public function testGetWhitelist(array $expected, bool $taoBookletEnabled): void {
+        $this->extensionsManager
+            ->method('isEnabled')
+            ->with('taoBooklet')
+            ->willReturn($taoBookletEnabled);
+
+        $this->assertEquals(
+            $taoBookletEnabled,
+            in_array(
+                'http://www.tao.lu/Ontologies/Booklet.rdf#Booklet',
+                $this->subject->getWhitelist()
+            )
+        );
+    }
+
+    public function getWhitelistDataProvider(): array
+    {
+        return [
+            'Whitelist without taoBooklet installed' => [
+                'expected' => ['results'],
+                'taoBookletEnabled' => false,
+                'envVars' => [],
+            ],
+            'Whitelist with taoBooklet enabled' => [
+                'expected' => ['results', 'taoBooklet_main'],
+                'taoBookletEnabled' => true,
+                'envVars' => [],
+            ],
+        ];
     }
 }

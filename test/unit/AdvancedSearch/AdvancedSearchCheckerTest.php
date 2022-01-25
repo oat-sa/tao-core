@@ -28,13 +28,9 @@ use oat\tao\model\search\SearchProxy;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
-use common_ext_ExtensionsManager;
 
 class AdvancedSearchCheckerTest extends TestCase
 {
-    /** @var common_ext_ExtensionsManager|MockObject */
-    private $extensionsManager;
-
     /** @var FeatureFlagChecker|MockObject */
     private $featureFlagChecker;
 
@@ -48,13 +44,11 @@ class AdvancedSearchCheckerTest extends TestCase
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
         $this->search = $this->createMock(SearchInterface::class);
-        $this->extensionsManager = $this->createMock(common_ext_ExtensionsManager::class);
 
         $this->sut = new AdvancedSearchChecker();
         $this->sut->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
-                    common_ext_ExtensionsManager::SERVICE_ID => $this->extensionsManager,
                     FeatureFlagChecker::class => $this->featureFlagChecker,
                     SearchProxy::SERVICE_ID => $this->search,
                 ]
@@ -101,86 +95,6 @@ class AdvancedSearchCheckerTest extends TestCase
                 'advancedSearchDisabled' => true,
                 'supportsCustomIndex' => false,
                 'expected' => false,
-            ],
-        ];
-    }
-
-    /**
-     * @backupGlobals Used to preserve former $_ENV value between tests
-     * @dataProvider getDisabledSectionsDataProvider
-     */
-    public function testGetDisabledSections(
-        array $expected,
-        bool $taoBookletEnabled,
-        array $envVars
-    ): void {
-        $_ENV = array_merge($_ENV ?? [], $envVars);
-
-        $this->extensionsManager
-            ->method('isEnabled')
-            ->with('taoBooklet')
-            ->willReturn($taoBookletEnabled);
-
-        $disabledSections = $this->sut->getDisabledSections();
-        sort($disabledSections);
-
-        $this->assertEquals($expected, $disabledSections);
-    }
-
-    public function getDisabledSectionsDataProvider(): array
-    {
-        return [
-            'Default sections without taoBooklet installed' => [
-                'expected' => ['results'],
-                'taoBookletEnabled' => false,
-                'envVars' => [],
-            ],
-            'Default sections with taoBooklet enabled' => [
-                'expected' => ['results', 'taoBooklet_main'],
-                'taoBookletEnabled' => true,
-                'envVars' => [],
-            ],
-            'Sections configured without taoBooklet enabled' => [
-                'expected' => ['results', 'section3'],
-                'taoBookletEnabled' => false,
-                'envVars' => [
-                    'TAO_ADVANCED_SEARCH_DISABLED_SECTIONS' => 'section3'
-                ],
-            ],
-            'Sections configured with empty values and without taoBooklet enabled' => [
-                'expected' => ['results', 'section3'],
-                'taoBookletEnabled' => false,
-                'envVars' => [
-                    'TAO_ADVANCED_SEARCH_DISABLED_SECTIONS' => ',,section3,,,'
-                ],
-            ],
-            'Sections configured with taoBooklet installed' => [
-                'expected' => ['results', 'section3', 'section4', 'taoBooklet_main'],
-                'taoBookletEnabled' => true,
-                'envVars' => [
-                    'TAO_ADVANCED_SEARCH_DISABLED_SECTIONS' => 'section3, section4'
-                ],
-            ],
-            'Sections configured with empty values and taoBooklet installed' => [
-                'expected' => ['results', 'section3', 'section4', 'taoBooklet_main'],
-                'taoBookletEnabled' => true,
-                'envVars' => [
-                    'TAO_ADVANCED_SEARCH_DISABLED_SECTIONS' => ',,,section3, section4,,,'
-                ],
-            ],
-            'Duplicated sections configured without taoBooklet enabled' => [
-                'expected' => ['results', 'section3'],
-                'taoBookletEnabled' => false,
-                'envVars' => [
-                    'TAO_ADVANCED_SEARCH_DISABLED_SECTIONS' => 'section3,section3'
-                ],
-            ],
-            'Duplicated sections configured with taoBooklet installed' => [
-                'expected' => ['results', 'section3', 'taoBooklet_main'],
-                'taoBookletEnabled' => true,
-                'envVars' => [
-                    'TAO_ADVANCED_SEARCH_DISABLED_SECTIONS' => 'section3,section3'
-                ],
             ],
         ];
     }
