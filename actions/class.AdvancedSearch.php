@@ -32,8 +32,7 @@ class tao_actions_AdvancedSearch extends CommonModule
     public function status(
         AdvancedSearchChecker $advancedSearchChecker,
         SearchProxy $search
-    ): void
-    {
+    ): void {
         $this->setSuccessJsonResponse(
             [
                 'enabled' => $advancedSearchChecker->isEnabled(),
