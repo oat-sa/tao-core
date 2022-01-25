@@ -21,33 +21,12 @@
  *
  */
 
-namespace oat\tao\model\dataBinding;
+use oat\tao\model\dataBinding\AbstractDataBinder;
 
 /**
- * This abstract class represents a Data Binder that is able to bind data from a
- * source (e.g. a form) to another one (e.g. a persistent memory such as a
- *
- * Implementors have to implement the bind method to introduce their main logic
- * data binding.
- *
- * @abstract
- * @access public
- * @author Jerome Bogaerts, <jerome@taotesting.com>
- * @package tao
+ * @deprecated Use oat\tao\model\dataBinding\AbstractDataBinder instead.
  */
-abstract class AbstractDataBinder
+abstract class tao_models_classes_dataBinding_AbstractDataBinder extends AbstractDataBinder
 {
-    /**
-     * Data binding from the data representation passed as a parameter and the
-     * data source.
-     *
-     * If the DataBinding fails, a DataBindingException is thrown.
-     *
-     * @abstract
-     * @access public
-     * @author Jerome Bogaerts, <jerome@taotesting.com>
-     * @param  array data An array of Data to bind from a data source to another.
-     * @return mixed
-     */
-    abstract public function bind($data);
+
 }
