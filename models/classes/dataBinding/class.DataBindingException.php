@@ -21,10 +21,12 @@
  *
  */
 
+use oat\tao\model\dataBinding\DataBindingException;
+
 /**
  * @deprecated Use oat\tao\model\dataBinding\DataBindingException instead.
  */
-class tao_models_classes_dataBinding_DataBindingException extends common_Exception
+class tao_models_classes_dataBinding_DataBindingException extends DataBindingException
 {
 
 }

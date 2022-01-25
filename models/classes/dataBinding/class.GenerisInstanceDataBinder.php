@@ -22,6 +22,7 @@
  */
 
 use oat\generis\model\OntologyRdf;
+use oat\tao\model\dataBinding\AbstractDataBinder;
 use oat\tao\model\event\MetadataModified;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
@@ -33,7 +34,7 @@ use oat\oatbox\service\ServiceManager;
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
  */
-class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_models_classes_dataBinding_AbstractDataBinder
+class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends AbstractDataBinder
 {
     /** @var core_kernel_classes_Resource */
     private $targetInstance;

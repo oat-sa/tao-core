@@ -21,6 +21,8 @@
  *
  */
 
+use oat\tao\model\dataBinding\DataBindingException;
+
 /**
  * Exception to be thrown when an error occurs at Binding time between the data
  * be bound and the Generis Persistent memory.
@@ -29,7 +31,7 @@
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
  */
-class tao_models_classes_dataBinding_GenerisInstanceDataBindingException extends tao_models_classes_dataBinding_DataBindingException
+class tao_models_classes_dataBinding_GenerisInstanceDataBindingException extends DataBindingException
 {
     public function __construct(
         core_kernel_classes_Resource $instance,

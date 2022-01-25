@@ -21,6 +21,8 @@
  *
  */
 
+use oat\tao\model\dataBinding\DataBindingException;
+
 /**
  * Exception to be thrown when an error occurs when binding data coming from a
  * Instance Form to the Generis persistent memory.
@@ -30,7 +32,7 @@
  * @package tao
 
  */
-class tao_models_classes_dataBinding_GenerisFormDataBindingException extends tao_models_classes_dataBinding_DataBindingException
+class tao_models_classes_dataBinding_GenerisFormDataBindingException extends DataBindingException
 {
     public function __construct(
         string $message,

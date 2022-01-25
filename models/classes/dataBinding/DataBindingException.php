@@ -24,6 +24,8 @@
 
 namespace oat\tao\model\dataBinding;
 
+use common_Exception;
+
 /**
  * Exception to be thrown when an errors occurs at Data Binding time.
  *
