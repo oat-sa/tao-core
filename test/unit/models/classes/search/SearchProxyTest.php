@@ -229,7 +229,8 @@ class SearchProxyTest extends TestCase
     /**
      * @dataProvider getWhitelistDataProvider
      */
-    public function testGetWhitelist(array $expected, bool $taoBookletEnabled): void {
+    public function testGetWhitelist(array $expected, bool $taoBookletEnabled): void
+    {
         $this->extensionsManager
             ->method('isEnabled')
             ->with('taoBooklet')
