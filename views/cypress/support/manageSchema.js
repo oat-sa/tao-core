@@ -42,6 +42,7 @@ Cypress.Commands.add('addPropertyToClass', (options) => {
     options.propertyListValue = options.propertyListValue || 'Boolean';
 
     cy.log('COMMAND: addPropertyToClass', options.propertyName);
+    cy.intercept('POST', '**/addClassProperty').as('addProperty');
 
     cy.getSettled(`li [title ="${options.className}"]`)
         .last()
@@ -50,6 +51,7 @@ Cypress.Commands.add('addPropertyToClass', (options) => {
     cy.getSettled(options.classOptions)
         .find('a[class="btn-info property-adder small"]')
         .click();
+    cy.wait('@addProperty');
 
     cy.getSettled('span[class="icon-edit"]')
         .last()
