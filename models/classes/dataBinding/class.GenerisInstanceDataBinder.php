@@ -23,6 +23,7 @@
 
 use oat\generis\model\OntologyRdf;
 use oat\tao\model\dataBinding\AbstractDataBinder;
+use oat\tao\model\dataBinding\GenerisInstanceDataBindingException;
 use oat\tao\model\event\MetadataModified;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
@@ -107,7 +108,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends AbstractD
 
             return $instance;
         } catch (Throwable $error) {
-            throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException(
+            throw new GenerisInstanceDataBindingException(
                 $this->getTargetInstance(),
                 $error->getMessage(),
                 0,

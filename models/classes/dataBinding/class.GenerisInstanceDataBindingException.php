@@ -18,38 +18,16 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2022 Open Assessment Technologies SA;
  *
  */
 
-namespace oat\tao\model\dataBinding;
-
-use core_kernel_classes_Resource;
-use Throwable;
+use oat\tao\model\dataBinding\GenerisInstanceDataBindingException;
 
 /**
- * Exception to be thrown when an error occurs at Binding time between the data
- * be bound and the Generis Persistent memory.
- *
- * @access public
- * @author Jerome Bogaerts, <jerome@taotesting.com>
- * @package tao
+ * @deprecated Use oat\tao\model\dataBinding\GenerisInstanceDataBindingException instead.
  */
-class GenerisInstanceDataBindingException extends DataBindingException
+class tao_models_classes_dataBinding_GenerisInstanceDataBindingException extends GenerisInstanceDataBindingException
 {
-    public function __construct(
-        core_kernel_classes_Resource $instance,
-        string $message,
-        int $code = 0,
-        Throwable $previous = null
-    ) {
-        parent::__construct(
-            sprintf(
-                'Error binding property values to instance "%s": %s',
-                $instance->getUri(),
-                $message
-            ),
-            $code,
-            $previous
-        );
-    }
+
 }

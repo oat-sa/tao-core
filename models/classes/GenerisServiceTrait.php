@@ -35,6 +35,7 @@ use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\session\SessionService;
 use oat\tao\helpers\TreeHelper;
+use oat\tao\model\dataBinding\GenerisInstanceDataBindingException;
 use oat\tao\model\event\ClassMovedEvent;
 
 /**
@@ -150,7 +151,7 @@ trait GenerisServiceTrait
      * @param  core_kernel_classes_Resource $instance
      * @param  array properties
      * @return core_kernel_classes_Resource
-     * @throws \tao_models_classes_dataBinding_GenerisInstanceDataBindingException
+     * @throws GenerisInstanceDataBindingException
      */
     public function bindProperties(core_kernel_classes_Resource $instance, $properties = [])
     {

@@ -29,10 +29,10 @@ use core_kernel_classes_Property;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\event\EventManager;
+use oat\tao\model\dataBinding\GenerisInstanceDataBindingException;
 use oat\tao\model\event\MetadataModified;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use tao_models_classes_dataBinding_GenerisInstanceDataBinder;
-use tao_models_classes_dataBinding_GenerisInstanceDataBindingException;
 use Exception;
 
 class GenerisInstanceDataBinderTest extends TestCase
@@ -632,7 +632,7 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->willThrowException(new Exception('error', 123));
 
         $this->expectException(
-            tao_models_classes_dataBinding_GenerisInstanceDataBindingException::class
+            GenerisInstanceDataBindingException::class
         );
 
         $this->expectExceptionMessage('Error binding property values to instance');
