@@ -35,7 +35,7 @@ class AdvancedSearchCheckerTest extends TestCase
     private $featureFlagChecker;
 
     /** @var AdvancedSearchChecker */
-    private $sut;
+    private $advancedSearchChecker;
 
     /** @var SearchProxy|MockObject */
     private $search;
@@ -44,9 +44,8 @@ class AdvancedSearchCheckerTest extends TestCase
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
         $this->search = $this->createMock(SearchInterface::class);
-
-        $this->sut = new AdvancedSearchChecker();
-        $this->sut->setServiceLocator(
+        $this->advancedSearchChecker = new AdvancedSearchChecker();
+        $this->advancedSearchChecker->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
                     FeatureFlagChecker::class => $this->featureFlagChecker,
@@ -70,7 +69,7 @@ class AdvancedSearchCheckerTest extends TestCase
             ->method('supportCustomIndex')
             ->willReturn($supportsCustomIndex);
 
-        $this->assertEquals($expected, $this->sut->isEnabled());
+        $this->assertEquals($expected, $this->advancedSearchChecker->isEnabled());
     }
 
     public function isEnabledDataProvider(): array
