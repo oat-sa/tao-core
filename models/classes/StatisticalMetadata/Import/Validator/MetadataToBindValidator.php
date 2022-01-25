@@ -41,7 +41,10 @@ class MetadataToBindValidator
     ): void {
         if (!$resource->isInstanceOf($metadataDomain)) {
             throw new InvalidArgumentException(
-                'provided metadata does not belong to the provided resource.'
+                sprintf(
+                    'provided metadata does not belong to the resource "%s".',
+                    $resource->getUri()
+                )
             );
         }
     }

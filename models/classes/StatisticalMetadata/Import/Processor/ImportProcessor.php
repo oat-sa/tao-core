@@ -54,7 +54,7 @@ class ImportProcessor implements ImportFileProcessorInterface
     private $metadataToBindValidator;
 
     /** @var Report[] */
-    private $reports = [];
+    private $reports;
 
     public function __construct(
         ReaderFactory $readerFactory,
@@ -92,6 +92,7 @@ class ImportProcessor implements ImportFileProcessorInterface
             return Report::createError(sprintf('CSV import failed: %s', $exception->getMessage()));
         }
 
+        $this->reports = [];
         $updatedResourcesCount = 0;
 
         foreach ($csv->getRecords($header) as $line => $record) {
