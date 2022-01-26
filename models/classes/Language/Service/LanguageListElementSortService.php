@@ -37,9 +37,6 @@ class LanguageListElementSortService implements ListElementSorterInterface
         $this->comparator = $comparator;
     }
 
-    /**
-     * @return Value[]
-     */
     public function getSortedListCollectionValues(ValueCollection $valueCollection): array
     {
         $values = iterator_to_array($valueCollection);

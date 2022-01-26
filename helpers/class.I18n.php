@@ -50,13 +50,10 @@ class tao_helpers_I18n
     /**
      * Load the translation strings
      *
-     * @access public
+     * @throws Exception
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param common_ext_Extension $extension
-     * @param string langCode
-     * @return mixed
      */
-    public static function init(common_ext_Extension $extension, $langCode)
+    public static function init(common_ext_Extension $extension, ?string $langCode): void
     {
         // if the langCode is empty do nothing
         if (empty($langCode)) {
@@ -86,12 +83,10 @@ class tao_helpers_I18n
     /**
      * Returns the code of a resource
      *
-     * @access public
+     * @throws common_exception_Error|common_exception_InconsistentData
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param string code
-     * @return core_kernel_classes_Resource
      */
-    public static function getLangResourceByCode($code)
+    public static function getLangResourceByCode(string $code): ?core_kernel_classes_Resource
     {
         $langs = self::getAvailableLangs();
         return isset($langs[$code]) ? new core_kernel_classes_Resource($langs[$code]['uri']) : null;

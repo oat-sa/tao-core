@@ -35,7 +35,7 @@ class EditableListClassSpecification implements ClassSpecificationInterface
 
     public function __construct(
         ClassSpecificationInterface $listClassSpecification,
-        LanguageClassSpecification $languageClassSpecification
+        ClassSpecificationInterface $languageClassSpecification
     ) {
         $this->listClassSpecification = $listClassSpecification;
         $this->languageClassSpecification = $languageClassSpecification;
