@@ -22,10 +22,11 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Language\Business\Specification;
 
-use core_kernel_classes_Class;
 use oat\generis\test\TestCase;
 use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
+use PHPUnit\Framework\MockObject\MockObject;
 use tao_models_classes_LanguageService;
+use core_kernel_classes_Class;
 
 
 class LanguageListClassSpecificationTest extends TestCase
@@ -34,6 +35,9 @@ class LanguageListClassSpecificationTest extends TestCase
 
     /** @var LanguageClassSpecification */
     private $sut;
+
+    /** @var core_kernel_classes_Class|MockObject */
+    private $class;
 
     protected function setUp(): void
     {
