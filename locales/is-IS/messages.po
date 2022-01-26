@@ -1244,9 +1244,6 @@ msgstr ""
 msgid "List values"
 msgstr ""
 
-msgid "ln"
-msgstr ""
-
 msgid "Load more"
 msgstr ""
 
@@ -1266,9 +1263,6 @@ msgid "Loading task status ..."
 msgstr ""
 
 msgid "locked by %s"
-msgstr ""
-
-msgid "log"
 msgstr ""
 
 msgid "Log in"

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2022.01\n"
-"PO-Revision-Date: 2022-01-20T10:24:38\n"
+"PO-Revision-Date: 2022-01-17T11:27:42\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -441,10 +441,10 @@ msgstr "＜パスワード変更＞"
 msgid "Change the sign of the current operand"
 msgstr "現在の演算子を変更します。"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "すべて確認してください"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "すべて確認してください"
 
 msgid "Check-in"
@@ -1111,10 +1111,10 @@ msgstr "%s拡張機能をインストールしています..."
 msgid "Instance saved"
 msgstr "インスタンスが保存されました"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "インタフェース言語"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "インタフェース言語"
 
 msgid "Invalid CSP header."
@@ -1234,9 +1234,6 @@ msgstr ""
 msgid "List values"
 msgstr ""
 
-msgid "ln"
-msgstr "ln"
-
 msgid "Load more"
 msgstr "再読み込み"
 
@@ -1257,9 +1254,6 @@ msgstr "読込中..."
 
 msgid "locked by %s"
 msgstr "％sによってロックされています"
-
-msgid "log"
-msgstr "log"
 
 msgid "Log in"
 msgstr "ログイン"
@@ -2217,7 +2211,7 @@ msgid "The following criteria are not applicable to the selected class and have 
 msgstr ""
 
 msgid "The format of this field is not valid."
-msgstr "形式が正しくありません"
+msgstr "このフィールドの形式は有効ではありません"
 
 msgid "The imported file is not properly UTF-8 encoded."
 msgstr "インポートされたファイルが正しくUTF-8でエンコードされていません"
@@ -2424,7 +2418,7 @@ msgid "Unary operator -"
 msgstr "単項演算子(-)"
 
 msgid "Unauthorized files have been removed"
-msgstr ""
+msgstr "許可されていないファイルが削除されました。"
 
 msgid "Uncheck All"
 msgstr "全て無効"

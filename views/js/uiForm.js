@@ -113,7 +113,14 @@
                         testedUrl = settings.url;
                     }
 
-                    self.initRendering();
+                    /**
+                     * Prevent manage-schema form initialization when the targeted url is related to authoring
+                     * associated action is "launchEditor"
+                    */
+                    if (!testedUrl.includes('authoring')) {
+                        self.initRendering();
+                    }
+
                     self.initElements();
                     if (self.initGenerisFormPattern.test(testedUrl)) {
                         self.initOntoForms();
