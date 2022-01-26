@@ -45,6 +45,7 @@ class SearchProxy extends ConfigurableService implements Search
         GenerisRdf::CLASS_ROLE,
         TaoOntology::CLASS_URI_TAO_USER,
         TaoOntology::CLASS_URI_TREE,
+        TaoOntology::CLASS_URI_ASSEMBLED_DELIVERY,
     ];
 
     private const DISABLE_URI_SEARCH_FOR_ROOT_CLASSES = [
