@@ -34,7 +34,6 @@ use oat\tao\model\search\SearchQuery;
 use oat\tao\model\search\SearchQueryFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Http\Message\ServerRequestInterface;
-use common_ext_ExtensionsManager;
 
 class SearchProxyTest extends TestCase
 {
@@ -73,7 +72,6 @@ class SearchProxyTest extends TestCase
         $this->advancedSearch = $this->createMock(SearchInterface::class);
         $this->searchQueryFactoryMock = $this->createMock(SearchQueryFactory::class);
         $this->resultSetResponseNormalizerMock = $this->createMock(ResultSetResponseNormalizer::class);
-        $this->extensionsManager = $this->createMock(common_ext_ExtensionsManager::class);
 
         $this->resultSetMock = $this->createMock(ResultSet::class);
         $this->requestMock = $this->createMock(ServerRequestInterface::class);
@@ -101,7 +99,6 @@ class SearchProxyTest extends TestCase
                     SearchQueryFactory::class => $this->searchQueryFactoryMock,
                     ResultSetResponseNormalizer::class => $this->resultSetResponseNormalizerMock,
                     IdentifierSearcher::class => $this->identifierSearcher,
-                    common_ext_ExtensionsManager::SERVICE_ID => $this->extensionsManager,
                 ]
             )
         );
