@@ -22,8 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\StatisticalMetadata\Import\Validator;
 
-use RuntimeException;
-use InvalidArgumentException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\tao\model\StatisticalMetadata\Contract\Header;

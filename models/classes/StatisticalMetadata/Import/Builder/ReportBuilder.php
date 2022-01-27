@@ -147,7 +147,7 @@ class ReportBuilder
                 $type,
                 'CSV import failed: %s/%s line(s) are imported',
                 [
-                    $reporter->getTotalImportedRecords(), $reporter->getTotalScannedRecords()
+                    $reporter->getTotalImportedRecords(), $reporter->getTotalScannedRecords(),
                 ]
             );
         }
@@ -158,7 +158,7 @@ class ReportBuilder
                 'CSV import successful: %s/%s line(s) are imported',
                 [
                     $reporter->getTotalImportedRecords(),
-                    $reporter->getTotalScannedRecords()
+                    $reporter->getTotalScannedRecords(),
                 ]
             );
         }
@@ -170,7 +170,7 @@ class ReportBuilder
                 $reporter->getTotalImportedRecords(),
                 $reporter->getTotalScannedRecords(),
                 $reporter->getTotalWarnings(),
-                $reporter->getTotalErrors()
+                $reporter->getTotalErrors(),
             ]
         );
     }

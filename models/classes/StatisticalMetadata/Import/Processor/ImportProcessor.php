@@ -34,8 +34,8 @@ use oat\tao\model\StatisticalMetadata\Import\Reporter\ImportReporter;
 use oat\tao\model\StatisticalMetadata\Import\Validator\HeaderValidator;
 use oat\tao\model\StatisticalMetadata\Import\Extractor\ResourceExtractor;
 use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataValuesExtractor;
-use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataPropertiesExtractor;
 use oat\tao\model\StatisticalMetadata\Import\Exception\AbstractValidationException;
+use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataPropertiesExtractor;
 use oat\tao\model\StatisticalMetadata\Import\Exception\AggregatedValidationException;
 use tao_models_classes_dataBinding_GenerisInstanceDataBindingException as DataBindingException;
 
@@ -90,7 +90,6 @@ class ImportProcessor implements ImportFileProcessorInterface
 
             $metadataProperties = $this->metadataPropertiesExtractor->extract($header);
         } catch (AbstractValidationException | AggregatedValidationException $exception) {
-            // @TODO Beautify header exceptions
             $reporter->addException(0, $exception);
 
             return $this->reportBuilder->buildByReporter($reporter);

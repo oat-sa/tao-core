@@ -23,8 +23,8 @@ declare(strict_types=1);
 namespace oat\tao\model\StatisticalMetadata\Import\Validator;
 
 use oat\tao\model\StatisticalMetadata\Contract\Header;
-use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataAliasesExtractor;
 use oat\tao\model\StatisticalMetadata\Import\Exception\ErrorValidationException;
+use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataAliasesExtractor;
 
 class HeaderValidator
 {
