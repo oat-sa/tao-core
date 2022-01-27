@@ -69,6 +69,20 @@ final class Version202201200829462234_tao extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        if ($this->getServiceManager()->has(PasswordConstraintsServiceInterface::SERVICE_ID)) {
+            $passwordConstraintsService = $this->getServiceManager()->get(PasswordConstraintsServiceInterface::SERVICE_ID);
+        } else {
+            $passwordConstraintsService = require_once(__DIR__ . '/../config/default/passwordConstraints.conf.php');
+        }
+
+        $generisExtension = $this->getServiceLocator()
+            ->get(common_ext_ExtensionsManager::SERVICE_ID)
+            ->getExtensionById('generis');
+
+        $passwordConfig = $generisExtension->getConfig('passwords');
+        $passwordConfig['constrains'] = $passwordConstraintsService->getOption(PasswordConstraintsServiceInterface::OPTION_CONSTRAINTS);
+        $generisExtension->setConfig('passwords', $passwordConfig);
+
         $this->getServiceManager()->unregister(PasswordConstraintsServiceInterface::SERVICE_ID);
     }
 }
