@@ -166,7 +166,7 @@ class ReportBuilder
         if ($reporter->getTotalHeaderErrors()) {
             return Report::create(
                 $type,
-                'CSV import failed: header is not valid (%d errors)',
+                'CSV import failed: header is not valid (%d error(s))',
                 [$reporter->getTotalHeaderErrors()]
             );
         }
