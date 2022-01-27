@@ -20,20 +20,12 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\action;
-
-use core_kernel_classes_Resource;
-use core_kernel_classes_Class;
-use core_kernel_classes_ContainerCollection;
-use core_kernel_classes_Property;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\dataBinding\GenerisInstanceDataBindingException;
 use oat\tao\model\event\MetadataModified;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
-use tao_models_classes_dataBinding_GenerisInstanceDataBinder;
-use tao_models_classes_dataBinding_GenerisInstanceDataBindingException;
 
 class GenerisInstanceDataBinderTest extends TestCase
 {
