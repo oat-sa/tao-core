@@ -227,9 +227,9 @@ class SearchProxyTest extends TestCase
     }
 
     /**
-     * @dataProvider getWhitelistDataProvider
+     * @dataProvider getGenerisSearchUriWhitelistDataProvider
      */
-    public function testGetWhitelist(array $expected, bool $taoBookletEnabled): void
+    public function testGetGenerisSearchUriWhitelist(array $expected, bool $taoBookletEnabled): void
     {
         $this->extensionsManager
             ->method('isEnabled')
@@ -240,12 +240,12 @@ class SearchProxyTest extends TestCase
             $taoBookletEnabled,
             in_array(
                 'http://www.tao.lu/Ontologies/Booklet.rdf#Booklet',
-                $this->subject->getWhitelist()
+                $this->subject->getGenerisSearchUriWhitelist()
             )
         );
     }
 
-    public function getWhitelistDataProvider(): array
+    public function getGenerisSearchUriWhitelistDataProvider(): array
     {
         return [
             'Whitelist without taoBooklet installed' => [
