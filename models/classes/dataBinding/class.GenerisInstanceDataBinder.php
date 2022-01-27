@@ -122,7 +122,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
                             );
                         }
                     } elseif (is_string($propertyValue)) {
-                        if($this->isEmptyValue($propertyValue)) {
+                        if ($this->isEmptyValue($propertyValue)) {
                             $instance->removePropertyValues($prop);
                         } else {
                             $instance->editPropertyValues(
@@ -151,7 +151,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
                     new MetadataModified($instance, $propertyUri, $propertyValue)
                 );
             }
-            
+
             return $instance;
         } catch (common_Exception $e) {
             $msg = "An error occured while binding property values to instance '': " . $e->getMessage();
@@ -162,7 +162,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
 
     private function isEmptyValue(string $value): bool
     {
-        return '' === $value || ' ' === $value || strlen(trim($value)) == 0;
+        return strlen(trim($value)) === 0;
     }
 
     private function getEventManager(): EventManager
