@@ -24,12 +24,16 @@ namespace oat\tao\model\StatisticalMetadata\Import\Reporter;
 
 use Throwable;
 use oat\tao\model\StatisticalMetadata\Import\Exception\ErrorValidationException;
+use oat\tao\model\StatisticalMetadata\Import\Exception\HeaderValidationException;
 use oat\tao\model\StatisticalMetadata\Import\Exception\WarningValidationException;
 use oat\tao\model\StatisticalMetadata\Import\Exception\AbstractValidationException;
 use oat\tao\model\StatisticalMetadata\Import\Exception\AggregatedValidationException;
 
 class ImportReporter
 {
+    /** @var HeaderValidationException[] */
+    private $headerErrors;
+
     /** @var WarningValidationException[] */
     private $warnings;
 
@@ -38,6 +42,9 @@ class ImportReporter
 
     /** @var WarningValidationException[] */
     private $warningsAndErrors;
+
+    /** @var int */
+    private $totalHeaderErrors;
 
     /** @var int */
     private $totalWarnings;
@@ -53,13 +60,20 @@ class ImportReporter
 
     public function __construct()
     {
+        $this->headerErrors = [];
         $this->warnings = [];
         $this->errors = [];
         $this->warningsAndErrors = [];
+        $this->totalHeaderErrors = 0;
         $this->totalWarnings = 0;
         $this->totalErrors = 0;
         $this->totalScannedRecords = 0;
         $this->totalImportedRecords = 0;
+    }
+
+    public function getHeaderErrors(): array
+    {
+        return $this->headerErrors;
     }
 
     public function getWarnings(): array
@@ -75,6 +89,11 @@ class ImportReporter
     public function getWarningsAndErrors(): array
     {
         return $this->warningsAndErrors;
+    }
+
+    public function getTotalHeaderErrors(): int
+    {
+        return $this->totalHeaderErrors;
     }
 
     public function getTotalWarnings(): int
@@ -139,15 +158,22 @@ class ImportReporter
         $this->warningsAndErrors[$line] = $this->warningsAndErrors[$line] ?? [];
         $this->warningsAndErrors[$line][] = $exception;
 
+        if ($exception instanceof HeaderValidationException) {
+            ++$this->totalHeaderErrors;
+
+            $this->headerErrors[$line] = $this->headerErrors[$line] ?? [];
+            $this->headerErrors[$line][] = $exception;
+        }
+
         if ($exception instanceof WarningValidationException) {
-            $this->totalWarnings++;
+            ++$this->totalWarnings;
 
             $this->warnings[$line] = $this->warnings[$line] ?? [];
             $this->warnings[$line][] = $exception;
         }
 
         if ($exception instanceof ErrorValidationException) {
-            $this->totalErrors++;
+            ++$this->totalErrors;
 
             $this->errors[$line] = $this->errors[$line] ?? [];
             $this->errors[$line][] = $exception;

@@ -22,6 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\StatisticalMetadata\Import\Exception;
 
-class HeaderValidationException extends AbstractValidationException
+class HeaderValidationException extends ErrorValidationException
 {
 }

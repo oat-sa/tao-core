@@ -23,8 +23,9 @@ declare(strict_types=1);
 namespace oat\tao\model\StatisticalMetadata\Import\Validator;
 
 use oat\tao\model\StatisticalMetadata\Contract\Header;
-use oat\tao\model\StatisticalMetadata\Import\Exception\ErrorValidationException;
 use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataAliasesExtractor;
+use oat\tao\model\StatisticalMetadata\Import\Exception\HeaderValidationException;
+use oat\tao\model\StatisticalMetadata\Import\Exception\AggregatedValidationException;
 
 class HeaderValidator
 {
@@ -38,25 +39,26 @@ class HeaderValidator
 
     public function validateRequiredHeaders(array $header): void
     {
-        $missedColumns = [];
+        $exceptions = [];
 
         foreach ([Header::ITEM_ID, Header::TEST_ID] as $headerName) {
             if (!in_array($headerName, $header, true)) {
-                $missedColumns[] = $headerName;
+                $exceptions[] = new HeaderValidationException(
+                    'Required column "%s" is missing',
+                    [$headerName]
+                );
             }
         }
 
         if (empty($this->metadataAliasesExtractor->extract($header))) {
-            $missedColumns[] = Header::METADATA_PREFIX . '{property_alias}';
+            $exceptions[] = new HeaderValidationException(
+                'At least one "%s" column must be specified',
+                [Header::METADATA_PREFIX . '{property_alias}']
+            );
         }
 
-        if (!empty($missedColumns)) {
-            throw new ErrorValidationException(
-                'Required columns are missing: "%s"',
-                [
-                    implode('", "', $missedColumns),
-                ]
-            );
+        if (!empty($exceptions)) {
+            throw new AggregatedValidationException($exceptions, []);
         }
     }
 }

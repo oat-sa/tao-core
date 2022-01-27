@@ -24,8 +24,7 @@ namespace oat\tao\model\StatisticalMetadata\Import\Validator;
 
 use core_kernel_classes_Property;
 use oat\tao\model\StatisticalMetadata\Contract\Header;
-use oat\tao\model\StatisticalMetadata\Import\Exception\ErrorValidationException;
-use oat\tao\model\StatisticalMetadata\Import\Exception\WarningValidationException;
+use oat\tao\model\StatisticalMetadata\Import\Exception\HeaderValidationException;
 use oat\tao\model\StatisticalMetadata\Import\Exception\AggregatedValidationException;
 
 class MetadataPropertiesValidator
@@ -40,7 +39,7 @@ class MetadataPropertiesValidator
      * @param core_kernel_classes_Property[] $metadataProperties
      *
      * @throws AggregatedValidationException
-     * @throws ErrorValidationException
+     * @throws HeaderValidationException
      */
     public function validateMetadataExistence(array $aliases, array $metadataProperties): void
     {
@@ -54,7 +53,7 @@ class MetadataPropertiesValidator
 
         foreach ($aliases as $alias) {
             if (!in_array($alias, $existingAliases, true)) {
-                $warnings[] = $this->buildWarningException(
+                $warnings[] = $this->buildHeaderException(
                     Header::METADATA_PREFIX . $alias,
                     'Property referenced by "%s" not found.',
                     [$alias]
@@ -73,7 +72,7 @@ class MetadataPropertiesValidator
      * @param core_kernel_classes_Property[] $metadataProperties
      *
      * @throws AggregatedValidationException
-     * @throws ErrorValidationException
+     * @throws HeaderValidationException
      */
     public function validateMetadataUniqueness(array $metadataProperties): void
     {
@@ -90,7 +89,7 @@ class MetadataPropertiesValidator
             }
 
             if (!array_key_exists($alias, $warnings)) {
-                $warnings[$alias] = $this->buildWarningException(
+                $warnings[$alias] = $this->buildHeaderException(
                     Header::METADATA_PREFIX . $alias,
                     'Property referenced by "%s" not unique.',
                     [$alias]
@@ -109,7 +108,7 @@ class MetadataPropertiesValidator
      * @param core_kernel_classes_Property[] $metadataProperties
      *
      * @throws AggregatedValidationException
-     * @throws ErrorValidationException
+     * @throws HeaderValidationException
      */
     public function validateMetadataTypes(array $metadataProperties): void
     {
@@ -118,7 +117,7 @@ class MetadataPropertiesValidator
         foreach ($metadataProperties as $metadataProperty) {
             if (!in_array($metadataProperty->getWidget()->getUri(), self::ALLOWED_WIDGETS, true)) {
                 $alias = $metadataProperty->getAlias();
-                $warnings[] = $this->buildWarningException(
+                $warnings[] = $this->buildHeaderException(
                     Header::METADATA_PREFIX . $alias,
                     'Property referenced by "%s" has invalid input type - only TEXT is allowed.',
                     [$alias]
@@ -133,27 +132,33 @@ class MetadataPropertiesValidator
         );
     }
 
-    private function buildWarningException(
+    private function buildHeaderException(
         string $column,
         string $message,
         array $interpolationData
-    ): WarningValidationException {
-        $exception = new WarningValidationException($message, $interpolationData);
+    ): HeaderValidationException {
+        $exception = new HeaderValidationException($message, $interpolationData);
         $exception->setColumn($column);
 
         return $exception;
     }
 
-    private function throwErrorOrAggregatedException(array $warnings, array $valuesToCheck, string $message): void
-    {
-        if (empty($warnings)) {
+    /**
+     * @param HeaderValidationException[] $headerExceptions
+     */
+    private function throwErrorOrAggregatedException(
+        array $headerExceptions,
+        array $valuesToCheck,
+        string $message
+    ): void {
+        if (empty($headerExceptions)) {
             return;
         }
 
-        if (count($valuesToCheck) === count($warnings)) {
-            throw new ErrorValidationException($message, [Header::METADATA_PREFIX]);
+        if (count($valuesToCheck) === count($headerExceptions)) {
+            throw new HeaderValidationException($message, [Header::METADATA_PREFIX]);
         }
 
-        throw new AggregatedValidationException([], $warnings);
+        throw new AggregatedValidationException($headerExceptions, []);
     }
 }

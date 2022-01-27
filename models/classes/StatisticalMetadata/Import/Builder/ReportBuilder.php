@@ -26,6 +26,7 @@ use Throwable;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\StatisticalMetadata\Import\Reporter\ImportReporter;
 use oat\tao\model\StatisticalMetadata\Import\Exception\ErrorValidationException;
+use oat\tao\model\StatisticalMetadata\Import\Exception\HeaderValidationException;
 use oat\tao\model\StatisticalMetadata\Import\Exception\WarningValidationException;
 use oat\tao\model\StatisticalMetadata\Import\Exception\AbstractValidationException;
 
@@ -45,12 +46,21 @@ class ReportBuilder
 
         /** @var WarningValidationException[]|ErrorValidationException[] $exceptions */
         foreach ($reporter->getWarningsAndErrors() as $line => $exceptions) {
+            $headerExceptionReports = [];
             $warningReports = [];
             $errorReports = [];
 
             foreach ($exceptions as $exception) {
+                if ($exception instanceof HeaderValidationException) {
+                    $headerExceptionReports[] = $this->createReportByException($exception);
+
+                    continue;
+                }
+
                 if ($exception instanceof WarningValidationException) {
                     $warningReports[] = $this->createReportByException($exception);
+
+                    continue;
                 }
 
                 if ($exception instanceof ErrorValidationException) {
@@ -58,18 +68,18 @@ class ReportBuilder
                 }
             }
 
-            if (empty($errorReports) && empty($warningReports)) {
+            if (empty($headerExceptionReports) && empty($errorReports) && empty($warningReports)) {
                 continue;
             }
 
-            $lineMainReport = Report::create(
-                empty($errorReports) ? Report::TYPE_WARNING : Report::TYPE_ERROR,
-                'line %s: %s',
-                [
-                    $line,
-                    '',
-                ]
-            );
+            $lineMainReportType = empty($headerExceptionReports) && empty($errorReports)
+                ? Report::TYPE_WARNING
+                : Report::TYPE_ERROR;
+            $lineMainReport = Report::create($lineMainReportType, 'line %s: %s', [$line, '']);
+
+            foreach ($headerExceptionReports as $headerExceptionReport) {
+                $lineMainReport->add($headerExceptionReport);
+            }
 
             foreach ($warningReports as $warningReport) {
                 $lineMainReport->add($warningReport);
@@ -88,12 +98,23 @@ class ReportBuilder
             }
         }
 
+        if (!empty($headerExceptionReports)) {
+            $this->createAndAddSubReport(
+                $report,
+                $headerExceptionReports,
+                Report::TYPE_ERROR,
+                'Header contain an error(s)'
+            );
+
+            return $report;
+        }
+
         if (!empty($warningAndErrorReports)) {
             $this->createAndAddSubReport(
                 $report,
                 $warningAndErrorReports,
                 Report::TYPE_ERROR,
-                '%s line(s) contain(s) an error and cannot be imported'
+                '%s line(s) contain an error(s) and cannot be imported'
             );
         }
 
@@ -102,7 +123,7 @@ class ReportBuilder
                 $report,
                 $onlyWarningReports,
                 Report::TYPE_WARNING,
-                '%s line(s) are imported with warnings'
+                '%s line(s) are imported with warning(s)'
             );
         }
 
@@ -177,6 +198,14 @@ class ReportBuilder
 
     private function createReportByException(AbstractValidationException $exception): Report
     {
+        if ($exception instanceof HeaderValidationException) {
+            return Report::create(
+                Report::TYPE_ERROR,
+                $exception->getMessage(),
+                $exception->getInterpolationData()
+            );
+        }
+
         if ($exception instanceof WarningValidationException) {
             return Report::create(
                 Report::TYPE_WARNING,
