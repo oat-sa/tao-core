@@ -30,7 +30,6 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\TaoOntology;
-use oat\taoBooklet\model\BookletClassService;
 use Psr\Http\Message\ServerRequestInterface;
 
 class SearchProxy extends ConfigurableService implements Search
@@ -265,10 +264,5 @@ class SearchProxy extends ConfigurableService implements Search
             $query->getTerm(),
             $query->getParentClass()
         );
-    }
-
-    private function getExtensionsManager(): common_ext_ExtensionsManager
-    {
-        return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
     }
 }

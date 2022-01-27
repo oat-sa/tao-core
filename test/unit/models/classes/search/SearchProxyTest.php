@@ -225,39 +225,4 @@ class SearchProxyTest extends TestCase
         $generisSearchWhitelist = array_merge(SearchProxy::GENERIS_SEARCH_DEFAULT_WHITELIST, $options);
         $this->assertTrue(in_array(GenerisRdf::CLASS_ROLE, $generisSearchWhitelist));
     }
-
-    /**
-     * @dataProvider getGenerisSearchUriWhitelistDataProvider
-     */
-    public function testGetGenerisSearchUriWhitelist(array $expected, bool $taoBookletEnabled): void
-    {
-        $this->extensionsManager
-            ->method('isEnabled')
-            ->with('taoBooklet')
-            ->willReturn($taoBookletEnabled);
-
-        $this->assertEquals(
-            $taoBookletEnabled,
-            in_array(
-                'http://www.tao.lu/Ontologies/Booklet.rdf#Booklet',
-                $this->subject->getGenerisSearchUriWhitelist()
-            )
-        );
-    }
-
-    public function getGenerisSearchUriWhitelistDataProvider(): array
-    {
-        return [
-            'Whitelist without taoBooklet installed' => [
-                'expected' => ['results'],
-                'taoBookletEnabled' => false,
-                'envVars' => [],
-            ],
-            'Whitelist with taoBooklet enabled' => [
-                'expected' => ['results', 'taoBooklet_main'],
-                'taoBookletEnabled' => true,
-                'envVars' => [],
-            ],
-        ];
-    }
 }
