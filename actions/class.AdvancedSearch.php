@@ -36,7 +36,7 @@ class tao_actions_AdvancedSearch extends CommonModule
         $this->setSuccessJsonResponse(
             [
                 'enabled' => $advancedSearchChecker->isEnabled(),
-                'whitelist' => $search->getWhitelist(),
+                'whitelist' => $search->getGenerisSearchUriWhitelist(),
             ]
         );
     }

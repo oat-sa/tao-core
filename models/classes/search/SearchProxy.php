@@ -173,7 +173,7 @@ class SearchProxy extends ConfigurableService implements Search
      *
      * @return string[]
      */
-    public function getWhitelist(): array
+    public function getGenerisSearchUriWhitelist(): array
     {
         $whitelist = $this->getOption(
             self::OPTION_GENERIS_SEARCH_WHITELIST,
