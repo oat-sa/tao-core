@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint157\n"
-"PO-Revision-Date: 2021-06-18T08:53:20\n"
+"Project-Id-Version: TAO 2021.11\n"
+"PO-Revision-Date: 2022-01-27T14:15:57\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -196,9 +196,6 @@ msgstr "操作"
 msgid "Add"
 msgstr "追加"
 
-msgid "Add / Edit lists"
-msgstr ""
-
 msgid "Add a CSV file"
 msgstr "CSVファイル追加"
 
@@ -235,9 +232,6 @@ msgstr ""
 
 msgid "Adobe Flash file"
 msgstr ""
-
-msgid "Advanced Mode"
-msgstr "詳細モード"
 
 msgid "Advanced search, add filters"
 msgstr "高度な検索（フィルタ追加）"
@@ -318,6 +312,9 @@ msgstr "バージョン管理リソースを削除してもよろしいですか
 
 msgid "Are you sure you want to delete it?"
 msgstr "削除してよろしいですか？"
+
+msgid "Are you wish to delete it"
+msgstr ""
 
 msgid "Argument check failed: %s"
 msgstr ""
@@ -519,6 +516,9 @@ msgstr "保存された変数の消去"
 msgid "Click to reload."
 msgstr ""
 
+msgid "Click to start"
+msgstr ""
+
 msgid "Close"
 msgstr "閉じる"
 
@@ -624,6 +624,9 @@ msgstr "現在の言語"
 msgid "Current playback position"
 msgstr "現在の再生位置"
 
+msgid "currently has a dependency established with "
+msgstr ""
+
 msgid "Data imported"
 msgstr "データをインポートしました。"
 
@@ -633,10 +636,10 @@ msgstr "インポートが完了しました"
 msgid "Data imported. Some records are invalid."
 msgstr "データをインポートしました。一部のレコードは無効です。"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "データ言語"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "データ言語"
 
 msgid "Data not imported. All records are invalid."
@@ -694,8 +697,17 @@ msgstr "カーソルの右部分を削除します"
 msgid "Deleting search index for %s"
 msgstr "%s の検索インデックスを削除します。"
 
+msgid "Deleting this property will also remove the dependency"
+msgstr ""
+
 msgid "Demo Sandbox"
 msgstr "サンドボックス"
+
+msgid "Dependency URI Path"
+msgstr ""
+
+msgid "Depends on property"
+msgstr ""
 
 msgid "Did you mean %s?"
 msgstr ""
@@ -777,9 +789,6 @@ msgstr "クラス編集：%s"
 
 msgid "Edit Instance"
 msgstr "インスタンス編集"
-
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr "このプラットフォームをiFrameに埋め込みできるソースを設定"
 
 msgid "Element"
 msgstr "エレメント"
@@ -1086,11 +1095,11 @@ msgstr "\"%s リソースをインポート"
 msgid "impossible to update task status"
 msgstr "タスクステータスを更新できません"
 
-msgid "In Progress"
-msgstr "処理中"
-
 msgid "In progress"
 msgstr "実施中"
+
+msgid "In Progress"
+msgstr "処理中"
 
 msgid "Inclusive (AND)"
 msgstr "包括（AND)"
@@ -1187,6 +1196,9 @@ msgstr "ログイン名またはパスワードが無効です。アカウント
 
 msgid "invalid regular expression"
 msgstr "無効な正規表現です"
+
+msgid "Invalid value"
+msgstr ""
 
 msgid "Invalid values:"
 msgstr ""
@@ -1323,9 +1335,6 @@ msgstr "メンテナンス用ストレージドライバが設定されていま
 msgid "Manage class schema"
 msgstr "クラススキーマ管理"
 
-msgid "Manage data list"
-msgstr "データリスト管理"
-
 #, tao-public
 msgid "Manage roles"
 msgstr "ロール管理"
@@ -1455,6 +1464,21 @@ msgstr "複数の値の区切り文字"
 msgid "Multiply the value by 10^x"
 msgstr "値に10^xを乗算します。"
 
+msgid "Must include at least one letter"
+msgstr ""
+
+msgid "Must include at least one number"
+msgstr ""
+
+msgid "Must include at least one special letter"
+msgstr ""
+
+msgid "Must include lower case letters"
+msgstr ""
+
+msgid "Must include upper case letters"
+msgstr ""
+
 msgid "Mute"
 msgstr "ミュート"
 
@@ -1516,9 +1540,6 @@ msgstr ""
 
 msgid "no label"
 msgstr "ラベルがありません"
-
-msgid "No results found"
-msgstr "検索結果はありません。"
 
 msgid "No Task yet"
 msgstr "タスクがありません"
@@ -1701,8 +1722,8 @@ msgstr "その理由を記入してください"
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "バグの報告やアイデア，コメントなどTAOフォーラムにフィードバックしてください"
 
-msgid "Please try in %s."
-msgstr "%sでお試しください。"
+msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
 
 msgid "Please wait"
 msgstr "お待ちください"
@@ -1749,9 +1770,6 @@ msgstr "開始"
 #, tao-public
 msgid "Properties"
 msgstr "プロパティ"
-
-msgid "Property's label field is required"
-msgstr "プロパティのラベルは必須です"
 
 msgid "Provided URL is not valid"
 msgstr "指定されたURLは有効ではありません"
@@ -1843,9 +1861,6 @@ msgstr "ファイル %s を削除"
 msgid "Removing: %s"
 msgstr "削除中: %s"
 
-msgid "Rename"
-msgstr "名前の変更"
-
 msgid "Repeat new password"
 msgstr "新パスワード(再入力)"
 
@@ -1923,9 +1938,6 @@ msgstr "ログインページに戻る"
 
 msgid "Rich Text Format file"
 msgstr ""
-
-msgid "Right click the tree to manage your lists"
-msgstr "リストを管理するためにツリーで右クリックします"
 
 msgid "Right parenthesis"
 msgstr "右括弧"
@@ -2056,9 +2068,6 @@ msgstr ""
 msgid "Sign change"
 msgstr "符号入れ替え"
 
-msgid "Simple Mode"
-msgstr "シンプルモード"
-
 msgid "sin"
 msgstr "sin"
 
@@ -2082,6 +2091,9 @@ msgstr "このプラットフォームをiFrameに埋め込むためのソース
 
 msgid "Square root"
 msgstr "平方根"
+
+msgid "Start"
+msgstr ""
 
 msgid "Start of document reached. Continuing from the end."
 msgstr "ドキュメントの開始点に到達しました。最後から続けます。"
@@ -2437,10 +2449,13 @@ msgstr "単項演算子(+)"
 msgid "Unary operator -"
 msgstr "単項演算子(-)"
 
-msgid "Uncheck all"
-msgstr "全て無効"
+msgid "Unauthorized files have been removed"
+msgstr ""
 
 msgid "Uncheck All"
+msgstr "全て無効"
+
+msgid "Uncheck all"
 msgstr "全て無効"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2630,6 +2645,9 @@ msgstr ""
 
 msgid "Windows Media video"
 msgstr ""
+
+msgid "with"
+msgstr "toto"
 
 msgid "Wrap image left"
 msgstr ""
