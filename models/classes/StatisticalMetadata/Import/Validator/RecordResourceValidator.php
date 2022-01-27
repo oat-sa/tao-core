@@ -33,7 +33,7 @@ class RecordResourceValidator
     {
         if (empty($record[Header::ITEM_ID]) && empty($record[Header::TEST_ID])) {
             throw new ErrorValidationException(
-                'At least one of %s or %s is required',
+                'At least one of "%s" or "%s" is required',
                 [
                     Header::ITEM_ID,
                     Header::TEST_ID,
