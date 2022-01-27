@@ -102,7 +102,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
                         $instance->removeType($type);
                     }
 
-                    $types = !is_array($propertyValue) ? [$propertyValue] : $propertyValue;
+                    $types = is_array($propertyValue) ? $propertyValue : [$propertyValue];
 
                     foreach ($types as $type) {
                         $instance->setType(new core_kernel_classes_Class($type));
