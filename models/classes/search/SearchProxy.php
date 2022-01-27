@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search;
 
-use common_ext_ExtensionsManager;
 use Exception;
 use InvalidArgumentException;
 use oat\generis\model\GenerisRdf;
