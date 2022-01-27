@@ -26,8 +26,27 @@ use oat\tao\model\StatisticalMetadata\Contract\Header;
 
 class MetadataHeadersExtractor
 {
+    /** @var array */
+    private $cache = [];
+
     public function extract(array $header): array
     {
-        return preg_grep(sprintf('/^%s/', Header::METADATA_PREFIX), $header);
+        $hash = $this->getHash($header);
+
+        if (!array_key_exists($hash, $this->cache)) {
+            $this->cache[$hash] = preg_grep(
+                sprintf('/^%s/', Header::METADATA_PREFIX),
+                $header
+            );
+        }
+
+        return $this->cache[$hash];
+    }
+
+    private function getHash(array $header): string
+    {
+        sort($header);
+
+        return hash('sha256', json_encode($header));
     }
 }

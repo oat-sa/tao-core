@@ -29,6 +29,9 @@ class MetadataAliasesExtractor
     /** @var MetadataHeadersExtractor */
     private $metadataHeadersExtractor;
 
+    /** @var array */
+    private $cache = [];
+
     public function __construct(MetadataHeadersExtractor $metadataHeadersExtractor)
     {
         $this->metadataHeadersExtractor = $metadataHeadersExtractor;
@@ -36,11 +39,30 @@ class MetadataAliasesExtractor
 
     public function extract(array $header): array
     {
-        return array_map(
-            static function (string $metadataHeader): string {
-                return str_replace(Header::METADATA_PREFIX, '', $metadataHeader);
-            },
-            $this->metadataHeadersExtractor->extract($header)
-        );
+        $hash = $this->getHash($header);
+
+        if (!array_key_exists($hash, $this->cache)) {
+            $this->cache[$hash] = $this->extractAliases($this->metadataHeadersExtractor->extract($header));
+        }
+
+        return $this->cache[$hash];
+    }
+
+    private function getHash(array $header): string
+    {
+        sort($header);
+
+        return hash('sha256', json_encode($header));
+    }
+
+    private function extractAliases(array $metadata): array
+    {
+        $aliases = [];
+
+        foreach ($metadata as $metadatum) {
+            $aliases[] = str_replace(Header::METADATA_PREFIX, '', $metadatum);
+        }
+
+        return $aliases;
     }
 }

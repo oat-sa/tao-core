@@ -20,19 +20,39 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\StatisticalMetadata\Model;
+namespace oat\tao\model\StatisticalMetadata\Import\Exception;
 
-class MetadataProperty
+use Exception;
+
+abstract class AbstractValidationException extends Exception
 {
-    /** @var string */
-    public $uri;
+    /** @var string[] */
+    private $interpolationData;
 
     /** @var string */
-    public $alias;
+    private $column;
 
-    /** @var string */
-    public $domain;
+    public function __construct(string $message, array $interpolationData = [])
+    {
+        parent::__construct($message);
 
-    /** @var string */
-    public $widget;
+        $this->interpolationData = $interpolationData;
+    }
+
+    public function setColumn(string $column): self
+    {
+        $this->column = $column;
+
+        return $this;
+    }
+
+    public function getColumn(): ?string
+    {
+        return $this->column;
+    }
+
+    public function getInterpolationData(): array
+    {
+        return $this->interpolationData;
+    }
 }

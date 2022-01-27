@@ -22,29 +22,27 @@ declare(strict_types=1);
 
 namespace oat\tao\model\StatisticalMetadata\Import\Validator;
 
-use InvalidArgumentException;
 use core_kernel_classes_Class;
+use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use oat\tao\model\StatisticalMetadata\Import\Exception\ErrorValidationException;
 
-class MetadataToBindValidator
+class ResourceMetadataRelationValidator
 {
-    public function validateMetadataValue($value): void
-    {
-        if (!is_string($value)) {
-            throw new InvalidArgumentException('metadata value must be a string.');
-        }
-    }
-
-    public function validateRelationToResource(
+    public function validate(
         core_kernel_classes_Resource $resource,
-        core_kernel_classes_Class $metadataDomain
+        core_kernel_classes_Property $metadataProperty
     ): void {
-        if (!$resource->isInstanceOf($metadataDomain)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'provided metadata does not belong to the resource "%s".',
-                    $resource->getUri()
-                )
+        /** @var core_kernel_classes_Class $metadataPropertyDomain */
+        $metadataPropertyDomain = $metadataProperty->getDomain()->get(0);
+
+        if (!$resource->isInstanceOf($metadataPropertyDomain)) {
+            throw new ErrorValidationException(
+                'Property referenced by "%s" does not belong to the resource "%s"',
+                [
+                    $metadataProperty->getAlias(),
+                    $resource->getUri(),
+                ]
             );
         }
     }

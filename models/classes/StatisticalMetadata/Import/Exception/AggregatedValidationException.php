@@ -20,39 +20,49 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Csv\Service;
+namespace oat\tao\model\StatisticalMetadata\Import\Exception;
 
-use Iterator;
-use League\Csv\Reader as LeagueCsvReader;
+use Exception;
 
-class Reader
+class AggregatedValidationException extends Exception
 {
-    /** @var LeagueCsvReader */
-    private $reader;
+    /** @var ErrorValidationException[] */
+    private $errors;
 
-    public function __construct(LeagueCsvReader $reader)
+    /** @var WarningValidationException[] */
+    private $warnings;
+
+    public function __construct(array $errors, array $warnings)
     {
-        $this->reader = $reader;
+        $this->errors = $errors;
+        $this->warnings = $warnings;
+
+        parent::__construct();
     }
 
     /**
-     * @return string[]
+     * @return ErrorValidationException[]
      */
-    public function getHeader(): array
+    public function getErrors(): array
     {
-        return $this->reader->getHeader();
+        return $this->errors;
+    }
+
+    public function hasErrors(): bool
+    {
+        return !empty($this->errors);
+    }
+
+    public function hasWarnings(): bool
+    {
+        return !empty($this->warnings);
     }
 
     /**
-     * @param string[] $header an optional header to use instead of the CSV document header
+     * @return WarningValidationException[]
      */
-    public function getRecords(array $header = []): Iterator
+    public function getWarnings(): array
     {
-        return $this->reader->getRecords($header);
-    }
-
-    public function count(): int
-    {
-        return $this->reader->count();
+        return $this->warnings;
     }
 }

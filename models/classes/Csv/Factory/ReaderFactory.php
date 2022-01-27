@@ -22,24 +22,20 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Csv\Factory;
 
-use SplFileObject;
+use League\Csv\Exception;
 use InvalidArgumentException;
+use League\Csv\InvalidArgument;
 use oat\tao\model\Csv\Service\Reader;
 use League\Csv\Reader as LeagueReader;
 
 class ReaderFactory
 {
-    public function createFromFileObject(SplFileObject $fileObject): Reader
-    {
-        $reader = LeagueReader::createFromFileObject($fileObject);
-
-        return new Reader($reader);
-    }
+    public const DELIMITER = 'delimiter';
 
     /**
      * @param resource $stream
      */
-    public function createFromStream($stream): Reader
+    public function createFromStream($stream, array $options = []): Reader
     {
         if (!is_resource($stream)) {
             throw new InvalidArgumentException('The provided value must be a resource.');
@@ -47,26 +43,15 @@ class ReaderFactory
 
         $reader = LeagueReader::createFromStream($stream);
 
-        return new Reader($reader);
-    }
+        try {
+            $reader->setHeaderOffset(0);
 
-    public function createFromString(string $content): Reader
-    {
-        $reader = LeagueReader::createFromString($content);
-
-        return new Reader($reader);
-    }
-
-    /**
-     * @param resource|null $context the resource context
-     */
-    public function createFromPath(string $path, string $mode = 'r', $context = null): Reader
-    {
-        if ($context !== null && !is_resource($context)) {
-            throw new InvalidArgumentException('The provided value must be a resource or null.');
+            if (!empty($options[self::DELIMITER]) && is_string($options[self::DELIMITER])) {
+                $reader->setDelimiter($options[self::DELIMITER]);
+            }
+        } catch (Exception | InvalidArgument $exception) {
+            throw new InvalidArgumentException($exception->getMessage());
         }
-
-        $reader = LeagueReader::createFromPath($path, $mode, $context);
 
         return new Reader($reader);
     }

@@ -20,16 +20,8 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\StatisticalMetadata\Contract;
+namespace oat\tao\model\StatisticalMetadata\Import\Exception;
 
-use oat\tao\model\StatisticalMetadata\Model\MetadataProperty;
-
-interface StatisticalMetadataRepositoryInterface
+class ErrorValidationException extends AbstractValidationException
 {
-    public const FILTER_ALIASES = 'aliases';
-
-    /**
-     * @return MetadataProperty[]
-     */
-    public function findProperties(array $filters): array;
 }

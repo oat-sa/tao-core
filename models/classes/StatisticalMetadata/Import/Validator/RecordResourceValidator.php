@@ -27,18 +27,19 @@ use InvalidArgumentException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\tao\model\StatisticalMetadata\Contract\Header;
+use oat\tao\model\StatisticalMetadata\Import\Exception\ErrorValidationException;
 
 class RecordResourceValidator
 {
     public function validateResourceId(array $record): void
     {
         if (empty($record[Header::ITEM_ID]) && empty($record[Header::TEST_ID])) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'resource ID (header: %s or %s) not specified.',
+            throw new ErrorValidationException(
+            'At least one of %s or %s is required.',
+                [
                     Header::ITEM_ID,
-                    Header::TEST_ID
-                )
+                    Header::TEST_ID,
+                ]
             );
         }
     }
@@ -46,11 +47,11 @@ class RecordResourceValidator
     public function validateResourceAvailability(core_kernel_classes_Resource $resource): void
     {
         if (!$resource->exists()) {
-            throw new RuntimeException(
-                sprintf(
-                    'resource with ID "%s" does not exist.',
-                    $resource->getUri()
-                )
+            throw new ErrorValidationException(
+                'Resource referenced by "%s" is not found.',
+                [
+                    $resource->getUri(),
+                ]
             );
         }
     }
@@ -60,11 +61,11 @@ class RecordResourceValidator
         core_kernel_classes_Class $rootClass
     ): void {
         if (!$resource->isInstanceOf($rootClass)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'resource with ID "%s" is not valid, has the wrong instance type.',
-                    $resource->getUri()
-                )
+            throw new ErrorValidationException(
+                'Resource referenced by "%s" has the wrong instance type.',
+                [
+                    $resource->getUri(),
+                ]
             );
         }
     }

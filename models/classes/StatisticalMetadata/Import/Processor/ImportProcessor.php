@@ -22,19 +22,22 @@ declare(strict_types=1);
 
 namespace oat\tao\model\StatisticalMetadata\Import\Processor;
 
-use RuntimeException;
-use InvalidArgumentException;
+use Throwable;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
 use core_kernel_classes_Resource;
 use oat\tao\model\Csv\Factory\ReaderFactory;
 use tao_models_classes_dataBinding_GenerisInstanceDataBinder;
 use oat\tao\model\import\Processor\ImportFileProcessorInterface;
+use oat\tao\model\StatisticalMetadata\Import\Builder\ReportBuilder;
+use oat\tao\model\StatisticalMetadata\Import\Reporter\ImportReporter;
 use oat\tao\model\StatisticalMetadata\Import\Validator\HeaderValidator;
-use tao_models_classes_dataBinding_GenerisInstanceDataBindingException;
 use oat\tao\model\StatisticalMetadata\Import\Extractor\ResourceExtractor;
-use oat\tao\model\StatisticalMetadata\Import\Mapper\StatisticalMetadataMapper;
-use oat\tao\model\StatisticalMetadata\Import\Validator\MetadataToBindValidator;
+use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataValuesExtractor;
+use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataPropertiesExtractor;
+use oat\tao\model\StatisticalMetadata\Import\Exception\AbstractValidationException;
+use oat\tao\model\StatisticalMetadata\Import\Exception\AggregatedValidationException;
+use tao_models_classes_dataBinding_GenerisInstanceDataBindingException as DataBindingException;
 
 class ImportProcessor implements ImportFileProcessorInterface
 {
@@ -44,188 +47,84 @@ class ImportProcessor implements ImportFileProcessorInterface
     /** @var HeaderValidator */
     private $headerValidator;
 
-    /** @var StatisticalMetadataMapper */
-    private $statisticalMetadataMapper;
+    /** @var MetadataPropertiesExtractor */
+    private $metadataPropertiesExtractor;
 
     /** @var ResourceExtractor */
     private $resourceExtractor;
 
-    /** @var MetadataToBindValidator */
-    private $metadataToBindValidator;
+    /** @var MetadataValuesExtractor */
+    private $metadataValuesExtractor;
 
-    /** @var Report[] */
-    private $reports;
+    /** @var ReportBuilder */
+    private $reportBuilder;
 
     public function __construct(
         ReaderFactory $readerFactory,
         HeaderValidator $headerValidator,
-        StatisticalMetadataMapper $statisticalMetadataMapper,
+        MetadataPropertiesExtractor $metadataPropertiesExtractor,
         ResourceExtractor $resourceExtractor,
-        MetadataToBindValidator $metadataToBindValidator
+        MetadataValuesExtractor $metadataValuesExtractor,
+        ReportBuilder $reportBuilder
     ) {
         $this->readerFactory = $readerFactory;
         $this->headerValidator = $headerValidator;
-        $this->statisticalMetadataMapper = $statisticalMetadataMapper;
+        $this->metadataPropertiesExtractor = $metadataPropertiesExtractor;
         $this->resourceExtractor = $resourceExtractor;
-        $this->metadataToBindValidator = $metadataToBindValidator;
+        $this->metadataValuesExtractor = $metadataValuesExtractor;
+        $this->reportBuilder = $reportBuilder;
     }
 
     public function process(File $file): Report
     {
-        if (!$file->exists()) {
-            return Report::createError('File not exists.');
-        }
+        $reporter = new ImportReporter();
 
         try {
-            $csv = $this->readerFactory->createFromStream($file->readStream());
-            $csv->setDelimiter(';');
-            $csv->setHeaderOffset(0);
+            $csv = $this->readerFactory->createFromStream(
+                $file->readStream(),
+                [ReaderFactory::DELIMITER => ';']
+            );
 
             $header = $csv->getHeader();
             $this->headerValidator->validateRequiredHeaders($header);
 
-            $metadataMap = $this->statisticalMetadataMapper->getMap($header);
-            $this->headerValidator->validateMetadataHeaders($header, $metadataMap);
-            $this->headerValidator->validateMetadataUniqueness($metadataMap);
-            $this->headerValidator->validateMetadataTypes($metadataMap);
-        } catch (InvalidArgumentException | RuntimeException $exception) {
-            return Report::createError(sprintf('CSV import failed: %s', $exception->getMessage()));
-        }
+            $metadataProperties = $this->metadataPropertiesExtractor->extract($header);
+        } catch (AbstractValidationException | AggregatedValidationException $exception) {
+            // @TODO Beautify header exceptions
+            $reporter->addException(0, $exception);
 
-        $this->reports = [];
-        $updatedResourcesCount = 0;
+            return $this->reportBuilder->buildByReporter($reporter);
+        } catch (Throwable $exception) {
+            return $this->reportBuilder->buildByException($exception);
+        }
 
         foreach ($csv->getRecords($header) as $line => $record) {
             try {
+                $reporter->increaseTotalScannedRecords();
                 $resource = $this->resourceExtractor->extract($record);
+                $metadataValues = $this->metadataValuesExtractor->extract($record, $resource, $metadataProperties);
 
-                $this->bindProperties(
-                    $resource,
-                    $this->getMetadataToBind($record, $metadataMap, $resource, $line)
-                );
+                $this->bindProperties($resource, $metadataValues);
 
-                ++$updatedResourcesCount;
-            } catch (InvalidArgumentException | RuntimeException $exception) {
-                $this->reports[] = Report::createError(sprintf('Line %d: %s', $line, $exception->getMessage()));
-            } catch (tao_models_classes_dataBinding_GenerisInstanceDataBindingException $exception) {
-                $this->reports[] = Report::createError(
-                    sprintf(
-                        'Line %d: metadata values could not be persisted.',
-                        $line
-                    )
-                );
+                $reporter->increaseTotalImportedRecords();
+            } catch (AbstractValidationException | AggregatedValidationException $exception) {
+                $reporter->addException($line, $exception);
+            } catch (Throwable $exception) {
+                return $this->reportBuilder->buildByException($exception);
             }
         }
 
-        return $this->buildFinalReport($csv->count(), $updatedResourcesCount);
-    }
-
-    // @TODO Move to a separate service
-    private function getMetadataToBind(
-        array $record,
-        array $metadataMap,
-        core_kernel_classes_Resource $resource,
-        int $line
-    ): array {
-        $metadataToBind = [];
-        $reports = [];
-        $possibleMetadataToBindCount = 0;
-        $errors = 0;
-
-        // Since the metadata map has been checked for uniqueness, $metadataProperties contains only one value
-        foreach ($metadataMap as $metadata => $metadataProperties) {
-            if (empty($record[$metadata])) {
-                continue;
-            }
-
-            ++$possibleMetadataToBindCount;
-
-            // @TODO Extract to a separate method
-            try {
-                $this->metadataToBindValidator->validateRelationToResource(
-                    $resource,
-                    $metadataProperties[0][StatisticalMetadataMapper::KEY_DOMAIN]
-                );
-                $this->metadataToBindValidator->validateMetadataValue($record[$metadata]);
-            } catch (InvalidArgumentException $exception) {
-                $reports[] = Report::createWarning(
-                    sprintf(
-                        'Metadata "%s": %s',
-                        $metadata,
-                        $exception->getMessage()
-                    )
-                );
-                ++$errors;
-
-                continue;
-            }
-
-            $metadataToBind[$metadataProperties[0][StatisticalMetadataMapper::KEY_URI]] = $record[$metadata];
-        }
-
-        if ($errors) {
-            // @FIXME Throw an exception instead of error/warning
-            $this->reports[] = $possibleMetadataToBindCount === $errors
-                ? Report::createError(sprintf('Line %d: import failed', $line), null, $reports)
-                : Report::createWarning(sprintf('Line %d: partially imported', $line), null, $reports);
-        }
-
-        return $metadataToBind;
+        return $this->reportBuilder->buildByReporter($reporter);
     }
 
     /**
-     * @throws tao_models_classes_dataBinding_GenerisInstanceDataBindingException
+     * @TODO Improve the repository to allow persistence of resource properties and use it instead of a data binder.
+     *
+     * @throws DataBindingException
      */
     private function bindProperties(core_kernel_classes_Resource $resource, array $values): void
     {
         $binder = new tao_models_classes_dataBinding_GenerisInstanceDataBinder($resource);
         $binder->bind($values);
-    }
-
-    private function buildFinalReport(int $totalCount, int $updatedResourcesCount): Report
-    {
-        $type = Report::TYPE_SUCCESS;
-        $template = 'CSV import successful: imported %d/%d row(s).';
-        $templateData = [
-            $updatedResourcesCount,
-            $totalCount,
-        ];
-
-        if (!empty($this->reports)) {
-            $type = $updatedResourcesCount === $totalCount
-                ? Report::TYPE_ERROR
-                : Report::TYPE_WARNING;
-            $template = 'Imported %d/%d row(s)';
-
-            [$warningsCount, $errorsCount] = $this->countReportTypes();
-
-            if ($warningsCount) {
-                $template .= '. %d warning(s)';
-                $templateData[] = $warningsCount;
-            }
-
-            if ($errorsCount) {
-                $template .= ', %d error(s)';
-                $templateData[] = $errorsCount;
-            }
-
-            $template .= '.';
-        }
-
-        return new Report($type, vsprintf($template, $templateData), null, $this->reports);
-    }
-
-    private function countReportTypes(): array
-    {
-        $warningsCount = 0;
-        $errorsCount = 0;
-
-        foreach ($this->reports as $report) {
-            $report->getType() === Report::TYPE_WARNING
-                ? ++$warningsCount
-                : ++$errorsCount;
-        }
-
-        return [$warningsCount, $errorsCount];
     }
 }
