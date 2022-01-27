@@ -100,7 +100,9 @@ class ValueCollectionTest extends TestCase
     {
         $value1 = new Value(null, 'http://example.com#1', '1');
         $value2 = new Value(null, 'http://example.com#2', '2');
-        $sut    = new ValueCollection(null, $value1, $value2);
+        $value3 = new Value(null, '', 'value 3 - empty uri');
+        $value4 = new Value(null, '', 'value 4 - empty uri');
+        $sut    = new ValueCollection(null, $value1, $value2, $value3, $value4);
 
         $this->assertFalse($sut->hasDuplicates());
 
@@ -109,6 +111,17 @@ class ValueCollectionTest extends TestCase
 
         $value1->setUri($value2->getUri());
         $this->assertTrue($sut->hasDuplicates());
+    }
+
+    public function testGetDuplicates(): void
+    {
+        $value1 = new Value(null, 'http://example.com#1', '1');
+        $value2 = new Value(null, 'http://example.com#2', '2');
+        $value3 = new Value(null, '', 'value 3 - empty uri');
+        $value4 = new Value(null, '', 'value 4 - empty uri');
+        $sut    = new ValueCollection(null, $value1, $value2, $value3, $value4);
+
+        $this->assertSame(0, $sut->getDuplicatedValues()->count());
     }
 
     /**
