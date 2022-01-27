@@ -55,7 +55,7 @@ class MetadataPropertiesValidator
             if (!in_array($alias, $existingAliases, true)) {
                 $warnings[] = $this->buildHeaderException(
                     Header::METADATA_PREFIX . $alias,
-                    'Property referenced by "%s" not found.',
+                    'Property referenced by "%s" not found',
                     [$alias]
                 );
             }
@@ -64,7 +64,7 @@ class MetadataPropertiesValidator
         $this->throwErrorOrAggregatedException(
             $warnings,
             $aliases,
-            'None of properties referenced by "%s_{property_alias}" columns were found.'
+            'None of properties referenced by "%s_{property_alias}" columns were found'
         );
     }
 
@@ -91,7 +91,7 @@ class MetadataPropertiesValidator
             if (!array_key_exists($alias, $warnings)) {
                 $warnings[$alias] = $this->buildHeaderException(
                     Header::METADATA_PREFIX . $alias,
-                    'Property referenced by "%s" not unique.',
+                    'Property referenced by "%s" is not unique',
                     [$alias]
                 );
             }
@@ -100,7 +100,7 @@ class MetadataPropertiesValidator
         $this->throwErrorOrAggregatedException(
             $warnings,
             $existingAliases,
-            'None of properties referenced by "%s_{property_alias}" columns are unique.'
+            'None of properties referenced by "%s_{property_alias}" columns are unique'
         );
     }
 
@@ -119,7 +119,7 @@ class MetadataPropertiesValidator
                 $alias = $metadataProperty->getAlias();
                 $warnings[] = $this->buildHeaderException(
                     Header::METADATA_PREFIX . $alias,
-                    'Property referenced by "%s" has invalid input type - only TEXT is allowed.',
+                    'Property referenced by "%s" has invalid input type - only TEXT is allowed',
                     [$alias]
                 );
             }
@@ -128,7 +128,7 @@ class MetadataPropertiesValidator
         $this->throwErrorOrAggregatedException(
             $warnings,
             $metadataProperties,
-            'None of properties referenced by "%s_{property_alias}" columns have a valid input type - only TEXT is allowed.'
+            'None of properties referenced by "%s_{property_alias}" columns have a valid input type - only TEXT is allowed'
         );
     }
 

@@ -22,14 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\StatisticalMetadata\Import\Extractor;
 
-use RuntimeException;
 use common_exception_Error;
 use core_kernel_classes_Property;
 use oat\search\base\exception\SearchGateWayExeption;
 use oat\tao\model\StatisticalMetadata\Contract\Header;
 use oat\generis\model\resource\Context\PropertyRepositoryContext;
 use oat\generis\model\resource\Contract\ResourceRepositoryInterface;
-use oat\tao\model\StatisticalMetadata\Import\Exception\ErrorValidationException;
+use oat\tao\model\StatisticalMetadata\Import\Exception\HeaderValidationException;
 use oat\tao\model\StatisticalMetadata\Import\Validator\MetadataPropertiesValidator;
 use oat\tao\model\StatisticalMetadata\Import\Exception\AggregatedValidationException;
 
@@ -55,9 +54,10 @@ class MetadataPropertiesExtractor
     }
 
     /**
-     * @throws RuntimeException
+     * @throws common_exception_Error
+     * @throws SearchGateWayExeption
      * @throws AggregatedValidationException
-     * @throws ErrorValidationException
+     * @throws HeaderValidationException
      *
      * @return core_kernel_classes_Property[]
      */
@@ -74,23 +74,20 @@ class MetadataPropertiesExtractor
     }
 
     /**
+     * @throws common_exception_Error
+     * @throws SearchGateWayExeption
+     *
      * @return core_kernel_classes_Property[][]
      */
     private function findByAliases(array $aliases): array
     {
-        try {
-            $metadataResources = $this->propertyRepository->findBy(
-                new PropertyRepositoryContext(
-                    [
-                        PropertyRepositoryContext::PARAM_ALIASES => $aliases,
-                    ]
-                )
-            );
-        } catch (common_exception_Error | SearchGateWayExeption $exception) {
-            throw new RuntimeException(
-                'Unable to find aliased properties in the database due to an unexpected problem.'
-            );
-        }
+        $metadataResources = $this->propertyRepository->findBy(
+            new PropertyRepositoryContext(
+                [
+                    PropertyRepositoryContext::PARAM_ALIASES => $aliases,
+                ]
+            )
+        );
 
         $metadataProperties = [];
         $uniqueMetadataProperties = [];

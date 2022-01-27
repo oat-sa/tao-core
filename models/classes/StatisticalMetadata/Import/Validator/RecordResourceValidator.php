@@ -33,7 +33,7 @@ class RecordResourceValidator
     {
         if (empty($record[Header::ITEM_ID]) && empty($record[Header::TEST_ID])) {
             throw new ErrorValidationException(
-                'At least one of %s or %s is required.',
+                'At least one of %s or %s is required',
                 [
                     Header::ITEM_ID,
                     Header::TEST_ID,
@@ -46,10 +46,8 @@ class RecordResourceValidator
     {
         if (!$resource->exists()) {
             throw new ErrorValidationException(
-                'Resource referenced by "%s" is not found.',
-                [
-                    $resource->getUri(),
-                ]
+                'Resource referenced by "%s" not found',
+                [$resource->getUri()]
             );
         }
     }
@@ -61,9 +59,7 @@ class RecordResourceValidator
         if (!$resource->isInstanceOf($rootClass)) {
             throw new ErrorValidationException(
                 'Resource referenced by "%s" has the wrong instance type.',
-                [
-                    $resource->getUri(),
-                ]
+                [$resource->getUri()]
             );
         }
     }
