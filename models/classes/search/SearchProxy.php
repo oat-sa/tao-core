@@ -168,23 +168,12 @@ class SearchProxy extends ConfigurableService implements Search
         );
     }
 
-    /**
-     * Gets the whitelist of RDF URLs that can be used with Advanced Search.
-     *
-     * @return string[]
-     */
     public function getGenerisSearchUriWhitelist(): array
     {
-        $whitelist = $this->getOption(
-            self::OPTION_GENERIS_SEARCH_WHITELIST,
-            self::GENERIS_SEARCH_DEFAULT_WHITELIST
+        return array_merge(
+            self::GENERIS_SEARCH_DEFAULT_WHITELIST,
+            $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, [])
         );
-
-        if ($this->getExtensionsManager()->isEnabled('taoBooklet')) {
-            return array_merge($whitelist, [BookletClassService::CLASS_URI]);
-        }
-
-        return $whitelist;
     }
 
     private function executeSearch(SearchQuery $query): ResultSet
@@ -240,9 +229,7 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function isForcingDefaultSearch(SearchQuery $query): bool
     {
-        $options = $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, []);
-        $generisSearchWhitelist = array_merge(self::GENERIS_SEARCH_DEFAULT_WHITELIST, $options);
-        return in_array($query->getParentClass(), $generisSearchWhitelist, true);
+        return in_array($query->getParentClass(), $this->getGenerisSearchUriWhitelist(), true);
     }
 
     private function allowIdentifierSearch(SearchQuery $query): bool
