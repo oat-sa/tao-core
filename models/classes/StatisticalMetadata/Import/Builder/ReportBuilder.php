@@ -163,12 +163,21 @@ class ReportBuilder
 
     private function createReportByResults(string $type, ImportReporter $reporter): Report
     {
+        if ($reporter->getTotalHeaderErrors()) {
+            return Report::create(
+                $type,
+                'CSV import failed: header is not valid (%d errors)',
+                [$reporter->getTotalHeaderErrors()]
+            );
+        }
+
         if ($reporter->getTotalImportedRecords() === 0  || $reporter->getTotalScannedRecords() === 0) {
             return Report::create(
                 $type,
-                'CSV import failed: %s/%s line(s) are imported',
+                'CSV import failed: %d/%d line(s) are imported',
                 [
-                    $reporter->getTotalImportedRecords(), $reporter->getTotalScannedRecords(),
+                    $reporter->getTotalImportedRecords(),
+                    $reporter->getTotalScannedRecords(),
                 ]
             );
         }
@@ -176,7 +185,7 @@ class ReportBuilder
         if ($reporter->getTotalErrors() === 0 && $reporter->getTotalWarnings() === 0) {
             return Report::create(
                 $type,
-                'CSV import successful: %s/%s line(s) are imported',
+                'CSV import successful: %d/%d line(s) are imported',
                 [
                     $reporter->getTotalImportedRecords(),
                     $reporter->getTotalScannedRecords(),
@@ -186,7 +195,7 @@ class ReportBuilder
 
         return Report::create(
             $type,
-            'CSV import partially successful: %s/%s line(s) are imported (%s warning(s), %s error(s))',
+            'CSV import partially successful: %d/%d line(s) are imported (%d warning(s), %d error(s))',
             [
                 $reporter->getTotalImportedRecords(),
                 $reporter->getTotalScannedRecords(),
