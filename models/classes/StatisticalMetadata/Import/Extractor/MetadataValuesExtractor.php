@@ -50,7 +50,7 @@ class MetadataValuesExtractor
     public function extract(array $record, core_kernel_classes_Resource $resource, array $metadataProperties): array
     {
         $values = [];
-        $warnings = [];
+        $exceptions = [];
         $metadataHeaders = $this->metadataHeadersExtractor->extract(array_keys($record));
 
         foreach ($metadataHeaders as $metadataHeader) {
@@ -62,13 +62,13 @@ class MetadataValuesExtractor
                     $this->resourceMetadataRelationValidator->validate($resource, $metadataProperty);
                     $values[$metadataProperty->getUri()] = $value;
                 } catch (AbstractValidationException $exception) {
-                    $warnings[] = $exception->setColumn($metadataHeader);
+                    $exceptions[] = $exception->setColumn($metadataHeader);
                 }
             }
         }
 
-        if (!empty($warnings)) {
-            throw new AggregatedValidationException([], $warnings);
+        if (!empty($exceptions)) {
+            throw new AggregatedValidationException([], $exceptions);
         }
 
         return $values;

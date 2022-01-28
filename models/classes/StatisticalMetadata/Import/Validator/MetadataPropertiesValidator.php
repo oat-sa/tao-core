@@ -49,16 +49,16 @@ class MetadataPropertiesValidator
             $existingAliases[] = $metadataProperty->getAlias();
         }
 
-        $warnings = [];
+        $exceptions = [];
 
         foreach ($aliases as $alias) {
             if (!in_array($alias, $existingAliases, true)) {
-                $warnings[] = $this->buildHeaderException($alias, 'Property referenced by "%s" not found');
+                $exceptions[] = $this->buildHeaderException($alias, 'Property referenced by "%s" not found');
             }
         }
 
         $this->throwErrorOrAggregatedException(
-            $warnings,
+            $exceptions,
             $aliases,
             'None of properties referenced by "%s" columns were found'
         );
@@ -73,7 +73,7 @@ class MetadataPropertiesValidator
     public function validateMetadataUniqueness(array $metadataProperties): void
     {
         $existingAliases = [];
-        $warnings = [];
+        $exceptions = [];
 
         foreach ($metadataProperties as $metadataProperty) {
             $alias = $metadataProperty->getAlias();
@@ -84,13 +84,13 @@ class MetadataPropertiesValidator
                 continue;
             }
 
-            if (!array_key_exists($alias, $warnings)) {
-                $warnings[$alias] = $this->buildHeaderException($alias, 'Property referenced by "%s" is not unique');
+            if (!array_key_exists($alias, $exceptions)) {
+                $exceptions[$alias] = $this->buildHeaderException($alias, 'Property referenced by "%s" is not unique');
             }
         }
 
         $this->throwErrorOrAggregatedException(
-            $warnings,
+            $exceptions,
             $existingAliases,
             'None of properties referenced by "%s" columns are unique'
         );
@@ -104,12 +104,12 @@ class MetadataPropertiesValidator
      */
     public function validateMetadataTypes(array $metadataProperties): void
     {
-        $warnings = [];
+        $exceptions = [];
 
         foreach ($metadataProperties as $metadataProperty) {
             if (!in_array($metadataProperty->getWidget()->getUri(), self::ALLOWED_WIDGETS, true)) {
                 $alias = $metadataProperty->getAlias();
-                $warnings[] = $this->buildHeaderException(
+                $exceptions[] = $this->buildHeaderException(
                     $alias,
                     'Property referenced by "%s" has invalid input type - only TEXT is allowed'
                 );
@@ -117,7 +117,7 @@ class MetadataPropertiesValidator
         }
 
         $this->throwErrorOrAggregatedException(
-            $warnings,
+            $exceptions,
             $metadataProperties,
             'None of properties referenced by "%s" columns have a valid input type - only TEXT is allowed'
         );
@@ -134,24 +134,24 @@ class MetadataPropertiesValidator
     }
 
     /**
-     * @param HeaderValidationException[] $headerExceptions
+     * @param HeaderValidationException[] $exceptions
      */
     private function throwErrorOrAggregatedException(
-        array $headerExceptions,
-        array $valuesToCheck,
+        array  $exceptions,
+        array  $valuesToCheck,
         string $message
     ): void {
-        if (empty($headerExceptions)) {
+        if (empty($exceptions)) {
             return;
         }
 
-        if (count($valuesToCheck) === count($headerExceptions)) {
+        if (count($valuesToCheck) === count($exceptions)) {
             throw new HeaderValidationException(
                 $message,
                 [Header::METADATA_PREFIX . '{property_alias}']
             );
         }
 
-        throw new AggregatedValidationException($headerExceptions, []);
+        throw new AggregatedValidationException($exceptions, []);
     }
 }

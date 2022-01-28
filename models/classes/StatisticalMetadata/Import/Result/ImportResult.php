@@ -149,7 +149,6 @@ class ImportResult
             $this->addInternalException($line, $errorException);
         }
 
-
         return $this;
     }
 
