@@ -29,6 +29,6 @@ class AscendingLabelListSorterComparator implements ListElementSorterComparatorI
 {
     public function __invoke(Value $value1, Value $value2): int
     {
-        return strnatcmp($value1->getLabel(), $value2->getLabel());
+        return strcasecmp($value1->getLabel(), $value2->getLabel());
     }
 }
