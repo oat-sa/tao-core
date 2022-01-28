@@ -71,9 +71,9 @@ class ResourceExtractor
 
     private function extractResourceHeader(array $record): string
     {
-        return !empty($record[Header::ITEM_ID])
-            ? Header::ITEM_ID
-            : Header::TEST_ID;
+        return empty($record[Header::ITEM_ID])
+            ? Header::TEST_ID
+            : Header::ITEM_ID;
     }
 
     private function getMappedRootClass(string $resourceHeader): core_kernel_classes_Class

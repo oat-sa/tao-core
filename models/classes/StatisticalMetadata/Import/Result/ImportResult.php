@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\StatisticalMetadata\Import\Reporter;
+namespace oat\tao\model\StatisticalMetadata\Import\Result;
 
 use Throwable;
 use oat\tao\model\StatisticalMetadata\Import\Exception\ErrorValidationException;
@@ -29,7 +29,7 @@ use oat\tao\model\StatisticalMetadata\Import\Exception\WarningValidationExceptio
 use oat\tao\model\StatisticalMetadata\Import\Exception\AbstractValidationException;
 use oat\tao\model\StatisticalMetadata\Import\Exception\AggregatedValidationException;
 
-class ImportReporter
+class ImportResult
 {
     /** @var HeaderValidationException[] */
     private $headerErrors;

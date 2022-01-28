@@ -24,7 +24,7 @@ namespace oat\tao\model\StatisticalMetadata\Import\Builder;
 
 use Throwable;
 use oat\oatbox\reporting\Report;
-use oat\tao\model\StatisticalMetadata\Import\Reporter\ImportReporter;
+use oat\tao\model\StatisticalMetadata\Import\Result\ImportResult;
 use oat\tao\model\StatisticalMetadata\Import\Exception\ErrorValidationException;
 use oat\tao\model\StatisticalMetadata\Import\Exception\HeaderValidationException;
 use oat\tao\model\StatisticalMetadata\Import\Exception\WarningValidationException;
@@ -32,20 +32,20 @@ use oat\tao\model\StatisticalMetadata\Import\Exception\AbstractValidationExcepti
 
 class ReportBuilder
 {
-    public function buildByReporter(ImportReporter $reporter): Report
+    public function buildByResult(ImportResult $result): Report
     {
-        $reportType = $this->getReportType($reporter);
+        $reportType = $this->getReportType($result);
 
-        $subReport = $this->createReportByResults($reportType, $reporter);
+        $subReport = $this->createReportByResults($reportType, $result);
         $report = $this
-            ->createReportByResults($reportType, $reporter)
+            ->createReportByResults($reportType, $result)
             ->add($subReport);
 
         $onlyWarningReports = [];
         $warningAndErrorReports = [];
 
         /** @var WarningValidationException[]|ErrorValidationException[] $exceptions */
-        foreach ($reporter->getWarningsAndErrors() as $line => $exceptions) {
+        foreach ($result->getWarningsAndErrors() as $line => $exceptions) {
             $headerExceptionReports = [];
             $warningReports = [];
             $errorReports = [];
@@ -103,7 +103,7 @@ class ReportBuilder
                 $report,
                 $headerExceptionReports,
                 Report::TYPE_ERROR,
-                'Header contain an error(s)'
+                'Header contain error(s)'
             );
 
             return $report;
@@ -114,7 +114,7 @@ class ReportBuilder
                 $report,
                 $warningAndErrorReports,
                 Report::TYPE_ERROR,
-                '%s line(s) contain an error(s) and cannot be imported'
+                '%s line(s) contain error(s) and cannot be imported'
             );
         }
 
@@ -161,34 +161,34 @@ class ReportBuilder
         $mainReport->add($newReport);
     }
 
-    private function createReportByResults(string $type, ImportReporter $reporter): Report
+    private function createReportByResults(string $type, ImportResult $result): Report
     {
-        if ($reporter->getTotalHeaderErrors()) {
+        if ($result->getTotalHeaderErrors()) {
             return Report::create(
                 $type,
                 'CSV import failed: header is not valid (%d error(s))',
-                [$reporter->getTotalHeaderErrors()]
+                [$result->getTotalHeaderErrors()]
             );
         }
 
-        if ($reporter->getTotalImportedRecords() === 0  || $reporter->getTotalScannedRecords() === 0) {
+        if ($result->getTotalImportedRecords() === 0 || $result->getTotalScannedRecords() === 0) {
             return Report::create(
                 $type,
                 'CSV import failed: %d/%d line(s) are imported',
                 [
-                    $reporter->getTotalImportedRecords(),
-                    $reporter->getTotalScannedRecords(),
+                    $result->getTotalImportedRecords(),
+                    $result->getTotalScannedRecords(),
                 ]
             );
         }
 
-        if ($reporter->getTotalErrors() === 0 && $reporter->getTotalWarnings() === 0) {
+        if ($result->getTotalErrors() === 0 && $result->getTotalWarnings() === 0) {
             return Report::create(
                 $type,
                 'CSV import successful: %d/%d line(s) are imported',
                 [
-                    $reporter->getTotalImportedRecords(),
-                    $reporter->getTotalScannedRecords(),
+                    $result->getTotalImportedRecords(),
+                    $result->getTotalScannedRecords(),
                 ]
             );
         }
@@ -197,10 +197,10 @@ class ReportBuilder
             $type,
             'CSV import partially successful: %d/%d line(s) are imported (%d warning(s), %d error(s))',
             [
-                $reporter->getTotalImportedRecords(),
-                $reporter->getTotalScannedRecords(),
-                $reporter->getTotalWarnings(),
-                $reporter->getTotalErrors(),
+                $result->getTotalImportedRecords(),
+                $result->getTotalScannedRecords(),
+                $result->getTotalWarnings(),
+                $result->getTotalErrors(),
             ]
         );
     }
@@ -232,13 +232,13 @@ class ReportBuilder
         }
     }
 
-    private function getReportType(ImportReporter $reporter): string
+    private function getReportType(ImportResult $result): string
     {
-        if ($reporter->getTotalImportedRecords() === 0) {
+        if ($result->getTotalImportedRecords() === 0) {
             return Report::TYPE_ERROR;
         }
 
-        if ($reporter->getTotalWarnings() === 0 && $reporter->getTotalErrors() === 0) {
+        if ($result->getTotalWarnings() === 0 && $result->getTotalErrors() === 0) {
             return Report::TYPE_SUCCESS;
         }
 

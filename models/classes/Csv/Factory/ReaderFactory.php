@@ -22,9 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Csv\Factory;
 
-use League\Csv\Exception;
+use Throwable;
 use InvalidArgumentException;
-use League\Csv\InvalidArgument;
 use oat\tao\model\Csv\Service\Reader;
 use League\Csv\Reader as LeagueReader;
 
@@ -49,7 +48,7 @@ class ReaderFactory
             if (!empty($options[self::DELIMITER]) && is_string($options[self::DELIMITER])) {
                 $reader->setDelimiter($options[self::DELIMITER]);
             }
-        } catch (Exception | InvalidArgument $exception) {
+        } catch (Throwable $exception) {
             throw new InvalidArgumentException($exception->getMessage());
         }
 

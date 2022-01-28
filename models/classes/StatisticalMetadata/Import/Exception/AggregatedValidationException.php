@@ -34,15 +34,12 @@ class AggregatedValidationException extends Exception
 
     public function __construct(array $errors, array $warnings)
     {
+        parent::__construct();
+
         $this->errors = $errors;
         $this->warnings = $warnings;
-
-        parent::__construct();
     }
 
-    /**
-     * @return ErrorValidationException[]
-     */
     public function getErrors(): array
     {
         return $this->errors;
@@ -58,9 +55,6 @@ class AggregatedValidationException extends Exception
         return !empty($this->warnings);
     }
 
-    /**
-     * @return WarningValidationException[]
-     */
     public function getWarnings(): array
     {
         return $this->warnings;

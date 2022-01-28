@@ -29,8 +29,8 @@ use core_kernel_classes_Resource;
 use oat\tao\model\Csv\Factory\ReaderFactory;
 use tao_models_classes_dataBinding_GenerisInstanceDataBinder;
 use oat\tao\model\import\Processor\ImportFileProcessorInterface;
+use oat\tao\model\StatisticalMetadata\Import\Result\ImportResult;
 use oat\tao\model\StatisticalMetadata\Import\Builder\ReportBuilder;
-use oat\tao\model\StatisticalMetadata\Import\Reporter\ImportReporter;
 use oat\tao\model\StatisticalMetadata\Import\Validator\HeaderValidator;
 use oat\tao\model\StatisticalMetadata\Import\Extractor\ResourceExtractor;
 use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataValuesExtractor;
@@ -77,7 +77,7 @@ class ImportProcessor implements ImportFileProcessorInterface
 
     public function process(File $file): Report
     {
-        $reporter = new ImportReporter();
+        $result = new ImportResult();
 
         try {
             $csv = $this->readerFactory->createFromStream(
@@ -90,30 +90,30 @@ class ImportProcessor implements ImportFileProcessorInterface
 
             $metadataProperties = $this->metadataPropertiesExtractor->extract($header);
         } catch (AbstractValidationException | AggregatedValidationException $exception) {
-            $reporter->addException(0, $exception);
+            $result->addException(0, $exception);
 
-            return $this->reportBuilder->buildByReporter($reporter);
+            return $this->reportBuilder->buildByResult($result);
         } catch (Throwable $exception) {
             return $this->reportBuilder->buildByException($exception);
         }
 
         foreach ($csv->getRecords($header) as $line => $record) {
             try {
-                $reporter->increaseTotalScannedRecords();
+                $result->increaseTotalScannedRecords();
                 $resource = $this->resourceExtractor->extract($record);
                 $metadataValues = $this->metadataValuesExtractor->extract($record, $resource, $metadataProperties);
 
                 $this->bindProperties($resource, $metadataValues);
 
-                $reporter->increaseTotalImportedRecords();
+                $result->increaseTotalImportedRecords();
             } catch (AbstractValidationException | AggregatedValidationException $exception) {
-                $reporter->addException($line, $exception);
+                $result->addException($line, $exception);
             } catch (Throwable $exception) {
                 return $this->reportBuilder->buildByException($exception);
             }
         }
 
-        return $this->reportBuilder->buildByReporter($reporter);
+        return $this->reportBuilder->buildByResult($result);
     }
 
     /**
