@@ -55,7 +55,7 @@ class SearchQuery
         $this->page = $page;
     }
 
-    public function getStructure(): string
+    public function getStructure(): ?string
     {
         return $this->structure;
     }
