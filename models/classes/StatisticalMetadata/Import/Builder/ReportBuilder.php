@@ -23,8 +23,6 @@ declare(strict_types=1);
 namespace oat\tao\model\StatisticalMetadata\Import\Builder;
 
 use Throwable;
-use core_kernel_classes_Class;
-use oat\tao\model\TaoOntology;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\StatisticalMetadata\Import\Result\ImportResult;
 use oat\tao\model\StatisticalMetadata\Import\Exception\ErrorValidationException;
@@ -40,7 +38,7 @@ class ReportBuilder
 
         $subReport = $this
             ->createReportByResults($reportType, $result)
-            ->setData(new core_kernel_classes_Class(TaoOntology::CLASS_URI_ITEM));
+            ->setData([]);
         $report = $this
             ->createReportByResults($reportType, $result)
             ->add($subReport);
