@@ -42,6 +42,9 @@ class SearchQuery
     /** @var int */
     private $page;
 
+    /** @var string */
+    private $structure;
+
     public function __construct(string $term, string $rootClass, string $parentClass, int $startRow, int $rows = null, int $page = null)
     {
         $this->term = $term;
@@ -50,6 +53,16 @@ class SearchQuery
         $this->startRow = $startRow;
         $this->rows = $rows;
         $this->page = $page;
+    }
+
+    public function getStructure(): string
+    {
+        return $this->structure;
+    }
+
+    public function setStructure(string $structure): void
+    {
+        $this->structure = $structure;
     }
 
     public function getTerm(): string

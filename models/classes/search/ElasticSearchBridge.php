@@ -35,7 +35,7 @@ class ElasticSearchBridge extends ConfigurableService implements SearchBridgeInt
 
         return $this->getSearchEngine()->query(
             $queryString,
-            $query->getRootClass(),
+            $query->getStructure(),
             $query->getStartRow(),
             $query->getRows()
         );

@@ -199,7 +199,7 @@ class SearchProxy extends ConfigurableService implements Search
 
         return $this->getAdvancedSearch()->query(
             $this->getAdvancedSearchQueryString($query),
-            $query->getRootClass(),
+            $query->getStructure(),
             $query->getStartRow(),
             $query->getRows()
         );
@@ -227,12 +227,12 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function isForcingDefaultSearch(SearchQuery $query): bool
     {
-        return in_array($query->getParentClass(), $this->getGenerisSearchUriWhitelist(), true);
+        return in_array($query->getRootClass(), $this->getGenerisSearchUriWhitelist(), true);
     }
 
     private function allowIdentifierSearch(SearchQuery $query): bool
     {
-        return !in_array($query->getRootClass(), self::DISABLE_URI_SEARCH_FOR_ROOT_CLASSES, true);
+        return !in_array($query->getStructure(), self::DISABLE_URI_SEARCH_FOR_ROOT_CLASSES, true);
     }
 
     private function getIndexSearch(): SearchInterface
