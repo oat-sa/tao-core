@@ -25,6 +25,7 @@ namespace oat\tao\model\StatisticalMetadata\Import\Validator;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use oat\tao\model\StatisticalMetadata\Contract\Header;
 use oat\tao\model\StatisticalMetadata\Import\Exception\ErrorValidationException;
 
 class ResourceMetadataRelationValidator
@@ -40,7 +41,7 @@ class ResourceMetadataRelationValidator
             throw new ErrorValidationException(
                 'Property referenced by "%s" does not belong to the resource "%s"',
                 [
-                    $metadataProperty->getAlias(),
+                    Header::METADATA_PREFIX . $metadataProperty->getAlias(),
                     $resource->getUri(),
                 ]
             );
