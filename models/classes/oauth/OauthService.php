@@ -83,16 +83,11 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         $consumer = $dataStore->getOauthConsumer($credentials);
         $token = $dataStore->new_request_token($consumer);
 
-        $allInitialParameters = array_merge($request->getParams(), $request->getHeaders());
-
+        $allInitialParameters = $request->getParams();
         //oauth_body_hash is used for the signing computation
         if ($authorizationHeader) {
             // the signature should be computed from encoded versions
-            $oauthBodyHash = $this->calculateOauthBodyHash($request->getBody());
-            $allInitialParameters = array_merge(
-                $allInitialParameters,
-                [self::OAUTH_BODY_HASH_PARAM => $oauthBodyHash]
-            );
+            $allInitialParameters[self::OAUTH_BODY_HASH_PARAM] = $this->calculateOauthBodyHash($request->getBody());
         }
 
         $signedRequest = OAuthRequest::from_consumer_and_token(
@@ -107,15 +102,9 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         //common_logger::d('Base string from TAO/Joel: '.$signedRequest->get_signature_base_string());
 
         if ($authorizationHeader) {
-            $combinedParameters = $signedRequest->get_parameters();
-            $signatureParameters = array_diff_assoc($combinedParameters, $allInitialParameters);
-
-            // if $authorizationHeader is true then $oauthBodyHash should be defined
-            /** @noinspection PhpUndefinedVariableInspection */
-            $signatureParameters[self::OAUTH_BODY_HASH_PARAM] = $oauthBodyHash;
-            $signatureHeaders = ["Authorization" => $this->buildAuthorizationHeader($signatureParameters)];
+            $signatureHeaders = ["Authorization" => $this->buildAuthorizationHeader($signedRequest)];
             $signedRequest = new common_http_Request(
-                $signedRequest->to_url(),
+                $request->getUrl(),
                 $signedRequest->get_normalized_http_method(),
                 $request->getParams(),
                 array_merge($signatureHeaders, $request->getHeaders()),
@@ -252,14 +241,9 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      *  In particular, OAuth parameters from the request URL and POST body will be ignored.
      * Return the Authorization header
      */
-    private function buildAuthorizationHeader($signatureParameters)
+    private function buildAuthorizationHeader(OAuthRequest $signedRequest)
     {
-        $authorizationHeader = 'OAuth realm=""';
-
-        foreach ($signatureParameters as $key => $value) {
-            $authorizationHeader .= ',' . $key . '=' . '"' . urlencode($value) . '"';
-        }
-        return $authorizationHeader;
+        return mb_substr($signedRequest->to_header(), 15);
     }
 
     /**
