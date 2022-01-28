@@ -27,7 +27,9 @@ use oat\tao\model\Lists\Business\Domain\Value;
 interface ListElementSorterComparatorInterface
 {
     /**
-     * @return int -1|0|1
+     * @return int -1|0|1 The comparison function must return an integer less than, equal to, or
+     * greater than zero if the first argument is considered to be
+     * respectively less than, equal to, or greater than the second.
      */
     public function __invoke(Value $value1, Value $value2): int;
 }
