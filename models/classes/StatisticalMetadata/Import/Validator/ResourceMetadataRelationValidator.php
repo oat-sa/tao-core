@@ -34,10 +34,12 @@ class ResourceMetadataRelationValidator
         core_kernel_classes_Resource $resource,
         core_kernel_classes_Property $metadataProperty
     ): void {
-        /** @var core_kernel_classes_Class $metadataPropertyDomain */
-        $metadataPropertyDomain = $metadataProperty->getDomain()->get(0);
+        /** @var core_kernel_classes_Class $domain */
+        $domain = $metadataProperty->getDomain()
+            ? $metadataProperty->getDomain()->get(0)
+            : null;
 
-        if (!$resource->isInstanceOf($metadataPropertyDomain)) {
+        if (!$domain || !$resource->isInstanceOf($domain)) {
             throw new ErrorValidationException(
                 'Property referenced by "%s" does not belong to the resource "%s"',
                 [
