@@ -68,7 +68,7 @@ class MetadataValuesExtractor
         }
 
         if (!empty($exceptions)) {
-            throw new AggregatedValidationException([], $exceptions);
+            throw new AggregatedValidationException($exceptions, []);
         }
 
         return $values;
