@@ -152,7 +152,7 @@ class tao_helpers_I18n
                     ];
                 }
 
-                usort(self::$availableLangs, function ($item1, $item2) {
+                uasort(self::$availableLangs, function ($item1, $item2) {
                     return strcasecmp($item1['label'], $item2['label']);
                 });
 
