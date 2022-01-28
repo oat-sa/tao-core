@@ -44,7 +44,7 @@ class ReportBuilder
         $onlyWarningReports = [];
         $warningAndErrorReports = [];
 
-        /** @var WarningValidationException[]|ErrorValidationException[] $exceptions */
+        /** @var AbstractValidationException $exceptions */
         foreach ($result->getWarningsAndErrors() as $line => $exceptions) {
             $headerExceptionReports = [];
             $warningReports = [];

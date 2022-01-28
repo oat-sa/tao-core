@@ -41,7 +41,7 @@ class MetadataAliasesExtractor
     {
         $hash = $this->getHash($header);
 
-        if (!array_key_exists($hash, $this->cache)) {
+        if (!isset($this->cache[$hash])) {
             $this->cache[$hash] = $this->extractAliases($this->metadataHeadersExtractor->extract($header));
         }
 

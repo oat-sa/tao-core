@@ -33,7 +33,7 @@ class MetadataHeadersExtractor
     {
         $hash = $this->getHash($header);
 
-        if (!array_key_exists($hash, $this->cache)) {
+        if (!isset($this->cache[$hash])) {
             $this->cache[$hash] = preg_grep(
                 sprintf('/^%s/', Header::METADATA_PREFIX),
                 $header
