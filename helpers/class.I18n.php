@@ -153,7 +153,7 @@ class tao_helpers_I18n
                 }
 
                 usort(self::$availableLangs, function ($item1, $item2) {
-                    return strnatcmp($item1['label'], $item2['label']);
+                    return strcasecmp($item1['label'], $item2['label']);
                 });
 
                 common_cache_FileCache::singleton()->put(self::$availableLangs, self::AVAILABLE_LANGS_CACHEKEY);
