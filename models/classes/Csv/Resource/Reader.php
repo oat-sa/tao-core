@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Csv\Service;
+namespace oat\tao\model\Csv\Resource;
 
 use Iterator;
 use League\Csv\Reader as LeagueCsvReader;

@@ -24,7 +24,7 @@ namespace oat\tao\model\Csv\Factory;
 
 use Throwable;
 use InvalidArgumentException;
-use oat\tao\model\Csv\Service\Reader;
+use oat\tao\model\Csv\Resource\Reader;
 use League\Csv\Reader as LeagueReader;
 
 class ReaderFactory

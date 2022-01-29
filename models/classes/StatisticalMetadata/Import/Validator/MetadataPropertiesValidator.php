@@ -136,11 +136,8 @@ class MetadataPropertiesValidator
     /**
      * @param HeaderValidationException[] $exceptions
      */
-    private function throwErrorOrAggregatedException(
-        array  $exceptions,
-        array  $valuesToCheck,
-        string $message
-    ): void {
+    private function throwErrorOrAggregatedException(array $exceptions, array $valuesToCheck, string $message): void
+    {
         if (empty($exceptions)) {
             return;
         }

@@ -39,6 +39,7 @@ use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataPropertiesExtract
 use oat\tao\model\StatisticalMetadata\Import\Exception\AggregatedValidationException;
 use tao_models_classes_dataBinding_GenerisInstanceDataBindingException as DataBindingException;
 
+// @TODO Improve tests - add invalid cases
 class ImportProcessor implements ImportFileProcessorInterface
 {
     /** @var ReaderFactory */
@@ -59,6 +60,9 @@ class ImportProcessor implements ImportFileProcessorInterface
     /** @var ReportBuilder */
     private $reportBuilder;
 
+    /** @var tao_models_classes_dataBinding_GenerisInstanceDataBinder */
+    private $dataBinder;
+
     public function __construct(
         ReaderFactory $readerFactory,
         HeaderValidator $headerValidator,
@@ -73,6 +77,11 @@ class ImportProcessor implements ImportFileProcessorInterface
         $this->resourceExtractor = $resourceExtractor;
         $this->metadataValuesExtractor = $metadataValuesExtractor;
         $this->reportBuilder = $reportBuilder;
+    }
+
+    public function withDataBinder(tao_models_classes_dataBinding_GenerisInstanceDataBinder $dataBinder): void
+    {
+        $this->dataBinder = $dataBinder;
     }
 
     public function process(File $file): Report
@@ -123,7 +132,7 @@ class ImportProcessor implements ImportFileProcessorInterface
      */
     private function bindProperties(core_kernel_classes_Resource $resource, array $values): void
     {
-        $binder = new tao_models_classes_dataBinding_GenerisInstanceDataBinder($resource);
+        $binder = $this->dataBinder ?? new tao_models_classes_dataBinding_GenerisInstanceDataBinder($resource);
         $binder->bind($values);
     }
 }

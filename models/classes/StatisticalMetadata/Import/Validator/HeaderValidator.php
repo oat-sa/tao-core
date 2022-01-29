@@ -23,18 +23,18 @@ declare(strict_types=1);
 namespace oat\tao\model\StatisticalMetadata\Import\Validator;
 
 use oat\tao\model\StatisticalMetadata\Contract\Header;
-use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataAliasesExtractor;
+use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataHeadersExtractor;
 use oat\tao\model\StatisticalMetadata\Import\Exception\HeaderValidationException;
 use oat\tao\model\StatisticalMetadata\Import\Exception\AggregatedValidationException;
 
 class HeaderValidator
 {
-    /** @var MetadataAliasesExtractor */
-    private $metadataAliasesExtractor;
+    /** @var MetadataHeadersExtractor */
+    private $metadataHeadersExtractor;
 
-    public function __construct(MetadataAliasesExtractor $metadataAliasesExtractor)
+    public function __construct(MetadataHeadersExtractor $metadataHeadersExtractor)
     {
-        $this->metadataAliasesExtractor = $metadataAliasesExtractor;
+        $this->metadataHeadersExtractor = $metadataHeadersExtractor;
     }
 
     public function validateRequiredHeaders(array $header): void
@@ -50,7 +50,7 @@ class HeaderValidator
             }
         }
 
-        if (empty($this->metadataAliasesExtractor->extract($header))) {
+        if (empty($this->metadataHeadersExtractor->extract($header))) {
             $exceptions[] = new HeaderValidationException(
                 'At least one "%s" column must be specified',
                 [Header::METADATA_PREFIX . '{property_alias}']

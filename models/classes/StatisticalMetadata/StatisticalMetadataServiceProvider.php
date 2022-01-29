@@ -61,7 +61,7 @@ class StatisticalMetadataServiceProvider implements ContainerServiceProviderInte
             ->set(HeaderValidator::class, HeaderValidator::class)
             ->args(
                 [
-                    service(MetadataAliasesExtractor::class),
+                    service(MetadataHeadersExtractor::class),
                 ]
             );
 
