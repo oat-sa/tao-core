@@ -155,13 +155,13 @@ class ImportResultTest extends TestCase
         $this->assertEquals(1, $this->sut->getTotalErrors());
 
         $this->sut->addException(0, $this->headerValidationException);
-        $this->assertEquals(1, $this->sut->getTotalErrors());
+        $this->assertEquals(2, $this->sut->getTotalErrors());
 
         $this->sut->addException(0, $this->warningValidationException);
-        $this->assertEquals(1, $this->sut->getTotalErrors());
+        $this->assertEquals(2, $this->sut->getTotalErrors());
 
         $this->sut->addException(0, $this->errorValidationException);
-        $this->assertEquals(2, $this->sut->getTotalErrors());
+        $this->assertEquals(3, $this->sut->getTotalErrors());
     }
 
     public function testGetAndIncreaseTotalScannedRecords(): void
