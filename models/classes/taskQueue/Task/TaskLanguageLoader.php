@@ -43,7 +43,7 @@ class TaskLanguageLoader extends ConfigurableService implements TaskLanguageLoad
                 $this->getServiceLocator()->get(UserLanguageServiceInterface::SERVICE_ID)->getDefaultLanguage()
             );
 
-            $message = sprintf('Translations loaded for extension "%s"', $extension);
+            $message = sprintf('Translations loaded for extension "%s"', $extension->getId());
         } catch (Throwable $e) {
             $message = sprintf('Unable to load translations for task "%s".', $task->getId());
         }
