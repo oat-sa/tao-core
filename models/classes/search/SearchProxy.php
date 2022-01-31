@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -43,6 +43,7 @@ class SearchProxy extends ConfigurableService implements Search
         GenerisRdf::CLASS_ROLE,
         TaoOntology::CLASS_URI_TAO_USER,
         TaoOntology::CLASS_URI_TREE,
+        TaoOntology::CLASS_URI_ASSEMBLED_DELIVERY,
     ];
 
     private const DISABLE_URI_SEARCH_FOR_ROOT_CLASSES = [
@@ -165,6 +166,14 @@ class SearchProxy extends ConfigurableService implements Search
         );
     }
 
+    public function getGenerisSearchUriWhitelist(): array
+    {
+        return array_merge(
+            self::GENERIS_SEARCH_DEFAULT_WHITELIST,
+            $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, [])
+        );
+    }
+
     private function executeSearch(SearchQuery $query): ResultSet
     {
         if ($query->isEmptySearch()) {
@@ -190,7 +199,7 @@ class SearchProxy extends ConfigurableService implements Search
 
         return $this->getAdvancedSearch()->query(
             $this->getAdvancedSearchQueryString($query),
-            $query->getRootClass(),
+            $query->getStructure(),
             $query->getStartRow(),
             $query->getRows()
         );
@@ -218,14 +227,12 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function isForcingDefaultSearch(SearchQuery $query): bool
     {
-        $options = $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, []);
-        $generisSearchWhitelist = array_merge(self::GENERIS_SEARCH_DEFAULT_WHITELIST, $options);
-        return in_array($query->getParentClass(), $generisSearchWhitelist, true);
+        return in_array($query->getRootClass(), $this->getGenerisSearchUriWhitelist(), true);
     }
 
     private function allowIdentifierSearch(SearchQuery $query): bool
     {
-        return !in_array($query->getRootClass(), self::DISABLE_URI_SEARCH_FOR_ROOT_CLASSES, true);
+        return !in_array($query->getStructure(), self::DISABLE_URI_SEARCH_FOR_ROOT_CLASSES, true);
     }
 
     private function getIndexSearch(): SearchInterface

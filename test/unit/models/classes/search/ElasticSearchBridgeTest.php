@@ -57,6 +57,7 @@ class ElasticSearchBridgeTest extends TestCase
             1,
             10,
             1);
+        $query->setStructure('items');
 
         $resultSetMock = $this->createMock(ResultSet::class);
 
@@ -65,7 +66,7 @@ class ElasticSearchBridgeTest extends TestCase
             ->method('query')
             ->with(
                 'user input AND parent_classes: "parentClass"',
-                'rootClass',
+                'items',
                 1,
                 10
             )

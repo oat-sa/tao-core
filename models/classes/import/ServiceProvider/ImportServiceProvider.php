@@ -24,8 +24,8 @@ namespace oat\tao\model\import\ServiceProvider;
 
 use oat\tao\model\upload\UploadService;
 use oat\tao\model\import\service\AgnosticImportHandler;
+use oat\tao\model\StatisticalMetadata\Import\Processor\ImportProcessor;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\tao\model\StatisticalMetadata\Import\ImportStatisticalMetadataProcessor;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -56,7 +56,7 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
             ->call(
                 'withFileProcessor',
                 [
-                    service(ImportStatisticalMetadataProcessor::class),
+                    service(ImportProcessor::class),
                 ]
             )
             ->call(

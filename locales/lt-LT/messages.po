@@ -1245,9 +1245,6 @@ msgstr ""
 msgid "List values"
 msgstr ""
 
-msgid "ln"
-msgstr ""
-
 msgid "Load more"
 msgstr "Įkelti daugiau"
 
@@ -1268,9 +1265,6 @@ msgstr "Įkeliama užduoties būsena ..."
 
 msgid "locked by %s"
 msgstr "užrakino %s"
-
-msgid "log"
-msgstr "log"
 
 msgid "Log in"
 msgstr "Prisijungti"

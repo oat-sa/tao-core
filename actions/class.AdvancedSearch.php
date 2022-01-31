@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -23,13 +23,21 @@ declare(strict_types=1);
 use oat\tao\model\http\HttpJsonResponseTrait;
 use tao_actions_CommonModule as CommonModule;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\tao\model\search\SearchProxy;
 
 class tao_actions_AdvancedSearch extends CommonModule
 {
     use HttpJsonResponseTrait;
 
-    public function status(AdvancedSearchChecker $advancedSearchChecker): void
-    {
-        $this->setSuccessJsonResponse(['enabled' => $advancedSearchChecker->isEnabled()]);
+    public function status(
+        AdvancedSearchChecker $advancedSearchChecker,
+        SearchProxy $search
+    ): void {
+        $this->setSuccessJsonResponse(
+            [
+                'enabled' => $advancedSearchChecker->isEnabled(),
+                'whitelist' => $search->getGenerisSearchUriWhitelist(),
+            ]
+        );
     }
 }

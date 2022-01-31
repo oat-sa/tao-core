@@ -1245,9 +1245,6 @@ msgstr ""
 msgid "List values"
 msgstr ""
 
-msgid "ln"
-msgstr ""
-
 msgid "Load more"
 msgstr "Meer laden"
 
@@ -1268,9 +1265,6 @@ msgstr "Laadtaak status ..."
 
 msgid "locked by %s"
 msgstr "vergrendeld door %s"
-
-msgid "log"
-msgstr ""
 
 msgid "Log in"
 msgstr "Aanmelden"
