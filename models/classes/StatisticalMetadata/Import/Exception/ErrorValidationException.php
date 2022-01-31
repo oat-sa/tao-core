@@ -20,16 +20,8 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\StatisticalMetadata\Model;
+namespace oat\tao\model\StatisticalMetadata\Import\Exception;
 
-class MetadataProperty
+class ErrorValidationException extends AbstractValidationException
 {
-    /** @var string */
-    public $uri;
-
-    /** @var string */
-    public $alias;
-
-    /** @var string */
-    public $domain;
 }
