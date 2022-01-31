@@ -17,7 +17,7 @@
         "@oat-sa/tao-core-libs": "0.4.5",
         "@oat-sa/tao-core-sdk": "1.16.4",
         "@oat-sa/tao-core-shared-libs": "1.0.4",
-        "@oat-sa/tao-core-ui": "github:oat-sa/tao-core-ui-fe#fix/ADF-245/advanced-search-whitelist",
+        "@oat-sa/tao-core-ui": "1.49.4",
         "codemirror": "^5.54.0",
         "decimal.js": "10.1.1",
         "dompurify": "1.0.11",
