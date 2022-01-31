@@ -28,6 +28,7 @@ use oat\tao\model\taskQueue\QueuerInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\RemoteTaskSynchroniserInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
+use oat\tao\model\taskQueue\Task\TaskLanguageLoader;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
@@ -85,6 +86,9 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
 
                 // let the task know that it is called from a worker
                 $task->applyWorkerContext();
+
+                // Load translations with platform language
+                $this->getServiceLocator()->get(TaskLanguageLoader::class)->loadTranslations($task);
 
                 // execute the task
                 $taskReport = $task();
