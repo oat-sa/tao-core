@@ -31,13 +31,25 @@ class tao_helpers_form_validators_Length extends tao_helpers_form_Validator
     public function setOptions(array $options)
     {
         parent::setOptions($options);
-        
+
         if ($this->hasOption('min') && $this->hasOption('max')) {
-            $this->setMessage(__('Invalid field length') . " (minimum " . $this->getOption('min') . ", maximum " . $this->getOption('max') . ")");
+            $this->setMessage(sprintf(
+                '%s (%s)',
+                __('Invalid field length'),
+                __('minimum %d, maximum %d', $this->getOption('min'), $this->getOption('max'))
+            ));
         } elseif ($this->hasOption('min') && !$this->hasOption('max')) {
-            $this->setMessage(__('This field is too short') . " (minimum " . $this->getOption('min') . ")");
+            $this->setMessage(sprintf(
+                '%s (%s)',
+                __('This field is too short'),
+                __('minimum %d', $this->getOption('min'))
+            ));
         } elseif (!$this->hasOption('min') && $this->hasOption('max')) {
-            $this->setMessage(__('This field is too long') . " (maximum " . $this->getOption('max') . ")");
+            $this->setMessage(sprintf(
+                '%s (%s)',
+                __('This field is too long'),
+                __('maximum %d', $this->getOption('max'))
+            ));
         } else {
             throw new Exception("Please set 'min' and/or 'max' options!");
         }
@@ -56,9 +68,9 @@ class tao_helpers_form_validators_Length extends tao_helpers_form_Validator
     {
         $returnValue = (bool) false;
 
-        
+
         $returnValue = true;
-        
+
         $values = is_array($values) ? $values : [$values];
         foreach ($values as $value) {
             if ($this->hasOption('min') && mb_strlen($value) < $this->getOption('min')) {
@@ -74,7 +86,7 @@ class tao_helpers_form_validators_Length extends tao_helpers_form_Validator
                 break;
             }
         }
-        
+
 
         return (bool) $returnValue;
     }

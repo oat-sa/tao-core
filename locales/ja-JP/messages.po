@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2021.11\n"
-"PO-Revision-Date: 2022-01-27T14:15:57\n"
+"PO-Revision-Date: 2022-01-27T17:47:52\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " と "
-
 msgid " AND "
 msgstr "と"
+
+msgid " and "
+msgstr " と "
 
 msgid " has been deleted successfully"
 msgstr " 削除しました。"
@@ -1095,11 +1095,11 @@ msgstr "\"%s リソースをインポート"
 msgid "impossible to update task status"
 msgstr "タスクステータスを更新できません"
 
-msgid "In progress"
-msgstr "実施中"
-
 msgid "In Progress"
 msgstr "処理中"
+
+msgid "In progress"
+msgstr "実施中"
 
 msgid "Inclusive (AND)"
 msgstr "包括（AND)"
@@ -1352,6 +1352,9 @@ msgstr "バージョンファイル管理"
 msgid "Map the properties to the CSV columns"
 msgstr "CSVの列にプロパティをマッピング"
 
+msgid "maximum %d"
+msgstr ""
+
 msgid "Maximum selection reached"
 msgstr "これ以上選択できません"
 
@@ -1404,6 +1407,12 @@ msgid "MIME encapsulation of aggregate HTML documents"
 msgstr ""
 
 msgid "Mind mapping software application (free mind open source)"
+msgstr ""
+
+msgid "minimum %d"
+msgstr ""
+
+msgid "minimum %d, maximum %d"
 msgstr ""
 
 msgid "minutes"
@@ -1465,19 +1474,19 @@ msgid "Multiply the value by 10^x"
 msgstr "値に10^xを乗算します。"
 
 msgid "Must include at least one letter"
-msgstr ""
+msgstr "少なくとも文字を1ついれてください。"
 
 msgid "Must include at least one number"
-msgstr ""
+msgstr "少なくとも1つの番号を含めてください。"
 
 msgid "Must include at least one special letter"
-msgstr ""
+msgstr "少なくとも1つの特殊文字を含めてください。"
 
 msgid "Must include lower case letters"
-msgstr ""
+msgstr "小文字を入れる必要があります。"
 
 msgid "Must include upper case letters"
-msgstr ""
+msgstr "大文字を入力する必要があります。"
 
 msgid "Mute"
 msgstr "ミュート"
@@ -2282,7 +2291,7 @@ msgid "This %s is currently checked out"
 msgstr "この%sはチェックアウトされています"
 
 msgid "This field is required"
-msgstr "この項目は必須です"
+msgstr "この項目は必須です。"
 
 msgid "This field is too long"
 msgstr "このフィールドは長すぎます"
@@ -2291,7 +2300,7 @@ msgid "This field is too short"
 msgstr "このフィールドは短すぎます"
 
 msgid "This is not a valid email address."
-msgstr "メールアドレスが正しくありません"
+msgstr "メールアドレスが正しくありません。"
 
 msgid "this is required"
 msgstr "これは必須項目です"
@@ -2450,7 +2459,7 @@ msgid "Unary operator -"
 msgstr "単項演算子(-)"
 
 msgid "Unauthorized files have been removed"
-msgstr ""
+msgstr "許可されていないファイルが削除されました。"
 
 msgid "Uncheck All"
 msgstr "全て無効"
@@ -2647,7 +2656,7 @@ msgid "Windows Media video"
 msgstr ""
 
 msgid "with"
-msgstr "toto"
+msgstr "と"
 
 msgid "Wrap image left"
 msgstr ""
