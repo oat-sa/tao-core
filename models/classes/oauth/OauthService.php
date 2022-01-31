@@ -243,7 +243,13 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      */
     private function buildAuthorizationHeader(OAuthRequest $signedRequest)
     {
-        return mb_substr($signedRequest->to_header(), 15);
+        $headerPrefix = 'Authorization: ';
+        $authorizationHeader = $signedRequest->to_header();
+        if (mb_strpos($authorizationHeader, $headerPrefix) === 0) {
+            $authorizationHeader = mb_substr($authorizationHeader, mb_strlen($headerPrefix));
+        }
+
+        return $authorizationHeader;
     }
 
     /**
