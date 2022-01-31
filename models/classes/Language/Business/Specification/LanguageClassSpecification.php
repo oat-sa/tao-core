@@ -20,30 +20,16 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Lists\Business\Specification;
+namespace oat\tao\model\Language\Business\Specification;
 
 use core_kernel_classes_Class;
-use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
+use tao_models_classes_LanguageService;
 use oat\tao\model\Specification\ClassSpecificationInterface;
 
-class EditableListClassSpecification implements ClassSpecificationInterface
+class LanguageClassSpecification implements ClassSpecificationInterface
 {
-    /** @var ClassSpecificationInterface */
-    private $listClassSpecification;
-    /** @var ClassSpecificationInterface */
-    private $languageClassSpecification;
-
-    public function __construct(
-        ClassSpecificationInterface $listClassSpecification,
-        ClassSpecificationInterface $languageClassSpecification
-    ) {
-        $this->listClassSpecification = $listClassSpecification;
-        $this->languageClassSpecification = $languageClassSpecification;
-    }
-
     public function isSatisfiedBy(core_kernel_classes_Class $class): bool
     {
-        return $this->listClassSpecification->isSatisfiedBy($class)
-            && !$this->languageClassSpecification->isSatisfiedBy($class);
+        return $class->getUri() === tao_models_classes_LanguageService::CLASS_URI_LANGUAGES;
     }
 }
