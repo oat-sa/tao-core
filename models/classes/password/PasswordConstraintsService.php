@@ -29,7 +29,7 @@ use tao_helpers_form_Validator;
 class PasswordConstraintsService extends ConfigurableService implements PasswordConstraintsServiceInterface
 {
     /** @var tao_helpers_form_Validator[] */
-    private array $validators = [];
+    private $validators = [];
 
     public function validate($password): bool
     {
