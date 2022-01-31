@@ -40,14 +40,18 @@ class SearchQueryFactory extends ConfigurableService
         $page = isset($params['page']) ? (int)$params['page'] : null;
         $startRow = is_null($rows) ? 0 : $rows * ($page - 1);
 
-        return new SearchQuery(
+        $query = new SearchQuery(
             $params['params']['query'],
-            $params['params']['structure'],
+            $params['params']['rootNode'],
             $params['params']['parentNode'],
             $startRow,
             $rows,
             $page
         );
+
+        $query->setStructure($params['params']['structure']);
+
+        return $query;
     }
 
     /**
