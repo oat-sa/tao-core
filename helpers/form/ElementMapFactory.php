@@ -43,8 +43,11 @@ use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
+use oat\tao\model\Lists\Business\Contract\ListElementSorterInterface;
 use tao_helpers_form_elements_GenerisAsyncFile as GenerisAsyncFile;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
+use oat\tao\model\Language\Service\LanguageListElementSortService;
 
 class ElementMapFactory extends ConfigurableService
 {
@@ -72,7 +75,6 @@ class ElementMapFactory extends ConfigurableService
 
         $widgetUri   = $widgetResource->getUri();
         $propertyUri = $property->getUri();
-
         // Authoring widget is not used in standalone mode
         if (
             $widgetUri === Authoring::WIDGET_ID
@@ -142,6 +144,11 @@ class ElementMapFactory extends ConfigurableService
 
                     if ($this->isList($range)) {
                         $values = $this->getListValues($property, $range, $parentProperty);
+
+                        if ($this->getLanguageClassSpecification()->isSatisfiedBy($range))
+                        {
+                            $values = $this->getLanguageListElementSortService()->getSortedListCollectionValues($values);
+                        }
 
                         foreach ($values as $value) {
                             $encodedUri = tao_helpers_Uri::encode($value->getUri());
@@ -231,7 +238,6 @@ class ElementMapFactory extends ConfigurableService
                 foreach ($this->instance->getPropertyValuesCollection($parentProperty) as $parentPropertyValue) {
                     $parentPropertyValues[] = (string)$parentPropertyValue;
                 }
-
                 $searchRequest->setPropertyUri($property->getUri());
                 $searchRequest->setParentListValues(...$parentPropertyValues);
             }
@@ -248,6 +254,16 @@ class ElementMapFactory extends ConfigurableService
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getContainer()->get(FeatureFlagChecker::class);
+    }
+
+    private function getLanguageClassSpecification(): LanguageClassSpecification
+    {
+        return $this->getContainer()->get(LanguageClassSpecification::class);
+    }
+
+    private function getLanguageListElementSortService(): ListElementSorterInterface
+    {
+        return $this->getContainer()->get(LanguageListElementSortService::class);
     }
 
     private function getContainer(): ContainerInterface

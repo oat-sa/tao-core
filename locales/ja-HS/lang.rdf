@@ -7,7 +7,7 @@
 >
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Langja-HS">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[Japanese Middle School and High School]]></rdfs:label>
+    <rdfs:label xml:lang="en-US"><![CDATA[Japanese, Middle School and High School (Japan)]]></rdfs:label>
     <rdf:value><![CDATA[ja-HS]]></rdf:value>
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI"/>
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData"/>

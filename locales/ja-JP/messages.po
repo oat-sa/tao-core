@@ -404,10 +404,10 @@ msgstr "電卓"
 msgid "Calendar"
 msgstr "カレンダー"
 
-msgid "Cancel"
+msgid "cancel"
 msgstr "キャンセル"
 
-msgid "cancel"
+msgid "Cancel"
 msgstr "キャンセル"
 
 msgid "cancel the action"
@@ -486,10 +486,10 @@ msgstr "すべてのデータをクリア"
 msgid "Clear expression"
 msgstr "表示をクリア"
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr "履歴をクリア"
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr "履歴をクリア"
 
 msgid "Clear selection"
@@ -1435,6 +1435,21 @@ msgstr "複数の値の区切り文字"
 msgid "Multiply the value by 10^x"
 msgstr "値に10^xを乗算します。"
 
+msgid "Must include at least one letter"
+msgstr "少なくとも文字を1ついれてください。"
+
+msgid "Must include at least one number"
+msgstr "少なくとも1つの数字を含める必要があります。"
+
+msgid "Must include at least one special letter"
+msgstr "少なくとも1つの特別な文字を含める必要があります。"
+
+msgid "Must include lower case letters"
+msgstr "小文字を入れる必要があります。"
+
+msgid "Must include upper case letters"
+msgstr "大文字を含める必要があります。"
+
 msgid "Mute"
 msgstr "ミュート"
 
@@ -1543,10 +1558,10 @@ msgstr ""
 msgid "Ogg Vorbis video"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
 msgid "Old Password"
