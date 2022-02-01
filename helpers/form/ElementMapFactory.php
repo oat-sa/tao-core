@@ -191,6 +191,10 @@ class ElementMapFactory extends ConfigurableService
             }
         }
 
+        if ($property->isStatistical()) {
+            $element->markAsReadOnly();
+        }
+
         foreach (ValidationRuleRegistry::getRegistry()->getValidators($property) as $validator) {
             $element->addValidator($validator);
         }

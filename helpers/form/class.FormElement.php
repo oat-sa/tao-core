@@ -626,6 +626,11 @@ abstract class tao_helpers_form_FormElement
         $this->inputValue = $this->getDecodedValue($this->name);
     }
 
+    public function markAsReadOnly(): void
+    {
+        $this->addAttribute('readonly', 'true');
+    }
+
     /**
      * Will render the Form Element.
      *
