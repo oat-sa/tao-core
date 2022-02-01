@@ -26,13 +26,16 @@ use core_kernel_classes_Property;
 use oat\tao\model\StatisticalMetadata\Contract\Header;
 use oat\tao\model\StatisticalMetadata\Import\Exception\HeaderValidationException;
 use oat\tao\model\StatisticalMetadata\Import\Exception\AggregatedValidationException;
+use tao_helpers_form_elements_Htmlarea;
+use tao_helpers_form_elements_Textarea;
+use tao_helpers_form_elements_Textbox;
 
 class MetadataPropertiesValidator
 {
     private const ALLOWED_WIDGETS = [
-        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox',
-        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextArea',
-        'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#HTMLArea',
+        tao_helpers_form_elements_Textbox::WIDGET_ID,
+        tao_helpers_form_elements_Textarea::WIDGET_ID,
+        tao_helpers_form_elements_Htmlarea::WIDGET_ID
     ];
 
     /**
@@ -85,7 +88,10 @@ class MetadataPropertiesValidator
             }
 
             if (!array_key_exists($alias, $exceptions)) {
-                $exceptions[$alias] = $this->buildHeaderException($alias, 'Property referenced by "%s" is not unique');
+                $exceptions[$alias] = $this->buildHeaderException(
+                    $metadataProperty->getAlias() ?? $metadataProperty->getLabel(),
+                    'Property referenced by "%s" is not unique'
+                );
             }
         }
 
@@ -108,10 +114,16 @@ class MetadataPropertiesValidator
 
         foreach ($metadataProperties as $metadataProperty) {
             if (!in_array($metadataProperty->getWidget()->getUri(), self::ALLOWED_WIDGETS, true)) {
-                $alias = $metadataProperty->getAlias();
                 $exceptions[] = $this->buildHeaderException(
-                    $alias,
+                    $metadataProperty->getAlias() ?? $metadataProperty->getLabel(),
                     'Property referenced by "%s" has invalid input type - only TEXT is allowed'
+                );
+            }
+
+            if (!$metadataProperty->isStatistical()) {
+                $exceptions[] = $this->buildHeaderException(
+                    $metadataProperty->getAlias() ?? $metadataProperty->getLabel(),
+                    'Property referenced by "%s" must be "statistical"'
                 );
             }
         }
