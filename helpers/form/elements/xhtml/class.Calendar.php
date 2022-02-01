@@ -57,7 +57,7 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
                 $this->name,
                 $elementId,
                 $this->getDescription(),
-                empty($this->value) ? '' : $this->getDateOutput(),
+                $this->getDateOutput(),
                 $this->renderAttributes()
             );
         }

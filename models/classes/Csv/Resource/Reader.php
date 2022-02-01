@@ -42,12 +42,7 @@ class Reader
     {
         $headers = $this->reader->getHeader();
 
-        return array_map(
-            function ($header) {
-                return trim($header);
-            },
-            $headers
-        );
+        return array_map('trim', $headers);
     }
 
     /**
