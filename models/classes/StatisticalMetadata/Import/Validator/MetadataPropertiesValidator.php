@@ -89,7 +89,7 @@ class MetadataPropertiesValidator
 
             if (!array_key_exists($alias, $exceptions)) {
                 $exceptions[$alias] = $this->buildHeaderException(
-                    $metadataProperty->getAlias() ?? $metadataProperty->getLabel(),
+                    $alias ?? $metadataProperty->getLabel(),
                     'Property referenced by "%s" is not unique'
                 );
             }
@@ -154,6 +154,8 @@ class MetadataPropertiesValidator
             return;
         }
 
+        // @TODO Check with Andrei why this is necessary.
+        // It is not showing error details in case all properties are wrong.
         if (count($valuesToCheck) === count($exceptions)) {
             throw new HeaderValidationException(
                 $message,

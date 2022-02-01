@@ -65,10 +65,10 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         $propertyProperties = array_merge(
             tao_helpers_form_GenerisFormFactory::getDefaultProperties(),
             [
-                new core_kernel_classes_Property(GenerisRdf::PROPERTY_ALIAS),
-                new core_kernel_classes_Property(GenerisRdf::PROPERTY_IS_LG_DEPENDENT),
-                new core_kernel_classes_Property(GenerisRdf::PROPERTY_IS_STATISTICAL),
-                new core_kernel_classes_Property(TaoOntology::PROPERTY_GUI_ORDER),
+                $this->getProperty(GenerisRdf::PROPERTY_ALIAS),
+                $this->getProperty(GenerisRdf::PROPERTY_IS_LG_DEPENDENT),
+                $this->getProperty(GenerisRdf::PROPERTY_IS_STATISTICAL),
+                $this->getProperty(TaoOntology::PROPERTY_GUI_ORDER),
                 $this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE)
             ]
         );
@@ -108,7 +108,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
                     $element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
                 }
                 if (
-                    $propertyProperty->getUri() == GenerisRdf::PROPERTY_IS_STATISTICAL &&
+                    $propertyProperty->getUri() === GenerisRdf::PROPERTY_IS_STATISTICAL &&
                     empty($values[$propertyProperty->getUri()])
                 ) {
                     $element->setValue(tao_helpers_Uri::encode(GenerisRdf::GENERIS_FALSE));
