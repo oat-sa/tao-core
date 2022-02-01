@@ -203,7 +203,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
 
     private function getEventManager(): EventManager
     {
-        if ($this->eventManager === null) {
+        if (!isset($this->eventManager)) {
             $this->eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
         }
 
@@ -217,7 +217,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
 
     private function getServiceManager(): ServiceManager
     {
-        if ($this->serviceManager === null) {
+        if (!isset($this->serviceManager)) {
             $this->serviceManager = ServiceManager::getServiceManager();
         }
 
