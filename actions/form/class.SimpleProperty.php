@@ -67,6 +67,7 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
             [
                 new core_kernel_classes_Property(GenerisRdf::PROPERTY_ALIAS),
                 new core_kernel_classes_Property(GenerisRdf::PROPERTY_IS_LG_DEPENDENT),
+                new core_kernel_classes_Property(GenerisRdf::PROPERTY_IS_STATISTICAL),
                 new core_kernel_classes_Property(TaoOntology::PROPERTY_GUI_ORDER),
                 $this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE)
             ]
@@ -106,6 +107,13 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
                 if ($propertyProperty->getUri() == OntologyRdfs::RDFS_LABEL) {
                     $element->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
                 }
+                if (
+                    $propertyProperty->getUri() == GenerisRdf::PROPERTY_IS_STATISTICAL &&
+                    empty($values[$propertyProperty->getUri()])
+                ) {
+                    $element->setValue(tao_helpers_Uri::encode(GenerisRdf::GENERIS_FALSE));
+                }
+
                 $this->form->addElement($element);
                 $elementNames[] = $element->getName();
             }
