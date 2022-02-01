@@ -191,7 +191,7 @@ class ElementMapFactory extends ConfigurableService
             }
         }
 
-        if ($property->isStatistical()) {
+        if ($this->isBlockedForModification($property)) {
             $element->markAsReadOnly();
         }
 
@@ -200,6 +200,11 @@ class ElementMapFactory extends ConfigurableService
         }
 
         return $element;
+    }
+
+    private function isBlockedForModification(core_kernel_classes_Property $property): bool
+    {
+        return $property->isStatistical();
     }
 
     private function isList($range): bool
