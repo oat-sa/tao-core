@@ -119,7 +119,26 @@ class MetadataPropertiesValidator
                     'Property referenced by "%s" has invalid input type - only TEXT is allowed'
                 );
             }
+        }
 
+        $this->throwErrorOrAggregatedException(
+            $exceptions,
+            $metadataProperties,
+            'None of properties referenced by "%s" columns have a valid input type - only TEXT is allowed'
+        );
+    }
+
+    /**
+     * @param core_kernel_classes_Property[] $metadataProperties
+     *
+     * @throws AggregatedValidationException
+     * @throws HeaderValidationException
+     */
+    public function validateMetadataIsStatistical(array $metadataProperties): void
+    {
+        $exceptions = [];
+
+        foreach ($metadataProperties as $metadataProperty) {
             if (!$metadataProperty->isStatistical()) {
                 $exceptions[] = $this->buildHeaderException(
                     $metadataProperty->getAlias() ?? $metadataProperty->getLabel(),
@@ -131,7 +150,7 @@ class MetadataPropertiesValidator
         $this->throwErrorOrAggregatedException(
             $exceptions,
             $metadataProperties,
-            'None of properties referenced by "%s" columns have a valid input type - only TEXT is allowed'
+            'None of properties referenced by "%s" columns are statistical'
         );
     }
 
@@ -154,8 +173,6 @@ class MetadataPropertiesValidator
             return;
         }
 
-        // @TODO Check with Andrei why this is necessary.
-        // It is not showing error details in case all properties are wrong.
         if (count($valuesToCheck) === count($exceptions)) {
             throw new HeaderValidationException(
                 $message,

@@ -69,6 +69,7 @@ class MetadataPropertiesExtractor
         $this->metadataPropertiesValidator->validateMetadataExistence($aliases, $metadataProperties);
         $this->metadataPropertiesValidator->validateMetadataUniqueness($metadataProperties);
         $this->metadataPropertiesValidator->validateMetadataTypes($metadataProperties);
+        $this->metadataPropertiesValidator->validateMetadataIsStatistical($metadataProperties);
 
         return $uniqueMetadataProperties;
     }

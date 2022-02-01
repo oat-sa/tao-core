@@ -96,6 +96,26 @@ class MetadataPropertiesValidatorTest extends TestCase
                 'properties' => [$this->createProperty('alias', true, SearchDropdown::WIDGET_ID)],
                 'exception' => HeaderValidationException::class,
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider metadataIsStatisticalDataProvider
+     */
+    public function testValidateMetadataIsStatistical(
+        array $properties,
+        string $exceptionClass = null
+    ): void {
+        if ($exceptionClass) {
+            $this->expectException($exceptionClass);
+        }
+
+        $this->sut->validateMetadataIsStatistical($properties);
+    }
+
+    public function metadataIsStatisticalDataProvider(): array
+    {
+        return [
             'Invalid - not statistical' => [
                 'properties' => [$this->createProperty('alias', false)],
                 'exception' => HeaderValidationException::class,
