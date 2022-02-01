@@ -40,7 +40,14 @@ class Reader
      */
     public function getHeader(): array
     {
-        return $this->reader->getHeader();
+        $headers = $this->reader->getHeader();
+
+        return array_map(
+            function ($header) {
+                return trim($header);
+            },
+            $headers
+        );
     }
 
     /**
