@@ -329,7 +329,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $groups = $myForm->getGroups();
 
         foreach ($data['properties'] as $prop) {
-            if (empty($prop['range']) || empty($prop['uri']) || empty($prop['depends-on-property'])) {
+            if (empty($prop['range']) || empty($prop['uri'])) {
                 continue;
             }
 
@@ -338,6 +338,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             if (isset($elementUri)) {
                 $index = strstr($elementUri, '_', true);
                 $elementRangeArray[$index . '_range_list'] = $prop['range'];
+
                 if ($prop['depends-on-property']) {
                     $elementRangeArray[$index . '_depends-on-property'] = $prop['depends-on-property'];
                     $elementRangeArray[$index . '_uri'] = $prop['uri'];
