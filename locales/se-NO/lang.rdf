@@ -7,7 +7,7 @@
 >
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Langse-NO">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
-    <rdfs:label  xml:lang="en-US"><![CDATA[Norwegian, Nordsamisk]]></rdfs:label>
+    <rdfs:label  xml:lang="en-US"><![CDATA[Norwegian, Nordsamisk (Norway)]]></rdfs:label>
     <rdf:value><![CDATA[se-NO]]></rdf:value>
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData"/>
     <tao:LanguageOrientation rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight"/>

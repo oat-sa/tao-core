@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -33,6 +33,7 @@ use GuzzleHttp\Psr7\ServerRequest;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\http\Controller;
 use oat\oatbox\log\LoggerAwareTrait;
+use Psr\Container\ContainerInterface;
 use oat\tao\model\event\BeforeAction;
 use oat\tao\model\http\ResponseEmitter;
 use Psr\Http\Message\ResponseInterface;
@@ -41,12 +42,14 @@ use oat\oatbox\log\TaoLoggerAwareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use tao_models_classes_AccessDeniedException;
 use oat\tao\model\action\CommonModuleInterface;
+use oat\tao\model\routing\Service\ActionFinder;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use Doctrine\Common\Annotations\AnnotationReader;
 use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\tao\model\Middleware\MiddlewareRequestHandler;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\accessControl\data\PermissionException;
+use oat\tao\model\routing\Contract\ActionFinderInterface;
 use oat\tao\model\HttpFoundation\Request\RequestInterface;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\ParamConverter\Event\ParamConverterEvent;
@@ -76,6 +79,9 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
     private $request;
     private $response;
+
+    /** @var ContainerInterface */
+    private $container;
 
     public function __construct($extensionId, $controller, $action, array $parameters)
     {
@@ -112,7 +118,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             throw new ActionEnforcingException('Controller "' . $controllerClass . '" could not be loaded.', $controllerClass, $this->getAction());
         }
 
-        $controller = $this->getClassInstance($controllerClass);
+        $controller = $this->getControllerInstance($controllerClass);
 
         $this->propagate($controller);
         if ($controller instanceof Controller) {
@@ -123,17 +129,6 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             $controller->initialize();
         }
         return $controller;
-    }
-
-    private function getClassInstance(string $className): object
-    {
-        $serviceId = defined("$className::SERVICE_ID")
-            ? $className::SERVICE_ID
-            : $className;
-
-        return $this->getServiceLocator()->has($serviceId)
-            ? $this->getServiceLocator()->get($serviceId)
-            : $this->propagate(new $className);
     }
 
     protected function getRequest()
@@ -296,6 +291,44 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         return $actionParameters;
     }
 
+    private function getClassInstance(string $className): object
+    {
+        $serviceId = $this->getServiceId($className);
+        $container = $this->getContainer();
+
+        if ($container->has($serviceId)) {
+            return $container->get($serviceId);
+        }
+
+        return $this->propagate(new $className);
+    }
+
+    private function getControllerInstance(string $className): object
+    {
+        return $this->getActionFinder()->find($className) ?? $this->propagate(new $className);
+    }
+
+    private function getServiceId(string $className): string
+    {
+        return defined("$className::SERVICE_ID")
+            ? $className::SERVICE_ID
+            : $className;
+    }
+
+    private function getActionFinder(): ActionFinderInterface
+    {
+        return $this->getContainer()->get(ActionFinder::class);
+    }
+
+    private function getContainer(): ContainerInterface
+    {
+        if (!$this->container) {
+            $this->container = $this->getServiceManager()->getContainer();
+        }
+
+        return $this->container;
+    }
+
     private function applyParamConverters(
         array &$parameters,
         ServerRequestInterface $request,
@@ -353,12 +386,12 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
     private function getHttpFoundationFactory(): HttpFoundationFactoryInterface
     {
-        return $this->getServiceLocator()->getContainer()->get(HttpFoundationFactory::class);
+        return $this->getContainer()->get(HttpFoundationFactory::class);
     }
 
     private function getEventManager(): EventManager
     {
-        return $this->getServiceLocator()->getContainer()->get(EventManager::SERVICE_ID);
+        return $this->getContainer()->get(EventManager::SERVICE_ID);
     }
 
     private function getMiddlewareRequestHandler(): MiddlewareRequestHandler

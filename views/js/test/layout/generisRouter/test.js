@@ -78,6 +78,14 @@ define(['lodash', 'jquery', 'layout/generisRouter'], function(_, $, generisRoute
                 sectionId: 'authoring',
                 restoreWith: 'activate',
                 expectedUrl: baseUrlRel + '&section=authoring'
+            },
+            {
+                title: 'redirect to resource',
+                baseUrl: baseUrlAbs + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i15151515151515',
+                sectionId: 'manage_items',
+                restoreWith: 'activate',
+                expectedUrl: baseUrlRel + '&section=manage_items' + '&uri=http_2_tao_1_mytao_0_rdf_3_i15151515151515',
+                nodeUri: 'http_2_tao_1_mytao_0_rdf_3_i15151515151515'
             }
         ])
         .test('Push new state in history when section parameter already exists', function(data, assert) {

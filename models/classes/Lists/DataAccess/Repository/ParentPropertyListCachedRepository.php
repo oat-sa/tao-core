@@ -32,20 +32,23 @@ use oat\tao\model\Lists\Business\Contract\ParentPropertyListRepositoryInterface;
 
 class ParentPropertyListCachedRepository extends ConfigurableService implements ParentPropertyListRepositoryInterface
 {
+    public const OPTION_LIST_URI = 'listUri';
+    public const OPTION_PROPERTY = 'property';
+
     private const CACHE_MASK = 'depends_on_property-%s-%s';
     private const LIST_CACHE_MASK = 'depends_on_property-%s';
 
     public function deleteCache(array $options): void
     {
-        if (empty($options['listUri'])) {
+        if (empty($options[self::OPTION_LIST_URI])) {
             throw new InvalidArgumentException('listUri is required to clear the cache');
         }
 
-        $this->removeUsingListUri($options['listUri']);
+        $this->removeUsingListUri($options[self::OPTION_LIST_URI]);
 
         $childListUris = $this->getDependencyRepository()->findChildListUris(
             [
-                'parentListUri' => $options['listUri']
+                'parentListUri' => $options[self::OPTION_LIST_URI]
             ]
         );
 
@@ -57,7 +60,7 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
     public function findAllUris(array $options): array
     {
         /** @var core_kernel_classes_Property $property */
-        $property = $options['property'] ?? null;
+        $property = $options[self::OPTION_PROPERTY] ?? null;
 
         $cache = $this->getCache();
 
@@ -66,7 +69,7 @@ class ParentPropertyListCachedRepository extends ConfigurableService implements 
             return $this->getParentPropertyListRepository()->findAllUris($options);
         }
 
-        $listUri = $options['listUri'] ?? $property->getRange()->getUri();
+        $listUri = $options[self::OPTION_LIST_URI] ?? $property->getRange()->getUri();
         $cacheKey = sprintf(self::CACHE_MASK, $property->getUri(), $listUri);
         $listCacheKey = sprintf(self::LIST_CACHE_MASK, $listUri);
 

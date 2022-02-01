@@ -21,6 +21,7 @@
 
 namespace oat\tao\model\upload;
 
+use common_exception_Error;
 use oat\generis\model\fileReference\UrlFileSerializer;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\Directory;
@@ -30,6 +31,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\FileUploadedEvent;
 use oat\tao\model\event\UploadLocalCopyCreatedEvent;
 use tao_helpers_File;
+use tao_helpers_form_Form;
 
 class UploadService extends ConfigurableService
 {
@@ -74,6 +76,33 @@ class UploadService extends ConfigurableService
         $returnValue['data'] = json_encode($data);
 
         return $returnValue;
+    }
+
+    /**
+     * Helps to get the uploaded file data during upload or during processing of the import task.
+     *
+     * @param array|tao_helpers_form_Form $form
+     * @return File|string
+     * @throws common_exception_Error
+     */
+    public function fetchUploadedFile($form)
+    {
+        if (is_array($form) && isset($form['uploaded_file'])) {
+            return $this->getUploadDir()->getFile($form['uploaded_file']);
+        }
+
+        if ($form instanceof tao_helpers_form_Form) {
+            $fileInfo = $form->getValue('source');
+
+            /** @var string $file */
+            $file = $form->getValue('importFile') ?: $fileInfo['uploaded_file'];
+
+            if ($file) {
+                return $file;
+            }
+        }
+
+        throw new common_exception_Error('No source file for import');
     }
 
     /**

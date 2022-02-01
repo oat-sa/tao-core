@@ -59,12 +59,6 @@ return new oat\tao\model\menu\SectionVisibilityFilter(array(
 
 This configuration will display `sectionName` when `FETURE_FLAG_01` is enabled.
 
-## Advanced Search feature flag
-Advanced search feature will be enabled by default (but it requires elastic search library).
-You can define `FEATURE_FLAG_ADVANCED_SEARCH_DISABLED=true` or `FEATURE_FLAG_ADVANCED_SEARCH_DISABLED=1` feature flag 
-in global environment variables to disable Advanced Search feature.
-
-
 # Webhooks
 
 ## Description
@@ -140,7 +134,16 @@ $ php index.php 'oat\tao\scripts\tools\accessControl\SetRolesAccess' \
 }
 ```
 
-## Lists Dependency feature flag
-Lists Dependency feature will be disabled by default.
-You can define `FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED=1` feature flag in global environment variables to enable  
-Lists Dependency feature. 
+# Environment variables
+
+Here you can find the environment variables including feature flags
+
+| Variable                               | Description                                  | Default value |
+| -------------------------------------- | -------------------------------------------- | ------------- |
+| FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED  | Enable Remote Lists Dependency feature       | -            |
+| FEATURE_FLAG_ADVANCED_SEARCH_DISABLED  | Disable advanced search feature, if set to 1 | -            |
+| FEATURE_FLAG_STATISTIC_METADATA_IMPORT | Enable statistics metadata import            | -            |
+
+# Routing
+
+Check more information about actions/controllers and [routing here](./models/classes/routing/README.md)

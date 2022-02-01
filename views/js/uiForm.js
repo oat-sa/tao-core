@@ -113,7 +113,14 @@
                         testedUrl = settings.url;
                     }
 
-                    self.initRendering();
+                    /**
+                     * Prevent manage-schema form initialization when the targeted url is related to authoring
+                     * associated action is "launchEditor"
+                    */
+                    if (!testedUrl.includes('authoring')) {
+                        self.initRendering();
+                    }
+
                     self.initElements();
                     if (self.initGenerisFormPattern.test(testedUrl)) {
                         self.initOntoForms();
@@ -486,7 +493,7 @@
              */
             async function checkForDependency(propertyUri, $groupNode) {
                 if (!context.featureFlags.FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED) {
-                    return;
+                    return [];
                 }
 
                 const typeSelectVal = $groupNode.find('select[id$="type"]').val();
@@ -513,7 +520,7 @@
 
             async function getPropertyRemovalConfirmation($groupNode, uri) {
                 const dependencies = await checkForDependency(uri, $groupNode);
-                const dependsOnValue = $($groupNode).find('select[id$="_depends-on-property"]').val();
+                const dependsOnValue = $($groupNode).find('select[id$="_depends-on-property"]').val() || ' ';
 
                 return new Promise((resolve, reject) => {
                     if (!dependencies.length && dependsOnValue === ' ') {
@@ -728,28 +735,38 @@
              */
             function showPropertyListValues() {
                 const $this = $(this);
-                const elt = $this.parent("div");
+                const elt = $this.parent('div');
                 let classUri;
 
                 //load the instances and display them (the list items)
-                $(elt).parent("div").children("ul.form-elt-list").remove();
+                $(elt).parent('div').children('ul.form-elt-list').remove();
                 classUri = $this.val();
+
                 if (classUri && classUri.trim()) {
-                    $this.parent("div").children("div.form-error").remove();
+                    $this.parent('div').children('div.form-error').remove();
+
                     $.ajax({
                         url: context.root_url + 'taoBackOffice/Lists/getListElements',
-                        type: "POST",
-                        data: {listUri: classUri},
-                        dataType: 'json',
+                        type: 'GET',
+                        data: {
+                            listUri: classUri,
+                        },
                         success: function (response) {
-                            let html = "<ul class='form-elt-list'>",
+                            let html = '<ul class="form-elt-list">',
                                 property;
-                            for (property in response) {
-                                if(!response.hasOwnProperty(property)) {
+
+                            for (property in response.data.elements) {
+                                if (!Object.prototype.hasOwnProperty.call(response.data.elements, property)) {
                                     continue;
                                 }
-                                html += '<li>' + encode.html(response[property]) + '</li>';
+
+                                html += `<li>${encode.html(response.data.elements[property].label)}</li>`;
                             }
+
+                            if (response.data.totalCount > response.data.elements.length) {
+                                html += `<li>...</li>`;
+                            }
+
                             html += '</ul>';
                             $(elt).after(html);
                         }
@@ -767,14 +784,14 @@
                 let propertyUriToSend;
                 const listUri = $this.val();
                 const dependsId = $(this)[0].id.match(/\d+_/)[0];
-                const dependsOnSelect = $(document.getElementById(`${dependsId}depends-on-property`));
-                const typeSelect = $(document.getElementById(`${dependsId}type`));
-                const listSelect = $(`#${dependsId}range option:selected`);
+                const $dependsOnSelect = $(document.getElementById(`${dependsId}depends-on-property`));
+                const $typeSelect = $(document.getElementById(`${dependsId}type`));
+                const $listSelect = $(`#${dependsId}range option:selected`);
 
                 propertyUriToSend = $this.parent().parent().parent()[0].id;
                 propertyUriToSend = propertyUriToSend.replace('property_', '');
 
-                if (!dependsOn.getSupportedTypes().includes(typeSelect.val()) || !listSelect.data('remote-list')) {
+                if (!$listSelect.data('remote-list')) {
                     return;
                 }
 
@@ -785,7 +802,7 @@
                         class_uri: classUri,
                         list_uri: listUri,
                         property_uri: propertyUriToSend,
-                        type: typeSelect.val()
+                        type: $typeSelect.val()
                     },
                     dataType: 'json',
                     success: function (response) {
@@ -793,6 +810,7 @@
                             response
                             && response.data
                             && response.data.length !== 0
+                            && dependsOn.getSupportedTypes().includes($typeSelect.val())
                         ) {
                             const backendValues = response.data.reduce(
                                 (accumulator, currentValue) => {
@@ -802,7 +820,7 @@
                                 []
                             );
                             const currentValues = Object
-                                .values(dependsOnSelect[0].options)
+                                .values($dependsOnSelect[0].options)
                                 .map(entry => entry.value)
                                 .filter(entry => entry !== ' ');
                             let haveSameData = false;
@@ -812,17 +830,37 @@
                                 }
                                 return;
                             });
-                            if (dependsOnSelect[0].length <= 1 || haveSameData) {
+                            if ($dependsOnSelect[0].length <= 1 || haveSameData) {
                                 let html = `<option value=" "> --- ${__('none')} --- </option>`;
                                 for (const propertyData in response.data) {
                                     html += `<option value="${response.data[propertyData].uri}">${response.data[propertyData].label}</option>`;
                                 }
-                                dependsOnSelect.empty().append(html);
+                                $dependsOnSelect.empty().append(html);
                             }
-                            dependsOn.toggle(dependsOnSelect, dependsOnSelect.parent(), $this.closest('.property-edit-container'));
+
+                            $dependsOnSelect.off('change');
+                            $dependsOnSelect.on('change', onDependsOnPropertyChange);
+                            dependsOn.toggle($dependsOnSelect, $dependsOnSelect.parent(), $this.closest('.property-edit-container'));
                         } else {
-                            dependsOnSelect.parent().hide();
+                            $dependsOnSelect.parent().hide();
                         }
+                    }
+                });
+            }
+
+            /**
+             * Filter the list of options available on the "depends on" select
+             * based on the properties that already have a dependency declared
+             */
+            function filterDependsOnProperty() {
+                const $changedProperty = $(this);
+                let primaryPropertyUri = $(this).closest('[id^="property_"]').attr('id').replace('property_', '');
+
+                $(`option[value=${primaryPropertyUri}]`).each((i, option) => {
+                    option.disabled = !!$changedProperty.val().trim();
+
+                    if (option.selected && option.disabled) {
+                        option.parentElement.value = ' ';
                     }
                 });
             }
@@ -843,6 +881,14 @@
                 }
                 showPropertyListValues.bind(this)(e);
                 showDependsOnProperty.bind(this)(e);
+            }
+
+            /**
+             * On change of depends on property, the values are filtered
+             * @param {event} e
+             */
+            function onDependsOnPropertyChange(e) {
+                filterDependsOnProperty.bind(this)(e);
             }
 
             //bind functions to the drop down:

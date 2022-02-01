@@ -33,6 +33,7 @@ use oat\tao\model\accessControl\PermissionCheckerInterface;
 use oat\tao\model\Specification\ClassSpecificationInterface;
 use oat\tao\model\resources\Exception\ClassDeletionException;
 use oat\tao\model\resources\Exception\PartialClassDeletionException;
+use oat\generis\model\resource\Contract\ResourceRepositoryInterface;
 
 /**
  * @TODO Refactor tests - code duplicates
@@ -51,17 +52,33 @@ class ClassDeleterTest extends TestCase
     /** @var Ontology|MockObject */
     private $ontology;
 
+    /** @var ResourceRepositoryInterface|MockObject */
+    private $resourceRepository;
+
+    /** @var ResourceRepositoryInterface|MockObject */
+    private $classRepository;
+
     protected function setUp(): void
     {
         $this->rootClassSpecification = $this->createMock(ClassSpecificationInterface::class);
         $this->permissionChecker = $this->createMock(PermissionCheckerInterface::class);
+
         $this->ontology = $this->createMock(Ontology::class);
         $this->ontology
             ->expects($this->once())
             ->method('getProperty')
             ->willReturn($this->createMock(core_kernel_classes_Property::class));
 
-        $this->sut = new ClassDeleter($this->rootClassSpecification, $this->permissionChecker, $this->ontology);
+        $this->resourceRepository = $this->createMock(ResourceRepositoryInterface::class);
+        $this->classRepository = $this->createMock(ResourceRepositoryInterface::class);
+
+        $this->sut = new ClassDeleter(
+            $this->rootClassSpecification,
+            $this->permissionChecker,
+            $this->ontology,
+            $this->resourceRepository,
+            $this->classRepository
+        );
     }
 
     public function testDeleteFullAccess(): void
@@ -80,15 +97,18 @@ class ClassDeleterTest extends TestCase
             ->method('hasWriteAccess')
             ->willReturn(true);
 
+        $this->resourceRepository
+            ->expects($this->exactly(4))
+            ->method('delete');
+        $this->classRepository
+            ->expects($this->exactly(2))
+            ->method('delete');
+
         $subClassInstance = $this->createMock(core_kernel_classes_Resource::class);
         $subClassInstance
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('subClassInstanceUri');
-        $subClassInstance
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $subClassProperty = $this->createMock(core_kernel_classes_Property::class);
         $subClassProperty
@@ -117,20 +137,12 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getProperties')
             ->willReturn([$subClassProperty]);
-        $subClass
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $classInstance = $this->createMock(core_kernel_classes_Resource::class);
         $classInstance
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('classInstanceUri');
-        $classInstance
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $classProperty = $this->createMock(core_kernel_classes_Property::class);
         $classProperty
@@ -159,22 +171,9 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getProperties')
             ->willReturn([$classProperty]);
-        $class
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
-        $classPropertyIndexResource = $this->createMock(core_kernel_classes_Resource::class);
-        $classPropertyIndexResource
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
-
+        $classPropertyIndexResource = $this->createMock(core_kernel_classes_Resource::class);//
         $subClassPropertyIndexResource = $this->createMock(core_kernel_classes_Resource::class);
-        $subClassPropertyIndexResource
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $this->ontology
             ->expects($this->exactly(2))
@@ -210,6 +209,13 @@ class ClassDeleterTest extends TestCase
             ->expects($this->never())
             ->method('hasReadAccess');
 
+        $this->resourceRepository
+            ->expects($this->never())
+            ->method('delete');
+        $this->classRepository
+            ->expects($this->never())
+            ->method('delete');
+
         $this->expectException(ClassDeletionException::class);
 
         $this->sut->delete($this->createMock(core_kernel_classes_Class::class));
@@ -226,6 +232,13 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('hasReadAccess')
             ->willReturn(false);
+
+        $this->resourceRepository
+            ->expects($this->never())
+            ->method('delete');
+        $this->classRepository
+            ->expects($this->never())
+            ->method('delete');
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class
@@ -266,6 +279,13 @@ class ClassDeleterTest extends TestCase
             ->with('classInstanceUri')
             ->willReturn(true);
 
+        $this->resourceRepository
+            ->expects($this->once())
+            ->method('delete');
+        $this->classRepository
+            ->expects($this->never())
+            ->method('delete');
+
         $subClass = $this->createMock(core_kernel_classes_Class::class);
         $subClass
             ->expects($this->once())
@@ -280,10 +300,6 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('classInstanceUri');
-        $classInstance
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class
@@ -331,15 +347,18 @@ class ClassDeleterTest extends TestCase
                 }
             );
 
+        $this->resourceRepository
+            ->expects($this->exactly(2))
+            ->method('delete');
+        $this->classRepository
+            ->expects($this->never())
+            ->method('delete');
+
         $subClassInstance = $this->createMock(core_kernel_classes_Resource::class);
         $subClassInstance
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('subClassInstanceUri');
-        $subClassInstance
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $subClass = $this->createMock(core_kernel_classes_Class::class);
         $subClass
@@ -363,10 +382,6 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('classInstanceUri');
-        $classInstance
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class
@@ -414,15 +429,18 @@ class ClassDeleterTest extends TestCase
                 }
             );
 
+        $this->resourceRepository
+            ->expects($this->exactly(2))
+            ->method('delete');
+        $this->classRepository
+            ->expects($this->once())
+            ->method('delete');
+
         $subClassInstance = $this->createMock(core_kernel_classes_Resource::class);
         $subClassInstance
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('subClassInstanceUri');
-        $subClassInstance
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $subClassProperty = $this->createMock(core_kernel_classes_Property::class);
         $subClassProperty
@@ -451,19 +469,12 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getProperties')
             ->willReturn([$subClassProperty]);
-        $subClass
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $classInstance = $this->createMock(core_kernel_classes_Resource::class);
         $classInstance
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('classInstanceUri');
-        $classInstance
-            ->expects($this->never())
-            ->method('delete');
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class
@@ -487,10 +498,6 @@ class ClassDeleterTest extends TestCase
             ->willReturn(true);
 
         $subClassPropertyIndexResource = $this->createMock(core_kernel_classes_Resource::class);
-        $subClassPropertyIndexResource
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $this->ontology
             ->expects($this->once())
@@ -523,14 +530,18 @@ class ClassDeleterTest extends TestCase
                 }
             );
 
+        $this->resourceRepository
+            ->expects($this->once())
+            ->method('delete');
+        $this->classRepository
+            ->expects($this->never())
+            ->method('delete');
+
         $subClassInstance = $this->createMock(core_kernel_classes_Resource::class);
         $subClassInstance
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('subClassInstanceUri');
-        $subClassInstance
-            ->expects($this->never())
-            ->method('delete');
 
         $subClass = $this->createMock(core_kernel_classes_Class::class);
         $subClass
@@ -554,10 +565,6 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('classInstanceUri');
-        $classInstance
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class
@@ -609,15 +616,18 @@ class ClassDeleterTest extends TestCase
                 }
             );
 
+        $this->resourceRepository
+            ->expects($this->exactly(3))
+            ->method('delete');
+        $this->classRepository
+            ->expects($this->once())
+            ->method('delete');
+
         $subClassInstance = $this->createMock(core_kernel_classes_Resource::class);
         $subClassInstance
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('subClassInstanceUri');
-        $subClassInstance
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $subClassProperty = $this->createMock(core_kernel_classes_Property::class);
         $subClassProperty
@@ -646,20 +656,12 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getProperties')
             ->willReturn([$subClassProperty]);
-        $subClass
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $classInstance = $this->createMock(core_kernel_classes_Resource::class);
         $classInstance
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('classInstanceUri');
-        $classInstance
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class
@@ -683,10 +685,6 @@ class ClassDeleterTest extends TestCase
             ->willReturn(true);
 
         $subClassPropertyIndexResource = $this->createMock(core_kernel_classes_Resource::class);
-        $subClassPropertyIndexResource
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $this->ontology
             ->expects($this->once())
@@ -719,15 +717,18 @@ class ClassDeleterTest extends TestCase
                 }
             );
 
+        $this->resourceRepository
+            ->expects($this->exactly(2))
+            ->method('delete');
+        $this->classRepository
+            ->expects($this->never())
+            ->method('delete');
+
         $subClassInstance = $this->createMock(core_kernel_classes_Resource::class);
         $subClassInstance
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('subClassInstanceUri');
-        $subClassInstance
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $subClass = $this->createMock(core_kernel_classes_Class::class);
         $subClass
@@ -751,10 +752,6 @@ class ClassDeleterTest extends TestCase
             ->expects($this->once())
             ->method('getUri')
             ->willReturn('classInstanceUri');
-        $classInstance
-            ->expects($this->once())
-            ->method('delete')
-            ->willReturn(true);
 
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class

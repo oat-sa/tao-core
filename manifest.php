@@ -19,7 +19,7 @@
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-     (update and modification) Open Assessment Technologies SA;
- *               2021 (original work) Open Assessment Technologies SA
+ *               2021-2022 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -30,6 +30,8 @@ use oat\tao\model\routing\ApiRoute;
 use oat\tao\scripts\update\Updater;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\model\routing\LegacyRoute;
+use oat\tao\model\Csv\CsvServiceProvider;
+use oat\tao\model\LanguageServiceProvider;
 use oat\tao\scripts\install\RegisterEvents;
 use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetUpQueueTasks;
@@ -45,6 +47,7 @@ use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetServiceFileStorage;
+use oat\tao\model\user\UserSettingsServiceProvider;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterSearchServices;
 use oat\tao\scripts\install\SetImageAligmentConfig;
@@ -68,14 +71,17 @@ use oat\tao\scripts\install\RegisterValueCollectionServices;
 use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
 use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
+use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\ParamConverter\ParamConverterServiceProvider;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\model\export\ServiceProvider\MetadataServiceProvider;
+use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
 use oat\tao\scripts\install\RegisterDataAccessControlChangedEvent;
 use oat\tao\scripts\install\RegisterDataAccessControlChangedListener;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
+use oat\tao\model\StatisticalMetadata\StatisticalMetadataServiceProvider;
 use oat\tao\model\HttpFoundation\ServiceProvider\HttpFoundationServiceProvider;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
@@ -235,6 +241,7 @@ return [
         [AccessRule::GRANT, TaoRoles::PROPERTY_MANAGER, 'tao_actions_PropertiesAuthoring'],
         [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, Users::class],
         [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, Users::class],
+        [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, ['ext' => 'tao','mod' => 'MetadataImport']],
     ],
     'routes' => [
         '/tao/api'  => ['class' => ApiRoute::class],
@@ -242,9 +249,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2021.10',
+        'TAO_VERSION' => '2022.01',
         #TAO version label
-        'TAO_VERSION_NAME' => '2021.10',
+        'TAO_VERSION_NAME' => '2022.01',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
@@ -277,12 +284,18 @@ return [
     ],
     'containerServiceProviders' => [
         ListsServiceProvider::class,
-        SerializerServiceProvider::class,
-        HttpFoundationServiceProvider::class,
-        ParamConverterServiceProvider::class,
         FormServiceProvider::class,
         MetadataServiceProvider::class,
         FeatureFlagServiceProvider::class,
+        LanguageServiceProvider::class,
         ResourcesServiceProvider::class,
+        RoutingServiceProvider::class,
+        ImportServiceProvider::class,
+        UserSettingsServiceProvider::class,
+        StatisticalMetadataServiceProvider::class,
+        CsvServiceProvider::class,
+        SerializerServiceProvider::class,
+        HttpFoundationServiceProvider::class,
+        ParamConverterServiceProvider::class,
     ],
 ];
