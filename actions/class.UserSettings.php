@@ -66,7 +66,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
                 $this->setData('message', __('Password changed'));
             }
 
-            $this->setData('myForm', $passwordForm->render());
+            $this->setData('settingsForm', $passwordForm->render());
         }
 
         $this->setView('form/settings_user.tpl');
