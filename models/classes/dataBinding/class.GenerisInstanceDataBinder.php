@@ -44,6 +44,9 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     /** @var EventManager */
     private $eventManager;
 
+    /** @var bool */
+    private $forceModification = false;
+
     /**
      * Creates a new instance of binder.
      *
@@ -60,6 +63,11 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     public function withEventManager(EventManager $eventManager): void
     {
         $this->eventManager = $eventManager;
+    }
+
+    public function forceModification(): void
+    {
+        $this->forceModification = true;
     }
 
     /**
@@ -111,6 +119,11 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
                 }
 
                 $prop = new core_kernel_classes_Property($propertyUri);
+
+                if ($this->isBlockedForModification($prop)) {
+                    continue;
+                }
+
                 $values = $instance->getPropertyValuesCollection($prop);
                 if ($values->count() > 0) {
                     if (is_array($propertyValue)) {
@@ -158,6 +171,15 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
             $instanceUri = $instance->getUri();
             throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException($msg);
         }
+    }
+
+    private function isBlockedForModification(core_kernel_classes_Property $property): bool
+    {
+        if ($this->forceModification) {
+            return false;
+        }
+
+        return $property->isStatistical();
     }
 
     private function isEmptyValue(string $value): bool
