@@ -27,6 +27,8 @@ use oat\tao\model\dataBinding\GenerisInstanceDataBindingException;
 use oat\tao\model\event\MetadataModified;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
 /**
  * A data binder focusing on binding a source of data to a Generis instance
@@ -44,6 +46,9 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     /** @var EventManager */
     private $eventManager;
 
+    /** @var ServiceManager */
+    private $serviceManager;
+
     /** @var bool */
     private $forceModification = false;
 
@@ -58,6 +63,11 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     public function __construct(core_kernel_classes_Resource $targetInstance)
     {
         $this->targetInstance = $targetInstance;
+    }
+
+    public function withServiceManager(ServiceManager $serviceManager): void
+    {
+        $this->serviceManager = $serviceManager;
     }
 
     public function withEventManager(EventManager $eventManager): void
@@ -179,7 +189,11 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
             return false;
         }
 
-        return $property->isStatistical();
+        if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_STATISTIC_METADATA_IMPORT')) {
+            return $property->isStatistical();
+        }
+
+        return false;
     }
 
     private function isEmptyValue(string $value): bool
@@ -190,9 +204,23 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     private function getEventManager(): EventManager
     {
         if ($this->eventManager === null) {
-            $this->eventManager = ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);
+            $this->eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
         }
 
         return $this->eventManager;
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceManager()->get(FeatureFlagChecker::class);
+    }
+
+    private function getServiceManager(): ServiceManager
+    {
+        if ($this->serviceManager === null) {
+            $this->serviceManager = ServiceManager::getServiceManager();
+        }
+
+        return $this->serviceManager;
     }
 }

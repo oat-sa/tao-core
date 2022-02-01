@@ -204,7 +204,11 @@ class ElementMapFactory extends ConfigurableService
 
     private function isBlockedForModification(core_kernel_classes_Property $property): bool
     {
-        return $property->isStatistical();
+        if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_STATISTIC_METADATA_IMPORT')) {
+            return $property->isStatistical();
+        }
+
+        return false;
     }
 
     private function isList($range): bool
