@@ -36,7 +36,7 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
      * Rendering of the XHTML implementation of the Calendar Widget.
      *
      * @author Bertrand Chevrier, <bertrand@taotesting.com>
-     * @return The XHTML stream of the Calendar Widget.
+     * @return string The XHTML stream of the Calendar Widget.
      */
     public function render()
     {
@@ -44,6 +44,23 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
 
         $uniqueId = uniqid('calendar_');
         $elementId = tao_helpers_Display::TextCleaner($this->getDescription()) . '_' . $uniqueId;
+
+        if ($this->hasReadOnlyAttribute()) {
+            return $returnValue . sprintf(
+                '<input type="text" 
+            name="%s"
+            id="%s"
+            data-testid="%s"
+            value="%s"
+            %s
+            >',
+                $this->name,
+                $elementId,
+                $this->getDescription(),
+                empty($this->value) ? '' : $this->getDateOutput(),
+                $this->renderAttributes()
+            );
+        }
 
         if (! isset($this->attributes['size'])) {
             $this->attributes['size'] = 20;
@@ -53,12 +70,12 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
         $returnValue .= $this->renderAttributes();
 
         if (! empty($this->value)) {
-            $timeStamp = is_numeric($this->getRawValue()) ? $this->getRawValue() : $this->getEvaluatedValue();
-            $returnValue .= ' value="' . _dh(tao_helpers_Date::displayeDate($timeStamp, tao_helpers_Date::FORMAT_DATEPICKER)) . '"';
+            $returnValue .= ' value="' . $this->getDateOutput() . '"';
         }
+
         $returnValue .= ' /></div>';
 
-        return (string) $returnValue;
+        return $returnValue;
     }
 
     public function getEvaluatedValue()
@@ -76,5 +93,21 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
         }
 
         return $returnValue;
+    }
+
+    private function getDateOutput(): string
+    {
+        if (empty($this->value)) {
+            return '';
+        }
+
+        $timeStamp = is_numeric($this->getRawValue()) ? $this->getRawValue() : $this->getEvaluatedValue();
+
+        return _dh(tao_helpers_Date::displayeDate($timeStamp, tao_helpers_Date::FORMAT_DATEPICKER));
+    }
+
+    private function hasReadOnlyAttribute(): bool
+    {
+        return isset($this->attributes['readonly']) && $this->attributes['readonly'] === 'true';
     }
 }
