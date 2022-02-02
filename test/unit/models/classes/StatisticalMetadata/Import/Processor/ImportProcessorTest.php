@@ -180,6 +180,10 @@ class ImportProcessorTest extends TestCase
             ->method('bind')
             ->with($metadataValues);
 
+        $this->dataBinder
+            ->expects($this->once())
+            ->method('forceModification');
+
         $report = $this->createMock(Report::class);
 
         $this->reportBuilder
