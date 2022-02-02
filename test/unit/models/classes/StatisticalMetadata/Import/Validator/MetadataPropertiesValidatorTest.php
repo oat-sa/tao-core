@@ -24,9 +24,11 @@ namespace oat\tao\test\unit\models\classes\StatisticalMetadata\Import\Validator;
 
 use oat\generis\test\TestCase;
 use core_kernel_classes_Property;
+use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\model\StatisticalMetadata\Import\Exception\HeaderValidationException;
 use oat\tao\model\StatisticalMetadata\Import\Validator\MetadataPropertiesValidator;
 use oat\tao\model\StatisticalMetadata\Import\Exception\AggregatedValidationException;
+use tao_helpers_form_elements_Textbox;
 
 class MetadataPropertiesValidatorTest extends TestCase
 {
@@ -39,7 +41,7 @@ class MetadataPropertiesValidatorTest extends TestCase
     }
 
     /**
-     * @dataProvider dataProvider
+     * @dataProvider metadataExistenceDataProvider
      */
     public function testValidateMetadataExistence(
         array $aliases,
@@ -50,10 +52,10 @@ class MetadataPropertiesValidatorTest extends TestCase
             $this->expectException($exceptionClass);
         }
 
-        $this->sut->validateMetadataExistence($aliases, $properties);
+        $this->assertNull($this->sut->validateMetadataExistence($aliases, $properties));
     }
 
-    public function dataProvider(): array
+    public function metadataExistenceDataProvider(): array
     {
         return [
             'Valid' => [
@@ -73,13 +75,75 @@ class MetadataPropertiesValidatorTest extends TestCase
         ];
     }
 
-    private function createProperty(): core_kernel_classes_Property
+    /**
+     * @dataProvider metadataTypesDataProvider
+     */
+    public function testValidateMetadataTypes(
+        array $properties,
+        string $exceptionClass = null
+    ): void {
+        if ($exceptionClass) {
+            $this->expectException($exceptionClass);
+        }
+
+        $this->sut->validateMetadataTypes($properties);
+    }
+
+    public function metadataTypesDataProvider(): array
     {
+        return [
+            'Invalid - invalid widget' => [
+                'properties' => [$this->createProperty('alias', true, SearchDropdown::WIDGET_ID)],
+                'exception' => HeaderValidationException::class,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider metadataIsStatisticalDataProvider
+     */
+    public function testValidateMetadataIsStatistical(
+        array $properties,
+        string $exceptionClass = null
+    ): void {
+        if ($exceptionClass) {
+            $this->expectException($exceptionClass);
+        }
+
+        $this->sut->validateMetadataIsStatistical($properties);
+    }
+
+    public function metadataIsStatisticalDataProvider(): array
+    {
+        return [
+            'Invalid - not statistical' => [
+                'properties' => [$this->createProperty('alias', false)],
+                'exception' => HeaderValidationException::class,
+            ],
+        ];
+    }
+
+    private function createProperty(
+        string $alias = 'alias',
+        bool $isStatistical = true,
+        string $widgetUri = tao_helpers_form_elements_Textbox::WIDGET_ID
+    ): core_kernel_classes_Property {
+        $widget = $this->createMock(core_kernel_classes_Property::class);
+        $widget->method('getUri')
+            ->willReturn($widgetUri);
+
         $property = $this->createMock(core_kernel_classes_Property::class);
-        $property
-            ->expects($this->once())
-            ->method('getAlias')
-            ->willReturn('alias');
+        $property->method('getAlias')
+            ->willReturn($alias);
+
+        $property->method('getLabel')
+            ->willReturn($alias);
+
+        $property->method('getWidget')
+            ->willReturn($widget);
+
+        $property->method('isStatistical')
+            ->willReturn($isStatistical);
 
         return $property;
     }

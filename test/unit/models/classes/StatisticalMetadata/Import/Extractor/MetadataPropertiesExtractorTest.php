@@ -97,6 +97,11 @@ class MetadataPropertiesExtractorTest extends TestCase
             ->method('validateMetadataTypes')
             ->with([$property]);
 
+        $this->metadataPropertiesValidator
+            ->expects($this->once())
+            ->method('validateMetadataIsStatistical')
+            ->with([$property]);
+
         $this->assertEquals(
             ['metadata_alias' => $property],
             $this->sut->extract($header)
@@ -137,6 +142,10 @@ class MetadataPropertiesExtractorTest extends TestCase
         $this->metadataPropertiesValidator
             ->expects($this->never())
             ->method('validateMetadataTypes');
+
+        $this->metadataPropertiesValidator
+            ->expects($this->never())
+            ->method('validateMetadataIsStatistical');
 
         $this->expectException($exceptionClass);
 
@@ -179,6 +188,10 @@ class MetadataPropertiesExtractorTest extends TestCase
             ->expects($this->never())
             ->method('validateMetadataTypes');
 
+        $this->metadataPropertiesValidator
+            ->expects($this->never())
+            ->method('validateMetadataIsStatistical');
+
         $this->expectException($exceptionClass);
 
         $this->sut->extract($header);
@@ -220,6 +233,10 @@ class MetadataPropertiesExtractorTest extends TestCase
             ->method('validateMetadataTypes')
             ->with($properties)
             ->willThrowException($this->createMock($exceptionClass));
+
+        $this->metadataPropertiesValidator
+            ->expects($this->never())
+            ->method('validateMetadataIsStatistical');
 
         $this->expectException($exceptionClass);
 

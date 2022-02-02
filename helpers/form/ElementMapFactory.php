@@ -191,11 +191,24 @@ class ElementMapFactory extends ConfigurableService
             }
         }
 
+        if ($this->isBlockedForModification($property)) {
+            $element->disable();
+        }
+
         foreach (ValidationRuleRegistry::getRegistry()->getValidators($property) as $validator) {
             $element->addValidator($validator);
         }
 
         return $element;
+    }
+
+    private function isBlockedForModification(core_kernel_classes_Property $property): bool
+    {
+        if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_STATISTIC_METADATA_IMPORT')) {
+            return $property->isStatistical();
+        }
+
+        return false;
     }
 
     private function isList($range): bool

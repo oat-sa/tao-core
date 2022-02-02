@@ -133,6 +133,7 @@ class ImportProcessor implements ImportFileProcessorInterface
     private function bindProperties(core_kernel_classes_Resource $resource, array $values): void
     {
         $binder = $this->dataBinder ?? new tao_models_classes_dataBinding_GenerisInstanceDataBinder($resource);
+        $binder->forceModification();
         $binder->bind($values);
     }
 }

@@ -27,6 +27,8 @@ use oat\tao\model\dataBinding\GenerisInstanceDataBindingException;
 use oat\tao\model\event\MetadataModified;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
 /**
  * A data binder focusing on binding a source of data to a Generis instance
@@ -44,6 +46,12 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     /** @var EventManager */
     private $eventManager;
 
+    /** @var ServiceManager */
+    private $serviceManager;
+
+    /** @var bool */
+    private $forceModification = false;
+
     /**
      * Creates a new instance of binder.
      *
@@ -57,9 +65,19 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         $this->targetInstance = $targetInstance;
     }
 
+    public function withServiceManager(ServiceManager $serviceManager): void
+    {
+        $this->serviceManager = $serviceManager;
+    }
+
     public function withEventManager(EventManager $eventManager): void
     {
         $this->eventManager = $eventManager;
+    }
+
+    public function forceModification(): void
+    {
+        $this->forceModification = true;
     }
 
     /**
@@ -111,6 +129,11 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
                 }
 
                 $prop = new core_kernel_classes_Property($propertyUri);
+
+                if ($this->isBlockedForModification($prop)) {
+                    continue;
+                }
+
                 $values = $instance->getPropertyValuesCollection($prop);
                 if ($values->count() > 0) {
                     if (is_array($propertyValue)) {
@@ -160,6 +183,19 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
         }
     }
 
+    private function isBlockedForModification(core_kernel_classes_Property $property): bool
+    {
+        if ($this->forceModification) {
+            return false;
+        }
+
+        if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_STATISTIC_METADATA_IMPORT')) {
+            return $property->isStatistical();
+        }
+
+        return false;
+    }
+
     private function isEmptyValue(string $value): bool
     {
         return strlen(trim($value)) === 0;
@@ -167,10 +203,24 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
 
     private function getEventManager(): EventManager
     {
-        if ($this->eventManager === null) {
-            $this->eventManager = ServiceManager::getServiceManager()->get(EventManager::SERVICE_ID);
+        if (!isset($this->eventManager)) {
+            $this->eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
         }
 
         return $this->eventManager;
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceManager()->get(FeatureFlagChecker::class);
+    }
+
+    private function getServiceManager(): ServiceManager
+    {
+        if (!isset($this->serviceManager)) {
+            $this->serviceManager = ServiceManager::getServiceManager();
+        }
+
+        return $this->serviceManager;
     }
 }
