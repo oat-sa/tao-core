@@ -290,6 +290,11 @@ abstract class tao_helpers_form_FormElement
         $this->addAttribute('disabled', 'disabled');
     }
 
+    public function isDisabled(): bool
+    {
+        return isset($this->attributes['disabled']) && $this->attributes['disabled'] === 'disabled';
+    }
+
     /**
      * Short description of method renderAttributes
      *
@@ -624,11 +629,6 @@ abstract class tao_helpers_form_FormElement
     public function feedInputValue(): void
     {
         $this->inputValue = $this->getDecodedValue($this->name);
-    }
-
-    public function markAsReadOnly(): void
-    {
-        $this->addAttribute('readonly', 'true');
     }
 
     /**

@@ -74,9 +74,4 @@ abstract class tao_helpers_form_elements_Checkbox extends tao_helpers_form_eleme
     {
         $this->readOnly = $readOnly;
     }
-
-    public function markAsReadOnly(): void
-    {
-        $this->setReadOnly(array_fill_keys(array_keys($this->options), 0));
-    }
 }

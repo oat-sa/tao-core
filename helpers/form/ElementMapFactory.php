@@ -192,7 +192,7 @@ class ElementMapFactory extends ConfigurableService
         }
 
         if ($this->isBlockedForModification($property)) {
-            $element->markAsReadOnly();
+            $element->disable();
         }
 
         foreach (ValidationRuleRegistry::getRegistry()->getValidators($property) as $validator) {

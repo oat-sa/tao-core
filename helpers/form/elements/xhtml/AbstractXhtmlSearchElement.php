@@ -77,13 +77,6 @@ abstract class AbstractXhtmlSearchElement extends AbstractSearchElement
         return implode('', $html);
     }
 
-    public function markAsReadOnly(): void
-    {
-        parent::markAsReadOnly();
-
-        $this->addAttribute('disabled', 'disabled');
-    }
-
     abstract protected function isMultiValue(): bool;
 
     private function createClientCode(): string

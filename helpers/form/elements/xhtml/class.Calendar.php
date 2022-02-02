@@ -45,7 +45,7 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
         $uniqueId = uniqid('calendar_');
         $elementId = tao_helpers_Display::TextCleaner($this->getDescription()) . '_' . $uniqueId;
 
-        if ($this->hasReadOnlyAttribute()) {
+        if ($this->isDisabled()) {
             return $returnValue . sprintf(
                 '<input type="text" 
             name="%s"
@@ -104,10 +104,5 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
         $timeStamp = is_numeric($this->getRawValue()) ? $this->getRawValue() : $this->getEvaluatedValue();
 
         return _dh(tao_helpers_Date::displayeDate($timeStamp, tao_helpers_Date::FORMAT_DATEPICKER));
-    }
-
-    private function hasReadOnlyAttribute(): bool
-    {
-        return isset($this->attributes['readonly']) && $this->attributes['readonly'] === 'true';
     }
 }
