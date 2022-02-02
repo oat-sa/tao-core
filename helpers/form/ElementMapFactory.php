@@ -56,9 +56,38 @@ class ElementMapFactory extends ConfigurableService
     /** @var core_kernel_classes_Resource */
     private $instance;
 
+    /** @var ?bool */
+    private $isStandaloneMode = null;
+
+    /** @var tao_helpers_form_FormElement */
+    private $element = null;
+
+    private $hasElement = false;
+
     public function withInstance(core_kernel_classes_Resource $instance): self
     {
         $this->instance = $instance;
+
+        return $this;
+    }
+
+    /**
+     * Used for tests
+     */
+    public function withStandaloneModel(bool $isStandaloneMode): self
+    {
+        $this->isStandaloneMode = $isStandaloneMode;
+
+        return $this;
+    }
+
+    /**
+     * Used for tests
+     */
+    public function withElement(?tao_helpers_form_FormElement $element): self
+    {
+        $this->hasElement = true;
+        $this->element = $element;
 
         return $this;
     }
@@ -75,11 +104,9 @@ class ElementMapFactory extends ConfigurableService
 
         $widgetUri   = $widgetResource->getUri();
         $propertyUri = $property->getUri();
+
         // Authoring widget is not used in standalone mode
-        if (
-            $widgetUri === Authoring::WIDGET_ID
-            && tao_helpers_Context::check('STANDALONE_MODE')
-        ) {
+        if ($widgetUri === Authoring::WIDGET_ID && $this->isStandaloneMode()) {
             return null;
         }
 
@@ -88,22 +115,14 @@ class ElementMapFactory extends ConfigurableService
             $widgetResource = new core_kernel_classes_Resource(GenerisAsyncFile::WIDGET_ID);
         }
 
-        $element = tao_helpers_form_FormFactory::getElementByWidget(
-            tao_helpers_Uri::encode($propertyUri),
-            $widgetResource
-        );
-
-        if (null === $element) {
+        $element = $this->getElement($propertyUri, $widgetResource);
+        if(null === $element) {
             return null;
         }
 
-        $isListsDependencyEnabled = $this->getFeatureFlagChecker()->isEnabled(
-            FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
-        );
-
         $parentProperty = null;
 
-        if ($isListsDependencyEnabled) {
+        if ($this->isListDependencyEnabled()) {
             $parentProperty = $this->getParentProperty($property);
 
             if ($parentProperty) {
@@ -111,79 +130,29 @@ class ElementMapFactory extends ConfigurableService
             }
         }
 
-        if ($element->getWidget() !== $widgetUri) {
-            common_Logger::w(sprintf(
-                'Widget definition differs from implementation: %s != %s',
-                $element->getWidget(),
-                $widgetUri
-            ));
-
-            return null;
-        }
-
         // Use the property label as element description
-        $propDesc = (trim($property->getLabel()) !== '')
-            ? $property->getLabel()
-            : str_replace(LOCAL_NAMESPACE, '', $propertyUri);
-
-        $element->setDescription($propDesc);
+        $element->setDescription(
+            (trim($property->getLabel()) !== '')
+                ? $property->getLabel()
+                : str_replace(LOCAL_NAMESPACE, '', $propertyUri)
+        );
 
         if (method_exists($element, 'setOptions')) {
             // Multi elements use the property range as options
             $range = $property->getRange();
 
             if ($range !== null) {
-                if ($element instanceof TreeAware) {
-                    $options = $element->rangeToTree(
-                        $propertyUri === OntologyRdfs::RDFS_RANGE
-                            ? new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE)
-                            : $range
-                    );
-                } else {
-                    $options = [];
+                $options = $this->getOptionsForElement(
+                    $element,
+                    $property,
+                    $parentProperty,
+                    $range
+                );
 
-                    if ($this->isList($range)) {
-                        $values = $this->getListValues($property, $range, $parentProperty);
-
-                        if ($this->getLanguageClassSpecification()->isSatisfiedBy($range))
-                        {
-                            $values = $this->getLanguageListElementSortService()->getSortedListCollectionValues($values);
-                        }
-
-                        foreach ($values as $value) {
-                            $encodedUri = tao_helpers_Uri::encode($value->getUri());
-                            $options[$encodedUri] = [$encodedUri, $value->getLabel()];
-                        }
-                    } else {
-                        foreach ($range->getInstances(true) as $rangeInstance) {
-                            $level = $rangeInstance->getOnePropertyValue(
-                                new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL)
-                            );
-                            if (null === $level) {
-                                $encodedUri = tao_helpers_Uri::encode($rangeInstance->getUri());
-                                $options[$encodedUri] = [$encodedUri, $rangeInstance->getLabel()];
-                            } else {
-                                $level = ($level instanceof core_kernel_classes_Resource)
-                                    ? $level->getUri()
-                                    : (string)$level;
-                                $options[$level] = [
-                                    tao_helpers_Uri::encode($rangeInstance->getUri()),
-                                    $rangeInstance->getLabel()
-                                ];
-                            }
-                        }
-
-                        ksort($options);
-                    }
-
-                    foreach ($options as [$uri, $label]) {
-                        $options[$uri] = $label;
-                    }
-
+                if (!($element instanceof TreeAware)
+                    && method_exists($element, 'setEmptyOption')) {
                     // Set the default value to an empty space
-                    if (method_exists($element, 'setEmptyOption')) {
-                        $element->setEmptyOption(' ');
-                    }
+                    $element->setEmptyOption(' ');
                 }
 
                 // Complete the options listing
@@ -195,11 +164,111 @@ class ElementMapFactory extends ConfigurableService
             $element->disable();
         }
 
-        foreach (ValidationRuleRegistry::getRegistry()->getValidators($property) as $validator) {
+        foreach ($this->getValidationRuleRegistry()->getValidators($property) as $validator) {
             $element->addValidator($validator);
         }
 
         return $element;
+    }
+
+    private function getElement(
+        string $propertyUri,
+        $widgetResource
+    ): ?tao_helpers_form_FormElement
+    {
+        if ($this->hasElement) {
+            return $this->element;
+        }
+
+        $element = tao_helpers_form_FormFactory::getElementByWidget(
+            tao_helpers_Uri::encode($propertyUri),
+            $widgetResource
+        );
+
+        if (null === $element) {
+            return null;
+        }
+
+        $widgetUri = $widgetResource->getUri();
+
+        if ($element->getWidget() !== $widgetUri) {
+            common_Logger::w(sprintf(
+                'Widget definition differs from implementation: %s != %s',
+                $element->getWidget(),
+                $widgetUri
+            ));
+
+            return null;
+        }
+
+        return $element;
+    }
+
+    private function getOptionsForElement(
+        $element,
+        core_kernel_classes_Property $property,
+        ?core_kernel_classes_Property $parentProperty,
+        $range
+    ): array {
+        $propertyUri = $property->getUri();
+
+        if ($element instanceof TreeAware) {
+            return $element->rangeToTree(
+                $propertyUri === OntologyRdfs::RDFS_RANGE
+                    ? new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE)
+                    : $range
+            );
+        }
+
+        $options = [];
+
+        if ($this->isList($range)) {
+            $values = $this->getListValues($property, $range, $parentProperty);
+
+            if ($this->getLanguageClassSpecification()->isSatisfiedBy($range)) {
+                $values = $this->getLanguageListElementSortService()->getSortedListCollectionValues($values);
+            }
+
+            foreach ($values as $value) {
+                $encodedUri = tao_helpers_Uri::encode($value->getUri());
+                $options[$encodedUri] = [$encodedUri, $value->getLabel()];
+            }
+        } else {
+            $options = $this->getOptionsForNonList($range);
+
+            ksort($options);
+        }
+
+        foreach ($options as [$uri, $label]) {
+            $options[$uri] = $label;
+        }
+
+        return $options;
+    }
+
+    private function getOptionsForNonList(core_kernel_classes_Class $range): array
+    {
+        $options = [];
+
+        foreach ($range->getInstances(true) as $rangeInstance) {
+            $level = $rangeInstance->getOnePropertyValue(
+                new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL)
+            );
+
+            $encodedUri = tao_helpers_Uri::encode($rangeInstance->getUri());
+
+            if (null === $level) {
+                $options[$encodedUri] = [$encodedUri, $rangeInstance->getLabel()];
+            } else {
+                $level = ($level instanceof core_kernel_classes_Resource)
+                    ? $level->getUri()
+                    : (string)$level;
+
+                $options[$level] = [$encodedUri, $rangeInstance->getLabel()];
+            }
+        }
+
+        return $options;
     }
 
     private function isBlockedForModification(core_kernel_classes_Property $property): bool
@@ -209,6 +278,13 @@ class ElementMapFactory extends ConfigurableService
         }
 
         return false;
+    }
+
+    private function isListDependencyEnabled(): bool
+    {
+        return $this->getFeatureFlagChecker()->isEnabled(
+            FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
+        );
     }
 
     private function isList($range): bool
@@ -257,6 +333,22 @@ class ElementMapFactory extends ConfigurableService
         }
 
         return $this->getValueCollectionService()->findAll(new ValueCollectionSearchInput($searchRequest));
+    }
+
+    private function isStandaloneMode(): bool
+    {
+        if ($this->isStandaloneMode === null)
+        {
+            $this->isStandaloneMode = tao_helpers_Context::check('STANDALONE_MODE');
+        }
+
+        return $this->isStandaloneMode;
+    }
+
+    private function getValidationRuleRegistry(): AbstractRegistry
+    {
+        // @todo Allow this to be injected
+        return ValidationRuleRegistry::getRegistry();
     }
 
     private function getValueCollectionService(): ValueCollectionService
