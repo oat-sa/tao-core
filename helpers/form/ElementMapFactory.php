@@ -74,7 +74,7 @@ class ElementMapFactory extends ConfigurableService
     /**
      * Used for tests
      */
-    public function withStandaloneModel(bool $isStandaloneMode): self
+    public function withStandaloneMode(bool $isStandaloneMode): self
     {
         $this->isStandaloneMode = $isStandaloneMode;
 
@@ -116,7 +116,7 @@ class ElementMapFactory extends ConfigurableService
         }
 
         $element = $this->getElement($propertyUri, $widgetResource);
-        if(null === $element) {
+        if (null === $element) {
             return null;
         }
 
@@ -149,8 +149,10 @@ class ElementMapFactory extends ConfigurableService
                     $range
                 );
 
-                if (!($element instanceof TreeAware)
-                    && method_exists($element, 'setEmptyOption')) {
+                if (
+                    !($element instanceof TreeAware)
+                    && method_exists($element, 'setEmptyOption')
+                ) {
                     // Set the default value to an empty space
                     $element->setEmptyOption(' ');
                 }
@@ -174,8 +176,7 @@ class ElementMapFactory extends ConfigurableService
     private function getElement(
         string $propertyUri,
         $widgetResource
-    ): ?tao_helpers_form_FormElement
-    {
+    ): ?tao_helpers_form_FormElement {
         if ($this->hasElement) {
             return $this->element;
         }
@@ -337,8 +338,7 @@ class ElementMapFactory extends ConfigurableService
 
     private function isStandaloneMode(): bool
     {
-        if ($this->isStandaloneMode === null)
-        {
+        if ($this->isStandaloneMode === null) {
             $this->isStandaloneMode = tao_helpers_Context::check('STANDALONE_MODE');
         }
 

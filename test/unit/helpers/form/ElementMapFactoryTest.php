@@ -58,26 +58,24 @@ class ElementMapFactoryTest extends TestCase
         bool $listDependencyEnabled,
         core_kernel_classes_Property $property,
         ?tao_helpers_form_FormElement $elementForWidget
-    ): void
-    {
+    ): void {
         $ffChecker = $this->createMock(FeatureFlagChecker::class);
         $ffChecker
             ->method('isEnabled')
             ->with(FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED)
             ->willReturn($listDependencyEnabled);
 
-        $this->sut->withStandaloneModel($standalone);
+        $this->sut->withStandaloneMode($standalone);
         $this->sut->withElement($elementForWidget);
 
         $element = $this->sut->create($property);
 
-        if($expected === null) {
+        if ($expected === null) {
             $this->assertNull($element);
             return;
         }
 
         $this->assertEquals($expected->getName(), $element->getName());
-
     }
 
     public function somethingDataProvider(): array
@@ -120,8 +118,7 @@ class ElementMapFactoryTest extends TestCase
         bool $isList,
         bool $isClass = true,
         string $rangeObjectType = core_kernel_classes_Class::class
-    ): core_kernel_classes_Property
-    {
+    ): core_kernel_classes_Property {
         $rangeClass = $this->createMock($rangeObjectType);
 
         if (is_a($rangeClass, core_kernel_classes_Resource::class)) {
