@@ -109,19 +109,15 @@ class ElementMapFactoryTest extends TestCase
                 ->expects($this->atLeastOnce())
                 ->method('setDescription')
                 ->with($expected->getDescription());
-
-        }/* else {
-            throw new \Exception('wtf');
-        }*/
+        }
 
         $element = $this->sut->create($property);
 
         if ($expected === null) {
             $this->assertNull($element);
-            // return;
         } else {
-
-
+            // @todo We are not really testing anything other than the call to
+            //       setDescription()
             /*$this->assertEquals(
                 $expected->getDescription(),
                 $element->getDescription()

@@ -49,7 +49,6 @@ use tao_helpers_form_elements_GenerisAsyncFile as GenerisAsyncFile;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
 use oat\tao\model\Language\Service\LanguageListElementSortService;
-use function Webmozart\Assert\Tests\StaticAnalysis\null;
 
 class ElementMapFactory extends ConfigurableService
 {
@@ -253,9 +252,11 @@ class ElementMapFactory extends ConfigurableService
 
     private function isBlockedForModification(core_kernel_classes_Property $property): bool
     {
-        if ($this->getFeatureFlagChecker()->isEnabled(
-            FeatureFlagCheckerInterface::FEATURE_FLAG_STATISTIC_METADATA_IMPORT
-        )) {
+        if (
+            $this->getFeatureFlagChecker()->isEnabled(
+                FeatureFlagCheckerInterface::FEATURE_FLAG_STATISTIC_METADATA_IMPORT
+            )
+        ) {
             return $property->isStatistical();
         }
 
