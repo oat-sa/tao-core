@@ -44,7 +44,6 @@ use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\taskQueue\Worker\AbstractWorker;
-use oat\tao\model\webhooks\task\WebhookTask;
 use oat\generis\test\MockObject;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -76,10 +75,12 @@ class AbstractWorkerTest extends TestCase
      * @var common_session_Session | MockObject
      */
     private $commonSession;
+
     /**
      * @var User | MockObject
      */
     private $userMock;
+
     /**
      * @var UserFactoryServiceInterface | MockObject
      */
@@ -99,6 +100,7 @@ class AbstractWorkerTest extends TestCase
      * @var core_kernel_classes_Resource | MockObject
      */
     private $userResourceMock;
+
     /**
      * @var LoggerService | MockObject
      */
@@ -108,6 +110,7 @@ class AbstractWorkerTest extends TestCase
      * @var common_report_Report | MockObject
      */
     private $reportMock;
+
     /**
      * @var RemoteTaskSynchroniserInterface | MockObject
      */
@@ -123,7 +126,10 @@ class AbstractWorkerTest extends TestCase
      */
     private $queueDispatcherMock;
 
-    private TaskLanguageLoaderInterface $taskLanguageLoader;
+    /**
+     * @var TaskLanguageLoaderInterface | MockObject
+     */
+    private $taskLanguageLoader;
 
     protected function setUp(): void
     {
@@ -331,7 +337,7 @@ class AbstractWorkerTest extends TestCase
             );
 
         $this->queue->expects($this->once())->method('acknowledge')->with($task);
-        $this->taskLanguageLoader->expects($this->once())->method('loadTranslations')->with($this->taskMock);
+        $this->taskLanguageLoader->expects($this->never())->method('loadTranslations');
 
         $this->assertEquals(TaskLogInterface::STATUS_CANCELLED, $this->subject->processTask($task));
     }
@@ -352,7 +358,7 @@ class AbstractWorkerTest extends TestCase
 
         $this->loggerServiceMock->expects($this->exactly(2))->method('info');
         $this->sessionServiceMock->expects($this->once())->method('setSession');
-        $this->taskLanguageLoader->expects($this->once())->method('loadTranslations')->with($this->taskMock);
+        $this->taskLanguageLoader->expects($this->never())->method('loadTranslations');
 
         $result = $this->subject->processTask($this->taskMock);
         $this->assertSame('unknown', $result);
