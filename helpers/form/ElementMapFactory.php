@@ -49,6 +49,7 @@ use tao_helpers_form_elements_GenerisAsyncFile as GenerisAsyncFile;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
 use oat\tao\model\Language\Service\LanguageListElementSortService;
+use function Webmozart\Assert\Tests\StaticAnalysis\null;
 
 class ElementMapFactory extends ConfigurableService
 {
@@ -70,6 +71,9 @@ class ElementMapFactory extends ConfigurableService
 
     /** @var AbstractRegistry */
     private $validationRuleRegistry;
+
+    /** @var FeatureFlagCheckerInterface */
+    private $featureFlagChecker;
 
     public function withInstance(core_kernel_classes_Resource $instance): self
     {
@@ -96,6 +100,13 @@ class ElementMapFactory extends ConfigurableService
     public function withValidationRuleRegistry(AbstractRegistry $registry): self
     {
         $this->validationRuleRegistry = $registry;
+
+        return $this;
+    }
+
+    public function withFeatureFlagChecker(FeatureFlagChecker $checker): self
+    {
+        $this->featureFlagChecker = $checker;
 
         return $this;
     }
@@ -242,7 +253,9 @@ class ElementMapFactory extends ConfigurableService
 
     private function isBlockedForModification(core_kernel_classes_Property $property): bool
     {
-        if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_STATISTIC_METADATA_IMPORT')) {
+        if ($this->getFeatureFlagChecker()->isEnabled(
+            FeatureFlagCheckerInterface::FEATURE_FLAG_STATISTIC_METADATA_IMPORT
+        )) {
             return $property->isStatistical();
         }
 
@@ -329,7 +342,13 @@ class ElementMapFactory extends ConfigurableService
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
-        return $this->getContainer()->get(FeatureFlagChecker::class);
+        if ($this->featureFlagChecker == null) {
+            $this->featureFlagChecker = $this->getContainer()->get(
+                FeatureFlagChecker::class
+            );
+        }
+
+        return $this->featureFlagChecker;
     }
 
     private function getLanguageClassSpecification(): LanguageClassSpecification
