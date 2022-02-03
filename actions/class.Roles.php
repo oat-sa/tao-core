@@ -67,9 +67,20 @@ class tao_actions_Roles extends tao_actions_RdfController
         $clazz = $this->getCurrentClass();
         $role = $this->getCurrentInstance();
 
-        $formContainer = new tao_actions_form_Role($clazz, $role, [FormContainer::CSRF_PROTECTION_OPTION => true]);
+        $isWritable = $role->isWritable();
+
+        $formContainer = new tao_actions_form_Role(
+            $clazz,
+            $role,
+            [
+                FormContainer::CSRF_PROTECTION_OPTION => true,
+                FormContainer::IS_DISABLED => !$isWritable,
+            ]
+        );
+
         $myForm = $formContainer->getForm();
-        if ($myForm->isSubmited() && $myForm->isValid()) {
+
+        if ($isWritable && $myForm->isSubmited() && $myForm->isValid()) {
             $formValues = $myForm->getValues();
             $roleService = tao_models_classes_RoleService::singleton();
             $includedRolesProperty = $this->getProperty(GenerisRdf::PROPERTY_ROLE_INCLUDESROLE);
