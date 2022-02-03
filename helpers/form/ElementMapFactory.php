@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\helpers\form;
 
 use common_Logger;
+use oat\oatbox\AbstractRegistry;
 use tao_helpers_Uri;
 use tao_helpers_Context;
 use core_kernel_classes_Class;
@@ -57,15 +58,18 @@ class ElementMapFactory extends ConfigurableService
     private $instance;
 
     /** @var ?bool */
-    private $isStandaloneMode = null;
+    private $isStandaloneMode;
 
     /** @var tao_helpers_form_FormElement */
-    private $element = null;
+    private $element;
 
     /**
-     * Used to allow setting the element to null by withElement() in tests.
+     * Used to allow setting the element explicitly to null in tests.
      */
     private $hasElement = false;
+
+    /** @var AbstractRegistry */
+    private $validationRuleRegistry;
 
     public function withInstance(core_kernel_classes_Resource $instance): self
     {
@@ -85,6 +89,13 @@ class ElementMapFactory extends ConfigurableService
     {
         $this->hasElement = true;
         $this->element = $element;
+
+        return $this;
+    }
+
+    public function withValidationRuleRegistry(AbstractRegistry $registry): self
+    {
+        $this->validationRuleRegistry = $registry;
 
         return $this;
     }
@@ -300,8 +311,11 @@ class ElementMapFactory extends ConfigurableService
 
     private function getValidationRuleRegistry(): AbstractRegistry
     {
-        // @todo Allow this to be injected
-        return ValidationRuleRegistry::getRegistry();
+        if($this->validationRuleRegistry === null) {
+            $this->validationRuleRegistry = ValidationRuleRegistry::getRegistry();
+        }
+
+        return $this->validationRuleRegistry;
     }
 
     private function getValueCollectionService(): ValueCollectionService
