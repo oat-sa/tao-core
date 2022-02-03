@@ -123,7 +123,6 @@ class ElementMapFactory extends ConfigurableService
             $widgetResource = new core_kernel_classes_Resource(GenerisAsyncFile::WIDGET_ID);
         }
 
-        //$element = $this->getElement($propertyUri, $widgetResource);
         if ($this->hasElement) {
             $element = $this->element;
         } else {
@@ -153,7 +152,10 @@ class ElementMapFactory extends ConfigurableService
             $parentProperty = $this->getParentProperty($property);
 
             if ($parentProperty) {
-                $element->addAttribute('data-depends-on-property', tao_helpers_Uri::encode($parentProperty->getUri()));
+                $element->addAttribute(
+                    'data-depends-on-property',
+                    tao_helpers_Uri::encode($parentProperty->getUri())
+                );
             }
         }
 
@@ -194,16 +196,18 @@ class ElementMapFactory extends ConfigurableService
                                 new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL)
                             );
 
-                            $encodedUri = tao_helpers_Uri::encode($rangeInstance->getUri());
-
                             if (null === $level) {
+                                $encodedUri = tao_helpers_Uri::encode($rangeInstance->getUri());
                                 $options[$encodedUri] = [$encodedUri, $rangeInstance->getLabel()];
                             } else {
                                 $level = ($level instanceof core_kernel_classes_Resource)
                                     ? $level->getUri()
                                     : (string)$level;
 
-                                $options[$level] = [$encodedUri, $rangeInstance->getLabel()];
+                                $options[$level] = [
+                                    tao_helpers_Uri::encode($rangeInstance->getUri()),
+                                    $rangeInstance->getLabel()
+                                ];
                             }
                         }
 
@@ -311,7 +315,7 @@ class ElementMapFactory extends ConfigurableService
 
     private function getValidationRuleRegistry(): AbstractRegistry
     {
-        if($this->validationRuleRegistry === null) {
+        if ($this->validationRuleRegistry === null) {
             $this->validationRuleRegistry = ValidationRuleRegistry::getRegistry();
         }
 
