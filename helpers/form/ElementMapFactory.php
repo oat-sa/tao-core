@@ -62,6 +62,9 @@ class ElementMapFactory extends ConfigurableService
     /** @var tao_helpers_form_FormElement */
     private $element = null;
 
+    /**
+     * Used to allow setting the element to null by withElement() in tests.
+     */
     private $hasElement = false;
 
     public function withInstance(core_kernel_classes_Resource $instance): self
@@ -71,9 +74,6 @@ class ElementMapFactory extends ConfigurableService
         return $this;
     }
 
-    /**
-     * Used for tests
-     */
     public function withStandaloneMode(bool $isStandaloneMode): self
     {
         $this->isStandaloneMode = $isStandaloneMode;
@@ -81,9 +81,6 @@ class ElementMapFactory extends ConfigurableService
         return $this;
     }
 
-    /**
-     * Used for tests
-     */
     public function withElement(?tao_helpers_form_FormElement $element): self
     {
         $this->hasElement = true;
@@ -115,8 +112,27 @@ class ElementMapFactory extends ConfigurableService
             $widgetResource = new core_kernel_classes_Resource(GenerisAsyncFile::WIDGET_ID);
         }
 
-        $element = $this->getElement($propertyUri, $widgetResource);
+        //$element = $this->getElement($propertyUri, $widgetResource);
+        if ($this->hasElement) {
+            $element = $this->element;
+        } else {
+            $element = tao_helpers_form_FormFactory::getElementByWidget(
+                tao_helpers_Uri::encode($propertyUri),
+                $widgetResource
+            );
+        }
+
         if (null === $element) {
+            return null;
+        }
+
+        if ($element->getWidget() !== $widgetUri) {
+            common_Logger::w(sprintf(
+                'Widget definition differs from implementation: %s != %s',
+                $element->getWidget(),
+                $widgetUri
+            ));
+
             return null;
         }
 
@@ -204,38 +220,6 @@ class ElementMapFactory extends ConfigurableService
 
         foreach ($this->getValidationRuleRegistry()->getValidators($property) as $validator) {
             $element->addValidator($validator);
-        }
-
-        return $element;
-    }
-
-    private function getElement(
-        string $propertyUri,
-        $widgetResource
-    ): ?tao_helpers_form_FormElement {
-        if ($this->hasElement) {
-            return $this->element;
-        }
-
-        $element = tao_helpers_form_FormFactory::getElementByWidget(
-            tao_helpers_Uri::encode($propertyUri),
-            $widgetResource
-        );
-
-        if (null === $element) {
-            return null;
-        }
-
-        $widgetUri = $widgetResource->getUri();
-
-        if ($element->getWidget() !== $widgetUri) {
-            common_Logger::w(sprintf(
-                'Widget definition differs from implementation: %s != %s',
-                $element->getWidget(),
-                $widgetUri
-            ));
-
-            return null;
         }
 
         return $element;
