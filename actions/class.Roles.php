@@ -229,6 +229,10 @@ class tao_actions_Roles extends tao_actions_RdfController
 
         $role = $this->getCurrentInstance();
 
+        if (!$role->isWritable() && $this->getClassService()->removeRole($role)) {
+            return;
+        }
+
         if (!$role->isWritable() || in_array($role->getUri(), $this->forbidden)) {
             throw new UserErrorException(
                 __('Unable to delete the selected resource')
