@@ -84,7 +84,6 @@ $ php index.php 'oat\tao\scripts\tools\RegisterEventWebhook'
 In order to check ACL permissions, you can use the `PermissionChecker`:
 
 ```php
-
 $permissionChecker = $this->getServiceLocator()->get(oat\tao\model\accessControl\PermissionChecker::class);
 
 $permissionChecker->hasWriteAccess('resourceId');
