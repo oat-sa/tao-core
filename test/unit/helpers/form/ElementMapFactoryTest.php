@@ -41,6 +41,8 @@ use tao_helpers_form_elements_Authoring;
 use tao_helpers_form_elements_MultipleElement;
 use tao_helpers_form_FormElement;
 use PHPUnit\Framework\MockObject\MockObject;
+use tao_helpers_form_elements_AsyncFile;
+use tao_helpers_form_elements_GenerisAsyncFile;
 
 class ElementMapFactoryTest extends TestCase
 {
@@ -84,7 +86,8 @@ class ElementMapFactoryTest extends TestCase
         bool $statisticMetadataEnabled,
         core_kernel_classes_Property $property,
         ?tao_helpers_form_FormElement $elementForWidget,
-        array $validators
+        array $validators,
+        ?core_kernel_classes_Resource $instance = null
     ): void {
         $this->ffChecker
             ->method('isEnabled')
@@ -112,6 +115,10 @@ class ElementMapFactoryTest extends TestCase
             ->method('getValidators')
             ->with($property)
             ->willReturn($validators);
+
+        if ($instance !== null) {
+            $this->sut->withInstance($instance);
+        }
 
         $this->sut->withStandaloneMode($standalone);
         $this->sut->withElement($elementForWidget);
@@ -159,9 +166,9 @@ class ElementMapFactoryTest extends TestCase
                 ),
                 'validators' => [],
             ],
-            'AsyncFile is implicitly converted to GenerisAsyncFile' => [
+            'Happy Path with instance' => [
                 'expected' => $this->mockNamedElement(
-                    \tao_helpers_form_elements_GenerisAsyncFile::WIDGET_ID,
+                    tao_helpers_form_elements_Authoring::WIDGET_ID,
                     'property label'
                 ),
                 'expectedOptions' => [
@@ -171,12 +178,37 @@ class ElementMapFactoryTest extends TestCase
                 'listDependencyEnabled' => false,
                 'statisticMetadataEnabled' => false,
                 'property' => $this->getMockProperty(
-                    \tao_helpers_form_elements_AsyncFile::WIDGET_ID,
+                    tao_helpers_form_elements_Authoring::WIDGET_ID,
                     true,
                     'property label'
                 ),
                 'elementForWidget' => $this->mockElementForWidget(
-                    \tao_helpers_form_elements_GenerisAsyncFile::WIDGET_ID,
+                    tao_helpers_form_elements_Authoring::WIDGET_ID,
+                    tao_helpers_form_elements_MultipleElement::class
+                ),
+                'validators' => [],
+                'instance' => $this->createMock(
+                    core_kernel_classes_Resource::class
+                ),
+            ],
+            'AsyncFile is implicitly converted to GenerisAsyncFile' => [
+                'expected' => $this->mockNamedElement(
+                    tao_helpers_form_elements_GenerisAsyncFile::WIDGET_ID,
+                    'property label'
+                ),
+                'expectedOptions' => [
+
+                ],
+                'standalone' => false,
+                'listDependencyEnabled' => false,
+                'statisticMetadataEnabled' => false,
+                'property' => $this->getMockProperty(
+                    tao_helpers_form_elements_AsyncFile::WIDGET_ID,
+                    true,
+                    'property label'
+                ),
+                'elementForWidget' => $this->mockElementForWidget(
+                    tao_helpers_form_elements_GenerisAsyncFile::WIDGET_ID,
                     tao_helpers_form_elements_MultipleElement::class
                 ),
                 'validators' => [],
