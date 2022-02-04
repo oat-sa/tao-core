@@ -149,7 +149,15 @@ class tao_actions_Roles extends tao_actions_RdfController
     public function delete()
     {
         try {
-            $this->deleteRole();
+            if (!$this->isXmlHttpRequest()) {
+                throw new common_exception_BadRequest('wrong request mode');
+            }
+
+            if (!$this->hasRequestParameter('uri')) {
+                throw new common_exception_BadRequest('Missing uri parameter');
+            }
+
+            $this->getDeleteRoleService()->delete($this->getCurrentInstance());
 
             $deleted = true;
             $message = null;
@@ -217,19 +225,6 @@ class tao_actions_Roles extends tao_actions_RdfController
     protected function getUserService()
     {
         return $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
-    }
-
-    private function deleteRole(): void
-    {
-        if (!$this->isXmlHttpRequest()) {
-            throw new common_exception_BadRequest('wrong request mode');
-        }
-
-        if (!$this->hasRequestParameter('uri')) {
-            throw new common_exception_BadRequest('Missing uri parameter');
-        }
-
-        $this->getDeleteRoleService()->delete($this->getCurrentInstance());
     }
 
     private function getDeleteRoleService(): DeleteRoleService
