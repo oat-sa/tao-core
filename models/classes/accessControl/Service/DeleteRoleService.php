@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace oat\tao\model\accessControl\Service;
 
 use core_kernel_classes_Resource;
-use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\exceptions\UserErrorException;
@@ -31,26 +30,21 @@ use tao_models_classes_RoleService;
 
 class DeleteRoleService
 {
-    /** @var Ontology */
-    private $ontology;
-
-    /** @var string[] */
-    private $forbiddenRoles = [];
-
     /** @var tao_models_classes_RoleService */
     private $roleService;
 
     /** @var InternalRoleSpecification */
     private $internalRoleSpecification;
 
+    /** @var string[] */
+    private $forbiddenRoles = [];
+
     public function __construct(
         InternalRoleSpecification $internalRoleSpecification,
-        Ontology $ontology,
         tao_models_classes_RoleService $roleService
     ) {
-        $this->ontology = $ontology;
-        $this->roleService = $roleService;
         $this->internalRoleSpecification = $internalRoleSpecification;
+        $this->roleService = $roleService;
     }
 
     public function withForbiddenRoles(array $forbiddenRoles): self
@@ -64,7 +58,7 @@ class DeleteRoleService
     {
         $isWritable = $role->isWritable();
 
-        if ($this->internalRoleSpecification->isSatisfiedBy($role) && $isWritable) {
+        if ($isWritable && $this->internalRoleSpecification->isSatisfiedBy($role)) {
             throw new UserErrorException(__('Unable to delete the selected resource'));
         }
 
@@ -72,11 +66,11 @@ class DeleteRoleService
             return;
         }
 
-        if (!$isWritable || in_array($role->getUri(), $this->forbiddenRoles)) {
+        if (!$isWritable || $this->isForbidden($role)) {
             throw new UserErrorException(__('Unable to delete the selected resource'));
         }
 
-        $users = $this->ontology->getClass(GenerisRdf::CLASS_GENERIS_USER)->searchInstances(
+        $users = $role->getClass(GenerisRdf::CLASS_GENERIS_USER)->searchInstances(
             [
                 GenerisRdf::PROPERTY_USER_ROLES => $role->getUri()
             ],
@@ -99,10 +93,11 @@ class DeleteRoleService
 
     private function deleteDuplicatedFields(core_kernel_classes_Resource $role): bool
     {
-        return $role->removePropertyValues(
-            $role->getProperty(
-                $this->ontology->getProperty(OntologyRdfs::RDFS_LABEL)
-            )
-        );
+        return $role->removePropertyValues($role->getProperty(OntologyRdfs::RDFS_LABEL));
+    }
+
+    private function isForbidden(core_kernel_classes_Resource $role): bool
+    {
+        return in_array($role->getUri(), $this->forbiddenRoles, true);
     }
 }

@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\accessControl;
 
-use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\accessControl\Service\DeleteRoleService;
 use oat\tao\model\accessControl\Service\InternalRoleSpecification;
@@ -48,7 +47,6 @@ class AccessControlServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(InternalRoleSpecification::class),
-                    service(Ontology::SERVICE_ID),
                     service(tao_models_classes_RoleService::class)
                 ]
             );
