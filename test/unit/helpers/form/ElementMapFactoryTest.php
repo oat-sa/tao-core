@@ -299,6 +299,73 @@ class ElementMapFactoryTest extends TestCase
         ];
     }
 
+    public function testPropertyBlockedForModificationDisablesTheElement()
+    {
+        $this->ffChecker
+            ->method('isEnabled')
+            ->willReturnMap(
+                [
+                    [
+                        FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED,
+                        false,
+                    ],
+                    [
+                        FeatureFlagCheckerInterface::FEATURE_FLAG_STATISTIC_METADATA_IMPORT,
+                        true,
+                    ],
+                ]
+            );
+
+        $property = $this->getMockProperty(
+            tao_helpers_form_elements_Authoring::WIDGET_ID,
+            true,
+            'property label'
+        );
+
+        $property
+            ->method('isStatistical')
+            ->willReturn(true);
+
+        $valueCollection = $this->createMock(ValueCollection::class);
+
+        $this->valueCollectionService
+            ->method('findAll')
+            ->withAnyParameters()
+            ->willReturn($valueCollection);
+
+        $this->ruleRegistry
+            ->method('getValidators')
+            ->with($property)
+            ->willReturn([]);
+
+        $elementForWidget = $this->mockElementForWidget(
+            tao_helpers_form_elements_Authoring::WIDGET_ID,
+            tao_helpers_form_elements_MultipleElement::class
+        );
+
+        $this->sut->withStandaloneMode(false);
+        $this->sut->withElement($elementForWidget);
+        $this->sut->withValueCollectionService($this->valueCollectionService);
+
+        $expected = $this->mockNamedElement(
+            tao_helpers_form_elements_Authoring::WIDGET_ID,
+            'property label'
+        );
+
+        $elementForWidget
+            ->expects($this->atLeastOnce())
+            ->method('setDescription')
+            ->with($expected->getDescription());
+
+        $elementForWidget
+            ->expects($this->atLeastOnce())
+            ->method('disable');
+
+        $element = $this->sut->create($property);
+
+        $this->assertInstanceOf(tao_helpers_form_FormElement::class, $element);
+    }
+
     private function mockNamedElement(
         string $name,
         string $description

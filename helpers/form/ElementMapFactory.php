@@ -363,9 +363,7 @@ class ElementMapFactory extends ConfigurableService
     private function getValueCollectionService(): ValueCollectionService
     {
         if ($this->valueCollectionService === null) {
-            $this->valueCollectionService = $this->getContainer()->get(
-                ValueCollectionService::class
-            );
+            $this->valueCollectionService = $this->getContainer()->get(ValueCollectionService::class);
         }
 
         return $this->valueCollectionService;
@@ -374,9 +372,7 @@ class ElementMapFactory extends ConfigurableService
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         if ($this->featureFlagChecker == null) {
-            $this->featureFlagChecker = $this->getContainer()->get(
-                FeatureFlagChecker::class
-            );
+            $this->featureFlagChecker = $this->getContainer()->get(FeatureFlagChecker::class);
         }
 
         return $this->featureFlagChecker;
@@ -385,9 +381,7 @@ class ElementMapFactory extends ConfigurableService
     private function getLanguageClassSpecification(): LanguageClassSpecification
     {
         if ($this->languageClassSpecification == null) {
-            $this->languageClassSpecification = $this->getContainer()->get(
-                LanguageClassSpecification::class
-            );
+            $this->languageClassSpecification = $this->getContainer()->get(LanguageClassSpecification::class);
         }
 
         return $this->languageClassSpecification;
