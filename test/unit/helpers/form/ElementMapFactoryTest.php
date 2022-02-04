@@ -25,6 +25,7 @@ namespace oat\tao\helpers\test\unit\helpers\form;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use oat\generis\model\resource\DependsOnPropertyCollection;
 use oat\generis\test\TestCase;
 use oat\oatbox\AbstractRegistry;
 use oat\oatbox\service\ServiceManager;
@@ -136,6 +137,49 @@ class ElementMapFactoryTest extends TestCase
                 ->with($expectedOptions);
         }
 
+        if ($listDependencyEnabled) {
+            $dependencyCollection = $this->createMock(
+                DependsOnPropertyCollection::class
+            );
+
+            $parentProperty = $this->createMock(
+                core_kernel_classes_Property::class
+            );
+
+            $parentProperty
+                ->method('getUri')
+                ->willReturn('url://parent');
+
+            $dependencyCollection
+                ->method('offsetExists')
+                ->with(0)
+                ->willReturn(true);
+
+            $dependencyCollection
+                ->method('offsetGet')
+                ->with(0)
+                ->willReturn($parentProperty);
+
+            $property
+                ->expects($this->once())
+                ->method('getDependsOnPropertyCollection')
+                ->with()
+                ->willReturn($dependencyCollection);
+
+            $elementForWidget
+                ->expects($this->atLeastOnce())
+                ->method('addAttribute')
+                ->with('data-depends-on-property', 'url://parent');
+
+            $instance
+                ->method('getPropertyValuesCollection')
+                ->with($parentProperty)
+                ->willReturn([
+                    'parentPropertyValue1',
+                    'parentPropertyValue2',
+                ]);
+        }
+
         $element = $this->sut->create($property);
 
         $this->assertInstanceOf(tao_helpers_form_FormElement::class, $element);
@@ -176,6 +220,31 @@ class ElementMapFactoryTest extends TestCase
                 ],
                 'standalone' => false,
                 'listDependencyEnabled' => false,
+                'statisticMetadataEnabled' => false,
+                'property' => $this->getMockProperty(
+                    tao_helpers_form_elements_Authoring::WIDGET_ID,
+                    true,
+                    'property label'
+                ),
+                'elementForWidget' => $this->mockElementForWidget(
+                    tao_helpers_form_elements_Authoring::WIDGET_ID,
+                    tao_helpers_form_elements_MultipleElement::class
+                ),
+                'validators' => [],
+                'instance' => $this->createMock(
+                    core_kernel_classes_Resource::class
+                ),
+            ],
+            'Happy Path with instance & listDependencyEnabled' => [
+                'expected' => $this->mockNamedElement(
+                    tao_helpers_form_elements_Authoring::WIDGET_ID,
+                    'property label'
+                ),
+                'expectedOptions' => [
+
+                ],
+                'standalone' => false,
+                'listDependencyEnabled' => true,
                 'statisticMetadataEnabled' => false,
                 'property' => $this->getMockProperty(
                     tao_helpers_form_elements_Authoring::WIDGET_ID,
