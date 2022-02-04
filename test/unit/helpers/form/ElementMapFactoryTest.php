@@ -27,15 +27,20 @@ use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\test\TestCase;
 use oat\oatbox\AbstractRegistry;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\ElementMapFactory;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
+use oat\tao\model\Lists\Business\Domain\ValueCollection;
+use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use oat\tao\model\Lists\Business\Specification\PresortedListSpecification;
 use oat\tao\test\Asset\CustomRootClassFixture;
 use tao_helpers_form_elements_Authoring;
-use PHPUnit\Framework\MockObject\MockObject;
+use tao_helpers_form_elements_MultipleElement;
 use tao_helpers_form_FormElement;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ElementMapFactoryTest extends TestCase
 {
@@ -51,20 +56,39 @@ class ElementMapFactoryTest extends TestCase
     /** @var FeatureFlagCheckerInterface|MockObject */
     private $ffChecker;
 
+    /** @var LanguageClassSpecification|MockObject */
+    private $languageClassSpecification;
+
+    /** @var ServiceLocatorInterface|ServiceManager */
+    private $serviceLocator;
+
+    /** @var ValueCollectionService|MockObject */
+    private $valueCollectionService;
+
     public function setUp(): void
     {
         $this->ffChecker = $this->createMock(FeatureFlagChecker::class);
         $this->ruleRegistry = $this->createMock(ValidationRuleRegistry::class);
+        $this->languageClassSpecification = $this->createMock(LanguageClassSpecification::class);
+        $this->valueCollectionService = $this->createMock(ValueCollectionService::class);
+
+        // @todo Maybe unneeded if/once we inject all deps
+        $this->serviceLocator = $this->getServiceLocatorMock([]);
 
         $this->sut = new ElementMapFactory();
         //$this->elementMock = $this->createMock(tao_helpers_form_FormElement::class);
+
+        $this->sut->withFeatureFlagChecker($this->ffChecker);
+        $this->sut->withValidationRuleRegistry($this->ruleRegistry);
+        $this->sut->withLanguageClassSpecification($this->languageClassSpecification);
     }
 
     /**
-     * @dataProvider somethingDataProvider
+     * @dataProvider successScenariosDataProvider
      */
-    public function testSomething(
+    public function testSuccessScenario(
         ?\tao_helpers_form_FormElement $expected,
+        array $expectedOptions,
         bool $standalone,
         bool $listDependencyEnabled,
         bool $statisticMetadataEnabled,
@@ -72,14 +96,96 @@ class ElementMapFactoryTest extends TestCase
         ?tao_helpers_form_FormElement $elementForWidget,
         array $validators
     ): void {
-        /*$this->ffChecker
-            ->expects($this->at(0))
-            ->method('isEnabled')
-            ->with(FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED)
-            ->willReturn($listDependencyEnabled);*/
 
         $this->ffChecker
-            //->expects($this->atMost(1))
+            ->method('isEnabled')
+            ->willReturnMap(
+                [
+                    [
+                        FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED,
+                        $listDependencyEnabled
+                    ],
+                    [
+                        FeatureFlagCheckerInterface::FEATURE_FLAG_STATISTIC_METADATA_IMPORT,
+                        $statisticMetadataEnabled,
+                    ],
+                ]
+            );
+
+        $valueCollection = $this->createMock(ValueCollection::class);
+
+        $this->valueCollectionService
+            ->method('findAll')
+            ->withAnyParameters()
+            ->willReturn($valueCollection);
+
+        $this->ruleRegistry
+            ->method('getValidators')
+            ->with($property)
+            ->willReturn($validators);
+
+        $this->sut->withStandaloneMode($standalone);
+        $this->sut->withElement($elementForWidget);
+        $this->sut->withValueCollectionService($this->valueCollectionService);
+
+
+        $elementForWidget
+            ->expects($this->atLeastOnce())
+            ->method('setDescription')
+            ->with($expected->getDescription());
+
+        if ($elementForWidget instanceof tao_helpers_form_elements_MultipleElement) {
+            $elementForWidget
+                ->expects($this->atLeastOnce())
+                ->method('setOptions')
+                ->with($expectedOptions);
+        }
+
+        $element = $this->sut->create($property);
+
+        $this->assertInstanceOf(tao_helpers_form_FormElement::class, $element);
+    }
+
+    public function successScenariosDataProvider(): array
+    {
+        return [
+            'Happy Path' => [
+                'expected' => $this->mockNamedElement(
+                    tao_helpers_form_elements_Authoring::WIDGET_ID,
+                    'property label'
+                ),
+                'expectedOptions' => [
+
+                ],
+                'standalone' => false,
+                'listDependencyEnabled' => false,
+                'statisticMetadataEnabled' => false,
+                'property' => $this->getMockProperty(
+                    tao_helpers_form_elements_Authoring::WIDGET_ID,
+                    true,
+                    'property label'
+                ),
+                'elementForWidget' => $this->mockElementForWidget(
+                    tao_helpers_form_elements_Authoring::WIDGET_ID,
+                    tao_helpers_form_elements_MultipleElement::class
+                ),
+                'validators' => [],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider failureScenariosDataProvider
+     */
+    public function testFailureScenario(
+        bool $standalone,
+        bool $listDependencyEnabled,
+        bool $statisticMetadataEnabled,
+        core_kernel_classes_Property $property,
+        ?tao_helpers_form_FormElement $elementForWidget,
+        array $validators
+    ): void {
+        $this->ffChecker
             ->method('isEnabled')
             ->willReturnMap(
                 [
@@ -104,32 +210,14 @@ class ElementMapFactoryTest extends TestCase
         $this->sut->withFeatureFlagChecker($this->ffChecker);
         $this->sut->withValidationRuleRegistry($this->ruleRegistry);
 
-        if ($expected !== null) {
-            $elementForWidget
-                ->expects($this->atLeastOnce())
-                ->method('setDescription')
-                ->with($expected->getDescription());
-        }
-
         $element = $this->sut->create($property);
-
-        if ($expected === null) {
-            $this->assertNull($element);
-        } else {
-            // @todo We are not really testing anything other than the call to
-            //       setDescription()
-            /*$this->assertEquals(
-                $expected->getDescription(),
-                $element->getDescription()
-            );*/
-        }
+        $this->assertNull($element);
     }
 
-    public function somethingDataProvider(): array
+    public function failureScenariosDataProvider(): array
     {
         return [
             'A property with no widget returns a null element' => [
-                'expected' => null,
                 'standalone' => false,
                 'listDependencyEnabled' => false,
                 'statisticMetadataEnabled' => false,
@@ -142,7 +230,6 @@ class ElementMapFactoryTest extends TestCase
                 'validators' => [],
             ],
             'Authoring widget returns null in standalone mode' => [
-                'expected' => null,
                 'standalone' => true,
                 'listDependencyEnabled' => false,
                 'statisticMetadataEnabled' => false,
@@ -157,7 +244,6 @@ class ElementMapFactoryTest extends TestCase
             // @todo Test to cover the implicit conversion
             //       AsyncFile::WIDGET_ID -> GenerisAsyncFile::WIDGET_ID
             'Having no element for the widget returns null' => [
-                'expected' => null,
                 'standalone' => false,
                 'listDependencyEnabled' => false,
                 'statisticMetadataEnabled' => false,
@@ -169,32 +255,13 @@ class ElementMapFactoryTest extends TestCase
                 'elementForWidget' => null,
                 'validators' => [],
             ],
-
-            // @fixme This still exits in the
-            //        "if($element->getWidget() !== $widgetUri)" condition
-            'Happy Path' => [
-                'expected' => $this->mockNamedElement(
-                    tao_helpers_form_elements_Authoring::WIDGET_ID,
-                    'property label'
-                ),
-                'standalone' => false,
-                'listDependencyEnabled' => false,
-                'statisticMetadataEnabled' => false,
-                'property' => $this->getMockProperty(
-                    tao_helpers_form_elements_Authoring::WIDGET_ID,
-                    true,
-                    'property label'
-                ),
-                'elementForWidget' => $this->mockElementForWidget(
-                    tao_helpers_form_elements_Authoring::WIDGET_ID
-                ),
-                'validators' => [],
-            ],
         ];
     }
 
-    private function mockNamedElement(string $name, string $description)
-    {
+    private function mockNamedElement(
+        string $name,
+        string $description
+    ): tao_helpers_form_FormElement {
         // Needs to be created here since the dataProvider is evaluated before
         // setUp() runs (so $this->elementMock is null here)
         $elementMock = $this->createMock(tao_helpers_form_FormElement::class);
@@ -208,11 +275,13 @@ class ElementMapFactoryTest extends TestCase
         return $elementMock;
     }
 
-    private function mockElementForWidget(string $widgetId)
-    {
+    private function mockElementForWidget(
+        string $widgetId,
+        string $className = tao_helpers_form_FormElement::class
+    ): tao_helpers_form_FormElement {
         // Needs to be created here since the dataProvider is evaluated before
         // setUp() runs (so $this->elementMock is null here)
-        $elementMock = $this->createMock(tao_helpers_form_FormElement::class);
+        $elementMock = $this->createMock($className);
         $elementMock
             ->method('getWidget')
             ->willReturn($widgetId);

@@ -74,6 +74,12 @@ class ElementMapFactory extends ConfigurableService
     /** @var FeatureFlagCheckerInterface */
     private $featureFlagChecker;
 
+    /** @var LanguageClassSpecification */
+    private $languageClassSpecification;
+
+    /** @var ValueCollectionService */
+    private $valueCollectionService;
+
     public function withInstance(core_kernel_classes_Resource $instance): self
     {
         $this->instance = $instance;
@@ -106,6 +112,20 @@ class ElementMapFactory extends ConfigurableService
     public function withFeatureFlagChecker(FeatureFlagChecker $checker): self
     {
         $this->featureFlagChecker = $checker;
+
+        return $this;
+    }
+
+    public function withLanguageClassSpecification(LanguageClassSpecification $specification): self
+    {
+        $this->languageClassSpecification = $specification;
+
+        return $this;
+    }
+
+    public function withValueCollectionService(ValueCollectionService $service): self
+    {
+        $this->valueCollectionService = $service;
 
         return $this;
     }
@@ -315,7 +335,9 @@ class ElementMapFactory extends ConfigurableService
             }
         }
 
-        return $this->getValueCollectionService()->findAll(new ValueCollectionSearchInput($searchRequest));
+        return $this->getValueCollectionService()->findAll(
+            new ValueCollectionSearchInput($searchRequest)
+        );
     }
 
     private function isStandaloneMode(): bool
@@ -338,7 +360,13 @@ class ElementMapFactory extends ConfigurableService
 
     private function getValueCollectionService(): ValueCollectionService
     {
-        return $this->getContainer()->get(ValueCollectionService::class);
+        if ($this->valueCollectionService === null) {
+            $this->valueCollectionService = $this->getContainer()->get(
+                ValueCollectionService::class
+            );
+        }
+
+        return $this->valueCollectionService;
     }
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
@@ -354,12 +382,22 @@ class ElementMapFactory extends ConfigurableService
 
     private function getLanguageClassSpecification(): LanguageClassSpecification
     {
-        return $this->getContainer()->get(LanguageClassSpecification::class);
+        if ($this->languageClassSpecification == null) {
+            $this->languageClassSpecification = $this->getContainer()->get(
+                LanguageClassSpecification::class
+            );
+        }
+
+        return $this->languageClassSpecification;
     }
 
     private function getLanguageListElementSortService(): ListElementSorterInterface
     {
-        return $this->getContainer()->get(LanguageListElementSortService::class);
+        if ($this->languageClassSpecification == null) {
+            $this->languageClassSpecification = $this->getContainer()->get(LanguageListElementSortService::class);
+        }
+
+        return $this->languageClassSpecification;
     }
 
     private function getContainer(): ContainerInterface
