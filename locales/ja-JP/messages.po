@@ -1375,7 +1375,7 @@ msgid "Mind mapping software application (free mind open source)"
 msgstr ""
 
 msgid "minimum %s"
-msgstr ""
+msgstr "文字以上"
 
 msgid "minutes"
 msgstr "分"
@@ -1436,7 +1436,7 @@ msgid "Multiply the value by 10^x"
 msgstr "値に10^xを乗算します。"
 
 msgid "Must include at least one letter"
-msgstr "少なくとも文字を1ついれてください。"
+msgstr "少なくとも1つの英文字を含めてください。"
 
 msgid "Must include at least one number"
 msgstr "少なくとも1つの数字を含める必要があります。"
