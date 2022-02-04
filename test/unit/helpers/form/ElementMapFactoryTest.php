@@ -47,9 +47,6 @@ class ElementMapFactoryTest extends TestCase
     /** @var ElementMapFactory */
     private $sut;
 
-    /** @var tao_helpers_form_FormElement|MockObject */
-    //private $elementMock;
-
     /** @var AbstractRegistry|MockObject */
     private $ruleRegistry;
 
@@ -58,9 +55,6 @@ class ElementMapFactoryTest extends TestCase
 
     /** @var LanguageClassSpecification|MockObject */
     private $languageClassSpecification;
-
-    /** @var ServiceLocatorInterface|ServiceManager */
-    private $serviceLocator;
 
     /** @var ValueCollectionService|MockObject */
     private $valueCollectionService;
@@ -72,11 +66,7 @@ class ElementMapFactoryTest extends TestCase
         $this->languageClassSpecification = $this->createMock(LanguageClassSpecification::class);
         $this->valueCollectionService = $this->createMock(ValueCollectionService::class);
 
-        // @todo Maybe unneeded if/once we inject all deps
-        $this->serviceLocator = $this->getServiceLocatorMock([]);
-
         $this->sut = new ElementMapFactory();
-        //$this->elementMock = $this->createMock(tao_helpers_form_FormElement::class);
 
         $this->sut->withFeatureFlagChecker($this->ffChecker);
         $this->sut->withValidationRuleRegistry($this->ruleRegistry);
@@ -96,7 +86,6 @@ class ElementMapFactoryTest extends TestCase
         ?tao_helpers_form_FormElement $elementForWidget,
         array $validators
     ): void {
-
         $this->ffChecker
             ->method('isEnabled')
             ->willReturnMap(
@@ -127,7 +116,6 @@ class ElementMapFactoryTest extends TestCase
         $this->sut->withStandaloneMode($standalone);
         $this->sut->withElement($elementForWidget);
         $this->sut->withValueCollectionService($this->valueCollectionService);
-
 
         $elementForWidget
             ->expects($this->atLeastOnce())
@@ -283,8 +271,6 @@ class ElementMapFactoryTest extends TestCase
         string $name,
         string $description
     ): tao_helpers_form_FormElement {
-        // Needs to be created here since the dataProvider is evaluated before
-        // setUp() runs (so $this->elementMock is null here)
         $elementMock = $this->createMock(tao_helpers_form_FormElement::class);
         $elementMock
             ->method('getName')
@@ -300,8 +286,6 @@ class ElementMapFactoryTest extends TestCase
         string $widgetId,
         string $className = tao_helpers_form_FormElement::class
     ): tao_helpers_form_FormElement {
-        // Needs to be created here since the dataProvider is evaluated before
-        // setUp() runs (so $this->elementMock is null here)
         $elementMock = $this->createMock($className);
         $elementMock
             ->method('getWidget')
