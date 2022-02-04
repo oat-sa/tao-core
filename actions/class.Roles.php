@@ -146,33 +146,23 @@ class tao_actions_Roles extends tao_actions_RdfController
      */
     public function delete()
     {
-        if (!$this->isXmlHttpRequest()) {
-            throw new common_exception_BadRequest('wrong request mode');
-        } else {
+        try {
+            $this->deleteRole();
+
+            $deleted = true;
+            $message = null;
+        } catch (Throwable $exception) {
             $deleted = false;
-            if ($this->getRequestParameter('uri')) {
-                $role = $this->getCurrentInstance();
-
-                if (!in_array($role->getUri(), $this->forbidden)) {
-                    //check if no user is using this role:
-                    $userClass = $this->getClass(GenerisRdf::CLASS_GENERIS_USER);
-                    $options = ['recursive' => true, 'like' => false];
-                    $filters = [GenerisRdf::PROPERTY_USER_ROLES => $role->getUri()];
-                    $users = $userClass->searchInstances($filters, $options);
-                    if (empty($users)) {
-                        //delete role here:
-                        $deleted = $this->getClassService()->removeRole($role);
-                    } else {
-                        //set message error
-                        throw new UserErrorException(__('This role is still given to one or more users. Please remove the role to these users first.'));
-                    }
-                } else {
-                    throw new UserErrorException($role->getLabel() . ' could not be deleted');
-                }
-            }
-
-            $this->returnJson(['deleted' => $deleted, 'success' => $deleted]);
+            $message = $exception->getMessage();
         }
+
+        $this->returnJson(
+            [
+                'deleted' => $deleted,
+                'success' => $deleted,
+                'message' => $message
+            ]
+        );
     }
 
     /**
@@ -225,5 +215,46 @@ class tao_actions_Roles extends tao_actions_RdfController
     protected function getUserService()
     {
         return $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
+    }
+
+    private function deleteRole(): void
+    {
+        if (!$this->isXmlHttpRequest()) {
+            throw new common_exception_BadRequest('wrong request mode');
+        }
+
+        if (!$this->hasRequestParameter('uri')) {
+            throw new common_exception_BadRequest('Missing uri parameter');
+        }
+
+        $role = $this->getCurrentInstance();
+
+        if (!$role->isWritable() || in_array($role->getUri(), $this->forbidden)) {
+            throw new UserErrorException(
+                __('Unable to delete the selected resource')
+            );
+        }
+
+        $users = $this->getClass(GenerisRdf::CLASS_GENERIS_USER)->searchInstances(
+            [
+                GenerisRdf::PROPERTY_USER_ROLES => $role->getUri()
+            ],
+            [
+                'recursive' => true,
+                'like' => false
+            ]
+        );
+
+        if (!empty($users)) {
+            throw new UserErrorException(
+                __('This role is still given to one or more users. Please remove the role to these users first.')
+            );
+        }
+
+        if (!$this->getClassService()->removeRole($role)) {
+            throw new UserErrorException(
+                __('Unable to delete the selected resource')
+            );
+        }
     }
 }
