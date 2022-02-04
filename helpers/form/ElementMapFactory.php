@@ -140,8 +140,9 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
-        $widgetUri   = $widgetResource->getUri();
-        $propertyUri = $property->getUri();
+        $widgetUri      = $widgetResource->getUri();
+        $propertyUri    = $property->getUri();
+        $expectedWidget = $widgetUri;
 
         // Authoring widget is not used in standalone mode
         if ($widgetUri === Authoring::WIDGET_ID && $this->isStandaloneMode()) {
@@ -150,7 +151,8 @@ class ElementMapFactory extends ConfigurableService
 
         // Horrible hack to fix file widget
         if ($widgetUri === AsyncFile::WIDGET_ID) {
-            $widgetResource = new core_kernel_classes_Resource(GenerisAsyncFile::WIDGET_ID);
+            $expectedWidget = GenerisAsyncFile::WIDGET_ID;
+            $widgetResource = new core_kernel_classes_Resource($expectedWidget);
         }
 
         if ($this->hasElement) {
@@ -166,7 +168,7 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
-        if ($element->getWidget() !== $widgetUri) {
+        if ($element->getWidget() !== $expectedWidget) {
             common_Logger::w(sprintf(
                 'Widget definition differs from implementation: %s != %s',
                 $element->getWidget(),

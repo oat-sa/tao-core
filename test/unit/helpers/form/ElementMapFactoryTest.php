@@ -87,7 +87,7 @@ class ElementMapFactoryTest extends TestCase
      * @dataProvider successScenariosDataProvider
      */
     public function testSuccessScenario(
-        ?\tao_helpers_form_FormElement $expected,
+        ?tao_helpers_form_FormElement $expected,
         array $expectedOptions,
         bool $standalone,
         bool $listDependencyEnabled,
@@ -171,6 +171,28 @@ class ElementMapFactoryTest extends TestCase
                 ),
                 'validators' => [],
             ],
+            'AsyncFile is implicitly converted to GenerisAsyncFile' => [
+                'expected' => $this->mockNamedElement(
+                    \tao_helpers_form_elements_GenerisAsyncFile::WIDGET_ID,
+                    'property label'
+                ),
+                'expectedOptions' => [
+
+                ],
+                'standalone' => false,
+                'listDependencyEnabled' => false,
+                'statisticMetadataEnabled' => false,
+                'property' => $this->getMockProperty(
+                    \tao_helpers_form_elements_AsyncFile::WIDGET_ID,
+                    true,
+                    'property label'
+                ),
+                'elementForWidget' => $this->mockElementForWidget(
+                    \tao_helpers_form_elements_GenerisAsyncFile::WIDGET_ID,
+                    tao_helpers_form_elements_MultipleElement::class
+                ),
+                'validators' => [],
+            ],
         ];
     }
 
@@ -241,8 +263,7 @@ class ElementMapFactoryTest extends TestCase
                 'elementForWidget' => null,
                 'validators' => [],
             ],
-            // @todo Test to cover the implicit conversion
-            //       AsyncFile::WIDGET_ID -> GenerisAsyncFile::WIDGET_ID
+
             'Having no element for the widget returns null' => [
                 'standalone' => false,
                 'listDependencyEnabled' => false,
