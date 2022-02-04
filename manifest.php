@@ -25,6 +25,7 @@
 declare(strict_types=1);
 
 use oat\tao\controller\api\Users;
+use oat\tao\model\accessControl\AccessControlServiceProvider;
 use oat\tao\model\Csv\CsvServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\resources\ResourcesServiceProvider;
@@ -291,5 +292,6 @@ return [
         UserSettingsServiceProvider::class,
         StatisticalMetadataServiceProvider::class,
         CsvServiceProvider::class,
+        AccessControlServiceProvider::class,
     ],
 ];

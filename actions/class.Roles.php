@@ -23,6 +23,8 @@
  */
 
 use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
+use oat\tao\model\accessControl\Service\DeleteRoleService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\exceptions\UserErrorException;
 use oat\generis\model\OntologyAwareTrait;
@@ -227,38 +229,13 @@ class tao_actions_Roles extends tao_actions_RdfController
             throw new common_exception_BadRequest('Missing uri parameter');
         }
 
-        $role = $this->getCurrentInstance();
+        $this->getDeleteRoleService()->delete($this->getCurrentInstance());
+    }
 
-        if (!$role->isWritable() && $this->getClassService()->removeRole($role)) {
-            return;
-        }
-
-        if (!$role->isWritable() || in_array($role->getUri(), $this->forbidden)) {
-            throw new UserErrorException(
-                __('Unable to delete the selected resource')
-            );
-        }
-
-        $users = $this->getClass(GenerisRdf::CLASS_GENERIS_USER)->searchInstances(
-            [
-                GenerisRdf::PROPERTY_USER_ROLES => $role->getUri()
-            ],
-            [
-                'recursive' => true,
-                'like' => false
-            ]
-        );
-
-        if (!empty($users)) {
-            throw new UserErrorException(
-                __('This role is still given to one or more users. Please remove the role to these users first.')
-            );
-        }
-
-        if (!$this->getClassService()->removeRole($role)) {
-            throw new UserErrorException(
-                __('Unable to delete the selected resource')
-            );
-        }
+    private function getDeleteRoleService(): DeleteRoleService
+    {
+        return $this->getPsrContainer()
+            ->get(DeleteRoleService::class)
+            ->withForbiddenRoles($this->forbidden);
     }
 }
