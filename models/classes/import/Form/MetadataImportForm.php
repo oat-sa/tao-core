@@ -106,6 +106,7 @@ class MetadataImportForm extends tao_models_classes_import_CsvUploadForm
                     'FileMimeType',
                     [
                         'mimetype' => [
+                            'text/plain',
                             'text/csv',
                             'text/comma-separated-values',
                             'application/csv',

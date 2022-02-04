@@ -56,32 +56,49 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
     public function addValue(Value $value): self
     {
         $value = $this->ensureValueProperties($value);
-
-        if ($value->getUri() === '') {
-            $this->values[] = $value;
-        } else {
-            $this->values[$value->getUri()] = $value;
-        }
+        $this->values[] = $value;
 
         return $this;
     }
 
     public function extractValueByUri(string $uri): ?Value
     {
-        return $this->values[$uri] ?? null;
+        foreach ($this->values as $value) {
+            if ($value->getUri() === $uri) {
+                return $value;
+            }
+        }
+
+        return null;
     }
 
     public function hasDuplicates(): bool
     {
-        foreach ($this->values as $uri => $value) {
+        return $this->getDuplicatedValues(1)->count() > 0;
+    }
+
+    public function getDuplicatedValues(int $limit = null): ValueCollection
+    {
+        $duplicates = new ValueCollection();
+        $counter = 0;
+
+        foreach ($this->values as $value) {
+            if (empty($value->getUri())) {
+                continue;
+            }
+
             $duplicationCandidate = $this->extractValueByUri($value->getUri());
 
-            if (null !== $duplicationCandidate && $duplicationCandidate !== $value) {
-                return true;
+            if ($duplicationCandidate !== null && $duplicationCandidate !== $value) {
+                $duplicates->addValue($value);
+
+                if ($limit !== null && ++$counter >= $limit) {
+                    break;
+                }
             }
         }
 
-        return false;
+        return $duplicates;
     }
 
     public function getListUris(): array
@@ -90,6 +107,17 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
 
         foreach ($this->values as $value) {
             $ids[] = $value->getListUri();
+        }
+
+        return $ids;
+    }
+
+    public function getUris(): array
+    {
+        $ids = [];
+
+        foreach ($this->values as $value) {
+            $ids[] = $value->getUri();
         }
 
         return $ids;

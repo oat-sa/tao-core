@@ -38,6 +38,17 @@ abstract class AbstractContext implements ContextInterface
         }
     }
 
+    public function hasParameter(string $parameter): bool
+    {
+        try {
+            $this->checkParameterSupport($parameter);
+        } catch (InvalidArgumentException $exception) {
+            return false;
+        }
+
+        return isset($this->parameters[$parameter]);
+    }
+
     /**
      * @deprecated Use \oat\generis\model\Context\AbstractContext::getParameter() instead
      */

@@ -100,7 +100,9 @@ class ValueCollectionTest extends TestCase
     {
         $value1 = new Value(null, 'http://example.com#1', '1');
         $value2 = new Value(null, 'http://example.com#2', '2');
-        $sut    = new ValueCollection(null, $value1, $value2);
+        $value3 = new Value(null, '', 'value 3 - empty uri');
+        $value4 = new Value(null, '', 'value 4 - empty uri');
+        $sut    = new ValueCollection(null, $value1, $value2, $value3, $value4);
 
         $this->assertFalse($sut->hasDuplicates());
 
@@ -109,6 +111,17 @@ class ValueCollectionTest extends TestCase
 
         $value1->setUri($value2->getUri());
         $this->assertTrue($sut->hasDuplicates());
+    }
+
+    public function testGetDuplicates(): void
+    {
+        $value1 = new Value(null, 'http://example.com#1', '1');
+        $value2 = new Value(null, 'http://example.com#2', '2');
+        $value3 = new Value(null, '', 'value 3 - empty uri');
+        $value4 = new Value(null, '', 'value 4 - empty uri');
+        $sut    = new ValueCollection(null, $value1, $value2, $value3, $value4);
+
+        $this->assertSame(0, $sut->getDuplicatedValues()->count());
     }
 
     /**
@@ -145,7 +158,7 @@ class ValueCollectionTest extends TestCase
                 'uri'    => 'http://example.com#2',
                 'values' => [
                     new Value(1, 'https://example.com#1', '1'),
-                    new Value(2, 'https://example.com#1', '2'),
+                    new Value(2, 'https://example.com#2', '2'),
                 ],
             ],
         ];
@@ -177,6 +190,7 @@ class ValueCollectionTest extends TestCase
             'Overwrite value in collection'                 => [
                 'expected' => new ValueCollection(
                     null,
+                    new Value(1, 'https://example.com#1', '1'),
                     new Value(1, 'https://example.com#1', '2')
                 ),
                 'sut'      => new ValueCollection(

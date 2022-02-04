@@ -96,6 +96,7 @@ Cypress.Commands.add('addClassToRoot', (
 ) => {
     cy.log('COMMAND: addClassToRoot', name)
         .getSettled(`${rootSelector} a:nth(0)`)
+        .scrollIntoView()
         .click()
         .intercept('POST', `**/${editClassLabelUrl}`).as('editClassLabel')
         .addClass(formSelector, treeRenderUrl, addSubClassUrl)
@@ -127,8 +128,8 @@ Cypress.Commands.add('moveClass', (
         .getSettled(moveSelector)
         .click()
         .wait('@classToMove')
-        .getSettled(`.destination-selector a[title="${nameWhereMove}"]`)
-        .click()
+        .getSettled(`.destination-selector a[title="${nameWhereMove}"]`).last()
+        .click({force: true})
         .intercept('POST', `**/${moveClassUrl}*`).as('moveClass')
         .intercept('GET', '**/getOntologyData*').as('treeRenderAfterMove')
         .get('.actions button')
@@ -136,7 +137,8 @@ Cypress.Commands.add('moveClass', (
         .get(moveConfirmSelector)
         .click()
         .wait('@moveClass').its('response.body').its('success').should('eq', true)
-        .wait('@treeRenderAfterMove');
+        .wait('@treeRenderAfterMove')
+        .getSettled(`.section-trees li[title="${name}"]`);
 });
 
 /**
@@ -187,9 +189,8 @@ Cypress.Commands.add('deleteClass', (
     isAsset = false
 ) => {
     cy.log('COMMAND: deleteClass', name)
-        .getSettled(`${rootSelector} a:nth(0)`)
-        .get(`li[title="${name}"] a:nth(0)`).click()
-        .get(formSelector)
+        .getSettled(`li[title="${name}"] > a`).last().click()
+        .getSettled(`${formSelector} input[value="${name}"]`)
         .should('exist')
     cy.get(deleteSelector).click();
 
@@ -236,9 +237,9 @@ Cypress.Commands.add('deleteClassFromRoot', (
 
     cy.log('COMMAND: deleteClassFromRoot', name)
         .intercept('POST', '**/edit*').as('edit')
-        .getSettled(`${rootSelector} a:nth(0)`)
+        .getSettled(`${rootSelector} > a`)
         .click()
-        .get(`li[title="${name}"] a`)
+        .get(`li[title="${name}"] > a`)
         .wait('@edit')
         .deleteClass(rootSelector, formSelector, deleteSelector, confirmSelector, deleteClassUrl, name, isConfirmCheckbox, isAsset)
 });
@@ -252,7 +253,7 @@ Cypress.Commands.add('addNode', (formSelector, addSelector) => {
     cy.log('COMMAND: addNode');
     cy.intercept('GET', `**/getOntologyData**`).as('treeRender');
     cy.intercept('POST', '**/edit*').as('edit');
-    cy.getSettled(addSelector).click();
+    cy.getSettled(addSelector).scrollIntoView().click();
     cy.get(formSelector).should('exist');
     cy.wait('@treeRender');
     cy.wait('@edit');
@@ -373,4 +374,48 @@ Cypress.Commands.add('exportFromSelectedClass', (
             });
         }
     );
+});
+
+
+/**
+ * Import tree to tree root
+ * @param {String} filePath - path to RDF tree file
+ */
+ Cypress.Commands.add('importToRootTree', (filePath) => {
+    cy.log(`COMMAND: importToRootTree ${filePath}`);
+
+    cy.intercept('POST', `**/tao/Import/index*`).as('loadImport');
+    cy.getSettled('#tree-import a').click();
+    cy.wait('@loadImport');
+
+    cy.readFile(filePath, 'binary')
+        .then(fileContent => {
+            cy.get('input[type="file"][name="content"]')
+                .attachFile({
+                        fileContent,
+                        filePath,
+                        encoding: 'binary',
+                        lastModified: new Date().getTime()
+                    }
+                );
+
+            cy.get('.progressbar.success').should('exist');
+
+            cy.intercept('POST', `**/tao/Import/index`).as('import').get('.form-toolbar button')
+                .click()
+                .wait('@import')
+
+            return cy.isElementPresent('.task-report-container')
+                .then(isTaskStatus => {
+                    if (isTaskStatus) {
+                        cy.get('.feedback-success.hierarchical').should('exist');
+                    } else {
+                        // task was moved to the task queue (background)
+                        cy.get('.badge-component').click();
+                        cy.get('.task-element.completed').first().contains(className);
+                        // close the task manager
+                        cy.get('.badge-component').click();
+                    }
+                })
+        });
 });
