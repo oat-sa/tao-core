@@ -23,10 +23,12 @@ declare(strict_types=1);
 namespace oat\tao\model\StatisticalMetadata;
 
 use oat\generis\model\data\Ontology;
+use oat\oatbox\log\LoggerService;
 use oat\tao\model\Csv\Factory\ReaderFactory;
 use oat\generis\model\resource\Repository\PropertyRepository;
 use oat\tao\model\StatisticalMetadata\Import\Builder\ReportBuilder;
 use oat\tao\model\StatisticalMetadata\Import\Processor\ImportProcessor;
+use oat\tao\model\StatisticalMetadata\Import\Processor\NotifyImportService;
 use oat\tao\model\StatisticalMetadata\Import\Validator\HeaderValidator;
 use oat\tao\model\StatisticalMetadata\Import\Extractor\ResourceExtractor;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
@@ -36,6 +38,7 @@ use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataAliasesExtractor;
 use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataHeadersExtractor;
 use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataPropertiesExtractor;
 use oat\tao\model\StatisticalMetadata\Import\Validator\MetadataPropertiesValidator;
+use oat\taoDeliveryRdf\model\DataStore\Metadata\JsonMetadataCompiler;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use oat\tao\model\StatisticalMetadata\Import\Validator\ResourceMetadataRelationValidator;
 
@@ -111,6 +114,17 @@ class StatisticalMetadataServiceProvider implements ContainerServiceProviderInte
                     service(ResourceExtractor::class),
                     service(MetadataValuesExtractor::class),
                     service(ReportBuilder::class),
+                    service(NotifyImportService::class),
+                ]
+            );
+
+        $services
+            ->set(NotifyImportService::class, NotifyImportService::class)
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
+                    service(LoggerService::SERVICE_ID),
+                    service(JsonMetadataCompiler::class),
                 ]
             );
     }

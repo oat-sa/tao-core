@@ -63,13 +63,17 @@ class ImportProcessor implements ImportFileProcessorInterface
     /** @var tao_models_classes_dataBinding_GenerisInstanceDataBinder */
     private $dataBinder;
 
+    /** @var NotifyImportService */
+    private $notifyImportService;
+
     public function __construct(
         ReaderFactory $readerFactory,
         HeaderValidator $headerValidator,
         MetadataPropertiesExtractor $metadataPropertiesExtractor,
         ResourceExtractor $resourceExtractor,
         MetadataValuesExtractor $metadataValuesExtractor,
-        ReportBuilder $reportBuilder
+        ReportBuilder $reportBuilder,
+        NotifyImportService $notifyImportService
     ) {
         $this->readerFactory = $readerFactory;
         $this->headerValidator = $headerValidator;
@@ -77,6 +81,7 @@ class ImportProcessor implements ImportFileProcessorInterface
         $this->resourceExtractor = $resourceExtractor;
         $this->metadataValuesExtractor = $metadataValuesExtractor;
         $this->reportBuilder = $reportBuilder;
+        $this->notifyImportService = $notifyImportService;
     }
 
     public function withDataBinder(tao_models_classes_dataBinding_GenerisInstanceDataBinder $dataBinder): void
@@ -114,12 +119,20 @@ class ImportProcessor implements ImportFileProcessorInterface
 
                 $this->bindProperties($resource, $metadataValues);
 
+                $result->addImportedRecord($record);
+
                 $result->increaseTotalImportedRecords();
             } catch (AbstractValidationException | AggregatedValidationException $exception) {
                 $result->addException($line, $exception);
             } catch (Throwable $exception) {
                 return $this->reportBuilder->buildByException($exception);
             }
+        }
+
+        try {
+            $this->notifyImportService->notify($result);
+        } catch (Throwable $exception) {
+            return $this->reportBuilder->buildByException($exception);
         }
 
         return $this->reportBuilder->buildByResult($result);
