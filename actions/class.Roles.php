@@ -23,6 +23,8 @@
  */
 
 use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdfs;
+use oat\tao\model\accessControl\Service\DeleteRoleService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\exceptions\UserErrorException;
 use oat\generis\model\OntologyAwareTrait;
@@ -67,9 +69,20 @@ class tao_actions_Roles extends tao_actions_RdfController
         $clazz = $this->getCurrentClass();
         $role = $this->getCurrentInstance();
 
-        $formContainer = new tao_actions_form_Role($clazz, $role, [FormContainer::CSRF_PROTECTION_OPTION => true]);
+        $isWritable = $role->isWritable();
+
+        $formContainer = new tao_actions_form_Role(
+            $clazz,
+            $role,
+            [
+                FormContainer::CSRF_PROTECTION_OPTION => true,
+                FormContainer::IS_DISABLED => !$isWritable,
+            ]
+        );
+
         $myForm = $formContainer->getForm();
-        if ($myForm->isSubmited() && $myForm->isValid()) {
+
+        if ($isWritable && $myForm->isSubmited() && $myForm->isValid()) {
             $formValues = $myForm->getValues();
             $roleService = tao_models_classes_RoleService::singleton();
             $includedRolesProperty = $this->getProperty(GenerisRdf::PROPERTY_ROLE_INCLUDESROLE);
@@ -135,33 +148,31 @@ class tao_actions_Roles extends tao_actions_RdfController
      */
     public function delete()
     {
-        if (!$this->isXmlHttpRequest()) {
-            throw new common_exception_BadRequest('wrong request mode');
-        } else {
-            $deleted = false;
-            if ($this->getRequestParameter('uri')) {
-                $role = $this->getCurrentInstance();
-
-                if (!in_array($role->getUri(), $this->forbidden)) {
-                    //check if no user is using this role:
-                    $userClass = $this->getClass(GenerisRdf::CLASS_GENERIS_USER);
-                    $options = ['recursive' => true, 'like' => false];
-                    $filters = [GenerisRdf::PROPERTY_USER_ROLES => $role->getUri()];
-                    $users = $userClass->searchInstances($filters, $options);
-                    if (empty($users)) {
-                        //delete role here:
-                        $deleted = $this->getClassService()->removeRole($role);
-                    } else {
-                        //set message error
-                        throw new UserErrorException(__('This role is still given to one or more users. Please remove the role to these users first.'));
-                    }
-                } else {
-                    throw new UserErrorException($role->getLabel() . ' could not be deleted');
-                }
+        try {
+            if (!$this->isXmlHttpRequest()) {
+                throw new common_exception_BadRequest('wrong request mode');
             }
 
-            $this->returnJson(['deleted' => $deleted, 'success' => $deleted]);
+            if (!$this->hasRequestParameter('uri')) {
+                throw new common_exception_BadRequest('Missing uri parameter');
+            }
+
+            $this->getDeleteRoleService()->delete($this->getCurrentInstance());
+
+            $deleted = true;
+            $message = null;
+        } catch (Throwable $exception) {
+            $deleted = false;
+            $message = $exception->getMessage();
         }
+
+        $this->returnJson(
+            [
+                'deleted' => $deleted,
+                'success' => $deleted,
+                'message' => $message
+            ]
+        );
     }
 
     /**
@@ -214,5 +225,12 @@ class tao_actions_Roles extends tao_actions_RdfController
     protected function getUserService()
     {
         return $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
+    }
+
+    private function getDeleteRoleService(): DeleteRoleService
+    {
+        return $this->getPsrContainer()
+            ->get(DeleteRoleService::class)
+            ->withForbiddenRoles($this->forbidden);
     }
 }
