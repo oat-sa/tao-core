@@ -22,21 +22,16 @@ declare(strict_types=1);
 
 namespace oat\tao\model\StatisticalMetadata\Import\Processor;
 
+use core_kernel_classes_Resource;
 use Google\Cloud\PubSub\PubSubClient;
-use oat\generis\model\data\Ontology;
 use oat\tao\model\metadata\compiler\ResourceMetadataCompilerInterface;
-use oat\tao\model\StatisticalMetadata\Contract\Header;
-use oat\tao\model\StatisticalMetadata\Import\Result\ImportResult;
-use oat\tao\model\TaoOntology;
+use oat\tao\model\StatisticalMetadata\DataStore\Compiler\StatisticalJsonResourceMetadataCompiler;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
 class NotifyImportService
 {
     private const DEFAULT_MAX_TRIES = 10;
-
-    /** @var Ontology */
-    private $ontology;
 
     /** @var LoggerInterface */
     private $logger;
@@ -47,12 +42,14 @@ class NotifyImportService
     /** @var int */
     private $maxTries = self::DEFAULT_MAX_TRIES;
 
-    public function __construct(
-        Ontology $ontology,
-        LoggerInterface $logger,
-        ResourceMetadataCompilerInterface $jsonMetadataCompiler
-    ) {
-        $this->ontology = $ontology;
+    /** @var core_kernel_classes_Resource[] */
+    private $resources = [];
+
+    /** @var array */
+    private $aliases = [];
+
+    public function __construct(LoggerInterface $logger, ResourceMetadataCompilerInterface $jsonMetadataCompiler)
+    {
         $this->logger = $logger;
         $this->resourceMetadataCompiler = $jsonMetadataCompiler;
     }
@@ -64,7 +61,21 @@ class NotifyImportService
         return $this;
     }
 
-    public function notify(ImportResult $result): void
+    public function addResource(core_kernel_classes_Resource $resource): self
+    {
+        $this->resources[] = $resource;
+
+        return $this;
+    }
+
+    public function withAliases(array $aliases): self
+    {
+        $this->aliases = $aliases;
+
+        return $this;
+    }
+
+    public function notify(): void
     {
         // @TODO Migrate pub/sub to proper abstraction
         // @TODO Add proper pub/sub credentials via config
@@ -72,21 +83,16 @@ class NotifyImportService
         $data = [];
         $resourceIds = [];
 
-        foreach ($result->getImportedRecords() as $record) {
-            $resourceId = $record[Header::ITEM_ID] ?? $record[Header::TEST_ID];
+        if ($this->resourceMetadataCompiler instanceof StatisticalJsonResourceMetadataCompiler) {
+            $this->resourceMetadataCompiler->withAliases($this->aliases);
+        }
 
-            $resource = $this->ontology->getResource($resourceId);
-            $compiled = $this->resourceMetadataCompiler->compile($resource);
-            $compiled['@type'] = isset($record[Header::ITEM_ID])
-                ? TaoOntology::CLASS_URI_ITEM
-                : TaoOntology::CLASS_URI_TEST;
-
-            $data[] = $compiled;
-            $resourceIds[] = $resourceId;
+        foreach ($this->resources as $resource) {
+            $resourceIds[] = $resource->getUri();
+            $data[] = $this->resourceMetadataCompiler->compile($resource);
         }
 
         $topicId = 'oat-demo-delivery-processing-topic';
-
         $tries = 0;
 
         do {

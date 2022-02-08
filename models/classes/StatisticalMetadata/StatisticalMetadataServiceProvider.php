@@ -27,6 +27,7 @@ use oat\oatbox\log\LoggerService;
 use oat\tao\model\Csv\Factory\ReaderFactory;
 use oat\generis\model\resource\Repository\PropertyRepository;
 use oat\tao\model\metadata\compiler\AdvancedJsonResourceMetadataCompiler;
+use oat\tao\model\StatisticalMetadata\DataStore\Compiler\StatisticalJsonResourceMetadataCompiler;
 use oat\tao\model\StatisticalMetadata\Import\Builder\ReportBuilder;
 use oat\tao\model\StatisticalMetadata\Import\Processor\ImportProcessor;
 use oat\tao\model\StatisticalMetadata\Import\Processor\NotifyImportService;
@@ -111,6 +112,7 @@ class StatisticalMetadataServiceProvider implements ContainerServiceProviderInte
                     service(ReaderFactory::class),
                     service(HeaderValidator::class),
                     service(MetadataPropertiesExtractor::class),
+                    service(MetadataAliasesExtractor::class),
                     service(ResourceExtractor::class),
                     service(MetadataValuesExtractor::class),
                     service(ReportBuilder::class),
@@ -119,12 +121,19 @@ class StatisticalMetadataServiceProvider implements ContainerServiceProviderInte
             );
 
         $services
+            ->set(StatisticalJsonResourceMetadataCompiler::class, StatisticalJsonResourceMetadataCompiler::class)
+            ->args(
+                [
+                    service(AdvancedJsonResourceMetadataCompiler::class),
+                ]
+            );
+
+        $services
             ->set(NotifyImportService::class, NotifyImportService::class)
             ->args(
                 [
-                    service(Ontology::SERVICE_ID),
                     service(LoggerService::SERVICE_ID),
-                    service(AdvancedJsonResourceMetadataCompiler::class),
+                    service(StatisticalJsonResourceMetadataCompiler::class),
                 ]
             );
     }

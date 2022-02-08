@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\StatisticalMetadata\Import\Processor;
 
+use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataAliasesExtractor;
 use Throwable;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
@@ -66,10 +67,14 @@ class ImportProcessor implements ImportFileProcessorInterface
     /** @var NotifyImportService */
     private $notifyImportService;
 
+    /** @var MetadataAliasesExtractor */
+    private $metadataAliasesExtractor;
+
     public function __construct(
         ReaderFactory $readerFactory,
         HeaderValidator $headerValidator,
         MetadataPropertiesExtractor $metadataPropertiesExtractor,
+        MetadataAliasesExtractor $metadataAliasesExtractor,
         ResourceExtractor $resourceExtractor,
         MetadataValuesExtractor $metadataValuesExtractor,
         ReportBuilder $reportBuilder,
@@ -78,6 +83,7 @@ class ImportProcessor implements ImportFileProcessorInterface
         $this->readerFactory = $readerFactory;
         $this->headerValidator = $headerValidator;
         $this->metadataPropertiesExtractor = $metadataPropertiesExtractor;
+        $this->metadataAliasesExtractor = $metadataAliasesExtractor;
         $this->resourceExtractor = $resourceExtractor;
         $this->metadataValuesExtractor = $metadataValuesExtractor;
         $this->reportBuilder = $reportBuilder;
@@ -103,6 +109,8 @@ class ImportProcessor implements ImportFileProcessorInterface
             $this->headerValidator->validateRequiredHeaders($header);
 
             $metadataProperties = $this->metadataPropertiesExtractor->extract($header);
+
+            $this->notifyImportService->withAliases($this->metadataAliasesExtractor->extract($header));
         } catch (AbstractValidationException | AggregatedValidationException $exception) {
             $result->addException(0, $exception);
 
@@ -121,6 +129,8 @@ class ImportProcessor implements ImportFileProcessorInterface
 
                 $result->addImportedRecord($record);
 
+                $this->notifyImportService->addResource($resource);
+
                 $result->increaseTotalImportedRecords();
             } catch (AbstractValidationException | AggregatedValidationException $exception) {
                 $result->addException($line, $exception);
@@ -130,7 +140,7 @@ class ImportProcessor implements ImportFileProcessorInterface
         }
 
         try {
-            $this->notifyImportService->notify($result);
+            $this->notifyImportService->notify();
         } catch (Throwable $exception) {
             return $this->reportBuilder->buildByException($exception);
         }
