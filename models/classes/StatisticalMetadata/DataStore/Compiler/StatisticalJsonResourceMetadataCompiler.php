@@ -35,9 +35,9 @@ class StatisticalJsonResourceMetadataCompiler implements ResourceMetadataCompile
     /** @var array */
     private $aliases = [];
 
-    public function __construct(ResourceMetadataCompilerInterface $jsonMetadataCompiler)
+    public function __construct(ResourceMetadataCompilerInterface $resourceMetadataCompiler)
     {
-        $this->resourceMetadataCompiler = $jsonMetadataCompiler;
+        $this->resourceMetadataCompiler = $resourceMetadataCompiler;
     }
 
     public function withAliases(array $aliases): self
