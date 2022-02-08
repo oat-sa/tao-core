@@ -26,6 +26,7 @@ use oat\generis\model\data\Ontology;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\Csv\Factory\ReaderFactory;
 use oat\generis\model\resource\Repository\PropertyRepository;
+use oat\tao\model\metadata\compiler\AdvancedJsonResourceMetadataCompiler;
 use oat\tao\model\StatisticalMetadata\Import\Builder\ReportBuilder;
 use oat\tao\model\StatisticalMetadata\Import\Processor\ImportProcessor;
 use oat\tao\model\StatisticalMetadata\Import\Processor\NotifyImportService;
@@ -38,7 +39,6 @@ use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataAliasesExtractor;
 use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataHeadersExtractor;
 use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataPropertiesExtractor;
 use oat\tao\model\StatisticalMetadata\Import\Validator\MetadataPropertiesValidator;
-use oat\taoDeliveryRdf\model\DataStore\Metadata\JsonMetadataCompiler;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use oat\tao\model\StatisticalMetadata\Import\Validator\ResourceMetadataRelationValidator;
 
@@ -124,7 +124,7 @@ class StatisticalMetadataServiceProvider implements ContainerServiceProviderInte
                 [
                     service(Ontology::SERVICE_ID),
                     service(LoggerService::SERVICE_ID),
-                    service(JsonMetadataCompiler::class),
+                    service(AdvancedJsonResourceMetadataCompiler::class),
                 ]
             );
     }

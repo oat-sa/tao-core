@@ -24,59 +24,70 @@ namespace oat\tao\model\StatisticalMetadata\Import\Processor;
 
 use Google\Cloud\PubSub\PubSubClient;
 use oat\generis\model\data\Ontology;
+use oat\tao\model\metadata\compiler\ResourceMetadataCompilerInterface;
 use oat\tao\model\StatisticalMetadata\Contract\Header;
 use oat\tao\model\StatisticalMetadata\Import\Result\ImportResult;
 use oat\tao\model\TaoOntology;
-use oat\taoDeliveryRdf\model\DataStore\Metadata\JsonMetadataCompiler;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
 class NotifyImportService
 {
+    private const DEFAULT_MAX_TRIES = 10;
+
     /** @var Ontology */
     private $ontology;
 
     /** @var LoggerInterface */
     private $logger;
 
-    /** @var JsonMetadataCompiler */
-    private $jsonMetadataCompiler;
+    /** @var ResourceMetadataCompilerInterface */
+    private $resourceMetadataCompiler;
+
+    /** @var int */
+    private $maxTries = self::DEFAULT_MAX_TRIES;
 
     public function __construct(
         Ontology $ontology,
         LoggerInterface $logger,
-        JsonMetadataCompiler $jsonMetadataCompiler
+        ResourceMetadataCompilerInterface $jsonMetadataCompiler
     ) {
         $this->ontology = $ontology;
         $this->logger = $logger;
-        $this->jsonMetadataCompiler = $jsonMetadataCompiler;
+        $this->resourceMetadataCompiler = $jsonMetadataCompiler;
+    }
+
+    public function withMaxTries(int $maxTries): self
+    {
+        $this->maxTries = $maxTries;
+
+        return $this;
     }
 
     public function notify(ImportResult $result): void
     {
         // @TODO Migrate pub/sub to proper abstraction
-        // @TODO Retry multiple times in case of fail
-        // @TODO Migrate this class from taoDeliveryRdf extension
         // @TODO Add proper pub/sub credentials via config
 
         $data = [];
+        $resourceIds = [];
 
         foreach ($result->getImportedRecords() as $record) {
             $resourceId = $record[Header::ITEM_ID] ?? $record[Header::TEST_ID];
 
             $resource = $this->ontology->getResource($resourceId);
-            $compiled = $this->jsonMetadataCompiler->compile($resource);
+            $compiled = $this->resourceMetadataCompiler->compile($resource);
             $compiled['@type'] = isset($record[Header::ITEM_ID])
                 ? TaoOntology::CLASS_URI_ITEM
                 : TaoOntology::CLASS_URI_TEST;
 
             $data[] = $compiled;
+            $resourceIds[] = $resourceId;
         }
 
         $topicId = 'oat-demo-delivery-processing-topic';
 
         $tries = 0;
-        $maxTries = 10;
 
         do {
             try {
@@ -92,8 +103,9 @@ class NotifyImportService
 
                 $this->logger->info(
                     sprintf(
-                        'Pub/Sub messages %s send for Statistical data',
-                        var_export($messageIds, true)
+                        'Pub/Sub messages "%s" send for Statistical data for resources "%s"',
+                        var_export($messageIds, true),
+                        implode(', ', $resourceIds)
                     )
                 );
 
@@ -101,12 +113,13 @@ class NotifyImportService
             } catch (Throwable $exception) {
                 $this->logger->error(
                     sprintf(
-                        'Pub/Sub messages not send for Statistical data: %s',
-                        $exception->getMessage()
+                        'Error while Pub/Sub messages for Statistical data: "%s" - resources: "%s"',
+                        $exception->getMessage(),
+                        implode(', ', $resourceIds)
                     )
                 );
             }
-        } while ($tries < $maxTries);
+        } while ($tries < $this->maxTries);
 
         throw new \Exception('Sync error', 0, $exception); //@TODO Provide proper exception
     }

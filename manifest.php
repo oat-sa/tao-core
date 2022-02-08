@@ -28,12 +28,13 @@ use oat\tao\controller\api\Users;
 use oat\tao\model\accessControl\AccessControlServiceProvider;
 use oat\tao\model\Csv\CsvServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
+use oat\tao\model\metadata\ServiceProvider\MetadataServiceProvider;
 use oat\tao\model\resources\ResourcesServiceProvider;
 use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
 use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\func\AccessRule;
-use oat\tao\model\export\ServiceProvider\MetadataServiceProvider;
+use oat\tao\model\export\ServiceProvider\MetadataServiceProvider as ExportMetadataServiceProvider;
 use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
@@ -283,7 +284,7 @@ return [
     'containerServiceProviders' => [
         ListsServiceProvider::class,
         FormServiceProvider::class,
-        MetadataServiceProvider::class,
+        ExportMetadataServiceProvider::class,
         FeatureFlagServiceProvider::class,
         LanguageServiceProvider::class,
         ResourcesServiceProvider::class,
@@ -293,5 +294,6 @@ return [
         StatisticalMetadataServiceProvider::class,
         CsvServiceProvider::class,
         AccessControlServiceProvider::class,
+        MetadataServiceProvider::class,
     ],
 ];
