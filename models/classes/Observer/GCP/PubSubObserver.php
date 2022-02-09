@@ -71,7 +71,7 @@ class PubSubObserver implements SplObserver
                 $this->config[self::CONFIG_TOPIC],
                 get_class($subject),
                 substr((string)json_encode($subject), 0, 250) . '...',
-                var_export($messageIds, true)
+                implode(',', $messageIds['messageIds'] ?? [])
             )
         );
     }
