@@ -41,12 +41,12 @@ class Subject implements SubjectInterface
 
     public function attach(SplObserver $observer)
     {
-        $this->observers[get_class($observer)] = $observer;
+        $this->observers[spl_object_hash($observer)] = $observer;
     }
 
     public function detach(SplObserver $observer)
     {
-        unset($this->observers[get_class($observer)]);
+        unset($this->observers[spl_object_hash($observer)]);
     }
 
     public function notify()
