@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\StatisticalMetadata\Import\Observer;
 
+use Google\Cloud\PubSub\PubSubClient;
 use oat\tao\model\Observer\GCP\PubSubClientFactory;
 use oat\tao\model\Observer\GCP\PubSubObserver;
 use oat\tao\model\Observer\Log\LoggerObserver;
@@ -53,7 +54,7 @@ class ObserverFactory
      */
     public function create(array $config = [])
     {
-        if (class_exists('Google\Cloud\PubSub\PubSubClient') && $this->getPubSubTopic()) {
+        if (class_exists(PubSubClient::class) && $this->getPubSubTopic()) {
             return new PubSubObserver(
                 $this->pubSubClientFactory->create(),
                 $this->logger,

@@ -42,7 +42,7 @@ class PubSubClientFactory
      */
     public function create(array $config = [])
     {
-        if (!class_exists('Google\Cloud\PubSub\PubSubClient') || !$this->getPubSubFilePath()) {
+        if (!class_exists(PubSubClient::class) || !$this->getPubSubFilePath()) {
             throw new ErrorException('PubSubClient requirements missing');
         }
 
