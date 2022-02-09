@@ -47,11 +47,17 @@ class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
      * @param boolean $download Deprecated: use getFileExportResponse() and setResponse() in controller
      * @param string $delimiter sets the field delimiter (one character only).
      * @param string $enclosure sets the field enclosure (one character only).
+     * @param bool $withoutBom sets BOM char set in case when need to be compatible with Excel
      * @return string|null
      * @throws \common_exception_InvalidArgumentType
      */
-    public function export($columnNames = false, $download = false, $delimiter = ',', $enclosure = '"')
-    {
+    public function export(
+        $columnNames = false,
+        $download = false,
+        $delimiter = ',',
+        $enclosure = '"',
+        $withoutBom = true
+    ) {
         $data = $this->data;
 
         if (!is_array($data) && !$data instanceof Traversable) {
@@ -72,6 +78,10 @@ class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
             $exportData .= $file->fgets();
         }
         $exportData = trim($exportData);
+
+        if ($withoutBom === false) {
+            $exportData = $this->prependBomCharSet($exportData);
+        }
 
         if ($download) {
             $this->download($exportData, self::FILE_NAME);
@@ -104,5 +114,10 @@ class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
         }
         $exportedString = $this->export($columnNames, false, $delimiter, $enclosure);
         return $this->preparePsrResponse($originResponse, $exportedString, self::FILE_NAME);
+    }
+
+    private function prependBomCharSet(string $data): string
+    {
+        return "\xEF\xBB\xBF{$data}";
     }
 }
