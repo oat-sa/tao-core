@@ -58,9 +58,6 @@ class ImportResult
     /** @var int */
     private $totalImportedRecords;
 
-    /** @var string */
-    private $importedRecords;
-
     public function __construct()
     {
         $this->headerErrors = [];
@@ -72,7 +69,6 @@ class ImportResult
         $this->totalErrors = 0;
         $this->totalScannedRecords = 0;
         $this->totalImportedRecords = 0;
-        $this->importedRecords = [];
     }
 
     public function getHeaderErrors(): array
@@ -128,16 +124,6 @@ class ImportResult
     public function increaseTotalImportedRecords(): void
     {
         ++$this->totalImportedRecords;
-    }
-
-    public function addImportedRecord(array $record): void
-    {
-        $this->importedRecords[] = $record;
-    }
-
-    public function getImportedRecords(): array
-    {
-        return $this->importedRecords;
     }
 
     public function addException(int $line, Throwable $exception): self

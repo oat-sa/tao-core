@@ -127,8 +127,6 @@ class ImportProcessor implements ImportFileProcessorInterface
 
                 $this->bindProperties($resource, $metadataValues);
 
-                $result->addImportedRecord($record);
-
                 $this->notifyImportService->addResource($resource);
 
                 $result->increaseTotalImportedRecords();
