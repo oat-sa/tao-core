@@ -140,8 +140,8 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
-        $widgetUri      = $widgetResource->getUri();
-        $propertyUri    = $property->getUri();
+        $widgetUri = $widgetResource->getUri();
+        $propertyUri = $property->getUri();
         $expectedWidget = $widgetUri;
 
         // Authoring widget is not used in standalone mode
