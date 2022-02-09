@@ -43,9 +43,9 @@ class PubSubObserver implements SplObserver
 
     public function __construct(PubSubClient $pubSubClient, LoggerInterface $logger, array $config = [])
     {
-        $this->config = $config;
         $this->pubSubClient = $pubSubClient;
         $this->logger = $logger;
+        $this->config = $config;
     }
 
     /**
