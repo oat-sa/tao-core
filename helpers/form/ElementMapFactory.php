@@ -57,7 +57,7 @@ class ElementMapFactory extends ConfigurableService
     /** @var core_kernel_classes_Resource */
     private $instance;
 
-    /** @var ?bool */
+    /** @var bool */
     private $isStandaloneMode;
 
     /** @var tao_helpers_form_FormElement */
