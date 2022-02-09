@@ -371,7 +371,7 @@ class ElementMapFactory extends ConfigurableService
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
-        if ($this->featureFlagChecker == null) {
+        if ($this->featureFlagChecker === null) {
             $this->featureFlagChecker = $this->getContainer()->get(FeatureFlagChecker::class);
         }
 
