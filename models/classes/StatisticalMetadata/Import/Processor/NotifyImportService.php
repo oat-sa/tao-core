@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\StatisticalMetadata\Import\Processor;
 
 use core_kernel_classes_Resource;
+use oat\tao\model\exceptions\UserErrorException;
 use oat\tao\model\metadata\compiler\ResourceMetadataCompilerInterface;
 use oat\tao\model\Observer\Subject;
 use oat\tao\model\StatisticalMetadata\DataStore\Compiler\StatisticalJsonResourceMetadataCompiler;
@@ -84,9 +85,30 @@ class NotifyImportService
     }
 
     /**
-     * @throws Throwable
+     * @throws UserErrorException
      */
     public function notify(): void
+    {
+        try {
+            $this->doNotify();
+        } catch (Throwable $exception) {
+            $this->logger->error(
+                sprintf(
+                    'Error while syncing statistical data: "%s"',
+                    $exception->getMessage()
+                )
+            );
+
+            throw new UserErrorException(
+                __('Unable to sync statistical data. Please, contact the system administrator to for more details')
+            );
+        }
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function doNotify(): void
     {
         $data = [];
         $resourceIds = [];
@@ -108,13 +130,13 @@ class NotifyImportService
 
                 $this->observerFactory
                     ->create()
-                    ->update((new Subject())->withData($data));
+                    ->update(new Subject($data));
 
                 return;
             } catch (Throwable $exception) {
                 $this->logger->error(
                     sprintf(
-                        'Error (try: %s) while notifying messages for Statistical data: "%s" - resources: "%s"',
+                        'Error (try: %s) while syncing statistical data: "%s", resources: "%s"',
                         $tries,
                         $exception->getMessage(),
                         implode(', ', $resourceIds)

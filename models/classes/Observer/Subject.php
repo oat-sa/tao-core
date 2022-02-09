@@ -32,7 +32,7 @@ class Subject implements SubjectInterface
     /** @var array */
     private $data;
 
-    public function withData(array $data): SubjectInterface
+    public function __construct(array $data)
     {
         $this->data = $data;
 

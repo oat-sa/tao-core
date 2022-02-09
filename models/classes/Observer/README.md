@@ -13,8 +13,7 @@ Used in case you want to notify the subject for logging purposes.
 ```php
 $observer = new \oat\tao\model\Observer\Log\LoggerObserver($logger);
 
-$anySubject = new \oat\tao\model\Observer\Subject();
-$anySubject->withData(
+$anySubject = new \oat\tao\model\Observer\Subject(
     [
         'some' => 'data',
         'another' => 'data',
@@ -49,13 +48,12 @@ $observer = new \oat\tao\model\Observer\GCP\PubSubObserver(
     ]
 );
 
-$anySubject = new \oat\tao\model\Observer\Subject();
-$anySubject->withData(
+$anySubject = new \oat\tao\model\Observer\Subject(
     [
         'some' => 'data',
         'another' => 'data',
     ]
-)
+);
 $anySubject->attach($observer);
 $anySubject->notify(); // Will send a message to GCP Pub/Sub
 ```

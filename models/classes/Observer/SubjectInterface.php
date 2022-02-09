@@ -27,5 +27,4 @@ use SplSubject;
 
 interface SubjectInterface extends SplSubject, JsonSerializable
 {
-    public function withData(array $data): self;
 }
