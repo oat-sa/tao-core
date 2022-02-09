@@ -389,7 +389,7 @@ class ElementMapFactory extends ConfigurableService
 
     private function getLanguageListElementSortService(): ListElementSorterInterface
     {
-        if ($this->languageClassSpecification == null) {
+        if ($this->languageClassSpecification === null) {
             $this->languageClassSpecification = $this->getContainer()->get(LanguageListElementSortService::class);
         }
 
