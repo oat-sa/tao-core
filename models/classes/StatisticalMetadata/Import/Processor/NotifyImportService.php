@@ -24,8 +24,9 @@ namespace oat\tao\model\StatisticalMetadata\Import\Processor;
 
 use core_kernel_classes_Resource;
 use oat\tao\model\metadata\compiler\ResourceMetadataCompilerInterface;
+use oat\tao\model\Observer\Subject;
 use oat\tao\model\StatisticalMetadata\DataStore\Compiler\StatisticalJsonResourceMetadataCompiler;
-use oat\tao\model\StatisticalMetadata\Import\Observer\Subject;
+use oat\tao\model\StatisticalMetadata\Import\Observer\ObserverFactory;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -48,17 +49,17 @@ class NotifyImportService
     /** @var array */
     private $aliases = [];
 
-    /** @var Subject */
-    private $subject;
+    /** @var ObserverFactory */
+    private $observerFactory;
 
     public function __construct(
         LoggerInterface $logger,
         ResourceMetadataCompilerInterface $jsonMetadataCompiler,
-        Subject $subject
+        ObserverFactory $observerFactory
     ) {
         $this->logger = $logger;
         $this->resourceMetadataCompiler = $jsonMetadataCompiler;
-        $this->subject = $subject;
+        $this->observerFactory = $observerFactory;
     }
 
     public function withMaxTries(int $maxTries): self
@@ -105,9 +106,9 @@ class NotifyImportService
             try {
                 $tries++;
 
-                $this->subject
-                    ->withData($data)
-                    ->notify();
+                $this->observerFactory
+                    ->create()
+                    ->update((new Subject())->withData($data));
 
                 return;
             } catch (Throwable $exception) {

@@ -20,46 +20,12 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\StatisticalMetadata\Import\Observer;
+namespace oat\tao\model\Observer;
 
 use JsonSerializable;
-use SplObserver;
 use SplSubject;
 
-class Subject implements SplSubject, JsonSerializable
+interface SubjectInterface extends SplSubject, JsonSerializable
 {
-    /** @var SplObserver[] */
-    private $observers;
-
-    /** @var array */
-    private $data;
-
-    public function withData(array $data): self
-    {
-        $this->data = $data;
-
-        return $this;
-    }
-
-    public function attach(SplObserver $observer)
-    {
-        $this->observers[get_class($observer)] = $observer;
-    }
-
-    public function detach(SplObserver $observer)
-    {
-        unset($this->observers[get_class($observer)]);
-    }
-
-    public function notify()
-    {
-        foreach ($this->observers as $observer) {
-            $observer->update($this);
-        }
-    }
-
-    public function jsonSerialize(): array
-    {
-        return $this->data;
-    }
+    public function withData(array $data): self;
 }

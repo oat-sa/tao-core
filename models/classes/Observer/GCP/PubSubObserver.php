@@ -20,8 +20,9 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\StatisticalMetadata\Import\Observer;
+namespace oat\tao\model\Observer\GCP;
 
+use ErrorException;
 use Google\Cloud\PubSub\PubSubClient;
 use Psr\Log\LoggerInterface;
 use SplObserver;
@@ -29,8 +30,10 @@ use SplSubject;
 
 class PubSubObserver implements SplObserver
 {
-    /** @var string */
-    private $topic;
+    public const CONFIG_TOPIC = 'config_topic';
+
+    /** @var string[] */
+    private $config;
 
     /** @var PubSubClient */
     private $pubSubClient;
@@ -38,9 +41,9 @@ class PubSubObserver implements SplObserver
     /** @var LoggerInterface */
     private $logger;
 
-    public function __construct(string $topic, PubSubClient $pubSubClient, LoggerInterface $logger)
+    public function __construct(PubSubClient $pubSubClient, LoggerInterface $logger, array $config = [])
     {
-        $this->topic = $topic;
+        $this->config = $config;
         $this->pubSubClient = $pubSubClient;
         $this->logger = $logger;
     }
@@ -50,17 +53,25 @@ class PubSubObserver implements SplObserver
      */
     public function update(SplSubject $subject)
     {
-        $messageIds = $this->pubSubClient->topic($this->topic)->publish(
-            [
-                'data' => json_encode($subject),
-            ]
-        );
+        if (!isset($this->config[self::CONFIG_TOPIC])) {
+            throw new ErrorException(sprintf('Config "%s" is missing', self::CONFIG_TOPIC));
+        }
+
+        $messageIds = $this->pubSubClient
+            ->topic($this->config[self::CONFIG_TOPIC])
+            ->publish(
+                [
+                    'data' => json_encode($subject),
+                ]
+            );
 
         $this->logger->info(
             sprintf(
-                'Pub/Sub messages "%s" send for Statistical data for "%s"',
-                var_export($messageIds, true),
-                get_class($subject)
+                'Pub/Sub observer updated for topic "%s", subject "%s", data "%s", messages "%s"',
+                $this->config[self::CONFIG_TOPIC],
+                get_class($subject),
+                substr((string)json_encode($subject), 0, 250) . '...',
+                var_export($messageIds, true)
             )
         );
     }

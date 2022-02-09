@@ -20,17 +20,18 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\StatisticalMetadata\Import\Observer;
+namespace oat\tao\model\Observer\ServiceProvider;
 
-use SplObserver;
-use SplSubject;
+use oat\tao\model\Observer\GCP\PubSubClientFactory;
+use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-class DummyObserver implements SplObserver
+class ObserverServiceProvider implements ContainerServiceProviderInterface
 {
-    /**
-     * @inheritDoc
-     */
-    public function update(SplSubject $subject)
+    public function __invoke(ContainerConfigurator $configurator): void
     {
+        $services = $configurator->services();
+
+        $services->set(PubSubClientFactory::class, PubSubClientFactory::class);
     }
 }
