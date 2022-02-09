@@ -23,9 +23,9 @@ declare(strict_types=1);
 namespace oat\tao\model\StatisticalMetadata\Import\Processor;
 
 use core_kernel_classes_Resource;
-use Google\Cloud\PubSub\PubSubClient;
 use oat\tao\model\metadata\compiler\ResourceMetadataCompilerInterface;
 use oat\tao\model\StatisticalMetadata\DataStore\Compiler\StatisticalJsonResourceMetadataCompiler;
+use oat\tao\model\StatisticalMetadata\Import\Observer\Subject;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -48,10 +48,17 @@ class NotifyImportService
     /** @var array */
     private $aliases = [];
 
-    public function __construct(LoggerInterface $logger, ResourceMetadataCompilerInterface $jsonMetadataCompiler)
-    {
+    /** @var Subject */
+    private $subject;
+
+    public function __construct(
+        LoggerInterface $logger,
+        ResourceMetadataCompilerInterface $jsonMetadataCompiler,
+        Subject $subject
+    ) {
         $this->logger = $logger;
         $this->resourceMetadataCompiler = $jsonMetadataCompiler;
+        $this->subject = $subject;
     }
 
     public function withMaxTries(int $maxTries): self
@@ -75,11 +82,11 @@ class NotifyImportService
         return $this;
     }
 
+    /**
+     * @throws Throwable
+     */
     public function notify(): void
     {
-        // @TODO Migrate pub/sub to proper abstraction
-        // @TODO Add proper pub/sub credentials via config
-
         $data = [];
         $resourceIds = [];
 
@@ -92,34 +99,22 @@ class NotifyImportService
             $data[] = $this->resourceMetadataCompiler->compile($resource);
         }
 
-        $topicId = 'oat-demo-delivery-processing-topic';
         $tries = 0;
 
         do {
             try {
                 $tries++;
 
-                $topic = $this->getPubSub()->topic($topicId);
-
-                $messageIds = $topic->publish(
-                    [
-                        'data' => json_encode($data),
-                    ]
-                );
-
-                $this->logger->info(
-                    sprintf(
-                        'Pub/Sub messages "%s" send for Statistical data for resources "%s"',
-                        var_export($messageIds, true),
-                        implode(', ', $resourceIds)
-                    )
-                );
+                $this->subject
+                    ->withData($data)
+                    ->notify();
 
                 return;
             } catch (Throwable $exception) {
                 $this->logger->error(
                     sprintf(
-                        'Error while Pub/Sub messages for Statistical data: "%s" - resources: "%s"',
+                        'Error (try: %s) while notifying messages for Statistical data: "%s" - resources: "%s"',
+                        $tries,
                         $exception->getMessage(),
                         implode(', ', $resourceIds)
                     )
@@ -127,17 +122,6 @@ class NotifyImportService
             }
         } while ($tries < $this->maxTries);
 
-        throw new \Exception('Sync error', 0, $exception); //@TODO Provide proper exception
-    }
-
-    private function getPubSub(): PubSubClient
-    {
-        $keyFilePath = __DIR__ . '/../../../../../../oat-dev-eu-key.json';
-
-        return new PubSubClient(
-            [
-                'keyFilePath' => $keyFilePath,
-            ]
-        );
+        throw $exception;
     }
 }
