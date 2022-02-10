@@ -34,6 +34,7 @@ use Throwable;
 class NotifyImportService
 {
     private const DEFAULT_MAX_TRIES = 10;
+    private const DEFAULT_RETRY_DELAY = 1000000;
 
     /** @var LoggerInterface */
     private $logger;
@@ -43,6 +44,9 @@ class NotifyImportService
 
     /** @var int */
     private $maxTries = self::DEFAULT_MAX_TRIES;
+
+    /** @var int */
+    private $retryDelay = self::DEFAULT_RETRY_DELAY;
 
     /** @var core_kernel_classes_Resource[] */
     private $resources = [];
@@ -66,6 +70,13 @@ class NotifyImportService
     public function withMaxTries(int $maxTries): self
     {
         $this->maxTries = $maxTries;
+
+        return $this;
+    }
+
+    public function withRetryDelay(int $retryDelay): self
+    {
+        $this->retryDelay = $retryDelay;
 
         return $this;
     }
@@ -134,6 +145,8 @@ class NotifyImportService
 
                 return;
             } catch (Throwable $exception) {
+                usleep($this->retryDelay);
+
                 $this->logger->error(
                     sprintf(
                         'Error (try: %s) while syncing statistical data: "%s", resources: "%s"',

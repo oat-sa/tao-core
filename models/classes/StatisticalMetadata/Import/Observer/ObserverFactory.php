@@ -27,6 +27,7 @@ use oat\tao\model\Observer\GCP\PubSubClientFactory;
 use oat\tao\model\Observer\GCP\PubSubObserver;
 use oat\tao\model\Observer\Log\LoggerObserver;
 use Psr\Log\LoggerInterface;
+use SplObserver;
 
 class ObserverFactory
 {
@@ -49,10 +50,7 @@ class ObserverFactory
         $this->pubSubClientFactory = $pubSubClientFactory;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function create(array $config = [])
+    public function create(array $config = []): SplObserver
     {
         if (class_exists(PubSubClient::class) && $this->getPubSubTopic()) {
             return new PubSubObserver(

@@ -162,6 +162,6 @@ class ImportProcessor implements ImportFileProcessorInterface
 
     private function clearRecord(array $record): array
     {
-        return array_filter($record, 'trim');
+        return array_map('trim', $record);
     }
 }
