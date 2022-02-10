@@ -22,13 +22,21 @@ declare(strict_types=1);
 
 namespace oat\tao\model\StatisticalMetadata\DataStore\Compiler;
 
+use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\tao\model\metadata\compiler\ResourceMetadataCompilerInterface;
-use oat\tao\model\StatisticalMetadata\Contract\Header;
 use oat\tao\model\TaoOntology;
 
 class StatisticalJsonResourceMetadataCompiler implements ResourceMetadataCompilerInterface
 {
+    private const ATTRIBUTES_WHITE_LIST = [
+        'type',
+        'alias',
+        'value',
+        '@type',
+        '@id',
+    ];
+
     /** @var ResourceMetadataCompilerInterface */
     private $resourceMetadataCompiler;
 
@@ -49,11 +57,29 @@ class StatisticalJsonResourceMetadataCompiler implements ResourceMetadataCompile
 
     public function compile(core_kernel_classes_Resource $resource): array
     {
-        $compiled = $this->resourceMetadataCompiler->compile($resource);
-        $compiled['@type'] = isset($record[Header::ITEM_ID])
+        $compiled = $this->compileResource($resource);
+        $compiled = $this->clearAttributes($compiled);
+
+        return $this->clearNotAllowedAliases($compiled);
+    }
+
+    private function compileResource(core_kernel_classes_Resource $resource): array
+    {
+        $compiled = json_decode(json_encode($this->resourceMetadataCompiler->compile($resource)), true);
+        $compiled['@type'] = $this->getResourceType($resource);
+
+        return $compiled;
+    }
+
+    private function getResourceType(core_kernel_classes_Resource $resource): string
+    {
+        return $resource->isInstanceOf(new core_kernel_classes_Class(TaoOntology::CLASS_URI_ITEM))
             ? TaoOntology::CLASS_URI_ITEM
             : TaoOntology::CLASS_URI_TEST;
+    }
 
+    private function clearNotAllowedAliases(array $compiled): array
+    {
         foreach ($compiled as $key => $value) {
             if (strpos($key, '@') === 0) {
                 continue;
@@ -67,6 +93,26 @@ class StatisticalJsonResourceMetadataCompiler implements ResourceMetadataCompile
 
             if (!empty($this->aliases) && !in_array($value['alias'], $this->aliases, true)) {
                 unset($compiled[$key]);
+            }
+        }
+
+        return $compiled;
+    }
+
+    private function clearAttributes(array $compiled): array
+    {
+        $allowedKeys = self::ATTRIBUTES_WHITE_LIST;
+
+        foreach ($compiled as $key => $value) {
+            if (isset($value['alias'])) {
+                $allowedKeys[] = $key;
+            }
+        }
+
+        foreach ($compiled as $key => $value) {
+            if (!in_array($key, $allowedKeys, true)) {
+                unset($compiled[$key]);
+                unset($compiled['@context'][$key]);
             }
         }
 
