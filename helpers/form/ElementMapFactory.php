@@ -152,7 +152,7 @@ class ElementMapFactory extends ConfigurableService
         // Horrible hack to fix file widget
         if ($widgetUri === AsyncFile::WIDGET_ID) {
             $expectedWidget = GenerisAsyncFile::WIDGET_ID;
-            $widgetResource = new core_kernel_classes_Resource($expectedWidget);
+            $widgetResource = $property->getResource($expectedWidget);
         }
 
         if ($this->hasElement) {
