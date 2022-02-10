@@ -22,34 +22,26 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\Observer\GCP;
 
+use ErrorException;
+use Google\Cloud\PubSub\PubSubClient;
 use oat\generis\test\TestCase;
-use oat\tao\model\Observer\Log\LoggerObserver;
-use oat\tao\model\Observer\SubjectInterface;
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
+use oat\tao\model\Observer\GCP\PubSubClientFactory;
 
-class LoggerObserverTest extends TestCase
+class PubSubClientFactoryTest extends TestCase
 {
-    /** @var LoggerInterface|MockObject */
-    private $logger;
-
-    /** @var LoggerObserver */
-    private $subject;
-
-    public function setUp(): void
+    public function testUpdateSuccessfully(): void
     {
-        $this->logger = $this->createMock(LoggerInterface::class);
-        $this->subject = new LoggerObserver($this->logger);
+        $this->markTestSkipped('Cannot be tested unless real GCP config exists');
     }
 
-    public function testUpdateWillLogInfo(): void
+    public function testUpdateWithMissConfigurationThrowsException(): void
     {
-        $subject = $this->createMock(SubjectInterface::class);
+        if (!class_exists(PubSubClient::class)) {
+            $this->markTestSkipped();
+        }
 
-        $this->logger
-            ->expects($this->once())
-            ->method('info');
+        $this->expectException(ErrorException::class);
 
-        $this->subject->update($subject);
+        (new PubSubClientFactory([]))->create();
     }
 }

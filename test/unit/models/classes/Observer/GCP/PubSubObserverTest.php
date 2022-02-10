@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\Observer\GCP;
 
+use ErrorException;
 use Google\Cloud\PubSub\PubSubClient;
 use Google\Cloud\PubSub\Topic;
 use oat\generis\test\TestCase;
@@ -83,6 +84,11 @@ class PubSubObserverTest extends TestCase
         $this->pubSubTopic
             ->expects($this->once())
             ->method('publish')
+            ->with(
+                [
+                    'data' => json_encode($subject),
+                ]
+            )
             ->willReturn(
                 [
                     'messageIds' => [1, 2, 3]
@@ -90,5 +96,16 @@ class PubSubObserverTest extends TestCase
             );
 
         $this->subject->update($subject);
+    }
+
+    public function testUpdateWithMissConfigurationThrowsException(): void
+    {
+        if (!class_exists(PubSubClient::class)) {
+            $this->markTestSkipped();
+        }
+
+        $this->expectException(ErrorException::class);
+
+        (new PubSubObserver($this->pubSubClient, $this->logger))->update($this->createMock(SubjectInterface::class));
     }
 }
