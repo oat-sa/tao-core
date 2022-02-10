@@ -121,6 +121,8 @@ class ImportProcessor implements ImportFileProcessorInterface
 
         foreach ($csv->getRecords($header) as $line => $record) {
             try {
+                $record = $this->clearRecord($record);
+
                 $result->increaseTotalScannedRecords();
                 $resource = $this->resourceExtractor->extract($record);
                 $metadataValues = $this->metadataValuesExtractor->extract($record, $resource, $metadataProperties);
@@ -156,5 +158,10 @@ class ImportProcessor implements ImportFileProcessorInterface
         $binder = $this->dataBinder ?? new tao_models_classes_dataBinding_GenerisInstanceDataBinder($resource);
         $binder->forceModification();
         $binder->bind($values);
+    }
+
+    private function clearRecord(array $record): array
+    {
+        return array_filter($record, 'trim');
     }
 }

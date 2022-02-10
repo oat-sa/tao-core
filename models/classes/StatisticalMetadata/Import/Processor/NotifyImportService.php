@@ -100,7 +100,7 @@ class NotifyImportService
             );
 
             throw new UserErrorException(
-                __('Unable to sync statistical data. Please, contact the system administrator to for more details')
+                __('Unable to sync statistical data. Please, contact the system administrator for more details')
             );
         }
     }
@@ -108,7 +108,7 @@ class NotifyImportService
     /**
      * @throws Throwable
      */
-    public function doNotify(): void
+    private function doNotify(): void
     {
         $data = [];
         $resourceIds = [];
