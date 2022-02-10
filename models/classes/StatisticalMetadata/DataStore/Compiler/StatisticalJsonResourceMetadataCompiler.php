@@ -35,6 +35,7 @@ class StatisticalJsonResourceMetadataCompiler implements ResourceMetadataCompile
         'value',
         '@type',
         '@id',
+        '@context',
     ];
 
     /** @var ResourceMetadataCompilerInterface */
@@ -104,7 +105,7 @@ class StatisticalJsonResourceMetadataCompiler implements ResourceMetadataCompile
         $allowedKeys = self::ATTRIBUTES_WHITE_LIST;
 
         foreach ($compiled as $key => $value) {
-            if (isset($value['alias'])) {
+            if (isset($value['alias']) && in_array($value['alias'], $this->aliases, true)) {
                 $allowedKeys[] = $key;
             }
         }
