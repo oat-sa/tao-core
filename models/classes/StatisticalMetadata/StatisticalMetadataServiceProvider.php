@@ -23,10 +23,16 @@ declare(strict_types=1);
 namespace oat\tao\model\StatisticalMetadata;
 
 use oat\generis\model\data\Ontology;
+use oat\oatbox\log\LoggerService;
 use oat\tao\model\Csv\Factory\ReaderFactory;
 use oat\generis\model\resource\Repository\PropertyRepository;
+use oat\tao\model\metadata\compiler\AdvancedJsonResourceMetadataCompiler;
+use oat\tao\model\Observer\GCP\PubSubClientFactory;
+use oat\tao\model\StatisticalMetadata\DataStore\Compiler\StatisticalJsonResourceMetadataCompiler;
 use oat\tao\model\StatisticalMetadata\Import\Builder\ReportBuilder;
+use oat\tao\model\StatisticalMetadata\Import\Observer\ObserverFactory;
 use oat\tao\model\StatisticalMetadata\Import\Processor\ImportProcessor;
+use oat\tao\model\StatisticalMetadata\Import\Processor\NotifyImportService;
 use oat\tao\model\StatisticalMetadata\Import\Validator\HeaderValidator;
 use oat\tao\model\StatisticalMetadata\Import\Extractor\ResourceExtractor;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
@@ -108,9 +114,38 @@ class StatisticalMetadataServiceProvider implements ContainerServiceProviderInte
                     service(ReaderFactory::class),
                     service(HeaderValidator::class),
                     service(MetadataPropertiesExtractor::class),
+                    service(MetadataAliasesExtractor::class),
                     service(ResourceExtractor::class),
                     service(MetadataValuesExtractor::class),
                     service(ReportBuilder::class),
+                    service(NotifyImportService::class),
+                ]
+            );
+
+        $services
+            ->set(StatisticalJsonResourceMetadataCompiler::class, StatisticalJsonResourceMetadataCompiler::class)
+            ->args(
+                [
+                    service(AdvancedJsonResourceMetadataCompiler::class),
+                ]
+            );
+
+        $services
+            ->set(NotifyImportService::class, NotifyImportService::class)
+            ->args(
+                [
+                    service(LoggerService::SERVICE_ID),
+                    service(StatisticalJsonResourceMetadataCompiler::class),
+                    service(ObserverFactory::class),
+                ]
+            );
+
+        $services
+            ->set(ObserverFactory::class, ObserverFactory::class)
+            ->args(
+                [
+                    service(PubSubClientFactory::class),
+                    service(LoggerService::SERVICE_ID),
                 ]
             );
     }

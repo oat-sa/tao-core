@@ -31,6 +31,8 @@ use core_kernel_classes_Resource;
 use oat\tao\model\Csv\Resource\Reader;
 use oat\generis\test\IteratorMockTrait;
 use oat\tao\model\Csv\Factory\ReaderFactory;
+use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataAliasesExtractor;
+use oat\tao\model\StatisticalMetadata\Import\Processor\NotifyImportService;
 use PHPUnit\Framework\MockObject\MockObject;
 use tao_models_classes_dataBinding_GenerisInstanceDataBinder;
 use oat\tao\model\StatisticalMetadata\Import\Builder\ReportBuilder;
@@ -68,6 +70,12 @@ class ImportProcessorTest extends TestCase
     /** @var tao_models_classes_dataBinding_GenerisInstanceDataBinder|MockObject */
     private $dataBinder;
 
+    /** @var NotifyImportService|MockObject */
+    private $notifyImportService;
+
+    /** @var MetadataAliasesExtractor|MockObject */
+    private $metadataAliasesExtractor;
+
     /** @var ImportProcessor */
     private $sut;
 
@@ -78,20 +86,22 @@ class ImportProcessorTest extends TestCase
         $this->readerFactory =  $this->createMock(ReaderFactory::class);
         $this->headerValidator =  $this->createMock(HeaderValidator::class);
         $this->metadataPropertiesExtractor =  $this->createMock(MetadataPropertiesExtractor::class);
+        $this->metadataAliasesExtractor =  $this->createMock(MetadataAliasesExtractor::class);
         $this->resourceExtractor =  $this->createMock(ResourceExtractor::class);
         $this->metadataValuesExtractor =  $this->createMock(MetadataValuesExtractor::class);
         $this->reportBuilder =  $this->createMock(ReportBuilder::class);
-        $this->dataBinder = $this->createMock(
-            tao_models_classes_dataBinding_GenerisInstanceDataBinder::class
-        );
+        $this->dataBinder = $this->createMock(tao_models_classes_dataBinding_GenerisInstanceDataBinder::class);
+        $this->notifyImportService = $this->createMock(NotifyImportService::class);
 
         $this->sut = new ImportProcessor(
             $this->readerFactory,
             $this->headerValidator,
             $this->metadataPropertiesExtractor,
+            $this->metadataAliasesExtractor,
             $this->resourceExtractor,
             $this->metadataValuesExtractor,
-            $this->reportBuilder
+            $this->reportBuilder,
+            $this->notifyImportService
         );
         $this->sut->withDataBinder($this->dataBinder);
     }
@@ -136,6 +146,21 @@ class ImportProcessorTest extends TestCase
             ->method('extract')
             ->with($header)
             ->willReturn($metadataProperties);
+
+        $this->metadataAliasesExtractor
+            ->expects($this->once())
+            ->method('extract')
+            ->with($header)
+            ->willReturn(['someAlias']);
+
+        $this->notifyImportService
+            ->expects($this->once())
+            ->method('withAliases')
+            ->with(['someAlias']);
+
+        $this->notifyImportService
+            ->expects($this->once())
+            ->method('notify');
 
         $records = [
             [
