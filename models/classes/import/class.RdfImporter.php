@@ -20,6 +20,8 @@
  *
  */
 
+use EasyRdf\Format;
+use EasyRdf\Graph;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManagerAwareTrait;
@@ -102,7 +104,7 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
     {
         $report = common_report_Report::createSuccess(__('Data imported successfully'));
 
-        $graph = new EasyRdf_Graph();
+        $graph = new Graph();
         $graph->parse($content);
 
         // keep type property
@@ -114,7 +116,7 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
             $map[$resource->getUri()] = common_Utils::getNewUri();
         }
 
-        $format = EasyRdf_Format::getFormat('php');
+        $format = Format::getFormat('php');
         $data = $graph->serialise($format);
 
         foreach ($data as $subjectUri => $propertiesValues) {
