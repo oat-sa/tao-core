@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -102,10 +102,14 @@ class ThemeService extends ThemeServiceAbstract
             return false;
         }
 
-        $themes = $this->getOption(static::OPTION_AVAILABLE);
-        unset($themes[$themeId]);
+        $availableThemes = $this->getOption(static::OPTION_AVAILABLE);
+        foreach ($this->getAllThemes() as $key => $theme) {
+            if ($theme->getId() === $themeId) {
+                unset($availableThemes[$key]);
+            }
+        }
 
-        $this->setOption(static::OPTION_AVAILABLE, $themes);
+        $this->setOption(static::OPTION_AVAILABLE, $availableThemes);
 
         return true;
     }
