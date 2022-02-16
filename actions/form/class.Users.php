@@ -151,25 +151,12 @@ class tao_actions_form_Users extends SignedFormInstance
     protected function initElements()
     {
         if (!isset($this->options['mode'])) {
-            throw new Exception("Please set a mode into container options ");
+            throw new Exception('Please set a mode into container options');
         }
 
         parent::initElements();
 
-        //login field
-        $loginElement = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_LOGIN));
-        if ($this->options['mode'] === 'add') {
-            $loginElement->addValidators([
-                tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-                tao_helpers_form_FormFactory::getValidator('Callback', [
-                    'object' => tao_models_classes_UserService::singleton(),
-                    'method' => 'loginAvailable',
-                    'message' => __('This Login is already in use')
-                ])
-            ]);
-        } else {
-            $loginElement->setAttributes(['readonly' => 'readonly', 'disabled' => 'disabled']);
-        }
+        $this->initLoginElement();
 
         //set default lang to the languages fields
         $langService = tao_models_classes_LanguageService::singleton();
@@ -255,6 +242,52 @@ class tao_actions_form_Users extends SignedFormInstance
                     $pass3Element->setForcedValid();
                 }
             }
+        }
+    }
+
+    private function initLoginElement(): void
+    {
+        /** @var tao_helpers_form_FormElement $element */
+        $element = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_LOGIN));
+
+        /** @var tao_helpers_form_Validator $regexValidator */
+        $regexValidator = tao_helpers_form_FormFactory::getValidator(
+            'Regex',
+            [
+                'isPreValidationRequired' => true,
+                'format' => '/^[^"\'<>\\/]+$/',
+                'message' => 'Login must not contain the following characters: ", \', \, /, <, >',
+            ]
+        );
+
+        $element->feedInputValue();
+        $value = $element->getInputValue() ?? $element->getRawValue();
+
+        if ($this->options['mode'] !== 'add' && $regexValidator->evaluate($value)) {
+            $element->setAttributes(
+                [
+                    'readonly' => 'readonly',
+                    'disabled' => 'disabled',
+                ]
+            );
+
+            return;
+        }
+
+        $element->addValidators([
+            tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+            tao_helpers_form_FormFactory::getValidator(
+                'Callback',
+                [
+                    'object' => tao_models_classes_UserService::singleton(),
+                    'method' => 'loginAvailable',
+                    'message' => __('This Login is already in use'),
+                ]
+            )
+        ]);
+
+        if ($value !== null) {
+            $element->addValidator($regexValidator);
         }
     }
 }

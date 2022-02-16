@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,19 +17,22 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
+ *               2022 (original work) Open Assessment Technologies SA.
  */
+
+declare(strict_types=1);
+
+use oat\tao\helpers\form\validators\PreliminaryValidationInterface;
 
 /**
- * Short description of class tao_helpers_form_validators_Regex
- *
- * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
- * @package tao
-
  */
-class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
+class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator implements PreliminaryValidationInterface
 {
+    public function isPreValidationRequired(): bool
+    {
+        return $this->getOption('isPreValidationRequired', false);
+    }
 
     public function setOptions(array $options)
     {
@@ -37,7 +41,7 @@ class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator
         if (!$this->hasOption('format')) {
             throw new common_Exception("Please set the format options (define your regular expression)!");
         }
-        
+
         if ($this->hasOption('message')) {
             $this->setMessage($this->getOption('message'));
         }
