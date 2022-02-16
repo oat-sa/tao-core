@@ -45,23 +45,6 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
         $uniqueId = uniqid('calendar_');
         $elementId = tao_helpers_Display::TextCleaner($this->getDescription()) . '_' . $uniqueId;
 
-        if ($this->isDisabled()) {
-            return $returnValue . sprintf(
-                '<input type="text" 
-            name="%s"
-            id="%s"
-            data-testid="%s"
-            value="%s"
-            %s
-            >',
-                $this->name,
-                $elementId,
-                $this->getDescription(),
-                $this->getDateOutput(),
-                $this->renderAttributes()
-            );
-        }
-
         if (! isset($this->attributes['size'])) {
             $this->attributes['size'] = 20;
         }
