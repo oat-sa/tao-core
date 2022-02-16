@@ -33,15 +33,12 @@ define([
 ], function ($, _, __, context, helpers, router, uikitLoader, history, feedback, logoutEvent) {
     'use strict';
 
-    function hasAjaxResponse(ajaxResponse) {
-        return ajaxResponse && ajaxResponse !== null;
-    }
-
-    function hasAjaxResponseProperties(ajaxResponse) {
-        return typeof ajaxResponse.success !== 'undefined' &&
-            typeof ajaxResponse.type !== 'undefined' &&
-            typeof ajaxResponse.message !== 'undefined' &&
-            typeof ajaxResponse.data !== 'undefined'
+    function hasRequiredProperties(response) {
+        return response &&
+            typeof response.success !== 'undefined' &&
+            typeof response.type !== 'undefined' &&
+            typeof response.message !== 'undefined' &&
+            typeof response.data !== 'undefined'
     }
 
     /**
@@ -101,7 +98,7 @@ define([
                     //consider it as a "test" to check if resource exists
                     return;
                 } else if (request.status === 404 || request.status === 500) {
-                    if (hasAjaxResponse() && hasAjaxResponseProperties()) {
+                    if (hasRequiredProperties(ajaxResponse)) {
                         errorMessage = `${request.status}: ${ajaxResponse.message}`;
                     } else {
                         errorMessage = `${request.status}: ${request.responseText}`;
