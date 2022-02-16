@@ -290,7 +290,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             $class,
             $classData,
             $propertyData,
-            $this->isElasticSearchEnabled(),
+            $this->isAdvancedSearchEnabled(),
             $this->getClassFormValidators()
         );
         $myForm = $formContainer->getForm();
@@ -649,7 +649,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         );
     }
 
-    private function isElasticSearchEnabled(): bool
+    private function isAdvancedSearchEnabled(): bool
     {
         /** @var AdvancedSearchChecker $advancedSearchChecker */
         $advancedSearchChecker = $this->getServiceLocator()->get(AdvancedSearchChecker::class);

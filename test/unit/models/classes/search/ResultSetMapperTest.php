@@ -83,12 +83,12 @@ class ResultSetMapperTest extends TestCase
     /**
      * @dataProvider getScenariosData
      */
-    public function testGetPromiseModelResults(array $expectedResult, string $mappedField, bool $elasticSearchEnabled): void
+    public function testGetPromiseModelResults(array $expectedResult, string $mappedField, bool $advancedSearchEnabled): void
     {
         $this->advancedSearchChecker
             ->expects($this->once())
             ->method('isEnabled')
-            ->willReturn($elasticSearchEnabled);
+            ->willReturn($advancedSearchEnabled);
 
         $result = $this->subject->map($mappedField);
         $this->assertEquals($expectedResult, $result);
@@ -97,7 +97,7 @@ class ResultSetMapperTest extends TestCase
     public function getScenariosData()
     {
         return [
-            'result search with elastic search enabled' => [
+            'result search with advanced search enabled' => [
                 [
                     'label' => [
                         'id' => 'label',
@@ -118,7 +118,7 @@ class ResultSetMapperTest extends TestCase
                 'results',
                 true,
             ],
-            'result search with elastic search disabled' => [
+            'result search with advanced search disabled' => [
                 [
                     'label' => [
                         'id' => 'label',
@@ -129,7 +129,7 @@ class ResultSetMapperTest extends TestCase
                 'results',
                 false,
             ],
-            'different search with elastic search enabled' => [
+            'different search with advanced search enabled' => [
                 [
                     'label' => [
                         'id' => 'label',
