@@ -2233,7 +2233,7 @@ msgstr "Le fichier chargé est trop volumineux (maximum de %s octets)"
 msgid "The value for the property \"%s\" must be unique."
 msgstr "La valeur de la propriété \"%s\" doit être unique."
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
 msgstr "La valeur de ce champs doit être formatée telle une date valide, ex. AAAA-MM-JJ"
 
 msgid "The value of this field must be an integer"

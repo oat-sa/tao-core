@@ -2237,7 +2237,7 @@ msgstr "アップロードされたファイルは大きすぎます（最大%s�
 msgid "The value for the property \"%s\" must be unique."
 msgstr "プロパティ\"%s\"は一意である必要があります"
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
 msgstr "このフィールドは次の形式にしてください：YYYY-MM-DD"
 
 msgid "The value of this field must be an integer"
