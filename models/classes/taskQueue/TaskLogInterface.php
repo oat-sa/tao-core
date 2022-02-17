@@ -37,9 +37,9 @@ use Psr\Log\LoggerAwareInterface;
  */
 interface TaskLogInterface extends LoggerAwareInterface
 {
-    const SERVICE_ID = 'tao/taskLog';
+    public const SERVICE_ID = 'tao/taskLog';
 
-    const OPTION_TASK_LOG_BROKER = 'task_log_broker';
+    public const OPTION_TASK_LOG_BROKER = 'task_log_broker';
 
     /**
      * An array of tasks names with the specified category.
@@ -48,30 +48,31 @@ interface TaskLogInterface extends LoggerAwareInterface
 
     public const OPTION_TASK_IGNORE_LIST = 'task_ui_ignore_list';
 
-    const STATUS_ENQUEUED = 'enqueued';
-    const STATUS_DEQUEUED = 'dequeued';
-    const STATUS_RUNNING = 'running';
-    const STATUS_CHILD_RUNNING = 'child_running';
-    const STATUS_COMPLETED = 'completed';
-    const STATUS_FAILED = 'failed';
-    const STATUS_ARCHIVED = 'archived';
-    const STATUS_CANCELLED = 'cancelled';
-    const STATUS_UNKNOWN = 'unknown';
+    public const STATUS_ENQUEUED = 'enqueued';
+    public const STATUS_DEQUEUED = 'dequeued';
+    public const STATUS_RUNNING = 'running';
+    public const STATUS_CHILD_RUNNING = 'child_running';
+    public const STATUS_COMPLETED = 'completed';
+    public const STATUS_FAILED = 'failed';
+    public const STATUS_ARCHIVED = 'archived';
+    public const STATUS_CANCELLED = 'cancelled';
+    public const STATUS_UNKNOWN = 'unknown';
 
-    const CATEGORY_UNKNOWN = 'unknown';
-    const CATEGORY_IMPORT = 'import';
-    const CATEGORY_EXPORT = 'export';
-    const CATEGORY_DELIVERY_COMPILATION = 'delivery_comp';
-    const CATEGORY_CREATE = 'create';
-    const CATEGORY_UPDATE = 'update';
-    const CATEGORY_DELETE = 'delete';
+    public const CATEGORY_UNKNOWN = 'unknown';
+    public const CATEGORY_IMPORT = 'import';
+    public const CATEGORY_EXPORT = 'export';
+    public const CATEGORY_DELIVERY_COMPILATION = 'delivery_comp';
+    public const CATEGORY_CREATE = 'create';
+    public const CATEGORY_UPDATE = 'update';
+    public const CATEGORY_DELETE = 'delete';
+    public const CATEGORY_UNRELATED_RESOURCE = 'unrelated_resource';
 
-    const DEFAULT_LIMIT = 20;
+    public const DEFAULT_LIMIT = 20;
 
     /**
      * It's not related to the user management, just a placeholder to distinguish the user running the script from CLI.
      */
-    const SUPER_USER = 'cli-user';
+    public const SUPER_USER = 'cli-user';
 
     /**
      * @return void
