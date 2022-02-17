@@ -66,13 +66,13 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
         $returnValue = $this->getRawValue();
 
         if (is_numeric($returnValue)) {
-            return (int)$returnValue;
+            return $returnValue;
         }
 
         if (!empty($returnValue)) {
             $tz = new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone());
             try {
-                $returnValue = (new DateTime($returnValue, $tz))->getTimestamp();
+                $returnValue = (string) (new DateTime($returnValue, $tz))->getTimestamp();
             } catch (Exception $e) {
                 common_Logger::w(
                     sprintf(
