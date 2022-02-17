@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2022.01\n"
-"PO-Revision-Date: 2022-01-17T11:27:42\n"
+"PO-Revision-Date: 2022-02-17T16:03:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " と "
-
 msgid " AND "
 msgstr "と"
+
+msgid " and "
+msgstr " と "
 
 msgid " has been deleted successfully"
 msgstr " 削除しました。"
@@ -239,6 +239,9 @@ msgstr ""
 msgid "Advanced search, add filters"
 msgstr "高度な検索（フィルタ追加）"
 
+msgid "aliases:"
+msgstr ""
+
 msgid "all"
 msgstr "すべて"
 
@@ -316,8 +319,17 @@ msgstr "削除してよろしいですか？"
 msgid "Are you sure you wish to delete it"
 msgstr ""
 
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
 msgid "Arguments separator"
 msgstr "引数の区切り"
+
+msgid "array"
+msgstr ""
 
 msgid "Assign"
 msgstr "割り当て"
@@ -378,6 +390,9 @@ msgid "Binary operator modulo"
 msgstr "バイナリオペレーション　モジュロ"
 
 msgid "Bitmap image"
+msgstr ""
+
+msgid "boolean"
 msgstr ""
 
 msgid "Browse folders:"
@@ -444,14 +459,17 @@ msgstr "＜パスワード変更＞"
 msgid "Change the sign of the current operand"
 msgstr "現在の演算子を変更します。"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "全てにチェック"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "全てにチェック"
 
 msgid "Check-in"
 msgstr "チェックイン"
+
+msgid "choices:"
+msgstr ""
 
 msgid "Choose a type for your property first"
 msgstr ""
@@ -489,10 +507,10 @@ msgstr "すべてのデータをクリア"
 msgid "Clear expression"
 msgstr "表示をクリア"
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr "履歴をクリア"
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr "履歴をクリア"
 
 msgid "Clear selection"
@@ -527,6 +545,12 @@ msgstr "操作キューに放棄された操作の収集..."
 
 msgid "Column"
 msgstr "列"
+
+msgid "command"
+msgstr ""
+
+msgid "Commands:"
+msgstr ""
 
 msgid "comment..."
 msgstr "コメント..."
@@ -572,6 +596,9 @@ msgstr "cosh"
 
 msgid "Cosine"
 msgstr "cos"
+
+msgid "count"
+msgstr ""
 
 msgid "Create"
 msgstr "作成"
@@ -648,6 +675,9 @@ msgstr "日付時間範囲"
 msgid "Default search"
 msgstr "デフォルト検索"
 
+msgid "default:"
+msgstr ""
+
 msgid "Define the default values"
 msgstr "デフォルト値を定義します"
 
@@ -686,6 +716,9 @@ msgid "Dependency URI Path"
 msgstr ""
 
 msgid "Depends on property"
+msgstr ""
+
+msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -813,6 +846,9 @@ msgstr "値のエラー"
 
 msgid "Error: %s"
 msgstr "%s エラー"
+
+msgid "Examples:"
+msgstr ""
 
 msgid "Exclusive (OR)"
 msgstr "排他的(OR)"
@@ -951,6 +987,9 @@ msgstr "From"
 msgid "Fuzzy Matching"
 msgstr "あいまい検索"
 
+msgid "generated-value"
+msgstr ""
+
 msgid "Generis Form"
 msgstr "ジェネリスフォーム"
 
@@ -1026,6 +1065,9 @@ msgstr "識別子"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "パスワードをリセットしたくない場合は、このメールを無視してください。パスワードは変更されません。"
 
+msgid "Implications failed:"
+msgstr ""
+
 msgid "Import"
 msgstr "インポート"
 
@@ -1066,11 +1108,11 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr "タスクステータスを更新できません"
 
-msgid "In progress"
-msgstr "実施中"
-
 msgid "In Progress"
 msgstr "処理中"
+
+msgid "In progress"
+msgstr "実施中"
 
 msgid "Inclusive (AND)"
 msgstr "包括（AND)"
@@ -1111,10 +1153,10 @@ msgstr "%s拡張機能をインストールしています..."
 msgid "Instance saved"
 msgstr "インスタンスが保存されました"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "インタフェース言語"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "インタフェース言語"
 
 msgid "Invalid CSP header."
@@ -1156,6 +1198,9 @@ msgstr "不正な入力です"
 msgid "Invalid input for function"
 msgstr "関数の入力が無効"
 
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
 msgid "Invalid login or password. Please try again."
 msgstr "ログイン名またはパスワードが無効です。再度やり直してください。"
 
@@ -1169,6 +1214,9 @@ msgid "invalid regular expression"
 msgstr "無効な正規表現です"
 
 msgid "Invalid value"
+msgstr ""
+
+msgid "Invalid values:"
 msgstr ""
 
 msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
@@ -1521,6 +1569,12 @@ msgstr "ノードのコピーに失敗しました"
 msgid "none"
 msgstr ""
 
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
 msgid "Not started"
 msgstr "開始していません"
 
@@ -1546,6 +1600,9 @@ msgstr "通知ドライバは永続的ではありません。続的なデータ
 msgid "Nth root"
 msgstr "N番目のルート"
 
+msgid "number"
+msgstr ""
+
 msgid "Number of elements"
 msgstr "エレメント数"
 
@@ -1561,10 +1618,10 @@ msgstr ""
 msgid "Ogg Vorbis video"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
 msgid "Old Password"
@@ -1711,6 +1768,9 @@ msgstr ""
 msgid "Position"
 msgstr ""
 
+msgid "Positionals:"
+msgstr ""
+
 msgid "Post install processing"
 msgstr "インストール後の処理"
 
@@ -1847,6 +1907,9 @@ msgstr "eメールでパスワードのリセットを要求します"
 msgid "require notification ID"
 msgstr "通知のためのIDが必要です"
 
+msgid "required"
+msgstr ""
+
 msgid "required length"
 msgstr "長さは必須です"
 
@@ -1978,10 +2041,10 @@ msgstr "セキュリティ"
 msgid "Security settings"
 msgstr "セキュリティ設定"
 
-msgid "select"
+msgid "Select"
 msgstr "選択"
 
-msgid "Select"
+msgid "select"
 msgstr "選択"
 
 msgid "Select a class"
@@ -2082,6 +2145,9 @@ msgid "Store the value a variable"
 msgstr "値を変数に格納する"
 
 msgid "Storing digital video data on a computer game"
+msgstr ""
+
+msgid "string"
 msgstr ""
 
 msgid "Submit"
@@ -2321,6 +2387,9 @@ msgstr "日付のタイムピッカーを切り替える"
 msgid "Tokenizer"
 msgstr "トークナイザ"
 
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
+
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "候補が多すぎるため候補の一部が表示されます"
 
@@ -2404,6 +2473,9 @@ msgstr "通知の検索ができません"
 
 msgid "Unable to send the password reset request"
 msgstr "パスワードのリセットをリクエストできません"
+
+msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
+msgstr ""
 
 msgid "Unable to update the asset service"
 msgstr "アセットサービスの更新ができません"
@@ -2615,6 +2687,9 @@ msgid "Windows Media file (metafile)"
 msgstr ""
 
 msgid "Windows Media video"
+msgstr ""
+
+msgid "with"
 msgstr ""
 
 msgid "Wrap image left"
