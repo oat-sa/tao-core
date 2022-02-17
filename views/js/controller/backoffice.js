@@ -33,8 +33,15 @@ define([
 ], function ($, _, __, context, helpers, router, uikitLoader, history, feedback, logoutEvent) {
     'use strict';
 
+    /**
+     * @typedef {{success: boolean, type: string, message: string, data: Object}} Response
+     *
+     * @param {Response} response
+     * @return {boolean}
+     */
     function hasRequiredProperties(response) {
-        return typeof response !== 'undefined' && !['success', 'type', 'message', 'data'].some(key => typeof response[key] === 'undefined');
+        return typeof response !== 'undefined'
+            && !['success', 'type', 'message', 'data'].some(key => typeof response[key] === 'undefined');
     }
 
     /**
