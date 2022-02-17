@@ -74,13 +74,6 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
             try {
                 $returnValue = (string) (new DateTime($returnValue, $tz))->getTimestamp();
             } catch (Exception $e) {
-                common_Logger::w(
-                    sprintf(
-                    'Form element \'%s\': %s',
-                        $this->getName(),
-                        $e->getMessage()
-                    )
-                );
                 $returnValue = '';
             }
         }
