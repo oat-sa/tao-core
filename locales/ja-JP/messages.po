@@ -131,7 +131,7 @@ msgid "<del>Options</del>"
 msgstr "<del>オプション</del>"
 
 msgid "<strong> %s </strong> has been moved to the background."
-msgstr "<strong> %s </strong> は，バックグラウンド処理中です"
+msgstr "<strong> %s </strong> バックグラウンド処理中です。"
 
 msgid "> Extension %s succesfully installed."
 msgstr ">　拡張機能　%s のインストールが終了しました"
@@ -383,6 +383,9 @@ msgstr ""
 msgid "Browse folders:"
 msgstr "フォルダを参照"
 
+msgid "Browse resources"
+msgstr "フォルダを参照"
+
 msgid "Browse..."
 msgstr "参照..."
 
@@ -441,11 +444,11 @@ msgstr "＜パスワード変更＞"
 msgid "Change the sign of the current operand"
 msgstr "現在の演算子を変更します。"
 
-msgid "Check All"
-msgstr "すべて確認してください"
-
 msgid "Check all"
-msgstr "すべて確認してください"
+msgstr "全てにチェック"
+
+msgid "Check All"
+msgstr "全てにチェック"
 
 msgid "Check-in"
 msgstr "チェックイン"
@@ -529,7 +532,7 @@ msgid "comment..."
 msgstr "コメント..."
 
 msgid "Commit"
-msgstr "コミット"
+msgstr "適用"
 
 msgid "Completed"
 msgstr "完了"
@@ -718,6 +721,9 @@ msgstr "Digit 9"
 msgid "Disabled %s"
 msgstr "%s　無効"
 
+msgid "Do you want to override \"%s\"?"
+msgstr "\"%s\" を上書きしますか？"
+
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
 msgstr "この拡張機能をインストールしますか:\n"
@@ -827,9 +833,6 @@ msgstr "指数"
 msgid "Export"
 msgstr "エクスポート"
 
-msgid "Export "
-msgstr "エクスポート..."
-
 msgid "Export \"%s\" in %s"
 msgstr "\"%s\" を %s にエクスポート"
 
@@ -886,13 +889,13 @@ msgid "File Properties"
 msgstr "ファイルのプロパティ"
 
 msgid "file selected"
-msgstr "選択されたファイル"
+msgstr "ファイル選択"
 
 msgid "File Uploader"
 msgstr "ファイルのアップロード"
 
 msgid "files selected"
-msgstr "選択されたファイル"
+msgstr "ファイル選択"
 
 msgid "Filter"
 msgstr "フィルタ"
@@ -1015,7 +1018,7 @@ msgid "Hypertext markup language"
 msgstr ""
 
 msgid "I understand that this action is permanent."
-msgstr ""
+msgstr "削除を再確認"
 
 msgid "Identifier"
 msgstr "識別子"
@@ -1024,9 +1027,6 @@ msgid "If you do not wish to reset your password, just ignore this email and you
 msgstr "パスワードをリセットしたくない場合は、このメールを無視してください。パスワードは変更されません。"
 
 msgid "Import"
-msgstr "インポート"
-
-msgid "Import "
 msgstr "インポート"
 
 msgid "Import a %s into \"%s"
@@ -1066,11 +1066,11 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr "タスクステータスを更新できません"
 
-msgid "In Progress"
-msgstr "処理中"
-
 msgid "In progress"
 msgstr "実施中"
+
+msgid "In Progress"
+msgstr "処理中"
 
 msgid "Inclusive (AND)"
 msgstr "包括（AND)"
@@ -1220,7 +1220,7 @@ msgid "List - Multiple choice - Check box"
 msgstr "リスト-多肢選択-チェックボックス"
 
 msgid "List - Multiple choice - Search input"
-msgstr ""
+msgstr "リスト-多肢選択-検索入力"
 
 msgid "List - Single choice - Drop down"
 msgstr "リスト-択一-ドロップダウン"
@@ -1229,7 +1229,7 @@ msgid "List - Single choice - Radio button"
 msgstr "リスト-択一-ラジオボタン"
 
 msgid "List - Single choice - Search input"
-msgstr ""
+msgstr "リスト-択一-検索入力"
 
 msgid "List values"
 msgstr ""
@@ -1327,10 +1327,10 @@ msgid "Media resize along with their container, e.g. 50% means half of the conta
 msgstr "メディアのサイズをコンテナと一緒に変更します。例：50%とは、メディアサイズが50％ではなく、コンテナサイズが50％を意味します。"
 
 msgid "Message"
-msgstr "メッセージ"
+msgstr "記録"
 
 msgid "Messages"
-msgstr "メッセージ"
+msgstr "記録"
 
 msgid "Metadata export is not available for the selected resource."
 msgstr "選択したリソースのメタデータのエクスポートはできません"
@@ -1524,6 +1524,9 @@ msgstr ""
 msgid "Not started"
 msgstr "開始していません"
 
+msgid "NotEmpty"
+msgstr "空を認めない"
+
 msgid "Nothing imported"
 msgstr "何もインポートされていません"
 
@@ -1558,10 +1561,10 @@ msgstr ""
 msgid "Ogg Vorbis video"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
 msgid "Old Password"
@@ -1688,7 +1691,7 @@ msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "バグの報告やアイデア，コメントなどTAOフォーラムにフィードバックしてください"
 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
+msgstr "画像ファイルを選択してください。「ファイル追加」ボタンで画像を追加できます。"
 
 msgid "Please set 'min' and/or 'max' options!"
 msgstr ""
@@ -1975,10 +1978,10 @@ msgstr "セキュリティ"
 msgid "Security settings"
 msgstr "セキュリティ設定"
 
-msgid "Select"
+msgid "select"
 msgstr "選択"
 
-msgid "select"
+msgid "Select"
 msgstr "選択"
 
 msgid "Select a class"
@@ -2223,7 +2226,7 @@ msgid "The lock has been released"
 msgstr "ロックが解除されました"
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
-msgstr "ソースフォルダーのプロパティは、対象クラスのプロパティに置き換えられます。これにより、メタデータが失われる可能性があります。続けますか？"
+msgstr "元のクラスプロパティは，移動先のクラスプロパティに置き換えられます。これにより、メタデータが失われる可能性があります。続けますか？"
 
 msgid "The selected value(s) must be compatible with the primary property."
 msgstr ""
@@ -2342,7 +2345,7 @@ msgstr "翻訳は保存されました"
 msgid "Transport Layer Security"
 msgstr ""
 
-msgid "Tree - Multiple node choice "
+msgid "Tree - Multiple node choice"
 msgstr "ツリー-複数ノード選択"
 
 msgid "Tree values"
@@ -2421,10 +2424,10 @@ msgid "Unauthorized files have been removed"
 msgstr "許可されていないファイルが削除されました。"
 
 msgid "Uncheck All"
-msgstr "全て無効"
+msgstr "全てチェックを外す"
 
 msgid "Uncheck all"
-msgstr "全て無効"
+msgstr "全てチェックを外す"
 
 msgid "Undefined amount of the pages for pagination"
 msgstr "ページネーションのための未定義のページ数"
