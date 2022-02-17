@@ -34,11 +34,7 @@ define([
     'use strict';
 
     function hasRequiredProperties(response) {
-        return response &&
-            typeof response.success !== 'undefined' &&
-            typeof response.type !== 'undefined' &&
-            typeof response.message !== 'undefined' &&
-            typeof response.data !== 'undefined'
+        return typeof response !== 'undefined' && !['success', 'type', 'message', 'data'].some(key => typeof response[key] === 'undefined');
     }
 
     /**
