@@ -135,7 +135,7 @@ class tao_actions_Export extends tao_actions_CommonModule
         $this->setData('export_module', $context->getModuleName());
         $this->setData('export_action', $context->getActionName());
 
-        $this->setData('formTitle', __('Export '));
+        $this->setData('formTitle', __('Export'));
         $this->setView('form/export.tpl', 'tao');
     }
 

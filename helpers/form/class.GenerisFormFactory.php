@@ -209,7 +209,6 @@ class tao_helpers_form_GenerisFormFactory
                     break;
                 }
 
-
                 $allParentClasses = $parentClass->getParentClasses(true);
                 if (array_key_exists($topLevelClazz->getUri(), $allParentClasses)) {
                      $parents[$parentClass->getUri()] = $parentClass;
@@ -313,7 +312,7 @@ class tao_helpers_form_GenerisFormFactory
                 'depends-on-property' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
             ],
             'multiplenodetree' => [
-                'title' => __('Tree - Multiple node choice '),
+                'title' => __('Tree - Multiple node choice'),
                 'widget' => TreeBox::WIDGET_ID,
                 'range' => OntologyRdfs::RDFS_RESOURCE,
                 'multiple' => GenerisRdf::GENERIS_TRUE,

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2021.11\n"
-"PO-Revision-Date: 2022-01-27T17:47:52\n"
+"PO-Revision-Date: 2022-02-16T11:35:09\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -9,6 +9,36 @@ msgstr ""
 "targetLanguage: ja-JP\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+# http://www.w3.org/2000/01/rdf-schema#label
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Label"
+msgstr "ラベル"
+
+# http://www.w3.org/2000/01/rdf-schema#label
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "A human-readable name for the subject."
+msgstr ""
+
+# http://www.tao.lu/Ontologies/generis.rdf#alias
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Alias"
+msgstr "エイリアス"
+
+# http://www.tao.lu/Ontologies/generis.rdf#alias
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Alias to be used when publishing a remote delivery"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Is language dependent?"
+msgstr "言語に依存"
+
+# http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "is_language_dependent"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
