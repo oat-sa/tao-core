@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\helpers\form\Feeder;
 
+use RuntimeException;
 use tao_helpers_form_Form;
 use tao_helpers_form_Validator;
 use tao_helpers_form_FormElement;
@@ -32,8 +33,14 @@ interface SanitizerValidationFeederInterface
 
     public function setForm(tao_helpers_form_Form $form): self;
 
+    /**
+     * @throws RuntimeException
+     */
     public function addElement(tao_helpers_form_FormElement $element): self;
 
+    /**
+     * @throws RuntimeException
+     */
     public function addElementByUri(string $elementUri): self;
 
     public function feed(): void;

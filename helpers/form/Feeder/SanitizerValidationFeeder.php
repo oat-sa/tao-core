@@ -63,6 +63,9 @@ class SanitizerValidationFeeder implements SanitizerValidationFeederInterface
         return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function addElement(tao_helpers_form_FormElement $element): SanitizerValidationFeederInterface
     {
         $this->checkFormAvailability();
@@ -74,6 +77,9 @@ class SanitizerValidationFeeder implements SanitizerValidationFeederInterface
         return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function addElementByUri(string $elementUri): SanitizerValidationFeederInterface
     {
         $this->checkFormAvailability();
