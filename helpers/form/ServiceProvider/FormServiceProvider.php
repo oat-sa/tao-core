@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\helpers\form\ServiceProvider;
 
+use tao_helpers_form_validators_Regex;
+use oat\tao\helpers\form\Feeder\SanitizerValidationFeeder;
 use oat\tao\helpers\form\Factory\ElementPropertyEmptyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementPropertyListValuesFactory;
 use oat\tao\helpers\form\Factory\ElementPropertyTypeFactory;
@@ -73,7 +75,29 @@ class FormServiceProvider implements ContainerServiceProviderInterface
                 ]
             );
 
+        $services->set(DependencyPropertyWidgetSpecification::class, DependencyPropertyWidgetSpecification::class);
+
         $services
-            ->set(DependencyPropertyWidgetSpecification::class, DependencyPropertyWidgetSpecification::class);
+            ->set(tao_helpers_form_validators_Regex::USER_FORM_SERVICE_ID, tao_helpers_form_validators_Regex::class)
+            ->public()
+            ->args(
+                [
+                    [
+                        'isPreValidationRequired' => true,
+                        'format' => '/^[^"\'<>\\/]+$/',
+                        'message' => 'Field must not contain the following characters: ", \', \, /, <, >',
+                    ]
+                ]
+            );
+
+        $services
+            ->set(SanitizerValidationFeeder::USER_FORM_SERVICE_ID, SanitizerValidationFeeder::class)
+            ->public()
+            ->call(
+                'addValidator',
+                [
+                    service(tao_helpers_form_validators_Regex::USER_FORM_SERVICE_ID),
+                ]
+            );
     }
 }

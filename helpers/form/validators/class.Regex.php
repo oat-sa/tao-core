@@ -29,6 +29,8 @@ use oat\tao\helpers\form\validators\PreliminaryValidationInterface;
  */
 class tao_helpers_form_validators_Regex extends tao_helpers_form_Validator implements PreliminaryValidationInterface
 {
+    public const USER_FORM_SERVICE_ID = self::class . '::USER_FORM';
+
     public function isPreValidationRequired(): bool
     {
         return $this->getOption('isPreValidationRequired', false);
