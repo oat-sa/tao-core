@@ -23,7 +23,9 @@ declare(strict_types=1);
 namespace oat\tao\helpers\form\Feeder;
 
 use tao_helpers_Uri;
+use RuntimeException;
 use tao_helpers_form_Form;
+use InvalidArgumentException;
 use tao_helpers_form_Validator;
 use tao_helpers_form_FormElement;
 use tao_helpers_form_elements_Textbox;
@@ -31,18 +33,28 @@ use tao_helpers_form_elements_Textarea;
 
 class SanitizerValidationFeeder implements SanitizerValidationFeederInterface
 {
-    public const USER_FORM_SERVICE_ID = self::class . '::USER_FORM';
-
     private const ALLOWED_WIDGETS = [
         tao_helpers_form_elements_Textbox::WIDGET_ID,
         tao_helpers_form_elements_Textarea::WIDGET_ID,
     ];
+
+    /** @var tao_helpers_form_Form */
+    private $form;
 
     /** @var tao_helpers_form_Validator[] */
     private $validators = [];
 
     /** @var tao_helpers_form_FormElement[] */
     private $elements = [];
+
+    public function setForm(tao_helpers_form_Form $form): SanitizerValidationFeederInterface
+    {
+        $this->reset();
+
+        $this->form = $form;
+
+        return $this;
+    }
 
     public function addValidator(tao_helpers_form_Validator $validator): SanitizerValidationFeederInterface
     {
@@ -53,19 +65,23 @@ class SanitizerValidationFeeder implements SanitizerValidationFeederInterface
 
     public function addElement(tao_helpers_form_FormElement $element): SanitizerValidationFeederInterface
     {
-        if (in_array($element->getWidget(), self::ALLOWED_WIDGETS, true)) {
+        $this->checkFormAvailability();
+
+        if ($this->isElementValid($element) && $this->form->hasElement(tao_helpers_Uri::encode($element->getName()))) {
             $this->elements[] = $element;
         }
 
         return $this;
     }
 
-    public function addFormElement(tao_helpers_form_Form $form, string $elementUri): SanitizerValidationFeederInterface
+    public function addElementByUri(string $elementUri): SanitizerValidationFeederInterface
     {
-        $element = $form->getElement(tao_helpers_Uri::encode($elementUri));
+        $this->checkFormAvailability();
 
-        if ($element !== null) {
-            $this->addElement($element);
+        $element = $this->form->getElement(tao_helpers_Uri::encode($elementUri));
+
+        if ($element !== null && $this->isElementValid($element)) {
+            $this->elements[] = $element;
         }
 
         return $this;
@@ -78,7 +94,7 @@ class SanitizerValidationFeeder implements SanitizerValidationFeederInterface
         }
 
         foreach ($this->elements as $element) {
-            if ($this->getValue($element) === null) {
+            if (empty($this->getValue($element))) {
                 continue;
             }
 
@@ -86,14 +102,28 @@ class SanitizerValidationFeeder implements SanitizerValidationFeederInterface
                 $element->addValidator($validator);
             }
         }
-
-
     }
 
     private function getValue(tao_helpers_form_FormElement $element): ?string
     {
-        $element->feedInputValue();
-
         return $element->getInputValue() ?? $element->getRawValue();
+    }
+
+    private function reset(): void
+    {
+        $this->validators = [];
+        $this->elements = [];
+    }
+
+    private function checkFormAvailability(): void
+    {
+        if (!isset($this->form)) {
+            throw new RuntimeException('Cannot add element because form is not set');
+        }
+    }
+
+    private function isElementValid(tao_helpers_form_FormElement $element): bool
+    {
+        return in_array($element->getWidget(), self::ALLOWED_WIDGETS, true);
     }
 }

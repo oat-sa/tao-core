@@ -23,13 +23,18 @@ declare(strict_types=1);
 namespace oat\tao\helpers\form\Feeder;
 
 use tao_helpers_form_Form;
+use tao_helpers_form_Validator;
 use tao_helpers_form_FormElement;
 
 interface SanitizerValidationFeederInterface
 {
+    public function addValidator(tao_helpers_form_Validator $validator): self;
+
+    public function setForm(tao_helpers_form_Form $form): self;
+
     public function addElement(tao_helpers_form_FormElement $element): self;
 
-    public function addFormElement(tao_helpers_form_Form $form, string $elementUri): self;
+    public function addElementByUri(string $elementUri): self;
 
     public function feed(): void;
 }
