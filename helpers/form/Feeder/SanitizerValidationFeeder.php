@@ -49,8 +49,6 @@ class SanitizerValidationFeeder implements SanitizerValidationFeederInterface
 
     public function setForm(tao_helpers_form_Form $form): SanitizerValidationFeederInterface
     {
-        $this->reset();
-
         $this->form = $form;
 
         return $this;
@@ -68,7 +66,7 @@ class SanitizerValidationFeeder implements SanitizerValidationFeederInterface
      */
     public function addElement(tao_helpers_form_FormElement $element): SanitizerValidationFeederInterface
     {
-        $this->checkFormAvailability();
+        $this->assertHasForm();
 
         if ($this->isElementValid($element) && $this->form->hasElement(tao_helpers_Uri::encode($element->getName()))) {
             $this->elements[] = $element;
@@ -82,7 +80,7 @@ class SanitizerValidationFeeder implements SanitizerValidationFeederInterface
      */
     public function addElementByUri(string $elementUri): SanitizerValidationFeederInterface
     {
-        $this->checkFormAvailability();
+        $this->assertHasForm();
 
         $element = $this->form->getElement(tao_helpers_Uri::encode($elementUri));
 
@@ -115,13 +113,7 @@ class SanitizerValidationFeeder implements SanitizerValidationFeederInterface
         return $element->getInputValue() ?? $element->getRawValue();
     }
 
-    private function reset(): void
-    {
-        $this->validators = [];
-        $this->elements = [];
-    }
-
-    private function checkFormAvailability(): void
+    private function assertHasForm(): void
     {
         if (!isset($this->form)) {
             throw new RuntimeException('Cannot add element because form is not set');

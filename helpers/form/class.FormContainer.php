@@ -163,6 +163,34 @@ abstract class tao_helpers_form_FormContainer
         return $this->form;
     }
 
+    public function addSanitizerValidator(tao_helpers_form_Validator $validator, array $elements): self
+    {
+        $this->getSanitizerValidationFeeder()->addValidator($validator);
+
+        foreach ($elements as $element) {
+            if ($element instanceof tao_helpers_form_FormElement) {
+                $this->getSanitizerValidationFeeder()->addElement($element);
+
+                continue;
+            }
+
+            if (is_string($element)) {
+                $this->getSanitizerValidationFeeder()->addElementByUri($element);
+
+                continue;
+            }
+
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Element provided to sanitizer must be an instance of %s or a string',
+                    tao_helpers_form_FormElement::class
+                )
+            );
+        }
+
+        return $this;
+    }
+
     /**
      * Must be overridden and must instantiate the form instance and put it in
      * form attribute
@@ -277,7 +305,7 @@ abstract class tao_helpers_form_FormContainer
         }
     }
 
-    protected function getSanitizerValidationFeeder(): SanitizerValidationFeederInterface
+    private function getSanitizerValidationFeeder(): SanitizerValidationFeederInterface
     {
         if (!isset($this->sanitizerValidationFeeder)) {
             $this->sanitizerValidationFeeder = ServiceManager::getServiceManager()->getContainer()->get(

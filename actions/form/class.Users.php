@@ -225,12 +225,15 @@ class tao_actions_form_Users extends SignedFormInstance
             }
         }
 
-        $this->getSanitizerValidationFeeder()
-            ->addValidator($this->getSanitizerRegexValidator())
-            ->addElementByUri(OntologyRdfs::RDFS_LABEL)
-            ->addElementByUri(UserRdf::PROPERTY_LOGIN)
-            ->addElementByUri(UserRdf::PROPERTY_FIRSTNAME)
-            ->addElementByUri(UserRdf::PROPERTY_LASTNAME);
+        $this->addSanitizerValidator(
+            $this->getSanitizerRegexValidator(),
+            [
+                OntologyRdfs::RDFS_LABEL,
+                UserRdf::PROPERTY_LOGIN,
+                UserRdf::PROPERTY_FIRSTNAME,
+                UserRdf::PROPERTY_LASTNAME,
+            ]
+        );
     }
 
     private function initLoginElement(): void

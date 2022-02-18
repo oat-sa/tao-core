@@ -92,6 +92,7 @@ class FormServiceProvider implements ContainerServiceProviderInterface
 
         $services
             ->set(SanitizerValidationFeeder::class, SanitizerValidationFeeder::class)
-            ->public();
+            ->public()
+            ->share(false);
     }
 }
