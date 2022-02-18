@@ -91,13 +91,7 @@ class FormServiceProvider implements ContainerServiceProviderInterface
             );
 
         $services
-            ->set(SanitizerValidationFeeder::USER_FORM_SERVICE_ID, SanitizerValidationFeeder::class)
-            ->public()
-            ->call(
-                'addValidator',
-                [
-                    service(tao_helpers_form_validators_Regex::USER_FORM_SERVICE_ID),
-                ]
-            );
+            ->set(SanitizerValidationFeeder::class, SanitizerValidationFeeder::class)
+            ->public();
     }
 }

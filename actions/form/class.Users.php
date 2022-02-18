@@ -22,14 +22,11 @@
 
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\user\UserRdf;
-use Psr\Container\ContainerInterface;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\ApplicationHelper;
 use oat\tao\model\controller\SignedFormInstance;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\generis\model\user\PasswordConstraintsService;
-use oat\tao\helpers\form\Feeder\SanitizerValidationFeeder;
-use oat\tao\helpers\form\Feeder\SanitizerValidationFeederInterface;
 
 /**
  * This container initialize the user edition form.
@@ -229,11 +226,11 @@ class tao_actions_form_Users extends SignedFormInstance
         }
 
         $this->getSanitizerValidationFeeder()
-            ->addFormElement($this->form, OntologyRdfs::RDFS_LABEL)
-            ->addFormElement($this->form, UserRdf::PROPERTY_LOGIN)
-            ->addFormElement($this->form, UserRdf::PROPERTY_FIRSTNAME)
-            ->addFormElement($this->form, UserRdf::PROPERTY_LASTNAME)
-            ->feed();
+            ->addValidator($this->getSanitizerRegexValidator())
+            ->addElementByUri(OntologyRdfs::RDFS_LABEL)
+            ->addElementByUri(UserRdf::PROPERTY_LOGIN)
+            ->addElementByUri(UserRdf::PROPERTY_FIRSTNAME)
+            ->addElementByUri(UserRdf::PROPERTY_LASTNAME);
     }
 
     private function initLoginElement(): void
@@ -268,18 +265,10 @@ class tao_actions_form_Users extends SignedFormInstance
         ]);
     }
 
-    private function getSanitizerValidationFeeder(): SanitizerValidationFeederInterface
-    {
-        return $this->getContainer()->get(SanitizerValidationFeeder::USER_FORM_SERVICE_ID);
-    }
-
     private function getSanitizerRegexValidator(): tao_helpers_form_Validator
     {
-        return $this->getContainer()->get(tao_helpers_form_validators_Regex::USER_FORM_SERVICE_ID);
-    }
-
-    private function getContainer(): ContainerInterface
-    {
-        return ServiceManager::getServiceManager()->getContainer();
+        return ServiceManager::getServiceManager()->getContainer()->get(
+            tao_helpers_form_validators_Regex::USER_FORM_SERVICE_ID
+        );
     }
 }
