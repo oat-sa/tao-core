@@ -86,6 +86,28 @@ class NotifyImportServiceTest extends TestCase
         $this->sut
             ->addResource($resource)
             ->notify();
+
+        $resources = new \ReflectionProperty($this->sut, 'resources');
+        $resources->setAccessible(true);
+
+        $this->assertCount(0, $resources->getValue($this->sut));
+    }
+
+    public function testCannotAddSameResourceTwice(): void
+    {
+        $resource = $this->createMock(core_kernel_classes_Resource::class);
+        $resource->expects($this->exactly(3))
+            ->method('getUri')
+            ->willReturn('uri');
+
+        $this->sut->addResource($resource);
+        $this->sut->addResource($resource);
+        $this->sut->addResource($resource);
+
+        $resources = new \ReflectionProperty($this->sut, 'resources');
+        $resources->setAccessible(true);
+
+        $this->assertCount(1, $resources->getValue($this->sut));
     }
 
     public function testIfNotifyExceedsRetriesThrowsException(): void
