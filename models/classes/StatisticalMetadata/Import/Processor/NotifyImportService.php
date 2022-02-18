@@ -113,6 +113,8 @@ class NotifyImportService
             throw new UserErrorException(
                 __('Unable to sync statistical data. Please, contact the system administrator for more details')
             );
+        } finally {
+            $this->resources = [];
         }
     }
 
