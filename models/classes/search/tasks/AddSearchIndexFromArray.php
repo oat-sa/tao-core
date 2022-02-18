@@ -37,9 +37,10 @@ use oat\generis\model\OntologyAwareTrait;
  * @author Aleksej Tikhanovich <aleksej@taotesting.com>
  * @package oat\tao\model\search\tasks
  */
-class AddSearchIndexFromArray implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
+class AddSearchIndexFromArray
+    extends AbstractSearchTask
+    implements Action, TaskAwareInterface
 {
-    use ServiceLocatorAwareTrait;
     use OntologyAwareTrait;
     use TaskAwareTrait;
 
@@ -54,21 +55,26 @@ class AddSearchIndexFromArray implements Action, ServiceLocatorAwareInterface, T
         if (count($params) < 2) {
             throw new \common_exception_MissingParameter();
         }
-        $id = array_shift($params);
-        $body = array_shift($params);
-        /** @var IndexService $indexService */
-        $indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
 
-        $report = new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Adding search index for %s', $id));
+        list($id, $body) = $params;
+
+        $report = $this->buildSuccessReport(
+            __('Adding search index for %s', $id)
+        );
 
         try {
-            $document = $indexService->createDocumentFromArray([
+            $document = $this->getIndexService()->createDocumentFromArray([
                 'id' => $id,
                 'body' => $body
             ]);
-            SearchService::getSearchImplementation()->index([$document]);
+
+            $this->getSearchService()->index([$document]);
         } catch (\Exception $e) {
-            $report->add(new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Error adding search index for %s with message %s', $id, $e->getMessage())));
+            $report->add(
+                $this->buildErrorReport(
+                    __('Error adding search index for %s with message %s', $id, $e->getMessage())
+                )
+            );
         }
 
         return $report;

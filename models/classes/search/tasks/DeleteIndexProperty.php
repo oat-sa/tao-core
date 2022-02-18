@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -22,25 +22,25 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\tasks;
 
-use common_report_Report;
 use core_kernel_classes_Class;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerAwareTrait;
-use oat\tao\model\search\index\IndexUpdaterInterface;
+use oat\oatbox\reporting\ReportInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
+class DeleteIndexProperty
+    extends AbstractSearchTask
+    implements Action, TaskAwareInterface
 {
-    use ServiceLocatorAwareTrait;
     use TaskAwareTrait;
     use LoggerAwareTrait;
     use IndexTrait;
 
-    public function __invoke($params): common_report_Report
+    public function __invoke($params): ReportInterface
     {
         [$class, $propertyName] = $params;
 
@@ -54,19 +54,17 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
         $this->logInfo('Removing property from index');
 
         try {
-            $this->getServiceLocator()
-                ->get(IndexUpdaterInterface::SERVICE_ID)
-                ->deleteProperty($propertyData);
+            $this->getIndexUpdater()->deleteProperty($propertyData);
         } catch (Throwable $exception) {
             $message = 'Failed to remove class property from search index';
             $this->logError($message);
 
-            return common_report_Report::createFailure(__($message));
+            return $this->buildErrorReport(__($message));
         }
 
         $message = 'Class property removed successfully.';
         $this->logInfo($message);
 
-        return common_report_Report::createSuccess(__($message));
+        return $this->buildSuccessReport(__($message));
     }
 }

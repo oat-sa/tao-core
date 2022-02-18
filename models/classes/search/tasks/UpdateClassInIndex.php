@@ -27,20 +27,18 @@ use common_exception_MissingParameter;
 use oat\oatbox\reporting\Report;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
-use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\search\index\IndexIteratorFactory;
-use oat\tao\model\search\SearchProxy;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class UpdateClassInIndex implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
+class UpdateClassInIndex
+    extends AbstractSearchTask
+    implements Action, TaskAwareInterface
 {
-    use ServiceLocatorAwareTrait;
     use OntologyAwareTrait;
     use TaskAwareTrait;
-    use LoggerAwareTrait;
 
     /** @var IndexIteratorFactory */
     private $indexIteratorFactory;
@@ -60,23 +58,27 @@ class UpdateClassInIndex implements Action, ServiceLocatorAwareInterface, TaskAw
             throw new common_exception_MissingParameter();
         }
 
-        /** @var SearchProxy $searchService */
-        $searchService = $this->getServiceLocator()->get(SearchProxy::SERVICE_ID);
-        $numberOfIndexedResources = $searchService->index(
+        $count = $this->getSearchService()->index(
             $this->getIndexIteratorFactory()->create($params)
         );
 
-        $this->logInfo($numberOfIndexedResources . ' resources have been indexed by ' . static::class);
+        $this->logInfo(
+            sprintf(
+                '%d resources have been indexed by %s',
+                $count,
+                static::class
+            )
+        );
 
-        $type = Report::TYPE_SUCCESS;
-        $message = "Documents in index were successfully updated.";
-
-        if ($numberOfIndexedResources < 1) {
-            $type = Report::TYPE_INFO;
-            $message = "Zero documents were added/updated in index.";
+        if ($count < 1) {
+            return $this->buildInformationReport(
+                "Zero documents were added/updated in index."
+            );
         }
 
-        return new Report($type, $message);
+        return $this->buildSuccessReport(
+            "Documents in index were successfully updated."
+        );
     }
 
     private function getIndexIteratorFactory(): IndexIteratorFactory

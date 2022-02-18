@@ -28,20 +28,18 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
-use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\elasticsearch\Exception\FailToUpdatePropertiesException;
-use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class UpdateDataAccessControlInIndex implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
+class UpdateDataAccessControlInIndex
+    extends AbstractSearchTask
+    implements Action, TaskAwareInterface
 {
-    use ServiceLocatorAwareTrait;
     use OntologyAwareTrait;
     use TaskAwareTrait;
-    use LoggerAwareTrait;
     use IndexTrait {
         getParentClasses as getParentClassesOfClass;
     }
@@ -67,23 +65,26 @@ class UpdateDataAccessControlInIndex implements Action, ServiceLocatorAwareInter
 
         $parentClasses = $this->getParentClasses($resource);
 
-        /** @var IndexUpdaterInterface $indexUpdater */
-        $indexUpdater = $this->getServiceLocator()->get(IndexUpdaterInterface::SERVICE_ID);
-
-        $type = Report::TYPE_SUCCESS;
-        $message = 'Documents in index were successfully updated.';
         $logMessage = 'Data Access Control were being updated by ' . static::class;
 
         try {
-            $indexUpdater->updatePropertyValue($resourceUri, $parentClasses, self::READ_ACCESS_PROPERTY, $newPermissions);
-        } catch (FailToUpdatePropertiesException $exception) {
-            $type = Report::TYPE_ERROR;
-            $message = 'Failed during update search index';
-            $logMessage = 'Data Access Control failure: ' . $exception->getMessage();
-        }
+            $this->getIndexUpdater()->updatePropertyValue(
+                $resourceUri,
+                $parentClasses,
+                self::READ_ACCESS_PROPERTY,
+                $newPermissions
+            );
 
-        $this->logInfo($logMessage);
-        return new Report($type, $message);
+            $this->logInfo($logMessage);
+            return $this->buildSuccessReport(
+                'Documents in index were successfully updated'
+            );
+        } catch (FailToUpdatePropertiesException $exception) {
+            $this->logError(
+                'Data Access Control failure: ' . $exception->getMessage()
+            );
+            return $this->buildErrorReport('Failed during update search index');
+        }
     }
 
     /**
@@ -108,6 +109,7 @@ class UpdateDataAccessControlInIndex implements Action, ServiceLocatorAwareInter
         foreach ($resource->getTypes() as $type) {
             $parentClasses = array_merge($parentClasses, [$type->getUri()], $this->getParentClassesOfClass($type));
         }
+
         return $parentClasses;
     }
 }

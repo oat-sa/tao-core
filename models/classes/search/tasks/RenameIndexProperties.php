@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -26,19 +26,18 @@ use common_report_Report;
 use core_kernel_classes_Property;
 use core_kernel_persistence_Exception;
 use oat\oatbox\action\Action;
-use oat\oatbox\log\LoggerAwareTrait;
-use oat\tao\model\search\index\IndexUpdaterInterface;
+use oat\oatbox\reporting\ReportInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Throwable;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
+class RenameIndexProperties
+    extends AbstractSearchTask
+    implements Action, TaskAwareInterface
 {
-    use ServiceLocatorAwareTrait;
     use TaskAwareTrait;
-    use LoggerAwareTrait;
     use IndexTrait;
 
     /**
@@ -48,7 +47,7 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
      * @throws common_Exception
      * @throws core_kernel_persistence_Exception
      */
-    public function __invoke($properties): common_report_Report
+    public function __invoke($properties): ReportInterface
     {
         $indexProperties = [];
         foreach ($properties as $propertyData) {
@@ -93,22 +92,19 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
             ];
         }
 
-        $this->logInfo('Indexing properties');
-
         try {
-            /** @var IndexUpdaterInterface $indexUpdater */
-            $indexUpdater = $this->getServiceLocator()->get(IndexUpdaterInterface::SERVICE_ID);
-            $indexUpdater->updatePropertiesName($indexProperties);
+            $this->logInfo('Indexing properties');
+            $this->getIndexUpdater()->updatePropertiesName($indexProperties);
         } catch (Throwable $exception) {
             $message = 'Failed during update search index';
             $this->logError($message);
 
-            return common_report_Report::createFailure(__($message));
+            return $this->buildErrorReport(__($message));
         }
 
         $message = 'Search index was successfully updated.';
         $this->logInfo($message);
 
-        return common_report_Report::createSuccess(__($message));
+        return $this->buildSuccessReport(__($message));
     }
 }
