@@ -24,6 +24,7 @@ namespace oat\tao\model\search\tasks;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
+use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\Search;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
@@ -66,6 +67,14 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
 
         $numberOfIndexed = $searchService->index([$indexDocument]);
 
+        $data = [
+            'resourceUri' => $indexDocument->getId(),
+            'types' => $this->getResourceClasses($indexDocument),
+            'label' => $this->getResourceLabel($indexDocument),
+            'indexes' => $this->getIndexNames($indexDocument),
+            'numUpdated' => $numberOfIndexed,
+        ];
+
         if ($numberOfIndexed === 0) {
             $type = Report::TYPE_ERROR;
             $message = "Zero documents were added/updated in index.";
@@ -77,6 +86,31 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
             $message = "The number or indexed documents is different than the expected total";
         }
 
-        return new Report($type, $message);
+        return new Report($type, $message, $data);
+    }
+
+    private function getResourceClasses(IndexDocument $indexDocument): array
+    {
+        $body = $indexDocument->getBody();
+        if (isset($body['type']) && is_array($body['type'])) {
+            return $body['type'];
+        }
+
+        return [];
+    }
+
+    private function getResourceLabel(IndexDocument $indexDocument): ?string
+    {
+        $body = $indexDocument->getBody();
+        if (isset($body['label']) && is_string($body['label'])) {
+            return $body['label'];
+        }
+
+        return null;
+    }
+
+    private function getIndexNames(IndexDocument $indexDocument): array
+    {
+        return array_keys($indexDocument->getIndexProperties());
     }
 }
