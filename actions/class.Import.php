@@ -98,7 +98,7 @@ class tao_actions_Import extends tao_actions_CommonModule
 
     protected function getFormTitle(): string
     {
-        return __('Import ');
+        return __('Import');
     }
 
     /**
