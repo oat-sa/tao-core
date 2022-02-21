@@ -84,7 +84,7 @@ class FormServiceProvider implements ContainerServiceProviderInterface
                 [
                     [
                         'isPreValidationRequired' => true,
-                        'format' => '/^[^<>\\/;]+$/',
+                        'format' => '/^[^<>\\\\\/;]+$/',
                         'message' => 'Field must not contain the following characters: <, >, \, /, ;',
                     ]
                 ]
