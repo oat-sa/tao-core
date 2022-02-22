@@ -38,7 +38,7 @@ trait ValueFormatter
         $flags = (JSON_UNESCAPED_SLASHES
             | JSON_UNESCAPED_UNICODE
             | JSON_PARTIAL_OUTPUT_ON_ERROR
-            | JSON_INVALID_UTF8_SUBSTITUTE
+            | (defined('JSON_INVALID_UTF8_SUBSTITUTE') ? JSON_INVALID_UTF8_SUBSTITUTE : 0x0)
             | (is_array($value) && count($value) < 2 ? 0x0 : JSON_PRETTY_PRINT)
         );
 
