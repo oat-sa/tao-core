@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,6 +26,7 @@ use Psr\Log\LoggerTrait;
 class LogBuffer implements LoggerInterface
 {
     use LoggerTrait;
+    use ValueFormatter;
 
     private $buffer = [];
 
@@ -52,12 +54,12 @@ class LogBuffer implements LoggerInterface
     public function getFormattedBuffer(): string
     {
         $log = [];
-        foreach ($this->buffer as $message)  {
+        foreach ($this->getBuffer() as $message)  {
             $log[] = sprintf(
                 "%s: %s [%s]",
                 $message['level'] ?? '(unknown)',
                 $message['message'] ?? '(empty log message)',
-                isset($message['context']) ? print_r($message['context'], true) : ''
+                isset($message['context']) ? $this->formatValue($message['context']) : ''
             );
         }
 

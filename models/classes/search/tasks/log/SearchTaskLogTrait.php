@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,17 +20,19 @@
 
 namespace oat\tao\model\search\tasks\log;
 
+use oat\tao\elasticsearch\ElasticSearch;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\Search;
+use oat\tao\model\search\SearchProxy;
 use Psr\Log\LoggerInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use LoggerAwareInterface;
+use Psr\Log\LoggerAwareInterface;
 
 trait SearchTaskLogTrait
 {
-
-
+    use ValueFormatter;
 
     private function getErrorMessage(
         string $cause,
@@ -47,43 +50,18 @@ trait SearchTaskLogTrait
         );
     }
 
-    private function formatBody(IndexDocument $indexDocument): string
-    {
-        $buffer = [];
-        foreach ($indexDocument->getBody() as $property => $values) {
-            $buffer[] = "{$property} => {$this->formatValue($values)}";
-        }
-
-        return '   '.implode("\n   ", $buffer);
-    }
-
-    private function formatValue($value): string
-    {
-        $flags = (JSON_UNESCAPED_SLASHES
-                | JSON_UNESCAPED_UNICODE
-                | JSON_PARTIAL_OUTPUT_ON_ERROR
-                | JSON_INVALID_UTF8_SUBSTITUTE
-                | (is_array($value) && count($value) < 2 ? 0x0 : JSON_PRETTY_PRINT)
-            );
-
-        return sprintf('(%s) %s', gettype($value), json_encode($value, $flags));
-    }
-
     private function setupLogInterceptor(
         Search $service,
         LoggerInterface $interceptor
     ): ?LoggerInterface {
-        if ($service instanceof LoggerAwareInterface && is_callable([$service, 'getLogger'])) {
-            $formerLogger = $service->getLogger();
-            $service->setLogger($interceptor);
+        if ($this->isUsingAdvancedSearch($service)) {
+            // $service is an instance of SearchProxy
+            $interceptor->debug(
+                'Setting up logger for Advanced Search for '.
+                get_class($service)
+            );
 
-            if ($interceptor instanceof LogBuffer) {
-                //@todo We could also add a specific interface for loggers that
-                //      allow chained logging
-                $interceptor->setNextLogger($formerLogger);
-            }
-
-            return $formerLogger;
+            return $this->doSetupInterceptor($service->getAdvancedSearch(), $interceptor);
         }
 
         return null;
@@ -91,9 +69,69 @@ trait SearchTaskLogTrait
 
     private function removeLogInterceptor(Search $service, ?LoggerInterface $formerLogger): void
     {
+        // @todo Needs to be rewritten to take into account ES is wrapped into SearchProxy
         if ($formerLogger instanceof LoggerInterface) {
             $service->setLogger($formerLogger);
         }
+    }
+
+    private function doSetupInterceptor(
+        ElasticSearch $service,
+        LoggerInterface $interceptor
+    ): ?LoggerInterface {
+        $interceptor->debug(
+            "Setting up interceptor on an instance of ".
+            get_class($service)
+        );
+
+        if ($service instanceof LoggerAwareInterface && is_callable([$service, 'getLogger'])) {
+            $formerLogger = $service->getLogger();
+            $service->setLogger($interceptor);
+
+            $interceptor->debug(
+                sprintf('Logger %s set on an instance of %s',
+                    get_class($interceptor),
+                    get_class($service)
+                )
+            );
+
+            if ($interceptor instanceof LogBuffer) {
+                //@todo We could also add a specific interface for loggers that
+                //      allow chained logging
+                $interceptor->setNextLogger($formerLogger);
+            } else {
+                $interceptor->debug(
+                    sprintf('Not setting interceptor for %s: it is not an instanceof %s',
+                        get_class($interceptor),
+                        LogBuffer::class
+                    )
+                );
+            }
+
+            return $formerLogger;
+        } else {
+            $interceptor->debug(
+                sprintf(
+                    '%s does not support getLogger or is not an instance of %s',
+                    get_class($service),
+                    LoggerAwareInterface::class
+                )
+            );
+        }
+
+        return null;
+    }
+
+    private function isUsingAdvancedSearch(Search $service): bool
+    {
+        return $service instanceof SearchProxy
+            && $service->getAdvancedSearch() !== null
+            && $this->getAdvancedSearchChecker()->isEnabled();
+    }
+
+    private function getAdvancedSearchChecker(): AdvancedSearchChecker
+    {
+        return $this->getServiceLocator()->get(AdvancedSearchChecker::class);
     }
 
     private function getIndexNames(IndexDocument $indexDocument): array
