@@ -20,9 +20,17 @@
 namespace oat\tao\model\search\tasks\log;
 
 use oat\tao\model\search\index\IndexDocument;
+use oat\tao\model\search\Search;
+use Psr\Log\LoggerInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use LoggerAwareInterface;
 
 trait SearchTaskLogTrait
 {
+
+
+
     private function getErrorMessage(
         string $cause,
         IndexDocument $indexDocument,
@@ -30,13 +38,35 @@ trait SearchTaskLogTrait
     ): string
     {
         return sprintf(
-            '%s for documentId \'%s\' (indexes=\'%s\', doc body=\'%s\') log: %s',
+            "%s for ID '%s' \n- Indexes: '%s'\n- Document body:\n%s\n- Log: %s",
             $cause,
             $indexDocument->getId(),
             implode(', ', $this->getIndexNames($indexDocument)),
-            $indexDocument->getBody(),
+            $this->formatBody($indexDocument),
             $logBuffer->getFormattedBuffer()
         );
+    }
+
+    private function formatBody(IndexDocument $indexDocument): string
+    {
+        $buffer = [];
+        foreach ($indexDocument->getBody() as $property => $values) {
+            $buffer[] = "{$property} => {$this->formatValue($values)}";
+        }
+
+        return '   '.implode("\n   ", $buffer);
+    }
+
+    private function formatValue($value): string
+    {
+        $flags = (JSON_UNESCAPED_SLASHES
+                | JSON_UNESCAPED_UNICODE
+                | JSON_PARTIAL_OUTPUT_ON_ERROR
+                | JSON_INVALID_UTF8_SUBSTITUTE
+                | (is_array($value) && count($value) < 2 ? 0x0 : JSON_PRETTY_PRINT)
+            );
+
+        return sprintf('(%s) %s', gettype($value), json_encode($value, $flags));
     }
 
     private function setupLogInterceptor(

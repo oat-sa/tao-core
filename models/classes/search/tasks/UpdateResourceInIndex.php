@@ -24,7 +24,6 @@ namespace oat\tao\model\search\tasks;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
-use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\tasks\log\LogBuffer;
@@ -84,7 +83,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
             $message = $this->getErrorMessage(
                 'Expecting a single document to be indexed (got zero)',
                 $indexDocument,
-                $logBuffer->getBuffer()
+                $logBuffer
             );
         } else {
             $type = Report::TYPE_WARNING;
@@ -94,7 +93,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
                     $numberOfIndexed
                 ),
                 $indexDocument,
-                $logBuffer->getBuffer()
+                $logBuffer
             );
         }
 
