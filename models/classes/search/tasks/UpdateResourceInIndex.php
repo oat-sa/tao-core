@@ -27,6 +27,8 @@ use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\Search;
+use oat\tao\model\search\tasks\log\LogBuffer;
+use oat\tao\model\search\tasks\log\SearchTaskLogTrait;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -44,6 +46,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
     use ServiceLocatorAwareTrait;
     use OntologyAwareTrait;
     use TaskAwareTrait;
+    use SearchTaskLogTrait;
 
     public function __invoke($params): Report
     {
@@ -65,6 +68,9 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         /** @var Search $searchService */
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
 
+        $logBuffer = new LogBuffer();
+        $formerLogger = $this->setupLogInterceptor($searchService, $logBuffer);
+
         $numberOfIndexed = $searchService->index([$indexDocument]);
 
         if ($numberOfIndexed === 1) {
@@ -77,7 +83,8 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
             $type = Report::TYPE_ERROR;
             $message = $this->getErrorMessage(
                 'Expecting a single document to be indexed (got zero)',
-                $indexDocument
+                $indexDocument,
+                $logBuffer->getBuffer()
             );
         } else {
             $type = Report::TYPE_WARNING;
@@ -86,22 +93,14 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
                     'Expecting a single document to be indexed (got %d)',
                     $numberOfIndexed
                 ),
-                $indexDocument
+                $indexDocument,
+                $logBuffer->getBuffer()
             );
         }
 
-        return new Report($type, $message);
-    }
+        $this->removeLogInterceptor($searchService, $formerLogger);
 
-    private function getErrorMessage(string $cause, IndexDocument $indexDocument): string
-    {
-        return sprintf(
-            '%s for resource \'%s\' (indexes=\'%s\', document body=\'%s\')',
-            $cause,
-            $indexDocument->getId(),
-            implode(', ', $this->getIndexNames($indexDocument)),
-            $indexDocument->getBody()
-        );
+        return new Report($type, $message);
     }
 
     private function getIndexNames(IndexDocument $indexDocument): array
