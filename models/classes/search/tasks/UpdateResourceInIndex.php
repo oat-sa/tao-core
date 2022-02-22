@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2018-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -31,7 +31,7 @@ use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use \common_report_Report as Report;
+use common_report_Report as Report;
 
 /**
  * Class UpdateResourceInIndex
@@ -67,46 +67,41 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
 
         $numberOfIndexed = $searchService->index([$indexDocument]);
 
-        $data = [
-            'resourceUri' => $indexDocument->getId(),
-            'types' => $this->getResourceClasses($indexDocument),
-            'label' => $this->getResourceLabel($indexDocument),
-            'indexes' => $this->getIndexNames($indexDocument),
-            'numUpdated' => $numberOfIndexed,
-        ];
-
-        if ($numberOfIndexed === 0) {
-            $type = Report::TYPE_ERROR;
-            $message = "Zero documents were added/updated in index.";
-        } elseif ($numberOfIndexed === 1) {
+        if ($numberOfIndexed === 1) {
             $type = Report::TYPE_SUCCESS;
-            $message = "Document in index was successfully updated.";
+            $message = sprintf(
+                "Document in index was successfully updated for resource %s",
+                $indexDocument->getId()
+            );
+        } elseif ($numberOfIndexed === 0) {
+            $type = Report::TYPE_ERROR;
+            $message = $this->getErrorMessage(
+                'Expecting a single document to be indexed (got zero)',
+                $indexDocument
+            );
         } else {
             $type = Report::TYPE_WARNING;
-            $message = "The number or indexed documents is different than the expected total";
+            $message = $this->getErrorMessage(
+                sprintf(
+                    'Expecting a single document to be indexed (got %d)',
+                    $numberOfIndexed
+                ),
+                $indexDocument
+            );
         }
 
-        return new Report($type, $message, $data);
+        return new Report($type, $message);
     }
 
-    private function getResourceClasses(IndexDocument $indexDocument): array
+    private function getErrorMessage(string $cause, IndexDocument $indexDocument): string
     {
-        $body = $indexDocument->getBody();
-        if (isset($body['type']) && is_array($body['type'])) {
-            return $body['type'];
-        }
-
-        return [];
-    }
-
-    private function getResourceLabel(IndexDocument $indexDocument): ?string
-    {
-        $body = $indexDocument->getBody();
-        if (isset($body['label']) && is_string($body['label'])) {
-            return $body['label'];
-        }
-
-        return null;
+        return sprintf(
+            '%s for resource \'%s\' (indexes=\'%s\', document body=\'%s\')',
+            $cause,
+            $indexDocument->getId(),
+            implode(', ', $this->getIndexNames($indexDocument)),
+            $indexDocument->getBody()
+        );
     }
 
     private function getIndexNames(IndexDocument $indexDocument): array
