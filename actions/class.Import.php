@@ -78,7 +78,7 @@ class tao_actions_Import extends tao_actions_CommonModule
             $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
 
             $task = $queueDispatcher->createTask(
-                new ImportByHandler(),
+                $this->getImportByHandler(),
                 $this->createTaskData($importer, $importForm),
                 __('Import a %s into "%s"', $importer->getLabel(), $this->getCurrentClass()->getLabel())
             );
@@ -141,6 +141,11 @@ class tao_actions_Import extends tao_actions_CommonModule
         }
 
         return $this->availableHandlers;
+    }
+
+    protected function getImportByHandler(): ImportByHandler
+    {
+        return new ImportByHandler();
     }
 
     /**
