@@ -102,6 +102,4 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
 
         return new Report($type, $message);
     }
-
-
 }
