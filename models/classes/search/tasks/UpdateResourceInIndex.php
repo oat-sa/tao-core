@@ -103,8 +103,5 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         return new Report($type, $message);
     }
 
-    private function getIndexNames(IndexDocument $indexDocument): array
-    {
-        return array_keys($indexDocument->getIndexProperties());
-    }
+
 }

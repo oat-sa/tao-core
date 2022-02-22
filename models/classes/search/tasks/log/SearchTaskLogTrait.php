@@ -19,6 +19,8 @@
 
 namespace oat\tao\model\search\tasks\log;
 
+use oat\tao\model\search\index\IndexDocument;
+
 trait SearchTaskLogTrait
 {
     private function getErrorMessage(
@@ -62,5 +64,10 @@ trait SearchTaskLogTrait
         if ($formerLogger instanceof LoggerInterface) {
             $service->setLogger($formerLogger);
         }
+    }
+
+    private function getIndexNames(IndexDocument $indexDocument): array
+    {
+        return array_keys($indexDocument->getIndexProperties());
     }
 }
