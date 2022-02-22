@@ -23,6 +23,8 @@ declare(strict_types=1);
 use oat\tao\model\TaoOntology;
 use oat\tao\model\import\Form\MetadataImportForm;
 use oat\tao\model\import\service\AgnosticImportHandler;
+use oat\tao\model\task\ImportByHandler;
+use oat\tao\model\task\UnrelatedResourceImportByHandler;
 
 class tao_actions_MetadataImport extends tao_actions_Import
 {
@@ -48,6 +50,11 @@ class tao_actions_MetadataImport extends tao_actions_Import
         return [
             AgnosticImportHandler::class => AgnosticImportHandler::STATISTICAL_METADATA_SERVICE_ID,
         ];
+    }
+
+    protected function getImportByHandler(): ImportByHandler
+    {
+        return new UnrelatedResourceImportByHandler();
     }
 
     protected function getCurrentClass(): core_kernel_classes_Class
