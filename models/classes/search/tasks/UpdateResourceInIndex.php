@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,10 +25,10 @@ namespace oat\tao\model\search\tasks;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
+use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\Search;
-use oat\tao\model\search\tasks\log\LogBuffer;
-use oat\tao\model\search\tasks\log\SearchTaskLogTrait;
+use oat\tao\model\search\tasks\log\ValueFormatter;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -45,7 +46,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
     use ServiceLocatorAwareTrait;
     use OntologyAwareTrait;
     use TaskAwareTrait;
-    use SearchTaskLogTrait;
+    use ValueFormatter;
 
     public function __invoke($params): Report
     {
@@ -67,9 +68,6 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         /** @var Search $searchService */
         $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
 
-        $logBuffer = new LogBuffer();
-        $formerLogger = $this->setupLogInterceptor($searchService, $logBuffer);
-
         $numberOfIndexed = $searchService->index([$indexDocument]);
 
         if ($numberOfIndexed === 1) {
@@ -80,25 +78,31 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
             );
         } elseif ($numberOfIndexed === 0) {
             $type = Report::TYPE_ERROR;
-            $message = $this->getErrorMessage(
-                'Expecting a single document to be indexed (got zero)',
-                $indexDocument,
-                $logBuffer
+            $message = sprintf(
+                'Expecting one document to be indexed (got zero) for ID \'%s\''.
+                " \n- Indexes: '%s'\n- Document body:\n%s",
+                $indexDocument->getId(),
+                implode(', ', $this->getIndexNames($indexDocument)),
+                $this->formatBody($indexDocument)
             );
         } else {
             $type = Report::TYPE_WARNING;
-            $message = $this->getErrorMessage(
-                sprintf(
-                    'Expecting a single document to be indexed (got %d)',
-                    $numberOfIndexed
-                ),
-                $indexDocument,
-                $logBuffer
+            $message = sprintf(
+                'Expecting a single document to be indexed (got %d) for ID \'%s\''.
+                " \n- Indexes: '%s'\n- Document body:\n%s",
+                $numberOfIndexed,
+                $indexDocument->getId(),
+                implode(', ', $this->getIndexNames($indexDocument)),
+                $this->formatBody($indexDocument)
             );
         }
 
-        $this->removeLogInterceptor($searchService, $formerLogger);
-
         return new Report($type, $message);
+    }
+
+    // @todo To be removed, will log index names etc only in the library, not here
+    private function getIndexNames(IndexDocument $indexDocument): array
+    {
+        return array_keys($indexDocument->getIndexProperties());
     }
 }
