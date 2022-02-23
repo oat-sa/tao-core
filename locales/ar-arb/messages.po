@@ -2007,7 +2007,7 @@ msgstr "الملف الذي تم تحميله كبير جدًا (الحد الأ
 msgid "The value for the property \"%s\" must be unique."
 msgstr "يجب أن تكون قيمة الخاصية \"%s\" وحيدة."
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
 msgstr "يجب أن تكون قيمة هذا الحقل بتاريخ مضبوط ، على سبيل المثال YYYY-MM-DD"
 
 msgid "The value of this field must be an integer"

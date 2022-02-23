@@ -83,13 +83,16 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
         $returnValue = $this->getRawValue();
 
         if (is_numeric($returnValue)) {
-            return (int)$returnValue;
+            return $returnValue;
         }
 
         if (!empty($returnValue)) {
             $tz = new DateTimeZone(common_session_SessionManager::getSession()->getTimeZone());
-            $dt = new DateTime($returnValue, $tz);
-            $returnValue = $dt->getTimestamp() . '';
+            try {
+                $returnValue = (string) (new DateTime($returnValue, $tz))->getTimestamp();
+            } catch (Exception $e) {
+                $returnValue = '';
+            }
         }
 
         return $returnValue;
@@ -97,12 +100,10 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
 
     private function getDateOutput(): string
     {
-        if (empty($this->value)) {
-            return '';
-        }
+        $timeStamp = $this->getEvaluatedValue();
 
-        $timeStamp = is_numeric($this->getRawValue()) ? $this->getRawValue() : $this->getEvaluatedValue();
-
-        return _dh(tao_helpers_Date::displayeDate($timeStamp, tao_helpers_Date::FORMAT_DATEPICKER));
+        return !empty($timeStamp) ?
+            _dh(tao_helpers_Date::displayeDate($timeStamp, tao_helpers_Date::FORMAT_DATEPICKER)) :
+            '';
     }
 }
