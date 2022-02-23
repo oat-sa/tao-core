@@ -71,7 +71,7 @@ class tao_models_classes_export_RdfExporter extends Configurable implements tao_
      * @param array $formValues
      * @param string $destination
      * @return string
-     * @throws EasyRdf_Exception
+     * @throws \EasyRdf\Exception
      * @throws common_exception_Error
      * @throws Exception
      */
