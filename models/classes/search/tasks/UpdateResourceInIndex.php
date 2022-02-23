@@ -25,10 +25,8 @@ namespace oat\tao\model\search\tasks;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
-use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\Search;
-use oat\tao\model\search\tasks\log\ValueFormatter;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -46,7 +44,6 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
     use ServiceLocatorAwareTrait;
     use OntologyAwareTrait;
     use TaskAwareTrait;
-    use ValueFormatter;
 
     public function __invoke($params): Report
     {
@@ -79,30 +76,18 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         } elseif ($numberOfIndexed === 0) {
             $type = Report::TYPE_ERROR;
             $message = sprintf(
-                'Expecting one document to be indexed (got zero) for ID \'%s\''.
-                " \n- Indexes: '%s'\n- Document body:\n%s",
-                $indexDocument->getId(),
-                implode(', ', $this->getIndexNames($indexDocument)),
-                $this->formatBody($indexDocument)
+                'Expecting one document to be indexed (got zero) for ID \'%s\'',
+                $indexDocument->getId()
             );
         } else {
             $type = Report::TYPE_WARNING;
             $message = sprintf(
-                'Expecting a single document to be indexed (got %d) for ID \'%s\''.
-                " \n- Indexes: '%s'\n- Document body:\n%s",
+                'Expecting a single document to be indexed (got %d) for ID \'%s\'',
                 $numberOfIndexed,
-                $indexDocument->getId(),
-                implode(', ', $this->getIndexNames($indexDocument)),
-                $this->formatBody($indexDocument)
+                $indexDocument->getId()
             );
         }
 
         return new Report($type, $message);
-    }
-
-    // @todo To be removed, will log index names etc only in the library, not here
-    private function getIndexNames(IndexDocument $indexDocument): array
-    {
-        return array_keys($indexDocument->getIndexProperties());
     }
 }
