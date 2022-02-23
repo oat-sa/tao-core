@@ -123,7 +123,8 @@ class AbstractWorkerTest extends TestCase
      */
     private $queueDispatcherMock;
 
-    private TaskLanguageLoaderInterface $taskLanguageLoader;
+    /** @var TaskLanguageLoaderInterface|MockObject */
+    private $taskLanguageLoader;
 
     protected function setUp(): void
     {
@@ -331,7 +332,6 @@ class AbstractWorkerTest extends TestCase
             );
 
         $this->queue->expects($this->once())->method('acknowledge')->with($task);
-        $this->taskLanguageLoader->expects($this->once())->method('loadTranslations')->with($this->taskMock);
 
         $this->assertEquals(TaskLogInterface::STATUS_CANCELLED, $this->subject->processTask($task));
     }
@@ -352,7 +352,6 @@ class AbstractWorkerTest extends TestCase
 
         $this->loggerServiceMock->expects($this->exactly(2))->method('info');
         $this->sessionServiceMock->expects($this->once())->method('setSession');
-        $this->taskLanguageLoader->expects($this->once())->method('loadTranslations')->with($this->taskMock);
 
         $result = $this->subject->processTask($this->taskMock);
         $this->assertSame('unknown', $result);

@@ -17,48 +17,29 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
+ *               2022 (original work) Open Assessment Technologies SA.
  */
 
-use oat\generis\model\GenerisRdf;
-use oat\generis\model\user\PasswordConstraintsService;
-use oat\tao\helpers\ApplicationHelper;
+use oat\generis\model\OntologyRdfs;
 use oat\generis\model\user\UserRdf;
-use oat\oatbox\user\UserLanguageServiceInterface;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\helpers\ApplicationHelper;
 use oat\tao\model\controller\SignedFormInstance;
+use oat\oatbox\user\UserLanguageServiceInterface;
+use oat\generis\model\user\PasswordConstraintsService;
 
 /**
  * This container initialize the user edition form.
  *
- * @access public
  * @author Joel Bout, <joel.bout@tudor.lu>
- * @package tao
-
  */
 class tao_actions_form_Users extends SignedFormInstance
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    /**
-     * Short description of attribute user
-     *
-     * @access protected
-     * @var Resource
-     */
+    /** @var core_kernel_classes_Resource */
     protected $user;
 
-    /**
-     * Short description of attribute formName
-     *
-     * @access protected
-     * @var string
-     */
+    /** @var string */
     protected $formName = '';
-
-    // --- OPERATIONS ---
 
     /**
      * Short description of method __construct
@@ -107,7 +88,7 @@ class tao_actions_form_Users extends SignedFormInstance
             $options['excludedProperties'][] = UserRdf::PROPERTY_DEFLG;
         }
 
-        $options['topClazz'] = GenerisRdf::CLASS_GENERIS_USER;
+        $options['topClazz'] = UserRdf::CLASS_URI;
 
         parent::__construct($clazz, $this->user, $options);
     }
@@ -151,31 +132,18 @@ class tao_actions_form_Users extends SignedFormInstance
     protected function initElements()
     {
         if (!isset($this->options['mode'])) {
-            throw new Exception("Please set a mode into container options ");
+            throw new Exception('Please set a mode into container options');
         }
 
         parent::initElements();
 
-        //login field
-        $loginElement = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_LOGIN));
-        if ($this->options['mode'] === 'add') {
-            $loginElement->addValidators([
-                tao_helpers_form_FormFactory::getValidator('NotEmpty'),
-                tao_helpers_form_FormFactory::getValidator('Callback', [
-                    'object' => tao_models_classes_UserService::singleton(),
-                    'method' => 'loginAvailable',
-                    'message' => __('This Login is already in use')
-                ])
-            ]);
-        } else {
-            $loginElement->setAttributes(['readonly' => 'readonly', 'disabled' => 'disabled']);
-        }
+        $this->initLoginElement();
 
         //set default lang to the languages fields
         $langService = tao_models_classes_LanguageService::singleton();
         $userLangService = \oat\oatbox\service\ServiceManager::getServiceManager()->get(UserLanguageServiceInterface::class);
         if ($userLangService->isDataLanguageEnabled()) {
-            $dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_DEFLG));
+            $dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(UserRdf::PROPERTY_DEFLG));
             $dataLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
             $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
             $dataOptions = [];
@@ -185,7 +153,7 @@ class tao_actions_form_Users extends SignedFormInstance
             $dataLangElt->setOptions($dataOptions);
         }
 
-        $uiLangElt = $this->form->getElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_UILG));
+        $uiLangElt = $this->form->getElement(tao_helpers_Uri::encode(UserRdf::PROPERTY_UILG));
         $uiLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         $guiUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI);
         $guiOptions = [];
@@ -195,7 +163,7 @@ class tao_actions_form_Users extends SignedFormInstance
         $uiLangElt->setOptions($guiOptions);
 
         // roles field
-        $property = new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_ROLES);
+        $property = new core_kernel_classes_Property(UserRdf::PROPERTY_ROLES);
         $roles = $property->getRange()->getInstances(true);
         $rolesOptions = [];
         foreach ($roles as $r) {
@@ -211,7 +179,7 @@ class tao_actions_form_Users extends SignedFormInstance
         $rolesElt->setOptions($rolesOptions);
 
         // password field
-        $this->form->removeElement(tao_helpers_Uri::encode(GenerisRdf::PROPERTY_USER_PASSWORD));
+        $this->form->removeElement(tao_helpers_Uri::encode(UserRdf::PROPERTY_PASSWORD));
 
         if ($this->options['mode'] === 'add') {
             $pass1Element = tao_helpers_form_FormFactory::getElement('password1', 'Hiddenbox');
@@ -256,5 +224,54 @@ class tao_actions_form_Users extends SignedFormInstance
                 }
             }
         }
+
+        $this->addSanitizerValidator(
+            $this->getSanitizerRegexValidator(),
+            [
+                OntologyRdfs::RDFS_LABEL,
+                UserRdf::PROPERTY_LOGIN,
+                UserRdf::PROPERTY_FIRSTNAME,
+                UserRdf::PROPERTY_LASTNAME,
+            ]
+        );
+    }
+
+    private function initLoginElement(): void
+    {
+        /** @var tao_helpers_form_FormElement $element */
+        $element = $this->form->getElement(tao_helpers_Uri::encode(UserRdf::PROPERTY_LOGIN));
+
+        $element->feedInputValue();
+        $value = $element->getInputValue() ?? $element->getRawValue();
+
+        if ($this->options['mode'] !== 'add' && $this->getSanitizerRegexValidator()->evaluate($value)) {
+            $element->setAttributes(
+                [
+                    'readonly' => 'readonly',
+                    'disabled' => 'disabled',
+                ]
+            );
+
+            return;
+        }
+
+        $element->addValidators([
+            tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+            tao_helpers_form_FormFactory::getValidator(
+                'Callback',
+                [
+                    'object' => tao_models_classes_UserService::singleton(),
+                    'method' => 'loginAvailable',
+                    'message' => __('This Login is already in use'),
+                ]
+            )
+        ]);
+    }
+
+    private function getSanitizerRegexValidator(): tao_helpers_form_Validator
+    {
+        return ServiceManager::getServiceManager()->getContainer()->get(
+            tao_helpers_form_validators_Regex::USER_FORM_SERVICE_ID
+        );
     }
 }
