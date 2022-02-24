@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\import\ServiceProvider;
 
+use oat\oatbox\log\LoggerService;
 use oat\tao\model\upload\UploadService;
 use oat\tao\model\import\service\AgnosticImportHandler;
 use oat\tao\model\StatisticalMetadata\Import\Processor\ImportProcessor;
@@ -42,6 +43,12 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(UploadService::SERVICE_ID),
+                ]
+            )
+            ->call(
+                'setLogger',
+                [
+                    service(LoggerService::SERVICE_ID),
                 ]
             );
 
