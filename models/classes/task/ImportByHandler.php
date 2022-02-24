@@ -63,6 +63,13 @@ class ImportByHandler extends AbstractAction
         }
 
         if (!isset($params[self::PARAM_IMPORT_HANDLER]) || !class_exists($params[self::PARAM_IMPORT_HANDLER])) {
+            $this->logError(
+                sprintf(
+                    "Import handler '%s' is not valid",
+                    $params[self::PARAM_IMPORT_HANDLER] ?? ''
+                )
+            );
+
             throw new InvalidArgumentException('Please provide a valid import handler');
         }
 
