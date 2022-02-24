@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -53,12 +53,32 @@ class ExportByHandler extends AbstractAction
                     : Report::createFailure(__('Export failed.'));
             }
 
+            if(!$filePath) {
+                $this->logWarning(
+                    sprintf(
+                        "%s: File path is empty (value = '%s')",
+                        self::class,
+                        var_export($filePath, true)
+                    )
+                );
+            }
+
             if ($filePath && ($newFileName = $this->saveFileToStorage($filePath))) {
                 // set the new file name
                 $report->setData($newFileName);
+
+                $this->logDebug(sprintf("newFileName = '%s'", $newFileName));
             }
         } catch (\common_exception_UserReadableException $e) {
             $report = Report::createFailure($e->getUserMessage());
+
+            $this->logError(
+                sprintf("%s: Got exception %s : %s",
+                    self::class,
+                    get_class($e),
+                    $e->getMessage()
+                )
+            );
         }
 
         return $report;
@@ -75,10 +95,26 @@ class ExportByHandler extends AbstractAction
             || !class_exists($params[self::PARAM_EXPORT_HANDLER])
             || !is_a($params[self::PARAM_EXPORT_HANDLER], \tao_models_classes_export_ExportHandler::class, true)
         ) {
+            $this->logError(
+                sprintf(
+                    "%s: Export handler '%s' is not valid",
+                    self::class,
+                    $params[self::PARAM_EXPORT_HANDLER] ?? ''
+                )
+            );
+
             throw new \InvalidArgumentException('Please provide a valid export handler');
         }
 
         if (!isset($params[self::PARAM_EXPORT_DATA]) || !is_array($params[self::PARAM_EXPORT_DATA])) {
+            $this->logError(
+                sprintf(
+                    "%s: Export data should be an array, got: %s",
+                    self::class,
+                    var_export($params[self::PARAM_EXPORT_DATA], true)
+                )
+            );
+
             throw new \InvalidArgumentException('Please provide the export data as array');
         }
     }
