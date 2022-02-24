@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -60,17 +61,20 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
                     $propertyData['uri']
                 )
             ) {
+                $this->logMissingProperties($propertyData);
                 continue;
             }
 
             $property = new core_kernel_classes_Property($propertyData['uri']);
             $domain = $property->getDomain();
             if (null === $domain) {
+                $this->logMissingPropertyData($property, 'domain');
                 continue;
             }
 
             $firstDomain = $domain->get(0);
             if (null === $firstDomain) {
+                $this->logMissingPropertyData($property, 'firstDomain');
                 continue;
             }
 
@@ -82,6 +86,7 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
             /** @var core_kernel_classes_Property $propertyType */
             $propertyType = $this->getPropertyType($property);
             if (null === $propertyType) {
+                $this->logMissingPropertyData($property, 'propertyType');
                 continue;
             }
 
@@ -93,7 +98,7 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
             ];
         }
 
-        $this->logInfo('Indexing properties');
+        $this->logInfo(sprintf('Indexing %d properties', count($indexProperties)));
 
         try {
             /** @var IndexUpdaterInterface $indexUpdater */
@@ -110,5 +115,29 @@ class RenameIndexProperties implements Action, ServiceLocatorAwareInterface, Tas
         $this->logInfo($message);
 
         return common_report_Report::createSuccess(__($message));
+    }
+
+    private function logMissingProperties($propertyData): void
+    {
+        $this->logInfo(
+            sprintf(
+                'Missing required property data (required'.
+                ' oldLabel, oldAlias, oldPropertyType, uri; got %s)',
+                implode(
+                    ', ',
+                    is_array($propertyData) ? array_keys($propertyData) : []
+                )
+            )
+        );
+    }
+
+    private function logMissingPropertyData(
+        core_kernel_classes_Property $property,
+        string $what
+    ): void
+    {
+        $this->logInfo(
+            sprintf("Missing %s for property %s", $what, $property->getUri())
+        );
     }
 }
