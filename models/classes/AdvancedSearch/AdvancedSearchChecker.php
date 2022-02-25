@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\AdvancedSearch;
 
-use Psr\Container\ContainerInterface;
 use oat\tao\model\search\SearchProxy;
 use oat\tao\elasticsearch\ElasticSearch;
 use oat\tao\model\search\SearchInterface;
@@ -48,19 +47,11 @@ class AdvancedSearchChecker extends ConfigurableService
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
-        return $this->getContainer()->get(FeatureFlagChecker::class);
+        return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 
-    /**
-     * @return SearchInterface|SearchProxy
-     */
     private function getSearchService(): SearchInterface
     {
-        return $this->getContainer()->get(SearchProxy::SERVICE_ID);
-    }
-
-    private function getContainer(): ContainerInterface
-    {
-        return $this->getServiceManager()->getContainer();
+        return $this->getServiceLocator()->get(SearchProxy::SERVICE_ID);
     }
 }
