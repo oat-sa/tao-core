@@ -44,12 +44,6 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
                 [
                     service(UploadService::SERVICE_ID),
                 ]
-            )
-            ->call(
-                'setLogger',
-                [
-                    service(LoggerService::SERVICE_ID),
-                ]
             );
 
         $services
