@@ -24,6 +24,7 @@ namespace oat\tao\model\search\tasks;
 
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\Search;
@@ -44,6 +45,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
     use ServiceLocatorAwareTrait;
     use OntologyAwareTrait;
     use TaskAwareTrait;
+    use LoggerAwareTrait;
 
     public function __invoke($params): Report
     {
@@ -73,12 +75,16 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
                 "Document in index was successfully updated for resource %s",
                 $indexDocument->getId()
             );
+
+            $this->logDebug($message);
         } elseif ($numberOfIndexed === 0) {
             $type = Report::TYPE_ERROR;
             $message = sprintf(
                 'Expecting one document to be indexed (got zero) for ID \'%s\'',
                 $indexDocument->getId()
             );
+
+            $this->logError($message);
         } else {
             $type = Report::TYPE_WARNING;
             $message = sprintf(
@@ -86,6 +92,8 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
                 $numberOfIndexed,
                 $indexDocument->getId()
             );
+
+            $this->logWarning($message);
         }
 
         return new Report($type, $message);
