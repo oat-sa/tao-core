@@ -30,6 +30,7 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
+// @TODO Move to the AdvancedSearch extension and deprecate this one.
 class AdvancedSearchChecker extends ConfigurableService
 {
     public function isEnabled(): bool
