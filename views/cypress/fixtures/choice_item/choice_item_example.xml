@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="i6216710a572bf210259b08439a9ecc8" title="e2e_test_item" label="e2e_test_item" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="2022.01">
+  <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier">
+    <correctResponse>
+      <value><![CDATA[choice_2]]></value>
+    </correctResponse>
+  </responseDeclaration>
+  <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1"/>
+  <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+    <defaultValue>
+      <value>1</value>
+    </defaultValue>
+  </outcomeDeclaration>
+  <itemBody>
+    <div class="grid-row">
+      <div class="col-12">
+        <choiceInteraction responseIdentifier="RESPONSE" shuffle="true" maxChoices="0" minChoices="0" orientation="vertical" class="eliminable">
+          <prompt>Test choice interaction</prompt>
+          <simpleChoice identifier="choice_1" fixed="false" showHide="show">choice #1</simpleChoice>
+          <simpleChoice identifier="choice_2" fixed="false" showHide="show">choice #2</simpleChoice>
+          <simpleChoice identifier="choice_3" fixed="false" showHide="show">choice #3</simpleChoice>
+        </choiceInteraction>
+      </div>
+    </div>
+  </itemBody>
+  <responseProcessing template="http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct"/>
+</assessmentItem>

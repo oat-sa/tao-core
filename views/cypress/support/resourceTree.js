@@ -297,20 +297,49 @@ Cypress.Commands.add('deleteNode', (
 });
 
 /**
+ * Deletes downloaded files if any
+ */
+Cypress.Commands.add('clearDownloads', () => {
+    cy.log('COMMAND: clearDownloads')
+
+    return cy.task('getDownloads')
+        .then(files => {
+            // Skip if nothing to delete
+            if(!files) {
+                cy.log('Nothing to delete in downloads');
+                return null;
+            }
+
+            return Promise.all(files.map((file) => {
+                cy.log('Deleting', file);
+                cy.task('removeDownload', file);
+            }));
+        });
+});
+
+/**
  * Imports resource in class (class should already be selected before running this command)
  * @param {String} importSelector - css selector for the import button
  * @param {String} importFilePath - path to the file to import
  * @param {String} importUrl - url for the resource import POST request
  * @param {String} className
+ * @param {String} [format] - select format to import, if diffident than selected by default
  */
 Cypress.Commands.add('importToSelectedClass', (
     importSelector,
     importFilePath,
     importUrl,
-    className) => {
+    className,
+    format = null) => {
 
     cy.log('COMMAND: import', importUrl);
     cy.get(importSelector).click();
+
+    if (format) {
+        cy.intercept('POST', `**/${importUrl}**`).as('itemImport');
+        cy.get('#import .form_radlst label').should('be.visible').contains(format).click();
+        cy.wait('@itemImport');
+    }
 
     cy.readFile(importFilePath, 'binary')
         .then(fileContent => {
@@ -323,16 +352,19 @@ Cypress.Commands.add('importToSelectedClass', (
                     }
                 );
 
-            cy.get('.progressbar.success').should('exist');
+            cy.getSettled('.progressbar.success').should('exist');
 
             cy.intercept('POST', `**/${importUrl}**`).as('import').get('.form-toolbar button')
                 .click()
-                .wait('@import')
+                .wait('@import');
 
             return cy.isElementPresent('.task-report-container')
                 .then(isTaskStatus => {
                     if (isTaskStatus) {
-                        cy.get('.feedback-success.hierarchical').should('exist');
+                        cy.get('.feedback-success.hierarchical')
+                            .should('exist')
+                            .find('button[data-trigger="continue"]')
+                            .click();
                     } else {
                         // task was moved to the task queue (background)
                         cy.get('.badge-component').click();
@@ -349,29 +381,40 @@ Cypress.Commands.add('importToSelectedClass', (
  * @param {String} exportSelector - css selector for the export button
  * @param {String} exportUrl - url for the resource export POST request
  * @param {String} className
+ * @param {String} [format] - select format to export, if diffident than selected by default
  */
 Cypress.Commands.add('exportFromSelectedClass', (
     exportSelector,
     exportUrl,
-    className) => {
+    className,
+    format = null) => {
 
     cy.log('COMMAND: export', exportUrl);
-
     cy.get(exportSelector).click();
+
     cy.get('#exportChooser .form-toolbar button').click();
 
-    cy.task('getDownloads').then(
-        files => {
+    if (format) {
+        cy.intercept('POST', `**/${exportUrl}**`).as('exportImport');
+        cy.get('#exportChooser .form_radlst label').contains(format).click();
+        cy.wait('@exportImport');
+
+    }
+
+    cy.task('getDownloads')
+        .then(files => {
+            console.log('files', files);
             expect(files.length).to.equal(1);
+            cy.task('readDownload', files[0])
+                .then(fileContent => {
+                    expect(files[0]).to.contain(className.replaceAll(' ', '_').toLowerCase());
+                    console.log('files[0]', files[0]);
 
-            cy.task('readDownload', files[0]).then(fileContent => {
-                expect(files[0]).to.contain(className.replaceAll(' ', '_').toLowerCase());
+                    cy.wrap(fileContent.length).should('be.gt', 0);
 
-                cy.wrap(fileContent.length).should('be.gt', 0);
-
-                // remove file as cypress doesn't remove downloads in the open mode
-                cy.task('removeDownload', files[0]);
-            });
+                    // remove file as cypress doesn't remove downloads in the open mode
+                    cy.task('removeDownload', files[0]);
+                });
         }
     );
 });
@@ -382,8 +425,6 @@ Cypress.Commands.add('exportFromSelectedClass', (
  * @param {String} filePath - path to RDF tree file
  */
  Cypress.Commands.add('importToRootTree', (filePath) => {
-    cy.log(`COMMAND: importToRootTree ${filePath}`);
-
     cy.intercept('POST', `**/tao/Import/index*`).as('loadImport');
     cy.getSettled('#tree-import a').click();
     cy.wait('@loadImport');
@@ -411,7 +452,7 @@ Cypress.Commands.add('exportFromSelectedClass', (
                         cy.get('.feedback-success.hierarchical').should('exist');
                     } else {
                         // task was moved to the task queue (background)
-                        cy.get('.badge-component').click();
+                        cy.get('.badge-component').should('be.visible').click();
                         cy.get('.task-element.completed').first().contains(className);
                         // close the task manager
                         cy.get('.badge-component').click();
