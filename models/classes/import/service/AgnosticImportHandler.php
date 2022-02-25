@@ -136,15 +136,6 @@ class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, 
     private function processFile(File $file): Report
     {
         if ($this->fileProcessor) {
-            $this->logDebug(
-                sprintf(
-                    "%s: Using %s to process %s",
-                    self::class,
-                    get_class($this->fileProcessor),
-                    $file->getBasename()
-                )
-            );
-
             return $this->fileProcessor->process($file);
         }
 
