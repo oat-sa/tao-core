@@ -15,14 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA;
  *
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\helpers\form\elements;
 
 use tao_helpers_form_elements_MultipleElement;
 use oat\tao\helpers\form\ValidationRuleRegistry;
+use tao_helpers_form_Validator;
 
 /**
  * Implementation model selector
@@ -41,11 +44,22 @@ abstract class Validators extends tao_helpers_form_elements_MultipleElement
     public function getOptions()
     {
         $options = [];
-        foreach (ValidationRuleRegistry::getRegistry()->getMap() as $id => $validator) {
+        foreach ($this->getValidationRuleRegistry()->getMap() as $id => $validator) {
             $options[$id] = $id;
         }
 
         return $options;
+    }
+
+    public function getOptionValidatorName(string $id): ?string
+    {
+        $validator = $this->getValidationRuleRegistry()->get($id);
+
+        if ($validator instanceof tao_helpers_form_Validator) {
+            return $validator->getName();
+        }
+
+        return null;
     }
 
     /**
@@ -55,5 +69,10 @@ abstract class Validators extends tao_helpers_form_elements_MultipleElement
     public function setValue($value)
     {
         $this->addValue($value);
+    }
+
+    private function getValidationRuleRegistry(): ValidationRuleRegistry
+    {
+        return ValidationRuleRegistry::getRegistry();
     }
 }

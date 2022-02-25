@@ -38,6 +38,18 @@ use oat\generis\test\MockObject;
 
 class TaskLogTest extends TestCase
 {
+    /** @var TaskLog */
+    private $subject;
+
+    public function setUp(): void
+    {
+        $this->subject = new TaskLog(
+            [
+                'task_log_broker' => new RdsTaskLogBroker('fakePersistence', 'fake'),
+            ]
+        );
+    }
+
     public function testTaskLogServiceShouldThrowExceptionWhenTaskLogBrokerOptionIsNotSet()
     {
         $this->expectException(InvalidArgumentException::class);
@@ -299,6 +311,22 @@ class TaskLogTest extends TestCase
         $model->linkTaskToCategory('Fake\Classname', 'export');
 
         $this->assertSame('unknown', $model->getCategoryForTask('ClassName\Which\Not\Added\Ever'));
+    }
+
+    public function testGetTaskCategories(): void
+    {
+        $this->assertSame(
+            $this->subject->getTaskCategories(),
+            [
+                TaskLogInterface::CATEGORY_CREATE,
+                TaskLogInterface::CATEGORY_UPDATE,
+                TaskLogInterface::CATEGORY_DELETE,
+                TaskLogInterface::CATEGORY_IMPORT,
+                TaskLogInterface::CATEGORY_EXPORT,
+                TaskLogInterface::CATEGORY_DELIVERY_COMPILATION,
+                TaskLogInterface::CATEGORY_UNRELATED_RESOURCE,
+            ]
+        );
     }
 }
 

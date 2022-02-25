@@ -2290,7 +2290,7 @@ msgstr "Den opplastede filen er for stor (maks. %S byte)"
 msgid "The value for the property \"%s\" must be unique."
 msgstr "Verdien for egenskapen \"%s\" må være unik."
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
 msgstr "Verdien av dette feltet må være et gyldig datoformat, f.eks. ÅÅÅÅ-MM-DD"
 
 msgid "The value of this field must be an integer"

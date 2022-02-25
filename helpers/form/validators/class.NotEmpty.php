@@ -30,6 +30,11 @@ declare(strict_types=1);
  */
 class tao_helpers_form_validators_NotEmpty extends tao_helpers_form_Validator
 {
+    public function getName()
+    {
+        return __('NotEmpty');
+    }
+
     /**
      * Short description of method evaluate
      *
