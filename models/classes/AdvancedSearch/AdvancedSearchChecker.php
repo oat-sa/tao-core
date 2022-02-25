@@ -15,28 +15,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\model\AdvancedSearch;
 
+use oat\tao\model\search\SearchProxy;
+use oat\tao\elasticsearch\ElasticSearch;
+use oat\tao\model\search\SearchInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
-use oat\tao\model\search\SearchInterface;
-use oat\tao\model\search\SearchProxy;
 
+// @TODO Move to the AdvancedSearch extension and deprecate this one.
 class AdvancedSearchChecker extends ConfigurableService
 {
-    /** @deprecated Use oat\tao\model\featureFlag\FeatureFlagCheckerInterface::FEATURE_FLAG_ADVANCED_SEARCH_DISABLED */
-    public const FEATURE_FLAG_ADVANCED_SEARCH_DISABLED = FeatureFlagCheckerInterface::FEATURE_FLAG_ADVANCED_SEARCH_DISABLED;
-
     public function isEnabled(): bool
     {
         return !$this->getFeatureFlagChecker()->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_ADVANCED_SEARCH_DISABLED)
             && $this->getSearchService()->supportCustomIndex();
+    }
+
+    public function ping(): bool
+    {
+        $advancedSearch = $this->getSearchService()->getAdvancedSearch();
+
+        return $advancedSearch instanceof ElasticSearch && $advancedSearch->ping();
     }
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
