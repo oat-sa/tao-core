@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 declare(strict_types=1);
@@ -23,8 +23,6 @@ declare(strict_types=1);
 namespace oat\tao\model\import\service;
 
 use oat\oatbox\filesystem\File;
-use oat\oatbox\log\LoggerAwareTrait;
-use oat\oatbox\log\TaoLoggerAwareInterface;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\import\Processor\ImportFileErrorHandlerInterface;
 use oat\tao\model\import\Processor\ImportFileProcessorInterface;
@@ -35,10 +33,8 @@ use tao_models_classes_import_CsvUploadForm;
 use tao_models_classes_import_ImportHandler;
 use Throwable;
 
-class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, TaskParameterProviderInterface, TaoLoggerAwareInterface
+class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, TaskParameterProviderInterface
 {
-    use LoggerAwareTrait;
-
     public const STATISTICAL_METADATA_SERVICE_ID = self::class . '::STATISTICAL_METADATA';
 
     /** @var UploadService */
@@ -168,26 +164,8 @@ class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, 
     private function handleException(Throwable $exception): Report
     {
         if ($this->errorHandler) {
-            $this->logInfo(
-                sprintf(
-                    "%s: Forwarding exception %s to error handler: %s",
-                    self::class,
-                    get_class($exception),
-                    $exception->getMessage()
-                )
-            );
-
             return $this->errorHandler->handle($exception);
         }
-
-        $this->logDebug(
-            sprintf(
-                "%s: Got exception %s: %s",
-                self::class,
-                get_class($exception),
-                $exception->getMessage()
-            )
-        );
 
         return Report::create(
             Report::TYPE_ERROR,
