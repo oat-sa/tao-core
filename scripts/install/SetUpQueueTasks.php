@@ -32,6 +32,7 @@ use oat\tao\model\search\tasks\UpdateDataAccessControlInIndex;
 use oat\tao\model\search\tasks\UpdateResourceInIndex;
 use oat\tao\model\task\ExportByHandler;
 use oat\tao\model\task\ImportByHandler;
+use oat\tao\model\task\UnrelatedResourceImportByHandler;
 use oat\tao\model\taskQueue\TaskLogInterface;
 
 /**
@@ -46,6 +47,10 @@ class SetUpQueueTasks extends InstallAction
 
         $taskLogService->linkTaskToCategory(ImportByHandler::class, TaskLogInterface::CATEGORY_IMPORT);
         $taskLogService->linkTaskToCategory(ExportByHandler::class, TaskLogInterface::CATEGORY_EXPORT);
+        $taskLogService->linkTaskToCategory(
+            UnrelatedResourceImportByHandler::class,
+            TaskLogInterface::CATEGORY_UNRELATED_RESOURCE
+        );
         $taskLogService->setOption(TaskLogInterface::OPTION_TASK_IGNORE_LIST, [
             UpdateResourceInIndex::class,
             UpdateClassInIndex::class,

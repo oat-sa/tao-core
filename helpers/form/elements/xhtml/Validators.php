@@ -15,10 +15,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\helpers\form\elements\xhtml;
 
@@ -32,7 +33,6 @@ class Validators extends AbstractValidators
     use XhtmlRenderingTrait;
 
     /**
-     *
      * @see tao_helpers_form_FormElement::render
      */
     public function render()
@@ -53,11 +53,19 @@ class Validators extends AbstractValidators
                 $returnValue .= ' disabled ';
             }
 
-            $returnValue .= " />&nbsp;<label class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel) . "</label><br />";
+            $returnValue .= " />&nbsp;<label class='elt_desc' for='{$this->name}_{$i}'>";
+            $returnValue .= $this->renderOptionLabel($optionId, $optionLabel);
+            $returnValue .= "</label><br />";
+
             $i++;
         }
         $returnValue .= "</div>";
 
-        return (string) $returnValue;
+        return $returnValue;
+    }
+
+    protected function renderOptionLabel(string $optionId, string $label): string
+    {
+        return $this->getOptionValidatorName($optionId) ?? _dh($label);
     }
 }

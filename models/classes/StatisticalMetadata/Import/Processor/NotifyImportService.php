@@ -83,7 +83,7 @@ class NotifyImportService
 
     public function addResource(core_kernel_classes_Resource $resource): self
     {
-        $this->resources[] = $resource;
+        $this->resources[$resource->getUri()] = $resource;
 
         return $this;
     }
@@ -113,6 +113,8 @@ class NotifyImportService
             throw new UserErrorException(
                 __('Unable to sync statistical data. Please, contact the system administrator for more details')
             );
+        } finally {
+            $this->resources = [];
         }
     }
 

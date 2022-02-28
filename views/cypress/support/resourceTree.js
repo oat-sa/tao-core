@@ -238,6 +238,7 @@ Cypress.Commands.add('deleteClassFromRoot', (
     cy.log('COMMAND: deleteClassFromRoot', name)
         .intercept('POST', '**/edit*').as('edit')
         .getSettled(`${rootSelector} > a`)
+        .scrollIntoView()
         .click()
         .get(`li[title="${name}"] > a`)
         .wait('@edit')
