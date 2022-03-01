@@ -268,7 +268,7 @@ Cypress.Commands.add('addNode', (formSelector, addSelector) => {
 Cypress.Commands.add('selectNode', (rootSelector, formSelector, name) => {
     cy.log('COMMAND: selectNode', name);
     cy.getSettled(`${rootSelector} a:nth(0)`).click();
-    cy.get(`li[title="${name}"] a:nth(0)`).click();
+    cy.get(`li[title="${name}"] a:nth(0)`).scrollIntoView().click();
     cy.get(formSelector).should('exist');
 });
 
