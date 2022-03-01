@@ -268,7 +268,7 @@ Cypress.Commands.add('addNode', (formSelector, addSelector) => {
 Cypress.Commands.add('selectNode', (rootSelector, formSelector, name) => {
     cy.log('COMMAND: selectNode', name);
     cy.getSettled(`${rootSelector} a:nth(0)`).click();
-    cy.get(`li[title="${name}"] a:nth(0)`).click()
+    cy.get(`li[title="${name}"] a:nth(0)`).click();
     cy.get(formSelector).should('exist');
 });
 
@@ -337,13 +337,16 @@ Cypress.Commands.add('importToSelectedClass', (
 
     if (format) {
         cy.intercept('POST', `**/${importUrl}**`).as('itemImport');
-        cy.get('#import .form_radlst label').should('be.visible').contains(format).click();
+        cy.get('#import .form_radlst label')
+            .contains(format)
+            .should('be.visible')
+            .click();
         cy.wait('@itemImport');
     }
 
     cy.readFile(importFilePath, 'binary')
         .then(fileContent => {
-            cy.get('input[type="file"][name="content"]')
+            cy.getSettled('input[type="file"][name="content"]')
                 .attachFile({
                         fileContent,
                         filePath: importFilePath,
@@ -354,7 +357,7 @@ Cypress.Commands.add('importToSelectedClass', (
 
             cy.getSettled('.progressbar.success').should('exist');
 
-            cy.intercept('POST', `**/${importUrl}**`).as('import').get('.form-toolbar button')
+            cy.intercept('POST', `**/${importUrl}**`).as('import').getSettled('.form-toolbar button')
                 .click()
                 .wait('@import');
 
@@ -390,26 +393,22 @@ Cypress.Commands.add('exportFromSelectedClass', (
     format = null) => {
 
     cy.log('COMMAND: export', exportUrl);
-    cy.get(exportSelector).click();
 
+    cy.get(exportSelector).click();
     cy.get('#exportChooser .form-toolbar button').click();
 
     if (format) {
         cy.intercept('POST', `**/${exportUrl}**`).as('exportImport');
         cy.get('#exportChooser .form_radlst label').contains(format).click();
         cy.wait('@exportImport');
-
     }
 
     cy.task('getDownloads')
         .then(files => {
-            console.log('files', files);
-            expect(files.length).to.equal(1);
+            expect(files.length).to.be.gt(0);
             cy.task('readDownload', files[0])
                 .then(fileContent => {
                     expect(files[0]).to.contain(className.replaceAll(' ', '_').toLowerCase());
-                    console.log('files[0]', files[0]);
-
                     cy.wrap(fileContent.length).should('be.gt', 0);
 
                     // remove file as cypress doesn't remove downloads in the open mode
