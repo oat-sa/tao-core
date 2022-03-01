@@ -38,7 +38,7 @@ msgid " requires a subgrid adapter"
 msgstr "يحتاج إلى محول الشبكة الفرعية"
 
 msgid "%1$s expected but %2$s detected"
-msgstr "نسبة مئوية (%2$s) كذا مرتقبة لكن نسبة كذا متحققة (%1$s)"
+msgstr "نسبة مئوية (%1$s) كذا مرتقبة لكن نسبة كذا متحققة (%2$s)"
 
 msgid "%d attempts left before your account is locked."
 msgstr ".المتبقى لك من الوقت بالنسبة المئوية قبل أن يتم إقفال حسابك %d"
