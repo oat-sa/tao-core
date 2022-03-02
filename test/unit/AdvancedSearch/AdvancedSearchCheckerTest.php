@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\AdvancedSearch;
 
 use oat\generis\test\TestCase;
+use oat\tao\elasticsearch\ElasticSearch;
 use oat\tao\model\search\SearchInterface;
 use oat\tao\model\search\SearchProxy;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -35,7 +36,7 @@ class AdvancedSearchCheckerTest extends TestCase
     private $featureFlagChecker;
 
     /** @var AdvancedSearchChecker */
-    private $advancedSearchChecker;
+    private $sut;
 
     /** @var SearchProxy|MockObject */
     private $search;
@@ -44,8 +45,9 @@ class AdvancedSearchCheckerTest extends TestCase
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
         $this->search = $this->createMock(SearchInterface::class);
-        $this->advancedSearchChecker = new AdvancedSearchChecker();
-        $this->advancedSearchChecker->setServiceLocator(
+
+        $this->sut = new AdvancedSearchChecker();
+        $this->sut->setServiceLocator(
             $this->getServiceLocatorMock(
                 [
                     FeatureFlagChecker::class => $this->featureFlagChecker,
@@ -61,7 +63,7 @@ class AdvancedSearchCheckerTest extends TestCase
     public function testIsEnabled(bool $advancedSearchDisabled, bool $supportsCustomIndex, bool $expected): void
     {
         $this->featureFlagChecker
-            ->expects(static::once())
+            ->expects($this->once())
             ->method('isEnabled')
             ->willReturn($advancedSearchDisabled);
 
@@ -69,7 +71,39 @@ class AdvancedSearchCheckerTest extends TestCase
             ->method('supportCustomIndex')
             ->willReturn($supportsCustomIndex);
 
-        $this->assertEquals($expected, $this->advancedSearchChecker->isEnabled());
+        $this->assertEquals($expected, $this->sut->isEnabled());
+    }
+
+    /**
+     * @dataProvider pingProvider
+     *
+     * @var SearchInterface|MockObject|null $advancedSearch
+     */
+    public function testPing(?SearchInterface $advancedSearch, ?bool $advancedSearchPing, bool $expected): void
+    {
+        $search = $this->createMock(SearchProxy::class);
+        $sut = new AdvancedSearchChecker();
+        $sut->setServiceManager(
+            $this->getServiceLocatorMock(
+                [
+                    SearchProxy::SERVICE_ID => $search,
+                ]
+            )
+        );
+
+        if ($advancedSearch) {
+            $advancedSearch
+                ->expects($advancedSearchPing === null ? $this->never() : $this->once())
+                ->method('ping')
+                ->willReturn($advancedSearchPing);
+        }
+
+        $search
+            ->expects($this->once())
+            ->method('getAdvancedSearch')
+            ->willReturn($advancedSearch);
+
+        $this->assertEquals($expected, $sut->ping());
     }
 
     public function isEnabledDataProvider(): array
@@ -93,6 +127,27 @@ class AdvancedSearchCheckerTest extends TestCase
             [
                 'advancedSearchDisabled' => true,
                 'supportsCustomIndex' => false,
+                'expected' => false,
+            ],
+        ];
+    }
+
+    public function pingProvider(): array
+    {
+        return [
+            [
+                'advancedSearch' => $this->createMock(ElasticSearch::class),
+                'advancedSearchPing' => true,
+                'expected' => true,
+            ],
+            [
+                'advancedSearch' => $this->createMock(ElasticSearch::class),
+                'advancedSearchPing' => false,
+                'expected' => false,
+            ],
+            [
+                'advancedSearch' => null,
+                'advancedSearchPing' => null,
                 'expected' => false,
             ],
         ];

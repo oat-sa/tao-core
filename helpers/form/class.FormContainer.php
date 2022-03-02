@@ -22,12 +22,15 @@
 
 declare(strict_types=1);
 
+use oat\oatbox\service\ServiceManager;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_form_FormFactory as FormFactory;
 use oat\tao\helpers\form\elements\xhtml\CsrfToken;
 use oat\tao\helpers\form\elements\FormElementAware;
+use oat\tao\helpers\form\Feeder\SanitizerValidationFeeder;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
+use oat\tao\helpers\form\Feeder\SanitizerValidationFeederInterface;
 
 /**
  * This class provide a container for a specific form instance.
@@ -75,6 +78,9 @@ abstract class tao_helpers_form_FormContainer
      */
     private $postData = [];
 
+    /** @var SanitizerValidationFeederInterface */
+    private $sanitizerValidationFeeder;
+
     /**
      * The constructor, initialize and build the form
      * regarding the initForm and initElements methods
@@ -94,6 +100,10 @@ abstract class tao_helpers_form_FormContainer
         if ($this->form !== null) {
             // set the refs of all the forms there
             self::$forms[$this->form->getName()] = $this->form;
+
+            $this
+                ->getSanitizerValidationFeeder()
+                ->setForm($this->form);
         }
 
         // initialize the elements of the form
@@ -117,6 +127,8 @@ abstract class tao_helpers_form_FormContainer
             if ($options[self::IS_DISABLED] ?? false) {
                 $this->form->disable();
             }
+
+            $this->getSanitizerValidationFeeder()->feed();
 
             // evaluate the form
             $this->form->evaluate();
@@ -149,6 +161,34 @@ abstract class tao_helpers_form_FormContainer
     public function getForm(): ?tao_helpers_form_Form
     {
         return $this->form;
+    }
+
+    public function addSanitizerValidator(tao_helpers_form_Validator $validator, array $elements): self
+    {
+        $this->getSanitizerValidationFeeder()->addValidator($validator);
+
+        foreach ($elements as $element) {
+            if ($element instanceof tao_helpers_form_FormElement) {
+                $this->getSanitizerValidationFeeder()->addElement($element);
+
+                continue;
+            }
+
+            if (is_string($element)) {
+                $this->getSanitizerValidationFeeder()->addElementByUri($element);
+
+                continue;
+            }
+
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Element provided to sanitizer must be an instance of %s or a string',
+                    tao_helpers_form_FormElement::class
+                )
+            );
+        }
+
+        return $this;
     }
 
     /**
@@ -263,5 +303,16 @@ abstract class tao_helpers_form_FormContainer
                 $validator->acknowledge($form);
             }
         }
+    }
+
+    private function getSanitizerValidationFeeder(): SanitizerValidationFeederInterface
+    {
+        if (!isset($this->sanitizerValidationFeeder)) {
+            $this->sanitizerValidationFeeder = ServiceManager::getServiceManager()->getContainer()->get(
+                SanitizerValidationFeeder::class
+            );
+        }
+
+        return $this->sanitizerValidationFeeder;
     }
 }

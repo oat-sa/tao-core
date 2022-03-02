@@ -21,6 +21,8 @@
  *
  */
 
+use EasyRdf\Format;
+use EasyRdf\Graph;
 use oat\generis\model\OntologyRdf;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\upload\UploadService;
@@ -85,7 +87,7 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      * @param core_kernel_classes_Class|null $source
      * @return string
-     * @throws EasyRdf_Exception
+     * @throws \EasyRdf\Exception
      */
     public function export(core_kernel_classes_Class $source = null)
     {
@@ -93,24 +95,24 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
             return core_kernel_api_ModelExporter::exportAll();
         }
 
-        $graph = new EasyRdf_Graph();
+        $graph = new Graph();
         if ($source->isClass()) {
             $this->addClass($graph, $source);
         } else {
             $this->addResource($graph, $source);
         }
-        $format = EasyRdf_Format::getFormat('rdfxml');
+        $format = Format::getFormat('rdfxml');
         return $graph->serialise($format);
     }
 
     /**
      * Add a class to the graph
      *
-     * @param EasyRdf_Graph $graph
+     * @param Graph $graph
      * @param core_kernel_classes_Class $resource
      * @ignore
      */
-    private function addClass(EasyRdf_Graph $graph, core_kernel_classes_Class $resource)
+    private function addClass(Graph $graph, core_kernel_classes_Class $resource)
     {
         $this->addResource($graph, $resource);
         foreach ($resource->getInstances() as $instance) {
@@ -127,11 +129,11 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
     /**
      * Add a resource to the graph
      *
-     * @param EasyRdf_Graph $graph
+     * @param Graph $graph
      * @param core_kernel_classes_Resource $resource
      * @ignore
      */
-    private function addResource(EasyRdf_Graph $graph, core_kernel_classes_Resource $resource)
+    private function addResource(Graph $graph, core_kernel_classes_Resource $resource)
     {
         foreach ($resource->getRdfTriples() as $triple) {
             $language = !empty($triple->lg) ? $triple->lg : null;
