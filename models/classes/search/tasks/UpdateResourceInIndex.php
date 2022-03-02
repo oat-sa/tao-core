@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2018-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -23,6 +24,7 @@ namespace oat\tao\model\search\tasks;
 
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\Search;
@@ -30,7 +32,7 @@ use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use \common_report_Report as Report;
+use common_report_Report as Report;
 
 /**
  * Class UpdateResourceInIndex
@@ -43,6 +45,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
     use ServiceLocatorAwareTrait;
     use OntologyAwareTrait;
     use TaskAwareTrait;
+    use LoggerAwareTrait;
 
     public function __invoke($params): Report
     {
@@ -66,15 +69,31 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
 
         $numberOfIndexed = $searchService->index([$indexDocument]);
 
-        if ($numberOfIndexed === 0) {
-            $type = Report::TYPE_ERROR;
-            $message = "Zero documents were added/updated in index.";
-        } elseif ($numberOfIndexed === 1) {
+        if ($numberOfIndexed === 1) {
             $type = Report::TYPE_SUCCESS;
-            $message = "Document in index was successfully updated.";
+            $message = sprintf(
+                'Document in index was successfully updated for resource %s',
+                $indexDocument->getId()
+            );
+
+            $this->logDebug($message);
+        } elseif ($numberOfIndexed === 0) {
+            $type = Report::TYPE_ERROR;
+            $message = sprintf(
+                'Expecting one document to be indexed (got zero) for ID "%s"',
+                $indexDocument->getId()
+            );
+
+            $this->logError($message);
         } else {
             $type = Report::TYPE_WARNING;
-            $message = "The number or indexed documents is different than the expected total";
+            $message = sprintf(
+                'Expecting a single document to be indexed (got %d) for ID "%s"',
+                $numberOfIndexed,
+                $indexDocument->getId()
+            );
+
+            $this->logWarning($message);
         }
 
         return new Report($type, $message);
