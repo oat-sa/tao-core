@@ -38,7 +38,7 @@ msgid " requires a subgrid adapter"
 msgstr "يحتاج إلى محول الشبكة الفرعية"
 
 msgid "%1$s expected but %2$s detected"
-msgstr "نسبة مئوية (%2$s) كذا مرتقبة لكن نسبة كذا متحققة (%1$s)"
+msgstr "نسبة مئوية (%1$s) كذا مرتقبة لكن نسبة كذا متحققة (%2$s)"
 
 msgid "%d attempts left before your account is locked."
 msgstr ".المتبقى لك من الوقت بالنسبة المئوية قبل أن يتم إقفال حسابك %d"
@@ -155,13 +155,13 @@ msgid "About"
 msgstr "حول"
 
 msgid "abs"
-msgstr "مركب الأكريلو نيتريل بيوتادايين إستيرين"
+msgstr ""
 
 msgid "Absolute value"
 msgstr "القيمة المطلقة "
 
 msgid "AC"
-msgstr "التيار المتردد/AC"
+msgstr ""
 
 msgid "Access Denied"
 msgstr "رفض الدخول"
@@ -266,7 +266,7 @@ msgid "an instance"
 msgstr "حالة أو مثال"
 
 msgid "Ans"
-msgstr "الجواب"
+msgstr ""
 
 msgid "Apply"
 msgstr "تطبيق"
@@ -372,7 +372,7 @@ msgid "Browse..."
 msgstr "تصفح  "
 
 msgid "C"
-msgstr "برمجة C"
+msgstr ""
 
 msgid "Calculator"
 msgstr "آلة حاسبة "
@@ -402,7 +402,7 @@ msgid "Case sensitive"
 msgstr "حساسية الحالة"
 
 msgid "ceil"
-msgstr "سقف"
+msgstr ""
 
 msgid "Change password"
 msgstr "تغيير كلمة المرور "
@@ -528,10 +528,10 @@ msgid "Copy to clipboard"
 msgstr "نسخ إلى الحافظة "
 
 msgid "cos"
-msgstr "جيب التمام  "
+msgstr ""
 
 msgid "cosh"
-msgstr "جيب التمام الزائدي  "
+msgstr ""
 
 msgid "Cosine"
 msgstr "جيب التمام "
@@ -612,7 +612,7 @@ msgid "Define the default values"
 msgstr "حدد القيم المعتادة"
 
 msgid "Deg"
-msgstr "درجة "
+msgstr ""
 
 msgid "Degree"
 msgstr "درجة "
@@ -772,7 +772,7 @@ msgid "Executing task %s failed"
 msgstr "فشل تنفيذ المهمة %s "
 
 msgid "exp"
-msgstr "exp "
+msgstr ""
 
 msgid "Exponent"
 msgstr "الأس  "
@@ -868,7 +868,7 @@ msgid "Fit to width"
 msgstr "تعديل مع العرض"
 
 msgid "floor"
-msgstr "أرضي "
+msgstr ""
 
 msgid "Forbid for all domains"
 msgstr "منع لجميع المجالات"
@@ -1146,9 +1146,6 @@ msgstr "تم العثور على تكرارات قائمة البند URI"
 msgid "List values"
 msgstr "List values"
 
-msgid "ln"
-msgstr "في"
-
 msgid "Load more"
 msgstr "تحميل المزيد "
 
@@ -1169,9 +1166,6 @@ msgstr "جارٍ تحميل حالة المهمة ..."
 
 msgid "locked by %s"
 msgstr "مؤمن من قبل %s"
-
-msgid "log"
-msgstr "سجل"
 
 msgid "Log in"
 msgstr "تسجيل الدخول"
@@ -1258,7 +1252,7 @@ msgid "Missing Parameters"
 msgstr "المعايير مفقودة"
 
 msgid "modulo"
-msgstr "عامل قسمة مع الباقي"
+msgstr ""
 
 msgid "More"
 msgstr "أكثر"
@@ -1555,13 +1549,13 @@ msgid "Queued"
 msgstr "في قائمة الانتظار"
 
 msgid "Rad"
-msgstr "راديان"
+msgstr ""
 
 msgid "Radian"
 msgstr "راديان"
 
 msgid "random"
-msgstr "عشوائي"
+msgstr ""
 
 msgid "Random value"
 msgstr "قيمة عشوائية"
@@ -1714,7 +1708,7 @@ msgid "Roles library"
 msgstr "مكتبة الأدوار"
 
 msgid "round"
-msgstr "جولة"
+msgstr ""
 
 msgid "Round to closest whole number"
 msgstr "تقريب لأقرب عدد صحيح"
@@ -1825,13 +1819,13 @@ msgid "Sign change"
 msgstr "قم بالتغيير"
 
 msgid "sin"
-msgstr "جيب"
+msgstr ""
 
 msgid "Sine"
 msgstr "شرط"
 
 msgid "sinh"
-msgstr "دالة الجيب الزائدية"
+msgstr ""
 
 msgid "Size"
 msgstr "حجم"
@@ -1900,13 +1894,13 @@ msgid "Syntax error"
 msgstr "خطأ في بناء الجملة"
 
 msgid "tan"
-msgstr "ظل (الزاوية)"
+msgstr ""
 
 msgid "Tangent"
 msgstr "مماس"
 
 msgid "tanh"
-msgstr "دالة الظل الزائدية"
+msgstr ""
 
 msgid "Tao Default Theme"
 msgstr "الموضوع المعتاد TAO"
@@ -2125,7 +2119,7 @@ msgid "True"
 msgstr "حقيقي"
 
 msgid "trunc"
-msgstr "جذع"
+msgstr ""
 
 msgid "Type"
 msgstr "نوع"
