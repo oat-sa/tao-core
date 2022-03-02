@@ -72,7 +72,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         if ($numberOfIndexed === 1) {
             $type = Report::TYPE_SUCCESS;
             $message = sprintf(
-                "Document in index was successfully updated for resource %s",
+                'Document in index was successfully updated for resource %s',
                 $indexDocument->getId()
             );
 
@@ -80,7 +80,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         } elseif ($numberOfIndexed === 0) {
             $type = Report::TYPE_ERROR;
             $message = sprintf(
-                'Expecting one document to be indexed (got zero) for ID \'%s\'',
+                'Expecting one document to be indexed (got zero) for ID "%s"',
                 $indexDocument->getId()
             );
 
@@ -88,7 +88,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         } else {
             $type = Report::TYPE_WARNING;
             $message = sprintf(
-                'Expecting a single document to be indexed (got %d) for ID \'%s\'',
+                'Expecting a single document to be indexed (got %d) for ID "%s"',
                 $numberOfIndexed,
                 $indexDocument->getId()
             );

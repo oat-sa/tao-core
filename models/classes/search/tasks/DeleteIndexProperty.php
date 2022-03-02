@@ -53,7 +53,7 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
 
         $this->logInfo(
             sprintf(
-                'Removing property \'%s\' with type \'%s\' from index',
+                'Removing property "%s" with type "%s" from index',
                 $propertyName,
                 $class->getUri()
             )
