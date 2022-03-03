@@ -141,6 +141,17 @@ Cypress.Commands.add('assignValueToTextProperty', (property, value) => {
 });
 
 /**
+ * Assigns value to the calendar property
+ * @param {Object} property - property to assign value to
+ * @param {String} property.name - name of the property
+ * @param {String} value - value to assign
+*/
+Cypress.Commands.add('assignValueToCalendarProperty', (property, value) => {
+    cy.log('COMMAND: assignValueToCalendarProperty', property.name);
+    cy.get(`[id^="${property.name}_calendar_"]`).clear().type(value);
+});
+
+/**
  * Assigns value to the checkbox/radio property
  * @param {Object} property - property to assign value to
  * @param {String} property.name - name of the property
