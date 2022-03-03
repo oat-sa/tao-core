@@ -155,13 +155,13 @@ msgid "About"
 msgstr "حول"
 
 msgid "abs"
-msgstr ""
+msgstr "abs"
 
 msgid "Absolute value"
 msgstr "القيمة المطلقة "
 
 msgid "AC"
-msgstr ""
+msgstr "AC"
 
 msgid "Access Denied"
 msgstr "رفض الدخول"
@@ -266,7 +266,7 @@ msgid "an instance"
 msgstr "حالة أو مثال"
 
 msgid "Ans"
-msgstr ""
+msgstr "Ans"
 
 msgid "Apply"
 msgstr "تطبيق"
@@ -372,7 +372,7 @@ msgid "Browse..."
 msgstr "تصفح  "
 
 msgid "C"
-msgstr ""
+msgstr "C"
 
 msgid "Calculator"
 msgstr "آلة حاسبة "
@@ -402,7 +402,7 @@ msgid "Case sensitive"
 msgstr "حساسية الحالة"
 
 msgid "ceil"
-msgstr ""
+msgstr "ceil"
 
 msgid "Change password"
 msgstr "تغيير كلمة المرور "
@@ -528,10 +528,10 @@ msgid "Copy to clipboard"
 msgstr "نسخ إلى الحافظة "
 
 msgid "cos"
-msgstr ""
+msgstr "cos"
 
 msgid "cosh"
-msgstr ""
+msgstr "cosh"
 
 msgid "Cosine"
 msgstr "جيب التمام "
@@ -612,7 +612,7 @@ msgid "Define the default values"
 msgstr "حدد القيم المعتادة"
 
 msgid "Deg"
-msgstr ""
+msgstr "Deg"
 
 msgid "Degree"
 msgstr "درجة "
@@ -772,7 +772,7 @@ msgid "Executing task %s failed"
 msgstr "فشل تنفيذ المهمة %s "
 
 msgid "exp"
-msgstr ""
+msgstr "exp"
 
 msgid "Exponent"
 msgstr "الأس  "
@@ -868,7 +868,7 @@ msgid "Fit to width"
 msgstr "تعديل مع العرض"
 
 msgid "floor"
-msgstr ""
+msgstr "floor"
 
 msgid "Forbid for all domains"
 msgstr "منع لجميع المجالات"
@@ -1252,7 +1252,7 @@ msgid "Missing Parameters"
 msgstr "المعايير مفقودة"
 
 msgid "modulo"
-msgstr ""
+msgstr "modulo"
 
 msgid "More"
 msgstr "أكثر"
@@ -1549,13 +1549,13 @@ msgid "Queued"
 msgstr "في قائمة الانتظار"
 
 msgid "Rad"
-msgstr ""
+msgstr "Rad"
 
 msgid "Radian"
 msgstr "راديان"
 
 msgid "random"
-msgstr ""
+msgstr "random"
 
 msgid "Random value"
 msgstr "قيمة عشوائية"
@@ -1708,7 +1708,7 @@ msgid "Roles library"
 msgstr "مكتبة الأدوار"
 
 msgid "round"
-msgstr ""
+msgstr "round"
 
 msgid "Round to closest whole number"
 msgstr "تقريب لأقرب عدد صحيح"
@@ -1819,13 +1819,13 @@ msgid "Sign change"
 msgstr "قم بالتغيير"
 
 msgid "sin"
-msgstr ""
+msgstr "sin"
 
 msgid "Sine"
 msgstr "شرط"
 
 msgid "sinh"
-msgstr ""
+msgstr "sinh"
 
 msgid "Size"
 msgstr "حجم"
@@ -1894,13 +1894,13 @@ msgid "Syntax error"
 msgstr "خطأ في بناء الجملة"
 
 msgid "tan"
-msgstr ""
+msgstr "tan"
 
 msgid "Tangent"
 msgstr "مماس"
 
 msgid "tanh"
-msgstr ""
+msgstr "tanh"
 
 msgid "Tao Default Theme"
 msgstr "الموضوع المعتاد TAO"
@@ -2119,7 +2119,7 @@ msgid "True"
 msgstr "حقيقي"
 
 msgid "trunc"
-msgstr ""
+msgstr "trunc"
 
 msgid "Type"
 msgstr "نوع"
