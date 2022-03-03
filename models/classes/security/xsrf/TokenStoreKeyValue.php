@@ -15,16 +15,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2018-2022 (original work) Open Assessment Technologies SA.
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\security\xsrf;
 
+use common_exception_Error;
+use Psr\Container\ContainerInterface;
+use oat\oatbox\session\SessionService;
 use common_persistence_KeyValuePersistence;
+use oat\oatbox\service\ConfigurableService;
 use common_persistence_AdvKeyValuePersistence;
 use oat\generis\persistence\PersistenceManager;
-use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\session\SessionService;
 
 /**
  * Class to store tokens in a key value storage
@@ -33,115 +37,138 @@ use oat\oatbox\session\SessionService;
  */
 class TokenStoreKeyValue extends ConfigurableService implements TokenStore
 {
+    public const OPTION_PERSISTENCE = 'persistence';
+    public const OPTION_TTL = 'ttl';
 
-    const OPTION_PERSISTENCE = 'persistence';
-    const TOKENS_STORAGE_KEY = 'tao_tokens';
+    private const TOKENS_STORAGE_KEY = 'tao_tokens';
 
-    /**
-     * @var common_persistence_KeyValuePersistence
-     */
+    /** @var common_persistence_KeyValuePersistence */
     private $persistence;
 
-    /**
-     * @var null|string
-     */
-    private $keyPrefix = null;
+    /** @var string */
+    private $keyPrefix;
 
-    /**
-     * @return common_persistence_AdvKeyValuePersistence
-     */
-    protected function getPersistence(): common_persistence_AdvKeyValuePersistence
-    {
-        if ($this->persistence === null) {
-            $persistenceManager = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID);
-            $persistence = $persistenceManager->getPersistenceById($this->getOption(self::OPTION_PERSISTENCE));
-
-            if (!$persistence instanceof common_persistence_AdvKeyValuePersistence) {
-                throw new \common_exception_Error('TokenStoreKeyValue expects advanced key value persistence implementation.');
-            }
-            $this->persistence = $persistence;
-        }
-        return $this->persistence;
-    }
-
-    /**
-     * @return string
-     * @throws \common_exception_Error
-     */
-    protected function getKey()
-    {
-        if ($this->keyPrefix === null) {
-            $user = $this->getServiceLocator()->get(SessionService::SERVICE_ID)->getCurrentUser();
-            $this->keyPrefix = $user->getIdentifier() . '_' . static::TOKENS_STORAGE_KEY;
-        }
-
-        return $this->keyPrefix;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getToken(string $tokenId): ?Token
     {
         if (!$this->hasToken($tokenId)) {
             return null;
         }
 
-        $token = $this->getPersistence()->hGet($this->getKey(), $tokenId);
-        return new Token(json_decode($token, true));
+        $tokenData = $this->getPersistence()->get($this->buildKey($tokenId));
+
+        return new Token(json_decode($tokenData, true));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function setToken(string $tokenId, Token $token): void
     {
-        $this->getPersistence()->hSet($this->getKey(), $tokenId, json_encode($token));
+        $this->getPersistence()->set(
+            $this->buildKey($tokenId),
+            json_encode($token),
+            $this->getTtl()
+        );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function hasToken(string $tokenId): bool
     {
-        return $this->getPersistence()->hExists($this->getKey(),  $tokenId);
+        return $this->getPersistence()->exists($this->buildKey($tokenId));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function removeToken(string $tokenId): bool
     {
         if (!$this->hasToken($tokenId)) {
             return false;
         }
 
-        return $this->getPersistence()->hDel($this->getKey(), $tokenId);
+        return $this->getPersistence()->del($this->buildKey($tokenId));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function clear(): void
     {
-        $this->getPersistence()->del($this->getKey());
+        foreach ($this->getKeys() as $key) {
+            $this->getPersistence()->del($key);
+        }
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function getAll(): array
     {
         $tokens = [];
-        $tokensData = $this->getPersistence()->hGetAll($this->getKey());
-        if (!is_array($tokensData)) {
-            return $tokens;
-        }
 
-        foreach ($tokensData as $tokenData) {
+        foreach ($this->getKeys() as $key) {
+            $tokenData = $this->getPersistence()->get($key);
             $tokens[] = new Token(json_decode($tokenData, true));
         }
 
         return $tokens;
+    }
+
+    private function getKeys(): array
+    {
+        return $this->getPersistence()->keys($this->getKeyPrefix() . '*');
+    }
+
+    private function buildKey(string $name): string
+    {
+        return sprintf('%s_%s', $this->getKeyPrefix(), $name);
+    }
+
+    private function getTtl(): ?int
+    {
+        return ((int) $this->getOption(self::OPTION_TTL)) ?: null;
+    }
+
+    /**
+     * @throws common_exception_Error
+     */
+    private function getPersistence(): common_persistence_AdvKeyValuePersistence
+    {
+        if (!isset($this->persistence)) {
+            $persistence = $this->getPersistenceManager()->getPersistenceById(
+                $this->getOption(self::OPTION_PERSISTENCE)
+            );
+
+            if (!$persistence instanceof common_persistence_AdvKeyValuePersistence) {
+                throw new common_exception_Error(
+                    'TokenStoreKeyValue expects advanced key value persistence implementation.'
+                );
+            }
+
+            $this->persistence = $persistence;
+        }
+
+        return $this->persistence;
+    }
+
+    /**
+     * @throws common_exception_Error
+     */
+    private function getKeyPrefix(): string
+    {
+        if (!isset($this->keyPrefix)) {
+            $this->keyPrefix = sprintf(
+                '%s_%s',
+                $this->getSessionService()->getCurrentUser()->getIdentifier(),
+                self::TOKENS_STORAGE_KEY
+            );
+        }
+
+        return $this->keyPrefix;
+    }
+
+    private function getPersistenceManager(): PersistenceManager
+    {
+        return $this->getContainer()->get(PersistenceManager::SERVICE_ID);
+    }
+
+    private function getSessionService(): SessionService
+    {
+        return $this->getContainer()->get(SessionService::SERVICE_ID);
+    }
+
+    private function getContainer(): ContainerInterface
+    {
+        return $this->getServiceManager()->getContainer();
     }
 }
