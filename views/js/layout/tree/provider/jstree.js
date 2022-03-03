@@ -40,6 +40,9 @@ define([
     'use strict';
 
     var pageRange = 30;
+    var nodeTypes = {
+        more: 'more'
+    };
 
     return {
 
@@ -73,7 +76,7 @@ define([
 
             var moreNode = {
                 data : __('More'),
-                type : 'more',
+                type : nodeTypes.more,
                 attributes : {
                     class : 'more'
                 }
@@ -648,7 +651,7 @@ define([
                     _.forEach(node, computeSelectionAccess);
                     return;
                 }
-                if(node.type){
+                if(node.type && node.type !== nodeTypes.more){
                     addClassToNode(node, getPermissionClass(node));
                     if (!hasAccessTo('moveInstance', node)) {
                         addClassToNode(node, 'node-undraggable');
