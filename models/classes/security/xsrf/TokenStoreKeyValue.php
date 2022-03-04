@@ -40,7 +40,7 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
     public const OPTION_PERSISTENCE = 'persistence';
     public const OPTION_TTL = 'ttl';
 
-    private const TOKENS_STORAGE_KEY = 'tao_tokens';
+    public const TOKENS_STORAGE_KEY = 'tao_tokens';
 
     /** @var common_persistence_KeyValuePersistence */
     private $persistence;
@@ -104,25 +104,10 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
         return $tokens;
     }
 
-    private function getKeys(): array
-    {
-        return $this->getPersistence()->keys($this->getKeyPrefix() . '*');
-    }
-
-    private function buildKey(string $name): string
-    {
-        return sprintf('%s_%s', $this->getKeyPrefix(), $name);
-    }
-
-    private function getTtl(): ?int
-    {
-        return ((int) $this->getOption(self::OPTION_TTL)) ?: null;
-    }
-
     /**
      * @throws common_exception_Error
      */
-    private function getPersistence(): common_persistence_AdvKeyValuePersistence
+    protected function getPersistence(): common_persistence_AdvKeyValuePersistence
     {
         if (!isset($this->persistence)) {
             $persistence = $this->getPersistenceManager()->getPersistenceById(
@@ -144,7 +129,7 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
     /**
      * @throws common_exception_Error
      */
-    private function getKeyPrefix(): string
+    protected function getKeyPrefix(): string
     {
         if (!isset($this->keyPrefix)) {
             $this->keyPrefix = sprintf(
@@ -155,6 +140,21 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
         }
 
         return $this->keyPrefix;
+    }
+
+    private function getKeys(): array
+    {
+        return $this->getPersistence()->keys($this->getKeyPrefix() . '*');
+    }
+
+    private function buildKey(string $name): string
+    {
+        return sprintf('%s_%s', $this->getKeyPrefix(), $name);
+    }
+
+    private function getTtl(): ?int
+    {
+        return ((int) $this->getOption(self::OPTION_TTL)) ?: null;
     }
 
     private function getPersistenceManager(): PersistenceManager

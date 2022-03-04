@@ -27,6 +27,8 @@ namespace oat\tao\model\security\xsrf;
  */
 interface TokenStore
 {
+    public const TOKEN_NAME = 'XSRF_TOKEN_NAME';
+
     public function getToken(string $tokenId): ?Token;
 
     public function setToken(string $tokenId, Token $token): void;
