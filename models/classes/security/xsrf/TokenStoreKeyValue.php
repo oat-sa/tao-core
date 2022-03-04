@@ -144,7 +144,9 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
 
     private function getKeys(): array
     {
-        return $this->getPersistence()->keys($this->getKeyPrefix() . '*');
+        $keys = $this->getPersistence()->keys($this->getKeyPrefix() . '*');
+
+        return is_array($keys) ? $keys : [];
     }
 
     private function buildKey(string $name): string
