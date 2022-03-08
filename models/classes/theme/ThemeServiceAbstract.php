@@ -51,22 +51,22 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
 
     public function getFirstThemeIdByLanguage(string $language): ?string
     {
-        try {
-            foreach (array_keys($this->getOption(self::OPTION_AVAILABLE, [])) as $themeId) {
+        foreach (array_keys($this->getOption(self::OPTION_AVAILABLE, [])) as $themeId) {
+            try {
                 $theme = $this->getThemeById($themeId);
 
                 if ($theme instanceof LanguageAwareTheme && $theme->supportsLanguage($language)) {
                     return $themeId;
                 }
+            } catch (common_exception_InconsistentData $exception) {
+                $this->logWarning(
+                    sprintf(
+                        'Error while searching theme for language "%s": %s',
+                        $language,
+                        $exception->getMessage()
+                    )
+                );
             }
-        } catch (common_exception_InconsistentData $exception) {
-            $this->logWarning(
-                sprintf(
-                    'Theme for language "%s" does not exists: %s',
-                    $language,
-                    $exception->getMessage()
-                )
-            );
         }
 
         return null;
