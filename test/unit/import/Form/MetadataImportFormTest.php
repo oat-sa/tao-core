@@ -26,6 +26,8 @@ use oat\tao\model\import\Form\MetadataImportForm;
 use oat\generis\test\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use tao_helpers_form_FormElement;
+use oat\tao\helpers\form\Feeder\SanitizerValidationFeeder;
+use oat\tao\helpers\form\Feeder\SanitizerValidationFeederInterface;
 
 class MetadataImportFormTest extends TestCase
 {
@@ -61,7 +63,15 @@ class MetadataImportFormTest extends TestCase
 
         $this->subject = new MetadataImportForm(
             [],
-            [],
+            [
+                MetadataImportForm::WITH_SERVICE_MANAGER => $this->getServiceLocatorMock(
+                    [
+                        SanitizerValidationFeeder::class => $this->createMock(
+                            SanitizerValidationFeederInterface::class
+                        ),
+                    ]
+                ),
+            ],
             $this->fileUploadElement,
             $this->hiddenImportElement,
             $this->submitElement
