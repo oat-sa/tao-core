@@ -26,8 +26,14 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\Context\ContextInterface;
 use oat\tao\model\Middleware\Context\MiddlewareContext;
 
+/**
+ * @deprecated Refer to generis/core/Middleware/README.md
+ */
 class MiddlewareManager extends ConfigurableService
 {
+    /**
+     * @deprecated Refer to generis/core/Middleware/README.md
+     */
     public function append(ContextInterface $context): self
     {
         $middlewareId = $context->getParameter(MiddlewareContext::PARAM_MIDDLEWARE_ID);
@@ -43,6 +49,9 @@ class MiddlewareManager extends ConfigurableService
         return $this;
     }
 
+    /**
+     * @deprecated Refer to generis/Middleware/README.md
+     */
     public function detach(ContextInterface $context): self
     {
         $middlewareId = $context->getParameter(MiddlewareContext::PARAM_MIDDLEWARE_ID);

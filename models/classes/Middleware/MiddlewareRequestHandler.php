@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2021-2022 (original work) Open Assessment Technologies SA
  */
 
 declare(strict_types=1);
@@ -32,6 +32,9 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Relay\Relay;
 
+/**
+ * @deprecated Refer to generis/core/Middleware/README.md
+ */
 class MiddlewareRequestHandler extends ConfigurableService implements RequestHandlerInterface
 {
     public const SERVICE_ID = 'tao/MiddlewareRequestHandler';
@@ -40,6 +43,9 @@ class MiddlewareRequestHandler extends ConfigurableService implements RequestHan
     /** @var ResponseInterface|null */
     private $originalResponse;
 
+    /**
+     * @deprecated Refer to generis/core/Middleware/README.md
+     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $queue = $this->build($request);

@@ -25,7 +25,7 @@ namespace oat\tao\model\routing;
 use Context;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
-use oat\tao\model\Middleware\MiddlewareRequestHandler;
+use oat\generis\model\Middleware\MiddlewareRequestHandler;
 use oat\tao\model\routing\Contract\ActionFinderInterface;
 use oat\tao\model\routing\Service\ActionFinder;
 use Psr\Container\ContainerInterface;
@@ -311,6 +311,6 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
     private function getMiddlewareRequestHandler(): MiddlewareRequestHandler
     {
-        return $this->getServiceManager()->get(MiddlewareRequestHandler::SERVICE_ID);
+        return $this->getContainer()->get(MiddlewareRequestHandler::class);
     }
 }
