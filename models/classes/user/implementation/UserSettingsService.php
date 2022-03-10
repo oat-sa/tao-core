@@ -25,9 +25,15 @@ namespace oat\tao\model\user\implementation;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\user\UserTimezoneServiceInterface;
+use oat\tao\model\RdfObjectMapper\RdfObjectMapper;
+use oat\tao\model\RdfObjectMapper\TargetTypes\UserSettingsMappedType;
 use oat\tao\model\user\UserSettingsInterface;
 use oat\tao\model\user\UserSettingsServiceInterface;
 use core_kernel_classes_Resource;
+
+// For some reason composer is not loading these
+include __DIR__.'/../../rdfObjectMapper/RdfObjectMapper.php';
+include __DIR__.'/../../rdfObjectMapper/TargetTypes/UserSettingsMappedType.php';
 
 class UserSettingsService implements UserSettingsServiceInterface
 {
@@ -45,6 +51,12 @@ class UserSettingsService implements UserSettingsServiceInterface
 
     public function get(core_kernel_classes_Resource $user): UserSettingsInterface
     {
+        echo "Mapping resource with URI {$user->getUri()}<br/><br/>\n\n";
+
+        $mapper = new RdfObjectMapper();
+        $mapper->mapResource($user, UserSettingsMappedType::class);
+
+
         $props = $user->getPropertiesValues(
             [
                 $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_UILG),
