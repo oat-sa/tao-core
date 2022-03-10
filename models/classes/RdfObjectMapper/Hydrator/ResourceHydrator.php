@@ -18,23 +18,18 @@
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
  */
 
-namespace oat\tao\model\RdfObjectMapper\TargetTypes;
-
-
-require_once __DIR__ . '/../Annotation/RdfAttributeMapping.php';
-require_once __DIR__ . '/../Annotation/RdfResourceAttributeMapping.php';
-require_once __DIR__ . '/../Annotation/RdfResourceAttributeType.php';
+// @todo We may wan to have this in a "Service" namespace instead
+namespace oat\tao\model\RdfObjectMapper\Hydrator;
 
 use oat\tao\model\RdfObjectMapper\Annotation\RdfAttributeMapping;
 use oat\tao\model\RdfObjectMapper\Annotation\RdfResourceAttributeMapping;
-use oat\tao\model\RdfObjectMapper\Annotation\RdfResourceAttributeType;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 
 use core_kernel_classes_Resource;
+use Psr\Log\LoggerInterface;
 use ReflectionClass;
-use ReflectionException;
 use Exception;
 
 class ResourceHydrator
@@ -42,8 +37,12 @@ class ResourceHydrator
     /** @var AnnotationReader */
     private $reader;
 
-    public function __construct()
+    /** @var LoggerInterface */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger)
     {
+        $this->logger = $logger;
         $this->reader = new AnnotationReader();
 
         // Too bad this pollutes the global annotation reader state
@@ -58,30 +57,27 @@ class ResourceHydrator
     )
     {
         foreach($reflector->getProperties() as $property) {
-            echo $property->getName()."<br/>\n";
+            $this->logger->info("Handling property: {$property->getName()}");
 
             $propertyAnnotations = $this->reader->getPropertyAnnotations(
                 $property
             );
 
-            echo "Property {$property->getName()} annotations<br/>\n";
+            $this->logger->debug("Property {$property->getName()} annotations");
 
             foreach ($propertyAnnotations as $annotation)
             {
-                // @todo We may delegate the initialization to the annotation
-                //       class itself (i.e. pass a ref to the attribute and the
-                //       value)?
                 if($annotation instanceof RdfResourceAttributeMapping)
                 {
-                    echo "-> RdfResourceAttributeMapping<br/>\n";
-                    $annotation->hydrate($property, $src, $targetObject);
+                    $this->logger->debug('-> Using RdfResourceAttributeMapping');
+                    $annotation->hydrate($this->logger, $property, $src, $targetObject);
                     continue;
                 }
 
                 if($annotation instanceof RdfAttributeMapping)
                 {
-                    echo "-> RdfAttributeMapping<br/>\n";
-                    $annotation->hydrate($property, $src, $targetObject);
+                    $this->logger->debug('-> Using RdfAttributeMapping');
+                    $annotation->hydrate($this->logger, $property, $src, $targetObject);
                     continue;
                 }
 
@@ -89,9 +85,6 @@ class ResourceHydrator
                     "Unknown class property type: " . get_class($annotation)
                 );
             }
-
-            echo "<br/>\n", "<br/>\n", "<br/>\n";
         }
-
     }
 }

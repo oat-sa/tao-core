@@ -20,38 +20,57 @@
 
 namespace oat\tao\model\RdfObjectMapper;
 
+use oat\tao\model\RdfObjectMapper\Hydrator\ResourceHydrator;
 use oat\tao\model\RdfObjectMapper\TargetTypes\RdfResourceAttributeMapping;
-use oat\tao\model\RdfObjectMapper\TargetTypes\ResourceHydrator;
+use Psr\Log\LoggerInterface;
 use RdfAttributeMapping;
 use core_kernel_classes_Resource;
 use ReflectionClass;
 use ReflectionException;
 
+// right not this is needed (it seems they are not autoloaded for some reason)
 require_once __DIR__ . '/Annotation/RdfAttributeMapping.php';
 require_once __DIR__ . '/Annotation/RdfResourceAttributeMapping.php';
 require_once __DIR__ . '/Hydrator/ResourceHydrator.php';
 
-// taoDockerize uses PHP 7.2 and Generis is supporting "php": "^7.1":
-// we cannot use native annotations.
-//
-// However, Generis explicitly depends on doctrine/annotations ~1.6.0,
-// we may reimplement this using Doctrine annotations instead.
-//
-// Maybe this should be in Generis instead?
-// @todo The object mapper may be an interface with right now a single
-//       implementation that uses PHPDoc annotations. Maybe the object mapper
-//       can just use delegate the mapping to a "child" mapper with something
-//       like a chain of responsibility, so we can have a mapper based on
-//       Doctrine annotations while also having the possibility to implement a
-//       different one using PHP native annotations in the future.
+/**
+ * As Generis explicitly depends on doctrine/annotations ~1.6.0, the current
+ * implementation uses Doctrine annotations instead without needing additional
+ * deps.
+ *
+ * taoDockerize uses PHP 7.2 and Generis is supporting "php": "^7.1": We cannot
+ * use native PHP annotations (yet?).
+ *
+ * @todo Maybe this should be in Generis instead?
+ *
+ * @todo We may provide the object mapper as an interface instead, and provide a
+ *       single implementation that uses PHPDoc annotations.
+ *
+ * @todo Another possibility would be to have a "root" object mapper that just
+ *       delegates the mapping to a "child" mapper class (a chain of
+ *       responsibility), so we can have a mapper based on Doctrine annotations
+ *       while also having the possibility to implement a different one using
+ *       PHP native annotations in the future (without needing to convert
+ *       existing classes using Doctrine annotations to the PHP syntax all at
+ *       once).
+ *
+ * @todo May be worth considering how this fits with other architectural patterns
+ *       currently under discussion.
+ *
+ * @todo Right now only reading RDF data has been considered
+ */
 class RdfObjectMapper
 {
     /** @var ResourceHydrator */
     private $hydrator;
 
-    public function __construct()
+    /** @var LoggerInterface */
+    private $logger;
+
+    public function __construct(LoggerInterface $logger)
     {
-        $this->hydrator = new ResourceHydrator();
+        $this->logger = $logger;
+        $this->hydrator = new ResourceHydrator($logger);
     }
 
     public function mapResource(
@@ -63,9 +82,6 @@ class RdfObjectMapper
         $instance = $reflector->newInstanceWithoutConstructor();
 
         $this->hydrator->hydrateInstance($reflector, $resource, $instance);
-
-        echo "instance hydrated:<br/>";
-        echo "<pre>".var_export($instance, true)."</pre>";
 
         $this->callConstructorIfPresent($reflector, $instance);
 

@@ -23,17 +23,16 @@ namespace oat\tao\model\RdfObjectMapper\TargetTypes;
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\user\UserSettingsInterface;
 
-require_once __DIR__ . '/../Annotation/RdfAttributeMapping.php';
-require_once __DIR__ . '/../Annotation/RdfResourceAttributeMapping.php';
-require_once __DIR__ . '/../Annotation/RdfResourceAttributeType.php';
-
 use oat\tao\model\RdfObjectMapper\Annotation\RdfAttributeMapping;
 use oat\tao\model\RdfObjectMapper\Annotation\RdfResourceAttributeMapping;
 use oat\tao\model\RdfObjectMapper\Annotation\RdfResourceAttributeType;
 
 
 /**
- * Example object type with RDF mapping annotations
+ * Example object type with RDF mapping annotations.
+ *
+ * This would be "userland code" for the mapper (i.e. objects using annotations
+ * are to be located in other models/namespaces (tao/models/classes/user etc)
  */
 class UserSettingsMappedType implements UserSettingsInterface
 {
@@ -83,7 +82,8 @@ class UserSettingsMappedType implements UserSettingsInterface
      * @todo Use RdfResourceAttributeType (or a new class) constants for
      *       attributeType
      * @RdfAttributeMapping(
-     *     GenerisRdf::PROPERTY_USER_TIMEZONE, attributeType = "literal")
+     *     GenerisRdf::PROPERTY_USER_TIMEZONE,
+     *     attributeType = "literal")
      */
     private /*string*/ $timezone;
 

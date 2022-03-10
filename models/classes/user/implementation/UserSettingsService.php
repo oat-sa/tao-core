@@ -24,39 +24,45 @@ namespace oat\tao\model\user\implementation;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\user\UserTimezoneServiceInterface;
 use oat\tao\model\RdfObjectMapper\RdfObjectMapper;
 use oat\tao\model\RdfObjectMapper\TargetTypes\UserSettingsMappedType;
 use oat\tao\model\user\UserSettingsInterface;
 use oat\tao\model\user\UserSettingsServiceInterface;
 use core_kernel_classes_Resource;
+use Psr\Log\LoggerAwareInterface;
 
-// For some reason composer is not loading these
-include __DIR__.'/../../rdfObjectMapper/RdfObjectMapper.php';
-include __DIR__.'/../../rdfObjectMapper/TargetTypes/UserSettingsMappedType.php';
-
-class UserSettingsService implements UserSettingsServiceInterface
+class UserSettingsService implements UserSettingsServiceInterface, LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /** @var Ontology */
     private $ontology;
 
     /** @var string */
     private $defaultTimeZone;
 
+    private $objectMapper;
+
     public function __construct(UserTimezoneServiceInterface $userTimezoneService, Ontology $ontology)
     {
         $this->defaultTimeZone = $userTimezoneService->getDefaultTimezone();
         $this->ontology = $ontology;
+
+        // @fixme Inject the mapper
+        $this->objectMapper = new RdfObjectMapper(
+            $this->getLogger()
+        );
     }
 
     public function get(core_kernel_classes_Resource $user): UserSettingsInterface
     {
-        echo "Mapping resource with URI {$user->getUri()}<br/><br/>\n\n";
+        return $this->objectMapper->mapResource($user, UserSettingsMappedType::class);
+    }
 
-        $mapper = new RdfObjectMapper();
-        $mapper->mapResource($user, UserSettingsMappedType::class);
-
-
+    public function previousGetImplementation(core_kernel_classes_Resource $user): UserSettingsInterface
+    {
         $props = $user->getPropertiesValues(
             [
                 $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_UILG),
