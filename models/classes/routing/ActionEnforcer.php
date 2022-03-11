@@ -23,7 +23,6 @@
 namespace oat\tao\model\routing;
 
 use Context;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use oat\generis\model\Middleware\MiddlewareRequestHandler;
 use oat\tao\model\routing\Contract\ActionFinderInterface;
@@ -134,7 +133,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     protected function getResponse()
     {
         if (!$this->response) {
-            $this->response = new Response();
+            $this->response = $this->getContainer()->get(ResponseInterface::class);
         }
         return $this->response;
     }
@@ -214,9 +213,9 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             throw new ActionEnforcingException($e->getMessage(), $this->getControllerClass(), $this->getAction());
         }
 
-        $this->response = $this->getMiddlewareRequestHandler()->withOriginalResponse($this->getResponse())->handle(
-            $request
-        );
+        $this->response = $this->getMiddlewareRequestHandler()
+            ->withOriginalResponse($this->getResponse())
+            ->handle($request);
 
         $controller = $this->getController();
 
