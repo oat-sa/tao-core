@@ -31,7 +31,6 @@ use ReflectionException;
 // right not this is needed (it seems they are not autoloaded for some reason)
 require_once __DIR__ . '/../Annotation/RdfAttributeMapping.php';
 require_once __DIR__ . '/../Annotation/RdfResourceAttributeMapping.php';
-//require_once __DIR__ . '/ResourceHydrator.php';
 
 /**
  * As Generis explicitly depends on doctrine/annotations ~1.6.0, the current
