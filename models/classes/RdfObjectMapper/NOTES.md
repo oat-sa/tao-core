@@ -33,3 +33,15 @@
 
 - May be worth considering how this fits with other architectural patterns
   currently under discussion.
+
+- Performance: Right now this always hydrates values for all properties (one by
+  one) by calling getPropertyValues for each of them. This is done at
+  RdfAttributeMapping (which may not be the best place to do so) by calling
+  Resource::getPropertyValues($uri) for each property.
+
+# TODO
+
+- Test object inheritance: Having, say, a user class defined somewhere and
+  another user class extending that one (for example, a class in an extension 
+  that extends that one) should allow having all RDF data for that resource
+  mapped into the object. 

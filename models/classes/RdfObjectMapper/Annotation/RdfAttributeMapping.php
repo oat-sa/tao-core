@@ -20,6 +20,7 @@
 
 namespace oat\tao\model\RdfObjectMapper\Annotation;
 
+use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use Psr\Log\LoggerInterface;
 use ReflectionProperty;
@@ -72,7 +73,7 @@ class RdfAttributeMapping
         $logger->debug(__CLASS__ . " maps a value to the property");
 
         $values = $src->getPropertyValues(
-            new \core_kernel_classes_Property($this->propertyUri)
+            new core_kernel_classes_Property($this->propertyUri)
         );
 
         if(count($values) == 0) {
