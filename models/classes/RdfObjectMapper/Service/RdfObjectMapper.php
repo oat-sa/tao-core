@@ -32,32 +32,6 @@ use ReflectionException;
 require_once __DIR__ . '/../Annotation/RdfAttributeMapping.php';
 require_once __DIR__ . '/../Annotation/RdfResourceAttributeMapping.php';
 
-/**
- * As Generis explicitly depends on doctrine/annotations ~1.6.0, the current
- * implementation uses Doctrine annotations instead without needing additional
- * deps.
- *
- * taoDockerize uses PHP 7.2 and Generis is supporting "php": "^7.1": We cannot
- * use native PHP annotations (yet?).
- *
- * @todo Maybe this should be in Generis instead?
- *
- * @todo We may provide the object mapper as an interface instead, and provide a
- *       single implementation that uses PHPDoc annotations.
- *
- * @todo Another possibility would be to have a "root" object mapper that just
- *       delegates the mapping to a "child" mapper class (a chain of
- *       responsibility), so we can have a mapper based on Doctrine annotations
- *       while also having the possibility to implement a different one using
- *       PHP native annotations in the future (without needing to convert
- *       existing classes using Doctrine annotations to the PHP syntax all at
- *       once).
- *
- * @todo May be worth considering how this fits with other architectural patterns
- *       currently under discussion.
- *
- * @todo Right now only reading RDF data has been considered
- */
 class RdfObjectMapper implements RdfObjectMapperInterface
 {
     /** @var ResourceHydrator */
@@ -72,12 +46,15 @@ class RdfObjectMapper implements RdfObjectMapperInterface
         $this->hydrator = $hydrator;
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function mapResource(
         core_kernel_classes_Resource $resource,
         string $targetClass
     ): object
     {
-        $reflector = $this->reflect($targetClass);
+        $reflector = new ReflectionClass($targetClass);
         $instance = $reflector->newInstanceWithoutConstructor();
 
         $this->hydrator->hydrateInstance($reflector, $resource, $instance);
@@ -85,14 +62,6 @@ class RdfObjectMapper implements RdfObjectMapperInterface
         $this->callConstructorIfPresent($reflector, $instance);
 
         return $instance;
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    private function reflect(string $targetClass): ReflectionClass
-    {
-        return new ReflectionClass($targetClass);
     }
 
     private function callConstructorIfPresent(

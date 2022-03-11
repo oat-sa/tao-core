@@ -18,7 +18,7 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA.
  */
 
-namespace oat\tao\model\RdfObjectMapper\TargetTypes;
+namespace oat\tao\model\RdfObjectMapper\Example;
 
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\user\UserSettingsInterface;
