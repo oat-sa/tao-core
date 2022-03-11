@@ -24,7 +24,6 @@ namespace oat\tao\model\user\implementation;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
-use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\user\UserTimezoneServiceInterface;
 use oat\tao\model\RdfObjectMapper\Contract\RdfObjectMapperInterface;
 use oat\tao\model\RdfObjectMapper\RdfObjectMapper;
@@ -32,12 +31,9 @@ use oat\tao\model\RdfObjectMapper\Example\UserSettingsMappedType;
 use oat\tao\model\user\UserSettingsInterface;
 use oat\tao\model\user\UserSettingsServiceInterface;
 use core_kernel_classes_Resource;
-use Psr\Log\LoggerAwareInterface;
 
-class UserSettingsService implements UserSettingsServiceInterface, LoggerAwareInterface
+class UserSettingsService implements UserSettingsServiceInterface
 {
-    use LoggerAwareTrait;
-
     /** @var Ontology */
     private $ontology;
 
