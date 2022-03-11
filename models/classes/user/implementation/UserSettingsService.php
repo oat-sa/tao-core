@@ -26,6 +26,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\user\UserTimezoneServiceInterface;
+use oat\tao\model\RdfObjectMapper\Contract\RdfObjectMapperInterface;
 use oat\tao\model\RdfObjectMapper\RdfObjectMapper;
 use oat\tao\model\RdfObjectMapper\TargetTypes\UserSettingsMappedType;
 use oat\tao\model\user\UserSettingsInterface;
@@ -43,17 +44,17 @@ class UserSettingsService implements UserSettingsServiceInterface, LoggerAwareIn
     /** @var string */
     private $defaultTimeZone;
 
+    /** @var RdfObjectMapperInterface */
     private $objectMapper;
 
-    public function __construct(UserTimezoneServiceInterface $userTimezoneService, Ontology $ontology)
-    {
+    public function __construct(
+        UserTimezoneServiceInterface $userTimezoneService,
+        Ontology $ontology,
+        RdfObjectMapperInterface $objectMapper
+    ) {
         $this->defaultTimeZone = $userTimezoneService->getDefaultTimezone();
         $this->ontology = $ontology;
-
-        // @fixme Inject the mapper
-        $this->objectMapper = new RdfObjectMapper(
-            $this->getLogger()
-        );
+        $this->objectMapper = $objectMapper;
     }
 
     public function get(core_kernel_classes_Resource $user): UserSettingsInterface

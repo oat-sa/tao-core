@@ -18,8 +18,7 @@
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
  */
 
-// @todo We may wan to have this in a "Service" namespace instead
-namespace oat\tao\model\RdfObjectMapper\Hydrator;
+namespace oat\tao\model\RdfObjectMapper\Service;
 
 use oat\tao\model\RdfObjectMapper\Annotation\RdfAttributeMapping;
 use oat\tao\model\RdfObjectMapper\Annotation\RdfResourceAttributeMapping;

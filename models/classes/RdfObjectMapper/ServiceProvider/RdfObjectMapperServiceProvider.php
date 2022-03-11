@@ -15,47 +15,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
  */
 
-declare(strict_types=1);
+namespace oat\tao\model\RdfObjectMapper\ServiceProvider;
 
-namespace oat\tao\model\user;
-
-use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\oatbox\user\UserTimezoneServiceInterface;
+use oat\oatbox\log\LoggerService;
+use oat\tao\model\RdfObjectMapper\Service\ResourceHydrator;
 use oat\tao\model\RdfObjectMapper\Service\RdfObjectMapper;
-use oat\tao\model\user\implementation\UserSettingsService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use tao_models_classes_LanguageService;
-
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-class UserSettingsServiceProvider implements ContainerServiceProviderInterface
+class RdfObjectMapperServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
 
         $services
-            ->set(UserSettingsService::class, UserSettingsService::class)
-            ->public()
+            ->set(ResourceHydrator::class, ResourceHydrator::class)
             ->args(
                 [
-                    service(UserTimezoneServiceInterface::SERVICE_ID),
-                    service(Ontology::SERVICE_ID),
-                    service(RdfObjectMapper::class)
+                    service(LoggerService::SERVICE_ID),
                 ]
             );
 
         $services
-            ->set(UserSettingsFormFactory::class, UserSettingsFormFactory::class)
-            ->public()
+            ->set(RdfObjectMapper::class, RdfObjectMapper::class)
             ->args(
                 [
-                    service(tao_models_classes_LanguageService::class),
+                    service(LoggerService::SERVICE_ID),
+                    service(ResourceHydrator::class),
                 ]
-            );
+            )
+            ->public();
     }
 }

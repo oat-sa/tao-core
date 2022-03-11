@@ -18,9 +18,9 @@
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA.
  */
 
-namespace oat\tao\model\RdfObjectMapper;
+namespace oat\tao\model\RdfObjectMapper\Service;
 
-use oat\tao\model\RdfObjectMapper\Hydrator\ResourceHydrator;
+use oat\tao\model\RdfObjectMapper\Contract\RdfObjectMapperInterface;
 use oat\tao\model\RdfObjectMapper\TargetTypes\RdfResourceAttributeMapping;
 use Psr\Log\LoggerInterface;
 use RdfAttributeMapping;
@@ -29,9 +29,9 @@ use ReflectionClass;
 use ReflectionException;
 
 // right not this is needed (it seems they are not autoloaded for some reason)
-require_once __DIR__ . '/Annotation/RdfAttributeMapping.php';
-require_once __DIR__ . '/Annotation/RdfResourceAttributeMapping.php';
-require_once __DIR__ . '/Hydrator/ResourceHydrator.php';
+require_once __DIR__ . '/../Annotation/RdfAttributeMapping.php';
+require_once __DIR__ . '/../Annotation/RdfResourceAttributeMapping.php';
+//require_once __DIR__ . '/ResourceHydrator.php';
 
 /**
  * As Generis explicitly depends on doctrine/annotations ~1.6.0, the current
@@ -59,7 +59,7 @@ require_once __DIR__ . '/Hydrator/ResourceHydrator.php';
  *
  * @todo Right now only reading RDF data has been considered
  */
-class RdfObjectMapper
+class RdfObjectMapper implements RdfObjectMapperInterface
 {
     /** @var ResourceHydrator */
     private $hydrator;
@@ -67,10 +67,10 @@ class RdfObjectMapper
     /** @var LoggerInterface */
     private $logger;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, ResourceHydrator $hydrator)
     {
         $this->logger = $logger;
-        $this->hydrator = new ResourceHydrator($logger);
+        $this->hydrator = $hydrator;
     }
 
     public function mapResource(

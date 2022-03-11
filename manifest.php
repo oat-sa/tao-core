@@ -30,6 +30,7 @@ use oat\tao\model\Csv\CsvServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\metadata\ServiceProvider\MetadataServiceProvider;
 use oat\tao\model\Observer\ServiceProvider\ObserverServiceProvider;
+use oat\tao\model\RdfObjectMapper\ServiceProvider\RdfObjectMapperServiceProvider;
 use oat\tao\model\resources\ResourcesServiceProvider;
 use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
@@ -297,5 +298,6 @@ return [
         AccessControlServiceProvider::class,
         MetadataServiceProvider::class,
         ObserverServiceProvider::class,
+        RdfObjectMapperServiceProvider::class,
     ],
 ];
