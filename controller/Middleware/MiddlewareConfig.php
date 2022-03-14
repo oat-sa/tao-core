@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,32 +15,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
+ *
+ * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Middleware\Context;
+namespace oat\tao\controller\Middleware;
 
-use oat\tao\model\Context\AbstractContext;
+use oat\generis\model\Middleware\MiddlewareConfigInterface;
 
-/**
- * @deprecated Refer to generis/core/Middleware/README.md
- */
-class MiddlewareContext extends AbstractContext
+class MiddlewareConfig implements MiddlewareConfigInterface
 {
-    public const PARAM_MIDDLEWARE_ID = 'middlewareId';
-    public const PARAM_ROUTE = 'route';
-
-    protected function getSupportedParameters(): array
+    public function __invoke(): array
     {
-        return [
-            self::PARAM_MIDDLEWARE_ID,
-            self::PARAM_ROUTE,
-        ];
-    }
-
-    protected function validateParameter(string $parameter, $parameterValue): void
-    {
+        return [];
     }
 }

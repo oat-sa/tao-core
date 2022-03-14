@@ -25,6 +25,7 @@
 declare(strict_types=1);
 
 use oat\tao\controller\api\Users;
+use oat\tao\controller\Middleware\MiddlewareConfig;
 use oat\tao\model\accessControl\AccessControlServiceProvider;
 use oat\tao\model\Csv\CsvServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
@@ -298,4 +299,7 @@ return [
         MetadataServiceProvider::class,
         ObserverServiceProvider::class,
     ],
+    'middlewares' => [
+        MiddlewareConfig::class,
+    ]
 ];
