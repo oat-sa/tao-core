@@ -29,6 +29,8 @@ use common_persistence_SqlPersistence as SqlPersistence;
 use core_kernel_classes_Class as KernelClass;
 use core_kernel_classes_Resource as KernelResource;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\ResultStatement;
+use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
@@ -397,13 +399,15 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
     public function count(ValueCollectionSearchRequest $searchRequest): int
     {
-        $query = $this->getPersistence()->getPlatForm()->getQueryBuilder();
+        $query = $this->getQueryBuilder();
 
         $this->enrichWithInitialCondition($query);
-        $this->enrichWithSelect($searchRequest, $query);
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
 
-        return $query->execute()->rowCount();
+        $result = $query->select('count(element.id) AS c')->execute();
+
+        $row = $result->fetch(FetchMode::NUMERIC);
+        return (int)$row[0] ?? 0;
     }
 
     private function extractLabel(ValueCollectionSearchRequest $searchRequest, iterable $labels, string $subject): ?string
@@ -426,5 +430,10 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             $labels[$element['subject']][$element['datalanguage']] = $element['object'];
         }
         return $labels;
+    }
+
+    private function getQueryBuilder(): QueryBuilder
+    {
+        return $this->getPersistence()->getPlatForm()->getQueryBuilder();
     }
 }
