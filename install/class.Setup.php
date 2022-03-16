@@ -15,58 +15,63 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-use oat\generis\persistence\PersistenceManager;
-use oat\oatbox\action\Action;
-use oat\oatbox\log\ContainerLoggerTrait;
-use oat\oatbox\log\logger\TaoLog;
-use oat\oatbox\log\LoggerService;
-use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\service\InjectionAwareService;
 use Pimple\Container;
+use oat\oatbox\action\Action;
+use oat\oatbox\log\LoggerService;
+use oat\oatbox\log\logger\TaoLog;
+use oat\oatbox\service\ServiceManager;
+use oat\oatbox\log\ContainerLoggerTrait;
+use oat\oatbox\reporting\ReportInterface;
+use oat\oatbox\service\ConfigurableService;
+use oat\generis\persistence\PersistenceManager;
+use oat\tao\model\service\InjectionAwareService;
+use Doctrine\DBAL\Connections\MasterSlaveConnection;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class tao_install_Setup implements Action
 {
-    // Adding container and logger.
+    // Adding container and logger
     use ContainerLoggerTrait;
 
-    /**
-     * Setup related dependencies will be reached under this offset.
-     */
-    const CONTAINER_INDEX = 'taoInstallSetup';
+    /** Setup related dependencies will be reached under this offset */
+    public const CONTAINER_INDEX = 'taoInstallSetup';
+
+    /** The setup json content offset in the container */
+    public const SETUP_JSON_CONTENT_OFFSET = 'setupJsonContentOffset';
 
     /**
-     * The setup json content offset in the container.
-     */
-    const SETUP_JSON_CONTENT_OFFSET = 'setupJsonContentOffset';
-
-    /**
-     * @param mixed $params The setup params.
+     * @param Container|array $params
      *
-     * @throws ErrorException When a module is missing or other kind of general error.
+     * @throws ErrorException When a module is missing or other kind of general error
      * @throws common_Exception When the presented config file does not exist
      * @throws common_exception_Error
-     * @throws common_ext_ExtensionException When a presented parameter is invalid or malformed.
+     * @throws common_ext_ExtensionException When a presented parameter is invalid or malformed
      * @throws InvalidArgumentException
      * @throws tao_install_utils_Exception
+     * @throws ReflectionException
      */
     public function __invoke($params)
     {
-        // Using the container if it's necessary with automatic dependency returning.
+        // Using the container if it's necessary with automatic dependency returning
         $params = $this->initContainer($params, static::CONTAINER_INDEX);
 
         $this->logNotice('Installing TAO...');
 
-        if ($this->getContainer() !== null && $this->getContainer()->offsetExists(static::SETUP_JSON_CONTENT_OFFSET)) {
-            $parameters = json_decode($this->getContainer()->offsetGet(static::SETUP_JSON_CONTENT_OFFSET), true);
-            if (is_null($parameters)) {
+        if (
+            $this->getContainer() !== null
+            && $this->getContainer()->offsetExists(static::SETUP_JSON_CONTENT_OFFSET)
+        ) {
+            $parameters = json_decode(
+                $this->getContainer()->offsetGet(static::SETUP_JSON_CONTENT_OFFSET),
+                true
+            );
+
+            if ($parameters === null) {
                 throw new InvalidArgumentException('Your Setup JSON seed is malformed');
             }
         } else {
@@ -85,19 +90,23 @@ class tao_install_Setup implements Action
             switch ($info['extension']) {
                 case 'json':
                     $parameters = json_decode(file_get_contents($filePath), true);
-                    if (is_null($parameters)) {
+
+                    if ($parameters === null) {
                         throw new InvalidArgumentException('Your JSON file is malformed');
                     }
+
                     break;
                 case 'yml':
-                    if (extension_loaded('yaml')) {
-                        $parameters = yaml_parse_file($filePath);
-                        if ($parameters === false) {
-                            throw new InvalidArgumentException('Your YAML file is malformed');
-                        }
-                    } else {
+                    if (!extension_loaded('yaml')) {
                         throw new ErrorException('Extension yaml should be installed');
                     }
+
+                    $parameters = yaml_parse_file($filePath);
+
+                    if ($parameters === false) {
+                        throw new InvalidArgumentException('Your YAML file is malformed');
+                    }
+
                     break;
                 default:
                     throw new InvalidArgumentException('Please provide a JSON or YAML file');
@@ -107,47 +116,49 @@ class tao_install_Setup implements Action
         /** @var LoggerService $loggerService */
         $loggerService = $this->getContainer()->offsetGet(LoggerService::SERVICE_ID);
         $loggerService->addLogger(
-            new TaoLog([
-                'appenders' => [
-                    [
-                        'class' => 'SingleFileAppender',
-                        'threshold' => common_Logger::TRACE_LEVEL,
-                        'file' => TAO_INSTALL_PATH . 'tao/install/log/install.log'
-                    ]
+            new TaoLog(
+                [
+                    'appenders' => [
+                        [
+                            'class' => 'SingleFileAppender',
+                            'threshold' => common_Logger::TRACE_LEVEL,
+                            'file' => TAO_INSTALL_PATH . 'tao/install/log/install.log',
+                        ],
+                    ],
                 ]
-            ])
+            )
         );
 
-        $options =  [
-             "install_sent"    =>  "1"
-            , "module_host" =>      "tao.local"
-            , "module_lang" =>      "en-US"
-            , "module_mode" =>      "debug"
-            , "module_name" =>      "mytao"
-            , "module_namespace" => ""
-            , "module_url"  =>      ""
-            , "submit"  =>          "Install"
-            , "user_email"  =>      ""
-            , "user_firstname"  =>  ""
-            , "user_lastname"   =>  ""
-            , "user_login"  =>      ""
-            , "user_pass"   =>      ""
-            , "instance_name" =>    null
-            , "extensions" =>       null
-            , 'timezone'   =>      date_default_timezone_get()
-            , 'extra_persistences' => []
+        $options = [
+            'install_sent' => '1',
+            'module_host' => 'tao.local',
+            'module_lang' => 'en-US',
+            'module_mode' => 'debug',
+            'module_name' => 'mytao',
+            'module_namespace' => '',
+            'module_url' => '',
+            'submit' => 'Install',
+            'user_email' => '',
+            'user_firstname' => '',
+            'user_lastname' => '',
+            'user_login' => '',
+            'user_pass' => '',
+            'instance_name' => null,
+            'extensions' => null,
+            'timezone' => date_default_timezone_get(),
+            'extra_persistences' => [],
         ];
 
         if (!isset($parameters['configuration'])) {
-            throw new InvalidArgumentException('Your config should have a \'configuration\' key');
+            throw new InvalidArgumentException('Your config should have a "configuration" key');
         }
 
         if (!isset($parameters['configuration']['generis'])) {
-            throw new InvalidArgumentException('Your config should have a \'generis\' key under \'configuration\'');
+            throw new InvalidArgumentException('Your config should have a "generis" key under "configuration"');
         }
 
         if (!isset($parameters['configuration']['global'])) {
-            throw new InvalidArgumentException('Your config should have a \'global\' key under \'configuration\'');
+            throw new InvalidArgumentException('Your config should have a "global" key under "configuration"');
         }
 
         $global = $parameters['configuration']['global'];
@@ -157,9 +168,9 @@ class tao_install_Setup implements Action
         $options['module_lang'] = $global['lang'];
         $options['module_mode'] = $global['mode'];
         $options['timezone'] = $global['timezone'];
-        $options['import_local'] = (isset($global['import_data']) && $global['import_data'] === true);
+        $options['import_local'] = $global['import_data'] ?? false === true;
 
-        $rootDir = dir(dirname(__FILE__) . '/../../');
+        $rootDir = dir(__DIR__ . '/../../');
         $options['root_path'] = $global['root_path'] ?? realpath($rootDir->path) . DIRECTORY_SEPARATOR;
 
         $options['file_path'] = $global['file_path'] ?? $options['root_path'] . 'data' . DIRECTORY_SEPARATOR;
@@ -172,145 +183,171 @@ class tao_install_Setup implements Action
             $options['anonymous_lang'] = $global['anonymous_lang'];
         }
 
-        //get extensions to install
+        // Get extensions to install
         if (isset($parameters['extensions'])) {
             $options['extensions'] = $parameters['extensions'];
         }
 
         if (!isset($parameters['super-user'])) {
-            throw new InvalidArgumentException('Your config should have a \'global\' key under \'generis\'');
+            throw new InvalidArgumentException('Your config should have a "global" key under "generis"');
         }
 
         $superUser = $parameters['super-user'];
         $options['user_login'] = $superUser['login'];
         $options['user_pass1'] = $superUser['password'];
+
         if (isset($parameters['lastname'])) {
             $options['user_lastname'] = $parameters['lastname'];
         }
+
         if (isset($parameters['firstname'])) {
             $options['user_firstname'] = $parameters['firstname'];
         }
+
         if (isset($parameters['email'])) {
             $options['user_email'] = $parameters['email'];
         }
 
-
         $installOptions = [
-            'root_path'     => $options['root_path'],
-            'install_path'  => $options['root_path'] . 'tao/install/',
+            'root_path' => $options['root_path'],
+            'install_path' => $options['root_path'] . 'tao/install/',
         ];
 
         if (isset($global['installation_config_path'])) {
             $installOptions['installation_config_path'] = $global['installation_config_path'];
         }
 
-        // run the actual install
+        // Run the actual install
         if ($this->getContainer() instanceof Container) {
             $this->getContainer()->offsetSet(tao_install_Installator::CONTAINER_INDEX, $installOptions);
-            $installator = new tao_install_Installator($this->getContainer());
+            $installer = new tao_install_Installator($this->getContainer());
         } else {
-            $installator = new tao_install_Installator($installOptions);
+            $installer = new tao_install_Installator($installOptions);
         }
 
-        $serviceManager = $installator->getServiceManager();
+        $serviceManager = $installer->getServiceManager();
 
         if (!isset($parameters['configuration']['generis']['persistences'])) {
-            throw new InvalidArgumentException('Your config should have a \'persistence\' key under \'generis\'');
+            throw new InvalidArgumentException('Your config should have a "persistence" key under "generis"');
         }
+
         $persistences = $parameters['configuration']['generis']['persistences'];
+
         if (isset($persistences['default'])) {
             $parameters['configuration']['generis']['persistences'] = $this->wrapPersistenceConfig($persistences);
         } elseif (!isset($persistences['type'])) {
-            throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
+            throw new InvalidArgumentException('Your config should have a "type" key under "persistences"');
         }
 
         foreach ($parameters['configuration'] as $extension => $configs) {
             foreach ($configs as $key => $config) {
-                if (isset($config['type']) && $config['type'] === 'configurableService') {
-                    $className = $config['class'];
-                    $params = $config['options'];
-                    if (is_a($className, ConfigurableService::class, true)) {
-                        if (is_a($className, InjectionAwareService::class, true)) {
-                            $service = new $className(...$this->prepareParameters($className, $params, $serviceManager));
-                        } else {
-                            $service = new $className($params);
-                        }
-                        $serviceManager->register($extension . '/' . $key, $service);
-                    } else {
-                        $this->logWarning('The class : ' . $className . ' can not be set as a Configurable Service');
-                        $this->logWarning('Make sure your configuration is correct and all required libraries are installed');
-                    }
+                if (!isset($config['type']) || $config['type'] !== 'configurableService') {
+                    continue;
                 }
+
+                $className = $config['class'];
+                $params = $config['options'];
+
+                if (!is_a($className, ConfigurableService::class, true)) {
+                    $this->logWarning(
+                        sprintf(
+                            'The class "%s" can not be set as a Configurable Service',
+                            $className
+                        )
+                    );
+                    $this->logWarning(
+                        'Make sure your configuration is correct and all required libraries are installed'
+                    );
+
+                    continue;
+                }
+
+                $service = is_a($className, InjectionAwareService::class, true)
+                    ? new $className(...$this->prepareParameters($className, $params, $serviceManager))
+                    : new $className($params);
+
+                $serviceManager->register(
+                    sprintf('%s/%s', $extension, $key),
+                    $service
+                );
             }
         }
 
-        // mod rewrite cannot be detected in CLI Mode.
-        $installator->escapeCheck('custom_tao_ModRewrite');
+        // Mod rewrite cannot be detected in CLI Mode
+        $installer->escapeCheck('custom_tao_ModRewrite');
         $logger = $this->getLogger();
 
-        $installator->install($options, function () use ($serviceManager, $parameters, $logger) {
-            /** @var common_ext_ExtensionsManager $extensionManager */
-            $extensionManager = $serviceManager->get(common_ext_ExtensionsManager::SERVICE_ID);
-            foreach ($parameters['configuration'] as $ext => $configs) {
-                foreach ($configs as $key => $config) {
-                    if (! (isset($config['type']) && $config['type'] === 'configurableService')) {
-                        if (! is_null($extensionManager->getInstalledVersion($ext))) {
-                            $extension = $extensionManager->getExtensionById($ext);
-                            if (! $extension->hasConfig($key) || ! $extension->getConfig($key) instanceof ConfigurableService) {
-                                if (! $extension->setConfig($key, $config)) {
-                                    throw new ErrorException('Your config ' . $ext . '/' . $key . ' cannot be set');
-                                }
-                            }
+        $installer->install(
+            $options,
+            function () use ($serviceManager, $parameters, $logger): void {
+                /** @var common_ext_ExtensionsManager $extensionManager */
+                $extensionManager = $serviceManager->get(common_ext_ExtensionsManager::SERVICE_ID);
+
+                foreach ($parameters['configuration'] as $ext => $configs) {
+                    foreach ($configs as $key => $config) {
+                        if (
+                            (isset($config['type']) && $config['type'] === 'configurableService')
+                            || $extensionManager->getInstalledVersion($ext) === null
+                        ) {
+                            continue;
                         }
+
+                        $extension = $extensionManager->getExtensionById($ext);
+
+                        if (
+                            $extension->hasConfig($key)
+                            || $extension->getConfig($key) instanceof ConfigurableService
+                            || $extension->setConfig($key, $config)
+                        ) {
+                            continue;
+                        }
+
+                        throw new ErrorException(sprintf('Your config %s/%s cannot be set', $ext, $key));
                     }
                 }
-            }
 
-            // execute post install scripts
-            if (isset($parameters['postInstall'])) {
-                foreach ($parameters['postInstall'] as $script) {
-                    if (isset($script['class']) && is_a($script['class'], Action::class, true)) {
-                        $object = new $script['class']();
-                        if (is_a($object, ServiceLocatorAwareInterface::class)) {
-                            $object->setServiceLocator($serviceManager);
-                        }
-                        $params = (isset($script['params']) && is_array($script['params'])) ? $script['params'] : [];
-                        $report = call_user_func($object, $params);
+                // Execute post install scripts
+                foreach ($parameters['postInstall'] ?? [] as $script) {
+                    if (!isset($script['class']) || !is_a($script['class'], Action::class, true)) {
+                        continue;
+                    }
 
-                        if ($report instanceof common_report_Report) {
-                            $logger->info(helpers_Report::renderToCommandline($report));
-                        }
+                    $object = new $script['class']();
+
+                    if (is_a($object, ServiceLocatorAwareInterface::class)) {
+                        $object->setServiceLocator($serviceManager);
+                    }
+
+                    $params = (isset($script['params']) && is_array($script['params'])) ? $script['params'] : [];
+                    $report = call_user_func($object, $params);
+
+                    if ($report instanceof ReportInterface) {
+                        $logger->info(helpers_Report::renderToCommandline($report));
                     }
                 }
-            }
-            $logger->notice('Installation completed!');
-        });
 
+                $logger->notice('Installation completed!');
+            }
+        );
     }
 
     /**
-     * @param string         $class
-     * @param array          $parametersToSort
-     * @param ServiceManager $serviceManager
-     *
-     * @return array
      * @throws ReflectionException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     private function prepareParameters(string $class, array $parametersToSort, ServiceManager $serviceManager): array
     {
         $reflectionClass = new ReflectionClass($class);
-
         $constructParameters = $reflectionClass->getMethod('__construct')->getParameters();
-
         $sortedParameters = [];
 
         while($constructParameters && $parametersToSort) {
-            $parameter     = array_shift($constructParameters);
+            $parameter = array_shift($constructParameters);
             $parameterName = $parameter->getName();
 
             try {
                 $paramValue = $parametersToSort[$parameterName] ?? $parameter->getDefaultValue();
-
                 $sortedParameters[] = $this->resolveParameter($parameter, $paramValue, $serviceManager);
 
                 unset($parametersToSort[$parameterName]);
@@ -323,7 +360,11 @@ class tao_install_Setup implements Action
 
         if ($parametersToSort) {
             throw new InvalidArgumentException(
-                sprintf('Invalid arguments `%s` specified for %s', implode(', ', array_keys($parametersToSort)), $class)
+                sprintf(
+                    'Invalid arguments `%s` specified for %s',
+                    implode(', ', array_keys($parametersToSort)),
+                    $class
+                )
             );
         }
 
@@ -347,10 +388,8 @@ class tao_install_Setup implements Action
      * Transforms the seed persistence configuration into command line parameters
      * and then back into a persistence configuration to ensure backwards compatibility
      * with the previous process
-     * @param array $persistences
-     * @return array
      */
-    private function wrapPersistenceConfig($persistences)
+    private function wrapPersistenceConfig(array $persistences): array
     {
         if ($this->isMasterSlaveConnection($persistences['default'])) {
             $defaultPersistence = [
@@ -429,7 +468,7 @@ class tao_install_Setup implements Action
             isset($defaultPersistenceConfig['connection']['wrapperClass'])
             && is_a(
                 $defaultPersistenceConfig['connection']['wrapperClass'],
-                '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection',
+                MasterSlaveConnection::class,
                 true
             );
     }
