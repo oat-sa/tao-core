@@ -17,17 +17,20 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2020-2021 (original work) Open Assessment Technologies SA
+ *               2020-2022 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
+use oat\oatbox\service\ServiceManager;
 use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\model\security\xsrf\TokenService;
 use tao_helpers_form_FormFactory as FormFactory;
 use oat\tao\helpers\form\elements\xhtml\CsrfToken;
 use oat\tao\helpers\form\elements\FormElementAware;
+use oat\tao\helpers\form\Feeder\SanitizerValidationFeeder;
 use oat\tao\helpers\form\validators\CrossElementEvaluationAware;
+use oat\tao\helpers\form\Feeder\SanitizerValidationFeederInterface;
 
 /**
  * This class provide a container for a specific form instance.
@@ -41,6 +44,8 @@ abstract class tao_helpers_form_FormContainer
     public const IS_DISABLED = 'is_disabled';
     public const ADDITIONAL_VALIDATORS = 'extraValidators';
     public const ATTRIBUTE_VALIDATORS = 'attributeValidators';
+
+    public const WITH_SERVICE_MANAGER = 'withServiceManager';
 
     /**
      * the form instance contained
@@ -75,6 +80,12 @@ abstract class tao_helpers_form_FormContainer
      */
     private $postData = [];
 
+    /** @var SanitizerValidationFeederInterface */
+    private $sanitizerValidationFeeder;
+
+    /** @var ServiceManager */
+    private $serviceManager;
+
     /**
      * The constructor, initialize and build the form
      * regarding the initForm and initElements methods
@@ -85,6 +96,8 @@ abstract class tao_helpers_form_FormContainer
      */
     public function __construct(array $data = [], array $options = [])
     {
+        $this->withServiceManager($options);
+
         $this->data = $data;
         $this->options = $options;
 
@@ -94,6 +107,10 @@ abstract class tao_helpers_form_FormContainer
         if ($this->form !== null) {
             // set the refs of all the forms there
             self::$forms[$this->form->getName()] = $this->form;
+
+            $this
+                ->getSanitizerValidationFeeder()
+                ->setForm($this->form);
         }
 
         // initialize the elements of the form
@@ -117,6 +134,8 @@ abstract class tao_helpers_form_FormContainer
             if ($options[self::IS_DISABLED] ?? false) {
                 $this->form->disable();
             }
+
+            $this->getSanitizerValidationFeeder()->feed();
 
             // evaluate the form
             $this->form->evaluate();
@@ -149,6 +168,34 @@ abstract class tao_helpers_form_FormContainer
     public function getForm(): ?tao_helpers_form_Form
     {
         return $this->form;
+    }
+
+    public function addSanitizerValidator(tao_helpers_form_Validator $validator, array $elements): self
+    {
+        $this->getSanitizerValidationFeeder()->addValidator($validator);
+
+        foreach ($elements as $element) {
+            if ($element instanceof tao_helpers_form_FormElement) {
+                $this->getSanitizerValidationFeeder()->addElement($element);
+
+                continue;
+            }
+
+            if (is_string($element)) {
+                $this->getSanitizerValidationFeeder()->addElementByUri($element);
+
+                continue;
+            }
+
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Element provided to sanitizer must be an instance of %s or a string',
+                    tao_helpers_form_FormElement::class
+                )
+            );
+        }
+
+        return $this;
     }
 
     /**
@@ -263,5 +310,27 @@ abstract class tao_helpers_form_FormContainer
                 $validator->acknowledge($form);
             }
         }
+    }
+
+    private function getSanitizerValidationFeeder(): SanitizerValidationFeederInterface
+    {
+        if (!isset($this->sanitizerValidationFeeder)) {
+            $serviceManager = $this->serviceManager ?? ServiceManager::getServiceManager();
+            $this->sanitizerValidationFeeder = $serviceManager->getContainer()->get(SanitizerValidationFeeder::class);
+        }
+
+        return $this->sanitizerValidationFeeder;
+    }
+
+    private function withServiceManager(array &$options): void
+    {
+        if (
+            isset($options[self::WITH_SERVICE_MANAGER])
+            && $options[self::WITH_SERVICE_MANAGER] instanceof ServiceManager
+        ) {
+            $this->serviceManager = $options[self::WITH_SERVICE_MANAGER];
+        }
+
+        unset($options[self::WITH_SERVICE_MANAGER]);
     }
 }

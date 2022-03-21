@@ -46,10 +46,10 @@ use oat\tao\model\routing\Service\ActionFinder;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use Doctrine\Common\Annotations\AnnotationReader;
 use oat\oatbox\service\ServiceManagerAwareInterface;
-use oat\tao\model\Middleware\MiddlewareRequestHandler;
 use oat\tao\model\accessControl\data\DataAccessControl;
 use oat\tao\model\accessControl\data\PermissionException;
 use oat\tao\model\routing\Contract\ActionFinderInterface;
+use oat\generis\model\Middleware\MiddlewareRequestHandler;
 use oat\tao\model\HttpFoundation\Request\RequestInterface;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\ParamConverter\Event\ParamConverterEvent;
@@ -143,8 +143,9 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     protected function getResponse()
     {
         if (!$this->response) {
-            $this->response = new Response();
+            $this->response = $this->getContainer()->get(ResponseInterface::class);
         }
+
         return $this->response;
     }
 
@@ -223,9 +224,9 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             throw new ActionEnforcingException($e->getMessage(), $this->getControllerClass(), $this->getAction());
         }
 
-        $this->response = $this->getMiddlewareRequestHandler()->withOriginalResponse($this->getResponse())->handle(
-            $request
-        );
+        $this->response = $this->getMiddlewareRequestHandler()
+            ->withOriginalResponse($this->getResponse())
+            ->handle($request);
 
         $controller = $this->getController();
 
@@ -396,6 +397,6 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
     private function getMiddlewareRequestHandler(): MiddlewareRequestHandler
     {
-        return $this->getServiceManager()->get(MiddlewareRequestHandler::SERVICE_ID);
+        return $this->getContainer()->get(MiddlewareRequestHandler::class);
     }
 }

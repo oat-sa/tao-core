@@ -7,6 +7,21 @@
 	xmlns:widget="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#"
 	xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
 >
+  <rdf:Description rdf:about="http://www.w3.org/2000/01/rdf-schema#label">
+    <rdfs:label xml:lang="en-US"><![CDATA[Label]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[A human-readable name for the subject.]]></rdfs:comment>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#alias">
+    <rdfs:label xml:lang="en-US"><![CDATA[Alias]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Alias to be used when publishing a remote delivery]]></rdfs:comment>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent">
+    <rdfs:label xml:lang="en-US"><![CDATA[Is language dependent?]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[is_language_dependent]]></rdfs:comment>
+  </rdf:Description>
+
   <rdf:Description rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#type">
     <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
   </rdf:Description>
@@ -266,13 +281,13 @@
 
   <!-- Validation -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#validationRule">
-  	<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-  	<rdfs:label xml:lang="en-US"><![CDATA[Validation Rules]]></rdfs:label>
-  	<rdfs:comment xml:lang="en-US"><![CDATA[Validation rules for the values of this property]]></rdfs:comment>
-  	<rdfs:domain rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-	<rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
-	<widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector"/>
-	<generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Validation Rules]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Validation rules for the values of this property]]></rdfs:comment>
+    <rdfs:domain rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector"/>
+    <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
   </rdf:Description>
 
   <!-- Validation Widget -->

@@ -25,6 +25,7 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\user\LoginService;
 use oat\oatbox\user\User;
+use oat\generis\model\user\UserRdf;
 use oat\tao\model\event\UserCreatedEvent;
 use oat\tao\model\event\UserRemovedEvent;
 use oat\tao\model\TaoOntology;
@@ -276,7 +277,7 @@ class tao_models_classes_UserService extends ConfigurableService implements core
      * @param array $options
      * @param array $filters
      *
-     * @return array
+     * @return core_kernel_classes_Resource[]
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      */
     public function getAllUsers($options = [], $filters = [GenerisRdf::PROPERTY_USER_LOGIN => '*'])
@@ -305,24 +306,24 @@ class tao_models_classes_UserService extends ConfigurableService implements core
     }
 
     /**
-     * Short description of method toTree
+     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      *
-     * @param TypeClass $clazz
-     * @param array     $options
+     * @throws core_kernel_persistence_Exception
      *
      * @return array
-     * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
      */
     public function toTree(TypeClass $clazz, array $options = [])
     {
         $returnValue = [];
-        $users = $this->getAllUsers(['order' => GenerisRdf::PROPERTY_USER_LOGIN]);
+        $users = $this->getAllUsers(['order' => UserRdf::PROPERTY_LOGIN]);
+
         foreach ($users as $user) {
-            $login = (string)$user->getOnePropertyValue(
-                new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_LOGIN)
-            );
+            $login = (string) $user->getOnePropertyValue($user->getProperty(UserRdf::PROPERTY_LOGIN));
+            $login = tao_helpers_Display::htmlEscape($login);
+            $login = tao_helpers_Display::textCutter($login, 16);
+
             $returnValue[] = [
-                'data' => tao_helpers_Display::textCutter($login, 16),
+                'data' => $login,
                 'attributes' => [
                     'id' => tao_helpers_Uri::encode($user->getUri()),
                     'class' => 'node-instance',

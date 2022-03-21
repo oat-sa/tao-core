@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 3.4.0-sprint160\n"
-"PO-Revision-Date: 2021-07-27T12:35:59\n"
+"PO-Revision-Date: 2021-12-29 17:17+0100\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
@@ -9,12 +9,15 @@ msgstr ""
 "targetLanguage: ar-arb\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Basepath: ../../\n"
+"X-Poedit-Basepath: ../..\n"
 "X-Poedit-KeywordsList: __\n"
+"POT-Creation-Date: \n"
+"X-Generator: Poedit 2.4.3\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Poedit-SearchPath-0: .\n"
 
 msgid " and "
-msgstr "مع  "
+msgstr " مع "
 
 msgid " AND "
 msgstr " AND "
@@ -35,82 +38,82 @@ msgid " requires a subgrid adapter"
 msgstr "يحتاج إلى محول الشبكة الفرعية"
 
 msgid "%1$s expected but %2$s detected"
-msgstr "نسبة مئوية (%) كذا (%) مرتقبة لكن نسبة كذا متحققة"
+msgstr "نسبة مئوية (%1$s) كذا مرتقبة لكن نسبة كذا متحققة (%2$s)"
 
 msgid "%d attempts left before your account is locked."
-msgstr "المتبقى لك من الوقت بالنسبة المئوية قبل أن يتم إقفال حسابك."
+msgstr ".المتبقى لك من الوقت بالنسبة المئوية قبل أن يتم إقفال حسابك %d"
 
 msgid "%d day"
-msgstr "% من يوم"
+msgstr "%d من يوم"
 
 msgid "%d days"
-msgstr "% من أيام"
+msgstr "%d من أيام"
 
 msgid "%h hour"
-msgstr "% من ساعة"
+msgstr "%h من ساعة"
 
 msgid "%h hours"
-msgstr "% من ساعات"
+msgstr "%h من ساعات"
 
 msgid "%i minute"
-msgstr "% من دقيقة"
+msgstr "%i من دقيقة"
 
 msgid "%i minutes"
-msgstr "% من دقائق"
+msgstr "%i من دقائق"
 
 msgid "%m month"
-msgstr "% من شهر"
+msgstr "%m من شهر"
 
 msgid "%m months"
-msgstr "% من شهور"
+msgstr "%m من شهور"
 
 msgid "%s %s selected"
-msgstr "% لما تم انتقاؤه"
+msgstr "%s %s لما تم انتقاؤه"
 
 msgid "%s (%s kb)"
-msgstr "٪ s (٪ s ك ب) كيلو بايت"
+msgstr "%s (%s ك ب) كيلو بايت"
 
 msgid "%s Class saved"
-msgstr "تم حفظ القسم٪ s"
+msgstr "تم حفظ القسم %s"
 
 msgid "%s classes"
-msgstr "٪ s / أقسام"
+msgstr "%s / أقسام"
 
 msgid "%s Confirmation"
-msgstr "تأكيد٪ s"
+msgstr "تأكيد %s"
 
 msgid "%s could not be released"
-msgstr "تعذر عرضه٪ s"
+msgstr "تعذر عرضه %s"
 
 msgid "%s created"
-msgstr "تم الإنشاء٪ s"
+msgstr "تم الإنشاء %s"
 
 msgid "%s extension(s) to install."
-msgstr "٪ s الملحقات المراد تثبيتها."
+msgstr "%s الملحقات المراد تثبيتها."
 
 msgid "%s has been deleted"
-msgstr "تم حذف٪ s"
+msgstr "تم حذف %s"
 
 msgid "%s has been released"
-msgstr "تم عرض٪ s"
+msgstr "%s تم عرض"
 
 msgid "%s instances"
-msgstr "٪ s طلبات"
+msgstr "طلبات %s"
 
 msgid "%s is of a type that cannot be published"
-msgstr "٪ s من نوع لا يمكن نشره"
+msgstr "من نوع لا يمكن نشره %s"
 
 msgid "%s Locked"
-msgstr "٪ s مؤمن"
+msgstr "مؤمن %s"
 
 msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
-msgstr "٪ s \"ليس معرف فهرس صالحًا. يجب أن يبدأ بحرف وأن يحتوي على أحرف أو أرقام أو شرطات سفلية فقط"
+msgstr "%s \"ليس معرف فهرس صالحًا. يجب أن يبدأ بحرف وأن يحتوي على أحرف أو أرقام أو شرطات سفلية فقط"
 
 msgid "%y year"
-msgstr "٪ y سنة"
+msgstr "سنة %y"
 
 msgid "%y years"
-msgstr " ٪ سنوات"
+msgstr "سنوات %y"
 
 msgid "(empty)"
 msgstr "(فارغ)"
@@ -119,16 +122,16 @@ msgid "... reloading page."
 msgstr "إعادة تحميل الصفحة."
 
 msgid "<del>Filters</del>"
-msgstr "<del> المفرزات </ del>"
+msgstr "<del> المفرزات </del>"
 
 msgid "<del>Options</del>"
 msgstr "<del> خيارات </del>"
 
 msgid "<strong> %s </strong> has been moved to the background."
-msgstr "تم نقل <strong>٪ s </strong> إلى الخلفية."
+msgstr "تم نقل <strong> %s </strong> إلى الخلفية."
 
 msgid "> Extension %s succesfully installed."
-msgstr "> تم تثبيت الملحق٪ s بنجاح."
+msgstr "> تم تثبيت الملحق %s بنجاح."
 
 msgid "> Installation done."
 msgstr " > تم التثبيت"
@@ -143,22 +146,22 @@ msgid "A fatal error occured during the installation process."
 msgstr "حدث خطأ  أثناء عملية التثبيت ."
 
 msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
-msgstr "يجب أن يكون لحالة الصيانة حالة: \"٪ s\" أو \"٪ s"
+msgstr "يجب أن يكون لحالة الصيانة حالة: \"%s\" أو \"%s"
 
 msgid "A message with further instructions has been sent to your email address: %s"
-msgstr "تم إرسال رسالة تحتوي على مزيد من الإرشادات إلى عنوان بريدك الإلكتروني:٪ s"
+msgstr "تم إرسال رسالة تحتوي على مزيد من الإرشادات إلى عنوان بريدك الإلكتروني: %s"
 
 msgid "About"
 msgstr "حول"
 
 msgid "abs"
-msgstr ""
+msgstr "abs"
 
 msgid "Absolute value"
 msgstr "القيمة المطلقة "
 
 msgid "AC"
-msgstr ""
+msgstr "AC"
 
 msgid "Access Denied"
 msgstr "رفض الدخول"
@@ -173,10 +176,10 @@ msgid "Action"
 msgstr "إجراء"
 
 msgid "Action %s - removed %s positions"
-msgstr "الإجراء٪ s - إزالة٪ s من المواضع"
+msgstr "الإجراء %s - إزالة %s من المواضع"
 
 msgid "Action `%s` is not configured in the action queue service"
-msgstr "لم يتم تكوين الإجراء `٪ s` في خدمة قائمة انتظار الإجراءات"
+msgstr "لم يتم تكوين الإجراء `%s` في خدمة قائمة انتظار الإجراءات"
 
 msgid "Action was not executed yet"
 msgstr "لم يتم تنفيذ الإجراء بعد "
@@ -193,7 +196,6 @@ msgstr "إضافة / تحرير اللاوائح"
 msgid "Add a CSV file"
 msgstr "أضف ملف CSV "
 
-#, tao-public
 msgid "Add a user"
 msgstr "اضافة مستخدم"
 
@@ -210,7 +212,7 @@ msgid "Add property"
 msgstr "أضف خاصيات"
 
 msgid "Adding search index for %s"
-msgstr "إضافة فهرس البحث لـ٪ s"
+msgstr "إضافة فهرس البحث لـ %s"
 
 msgid "Adding the new class has failed"
 msgstr "إضافة قسم جديد باءت بالفشل"
@@ -231,7 +233,7 @@ msgid "all audios"
 msgstr ""
 
 msgid "All data will be removed in %s"
-msgstr "سيتم حذف كافة البيانات في٪ s "
+msgstr "سيتم حذف كافة البيانات في %s"
 
 msgid "All fields are required"
 msgstr "جميع الحقول مطلوبة"
@@ -258,13 +260,13 @@ msgid "An error occurred!"
 msgstr "حدث خطأ"
 
 msgid "An exception occured while running \"%s"
-msgstr "حدث استثناء أثناء تشغيل \"٪ s"
+msgstr "حدث استثناء أثناء تشغيل \"%s"
 
 msgid "an instance"
 msgstr "حالة أو مثال"
 
 msgid "Ans"
-msgstr ""
+msgstr "Ans"
 
 msgid "Apply"
 msgstr "تطبيق"
@@ -284,19 +286,21 @@ msgstr "ظل القوس"
 msgid "Archived"
 msgstr "تم توثيقه"
 
-msgid "Are you sure to delete the versioned resource?\n"
+msgid ""
+"Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr "هل أنت متأكد من حذف المورد الذي تم إصداره؟\n"
+msgstr ""
+"هل أنت متأكد من حذف المورد الذي تم إصداره؟\n"
 "السجلات الزمنية ستحذف أيضا"
 
 msgid "Are you sure you want to delete it?"
 msgstr "هل أنت متأكد أنك تريد حذف ذلك؟"
 
 msgid "Argument check failed: %s"
-msgstr "تعذر التحقق من الحجج:٪ s"
+msgstr "تعذر التحقق من الحجج: %s"
 
 msgid "Arguments %s and %s are mutually exclusive"
-msgstr "حجج٪ s و٪ s تتنافى فيما بينها"
+msgstr "حجج %s و %s تتنافى فيما بينها"
 
 msgid "Arguments separator"
 msgstr "فاصل بين الحجج"
@@ -310,7 +314,6 @@ msgstr "تعيين"
 msgid "Assign User to role"
 msgstr "تعيين المستخدم للدور"
 
-#, tao-public
 msgid "Assign Users"
 msgstr "تعيين المستخدمين"
 
@@ -324,7 +327,7 @@ msgid "Authoring"
 msgstr "محرر"
 
 msgid "auto unlocked in %s"
-msgstr "تم فتح القفل تلقائيًا في٪ s"
+msgstr "تم فتح القفل تلقائيًا في %s"
 
 msgid "Available"
 msgstr "متوفرة"
@@ -369,7 +372,7 @@ msgid "Browse..."
 msgstr "تصفح  "
 
 msgid "C"
-msgstr ""
+msgstr "C"
 
 msgid "Calculator"
 msgstr "آلة حاسبة "
@@ -399,9 +402,8 @@ msgid "Case sensitive"
 msgstr "حساسية الحالة"
 
 msgid "ceil"
-msgstr ""
+msgstr "ceil"
 
-#, tao-public
 msgid "Change password"
 msgstr "تغيير كلمة المرور "
 
@@ -526,10 +528,10 @@ msgid "Copy to clipboard"
 msgstr "نسخ إلى الحافظة "
 
 msgid "cos"
-msgstr ""
+msgstr "cos"
 
 msgid "cosh"
-msgstr ""
+msgstr "cosh"
 
 msgid "Cosine"
 msgstr "جيب التمام "
@@ -550,7 +552,7 @@ msgid "Creating report ..."
 msgstr "إعداد تقرير  .."
 
 msgid "CSP Header settings were saved successfully!"
-msgstr "تم حفظ معايير رأس الصفحة CSP بنجاح  "
+msgstr "تم حفظ معايير رأس الصفحة CSP بنجاح ! "
 
 msgid "CSV"
 msgstr "قيمة مفصولة بفاصلة "
@@ -610,12 +612,11 @@ msgid "Define the default values"
 msgstr "حدد القيم المعتادة"
 
 msgid "Deg"
-msgstr ""
+msgstr "Deg"
 
 msgid "Degree"
 msgstr "درجة "
 
-#, tao-public
 msgid "Delete"
 msgstr "حذف"
 
@@ -632,13 +633,13 @@ msgid "Delete the term on the right side of the cursor"
 msgstr "احذف المصطلح الموجود على الجانب الأيمن من المؤشر "
 
 msgid "Deleting search index for %s"
-msgstr "حذف فهرس البحث لـ٪ s "
+msgstr "حذف فهرس البحث ل %s"
 
 msgid "Demo Sandbox"
 msgstr "تجريب Sandbox"
 
 msgid "Did you mean %s?"
-msgstr "هل تقصد٪ s؟"
+msgstr "هل تقصد %s?"
 
 msgid "Digit 0"
 msgstr "عدد 0"
@@ -671,12 +672,14 @@ msgid "Digit 9"
 msgstr "عدد9"
 
 msgid "Disabled %s"
-msgstr "٪ s معطل "
+msgstr "%s معطل"
 
-msgid "Do you wish to install the following extension(s):\n"
+msgid ""
+"Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr "هل ترغب في تثبيت الملحقات التالية:\n"
-"٪س؟"
+msgstr ""
+"هل ترغب في تثبيت الملحقات التالية:\n"
+" %s?"
 
 msgid "does not match"
 msgstr "غير مطابق "
@@ -705,12 +708,11 @@ msgstr "ضع الملفات للتحميل"
 msgid "Edit"
 msgstr "تحرير"
 
-#, tao-public
 msgid "Edit a user"
 msgstr "تحرير مستخدم"
 
 msgid "Edit class %s"
-msgstr "تحرير قسم٪ s "
+msgstr "تحرير قسم %s"
 
 msgid "Edit Instance"
 msgstr "تحرير المثيل "
@@ -728,7 +730,7 @@ msgid "enabled"
 msgstr "ممكن "
 
 msgid "Enabled %s"
-msgstr "ممكن "
+msgstr "ممكن %s"
 
 msgid "End of document reached. Continuing from the beginning."
 msgstr "تم الوصول إلى نهاية المستند. مستمر من البداية. "
@@ -740,7 +742,7 @@ msgid "Error"
 msgstr "خطأ"
 
 msgid "Error adding search index for %s with message %s"
-msgstr "خطأ في إضافة فهرس البحث لـ٪ s بالرسالة٪ s "
+msgstr "خطأ في إضافة فهرس البحث لـ %s بالرسالة  %s"
 
 msgid "Error during file import"
 msgstr "خطأ أثناء استيراد الملف"
@@ -755,7 +757,7 @@ msgid "Error in value"
 msgstr "خطأ في القيمة "
 
 msgid "Error: %s"
-msgstr "خطأ:٪ s "
+msgstr "خطأ: %s"
 
 msgid "Examples:"
 msgstr "أمثلة "
@@ -767,15 +769,14 @@ msgid "Execute"
 msgstr "نفذ "
 
 msgid "Executing task %s failed"
-msgstr "فشل تنفيذ المهمة٪ s "
+msgstr "فشل تنفيذ المهمة %s "
 
 msgid "exp"
-msgstr ""
+msgstr "exp"
 
 msgid "Exponent"
 msgstr "الأس  "
 
-#, tao-public
 msgid "Export"
 msgstr "تصدير"
 
@@ -783,7 +784,7 @@ msgid "Export "
 msgstr "تصدير "
 
 msgid "Export \"%s\" in %s"
-msgstr "تصدير \"٪ s\" في٪ s "
+msgstr "تصدير \"%s\" في  %s"
 
 msgid "Export CSV"
 msgstr "تصدير CSV "
@@ -798,9 +799,8 @@ msgid "Export succeeded."
 msgstr "تم الإرسال"
 
 msgid "Extension \"%s\" has been installed"
-msgstr "تم تثبيت الملحق \"٪ s\" "
+msgstr "تم تثبيت الملحق  \"%s\""
 
-#, tao-public
 msgid "Extensions manager"
 msgstr "مدير الملحقات"
 
@@ -811,7 +811,7 @@ msgid "Failed"
 msgstr "باءت بالفشل"
 
 msgid "Failed to delete index for %s"
-msgstr "فشل حذف فهرس لـ٪ s"
+msgstr "فشل حذف فهرس ل  %s"
 
 msgid "False"
 msgstr "خطأ"
@@ -868,7 +868,7 @@ msgid "Fit to width"
 msgstr "تعديل مع العرض"
 
 msgid "floor"
-msgstr ""
+msgstr "floor"
 
 msgid "Forbid for all domains"
 msgstr "منع لجميع المجالات"
@@ -916,7 +916,7 @@ msgid "Height"
 msgstr "ارتفاع"
 
 msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
-msgstr "مرحبًا ،٪ s <br> لقد أشرت إلى أنك نسيت كلمة مرور TAO الخاصة بك. "
+msgstr "مرحبا، %s<br>  أشرت إلى أنك نسيت كلمة مرور TAO الخاصة بك."
 
 msgid "Hide detailed report"
 msgstr "إخفاء التقرير المفصل "
@@ -955,7 +955,7 @@ msgid "Identifier"
 msgstr "تعريف "
 
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
-msgstr "إذا كنت لا ترغب في إعادة تحديد كلمة المرور الخاصة بك ، فتجاهل هذا البريد الإلكتروني وستظل كلمة المرور كما هي. "
+msgstr "إذا كنت لا ترغب في إعادة تحديد كلمة المرور الخاصة بك ، فتجاهل هذا البريد الإلكتروني وستظل كلمة المرور كما هي."
 
 msgid "Implications failed:"
 msgstr "فشل التأثيرات:"
@@ -967,7 +967,7 @@ msgid "Import "
 msgstr "استيراد "
 
 msgid "Import a %s into \"%s"
-msgstr "استيراد٪ s إلى \"٪ s "
+msgstr "استيراد %s إلى %s"
 
 msgid "Import Completed"
 msgstr "اكتمل الاستيراد "
@@ -985,13 +985,13 @@ msgid "Import succeeded."
 msgstr "نجح الاستيراد. "
 
 msgid "Imported %1$d/%2$d. Some records are invalid."
-msgstr "تم استيراد٪ 1 $ d /٪ 2 $ d. بعض السجلات غير صالحة. "
+msgstr "تم استيراد %1$d/%2$d  بعض السجلات غير صالحة. "
 
 msgid "Imported %d resources"
-msgstr "تم استيراد٪ d من الموارد "
+msgstr "تم استيراد %d من الموارد "
 
 msgid "Imported resource \"%s"
-msgstr "المورد المستورد \"٪ s "
+msgstr "المورد المستورد \"%s"
 
 msgid "impossible to update task status"
 msgstr "من المستحيل تحديث حالة المهمة "
@@ -1003,7 +1003,7 @@ msgid "Inclusive (AND)"
 msgstr "دامج (و)"
 
 msgid "Index has been deleted for %s"
-msgstr "تم حذف الفهرس لـ٪ s"
+msgstr "تم حذف الفهرس لـ %s"
 
 msgid "Infinity"
 msgstr "اللانهاية"
@@ -1030,7 +1030,7 @@ msgid "Installed Version"
 msgstr "نسخة مثبتة "
 
 msgid "Installing extension %s..."
-msgstr "يتم الآن تثبيت الملحق٪ s ... "
+msgstr "يتم الآن تثبيت الملحق %s ... "
 
 msgid "Instance saved"
 msgstr "تم حفظ المثال "
@@ -1042,31 +1042,31 @@ msgid "Invalid CSP header."
 msgstr "رأس CSP غير مضبوط."
 
 msgid "Invalid date range (must be after or the same as: %s)"
-msgstr "نطاق التاريخ غير مضبوط (يجب أن يكون بعد أو نفس:٪ s)"
+msgstr "نطاق التاريخ غير مضبوط (يجب أن يكون بعد هذا التاريخ  أو مثل : %s)"
 
 msgid "Invalid date range (must be after: %s)"
-msgstr "نطاق التاريخ غيرمضبوط (يجب أن يكون بعد:٪ s)"
+msgstr "نطاق التاريخ غيرمضبوط (يجب أن يكون بعد: %s"
 
 msgid "Invalid date range (must be before or the same as: %s)"
-msgstr "نطاق التاريخ غير مضبوط (يجب أن يكون قبل أو نفس:٪ s)"
+msgstr "نطاق التاريخ غير مضبوط (يجب أن يكون قبل أو نفس: %s)"
 
 msgid "Invalid date range (must be before: %s)"
-msgstr "نطاق التاريخ غير مضبوط (يجب أن يكون قبل:٪ s)"
+msgstr "نطاق التاريخ غير مضبوط (يجب أن يكون قبل: %s)"
 
 msgid "Invalid field length"
 msgstr "طول الحقل غير صحيح"
 
 msgid "Invalid field range (maximum value: %s)"
-msgstr "نطاق الحقل غير مضبوط (القيمة القصوى:٪ s)"
+msgstr "نطاق الحقل غير مضبوط (القيمة القصوى: %s)"
 
 msgid "Invalid field range (minimum value: %1$s, maximum value: %2$s)"
-msgstr "نطاق الحقل غير صالح (الحد الأدنى للقيمة:٪ 1 $ s ، الحد الأقصى للقيمة:٪ 2 $ s)"
+msgstr "نطاق الحقل غير صالح (الحد الأدنى للقيمة: %1$s ، الحد الأقصى للقيمة: %2$s)"
 
 msgid "Invalid field range (minimum value: %s)"
-msgstr "نطاق الحقل غير صالح (الحد الأدنى للقيمة:٪ s)"
+msgstr "نطاق الحقل غير صالح (الحد الأدنى للقيمة: %s)"
 
 msgid "Invalid file size (minimum %1$s bytes, maximum %2$s bytes)"
-msgstr "حجم الملف غير مضبوط (الحد الأدنى٪ 1 $ s بايت ، الحد الأقصى٪ 2 $ s بايت)"
+msgstr "حجم الملف غير مضبوط (الحد الأدنى %1$s بايت ، الحد الأقصى %2$s بايت)"
 
 msgid "Invalid file type!"
 msgstr "نوع الملف غير مضبوط!"
@@ -1078,7 +1078,7 @@ msgid "Invalid input for function"
 msgstr "إدخال غير مضبوط للوظيفة"
 
 msgid "Invalid JSON config file: %s"
-msgstr "ملف تكوين JSON غير مضبوط:٪ s "
+msgstr "ملف تكوين JSON غير مضبوط: %s "
 
 msgid "Invalid login or password. Please try again."
 msgstr "لا يتطابق مع حساب الدخول أو كلمة المرور. المرجو إعادة المحاولة."
@@ -1165,7 +1165,7 @@ msgid "Loading task status ..."
 msgstr "جارٍ تحميل حالة المهمة ..."
 
 msgid "locked by %s"
-msgstr "مؤمن من قبل٪ s"
+msgstr "مؤمن من قبل %s"
 
 msgid "Log in"
 msgstr "تسجيل الدخول"
@@ -1212,14 +1212,12 @@ msgstr "إدارة مخطط القسم"
 msgid "Manage data list"
 msgstr "إدارة قائمة البيانات"
 
-#, tao-public
 msgid "Manage roles"
 msgstr "إدارة المهام"
 
 msgid "Manage Roles and apply them to users."
 msgstr "إدارة المهام وتطبيقها على المستخدمين."
 
-#, tao-public
 msgid "Manage users"
 msgstr "إدارة المستخدمين"
 
@@ -1248,13 +1246,13 @@ msgid "minutes"
 msgstr "دقائق"
 
 msgid "missing config %s for the service %s"
-msgstr "التكوين المفقود٪ s للخدمة٪ s"
+msgstr "التكوين المفقود %s للخدمة %s"
 
 msgid "Missing Parameters"
 msgstr "المعايير مفقودة"
 
 msgid "modulo"
-msgstr ""
+msgstr "modulo"
 
 msgid "More"
 msgstr "أكثر"
@@ -1268,7 +1266,6 @@ msgstr "تحرك يسارا "
 msgid "Move Right"
 msgstr "تحرك يمينا"
 
-#, tao-public
 msgid "Move role"
 msgstr "نقل الدور"
 
@@ -1288,7 +1285,7 @@ msgid "Multiple values delimiter"
 msgstr "محدد القيم المتعددة"
 
 msgid "Multiply the value by 10^x"
-msgstr "اضرب القيمة بـ 10 ^ x"
+msgstr "اضرب القيمة بـ 10^x"
 
 msgid "Mute"
 msgstr "صامت"
@@ -1296,12 +1293,11 @@ msgstr "صامت"
 msgid "My custom text translation"
 msgstr "ترجمتي للنص خاصة بي"
 
-#, tao-public
 msgid "My settings"
 msgstr "الإعدادات"
 
 msgid "My settings (%s)"
-msgstr "إعداداتي (٪ s)"
+msgstr "إعداداتي (%s)"
 
 msgid "Name"
 msgstr "الاسم"
@@ -1312,7 +1308,6 @@ msgstr "اللوغارتيم الطبيعي"
 msgid "New password"
 msgstr "كلمة مرور جديدة"
 
-#, tao-public
 msgid "New role"
 msgstr "مهمة جديدة"
 
@@ -1350,7 +1345,7 @@ msgid "No item found. Please try other search criteria."
 msgstr "لم يتم العثور على أي عنصر. يرجى المحاولة بمعايير البحث الأخرى."
 
 msgid "no label"
-msgstr ""
+msgstr "لا توجد تسمية"
 
 msgid "No Task yet"
 msgstr "لا توجد مهمة حتى الآن"
@@ -1359,10 +1354,10 @@ msgid "Node duplication has failed"
 msgstr "فشل نسخ العقدة"
 
 msgid "Not enough arguments following: %s"
-msgstr " المبررات التالية غير كافية:٪ s"
+msgstr " المبررات التالية غير كافية: %s"
 
 msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr "لا توجد وسائط كافية غير متعلقة بالخيارات: حصلت على٪ s ، وتحتاج إلى٪ s على الأقل"
+msgstr "لا توجد وسائط كافية غير متعلقة بالخيارات: حصلت على %s ، وتحتاج إلى %s على الأقل"
 
 msgid "Not started"
 msgstr "لم يبدأ"
@@ -1371,12 +1366,11 @@ msgid "Nothing imported"
 msgstr "لا شيء مستورد"
 
 msgid "Nothing to install !"
-msgstr "لا شيء لتثبيته!"
+msgstr "لا شيء لتثبيته !"
 
 msgid "Nothing to list!"
-msgstr "لا شيء للقائمة!"
+msgstr "لا شيء للقائمة !"
 
-#, tao-public
 msgid "Notifications"
 msgstr "إشعارات"
 
@@ -1411,10 +1405,10 @@ msgid "On"
 msgstr "مفتوح"
 
 msgid "Only allow for my own domain (%s)"
-msgstr "السماح لمجالي فقط (٪ s)"
+msgstr "السماح لمجالي فقط (%s)"
 
 msgid "Only one of the field must have value %s"
-msgstr "يجب أن يحتوي حقل واحد فقط على القيمة٪ s"
+msgstr "يجب أن يحتوي حقل واحد فقط على القيمة %s"
 
 msgid "Operated By "
 msgstr "تدار من"
@@ -1459,13 +1453,13 @@ msgid "Please confirm deletion"
 msgstr "الرجاء تأكيد الحذف"
 
 msgid "Please confirm deletion of %s."
-msgstr "الرجاء تأكيد حذف٪ s."
+msgstr "الرجاء تأكيد حذف %s."
 
 msgid "Please confirm deletion of user %s"
-msgstr "الرجاء تأكيد حذف المستخدم٪ s"
+msgstr "الرجاء تأكيد حذف المستخدم %s"
 
 msgid "Please confirm locking of account %s"
-msgstr "الرجاء تأكيد قفل الحساب٪ s"
+msgstr "الرجاء تأكيد قفل الحساب %s"
 
 msgid "Please confirm property deletion!"
 msgstr "الرجاء تأكيد حذف الخاصية"
@@ -1474,10 +1468,10 @@ msgid "Please confirm this operation."
 msgstr "يرجى تأكيد هذه العملية."
 
 msgid "Please confirm unlocking of account %s"
-msgstr "الرجاء تأكيد فتح الحساب٪ s"
+msgstr "الرجاء تأكيد فتح الحساب %s"
 
 msgid "Please contact %s or an administrator to release it"
-msgstr "الرجاء الاتصال بـ٪ s أو بالمسؤول للسماح"
+msgstr "الرجاء الاتصال  %s أو بالمسؤول للسماح"
 
 msgid "Please contact your administrator."
 msgstr "الرجاء الاتصال بالمسؤول الخاص بك."
@@ -1539,7 +1533,6 @@ msgstr "الصفحة السابقة"
 msgid "Proceed"
 msgstr "تقدم"
 
-#, tao-public
 msgid "Properties"
 msgstr "الخصائص"
 
@@ -1556,13 +1549,13 @@ msgid "Queued"
 msgstr "في قائمة الانتظار"
 
 msgid "Rad"
-msgstr ""
+msgstr "Rad"
 
 msgid "Radian"
 msgstr "راديان"
 
 msgid "random"
-msgstr ""
+msgstr "random"
 
 msgid "Random value"
 msgstr "قيمة عشوائية"
@@ -1580,7 +1573,7 @@ msgid "Release"
 msgstr "إنجاز"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
-msgstr "قد يؤدي فتح القفل إلى فقد العمل الجاري بواسطة٪ s."
+msgstr "قد يؤدي فتح القفل إلى فقد العمل الجاري بواسطة %s."
 
 msgid "Remind"
 msgstr "تذكير"
@@ -1613,13 +1606,13 @@ msgid "Remove this file"
 msgstr "إزالة هذا الملف"
 
 msgid "Removed %s directories"
-msgstr "تمت إزالة الدلائل٪ s"
+msgstr "تمت إزالة الدلائل %s"
 
 msgid "Removed %s files"
-msgstr "تمت إزالة٪ s ملفات"
+msgstr "تمت إزالة %s ملفات"
 
 msgid "Removing: %s"
-msgstr "إزالة:٪ s"
+msgstr "إزالة: %s"
 
 msgid "Rename"
 msgstr "إعادة تسمية"
@@ -1711,12 +1704,11 @@ msgstr "الدور المحفوظ"
 msgid "Roles"
 msgstr "أدوار"
 
-#, tao-public
 msgid "Roles library"
 msgstr "مكتبة الأدوار"
 
 msgid "round"
-msgstr ""
+msgstr "round"
 
 msgid "Round to closest whole number"
 msgstr "تقريب لأقرب عدد صحيح"
@@ -1728,10 +1720,10 @@ msgid "Round to upper whole number"
 msgstr "تقريب للعدد الصحيح الأكبر"
 
 msgid "Row %s"
-msgstr "صف٪ s"
+msgstr "صف %s"
 
 msgid "Running task %s"
-msgstr "مهمة قيد التشغيل٪ s"
+msgstr "مهمة قيد التشغيل %s"
 
 msgid "Save"
 msgstr "حفظ"
@@ -1749,7 +1741,7 @@ msgid "Search"
 msgstr "بحث"
 
 msgid "Search %s"
-msgstr "بحث في٪ s"
+msgstr "بحث في %s"
 
 msgid "Search by properties"
 msgstr "البحث عن طريق الخصائص"
@@ -1763,7 +1755,6 @@ msgstr "ثانية"
 msgid "seconds"
 msgstr "ثواني"
 
-#, tao-public
 msgid "Security"
 msgstr "أمن"
 
@@ -1786,7 +1777,7 @@ msgid "Select a language"
 msgstr "اختر اللغة"
 
 msgid "Select loaded %s"
-msgstr "اختر التحميل٪ s"
+msgstr "اختر التحميل %s"
 
 msgid "Select this file"
 msgstr "اختر هذا الملف"
@@ -1812,7 +1803,6 @@ msgstr "اضبط الدالة المثلثية للعمل بالدرجات"
 msgid "Set the trigonometric function to work in radians"
 msgstr "اضبط الدالة المثلثية لتعمل بوحدات الراديان"
 
-#, tao-public
 msgid "Settings"
 msgstr "الإعدادات"
 
@@ -1829,19 +1819,19 @@ msgid "Sign change"
 msgstr "قم بالتغيير"
 
 msgid "sin"
-msgstr ""
+msgstr "sin"
 
 msgid "Sine"
 msgstr "شرط"
 
 msgid "sinh"
-msgstr ""
+msgstr "sinh"
 
 msgid "Size"
 msgstr "حجم"
 
 msgid "Some resources have not been moved: %s"
-msgstr "لم يتم نقل بعض الموارد:٪ s"
+msgstr "لم يتم نقل بعض الموارد: %s"
 
 msgid "Something unexpected happened."
 msgstr "حدث شيء غير متوقع."
@@ -1877,40 +1867,40 @@ msgid "Success"
 msgstr "نجاح"
 
 msgid "Successfully cloned instance as %s"
-msgstr "تم استنساخ المثيل بنجاح كـ٪ s"
+msgstr "تم استنساخ المثيل بنجاح كـ %s"
 
 msgid "Successfully deleted %s"
-msgstr "تم حذف٪ s بنجاح"
+msgstr "تم حذف %s بنجاح"
 
 msgid "Successfully imported \"%s"
-msgstr "تم بنجاح استيراد \"٪ s"
+msgstr "تم بنجاح استيراد \"%s"
 
 msgid "Successfully imported %s tripples"
-msgstr "تم استيراد٪ s مثلثات بنجاح"
+msgstr "تم استيراد %s مثلثات بنجاح"
 
 msgid "Successfully imported class \"%s"
-msgstr "تم استيراد القسم \"٪ s بنجاح"
+msgstr "تم استيراد القسم \"%s بنجاح"
 
 msgid "Successfully updated %s client translation bundles"
-msgstr "تم بنجاح تحديث رزم ترجمة الزبون٪ s"
+msgstr "تم بنجاح تحديث رزم ترجمة الزبون %s"
 
 msgid "Supported export formats"
 msgstr "صيغ الاستيراد المعتمدة"
 
 msgid "SVG image"
-msgstr ""
+msgstr "صورة SVG"
 
 msgid "Syntax error"
 msgstr "خطأ في بناء الجملة"
 
 msgid "tan"
-msgstr ""
+msgstr "tan"
 
 msgid "Tangent"
 msgstr "مماس"
 
 msgid "tanh"
-msgstr ""
+msgstr "tanh"
 
 msgid "Tao Default Theme"
 msgstr "الموضوع المعتاد TAO"
@@ -1922,25 +1912,25 @@ msgid "TAO Login"
 msgstr "TAO تسجيل الدخول"
 
 msgid "TAO platform is already on live mode since %s"
-msgstr " TAO منصة قيد التشغيل بالفعل في الوضع المباشر منذ٪ s"
+msgstr " TAO منصة قيد التشغيل بالفعل في الوضع المباشر منذ %s"
 
 msgid "TAO platform is already on maintenance mode since %s"
-msgstr " TAO منصة في وضع الصيانة بالفعل منذ٪ s"
+msgstr " TAO منصة في وضع الصيانة بالفعل منذ %s"
 
 msgid "TAO platform is live since %s."
-msgstr "منصة TAO نشط منذ٪ s."
+msgstr "منصة TAO نشط منذ %s."
 
 msgid "TAO platform is now live. It was in maintenance since %s"
-msgstr "منصة TAO تعمل الآن.كان قيد الصيانة منذ٪ s"
+msgstr "منصة TAO تعمل الآن.كان قيد الصيانة منذ %s"
 
 msgid "TAO platform is now under maintenance. It was in maintenance since %s"
-msgstr "منصة TAO هي الآن تحت الصيانة. كان قيد الصيانة منذ٪ s"
+msgstr "منصة TAO هي الآن تحت الصيانة. كان قيد الصيانة منذ %s"
 
 msgid "TAO platform is under maintenance since %s"
-msgstr "منصة TAO تحت الصيانة منذ٪ s"
+msgstr "منصة TAO تحت الصيانة منذ %s"
 
 msgid "Task %s has been cancelled, message was not processed."
-msgstr "تم إلغاء المهام، الرسالة لم يتم معالجتها"
+msgstr "تم إلغاء المهام %s، الرسالة لم يتم معالجتها"
 
 msgid "task created"
 msgstr "مهام تم إنشاؤها"
@@ -2006,12 +1996,12 @@ msgid "The server has sent an empty response"
 msgstr "أرسل الخادم ردًا فارغًا"
 
 msgid "The uploaded file is too large (maximum %s bytes)"
-msgstr "الملف الذي تم تحميله كبير جدًا (الحد الأقصى هو٪ s بايت)"
+msgstr "الملف الذي تم تحميله كبير جدًا (الحد الأقصى هو %s بايت)"
 
 msgid "The value for the property \"%s\" must be unique."
-msgstr "يجب أن تكون قيمة الخاصية \"٪ s\" وحيدة."
+msgstr "يجب أن تكون قيمة الخاصية \"%s\" وحيدة."
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
 msgstr "يجب أن تكون قيمة هذا الحقل بتاريخ مضبوط ، على سبيل المثال YYYY-MM-DD"
 
 msgid "The value of this field must be an integer"
@@ -2024,7 +2014,7 @@ msgid "There is nothing to list!"
 msgstr "لا يوجد شيء لإضافته للقائمة!"
 
 msgid "This %s is currently checked out"
-msgstr "تم سحب٪ s هذا حالياً"
+msgstr "تم سحب %s هذا حالياً"
 
 msgid "This field is required"
 msgstr "هذه الخانة مطلوبه"
@@ -2048,10 +2038,10 @@ msgid "This media cannot be played!"
 msgstr "لا يمكن تشغيل هذه الوسائط!"
 
 msgid "This or one of %s must have a value"
-msgstr "يجب أن يكون لهذا أو واحد من٪ s قيمة"
+msgstr "يجب أن يكون لهذا أو واحد من %s قيمة"
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
-msgstr "رابط إعادة تعيين كلمة المرور لم يعد laf;ùh. ربما تم استخدامه بالفعل. إذا كنت لا تزال ترغب في إعادة تعيين كلمة المرور الخاصة بك ، فيرجى طلب ارتباط جديد"
+msgstr "رابط إعادة تعيين كلمة المرور لم يعد مقبولا. ربما تم استخدامه بالفعل. إذا كنت لا تزال ترغب في إعادة تعيين كلمة المرور الخاصة بك ، فيرجى طلب ارتباط جديد"
 
 msgid "This resource is locked"
 msgstr "هذا المورد مقفل"
@@ -2060,10 +2050,10 @@ msgid "This role is still given to one or more users. Please remove the role to 
 msgstr "لا يزال هذا الدور يعطى لمستخدم واحد أو أكثر. يرجى إزالة الدور لهؤلاء المستخدمين أولاً."
 
 msgid "This should equal %s"
-msgstr "يجب أن يساوي هذا٪ s"
+msgstr "يجب أن يساوي هذا %s"
 
 msgid "This should not equal %s"
-msgstr "يجب ألا يساوي هذا٪ s"
+msgstr "يجب ألا يساوي هذا %s"
 
 msgid "time"
 msgstr "زمن"
@@ -2093,7 +2083,7 @@ msgid "Tokenizer"
 msgstr "رمزية"
 
 msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr "عدد كبير جدًا من الوسائط غير الاختيارية: حصلت على٪ s ، بحد أقصى٪ s"
+msgstr "عدد كبير جدًا من الوسائط غير الاختيارية: حصلت على %s ، بحد أقصى %s"
 
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "الكثير من الاقتراحات تطابق استفسارك. يتم سرد عدد قليل فقط"
@@ -2129,7 +2119,7 @@ msgid "True"
 msgstr "حقيقي"
 
 msgid "trunc"
-msgstr ""
+msgstr "trunc"
 
 msgid "Type"
 msgstr "نوع"
@@ -2147,7 +2137,7 @@ msgid "Unable to copy the resource"
 msgstr "غير قادر على نسخ المورد"
 
 msgid "Unable to delete %s"
-msgstr "غير قادر على حذف٪ s"
+msgstr "غير قادر على حذف %s"
 
 msgid "Unable to delete the selected resource"
 msgstr "تعذر حذف المورد المحدد"
@@ -2159,7 +2149,7 @@ msgid "Unable to move the resources"
 msgstr "غير قادر على نقل الموارد"
 
 msgid "Unable to open file %s"
-msgstr "غير قادر على فتح الملف٪ s"
+msgstr "غير قادر على فتح الملف %s"
 
 msgid "Unable to process your request"
 msgstr "غير قادر على معالجة طلبك"
@@ -2186,7 +2176,7 @@ msgid "Unable to upload file"
 msgstr "لا اتمكن من تحميل الملف"
 
 msgid "Unable to upload file %s : %s"
-msgstr "تعذر تحميل الملف٪ s:٪ s"
+msgstr "تعذر تحميل الملف  %s : %s"
 
 msgid "Unary operator +"
 msgstr "عامل أحادي +"
@@ -2213,10 +2203,10 @@ msgid "Unexpected error. Please contact administrator"
 msgstr "خطأ غير متوقع. يرجى الاتصال بالمسؤول"
 
 msgid "Uninstall of %s failed"
-msgstr "فشل إلغاء تثبيت٪ s"
+msgstr "فشل إلغاء تثبيت %s"
 
 msgid "Uninstalled %s"
-msgstr "تم إلغاء تثبيت٪ s"
+msgstr "تم إلغاء تثبيت %s"
 
 msgid "unknown"
 msgstr "غير معروف"
@@ -2225,13 +2215,13 @@ msgid "Unknown Error"
 msgstr "خطأ غير معروف"
 
 msgid "unkown task id %s"
-msgstr "معرف مهمة غير معروف٪ s"
+msgstr "معرف مهمة غير معروف %s"
 
 msgid "Update"
 msgstr "تحديث"
 
 msgid "Update ID : %s"
-msgstr "معرف التحديث:٪ s"
+msgstr "معرف التحديث: %s"
 
 msgid "Upload"
 msgstr "تحميل"
@@ -2267,16 +2257,16 @@ msgid "User"
 msgstr "المستعمل"
 
 msgid "User %s can not be locked"
-msgstr "لا يمكن تأمين المستخدم٪ s"
+msgstr "لا يمكن تأمين المستخدم %s"
 
 msgid "User %s can not be unlocked"
-msgstr "لا يمكن إلغاء تأمين المستخدم٪ s"
+msgstr "لا يمكن إلغاء تأمين المستخدم %s"
 
 msgid "User %s successfully locked"
-msgstr "تم تأمين المستخدم٪ s بنجاح"
+msgstr "تم تأمين المستخدم %s بنجاح"
 
 msgid "User %s successfully unlocked"
-msgstr "تم تأمين المستخدم٪ s بنجاح"
+msgstr "تم تأمين المستخدم %s بنجاح"
 
 msgid "User added"
 msgstr "مستخدم مضاف"
@@ -2293,31 +2283,29 @@ msgstr "لم يتم العثور على المستخدم"
 msgid "User saved"
 msgstr "تم حفظ المستخدم"
 
-#, tao-public
 msgid "User Settings"
 msgstr "إعدادات المستخدم"
 
-#, tao-public
 msgid "Users"
 msgstr "المستخدمون"
 
 msgid "Validation for field '%s' has failed. Language does not exist in the system"
-msgstr "فشل التحقق من صحة الحقل '٪ s'. اللغة غير موجودة في النظام"
+msgstr "فشل التحقق من صحة الحقل '%s'. اللغة غير موجودة في النظام"
 
 msgid "Validation for field '%s' has failed. List of values expected"
-msgstr "فشل التحقق من صحة الحقل '٪ s'. قائمة القيم المتوقعة"
+msgstr "فشل التحقق من صحة الحقل '%s'. قائمة القيم المتوقعة"
 
 msgid "Validation for field '%s' has failed. Should not be empty"
-msgstr "فشل التحقق من صحة الحقل '٪ s'. لا يجب أن تكون فارغة"
+msgstr "فشل التحقق من صحة الحقل '%s'.. لا يجب أن تكون فارغة"
 
 msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
-msgstr "فشل التحقق من صحة الحقل '٪ s'. يتوقع دور صالح. معطى:٪ s"
+msgstr "فشل التحقق من صحة الحقل '%s'. يتوقع دور صالح. معطى: %s"
 
 msgid "Validation for field '%s' has failed. Valid URI expected"
-msgstr "فشل التحقق من صحة الحقل '٪ s'. متوقع URI صالح"
+msgstr "فشل التحقق من صحة الحقل '%s'. متوقع URI صالح"
 
 msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
-msgstr "فشل التحقق من صحة الحقل '٪ s'. متوقع URI صالح. معطى:٪ s"
+msgstr "فشل التحقق من صحة الحقل '%s'.. متوقع URI صالح. معطى: %s"
 
 msgid "Value ellipsis"
 msgstr "قيمة غير تامة"
@@ -2332,7 +2320,7 @@ msgid "Variable"
 msgstr "متغيرة"
 
 msgid "Variable %s"
-msgstr "المتغيرة "
+msgstr "المتغيرة %s"
 
 msgid "Version"
 msgstr "صيغة"
@@ -2371,7 +2359,7 @@ msgid "Yes"
 msgstr "نعم"
 
 msgid "You are not allowed to write in the class %s"
-msgstr "غير مسموح لك بالكتابة في القسم٪ s"
+msgstr "غير مسموح لك بالكتابة في القسم %s"
 
 msgid "You are not authorised to remove this lock"
 msgstr "غير مصرح لك بإزالة هذا القفل"
@@ -2380,7 +2368,7 @@ msgid "You cannot delete the root node"
 msgstr "لا يمكنك حذف عقدة الجذر"
 
 msgid "You cannot move the selected resources in the class %s"
-msgstr "لا يمكنك نقل الموارد المحددة في الفصل الدراسي٪ s"
+msgstr "لا يمكنك نقل الموارد المحددة في الفصل الدراسي %s"
 
 msgid "You currently have no access to the platform"
 msgstr "ليس لديك حاليا وصول إلى المنصة"

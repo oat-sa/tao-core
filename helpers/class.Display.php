@@ -52,7 +52,11 @@ class tao_helpers_Display
             return $input;
         }
 
-        return "<span title='$input' class='cutted' style='cursor:pointer;'>" . mb_substr($input, 0, $maxLength, $encoding) . '[...]</span>';
+        return sprintf(
+            '<span title="%s" class="cutted" style="cursor:pointer;">%s[...]</span>',
+            $input,
+            mb_substr($input, 0, $maxLength, $encoding)
+        );
     }
 
     /**

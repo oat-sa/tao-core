@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\StatisticalMetadata\Import\Processor;
 
+use oat\tao\model\StatisticalMetadata\Import\Extractor\MetadataAliasesExtractor;
 use Throwable;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
@@ -63,20 +64,30 @@ class ImportProcessor implements ImportFileProcessorInterface
     /** @var tao_models_classes_dataBinding_GenerisInstanceDataBinder */
     private $dataBinder;
 
+    /** @var NotifyImportService */
+    private $notifyImportService;
+
+    /** @var MetadataAliasesExtractor */
+    private $metadataAliasesExtractor;
+
     public function __construct(
         ReaderFactory $readerFactory,
         HeaderValidator $headerValidator,
         MetadataPropertiesExtractor $metadataPropertiesExtractor,
+        MetadataAliasesExtractor $metadataAliasesExtractor,
         ResourceExtractor $resourceExtractor,
         MetadataValuesExtractor $metadataValuesExtractor,
-        ReportBuilder $reportBuilder
+        ReportBuilder $reportBuilder,
+        NotifyImportService $notifyImportService
     ) {
         $this->readerFactory = $readerFactory;
         $this->headerValidator = $headerValidator;
         $this->metadataPropertiesExtractor = $metadataPropertiesExtractor;
+        $this->metadataAliasesExtractor = $metadataAliasesExtractor;
         $this->resourceExtractor = $resourceExtractor;
         $this->metadataValuesExtractor = $metadataValuesExtractor;
         $this->reportBuilder = $reportBuilder;
+        $this->notifyImportService = $notifyImportService;
     }
 
     public function withDataBinder(tao_models_classes_dataBinding_GenerisInstanceDataBinder $dataBinder): void
@@ -98,6 +109,8 @@ class ImportProcessor implements ImportFileProcessorInterface
             $this->headerValidator->validateRequiredHeaders($header);
 
             $metadataProperties = $this->metadataPropertiesExtractor->extract($header);
+
+            $this->notifyImportService->withAliases($this->metadataAliasesExtractor->extract($header));
         } catch (AbstractValidationException | AggregatedValidationException $exception) {
             $result->addException(0, $exception);
 
@@ -108,11 +121,15 @@ class ImportProcessor implements ImportFileProcessorInterface
 
         foreach ($csv->getRecords($header) as $line => $record) {
             try {
+                $record = $this->clearRecord($record);
+
                 $result->increaseTotalScannedRecords();
                 $resource = $this->resourceExtractor->extract($record);
                 $metadataValues = $this->metadataValuesExtractor->extract($record, $resource, $metadataProperties);
 
                 $this->bindProperties($resource, $metadataValues);
+
+                $this->notifyImportService->addResource($resource);
 
                 $result->increaseTotalImportedRecords();
             } catch (AbstractValidationException | AggregatedValidationException $exception) {
@@ -120,6 +137,12 @@ class ImportProcessor implements ImportFileProcessorInterface
             } catch (Throwable $exception) {
                 return $this->reportBuilder->buildByException($exception);
             }
+        }
+
+        try {
+            $this->notifyImportService->notify();
+        } catch (Throwable $exception) {
+            return $this->reportBuilder->buildByException($exception);
         }
 
         return $this->reportBuilder->buildByResult($result);
@@ -133,6 +156,12 @@ class ImportProcessor implements ImportFileProcessorInterface
     private function bindProperties(core_kernel_classes_Resource $resource, array $values): void
     {
         $binder = $this->dataBinder ?? new tao_models_classes_dataBinding_GenerisInstanceDataBinder($resource);
+        $binder->forceModification();
         $binder->bind($values);
+    }
+
+    private function clearRecord(array $record): array
+    {
+        return array_map('trim', $record);
     }
 }

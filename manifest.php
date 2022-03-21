@@ -47,6 +47,7 @@ use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetServiceFileStorage;
+use oat\tao\controller\Middleware\MiddlewareConfig;
 use oat\tao\model\user\UserSettingsServiceProvider;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterSearchServices;
@@ -70,19 +71,22 @@ use oat\tao\scripts\install\RegisterResourceRelationService;
 use oat\tao\scripts\install\RegisterValueCollectionServices;
 use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
 use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
+use oat\tao\model\accessControl\AccessControlServiceProvider;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\ParamConverter\ParamConverterServiceProvider;
 use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
-use oat\tao\model\export\ServiceProvider\MetadataServiceProvider;
 use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
 use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
 use oat\tao\scripts\install\RegisterDataAccessControlChangedEvent;
+use oat\tao\model\Observer\ServiceProvider\ObserverServiceProvider;
+use oat\tao\model\metadata\ServiceProvider\MetadataServiceProvider;
 use oat\tao\scripts\install\RegisterDataAccessControlChangedListener;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
 use oat\tao\model\StatisticalMetadata\StatisticalMetadataServiceProvider;
 use oat\tao\model\HttpFoundation\ServiceProvider\HttpFoundationServiceProvider;
+use oat\tao\model\export\ServiceProvider\MetadataServiceProvider as ExportMetadataServiceProvider;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -285,7 +289,7 @@ return [
     'containerServiceProviders' => [
         ListsServiceProvider::class,
         FormServiceProvider::class,
-        MetadataServiceProvider::class,
+        ExportMetadataServiceProvider::class,
         FeatureFlagServiceProvider::class,
         LanguageServiceProvider::class,
         ResourcesServiceProvider::class,
@@ -294,8 +298,14 @@ return [
         UserSettingsServiceProvider::class,
         StatisticalMetadataServiceProvider::class,
         CsvServiceProvider::class,
+        AccessControlServiceProvider::class,
+        MetadataServiceProvider::class,
+        ObserverServiceProvider::class,
         SerializerServiceProvider::class,
         HttpFoundationServiceProvider::class,
         ParamConverterServiceProvider::class,
     ],
+    'middlewares' => [
+        MiddlewareConfig::class,
+    ]
 ];

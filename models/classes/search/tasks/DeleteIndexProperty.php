@@ -51,7 +51,13 @@ class DeleteIndexProperty implements Action, ServiceLocatorAwareInterface, TaskA
             'parentClasses' => $this->getParentClasses($class)
         ];
 
-        $this->logInfo('Removing property from index');
+        $this->logInfo(
+            sprintf(
+                'Removing property "%s" with type "%s" from index',
+                $propertyName,
+                $class->getUri()
+            )
+        );
 
         try {
             $this->getServiceLocator()

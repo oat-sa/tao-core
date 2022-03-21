@@ -192,6 +192,9 @@ class tao_models_classes_RoleService extends tao_models_classes_GenerisService i
      *
      * @param core_kernel_classes_Resource $role The Role to remove.
      * @return boolean True if the Role was removed, false otherwise.
+     * @deprecated use oat\tao\test\unit\models\classes\accessControl\Service\DeleteRoleService
+     *
+     * @todo Move this logic to oat\tao\test\unit\models\classes\accessControl\Service\DeleteRoleService
      */
     public function removeRole(core_kernel_classes_Resource $role)
     {
