@@ -24,66 +24,69 @@
 
 declare(strict_types=1);
 
-use oat\tao\controller\api\Users;
-use oat\tao\controller\Middleware\MiddlewareConfig;
-use oat\tao\model\accessControl\AccessControlServiceProvider;
-use oat\tao\model\Csv\CsvServiceProvider;
-use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
-use oat\tao\model\metadata\ServiceProvider\MetadataServiceProvider;
-use oat\tao\model\Observer\ServiceProvider\ObserverServiceProvider;
-use oat\tao\model\resources\ResourcesServiceProvider;
-use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
-use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
-use oat\tao\install\services\SetupSettingsStorage;
-use oat\tao\model\accessControl\func\AccessRule;
-use oat\tao\model\export\ServiceProvider\MetadataServiceProvider as ExportMetadataServiceProvider;
-use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
-use oat\tao\model\routing\ApiRoute;
-use oat\tao\model\routing\LegacyRoute;
-use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
 use oat\tao\model\user\TaoRoles;
-use oat\tao\model\user\UserSettingsServiceProvider;
-use oat\tao\model\LanguageServiceProvider;
-use oat\tao\scripts\install\AddArchiveService;
+use oat\tao\controller\api\Users;
+use oat\tao\model\routing\ApiRoute;
+use oat\tao\scripts\update\Updater;
 use oat\tao\scripts\install\AddLogFs;
-use oat\tao\scripts\install\AddTmpFsHandlers;
-use oat\tao\scripts\install\CreateRdsListStore;
-use oat\tao\scripts\install\CreateWebhookEventLogTable;
-use oat\tao\scripts\install\InstallNotificationTable;
-use oat\tao\scripts\install\RegisterActionService;
-use oat\tao\scripts\install\RegisterActionAccessControl;
-use oat\tao\scripts\install\RegisterClassMetadataServices;
-use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
-use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
-use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
-use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
-use oat\tao\scripts\install\RegisterDataAccessControlChangedEvent;
-use oat\tao\scripts\install\RegisterDataAccessControlChangedListener;
+use oat\tao\model\routing\LegacyRoute;
+use oat\tao\model\Csv\CsvServiceProvider;
+use oat\tao\model\LanguageServiceProvider;
 use oat\tao\scripts\install\RegisterEvents;
-use oat\tao\scripts\install\RegisterResourceEvents;
-use oat\tao\scripts\install\RegisterResourceRelationService;
-use oat\tao\scripts\install\RegisterResourceWatcherService;
+use oat\tao\scripts\install\SetServiceState;
+use oat\tao\scripts\install\SetUpQueueTasks;
+use oat\tao\scripts\install\AddTmpFsHandlers;
+use oat\tao\scripts\install\AddArchiveService;
+use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\RegisterRtlLocales;
-use oat\tao\scripts\install\RegisterSearchServices;
-use oat\tao\scripts\install\RegisterSessionCookieService;
-use oat\tao\scripts\install\RegisterSignatureGenerator;
-use oat\tao\scripts\install\RegisterTaoUpdateEventListener;
-use oat\tao\scripts\install\RegisterTaskQueueServices;
-use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
+use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\scripts\install\RegisterUserService;
-use oat\tao\scripts\install\RegisterValidationRules;
-use oat\tao\scripts\install\RegisterValueCollectionServices;
-use oat\tao\scripts\install\SetClientLoggerConfig;
 use oat\tao\scripts\install\SetContainerService;
 use oat\tao\scripts\install\SetDefaultCSPHeader;
+use oat\tao\install\services\SetupSettingsStorage;
+use oat\tao\scripts\install\RegisterActionService;
+use oat\tao\scripts\install\SetClientLoggerConfig;
+use oat\tao\scripts\install\SetServiceFileStorage;
+use oat\tao\controller\Middleware\MiddlewareConfig;
+use oat\tao\model\user\UserSettingsServiceProvider;
+use oat\tao\scripts\install\RegisterResourceEvents;
+use oat\tao\scripts\install\RegisterSearchServices;
 use oat\tao\scripts\install\SetImageAligmentConfig;
 use oat\tao\scripts\install\SetLocaleNumbersConfig;
-use oat\tao\scripts\install\SetServiceFileStorage;
-use oat\tao\scripts\install\SetServiceState;
+use oat\tao\scripts\install\RegisterValidationRules;
 use oat\tao\scripts\install\SetupMaintenanceService;
-use oat\tao\scripts\install\SetUpQueueTasks;
-use oat\tao\scripts\update\Updater;
+use oat\tao\model\resources\ResourcesServiceProvider;
+use oat\tao\scripts\install\InstallNotificationTable;
+use oat\tao\scripts\install\RegisterTaskQueueServices;
+use oat\tao\model\Serializer\SerializerServiceProvider;
+use oat\tao\scripts\install\CreateWebhookEventLogTable;
+use oat\tao\scripts\install\RegisterSignatureGenerator;
+use oat\tao\scripts\install\RegisterActionAccessControl;
+use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
+use oat\tao\scripts\install\RegisterSessionCookieService;
+use oat\tao\scripts\install\RegisterClassMetadataServices;
+use oat\tao\scripts\install\RegisterResourceWatcherService;
+use oat\tao\scripts\install\RegisterTaoUpdateEventListener;
+use oat\tao\scripts\install\RegisterResourceRelationService;
+use oat\tao\scripts\install\RegisterValueCollectionServices;
+use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
+use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
+use oat\tao\model\accessControl\AccessControlServiceProvider;
+use oat\tao\scripts\install\RegisterClassPropertyRemovedEvent;
+use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
+use oat\tao\model\ParamConverter\ParamConverterServiceProvider;
+use oat\tao\scripts\install\RegisterUserLockoutsEventListeners;
+use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
+use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
+use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
+use oat\tao\scripts\install\RegisterDataAccessControlChangedEvent;
+use oat\tao\model\Observer\ServiceProvider\ObserverServiceProvider;
+use oat\tao\model\metadata\ServiceProvider\MetadataServiceProvider;
+use oat\tao\scripts\install\RegisterDataAccessControlChangedListener;
+use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
 use oat\tao\model\StatisticalMetadata\StatisticalMetadataServiceProvider;
+use oat\tao\model\HttpFoundation\ServiceProvider\HttpFoundationServiceProvider;
+use oat\tao\model\export\ServiceProvider\MetadataServiceProvider as ExportMetadataServiceProvider;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -95,7 +98,7 @@ return [
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
-        'http://www.tao.lu/middleware/wfEngine.rdf'
+        'http://www.tao.lu/middleware/wfEngine.rdf',
     ],
     'install' => [
         'rdf' => [
@@ -109,7 +112,7 @@ return [
             __DIR__ . '/models/ontology/widgetdefinitions.rdf',
             __DIR__ . '/models/ontology/requiredaction.rdf',
             __DIR__ . '/models/ontology/auth/basicauth.rdf',
-            __DIR__ . '/models/ontology/userlocks.rdf'
+            __DIR__ . '/models/ontology/userlocks.rdf',
         ],
         'checks' => [
                 ['type' => 'CheckPHPRuntime', 'value' => ['id' => 'tao_php_runtime', 'min' => '5.4']],
@@ -129,8 +132,8 @@ return [
                 ['type' => 'CheckPHPINIValue', 'value' => ['id' => 'tao_ini_suhosin_request_max_varname_length', 'name' => 'suhosin.request.max_varname_length', 'value' => '128', 'dependsOn' => ['tao_extension_suhosin']]],
                 ['type' => 'CheckFileSystemComponent', 'value' => ['id' => 'fs_generis_common_conf', 'location' => 'config', 'rights' => 'rw', 'recursive' => true]],
                 ['type' => 'CheckFileSystemComponent', 'value' => ['id' => 'fs_tao_client_locales', 'location' => 'tao/views/locales', 'rights' => 'rw']],
-                ['type' => 'CheckCustom', 'value' => ['id' => 'tao_custom_not_nginx', 'name' => 'not_nginx', 'extension' => 'tao', "optional" => true, 'dependsOn' => ['tao_extension_curl']]],
-                ['type' => 'CheckCustom', 'value' => ['id' => 'tao_custom_allowoverride', 'name' => 'allow_override', 'extension' => 'tao', "optional" => true, 'dependsOn' => ['tao_custom_not_nginx']]],
+                ['type' => 'CheckCustom', 'value' => ['id' => 'tao_custom_not_nginx', 'name' => 'not_nginx', 'extension' => 'tao', 'optional' => true, 'dependsOn' => ['tao_extension_curl']]],
+                ['type' => 'CheckCustom', 'value' => ['id' => 'tao_custom_allowoverride', 'name' => 'allow_override', 'extension' => 'tao', 'optional' => true, 'dependsOn' => ['tao_custom_not_nginx']]],
                 ['type' => 'CheckCustom', 'value' => ['id' => 'tao_custom_mod_rewrite', 'name' => 'mod_rewrite', 'extension' => 'tao', 'dependsOn' => ['tao_custom_allowoverride']]],
                 ['type' => 'CheckCustom', 'value' => ['id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao']],
         ],
@@ -177,13 +180,13 @@ return [
             RegisterActionAccessControl::class,
             RegisterRtlLocales::class,
             RegisterSearchServices::class,
-            SetImageAligmentConfig::class
+            SetImageAligmentConfig::class,
         ],
     ],
     'update' => Updater::class,
     'optimizableClasses' => [
         'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
-        'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages'
+        'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages',
     ],
     'managementRole' => TaoRoles::TAO_MANAGER,
     'acl' => [
@@ -298,6 +301,9 @@ return [
         AccessControlServiceProvider::class,
         MetadataServiceProvider::class,
         ObserverServiceProvider::class,
+        SerializerServiceProvider::class,
+        HttpFoundationServiceProvider::class,
+        ParamConverterServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
