@@ -24,6 +24,9 @@ namespace oat\tao\model\Middleware\Context;
 
 use oat\tao\model\Context\AbstractContext;
 
+/**
+ * @deprecated Refer to generis/core/Middleware/README.md
+ */
 class MiddlewareContext extends AbstractContext
 {
     public const PARAM_MIDDLEWARE_ID = 'middlewareId';

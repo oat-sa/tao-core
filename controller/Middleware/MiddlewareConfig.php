@@ -15,32 +15,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA.
- */
-
-namespace oat\tao\model\security\xsrf;
-
-/**
- * Tokens' pool storage
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
  *
- * @author Bertrand Chevrier <bertrand@taotesting.com>
+ * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
-interface TokenStore
+
+declare(strict_types=1);
+
+namespace oat\tao\controller\Middleware;
+
+use oat\generis\model\Middleware\MiddlewareConfigInterface;
+
+class MiddlewareConfig implements MiddlewareConfigInterface
 {
-    public const TOKEN_NAME = 'XSRF_TOKEN_NAME';
-
-    public function getToken(string $tokenId): ?Token;
-
-    public function setToken(string $tokenId, Token $token): void;
-
-    public function hasToken(string $tokenId): bool;
-
-    public function removeToken(string $tokenId): bool;
-
-    public function clear(): void;
-
-    /**
-     * @return Token[]
-     */
-    public function getAll(): array;
+    public function __invoke(): array
+    {
+        return [];
+    }
 }
