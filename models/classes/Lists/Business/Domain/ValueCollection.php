@@ -81,13 +81,19 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
     {
         $duplicates = new ValueCollection();
         $counter = 0;
+        $visited = [];
 
         foreach ($this->values as $value) {
             if (empty($value->getUri())) {
                 continue;
             }
 
-            $duplicationCandidate = $this->extractValueByUri($value->getUri());
+            if (isset($visited[$value->getUri()])) {
+                $duplicationCandidate = $visited[$value->getUri()];
+            } else {
+                $visited[$value->getUri()] = $value;
+                $duplicationCandidate = null;
+            }
 
             if ($duplicationCandidate !== null && $duplicationCandidate !== $value) {
                 $duplicates->addValue($value);
