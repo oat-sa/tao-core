@@ -62,13 +62,23 @@ module.exports = function(grunt) {
     /*
      * Load separated configs into each extension
      */
+    const extensions = extensionHelper.getExtensions();
 
-    extensionHelper.getExtensions().forEach(function(extension){
+    //MathJax fix, since it is referenced in the dependency tree, the file must be stubbed
+    if (extensions.includes('taoQtiItem')) {
+        const mathJaxEntryPoint = path.join(root, 'taoQtiItem/views/js/mathjax/MathJax.js');
+        if (!grunt.file.exists(mathJaxEntryPoint)) {
+            grunt.log.write(`Creating empty MathJax entrypoint: ${mathJaxEntryPoint}`);
+            grunt.file.write(mathJaxEntryPoint, '');
+        }
+    }
+
+    extensions.forEach(function(extension){
 
         const extensionKey = extension.toLowerCase();
         const gruntDir = path.join(root, extension, '/views/build/grunt');
         if(grunt.file.exists(gruntDir)){
-            grunt.verbose.write('Load tasks from gruntDir ' + gruntDir);
+            grunt.verbose.write(`Load tasks from gruntDir: ${gruntDir}`);
             grunt.loadTasks(gruntDir);
         }
 
