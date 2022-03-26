@@ -15,44 +15,51 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021-2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
  */
 
-namespace oat\tao\scripts\install;
+declare(strict_types=1);
 
+namespace oat\tao\migrations;
+
+use Doctrine\DBAL\Schema\Schema;
 use oat\oatbox\reporting\Report;
-use oat\oatbox\extension\InstallAction;
 use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\scripts\tools\migrations\AbstractMigration;
 
-/**
- * Set Image Alignment enabled/disabled in Authoring
- */
-class SetImageAligmentConfig extends InstallAction
+final class Version202203260958222234_tao extends AbstractMigration
 {
-    public const PARAM_MEDIA_ALIGNMENT = 'mediaAlignment';
-
-    /**
-     * @param array $params
-     */
-    public function __invoke($params = []): Report
+    public function getDescription(): string
     {
-        $mediaAlignment = filter_var(
-            $params[self::PARAM_MEDIA_ALIGNMENT] ?? true,
-            FILTER_VALIDATE_BOOLEAN
-        );
+        return 'Enable Image Alignment plugin';
+    }
 
+    public function up(Schema $schema): void
+    {
         $this->getClientLibConfigRegistry()->register(
             'ui/image/ImgStateActive',
             [
-                'mediaAlignment' => $mediaAlignment,
+                'mediaAlignment' => true,
             ]
         );
 
-        return Report::createSuccess('Image Alignment plugin %s' . ($mediaAlignment ? 'enabled' : 'disabled'));
+        $this->addReport(Report::createSuccess('Image Alignment plugin enabled'));
+    }
+
+    public function down(Schema $schema): void
+    {
+        $this->getClientLibConfigRegistry()->register(
+            'ui/image/ImgStateActive',
+            [
+                'mediaAlignment' => false,
+            ]
+        );
+
+        $this->addReport(Report::createSuccess('Image Alignment plugin disabled'));
     }
 
     private function getClientLibConfigRegistry(): ClientLibConfigRegistry
     {
-        return $this->getServiceManager()->get(ClientLibConfigRegistry::class);
+        return $this->getServiceLocator()->get(ClientLibConfigRegistry::class);
     }
 }
