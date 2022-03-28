@@ -73,7 +73,7 @@ module.exports = function(grunt) {
         }
     }
 
-    extensions.forEach(function(extension){
+    extensions.forEach(extension => {
 
         const extensionKey = extension.toLowerCase();
         const gruntDir = path.join(root, extension, '/views/build/grunt');
