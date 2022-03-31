@@ -24,16 +24,15 @@ define(['helpers/features'], function(features) {
     const testData = [
         {lookup: 'levelOne/featureVisible', expected: true},
         {lookup: 'levelOne/featureHidden', expected: false},
-
         {lookup: 'levelOne/levelTwo/featureVisible', expected: true},
         {lookup: 'levelOne/levelTwo/featureHidden', expected: false},
-
         {lookup: 'levelOne/*/featureVisible', expected: true},
         {lookup: 'levelOne/*/featureHidden', expected: false},
-
         {lookup: 'levelOne/*', expected: true},
-        {lookup: 'levelOne/levelTwo/LevelTree/*', expected: false},
-        {lookup: 'levelOne/levelTwo/*/featureHidden', expected: false}
+        {lookup: 'levelOne/levelTwo/LevelTree/*', expected: true},
+        {lookup: 'levelOne/levelTwo/*/featureHidden', expected: false},
+        {lookup: 'levelOne/*/featureHidden', expected: false},
+        {lookup: '*/LevelTree/featureVisible', expected: false}
 
     ];
 
