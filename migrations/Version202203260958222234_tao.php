@@ -31,19 +31,14 @@ final class Version202203260958222234_tao extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Enable Image Alignment plugin';
+        return 'Remove media alignment status flag';
     }
 
     public function up(Schema $schema): void
     {
-        $this->getClientLibConfigRegistry()->register(
-            'ui/image/ImgStateActive',
-            [
-                'mediaAlignment' => true,
-            ]
-        );
+        $this->getClientLibConfigRegistry()->remove('ui/image/ImgStateActive');
 
-        $this->addReport(Report::createSuccess('Image Alignment plugin enabled'));
+        $this->addReport(Report::createSuccess('Image Alignment status flag removed'));
     }
 
     public function down(Schema $schema): void
