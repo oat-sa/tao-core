@@ -295,7 +295,7 @@ class ElementMapFactory extends ConfigurableService
         ));
 
         if (empty(trim($propertyLabel))) {
-            str_replace(LOCAL_NAMESPACE, '', $property->getUri());
+            return str_replace(LOCAL_NAMESPACE, '', $property->getUri());
         }
 
         return $propertyLabel;
