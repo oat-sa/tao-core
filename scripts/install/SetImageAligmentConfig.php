@@ -26,6 +26,8 @@ use oat\tao\model\ClientLibConfigRegistry;
 
 /**
  * Set Image Alignment enabled/disabled in Authoring
+ *
+ * @deprecated Image alignment is enabled by default and the associated status flag is no longer used.
  */
 class SetImageAligmentConfig extends InstallAction
 {
