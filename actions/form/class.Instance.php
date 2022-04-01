@@ -83,6 +83,13 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
         $instance = $this->getInstance();
         $guiOrderProperty = new core_kernel_classes_Property(TaoOntology::PROPERTY_GUI_ORDER);
 
+        // Guess language
+        try {
+            $language = $this->options['lang'] ?? common_session_SessionManager::getSession()->getInterfaceLanguage();
+        } catch (common_exception_Error $exception) {
+            $language = DEFAULT_LANG;
+        }
+
         //get the list of properties to set in the form
         $propertyCandidates = tao_helpers_form_GenerisFormFactory::getDefaultProperties();
 
@@ -117,7 +124,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
                 $elementFactory->withInstance($instance);
             }
 
-            $element = $elementFactory->create($property);
+            $element = $elementFactory->create($property, $language);
 
             if ($element !== null) {
                 // take instance values to populate the form

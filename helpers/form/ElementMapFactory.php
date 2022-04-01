@@ -63,8 +63,11 @@ class ElementMapFactory extends ConfigurableService
         return $this;
     }
 
-    public function create(core_kernel_classes_Property $property): ?tao_helpers_form_FormElement
-    {
+    public function create(
+        core_kernel_classes_Property $property,
+        string $language = DEFAULT_LANG)
+    : ?tao_helpers_form_FormElement {
+
         // Create the element from the right widget
         $property->feed();
 
@@ -121,12 +124,7 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
-        // Use the property label as element description
-        $propDesc = (trim($property->getLabel()) !== '')
-            ? $property->getLabel()
-            : str_replace(LOCAL_NAMESPACE, '', $propertyUri);
-
-        $element->setDescription($propDesc);
+        $element->setDescription($this->getDescriptionFromTranslatedPropertyLabel($property, $language));
 
         if (method_exists($element, 'setOptions')) {
             // Multi elements use the property range as options
@@ -282,5 +280,24 @@ class ElementMapFactory extends ConfigurableService
     private function getContainer(): ContainerInterface
     {
         return $this->getServiceManager()->getContainer();
+    }
+
+    private function getDescriptionFromTranslatedPropertyLabel(
+        core_kernel_classes_Property $property,
+        string $language
+    ) {
+        $propertyLabel = current($property->getPropertyValues(
+            new core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL),
+            [
+                'lg' => $language,
+                'one' => true
+            ]
+        ));
+
+        if (empty(trim($propertyLabel))) {
+            return str_replace(LOCAL_NAMESPACE, '', $property->getUri());
+        }
+
+        return $propertyLabel;
     }
 }
