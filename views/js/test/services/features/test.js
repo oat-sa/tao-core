@@ -16,24 +16,24 @@
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA ;
  */
 
-define(['helpers/features'], function(features) {
+define(['services/features'], function(features) {
     'use strict';
 
     QUnit.module('features');
 
     const testData = [
-        {lookup: 'levelOne/featureVisible', expected: true},
-        {lookup: 'levelOne/featureHidden', expected: false},
-        {lookup: 'levelOne/levelTwo/featureVisible', expected: true},
-        {lookup: 'levelOne/levelTwo/featureHidden', expected: false},
-        {lookup: 'levelOne/*/featureVisible', expected: true},
-        {lookup: 'levelOne/*/featureHidden', expected: false},
-        {lookup: 'levelOne/*', expected: true},
-        {lookup: 'levelOne/levelTwo/LevelTree/*', expected: true},
-        {lookup: 'levelOne/levelTwo/*/featureHidden', expected: false},
-        {lookup: 'levelOne/*/featureHidden', expected: false},
-        {lookup: '*/LevelTree/featureVisible', expected: false}
-
+        {lookup: 'items/*', visible: false},
+        {lookup: 'items/featureVisible', visible: true},
+        {lookup: 'items/featureHidden', visible: false},
+        {lookup: 'items/category/featureVisible', visible: true},
+        {lookup: 'items/category/featureHidden', visible: false},
+        {lookup: 'items/*/featureVisible', visible: true},
+        {lookup: 'items/*/featureHidden', visible: false},
+        {lookup: 'items/category/*/featureHidden', visible: false},
+        {lookup: 'items/category/subcategory/*', visible: true},
+        {lookup: 'items/*/featureHidden', visible: false},
+        {lookup: '*/featureVisible', visible: true},
+        {lookup: '*/subcategory/featureVisible', visible: false}
     ];
 
     QUnit
@@ -41,8 +41,8 @@ define(['helpers/features'], function(features) {
         .test('Feature is visible check', function(data, assert) {
             assert.equal(
                 features.isVisible(data.lookup),
-                data.expected,
-                `Data lookup "${data.lookup}"`
+                data.visible,
+                `Lookup for "${data.lookup}" to be ${data.visible}`
             );
         });
 });

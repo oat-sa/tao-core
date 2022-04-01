@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Test - helpers/features</title>
+        <title>Test - services/features</title>
         <base href="../../../../" />
         <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
         <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
@@ -19,21 +19,23 @@
                 //some mocks
                 require.config({
                     config: {
-                        "helpers/features": {
+                        "services/features": {
                             "visibility" : {
-                                "levelOne/featureVisible": "show",
-                                "levelOne/featureHidden": "hide",
-                                "levelOne/levelTwo/featureVisible": "show",
-                                "levelOne/levelTwo/featureHidden": "hide",
-                                "levelOne/levelTwo/*/featureHidden": "hide",
-                                "levelOne/levelTwo/LevelTree/*": "show"
+                                "items/featureBeforeVisible": "show",
+                                "items/*": "hide",
+                                "items/featureVisible": "show",
+                                "items/featureHidden": "hide",
+                                "items/category/featureVisible": "show",
+                                "items/category/featureHidden": "hide",
+                                "items/category/*/featureHidden": "hide",
+                                "items/category/subcategory/*": "show"
                             }
                         }
                     }
                 });
 
                 //load the test
-                require(['test/helpers/features/test'], function(){
+                require(['test/services/features/test'], function(){
 
                     //Tests loaded, run tests
                     QUnit.start();

@@ -43,20 +43,28 @@ define(['module'], function (module) {
         /**
          * Check is feature configured to be visible
          * based on client_lib_config_registry.conf.php
+         * possible match is exact match (item/feature) or wildcard match (item/*)
+         * using 2 wildcarcard symbols * is not supported
          * @param {String} featurePath path to feature supporting * ex('test/itemSession/*')
          * @returns {Boolean} true if feature is visible
          */
         isVisible: featurePath => {
             const regexp = buildRegexp(featurePath);
-            let targetKey;
-            let isPathExists = featuresKeys.some(featureKey => {
-                const isMatch = regexp.test(featureKey);
+            let targetKey = null;
 
-                if (isMatch) targetKey = featureKey;
-                return isMatch;
-            });
+            for (let i in featuresKeys) {
+                const exactMatch = featuresKeys[i] === featurePath;
 
-            return isPathExists && featuresVisibilityList[targetKey] === 'show';
+                if (exactMatch || regexp.test(featuresKeys[i])) {
+                    targetKey = featuresKeys[i];
+                }
+
+                if (exactMatch) {
+                    break;
+                }
+            }
+
+            return targetKey !== null && featuresVisibilityList[targetKey] === 'show';
         }
     };
 });
