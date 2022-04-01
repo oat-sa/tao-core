@@ -124,18 +124,7 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
-        // Get property label
-        $label = current($property->getPropertyValues(
-            new core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL),
-            [
-                'lg' => $language,
-                'one' => true
-            ]
-        ));
-        $propDesc = $label ?? str_replace(LOCAL_NAMESPACE, '', $propertyUri);
-
-        // Use the property label as element description
-        $element->setDescription($propDesc);
+        $element->setDescription($this->getDescriptionFromTranslatedPropertyLabel($property, $language));
 
         if (method_exists($element, 'setOptions')) {
             // Multi elements use the property range as options
@@ -291,5 +280,24 @@ class ElementMapFactory extends ConfigurableService
     private function getContainer(): ContainerInterface
     {
         return $this->getServiceManager()->getContainer();
+    }
+
+    private function getDescriptionFromTranslatedPropertyLabel(
+        core_kernel_classes_Property $property,
+        string $language
+    ) {
+        $propertyLabel = current($property->getPropertyValues(
+            new core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL),
+            [
+                'lg' => $language,
+                'one' => true
+            ]
+        ));
+
+        if (empty(trim($propertyLabel))) {
+            str_replace(LOCAL_NAMESPACE, '', $property->getUri());
+        }
+
+        return $propertyLabel;
     }
 }
