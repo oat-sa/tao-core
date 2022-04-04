@@ -18,6 +18,8 @@
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\theme;
 
 interface LanguageAwareTheme
