@@ -31,11 +31,11 @@ define(['services/features'], function(features) {
         {lookup: 'items/*', visible: false},
         {lookup: 'items/featureVisible', visible: true},
         {lookup: 'items/featureHidden', visible: false},
+        {lookup: 'items/anyFeature', visible: false},
         {lookup: 'items/category/featureVisible', visible: true},
         {lookup: 'items/category/featureHidden', visible: false},
-        {lookup: 'items/*/featureVisible', visible: true},
-        {lookup: 'items/*/featureHidden', visible: false},
-        {lookup: 'items/category/subcategory/*', visible: true}
+        {lookup: 'items/category/anyFeature', visible: true},
+        {lookup: 'items/category/subcategory/anyFeature', visible: true}
     ];
 
     QUnit

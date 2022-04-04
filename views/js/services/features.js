@@ -44,19 +44,16 @@ define(['module', 'core/logger'], function(module, loggerFactory) {
         /**
          * Check is feature configured to be visible
          * based on client_lib_config_registry.conf.php
-         * possible match is exact match (item/feature) or wildcard match (item/*)
-         * using 2 wildcard symbols * is not supported
-         * @param {String} featurePath path to feature supporting * ex('test/itemSession/*')
+         * @param {String} featurePath full path to feature ex('test/itemSession/feature')
          * @returns {Boolean} true if feature is visible
          */
         isVisible: (featurePath = '') => {
-            const regexp = buildRegexp(featurePath);
             let targetKey = null;
 
             featuresKeys.some(path => {
                 const exactMatch = path === featurePath;
 
-                if (exactMatch || regexp.test(path)) {
+                if (exactMatch || buildRegexp(path).test(featurePath)) {
                     targetKey = path;
                 }
 
