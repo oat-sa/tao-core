@@ -35,7 +35,6 @@ define(['services/features'], function(features) {
         {lookup: 'items/category/featureHidden', visible: false},
         {lookup: 'items/*/featureVisible', visible: true},
         {lookup: 'items/*/featureHidden', visible: false},
-        {lookup: 'items/category/*/featureHidden', visible: false},
         {lookup: 'items/category/subcategory/*', visible: true},
         {lookup: '*/featureVisible', visible: true},
         {lookup: '*/subcategory/featureVisible', visible: false}
