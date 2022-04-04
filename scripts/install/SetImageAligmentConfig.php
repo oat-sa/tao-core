@@ -18,11 +18,12 @@
  * Copyright (c) 2021-2022 (original work) Open Assessment Technologies SA.
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\scripts\install;
 
 use oat\oatbox\reporting\Report;
 use oat\oatbox\extension\InstallAction;
-use oat\tao\model\ClientLibConfigRegistry;
 
 /**
  * Set Image Alignment enabled/disabled in Authoring
@@ -31,30 +32,13 @@ use oat\tao\model\ClientLibConfigRegistry;
  */
 class SetImageAligmentConfig extends InstallAction
 {
-    public const PARAM_MEDIA_ALIGNMENT = 'mediaAlignment';
-
     /**
      * @param array $params
      */
     public function __invoke($params = []): Report
     {
-        $mediaAlignment = filter_var(
-            $params[self::PARAM_MEDIA_ALIGNMENT] ?? true,
-            FILTER_VALIDATE_BOOLEAN
+        return Report::createInfo(
+            'Image alignment is enabled by default and the associated status flag is no longer used.'
         );
-
-        $this->getClientLibConfigRegistry()->register(
-            'ui/image/ImgStateActive',
-            [
-                'mediaAlignment' => $mediaAlignment,
-            ]
-        );
-
-        return Report::createSuccess('Image Alignment plugin %s' . ($mediaAlignment ? 'enabled' : 'disabled'));
-    }
-
-    private function getClientLibConfigRegistry(): ClientLibConfigRegistry
-    {
-        return $this->getServiceManager()->get(ClientLibConfigRegistry::class);
     }
 }
