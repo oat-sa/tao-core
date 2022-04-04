@@ -16,24 +16,25 @@
  * Copyright (c) 2022 Open Assessment Technologies SA;
  */
 
-define(['module'], function (module) {
+define(['module', 'core/logger'], function(module, loggerFactory) {
     'use strict';
     const config = module.config();
-    const featuresVisibilityList = config.visibility || [];
+    const featuresVisibilityList = config.visibility || {};
     const featuresKeys = Object.keys(featuresVisibilityList);
 
     /**
-     * Build regexp from lookupPath converting '*' to '\S*'
+     * Build regexp from lookupPath and converting '*' to '\S+'
      * @param {String} lookupPath raw string of path to lookup
      * @returns {RegExp} regexp to lookup in features list
      */
     const buildRegexp = lookupPath => {
-        lookupPath = lookupPath.replaceAll('*', '\\S*');
+        lookupPath = lookupPath.replace('*', '\\S+');
 
         try {
             return RegExp(`^${lookupPath}$`);
         } catch (e) {
-            console.warn(`Lookup feature ${lookupPath} was not properly checked`);
+            const logger = loggerFactory('services/features');
+            logger.warn(`Lookup feature path ${lookupPath} was not found`);
 
             return RegExp('');
         }
@@ -44,25 +45,25 @@ define(['module'], function (module) {
          * Check is feature configured to be visible
          * based on client_lib_config_registry.conf.php
          * possible match is exact match (item/feature) or wildcard match (item/*)
-         * using 2 wildcarcard symbols * is not supported
+         * using 2 wildcard symbols * is not supported
          * @param {String} featurePath path to feature supporting * ex('test/itemSession/*')
          * @returns {Boolean} true if feature is visible
          */
-        isVisible: featurePath => {
+        isVisible: (featurePath = '') => {
             const regexp = buildRegexp(featurePath);
             let targetKey = null;
 
-            for (let i in featuresKeys) {
-                const exactMatch = featuresKeys[i] === featurePath;
+            featuresKeys.some(path => {
+                const exactMatch = path === featurePath;
 
-                if (exactMatch || regexp.test(featuresKeys[i])) {
-                    targetKey = featuresKeys[i];
+                if (exactMatch || regexp.test(path)) {
+                    targetKey = path;
                 }
 
                 if (exactMatch) {
-                    break;
+                    return true;
                 }
-            }
+            });
 
             return targetKey !== null && featuresVisibilityList[targetKey] === 'show';
         }

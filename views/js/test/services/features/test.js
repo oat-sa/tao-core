@@ -21,6 +21,12 @@ define(['services/features'], function(features) {
 
     QUnit.module('features');
 
+    QUnit.test('module', function(assert) {
+        assert.equal(typeof features, 'object', 'The features module exposes a function');
+        assert.equal(typeof features.isVisible, 'function', 'The features API exposes the isVisible() function');
+        assert.equal(typeof features.isVisible(''), 'boolean', 'The features method isVisible() returns boolean');
+    });
+
     const testData = [
         {lookup: 'items/*', visible: false},
         {lookup: 'items/featureVisible', visible: true},
@@ -31,7 +37,6 @@ define(['services/features'], function(features) {
         {lookup: 'items/*/featureHidden', visible: false},
         {lookup: 'items/category/*/featureHidden', visible: false},
         {lookup: 'items/category/subcategory/*', visible: true},
-        {lookup: 'items/*/featureHidden', visible: false},
         {lookup: '*/featureVisible', visible: true},
         {lookup: '*/subcategory/featureVisible', visible: false}
     ];
