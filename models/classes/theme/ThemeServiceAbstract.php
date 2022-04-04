@@ -15,12 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\tao\model\theme;
 
+use common_exception_InconsistentData;
 use oat\oatbox\service\ConfigurableService;
 
 abstract class ThemeServiceAbstract extends ConfigurableService implements ThemeServiceInterface
@@ -28,7 +28,7 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
     /**
      * @inheritdoc
      *
-     * @throws \common_exception_InconsistentData
+     * @throws common_exception_InconsistentData
      */
     public function getTheme()
     {
@@ -47,6 +47,29 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
     {
         $this->addTheme($theme, $protectAlreadyExistingThemes);
         $this->setCurrentTheme($theme->getId());
+    }
+
+    public function getFirstThemeIdByLanguage(string $language): ?string
+    {
+        foreach (array_keys($this->getOption(self::OPTION_AVAILABLE, [])) as $themeId) {
+            try {
+                $theme = $this->getThemeById($themeId);
+
+                if ($theme instanceof LanguageAwareTheme && $theme->supportsLanguage($language)) {
+                    return $themeId;
+                }
+            } catch (common_exception_InconsistentData $exception) {
+                $this->logWarning(
+                    sprintf(
+                        'Error while searching theme for language "%s": %s',
+                        $language,
+                        $exception->getMessage()
+                    )
+                );
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -84,7 +107,7 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
             }
         }
 
-        throw new \common_exception_InconsistentData('The requested theme does not exist. (' . $themeId . ')');
+        throw new common_exception_InconsistentData('The requested theme does not exist. (' . $themeId . ')');
     }
 
     /**
