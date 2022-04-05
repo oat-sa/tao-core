@@ -41,19 +41,20 @@ define(['module', 'core/logger'], function(module, loggerFactory) {
 
     return {
         /**
-         * Check is feature configured to be visible
-         * based on client_lib_config_registry.conf.php
+         * Check is feature configured
+         * based on client_lib_config_registry.conf.php to be visible
+         * and features that is not in the configuration are visible by default
          * @param {String} featurePath full path to feature ex('test/itemSession/feature')
-         * @returns {Boolean} true if feature is visible
+         * @returns {Boolean} true if feature is visible (or missed from configuration)
          */
         isVisible(featurePath = '') {
-            let targetKey = null;
+            let matchingPath = null;
 
             featuresKeys.some(path => {
                 const exactMatch = path === featurePath;
 
                 if (exactMatch || buildRegexp(path).test(featurePath)) {
-                    targetKey = path;
+                    matchingPath = path;
                 }
 
                 if (exactMatch) {
@@ -61,7 +62,7 @@ define(['module', 'core/logger'], function(module, loggerFactory) {
                 }
             });
 
-            return targetKey !== null && featuresVisibilityList[targetKey] === 'show';
+            return matchingPath === null || featuresVisibilityList[matchingPath] === 'show';
         }
     };
 });
