@@ -22,7 +22,7 @@ define(['services/features'], function(features) {
     QUnit.module('features');
 
     QUnit.test('module', function(assert) {
-        assert.equal(typeof features, 'object', 'The features module exposes a function');
+        assert.equal(typeof features, 'object', 'The features module exposes an object');
         assert.equal(typeof features.isVisible, 'function', 'The features API exposes the isVisible() function');
         assert.equal(typeof features.isVisible(''), 'boolean', 'The features method isVisible() returns boolean');
     });
@@ -36,7 +36,8 @@ define(['services/features'], function(features) {
         {lookup: 'items/category/featureVisible', visible: true},
         {lookup: 'items/category/featureHidden', visible: false},
         {lookup: 'items/category/anyFeature', visible: true},
-        {lookup: 'items/category/subcategory/anyFeature', visible: true}
+        {lookup: 'items/category/subcategory/anyFeature', visible: true},
+        {lookup: 'items/category/subcategory/anyFeature', visible: true},
     ];
 
     QUnit

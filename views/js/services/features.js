@@ -21,6 +21,7 @@ define(['module', 'core/logger'], function(module, loggerFactory) {
     const config = module.config();
     const featuresVisibilityList = config.visibility || {};
     const featuresKeys = Object.keys(featuresVisibilityList);
+    const logger = loggerFactory('services/features');
 
     /**
      * Build regexp from lookupPath and converting '*' to '\S+'
@@ -33,10 +34,8 @@ define(['module', 'core/logger'], function(module, loggerFactory) {
         try {
             return RegExp(`^${lookupPath}$`);
         } catch (e) {
-            const logger = loggerFactory('services/features');
             logger.warn(`Lookup feature path ${lookupPath} was not found`);
-
-            return RegExp('');
+            return RegExp('^\0$');
         }
     };
 
@@ -47,7 +46,7 @@ define(['module', 'core/logger'], function(module, loggerFactory) {
          * @param {String} featurePath full path to feature ex('test/itemSession/feature')
          * @returns {Boolean} true if feature is visible
          */
-        isVisible: (featurePath = '') => {
+        isVisible(featurePath = '') {
             let targetKey = null;
 
             featuresKeys.some(path => {
