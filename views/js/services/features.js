@@ -41,11 +41,11 @@ define(['module', 'core/logger'], function(module, loggerFactory) {
 
     return {
         /**
-         * Check is feature configured
-         * based on client_lib_config_registry.conf.php to be visible
-         * and features that is not in the configuration are visible by default
-         * @param {String} featurePath full path to feature ex('test/itemSession/feature')
-         * @returns {Boolean} true if feature is visible (or missed from configuration)
+         * Check if the feature is configured to be visible
+         * based on the module configuration
+         * and features that are not in the configuration are visible by default
+         * @param {String} featurePath full path to feature ex('items/feature')
+         * @returns {Boolean} true if feature is visible (or missed from the configuration)
          */
         isVisible(featurePath = '') {
             let matchingPath = null;
