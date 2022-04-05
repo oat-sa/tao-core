@@ -32,10 +32,10 @@ define(['module', 'core/logger'], function(module, loggerFactory) {
         lookupPath = lookupPath.replace('*', '\\S+');
 
         try {
-            return RegExp(`^${lookupPath}$`);
+            return new RegExp(`^${lookupPath}$`);
         } catch (e) {
             logger.warn(`Lookup feature path ${lookupPath} was not found`);
-            return RegExp('^\0$');
+            return new RegExp('^\0$');
         }
     };
 

@@ -28,6 +28,8 @@ define(['services/features'], function(features) {
     });
 
     const testData = [
+        {lookup: undefined, visible: false},
+        {lookup: '', visible: false},
         {lookup: 'items/*', visible: false},
         {lookup: 'items/featureVisible', visible: true},
         {lookup: 'items/featureHidden', visible: false},
@@ -36,7 +38,6 @@ define(['services/features'], function(features) {
         {lookup: 'items/category/featureVisible', visible: true},
         {lookup: 'items/category/featureHidden', visible: false},
         {lookup: 'items/category/anyFeature', visible: true},
-        {lookup: 'items/category/subcategory/anyFeature', visible: true},
         {lookup: 'items/category/subcategory/anyFeature', visible: true},
     ];
 
