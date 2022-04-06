@@ -95,7 +95,8 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
 
             $duplicates->addValue($value);
 
-            if ($limit !== null && ++$counter >= $limit) {
+            $counter++;
+            if ($limit !== null && $counter >= $limit) {
                 break;
             }
         }
