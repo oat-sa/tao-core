@@ -88,19 +88,15 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
                 continue;
             }
 
-            if (isset($visited[$value->getUri()])) {
-                $duplicationCandidate = $visited[$value->getUri()];
-            } else {
+            if (!isset($visited[$value->getUri()]) || $visited[$value->getUri()] === $value) {
                 $visited[$value->getUri()] = $value;
-                $duplicationCandidate = null;
+                continue;
             }
 
-            if ($duplicationCandidate !== null && $duplicationCandidate !== $value) {
-                $duplicates->addValue($value);
+            $duplicates->addValue($value);
 
-                if ($limit !== null && ++$counter >= $limit) {
-                    break;
-                }
+            if ($limit !== null && ++$counter >= $limit) {
+                break;
             }
         }
 
