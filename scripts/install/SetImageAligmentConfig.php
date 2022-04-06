@@ -15,40 +15,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2021-2022 (original work) Open Assessment Technologies SA.
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\scripts\install;
 
+use oat\oatbox\reporting\Report;
 use oat\oatbox\extension\InstallAction;
-use common_ext_ExtensionsManager as ExtensionsManager;
-use common_report_Report as Report;
-use oat\tao\model\ClientLibConfigRegistry;
 
 /**
- * Set Image Aligment disabled in Authoring
+ * Set Image Alignment enabled/disabled in Authoring
+ *
+ * @deprecated Image alignment is enabled by default and the associated status flag is no longer used.
  */
 class SetImageAligmentConfig extends InstallAction
 {
     /**
-     * @inheritdoc
-     *
-     * Set Image Aligment disabled in Authoring
-     *
-     * @param mixed $params
-     *
-     * @return Report
+     * @param array $params
      */
-    public function __invoke($params = ['mediaAlignment' => false])
+    public function __invoke($params = []): Report
     {
-        $mediaAligment = $params['mediaAlignment'] ?? false;
-        ClientLibConfigRegistry::getRegistry()->register(
-            'ui/image/ImgStateActive',
-            [
-                'mediaAlignment' => $mediaAligment
-            ]
+        return Report::createInfo(
+            'Image alignment is enabled by default and the associated status flag is no longer used.'
         );
-
-        return new Report(Report::TYPE_SUCCESS, 'Set Image Aligment plugin '.($mediaAligment ? 'enabled' : 'disabled').' in Authoring');
     }
 }
