@@ -25,6 +25,9 @@ namespace oat\tao\model\user\implementation;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\user\UserTimezoneServiceInterface;
+use oat\tao\model\RdfObjectMapper\Contract\RdfObjectMapperInterface;
+use oat\tao\model\RdfObjectMapper\RdfObjectMapper;
+use oat\tao\model\RdfObjectMapper\Example\UserSettingsMappedType;
 use oat\tao\model\user\UserSettingsInterface;
 use oat\tao\model\user\UserSettingsServiceInterface;
 use core_kernel_classes_Resource;
@@ -37,13 +40,25 @@ class UserSettingsService implements UserSettingsServiceInterface
     /** @var string */
     private $defaultTimeZone;
 
-    public function __construct(UserTimezoneServiceInterface $userTimezoneService, Ontology $ontology)
-    {
+    /** @var RdfObjectMapperInterface */
+    private $objectMapper;
+
+    public function __construct(
+        UserTimezoneServiceInterface $userTimezoneService,
+        Ontology $ontology,
+        RdfObjectMapperInterface $objectMapper
+    ) {
         $this->defaultTimeZone = $userTimezoneService->getDefaultTimezone();
         $this->ontology = $ontology;
+        $this->objectMapper = $objectMapper;
     }
 
     public function get(core_kernel_classes_Resource $user): UserSettingsInterface
+    {
+        return $this->objectMapper->mapResource($user, UserSettingsMappedType::class);
+    }
+
+    public function previousGetImplementation(core_kernel_classes_Resource $user): UserSettingsInterface
     {
         $props = $user->getPropertiesValues(
             [
