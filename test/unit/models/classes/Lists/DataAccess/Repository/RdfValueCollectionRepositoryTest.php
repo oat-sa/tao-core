@@ -407,15 +407,13 @@ class RdfValueCollectionRepositoryTest extends TestCase
         );
     }
 
-    private function createCountQuery(bool $hasValueCollectionUri): string
+    private function createCountQuery(bool $withValueCollection): string
     {
         return 'SELECT count(element.id) AS c FROM statements element '.
             'INNER JOIN statements collection ON collection.subject = element.subject '.
             'WHERE (element.predicate = :label_uri) AND '.
             '(collection.predicate = :type_uri)'.
-            ($hasValueCollectionUri ?
-                ' AND (collection.object = :collection_uri)'
-                : '');
+            ($withValueCollection ? ' AND (collection.object = :collection_uri)' : '');
     }
 
     private function createPropertyUriCondition(ValueCollectionSearchRequest $searchRequest): ?string
