@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -29,7 +29,6 @@ use common_persistence_SqlPersistence as SqlPersistence;
 use core_kernel_classes_Class as KernelClass;
 use core_kernel_classes_Resource as KernelResource;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\ResultStatement;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Query\QueryBuilder;
 use oat\generis\model\OntologyRdf;
