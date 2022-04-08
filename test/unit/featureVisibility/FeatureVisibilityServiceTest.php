@@ -21,71 +21,88 @@ declare(strict_types=1);
 
 namespace oat\test\unit\model\listener;
 
-use common_ext_ExtensionsManager;
-use Exception;
-use oat\generis\test\MockObject;
+use InvalidArgumentException;
 use oat\generis\test\TestCase;
+use oat\oatbox\AbstractRegistry;
+use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\featureVisibility\FeatureVisibilityService;
 
 class FeatureVisibilityServiceTest extends TestCase
 {
-    /** @var common_ext_ExtensionsManager|MockObject */
-    private $extManager;
+    /** @var AbstractRegistry */
+    private $abstractRegistryStub;
 
-    /** @var FeatureVisibilityService  */
-    private $fv;
+    /** @var FeatureVisibilityService */
+    private $featureVisibilityService;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $extensionStub = new class() {
+        $abstractRegistryStub = new class() {
             private $config = [];
 
-            public function getConfig($key)
+            public function get($key)
             {
-                return $this->config;
+                if (!array_key_exists($key, $this->config)) {
+                    return '';
+                }
+                return $this->config[$key];
             }
 
-            public function setConfig($key, $value)
+            public function set($key, $value)
             {
-                $this->config = $value;
+                $this->config[$key] = $value;
             }
         };
-        $this->extManager = $this->createStub(common_ext_ExtensionsManager::class);
-        $this->extManager->method('getExtensionById')->willReturn($extensionStub);
 
-        $this->fv = new FeatureVisibilityService($this->extManager);
+        $registryStub = new class($abstractRegistryStub) extends ClientLibConfigRegistry {
+            private static $abstractRegistryStub;
+
+            public function __construct($abstractRegistryStub)
+            {
+                self::$abstractRegistryStub = $abstractRegistryStub;
+            }
+
+            public static function getRegistry()
+            {
+                return self::$abstractRegistryStub;
+            }
+        };
+
+        $this->abstractRegistryStub = $abstractRegistryStub;
+
+        $this->featureVisibilityService = new FeatureVisibilityService($registryStub);
     }
 
-    public function testShowFeature_SetsFeatureToTheShowStatus()
+    public function testShowFeatureSetsFeatureToTheShowStatus()
     {
-        $featureName = 'item/customInteraction/*';
+        $featureName = 'item1/customInteraction/*';
 
-        $this->fv->showFeature($featureName);
+        $this->featureVisibilityService->showFeature($featureName);
 
-        $resultConfig = $this->extManager->getExtensionById('extId')->getConfig('confId');
+        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
         $this->assertEquals(
             FeatureVisibilityService::SHOW_PARAM,
-            $resultConfig['helpers/features']['visibility'][$featureName]
+            $resultConfig['visibility'][$featureName]
         );
     }
 
-    public function testHideFeature_SetsFeatureToTheHideStatus()
+    public function testHideFeatureSetsFeatureToTheHideStatus()
     {
         $featureName = 'item/multiColumn';
 
-        $this->fv->hideFeature($featureName);
+        $this->featureVisibilityService->hideFeature($featureName);
 
-        $resultConfig = $this->extManager->getExtensionById('extId')->getConfig('confId');
+        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
 
         $this->assertEquals(
             FeatureVisibilityService::HIDE_PARAM,
-            $resultConfig['helpers/features']['visibility'][$featureName]
+            $resultConfig['visibility'][$featureName]
         );
     }
 
-    public function testSetFeaturesVisibility_SetsFeaturesToTheGivenStatusesAndDoesNotRemovePreviouslySetFeatures()
+    public function testSetFeaturesVisibilitySetsFeaturesToTheGivenStatusesAndDoesNotRemovePreviouslySetFeatures()
     {
         $singleFeatureName = 'item/multiColumn';
 
@@ -94,40 +111,38 @@ class FeatureVisibilityServiceTest extends TestCase
             "test/item/timeLimits" => FeatureVisibilityService::HIDE_PARAM,
         ];
 
-        $this->fv->showFeature($singleFeatureName);
-        $this->fv->setFeaturesVisibility($featuresMap);
+        $this->featureVisibilityService->showFeature($singleFeatureName);
+        $this->featureVisibilityService->setFeaturesVisibility($featuresMap);
 
-        $resultConfig = $this->extManager->getExtensionById('extId')->getConfig('confId');
+        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
         $this->assertEquals(
             $featuresMap + [$singleFeatureName => FeatureVisibilityService::SHOW_PARAM],
-            $resultConfig['helpers/features']['visibility']
+            $resultConfig['visibility']
         );
     }
 
-    public function testSetFeaturesVisibility_ThrowsExceptionInCaseOfWrongStatus()
+    public function testSetFeaturesVisibilityThrowsExceptionInCaseOfWrongStatus()
     {
         $wrongFeatureStatus = 'wrongStatus';
 
-        try {
-            $this->fv->setFeaturesVisibility(['featureName' => $wrongFeatureStatus]);
-        } catch (Exception $e) {
-            $this->assertStringContainsString($wrongFeatureStatus, $e->getMessage());
-        }
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->featureVisibilityService->setFeaturesVisibility(['featureName' => $wrongFeatureStatus]);
     }
 
-    public function testRemoveFeature_RemovesFeatureFromConfig()
+    public function testRemoveFeatureRemovesFeatureFromConfig()
     {
         $featureName = 'featureName';
 
-        $this->fv->showFeature($featureName);
-        $this->fv->removeFeature($featureName);
+        $this->featureVisibilityService->showFeature($featureName);
+        $this->featureVisibilityService->removeFeature($featureName);
 
-        $resultConfig = $this->extManager->getExtensionById('extId')->getConfig('confId');
+        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
 
-        $this->assertEmpty($resultConfig['helpers/features']['visibility']);
+        $this->assertEmpty($resultConfig['visibility']);
     }
 
-    public function testAllFeatureVisibilityMethods_WorkWithoutIssuesBeingCalledSeveralTimes()
+    public function testAllFeatureVisibilityMethodsWorkWithoutIssuesBeingCalledSeveralTimes()
     {
         $featureNameOne = 'feature1';
         $featureNameTwo = 'feature2';
@@ -135,19 +150,19 @@ class FeatureVisibilityServiceTest extends TestCase
         $featureNameFour = 'feature4';
 
         for ($i = 0; $i < 3; $i++) {
-            $this->fv->showFeature($featureNameOne);
+            $this->featureVisibilityService->showFeature($featureNameOne);
 
-            $this->fv->hideFeature($featureNameTwo);
+            $this->featureVisibilityService->hideFeature($featureNameTwo);
 
-            $this->fv->setFeaturesVisibility([
+            $this->featureVisibilityService->setFeaturesVisibility([
                 $featureNameThree => FeatureVisibilityService::SHOW_PARAM,
                 $featureNameFour => FeatureVisibilityService::HIDE_PARAM
             ]);
 
-            $this->fv->removeFeature($featureNameFour);
+            $this->featureVisibilityService->removeFeature($featureNameFour);
         }
 
-        $resultConfig = $this->extManager->getExtensionById('extId')->getConfig('confId');
+        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
 
         $this->assertEquals(
             [
@@ -155,7 +170,7 @@ class FeatureVisibilityServiceTest extends TestCase
                 $featureNameTwo => FeatureVisibilityService::HIDE_PARAM,
                 $featureNameThree => FeatureVisibilityService::SHOW_PARAM,
             ],
-            $resultConfig['helpers/features']['visibility']
+            $resultConfig['visibility']
         );
     }
 }

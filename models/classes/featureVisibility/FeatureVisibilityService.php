@@ -22,8 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\featureVisibility;
 
-use common_ext_ExtensionsManager;
-use Exception;
+use InvalidArgumentException;
+use oat\oatbox\AbstractRegistry;
+use oat\tao\model\ClientLibConfigRegistry;
 
 class FeatureVisibilityService
 {
@@ -31,15 +32,13 @@ class FeatureVisibilityService
     public const SHOW_PARAM = 'show';
 
     private const GLOBAL_UI_CONFIG_NAME = 'helpers/features';
-    private const EXTENSION_NAME = 'tao';
-    private const CONFIG_FILE_NAME = 'client_lib_config_registry';
 
-    /** @var common_ext_ExtensionsManager  */
-    private $extensionsManager;
+    /** @var AbstractRegistry */
+    private $registry;
 
-    public function __construct(common_ext_ExtensionsManager $extensionsManager)
+    public function __construct(ClientLibConfigRegistry $registry)
     {
-        $this->extensionsManager = $extensionsManager;
+        $this->registry = $registry::getRegistry();
     }
 
     public function showFeature(string $featureName): void
@@ -64,33 +63,28 @@ class FeatureVisibilityService
 
     private function updateFeatureVisibility(string $configUpdaterCallableName, $configUpdaterArg): void
     {
-        $taoExtension = $this->extensionsManager->getExtensionById(self::EXTENSION_NAME);
-        if ($taoExtension === null) {
-            throw new Exception(sprintf('Cannot find %s extension', self::EXTENSION_NAME));
-        }
-
-        $existingConfig = $taoExtension->getConfig(self::CONFIG_FILE_NAME);
-        if ($existingConfig === false) {
-            throw new Exception(sprintf('Cannot read %s config', self::CONFIG_FILE_NAME));
+        $existingConfig = $this->registry->get(self::GLOBAL_UI_CONFIG_NAME);
+        if ($existingConfig === '') {
+            $existingConfig = [];
         }
 
         $updatedConfig = $this->{$configUpdaterCallableName}($existingConfig, $configUpdaterArg);
 
-        $taoExtension->setConfig(self::CONFIG_FILE_NAME, $updatedConfig);
+        $this->registry->set(self::GLOBAL_UI_CONFIG_NAME, $updatedConfig);
     }
 
     private function updateConfig(array $existingConfig, array $newStatuses): array
     {
         foreach ($newStatuses as $featureName => $featureValue) {
             if (!in_array($featureValue, [self::HIDE_PARAM, self::SHOW_PARAM], true)) {
-                throw new Exception(sprintf(
+                throw new InvalidArgumentException(sprintf(
                     'Feature value should be either %s or %s, %s given',
                     self::SHOW_PARAM,
                     self::HIDE_PARAM,
                     $featureValue
                 ));
             }
-            $existingConfig[self::GLOBAL_UI_CONFIG_NAME]['visibility'][$featureName] = $featureValue;
+            $existingConfig['visibility'][$featureName] = $featureValue;
         }
 
         return $existingConfig;
@@ -98,7 +92,7 @@ class FeatureVisibilityService
 
     private function removeFeatureFromConfig(array $existingConfig, string $featureName): array
     {
-        unset($existingConfig[self::GLOBAL_UI_CONFIG_NAME]['visibility'][$featureName]);
+        unset($existingConfig['visibility'][$featureName]);
 
         return $existingConfig;
     }
