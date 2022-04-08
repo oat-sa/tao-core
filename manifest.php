@@ -28,6 +28,7 @@ use oat\tao\controller\api\Users;
 use oat\tao\controller\Middleware\MiddlewareConfig;
 use oat\tao\model\accessControl\AccessControlServiceProvider;
 use oat\tao\model\Csv\CsvServiceProvider;
+use oat\tao\model\featureVisibility\FeatureVisibilityServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\metadata\ServiceProvider\MetadataServiceProvider;
 use oat\tao\model\Observer\ServiceProvider\ObserverServiceProvider;
@@ -296,6 +297,7 @@ return [
         AccessControlServiceProvider::class,
         MetadataServiceProvider::class,
         ObserverServiceProvider::class,
+        FeatureVisibilityServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
