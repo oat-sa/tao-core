@@ -81,7 +81,7 @@ class FeatureVisibilityServiceTest extends TestCase
 
         $this->featureVisibilityService->showFeature($featureName);
 
-        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
+        $resultConfig = $this->abstractRegistryStub->get('services/features');
         $this->assertEquals(
             FeatureVisibilityService::SHOW_PARAM,
             $resultConfig['visibility'][$featureName]
@@ -94,7 +94,7 @@ class FeatureVisibilityServiceTest extends TestCase
 
         $this->featureVisibilityService->hideFeature($featureName);
 
-        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
+        $resultConfig = $this->abstractRegistryStub->get('services/features');
 
         $this->assertEquals(
             FeatureVisibilityService::HIDE_PARAM,
@@ -114,7 +114,7 @@ class FeatureVisibilityServiceTest extends TestCase
         $this->featureVisibilityService->showFeature($singleFeatureName);
         $this->featureVisibilityService->setFeaturesVisibility($featuresMap);
 
-        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
+        $resultConfig = $this->abstractRegistryStub->get('services/features');
         $this->assertEquals(
             $featuresMap + [$singleFeatureName => FeatureVisibilityService::SHOW_PARAM],
             $resultConfig['visibility']
@@ -137,7 +137,7 @@ class FeatureVisibilityServiceTest extends TestCase
         $this->featureVisibilityService->showFeature($featureName);
         $this->featureVisibilityService->removeFeature($featureName);
 
-        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
+        $resultConfig = $this->abstractRegistryStub->get('services/features');
 
         $this->assertEmpty($resultConfig['visibility']);
     }
@@ -162,7 +162,7 @@ class FeatureVisibilityServiceTest extends TestCase
             $this->featureVisibilityService->removeFeature($featureNameFour);
         }
 
-        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
+        $resultConfig = $this->abstractRegistryStub->get('services/features');
 
         $this->assertEquals(
             [
