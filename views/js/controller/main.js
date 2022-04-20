@@ -41,7 +41,28 @@ define([
     'layout/search',
     'layout/tree/loader',
     'layout/section-height',
-], function(module, $, _, context, router, helpers, uiForm, urlUtil, loggerFactory, feedback, generisRouter, sections, actionManager,versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
+    'core/tokenHandler'
+], function (
+    module,
+    $,
+    _,
+    context,
+    router,
+    helpers,
+    uiForm,
+    urlUtil,
+    loggerFactory,
+    feedback,
+    generisRouter,
+    sections,
+    actionManager,versionWarning,
+    loadingBar,
+    nav,
+    search,
+    treeLoader,
+    sectionHeight,
+    tokenHandlerFactory
+) {
     'use strict';
 
     const logger = loggerFactory('controller/main');
@@ -105,7 +126,6 @@ define([
      */
     return {
         start() {
-
             const config = module.config();
             const $doc = $(document);
 
@@ -187,6 +207,11 @@ define([
             if(config && _.isArray(config.extraRoutes) && config.extraRoutes.length){
                 router.dispatch(config.extraRoutes);
             }
+
+            $('#logout').on('click', () => {
+                const tokenHandler = new tokenHandlerFactory();
+                tokenHandler.clearStore();
+            });
         }
     };
 });

@@ -22,12 +22,20 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
-define(['jquery', 'lodash', 'i18n', 'util/url', 'ui/dialog/alert'], function (
+define([
+    'jquery',
+    'lodash',
+    'i18n',
+    'util/url',
+    'ui/dialog/alert',
+    'core/tokenHandler'
+], function (
     $,
     _,
     __,
     url,
-    alert
+    alert,
+    tokenHandlerFactory
 ) {
     'use strict';
 
@@ -44,6 +52,9 @@ define(['jquery', 'lodash', 'i18n', 'util/url', 'ui/dialog/alert'], function (
     return function logoutEvent(options) {
         options = _.defaults(options || {}, defaults);
         alert(options.message, function () {
+            const tokenHandler = new tokenHandlerFactory();
+            tokenHandler.clearStore();
+
             window.location = options.redirectUrl;
         });
     };
