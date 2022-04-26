@@ -50,7 +50,6 @@
         "doctrine/collections": "1.6.7",
         "flow/jsonpath": "~0.5",
         "jtl-software/opsgenie-client": "2.0.2",
-        "league/openapi-psr7-validator": "0.9",
         "league/csv": "^9.6"
     },
     "autoload": {
