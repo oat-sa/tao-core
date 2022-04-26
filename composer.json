@@ -39,7 +39,7 @@
         "oat-sa/jig": "~0.1",
         "oat-sa/composer-npm-bridge": "~0.4.2||dev-master",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
-        "oat-sa/generis": ">=15.19.0",
+        "oat-sa/generis": "dev-feature/php-8-1-update",
         "composer/package-versions-deprecated": "^1.11",
         "paragonie/random_compat": "^2.0",
         "phpdocumentor/reflection-docblock": "2.*",
