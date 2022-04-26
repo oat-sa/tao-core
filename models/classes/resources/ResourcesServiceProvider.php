@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2022 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -23,10 +23,16 @@ declare(strict_types=1);
 namespace oat\tao\model\resources;
 
 use oat\generis\model\data\Ontology;
+use oat\tao\model\resources\Service\ClassCopier;
 use oat\tao\model\resources\Service\ClassDeleter;
 use oat\tao\model\accessControl\PermissionChecker;
+use oat\tao\model\resources\Service\InstanceCopier;
+use oat\tao\model\resources\Service\ClassCopierProxy;
+use oat\tao\model\resources\Service\ClassCopierManager;
+use oat\tao\model\resources\Service\ClassPropertyCopier;
 use oat\generis\model\resource\Repository\ClassRepository;
 use oat\tao\model\resources\Service\RootClassesListService;
+use oat\tao\model\resources\Service\InstancePropertyCopier;
 use oat\generis\model\resource\Repository\ResourceRepository;
 use oat\tao\model\resources\Specification\RootClassSpecification;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
@@ -66,6 +72,46 @@ class ResourcesServiceProvider implements ContainerServiceProviderInterface
                     service(Ontology::SERVICE_ID),
                     service(ResourceRepository::class),
                     service(ClassRepository::class),
+                ]
+            );
+
+        $services->set(ClassPropertyCopier::class, ClassPropertyCopier::class);
+
+        $services->set(InstancePropertyCopier::class, InstancePropertyCopier::class);
+
+        $services
+            ->set(InstanceCopier::class, InstanceCopier::class)
+            ->args(
+                [
+                    service(InstancePropertyCopier::class),
+                ]
+            );
+
+        $services
+            ->set(ClassCopier::class, ClassCopier::class)
+            ->args(
+                [
+                    service(RootClassesListService::class),
+                    service(ClassPropertyCopier::class),
+                    service(InstanceCopier::class),
+                ]
+            );
+
+        $services
+            ->set(ClassCopierManager::class, ClassCopierManager::class)
+            ->call(
+                'add',
+                [
+                    service(ClassCopier::class),
+                ]
+            );
+
+        $services
+            ->set(ClassCopierProxy::class, ClassCopierProxy::class)
+            ->public()
+            ->args(
+                [
+                    service(ClassCopierManager::class),
                 ]
             );
     }

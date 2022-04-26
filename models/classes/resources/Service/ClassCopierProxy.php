@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
+ *
+ * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
+ */
+
+declare(strict_types=1);
+
+namespace oat\tao\model\resources\Service;
+
+use InvalidArgumentException;
+use core_kernel_classes_Class;
+use oat\tao\model\resources\Contract\ClassCopierInterface;
+
+class ClassCopierProxy implements ClassCopierInterface
+{
+    /** @var ClassCopierManager */
+    private $classCopierManager;
+
+    public function __construct(ClassCopierManager $classCopierManager)
+    {
+        $this->classCopierManager = $classCopierManager;
+    }
+
+    public function supports(core_kernel_classes_Class $class, core_kernel_classes_Class $destinationClass): bool
+    {
+        // @TODO Check class types
+        return true;
+    }
+
+    public function copy(
+        core_kernel_classes_Class $class,
+        core_kernel_classes_Class $destinationClass
+    ): core_kernel_classes_Class {
+        foreach ($this->classCopierManager->all() as $classCopiers) {
+            foreach ($classCopiers as $classCopier) {
+                if ($classCopier->supports($class, $destinationClass)) {
+                    return $classCopier->copy($class, $destinationClass);
+                }
+            }
+        }
+
+        throw new InvalidArgumentException(
+            sprintf(
+                'Provided class (%s) cannot be copied to the destination class (%s) - not supported by any class copier.',
+                $class->getUri(),
+                $destinationClass->getUri()
+            )
+        );
+    }
+}

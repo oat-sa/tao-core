@@ -38,7 +38,9 @@ use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\resources\Service\ClassDeleter;
 use oat\tao\model\accessControl\PermissionChecker;
 use tao_helpers_form_FormContainer as FormContainer;
+use oat\tao\model\resources\Service\ClassCopierProxy;
 use oat\generis\model\resource\Service\ResourceDeleter;
+use oat\tao\model\resources\Contract\ClassCopierInterface;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 use oat\tao\model\resources\Contract\ClassDeleterInterface;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
@@ -735,6 +737,76 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             'errorCode' => 412,
             'errorMessage' => __('Missing Parameters')
         ], 412);
+    }
+
+    public function copyClass(): void
+    {
+        $parsedBody = $this->getPsrRequest()->getParsedBody();
+
+        if (empty($parsedBody['destinationClassUri']) || empty($parsedBody['uri'])) {
+            $this->returnJson(
+                [
+                    'success' => false,
+                    'errorCode' => 412,
+                    'errorMessage' => __('Missing Parameters'),
+                ],
+                412
+            );
+
+            return;
+        }
+
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+
+            return;
+        }
+
+        $this->validateInstanceRoot($parsedBody['uri']);
+        $this->signatureValidator->checkSignature($parsedBody['signature'] ?? null, $parsedBody['uri']);
+
+        $currentClass = $this->getClass($parsedBody['uri']);
+        $destinationClass = $this->getClass($parsedBody['destinationClassUri']);
+
+        if (!$this->hasWriteAccess($destinationClass->getUri())) {
+            $this->returnJson(
+                [
+                    'success' => false,
+                    'errorCode' => 401,
+                    'errorMessage' =>  __('Permission denied to write in the selected class'),
+                ],
+                401
+            );
+
+            return;
+        }
+
+        $newClass = $this->getClassCopier()->copy($currentClass, $destinationClass);
+
+        if ($newClass) {
+            $this->returnJson(
+                [
+                    'success'  => true,
+                    'data' => [
+                        'label' => $newClass->getLabel(),
+                        'uri' => $newClass->getUri(),
+                    ],
+                ]
+            );
+
+            return;
+        }
+
+        $this->returnJson(
+            [
+                'success' => false,
+                'errorCode' => 204,
+                'errorMessage' =>  __('Unable to copy class'),
+            ],
+            204
+        );
     }
 
     /**
@@ -1463,5 +1535,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     private function getResourceDeleter(): ResourceDeleterInterface
     {
         return $this->getPsrContainer()->get(ResourceDeleter::class);
+    }
+
+    private function getClassCopier(): ClassCopierInterface
+    {
+        return $this->getPsrContainer()->get(ClassCopierProxy::class);
     }
 }
