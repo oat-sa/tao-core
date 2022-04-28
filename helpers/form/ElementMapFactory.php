@@ -285,25 +285,40 @@ class ElementMapFactory extends ConfigurableService
         return $this->getServiceManager()->getContainer();
     }
 
-    private function getDescriptionFromTranslatedPropertyLabel(
+    private function getLabelPropertyTranslation(
         core_kernel_classes_Property $property,
         string $language
-    ) {
-        $propertyLabel = current(
+    ): string {
+        $translatedLabel = current(
             $property->getPropertyValues(
                 $this->getProperty(OntologyRdfs::RDFS_LABEL),
                 ['lg' => $language, 'one' => true]
             )
         );
 
-        if (empty($propertyLabel)) {
-            $propertyLabel = $property->getLabel();
+        if (empty($translatedLabel)) {
+            $this->logWarning(sprintf("Missing property translation for %s on %s", $property->getUri(), $language));
+
+            return $property->getLabel();
         }
 
-        if (empty(trim($propertyLabel))) {
-            return str_replace(LOCAL_NAMESPACE, '', $property->getUri());
-        }
+        return $translatedLabel;
+    }
 
-        return $propertyLabel;
+    private function getPropertyUriPartWithoutNamespace(core_kernel_classes_Property $property): string
+    {
+        return str_replace(LOCAL_NAMESPACE, '', $property->getUri());
+    }
+
+    private function getDescriptionFromTranslatedPropertyLabel(
+        core_kernel_classes_Property $property,
+        string $language
+    ): string {
+        $propertyLabel = $property->isLgDependent() ? $this->getLabelPropertyTranslation(
+            $property,
+            $language
+        ) : $property->getLabel();
+
+        return trim($propertyLabel) ?: $this->getPropertyUriPartWithoutNamespace($property);
     }
 }
