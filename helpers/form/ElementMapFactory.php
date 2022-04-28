@@ -296,13 +296,7 @@ class ElementMapFactory extends ConfigurableService
             )
         );
 
-        if (empty($translatedLabel)) {
-            $this->logWarning(sprintf("Missing property translation for %s on %s", $property->getUri(), $language));
-
-            return $property->getLabel();
-        }
-
-        return $translatedLabel;
+        return !empty($translatedLabel) ? $translatedLabel : $property->getLabel();
     }
 
     private function getPropertyUriPartWithoutNamespace(core_kernel_classes_Property $property): string
