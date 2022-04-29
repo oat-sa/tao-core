@@ -27,6 +27,7 @@ use oat\generis\model\OntologyRdfs;
 use oat\tao\model\lock\LockManager;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\ActionService;
+use oat\tao\model\task\CopyClassTask;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\search\tasks\IndexTrait;
 use oat\tao\model\event\ResourceMovedEvent;
@@ -34,13 +35,13 @@ use oat\tao\model\resources\ResourceService;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
+use oat\tao\model\taskQueue\TaskLogActionTrait;
 use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\resources\Service\ClassDeleter;
 use oat\tao\model\accessControl\PermissionChecker;
 use tao_helpers_form_FormContainer as FormContainer;
-use oat\tao\model\resources\Service\ClassCopierProxy;
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\generis\model\resource\Service\ResourceDeleter;
-use oat\tao\model\resources\Contract\ClassCopierInterface;
 use oat\tao\model\ClassProperty\RemoveClassPropertyService;
 use oat\tao\model\resources\Contract\ClassDeleterInterface;
 use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
@@ -60,6 +61,7 @@ use oat\tao\model\resources\Exception\PartialClassDeletionException;
 abstract class tao_actions_RdfController extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
+    use TaskLogActionTrait;
     use IndexTrait;
 
     /** @var SignatureValidator */
@@ -788,25 +790,27 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
 
         try {
-            $newClass = $this->getClassCopier()->copy($currentClass, $destinationClass);
-            $this->returnJson(
+            $task = $this->getQueueDispatcher()->createTask(
+                new CopyClassTask(),
                 [
-                    'success'  => true,
-                    'data' => [
-                        'label' => $newClass->getLabel(),
-                        'uri' => $newClass->getUri(),
-                    ],
-                ]
+                    CopyClassTask::PARAM_CLASS_URI => $currentClass->getUri(),
+                    CopyClassTask::PARAM_DESTINATION_CLASS_URI => $destinationClass->getUri(),
+                ],
+                __(
+                    'Copying class "%s" to "%s"',
+                    $currentClass->getLabel(),
+                    $destinationClass->getLabel()
+                )
             );
+
+            $this->returnTaskJson($task);
         } catch (Throwable $exception) {
             $this->logError($exception->getMessage());
             $this->returnJson(
                 [
                     'success' => false,
-                    'errorCode' => 204,
-                    'errorMessage' =>  __('Unable to copy class'),
-                ],
-                204
+                    'errorMessage' => __('Failed to copy class.'),
+                ]
             );
         }
     }
@@ -1539,8 +1543,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         return $this->getPsrContainer()->get(ResourceDeleter::class);
     }
 
-    private function getClassCopier(): ClassCopierInterface
+    private function getQueueDispatcher(): QueueDispatcherInterface
     {
-        return $this->getPsrContainer()->get(ClassCopierProxy::class);
+        return $this->getPsrContainer()->get(QueueDispatcherInterface::SERVICE_ID);
     }
 }
