@@ -27,18 +27,22 @@ namespace oat\tao\model\resources\Service;
 use RuntimeException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
-use oat\tao\model\resources\Contract\InstancePropertyCopierInterface;
+use oat\tao\model\resources\Contract\InstanceCopierInterface;
+use oat\tao\model\resources\Contract\InstanceMetadataCopierInterface;
 
-class InstanceCopier
+class InstanceCopier implements InstanceCopierInterface
 {
-    /** @var InstancePropertyCopierInterface */
-    private $instancePropertyCopier;
+    /** @var InstanceMetadataCopierInterface */
+    private $instanceMetadataCopier;
 
-    public function __construct(InstancePropertyCopierInterface $instancePropertyCopier)
+    public function __construct(InstanceMetadataCopierInterface $instanceMetadataCopier)
     {
-        $this->instancePropertyCopier = $instancePropertyCopier;
+        $this->instanceMetadataCopier = $instanceMetadataCopier;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function copy(
         core_kernel_classes_Resource $instance,
         core_kernel_classes_Class $destinationClass
@@ -48,15 +52,14 @@ class InstanceCopier
         if ($newInstance === null) {
             throw new RuntimeException(
                 sprintf(
-                    'New instance was not created. Original instance uri: %s',
-                    $instance->getUri()
+                    'New instance was not created. Original instance uri: %s, destination class uri: %s',
+                    $instance->getUri(),
+                    $destinationClass->getUri()
                 )
             );
         }
 
-        foreach ($destinationClass->getProperties(true) as $property) {
-            $this->instancePropertyCopier->copy($instance, $property, $newInstance);
-        }
+        $this->instanceMetadataCopier->copy($instance, $newInstance);
 
         return $newInstance;
     }

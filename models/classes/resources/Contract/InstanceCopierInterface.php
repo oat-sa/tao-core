@@ -24,16 +24,17 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Contract;
 
-use InvalidArgumentException;
+use RuntimeException;
 use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
 
-interface ClassCopierInterface
+interface InstanceCopierInterface
 {
     /**
-     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function copy(
-        core_kernel_classes_Class $class,
+        core_kernel_classes_Resource $instance,
         core_kernel_classes_Class $destinationClass
-    ): core_kernel_classes_Class;
+    ): core_kernel_classes_Resource;
 }

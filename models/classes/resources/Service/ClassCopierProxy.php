@@ -27,33 +27,51 @@ namespace oat\tao\model\resources\Service;
 use InvalidArgumentException;
 use core_kernel_classes_Class;
 use oat\tao\model\resources\Contract\ClassCopierInterface;
+use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 
 class ClassCopierProxy implements ClassCopierInterface
 {
-    /** @var ClassCopierManager */
-    private $classCopierManager;
+    /** @var RootClassesListServiceInterface */
+    private $rootClassesListService;
 
-    public function __construct(ClassCopierManager $classCopierManager)
+    /** @var array<string, ClassCopierInterface> */
+    private $classCopiers = [];
+
+    public function __construct(RootClassesListServiceInterface $rootClassesListService)
     {
-        $this->classCopierManager = $classCopierManager;
+        $this->rootClassesListService = $rootClassesListService;
     }
 
-    public function supports(core_kernel_classes_Class $class, core_kernel_classes_Class $destinationClass): bool
+    public function addClassCopier(string $rootClassUri, ClassCopierInterface $classCopier): void
     {
-        // @TODO Check class types
-        return true;
+        if (!in_array($rootClassUri, $this->rootClassesListService->listUris(), true)) {
+            throw new InvalidArgumentException('Provided root class URI was not found in root classes list.');
+        }
+
+        if (isset($this->classCopiers[$rootClassUri])) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Root class (%s) already configured to use copier service (%s)',
+                    $rootClassUri,
+                    get_class($this->classCopiers[$rootClassUri])
+                )
+            );
+        }
+
+        $this->classCopiers[$rootClassUri] = $classCopier;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function copy(
         core_kernel_classes_Class $class,
         core_kernel_classes_Class $destinationClass
     ): core_kernel_classes_Class {
-        foreach ($this->classCopierManager->all() as $classCopiers) {
-            foreach ($classCopiers as $classCopier) {
-                if ($classCopier->supports($class, $destinationClass)) {
-                    return $classCopier->copy($class, $destinationClass);
-                }
-            }
+        $rootClassUri = $this->extractRootClass($class)->getUri();
+
+        if (isset($this->classCopiers[$rootClassUri])) {
+            return $this->classCopiers[$rootClassUri]->copy($class, $destinationClass);
         }
 
         throw new InvalidArgumentException(
@@ -63,5 +81,16 @@ class ClassCopierProxy implements ClassCopierInterface
                 $destinationClass->getUri()
             )
         );
+    }
+
+    private function extractRootClass(core_kernel_classes_Class $class): core_kernel_classes_Class
+    {
+        foreach ($this->rootClassesListService->list() as $rootClass) {
+            if ($class->isSubClassOf($rootClass)) {
+                return $rootClass;
+            }
+        }
+
+        throw new InvalidArgumentException('Provided class does not belong to any root class');
     }
 }

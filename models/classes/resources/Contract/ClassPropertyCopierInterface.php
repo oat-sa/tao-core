@@ -22,19 +22,15 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\resources\Service;
+namespace oat\tao\model\resources\Contract;
 
-use core_kernel_classes_Resource;
+use core_kernel_classes_Class;
 use core_kernel_classes_Property;
-use oat\tao\model\resources\Contract\InstancePropertyCopierInterface;
 
-class InstancePropertyCopier implements InstancePropertyCopierInterface
+interface ClassPropertyCopierInterface
 {
     public function copy(
-        core_kernel_classes_Resource $instance,
         core_kernel_classes_Property $property,
-        core_kernel_classes_Resource $destinationInstance
-    ): void {
-        // TODO: Implement copy() method.
-    }
+        core_kernel_classes_Class $destinationClass
+    ): core_kernel_classes_Property;
 }

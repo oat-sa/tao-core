@@ -28,11 +28,10 @@ use oat\tao\model\resources\Service\ClassDeleter;
 use oat\tao\model\accessControl\PermissionChecker;
 use oat\tao\model\resources\Service\InstanceCopier;
 use oat\tao\model\resources\Service\ClassCopierProxy;
-use oat\tao\model\resources\Service\ClassCopierManager;
 use oat\tao\model\resources\Service\ClassPropertyCopier;
 use oat\generis\model\resource\Repository\ClassRepository;
 use oat\tao\model\resources\Service\RootClassesListService;
-use oat\tao\model\resources\Service\InstancePropertyCopier;
+use oat\tao\model\resources\Service\InstanceMetadataCopier;
 use oat\generis\model\resource\Repository\ResourceRepository;
 use oat\tao\model\resources\Specification\RootClassSpecification;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
@@ -77,13 +76,13 @@ class ResourcesServiceProvider implements ContainerServiceProviderInterface
 
         $services->set(ClassPropertyCopier::class, ClassPropertyCopier::class);
 
-        $services->set(InstancePropertyCopier::class, InstancePropertyCopier::class);
+        $services->set(InstanceMetadataCopier::class, InstanceMetadataCopier::class);
 
         $services
             ->set(InstanceCopier::class, InstanceCopier::class)
             ->args(
                 [
-                    service(InstancePropertyCopier::class),
+                    service(InstanceMetadataCopier::class),
                 ]
             );
 
@@ -98,20 +97,11 @@ class ResourcesServiceProvider implements ContainerServiceProviderInterface
             );
 
         $services
-            ->set(ClassCopierManager::class, ClassCopierManager::class)
-            ->call(
-                'add',
-                [
-                    service(ClassCopier::class),
-                ]
-            );
-
-        $services
             ->set(ClassCopierProxy::class, ClassCopierProxy::class)
             ->public()
             ->args(
                 [
-                    service(ClassCopierManager::class),
+                    service(RootClassesListService::class),
                 ]
             );
     }

@@ -24,8 +24,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Service;
 
+use InvalidArgumentException;
 use core_kernel_classes_Class;
 use oat\tao\model\resources\Contract\ClassCopierInterface;
+use oat\tao\model\resources\Contract\InstanceCopierInterface;
+use oat\tao\model\resources\Contract\ClassPropertyCopierInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 
 class ClassCopier implements ClassCopierInterface
@@ -36,63 +39,31 @@ class ClassCopier implements ClassCopierInterface
     /** @var ClassPropertyCopier */
     private $classPropertyCopier;
 
-    /** @var InstanceCopier */
+    /** @var InstanceCopierInterface */
     private $instanceCopier;
 
     public function __construct(
         RootClassesListServiceInterface $rootClassesListService,
-        ClassPropertyCopier $classPropertyCopier,
-        InstanceCopier $instanceCopier
+        ClassPropertyCopierInterface $classPropertyCopier,
+        InstanceCopierInterface $instanceCopier
     ) {
         $this->rootClassesListService = $rootClassesListService;
         $this->classPropertyCopier = $classPropertyCopier;
         $this->instanceCopier = $instanceCopier;
     }
 
-    public function supports(core_kernel_classes_Class $class, core_kernel_classes_Class $destinationClass): bool
-    {
-        foreach ($this->rootClassesListService->list() as $rootClass) {
-            if ($class->isSubClassOf($rootClass)) {
-                return $destinationClass->isSubClassOf($rootClass);
-            }
-        }
-
-        return false;
-    }
-
+    /**
+     * @inheritDoc
+     */
     public function copy(
         core_kernel_classes_Class $class,
         core_kernel_classes_Class $destinationClass
     ): core_kernel_classes_Class {
+        $this->assertInSameRootClass($class, $destinationClass);
+
         $newClass = $destinationClass->createSubClass($class->getLabel());
 
-        $properties = $class->getProperties(false);
-//        $destinationClassProperties = $destinationClass->getProperties(true);
-//        $destinationClassPropertiesCache = [];
-
-        foreach ($properties as $index => $property) {
-//            if (array_key_exists($property->getUri(), $destinationClassPropertiesCache)) {
-//                unset(
-//                    $properties[$index],
-//                    $destinationClassProperties[$destinationClassPropertiesCache[$property->getUri()]]
-//                );
-//
-//                continue;
-//            }
-//
-//            foreach ($destinationClassProperties as $destinationClassPropertyIndex => $destinationClassProperty) {
-//                if ($property->getUri() === $destinationClassProperty->getUri()) {
-//                    unset(
-//                        $properties[$index],
-//                        $destinationClassProperties[$destinationClassPropertyIndex]
-//                    );
-//
-//                    break;
-//                }
-//
-//                $destinationClassPropertiesCache[$destinationClassProperty->getUri()] = $index;
-//            }
-
+        foreach ($class->getProperties(false) as $property) {
             $this->classPropertyCopier->copy($property, $newClass);
         }
 
@@ -105,5 +76,23 @@ class ClassCopier implements ClassCopierInterface
         }
 
         return $newClass;
+    }
+
+    private function assertInSameRootClass(
+        core_kernel_classes_Class $class,
+        core_kernel_classes_Class $destinationClass
+    ): void {
+        foreach ($this->rootClassesListService->list() as $rootClass) {
+            if ($class->isSubClassOf($rootClass) && !$destinationClass->isSubClassOf($rootClass)) {
+                throw new InvalidArgumentException(
+                    sprintf(
+                        'Selected class (%s) and destination class (%s) must be in the same root class (%s).',
+                        $class->getUri(),
+                        $destinationClass->getUri(),
+                        $rootClass->getUri()
+                    )
+                );
+            }
+        }
     }
 }

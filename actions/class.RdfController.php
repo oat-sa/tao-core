@@ -18,7 +18,7 @@
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
  *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2021 (update and modification) Open Assessment Technologies SA;
+ *               2013-2022 (update and modification) Open Assessment Technologies SA.
  */
 
 use oat\oatbox\user\User;
@@ -739,6 +739,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         ], 412);
     }
 
+    /**
+     * @requiresRight uri READ
+     * @requiresRight destinationClassUri WRITE
+     */
     public function copyClass(): void
     {
         $parsedBody = $this->getPsrRequest()->getParsedBody();
@@ -783,9 +787,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             return;
         }
 
-        $newClass = $this->getClassCopier()->copy($currentClass, $destinationClass);
-
-        if ($newClass) {
+        try {
+            $newClass = $this->getClassCopier()->copy($currentClass, $destinationClass);
             $this->returnJson(
                 [
                     'success'  => true,
@@ -795,18 +798,17 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                     ],
                 ]
             );
-
-            return;
+        } catch (Throwable $exception) {
+            $this->logError($exception->getMessage());
+            $this->returnJson(
+                [
+                    'success' => false,
+                    'errorCode' => 204,
+                    'errorMessage' =>  __('Unable to copy class'),
+                ],
+                204
+            );
         }
-
-        $this->returnJson(
-            [
-                'success' => false,
-                'errorCode' => 204,
-                'errorMessage' =>  __('Unable to copy class'),
-            ],
-            204
-        );
     }
 
     /**

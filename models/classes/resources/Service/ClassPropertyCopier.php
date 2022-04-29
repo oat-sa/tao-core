@@ -27,16 +27,19 @@ namespace oat\tao\model\resources\Service;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use oat\generis\model\OntologyRdfs;
+use oat\tao\model\resources\Contract\ClassPropertyCopierInterface;
 
-class ClassPropertyCopier
+class ClassPropertyCopier implements ClassPropertyCopierInterface
 {
     public function copy(
         core_kernel_classes_Property $property,
         core_kernel_classes_Class $destinationClass
-    ): void {
+    ): core_kernel_classes_Property {
         $newPropertyResource = $property->duplicate();
         $newProperty = $newPropertyResource->getProperty($newPropertyResource->getUri());
         $newProperty->removePropertyValues($newProperty->getProperty(OntologyRdfs::RDFS_DOMAIN));
         $newProperty->setDomain($destinationClass);
+
+        return $newProperty;
     }
 }
