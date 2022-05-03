@@ -17,7 +17,7 @@
         "@oat-sa/tao-core-libs": "0.4.5",
         "@oat-sa/tao-core-sdk": "1.18.2",
         "@oat-sa/tao-core-shared-libs": "1.2.0",
-        "@oat-sa/tao-core-ui": "1.54.1",
+        "@oat-sa/tao-core-ui": "github:oat-sa/tao-core-ui-fe#fix/AUT-1894/date-picker-validation-error-message-wrong-style",
         "codemirror": "^5.54.0",
         "decimal.js": "10.1.1",
         "dompurify": "1.0.11",
