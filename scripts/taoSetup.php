@@ -37,8 +37,8 @@ if (empty($filePath) || ($filePath !== ltrim($filePath, '-'))) {
     exit(1);
 }
 
+$container = require_once dirname(__FILE__) . '/../install/init.php';
 try {
-    require_once dirname(__FILE__) . '/../install/init.php';
 
     // Adding file path to the dependency container.
     $container->offsetSet(tao_install_Setup::CONTAINER_INDEX, [$filePath]);

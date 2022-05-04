@@ -62,7 +62,7 @@ $loggerService->addLogger(
 );
 
 // Initializing the dependency container.
-$container = new \Pimple\Container(
+return new \Pimple\Container(
     [
         \oat\oatbox\log\LoggerService::SERVICE_ID => $loggerService,
     ]
