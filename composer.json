@@ -56,7 +56,7 @@
         }
     },
     "require": {
-        "php": "^7.1|^8.0",
+        "php": "^7.1",
         "ext-json": "*",
         "ext-mbstring": "*",
         "doctrine/dbal": "^3.3",
@@ -95,5 +95,11 @@
         "files": [
             "includes/globalHelpers.php"
         ]
+    },
+    "config": {
+        "allow-plugins": {
+            "oat-sa/oatbox-extension-installer": true,
+            "oat-sa/composer-npm-bridge": true
+        }
     }
 }
