@@ -66,7 +66,7 @@ abstract class AbstractTaskLogBroker implements
             ->andWhere(self::COLUMN_ID . ' = :id')
             ->setParameter('id', $taskId);
 
-        return (string)$qb->execute()->fetchColumn();
+        return (string)current($qb->execute()->fetchFirstColumn());
     }
 
     /**
@@ -121,7 +121,7 @@ abstract class AbstractTaskLogBroker implements
         try {
             $qb = $this->getSearchQuery($filter);
             $collection = TaskLogCollection::createFromArray(
-                $qb->execute()->fetchAll(),
+                $qb->executeQuery()->fetchAllAssociative(),
                 $this->getPersistence()->getPlatForm()->getDateTimeFormatString()
             );
         } catch (Exception $exception) {

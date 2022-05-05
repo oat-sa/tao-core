@@ -203,7 +203,7 @@ class TaskLogFilter
             $type = is_array($filter['value']) ? Connection::PARAM_STR_ARRAY : null;
 
             $qb->andWhere($filter['column'] . ' ' . $filter['operator'] . ' ' . ($withParentheses ? '(' : '') . $filter['columnSqlTranslate'] . ($withParentheses ? ')' : ''))
-                ->setParameter($filter['columnSqlTranslate'], $filter['value'], $type);
+                ->setParameter(substr($filter['columnSqlTranslate'], 1), $filter['value'], $type);
         }
 
         return $qb;
