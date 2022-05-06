@@ -64,23 +64,21 @@ class ClassCopierProxy implements ClassCopierInterface
     /**
      * @inheritDoc
      */
-    public function copy(
-        core_kernel_classes_Class $class,
-        core_kernel_classes_Class $destinationClass
-    ): core_kernel_classes_Class {
+    public function copy(core_kernel_classes_Class $class, core_kernel_classes_Class $destinationClass): void
+    {
         $rootClassUri = $this->extractRootClass($class)->getUri();
 
-        if (isset($this->classCopiers[$rootClassUri])) {
-            return $this->classCopiers[$rootClassUri]->copy($class, $destinationClass);
+        if (!isset($this->classCopiers[$rootClassUri])) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Provided class (%s) cannot be copied to the destination class (%s) - not supported by any class copier.',
+                    $class->getUri(),
+                    $destinationClass->getUri()
+                )
+            );
         }
 
-        throw new InvalidArgumentException(
-            sprintf(
-                'Provided class (%s) cannot be copied to the destination class (%s) - not supported by any class copier.',
-                $class->getUri(),
-                $destinationClass->getUri()
-            )
-        );
+        $this->classCopiers[$rootClassUri]->copy($class, $destinationClass);
     }
 
     private function extractRootClass(core_kernel_classes_Class $class): core_kernel_classes_Class

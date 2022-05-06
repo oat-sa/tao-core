@@ -22,24 +22,12 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\resources\Service;
+namespace oat\tao\model\resources\Contract;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
-use oat\generis\model\OntologyRdfs;
-use oat\tao\model\resources\Contract\ClassPropertyCopierInterface;
 
-class ClassPropertyCopier implements ClassPropertyCopierInterface
+interface ClassMetadataCopierInterface
 {
-    public function copy(
-        core_kernel_classes_Property $property,
-        core_kernel_classes_Class $destinationClass
-    ): core_kernel_classes_Property {
-        $newPropertyResource = $property->duplicate();
-        $newProperty = $newPropertyResource->getProperty($newPropertyResource->getUri());
-        $newProperty->removePropertyValues($newProperty->getProperty(OntologyRdfs::RDFS_DOMAIN));
-        $newProperty->setDomain($destinationClass);
-
-        return $newProperty;
-    }
+    public function copy(core_kernel_classes_Property $property, core_kernel_classes_Class $destinationClass): void;
 }

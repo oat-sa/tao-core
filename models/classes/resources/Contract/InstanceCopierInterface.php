@@ -33,8 +33,5 @@ interface InstanceCopierInterface
     /**
      * @throws RuntimeException
      */
-    public function copy(
-        core_kernel_classes_Resource $instance,
-        core_kernel_classes_Class $destinationClass
-    ): core_kernel_classes_Resource;
+    public function copy(core_kernel_classes_Resource $instance, core_kernel_classes_Class $destinationClass): void;
 }

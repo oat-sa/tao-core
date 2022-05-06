@@ -28,7 +28,7 @@ use InvalidArgumentException;
 use core_kernel_classes_Class;
 use oat\tao\model\resources\Contract\ClassCopierInterface;
 use oat\tao\model\resources\Contract\InstanceCopierInterface;
-use oat\tao\model\resources\Contract\ClassPropertyCopierInterface;
+use oat\tao\model\resources\Contract\ClassMetadataCopierInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 
 class ClassCopier implements ClassCopierInterface
@@ -36,35 +36,33 @@ class ClassCopier implements ClassCopierInterface
     /** @var RootClassesListServiceInterface */
     private $rootClassesListService;
 
-    /** @var ClassPropertyCopier */
-    private $classPropertyCopier;
+    /** @var ClassMetadataCopier */
+    private $classMetadataCopier;
 
     /** @var InstanceCopierInterface */
     private $instanceCopier;
 
     public function __construct(
         RootClassesListServiceInterface $rootClassesListService,
-        ClassPropertyCopierInterface $classPropertyCopier,
+        ClassMetadataCopierInterface $classMetadataCopier,
         InstanceCopierInterface $instanceCopier
     ) {
         $this->rootClassesListService = $rootClassesListService;
-        $this->classPropertyCopier = $classPropertyCopier;
+        $this->classMetadataCopier = $classMetadataCopier;
         $this->instanceCopier = $instanceCopier;
     }
 
     /**
      * @inheritDoc
      */
-    public function copy(
-        core_kernel_classes_Class $class,
-        core_kernel_classes_Class $destinationClass
-    ): core_kernel_classes_Class {
+    public function copy(core_kernel_classes_Class $class, core_kernel_classes_Class $destinationClass): void
+    {
         $this->assertInSameRootClass($class, $destinationClass);
 
         $newClass = $destinationClass->createSubClass($class->getLabel());
 
-        foreach ($class->getProperties(false) as $property) {
-            $this->classPropertyCopier->copy($property, $newClass);
+        foreach ($class->getProperties() as $property) {
+            $this->classMetadataCopier->copy($property, $newClass);
         }
 
         foreach ($class->getInstances() as $instance) {
@@ -74,8 +72,6 @@ class ClassCopier implements ClassCopierInterface
         foreach ($class->getSubClasses() as $subClass) {
             $this->copy($subClass, $newClass);
         }
-
-        return $newClass;
     }
 
     private function assertInSameRootClass(

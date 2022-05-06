@@ -28,7 +28,7 @@ use oat\tao\model\resources\Service\ClassDeleter;
 use oat\tao\model\accessControl\PermissionChecker;
 use oat\tao\model\resources\Service\InstanceCopier;
 use oat\tao\model\resources\Service\ClassCopierProxy;
-use oat\tao\model\resources\Service\ClassPropertyCopier;
+use oat\tao\model\resources\Service\ClassMetadataCopier;
 use oat\generis\model\resource\Repository\ClassRepository;
 use oat\tao\model\resources\Service\RootClassesListService;
 use oat\tao\model\resources\Service\InstanceMetadataCopier;
@@ -74,7 +74,7 @@ class ResourcesServiceProvider implements ContainerServiceProviderInterface
                 ]
             );
 
-        $services->set(ClassPropertyCopier::class, ClassPropertyCopier::class);
+        $services->set(ClassMetadataCopier::class, ClassMetadataCopier::class);
 
         $services->set(InstanceMetadataCopier::class, InstanceMetadataCopier::class);
 
@@ -91,7 +91,7 @@ class ResourcesServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(RootClassesListService::class),
-                    service(ClassPropertyCopier::class),
+                    service(ClassMetadataCopier::class),
                     service(InstanceCopier::class),
                 ]
             );

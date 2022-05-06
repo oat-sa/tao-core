@@ -28,6 +28,7 @@ use RuntimeException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\tao\model\resources\Contract\InstanceCopierInterface;
+use oat\tao\model\resources\Contract\InstanceContentCopierInterface;
 use oat\tao\model\resources\Contract\InstanceMetadataCopierInterface;
 
 class InstanceCopier implements InstanceCopierInterface
@@ -35,18 +36,24 @@ class InstanceCopier implements InstanceCopierInterface
     /** @var InstanceMetadataCopierInterface */
     private $instanceMetadataCopier;
 
+    /** @var InstanceContentCopierInterface */
+    private $instanceContentCopier;
+
     public function __construct(InstanceMetadataCopierInterface $instanceMetadataCopier)
     {
         $this->instanceMetadataCopier = $instanceMetadataCopier;
     }
 
+    public function withInstanceContentCopier(InstanceContentCopierInterface $instanceContentCopier): void
+    {
+        $this->instanceContentCopier = $instanceContentCopier;
+    }
+
     /**
      * @inheritDoc
      */
-    public function copy(
-        core_kernel_classes_Resource $instance,
-        core_kernel_classes_Class $destinationClass
-    ): core_kernel_classes_Resource {
+    public function copy(core_kernel_classes_Resource $instance, core_kernel_classes_Class $destinationClass): void
+    {
         $newInstance = $destinationClass->createInstance($instance->getLabel());
 
         if ($newInstance === null) {
@@ -61,6 +68,8 @@ class InstanceCopier implements InstanceCopierInterface
 
         $this->instanceMetadataCopier->copy($instance, $newInstance);
 
-        return $newInstance;
+        if (isset($this->instanceContentCopier)) {
+            $this->instanceContentCopier->copy($instance, $newInstance);
+        }
     }
 }
