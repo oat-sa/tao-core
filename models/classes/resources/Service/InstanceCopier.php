@@ -52,8 +52,10 @@ class InstanceCopier implements InstanceCopierInterface
     /**
      * @inheritDoc
      */
-    public function copy(core_kernel_classes_Resource $instance, core_kernel_classes_Class $destinationClass): void
-    {
+    public function copy(
+        core_kernel_classes_Resource $instance,
+        core_kernel_classes_Class $destinationClass
+    ): core_kernel_classes_Resource {
         $newInstance = $destinationClass->createInstance($instance->getLabel());
 
         if ($newInstance === null) {
@@ -71,5 +73,7 @@ class InstanceCopier implements InstanceCopierInterface
         if (isset($this->instanceContentCopier)) {
             $this->instanceContentCopier->copy($instance, $newInstance);
         }
+
+        return $newInstance;
     }
 }

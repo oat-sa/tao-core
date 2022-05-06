@@ -32,5 +32,8 @@ interface ClassCopierInterface
     /**
      * @throws InvalidArgumentException
      */
-    public function copy(core_kernel_classes_Class $class, core_kernel_classes_Class $destinationClass): void;
+    public function copy(
+        core_kernel_classes_Class $class,
+        core_kernel_classes_Class $destinationClass
+    ): core_kernel_classes_Class;
 }

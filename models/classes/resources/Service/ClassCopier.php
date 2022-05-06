@@ -55,8 +55,10 @@ class ClassCopier implements ClassCopierInterface
     /**
      * @inheritDoc
      */
-    public function copy(core_kernel_classes_Class $class, core_kernel_classes_Class $destinationClass): void
-    {
+    public function copy(
+        core_kernel_classes_Class $class,
+        core_kernel_classes_Class $destinationClass
+    ): core_kernel_classes_Class {
         $this->assertInSameRootClass($class, $destinationClass);
 
         $newClass = $destinationClass->createSubClass($class->getLabel());
@@ -72,6 +74,8 @@ class ClassCopier implements ClassCopierInterface
         foreach ($class->getSubClasses() as $subClass) {
             $this->copy($subClass, $newClass);
         }
+
+        return $newClass;
     }
 
     private function assertInSameRootClass(
