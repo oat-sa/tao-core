@@ -17,12 +17,11 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ *               2013-2022 (update and modification) Open Assessment Technologies SA;
  *
  */
 
 use oat\generis\model\OntologyRdf;
-use oat\tao\model\TaoOntology;
 
 /**
  * Internationalization helper.
@@ -51,19 +50,16 @@ class tao_helpers_I18n
     /**
      * Load the translation strings
      *
-     * @access public
+     * @throws Exception
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  common_ext_Extension $extension
-     * @param  string langCode
-     * @return mixed
      */
-    public static function init(common_ext_Extension $extension, $langCode)
+    public static function init(common_ext_Extension $extension, ?string $langCode): void
     {
         // if the langCode is empty do nothing
         if (empty($langCode)) {
             throw new Exception("Language is not defined");
         }
-        
+
         //init the ClearFw l10n tools
         $translations = tao_models_classes_LanguageService::singleton()->getServerBundle($langCode);
         l10n::init($translations);
@@ -87,17 +83,15 @@ class tao_helpers_I18n
     /**
      * Returns the code of a resource
      *
-     * @access public
+     * @throws common_exception_Error|common_exception_InconsistentData
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  string code
-     * @return core_kernel_classes_Resource
      */
-    public static function getLangResourceByCode($code)
+    public static function getLangResourceByCode(string $code): ?core_kernel_classes_Resource
     {
         $langs = self::getAvailableLangs();
         return isset($langs[$code]) ? new core_kernel_classes_Resource($langs[$code]['uri']) : null;
     }
-    
+
     /**
      * @param unknown $code
      * @return boolean
@@ -115,7 +109,7 @@ class tao_helpers_I18n
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  boolean langName If set to true, an associative array where keys are language codes and values are language labels. If set to false (default), a simple array of language codes is returned.
+     * @param boolean langName If set to true, an associative array where keys are language codes and values are language labels. If set to false (default), a simple array of language codes is returned.
      * @return array
      * @throws common_exception_InconsistentData
      */
@@ -146,18 +140,26 @@ class tao_helpers_I18n
                         common_Logger::w('Error with orientation of language ' . $lang->getUri());
                         $orientation = tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR;
                     } else {
-                        $orientation = current($values[tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION ])->getUri();
+                        $orientation = current(
+                            $values[tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION]
+                        )->getUri();
                     }
                     self::$availableLangs[$value] = [
-                        'uri'                         => $lang->getUri(),
-                        tao_models_classes_LanguageService::PROPERTY_LANGUAGE_USAGES      => $usages,
-                        tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION  => $orientation
+                        'uri' => $lang->getUri(),
+                        'label' => $lang->getLabel(),
+                        tao_models_classes_LanguageService::PROPERTY_LANGUAGE_USAGES => $usages,
+                        tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION => $orientation
                     ];
                 }
+
+                uasort(self::$availableLangs, function ($item1, $item2) {
+                    return strcasecmp($item1['label'], $item2['label']);
+                });
+
                 common_cache_FileCache::singleton()->put(self::$availableLangs, self::AVAILABLE_LANGS_CACHEKEY);
             }
         }
-        
+
         return self::$availableLangs;
     }
 
@@ -176,7 +178,7 @@ class tao_helpers_I18n
     public static function getAvailableLangsByUsage(core_kernel_classes_Resource $usage)
     {
         $returnValue = [];
-        
+
         foreach (self::getAvailableLangs() as $code => $langData) {
             if (in_array($usage->getUri(), $langData[tao_models_classes_LanguageService::PROPERTY_LANGUAGE_USAGES])) {
                 $lang = new core_kernel_classes_Resource($langData['uri']);

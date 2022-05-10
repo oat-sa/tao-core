@@ -1245,9 +1245,6 @@ msgstr ""
 msgid "List values"
 msgstr ""
 
-msgid "ln"
-msgstr ""
-
 msgid "Load more"
 msgstr ""
 
@@ -1267,9 +1264,6 @@ msgid "Loading task status ..."
 msgstr ""
 
 msgid "locked by %s"
-msgstr ""
-
-msgid "log"
 msgstr ""
 
 msgid "Log in"
@@ -2236,7 +2230,7 @@ msgstr ""
 msgid "The value for the property \"%s\" must be unique."
 msgstr ""
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
 msgstr "这个栏的值必须是有效的日期格式，如YYYY-MM-DD (西元年份-月份-日）"
 
 msgid "The value of this field must be an integer"

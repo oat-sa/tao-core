@@ -54,7 +54,7 @@ class ClientLibConfigRegistry extends AbstractRegistry
      *
      * @author Sam, sam@taotesting.com
      * @param string $id
-     * @param string $newLibConfig
+     * @param string|array $newLibConfig
      */
     public function register($id, $newLibConfig)
     {

@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\DataAccess\Repository;
 
+use Doctrine\DBAL\Driver\ResultStatement;
 use Throwable;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Connection;
@@ -181,10 +182,12 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $query = $this->getQueryBuilder();
 
         $this->enrichQueryWithInitialCondition($query);
-        $this->enrichQueryWithSelect($searchRequest, $query);
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
 
-        return $query->execute()->rowCount();
+        $result = $query->select('count(t.id) AS c')->execute();
+
+        $row = $result->fetch(FetchMode::NUMERIC);
+        return (int)$row[0] ?? 0;
     }
 
     protected function insert(ValueCollection $valueCollection, Value $value): void

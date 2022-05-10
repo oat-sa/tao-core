@@ -76,7 +76,8 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
         $deniedCategories = [
             TaskLogInterface::CATEGORY_DELETE,
             TaskLogInterface::CATEGORY_EXPORT,
-            TaskLogInterface::CATEGORY_UNKNOWN
+            TaskLogInterface::CATEGORY_UNKNOWN,
+            TaskLogInterface::CATEGORY_UNRELATED_RESOURCE,
         ];
 
         if (

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2021.10\n"
-"PO-Revision-Date: 2021-12-01T16:58:44\n"
+"Project-Id-Version: TAO 2022.01\n"
+"PO-Revision-Date: 2022-01-13T10:06:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-HS\n"
@@ -441,10 +441,10 @@ msgstr "＜パスワード変更＞"
 msgid "Change the sign of the current operand"
 msgstr "現在の演算子を変更します。"
 
-msgid "Check all"
+msgid "Check All"
 msgstr "すべて確認してください"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "すべて確認してください"
 
 msgid "Check-in"
@@ -615,10 +615,10 @@ msgstr "インポートが完了しました"
 msgid "Data imported. Some records are invalid."
 msgstr "データをインポートしました。一部のレコードは無効です。"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "データ言語"
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "データ言語"
 
 msgid "Data not imported. All records are invalid."
@@ -1044,6 +1044,10 @@ msgstr "メタデータをCSV形式でインポート"
 msgid "Import Metadata from RDF file"
 msgstr "メタデータをRDF形式でインポート"
 
+#, tao-public
+msgid "Import statistical analysis metadata"
+msgstr ""
+
 msgid "Import succeeded."
 msgstr "インポートが完了しました"
 
@@ -1055,6 +1059,9 @@ msgstr "%d リソースをインポート"
 
 msgid "Imported resource \"%s"
 msgstr "\"%s リソースをインポート"
+
+msgid "Imported successfully finished!"
+msgstr ""
 
 msgid "impossible to update task status"
 msgstr "タスクステータスを更新できません"
@@ -1104,10 +1111,10 @@ msgstr "%s拡張機能をインストールしています..."
 msgid "Instance saved"
 msgstr "インスタンスが保存されました"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "インタフェース言語"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "インタフェース言語"
 
 msgid "Invalid CSP header."
@@ -1206,6 +1213,9 @@ msgstr "1分未満"
 msgid "List"
 msgstr "リスト"
 
+msgid "List \"%s\" has duplicated values."
+msgstr ""
+
 msgid "List - Multiple choice - Check box"
 msgstr "リスト-多肢選択-チェックボックス"
 
@@ -1221,14 +1231,8 @@ msgstr "リスト-択一-ラジオボタン"
 msgid "List - Single choice - Search input"
 msgstr ""
 
-msgid "List item URI duplications found"
-msgstr ""
-
 msgid "List values"
 msgstr ""
-
-msgid "ln"
-msgstr "入力"
 
 msgid "Load more"
 msgstr "再読み込み"
@@ -1250,9 +1254,6 @@ msgstr "読込中..."
 
 msgid "locked by %s"
 msgstr "％sによってロックされています"
-
-msgid "log"
-msgstr "ログ"
 
 msgid "Log in"
 msgstr "ログイン"
@@ -1959,10 +1960,10 @@ msgstr "セキュリティ"
 msgid "Security settings"
 msgstr "セキュリティ設定"
 
-msgid "select"
+msgid "Select"
 msgstr "選択"
 
-msgid "Select"
+msgid "select"
 msgstr "選択"
 
 msgid "Select a class"
@@ -2221,7 +2222,7 @@ msgstr "アップロードされたファイルは大きすぎます（最大%s�
 msgid "The value for the property \"%s\" must be unique."
 msgstr "プロパティ\"%s\"は一意である必要があります"
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
 msgstr "このフィールドは指定の通りに入力してください（YYYY-MM-DD）"
 
 msgid "The value of this field must be an integer"
@@ -2402,7 +2403,7 @@ msgid "Unary operator -"
 msgstr "単項演算子(-)"
 
 msgid "Unauthorized files have been removed"
-msgstr ""
+msgstr "許可されていないファイルが削除されました。"
 
 msgid "Uncheck All"
 msgstr "全て無効"

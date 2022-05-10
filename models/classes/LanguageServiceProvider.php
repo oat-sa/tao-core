@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2021-2022 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -26,6 +26,11 @@ use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\Traits\FactoryTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_models_classes_LanguageService;
+use oat\tao\model\Language\AscendingLabelListSorterComparator;
+use oat\tao\model\Language\Service\LanguageListElementSortService;
+use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
 
 class LanguageServiceProvider implements ContainerServiceProviderInterface
 {
@@ -38,5 +43,16 @@ class LanguageServiceProvider implements ContainerServiceProviderInterface
             ->set(tao_models_classes_LanguageService::class, tao_models_classes_LanguageService::class)
             ->public()
             ->factory(tao_models_classes_LanguageService::class . '::singleton');
+
+        $services
+            ->set(LanguageClassSpecification::class, LanguageClassSpecification::class)
+            ->public();
+
+        $services
+            ->set(LanguageListElementSortService::class, LanguageListElementSortService::class)
+            ->public()
+            ->args([
+                inline_service(AscendingLabelListSorterComparator::class),
+            ]);
     }
 }

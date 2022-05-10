@@ -1245,9 +1245,6 @@ msgstr ""
 msgid "List values"
 msgstr ""
 
-msgid "ln"
-msgstr ""
-
 msgid "Load more"
 msgstr "Įkelti daugiau"
 
@@ -1268,9 +1265,6 @@ msgstr "Įkeliama užduoties būsena ..."
 
 msgid "locked by %s"
 msgstr "užrakino %s"
-
-msgid "log"
-msgstr "log"
 
 msgid "Log in"
 msgstr "Prisijungti"
@@ -2236,7 +2230,7 @@ msgstr "Įkeltas failas yra per didelis (maksimum %s baitų)"
 msgid "The value for the property \"%s\" must be unique."
 msgstr "Požymio \"%s\" reikšmė turi būti unikali."
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
 msgstr "Šio lauko reikšmė turi būti data tinkamu formatu, pvz. YYYY-MM-DD."
 
 msgid "The value of this field must be an integer"

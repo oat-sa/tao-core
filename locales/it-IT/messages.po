@@ -1243,9 +1243,6 @@ msgstr ""
 msgid "List values"
 msgstr ""
 
-msgid "ln"
-msgstr ""
-
 msgid "Load more"
 msgstr ""
 
@@ -1265,9 +1262,6 @@ msgid "Loading task status ..."
 msgstr ""
 
 msgid "locked by %s"
-msgstr ""
-
-msgid "log"
 msgstr ""
 
 msgid "Log in"
@@ -2234,7 +2228,7 @@ msgstr "Il file caricato è troppo grande (massimo %s byte)"
 msgid "The value for the property \"%s\" must be unique."
 msgstr "Il valore della proprietà \"%\" deve essere unico"
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
 msgstr "Il valore di questo campo deve avere un formato valido, es. AAAA-MM-GG"
 
 msgid "The value of this field must be an integer"

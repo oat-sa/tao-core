@@ -15,191 +15,213 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA.
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\security\xsrf;
 
+use oat\oatbox\user\User;
+use oat\generis\test\TestCase;
+use oat\generis\test\MockObject;
+use oat\oatbox\session\SessionService;
+use oat\tao\model\security\xsrf\Token;
 use common_persistence_AdvKeyValuePersistence;
 use oat\generis\persistence\PersistenceManager;
-use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
-use oat\oatbox\session\SessionService;
-use oat\oatbox\user\User;
-use oat\tao\model\security\xsrf\Token;
 use oat\tao\model\security\xsrf\TokenStoreKeyValue;
 
-/**
- * Unit Tests for oat\tao\model\security\TokenStoreKeyValue
- */
 class TokenStoreKeyValueTest extends TestCase
 {
     private const PERSISTENCE_NAME = 'ADVANCED_KV_PERSISTENCE';
     private const USER_IDENTIFIER = 'CURRENT_USER_IDENTIFIER';
+    private const TOKEN = 'TOKEN';
+    private const KEY = self::USER_IDENTIFIER . '_' . TokenStoreKeyValue::TOKENS_STORAGE_KEY . '_' . self::TOKEN;
 
-    /**
-     * @var TokenStoreKeyValue
-     */
+    /** @var TokenStoreKeyValue */
     private $subject;
 
-    /**
-     * @var common_persistence_AdvKeyValuePersistence|MockObject
-     */
+    /** @var common_persistence_AdvKeyValuePersistence|MockObject */
     private $persistenceMock;
-
-    /**
-     * @var User|MockObject
-     */
-    private $userMock;
 
     protected function setUp(): void
     {
-        parent::setUp();
         $this->persistenceMock = $this->createMock(common_persistence_AdvKeyValuePersistence::class);
+
         $persistenceManagerMock = $this->createMock(PersistenceManager::class);
-        $persistenceManagerMock->method('getPersistenceById')
+        $persistenceManagerMock
+            ->method('getPersistenceById')
             ->with(self::PERSISTENCE_NAME)
             ->willReturn($this->persistenceMock);
 
-        $this->userMock = $this->createMock(User::class);
-        $this->userMock->method('getIdentifier')
+        $userMock = $this->createMock(User::class);
+        $userMock
+            ->method('getIdentifier')
             ->willReturn(self::USER_IDENTIFIER);
+
         $sessionServiceMock = $this->createMock(SessionService::class);
-        $sessionServiceMock->method('getCurrentUser')
-            ->willReturn($this->userMock);
-        $serviceLocatorMock = $this->getServiceLocatorMock(
-            [
-                PersistenceManager::SERVICE_ID => $persistenceManagerMock,
-                SessionService::SERVICE_ID => $sessionServiceMock,
-            ]
-        );
+        $sessionServiceMock
+            ->method('getCurrentUser')
+            ->willReturn($userMock);
 
         $this->subject = new TokenStoreKeyValue(['persistence' => self::PERSISTENCE_NAME]);
-        $this->subject->setServiceLocator($serviceLocatorMock);
+        $this->subject->setServiceManager(
+            $this->getServiceLocatorMock(
+                [
+                    PersistenceManager::SERVICE_ID => $persistenceManagerMock,
+                    SessionService::SERVICE_ID => $sessionServiceMock,
+                ]
+            )
+        );
     }
 
     public function testGetToken_WhenTokenExists_ReturnToken(): void
     {
-        $tokenId = "TOKEN_STRING";
         $tokenData = [
-            "token" => $tokenId,
-            "ts" => 12345
+            'token' => self::TOKEN,
+            'ts' => 12345,
         ];
 
-        $key = self::USER_IDENTIFIER . '_tao_tokens';
         $this->persistenceMock
-            ->method('hExists')
-            ->with($key, $tokenId)
+            ->method('exists')
+            ->with(self::KEY)
             ->willReturn(true);
-
         $this->persistenceMock
-            ->method('hGet')
-            ->with($key, $tokenId)
+            ->method('get')
+            ->with(self::KEY)
             ->willReturn(json_encode($tokenData));
 
-        $result = $this->subject->getToken($tokenId);
+        $result = $this->subject->getToken(self::TOKEN);
 
-        self::assertInstanceOf(Token::class, $result, 'Method must return instance of Token.');
-        self::assertSame($tokenData['token'], $result->getValue(), 'Token value must be as expected');
-        self::assertSame($tokenData['ts'], $result->getCreatedAt(), 'Token createdAt value must be as expected');
+        $this->assertInstanceOf(
+            Token::class,
+            $result,
+            'Method must return instance of Token.'
+        );
+        $this->assertSame(
+            $tokenData['token'],
+            $result->getValue(),
+            'Token value must be as expected'
+        );
+        $this->assertSame(
+            $tokenData['ts'],
+            $result->getCreatedAt(),
+            'Token createdAt value must be as expected'
+        );
     }
 
     public function testGetToken_WhenTokenDontExists_ReturnNull(): void
     {
-        $tokenId = "TOKEN_STRING";
         $this->persistenceMock
-            ->method('hExists')
+            ->method('exists')
             ->willReturn(false);
 
-        self::assertNull($this->subject->getToken($tokenId), 'Method must return NULL if token not found.');
+        $this->assertNull(
+            $this->subject->getToken('TOKEN_STRING'),
+            'Method must return NULL if token not found.'
+        );
     }
 
     public function testSetToken(): void
     {
-        $tokenId = 'TOKEN_ID';
-        $token = new Token();
-        $this->persistenceMock
-            ->expects(self::once())
-            ->method('hSet')
-            ->with(self::USER_IDENTIFIER . '_tao_tokens', $tokenId, json_encode($token));
+        $token = $this->createMock(Token::class);
+        $token
+            ->method('jsonSerialize')
+            ->willReturn([]);
 
-        $this->subject->setToken($tokenId, $token);
+        $this->persistenceMock
+            ->expects($this->once())
+            ->method('set')
+            ->with(self::KEY, json_encode($token));
+
+        $this->subject->setToken(self::TOKEN, $token);
     }
 
     public function testHasToken_WhenTokenExists_ThenReturnTrue(): void
     {
-        $tokenId = 'TOKEN_STRING';
-
         $this->persistenceMock
-            ->method('hExists')
-            ->with(self::USER_IDENTIFIER . '_tao_tokens', $tokenId)
+            ->method('exists')
+            ->with(self::KEY)
             ->willReturn(true);
 
-        self::assertTrue($this->subject->hasToken($tokenId), 'Method must return TRUE if token exists.');
+        $this->assertTrue(
+            $this->subject->hasToken(self::TOKEN),
+            'Method must return TRUE if token exists.'
+        );
     }
 
     public function testHasToken_WhenTokenDontExists_ThenReturnFalse(): void
     {
-        $tokenId = 'TOKEN_STRING';
-
         $this->persistenceMock
-            ->method('hExists')
-            ->with(self::USER_IDENTIFIER . '_tao_tokens', $tokenId)
+            ->method('exists')
+            ->with(self::KEY)
             ->willReturn(false);
 
-        self::assertFalse($this->subject->hasToken($tokenId), 'Method must return FALSE if token does not exists.');
+        $this->assertFalse(
+            $this->subject->hasToken(self::TOKEN),
+            'Method must return FALSE if token does not exists.'
+        );
     }
 
     public function testRemoveToken_WhenTokenWasRemoved_ThenReturnTrue(): void
     {
-        $tokenId = 'TOKEN_STRING';
-
-        $key = self::USER_IDENTIFIER . '_tao_tokens';
         $this->persistenceMock
-            ->method('hExists')
+            ->method('exists')
+            ->with(self::KEY)
             ->willReturn(true);
 
         $this->persistenceMock
-            ->method('hDel')
-            ->with($key, $tokenId)
+            ->method('del')
+            ->with(self::KEY)
             ->willReturn(true);
 
-        self::assertTrue($this->subject->removeToken($tokenId), 'Method must return TRUE when token removed.');
+        $this->assertTrue(
+            $this->subject->removeToken(self::TOKEN),
+            'Method must return TRUE when token removed.'
+        );
     }
 
     public function testRemoveToken_WhenTokenWasNotRemoved_ThenReturnTrue(): void
     {
-        $tokenId = 'TOKEN_STRING';
-
-        $key = self::USER_IDENTIFIER . '_tao_tokens';
         $this->persistenceMock
-            ->method('hExists')
+            ->method('exists')
+            ->with(self::KEY)
             ->willReturn(true);
 
         $this->persistenceMock
-            ->method('hDel')
-            ->with($key, $tokenId)
+            ->method('del')
+            ->with(self::KEY)
             ->willReturn(false);
 
-        self::assertFalse($this->subject->removeToken($tokenId), 'Method must return FALSE when token was not removed.');
+        $this->assertFalse(
+            $this->subject->removeToken(self::TOKEN),
+            'Method must return FALSE when token was not removed.'
+        );
     }
 
     public function testRemoveToken_WhenTokenDoesNotExists_ThenReturnFalse(): void
     {
-        $tokenId = 'TOKEN_STRING';
-
         $this->persistenceMock
-            ->method('hExists')
+            ->method('exists')
+            ->with(self::KEY)
             ->willReturn(false);
 
-        self::assertFalse($this->subject->removeToken($tokenId), 'Method must return FALSE when token do not exist.');
+        $this->assertFalse(
+            $this->subject->removeToken(self::TOKEN),
+            'Method must return FALSE when token do not exist.'
+        );
     }
 
     public function testClear_WhenThereAreTokensStored_RemoveAllTokens(): void
     {
         $this->persistenceMock
-            ->expects(self::once())
-            ->method('del');
+            ->expects($this->once())
+            ->method('keys')
+            ->willReturn([self::KEY]);
+        $this->persistenceMock
+            ->expects($this->once())
+            ->method('del')
+            ->with(self::KEY);
 
         $this->subject->clear();
     }
@@ -212,27 +234,32 @@ class TokenStoreKeyValueTest extends TestCase
      */
     public function testGetAll($tokensData, array $expected): void
     {
+        $keys = is_array($tokensData)
+            ? array_keys($tokensData)
+            : $tokensData;
+
         $this->persistenceMock
-            ->method('hGetAll')
-            ->willReturn($tokensData);
+            ->expects($this->once())
+            ->method('keys')
+            ->willReturn($keys);
+        $this->persistenceMock
+            ->method('get')
+            ->willReturnCallback(
+                static function (string $key) use ($tokensData): string {
+                    return $tokensData[$key];
+                }
+            );
 
         $result = $this->subject->getAll();
 
-        self::assertEquals($expected, $result);
-    }
-
-    public function getStoredTokensData(): array
-    {
-        return [
-            'TOKEN_ID_1' => '{"token": "TOKEN_VALUE_1","ts":12345}',
-            'TOKEN_ID_2' => '{"token": "TOKEN_VALUE_2","ts":6789}',
-        ];
+        $this->assertEquals($expected, $result);
     }
 
     public function dataProviderTestGetAllTokens(): array
     {
         $jsonToken1 = '{"token": "TOKEN_VALUE_1","ts":12345}';
         $jsonToken2 = '{"token": "TOKEN_VALUE_2","ts":6789}';
+
         return [
             'List of tokens stored' => [
                 'tokensData' => [

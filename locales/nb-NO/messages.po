@@ -13,9 +13,6 @@ msgstr ""
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
 
-msgid ""
-msgstr ""
-
 msgid " AND "
 msgstr " OG "
 
@@ -196,6 +193,9 @@ msgstr "Handlinger"
 msgid "Add"
 msgstr "Legg til"
 
+msgid "Add / Edit lists"
+msgstr "Legg til / rediger lister"
+
 msgid "Add a CSV file"
 msgstr "Legg til en CSV-fil"
 
@@ -346,8 +346,9 @@ msgstr "Forfatter"
 msgid "Author Item"
 msgstr "Forfatte oppgave"
 
+#, fuzzy
 msgid "Authoring"
-msgstr "Forfatter"
+msgstr "Rediger"
 
 msgid "auto unlocked in %s"
 msgstr "åpnes automatisk om %s"
@@ -392,10 +393,11 @@ msgid "boolean"
 msgstr ""
 
 msgid "Browse folders:"
-msgstr "Bla gjennom mapper:"
+msgstr "Søk gjennom mapper:"
 
+#, fuzzy
 msgid "Browse..."
-msgstr "Bla gjennom..."
+msgstr "Søk..."
 
 msgid "C"
 msgstr "C"
@@ -415,11 +417,11 @@ msgstr "Kalkulator"
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "Cancel"
-msgstr "Avbryt"
-
 msgid "cancel"
 msgstr "avbryt"
+
+msgid "Cancel"
+msgstr "Avbryt"
 
 msgid "cancel the action"
 msgstr "avbryt handlingen"
@@ -485,32 +487,41 @@ msgstr "Rydding av tmp-plass er fullført"
 msgid "Cleaning up tmp space started"
 msgstr "Rydding av tmp-plass er påbegynt"
 
+#, fuzzy
 msgid "Clear"
-msgstr "Slett"
+msgstr "Nullstill"
 
+#, fuzzy
 msgid "Clear All"
-msgstr "Slett alt"
+msgstr "Nullstill alt"
 
+#, fuzzy
 msgid "Clear all data"
-msgstr "Slett alle data"
+msgstr "Nullstill alle data"
 
+#, fuzzy
 msgid "Clear expression"
-msgstr "Slett uttrykk"
+msgstr "Nullstill uttrykk"
 
+#, fuzzy
 msgid "Clear history"
-msgstr "Slett historikk"
+msgstr "Nullstill historikk"
 
+#, fuzzy
 msgid "Clear History"
-msgstr "Slett Historikk"
+msgstr "Nullstill Historikk"
 
+#, fuzzy
 msgid "Clear selection"
-msgstr "Slett utvalg"
+msgstr "Nullstill utvalg"
 
+#, fuzzy
 msgid "Clear the date time picker"
-msgstr "Slett datovelger"
+msgstr "Nullstill datovelger"
 
+#, fuzzy
 msgid "Clear the stored variables"
-msgstr "Slett de lagrede variablene"
+msgstr "Nullstill lagrede variabler"
 
 msgid "Click to reload."
 msgstr "Klikk for å laste siden på nytt."
@@ -785,8 +796,9 @@ msgstr "Rediger en bruker"
 msgid "Edit class %s"
 msgstr "Rediger mappe %s"
 
+#, fuzzy
 msgid "Edit Instance"
-msgstr "Rediger forekomst"
+msgstr "Rediger egenskaper"
 
 msgid "Element"
 msgstr "Element"
@@ -876,9 +888,9 @@ msgstr "Eksporten var vellykket."
 msgid "Extension \"%s\" has been installed"
 msgstr "Utvidelsen \"%s\" er installert"
 
-#, tao-public
+#, fuzzy
 msgid "Extensions manager"
-msgstr "Utvidelsesansvarlig"
+msgstr "Utvidelser"
 
 msgid "Factorial"
 msgstr "Faktorisk"
@@ -889,8 +901,9 @@ msgstr "Mislyktes"
 msgid "Failed to delete index for %s"
 msgstr "Kunne ikke slette indeksen for %s"
 
+#, fuzzy
 msgid "False"
-msgstr "Falsk"
+msgstr "Usant"
 
 msgid "Field delimiter"
 msgstr "Feltavgrensning"
@@ -1210,12 +1223,14 @@ msgstr "Javascript-kode"
 msgid "JPEG image"
 msgstr "JPEG-bilde"
 
+#, fuzzy
 msgid "Label"
-msgstr "Merkelapp"
+msgstr "Navn"
 
 msgid "Label Path"
 msgstr "Etikettsti"
 
+#, fuzzy
 msgid "Language"
 msgstr "Språk"
 
@@ -1330,10 +1345,14 @@ msgstr "Vedlikeholdstjenesten ble installert. Plattformen er aktivert."
 msgid "Maintenance storage driver is not set"
 msgstr "Vedlikeholdslagringsdriver er ikke angitt"
 
+#, fuzzy
 msgid "Manage class schema"
-msgstr "Administrer mappeskjema"
+msgstr "Administrer egenskaper for oppgavemappe"
 
 #, tao-public
+msgid "Manage data list"
+msgstr "Administrer dataliste"
+
 msgid "Manage roles"
 msgstr "Administrer roller"
 
@@ -1419,12 +1438,15 @@ msgstr "modulo"
 msgid "More"
 msgstr "Mer"
 
+#, fuzzy
 msgid "Move"
 msgstr "Flytt"
 
+#, fuzzy
 msgid "Move Left"
 msgstr "Flytt til venstre"
 
+#, fuzzy
 msgid "Move Right"
 msgstr "Flytt til høyre"
 
@@ -1555,8 +1577,8 @@ msgstr "Ingenting å liste!"
 msgid "Notifications"
 msgstr "Varsler"
 
-msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
-msgstr ""
+msgid "notifications drivers aren't persistent. use a persistent database storage driver"
+msgstr "varslingsdrivere er ikke permanente. Bruk en permanente driver for databaselagring"
 
 msgid "Nth root"
 msgstr "Hth rot"
@@ -1738,8 +1760,9 @@ msgstr "Styrke på 10"
 msgid "Preparing installation..."
 msgstr "Forbereder installasjon..."
 
+#, fuzzy
 msgid "Preview"
-msgstr "Forhåndsvisning"
+msgstr "Forhåndsvis"
 
 msgid "Previous"
 msgstr "Forrige"
@@ -1847,6 +1870,9 @@ msgstr "Fjernet %s filer"
 msgid "Removing: %s"
 msgstr "Fjerner: %s"
 
+msgid "Rename"
+msgstr "Gi nytt navn"
+
 msgid "Repeat new password"
 msgstr "Gjenta nytt passord"
 
@@ -1883,14 +1909,17 @@ msgstr "Ressurs ble kopiert"
 msgid "Resource deleted"
 msgstr "Ressurs ble slettet"
 
+#, fuzzy
 msgid "Resource Identifier"
-msgstr "Ressurs ble identifisert"
+msgstr "Ressurs ID"
 
+#, fuzzy
 msgid "Resource Identifier could not be copied to the clipboard"
-msgstr "Ressursidentifikatoren kunne ikke kopieres til utklippstavlen"
+msgstr "Ressurs ID kunne ikke kopieres til utklippstavlen"
 
+#, fuzzy
 msgid "Resource Identifier has been copied to the clipboard"
-msgstr "Ressursidentifikator ble kopiert til utklippstavlen"
+msgstr "Ressurs ID ble kopiert til utklippstavlen"
 
 msgid "Resource not imported due to multiple super classes"
 msgstr "Ressursen ble ikke importert på grunn av flere supermapper"
@@ -1924,6 +1953,9 @@ msgstr "Gå tilbake til påloggingssiden"
 
 msgid "Rich Text Format file"
 msgstr "Rik tekstformat fil"
+
+msgid "Right click the tree to manage your lists"
+msgstr "Høyreklikk for å administrere listene dine"
 
 msgid "Right parenthesis"
 msgstr "Høyre parentes"
@@ -2151,10 +2183,10 @@ msgid "Tao Default Theme"
 msgstr "Tao standardtema"
 
 msgid "TAO Home"
-msgstr "TAO Home"
+msgstr ""
 
 msgid "TAO Login"
-msgstr "TAO login"
+msgstr ""
 
 msgid "TAO platform is already on live mode since %s"
 msgstr ""
@@ -2258,7 +2290,7 @@ msgstr "Den opplastede filen er for stor (maks. %S byte)"
 msgid "The value for the property \"%s\" must be unique."
 msgstr "Verdien for egenskapen \"%s\" må være unik."
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
 msgstr "Verdien av dette feltet må være et gyldig datoformat, f.eks. ÅÅÅÅ-MM-DD"
 
 msgid "The value of this field must be an integer"
@@ -2372,8 +2404,9 @@ msgstr "Treet - Valg av flere noder "
 msgid "Tree values"
 msgstr "Tre-verdier"
 
+#, fuzzy
 msgid "True"
-msgstr "Ekte"
+msgstr "Sant"
 
 msgid "trunc"
 msgstr "trunk"
@@ -2445,6 +2478,9 @@ msgid "Uncheck all"
 msgstr "Fjern merket for alle"
 
 msgid "Uncheck All"
+msgstr "Fjern merket for alle"
+
+msgid "Uncheck all"
 msgstr "Fjern merket for alle"
 
 msgid "Undefined amount of the pages for pagination"

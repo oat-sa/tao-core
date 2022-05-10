@@ -22,9 +22,10 @@ declare(strict_types=1);
 
 namespace oat\tao\model\import\ServiceProvider;
 
-use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\upload\UploadService;
 use oat\tao\model\import\service\AgnosticImportHandler;
+use oat\tao\model\StatisticalMetadata\Import\Processor\ImportProcessor;
+use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -35,11 +36,33 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
     {
         $services = $configurator->services();
 
-        $services->set(AgnosticImportHandler::class, AgnosticImportHandler::class)
+        $services
+            ->set(AgnosticImportHandler::class, AgnosticImportHandler::class)
             ->public()
             ->args(
                 [
                     service(UploadService::SERVICE_ID),
+                ]
+            );
+
+        $services
+            ->set(AgnosticImportHandler::STATISTICAL_METADATA_SERVICE_ID, AgnosticImportHandler::class)
+            ->public()
+            ->args(
+                [
+                    service(UploadService::SERVICE_ID),
+                ]
+            )
+            ->call(
+                'withFileProcessor',
+                [
+                    service(ImportProcessor::class),
+                ]
+            )
+            ->call(
+                'withLabel',
+                [
+                    __('CSV file'),
                 ]
             );
     }

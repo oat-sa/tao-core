@@ -38,6 +38,8 @@ use oat\tao\model\taskQueue\QueuerInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\RemoteTaskSynchroniserInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
+use oat\tao\model\taskQueue\Task\TaskLanguageLoader;
+use oat\tao\model\taskQueue\Task\TaskLanguageLoaderInterface;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLogInterface;
@@ -121,6 +123,9 @@ class AbstractWorkerTest extends TestCase
      */
     private $queueDispatcherMock;
 
+    /** @var TaskLanguageLoaderInterface|MockObject */
+    private $taskLanguageLoader;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -130,10 +135,13 @@ class AbstractWorkerTest extends TestCase
         $this->sessionServiceMock = $this->createMock(SessionService::class);
         $this->userFactoryServiceMock = $this->createMock(UserFactoryServiceInterface::class);
         $this->loggerServiceMock = $this->createMock(LoggerService::class);
+        $this->taskLanguageLoader = $this->createMock(TaskLanguageLoaderInterface::class);
+
         $this->serviceLocatorMock = $this->getServiceLocatorMock([
             SessionService::class => $this->sessionServiceMock,
             UserFactoryServiceInterface::SERVICE_ID => $this->userFactoryServiceMock,
             LoggerService::SERVICE_ID => $this->loggerServiceMock,
+            TaskLanguageLoader::class => $this->taskLanguageLoader,
         ]);
 
         $this->modelMock = $this->createMock(Ontology::class);
@@ -161,10 +169,11 @@ class AbstractWorkerTest extends TestCase
         $this->taskMock->method('hasParent')->willReturn(true);
         $parentLogEntityMock = $this->createMock(EntityInterface::class);
 
-
         $this->taskLog->expects($this->once())->method('updateParent');
         $this->taskLog->expects($this->once())->method('getById')->willReturn($parentLogEntityMock);
         $parentLogEntityMock->expects($this->once())->method('isMasterStatus')->willReturn(false);
+
+        $this->taskLanguageLoader->expects($this->once())->method('loadTranslations')->with($this->taskMock);
 
         $result = $this->subject->processTask($this->taskMock);
         $this->assertSame('completed', $result);
@@ -183,6 +192,7 @@ class AbstractWorkerTest extends TestCase
         $this->taskMock->method('getCallable')->willReturn($this->remoteTaskSynchroniserMock);
 
         $this->queue->expects($this->once())->method('acknowledge');
+        $this->taskLanguageLoader->expects($this->once())->method('loadTranslations')->with($this->taskMock);
 
         $result = $this->subject->processTask($this->taskMock);
         $this->assertSame('failed', $result);
@@ -206,6 +216,7 @@ class AbstractWorkerTest extends TestCase
         $this->queue->expects($this->once())->method('count');
         $this->taskLogBrokerMock->expects($this->once())->method('deleteById');
         $this->queue->expects($this->once())->method('acknowledge');
+        $this->taskLanguageLoader->expects($this->once())->method('loadTranslations')->with($this->taskMock);
 
         $result = $this->subject->processTask($this->taskMock);
 
@@ -220,6 +231,7 @@ class AbstractWorkerTest extends TestCase
         $this->reportMock->method('getType')->willReturn(\common_report_Report::TYPE_INFO);
         $this->taskMock->method('__invoke')->willReturn($this->reportMock);
         $this->taskMock->method('hasChildren')->willReturn(true);
+        $this->taskLanguageLoader->expects($this->once())->method('loadTranslations')->with($this->taskMock);
 
         $result = $this->subject->processTask($this->taskMock);
 
@@ -233,7 +245,7 @@ class AbstractWorkerTest extends TestCase
         $this->taskLog->method('setStatus')->willReturn(1);
         $this->reportMock->method('getType')->willReturn(\common_report_Report::TYPE_WARNING);
         $this->taskMock->method('__invoke')->willReturn($this->reportMock);
-
+        $this->taskLanguageLoader->expects($this->once())->method('loadTranslations')->with($this->taskMock);
 
         $result = $this->subject->processTask($this->taskMock);
         $this->assertSame('completed', $result);
@@ -247,6 +259,7 @@ class AbstractWorkerTest extends TestCase
         $this->reportMock->method('getType')->willReturn(\common_report_Report::TYPE_INFO);
         $this->taskMock->method('__invoke')->willReturn($this->reportMock);
 
+        $this->taskLanguageLoader->expects($this->once())->method('loadTranslations')->with($this->taskMock);
         $this->queue->expects($this->once())->method('acknowledge');
 
         $result = $this->subject->processTask($this->taskMock);
@@ -261,6 +274,7 @@ class AbstractWorkerTest extends TestCase
         $this->reportMock->method('getType')->willReturn(\common_report_Report::TYPE_ERROR);
         $this->taskMock->method('__invoke')->willReturn($this->reportMock);
 
+        $this->taskLanguageLoader->expects($this->once())->method('loadTranslations')->with($this->taskMock);
         $this->queue->expects($this->once())->method('acknowledge');
 
         $result = $this->subject->processTask($this->taskMock);
@@ -275,6 +289,7 @@ class AbstractWorkerTest extends TestCase
 
         $this->taskMock->method('__invoke')->willThrowException(new Exception('exception message'));
         $this->loggerServiceMock->expects($this->once())->method('error');
+        $this->taskLanguageLoader->expects($this->once())->method('loadTranslations')->with($this->taskMock);
 
         $result = $this->subject->processTask($this->taskMock);
         $this->assertSame('failed', $result);
@@ -288,6 +303,7 @@ class AbstractWorkerTest extends TestCase
         $this->taskMock->method('__invoke')->willReturn(true);
 
         $this->loggerServiceMock->expects($this->once())->method('warning');
+        $this->taskLanguageLoader->expects($this->once())->method('loadTranslations')->with($this->taskMock);
 
         $result = $this->subject->processTask($this->taskMock);
         $this->assertSame('completed', $result);

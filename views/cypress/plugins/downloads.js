@@ -1,6 +1,17 @@
 const fs = require('fs');
 
 /**
+ * Check download status of files array
+ * @param {Array} files - files array
+ * @return {boolean} true if any of files is still downloading
+ */
+const isDownloadInProggress = (files) => {
+    return files.some((file) => {
+        return file.includes('.crdownload');
+    })
+};
+
+/**
  * Reads directory content
  * @param {String} path - target directory path
  * @return {Promise<Array<String>>} file names
@@ -65,7 +76,7 @@ function getFiles(path) {
         if (fs.existsSync(path)) {
             readDir(path).then(
                 files => {
-                    if (files.length) {
+                    if (files.length && !isDownloadInProggress(files)) {
                         resolve(files);
                     } else {
                         setTimeout(() => getFiles(resolve), delay);

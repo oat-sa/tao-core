@@ -139,11 +139,17 @@ $ php index.php 'oat\tao\scripts\tools\accessControl\SetRolesAccess' \
 Here you can find the environment variables including feature flags
 
 | Variable                               | Description                                  | Default value |
-| -------------------------------------- | -------------------------------------------- | ------------- |
-| FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED  | Enable Remote Lists Dependency feature       | -            |
-| FEATURE_FLAG_ADVANCED_SEARCH_DISABLED  | Disable advanced search feature, if set to 1 | -            |
-| FEATURE_FLAG_STATISTIC_METADATA_IMPORT | Enable statistics metadata import            | -            |
+|----------------------------------------|----------------------------------------------|---------------|
+| FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED  | Enable Remote Lists Dependency feature       | -             |
+| FEATURE_FLAG_ADVANCED_SEARCH_DISABLED  | Disable advanced search feature, if set to 1 | -             |
+| FEATURE_FLAG_STATISTIC_METADATA_IMPORT | Enable statistics metadata import            | -             |
+| GOOGLE_APPLICATION_CREDENTIALS         | Path to GCP credentials path                 | -             |
+| DATA_STORE_STATISTIC_PUB_SUB_TOPIC     | Topic name for statistic metadata Pub/Sub    | -             |
 
 # Routing
 
 Check more information about actions/controllers and [routing here](./models/classes/routing/README.md)
+
+# Observer implementations
+
+Check the current [observer implementations here](./models/classes/Observer/README.md)

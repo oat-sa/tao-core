@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -98,7 +98,7 @@ class SearchProxyTest extends TestCase
                     AdvancedSearchChecker::class => $this->advancedSearchCheckerMock,
                     SearchQueryFactory::class => $this->searchQueryFactoryMock,
                     ResultSetResponseNormalizer::class => $this->resultSetResponseNormalizerMock,
-                    IdentifierSearcher::class => $this->identifierSearcher
+                    IdentifierSearcher::class => $this->identifierSearcher,
                 ]
             )
         );

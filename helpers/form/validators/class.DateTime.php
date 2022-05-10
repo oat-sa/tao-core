@@ -99,7 +99,7 @@ class tao_helpers_form_validators_DateTime extends tao_helpers_form_Validator
                 $returnValue = true;
             }
         } catch (Exception $e) {
-            $this->setMessage(__('The value of this field must be a valide date format, e.g. YYYY-MM-DD'));
+            $this->setMessage(__('The value of this field must be a valid date format, e.g. YYYY-MM-DD'));
             $returnValue = false;
         }
         

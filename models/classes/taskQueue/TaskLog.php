@@ -460,6 +460,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
             self::CATEGORY_IMPORT,
             self::CATEGORY_EXPORT,
             self::CATEGORY_DELIVERY_COMPILATION,
+            self::CATEGORY_UNRELATED_RESOURCE,
         ];
     }
 
