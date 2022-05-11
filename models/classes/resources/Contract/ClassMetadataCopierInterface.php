@@ -29,5 +29,5 @@ use core_kernel_classes_Property;
 
 interface ClassMetadataCopierInterface
 {
-    public function copy(core_kernel_classes_Property $property, core_kernel_classes_Class $destinationClass): void;
+    public function copy(core_kernel_classes_Class $class, core_kernel_classes_Class $destinationClass): void;
 }

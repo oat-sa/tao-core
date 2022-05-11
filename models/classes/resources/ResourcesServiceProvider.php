@@ -88,6 +88,7 @@ class ResourcesServiceProvider implements ContainerServiceProviderInterface
 
         $services
             ->set(ClassCopier::class, ClassCopier::class)
+            ->share(false)
             ->args(
                 [
                     service(RootClassesListService::class),

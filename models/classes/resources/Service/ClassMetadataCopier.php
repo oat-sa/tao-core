@@ -31,11 +31,29 @@ use oat\tao\model\resources\Contract\ClassMetadataCopierInterface;
 
 class ClassMetadataCopier implements ClassMetadataCopierInterface
 {
-    public function copy(core_kernel_classes_Property $property, core_kernel_classes_Class $destinationClass): void
+    public function copy(core_kernel_classes_Class $class, core_kernel_classes_Class $destinationClass): void
     {
-        $newPropertyResource = $property->duplicate();
-        $newProperty = $newPropertyResource->getProperty($newPropertyResource->getUri());
-        $newProperty->removePropertyValues($newProperty->getProperty(OntologyRdfs::RDFS_DOMAIN));
-        $newProperty->setDomain($destinationClass);
+        $classPropertiesUris = $this->getClassPropertiesUris($destinationClass);
+
+        foreach ($class->getProperties() as $property) {
+            if (in_array($property->getUri(), $classPropertiesUris, true)) {
+                continue;
+            }
+
+            $newPropertyResource = $property->duplicate();
+            $newProperty = $newPropertyResource->getProperty($newPropertyResource->getUri());
+            $newProperty->removePropertyValues($newProperty->getProperty(OntologyRdfs::RDFS_DOMAIN));
+            $newProperty->setDomain($destinationClass);
+        }
+    }
+
+    private function getClassPropertiesUris(core_kernel_classes_Class $class): array
+    {
+        return array_map(
+            static function (core_kernel_classes_Property $property) {
+                return $property->getUri();
+            },
+            $class->getProperties(true)
+        );
     }
 }

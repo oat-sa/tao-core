@@ -86,7 +86,7 @@ class ClassCopierProxy implements ClassCopierInterface
     private function extractRootClass(core_kernel_classes_Class $class): core_kernel_classes_Class
     {
         foreach ($this->rootClassesListService->list() as $rootClass) {
-            if ($class->isSubClassOf($rootClass)) {
+            if ($class->getUri() === $rootClass->getUri() || $class->isSubClassOf($rootClass)) {
                 return $rootClass;
             }
         }

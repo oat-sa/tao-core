@@ -42,6 +42,9 @@ class ClassCopier implements ClassCopierInterface
     /** @var InstanceCopierInterface */
     private $instanceCopier;
 
+    /** @var string[] */
+    private $copiedClasses = [];
+
     public function __construct(
         RootClassesListServiceInterface $rootClassesListService,
         ClassMetadataCopierInterface $classMetadataCopier,
@@ -59,13 +62,16 @@ class ClassCopier implements ClassCopierInterface
         core_kernel_classes_Class $class,
         core_kernel_classes_Class $destinationClass
     ): core_kernel_classes_Class {
+        if (in_array($class->getUri(), $this->copiedClasses, true)) {
+            return $class;
+        }
+
         $this->assertInSameRootClass($class, $destinationClass);
 
         $newClass = $destinationClass->createSubClass($class->getLabel());
+        $this->copiedClasses[] = $newClass->getUri();
 
-        foreach ($class->getProperties() as $property) {
-            $this->classMetadataCopier->copy($property, $newClass);
-        }
+        $this->classMetadataCopier->copy($class, $newClass);
 
         foreach ($class->getInstances() as $instance) {
             $this->instanceCopier->copy($instance, $newClass);
@@ -83,7 +89,11 @@ class ClassCopier implements ClassCopierInterface
         core_kernel_classes_Class $destinationClass
     ): void {
         foreach ($this->rootClassesListService->list() as $rootClass) {
-            if ($class->isSubClassOf($rootClass) && !$destinationClass->isSubClassOf($rootClass)) {
+            if (
+                ($class->getUri() === $rootClass->getUri() || $class->isSubClassOf($rootClass))
+                && $destinationClass->getUri() !== $rootClass->getUri()
+                && !$destinationClass->isSubClassOf($rootClass)
+            ) {
                 throw new InvalidArgumentException(
                     sprintf(
                         'Selected class (%s) and destination class (%s) must be in the same root class (%s).',
