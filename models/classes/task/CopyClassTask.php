@@ -49,27 +49,17 @@ class CopyClassTask implements Action, TaskAwareInterface, ServiceLocatorAwareIn
 
     public function __invoke($params): Report
     {
-        $report = Report::createInfo(__('Start copying the class...'));
-
         try {
             $class = $this->getClass($params[self::PARAM_CLASS_URI]);
             $destinationClass = $this->getClass($params[self::PARAM_DESTINATION_CLASS_URI]);
             $newClass = $this->getClassCopier()->copy($class, $destinationClass);
 
-            $subReport = Report::createSuccess(__('The class has been copied.'));
-            $subReport->setData(['uriResource' => $newClass->getUri()]);
-
-            $report->add($subReport);
+            return Report::createSuccess(__('The class has been copied.'), $newClass);
         } catch (Throwable $exception) {
             $this->logError($exception->getMessage(), [ContextExtenderInterface::CONTEXT_EXCEPTION => $exception]);
 
-            $subReport = Report::createError(__('Failed to copy class.'));
-            $subReport->setData(['uriResource' => '']);
-
-            $report->add($subReport);
+            return Report::createError(__('Failed to copy class.'));
         }
-
-        return $report;
     }
 
     private function getClassCopier(): ClassCopierInterface

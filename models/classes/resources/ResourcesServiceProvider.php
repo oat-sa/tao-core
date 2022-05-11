@@ -87,18 +87,8 @@ class ResourcesServiceProvider implements ContainerServiceProviderInterface
             );
 
         $services
-            ->set(ClassCopier::class, ClassCopier::class)
-            ->share(false)
-            ->args(
-                [
-                    service(RootClassesListService::class),
-                    service(ClassMetadataCopier::class),
-                    service(InstanceCopier::class),
-                ]
-            );
-
-        $services
             ->set(ClassCopierProxy::class, ClassCopierProxy::class)
+            ->share(false)
             ->public()
             ->args(
                 [
