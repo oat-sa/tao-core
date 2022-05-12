@@ -406,7 +406,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $result = $query->select('count(element.id) AS c')->execute();
 
         $row = $result->fetch(FetchMode::NUMERIC);
-        return (int)$row[0] ?? 0;
+        return (int) ($row[0] ?? 0);
     }
 
     private function extractLabel(ValueCollectionSearchRequest $searchRequest, iterable $labels, string $subject): ?string

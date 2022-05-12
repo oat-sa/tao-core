@@ -187,7 +187,7 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $result = $query->select('count(items.id) AS c')->execute();
 
         $row = $result->fetch(FetchMode::NUMERIC);
-        return (int)$row[0] ?? 0;
+        return (int) ($row[0] ?? 0);
     }
 
     protected function insert(ValueCollection $valueCollection, Value $value): void
