@@ -32,7 +32,8 @@ define([
     'ui/destination/selector',
     'uri',
     'ui/feedback',
-    'ui/dialog/confirm'
+    'ui/dialog/confirm',
+    'ui/taskQueue/taskQueue'
 ], function (
     $,
     __,
@@ -46,7 +47,8 @@ define([
     destinationSelectorFactory,
     uri,
     feedback,
-    confirmDialog
+    confirmDialog,
+    taskQueue
 ) {
     'use strict';
 
@@ -561,6 +563,85 @@ define([
                                 });
                         }
                     })
+                    .on('error', reject);
+            });
+        });
+
+        /**
+         * Register the copyClassTo action: select a destination class to copy a class
+         *
+         * @this the action (once register it is bound to an action object)
+         *
+         * @param {Object[]|Object} actionContext - single or multiple action contexts
+         * @returns {Promise<String>} with the destination class URI
+         */
+        binder.register('copyClassTo', function copyClassTo(actionContext) {
+            //create the container manually...
+            const $container = emptyPanel();
+
+            //get the resource provider configured with the action URL
+            const resourceProvider = resourceProviderFactory();
+
+            /**
+             * wrapped the old jstree API used to refresh the tree and optionally select a resource
+             * @param {String} [uriResource] - the uri resource node to be selected
+             */
+            const refreshTree = uriResource => {
+                if (actionContext.tree) {
+                    $(actionContext.tree).trigger('refresh.taotree', [uriResource]);
+                }
+            };
+
+            return new Promise((resolve, reject) => {
+                //set up a destination selector
+                const destinationSelector = destinationSelectorFactory($container, {
+                    taskQueue: taskQueue,
+                    taskCreationData: {
+                        uri: actionContext.id,
+                        signature: actionContext.signature
+                    },
+                    taskCreationUrl: this.url,
+                    classUri: actionContext.rootClassUri,
+                    preventSelection(nodeUri, node, $node) {
+                        //prevent selection on nodes without WRITE permissions
+                        if (($node.length && $node.data('access') === 'partial') || $node.data('access') === 'denied') {
+                            if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
+                                feedback().warning(__('You are not allowed to write in the class %s', node.label));
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                })
+                    .on('query', params => {
+                        params.classOnly = true;
+                        resourceProvider
+                            .getResources(params, true)
+                            .then(resources => destinationSelector.update(resources, params))
+                            .catch(err => destinationSelector.trigger('error', err));
+                    })
+                    .on('finished', (result, button) => {
+                        if (
+                            result.task &&
+                            result.task.report &&
+                            _.isArray(result.task.report.children) &&
+                            result.task.report.children.length &&
+                            result.task.report.children[0]
+                        ) {
+                            if (
+                                result.task.report.children[0].data &&
+                                result.task.report.children[0].data.uriResource
+                            ) {
+                                feedback().info(__('%s completed', result.task.taskLabel), { encodeHtml: false });
+
+                                refreshTree(result.task.report.children[0].data.uriResource);
+                            } else {
+                                button.displayReport(result.task.report.children[0], __('Error'));
+                            }
+                        }
+                    })
+                    .on('continue', () => refreshTree(actionContext.id))
+                    .on('select', resolve)
                     .on('error', reject);
             });
         });
