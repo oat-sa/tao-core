@@ -97,8 +97,8 @@ class ClassCopier implements ClassCopierInterface
     ): void {
         foreach ($this->rootClassesListService->list() as $rootClass) {
             if (
-                ($class->getUri() === $rootClass->getUri() || $class->isSubClassOf($rootClass))
-                && $destinationClass->getUri() !== $rootClass->getUri()
+                ($class->equals($rootClass) || $class->isSubClassOf($rootClass))
+                && !$destinationClass->equals($rootClass)
                 && !$destinationClass->isSubClassOf($rootClass)
             ) {
                 throw new InvalidArgumentException(
