@@ -42,17 +42,22 @@ class ClassCopier implements ClassCopierInterface
     /** @var InstanceCopierInterface */
     private $instanceCopier;
 
+    /** @var ClassMetadataMapper */
+    private $classMetadataMapper;
+
     /** @var string[] */
     private $copiedClasses = [];
 
     public function __construct(
         RootClassesListServiceInterface $rootClassesListService,
         ClassMetadataCopierInterface $classMetadataCopier,
-        InstanceCopierInterface $instanceCopier
+        InstanceCopierInterface $instanceCopier,
+        ClassMetadataMapper $classMetadataMapper
     ) {
         $this->rootClassesListService = $rootClassesListService;
         $this->classMetadataCopier = $classMetadataCopier;
         $this->instanceCopier = $instanceCopier;
+        $this->classMetadataMapper = $classMetadataMapper;
     }
 
     /**
@@ -80,6 +85,8 @@ class ClassCopier implements ClassCopierInterface
         foreach ($class->getSubClasses() as $subClass) {
             $this->copy($subClass, $newClass);
         }
+
+        $this->classMetadataMapper->remove($newClass->getProperties());
 
         return $newClass;
     }

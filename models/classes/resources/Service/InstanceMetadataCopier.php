@@ -25,19 +25,19 @@ declare(strict_types=1);
 namespace oat\tao\model\resources\Service;
 
 use helpers_File;
-use oat\oatbox\filesystem\File;
+use core_kernel_classes_Literal;
 use core_kernel_classes_Resource;
 use oat\generis\model\GenerisRdf;
+use core_kernel_classes_Property;
 use oat\generis\model\OntologyRdf;
-use oat\generis\model\OntologyRdfs;
-use oat\taoItems\model\TaoItemOntology;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\generis\model\fileReference\FileReferenceSerializer;
+use oat\tao\model\resources\Contract\ClassMetadataMapperInterface;
 use oat\tao\model\resources\Contract\InstanceMetadataCopierInterface;
 
 class InstanceMetadataCopier implements InstanceMetadataCopierInterface
 {
-    /** @var ClassMetadataMapper */
+    /** @var ClassMetadataMapperInterface */
     private $classMetadataMapper;
 
     /** @var FileReferenceSerializer */
@@ -51,8 +51,14 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
         OntologyRdf::RDF_TYPE,
     ];
 
+    /** @var array<string, core_kernel_classes_Property> */
+    private $sharedProperties = [];
+
+    /** @var array<string, bool> */
+    private $fileProperties = [];
+
     public function __construct(
-        ClassMetadataMapper $classMetadataMapper,
+        ClassMetadataMapperInterface $classMetadataMapper,
         FileReferenceSerializer $fileReferenceSerializer,
         FileSystemService $fileSystemService
     ) {
@@ -72,42 +78,83 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
         core_kernel_classes_Resource $instance,
         core_kernel_classes_Resource $destinationInstance
     ): void {
+        $originalClass = current($instance->getTypes());
         $destinationClass = current($destinationInstance->getTypes());
 
-        foreach ($destinationClass->getProperties(true) as $destinationProperty) {
-            $originalPropertyUri = $this->classMetadataMapper->get($destinationProperty->getUri());
+        $destinationProperties = $destinationClass->getProperties(true);
+        $this->sharedProperties = array_merge(
+            $this->sharedProperties,
+            array_intersect_key($originalClass->getProperties(), $destinationProperties)
+        );
+
+        foreach ($destinationProperties as $destinationProperty) {
+            $originalProperty = $this->getOriginalProperty($destinationProperty);
 
             if (
-                $originalPropertyUri === null
-                || in_array($originalPropertyUri, $this->blacklistedProperties, true)
+                $originalProperty === null
+                || in_array($originalProperty->getUri(), $this->blacklistedProperties, true)
             ) {
                 continue;
             }
 
-            $originalProperty = $instance->getProperty($originalPropertyUri);
-            $range = $originalProperty->getRange();
             $propertyValues = $instance->getPropertyValuesCollection($originalProperty);
 
+            /** @var core_kernel_classes_Literal|core_kernel_classes_Resource|core_kernel_classes_Resource[] $propertyValue */
             foreach ($propertyValues->getIterator() as $propertyValue) {
-                if ($range === null || $range->getUri() !== GenerisRdf::CLASS_GENERIS_FILE) {
-                    $destinationInstance->setPropertyValue($destinationProperty, $propertyValue);
+                if ($this->isFileProperty($originalProperty)) {
+                    $this->copyFile($destinationInstance, $destinationProperty, $propertyValue);
 
                     continue;
                 }
 
-                $oldFile = $this->fileReferenceSerializer->unserializeFile($propertyValue->getUri());
-
-                $newFile = $this->fileSystemService
-                    ->getDirectory($oldFile->getFileSystemId())
-                    ->getFile(helpers_File::createFileName($oldFile->getBasename()));
-                $newFile->write($oldFile->readStream());
-                $newFileUri = $this->fileReferenceSerializer->serialize($newFile);
-
-                $destinationInstance->setPropertyValue(
-                    $destinationProperty,
-                    $destinationInstance->getResource($newFileUri)
-                );
+                $destinationInstance->setPropertyValue($destinationProperty, $propertyValue);
             }
         }
+    }
+
+    private function getOriginalProperty(core_kernel_classes_Property $property): ?core_kernel_classes_Property
+    {
+        if (array_key_exists($property->getUri(), $this->sharedProperties)) {
+            return $property;
+        }
+
+        $originalPropertyUri = $this->classMetadataMapper->get($property);
+
+        return $originalPropertyUri === null
+            ? null
+            : $property->getProperty($originalPropertyUri);
+    }
+
+    private function isFileProperty(core_kernel_classes_Property $property): bool
+    {
+        $propertyUri = $property->getUri();
+
+        if (!array_key_exists($propertyUri, $this->fileProperties)) {
+            $range = $property->getRange();
+
+            $this->fileProperties[$propertyUri] = $range !== null
+                && $range->getUri() === GenerisRdf::CLASS_GENERIS_FILE;
+        }
+
+        return $this->fileProperties[$propertyUri];
+    }
+
+    /**
+     * @param core_kernel_classes_Literal|core_kernel_classes_Resource $propertyValue
+     */
+    private function copyFile(
+        core_kernel_classes_Resource $instance,
+        core_kernel_classes_Property $property,
+        $propertyValue
+    ): void {
+        $oldFile = $this->fileReferenceSerializer->unserializeFile($propertyValue->getUri());
+
+        $newFile = $this->fileSystemService
+            ->getDirectory($oldFile->getFileSystemId())
+            ->getFile(helpers_File::createFileName($oldFile->getBasename()));
+        $newFile->write($oldFile->readStream());
+        $newFileUri = $this->fileReferenceSerializer->serialize($newFile);
+
+        $instance->setPropertyValue($property, $instance->getResource($newFileUri));
     }
 }

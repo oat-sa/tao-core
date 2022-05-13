@@ -22,35 +22,21 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\resources\Service;
+namespace oat\tao\model\resources\Contract;
 
 use core_kernel_classes_Property;
-use oat\tao\model\resources\Contract\ClassMetadataMapperInterface;
 
-class ClassMetadataMapper implements ClassMetadataMapperInterface
+interface ClassMetadataMapperInterface
 {
-    /** @var array<string, string> */
-    private $map = [];
-
     public function add(
         core_kernel_classes_Property $originalProperty,
         core_kernel_classes_Property $clonedProperty
-    ): void {
-        $this->map[$clonedProperty->getUri()] = $originalProperty->getUri();
-    }
+    ): void;
 
-    public function get(core_kernel_classes_Property $property): ?string
-    {
-        return $this->map[$property->getUri()] ?? null;
-    }
+    public function get(core_kernel_classes_Property $property): ?string;
 
     /**
-     * @inheritDoc
+     * @param core_kernel_classes_Property[] $properties
      */
-    public function remove(array $properties): void
-    {
-        foreach ($properties as $property) {
-            unset($this->map[$property->getUri()]);
-        }
-    }
+    public function remove(array $properties): void;
 }

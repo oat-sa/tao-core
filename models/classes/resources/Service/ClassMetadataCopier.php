@@ -28,16 +28,17 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\resources\Contract\ClassMetadataCopierInterface;
+use oat\tao\model\resources\Contract\ClassMetadataMapperInterface;
 
 class ClassMetadataCopier implements ClassMetadataCopierInterface
 {
-    /** @var ClassMetadataMapper */
+    /** @var ClassMetadataMapperInterface */
     private $classMetadataMapper;
 
     /** @var string[] */
     private $copiedProperties = [];
 
-    public function __construct(ClassMetadataMapper $classMetadataMapper)
+    public function __construct(ClassMetadataMapperInterface $classMetadataMapper)
     {
         $this->classMetadataMapper = $classMetadataMapper;
     }
@@ -46,15 +47,6 @@ class ClassMetadataCopier implements ClassMetadataCopierInterface
     {
         $allClassProperties = $class->getProperties(true);
         $destinationClassProperties = $destinationClass->getProperties(true);
-
-        $sharedProperties = array_intersect_key($class->getProperties(), $destinationClassProperties);
-
-        foreach ($sharedProperties as $propertyUri => $property) {
-            $this->classMetadataMapper->add($property, $property);
-
-            unset($allClassProperties[$propertyUri]);
-        }
-
         $properties = array_diff_key($allClassProperties, $destinationClassProperties);
 
         foreach ($properties as $propertyUri => $property) {
