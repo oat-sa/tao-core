@@ -184,10 +184,10 @@ class RdsValueCollectionRepository extends InjectionAwareService implements Valu
         $this->enrichQueryWithInitialCondition($query);
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
 
-        $result = $query->select('count(t.id) AS c')->execute();
+        $result = $query->select('count(items.id) AS c')->execute();
 
         $row = $result->fetch(FetchMode::NUMERIC);
-        return (int)$row[0] ?? 0;
+        return (int) ($row[0] ?? 0);
     }
 
     protected function insert(ValueCollection $valueCollection, Value $value): void
