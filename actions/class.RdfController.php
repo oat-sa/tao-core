@@ -743,13 +743,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
     /**
      * @requiresRight uri READ
-     * @requiresRight destinationClassUri WRITE
+     * @requiresRight classUri WRITE
      */
     public function copyClass(): void
     {
         $parsedBody = $this->getPsrRequest()->getParsedBody();
 
-        if (empty($parsedBody['destinationClassUri']) || empty($parsedBody['uri'])) {
+        if (empty($parsedBody['classUri']) || empty($parsedBody['uri'])) {
             $this->returnJson(
                 [
                     'success' => false,
@@ -762,19 +762,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             return;
         }
 
-        try {
-            $this->validateCsrf();
-        } catch (common_exception_Unauthorized $e) {
-            $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
-
-            return;
-        }
-
         $this->validateInstanceRoot($parsedBody['uri']);
         $this->signatureValidator->checkSignature($parsedBody['signature'] ?? null, $parsedBody['uri']);
 
         $currentClass = $this->getClass($parsedBody['uri']);
-        $destinationClass = $this->getClass($parsedBody['destinationClassUri']);
+        $destinationClass = $this->getClass($parsedBody['classUri']);
 
         if (!$this->hasWriteAccess($destinationClass->getUri())) {
             $this->returnJson(
