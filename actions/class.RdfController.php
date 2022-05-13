@@ -742,8 +742,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     }
 
     /**
-     * @requiresRight uri READ
-     * @requiresRight destinationClassUri WRITE
+     * @requiresRight classUri READ
      */
     public function copyClass(): void
     {
