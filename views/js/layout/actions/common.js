@@ -53,9 +53,8 @@ define([
     'use strict';
 
     var messages = {
-        confirmMove: __(
-            'The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?'
-        )
+        // prettier-ignore
+        confirmMove: __('The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?')
     };
 
     /**
@@ -307,9 +306,8 @@ define([
                                     reject(
                                         response.msg ||
                                             response.message ||
-                                            __(
-                                                'Unable to delete the selected resource because you do not have the required rights to delete part of its content.'
-                                            )
+                                            // prettier-ignore
+                                            __('Unable to delete the selected resource because you do not have the required rights to delete part of its content.')
                                     );
                                 }
 
@@ -425,9 +423,8 @@ define([
                     if (response && response.status === true) {
                         return;
                     } else if (response && response.status === 'diff') {
-                        message = __(
-                            'Moving this element will replace the properties of the previous class by those of the destination class :'
-                        );
+                        // prettier-ignore
+                        message = __('Moving this element will replace the properties of the previous class by those of the destination class :');
                         message += '\n';
                         for (i = 0; i < response.data.length; i++) {
                             if (response.data[i].label) {
