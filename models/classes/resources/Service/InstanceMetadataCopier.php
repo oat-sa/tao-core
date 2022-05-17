@@ -98,10 +98,11 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
             }
 
             $propertyValues = $instance->getPropertyValuesCollection($originalProperty);
+            $isFileProperty = $this->isFileProperty($originalProperty);
 
             /** @var core_kernel_classes_Literal|core_kernel_classes_Resource|core_kernel_classes_Resource[] $propertyValue */
             foreach ($propertyValues->getIterator() as $propertyValue) {
-                if ($this->isFileProperty($originalProperty)) {
+                if ($isFileProperty) {
                     $this->copyFile($destinationInstance, $destinationProperty, $propertyValue);
 
                     continue;

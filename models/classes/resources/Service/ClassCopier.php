@@ -29,6 +29,7 @@ use core_kernel_classes_Class;
 use oat\tao\model\resources\Contract\ClassCopierInterface;
 use oat\tao\model\resources\Contract\InstanceCopierInterface;
 use oat\tao\model\resources\Contract\ClassMetadataCopierInterface;
+use oat\tao\model\resources\Contract\ClassMetadataMapperInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 
 class ClassCopier implements ClassCopierInterface
@@ -42,17 +43,20 @@ class ClassCopier implements ClassCopierInterface
     /** @var InstanceCopierInterface */
     private $instanceCopier;
 
-    /** @var ClassMetadataMapper */
+    /** @var ClassMetadataMapperInterface */
     private $classMetadataMapper;
 
     /** @var string[] */
     private $copiedClasses = [];
 
+    /** @var bool */
+    private $assertionCompleted = false;
+
     public function __construct(
         RootClassesListServiceInterface $rootClassesListService,
         ClassMetadataCopierInterface $classMetadataCopier,
         InstanceCopierInterface $instanceCopier,
-        ClassMetadataMapper $classMetadataMapper
+        ClassMetadataMapperInterface $classMetadataMapper
     ) {
         $this->rootClassesListService = $rootClassesListService;
         $this->classMetadataCopier = $classMetadataCopier;
@@ -95,6 +99,10 @@ class ClassCopier implements ClassCopierInterface
         core_kernel_classes_Class $class,
         core_kernel_classes_Class $destinationClass
     ): void {
+        if ($this->assertionCompleted) {
+            return;
+        }
+
         foreach ($this->rootClassesListService->list() as $rootClass) {
             if (
                 ($class->equals($rootClass) || $class->isSubClassOf($rootClass))
@@ -111,5 +119,7 @@ class ClassCopier implements ClassCopierInterface
                 );
             }
         }
+
+        $this->assertionCompleted = true;
     }
 }
