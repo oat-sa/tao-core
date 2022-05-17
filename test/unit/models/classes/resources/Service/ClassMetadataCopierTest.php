@@ -69,8 +69,6 @@ class ClassMetadataCopierTest extends TestCase
                 ]
             );
 
-
-
         $destinationClass = $this->createMock(core_kernel_classes_Class::class);
         $destinationClass
             ->expects($this->once())
