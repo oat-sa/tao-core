@@ -25,6 +25,7 @@ namespace oat\tao\model\featureVisibility;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\ClientLibConfigRegistry;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class FeatureVisibilityServiceProvider implements ContainerServiceProviderInterface
@@ -38,6 +39,7 @@ class FeatureVisibilityServiceProvider implements ContainerServiceProviderInterf
             ->public()
             ->args([
                 service(ClientLibConfigRegistry::class),
+                service(self::CONTAINER_SERVICE_ID),
             ]);
     }
 }

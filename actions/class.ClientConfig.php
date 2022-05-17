@@ -15,18 +15,18 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 *
-* Copyright (c) 2013-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+* Copyright (c) 2013-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
 */
 
 declare(strict_types=1);
 
+use oat\tao\model\featureVisibility\FeatureVisibilityService;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\routing\Resolver;
 use tao_helpers_Date as DateHelper;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\asset\AssetService;
 use oat\oatbox\user\UserLanguageService;
-use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\clientConfig\ClientConfigService;
@@ -58,7 +58,8 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         $extensionsAliases = ClientLibRegistry::getRegistry()->getLibAliasMap();
         $this->setData('extensionsAliases', $extensionsAliases);
 
-        $libConfigs = ClientLibConfigRegistry::getRegistry()->getMap();
+        $featureVisibility = $this->getFeatureVisibilityService();
+        $libConfigs = $featureVisibility->getClientConfig();
         // Dynamically adds the date format.
         $formatter = DateHelper::getDateFormatter();
         $libConfigs['util/locale']['dateTimeFormat'] = $formatter->getJavascriptFormat(DateHelper::FORMAT_LONG);
@@ -215,5 +216,10 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
     private function getFeatureFlagListService(): FeatureFlagListServiceInterface
     {
         return $this->getPsrContainer()->get(FeatureFlagListService::class);
+    }
+
+    private function getFeatureVisibilityService(): FeatureVisibilityService
+    {
+        return $this->getPsrContainer()->get(FeatureVisibilityService::class);
     }
 }
