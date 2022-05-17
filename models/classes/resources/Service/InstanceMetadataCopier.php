@@ -51,9 +51,6 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
         OntologyRdf::RDF_TYPE,
     ];
 
-    /** @var array<string, core_kernel_classes_Property> */
-    private $sharedProperties = [];
-
     /** @var array<string, bool> */
     private $fileProperties = [];
 
@@ -78,16 +75,9 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
         core_kernel_classes_Resource $instance,
         core_kernel_classes_Resource $destinationInstance
     ): void {
-        $originalClass = current($instance->getTypes());
         $destinationClass = current($destinationInstance->getTypes());
 
-        $destinationProperties = $destinationClass->getProperties(true);
-        $this->sharedProperties = array_merge(
-            $this->sharedProperties,
-            array_intersect_key($originalClass->getProperties(), $destinationProperties)
-        );
-
-        foreach ($destinationProperties as $destinationProperty) {
+        foreach ($destinationClass->getProperties(true) as $destinationProperty) {
             $originalProperty = $this->getOriginalProperty($destinationProperty);
 
             if (
@@ -115,14 +105,10 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
 
     private function getOriginalProperty(core_kernel_classes_Property $property): ?core_kernel_classes_Property
     {
-        if (array_key_exists($property->getUri(), $this->sharedProperties)) {
-            return $property;
-        }
-
         $originalPropertyUri = $this->classMetadataMapper->get($property);
 
         if ($originalPropertyUri === null) {
-            return null;
+            return $property->isCustom() ? $property : null;
         }
 
         return $property->getProperty($originalPropertyUri);
