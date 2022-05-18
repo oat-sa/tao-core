@@ -48,7 +48,7 @@ class FeatureFlagConfigSwitcher
         common_ext_ExtensionsManager $extensionsManager,
         ContainerInterface $container
     ) {
-        $this->registry = $registry::getRegistry();
+        $this->registry = $registry;
         $this->container = $container;
         $this->extensionsManager = $extensionsManager;
     }

@@ -44,6 +44,10 @@ class FeatureFlagServiceProvider implements ContainerServiceProviderInterface
                 ]
             );
 
+        $services->set(ClientLibConfigRegistry::class)
+            ->public()
+            ->factory(ClientLibConfigRegistry::class . '::getRegistry');
+
         $services
             ->set(FeatureFlagConfigSwitcher::class)
             ->public()
