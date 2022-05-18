@@ -112,7 +112,7 @@ class FeatureFlagConfigSwitcher
         $handlers[$extension][$configName][] = $handler;
         $handlers[$extension][$configName] = array_unique($handlers[$extension][$configName]);
 
-        $this->registry->set(self::GLOBAL_FEATURE_FLAG_CLIENT_CONFIG_HANDLERS, $handlers);
+        $this->registry->set(self::GLOBAL_FEATURE_FLAG_EXTENSION_CONFIG_HANDLERS, $handlers);
     }
 
     public function removeExtensionConfigHandler(string $extension, string $configName, string $handler): void
@@ -125,7 +125,7 @@ class FeatureFlagConfigSwitcher
             }
         }
 
-        $this->registry->set(self::GLOBAL_FEATURE_FLAG_CLIENT_CONFIG_HANDLERS, $handlers);
+        $this->registry->set(self::GLOBAL_FEATURE_FLAG_EXTENSION_CONFIG_HANDLERS, $handlers);
     }
 
     private function handle(array $handlers, array $config): array
