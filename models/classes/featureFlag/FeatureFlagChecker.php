@@ -51,10 +51,12 @@ class FeatureFlagChecker extends ConfigurableService implements FeatureFlagCheck
 
         /** @var core_kernel_classes_Triple $triple */
         foreach ($resource->getRdfTriples() as $triple) {
-            $predicate = $triple->predicate;
+            if ($triple->predicate === 'http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt') {
+                continue;
+            }
 
-            if ($cache->has($predicate)) {
-                $cache->delete($predicate);
+            if ($cache->has($triple->predicate)) {
+                $cache->delete($triple->predicate);
                 $count++;
             }
         }
