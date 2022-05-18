@@ -135,10 +135,10 @@ class FeatureFlagConfigSwitcher
                 continue;
             }
 
-            /** @var FeatureFlagClientConfigHandlerInterface $handler */
+            /** @var FeatureFlagConfigHandlerInterface $handler */
             $handler = $this->container->get($handlerId);
 
-            if (!$handler instanceof FeatureFlagClientConfigHandlerInterface) {
+            if (!$handler instanceof FeatureFlagConfigHandlerInterface) {
                 continue;
             }
 

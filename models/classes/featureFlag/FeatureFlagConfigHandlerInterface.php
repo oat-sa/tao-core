@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\featureFlag;
 
-interface FeatureFlagClientConfigHandlerInterface
+interface FeatureFlagConfigHandlerInterface
 {
     public function __invoke(array $configs): array;
 }
