@@ -23,16 +23,30 @@ declare(strict_types=1);
 namespace oat\tao\unit\test\model\featureFlag;
 
 use oat\generis\test\TestCase;
+use oat\oatbox\cache\SimpleCache;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class FeatureFlagCheckerTest extends TestCase
 {
     /** @var FeatureFlagChecker */
     private $subject;
 
+    /** @var SimpleCache|MockObject */
+    private $simpleCache;
+
     public function setUp(): void
     {
+        $this->simpleCache = $this->createMock(SimpleCache::class);
         $this->subject = new FeatureFlagChecker();
+        $this->subject->setServiceManager(
+            $this->getServiceLocatorMock(
+                [
+                    SimpleCache::SERVICE_ID => $this->simpleCache
+                ]
+            )
+        );
+
         $_ENV['FEATURE'] = true;
         $_ENV['FEATURE_DISABLED'] = false;
     }
@@ -44,6 +58,14 @@ class FeatureFlagCheckerTest extends TestCase
 
     public function testIsNotEnabled(): void
     {
+        $this->simpleCache
+            ->method('has')
+            ->willReturn(true);
+
+        $this->simpleCache
+            ->method('get')
+            ->willReturn(false);
+
         self::assertFalse($this->subject->isEnabled('NOT_ENABLED_FEATURE'));
     }
 

@@ -1,11 +1,36 @@
 Feature flag
 ========
 
-You can now define feature flags in environment global variables. 
+You can now define feature flags in environment global variables or database. 
 
 ## How to use it?
 
 You can use feature flag to easily switch off/on parts of TAO functionality.
+
+#### Usage to save a feature flag:
+
+```shell
+php index.php 'oat\tao\scripts\tools\FeatureFlag\FeatureFlagTool' -s FEATURE_FLAG_EXAMPLE -v true
+```
+
+#### Usage to get feature flag report:
+
+````shell
+php index.php 'oat\tao\scripts\tools\FeatureFlag\FeatureFlagTool' -r true
+````
+
+#### Usage to get info about feature flag
+```shell
+php index.php 'oat\tao\scripts\tools\FeatureFlag\FeatureFlagTool' -i FEATURE_FLAG_EXAMPLE
+```
+
+#### Clear feature flag cache
+
+Only available for DB feature flags
+
+```shell
+php index.php 'oat\tao\scripts\tools\FeatureFlag\FeatureFlagTool' -cc true
+```
 
 ### Feature flag naming standard
 
