@@ -22,7 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\featureFlag;
 
+use common_ext_ExtensionsManager;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\ClientLibConfigRegistry;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -39,6 +41,17 @@ class FeatureFlagServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(FeatureFlagChecker::class),
+                ]
+            );
+
+        $services
+            ->set(FeatureFlagConfigSwitcher::class)
+            ->public()
+            ->args(
+                [
+                    service(ClientLibConfigRegistry::class),
+                    service(common_ext_ExtensionsManager::class),
+                    service(self::CONTAINER_SERVICE_ID),
                 ]
             );
     }

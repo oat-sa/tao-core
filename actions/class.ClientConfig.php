@@ -20,6 +20,7 @@
 
 declare(strict_types=1);
 
+use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\featureVisibility\FeatureVisibilityService;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\routing\Resolver;
@@ -58,8 +59,8 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         $extensionsAliases = ClientLibRegistry::getRegistry()->getLibAliasMap();
         $this->setData('extensionsAliases', $extensionsAliases);
 
-        $featureVisibility = $this->getFeatureVisibilityService();
-        $libConfigs = $featureVisibility->getClientConfig();
+        $featureVisibility = $this->getFeatureFlagConfigSwitcher();
+        $libConfigs = $featureVisibility->getSwitchedClientConfig();
         // Dynamically adds the date format.
         $formatter = DateHelper::getDateFormatter();
         $libConfigs['util/locale']['dateTimeFormat'] = $formatter->getJavascriptFormat(DateHelper::FORMAT_LONG);
@@ -218,8 +219,8 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         return $this->getPsrContainer()->get(FeatureFlagListService::class);
     }
 
-    private function getFeatureVisibilityService(): FeatureVisibilityService
+    private function getFeatureFlagConfigSwitcher(): FeatureFlagConfigSwitcher
     {
-        return $this->getPsrContainer()->get(FeatureVisibilityService::class);
+        return $this->getPsrContainer()->get(FeatureFlagConfigSwitcher::class);
     }
 }

@@ -39,7 +39,6 @@ class FeatureVisibilityServiceProvider implements ContainerServiceProviderInterf
             ->public()
             ->args([
                 service(ClientLibConfigRegistry::class),
-                service(self::CONTAINER_SERVICE_ID),
             ]);
     }
 }
