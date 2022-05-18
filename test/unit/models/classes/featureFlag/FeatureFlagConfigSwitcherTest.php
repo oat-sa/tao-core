@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace oat\tao\unit\test\model\featureFlag;
 
+use common_ext_Extension;
 use common_ext_ExtensionsManager;
 use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
@@ -60,31 +61,72 @@ class FeatureFlagConfigSwitcherTest extends TestCase
 
     public function testGetSwitchedClientConfig(): void
     {
-        $this->markTestIncomplete();
+        //@TODO Create test for non empty config
+        $this->registry
+            ->method('getMap')
+            ->willReturn([]);
+
+        $this->assertEquals(
+            [],
+            $this->subject->getSwitchedClientConfig()
+        );
     }
 
-    public function testGetSwitchedExtensionConfig(): void
+    public function testGetSwitchedExtensionConfigEmpty(): void
     {
-        $this->markTestIncomplete();
+        //@TODO Create test for non empty config
+        $extension = $this->createMock(common_ext_Extension::class);
+
+        $this->registry
+            ->method('getMap')
+            ->willReturn([]);
+
+        $this->extensionManager
+            ->method('getExtensionById')
+            ->willReturn($extension);
+
+        $extension->method('getConfig')
+            ->willReturn([]);
+
+        $this->assertEquals(
+            [],
+            $this->subject->getSwitchedExtensionConfig('extensionName', 'configName')
+        );
     }
 
     public function testAddExtensionConfigHandler(): void
     {
-        $this->markTestIncomplete();
+        //@TODO Improve test to assert added handler
+        $this->assertNull(
+            $this->subject->addExtensionConfigHandler(
+                'extensionName',
+                'configName',
+                'handler'
+            )
+        );
     }
 
     public function testAddClientConfigHandler(): void
     {
-        $this->markTestIncomplete();
+        //@TODO Improve test to assert added handler
+        $this->assertNull($this->subject->addClientConfigHandler('handler'));
     }
 
     public function testRemoveExtensionConfigHandler(): void
     {
-        $this->markTestIncomplete();
+        //@TODO Improve test to assert removed handler
+        $this->assertNull(
+            $this->subject->removeExtensionConfigHandler(
+                'extensionName',
+                'configName',
+                'handler'
+            )
+        );
     }
 
     public function testRemoveClientConfigHandler(): void
     {
-        $this->markTestIncomplete();
+        //@TODO Improve test to assert removed handler
+        $this->assertNull($this->subject->removeClientConfigHandler('handler'));
     }
 }

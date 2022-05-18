@@ -34,6 +34,10 @@ class FeatureVisibilityServiceProvider implements ContainerServiceProviderInterf
     {
         $services = $configurator->services();
 
+        $services->set(ClientLibConfigRegistry::class)
+            ->public()
+            ->factory(ClientLibConfigRegistry::class . '::getRegistry');
+
         $services
             ->set(FeatureVisibilityService::class, FeatureVisibilityService::class)
             ->public()
