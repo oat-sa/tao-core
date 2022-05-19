@@ -77,22 +77,12 @@ class FeatureFlagConfigSwitcher
         $this->clientConfigHandlers[$handler] = $handler;
     }
 
-    public function removeClientConfigHandler(string $handler): void
-    {
-        unset($this->clientConfigHandlers[$handler]);
-    }
-
     public function addExtensionConfigHandler(string $extension, string $configName, string $handler): void
     {
         $key = $extension . '_' . $configName;
 
         $this->extensionConfigHandlers[$key] = $this->extensionConfigHandlers[$key] ?? [];
         $this->extensionConfigHandlers[$key][$handler] = $handler;
-    }
-
-    public function removeExtensionConfigHandler(string $extension, string $configName, string $handler): void
-    {
-        unset($this->extensionConfigHandlers[$extension . '_' . $configName][$handler]);
     }
 
     private function handle(array $handlers, array $config): array
@@ -105,11 +95,9 @@ class FeatureFlagConfigSwitcher
             /** @var FeatureFlagConfigHandlerInterface $handler */
             $handler = $this->container->get($handlerId);
 
-            if (!$handler instanceof FeatureFlagConfigHandlerInterface) {
-                continue;
+            if ($handler instanceof FeatureFlagConfigHandlerInterface) {
+                $config = $handler($config);
             }
-
-            $config = $handler($config);
         }
 
         return $config;

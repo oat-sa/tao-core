@@ -111,22 +111,4 @@ class FeatureFlagConfigSwitcherTest extends TestCase
         //@TODO Improve test to assert added handler
         $this->assertNull($this->subject->addClientConfigHandler('handler'));
     }
-
-    public function testRemoveExtensionConfigHandler(): void
-    {
-        //@TODO Improve test to assert removed handler
-        $this->assertNull(
-            $this->subject->removeExtensionConfigHandler(
-                'extensionName',
-                'configName',
-                'handler'
-            )
-        );
-    }
-
-    public function testRemoveClientConfigHandler(): void
-    {
-        //@TODO Improve test to assert removed handler
-        $this->assertNull($this->subject->removeClientConfigHandler('handler'));
-    }
 }
