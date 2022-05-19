@@ -38,6 +38,6 @@ class FeatureFlagChecker extends ConfigurableService implements FeatureFlagCheck
 
     private function getFeatureFlagRepository(): FeatureFlagRepositoryInterface
     {
-        return $this->getServiceManager()->get(FeatureFlagRepositoryInterface::class);
+        return $this->getServiceManager()->getContainer()->get(FeatureFlagRepositoryInterface::class);
     }
 }

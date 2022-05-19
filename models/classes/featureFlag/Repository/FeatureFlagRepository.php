@@ -82,7 +82,7 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
                 continue;
             }
 
-            $output[$featureFlagName] = $this->filterVar($triple->object);
+            $output[$featureFlagName] = $this->get($featureFlagName);
         }
 
         foreach ($this->storageOverride as $key => $value) {
