@@ -31,9 +31,6 @@ use Psr\Container\ContainerInterface;
 
 class FeatureFlagConfigSwitcher
 {
-    private const GLOBAL_FEATURE_FLAG_CLIENT_CONFIG_HANDLERS = 'featureFlagClientConfigHandlers';
-    private const GLOBAL_FEATURE_FLAG_EXTENSION_CONFIG_HANDLERS = 'featureFlagExtensionConfigHandlers';
-
     /** @var AbstractRegistry */
     private $registry;
 
@@ -42,6 +39,12 @@ class FeatureFlagConfigSwitcher
 
     /** @var common_ext_ExtensionsManager */
     private $extensionsManager;
+
+    /** @var string[] */
+    private $clientConfigHandlers = [];
+
+    /** @var string[][] */
+    private $extensionConfigHandlers = [];
 
     public function __construct(
         ClientLibConfigRegistry $registry,
@@ -55,7 +58,7 @@ class FeatureFlagConfigSwitcher
 
     public function getSwitchedClientConfig(): array
     {
-        return $this->handle($this->getClientConfigHandlers(), $this->registry->getMap());
+        return $this->handle($this->clientConfigHandlers, $this->registry->getMap());
     }
 
     public function getSwitchedExtensionConfig(string $extension, string $configName): array
@@ -71,61 +74,25 @@ class FeatureFlagConfigSwitcher
 
     public function addClientConfigHandler(string $handler): void
     {
-        $this->registry->set(
-            self::GLOBAL_FEATURE_FLAG_CLIENT_CONFIG_HANDLERS,
-            array_unique(
-                array_merge(
-                    $this->registry->getMap()[self::GLOBAL_FEATURE_FLAG_CLIENT_CONFIG_HANDLERS] ?? [],
-                    [
-                        $handler
-                    ]
-                )
-            )
-        );
+        $this->clientConfigHandlers[$handler] = $handler;
     }
 
     public function removeClientConfigHandler(string $handler): void
     {
-        $handlers = $this->registry->getMap()[self::GLOBAL_FEATURE_FLAG_CLIENT_CONFIG_HANDLERS] ?? [];
-
-        foreach ($handlers as $key => $value) {
-            if ($value === $handler) {
-                unset($handlers[$key]);
-            }
-        }
-
-        $this->registry->set(self::GLOBAL_FEATURE_FLAG_CLIENT_CONFIG_HANDLERS, $handlers);
+        unset($this->clientConfigHandlers[$handler]);
     }
 
     public function addExtensionConfigHandler(string $extension, string $configName, string $handler): void
     {
-        $handlers = $this->registry->getMap()[self::GLOBAL_FEATURE_FLAG_EXTENSION_CONFIG_HANDLERS] ?? [];
+        $key = $extension . '_' . $configName;
 
-        if (!isset($handlers[$extension])) {
-            $handlers[$extension] = [];
-        }
-
-        if (!isset($handlers[$extension][$configName])) {
-            $handlers[$extension][$configName] = [];
-        }
-
-        $handlers[$extension][$configName][] = $handler;
-        $handlers[$extension][$configName] = array_unique($handlers[$extension][$configName]);
-
-        $this->registry->set(self::GLOBAL_FEATURE_FLAG_EXTENSION_CONFIG_HANDLERS, $handlers);
+        $this->extensionConfigHandlers[$key] = $this->extensionConfigHandlers[$key] ?? [];
+        $this->extensionConfigHandlers[$key][$handler] = $handler;
     }
 
     public function removeExtensionConfigHandler(string $extension, string $configName, string $handler): void
     {
-        $handlers = $this->registry->getMap()[self::GLOBAL_FEATURE_FLAG_EXTENSION_CONFIG_HANDLERS];
-
-        foreach ($handlers[$extension][$configName] ?? [] as $key => $value) {
-            if ($value === $handler) {
-                unset($handlers[$extension][$configName][$key]);
-            }
-        }
-
-        $this->registry->set(self::GLOBAL_FEATURE_FLAG_EXTENSION_CONFIG_HANDLERS, $handlers);
+        unset($this->extensionConfigHandlers[$extension . '_' . $configName][$handler]);
     }
 
     private function handle(array $handlers, array $config): array
@@ -148,13 +115,8 @@ class FeatureFlagConfigSwitcher
         return $config;
     }
 
-    private function getClientConfigHandlers(): array
-    {
-        return $this->registry->getMap()[self::GLOBAL_FEATURE_FLAG_CLIENT_CONFIG_HANDLERS] ?? [];
-    }
-
     private function getExtensionConfigHandlers(string $extension, string $configName): array
     {
-        return $this->registry->getMap()[self::GLOBAL_FEATURE_FLAG_EXTENSION_CONFIG_HANDLERS][$extension][$configName] ?? [];
+        return $this->extensionConfigHandlers[$extension . '_' . $configName] ?? [];
     }
 }

@@ -109,6 +109,10 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
 
         $resource = $this->ontology->getResource(self::ONTOLOGY_SUBJECT);
         $resource->editPropertyValues($this->ontology->getProperty($featureFlagName), var_export($value, true));
+
+        if ($this->cache->has($featureFlagName)) {
+            $this->cache->delete($featureFlagName);
+        }
     }
 
     public function clearCache(): int

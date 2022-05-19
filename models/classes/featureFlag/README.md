@@ -34,8 +34,7 @@ php index.php 'oat\tao\scripts\tools\FeatureFlag\FeatureFlagTool' -cc true
 
 ### Feature flag naming standard
 
-It is import tht we will use `FEATURE_FLAG` prefix for our feature flags to recognise them and they prupose 
-in environment variable list. 
+It is import tht we will use `FEATURE_FLAG_` prefix for our feature flags to recognise them and their purpose. 
 
 ### AbstractFeatureFlagFormPropertyMapper
 
@@ -80,16 +79,12 @@ This configuration will display `sectionName` when `FETURE_FLAG_01` is enabled.
 
 ### Override configs on execution time
 
-Ideally changing a existing config should not require a new version of code to be created, backport, deployed, etc. 
-We should just switch a feature flag and restart the server (if required).
+These feature helps to dynamically overrride configs according to a featureFlag and therefore, 
+no need for redeployment or server restart.
 
-For historical reasons, TAO has many configurations stored in the filesystem that requires a new version 
-of the code/extension to be released/deployed in order to change those values.
-
-The purpose of this feature is to avoid it and do this control based on feature flags.
-
-In order to do it we can use the [FeatureFlagConfigSwitcher](./FeatureFlagConfigSwitcher.php) 
-and add by composition [](./FeatureFlagConfigHandlerInterface.php).
+This is done though the [FeatureFlagConfigSwitcher](./FeatureFlagConfigSwitcher.php) 
+and composition with [FeatureFlagConfigHandlerInterface](./FeatureFlagConfigHandlerInterface.php) by following the
+steps bellow:
 
 1) Create a handler implementing `FeatureFlagConfigHandlerInterface`.
 
@@ -119,57 +114,39 @@ class MyClientConfigHandler implements FeatureFlagConfigHandlerInterface
 }
 ```
 
-2) Create a migration to add the new Handler to be used by the switcher.
+2) Call the handler in your DI container definition.
 
 ```php
+use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-final class Version202205181448289235_tao extends AbstractMigration
+class MyDIContainerServiceProvider implements ContainerServiceProviderInterface
 {
-    public function up(Schema $schema): void
+    public function __invoke(ContainerConfigurator $configurator): void
     {
-        /** @var FeatureFlagConfigSwitcher $switcher */
-        $switcher = $this->getServiceManager()->getContainer()->get(FeatureFlagConfigSwitcher::class);
-
-        $switcher->addClientConfigHandler(MyClientConfigHandler::class);
-        $switcher->addExtensionConfigHandler('taoQtiItem', 'qtiCreator', MyExtensionConfigHandler::class);
-    }
-
-    public function down(Schema $schema): void
-    {
-        /** @var FeatureFlagConfigSwitcher $switcher */
-        $switcher = $this->getServiceManager()->getContainer()->get(FeatureFlagConfigSwitcher::class);
-
-        $switcher->removeClientConfigHandler(MyClientConfigHandler::class);
-        $switcher->removeExtensionConfigHandler('taoQtiItem', 'qtiCreator', MyExtensionConfigHandler::class);
+        $services->get(FeatureFlagConfigSwitcher::class)
+            ->call(
+                'addClientConfigHandler',
+                [
+                    MyClientConfigHandler::class,
+                ]
+            )->call(
+                'addExtensionConfigHandler',
+                [
+                    'taoQtiItem',
+                    'qtiCreator',
+                    MyExtensionConfigHandler::class
+                ]
+            );
     }
 }
 ```
 
-3) Create also an installation script
-
-```php
-use oat\oatbox\extension\InstallAction;
-use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
-
-class RegisterServices extends InstallAction
-{
-    public function __invoke($params)
-    {
-        /** @var FeatureFlagConfigSwitcher $switcher */
-        $switcher = $serviceManager->getContainer()->get(FeatureFlagConfigSwitcher::class);
-        $switcher->addClientConfigHandler(MyClientConfigHandler::class);
-        $switcher->addExtensionConfigHandler('taoQtiItem', 'qtiCreator', MyExtensionConfigHandler::class);
-    }
-}
-```
-
-4) Load configurations using the `FeatureFlagConfigSwitcher`:
-
-We currently support 2 types of configuration override.
+We currently support 2 types of configuration override on `FeatureFlagConfigSwitcher`.
 
 - The ones stored on `client_lib_config_registry.conf.php`, including `featureVisibility`.
-- Extension/Module based ones. 
+- The extension/module based ones. 
 
 ```shell
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
@@ -178,5 +155,5 @@ use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 $featureFlagConfigSwitcher; // Get from DI container...
 
 $configs = $featureFlagConfigSwitcher->getSwitchedExtensionConfig('taoQtiItem', 'qtiCreator'); // Config from extension
-$configs = $featureFlagConfigSwitcher->getSwitchedClientConfig(); // Config from client_lib_config_registry
+$configs = $featureFlagConfigSwitcher->getSwitchedClientConfig(); // Config from client_lib_config_registry.conf.php
 ```
