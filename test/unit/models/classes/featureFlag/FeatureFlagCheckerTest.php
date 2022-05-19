@@ -23,8 +23,8 @@ declare(strict_types=1);
 namespace oat\tao\unit\test\model\featureFlag;
 
 use oat\generis\test\TestCase;
-use oat\oatbox\cache\SimpleCache;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class FeatureFlagCheckerTest extends TestCase
@@ -32,17 +32,17 @@ class FeatureFlagCheckerTest extends TestCase
     /** @var FeatureFlagChecker */
     private $subject;
 
-    /** @var SimpleCache|MockObject */
-    private $simpleCache;
+    /** @var FeatureFlagRepositoryInterface|MockObject */
+    private $featureFlagRepository;
 
     public function setUp(): void
     {
-        $this->simpleCache = $this->createMock(SimpleCache::class);
+        $this->featureFlagRepository = $this->createMock(FeatureFlagRepositoryInterface::class);
         $this->subject = new FeatureFlagChecker();
         $this->subject->setServiceManager(
             $this->getServiceLocatorMock(
                 [
-                    SimpleCache::SERVICE_ID => $this->simpleCache
+                    FeatureFlagRepositoryInterface::class => $this->featureFlagRepository
                 ]
             )
         );
@@ -58,11 +58,7 @@ class FeatureFlagCheckerTest extends TestCase
 
     public function testIsNotEnabled(): void
     {
-        $this->simpleCache
-            ->method('has')
-            ->willReturn(true);
-
-        $this->simpleCache
+        $this->featureFlagRepository
             ->method('get')
             ->willReturn(false);
 

@@ -22,9 +22,15 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\featureFlag;
+namespace oat\tao\model\featureFlag\Repository;
 
-interface FeatureFlagConfigHandlerInterface
+interface FeatureFlagRepositoryInterface
 {
-    public function __invoke(array $configs): array;
+    public function get(string $featureFlagName): bool;
+
+    public function list(): array;
+
+    public function save(string $featureFlagName, bool $value): void;
+
+    public function clearCache(): int;
 }

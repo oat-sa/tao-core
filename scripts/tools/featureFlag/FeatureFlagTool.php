@@ -26,7 +26,7 @@ namespace oat\tao\scripts\tools\FeatureFlag;
 
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 
 /**
  * Usage to save a feature flag:
@@ -96,7 +96,7 @@ class FeatureFlagTool extends ScriptAction
 
             $value = filter_var($this->getOption(self::OPTION_VALUE), FILTER_VALIDATE_BOOLEAN) ?? false;
 
-            $this->getFeatureFlagChecker()->save($featureFlagToSave, $value);
+            $this->getFeatureFlagRepository()->save($featureFlagToSave, $value);
 
             return Report::createSuccess(
                 sprintf('Feature %s saved as %s', $featureFlagToSave, var_export($value, true))
@@ -104,7 +104,7 @@ class FeatureFlagTool extends ScriptAction
         }
 
         if ($featureFlagToGetInfo = $this->getOption(self::OPTION_INFO)) {
-            $info = $this->getFeatureFlagChecker()->list()[$featureFlagToGetInfo] ?? null;
+            $info = $this->getFeatureFlagRepository()->list()[$featureFlagToGetInfo] ?? null;
 
             return Report::createSuccess(sprintf('%s:%s', $featureFlagToGetInfo, var_export($info, true)));
         }
@@ -113,7 +113,7 @@ class FeatureFlagTool extends ScriptAction
             return Report::createSuccess(
                 sprintf(
                     'Total of %s FeatureFlags cleared from cache',
-                    $this->getFeatureFlagChecker()->clearCache()
+                    $this->getFeatureFlagRepository()->clearCache()
                 )
             );
         }
@@ -121,7 +121,7 @@ class FeatureFlagTool extends ScriptAction
         if ($this->getOption(self::OPTION_REPORT)) {
             $report =  Report::createSuccess('Feature list');
 
-            foreach ($this->getFeatureFlagChecker()->list() as $feature => $value) {
+            foreach ($this->getFeatureFlagRepository()->list() as $feature => $value) {
                 $report->add(Report::createInfo(sprintf('%s:%s', $feature, var_export($value, true))));
             }
 
@@ -131,8 +131,8 @@ class FeatureFlagTool extends ScriptAction
         return Report::createError('No option selected');
     }
 
-    private function getFeatureFlagChecker(): FeatureFlagChecker
+    private function getFeatureFlagRepository(): FeatureFlagRepositoryInterface
     {
-        return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
+        return $this->getServiceManager()->getContainer()->get(FeatureFlagRepositoryInterface::class);
     }
 }
