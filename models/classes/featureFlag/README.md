@@ -7,6 +7,9 @@ You can now define feature flags in environment global variables or database.
 
 You can use feature flag to easily switch off/on parts of TAO functionality.
 
+*IMPORTANT*: It is recommended to use an external cache (i.e `redis`) instead of `phpfile` 
+to avoid the need to restart the server after saving a feature flag.  
+
 #### Usage to save a feature flag:
 
 ```shell
