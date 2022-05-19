@@ -27,8 +27,8 @@ namespace oat\tao\model\featureFlag\Repository;
 use core_kernel_classes_Triple;
 use InvalidArgumentException;
 use oat\generis\model\data\Ontology;
-use oat\oatbox\cache\SimpleCache;
 use oat\tao\model\TaoOntology;
+use Psr\SimpleCache\CacheInterface;
 
 class FeatureFlagRepository implements FeatureFlagRepositoryInterface
 {
@@ -39,13 +39,13 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
     /** @var Ontology */
     private $ontology;
 
-    /** @var SimpleCache */
+    /** @var CacheInterface */
     private $cache;
 
     /** @var array */
     private $storageOverride;
 
-    public function __construct(Ontology $ontology, SimpleCache $cache, array $storageOverride = null)
+    public function __construct(Ontology $ontology, CacheInterface $cache, array $storageOverride = null)
     {
         $this->ontology = $ontology;
         $this->cache = $cache;

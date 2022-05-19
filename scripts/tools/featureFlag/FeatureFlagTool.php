@@ -82,7 +82,16 @@ class FeatureFlagTool extends ScriptAction
 
     protected function provideDescription(): string
     {
-        return 'Set a client-side CSRF token pool store preference.';
+        return 'Manager featureFlag storage';
+    }
+
+    protected function provideUsage(): array
+    {
+        return [
+            'prefix' => 'h',
+            'longPrefix' => 'help',
+            'description' => $this->provideDescription()
+        ];
     }
 
     protected function run(): Report
