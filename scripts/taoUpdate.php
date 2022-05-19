@@ -23,7 +23,7 @@ require_once dirname(__FILE__) . '/../includes/raw_start.php';
 use oat\oatbox\reporting\Report;
 use oat\tao\model\extension\UpdateExtensions;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 
 $serviceManager = ServiceManager::getServiceManager();
 
@@ -33,8 +33,8 @@ $report = $action->__invoke([]);
 
 $serviceManager->getContainerBuilder()->forceBuild();
 
-/** @var FeatureFlagChecker $featureFlagChecker */
-$featureFlagChecker = $serviceManager->get(FeatureFlagChecker::class);
+/** @var FeatureFlagRepositoryInterface $featureFlagChecker */
+$featureFlagChecker = $serviceManager->getContainer()->get(FeatureFlagRepositoryInterface::class);
 $featureFlagChecker->clearCache();
 
 $report->add(Report::createSuccess('Update completed'));
