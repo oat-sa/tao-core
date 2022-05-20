@@ -21,7 +21,7 @@
 declare(strict_types=1);
 
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
-use oat\tao\model\featureVisibility\FeatureVisibilityService;
+use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\routing\Resolver;
 use tao_helpers_Date as DateHelper;
@@ -31,8 +31,6 @@ use oat\oatbox\user\UserLanguageService;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\clientConfig\ClientConfigService;
-use oat\tao\model\featureFlag\FeatureFlagListService;
-use oat\tao\model\featureFlag\FeatureFlagListServiceInterface;
 
 /**
  * Generates client side configuration.
@@ -107,7 +105,7 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
             'shownExtension' => $this->getShownExtension(),
             'shownStructure' => $this->getShownStructure(),
             'bundle' => tao_helpers_Mode::is(tao_helpers_Mode::PRODUCTION),
-            'featureFlags' => $this->getFeatureFlagListService()->list(),
+            'featureFlags' => $this->getFeatureFlagRepository()->list(),
         ]));
 
         $this->setView('client_config.tpl');
@@ -214,9 +212,9 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         return $this->getPsrContainer()->get(common_ext_ExtensionsManager::SERVICE_ID);
     }
 
-    private function getFeatureFlagListService(): FeatureFlagListServiceInterface
+    private function getFeatureFlagRepository(): FeatureFlagRepositoryInterface
     {
-        return $this->getPsrContainer()->get(FeatureFlagListService::class);
+        return $this->getPsrContainer()->get(FeatureFlagRepositoryInterface::class);
     }
 
     private function getFeatureFlagConfigSwitcher(): FeatureFlagConfigSwitcher

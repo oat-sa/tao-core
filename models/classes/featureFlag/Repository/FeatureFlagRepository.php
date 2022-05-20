@@ -27,6 +27,7 @@ namespace oat\tao\model\featureFlag\Repository;
 use core_kernel_classes_Triple;
 use InvalidArgumentException;
 use oat\generis\model\data\Ontology;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\TaoOntology;
 use Psr\SimpleCache\CacheInterface;
 
@@ -54,6 +55,10 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
 
     public function get(string $featureFlagName): bool
     {
+        if ($this->hasOverrideFeatureFlag($featureFlagName)) {
+            return $this->getOverrideFeatureFlag($featureFlagName);
+        }
+
         $featureFlagName = $this->getPersistenceName($featureFlagName);
 
         if ($this->cache->has($featureFlagName)) {
@@ -89,6 +94,15 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
             if (strpos($key, self::FEATURE_FLAG_PREFIX) === 0) {
                 $output[$key] = $this->filterVar($this->storageOverride[$key]);
             }
+        }
+
+        /**
+         * @deprecated Only here for legacy support purposes, we should rely on storage
+         */
+        if ($this->hasOverrideFeatureFlag(FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED)) {
+            $output[FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED] = $this->getOverrideFeatureFlag(
+                FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
+            );
         }
 
         return $output;
@@ -144,5 +158,15 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
     private function filterVar($value): bool
     {
         return filter_var($value, FILTER_VALIDATE_BOOLEAN) ?? false;
+    }
+
+    private function getOverrideFeatureFlag(string $key): bool
+    {
+        return $this->filterVar($this->storageOverride[$key] ?? false);
+    }
+
+    private function hasOverrideFeatureFlag(string $key): bool
+    {
+        return array_key_exists($key, $this->storageOverride);
     }
 }

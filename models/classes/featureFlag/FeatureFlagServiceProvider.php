@@ -44,7 +44,7 @@ class FeatureFlagServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
-                    service(FeatureFlagChecker::class),
+                    service(FeatureFlagRepositoryInterface::class),
                 ]
             );
 

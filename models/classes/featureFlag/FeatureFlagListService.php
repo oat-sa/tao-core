@@ -15,33 +15,37 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\model\featureFlag;
 
+use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
+
+/**
+ * @deprecated Use oat\tao\model\featureFlag\Repository\FeatureFlagRepository instead
+ */
 class FeatureFlagListService implements FeatureFlagListServiceInterface
 {
-    private const FEATURE_FLAGS = [
-        FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED,
-    ];
+    /** @var FeatureFlagRepositoryInterface */
+    private $featureFlagRepository;
 
-    /** @var FeatureFlagCheckerInterface */
-    private $featureFlagChecker;
-
-    public function __construct(FeatureFlagCheckerInterface $featureFlagChecker)
+    public function __construct(FeatureFlagRepositoryInterface $featureFlagRepository)
     {
-        $this->featureFlagChecker = $featureFlagChecker;
+        $this->featureFlagRepository = $featureFlagRepository;
     }
 
+    /**
+     * @deprecated Use oat\tao\model\featureFlag\Repository\FeatureFlagRepository::list() instead
+     */
     public function list(): array
     {
         $list = [];
 
-        foreach (self::FEATURE_FLAGS as $featureFlag) {
-            $list[$featureFlag] = $this->featureFlagChecker->isEnabled($featureFlag);
+        foreach ($this->featureFlagRepository->list() as $featureFlag => $value) {
+            $list[$featureFlag] = $value;
         }
 
         return $list;

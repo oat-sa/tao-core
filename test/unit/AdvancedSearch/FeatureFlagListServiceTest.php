@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -23,32 +23,36 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\AdvancedSearch;
 
 use oat\generis\test\TestCase;
+use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagListService;
-use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
 class FeatureFlagListServiceTest extends TestCase
 {
     /** @var FeatureFlagListService */
     private $sut;
 
-    /** @var FeatureFlagCheckerInterface|MockObject */
-    private $featureFlagChecker;
+    /** @var FeatureFlagRepositoryInterface|MockObject */
+    private $featureFlagRepository;
 
     protected function setUp(): void
     {
-        $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
+        $this->featureFlagRepository = $this->createMock(FeatureFlagRepositoryInterface::class);
 
-        $this->sut = new FeatureFlagListService($this->featureFlagChecker);
+        $this->sut = new FeatureFlagListService($this->featureFlagRepository);
     }
 
     public function testList(): void
     {
-        $this->featureFlagChecker
+        $this->featureFlagRepository
             ->expects($this->once())
-            ->method('isEnabled')
-            ->willReturn(true);
+            ->method('list')
+            ->willReturn(
+                [
+                    FeatureFlagChecker::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED => true,
+                ]
+            );
 
         $this->assertEquals(
             [
