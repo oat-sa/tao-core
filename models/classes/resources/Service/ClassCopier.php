@@ -28,6 +28,7 @@ use InvalidArgumentException;
 use core_kernel_classes_Class;
 use oat\tao\model\resources\Contract\ClassCopierInterface;
 use oat\tao\model\resources\Contract\InstanceCopierInterface;
+use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\Contract\ClassMetadataCopierInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 
@@ -42,6 +43,9 @@ class ClassCopier implements ClassCopierInterface
     /** @var InstanceCopierInterface */
     private $instanceCopier;
 
+    /** @var PermissionCopierInterface */
+    private $permissionCopier;
+
     /** @var string[] */
     private $copiedClasses = [];
 
@@ -53,6 +57,11 @@ class ClassCopier implements ClassCopierInterface
         $this->rootClassesListService = $rootClassesListService;
         $this->classMetadataCopier = $classMetadataCopier;
         $this->instanceCopier = $instanceCopier;
+    }
+
+    public function withPermissionCopier(PermissionCopierInterface $permissionCopier): void
+    {
+        $this->permissionCopier = $permissionCopier;
     }
 
     /**
@@ -79,6 +88,10 @@ class ClassCopier implements ClassCopierInterface
 
         foreach ($class->getSubClasses() as $subClass) {
             $this->copy($subClass, $newClass);
+        }
+
+        if (isset($this->permissionCopier)) {
+            $this->permissionCopier->copy($class, $newClass);
         }
 
         return $newClass;
