@@ -99,10 +99,8 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
         /**
          * @deprecated Only here for legacy support purposes, we should rely on storage
          */
-        if ($this->hasOverrideFeatureFlag(FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED)) {
-            $output[FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED] = $this->getOverrideFeatureFlag(
-                FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
-            );
+        if (!array_key_exists(FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED, $output)) {
+            $output[FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED] = false;
         }
 
         return $output;
