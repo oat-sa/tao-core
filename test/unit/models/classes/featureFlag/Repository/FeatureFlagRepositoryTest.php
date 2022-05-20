@@ -85,13 +85,24 @@ class FeatureFlagRepositoryTest extends TestCase
             ->willReturn($property);
 
         $this->cache
-            ->expects($this->once())
+            ->expects($this->at(0))
             ->method('has')
             ->willReturn(true);
 
         $this->cache
-            ->expects($this->once())
+            ->expects($this->at(1))
             ->method('delete');
+
+        $this->cache
+            ->expects($this->at(2))
+            ->method('has')
+            ->with('FEATURE_FLAG_LIST')
+            ->willReturn(true);
+
+        $this->cache
+            ->expects($this->at(3))
+            ->method('delete')
+            ->with('FEATURE_FLAG_LIST');
 
         $this->subject->save('FEATURE_FLAG_NAME', true);
     }
@@ -114,16 +125,62 @@ class FeatureFlagRepositoryTest extends TestCase
             ->willReturn($resource);
 
         $this->cache
-            ->expects($this->once())
+            ->expects($this->at(0))
+            ->method('has')
+            ->with('FEATURE_FLAG_LIST')
+            ->willReturn(false);
+
+        $this->cache
+            ->expects($this->at(3))
+            ->method('set')
+            ->with(
+                'FEATURE_FLAG_LIST',
+                [
+                    'FEATURE_FLAG_NAME' => true,
+                ]
+            )
+            ->willReturn(false);
+
+        $this->cache
+            ->expects($this->at(1))
             ->method('has')
             ->with('http://www.tao.lu/Ontologies/TAO.rdf#featureFlags_FEATURE_FLAG_NAME')
             ->willReturn(true);
 
         $this->cache
-            ->expects($this->once())
+            ->expects($this->at(2))
             ->method('get')
             ->with('http://www.tao.lu/Ontologies/TAO.rdf#featureFlags_FEATURE_FLAG_NAME')
             ->willReturn(true);
+
+        $this->assertSame(
+            [
+                'FEATURE_FLAG_NAME' => true,
+                'FEATURE_FLAG_FROM_ENV' => true,
+                'FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED' => false,
+
+            ],
+            $this->subject->list()
+        );
+    }
+
+    public function testListFromCache(): void
+    {
+        $this->cache
+            ->expects($this->at(0))
+            ->method('has')
+            ->with('FEATURE_FLAG_LIST')
+            ->willReturn(true);
+
+        $this->cache
+            ->expects($this->at(1))
+            ->method('get')
+            ->with('FEATURE_FLAG_LIST')
+            ->willReturn(
+                [
+                    'FEATURE_FLAG_NAME' => true,
+                ]
+            );
 
         $this->assertSame(
             [
@@ -221,6 +278,17 @@ class FeatureFlagRepositoryTest extends TestCase
             ->method('has')
             ->with('predicate2')
             ->willReturn(false);
+
+        $this->cache
+            ->expects($this->at(3))
+            ->method('has')
+            ->with('FEATURE_FLAG_LIST')
+            ->willReturn(true);
+
+        $this->cache
+            ->expects($this->at(4))
+            ->method('delete')
+            ->with('FEATURE_FLAG_LIST');
 
         $this->ontology
             ->expects($this->once())

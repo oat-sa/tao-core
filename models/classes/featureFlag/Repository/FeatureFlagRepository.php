@@ -35,6 +35,7 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
 {
     private const ONTOLOGY_SUBJECT = 'http://www.tao.lu/Ontologies/TAO.rdf#featureFlags';
     private const ONTOLOGY_PREDICATE = 'http://www.tao.lu/Ontologies/TAO.rdf#featureFlags';
+    private const CACHE_LIST_KEY = 'FEATURE_FLAG_LIST';
     private const FEATURE_FLAG_PREFIX = 'FEATURE_FLAG_';
 
     /** @var Ontology */
@@ -76,18 +77,16 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
 
     public function list(): array
     {
-        $resource = $this->ontology->getResource(self::ONTOLOGY_SUBJECT);
-        $output = [];
+        $hasCache = $this->cache->has(self::CACHE_LIST_KEY);
 
-        /** @var core_kernel_classes_Triple $triple */
-        foreach ($resource->getRdfTriples() as $triple) {
-            $featureFlagName = str_replace(self::ONTOLOGY_PREDICATE . '_', '', $triple->predicate);
+        if ($hasCache) {
+            $output = $this->cache->get(self::CACHE_LIST_KEY);
+        }
 
-            if ($triple->predicate === TaoOntology::PROPERTY_UPDATED_AT) {
-                continue;
-            }
+        if (!$hasCache) {
+            $output = $this->getListFromDb();
 
-            $output[$featureFlagName] = $this->get($featureFlagName);
+            $this->cache->set(self::CACHE_LIST_KEY, $output);
         }
 
         foreach ($this->storageOverride as $key => $value) {
@@ -125,6 +124,10 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
         if ($this->cache->has($featureFlagName)) {
             $this->cache->delete($featureFlagName);
         }
+
+        if ($this->cache->has(self::CACHE_LIST_KEY)) {
+            $this->cache->delete(self::CACHE_LIST_KEY);
+        }
     }
 
     public function clearCache(): int
@@ -145,7 +148,31 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
             }
         }
 
+        if ($this->cache->has(self::CACHE_LIST_KEY)) {
+            $this->cache->delete(self::CACHE_LIST_KEY);
+        }
+
         return $count;
+    }
+
+    private function getListFromDb(): array
+    {
+        $output = [];
+
+        $resource = $this->ontology->getResource(self::ONTOLOGY_SUBJECT);
+
+        /** @var core_kernel_classes_Triple $triple */
+        foreach ($resource->getRdfTriples() as $triple) {
+            $featureFlagName = str_replace(self::ONTOLOGY_PREDICATE . '_', '', $triple->predicate);
+
+            if ($triple->predicate === TaoOntology::PROPERTY_UPDATED_AT) {
+                continue;
+            }
+
+            $output[$featureFlagName] = $this->get($featureFlagName);
+        }
+
+        return $output;
     }
 
     private function getPersistenceName(string $featureFlagName): string
