@@ -65,6 +65,7 @@ interface TaskLogInterface extends LoggerAwareInterface
     public const CATEGORY_CREATE = 'create';
     public const CATEGORY_UPDATE = 'update';
     public const CATEGORY_DELETE = 'delete';
+    public const CATEGORY_COPY = 'copy';
     public const CATEGORY_UNRELATED_RESOURCE = 'unrelated_resource';
 
     public const DEFAULT_LIMIT = 20;
