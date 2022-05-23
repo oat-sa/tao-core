@@ -17,7 +17,7 @@
         "@oat-sa/tao-core-libs": "0.4.5",
         "@oat-sa/tao-core-sdk": "1.18.1",
         "@oat-sa/tao-core-shared-libs": "1.2.0",
-        "@oat-sa/tao-core-ui": "github:oat-sa/tao-core-ui-fe#feat/AUT-1982_hide-tabs-container",
+        "@oat-sa/tao-core-ui": "1.54.0",
         "codemirror": "^5.54.0",
         "decimal.js": "10.1.1",
         "dompurify": "1.0.11",
@@ -35,6 +35,8 @@
         "url-polyfill": "1.1.12"
     },
     "devDependencies": {
+        "@oat-sa/e2e-runner": "^1.5.0",
+        "cypress-downloadfile": "^1.2.1",
         "fs": "0.0.1-security"
     }
 }
