@@ -457,6 +457,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
             self::CATEGORY_CREATE,
             self::CATEGORY_UPDATE,
             self::CATEGORY_DELETE,
+            self::CATEGORY_COPY,
             self::CATEGORY_IMPORT,
             self::CATEGORY_EXPORT,
             self::CATEGORY_DELIVERY_COMPILATION,

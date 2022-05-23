@@ -15,20 +15,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021-2022 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
+ *
+ * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\featureFlag;
+namespace oat\tao\model\resources\Contract;
 
-/**
- * @deprecated Use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface instead
- */
-interface FeatureFlagListServiceInterface
+use core_kernel_classes_Property;
+
+interface ClassMetadataMapperInterface
 {
+    public function add(
+        core_kernel_classes_Property $originalProperty,
+        core_kernel_classes_Property $clonedProperty
+    ): void;
+
+    public function get(core_kernel_classes_Property $property): ?string;
+
     /**
-     * @deprecated Use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface::list() instead
+     * @param core_kernel_classes_Property[] $properties
      */
-    public function list(): array;
+    public function remove(array $properties): void;
 }

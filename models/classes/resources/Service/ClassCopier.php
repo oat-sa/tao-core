@@ -30,6 +30,7 @@ use oat\tao\model\resources\Contract\ClassCopierInterface;
 use oat\tao\model\resources\Contract\InstanceCopierInterface;
 use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\Contract\ClassMetadataCopierInterface;
+use oat\tao\model\resources\Contract\ClassMetadataMapperInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 
 class ClassCopier implements ClassCopierInterface
@@ -43,20 +44,28 @@ class ClassCopier implements ClassCopierInterface
     /** @var InstanceCopierInterface */
     private $instanceCopier;
 
+    /** @var ClassMetadataMapperInterface */
+    private $classMetadataMapper;
+
     /** @var PermissionCopierInterface */
     private $permissionCopier;
 
     /** @var string[] */
     private $copiedClasses = [];
 
+    /** @var bool */
+    private $assertionCompleted = false;
+
     public function __construct(
         RootClassesListServiceInterface $rootClassesListService,
         ClassMetadataCopierInterface $classMetadataCopier,
-        InstanceCopierInterface $instanceCopier
+        InstanceCopierInterface $instanceCopier,
+        ClassMetadataMapperInterface $classMetadataMapper
     ) {
         $this->rootClassesListService = $rootClassesListService;
         $this->classMetadataCopier = $classMetadataCopier;
         $this->instanceCopier = $instanceCopier;
+        $this->classMetadataMapper = $classMetadataMapper;
     }
 
     public function withPermissionCopier(PermissionCopierInterface $permissionCopier): void
@@ -94,6 +103,8 @@ class ClassCopier implements ClassCopierInterface
             $this->permissionCopier->copy($class, $newClass);
         }
 
+        $this->classMetadataMapper->remove($newClass->getProperties());
+
         return $newClass;
     }
 
@@ -101,10 +112,14 @@ class ClassCopier implements ClassCopierInterface
         core_kernel_classes_Class $class,
         core_kernel_classes_Class $destinationClass
     ): void {
+        if ($this->assertionCompleted) {
+            return;
+        }
+
         foreach ($this->rootClassesListService->list() as $rootClass) {
             if (
-                ($class->getUri() === $rootClass->getUri() || $class->isSubClassOf($rootClass))
-                && $destinationClass->getUri() !== $rootClass->getUri()
+                ($class->equals($rootClass) || $class->isSubClassOf($rootClass))
+                && !$destinationClass->equals($rootClass)
                 && !$destinationClass->isSubClassOf($rootClass)
             ) {
                 throw new InvalidArgumentException(
@@ -117,5 +132,7 @@ class ClassCopier implements ClassCopierInterface
                 );
             }
         }
+
+        $this->assertionCompleted = true;
     }
 }

@@ -15,29 +15,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
+ *
+ * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\model\featureFlag;
 
-use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
-
-class FeatureFlagChecker extends ConfigurableService implements FeatureFlagCheckerInterface
+interface FeatureFlagConfigHandlerInterface
 {
-    public function isEnabled(string $feature): bool
-    {
-        if (array_key_exists($feature, $_ENV)) {
-            return filter_var($_ENV[$feature], FILTER_VALIDATE_BOOLEAN) ?? false;
-        }
-
-        return $this->getFeatureFlagRepository()->get($feature);
-    }
-
-    private function getFeatureFlagRepository(): FeatureFlagRepositoryInterface
-    {
-        return $this->getServiceManager()->getContainer()->get(FeatureFlagRepositoryInterface::class);
-    }
+    public function __invoke(array $configs): array;
 }
