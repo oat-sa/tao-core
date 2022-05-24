@@ -167,13 +167,11 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
 
         /** @var core_kernel_classes_Triple $triple */
         foreach ($resource->getRdfTriples() as $triple) {
-            if ($triple->predicate === TaoOntology::PROPERTY_UPDATED_AT) {
-                continue;
+            if ($triple->predicate !== TaoOntology::PROPERTY_UPDATED_AT) {
+                $featureFlagName = str_replace(self::ONTOLOGY_PREDICATE . '_', '', $triple->predicate);
+
+                $output[$featureFlagName] = $this->get($featureFlagName);
             }
-
-            $featureFlagName = str_replace(self::ONTOLOGY_PREDICATE . '_', '', $triple->predicate);
-
-            $output[$featureFlagName] = $this->get($featureFlagName);
         }
 
         return $output;
