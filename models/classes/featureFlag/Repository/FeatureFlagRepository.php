@@ -149,7 +149,7 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
     private function getList(): array
     {
         $output = $this->cache->get(self::CACHE_LIST_KEY);
-        if ($output !== null) {
+        if (is_array($output)) {
             return $output;
         }
 

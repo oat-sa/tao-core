@@ -184,6 +184,53 @@ class FeatureFlagRepositoryTest extends TestCase
         );
     }
 
+    public function testListMalformedCacheData(): void
+    {
+        $triple1 = $this->createMock(core_kernel_classes_Triple::class);
+        $triple1->predicate = 'FEATURE_FLAG_NAME';
+
+        $resource = $this->createMock(core_kernel_classes_Resource::class);
+
+        // has() doesn't guarantee the key will be present on get()
+        // and may introduce race conditions, ensure it is not used
+        // when retrieving data
+        $this->cache
+            ->expects($this->never())
+            ->method('has');
+
+        $resource
+            ->expects($this->once())
+            ->method('getRdfTriples')
+            ->willReturn([$triple1]);
+
+        $this->ontology
+            ->expects($this->once())
+            ->method('getResource')
+            ->with('http://www.tao.lu/Ontologies/TAO.rdf#featureFlags')
+            ->willReturn($resource);
+
+        $this->cache
+            ->expects($this->at(0))
+            ->method('get')
+            ->with('FEATURE_FLAG_LIST')
+            ->willReturn('malformedData notAnArray');
+
+        $this->cache
+            ->expects($this->at(1))
+            ->method('get')
+            ->with('http://www.tao.lu/Ontologies/TAO.rdf#featureFlags_FEATURE_FLAG_NAME')
+            ->willReturn(true);
+
+        $this->assertSame(
+            [
+                'FEATURE_FLAG_NAME' => true,
+                'FEATURE_FLAG_FROM_ENV' => true,
+                'FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED' => false,
+            ],
+            $this->subject->list()
+        );
+    }
+
     public function testGetFromDbAndSaveCache(): void
     {
         $resource = $this->createMock(core_kernel_classes_Resource::class);
