@@ -126,12 +126,12 @@ class FeatureFlagRepositoryTest extends TestCase
 
         $this->cache
             ->expects($this->at(0))
-            ->method('has')
+            ->method('get')
             ->with('FEATURE_FLAG_LIST')
-            ->willReturn(false);
+            ->willReturn(null);
 
         $this->cache
-            ->expects($this->at(3))
+            ->expects($this->at(2))
             ->method('set')
             ->with(
                 'FEATURE_FLAG_LIST',
@@ -143,12 +143,6 @@ class FeatureFlagRepositoryTest extends TestCase
 
         $this->cache
             ->expects($this->at(1))
-            ->method('has')
-            ->with('http://www.tao.lu/Ontologies/TAO.rdf#featureFlags_FEATURE_FLAG_NAME')
-            ->willReturn(true);
-
-        $this->cache
-            ->expects($this->at(2))
             ->method('get')
             ->with('http://www.tao.lu/Ontologies/TAO.rdf#featureFlags_FEATURE_FLAG_NAME')
             ->willReturn(true);
@@ -158,7 +152,6 @@ class FeatureFlagRepositoryTest extends TestCase
                 'FEATURE_FLAG_NAME' => true,
                 'FEATURE_FLAG_FROM_ENV' => true,
                 'FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED' => false,
-
             ],
             $this->subject->list()
         );
@@ -166,14 +159,12 @@ class FeatureFlagRepositoryTest extends TestCase
 
     public function testListFromCache(): void
     {
-        $this->cache
-            ->expects($this->at(0))
-            ->method('has')
-            ->with('FEATURE_FLAG_LIST')
-            ->willReturn(true);
+        $this->ontology
+            ->expects($this->never())
+            ->method('getResource');
 
         $this->cache
-            ->expects($this->at(1))
+            ->expects($this->at(0))
             ->method('get')
             ->with('FEATURE_FLAG_LIST')
             ->willReturn(
@@ -203,10 +194,12 @@ class FeatureFlagRepositoryTest extends TestCase
 
         $property = $this->createMock(core_kernel_classes_Property::class);
 
+        // has() doesn't guarantee the key will be present on get()
+        // and may introduce race conditions, ensure it is not used
+        // when retrieving data
         $this->cache
-            ->expects($this->once())
-            ->method('has')
-            ->willReturn(false);
+            ->expects($this->never())
+            ->method('has');
 
         $this->cache
             ->expects($this->once())
@@ -230,10 +223,12 @@ class FeatureFlagRepositoryTest extends TestCase
 
     public function testGetFromCache(): void
     {
+        // has() doesn't guarantee the key will be present on get()
+        // and may introduce race conditions, ensure it is not used
+        // when retrieving data
         $this->cache
-            ->expects($this->once())
-            ->method('has')
-            ->willReturn(true);
+            ->expects($this->never())
+            ->method('has');
 
         $this->cache
             ->expects($this->once())

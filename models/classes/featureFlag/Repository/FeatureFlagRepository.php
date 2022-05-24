@@ -62,8 +62,9 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
 
         $featureFlagName = $this->getPersistenceName($featureFlagName);
 
-        if ($this->cache->has($featureFlagName)) {
-            return $this->filterVar($this->cache->get($featureFlagName));
+        $value = $this->cache->get($featureFlagName);
+        if (null !== $value) {
+            return $this->filterVar($value);
         }
 
         $resource = $this->ontology->getResource(self::ONTOLOGY_SUBJECT);
@@ -77,17 +78,7 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
 
     public function list(): array
     {
-        $hasCache = $this->cache->has(self::CACHE_LIST_KEY);
-
-        if ($hasCache) {
-            $output = $this->cache->get(self::CACHE_LIST_KEY);
-        }
-
-        if (!$hasCache) {
-            $output = $this->getListFromDb();
-
-            $this->cache->set(self::CACHE_LIST_KEY, $output);
-        }
+        $output = $this->getList();
 
         foreach ($this->storageOverride as $key => $value) {
             if (strpos($key, self::FEATURE_FLAG_PREFIX) === 0) {
@@ -153,6 +144,19 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
         }
 
         return $count;
+    }
+
+    private function getList(): array
+    {
+        $output = $this->cache->get(self::CACHE_LIST_KEY);
+        if ($output !== null) {
+            return $output;
+        }
+
+        $output = $this->getListFromDb();
+        $this->cache->set(self::CACHE_LIST_KEY, $output);
+
+        return $output;
     }
 
     private function getListFromDb(): array
