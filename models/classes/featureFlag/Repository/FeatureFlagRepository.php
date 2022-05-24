@@ -35,6 +35,7 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
 {
     private const ONTOLOGY_SUBJECT = 'http://www.tao.lu/Ontologies/TAO.rdf#featureFlags';
     private const ONTOLOGY_PREDICATE = 'http://www.tao.lu/Ontologies/TAO.rdf#featureFlags';
+    private const CACHE_LIST_KEY = 'FEATURE_FLAG_LIST';
     private const FEATURE_FLAG_PREFIX = 'FEATURE_FLAG_';
 
     /** @var Ontology */
@@ -61,8 +62,9 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
 
         $featureFlagName = $this->getPersistenceName($featureFlagName);
 
-        if ($this->cache->has($featureFlagName)) {
-            return $this->filterVar($this->cache->get($featureFlagName));
+        $value = $this->cache->get($featureFlagName);
+        if (null !== $value) {
+            return $this->filterVar($value);
         }
 
         $resource = $this->ontology->getResource(self::ONTOLOGY_SUBJECT);
@@ -76,19 +78,7 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
 
     public function list(): array
     {
-        $resource = $this->ontology->getResource(self::ONTOLOGY_SUBJECT);
-        $output = [];
-
-        /** @var core_kernel_classes_Triple $triple */
-        foreach ($resource->getRdfTriples() as $triple) {
-            $featureFlagName = str_replace(self::ONTOLOGY_PREDICATE . '_', '', $triple->predicate);
-
-            if ($triple->predicate === TaoOntology::PROPERTY_UPDATED_AT) {
-                continue;
-            }
-
-            $output[$featureFlagName] = $this->get($featureFlagName);
-        }
+        $output = $this->getList();
 
         foreach ($this->storageOverride as $key => $value) {
             if (strpos($key, self::FEATURE_FLAG_PREFIX) === 0) {
@@ -99,10 +89,8 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
         /**
          * @deprecated Only here for legacy support purposes, we should rely on storage
          */
-        if ($this->hasOverrideFeatureFlag(FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED)) {
-            $output[FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED] = $this->getOverrideFeatureFlag(
-                FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED
-            );
+        if (!array_key_exists(FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED, $output)) {
+            $output[FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED] = false;
         }
 
         return $output;
@@ -127,6 +115,10 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
         if ($this->cache->has($featureFlagName)) {
             $this->cache->delete($featureFlagName);
         }
+
+        if ($this->cache->has(self::CACHE_LIST_KEY)) {
+            $this->cache->delete(self::CACHE_LIST_KEY);
+        }
     }
 
     public function clearCache(): int
@@ -147,7 +139,42 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
             }
         }
 
+        if ($this->cache->has(self::CACHE_LIST_KEY)) {
+            $this->cache->delete(self::CACHE_LIST_KEY);
+        }
+
         return $count;
+    }
+
+    private function getList(): array
+    {
+        $output = $this->cache->get(self::CACHE_LIST_KEY);
+        if (is_array($output)) {
+            return $output;
+        }
+
+        $output = $this->getListFromDb();
+        $this->cache->set(self::CACHE_LIST_KEY, $output);
+
+        return $output;
+    }
+
+    private function getListFromDb(): array
+    {
+        $output = [];
+
+        $resource = $this->ontology->getResource(self::ONTOLOGY_SUBJECT);
+
+        /** @var core_kernel_classes_Triple $triple */
+        foreach ($resource->getRdfTriples() as $triple) {
+            if ($triple->predicate !== TaoOntology::PROPERTY_UPDATED_AT) {
+                $featureFlagName = str_replace(self::ONTOLOGY_PREDICATE . '_', '', $triple->predicate);
+
+                $output[$featureFlagName] = $this->get($featureFlagName);
+            }
+        }
+
+        return $output;
     }
 
     private function getPersistenceName(string $featureFlagName): string
