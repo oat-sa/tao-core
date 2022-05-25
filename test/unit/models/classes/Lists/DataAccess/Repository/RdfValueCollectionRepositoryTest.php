@@ -28,8 +28,11 @@ use common_persistence_sql_Platform as SqlPlatform;
 use common_persistence_SqlPersistence as SqlPersistence;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\ResultStatement;
+use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Statement;
 use Exception;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
@@ -76,10 +79,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
     /** @var SqlPlatform|PhpUnitMockObject */
     private $sqlPlatformMock;
 
-    /**
-     * @before
-     */
-    public function init(): void
+    public function setUp(): void
     {
         $this->platformMock = $this->createMock(MySqlPlatform::class);
         $this->connectionMock = $this->createPartialMock(
@@ -113,7 +113,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
     /**
      * @param ValueCollectionSearchRequest $searchRequest
      *
-     * @dataProvider dataProvider
+     * @dataProvider findAllDataProvider
      */
     public function testFindAll(ValueCollectionSearchRequest $searchRequest): void
     {
@@ -215,13 +215,95 @@ class RdfValueCollectionRepositoryTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public function dataProvider(): array
+    /**
+     * @dataProvider countDataProvider
+     */
+    public function testCount(
+        int $expected,
+        $fetchResult,
+        ?string $valueCollectionUri,
+        array $queryParams
+    ): void {
+        $hasValueCollectionUri =!empty($valueCollectionUri);
+
+        $searchRequest = $this->createMock(ValueCollectionSearchRequest::class);
+        $searchRequest
+            ->expects($this->atLeastOnce())
+            ->method('hasValueCollectionUri')
+            ->willReturn($hasValueCollectionUri);
+
+        $searchRequest
+            ->expects($hasValueCollectionUri ? $this->atLeastOnce() : $this->never())
+            ->method('getValueCollectionUri')
+            ->willReturn($valueCollectionUri);
+
+        $statementMock = $this->createMock(ResultStatement::class);
+        $statementMock
+            ->expects($this->once())
+            ->method('fetch')
+            ->with(FetchMode::NUMERIC)
+            ->willReturn($fetchResult);
+
+        $this->connectionMock->expects($this->once())
+            ->method('executeQuery')
+            ->with($this->createCountQuery($hasValueCollectionUri), $queryParams)
+            ->willReturn($statementMock);
+
+        $this->assertEquals($expected, $this->sut->count($searchRequest));
+    }
+
+    public function countDataProvider(): array
     {
         return [
-            'Bare search request'                      => [
+            'count() with value collection uses its URI for querying' => [
+                'expected' => 1,
+                'fetchResult' => [1],
+                'valueCollectionUri' => 'http://value.collection/',
+                'queryParams' => [
+                    'label_uri' => 'http://www.w3.org/2000/01/rdf-schema#label',
+                    'type_uri' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+                    'collection_uri' => 'http://value.collection/',
+                ],
+            ],
+            'count() without value collection does not use its URI for querying' => [
+                'expected' => 1,
+                'fetchResult' => [1],
+                'valueCollectionUri' => '',
+                'queryParams' => [
+                    'label_uri' => 'http://www.w3.org/2000/01/rdf-schema#label',
+                    'type_uri' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+                ]
+            ],
+            'An empty result set is handled gracefully' => [
+                'expected' => 0,
+                'fetchResult' => [],
+                'valueCollectionUri' => 'http://value.collection/',
+                'queryParams' => [
+                    'label_uri' => 'http://www.w3.org/2000/01/rdf-schema#label',
+                    'type_uri' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+                    'collection_uri' => 'http://value.collection/',
+                ],
+            ],
+            'A null result set is handled gracefully' => [
+                'expected' => 0,
+                'fetchResult' => null,
+                'valueCollectionUri' => 'http://value.collection/',
+                'queryParams' => [
+                    'label_uri' => 'http://www.w3.org/2000/01/rdf-schema#label',
+                    'type_uri' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+                    'collection_uri' => 'http://value.collection/',
+                ],
+            ],
+        ];
+    }
+
+    public function findAllDataProvider(): array
+    {
+        return [
+            'Bare search request' => [
                 (new ValueCollectionSearchRequest())->setDataLanguage('en'),
             ],
-            'Search request with property URI'         => [
+            'Search request with property URI' => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->setDataLanguage('en'),
@@ -231,26 +313,26 @@ class RdfValueCollectionRepositoryTest extends TestCase
                     ->setValueCollectionUri(self::COLLECTION_URI)
                     ->setDataLanguage('en'),
             ],
-            'Search request with subject'              => [
+            'Search request with subject' => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->setSubject('test')
                     ->setDataLanguage('en'),
             ],
-            'Search request with excluded value URIs'  => [
+            'Search request with excluded value URIs' => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->addExcluded('https://example.com#1')
                     ->addExcluded('https://example.com#2')
                     ->setDataLanguage('en'),
             ],
-            'Search request with limit'                => [
+            'Search request with limit' => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->setLimit(1)
                     ->setDataLanguage('en'),
             ],
-            'Search request with all properties'       => [
+            'Search request with all properties' => [
                 (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->setValueCollectionUri(self::COLLECTION_URI)
@@ -323,6 +405,15 @@ class RdfValueCollectionRepositoryTest extends TestCase
                 'ON collection.subject = element.subject',
             ]
         );
+    }
+
+    private function createCountQuery(bool $withValueCollection): string
+    {
+        return 'SELECT count(element.id) AS c FROM statements element '.
+            'INNER JOIN statements collection ON collection.subject = element.subject '.
+            'WHERE (element.predicate = :label_uri) AND '.
+            '(collection.predicate = :type_uri)'.
+            ($withValueCollection ? ' AND (collection.object = :collection_uri)' : '');
     }
 
     private function createPropertyUriCondition(ValueCollectionSearchRequest $searchRequest): ?string

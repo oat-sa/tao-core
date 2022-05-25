@@ -26,19 +26,23 @@ use InvalidArgumentException;
 use oat\oatbox\AbstractRegistry;
 use oat\tao\model\ClientLibConfigRegistry;
 
+/**
+ * Please refer to `oat\tao\model\featureFlag\FeatureFlagConfigSwitcher`
+ * to change visibility or configuration based on feature flags
+ */
 class FeatureVisibilityService
 {
     public const HIDE_PARAM = 'hide';
     public const SHOW_PARAM = 'show';
 
-    private const GLOBAL_UI_CONFIG_NAME = 'helpers/features';
+    private const GLOBAL_UI_CONFIG_NAME = 'services/features';
 
     /** @var AbstractRegistry */
     private $registry;
 
     public function __construct(ClientLibConfigRegistry $registry)
     {
-        $this->registry = $registry::getRegistry();
+        $this->registry = $registry;
     }
 
     public function showFeature(string $featureName): void

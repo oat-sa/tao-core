@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\test\unit\model\listener;
+namespace oat\tao\unit\test\model\featureVisibility;
 
 use InvalidArgumentException;
 use oat\generis\test\TestCase;
@@ -39,7 +40,7 @@ class FeatureVisibilityServiceTest extends TestCase
     {
         parent::setUp();
 
-        $abstractRegistryStub = new class() {
+        $this->abstractRegistryStub = new class () extends ClientLibConfigRegistry {
             private $config = [];
 
             public function get($key)
@@ -55,24 +56,7 @@ class FeatureVisibilityServiceTest extends TestCase
                 $this->config[$key] = $value;
             }
         };
-
-        $registryStub = new class($abstractRegistryStub) extends ClientLibConfigRegistry {
-            private static $abstractRegistryStub;
-
-            public function __construct($abstractRegistryStub)
-            {
-                self::$abstractRegistryStub = $abstractRegistryStub;
-            }
-
-            public static function getRegistry()
-            {
-                return self::$abstractRegistryStub;
-            }
-        };
-
-        $this->abstractRegistryStub = $abstractRegistryStub;
-
-        $this->featureVisibilityService = new FeatureVisibilityService($registryStub);
+        $this->featureVisibilityService = new FeatureVisibilityService($this->abstractRegistryStub);
     }
 
     public function testShowFeatureSetsFeatureToTheShowStatus()
@@ -81,7 +65,7 @@ class FeatureVisibilityServiceTest extends TestCase
 
         $this->featureVisibilityService->showFeature($featureName);
 
-        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
+        $resultConfig = $this->abstractRegistryStub->get('services/features');
         $this->assertEquals(
             FeatureVisibilityService::SHOW_PARAM,
             $resultConfig['visibility'][$featureName]
@@ -94,7 +78,7 @@ class FeatureVisibilityServiceTest extends TestCase
 
         $this->featureVisibilityService->hideFeature($featureName);
 
-        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
+        $resultConfig = $this->abstractRegistryStub->get('services/features');
 
         $this->assertEquals(
             FeatureVisibilityService::HIDE_PARAM,
@@ -114,7 +98,7 @@ class FeatureVisibilityServiceTest extends TestCase
         $this->featureVisibilityService->showFeature($singleFeatureName);
         $this->featureVisibilityService->setFeaturesVisibility($featuresMap);
 
-        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
+        $resultConfig = $this->abstractRegistryStub->get('services/features');
         $this->assertEquals(
             $featuresMap + [$singleFeatureName => FeatureVisibilityService::SHOW_PARAM],
             $resultConfig['visibility']
@@ -137,7 +121,7 @@ class FeatureVisibilityServiceTest extends TestCase
         $this->featureVisibilityService->showFeature($featureName);
         $this->featureVisibilityService->removeFeature($featureName);
 
-        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
+        $resultConfig = $this->abstractRegistryStub->get('services/features');
 
         $this->assertEmpty($resultConfig['visibility']);
     }
@@ -162,7 +146,7 @@ class FeatureVisibilityServiceTest extends TestCase
             $this->featureVisibilityService->removeFeature($featureNameFour);
         }
 
-        $resultConfig = $this->abstractRegistryStub->get('helpers/features');
+        $resultConfig = $this->abstractRegistryStub->get('services/features');
 
         $this->assertEquals(
             [

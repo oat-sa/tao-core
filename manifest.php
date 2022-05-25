@@ -25,6 +25,7 @@
 declare(strict_types=1);
 
 use oat\tao\controller\api\Users;
+use oat\tao\model\resources\CopierServiceProvider;
 use oat\tao\controller\Middleware\MiddlewareConfig;
 use oat\tao\model\accessControl\AccessControlServiceProvider;
 use oat\tao\model\Csv\CsvServiceProvider;
@@ -249,9 +250,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2022.01',
+        'TAO_VERSION' => '2022.06',
         #TAO version label
-        'TAO_VERSION_NAME' => '2022.01',
+        'TAO_VERSION_NAME' => '2022.06',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
@@ -298,6 +299,7 @@ return [
         MetadataServiceProvider::class,
         ObserverServiceProvider::class,
         FeatureVisibilityServiceProvider::class,
+        CopierServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
