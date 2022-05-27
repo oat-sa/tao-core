@@ -28,6 +28,7 @@ use RuntimeException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\tao\model\resources\Contract\InstanceCopierInterface;
+use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\Contract\InstanceContentCopierInterface;
 use oat\tao\model\resources\Contract\InstanceMetadataCopierInterface;
 
@@ -39,6 +40,9 @@ class InstanceCopier implements InstanceCopierInterface
     /** @var InstanceContentCopierInterface */
     private $instanceContentCopier;
 
+    /** @var PermissionCopierInterface */
+    private $permissionCopier;
+
     public function __construct(InstanceMetadataCopierInterface $instanceMetadataCopier)
     {
         $this->instanceMetadataCopier = $instanceMetadataCopier;
@@ -47,6 +51,11 @@ class InstanceCopier implements InstanceCopierInterface
     public function withInstanceContentCopier(InstanceContentCopierInterface $instanceContentCopier): void
     {
         $this->instanceContentCopier = $instanceContentCopier;
+    }
+
+    public function withPermissionCopier(PermissionCopierInterface $permissionCopier): void
+    {
+        $this->permissionCopier = $permissionCopier;
     }
 
     /**
@@ -72,6 +81,10 @@ class InstanceCopier implements InstanceCopierInterface
 
         if (isset($this->instanceContentCopier)) {
             $this->instanceContentCopier->copy($instance, $newInstance);
+        }
+
+        if (isset($this->permissionCopier)) {
+            $this->permissionCopier->copy($instance, $newInstance);
         }
 
         return $newInstance;
