@@ -131,7 +131,7 @@ class ResourceWatcher extends ConfigurableService
      */
     private function createResourceIndexingTask(core_kernel_classes_Resource $resource, string $message): void
     {
-        if ($this->hasAdvancedSearchChecker() && $this->getAdvancedSearchChecker()->isEnabled()) {
+        if ($this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
             /** @var QueueDispatcherInterface $queueDispatcher */
             $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
 
@@ -146,16 +146,6 @@ class ResourceWatcher extends ConfigurableService
                 return;
             }
         }
-    }
-
-    private function hasAdvancedSearchChecker(): bool
-    {
-        return $this->getServiceLocator()->has(AdvancedSearchChecker::class);
-    }
-
-    private function getAdvancedSearchChecker(): AdvancedSearchChecker
-    {
-        return $this->getServiceLocator()->get(AdvancedSearchChecker::class);
     }
 
     private function hasResourceSupport(core_kernel_classes_Resource $resource): bool
