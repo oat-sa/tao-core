@@ -33,11 +33,17 @@ class FeatureFlagChecker extends ConfigurableService implements FeatureFlagCheck
             return filter_var($_ENV[$feature], FILTER_VALIDATE_BOOLEAN) ?? false;
         }
 
-        return $this->getFeatureFlagRepository()->get($feature);
+        return $this->getFeatureFlagValue($feature);
     }
 
-    private function getFeatureFlagRepository(): FeatureFlagRepositoryInterface
+    private function getFeatureFlagValue(string $feature): bool
     {
-        return $this->getServiceManager()->getContainer()->get(FeatureFlagRepositoryInterface::class);
+        $container = $this->getServiceManager()->getContainer();
+
+        if ($container->has(FeatureFlagRepositoryInterface::class)) {
+            return $container->get(FeatureFlagRepositoryInterface::class)->get($feature);
+        }
+
+        return false;
     }
 }
