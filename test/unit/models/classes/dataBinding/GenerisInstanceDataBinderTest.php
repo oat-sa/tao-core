@@ -25,6 +25,8 @@ use oat\generis\test\TestCase;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\dataBinding\GenerisInstanceDataBindingException;
 use oat\tao\model\event\MetadataModified;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 
 class GenerisInstanceDataBinderTest extends TestCase
@@ -121,7 +123,19 @@ class GenerisInstanceDataBinderTest extends TestCase
             $this->target
         );
 
+        $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
+        $this->featureFlagChecker
+            ->method('isEnabled')
+            ->willReturn(false);
+
         $this->sut->withEventManager($this->eventManagerMock);
+        $this->sut->withServiceManager(
+            $this->getServiceLocatorMock(
+                [
+                    FeatureFlagChecker::class => $this->featureFlagChecker
+                ]
+            )
+        );
     }
 
     public function testBindScalarWithPreviousValue(): void

@@ -22,7 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\featureFlag;
 
+use common_ext_ExtensionsManager;
+use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\oatbox\cache\SimpleCache;
+use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\featureFlag\Repository\FeatureFlagRepository;
+use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -38,7 +44,28 @@ class FeatureFlagServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
-                    service(FeatureFlagChecker::class),
+                    service(FeatureFlagRepositoryInterface::class),
+                ]
+            );
+
+        $services
+            ->set(FeatureFlagConfigSwitcher::class)
+            ->public()
+            ->args(
+                [
+                    service(ClientLibConfigRegistry::class),
+                    service(common_ext_ExtensionsManager::class),
+                    service(self::CONTAINER_SERVICE_ID),
+                ]
+            );
+
+        $services
+            ->set(FeatureFlagRepositoryInterface::class, FeatureFlagRepository::class)
+            ->public()
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
+                    service(SimpleCache::SERVICE_ID),
                 ]
             );
     }

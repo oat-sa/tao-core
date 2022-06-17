@@ -15,14 +15,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\model\featureFlag;
 
+/**
+ * @deprecated Use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface instead
+ */
 interface FeatureFlagListServiceInterface
 {
+    /**
+     * @deprecated Use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface::list() instead
+     */
     public function list(): array;
 }

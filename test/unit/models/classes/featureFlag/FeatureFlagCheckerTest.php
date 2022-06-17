@@ -24,15 +24,29 @@ namespace oat\tao\unit\test\model\featureFlag;
 
 use oat\generis\test\TestCase;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class FeatureFlagCheckerTest extends TestCase
 {
     /** @var FeatureFlagChecker */
     private $subject;
 
+    /** @var FeatureFlagRepositoryInterface|MockObject */
+    private $featureFlagRepository;
+
     public function setUp(): void
     {
+        $this->featureFlagRepository = $this->createMock(FeatureFlagRepositoryInterface::class);
         $this->subject = new FeatureFlagChecker();
+        $this->subject->setServiceManager(
+            $this->getServiceLocatorMock(
+                [
+                    FeatureFlagRepositoryInterface::class => $this->featureFlagRepository
+                ]
+            )
+        );
+
         $_ENV['FEATURE'] = true;
         $_ENV['FEATURE_DISABLED'] = false;
     }
@@ -44,6 +58,10 @@ class FeatureFlagCheckerTest extends TestCase
 
     public function testIsNotEnabled(): void
     {
+        $this->featureFlagRepository
+            ->method('get')
+            ->willReturn(false);
+
         self::assertFalse($this->subject->isEnabled('NOT_ENABLED_FEATURE'));
     }
 

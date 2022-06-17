@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\resources\Service;
 
 use oat\tao\model\menu\Tree;
+use core_kernel_classes_Class;
 use oat\tao\model\menu\Section;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
@@ -36,6 +37,9 @@ class RootClassesListService implements RootClassesListServiceInterface
 
     /** @var Perspective[] */
     private $perspectives;
+
+    /** @var array<string, string[]|core_kernel_classes_Class[]> */
+    private $cache = [];
 
     /**
      * @param Perspective[]|null $perspectives
@@ -51,13 +55,17 @@ class RootClassesListService implements RootClassesListServiceInterface
      */
     public function list(): array
     {
-        $rootClasses = [];
+        if (!isset($this->cache[__FUNCTION__])) {
+            $rootClasses = [];
 
-        foreach ($this->listUris() as $rootClassUri) {
-            $rootClasses[] = $this->ontology->getClass($rootClassUri);
+            foreach ($this->listUris() as $rootClassUri) {
+                $rootClasses[] = $this->ontology->getClass($rootClassUri);
+            }
+
+            $this->cache[__FUNCTION__] = $rootClasses;
         }
 
-        return $rootClasses;
+        return $this->cache[__FUNCTION__];
     }
 
     /**
@@ -65,22 +73,26 @@ class RootClassesListService implements RootClassesListServiceInterface
      */
     public function listUris(): array
     {
-        $rootClassesUris = [];
+        if (!isset($this->cache[__FUNCTION__])) {
+            $rootClassesUris = [];
 
-        foreach ($this->perspectives as $perspective) {
-            /** @var Section $structure */
-            foreach ($perspective->getChildren() as $structure) {
-                /** @var Tree $tree */
-                foreach ($structure->getTrees() as $tree) {
-                    $rootClassUri = $tree->get('rootNode');
+            foreach ($this->perspectives as $perspective) {
+                /** @var Section $structure */
+                foreach ($perspective->getChildren() as $structure) {
+                    /** @var Tree $tree */
+                    foreach ($structure->getTrees() as $tree) {
+                        $rootClassUri = $tree->get('rootNode');
 
-                    if (!empty($rootClassUri)) {
-                        $rootClassesUris[] = $rootClassUri;
+                        if (!empty($rootClassUri)) {
+                            $rootClassesUris[] = $rootClassUri;
+                        }
                     }
                 }
             }
+
+            $this->cache[__FUNCTION__] = $rootClassesUris;
         }
 
-        return $rootClassesUris;
+        return $this->cache[__FUNCTION__];
     }
 }
