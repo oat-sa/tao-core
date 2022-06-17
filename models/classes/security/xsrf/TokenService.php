@@ -28,6 +28,7 @@ use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidService;
 use oat\tao\model\security\TokenGenerator;
+use PHPSession;
 
 /**
  * This service let's you manage tokens to protect against XSRF.
@@ -185,6 +186,25 @@ class TokenService extends ConfigurableService
     {
         $token = $this->normaliseToken($token);
         return $this->getStore()->removeToken($token);
+    }
+
+    /**
+     * Gets this session's name for token
+     * @return string
+     */
+    public function getTokenName(): string
+    {
+        /** @var PHPSession $session */
+        $session = PHPSession::singleton();
+
+        if ($session->hasAttribute(TokenStore::TOKEN_NAME)) {
+            $name = $session->getAttribute(TokenStore::TOKEN_NAME);
+        } else {
+            $name = 'tao_' . substr(md5(microtime()), mt_rand(0, 25), 7);
+            $session->setAttribute(TokenStore::TOKEN_NAME, $name);
+        }
+
+        return $name;
     }
 
     /**
