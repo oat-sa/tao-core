@@ -71,10 +71,10 @@ class GrafanaNotifier implements NotifierInterface
     private function buildPayload(string $title, string $description): array
     {
         $payload = [
-            "alert_uuid" => Uuid::uuid4()->toString(),
-            "title" => $title,
-            "message" => $description,
-            'source' => defined(ROOT_URL) ? ROOT_URL : null
+            'alert_uuid' => Uuid::uuid4()->toString(),
+            'title' => $title,
+            'message' => $description,
+            'source' => defined('ROOT_URL') ? ROOT_URL : null
         ];
 
 
