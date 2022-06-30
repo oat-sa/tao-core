@@ -22,6 +22,7 @@
  */
 
 use oat\generis\persistence\DriverConfigurationFeeder;
+use oat\oatbox\cache\SetupFileCache;
 use oat\tao\helpers\InstallHelper;
 use oat\oatbox\install\Installer;
 use oat\oatbox\service\ServiceManager;
@@ -242,11 +243,13 @@ class tao_install_Installator
                     throw new Exception($file_path . ' directory creation was failed!');
                 }
             }
+
+            $setupFileCache = $this->getServiceManager()->get(SetupFileCache::class);
             $cachePath = $file_path . 'generis' . DIRECTORY_SEPARATOR . 'cache';
-            if (mkdir($cachePath, 0700, true)) {
+            if ($setupFileCache->createDirectory($cachePath)) {
                 $this->log('d', $cachePath . ' directory was created!');
             } else {
-                throw new Exception($cachePath . ' directory creation was failed!');
+                throw new Exception($cachePath . ' directory creation has failed!');
             }
 
             foreach ((array)$installData['extra_persistences'] as $k => $persistence) {
@@ -263,11 +266,7 @@ class tao_install_Installator
              * 5b - Create cache persistence
             */
             $this->log('d', 'Creating cache persistence..');
-            $persistenceManager->registerPersistence('cache', [
-                'driver' => 'phpfile'
-            ]);
-            $persistenceManager->getPersistenceById('cache')->purge();
-            $this->getServiceManager()->register(PersistenceManager::SERVICE_ID, $persistenceManager);
+            $setupFileCache->createPersistence();
 
             /*
              * 6 - Finish Generis Install
