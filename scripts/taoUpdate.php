@@ -27,9 +27,7 @@ use oat\oatbox\service\ServiceManager;
 
 $serviceManager = ServiceManager::getServiceManager();
 
-if (!$serviceManager->get(SetupFileCache::class)->createDirectory(GENERIS_CACHE_PATH)) {
-    throw new \Exception(sprintf( 'Could not create application cache at "%s"', GENERIS_CACHE_PATH ) );
-}
+$serviceManager->get(SetupFileCache::class)->createDirectory(GENERIS_CACHE_PATH);
 
 $action = new UpdateExtensions();
 $action->setServiceLocator($serviceManager);
