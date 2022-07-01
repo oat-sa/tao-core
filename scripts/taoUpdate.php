@@ -20,11 +20,14 @@
 
 require_once dirname(__FILE__) . '/../includes/raw_start.php';
 
+use oat\oatbox\cache\SetupFileCache;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\extension\UpdateExtensions;
 use oat\oatbox\service\ServiceManager;
 
 $serviceManager = ServiceManager::getServiceManager();
+
+$serviceManager->get(SetupFileCache::class)->createDirectory(GENERIS_CACHE_PATH);
 
 $action = new UpdateExtensions();
 $action->setServiceLocator($serviceManager);
