@@ -50,15 +50,7 @@ class tao_actions_Languages implements ActionInterface
             return $this->responseFormatter
                 ->withJsonHeader()
                 ->withStatusCode(200)
-                ->withBody(
-                    new SuccessJsonResponse(
-                        tao_helpers_I18n::getAvailableLangsByUsage(
-                            $this->ontology->getResource(
-                                tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA
-                            )
-                        )
-                    )
-                )
+                ->withBody(new SuccessJsonResponse($this->getLanguages()))
                 ->format($response);
         } catch (Throwable $exception) {
             return $this->responseFormatter
@@ -67,5 +59,46 @@ class tao_actions_Languages implements ActionInterface
                 ->withBody(new ErrorJsonResponse(0, $exception->getMessage(), []))
                 ->format($response);
         }
+    }
+
+    private function getLanguages(): array
+    {
+        /**
+         * FIXME @TODO Migrate this to appropriate class after PoC is validated
+         */
+        $version = getallheaders()['Accept-version'] ?? 'v1';
+
+        if ($version === 'v1') {
+            return tao_helpers_I18n::getAvailableLangsByUsage(
+                $this->ontology->getResource(
+                    tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA
+                )
+            );
+        }
+
+        $languages = tao_models_classes_LanguageService::singleton()->getAvailableLanguagesByUsage(
+            $this->ontology->getResource(
+                tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA
+            )
+        );
+
+        $output = [];
+
+        /** @var core_kernel_classes_Resource[] $languages */
+        foreach ($languages as $language) {
+            $values = $language->getPropertiesValues(
+                [
+                    \oat\generis\model\OntologyRdf::RDF_VALUE,
+                    tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION
+                ]
+            );
+
+            $output[] = [
+                'code' => $values[\oat\generis\model\OntologyRdf::RDF_VALUE][0]->__toString(),
+                'orientation' => $values[tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION][0]->getUri()
+            ];
+        }
+
+        return $output;
     }
 }
