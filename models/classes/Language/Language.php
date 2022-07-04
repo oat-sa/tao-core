@@ -68,7 +68,7 @@ class Language implements JsonSerializable
         return $this->orientation;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'uri' => $this->uri,

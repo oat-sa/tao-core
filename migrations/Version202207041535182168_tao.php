@@ -9,12 +9,8 @@ use Doctrine\Migrations\Exception\IrreversibleMigration;
 use oat\tao\scripts\SyncModels;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
-final class Version202207041535182167_tao extends AbstractMigration
+final class Version202207041535182168_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'Update Ontology models';
@@ -22,9 +18,7 @@ final class Version202207041535182167_tao extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addReport(
-            $this->propagate(new SyncModels())([])
-        );
+        $this->runAction(new SyncModels());
     }
 
     public function down(Schema $schema): void
