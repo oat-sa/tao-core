@@ -24,7 +24,7 @@ use oat\generis\model\data\Ontology;
 use oat\tao\model\http\formatter\ResponseFormatter;
 use oat\tao\model\http\response\ErrorJsonResponse;
 use oat\tao\model\http\response\SuccessJsonResponse;
-use oat\tao\model\Language\Repository\LanguageRepository;
+use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\routing\Contract\ActionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -34,7 +34,7 @@ class tao_actions_Languages implements ActionInterface
     /** @var ResponseFormatter */
     private $responseFormatter;
 
-    /** @var LanguageRepository */
+    /** @var LanguageRepositoryInterface */
     private $languageRepository;
 
     /** @var Ontology */
@@ -42,7 +42,7 @@ class tao_actions_Languages implements ActionInterface
 
     public function __construct(
         ResponseFormatter $responseFormatter,
-        LanguageRepository $languageRepository,
+        LanguageRepositoryInterface $languageRepository,
         Ontology $ontology
     ) {
         $this->responseFormatter = $responseFormatter;

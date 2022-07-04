@@ -24,6 +24,7 @@ namespace oat\tao\model;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\Language\Repository\LanguageRepository;
 use Symfony\Component\DependencyInjection\Loader\Configurator\Traits\FactoryTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -59,7 +60,7 @@ class LanguageServiceProvider implements ContainerServiceProviderInterface
             ]);
 
         $services
-            ->set(LanguageRepository::class, LanguageRepository::class)
+            ->set(LanguageRepositoryInterface::class, LanguageRepository::class)
             ->public()
             ->args(
                 [
