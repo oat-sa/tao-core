@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -24,24 +24,33 @@ use oat\generis\model\data\Ontology;
 use oat\tao\model\http\formatter\ResponseFormatter;
 use oat\tao\model\http\response\ErrorJsonResponse;
 use oat\tao\model\http\response\SuccessJsonResponse;
+use oat\tao\model\Language\Repository\LanguageRepository;
 use oat\tao\model\routing\Contract\ActionInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class tao_actions_Languages implements ActionInterface
 {
     /** @var ResponseFormatter */
     private $responseFormatter;
 
+    /** @var LanguageRepository */
+    private $languageRepository;
+
     /** @var Ontology */
     private $ontology;
 
-    public function __construct(ResponseFormatter $responseFormatter, Ontology $ontology)
-    {
+    public function __construct(
+        ResponseFormatter $responseFormatter,
+        LanguageRepository $languageRepository,
+        Ontology $ontology
+    ) {
         $this->responseFormatter = $responseFormatter;
+        $this->languageRepository = $languageRepository;
         $this->ontology = $ontology;
     }
 
-    public function index(ResponseInterface $response): ResponseInterface
+    public function index(ResponseInterface $response, ServerRequestInterface $request): ResponseInterface
     {
         try {
             $this->responseFormatter
@@ -50,7 +59,7 @@ class tao_actions_Languages implements ActionInterface
             return $this->responseFormatter
                 ->withJsonHeader()
                 ->withStatusCode(200)
-                ->withBody(new SuccessJsonResponse($this->getLanguages()))
+                ->withBody(new SuccessJsonResponse($this->getLanguages($request)))
                 ->format($response);
         } catch (Throwable $exception) {
             return $this->responseFormatter
@@ -61,44 +70,16 @@ class tao_actions_Languages implements ActionInterface
         }
     }
 
-    private function getLanguages(): array
+    private function getLanguages(ServerRequestInterface $request): array
     {
-        /**
-         * FIXME @TODO Migrate this to appropriate class after PoC is validated
-         */
-        $version = getallheaders()['Accept-version'] ?? 'v1';
+        $version = $request->getHeader('Accept-version')[0] ?? 'v1';
 
-        if ($version === 'v1') {
-            return tao_helpers_I18n::getAvailableLangsByUsage(
-                $this->ontology->getResource(
-                    tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA
-                )
-            );
+        if ($version === 'v2') {
+            return $this->languageRepository->findAvailableLanguagesByUsage()->jsonSerialize();
         }
 
-        $languages = tao_models_classes_LanguageService::singleton()->getAvailableLanguagesByUsage(
-            $this->ontology->getResource(
-                tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA
-            )
+        return tao_helpers_I18n::getAvailableLangsByUsage(
+            $this->ontology->getResource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)
         );
-
-        $output = [];
-
-        /** @var core_kernel_classes_Resource[] $languages */
-        foreach ($languages as $language) {
-            $values = $language->getPropertiesValues(
-                [
-                    \oat\generis\model\OntologyRdf::RDF_VALUE,
-                    tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION
-                ]
-            );
-
-            $output[] = [
-                'code' => $values[\oat\generis\model\OntologyRdf::RDF_VALUE][0]->__toString(),
-                'orientation' => $values[tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION][0]->getUri()
-            ];
-        }
-
-        return $output;
     }
 }
