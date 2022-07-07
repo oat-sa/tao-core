@@ -63,12 +63,14 @@ class LanguageRepository implements LanguageRepositoryInterface
                 ]
             );
 
+            $orientationUri = $values[tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION][0]->getUri();
+
             $output->add(
                 new Language(
                     $language->getUri(),
                     $values[OntologyRdf::RDF_VALUE][0]->__toString(),
                     $language->getLabel(),
-                    $values[tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION][0]->getUri()
+                    $orientationUri === tao_models_classes_LanguageService::INSTANCE_ORIENTATION_RTL ? 'rtl' : 'ltr'
                 )
             );
         }

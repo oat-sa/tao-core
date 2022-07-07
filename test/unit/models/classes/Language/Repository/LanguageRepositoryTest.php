@@ -109,7 +109,7 @@ class LanguageRepositoryTest extends TestCase
                     'uri' => 'uri',
                     'code' => 'code',
                     'label' => 'label',
-                    'orientation' => tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR,
+                    'orientation' => 'ltr',
                 ]
             ],
             json_decode(json_encode($collection->jsonSerialize()), true)
