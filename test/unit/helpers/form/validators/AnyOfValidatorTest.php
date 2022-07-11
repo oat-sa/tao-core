@@ -42,7 +42,7 @@ class AnyOfValidatorTest extends TestCase
     /**
      * @dataProvider evaluationValues
      */
-    public function testEvaluate(array $options, string $value1 = '', string $value2 = '', $isValid): void
+    public function testEvaluate(array $options, string $value1, string $value2, $isValid): void
     {
         $subject = $this->createSubject($options, $value2);
         $this->assertEquals($isValid, $subject->evaluate($value1));
