@@ -66,7 +66,7 @@ abstract class tao_scripts_Runner
     // --- OPERATIONS ---
 
     /** @var array|mixed */
-    private $argv;
+    protected $argv;
 
     /**
      * Short description of method __construct
