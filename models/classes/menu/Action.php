@@ -34,6 +34,9 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
 
     const SERIAL_VERSION = 1392821334;
 
+    /** @var array */
+    private $data;
+
     /**
      * @param \SimpleXMLElement $node
      * @param $structureExtensionId extension of t structures.xml

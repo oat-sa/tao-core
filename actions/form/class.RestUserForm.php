@@ -23,7 +23,7 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use \oat\generis\model\user\PasswordConstraintsService;
 use \oat\oatbox\validator\ValidatorInterface;
-use tao_helpers_form_elements_Readonly as ReadOnly;
+use tao_helpers_form_elements_Readonly;
 use tao_models_classes_UserService as UserService;
 use \Zend\ServiceManager\ServiceLocatorAwareTrait;
 use \Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -53,7 +53,7 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
 
         foreach ($properties as $index => $property) {
             if ($property['uri'] === GenerisRdf::PROPERTY_USER_LOGIN && $this->doesExist()) {
-                $properties[$index]['widget'] = ReadOnly::WIDGET_ID;
+                $properties[$index]['widget'] = tao_helpers_form_elements_Readonly::WIDGET_ID;
                 break;
             }
         }
