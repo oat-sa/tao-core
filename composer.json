@@ -55,6 +55,12 @@
             ]
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:oat-sa/imsglobal-lti.git"
+        }
+    ],
     "require": {
         "ext-json": "*",
         "ext-mbstring": "*",
