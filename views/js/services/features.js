@@ -16,7 +16,7 @@
  * Copyright (c) 2022 Open Assessment Technologies SA;
  */
 
-define(['module', 'core/logger'], function(module, loggerFactory) {
+define(['module', 'core/logger'], function (module, loggerFactory) {
     'use strict';
     const config = module.config();
     const featuresVisibilityList = config.visibility || {};
@@ -39,30 +39,48 @@ define(['module', 'core/logger'], function(module, loggerFactory) {
         }
     };
 
+    const isExists = featurePath => {
+        let matchingPath = null;
+
+        featuresKeys.some(path => {
+            const exactMatch = path === featurePath;
+
+            if (exactMatch || buildRegexp(path).test(featurePath)) {
+                matchingPath = path;
+            }
+
+            if (exactMatch) {
+                return true;
+            }
+        });
+
+        return matchingPath;
+    };
+
     return {
         /**
-         * Check if the feature is configured to be visible
+         * Check if the featurePath is not exists or has show status
          * based on the module configuration
          * and features that are not in the configuration are visible by default
          * @param {String} featurePath full path to feature ex('items/feature')
          * @returns {Boolean} true if feature is visible (or missed from the configuration)
          */
         isVisible(featurePath = '') {
-            let matchingPath = null;
+            let matchingPath = isExists(featurePath);
+            return isExists(featurePath) === null || featuresVisibilityList[matchingPath] === 'show';
+        },
 
-            featuresKeys.some(path => {
-                const exactMatch = path === featurePath;
+        /**
+         * Check if the featurePath is exists and has show status
+         * based on the module configuration
+         * and features that are not in the configuration are visible by default
+         * @param {String} featurePath full path to feature ex('items/feature')
+         * @returns {Boolean} true if feature is visible (or missed from the configuration)
+         */
+        isExistsAndShow(featurePath = '') {
+            let matchingPath = isExists(featurePath);
 
-                if (exactMatch || buildRegexp(path).test(featurePath)) {
-                    matchingPath = path;
-                }
-
-                if (exactMatch) {
-                    return true;
-                }
-            });
-
-            return matchingPath === null || featuresVisibilityList[matchingPath] === 'show';
+            return isExists(featurePath) !== null && featuresVisibilityList[matchingPath] === 'show';
         }
     };
 });

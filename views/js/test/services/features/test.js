@@ -27,26 +27,47 @@ define(['services/features'], function(features) {
         assert.equal(typeof features.isVisible(''), 'boolean', 'The features method isVisible() returns boolean');
     });
 
-    const testData = [
-        {lookup: undefined, visible: true},
-        {lookup: '', visible: true},
-        {lookup: 'something/default', visible: true},
-        {lookup: 'items/*', visible: false},
-        {lookup: 'items/featureVisible', visible: true},
-        {lookup: 'items/featureHidden', visible: false},
-        {lookup: 'items/anyFeature', visible: false},
-        {lookup: 'items/category/*', visible: true},
-        {lookup: 'items/category/featureVisible', visible: true},
-        {lookup: 'items/category/featureHidden', visible: false},
-        {lookup: 'items/category/anyFeature', visible: true},
-        {lookup: 'items/category/subcategory/anyFeature', visible: true},
-    ];
-
     QUnit
-        .cases.init(testData)
+        .cases.init([
+            {lookup: undefined, visible: true},
+            {lookup: '', visible: true},
+            {lookup: 'something/default', visible: true},
+            {lookup: 'items/*', visible: false},
+            {lookup: 'items/featureVisible', visible: true},
+            {lookup: 'items/featureHidden', visible: false},
+            {lookup: 'items/anyFeature', visible: false},
+            {lookup: 'items/category/*', visible: true},
+            {lookup: 'items/category/featureVisible', visible: true},
+            {lookup: 'items/category/featureHidden', visible: false},
+            {lookup: 'items/category/anyFeature', visible: true},
+            {lookup: 'items/category/subcategory/anyFeature', visible: true},
+        ])
         .test('Feature is visible check', function(data, assert) {
             assert.equal(
                 features.isVisible(data.lookup),
+                data.visible,
+                `Lookup for "${data.lookup}" to be ${data.visible}`
+            );
+        });
+
+    QUnit
+        .cases.init([
+            {lookup: undefined, visible: false},
+            {lookup: '', visible: false},
+            {lookup: 'something/default', visible: false},
+            {lookup: 'items/*', visible: false},
+            {lookup: 'items/featureVisible', visible: true},
+            {lookup: 'items/featureHidden', visible: false},
+            {lookup: 'items/anyFeature', visible: false},
+            {lookup: 'items/category/*', visible: true},
+            {lookup: 'items/category/featureVisible', visible: true},
+            {lookup: 'items/category/featureHidden', visible: false},
+            {lookup: 'items/category/anyFeature', visible: true},
+            {lookup: 'items/category/subcategory/anyFeature', visible: true},
+        ])
+        .test('Feature is isExistsAndShow check', function(data, assert) {
+            assert.equal(
+                features.isExistsAndShow(data.lookup),
                 data.visible,
                 `Lookup for "${data.lookup}" to be ${data.visible}`
             );
