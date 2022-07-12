@@ -62,7 +62,7 @@
         "ezyang/htmlpurifier": "^4.9",
         "guzzlehttp/guzzle": "^6.5.7",
         "guzzlehttp/psr7": "^1.8.4",
-        "imsglobal/lti": "^3.0",
+        "oat-sa/imsglobal-lti": ">=4.0.0",
         "justinrainbow/json-schema": "5.2.1",
         "oat-sa/jig": "~0.1",
         "oat-sa/composer-npm-bridge": "~0.4.2||dev-master",
