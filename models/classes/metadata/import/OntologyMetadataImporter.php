@@ -142,7 +142,7 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
     public function addInjector($name, Injector $injector)
     {
         if (isset($this->injectors[$name])) {
-            throw new \ConfigurationException('An injector with name "' . $name . '" already exists.');
+            throw new InconsistencyConfigException('An injector with name "' . $name . '" already exists.');
         }
 
         $this->injectors[$name] = $injector;

@@ -23,7 +23,6 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use \oat\generis\model\user\PasswordConstraintsService;
 use \oat\oatbox\validator\ValidatorInterface;
-use tao_helpers_form_elements_Readonly;
 use tao_models_classes_UserService as UserService;
 use \Zend\ServiceManager\ServiceLocatorAwareTrait;
 use \Zend\ServiceManager\ServiceLocatorAwareInterface;
