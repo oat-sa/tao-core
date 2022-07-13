@@ -56,14 +56,13 @@
         }
     },
     "require": {
-        "php": "^7.1",
         "ext-json": "*",
         "ext-mbstring": "*",
         "doctrine/dbal": "^2.10",
         "ezyang/htmlpurifier": "^4.9",
         "guzzlehttp/guzzle": "^6.5.7",
         "guzzlehttp/psr7": "^1.8.4",
-        "imsglobal/lti": "^3.0",
+        "oat-sa/imsglobal-lti": ">=4.0.0",
         "justinrainbow/json-schema": "5.2.1",
         "oat-sa/jig": "~0.1",
         "oat-sa/composer-npm-bridge": "~0.4.2||dev-master",
@@ -80,7 +79,7 @@
         "doctrine/collections": "1.6.7",
         "flow/jsonpath": "~0.5",
         "jtl-software/opsgenie-client": "2.0.2",
-        "league/openapi-psr7-validator": "0.9",
+        "league/openapi-psr7-validator": ">=0.18",
         "league/csv": "^9.6"
     },
     "autoload": {

@@ -29,19 +29,19 @@ class ServiceFileStorageTestCase extends TestCase
     public function testFileStorage()
     {
         $storage = tao_models_classes_service_FileStorage::singleton();
-        
+
         $publicFolder1 = $storage->spawnDirectory(true);
         $publicFolder2 = $storage->spawnDirectory(true);
         $privateFolder = $storage->spawnDirectory(false);
-        
+
         $this->assertTrue($publicFolder1->isPublic());
         $this->assertTrue(file_exists($publicFolder1->getPath()));
-        
+
         $this->assertTrue($publicFolder1->isPublic());
         $this->assertTrue(file_exists($publicFolder2->getPath()));
-        
-        $this->assertNotEqual($publicFolder1->getPath(), $publicFolder2->getPath());
-        
+
+        $this->assertNotEquals($publicFolder1->getPath(), $publicFolder2->getPath());
+
         $this->assertFalse($privateFolder->isPublic());
         $this->assertTrue(file_exists($privateFolder->getPath()));
     }

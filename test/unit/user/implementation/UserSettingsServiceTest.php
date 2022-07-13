@@ -31,6 +31,7 @@ use oat\tao\model\user\implementation\UserSettings;
 use oat\tao\model\user\implementation\UserSettingsService;
 use core_kernel_classes_Resource;
 use core_kernel_persistence_smoothsql_SmoothModel;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class UserSettingsServiceTest extends TestCase
 {
@@ -45,9 +46,11 @@ class UserSettingsServiceTest extends TestCase
     /** @var UserSettingsService */
     private $sut;
 
+    /** @var UserSettings|MockObject */
+    private $userSettings;
+
     public function setUp(): void
     {
-        ;
         $this->userTimezoneService = $this->getUserTimezoneServiceMock();
         $this->userSettings = $this->createMock(UserSettings::class);
 
