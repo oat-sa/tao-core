@@ -50,6 +50,7 @@ module.exports = function(grunt) {
     grunt.option('buildOutput', buildOutput);
     grunt.option('livereloadPort', livereloadPort);
     grunt.option('requirejsModule', require('requirejs'));
+    grunt.option('babelModule', require('@babel/core'));
 
     //track build time
     require('time-grunt')(grunt);
