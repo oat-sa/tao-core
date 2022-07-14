@@ -31,8 +31,6 @@ use Doctrine\DBAL\Driver\ResultStatement;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
-use Doctrine\DBAL\Query\QueryBuilder;
-use Doctrine\DBAL\Statement;
 use Exception;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
@@ -90,7 +88,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
                 'executeQuery',
                 'connect',
                 'beginTransaction',
-                'executeUpdate'
+                'executeStatement'
             ]
         );
 
@@ -155,7 +153,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
     {
         $this->connectionMock
             ->expects(static::never())
-            ->method('executeUpdate');
+            ->method('executeStatement');
 
         $this->connectionMock
             ->expects(static::never())
@@ -174,7 +172,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
     {
         $this->connectionMock
             ->expects(static::once())
-            ->method('executeUpdate');
+            ->method('executeStatement');
 
         $value = new Value(666, 'uri1', 'label');
         $value->setLabel('newLabel');
