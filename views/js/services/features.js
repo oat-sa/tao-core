@@ -59,7 +59,7 @@ define(['module', 'core/logger'], function (module, loggerFactory) {
 
     return {
         /**
-         * Check if the featurePath is not exists or has show status
+         * Check if the featurePath is not exists or exists and has show status
          * based on the module configuration
          * and features that are not in the configuration are visible by default
          * @param {String} featurePath full path to feature ex('items/feature')
@@ -77,7 +77,7 @@ define(['module', 'core/logger'], function (module, loggerFactory) {
          * @param {String} featurePath full path to feature ex('items/feature')
          * @returns {Boolean} true if feature is visible (or missed from the configuration)
          */
-        isExistsAndShow(featurePath = '') {
+        isShow(featurePath = '') {
             let matchingPath = isExists(featurePath);
 
             return isExists(featurePath) !== null && featuresVisibilityList[matchingPath] === 'show';
