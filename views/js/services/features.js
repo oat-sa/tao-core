@@ -39,7 +39,12 @@ define(['module', 'core/logger'], function (module, loggerFactory) {
         }
     };
 
-    const isExists = featurePath => {
+    /**
+     * Return path that matched to path pattern in configuration
+     * @param {String} featurePath featur path to lookup
+     * @returns {String|null} path match from configuration if any
+     */
+    const getMatchedPath = featurePath => {
         let matchingPath = null;
 
         featuresKeys.some(path => {
@@ -66,8 +71,8 @@ define(['module', 'core/logger'], function (module, loggerFactory) {
          * @returns {Boolean} true if feature is visible (or missed from the configuration)
          */
         isVisible(featurePath = '') {
-            let matchingPath = isExists(featurePath);
-            return isExists(featurePath) === null || featuresVisibilityList[matchingPath] === 'show';
+            let matchingPath = getMatchedPath(featurePath);
+            return getMatchedPath(featurePath) === null || featuresVisibilityList[matchingPath] === 'show';
         },
 
         /**
@@ -78,9 +83,9 @@ define(['module', 'core/logger'], function (module, loggerFactory) {
          * @returns {Boolean} true if feature is visible (or missed from the configuration)
          */
         isShow(featurePath = '') {
-            let matchingPath = isExists(featurePath);
+            let matchingPath = getMatchedPath(featurePath);
 
-            return isExists(featurePath) !== null && featuresVisibilityList[matchingPath] === 'show';
+            return getMatchedPath(featurePath) !== null && featuresVisibilityList[matchingPath] === 'show';
         }
     };
 });
