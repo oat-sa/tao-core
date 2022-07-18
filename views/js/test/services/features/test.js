@@ -42,7 +42,7 @@ define(['services/features'], function(features) {
             {lookup: 'items/category/anyFeature', visible: true},
             {lookup: 'items/category/subcategory/anyFeature', visible: true},
         ])
-        .test('Feature is visible check', function(data, assert) {
+        .test('Feature is visible check with show by default', function(data, assert) {
             assert.equal(
                 features.isVisible(data.lookup),
                 data.visible,
@@ -65,9 +65,9 @@ define(['services/features'], function(features) {
             {lookup: 'items/category/anyFeature', visible: true},
             {lookup: 'items/category/subcategory/anyFeature', visible: true},
         ])
-        .test('Feature is isExistsAndShow check', function(data, assert) {
+        .test('Feature is visible check with hide by default', function(data, assert) {
             assert.equal(
-                features.isExistsAndShow(data.lookup),
+                features.isVisible(data.lookup, false),
                 data.visible,
                 `Lookup for "${data.lookup}" to be ${data.visible}`
             );

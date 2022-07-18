@@ -16,6 +16,14 @@
  * Copyright (c) 2022 Open Assessment Technologies SA;
  */
 
+/**
+ * Feature visibility check examples:
+ *  configuration: {path/featureA: 'show'}
+ *
+ *  feature.isVisible('path/featureA') return true
+ *  feature.isVisible('path/featureB') return true
+ *  feature.isVisible('path/featureB', false) return false
+ */
 define(['module', 'core/logger'], function (module, loggerFactory) {
     'use strict';
     const config = module.config();
@@ -39,53 +47,31 @@ define(['module', 'core/logger'], function (module, loggerFactory) {
         }
     };
 
-    /**
-     * Return path that matched to path pattern in configuration
-     * @param {String} featurePath featur path to lookup
-     * @returns {String|null} path match from configuration if any
-     */
-    const getMatchedPath = featurePath => {
-        let matchingPath = null;
-
-        featuresKeys.some(path => {
-            const exactMatch = path === featurePath;
-
-            if (exactMatch || buildRegexp(path).test(featurePath)) {
-                matchingPath = path;
-            }
-
-            if (exactMatch) {
-                return true;
-            }
-        });
-
-        return matchingPath;
-    };
-
     return {
         /**
-         * Check if the featurePath is not exists or exists and has show status
-         * based on the module configuration
-         * and features that are not in the configuration are visible by default
+         * Check if the feature is visible by provided featurePath
+         * and check 'show' or 'hide' status from configuration
+         * second parameter is visibility by default if feature is missed from configuration.
          * @param {String} featurePath full path to feature ex('items/feature')
-         * @returns {Boolean} true if feature is visible (or missed from the configuration)
+         * @param {Boolean} isVisibleByDefault feature visibility if missed from configurations
+         * @returns {Boolean} true if feature is visible
          */
-        isVisible(featurePath = '') {
-            let matchingPath = getMatchedPath(featurePath);
-            return getMatchedPath(featurePath) === null || featuresVisibilityList[matchingPath] === 'show';
-        },
+        isVisible(featurePath = '', isVisibleByDefault = true) {
+            let matchingPath = null;
 
-        /**
-         * Check if the featurePath is exists and has show status
-         * based on the module configuration
-         * and features that are not in the configuration are visible by default
-         * @param {String} featurePath full path to feature ex('items/feature')
-         * @returns {Boolean} true if feature is visible (or missed from the configuration)
-         */
-        isShow(featurePath = '') {
-            let matchingPath = getMatchedPath(featurePath);
+            featuresKeys.some(path => {
+                const exactMatch = path === featurePath;
 
-            return getMatchedPath(featurePath) !== null && featuresVisibilityList[matchingPath] === 'show';
+                if (exactMatch || buildRegexp(path).test(featurePath)) {
+                    matchingPath = path;
+                }
+
+                if (exactMatch) {
+                    return true;
+                }
+            });
+
+            return matchingPath === null ? isVisibleByDefault : featuresVisibilityList[matchingPath] === 'show';
         }
     };
 });
