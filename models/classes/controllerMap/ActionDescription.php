@@ -64,7 +64,9 @@ class ActionDescription
             $factory = DocBlockFactory::createInstance();
             $factory->registerTagHandler('requiresRight', RequiresRightTag::class);
 
-            self::$docBlock = $factory->create($this->method);
+            self::$docBlock = is_string($this->method->getDocComment())
+                ? $factory->create($this->method)
+                : new DocBlock();
         }
 
         return self::$docBlock;
