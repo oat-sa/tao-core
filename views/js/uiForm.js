@@ -110,12 +110,13 @@
                 const testedUrl = settings.url.indexOf('?') === -1
                     ? settings.url
                     : settings.url.substr(0, settings.url.indexOf('?'));
+                const authoringRequestSuffix = 'authoring';
 
                 /**
                  * Prevent manage-schema form initialization when the targeted url is related to authoring
                  * associated action is "launchEditor"
                 */
-                if (!testedUrl.includes('authoring')) {
+                if (testedUrl.indexOf(authoringRequestSuffix, testedUrl.length - authoringRequestSuffix.length) === -1) {
                     self.initRendering();
                 }
 
