@@ -105,29 +105,31 @@
 
                 //initialize regarding the requested action
                 //async request waiting for html or not defined
-                if (settings.dataType === 'html' || !settings.dataType) {
-                    if (settings.url.indexOf('?') !== -1) {
-                        testedUrl = settings.url.substr(0, settings.url.indexOf('?'));
-                    }
-                    else {
-                        testedUrl = settings.url;
-                    }
+                if (settings.dataType !== 'html' && settings.dataType) {
+                    return;
+                }
 
-                    /**
-                     * Prevent manage-schema form initialization when the targeted url is related to authoring
-                     * associated action is "launchEditor"
-                    */
-                    if (!testedUrl.includes('authoring')) {
-                        self.initRendering();
-                    }
+                if (settings.url.indexOf('?') !== -1) {
+                    testedUrl = settings.url.substr(0, settings.url.indexOf('?'));
+                }
+                else {
+                    testedUrl = settings.url;
+                }
 
-                    self.initElements();
-                    if (self.initGenerisFormPattern.test(testedUrl)) {
-                        self.initOntoForms();
-                    }
-                    if (self.initTranslationFormPattern.test(testedUrl)) {
-                        self.initTranslationForm();
-                    }
+                /**
+                 * Prevent manage-schema form initialization when the targeted url is related to authoring
+                 * associated action is "launchEditor"
+                */
+                if (!testedUrl.includes('authoring')) {
+                    self.initRendering();
+                }
+
+                self.initElements();
+                if (self.initGenerisFormPattern.test(testedUrl)) {
+                    self.initOntoForms();
+                }
+                if (self.initTranslationFormPattern.test(testedUrl)) {
+                    self.initTranslationForm();
                 }
             });
             this.initRendering();
