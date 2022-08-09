@@ -250,13 +250,13 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2022.08',
+        'TAO_VERSION' => '2022.09',
         #TAO version label
-        'TAO_VERSION_NAME' => '2022.08',
+        'TAO_VERSION_NAME' => '2022.09',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
-        'TAO_RELEASE_STATUS' => 'stable',
+        'TAO_RELEASE_STATUS' => 'beta',
         #TAO default character encoding (mainly used with multi-byte string functions).
         'TAO_DEFAULT_ENCODING' => 'UTF-8',
         # actions directory
