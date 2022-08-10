@@ -22,7 +22,10 @@ declare(strict_types=1);
 
 namespace oat\tao\model;
 
+use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
+use oat\tao\model\Language\Repository\LanguageRepository;
 use Symfony\Component\DependencyInjection\Loader\Configurator\Traits\FactoryTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_models_classes_LanguageService;
@@ -31,6 +34,7 @@ use oat\tao\model\Language\Service\LanguageListElementSortService;
 use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class LanguageServiceProvider implements ContainerServiceProviderInterface
 {
@@ -54,5 +58,15 @@ class LanguageServiceProvider implements ContainerServiceProviderInterface
             ->args([
                 inline_service(AscendingLabelListSorterComparator::class),
             ]);
+
+        $services
+            ->set(LanguageRepositoryInterface::class, LanguageRepository::class)
+            ->public()
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
+                    service(tao_models_classes_LanguageService::class),
+                ]
+            );
     }
 }

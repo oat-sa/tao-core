@@ -11,6 +11,7 @@ use oat\generis\test\GenerisTestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\User;
+use oat\tao\helpers\form\Feeder\SanitizerValidationFeeder;
 use oat\tao\helpers\form\WidgetRegistry;
 use oat\tao\model\security\xsrf\Token;
 use oat\tao\model\security\xsrf\TokenService;
@@ -39,6 +40,7 @@ class FormContainerTest extends GenerisTestCase
         $config->set(TokenService::SERVICE_ID, $this->createTokenServiceTestDouble());
         $config->set(common_cache_Cache::SERVICE_ID, $this->createCacheTestDouble());
         $config->set(SessionService::SERVICE_ID, $this->createSessionServiceDouble());
+        $config->set(SanitizerValidationFeeder::class, new SanitizerValidationFeeder());
 
         ServiceManager::setServiceManager(new ServiceManager($config));
 
@@ -55,9 +57,8 @@ class FormContainerTest extends GenerisTestCase
             ->get(PersistenceManager::SERVICE_ID)
             ->getPersistenceById(self::PERSISTENCE_KEY);
 
-        $persistence->hSet(
-            self::TEST_USER_SESSION_ID . '_tao_tokens',
-            'form_token',
+        $persistence->set(
+            self::TEST_USER_SESSION_ID . '_tao_tokens_form_token',
             json_encode(
                 [
                     Token::TOKEN_KEY => self::TOKEN_VALUE,
