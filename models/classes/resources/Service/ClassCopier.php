@@ -74,6 +74,17 @@ class ClassCopier implements ClassCopierInterface
     }
 
     /**
+     * This method is to be used with tagged_iterator() from service providers
+     * (but only the last copier from the iterable is effectively applied).
+     */
+    public function withPermissionCopiers(iterable $copiers): void
+    {
+        foreach($copiers as $copier) {
+            $this->withPermissionCopier($copier);
+        }
+    }
+
+    /**
      * @inheritDoc
      */
     public function copy(
