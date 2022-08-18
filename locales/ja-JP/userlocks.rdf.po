@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.01\n"
-"PO-Revision-Date: 2022-01-17T11:27:42\n"
+"Project-Id-Version: TAO 2022.09\n"
+"PO-Revision-Date: 2022-08-12T16:45:46\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -13,60 +13,60 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#accountStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Is locked?"
-msgstr ""
+msgstr "ロックされていますか？"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#accountStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Shows account status, locked or not"
-msgstr ""
+msgstr "アカウントの状態が表示され、ロックされているかどうかがわかります。"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Check Locked"
-msgstr ""
+msgstr "ロック確認"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Check Locked"
-msgstr ""
+msgstr "ロック確認"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Locked
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Yes"
-msgstr ""
+msgstr "はい"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Locked
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Yes"
-msgstr ""
+msgstr "はい"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#logonFailures
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Logon failures"
-msgstr ""
+msgstr "ログオンエラー"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#logonFailures
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Count of user logon failures"
-msgstr ""
+msgstr "ユーザのログオン失敗回数"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Last logon failure"
-msgstr ""
+msgstr "最終ログオン失敗"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Time when the last logon failure occurred"
-msgstr ""
+msgstr "最後にログオン失敗が発生した時刻"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lockedBy
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Locked by"
-msgstr ""
+msgstr "ロックされた"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#lockedBy
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Indicates by which user current user was locked"
-msgstr ""
+msgstr "現在のユーザがどのユーザによってロックされたかを表示"
 

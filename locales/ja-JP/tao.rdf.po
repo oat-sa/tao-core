@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.01\n"
-"PO-Revision-Date: 2022-01-17T11:27:42\n"
+"Project-Id-Version: TAO 2022.09\n"
+"PO-Revision-Date: 2022-08-12T16:45:46\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -18,7 +18,7 @@ msgstr "ラベル"
 # http://www.w3.org/2000/01/rdf-schema#label
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "A human-readable name for the subject."
-msgstr ""
+msgstr "人間が読み取れるサブジェクトの名前"
 
 # http://www.tao.lu/Ontologies/generis.rdf#alias
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -28,7 +28,7 @@ msgstr "エイリアス"
 # http://www.tao.lu/Ontologies/generis.rdf#alias
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Alias to be used when publishing a remote delivery"
-msgstr ""
+msgstr "リモート配信を公開する際に使用するエイリアス"
 
 # http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -38,7 +38,7 @@ msgstr "言語に依存"
 # http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "is_language_dependent"
-msgstr ""
+msgstr "：言語依存"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -118,12 +118,12 @@ msgstr "リモートリストタイプ"
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListDependencyItemUriPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Remote list dependency source uri path"
-msgstr ""
+msgstr "リモートリスト依存元URIパス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListDependencyItemUriPath
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Remote list dependency source uri path"
-msgstr ""
+msgstr "リモートリスト依存元URIパス"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
