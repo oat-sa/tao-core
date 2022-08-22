@@ -290,6 +290,12 @@ class ValidatorTest extends TaoPhpUnitTestRunner
         );
     }
 
+    public function testIntegerValidatorAcceptsEmptyString()
+    {
+        $validator = new tao_helpers_form_validators_Integer();
+        $this->assertTrue($validator->evaluate(''));
+    }
+
     public function testNumeric()
     {
         $num = tao_helpers_form_FormFactory::getValidator('Numeric');
