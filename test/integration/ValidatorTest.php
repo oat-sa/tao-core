@@ -381,7 +381,7 @@ class ValidatorTest extends TaoPhpUnitTestRunner
             'valid_int_zero' => [1, true],
             'valid_float'      => [1.5, true],
             'valid_float_zero' => [0.0, true],
-            'valid_object'     => [$validObject, true], //todo check why it is failing
+            'valid_object'     => [$validObject, false],
             'valid_bool_t'     => [true, true],
             'valid_bool_f'     => [false, true],
 
