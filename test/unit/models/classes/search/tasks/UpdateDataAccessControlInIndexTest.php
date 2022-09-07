@@ -28,9 +28,9 @@ use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\oatbox\log\LoggerService;
-use oat\tao\elasticsearch\Exception\FailToUpdatePropertiesException;
 use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\search\tasks\UpdateDataAccessControlInIndex;
+use oat\taoAdvancedSearch\model\Search\Exception\FailToUpdatePropertiesException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -81,7 +81,7 @@ class UpdateDataAccessControlInIndexTest extends TestCase
 
     public function testInvokeTaskFailureShouldReportError(): void
     {
-        if (!class_exists('oat\\tao\\elasticsearch\\Exception\\FailToUpdatePropertiesException')) { //@todo refactor
+        if (!class_exists(FailToUpdatePropertiesException::class)) { //@todo refactor
             $this->markTestSkipped('No elastic lib found');
         }
 

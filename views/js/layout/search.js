@@ -117,10 +117,10 @@ define([
             // after triggering 'refresh' this resource will be selected in tree
             // on Results page we have 2 cases
             // 1. GenerisSearch id == delivery_uri
-            // 2. ElasticSearch id == delivery_result_uri and data.delivery == delivery_uri
+            // 2. AdvancedSearch id == delivery_result_uri and data.delivery == delivery_uri
             const uri = !isResultPage || !data.delivery ? id : data.delivery;
             actionManager.trigger('refresh', { uri });
-            // case 2. ElasticSearch - need to store delivery_result_uri in searchComponent for taoOutcomeUi controller
+            // case 2. AdvancedSearch - need to store delivery_result_uri in searchComponent for taoOutcomeUi controller
             isResultPage && data.delivery && searchComponent.container.data('show-result', id);
         });
     }
