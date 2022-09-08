@@ -134,22 +134,28 @@ class AdvancedSearchCheckerTest extends TestCase
 
     public function pingProvider(): array
     {
-        return [
-            [
-                'advancedSearch' => $this->createMock(ElasticSearch::class),
-                'advancedSearchPing' => true,
-                'expected' => true,
-            ],
-            [
-                'advancedSearch' => $this->createMock(ElasticSearch::class),
-                'advancedSearchPing' => false,
-                'expected' => false,
-            ],
+        $data = [
             [
                 'advancedSearch' => null,
                 'advancedSearchPing' => null,
                 'expected' => false,
-            ],
+            ]
         ];
+
+        if (class_exists('oat\\taoAdvancedSearch\\model\\SearchEngine\\Driver\\Elasticsearch\\ElasticSearch')) {
+            $data[] = [
+                'advancedSearch' => $this->createMock(ElasticSearch::class),
+                'advancedSearchPing' => true,
+                'expected' => true,
+            ];
+
+            $data[] = [
+                'advancedSearch' => $this->createMock(ElasticSearch::class),
+                'advancedSearchPing' => false,
+                'expected' => false,
+            ];
+        }
+
+        return $data;
     }
 }
