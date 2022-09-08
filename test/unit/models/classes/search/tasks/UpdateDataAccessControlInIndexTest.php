@@ -25,10 +25,10 @@ use common_exception_MissingParameter;
 use common_report_Report as Report;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
+use Exception;
 use oat\generis\model\data\Ontology;
 use oat\generis\test\TestCase;
 use oat\oatbox\log\LoggerService;
-use oat\tao\elasticsearch\Exception\FailToUpdatePropertiesException;
 use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\search\tasks\UpdateDataAccessControlInIndex;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -81,10 +81,6 @@ class UpdateDataAccessControlInIndexTest extends TestCase
 
     public function testInvokeTaskFailureShouldReportError(): void
     {
-        if (!class_exists('oat\\tao\\elasticsearch\\Exception\\FailToUpdatePropertiesException')) { //@todo refactor
-            $this->markTestSkipped('No elastic lib found');
-        }
-
         $documentUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
         $resource = $this->createMock(core_kernel_classes_Resource::class);
         $class = $this->createMock(core_kernel_classes_Class::class);
@@ -102,7 +98,7 @@ class UpdateDataAccessControlInIndexTest extends TestCase
 
         $this->indexUpdater->expects($this->once())->method('updatePropertyValue')
             ->with($documentUri, [''], 'read_access', [])
-            ->willThrowException(new FailToUpdatePropertiesException('fail'));
+            ->willThrowException(new Exception('fail'));
 
         $report = $this->sut->__invoke(
             [$documentUri, []]
