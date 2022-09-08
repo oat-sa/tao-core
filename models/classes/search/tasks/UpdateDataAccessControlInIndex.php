@@ -79,7 +79,7 @@ class UpdateDataAccessControlInIndex implements Action, ServiceLocatorAwareInter
         } catch (Throwable $exception) {
             $type = Report::TYPE_ERROR;
             $message = 'Failed during update search index';
-            $logMessage = 'Data Access Control failure: (' . get_class($exception) . ')' . $exception->getMessage();
+            $logMessage = 'Data Access Control failure: (' . get_class($exception) . ') ' . $exception->getMessage();
         }
 
         $this->logInfo($logMessage);
