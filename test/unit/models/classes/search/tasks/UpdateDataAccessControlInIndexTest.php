@@ -94,7 +94,7 @@ class UpdateDataAccessControlInIndexTest extends TestCase
 
         $this->logger->expects($this->once())
             ->method('info')
-            ->with('Data Access Control failure: Error During Update the Properties fail. Please, check previous exception for more details.');
+            ->with('Data Access Control failure: (Exception) fail');
 
         $this->indexUpdater->expects($this->once())->method('updatePropertyValue')
             ->with($documentUri, [''], 'read_access', [])
