@@ -73,7 +73,7 @@ class tao_actions_Import extends tao_actions_CommonModule
         );
         $importForm = $formContainer->getForm();
 
-        if ($importForm->isSubmited() && $importForm->isValid()) {
+        if ($importForm->isSubmited()) {
             /** @var QueueDispatcher $queueDispatcher */
             $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
 
