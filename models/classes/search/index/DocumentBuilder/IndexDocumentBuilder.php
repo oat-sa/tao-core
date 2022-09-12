@@ -38,6 +38,7 @@ use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\TaoOntology;
+use tao_helpers_form_elements_Calendar;
 use tao_helpers_form_elements_Checkbox;
 use tao_helpers_form_elements_Combobox;
 use tao_helpers_form_elements_Htmlarea;
@@ -60,6 +61,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         tao_helpers_form_elements_Checkbox::WIDGET_ID,
         tao_helpers_form_elements_Combobox::WIDGET_ID,
         tao_helpers_form_elements_Radiobox::WIDGET_ID,
+        tao_helpers_form_elements_Calendar::WIDGET_ID,
         SearchTextBox::WIDGET_ID,
         SearchDropdown::WIDGET_ID,
     ];
@@ -232,6 +234,8 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
                     continue;
                 }
 
+                \common_Logger::e('==============1 ======== ' . $property->getLabel());//FIXME
+
                 $propertyTypeUri = $propertyType->getUri();
 
                 if (!in_array($propertyTypeUri, self::ALLOWED_DYNAMIC_TYPES)) {
@@ -260,6 +264,8 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         }
 
         $customProperties = $this->normalizeAndFilterUniqueValues($customProperties);
+
+        $customProperties['updated_at'] = $resource->getOnePropertyValue($resource->getProperty(TaoOntology::PROPERTY_UPDATED_AT))->__toString();//FIXME
 
         return new ArrayIterator($customProperties);
     }
