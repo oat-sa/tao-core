@@ -40,7 +40,6 @@ use oat\oatbox\service\ServiceNotFoundException;
 use oat\oatbox\task\TaskService;
 use oat\oatbox\user\UserService;
 use oat\tao\controller\api\Users;
-use oat\tao\elasticsearch\IndexUpdater;
 use oat\tao\helpers\dateFormatter\EuropeanFormatter;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\accessControl\func\AccessRule;
