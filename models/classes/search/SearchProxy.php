@@ -110,7 +110,7 @@ class SearchProxy extends ConfigurableService implements Search
         $response['settings'] = $this->getSearchSettingsService()
             ->getSettingsByClassMetadataSearchRequest(
                 (new ClassMetadataSearchRequest())
-                    ->setClassUri(TaoOntology::CLASS_URI_ITEM) //FIXME @TODO Get proper class
+                    ->setClassUri($request->getQueryParams()['params']['parentNode'])
             );
 
         return $response;
