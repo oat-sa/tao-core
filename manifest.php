@@ -43,6 +43,7 @@ use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
+use oat\tao\model\search\ServiceProvider\SearchServiceProvider;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\user\UserSettingsServiceProvider;
 use oat\tao\model\LanguageServiceProvider;
@@ -300,6 +301,7 @@ return [
         ObserverServiceProvider::class,
         FeatureVisibilityServiceProvider::class,
         CopierServiceProvider::class,
+        SearchServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
