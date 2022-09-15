@@ -44,7 +44,7 @@ class tao_helpers_form_validators_Numeric extends tao_helpers_form_Validator
         
         $rowValue = $values;
         $value = tao_helpers_Numeric::parseFloat($rowValue);
-        if (empty($rowValue)) {
+        if (empty($rowValue) && (!$this->hasOption('min') || $this->hasOption('max'))) {
             $returnValue = true; // no need to go further. To check if not empty, use the NotEmpty validator
             return $returnValue;
         }
