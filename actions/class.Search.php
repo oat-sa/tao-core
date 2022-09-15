@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\http\HttpJsonResponseTrait;
+use oat\tao\model\Lists\Business\Domain\ClassMetadataSearchRequest;
 use oat\tao\model\search\index\OntologyIndexService;
 use oat\tao\model\search\ResultSetMapper;
 use oat\tao\model\search\SearchProxy;
@@ -72,6 +73,9 @@ class tao_actions_Search extends tao_actions_CommonModule
                 'parentNode' => $parsedBody['parentNode'],
                 'structure' => $parsedBody['structure'],
             ],
+            'settings' => $this->getSearchProxy()->getSearchSettingsService()->getSettingsByClassMetadataSearchRequest(
+                    (new ClassMetadataSearchRequest())->setClassUri($parsedBody['parentNode'])
+            ),
             'filter' => [],
             'model' => $promiseModel,
             'result' => true

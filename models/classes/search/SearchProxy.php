@@ -28,6 +28,8 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\tao\model\search\Contract\SearchSettingsServiceInterface;
+use oat\tao\model\search\Service\DefaultSearchSettingsService;
 use oat\tao\model\TaoOntology;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -35,6 +37,7 @@ class SearchProxy extends ConfigurableService implements Search
 {
     use OntologyAwareTrait;
 
+    public const OPTION_SEARCH_SETTINGS_SERVICE = 'search_settings_service';
     public const OPTION_ADVANCED_SEARCH_CLASS = 'advanced_search_class';
     public const OPTION_DEFAULT_SEARCH_CLASS = 'default_search_class';
     public const OPTION_GENERIS_SEARCH_WHITELIST = 'generis_search_whitelist';
@@ -100,8 +103,10 @@ class SearchProxy extends ConfigurableService implements Search
         $queryParams = $request->getQueryParams();
         $results = $this->executeSearch($query);
 
-        return $this->getResultSetResponseNormalizer()
+        $response = $this->getResultSetResponseNormalizer()
             ->normalize($query, $results, $queryParams['params']['structure']);
+
+        return $response;
     }
 
     /**
@@ -172,6 +177,13 @@ class SearchProxy extends ConfigurableService implements Search
             self::GENERIS_SEARCH_DEFAULT_WHITELIST,
             $this->getOption(self::OPTION_GENERIS_SEARCH_WHITELIST, [])
         );
+    }
+
+    public function getSearchSettingsService(): SearchSettingsServiceInterface
+    {
+        return $this->getServiceManager()
+            ->getContainer()
+            ->get($this->getOption(self::OPTION_SEARCH_SETTINGS_SERVICE) ?? DefaultSearchSettingsService::class);
     }
 
     private function executeSearch(SearchQuery $query): ResultSet
