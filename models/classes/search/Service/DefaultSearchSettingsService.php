@@ -24,12 +24,28 @@ namespace oat\tao\model\search\Service;
 
 use oat\tao\model\Lists\Business\Domain\ClassMetadataSearchRequest;
 use oat\tao\model\search\Contract\SearchSettingsServiceInterface;
+use oat\tao\model\search\ResultColumn;
 use oat\tao\model\search\SearchSettings;
 
 class DefaultSearchSettingsService implements SearchSettingsServiceInterface
 {
     public function getSettingsByClassMetadataSearchRequest(ClassMetadataSearchRequest $classMetadataSearchRequest): SearchSettings
     {
-        return new SearchSettings([]);
+        //@TODO FIXME For "results", we need to add other default columns here
+
+        return new SearchSettings(
+            [
+                new ResultColumn(
+                    'label',
+                    __('Label'),
+                    'text',
+                    null,
+                    null,
+                    false,
+                    true,
+                    true
+                ),
+            ]
+        );
     }
 }

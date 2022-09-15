@@ -36,10 +36,18 @@ class SearchSettings implements JsonSerializable
         $this->availableColumns = $availableColumns;
     }
 
+    /**
+     * @return ResultColumn[]
+     */
+    public function getAvailableColumns(): array
+    {
+        return $this->availableColumns;
+    }
+
     public function jsonSerialize(): array
     {
         return [
-            'availableColumns' => $this->availableColumns
+            'availableColumns' => $this->getAvailableColumns()
         ];
     }
 }

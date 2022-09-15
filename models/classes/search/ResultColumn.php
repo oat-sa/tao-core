@@ -37,11 +37,39 @@ class ResultColumn implements JsonSerializable
     /** @var string */
     private $type;
 
-    public function __construct(string $id, string $label, string $type)
-    {
+    /** @var string */
+    private $alias;
+
+    /** @var string */
+    private $classLabel;
+
+    /** @var bool */
+    private $isDuplicated;
+
+    /** @var bool */
+    private $default;
+
+    /** @var bool */
+    private $sortable;
+
+    public function __construct(
+        string $id,
+        string $label,
+        string $type,
+        string $alias = null,
+        string $classLabel = null,
+        bool $isDuplicated = false,
+        bool $default = false,
+        bool $sortable = false
+    ) {
         $this->id = $id;
         $this->label = $label;
         $this->type = $type;
+        $this->alias = $alias;
+        $this->classLabel = $classLabel;
+        $this->isDuplicated = $isDuplicated;
+        $this->default = $default;
+        $this->sortable = $sortable;
     }
 
     public function getId(): string
@@ -59,12 +87,42 @@ class ResultColumn implements JsonSerializable
         return $this->type;
     }
 
+    public function getAlias(): ?string
+    {
+        return $this->alias;
+    }
+
+    public function getClassLabel(): ?string
+    {
+        return $this->classLabel;
+    }
+
+    public function isDuplicated(): bool
+    {
+        return $this->isDuplicated;
+    }
+
+    public function isDefault(): bool
+    {
+        return $this->default;
+    }
+
+    public function isSortable(): bool
+    {
+        return $this->sortable;
+    }
+
     public function jsonSerialize(): array
     {
         return [
             'id' => $this->getId(),
             'label' => $this->getLabel(),
             'type' => $this->getType(),
+            'alias' => $this->getAlias(),
+            'classLabel' => $this->getClassLabel(),
+            'isDuplicated' => $this->isDuplicated(),
+            'default' => $this->isDefault(),
+            'sortable' => $this->isSortable(),
         ];
     }
 }

@@ -28,7 +28,6 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
-use oat\tao\model\Lists\Business\Domain\ClassMetadataSearchRequest;
 use oat\tao\model\search\Contract\SearchSettingsServiceInterface;
 use oat\tao\model\search\Service\DefaultSearchSettingsService;
 use oat\tao\model\TaoOntology;
@@ -106,12 +105,6 @@ class SearchProxy extends ConfigurableService implements Search
 
         $response = $this->getResultSetResponseNormalizer()
             ->normalize($query, $results, $queryParams['params']['structure']);
-
-        $response['settings'] = $this->getSearchSettingsService()
-            ->getSettingsByClassMetadataSearchRequest(
-                (new ClassMetadataSearchRequest())
-                    ->setClassUri($request->getQueryParams()['params']['parentNode'])
-            );
 
         return $response;
     }
