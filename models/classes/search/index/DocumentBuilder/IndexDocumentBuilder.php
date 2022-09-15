@@ -234,8 +234,6 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
                     continue;
                 }
 
-                \common_Logger::e('==============1 ======== ' . $property->getLabel());//FIXME
-
                 $propertyTypeUri = $propertyType->getUri();
 
                 if (!in_array($propertyTypeUri, self::ALLOWED_DYNAMIC_TYPES)) {
@@ -264,8 +262,6 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         }
 
         $customProperties = $this->normalizeAndFilterUniqueValues($customProperties);
-
-        $customProperties['updated_at'] = $resource->getOnePropertyValue($resource->getProperty(TaoOntology::PROPERTY_UPDATED_AT))->__toString();//FIXME
 
         return new ArrayIterator($customProperties);
     }

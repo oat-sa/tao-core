@@ -29,10 +29,9 @@ use oat\tao\model\search\SearchSettings;
 
 class DefaultSearchSettingsService implements SearchSettingsServiceInterface
 {
-    public function getSettingsByClassMetadataSearchRequest(ClassMetadataSearchRequest $classMetadataSearchRequest): SearchSettings
-    {
-        //@TODO FIXME For "results", we need to add other default columns here
-
+    public function getSettingsByClassMetadataSearchRequest(
+        ClassMetadataSearchRequest $classMetadataSearchRequest
+    ): SearchSettings {
         return new SearchSettings(
             [
                 new ResultColumn(

@@ -15,29 +15,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
  *
  * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\search\ServiceProvider;
+namespace oat\tao\test\unit\model\search;
 
-use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\tao\model\search\Service\DefaultSearchSettingsService;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use oat\tao\model\search\SearchSettings;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @codeCoverageIgnore
- */
-class SearchServiceProvider implements ContainerServiceProviderInterface
+class SearchSettingsTest extends TestCase
 {
-    public function __invoke(ContainerConfigurator $configurator): void
-    {
-        $services = $configurator->services();
+    /** @var SearchSettings */
+    private $subject;
 
-        $services->set(DefaultSearchSettingsService::class, DefaultSearchSettingsService::class)
-            ->public();
+    public function setUp(): void
+    {
+        $this->subject = new SearchSettings([]);
+    }
+
+    public function testsGetTerm(): void
+    {
+        $this->assertSame([], $this->subject->getAvailableColumns());
     }
 }
