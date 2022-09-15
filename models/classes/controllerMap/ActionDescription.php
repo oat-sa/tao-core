@@ -32,15 +32,8 @@ use ReflectionMethod;
  */
 class ActionDescription
 {
-    /**
-     * Data cache for DocBlock information used by getDocBlock().
-     *
-     * The method name the docblock is found in is used as the array index
-     * (i.e. it works as a "cache key")
-     *
-     * @var DocBlock[]
-     */
-    private static $docBlock = [];
+    /** @var DocBlock[] */
+    private static $docBlocks = [];
 
     /**
      * The method implementing the action
@@ -66,16 +59,16 @@ class ActionDescription
     {
         $cacheKey = "{$this->method->class}::{$this->method->name}";
 
-        if (!isset(self::$docBlock[$cacheKey])) {
+        if (!isset(self::$docBlocks[$cacheKey])) {
             $factory = DocBlockFactory::createInstance();
             $factory->registerTagHandler('requiresRight', RequiresRightTag::class);
 
-            self::$docBlock[$cacheKey] = is_string($this->method->getDocComment())
+            self::$docBlocks[$cacheKey] = is_string($this->method->getDocComment())
                 ? $factory->create($this->method)
                 : new DocBlock();
         }
 
-        return self::$docBlock[$cacheKey];
+        return self::$docBlocks[$cacheKey];
     }
 
     /**
