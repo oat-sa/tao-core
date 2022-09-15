@@ -254,7 +254,6 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
     private function isEmptyLabel($element): bool
     {
         return $element instanceof tao_helpers_form_elements_Label
-            && (($element->getRawValue() === null)
-                || (strlen($element->getRawValue()) === 0));
+            && empty($element->getRawValue());
     }
 }
