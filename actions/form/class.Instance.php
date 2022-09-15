@@ -153,7 +153,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
                     }
                 }
 
-                if ($this->isEmptyLabel($element)) { // Don't show empty labels
+                if ($this->isEmptyLabel($element)) {
                     continue;
                 }
 
