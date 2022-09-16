@@ -51,6 +51,12 @@ class Metadata implements JsonSerializable
     /** @var bool */
     private $isDuplicated = false;
 
+    /** @var bool */
+    private $isSortable = false;
+
+    /** @var string */
+    private $indexReference;
+
     public function getLabel(): string
     {
         return $this->label;
@@ -154,9 +160,38 @@ class Metadata implements JsonSerializable
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getIndexReference(): ?string
+    {
+        return $this->indexReference;
+    }
+
+    public function setIndexReference(string $indexReference = null): self
+    {
+        $this->indexReference = $indexReference;
+
+        return $this;
+    }
+
+    public function isSortable(): bool
+    {
+        return $this->isSortable;
+    }
+
+    public function setIsSortable(bool $isSortable): self
+    {
+        $this->isSortable = $isSortable;
+
+        return $this;
+    }
+
     public function jsonSerialize(): array
     {
         return [
+            'indexReference' => $this->getIndexReference(), //@TODO FIXME Find better name or place
+            'isSortable' => $this->isSortable(),
             'label' => $this->label,
             'alias' => $this->alias,
             'type' => $this->type,

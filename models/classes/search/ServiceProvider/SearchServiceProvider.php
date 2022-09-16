@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace oat\tao\model\search\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\search\index\DocumentBuilder\PropertyIndexReferenceFactory;
 use oat\tao\model\search\Service\DefaultSearchSettingsService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -38,6 +39,9 @@ class SearchServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services->set(DefaultSearchSettingsService::class, DefaultSearchSettingsService::class)
+            ->public();
+
+        $services->set(PropertyIndexReferenceFactory::class, PropertyIndexReferenceFactory::class)
             ->public();
     }
 }

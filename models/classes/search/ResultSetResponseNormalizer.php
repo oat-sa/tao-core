@@ -31,6 +31,9 @@ class ResultSetResponseNormalizer extends ConfigurableService
 {
     use OntologyAwareTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function normalize(SearchQuery $searchQuery, ResultSet $resultSet, string $structure): array
     {
         $totalPages = is_null($searchQuery->getRows()) || $searchQuery->getRows() === 0
@@ -38,8 +41,6 @@ class ResultSetResponseNormalizer extends ConfigurableService
             : ceil($resultSet->getTotalCount() / $searchQuery->getRows());
 
         $resultsRaw = $resultSet->getArrayCopy();
-
-        $accessibleResultsMap = [];
 
         $resultAmount = count($resultsRaw);
 
@@ -80,13 +81,15 @@ class ResultSetResponseNormalizer extends ConfigurableService
                 }
 
                 if ($hasReadAccess === false) {
-                    $content['label'] = __('Access Denied');
-                    $content['id'] = '';
+                    $content = [
+                        'label' => __('Access Denied'),
+                        'id' => ''
+                    ];
                 }
 
                 $resourcePermissions[$content['id']] = !$hasReadAccess;
 
-                $response['data'][] = $this->getResultSetFilter()->filter($content, $structure);
+                $response['data'][] = $content;
             }
         }
 
@@ -94,9 +97,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $response['success'] = true;
         $response['page'] = empty($response['data']) ? 0 : $searchQuery->getPage();
         $response['total'] = $totalPages;
-
         $response['totalCount'] = $resultSet->getTotalCount();
-
         $response['records'] = $resultAmount;
 
         return $response;
@@ -105,11 +106,6 @@ class ResultSetResponseNormalizer extends ConfigurableService
     private function getPermissionHelper(): PermissionHelper
     {
         return $this->getServiceLocator()->get(PermissionHelper::class);
-    }
-
-    private function getResultSetFilter(): ResultSetFilter
-    {
-        return $this->getServiceLocator()->get(ResultSetFilter::class);
     }
 
     private function getResultAccessChecker(): ResultAccessChecker

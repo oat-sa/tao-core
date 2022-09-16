@@ -37,9 +37,7 @@ use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
-use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
-use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
 use oat\tao\model\search\index\IndexDocument;
 use ArrayIterator;
@@ -228,6 +226,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
     {
         $customProperties = [];
         $customPropertiesCache = [];
+        $propertyIndexReferenceFactory = $this->getPropertyIndexReferenceFactory();
 
         foreach ($classes as $class) {
             $properties = \tao_helpers_form_GenerisFormFactory::getClassProperties(
@@ -237,31 +236,11 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
             $properties[OntologyRdfs::RDFS_LABEL] = $this->getProperty(OntologyRdfs::RDFS_LABEL);
 
             foreach ($properties as $property) {
-                /** @var Resource $propertyType |null */
-                $propertyType = $property->getOnePropertyValue(
-                    $this->getProperty(
-                        WidgetRdf::PROPERTY_WIDGET
-                    )
-                );
+                $fieldName = $propertyIndexReferenceFactory->create($property);
 
-                if (null === $propertyType) {
+                if ($fieldName === null) {
                     continue;
                 }
-
-                $propertyTypeUri = $propertyType->getUri();
-
-                if (!in_array($propertyTypeUri, self::ALLOWED_DYNAMIC_TYPES)) {
-                    continue;
-                }
-
-                $propertyTypeArray = explode('#', $propertyTypeUri, 2);
-                $propertyTypeId = end($propertyTypeArray);
-
-                if (false === $propertyTypeId) {
-                    continue;
-                }
-
-                $fieldName = $propertyTypeId . '_' . tao_helpers_Uri::encode($property->getUri());
 
                 $customPropertiesValues = $resource->getPropertyValuesCollection($property);
                 $customProperties[$fieldName][] = array_map(
@@ -277,15 +256,13 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
             }
         }
 
-        //FIXME
         foreach ($customPropertiesCache as $fieldName => $property) {
             $rawValue = $this->getRawValue($property, $fieldName, $customProperties[$fieldName]);
 
             if ($rawValue !== null) {
-                $customProperties[$fieldName . '_raw'][] = $rawValue;
+                $customProperties[$propertyIndexReferenceFactory->createRaw($property)][] = $rawValue;
             }
         }
-        //FIXME
 
         $customProperties = $this->normalizeAndFilterUniqueValues($customProperties);
 
@@ -348,7 +325,13 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         /**
          * @TODO @FIXME Cache this and move to a proper place as soon as the PoC is working
          */
-        if (strpos($fieldName, 'RadioBox') === 0 || strpos($fieldName, 'ComboBox') === 0) {
+        if (
+            strpos($fieldName, 'RadioBox') === 0 ||
+            strpos($fieldName, 'ComboBox') === 0 ||
+            strpos($fieldName, 'Checkbox') === 0 ||
+            strpos($fieldName, 'SearchTextBox') === 0 ||
+            strpos($fieldName, 'SearchDropdown') === 0
+        ) {
             $out = [];
 
             /** @var ValueCollectionService $valueCollectionService */
@@ -357,27 +340,23 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
             /** @var RemoteListPropertySpecification $listSpecification */
             $listSpecification= $this->getServiceManager()->get(RemoteListPropertySpecification::class);
 
-            if ($listSpecification->isSatisfiedBy($property)) {
-                $input = new ValueCollectionSearchInput(
-                    (new ValueCollectionSearchRequest())->setValueCollectionUri($property->getRange()->getUri())
-                );
-            } else {
-                $input = new ValueCollectionSearchInput(
-                    (new ValueCollectionSearchRequest())->setPropertyUri($property->getUri())
-                );
-            }
+            $request = $listSpecification->isSatisfiedBy($property)
+                ? (new ValueCollectionSearchRequest())->setValueCollectionUri($property->getRange()->getUri())
+                : (new ValueCollectionSearchRequest())->setPropertyUri($property->getUri());
 
-            $list = $valueCollectionService->findAll($input);
+            $list = $valueCollectionService->findAll(new ValueCollectionSearchInput($request));
 
             foreach ($values as $value) {
-                $listValue = $list->extractValueByUri(tao_helpers_Uri::decode((string)current($value)));
+                foreach ($value as $subValue) {
+                    $listValue = $list->extractValueByUri(tao_helpers_Uri::decode((string)$subValue));
 
-                if ($listValue) {
-                    $out[] = $listValue->getLabel();
+                    if ($listValue) {
+                        $out[] = $listValue->getLabel();
+                    }
                 }
             }
 
-            return $out;
+            return [implode(', ', $out)];
         }
 
         return null;
@@ -388,5 +367,10 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         $tokenGenerator = $this->getServiceLocator()->get(SearchTokenGenerator::class);
         $this->propagate($tokenGenerator);
         return $tokenGenerator;
+    }
+
+    private function getPropertyIndexReferenceFactory(): PropertyIndexReferenceFactory
+    {
+        return $this->getServiceManager()->getContainer()->get(PropertyIndexReferenceFactory::class);
     }
 }
