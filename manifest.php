@@ -256,7 +256,7 @@ return [
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
-        'TAO_RELEASE_STATUS' => 'beta',
+        'TAO_RELEASE_STATUS' => 'stable',
         #TAO default character encoding (mainly used with multi-byte string functions).
         'TAO_DEFAULT_ENCODING' => 'UTF-8',
         # actions directory
