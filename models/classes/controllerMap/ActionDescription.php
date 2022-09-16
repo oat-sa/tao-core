@@ -16,8 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\model\controllerMap;
@@ -34,8 +32,8 @@ use ReflectionMethod;
  */
 class ActionDescription
 {
-    /** @var DocBlock|null */
-    private static $docBlock;
+    /** @var DocBlock[] */
+    private static $docBlocks = [];
 
     /**
      * The method implementing the action
@@ -55,21 +53,22 @@ class ActionDescription
     }
 
     /**
-     *
      * @return DocBlock
      */
     protected function getDocBlock()
     {
-        if (!self::$docBlock instanceof DocBlock) {
+        $cacheKey = "{$this->method->class}::{$this->method->name}";
+
+        if (!isset(self::$docBlocks[$cacheKey])) {
             $factory = DocBlockFactory::createInstance();
             $factory->registerTagHandler('requiresRight', RequiresRightTag::class);
 
-            self::$docBlock = is_string($this->method->getDocComment())
+            self::$docBlocks[$cacheKey] = is_string($this->method->getDocComment())
                 ? $factory->create($this->method)
                 : new DocBlock();
         }
 
-        return self::$docBlock;
+        return self::$docBlocks[$cacheKey];
     }
 
     /**
@@ -96,7 +95,7 @@ class ActionDescription
     /**
      * Returns an array of all rights required to execute the action
      *
-     * The array uses the name of the parmeter as key and the value is
+     * The array uses the name of the parameter as key and the value is
      * a string identifying the right
      *
      * @return string[]
