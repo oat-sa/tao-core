@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,14 +15,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\model\search\index\DocumentBuilder;
 
+use common_Exception;
+use common_exception_Error;
+use common_exception_InconsistentData;
 use core_kernel_classes_Container;
+use core_kernel_classes_Property;
+use core_kernel_persistence_Exception;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\data\permission\ReverseRightLookupInterface;
 use oat\generis\model\OntologyAwareTrait;
@@ -29,6 +35,12 @@ use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
 use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
+use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
+use oat\tao\model\Lists\Business\Service\RemoteSourcedListOntology;
+use oat\tao\model\Lists\Business\Service\ValueCollectionService;
+use oat\tao\model\Lists\Business\Specification\RemoteListClassSpecification;
+use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
 use oat\tao\model\search\index\IndexDocument;
 use ArrayIterator;
 use core_kernel_classes_Resource as Resource;
@@ -54,7 +66,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
     /** @var array */
     private $map = [];
 
-    public const ALLOWED_DYNAMIC_TYPES = [
+    private const ALLOWED_DYNAMIC_TYPES = [
         tao_helpers_form_elements_Textbox::WIDGET_ID,
         tao_helpers_form_elements_Textarea::WIDGET_ID,
         tao_helpers_form_elements_Htmlarea::WIDGET_ID,
@@ -132,9 +144,9 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
 
     /**
      * @return string[]
-     * @throws \common_exception_Error
+     * @throws common_exception_Error
      */
-    protected function getTypesForResource(Resource $resource): array
+    private function getTypesForResource(Resource $resource): array
     {
         $toDo = [];
         foreach ($resource->getTypes() as $class) {
@@ -145,6 +157,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         $toDo = array_diff($toDo, $done);
 
         $classes = [];
+
         while (!empty($toDo)) {
             $class = new \core_kernel_classes_Class(array_pop($toDo));
             $classes[] = $class->getUri();
@@ -160,12 +173,10 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
     }
 
     /**
-     * Get the array of properties to be indexed
-     *
-     * @throws \common_Exception
-     * @throws \common_exception_InconsistentData
+     * @throws common_Exception
+     * @throws common_exception_InconsistentData
      */
-    protected function getTokenizedResourceBody(Resource $resource): array
+    private function getTokenizedResourceBody(Resource $resource): array
     {
         $tokenGenerator = $this->getSearchTokenGenerator();
 
@@ -180,6 +191,10 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         }
 
         $body['parent_classes'] = $this->getParentClasses($resource->getTypes());
+        $body['location'] = implode('/', array_reverse($body['class'] ?? []));
+        $body['updated_at'] = (string)$resource->getOnePropertyValue(
+            $resource->getProperty(TaoOntology::PROPERTY_UPDATED_AT)
+        );
 
         $result = [
             'body' => $body,
@@ -190,10 +205,9 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
     }
 
     /**
-     * Get the list of index properties for indexation
-     * @throws \common_Exception
+     * @throws common_Exception
      */
-    protected function getIndexProperties(OntologyIndex $index): IndexProperty
+    private function getIndexProperties(OntologyIndex $index): IndexProperty
     {
         if (!isset($this->map[$index->getIdentifier()])) {
             $indexProperty = new IndexProperty(
@@ -208,12 +222,12 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
     }
 
     /**
-     * Get the dynamic properties for indexation
-     * @throws \core_kernel_persistence_Exception
+     * @throws core_kernel_persistence_Exception
      */
-    protected function getDynamicProperties(array $classes, Resource $resource): Iterator
+    private function getDynamicProperties(array $classes, Resource $resource): Iterator
     {
         $customProperties = [];
+        $customPropertiesCache = [];
 
         foreach ($classes as $class) {
             $properties = \tao_helpers_form_GenerisFormFactory::getClassProperties(
@@ -258,8 +272,20 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
                     },
                     $customPropertiesValues->toArray()
                 );
+
+                $customPropertiesCache[$fieldName] = $property;
             }
         }
+
+        //FIXME
+        foreach ($customPropertiesCache as $fieldName => $property) {
+            $rawValue = $this->getRawValue($property, $fieldName, $customProperties[$fieldName]);
+
+            if ($rawValue !== null) {
+                $customProperties[$fieldName . '_raw'][] = $rawValue;
+            }
+        }
+        //FIXME
 
         $customProperties = $this->normalizeAndFilterUniqueValues($customProperties);
 
@@ -303,7 +329,58 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         foreach ($customProperties as $fieldName => $value) {
             $customProperties[$fieldName] = array_unique(array_merge(...(array_values($value))));
         }
+
         return array_filter($customProperties);
+    }
+
+    private function getRawValue(core_kernel_classes_Property $property, string $fieldName, array $values): ?array
+    {
+        if (strpos($fieldName, 'HTMLArea') === 0) {
+            $out = [];
+
+            foreach ($values as $value) {
+                $out[] = strip_tags((string)current($value));
+            }
+
+            return $out;
+        }
+
+        /**
+         * @TODO @FIXME Cache this and move to a proper place as soon as the PoC is working
+         */
+        if (strpos($fieldName, 'RadioBox') === 0 || strpos($fieldName, 'ComboBox') === 0) {
+            $out = [];
+
+            /** @var ValueCollectionService $valueCollectionService */
+            $valueCollectionService = $this->getServiceManager()->get(ValueCollectionService::SERVICE_ID);
+
+            /** @var RemoteListPropertySpecification $listSpecification */
+            $listSpecification= $this->getServiceManager()->get(RemoteListPropertySpecification::class);
+
+            if ($listSpecification->isSatisfiedBy($property)) {
+                $input = new ValueCollectionSearchInput(
+                    (new ValueCollectionSearchRequest())->setValueCollectionUri($property->getRange()->getUri())
+                );
+            } else {
+                $input = new ValueCollectionSearchInput(
+                    (new ValueCollectionSearchRequest())->setPropertyUri($property->getUri())
+                );
+            }
+
+            $list = $valueCollectionService->findAll($input);
+
+            foreach ($values as $value) {
+                $listValue = $list->extractValueByUri(tao_helpers_Uri::decode((string)current($value)));
+
+                if ($listValue) {
+                    $out[] = $listValue->getLabel();
+                }
+            }
+
+            return $out;
+        }
+
+        return null;
     }
 
     private function getSearchTokenGenerator(): SearchTokenGenerator
