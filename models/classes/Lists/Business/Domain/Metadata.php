@@ -39,13 +39,13 @@ class Metadata implements JsonSerializable
     /** @var array */
     private $values = [];
 
-    /** @var string|null  */
+    /** @var string|null */
     private $uri;
 
-    /** @var string|null  */
+    /** @var string|null */
     private $propertyUri;
 
-    /** @var string|null  */
+    /** @var string|null */
     private $classLabel;
 
     /** @var bool */
@@ -55,7 +55,7 @@ class Metadata implements JsonSerializable
     private $isSortable = false;
 
     /** @var string */
-    private $indexReference;
+    private $sortId;
 
     public function getLabel(): string
     {
@@ -163,14 +163,14 @@ class Metadata implements JsonSerializable
     /**
      * @return string
      */
-    public function getIndexReference(): ?string
+    public function getSortId(): ?string
     {
-        return $this->indexReference;
+        return $this->sortId;
     }
 
-    public function setIndexReference(string $indexReference = null): self
+    public function setSortId(string $sortId = null): self
     {
-        $this->indexReference = $indexReference;
+        $this->sortId = $sortId;
 
         return $this;
     }
@@ -190,17 +190,17 @@ class Metadata implements JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'indexReference' => $this->getIndexReference(), //@TODO FIXME Find better name or place
+            'sortId' => $this->getSortId(),
             'isSortable' => $this->isSortable(),
-            'label' => $this->label,
-            'alias' => $this->alias,
-            'type' => $this->type,
-            'values' => $this->values,
-            'isDuplicated' => $this->isDuplicated,
-            'propertyUri' => tao_helpers_Uri::encode($this->propertyUri),
-            'uri' => $this->uri,
+            'label' => $this->getLabel(),
+            'alias' => $this->getAlias(),
+            'type' => $this->getType(),
+            'values' => $this->getValues(),
+            'isDuplicated' => $this->isDuplicated(),
+            'propertyUri' => tao_helpers_Uri::encode($this->getPropertyUri()),
+            'uri' => $this->getUri(),
             'class' => [
-                'label' => $this->classLabel
+                'label' => $this->getClassLabel(),
             ],
         ];
     }
