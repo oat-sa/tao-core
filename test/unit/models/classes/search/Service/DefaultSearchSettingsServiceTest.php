@@ -47,6 +47,7 @@ class DefaultSearchSettingsServiceTest extends TestCase
                 [
                     new ResultColumn(
                         'label',
+                        'label',
                         __('Label'),
                         'text',
                         null,

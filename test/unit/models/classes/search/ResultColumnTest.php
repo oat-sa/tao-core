@@ -36,6 +36,7 @@ class ResultColumnTest extends TestCase
     {
         $this->subject = new ResultColumn(
             'id',
+            'sortId',
             'label',
             'type',
             'alias',
@@ -49,6 +50,7 @@ class ResultColumnTest extends TestCase
     public function testsGetters(): void
     {
         $this->assertSame('id', $this->subject->getId());
+        $this->assertSame('sortId', $this->subject->getSortId());
         $this->assertSame('label', $this->subject->getLabel());
         $this->assertSame('classLabel', $this->subject->getClassLabel());
         $this->assertSame('alias', $this->subject->getAlias());

@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -60,6 +60,8 @@ class ResultSetResponseNormalizer extends ConfigurableService
             );
 
             foreach ($resultsRaw as $content) {
+                $resourceId = $content['id'];
+
                 if (!is_array($content)) {
                     $this->logError(
                         sprintf(
@@ -70,7 +72,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
                     continue;
                 }
 
-                $isAccessible = isset($accessibleResultsMap[$content['id']]);
+                $isAccessible = isset($accessibleResultsMap[$resourceId]);
 
                 if (!$isAccessible) {
                     $hasReadAccess = false;
@@ -87,7 +89,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
                     ];
                 }
 
-                $resourcePermissions[$content['id']] = !$hasReadAccess;
+                $resourcePermissions[$resourceId] = !$hasReadAccess;
 
                 $response['data'][] = $content;
             }

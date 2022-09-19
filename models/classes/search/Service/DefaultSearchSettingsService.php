@@ -36,6 +36,7 @@ class DefaultSearchSettingsService implements SearchSettingsServiceInterface
             [
                 new ResultColumn(
                     'label',
+                    'label',
                     __('Label'),
                     'text',
                     null,
