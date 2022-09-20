@@ -43,7 +43,7 @@ class DefaultSearchSettingsService implements SearchSettingsServiceInterface
                     null,
                     false,
                     true,
-                    true
+                    false
                 ),
             ]
         );

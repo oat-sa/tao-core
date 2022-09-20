@@ -54,7 +54,7 @@ class DefaultSearchSettingsServiceTest extends TestCase
                         null,
                         false,
                         true,
-                        true
+                        false
                     ),
                 ]
             ),
