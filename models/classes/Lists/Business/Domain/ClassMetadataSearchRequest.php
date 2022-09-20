@@ -33,6 +33,21 @@ class ClassMetadataSearchRequest
     /** @var int */
     private $maxListSize = self::DEFAULT_MAX_LIST_SIZE;
 
+    /** @var string */
+    private $structure;
+
+    public function getStructure(): ?string
+    {
+        return $this->structure;
+    }
+
+    public function setStructure(string $structure): self
+    {
+        $this->structure = $structure;
+
+        return $this;
+    }
+
     public function hasClassUri(): bool
     {
         return null !== $this->classUri;

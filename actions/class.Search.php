@@ -66,7 +66,9 @@ class tao_actions_Search extends tao_actions_CommonModule
                 'structure' => $parsedBody['structure'],
             ],
             'settings' => $this->getSearchProxy()->getSearchSettingsService()->getSettingsByClassMetadataSearchRequest(
-                    (new ClassMetadataSearchRequest())->setClassUri($parsedBody['parentNode'])
+                    (new ClassMetadataSearchRequest())
+                        ->setStructure($parsedBody['structure'])
+                        ->setClassUri($parsedBody['parentNode'])
             ),
             'filter' => [],
             /**
