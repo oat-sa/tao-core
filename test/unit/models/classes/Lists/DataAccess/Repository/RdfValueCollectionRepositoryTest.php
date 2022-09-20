@@ -188,7 +188,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
     {
         $this->connectionMock
             ->expects(static::exactly(3))
-            ->method('executeUpdate');
+            ->method('executeStatement');
 
         $value = new Value(666, 'uri1', 'label');
         $value->setUri('uri2');
