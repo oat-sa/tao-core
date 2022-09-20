@@ -83,11 +83,6 @@
         "league/openapi-psr7-validator": "0.9",
         "league/csv": "^9.6"
     },
-    "require-dev": {
-        "phpunit/phpunit": "^8.5",
-        "php-mock/php-mock": "dev-master",
-        "phpspec/prophecy": "~1.0"
-    },
     "autoload": {
         "psr-4": {
             "oat\\tao\\controller\\": "controller",
