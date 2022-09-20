@@ -25,11 +25,13 @@ namespace oat\tao\model\Lists\Business\Domain;
 
 class ClassMetadataSearchRequest
 {
+    public const DEFAULT_MAX_LIST_SIZE = 5;
+
     /** @var string */
     private $classUri;
 
     /** @var int */
-    private $maxListSize;
+    private $maxListSize = self::DEFAULT_MAX_LIST_SIZE;
 
     public function hasClassUri(): bool
     {
@@ -53,7 +55,7 @@ class ClassMetadataSearchRequest
         return null !== $this->maxListSize;
     }
 
-    public function getMaxListSize(): ?int
+    public function getMaxListSize(): int
     {
         return $this->maxListSize;
     }
