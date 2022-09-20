@@ -31,7 +31,7 @@ abstract class AbstractCredentials
 {
 
     /** @var array  */
-    protected $properties = [];
+    protected $properties;
 
     /**
      * @return array
