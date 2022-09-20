@@ -160,9 +160,6 @@ class Metadata implements JsonSerializable
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSortId(): ?string
     {
         return $this->sortId;

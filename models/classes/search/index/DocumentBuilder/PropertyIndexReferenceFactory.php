@@ -59,7 +59,7 @@ class PropertyIndexReferenceFactory
 
         $propertyTypeUri = $propertyType->getUri();
 
-        if (!in_array($propertyTypeUri, self::ALLOWED_DYNAMIC_TYPES)) {
+        if (!in_array($propertyTypeUri, self::ALLOWED_DYNAMIC_TYPES, true)) {
             return null;
         }
 

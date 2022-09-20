@@ -277,7 +277,7 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function getAdvancedSearchQueryString(SearchQuery $query): string
     {
-        if (in_array($query->getStructure(), self::IGNORE_CRITERIA_FOR_STRUCTURES)) {
+        if (in_array($query->getStructure(), self::IGNORE_CRITERIA_FOR_STRUCTURES, true)) {
             return $query->getTerm();
         }
 
