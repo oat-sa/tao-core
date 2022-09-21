@@ -16,6 +16,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
+ *
+ * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
 
 declare(strict_types=1);
@@ -37,6 +39,7 @@ use tao_helpers_Uri;
 
 class PropertyIndexReferenceFactory
 {
+    public const RAW_SUFFIX = '_raw';
     private const ALLOWED_DYNAMIC_TYPES = [
         tao_helpers_form_elements_Textbox::WIDGET_ID,
         tao_helpers_form_elements_Textarea::WIDGET_ID,
@@ -73,19 +76,18 @@ class PropertyIndexReferenceFactory
         return $propertyTypeId . '_' . tao_helpers_Uri::encode($property->getUri());
     }
 
-    //@TODO FIXME Find a better name than "raw"...
     public function createRaw(core_kernel_classes_Property $property): ?string
     {
         $reference = $this->create($property);
 
         if (strpos($reference, 'RadioBox') === 0 ||
             strpos($reference, 'ComboBox') === 0 ||
-            strpos($reference, 'Checkbox') === 0 ||
+            strpos($reference, 'CheckBox') === 0 ||
             strpos($reference, 'HTMLArea') === 0 ||
             strpos($reference, 'SearchTextBox') === 0 ||
             strpos($reference, 'SearchDropdown') === 0
         ) {
-            return $reference ? ($reference . '_raw') : null;
+            return $reference ? ($reference . self::RAW_SUFFIX) : null;
         }
 
         return null;
