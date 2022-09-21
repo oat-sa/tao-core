@@ -86,7 +86,7 @@ class IndexDocumentBuilderTest extends TestCase
                 'updated_at' => '',
             ],
             [],
-            new ArrayIterator(),
+            new ArrayIterator()
         );
 
         $this->assertEquals($document, $this->builder->createDocumentFromResource($resource));
