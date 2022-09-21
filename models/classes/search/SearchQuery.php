@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -45,14 +45,30 @@ class SearchQuery
     /** @var string */
     private $structure;
 
-    public function __construct(string $term, string $rootClass, string $parentClass, int $startRow, int $rows = null, int $page = null)
-    {
+    /** @var string */
+    private $sortBy = 'id';
+
+    /** @var array */
+    private $sortOrder = 'DESC';
+
+    public function __construct(
+        string $term,
+        string $rootClass,
+        string $parentClass,
+        int $startRow,
+        int $rows = null,
+        int $page = null,
+        string $sortBy = null,
+        string $sortOrder = null
+    ) {
         $this->term = $term;
         $this->rootClass = $rootClass;
         $this->parentClass = $parentClass;
         $this->startRow = $startRow;
         $this->rows = $rows;
         $this->page = $page;
+        $this->sortBy = $sortBy ?? $this->sortBy;
+        $this->sortOrder = $sortOrder ?? $this->sortOrder;
     }
 
     public function getStructure(): ?string
@@ -98,5 +114,15 @@ class SearchQuery
     public function getPage(): ?int
     {
         return $this->page;
+    }
+
+    public function getSortBy(): string
+    {
+        return $this->sortBy;
+    }
+
+    public function getSortOrder(): string
+    {
+        return $this->sortOrder;
     }
 }

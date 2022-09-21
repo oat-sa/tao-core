@@ -216,7 +216,9 @@ class SearchProxy extends ConfigurableService implements Search
             $this->getAdvancedSearchQueryString($query),
             $query->getStructure(),
             $query->getStartRow(),
-            $query->getRows()
+            $query->getRows(),
+            $query->getSortBy(),
+            $query->getSortOrder()
         );
     }
 
