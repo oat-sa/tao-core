@@ -25,7 +25,6 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\Lists\Business\Domain\ClassMetadataSearchRequest;
 use oat\tao\model\search\index\OntologyIndexService;
-use oat\tao\model\search\ResultSetMapper;
 use oat\tao\model\search\SearchProxy;
 
 /**
@@ -58,13 +57,6 @@ class tao_actions_Search extends tao_actions_CommonModule
             $this->setErrorJsonResponse('Request is missing required params');
         }
 
-        try {
-            $promiseModel = $this->getResultSetMapper()->map($parsedBody['structure']);
-        } catch (Exception $exception) {
-            $this->setErrorJsonResponse($exception->getMessage());
-            return;
-        }
-
         $this->setSuccessJsonResponse([
             'url' => _url('search'),
             'params' => [
@@ -74,10 +66,22 @@ class tao_actions_Search extends tao_actions_CommonModule
                 'structure' => $parsedBody['structure'],
             ],
             'settings' => $this->getSearchProxy()->getSearchSettingsService()->getSettingsByClassMetadataSearchRequest(
-                    (new ClassMetadataSearchRequest())->setClassUri($parsedBody['parentNode'])
+                    (new ClassMetadataSearchRequest())
+                        ->setStructure($parsedBody['structure'])
+                        ->setClassUri($parsedBody['parentNode'])
             ),
             'filter' => [],
-            'model' => $promiseModel,
+            /**
+             * @TODO Remove the 'model' as soon as FE is not using this anymore.
+             * @deprecated The 'model' key is deprecated, we only rely on `settings` now.
+             */
+            'model' => [
+                'label' => array(
+                    'id' => 'label',
+                    'label' => __('Label'),
+                    'sortable' => false
+                )
+            ],
             'result' => true
         ]);
     }
@@ -127,10 +131,5 @@ class tao_actions_Search extends tao_actions_CommonModule
     private function getSearchProxy(): SearchProxy
     {
         return $this->getServiceLocator()->get(SearchProxy::SERVICE_ID);
-    }
-
-    private function getResultSetMapper(): ResultSetMapper
-    {
-        return $this->getServiceLocator()->get(ResultSetMapper::SERVICE_ID);
     }
 }

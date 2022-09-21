@@ -46,7 +46,10 @@ class SearchProxy extends ConfigurableService implements Search
         GenerisRdf::CLASS_ROLE,
         TaoOntology::CLASS_URI_TAO_USER,
         TaoOntology::CLASS_URI_TREE,
-        TaoOntology::CLASS_URI_ASSEMBLED_DELIVERY,
+    ];
+
+    private const IGNORE_CRITERIA_FOR_STRUCTURES = [
+        'results',
     ];
 
     private const DISABLE_URI_SEARCH_FOR_ROOT_CLASSES = [
@@ -274,6 +277,10 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function getAdvancedSearchQueryString(SearchQuery $query): string
     {
+        if (in_array($query->getStructure(), self::IGNORE_CRITERIA_FOR_STRUCTURES, true)) {
+            return $query->getTerm();
+        }
+
         return sprintf(
             '%s AND parent_classes: "%s"',
             $query->getTerm(),

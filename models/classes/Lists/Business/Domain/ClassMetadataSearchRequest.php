@@ -15,8 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -25,11 +24,28 @@ namespace oat\tao\model\Lists\Business\Domain;
 
 class ClassMetadataSearchRequest
 {
+    public const DEFAULT_MAX_LIST_SIZE = 5;
+
     /** @var string */
     private $classUri;
 
     /** @var int */
-    private $maxListSize;
+    private $maxListSize = self::DEFAULT_MAX_LIST_SIZE;
+
+    /** @var string */
+    private $structure;
+
+    public function getStructure(): ?string
+    {
+        return $this->structure;
+    }
+
+    public function setStructure(string $structure): self
+    {
+        $this->structure = $structure;
+
+        return $this;
+    }
 
     public function hasClassUri(): bool
     {
@@ -48,17 +64,12 @@ class ClassMetadataSearchRequest
         return $this;
     }
 
-    public function hasMaxListSize(): bool
-    {
-        return null !== $this->maxListSize;
-    }
-
-    public function getMaxListSize(): ?int
+    public function getMaxListSize(): int
     {
         return $this->maxListSize;
     }
 
-    public function setMaxListSize(?int $maxListSize): ClassMetadataSearchRequest
+    public function setMaxListSize(int $maxListSize): ClassMetadataSearchRequest
     {
         $this->maxListSize = $maxListSize;
 

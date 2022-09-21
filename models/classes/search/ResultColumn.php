@@ -32,6 +32,9 @@ class ResultColumn implements JsonSerializable
     private $id;
 
     /** @var string */
+    private $sortId;
+
+    /** @var string */
     private $label;
 
     /** @var string */
@@ -54,6 +57,7 @@ class ResultColumn implements JsonSerializable
 
     public function __construct(
         string $id,
+        string $sortId,
         string $label,
         string $type,
         string $alias = null,
@@ -63,6 +67,7 @@ class ResultColumn implements JsonSerializable
         bool $sortable = false
     ) {
         $this->id = $id;
+        $this->sortId = $sortId;
         $this->label = $label;
         $this->type = $type;
         $this->alias = $alias;
@@ -75,6 +80,11 @@ class ResultColumn implements JsonSerializable
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function getSortId(): string
+    {
+        return $this->sortId;
     }
 
     public function getLabel(): string
@@ -116,6 +126,7 @@ class ResultColumn implements JsonSerializable
     {
         return [
             'id' => $this->getId(),
+            'sortId' => $this->getSortId(),
             'label' => $this->getLabel(),
             'type' => $this->getType(),
             'alias' => $this->getAlias(),
