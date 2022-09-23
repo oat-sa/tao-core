@@ -108,6 +108,7 @@ define([
             searchOnInit,
             rootClassUri,
             hideResourceSelector: isResultPage,
+            hideCriteria: isResultPage,
             placeholder
         });
 
