@@ -105,6 +105,9 @@ define([
         const searchModalInstance = searchModal({
             criterias,
             url,
+            classesUrl: urlHelper.route('getAll', 'RestResource', 'tao'),
+            classMappingUrl: urlHelper.route('getWithMapping', 'ClassMetadata', 'tao'),
+            statusUrl: urlHelper.route('status', 'AdvancedSearch', 'tao'),
             searchOnInit,
             rootClassUri,
             hideResourceSelector: isResultPage,
