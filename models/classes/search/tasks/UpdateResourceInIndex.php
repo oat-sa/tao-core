@@ -64,7 +64,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         if ($numberOfIndexed === $expectedIndexations) {
             $message = sprintf('Document(s) "%s" successfully indexed', $resourceUris);
 
-            $this->logDebug($message);
+            $this->logInfo($message);
 
             return Report::createSuccess($message);
         }
@@ -116,11 +116,11 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
 
     private function getSearchProxy(): SearchProxy
     {
-        return $this->getServiceLocator()->get(SearchProxy::SERVICE_ID);
+        return $this->getServiceLocator()->getContainer()->get(SearchProxy::SERVICE_ID);
     }
 
     private function getIndexService(): IndexService
     {
-        return $this->getServiceLocator()->get(IndexService::SERVICE_ID);
+        return $this->getServiceLocator()->getContainer()->get(IndexService::SERVICE_ID);
     }
 }

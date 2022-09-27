@@ -156,6 +156,6 @@ class ValueCollectionService extends InjectionAwareService
 
     private function getEventAggregator(): EventAggregator
     {
-         return $this->getServiceManager()->getContainerBuilder()->get(EventAggregator::SERVICE_ID);
+         return $this->getServiceManager()->getContainer()->get(EventAggregator::SERVICE_ID);
     }
 }
