@@ -24,7 +24,8 @@ class ResultSetMapper extends ConfigurableService
     public const OPTION_STRUCTURE_MAP = 'optionStructureMap';
 
     /**
-     * @deprecated Dynamic columns is managed as a feature for advanced search now. This class should not be used anymore
+     * @deprecated Dynamic columns is managed as a feature for advanced search now.
+     *             This class should not be used anymore
      */
     public function map(string $structure)
     {
