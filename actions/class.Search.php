@@ -32,6 +32,7 @@ use oat\tao\model\search\SearchProxy;
  *
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  * @package tao
+ * phpcs:disable Squiz.Classes.ValidClassName
  */
 class tao_actions_Search extends tao_actions_CommonModule
 {
@@ -66,9 +67,8 @@ class tao_actions_Search extends tao_actions_CommonModule
                 'structure' => $parsedBody['structure'],
             ],
             'settings' => $this->getSearchProxy()->getSearchSettingsService()->getSettingsByClassMetadataSearchRequest(
-                    (new ClassMetadataSearchRequest())
-                        ->setStructure($parsedBody['structure'])
-                        ->setClassUri($parsedBody['parentNode'])
+                (new ClassMetadataSearchRequest())->setStructure($parsedBody['structure'])
+                    ->setClassUri($parsedBody['parentNode'])
             ),
             'filter' => [],
             /**

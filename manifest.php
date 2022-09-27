@@ -15,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-     (update and modification) Open Assessment Technologies SA;
  *               2021-2022 (original work) Open Assessment Technologies SA.
  */
@@ -114,27 +117,113 @@ return [
             __DIR__ . '/models/ontology/userlocks.rdf'
         ],
         'checks' => [
-                ['type' => 'CheckPHPRuntime', 'value' => ['id' => 'tao_php_runtime', 'min' => '5.4']],
-                ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_pdo', 'name' => 'PDO']],
-                ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_curl', 'name' => 'curl']],
-                ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_zip', 'name' => 'zip']],
-                ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_json', 'name' => 'json']],
-                ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_spl', 'name' => 'spl']],
-                ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_dom', 'name' => 'dom']],
-                ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_mbstring', 'name' => 'mbstring']],
-                ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_suhosin', 'name' => 'suhosin', 'silent' => true]],
-                ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_php_finfo', 'name' => 'fileinfo']],
-                ['type' => 'CheckCustom',      'value' => ['id' => 'tao_extension_opcache', 'name' => 'opcache', 'optional' => true, 'extension' => 'tao']],
-                ['type' => 'CheckPHPINIValue', 'value' => ['id' => 'tao_ini_opcache_save_comments', 'name' => 'opcache.save_comments', 'value' => '1', 'dependsOn' => ['tao_extension_opcache']]],
-                ['type' => 'CheckCustom',      'value' => ['id' => 'tao_ini_opcache_load_comments', 'name' => 'opcache_load_comments', 'extension' => 'tao', 'dependsOn' => ['tao_extension_opcache']]],
-                ['type' => 'CheckPHPINIValue', 'value' => ['id' => 'tao_ini_suhosin_post_max_name_length', 'name' => 'suhosin.post.max_name_length', 'value' => '128', 'dependsOn' => ['tao_extension_suhosin']]],
-                ['type' => 'CheckPHPINIValue', 'value' => ['id' => 'tao_ini_suhosin_request_max_varname_length', 'name' => 'suhosin.request.max_varname_length', 'value' => '128', 'dependsOn' => ['tao_extension_suhosin']]],
-                ['type' => 'CheckFileSystemComponent', 'value' => ['id' => 'fs_generis_common_conf', 'location' => 'config', 'rights' => 'rw', 'recursive' => true]],
-                ['type' => 'CheckFileSystemComponent', 'value' => ['id' => 'fs_tao_client_locales', 'location' => 'tao/views/locales', 'rights' => 'rw']],
-                ['type' => 'CheckCustom', 'value' => ['id' => 'tao_custom_not_nginx', 'name' => 'not_nginx', 'extension' => 'tao', "optional" => true, 'dependsOn' => ['tao_extension_curl']]],
-                ['type' => 'CheckCustom', 'value' => ['id' => 'tao_custom_allowoverride', 'name' => 'allow_override', 'extension' => 'tao', "optional" => true, 'dependsOn' => ['tao_custom_not_nginx']]],
-                ['type' => 'CheckCustom', 'value' => ['id' => 'tao_custom_mod_rewrite', 'name' => 'mod_rewrite', 'extension' => 'tao', 'dependsOn' => ['tao_custom_allowoverride']]],
-                ['type' => 'CheckCustom', 'value' => ['id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao']],
+            ['type' => 'CheckPHPRuntime', 'value' => ['id' => 'tao_php_runtime', 'min' => '5.4']],
+            ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_pdo', 'name' => 'PDO']],
+            ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_curl', 'name' => 'curl']],
+            ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_zip', 'name' => 'zip']],
+            ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_json', 'name' => 'json']],
+            ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_spl', 'name' => 'spl']],
+            ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_dom', 'name' => 'dom']],
+            ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_mbstring', 'name' => 'mbstring']],
+            [
+                'type' => 'CheckPHPExtension',
+                'value' => [
+                    'id' => 'tao_extension_suhosin',
+                    'name' => 'suhosin',
+                    'silent' => true,
+                ]
+            ],
+            ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_php_finfo', 'name' => 'fileinfo']],
+            [
+                'type' => 'CheckCustom',
+                'value' => [
+                    'id' => 'tao_extension_opcache',
+                    'name' => 'opcache',
+                    'optional' => true,
+                    'extension' => 'tao'
+                ]
+            ],
+            [
+                'type' => 'CheckPHPINIValue',
+                'value' => [
+                    'id' => 'tao_ini_opcache_save_comments',
+                    'name' => 'opcache.save_comments',
+                    'value' => '1',
+                    'dependsOn' => ['tao_extension_opcache']
+                ]
+            ],
+            [
+                'type' => 'CheckCustom',
+                'value' => [
+                    'id' => 'tao_ini_opcache_load_comments',
+                    'name' => 'opcache_load_comments',
+                    'extension' => 'tao',
+                    'dependsOn' => ['tao_extension_opcache']
+                ]
+            ],
+            [
+                'type' => 'CheckPHPINIValue',
+                'value' => [
+                    'id' => 'tao_ini_suhosin_post_max_name_length',
+                    'name' => 'suhosin.post.max_name_length',
+                    'value' => '128',
+                    'dependsOn' => ['tao_extension_suhosin']
+                ]
+            ],
+            [
+                'type' => 'CheckPHPINIValue',
+                'value' => [
+                    'id' => 'tao_ini_suhosin_request_max_varname_length',
+                    'name' => 'suhosin.request.max_varname_length',
+                    'value' => '128',
+                    'dependsOn' => ['tao_extension_suhosin']
+                ]
+            ],
+            [
+                'type' => 'CheckFileSystemComponent',
+                'value' => [
+                    'id' => 'fs_generis_common_conf',
+                    'location' => 'config',
+                    'rights' => 'rw',
+                    'recursive' => true
+                ]
+            ],
+            [
+                'type' => 'CheckFileSystemComponent',
+                'value' => ['id' => 'fs_tao_client_locales', 'location' => 'tao/views/locales', 'rights' => 'rw']],
+            [
+                'type' => 'CheckCustom',
+                'value' => [
+                    'id' => 'tao_custom_not_nginx',
+                    'name' => 'not_nginx',
+                    'extension' => 'tao',
+                    "optional" => true,
+                    'dependsOn' => ['tao_extension_curl']
+                ]
+            ],
+            [
+                'type' => 'CheckCustom',
+                'value' => [
+                    'id' => 'tao_custom_allowoverride',
+                    'name' => 'allow_override',
+                    'extension' => 'tao',
+                    "optional" => true,
+                    'dependsOn' => ['tao_custom_not_nginx']
+                ]
+            ],
+            [
+                'type' => 'CheckCustom',
+                'value' => [
+                    'id' => 'tao_custom_mod_rewrite',
+                    'name' => 'mod_rewrite',
+                    'extension' => 'tao',
+                    'dependsOn' => ['tao_custom_allowoverride']
+                ]
+            ],
+            [
+                'type' => 'CheckCustom',
+                'value' => ['id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao']
+            ],
         ],
         'php' => [
             __DIR__ . '/scripts/install/addFileUploadSource.php',
@@ -188,66 +277,70 @@ return [
     ],
     'managementRole' => TaoRoles::TAO_MANAGER,
     'acl' => [
-        [AccessRule::GRANT, TaoRoles::ANONYMOUS,            ['ext' => 'tao','mod' => 'Main', 'act' => 'entry']],
-        [AccessRule::GRANT, TaoRoles::ANONYMOUS,            ['ext' => 'tao','mod' => 'Main', 'act' => 'login']],
-        [AccessRule::GRANT, TaoRoles::ANONYMOUS,            ['ext' => 'tao','mod' => 'Main', 'act' => 'logout']],
-        [AccessRule::GRANT, TaoRoles::ANONYMOUS,            ['ext' => 'tao','mod' => 'PasswordRecovery', 'act' => 'index']],
-        [AccessRule::GRANT, TaoRoles::ANONYMOUS,            ['ext' => 'tao','mod' => 'PasswordRecovery', 'act' => 'resetPassword']],
-        [AccessRule::GRANT, TaoRoles::ANONYMOUS,            ['ext' => 'tao','mod' => 'ClientConfig']],
-        [AccessRule::GRANT, TaoRoles::ANONYMOUS,            ['ext' => 'tao','mod' => 'Health']],
-        [AccessRule::GRANT, TaoRoles::ANONYMOUS,            ['ext' => 'tao','mod' => 'RestVersion', 'act' => 'index']],
-        [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'ServiceModule']],
-        [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'Notification']],
-        [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'File', 'act' => 'accessFile']],
-        [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'Log', 'act' => 'log']],
-        [AccessRule::GRANT, TaoRoles::BASE_USER,            ['ext' => 'tao','mod' => 'TaskQueueWebApi']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Languages', 'act' => 'index']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'ResourceRelations', 'act' => 'index']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'File', 'act' => 'upload']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Main', 'act' => 'index']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Main', 'act' => 'getSectionActions']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Main', 'act' => 'getSectionTrees']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Users', 'act' => 'checkLogin']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'UserSettings']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'GenerisTree']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Search']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'Main', 'act' => 'index']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['act' => 'tao_actions_Lock@locked']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['act' => 'tao_actions_Lock@release']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'TaskQueueData']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'RestResource']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'RestClass']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'PropertyValues']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'AdvancedSearch']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Breadcrumbs']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Export']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'File']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Import']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Lock']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Main']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'PasswordRecovery']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Permission']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'PropertiesAuthoring']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'QueueAction']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'RestUser']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Roles']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'TaskQueue']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Users']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'WebService']],
-        [AccessRule::GRANT, TaoRoles::TAO_MANAGER,          ['ext' => 'tao','mod' => 'Security']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE,          ['ext' => 'tao','mod' => 'ClassMetadata']],
-        [AccessRule::GRANT, TaoRoles::REST_PUBLISHER,       ['ext' => 'tao','mod' => 'TaskQueue', 'act' => 'get']],
-        [AccessRule::GRANT, TaoRoles::REST_PUBLISHER,       ['ext' => 'tao','mod' => 'TaskQueue', 'act' => 'getStatus']],
-        [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, ['ext' => 'tao','mod' => 'ExtensionsManager']],
-        [AccessRule::GRANT, TaoRoles::LOCK_MANAGER,     'tao_actions_Lock@forceRelease'],
+        [AccessRule::GRANT, TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'Main', 'act' => 'entry']],
+        [AccessRule::GRANT, TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'Main', 'act' => 'login']],
+        [AccessRule::GRANT, TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'Main', 'act' => 'logout']],
+        [AccessRule::GRANT, TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'PasswordRecovery', 'act' => 'index']],
+        [
+            AccessRule::GRANT,
+            TaoRoles::ANONYMOUS,
+            ['ext' => 'tao', 'mod' => 'PasswordRecovery', 'act' => 'resetPassword']
+        ],
+        [AccessRule::GRANT, TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'ClientConfig']],
+        [AccessRule::GRANT, TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'Health']],
+        [AccessRule::GRANT, TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'RestVersion', 'act' => 'index']],
+        [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'ServiceModule']],
+        [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'Notification']],
+        [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'File', 'act' => 'accessFile']],
+        [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'Log', 'act' => 'log']],
+        [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'TaskQueueWebApi']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'Languages', 'act' => 'index']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'ResourceRelations', 'act' => 'index']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'File', 'act' => 'upload']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'Main', 'act' => 'index']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'Main', 'act' => 'getSectionActions']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'Main', 'act' => 'getSectionTrees']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'Users', 'act' => 'checkLogin']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'UserSettings']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'GenerisTree']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'Search']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'Main', 'act' => 'index']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['act' => 'tao_actions_Lock@locked']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['act' => 'tao_actions_Lock@release']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'TaskQueueData']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'RestResource']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'RestClass']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'PropertyValues']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'AdvancedSearch']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Breadcrumbs']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Export']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'File']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Import']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Lock']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Main']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'PasswordRecovery']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Permission']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'PropertiesAuthoring']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'QueueAction']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'RestUser']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Roles']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'TaskQueue']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Users']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'WebService']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Security']],
+        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'ClassMetadata']],
+        [AccessRule::GRANT, TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'get']],
+        [AccessRule::GRANT, TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'getStatus']],
+        [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, ['ext' => 'tao', 'mod' => 'ExtensionsManager']],
+        [AccessRule::GRANT, TaoRoles::LOCK_MANAGER, 'tao_actions_Lock@forceRelease'],
         [AccessRule::GRANT, TaoRoles::PROPERTY_MANAGER, 'tao_actions_PropertiesAuthoring'],
         [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, Users::class],
         [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, Users::class],
-        [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, ['ext' => 'tao','mod' => 'MetadataImport']],
+        [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, ['ext' => 'tao', 'mod' => 'MetadataImport']],
     ],
     'routes' => [
-        '/tao/api'  => ['class' => ApiRoute::class],
-        '/tao'      => ['class' => LegacyRoute::class],
+        '/tao/api' => ['class' => ApiRoute::class],
+        '/tao' => ['class' => LegacyRoute::class],
     ],
     'constants' => [
         #TAO version number

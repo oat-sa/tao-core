@@ -19,6 +19,7 @@
  *
  * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
+
 declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\search\index;

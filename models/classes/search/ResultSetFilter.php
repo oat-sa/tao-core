@@ -25,12 +25,14 @@ namespace oat\tao\model\search;
 use oat\oatbox\service\ConfigurableService;
 
 /**
- * @deprecated Dynamic columns is managed as a feature for advanced search now. This class should not be used anymore
+ * @deprecated Dynamic columns is managed as a feature for advanced search now.
+ *             This class should not be used anymore
  */
 class ResultSetFilter extends ConfigurableService
 {
     /**
-     * @deprecated Dynamic columns is managed as a feature for advanced search now. This class should not be used anymore
+     * @deprecated Dynamic columns is managed as a feature for advanced search now.
+     *             This class should not be used anymore
      */
     public function filter(array $content, string $structure): array
     {

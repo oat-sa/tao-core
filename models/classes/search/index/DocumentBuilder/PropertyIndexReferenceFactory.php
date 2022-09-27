@@ -80,7 +80,8 @@ class PropertyIndexReferenceFactory
     {
         $reference = $this->create($property);
 
-        if (strpos($reference, 'RadioBox') === 0 ||
+        if (
+            strpos($reference, 'RadioBox') === 0 ||
             strpos($reference, 'ComboBox') === 0 ||
             strpos($reference, 'CheckBox') === 0 ||
             strpos($reference, 'HTMLArea') === 0 ||
