@@ -28,7 +28,7 @@
 
 use oat\generis\test\TestCase;
 
-class UriHelperTestCase extends TestCase
+class UriHelperTest extends TestCase
 {
 
     public function setUp(): void

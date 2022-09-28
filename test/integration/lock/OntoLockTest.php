@@ -43,6 +43,9 @@ class OntoLockTest extends TaoPhpUnitTestRunner
 
     protected $ontoLock = null;
 
+    /** @var core_kernel_classes_Resource */
+    private $owner;
+
     /**
      *
      * @see PHPUnit_Framework_TestCase::setUp()

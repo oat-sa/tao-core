@@ -289,7 +289,7 @@ class DependsOnPropertyValidatorTest extends TestCase
             ->expects($this->exactly(2))
             ->method('getProperty')
             ->willReturnCallback(
-                static function (string $propertyUri) use (
+                function (string $propertyUri) use (
                     $primaryProperty,
                     $secondaryProperty
                 ): core_kernel_classes_Property {

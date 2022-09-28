@@ -179,7 +179,7 @@ class ClassDeleterTest extends TestCase
             ->expects($this->exactly(2))
             ->method('getResource')
             ->willReturnCallback(
-                static function (string $uri) use (
+                function (string $uri) use (
                     $classPropertyIndexResource,
                     $subClassPropertyIndexResource
                 ): core_kernel_classes_Resource {

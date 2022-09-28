@@ -367,7 +367,7 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         $counts = array_map(function (QueueInterface $queue) {
             return $queue->count();

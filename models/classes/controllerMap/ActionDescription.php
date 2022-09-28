@@ -15,15 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\model\controllerMap;
 
-use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\DocBlockFactory;
 use ReflectionMethod;
 
 /**
@@ -34,15 +32,16 @@ use ReflectionMethod;
  */
 class ActionDescription
 {
-    private static $registered = false;
-    
+    /** @var DocBlock[] */
+    private static $docBlocks = [];
+
     /**
      * The method implementing the action
      *
      * @var ReflectionMethod
      */
     private $method;
-    
+
     /**
      * Create a new lazy parsing action description
      *
@@ -52,21 +51,26 @@ class ActionDescription
     {
         $this->method = $method;
     }
-    
+
     /**
-     *
-     * @return \phpDocumentor\Reflection\DocBlock
+     * @return DocBlock
      */
     protected function getDocBlock()
     {
-        if (!self::$registered) {
-            Tag::registerTagHandler('requiresRight', '\oat\tao\model\controllerMap\RequiresRightTag');
-            self::$registered = true;
+        $cacheKey = "{$this->method->class}::{$this->method->name}";
+
+        if (!isset(self::$docBlocks[$cacheKey])) {
+            $factory = DocBlockFactory::createInstance();
+            $factory->registerTagHandler('requiresRight', RequiresRightTag::class);
+
+            self::$docBlocks[$cacheKey] = is_string($this->method->getDocComment())
+                ? $factory->create($this->method)
+                : new DocBlock();
         }
-        
-        return new DocBlock($this->method);
+
+        return self::$docBlocks[$cacheKey];
     }
-    
+
     /**
      * Get the name of the action, which corresponds
      * to the name of the called function
@@ -77,7 +81,7 @@ class ActionDescription
     {
         return $this->method->getName();
     }
-    
+
     /**
      * Get a human readable description of what the action does
      *
@@ -85,23 +89,27 @@ class ActionDescription
      */
     public function getDescription()
     {
-        return $this->getDocBlock()->getShortDescription();
+        return $this->getDocBlock()->getSummary();
     }
-    
+
     /**
      * Returns an array of all rights required to execute the action
      *
-     * The array uses the name of the parmeter as key and the value is
+     * The array uses the name of the parameter as key and the value is
      * a string identifying the right
      *
-     * @return string
+     * @return string[]
      */
     public function getRequiredRights()
     {
         $privileges = [];
+
         foreach ($this->getDocBlock()->getTagsByName('requiresRight') as $tag) {
-            $privileges[$tag->getParameterName()] = $tag->getRightId();
+            if ($tag instanceof RequiresRightTag) {
+                $privileges[$tag->getParameterName()] = $tag->getRightId();
+            }
         }
+
         return $privileges;
     }
 }
