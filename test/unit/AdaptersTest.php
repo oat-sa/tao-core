@@ -23,7 +23,7 @@
 
 use oat\generis\test\TestCase;
 
-class AdaptersTestCase extends TestCase
+class AdaptersTest extends TestCase
 {
 
     const CSV_FILE_USERS_HEADER_UNICODE = '/samples/csv/users1-header.csv';

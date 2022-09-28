@@ -31,6 +31,9 @@ use oat\tao\model\Lists\DataAccess\Repository\RdsValueCollectionRepository;
 
 final class Version202007151446482234_tao extends AbstractMigration
 {
+    /** @var PersistenceManager */
+    private $persistence;
+
     public function getDescription(): string
     {
         return 'Create an RDS store for lists';

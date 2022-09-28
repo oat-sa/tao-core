@@ -34,8 +34,20 @@ use ZipArchive;
 class FileHelperTest extends TaoPhpUnitTestRunner
 {
 
+    /** @var int */
     protected $deep = 3;
+
+    /** @var int */
     protected $fileCount = 5;
+
+    /** @var string */
+    private $tmpPath;
+
+    /** @var string */
+    private $envName;
+
+    /** @var string */
+    private $envPath;
 
     public function __construct()
     {

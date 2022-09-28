@@ -66,7 +66,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
     {
         return $this->id;
     }
-    
+
     /**
      * Returns whenever or not this directory is public
      *
@@ -76,7 +76,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
     {
         return !is_null($this->accessProvider);
     }
-    
+
     /**
      * Returns a URL that allows you to access the files in a directory
      * preserving the relative paths
@@ -266,7 +266,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
      *
      * @return ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         $files = [];
         $iterator = $this->getFlyIterator(Directory::ITERATOR_FILE | Directory::ITERATOR_RECURSIVE);
