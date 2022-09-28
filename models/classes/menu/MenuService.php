@@ -34,7 +34,7 @@ class MenuService
      * @var string
      */
     const CACHE_KEY = 'tao_structures';
-    
+
     /**
      * Use caching mechanism for the structure.
      * For performances issues, cache should be enabled.
@@ -70,14 +70,14 @@ class MenuService
         } else {
             $structureFilePath = $extension->getDir() . 'actions/structures.xml';
         }
-        
+
         if (file_exists($structureFilePath)) {
             return $structureFilePath;
         } else {
             return null;
         }
     }
-    
+
     /**
      * Get the structure content (from the structure.xml file) of each extension filtered by group.
      * @param $groupId
@@ -103,7 +103,7 @@ class MenuService
         $structure = self::readStructure();
         return $structure['perspectives'];
     }
-    
+
     /**
      * Reads the structure data.
      * This method manages to cache the structure if needed.
@@ -161,7 +161,7 @@ class MenuService
                 }
             }
         }
-        
+
         foreach ($toAdd as $to => $from) {
             if (isset($perspectives[$from]) && isset($perspectives[$to])) {
                 foreach ($perspectives[$from]->getChildren() as $section) {
@@ -200,7 +200,7 @@ class MenuService
             }
         }
         if (empty($returnValue)) {
-            \common_logger::w('Structure ' . $perspectiveId . ' not found for extension ' . $extension);
+            \common_Logger::w('Structure ' . $perspectiveId . ' not found for extension ' . $extension);
         }
 
         return $returnValue;
@@ -228,13 +228,13 @@ class MenuService
             }
         }
         if (empty($returnValue)) {
-            \common_logger::w('Section ' . $sectionId . ' not found found for perspective ' . $perspectiveId);
+            \common_Logger::w('Section ' . $sectionId . ' not found found for perspective ' . $perspectiveId);
         }
 
         return $returnValue;
     }
-    
-    
+
+
     public static function flushCache()
     {
         self::$structure = [];

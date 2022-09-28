@@ -46,7 +46,6 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Contract\DependencyRepositoryInterface;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
-use function Webmozart\Assert\Tests\StaticAnalysis\throws;
 
 class RdsValueCollectionRepository extends InjectionAwareService implements ValueCollectionRepositoryInterface
 {
