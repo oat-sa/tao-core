@@ -72,8 +72,6 @@ class ExportedField
             case ExportedColumn::TYPE_VARCHAR:
             case ExportedColumn::TYPE_DECIMAL:
                 return "'$value'";
-            default:
-                return $this->value;
         }
     }
 }

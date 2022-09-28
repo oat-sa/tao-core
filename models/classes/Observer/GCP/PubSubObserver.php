@@ -51,7 +51,7 @@ class PubSubObserver implements SplObserver
     /**
      * @inheritDoc
      */
-    public function update(SplSubject $subject): void
+    public function update(SplSubject $subject)
     {
         if (!isset($this->config[self::CONFIG_TOPIC])) {
             throw new ErrorException(sprintf('Config "%s" is missing', self::CONFIG_TOPIC));

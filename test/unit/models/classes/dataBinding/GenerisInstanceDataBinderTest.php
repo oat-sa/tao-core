@@ -64,9 +64,6 @@ class GenerisInstanceDataBinderTest extends TestCase
     /** @var core_kernel_classes_ContainerCollection|MockObject */
     private $nonEmptyCollectionMock;
 
-    /** @var FeatureFlagCheckerInterface|MockObject */
-    private $featureFlagChecker;
-
     public function setUp(): void
     {
         $this->eventManagerMock = $this->createMock(EventManager::class);

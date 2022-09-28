@@ -33,9 +33,6 @@ use oat\tao\model\Lists\DataAccess\Repository\RdsValueCollectionRepository;
 
 class CreateRdsListStore extends InstallAction
 {
-    /** @var PersistenceManager */
-    private $persistence;
-
     public function __invoke($params = [])
     {
         [$fromSchema, $schema] = $this->getSchemas();

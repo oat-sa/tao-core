@@ -186,6 +186,7 @@ class tao_helpers_File extends helpers_File
             'flv' => 'video/x-flv',
             'csv' => 'text/csv',
             'rtx' => 'text/richtext',
+            'rtf' => 'text/rtf',
 
             // images
             'png' => 'image/png',
@@ -727,7 +728,7 @@ class tao_helpers_File extends helpers_File
             'å' => 'a', 'æ' => 'ae', 'ç' => 'c', 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
             'ì' => 'i', 'í' => 'i', 'î' => 'i',  'ï' => 'i', 'ð' => 'e', 'ñ' => 'n', 'ò' => 'o',
             'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'oe', 'ø' => 'o', 'ù' => 'u', 'ú' => 'u',
-            'û' => 'u', 'ü' => 'ue', 'ý' => 'y', 'þ' => 't', 'ÿ' => 'y', '?' => $repl,
+            'û' => 'u', 'ü' => 'ue', 'ý' => 'y', 'þ' => 't', 'ÿ' => 'y', ' ' => $repl, '?' => $repl,
             '\'' => $repl, '.' => $repl, '/' => $repl, '&' => $repl, ')' => $repl, '(' => $repl,
             '[' => $repl, ']' => $repl, '_' => $repl, ',' => $repl, ':' => $repl, '-' => $repl,
             '!' => $repl, '"' => $repl, '`' => $repl, '°' => $repl, '%' => $repl, ' ' => $repl,

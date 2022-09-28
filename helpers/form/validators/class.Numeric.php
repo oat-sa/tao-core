@@ -41,7 +41,7 @@ class tao_helpers_form_validators_Numeric extends tao_helpers_form_Validator
     public function evaluate($values)
     {
         $returnValue = (bool) false;
-
+        
         $rowValue = $values;
         $value = tao_helpers_Numeric::parseFloat($rowValue);
         if (empty($rowValue) && (!$this->hasOption('min') || !$this->hasOption('max'))) {
@@ -76,7 +76,7 @@ class tao_helpers_form_validators_Numeric extends tao_helpers_form_Validator
                 $returnValue = true;
             }
         }
-
+        
         // Test less, greater, equal to another
         if ($returnValue && $this->hasOption('integer2_ref') && $this->getOption('integer2_ref') instanceof tao_helpers_form_FormElement) {
             $secondElement = $this->getOption('integer2_ref');
@@ -89,7 +89,7 @@ class tao_helpers_form_validators_Numeric extends tao_helpers_form_Validator
                         $returnValue = false;
                     }
                     break;
-
+                
                 case '<':
                 case 'inf':
                     if ($value < $secondElement->getRawValue()) {
@@ -98,7 +98,7 @@ class tao_helpers_form_validators_Numeric extends tao_helpers_form_Validator
                         $returnValue = false;
                     }
                     break;
-
+                
                 case '=':
                 case 'equal':
                     if ($value == $secondElement->getRawValue()) {
@@ -109,7 +109,7 @@ class tao_helpers_form_validators_Numeric extends tao_helpers_form_Validator
                     break;
             }
         }
-
+        
         return (bool) $returnValue;
     }
 }

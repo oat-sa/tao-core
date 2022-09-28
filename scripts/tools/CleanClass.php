@@ -21,7 +21,6 @@
 
 namespace oat\tao\scripts\tools;
 
-use common_report_Report;
 use oat\oatbox\extension\AbstractAction;
 use oat\oatbox\extension\exception\ManifestNotFoundException;
 use oat\tao\model\OntologyClassService;
@@ -42,14 +41,11 @@ class CleanClass extends AbstractAction
      */
     protected $service = null;
 
-    /** @var common_report_Report */
-    private $finalReport;
-
     public function __invoke($params)
     {
         $report = $this->verifyParams($params);
 
-        if ($report->getType() === common_report_Report::TYPE_ERROR) {
+        if ($report->getType() === \common_report_Report::TYPE_ERROR) {
             return $report;
         }
 
@@ -58,19 +54,19 @@ class CleanClass extends AbstractAction
         if ($this->class->equals($this->service->getRootClass())) {
             foreach ($this->service->getRootClass()->getSubClasses() as $subClass) {
                 if (!$this->service->deleteClass($subClass)) {
-                    return common_report_Report::createFailure('Error occured during deletion of class : ' . $subClass->getUri());
+                    return \common_report_Report::createFailure('Error occured during deletion of class : ' . $subClass->getUri());
                 }
             }
 
             $instances = $this->class->getInstances();
             foreach ($instances as $instance) {
                 if (!$this->service->deleteResource($instance)) {
-                    return common_report_Report::createFailure('Error occured during deletion of resource : ' . $instance->getUri());
+                    return \common_report_Report::createFailure('Error occured during deletion of resource : ' . $instance->getUri());
                 }
             }
         } else {
             if (!$this->service->deleteClass($this->class)) {
-                return common_report_Report::createFailure('Error occured during deletion of class : ' . $this->class->getUri());
+                return \common_report_Report::createFailure('Error occured during deletion of class : ' . $this->class->getUri());
             }
         }
 
@@ -83,17 +79,17 @@ class CleanClass extends AbstractAction
 
     protected function verifyParams($params)
     {
-        $this->finalReport = new common_report_Report(common_report_Report::TYPE_SUCCESS);
+        $this->finalReport = new \common_report_Report(\common_report_Report::TYPE_SUCCESS);
 
         if (isset($params[0])) {
             $serviceName = $params[0];
             if (is_a($serviceName, OntologyClassService::class, true)) {
                 $this->service = call_user_func([$serviceName, 'singleton'], []);
             } else {
-                return new common_report_Report(common_report_Report::TYPE_ERROR, __('USAGE: please provide a valid service name as first parameter'));
+                return new \common_report_Report(\common_report_Report::TYPE_ERROR, __('USAGE: please provide a valid service name as first parameter'));
             }
         } else {
-            return new common_report_Report(common_report_Report::TYPE_ERROR, __('USAGE: please provide the service name as first parameter'));
+            return new \common_report_Report(\common_report_Report::TYPE_ERROR, __('USAGE: please provide the service name as first parameter'));
         }
 
         if (isset($params[1])) {
@@ -104,10 +100,10 @@ class CleanClass extends AbstractAction
             try {
                 $extensionManager->getExtensionById($extensionId);
             } catch (ManifestNotFoundException $e) {
-                return new common_report_Report(common_report_Report::TYPE_ERROR, __('USAGE: please provide a valid extension id as second parameter'));
+                return new \common_report_Report(\common_report_Report::TYPE_ERROR, __('USAGE: please provide a valid extension id as second parameter'));
             }
         } else {
-            return new common_report_Report(common_report_Report::TYPE_ERROR, __('USAGE: please provide a valid extension id as second parameter'));
+            return new \common_report_Report(\common_report_Report::TYPE_ERROR, __('USAGE: please provide a valid extension id as second parameter'));
         }
 
         $class_uri = null;
@@ -125,11 +121,11 @@ class CleanClass extends AbstractAction
                 $msg = "Usage: php index.php '" . __CLASS__ . "' [CLASS_URI]" . PHP_EOL;
                 $msg .= "CLASS_URI : a valid test class uri" . PHP_EOL . PHP_EOL;
                 $msg .= "Uri : " . $class_uri . " is not a valid test class" . PHP_EOL;
-                return common_report_Report::createFailure($msg);
+                return \common_report_Report::createFailure($msg);
             }
         }
         $this->class = $class;
 
-        return common_report_Report::createSuccess('Valid parameters');
+        return \common_report_Report::createSuccess('Valid parameters');
     }
 }

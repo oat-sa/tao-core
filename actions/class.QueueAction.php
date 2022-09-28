@@ -63,7 +63,7 @@ class tao_actions_QueueAction extends \tao_actions_SaSModule
      * @param Task $task
      * @return common_report_Report
      */
-    protected function getTaskReport($task)
+    protected function getTaskReport(Task $task)
     {
         $status = $task->getStatus();
         if ($status === Task::STATUS_FINISHED || $status === Task::STATUS_ARCHIVED) {

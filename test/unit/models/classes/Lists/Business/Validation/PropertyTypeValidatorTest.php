@@ -33,7 +33,7 @@ use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use oat\tao\model\Lists\Business\Validation\PropertyListValidator;
 use oat\generis\test\TestCase;
 
-class PropertyTypeValidatorTest extends TestCase
+class PropertyListValidatorTest extends TestCase
 {
     /** @var Ontology */
     private $ontology;

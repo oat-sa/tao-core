@@ -23,7 +23,6 @@
 
 namespace oat\tao\model\messaging\transportStrategy;
 
-use Exception;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\messaging\Transport;
@@ -41,9 +40,9 @@ use oat\oatbox\user\User;
 class MailAdapter extends ConfigurableService implements Transport
 {
     const CONFIG_SMTP_CONFIG = 'SMTPConfig';
-
+    
     const CONFIG_DEFAULT_SENDER = 'defaultSender';
-
+    
     /**
      * Initialize PHPMailer
      *
@@ -54,18 +53,18 @@ class MailAdapter extends ConfigurableService implements Transport
     protected function getMailer()
     {
         $mailer = new \PHPMailer();
-
+        
         $SMTPConfig = $this->getOption(self::CONFIG_SMTP_CONFIG);
-
+        
         $mailer->IsSMTP();
         $mailer->SMTPKeepAlive = true;
         $mailer->Debugoutput = 'error_log';
-
+        
         $mailer->Host = $SMTPConfig['SMTP_HOST'];
         $mailer->Port = $SMTPConfig['SMTP_PORT'];
         $mailer->Username = $SMTPConfig['SMTP_USER'];
         $mailer->Password = $SMTPConfig['SMTP_PASS'];
-
+        
         if (isset($SMTPConfig['DEBUG_MODE'])) {
             $mailer->SMTPDebug = $SMTPConfig['DEBUG_MODE'];
         }
@@ -78,7 +77,7 @@ class MailAdapter extends ConfigurableService implements Transport
         if (isset($SMTPConfig['SMTP_SECURE'])) {
             $mailer->SMTPSecure = $SMTPConfig['SMTP_SECURE'];
         }
-
+        
         return $mailer;
     }
 
@@ -118,7 +117,7 @@ class MailAdapter extends ConfigurableService implements Transport
 
         return $result;
     }
-
+    
     /**
      * Get user email address.
      * @param User $user
@@ -128,14 +127,14 @@ class MailAdapter extends ConfigurableService implements Transport
     public function getUserMail(User $user)
     {
         $userMail = current($user->getPropertyValues(GenerisRdf::PROPERTY_USER_MAIL));
-
+        
         if (!$userMail || !filter_var($userMail, FILTER_VALIDATE_EMAIL)) {
             throw new Exception('User email is not valid.');
         }
-
+        
         return $userMail;
     }
-
+    
     /**
      * Get a "From" address. If it was not specified for message then value will be retrieved from config.
      * @param Message $message (optional)
