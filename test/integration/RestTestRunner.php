@@ -21,6 +21,7 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
     {
         return [
             GenerisRdf::PROPERTY_USER_LOGIN => 'tjdoe',
+            GenerisRdf::PROPERTY_USER_PASSWORD => 'test123',
             GenerisRdf::PROPERTY_USER_LASTNAME => 'Doe',
             GenerisRdf::PROPERTY_USER_FIRSTNAME => 'John',
             GenerisRdf::PROPERTY_USER_MAIL => 'jdoe@tao.lu',

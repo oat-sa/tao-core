@@ -40,7 +40,7 @@ class IndexIterator extends \IteratorIterator implements ServiceLocatorAwareInte
         return $this->indexService;
     }
 
-    public function valid(): bool
+    public function valid()
     {
         return $this->getInnerIterator()->valid();
     }

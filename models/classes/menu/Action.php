@@ -27,16 +27,12 @@ use oat\taoBackOffice\model\menuStructure\Action as iAction;
 use oat\tao\helpers\ControllerHelper;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\service\ServiceManagerAwareInterface;
-use tao_models_classes_accessControl_AclProxy;
 
 class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
 
     const SERIAL_VERSION = 1392821334;
-
-    /** @var array */
-    private $data;
 
     /**
      * @param \SimpleXMLElement $node

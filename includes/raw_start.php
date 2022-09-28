@@ -33,5 +33,5 @@ if (PHP_SAPI == 'cli') {
 
 require_once 'class.Bootstrap.php';
 
-$bootStrap = new Bootstrap('tao');
+$bootStrap = new BootStrap('tao');
 $bootStrap->start();

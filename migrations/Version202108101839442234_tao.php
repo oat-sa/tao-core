@@ -31,9 +31,6 @@ use oat\tao\model\Lists\DataAccess\Repository\RdsValueCollectionRepository;
 
 final class Version202108101839442234_tao extends AbstractMigration
 {
-    /** @var PersistenceManager */
-    private $persistence;
-
     public function getDescription(): string
     {
         return sprintf('Create "%s" table', RdsValueCollectionRepository::TABLE_LIST_ITEMS_DEPENDENCIES);

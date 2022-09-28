@@ -118,7 +118,7 @@ trait TaskLogActionTrait
      * @param EntityInterface $taskLogEntity
      * @return string
      */
-    protected function getTaskId($taskLogEntity)
+    protected function getTaskId(EntityInterface $taskLogEntity)
     {
         return $taskLogEntity->getId();
     }
@@ -127,7 +127,7 @@ trait TaskLogActionTrait
      * @param EntityInterface $taskLogEntity
      * @return string
      */
-    protected function getTaskStatus($taskLogEntity)
+    protected function getTaskStatus(EntityInterface $taskLogEntity)
     {
         return $taskLogEntity->getStatus()->getLabel();
     }
@@ -138,7 +138,7 @@ trait TaskLogActionTrait
      * @param EntityInterface $taskLogEntity
      * @return array
      */
-    protected function getTaskReport($taskLogEntity)
+    protected function getTaskReport(EntityInterface $taskLogEntity)
     {
         return $this->getReportAsAssociativeArray($taskLogEntity->getReport());
     }

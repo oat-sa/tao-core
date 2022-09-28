@@ -39,7 +39,7 @@ class LoggerObserver implements SplObserver
     /**
      * @inheritDoc
      */
-    public function update(SplSubject $subject): void
+    public function update(SplSubject $subject)
     {
         $this->logger->info(
             sprintf(

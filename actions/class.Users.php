@@ -357,17 +357,10 @@ class tao_actions_Users extends tao_actions_CommonModule
 
             unset($values['password2'], $values['password3']);
 
-            if (
-                isset($values[GenerisRdf::PROPERTY_USER_UILG])
-                && !preg_match('/[A-Z]{2,4}$/', trim($values[GenerisRdf::PROPERTY_USER_UILG]))
-            ) {
+            if (!preg_match('/[A-Z]{2,4}$/', trim($values[GenerisRdf::PROPERTY_USER_UILG]))) {
                 unset($values[GenerisRdf::PROPERTY_USER_UILG]);
             }
-
-            if (
-                isset($values[GenerisRdf::PROPERTY_USER_DEFLG])
-                && !preg_match('/[A-Z]{2,4}$/', trim($values[GenerisRdf::PROPERTY_USER_DEFLG]))
-            ) {
+            if (!preg_match('/[A-Z]{2,4}$/', trim($values[GenerisRdf::PROPERTY_USER_DEFLG]))) {
                 unset($values[GenerisRdf::PROPERTY_USER_DEFLG]);
             }
 

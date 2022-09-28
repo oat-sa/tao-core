@@ -15,17 +15,14 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 *
-* Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA;
+* Copyright (c) 2014 (original work) Open Assessment Technologies SA;
 *
 */
 
 namespace oat\tao\model\controllerMap;
 
-use phpDocumentor\Reflection\DocBlock\Description;
-use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\BaseTag;
-use phpDocumentor\Reflection\Types\Context as TypeContext;
-use Webmozart\Assert\Assert;
+use phpDocumentor\Reflection\DocBlock\Tag;
+use phpDocumentor\Reflection\DocBlock\Type\Collection;
 
 /**
  * Reflection class for a @requiresRight tag in a Docblock.
@@ -34,28 +31,44 @@ use Webmozart\Assert\Assert;
  *
  * @author  Joel Bout <joel@taotesting.com>
  */
-class RequiresRightTag extends BaseTag
+class RequiresRightTag extends Tag
 {
-    /** @var string */
+    /** @var string The raw type component. */
     protected $parameter = '';
 
-    /** @var string|null */
+    /** @var string The parsed type component. */
     protected $rightId = null;
 
-    public function __construct(string $name, ?Description $description = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function getContent()
     {
-        $this->name        = $name;
-        $this->description = $description;
+        if (null === $this->content) {
+            $this->content = "{$this->parameter} {$this->right} {$this->description}";
+        }
+
+        return $this->content;
     }
 
     /**
-     * Returns the identifier of the required access right
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function getRightId()
+    public function setContent($content)
     {
-        return (string) $this->rightId;
+        parent::setContent($content);
+
+        $parts = preg_split('/\s+/Su', $this->description, 3);
+
+        if (count($parts) >= 2) {
+            $this->parameter = $parts[0];
+            $this->rightId = $parts[1];
+        }
+
+        $this->setDescription(isset($parts[2]) ? $parts[2] : '');
+
+        $this->content = $content;
+        return $this;
     }
 
     /**
@@ -67,32 +80,14 @@ class RequiresRightTag extends BaseTag
     {
         return (string) $this->parameter;
     }
-
-    public static function create(
-        string $body,
-        string $name = '',
-        ?DescriptionFactory $descriptionFactory = null,
-        ?TypeContext $context = null
-    ) : self {
-        Assert::stringNotEmpty($name);
-        Assert::notNull($descriptionFactory);
-
-        $description = $body !== '' ? $descriptionFactory->create($body, $context) : null;
-
-        $self = new static($name, $description);
-
-        $parts = preg_split('/\s+/Su', $description, 3);
-
-        if (count($parts) >= 2) {
-            $self->parameter = $parts[0];
-            $self->rightId = $parts[1];
-        }
-
-        return $self;
-    }
-
-    public function __toString() : string
+    
+    /**
+     * Returns the identifier of the required access right
+     *
+     * @return string
+     */
+    public function getRightId()
     {
-        return $this->description ? $this->description->render() : '';
+        return (string) $this->rightId;
     }
 }

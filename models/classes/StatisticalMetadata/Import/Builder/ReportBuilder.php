@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\StatisticalMetadata\Import\Builder;
 
-use ErrorException;
 use Throwable;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\StatisticalMetadata\Import\Result\ImportResult;
@@ -233,14 +232,6 @@ class ReportBuilder
                 $exception->getInterpolationData()
             );
         }
-
-        throw new ErrorException(
-            sprintf(
-                'Exception "%s:%s" not support to generate statistical report',
-                get_class($exception),
-                $exception->getMessage()
-            )
-        );
     }
 
     private function getReportType(ImportResult $result): string

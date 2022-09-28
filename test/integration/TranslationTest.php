@@ -24,7 +24,6 @@
 namespace oat\tao\test\integration;
 
 use oat\generis\test\GenerisPhpUnitTestRunner;
-use tao_helpers_translation_TranslationException;
 use tao_helpers_translation_TranslationUnit;
 use tao_helpers_translation_TranslationFile;
 use tao_helpers_translation_Utils;

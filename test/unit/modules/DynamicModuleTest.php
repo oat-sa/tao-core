@@ -30,7 +30,7 @@ use oat\generis\test\TestCase;
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-class DynamicModuleTest extends TestCase
+class DynamicModuleTestModuleTest extends TestCase
 {
 
     /**

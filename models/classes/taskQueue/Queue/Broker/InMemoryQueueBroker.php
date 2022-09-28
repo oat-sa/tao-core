@@ -60,7 +60,7 @@ class InMemoryQueueBroker extends AbstractQueueBroker implements SyncQueueBroker
     /**
      * @return int
      */
-    public function count(): int
+    public function count()
     {
         return $this->getQueue()->count();
     }

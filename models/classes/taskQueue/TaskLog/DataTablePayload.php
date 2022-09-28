@@ -157,7 +157,7 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
     /**
      * @return int
      */
-    public function count(): int
+    public function count()
     {
         return $this->broker->count($this->taskLogFilter);
     }
