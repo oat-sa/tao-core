@@ -16,12 +16,12 @@ jobs:
         operating-system: [ ubuntu-latest ]
         php-version: [ '7.4', '8.0', '8.1' ]
         include:
-          - php-version: '7.4'
+          - php-version: '8.1'
             coverage: true
 
     steps:
       - name: CI
-        uses: oat-sa/tao-extension-ci-action@v1.0.2
+        uses: oat-sa/tao-extension-ci-action@v1
         with:
           php: ${{ matrix.php-version }}
           coverage: ${{ matrix.coverage }}

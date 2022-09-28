@@ -39,17 +39,17 @@ class Subject implements SubjectInterface
         return $this;
     }
 
-    public function attach(SplObserver $observer)
+    public function attach(SplObserver $observer): void
     {
         $this->observers[spl_object_hash($observer)] = $observer;
     }
 
-    public function detach(SplObserver $observer)
+    public function detach(SplObserver $observer): void
     {
         unset($this->observers[spl_object_hash($observer)]);
     }
 
-    public function notify()
+    public function notify(): void
     {
         foreach ($this->observers as $observer) {
             $observer->update($this);

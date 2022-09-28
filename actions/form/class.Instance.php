@@ -153,8 +153,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
                     }
                 }
 
-                // don't show empty labels
-                if ($element instanceof tao_helpers_form_elements_Label && strlen($element->getRawValue()) === 0) {
+                if ($this->isEmptyLabel($element)) {
                     continue;
                 }
 
@@ -250,5 +249,11 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
         return $range->isSubClassOf(
             new core_kernel_classes_Class(TaoOntology::CLASS_URI_LIST)
         );
+    }
+
+    private function isEmptyLabel($element): bool
+    {
+        return $element instanceof tao_helpers_form_elements_Label
+            && empty($element->getRawValue());
     }
 }
