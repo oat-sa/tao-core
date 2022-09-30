@@ -21,7 +21,7 @@
 
 namespace oat\tao\model\extension;
 
-use common_ext_ManifestException as ManifestException;
+use oat\oatbox\extension\exception\ManifestException;
 use common_ext_UpdaterNotFoundException as UpdaterNotFoundException;
 use common_report_Report as Report;
 use oat\oatbox\event\EventManagerAwareTrait;

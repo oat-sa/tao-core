@@ -16,7 +16,7 @@ jobs:
         operating-system: [ ubuntu-latest ]
         php-version: [ '7.4', '8.0', '8.1' ]
         include:
-          - php-version: '7.4'
+          - php-version: '8.1'
             coverage: true
 
     steps:

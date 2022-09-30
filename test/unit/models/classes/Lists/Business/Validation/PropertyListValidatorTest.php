@@ -32,7 +32,7 @@ use oat\tao\model\Lists\Business\Validation\PropertyTypeValidator;
 use oat\generis\test\TestCase;
 use tao_helpers_form_elements_Combobox;
 
-class PropertyTypeValidatorTest extends TestCase
+class PropertyListValidatorTest extends TestCase
 {
     /** @var Ontology */
     private $ontology;
