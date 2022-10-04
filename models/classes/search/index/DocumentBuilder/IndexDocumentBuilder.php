@@ -307,7 +307,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         if (
             strpos($fieldName, 'RadioBox') === 0 ||
             strpos($fieldName, 'ComboBox') === 0 ||
-            strpos($fieldName, 'Checkbox') === 0 ||
+            strpos($fieldName, 'CheckBox') === 0 ||
             strpos($fieldName, 'SearchTextBox') === 0 ||
             strpos($fieldName, 'SearchDropdown') === 0
         ) {
