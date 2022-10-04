@@ -71,17 +71,6 @@ class tao_actions_Search extends tao_actions_CommonModule
                     ->setClassUri($parsedBody['parentNode'])
             ),
             'filter' => [],
-            /**
-             * @TODO Remove the 'model' as soon as FE is not using this anymore.
-             * @deprecated The 'model' key is deprecated, we only rely on `settings` now.
-             */
-            'model' => [
-                'label' => array(
-                    'id' => 'label',
-                    'label' => __('Label'),
-                    'sortable' => false
-                )
-            ],
             'result' => true
         ]);
     }

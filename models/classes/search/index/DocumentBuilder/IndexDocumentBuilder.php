@@ -32,8 +32,6 @@ use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\data\permission\ReverseRightLookupInterface;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
-use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
-use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
@@ -47,13 +45,6 @@ use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\TaoOntology;
-use tao_helpers_form_elements_Calendar;
-use tao_helpers_form_elements_Checkbox;
-use tao_helpers_form_elements_Combobox;
-use tao_helpers_form_elements_Htmlarea;
-use tao_helpers_form_elements_Radiobox;
-use tao_helpers_form_elements_Textarea;
-use tao_helpers_form_elements_Textbox;
 use tao_helpers_Uri;
 
 class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumentBuilderInterface
@@ -62,18 +53,6 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
 
     /** @var array */
     private $map = [];
-
-    private const ALLOWED_DYNAMIC_TYPES = [
-        tao_helpers_form_elements_Textbox::WIDGET_ID,
-        tao_helpers_form_elements_Textarea::WIDGET_ID,
-        tao_helpers_form_elements_Htmlarea::WIDGET_ID,
-        tao_helpers_form_elements_Checkbox::WIDGET_ID,
-        tao_helpers_form_elements_Combobox::WIDGET_ID,
-        tao_helpers_form_elements_Radiobox::WIDGET_ID,
-        tao_helpers_form_elements_Calendar::WIDGET_ID,
-        SearchTextBox::WIDGET_ID,
-        SearchDropdown::WIDGET_ID,
-    ];
 
     private const ROOT_CLASSES = [
         TaoOntology::CLASS_URI_ITEM,

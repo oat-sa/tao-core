@@ -30,6 +30,7 @@ use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 use oat\tao\model\Lists\Presentation\Web\RequestHandler\ClassMetadataSearchRequestHandler;
 use oat\tao\model\Lists\Presentation\Web\RequestValidator\ClassMetadataSearchRequestValidator;
 use Psr\Http\Message\ServerRequestInterface;
+use tao_helpers_form_elements_Calendar;
 
 class ClassMetadataSearchRequestHandlerTest extends TestCase
 {
@@ -53,7 +54,7 @@ class ClassMetadataSearchRequestHandlerTest extends TestCase
      * @noinspection PhpDocMissingThrowsInspection
      *
      * @param ClassMetadataSearchRequest $expectedRequest
-     * @param array                      $queryParameters
+     * @param array $queryParameters
      *
      * @dataProvider dataProvider
      */
@@ -129,6 +130,11 @@ class ClassMetadataSearchRequestHandlerTest extends TestCase
     private function createBareSearchRequest(): ClassMetadataSearchRequest
     {
         return (new ClassMetadataSearchRequest())
-            ->setMaxListSize(5);
+            ->setMaxListSize(5)
+            ->ignoreWidgets(
+                [
+                    tao_helpers_form_elements_Calendar::WIDGET_ID,
+                ]
+            );
     }
 }
