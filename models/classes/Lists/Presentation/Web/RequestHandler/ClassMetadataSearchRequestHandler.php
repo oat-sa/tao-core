@@ -28,6 +28,7 @@ use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 use oat\tao\model\Lists\Presentation\Web\RequestValidator\ClassMetadataSearchRequestValidator;
 use oat\tao\model\service\InjectionAwareService;
 use Psr\Http\Message\ServerRequestInterface;
+use tao_helpers_form_elements_Calendar;
 use tao_helpers_Uri as Id;
 
 class ClassMetadataSearchRequestHandler extends InjectionAwareService
@@ -64,7 +65,12 @@ class ClassMetadataSearchRequestHandler extends InjectionAwareService
         );
 
         $searchRequest = (new ClassMetadataSearchRequest())
-            ->setClassUri($classUri);
+            ->setClassUri($classUri)
+            ->ignoreWidgets(
+                [
+                    tao_helpers_form_elements_Calendar::WIDGET_ID,
+                ]
+            );
 
         if (!empty($queryParameters[self::QUERY_MAX_LIST_SIZE])) {
             $searchRequest->setMaxListSize((int)$queryParameters[self::QUERY_MAX_LIST_SIZE]);

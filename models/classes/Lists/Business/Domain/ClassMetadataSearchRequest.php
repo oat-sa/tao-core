@@ -35,6 +35,21 @@ class ClassMetadataSearchRequest
     /** @var string */
     private $structure;
 
+    /** @var array */
+    private $ignoredWidgets = [];
+
+    public function getIgnoredWidgets(): array
+    {
+        return $this->ignoredWidgets;
+    }
+
+    public function ignoreWidgets(array $ignoredWidgets): self
+    {
+        $this->ignoredWidgets = $ignoredWidgets;
+
+        return $this;
+    }
+
     public function getStructure(): ?string
     {
         return $this->structure;
