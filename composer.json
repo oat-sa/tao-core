@@ -64,7 +64,7 @@
         "guzzlehttp/psr7": "^1.8.4",
         "oat-sa/imsglobal-lti": "^4.0.1",
         "justinrainbow/json-schema": "^5.2.1",
-        "oat-sa/jig": "~0.1",
+        "oat-sa/jig": "~0.2",
         "oat-sa/lib-tao-elasticsearch": "^2.5.1",
         "oat-sa/composer-npm-bridge": "~0.4.2||dev-master",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
