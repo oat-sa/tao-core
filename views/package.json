@@ -27,7 +27,7 @@
         "jquery": "1.9.1",
         "lodash": "2.4.1",
         "moment": "2.11.1",
-        "moment-timezone": "0.5.10",
+        "moment-timezone": "0.5.35",
         "popper.js": "1.16.1",
         "raphael": "2.3.0",
         "select2": "3.5.1",
