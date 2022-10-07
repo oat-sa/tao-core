@@ -24,11 +24,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Lists\Business\Service;
 
+use oat\oatbox\event\EventAggregator;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
+use oat\tao\model\Lists\Business\Event\ListSavedEvent;
 use oat\tao\model\Lists\Business\Input\ValueCollectionDeleteInput;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
@@ -98,6 +100,11 @@ class ValueCollectionService extends InjectionAwareService
 
         foreach ($this->repositories as $repository) {
             if ($repository->isApplicable($valueCollection->getUri())) {
+                $this->getEventAggregator()->put(
+                    $valueCollection->getUri(),
+                    new ListSavedEvent($valueCollection->getUri())
+                );
+
                 return $repository->persist($valueCollection);
             }
         }
@@ -145,5 +152,10 @@ class ValueCollectionService extends InjectionAwareService
         );
 
         $searchRequest->setDefaultLanguage($userLanguageService->getDefaultLanguage());
+    }
+
+    private function getEventAggregator(): EventAggregator
+    {
+         return $this->getServiceManager()->getContainer()->get(EventAggregator::SERVICE_ID);
     }
 }
