@@ -15,16 +15,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
  *
- * @deprecated use \oat\tao\scripts\IndexResourcesAction instead
- *
+ * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
 
-use oat\tao\model\search\SearchService;
+declare(strict_types=1);
 
-require_once dirname(__FILE__) . '/../includes/raw_start.php';
+namespace oat\tao\test\unit\model\search;
 
-\common_Logger::w('Script `tao/scripts/IndexResourcesAction.php` is deprecated. Use `\oat\tao\model\search\RunIndexing` action instead');
+use oat\tao\model\search\SearchSettings;
+use PHPUnit\Framework\TestCase;
 
-SearchService::runIndexing();
+class SearchSettingsTest extends TestCase
+{
+    /** @var SearchSettings */
+    private $subject;
+
+    public function setUp(): void
+    {
+        $this->subject = new SearchSettings([]);
+    }
+
+    public function testsGetTerm(): void
+    {
+        $this->assertSame([], $this->subject->getAvailableColumns());
+    }
+}

@@ -15,15 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\search;
 
-use oat\generis\test\TestCase;
 use oat\tao\model\search\SearchQuery;
+use PHPUnit\Framework\TestCase;
 
 class SearchQueryTest extends TestCase
 {
@@ -38,37 +38,21 @@ class SearchQueryTest extends TestCase
             'parentClass',
             1,
             10,
-            1
+            1,
+            'label',
+            'ASC'
         );
     }
 
-    public function testsGetTerm(): void
+    public function testsGetters(): void
     {
         $this->assertEquals('user input', $this->subject->getTerm());
-    }
-
-    public function testsGetRootClass(): void
-    {
         $this->assertEquals('rootClass', $this->subject->getRootClass());
-    }
-
-    public function testsGetParentClass(): void
-    {
         $this->assertEquals('parentClass', $this->subject->getParentClass());
-    }
-
-    public function testsGetStartRow(): void
-    {
         $this->assertEquals(1, $this->subject->getStartRow());
-    }
-
-    public function testsGetRows(): void
-    {
         $this->assertEquals(10, $this->subject->getRows());
-    }
-
-    public function testsGetPage(): void
-    {
         $this->assertEquals(1, $this->subject->getPage());
+        $this->assertEquals('label', $this->subject->getSortBy());
+        $this->assertEquals('ASC', $this->subject->getSortOrder());
     }
 }

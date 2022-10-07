@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -24,17 +24,19 @@ namespace oat\tao\test\unit\model\search;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
-use oat\tao\model\search\ResultSetFilter;
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\tao\model\search\SearchQuery;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\generis\model\data\permission\PermissionHelper;
-use oat\generis\test\TestCase;
 use oat\tao\model\search\ResultAccessChecker;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\ResultSetResponseNormalizer;
+use PHPUnit\Framework\TestCase;
 
 class ResultSetResponseNormalizerTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     /** @var ResultSetResponseNormalizer */
     private $subject;
 
@@ -53,10 +55,7 @@ class ResultSetResponseNormalizerTest extends TestCase
     /** @var core_kernel_classes_Resource|MockObject */
     private $resourceMock;
 
-    /** @var ResultSetFilter|MockObject  */
-    private $resultSetFilter;
-
-    /** @var ResultAccessChecker|MockObject  */
+    /** @var ResultAccessChecker|MockObject */
     private $resultAccessChecker;
 
     public function setUp(): void
@@ -66,7 +65,6 @@ class ResultSetResponseNormalizerTest extends TestCase
         $this->resultSetMock = $this->createMock(ResultSet::class);
         $this->modelMock = $this->createMock(Ontology::class);
         $this->resourceMock = $this->createMock(core_kernel_classes_Resource::class);
-        $this->resultSetFilter = $this->createMock(ResultSetFilter::class);
         $this->resultAccessChecker = $this->createMock(ResultAccessChecker::class);
 
         $this->resourceMock
@@ -90,21 +88,11 @@ class ResultSetResponseNormalizerTest extends TestCase
                 ]
             );
 
-        $this->permissionHelperMock
-            ->expects($this->once())
-            ->method('filterByPermission')
-            ->willReturn(
-                [
-                    'uri1',
-                ]
-            );
-
         $this->subject = new ResultSetResponseNormalizer();
-        $this->subject->setServiceLocator(
-            $this->getServiceLocatorMock(
+        $this->subject->setServiceManager(
+            $this->getServiceManagerMock(
                 [
                     PermissionHelper::class => $this->permissionHelperMock,
-                    ResultSetFilter::class => $this->resultSetFilter,
                     ResultAccessChecker::class => $this->resultAccessChecker
                 ]
             )
@@ -113,34 +101,7 @@ class ResultSetResponseNormalizerTest extends TestCase
         $this->subject->setModel($this->modelMock);
     }
 
-    public function testNormalize()
-    {
-        $this->resultSetMock
-            ->expects($this->exactly(2))
-            ->method('getTotalCount')
-            ->willReturn(100);
-
-        $this->searchQueryMock
-            ->method('getRows')
-            ->willReturn(2);
-
-        $this->searchQueryMock
-            ->method('getPage')
-            ->willReturn(1);
-
-        $this->resultSetFilter
-            ->method('filter')
-            ->willReturn(['id' => 'uri']);
-
-        $this->resultAccessChecker
-            ->method('hasReadAccess')
-            ->willReturn(true);
-
-        $result = $this->subject->normalize($this->searchQueryMock, $this->resultSetMock, 'results');
-        $this->assertResult($result);
-    }
-
-    public function testNormalizeWithEmptyRows()
+    public function testNormalizeWithAccessRestriction()
     {
         $this->resultSetMock
             ->expects($this->once())
@@ -156,53 +117,99 @@ class ResultSetResponseNormalizerTest extends TestCase
             ->method('filterByPermission')
             ->willReturn(
                 [
-                    'uri1',
+                    'READ' => 'uri1',
+                    'WRITE' => 'uri2',
                 ]
             );
-
-        $this->resultSetFilter
-            ->method('filter')
-            ->willReturn(['id' => 'uri']);
 
         $this->searchQueryMock
             ->method('getPage')
             ->willReturn(1);
-        
+
+        $this->resultAccessChecker
+            ->method('hasReadAccess')
+            ->willReturn(false);
+
+        $result = $this->subject->normalize($this->searchQueryMock, $this->resultSetMock, 'result');
+
+        $this->assertSame(
+            array(
+                'data' => [
+                    [
+                        'label' => 'Access Denied',
+                        'id' => '',
+                    ],
+                    [
+                        'label' => 'Access Denied',
+                        'id' => '',
+                    ],
+                ],
+                'readonly' => [
+                    'uri1' => true,
+                    'uri2' => true,
+                ],
+                'success' => true,
+                'page' => 1,
+                'total' => 1,
+                'totalCount' => 100,
+                'records' => 2,
+            ),
+            $result
+        );
+    }
+
+    public function testNormalizeWithPermissions()
+    {
+        $this->resultSetMock
+            ->expects($this->once())
+            ->method('getTotalCount')
+            ->willReturn(100);
+
+        $this->searchQueryMock
+            ->method('getRows')
+            ->willReturn(0);
+
+        $this->permissionHelperMock
+            ->expects($this->once())
+            ->method('filterByPermission')
+            ->willReturn(
+                [
+                    'READ' => 'uri1',
+                    'WRITE' => 'uri2',
+                ]
+            );
+
+        $this->searchQueryMock
+            ->method('getPage')
+            ->willReturn(1);
+
         $this->resultAccessChecker
             ->method('hasReadAccess')
             ->willReturn(true);
 
         $result = $this->subject->normalize($this->searchQueryMock, $this->resultSetMock, 'result');
-        $this->assertResult($result);
-    }
 
-
-    private function assertResult(array $result): void
-    {
-        $this->assertIsArray($result);
-        $this->assertArrayHasKey('data', $result);
-        $this->assertArrayHasKey('readonly', $result);
-        $this->assertArrayHasKey('success', $result);
-        $this->assertArrayHasKey('page', $result);
-        $this->assertArrayHasKey('total', $result);
-        $this->assertArrayHasKey('totalCount', $result);
-        $this->assertArrayHasKey('records', $result);
-        $this->assertEquals(1, $result['page']);
-        $this->assertEquals(100, $result['totalCount']);
-        $this->assertEquals(2, $result['records']);
-        $this->assertCount(2, $result['data']);
-        $this->assertCount(2, $result['readonly']);
-        $this->assertEquals(
-            [
-                [
-                    'id' => 'uri',
+        $this->assertSame(
+            array(
+                'data' => [
+                    [
+                        'id' => 'uri1',
+                    ],
+                    [
+                        'id' => 'uri2',
+                    ],
                 ],
-                [
-                    'id' => 'uri',
+                'readonly' => [
+                    'uri1' => false,
+                    'uri2' => false,
                 ],
-            ],
-            $result['data']
+                'success' => true,
+                'page' => 1,
+                'total' => 1,
+                'totalCount' => 100,
+                'records' => 2,
+            ),
+            $result
         );
-        $this->assertFalse($result['readonly']['uri1']);
     }
 }
