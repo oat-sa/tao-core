@@ -62,8 +62,7 @@ class ClassMetadataService extends InjectionAwareService implements ClassMetadat
         ClassCollection $collection,
         core_kernel_classes_Class $currentClass,
         core_kernel_classes_Class $parentClass = null
-    ): ClassCollection
-    {
+    ): ClassCollection {
         $subClasses = $currentClass->getSubClasses();
 
         if (count($subClasses)) {
