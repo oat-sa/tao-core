@@ -251,6 +251,10 @@ class SearchProxy extends ConfigurableService implements Search
         /** @var SearchInterface $search */
         $search = $this->getOption($option);
 
+        if (is_string($search)) {
+            return $this->getServiceManager()->getContainer()->get($search);
+        }
+
         $this->propagate($search);
 
         return $search;
