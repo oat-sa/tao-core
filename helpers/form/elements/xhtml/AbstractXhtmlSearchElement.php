@@ -141,7 +141,6 @@ require(['jquery'], function ($) {
             if (!choice) {
                 return choice;
             }
-
             return choice.isValid
                 ? choice.text
                 : `<span class="invalid-choice">\${choice.text}</span>`;
@@ -205,11 +204,19 @@ javascript;
         $invalidValues = $this->getInvalidValues();
 
         foreach ($this->getRawValue() as $value) {
+            $label = $value->getLabel();
+
+            if ($value instanceof ElementValue) {
+                $property = new \core_kernel_classes_Property($label);
+                if (!empty($property->getLabel())) {
+                    $label = $property->getLabel();
+                }
+            }
             $encodedUri = tao_helpers_Uri::encode($value->getUri());
 
             $result[] = [
                 'id' => $encodedUri,
-                'text' => $value->getLabel(),
+                'text' => $label,
                 'isValid' => !array_key_exists($encodedUri, $invalidValues),
             ];
         }
