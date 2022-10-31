@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -31,6 +31,9 @@ class ResultSetResponseNormalizer extends ConfigurableService
 {
     use OntologyAwareTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function normalize(SearchQuery $searchQuery, ResultSet $resultSet, string $structure): array
     {
         $totalPages = is_null($searchQuery->getRows()) || $searchQuery->getRows() === 0
@@ -38,8 +41,6 @@ class ResultSetResponseNormalizer extends ConfigurableService
             : ceil($resultSet->getTotalCount() / $searchQuery->getRows());
 
         $resultsRaw = $resultSet->getArrayCopy();
-
-        $accessibleResultsMap = [];
 
         $resultAmount = count($resultsRaw);
 
@@ -59,6 +60,8 @@ class ResultSetResponseNormalizer extends ConfigurableService
             );
 
             foreach ($resultsRaw as $content) {
+                $resourceId = $content['id'];
+
                 if (!is_array($content)) {
                     $this->logError(
                         sprintf(
@@ -69,7 +72,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
                     continue;
                 }
 
-                $isAccessible = isset($accessibleResultsMap[$content['id']]);
+                $isAccessible = isset($accessibleResultsMap[$resourceId]);
 
                 if (!$isAccessible) {
                     $hasReadAccess = false;
@@ -80,13 +83,15 @@ class ResultSetResponseNormalizer extends ConfigurableService
                 }
 
                 if ($hasReadAccess === false) {
-                    $content['label'] = __('Access Denied');
-                    $content['id'] = '';
+                    $content = [
+                        'label' => __('Access Denied'),
+                        'id' => ''
+                    ];
                 }
 
-                $resourcePermissions[$content['id']] = !$hasReadAccess;
+                $resourcePermissions[$resourceId] = !$hasReadAccess;
 
-                $response['data'][] = $this->getResultSetFilter()->filter($content, $structure);
+                $response['data'][] = $content;
             }
         }
 
@@ -94,9 +99,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $response['success'] = true;
         $response['page'] = empty($response['data']) ? 0 : $searchQuery->getPage();
         $response['total'] = $totalPages;
-
         $response['totalCount'] = $resultSet->getTotalCount();
-
         $response['records'] = $resultAmount;
 
         return $response;
@@ -105,11 +108,6 @@ class ResultSetResponseNormalizer extends ConfigurableService
     private function getPermissionHelper(): PermissionHelper
     {
         return $this->getServiceLocator()->get(PermissionHelper::class);
-    }
-
-    private function getResultSetFilter(): ResultSetFilter
-    {
-        return $this->getServiceLocator()->get(ResultSetFilter::class);
     }
 
     private function getResultAccessChecker(): ResultAccessChecker

@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -25,7 +25,8 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Lists\Business\Service;
 
 use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use oat\oatbox\event\EventAggregator;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\User;
 use oat\oatbox\user\UserLanguageServiceInterface;
@@ -34,14 +35,20 @@ use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
+use PHPUnit\Framework\TestCase;
 
 class ValueCollectionServiceTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     /** @var ValueCollectionService */
     private $sut;
 
     /** @var ValueCollectionRepositoryInterface|MockObject */
     private $repositoryMock;
+
+    /** @var EventAggregator|MockObject */
+    private $eventAggregator;
 
     /**
      * @before
@@ -49,6 +56,7 @@ class ValueCollectionServiceTest extends TestCase
     public function init(): void
     {
         $this->repositoryMock = $this->createMock(ValueCollectionRepositoryInterface::class);
+        $this->eventAggregator = $this->createMock(EventAggregator::class);
 
         $this->sut = new ValueCollectionService(
             $this->repositoryMock
@@ -61,12 +69,20 @@ class ValueCollectionServiceTest extends TestCase
         $userLanguageMock->method('getDataLanguage')->willReturn('en-US');
         $userLanguageMock->method('getDefaultLanguage')->willReturn('en-US');
 
-        $this->sut->setServiceLocator($this->getServiceLocatorMock(
-            [
-                SessionService::class => $sessionMock,
-                UserLanguageServiceInterface::SERVICE_ID => $userLanguageMock
-            ]
-        ));
+        $this->sut->setServiceManager(
+            $this->getServiceManagerMock(
+                [
+                    SessionService::class => $sessionMock,
+                    UserLanguageServiceInterface::SERVICE_ID => $userLanguageMock,
+                    EventAggregator::SERVICE_ID => $this->eventAggregator,
+
+                ]
+            )
+        );
+
+        $this->eventAggregator
+            ->expects($this->any())
+            ->method('put');
     }
 
     public function testFindAll(): void

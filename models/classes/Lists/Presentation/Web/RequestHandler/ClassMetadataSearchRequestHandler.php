@@ -15,8 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -29,6 +28,7 @@ use oat\tao\model\Lists\Business\Input\ClassMetadataSearchInput;
 use oat\tao\model\Lists\Presentation\Web\RequestValidator\ClassMetadataSearchRequestValidator;
 use oat\tao\model\service\InjectionAwareService;
 use Psr\Http\Message\ServerRequestInterface;
+use tao_helpers_form_elements_Calendar;
 use tao_helpers_Uri as Id;
 
 class ClassMetadataSearchRequestHandler extends InjectionAwareService
@@ -36,7 +36,6 @@ class ClassMetadataSearchRequestHandler extends InjectionAwareService
     public const SERVICE_ID = 'tao/ClassMetadataSearchRequestHandler';
     public const QUERY_CLASS_ID = 'classUri';
     public const QUERY_MAX_LIST_SIZE = 'maxListSize';
-    public const DEFAULT_MAX_LIST_SIZE = 5;
 
     /** @var ClassMetadataSearchRequestValidator */
     private $requestValidator;
@@ -65,11 +64,17 @@ class ClassMetadataSearchRequestHandler extends InjectionAwareService
             $queryParameters[self::QUERY_CLASS_ID]
         );
 
-        $maxListSize = $queryParameters[self::QUERY_MAX_LIST_SIZE] ?? self::DEFAULT_MAX_LIST_SIZE;
-
         $searchRequest = (new ClassMetadataSearchRequest())
-            ->setMaxListSize((int)$maxListSize)
-            ->setClassUri($classUri);
+            ->setClassUri($classUri)
+            ->ignoreWidgets(
+                [
+                    tao_helpers_form_elements_Calendar::WIDGET_ID,
+                ]
+            );
+
+        if (!empty($queryParameters[self::QUERY_MAX_LIST_SIZE])) {
+            $searchRequest->setMaxListSize((int)$queryParameters[self::QUERY_MAX_LIST_SIZE]);
+        }
 
         return new ClassMetadataSearchInput($searchRequest);
     }

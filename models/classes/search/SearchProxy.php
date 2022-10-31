@@ -28,6 +28,8 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\tao\model\search\Contract\SearchSettingsServiceInterface;
+use oat\tao\model\search\Service\DefaultSearchSettingsService;
 use oat\tao\model\TaoOntology;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -35,6 +37,7 @@ class SearchProxy extends ConfigurableService implements Search
 {
     use OntologyAwareTrait;
 
+    public const OPTION_SEARCH_SETTINGS_SERVICE = 'search_settings_service';
     public const OPTION_ADVANCED_SEARCH_CLASS = 'advanced_search_class';
     public const OPTION_DEFAULT_SEARCH_CLASS = 'default_search_class';
     public const OPTION_GENERIS_SEARCH_WHITELIST = 'generis_search_whitelist';
@@ -43,7 +46,10 @@ class SearchProxy extends ConfigurableService implements Search
         GenerisRdf::CLASS_ROLE,
         TaoOntology::CLASS_URI_TAO_USER,
         TaoOntology::CLASS_URI_TREE,
-        TaoOntology::CLASS_URI_ASSEMBLED_DELIVERY,
+    ];
+
+    private const IGNORE_CRITERIA_FOR_STRUCTURES = [
+        'results',
     ];
 
     private const DISABLE_URI_SEARCH_FOR_ROOT_CLASSES = [
@@ -100,8 +106,10 @@ class SearchProxy extends ConfigurableService implements Search
         $queryParams = $request->getQueryParams();
         $results = $this->executeSearch($query);
 
-        return $this->getResultSetResponseNormalizer()
+        $response = $this->getResultSetResponseNormalizer()
             ->normalize($query, $results, $queryParams['params']['structure']);
+
+        return $response;
     }
 
     /**
@@ -174,6 +182,13 @@ class SearchProxy extends ConfigurableService implements Search
         );
     }
 
+    public function getSearchSettingsService(): SearchSettingsServiceInterface
+    {
+        return $this->getServiceManager()
+            ->getContainer()
+            ->get($this->getOption(self::OPTION_SEARCH_SETTINGS_SERVICE) ?? DefaultSearchSettingsService::class);
+    }
+
     private function executeSearch(SearchQuery $query): ResultSet
     {
         if ($query->isEmptySearch()) {
@@ -201,7 +216,9 @@ class SearchProxy extends ConfigurableService implements Search
             $this->getAdvancedSearchQueryString($query),
             $query->getStructure(),
             $query->getStartRow(),
-            $query->getRows()
+            $query->getRows(),
+            $query->getSortBy(),
+            $query->getSortOrder()
         );
     }
 
@@ -262,6 +279,10 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function getAdvancedSearchQueryString(SearchQuery $query): string
     {
+        if (in_array($query->getStructure(), self::IGNORE_CRITERIA_FOR_STRUCTURES, true)) {
+            return $query->getTerm();
+        }
+
         return sprintf(
             '%s AND parent_classes: "%s"',
             $query->getTerm(),
