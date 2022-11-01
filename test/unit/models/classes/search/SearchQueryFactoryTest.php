@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -53,16 +53,20 @@ class SearchQueryFactoryTest extends TestCase
                         ],
                     'rows' => 1,
                     'page' => 1,
+                    'sortby' => 'label',
+                    'sortoder' => 'ASC',
                 ]
             );
 
         $resultSearchQuery = $this->subject->create($request);
-        $this->assertEquals($resultSearchQuery->getPage(), 1);
-        $this->assertEquals($resultSearchQuery->getParentClass(), 'exampleParentNode');
-        $this->assertEquals($resultSearchQuery->getRootClass(), 'exampleRootNode');
-        $this->assertEquals($resultSearchQuery->getRows(), 1);
-        $this->assertEquals($resultSearchQuery->getTerm(), 'exampleQuery');
-        $this->assertEquals($resultSearchQuery->getStartRow(), 0);
+        $this->assertSame($resultSearchQuery->getPage(), 1);
+        $this->assertSame($resultSearchQuery->getParentClass(), 'exampleParentNode');
+        $this->assertSame($resultSearchQuery->getRootClass(), 'exampleRootNode');
+        $this->assertSame($resultSearchQuery->getRows(), 1);
+        $this->assertSame($resultSearchQuery->getTerm(), 'exampleQuery');
+        $this->assertSame($resultSearchQuery->getStartRow(), 0);
+        $this->assertSame($resultSearchQuery->getSortBy(), 'label');
+        $this->assertSame($resultSearchQuery->getSortOrder(), 'DESC');
     }
 
     public function testCreateSearchWithoutwithoutQuery(): void
