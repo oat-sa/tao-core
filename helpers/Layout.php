@@ -176,6 +176,25 @@ class Layout
     }
 
     /**
+     * Loads a standalone bundle.
+     *
+     * @param string $bundle the bundle URL
+     * @param string $controller the controller module id
+     * @param array $params additional parameters
+     * @return string the script tag
+     */
+    public static function getBundleLoader(string $bundle, string $controller, array $params = []): string
+    {
+        $configUrl = get_data('client_config_url');
+        $requireJsUrl = Template::js('lib/require.js', 'tao');
+        $bootstrapUrl = Template::js('loader/bootstrap.js', 'tao');
+
+        $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
+
+        return $loader->getBundleLoader($bundle, $controller, $params);
+    }
+
+    /**
      * @return string
      */
     public static function getTitle()
