@@ -20,6 +20,7 @@
     "@oat-sa/browserslist-config-tao": "^1.0.1",
     "@oat-sa/eslint-config-tao": "^1.1.1",
     "@oat-sa/grunt-tao-bundle": "git+https://github.com/oat-sa/grunt-tao-bundle.git#feature/ADF-1245/add-standalone-bundles",
+    "@oat-sa/prettier-config": "^0.1.1",
     "@oat-sa/tao-e2e-runner": "^0.3.0",
     "almond": "^0.3.3",
     "eslint": "^8.26.0",
@@ -45,9 +46,11 @@
     "load-grunt-tasks": "^3.4.0",
     "lodash": "^4.13.1",
     "node-sass": "^4.9.3",
+    "prettier": "^2.7.1",
     "sass-lint": "^1.12.1",
     "time-grunt": "^2.0.0"
   },
+  "prettier": "@oat-sa/prettier-config",
   "browserslist": [
     "extends @oat-sa/browserslist-config-tao"
   ]
