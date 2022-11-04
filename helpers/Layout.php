@@ -176,7 +176,29 @@ class Layout
     }
 
     /**
+     * Create the AMD loader for the current context using ES5.
+     * Loads the bundle no matter if this is production or debug mode.
+     *
+     * @param string $bundle the bundle URL
+     * @param string $controller the controller module id
+     * @param array $params additional parameters
+     * @return string the script tag
+     */
+    public static function getAmdLoaderES5(string $bundle, string $controller, array $params = []): string
+    {
+        $configUrl = get_data('client_config_url');
+        $requireJsUrl = Template::js('lib/require.js', 'tao');
+        $bootstrapUrl = Template::js('loader/bootstrap.js', 'tao');
+
+        $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
+
+        return "<script src='" . Template::js('loader/vendor.es5.min.js', 'tao') . "'></script>\n" .
+            $loader->getBundleLoader($bundle, $controller, $params);
+    }
+
+    /**
      * Loads a standalone bundle.
+     * Loads the bundle no matter if this is production or debug mode.
      *
      * @param string $bundle the bundle URL
      * @param string $controller the controller module id
