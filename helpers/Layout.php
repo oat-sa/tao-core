@@ -145,77 +145,94 @@ class Layout
     }
 
     /**
+     * Create the AMD loader to load a bundle for the current context.
+     *
+     * @param string $bundle the bundle URL
+     * @param string $controller the controller module id
+     * @param array $params additional parameters
+     * @param string $type the type of bundle, can be: '', 'es5', 'standalone' (default: '')
+     * @return string the script tag
+     */
+    public static function getBundleLoader(
+        string $bundle,
+        string $controller,
+        array $params = [],
+        string $type = ''
+    ): string {
+        $configUrl = get_data('client_config_url');
+        $requireJsUrl = Template::js('lib/require.js', 'tao');
+        $bootstrapUrl = Template::js('loader/bootstrap.js', 'tao');
+
+        switch (strtolower($type)) {
+            case 'es5':
+                $vendor = 'loader/vendor.es5.min.js';
+                break;
+
+            case 'standalone':
+                $vendor = '';
+                break;
+
+            default:
+                $vendor = 'loader/vendor.min.js';
+        }
+
+        $dependency = '';
+        if ($vendor) {
+            $dependency = "<script src='" . Template::js($vendor, 'tao') . "'></script>\n";
+        }
+
+        $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
+
+        return $dependency . $loader->getBundleLoader($bundle, $controller, $params);
+    }
+
+    /**
+     * Create the AMD loader to load modules for the current context.
+     *
+     * @param string $controller the controller module id
+     * @param array $params additional parameters
+     * @return string the script tag
+     */
+    public static function getModuleLoader(string $controller, array $params = []): string
+    {
+        $configUrl = get_data('client_config_url');
+        $requireJsUrl = Template::js('lib/require.js', 'tao');
+        $bootstrapUrl = Template::js('loader/bootstrap.js', 'tao');
+
+        $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
+
+        return $loader->getDynamicLoader($controller, $params);
+    }
+
+    /**
      * Create the AMD loader for the current context.
      * It will load login's modules for anonymous session.
      * Loads the bundle mode in production and the dynamic mode in debug.
      *
      * @param string $bundle the bundle URL
      * @param string $controller the controller module id
-     * @param array  $params additional parameters
+     * @param array $params additional parameters
+     * @param bool $allowAnonymous allows to load the bundle in anonymous mode.
+     * @param string $type the type of bundle, can be: '', 'es5', 'standalone' (default: '')
      * @return string the script tag
      */
-    public static function getAmdLoader($bundle = null, $controller = null, $params = null, $allowAnonymous = false)
-    {
-
-        $bundleMode   = \tao_helpers_Mode::is('production');
-        $configUrl    = get_data('client_config_url');
-        $requireJsUrl = Template::js('lib/require.js', 'tao');
-        $bootstrapUrl = Template::js('loader/bootstrap.js', 'tao');
-
-        $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
-
+    public static function getAmdLoader(
+        string $bundle,
+        string $controller,
+        array $params = [],
+        bool $allowAnonymous = false,
+        string $type = ''
+    ): string {
         if (\common_session_SessionManager::isAnonymous() && !$allowAnonymous) {
             $controller = 'controller/login';
             $bundle = Template::js('loader/login.min.js', 'tao');
         }
 
-        if ($bundleMode) {
-            return "<script src='" . Template::js('loader/vendor.min.js', 'tao') . "'></script>\n" .
-                    $loader->getBundleLoader($bundle, $controller, $params);
+        if (\tao_helpers_Mode::is('production')) {
+            return self::getBundleLoader($bundle, $controller, $params, $type);
         }
 
-        return $loader->getDynamicLoader($controller, $params);
-    }
-
-    /**
-     * Create the AMD loader for the current context using ES5.
-     * Loads the bundle no matter if this is production or debug mode.
-     *
-     * @param string $bundle the bundle URL
-     * @param string $controller the controller module id
-     * @param array $params additional parameters
-     * @return string the script tag
-     */
-    public static function getAmdLoaderES5(string $bundle, string $controller, array $params = []): string
-    {
-        $configUrl = get_data('client_config_url');
-        $requireJsUrl = Template::js('lib/require.js', 'tao');
-        $bootstrapUrl = Template::js('loader/bootstrap.js', 'tao');
-
-        $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
-
-        return "<script src='" . Template::js('loader/vendor.es5.min.js', 'tao') . "'></script>\n" .
-            $loader->getBundleLoader($bundle, $controller, $params);
-    }
-
-    /**
-     * Loads a standalone bundle.
-     * Loads the bundle no matter if this is production or debug mode.
-     *
-     * @param string $bundle the bundle URL
-     * @param string $controller the controller module id
-     * @param array $params additional parameters
-     * @return string the script tag
-     */
-    public static function getBundleLoader(string $bundle, string $controller, array $params = []): string
-    {
-        $configUrl = get_data('client_config_url');
-        $requireJsUrl = Template::js('lib/require.js', 'tao');
-        $bootstrapUrl = Template::js('loader/bootstrap.js', 'tao');
-
-        $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
-
-        return $loader->getBundleLoader($bundle, $controller, $params);
+        return self::getModuleLoader($controller, $params);
     }
 
     /**
