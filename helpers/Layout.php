@@ -34,7 +34,6 @@ use oat\tao\model\layout\AmdLoader;
 
 class Layout
 {
-
     /**
      * Compute the parameters for the release message
      *
@@ -127,7 +126,10 @@ class Layout
             case 'gif':
                 return $isBase64
                     ? '<img src="' . $icon->getSource() . '" alt="" class="glyph" />'
-                    : '<img src="' . Template::img($icon->getSource(), $icon->getExtension()) . '" alt="" class="glyph" />';
+                    : '<img src="' . Template::img(
+                        $icon->getSource(),
+                        $icon->getExtension()
+                    ) . '" alt="" class="glyph" />';
                 break;
 
             case 'svg':
@@ -137,7 +139,7 @@ class Layout
                     $icon->getId()
                 );
 
-            case ''; // no source means an icon font is used
+            case '': // no source means an icon font is used
                 return sprintf('<span class="%s glyph"></span>', $iconClass);
         }
     }
