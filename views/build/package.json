@@ -44,7 +44,7 @@
     "load-grunt-tasks": "^3.4.0",
     "lodash": "^4.13.1",
     "node-sass": "^4.9.3",
-    "sass-lint": "^1.12.1",
+    "sass-lint": "^1.13.1",
     "time-grunt": "^2.0.0"
   },
   "browserslist": [
