@@ -19,7 +19,7 @@
     "@babel/preset-env": "^7.19.4",
     "@oat-sa/browserslist-config-tao": "^1.0.1",
     "@oat-sa/eslint-config-tao": "^1.1.1",
-    "@oat-sa/grunt-tao-bundle": "git+https://github.com/oat-sa/grunt-tao-bundle.git#feature/ADF-1245/add-standalone-bundles",
+    "@oat-sa/grunt-tao-bundle": "^0.8.0",
     "@oat-sa/prettier-config": "^0.1.1",
     "@oat-sa/tao-e2e-runner": "^0.3.0",
     "almond": "^0.3.3",
