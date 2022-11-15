@@ -36,10 +36,10 @@ interface IndexDocumentBuilderInterface
 
     /**
      * Creates IndexDocument object from the array data
-     * @param $resource $array
+     * @param $resourceData $array
      * @return IndexDocument
      * @throws \common_Exception
      */
-    public function createDocumentFromArray(array $resource = []): IndexDocument;
+    public function createDocumentFromArray(array $resourceData = []): IndexDocument;
 }
 
