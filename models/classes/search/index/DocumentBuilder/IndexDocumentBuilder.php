@@ -109,10 +109,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
             $resourceData['id'],
             $resourceData['body'],
             $indexProperties,
-            $this->getDynamicProperties(
-                $resource->getTypes(),
-                $resource
-            ),
+            $this->getDynamicProperties($resource->getTypes(), $resource),
             $this->getAccessProperties($resource)
         );
     }
