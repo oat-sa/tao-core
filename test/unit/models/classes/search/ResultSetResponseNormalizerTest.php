@@ -137,11 +137,11 @@ class ResultSetResponseNormalizerTest extends TestCase
                 'data' => [
                     [
                         'label' => 'Access Denied',
-                        'id' => '',
+                        'id' => 'uri1',
                     ],
                     [
                         'label' => 'Access Denied',
-                        'id' => '',
+                        'id' => 'uri2',
                     ],
                 ],
                 'readonly' => [
