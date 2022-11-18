@@ -15,8 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017-2021 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\model\resources;
@@ -73,7 +72,13 @@ class ResourceWatcher extends ConfigurableService
      */
     public function catchUpdatedResourceEvent(ResourceUpdated $event): void
     {
+        $this->getLogger()->critical('catchUpdatedResourceEvent');
+
+
         $resource = $event->getResource();
+
+
+
         $updatedAt = $this->getUpdatedAt($resource);
         if ($updatedAt && $updatedAt instanceof \core_kernel_classes_Literal) {
             $updatedAt = (int) $updatedAt->literal;
