@@ -22,6 +22,7 @@ namespace oat\tao\model\resources;
 
 use common_http_Request;
 use core_kernel_classes_Class;
+use core_kernel_classes_Literal;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\event\ResourceCreated;
 use oat\generis\model\data\event\ResourceDeleted;
@@ -72,15 +73,14 @@ class ResourceWatcher extends ConfigurableService
      */
     public function catchUpdatedResourceEvent(ResourceUpdated $event): void
     {
-        $this->getLogger()->critical('catchUpdatedResourceEvent');
-
+        $this->getLogger()->logCritical(
+            self::class.' catchUpdatedResourceEvent'
+        );
 
         $resource = $event->getResource();
-
-
-
         $updatedAt = $this->getUpdatedAt($resource);
-        if ($updatedAt && $updatedAt instanceof \core_kernel_classes_Literal) {
+
+        if ($updatedAt instanceof core_kernel_classes_Literal) {
             $updatedAt = (int) $updatedAt->literal;
         }
 
@@ -88,14 +88,17 @@ class ResourceWatcher extends ConfigurableService
         $threshold = $this->getOption(self::OPTION_THRESHOLD);
 
         if ($updatedAt === null || ($now - $updatedAt) > $threshold) {
-            $this->getLogger()->debug('triggering index update on resourceUpdated event');
-
-            $taskMessage = __('Adding/updating search index for updated resource');
-            $this->createResourceIndexingTask($resource, $taskMessage);
+            $this->getLogger()->debug(
+                self::class . ' ' .
+                'triggering index update on resourceUpdated event'
+            );
 
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $this->updatedAtCache[$resource->getUri()] = $now;
             $resource->editPropertyValues($property, $now);
+
+            $taskMessage = __('Adding/updating search index for updated resource');
+            $this->createResourceIndexingTask($resource, $taskMessage);
         }
     }
 
@@ -123,7 +126,7 @@ class ResourceWatcher extends ConfigurableService
         } else {
             $property = $this->getProperty(TaoOntology::PROPERTY_UPDATED_AT);
             $updatedAt = $resource->getOnePropertyValue($property);
-            if ($updatedAt && $updatedAt instanceof \core_kernel_classes_Literal) {
+            if ($updatedAt && $updatedAt instanceof core_kernel_classes_Literal) {
                 $updatedAt = (int) $updatedAt->literal;
             }
             $this->updatedAtCache[$resource->getUri()] = $updatedAt;
