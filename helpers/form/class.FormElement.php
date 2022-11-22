@@ -335,7 +335,7 @@ abstract class tao_helpers_form_FormElement
         if (empty($this->description)) {
             $returnValue = ucfirst(strtolower($this->name));
         } else {
-            $returnValue = $this->description;
+            $returnValue = __($this->description);
         }
 
         return (string) $returnValue;
