@@ -103,6 +103,7 @@
     "iframeNotifier",
     "babel-polyfill",
     "lib/handlebars/helpers",
+    "lib/handlebars/moduleWriter",
     "lib/uuid",
     "lib/moment-timezone.min",
     "url-polyfill"
