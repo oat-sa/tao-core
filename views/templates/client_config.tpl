@@ -76,6 +76,7 @@ require.config({
         '<?=$name?>'        : '<?=$path?>',
     <?php endforeach?>
         'lib/handlebars/helpers' : '../node_modules/@oat-sa/tao-core-libs/dist/handlebars/helpers',
+        'lib/handlebars/moduleWriter' : '../../../tao/views/node_modules/@oat-sa/tao-core-libs/dist/handlebars/moduleWriter',
         'lib/uuid'          : '../node_modules/@oat-sa/tao-core-libs/dist/uuid',
         'core'              : '../node_modules/@oat-sa/tao-core-sdk/dist/core',
         'util'              : '../node_modules/@oat-sa/tao-core-sdk/dist/util',

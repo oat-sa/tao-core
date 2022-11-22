@@ -34,6 +34,7 @@
     "router": "core/router",
     "babel-polyfill": "../../../tao/views/node_modules/@babel/polyfill/browser",
     "lib/handlebars/helpers" : "../../../tao/views/node_modules/@oat-sa/tao-core-libs/dist/handlebars/helpers",
+    "lib/handlebars/moduleWriter" : "../../../tao/views/node_modules/@oat-sa/tao-core-libs/dist/handlebars/moduleWriter",
     "lib/uuid" : "../../../tao/views/node_modules/@oat-sa/tao-core-libs/dist/uuid",
     "core": "../../../tao/views/node_modules/@oat-sa/tao-core-sdk/dist/core",
     "util": "../../../tao/views/node_modules/@oat-sa/tao-core-sdk/dist/util",
