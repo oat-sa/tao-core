@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\search\index;
 
 use ArrayIterator;
+use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\test\OntologyMockTrait;
@@ -34,6 +35,7 @@ use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 use oat\tao\model\search\index\DocumentBuilder\PropertyIndexReferenceFactory;
 use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\SearchTokenGenerator;
+use oat\tao\model\TaoOntology;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\NullLogger;
 
@@ -57,16 +59,41 @@ class IndexDocumentBuilderTest extends TestCase
         ]
     ];
 
+    /** @var MockObject|string */
+    private $ontologyMock;
+
+    /** @var core_kernel_classes_Resource|MockObject */
+    private $resourceMock;
+
+    /** @var SearchTokenGenerator|MockObject */
+    private $tokenGeneratorMock;
+
     public function setUp(): void
     {
-        $this->propertyIndexReferenceFactory = $this->createMock(PropertyIndexReferenceFactory::class);
+        $this->ontologyMock = $this->createMock(Ontology::class);
+        $this->resourceMock = $this->createMock(
+            core_kernel_classes_Resource::class
+        );
+        $this->propertyIndexReferenceFactory = $this->createMock(
+            PropertyIndexReferenceFactory::class
+        );
+
+        $this->ontologyMock
+            ->method('getResource')
+            ->with(self::RESOURCE_URI)
+            ->willReturn($this->resourceMock);
+
+        $this->tokenGeneratorMock = $this->createMock(
+            SearchTokenGenerator::class
+        );
+
         $this->builder = new IndexDocumentBuilder();
         $this->builder->setServiceManager(
             $this->getServiceManagerMock(
                 [
-                    Ontology::SERVICE_ID => $this->getOntologyMock(),
+                    Ontology::SERVICE_ID => $this->ontologyMock,
                     PermissionInterface::SERVICE_ID => $this->createMock(PermissionInterface::class),
-                    SearchTokenGenerator::class => new SearchTokenGenerator(),
+                    SearchTokenGenerator::class => $this->tokenGeneratorMock,
                     LoggerService::SERVICE_ID => new NullLogger(),
                     PropertyIndexReferenceFactory::class => $this->propertyIndexReferenceFactory,
                 ]
@@ -89,18 +116,61 @@ class IndexDocumentBuilderTest extends TestCase
             new ArrayIterator()
         );
 
-        $this->assertEquals($document, $this->builder->createDocumentFromResource($resource));
+        $this->assertEquals(
+            $document,
+            $this->builder->createDocumentFromResource($resource)
+        );
     }
 
     public function testCreateDocumentFromArray(): void
     {
-        $this->markTestSkipped(
-            'Known broken test, must be refactored to mock the ontology in the Token Generator'
+        $this->resourceMock
+            ->method('getUri')
+            ->willReturn(self::RESOURCE_URI);
+
+        $this->resourceMock
+            ->method('getTypes')
+            ->willReturn([]);
+
+        $updatedAtMock = $this->createMock(
+            \core_kernel_classes_Property::class
         );
 
-        $this->assertEquals(
-            new IndexDocument(self::ARRAY_RESOURCE['id'], self::ARRAY_RESOURCE['body']),
-            $this->builder->createDocumentFromArray(self::ARRAY_RESOURCE)
+        $updatedAtMock
+            ->method('__toString')
+            ->willReturn('Updated At');
+
+        $this->resourceMock
+            ->method('getProperty')
+            ->with(TaoOntology::PROPERTY_UPDATED_AT)
+            ->willReturn($updatedAtMock);
+
+        $this->ontologyMock
+            ->method('getResource')
+            ->with(self::RESOURCE_URI)
+            ->willReturn($this->resourceMock);
+
+        $this->tokenGeneratorMock
+            ->expects($this->once())
+            ->method('generateTokens')
+            ->willReturnCallback(function (core_kernel_classes_Resource $resource) {
+                if ($resource->getUri() == self::RESOURCE_URI) {
+                    return [];
+                }
+
+                $this->fail(
+                    'Unexpected resource requested: '.$resource->getUri()
+                );
+            });
+
+        $doc = $this->builder->createDocumentFromArray(
+            self::ARRAY_RESOURCE,
+            $this->ontologyMock
         );
+
+        $this->assertEquals(self::ARRAY_RESOURCE['id'], $doc->getId());
+        $this->assertEquals(self::ARRAY_RESOURCE['body'], $doc->getBody());
+        $this->assertEquals([], $doc->getIndexProperties());
+        $this->assertEquals([], iterator_to_array($doc->getDynamicProperties()));
     }
 }
