@@ -76,8 +76,6 @@ class IndexDocumentBuilderTest extends TestCase
 
     public function testCreateEmptyDocumentFromResource(): void
     {
-
-
         $resource = $this->getOntologyMock()->getResource(self::RESOURCE_URI);
         $document = new IndexDocument(
             self::ARRAY_RESOURCE['id'],
