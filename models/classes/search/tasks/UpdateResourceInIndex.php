@@ -116,6 +116,8 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         core_kernel_classes_Resource $resource,
         IndexDocument $document
     ): array {
+        // @todo This reference to AdvancedSearch from Core should be
+        //       replaced with a different solution
         if ($this->hasReferencesService()) {
             return $this->getReferencesService()->getBodyWithReferences(
                 $resource,
@@ -177,11 +179,15 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         return $this->getService(IndexService::SERVICE_ID);
     }
 
+    // @todo This reference to AdvancedSearch from Core should be
+    //       replaced with a different solution
     private function getReferencesService(): ResourceReferencesService
     {
         return $this->getService(ResourceReferencesService::class);
     }
 
+    // @todo This reference to AdvancedSearch from Core should be
+    //       replaced with a different solution
     private function hasReferencesService(): bool
     {
         return $this->getContainer()->has(ResourceReferencesService::class);
