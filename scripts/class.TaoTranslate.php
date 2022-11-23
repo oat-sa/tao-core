@@ -617,7 +617,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             if ($translationFile->getBySource($oldTu) === null) {
                 $this->outVerbose(
                     sprintf(
-                        'The translation key "%s" was not found in the code base. This might be related to a code change where the it doesn\'t use that key anymore. Please manually remove it from %s file in case is not required.',
+                        'The translation key "%s" was not found in the codebase. This could be related to a code change where it no longer uses that key. Manually remove it from the "%s" file if not needed.',
                         $oldTu->getSource(),
                         realpath($oldFilePath)
                     )
