@@ -103,8 +103,6 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
             $indexProperties = $tokenizationInfo['indexProperties'];
         }
 
-        $this->logDebug('createDocumentFromArray');
-
         return new IndexDocument(
             $resourceData['id'],
             $resourceData['body'],
