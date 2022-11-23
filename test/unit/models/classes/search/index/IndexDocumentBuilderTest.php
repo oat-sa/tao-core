@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\search\index;
 
 use ArrayIterator;
+use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\data\permission\PermissionInterface;
@@ -124,22 +125,17 @@ class IndexDocumentBuilderTest extends TestCase
 
     public function testCreateDocumentFromArray(): void
     {
-        $this->resourceMock
-            ->method('getUri')
-            ->willReturn(self::RESOURCE_URI);
-
-        $this->resourceMock
-            ->method('getTypes')
-            ->willReturn([]);
-
-        $updatedAtMock = $this->createMock(
-            \core_kernel_classes_Property::class
-        );
-
+        $updatedAtMock = $this->createMock(core_kernel_classes_Property::class);
         $updatedAtMock
             ->method('__toString')
             ->willReturn('Updated At');
 
+        $this->resourceMock
+            ->method('getUri')
+            ->willReturn(self::RESOURCE_URI);
+        $this->resourceMock
+            ->method('getTypes')
+            ->willReturn([]);
         $this->resourceMock
             ->method('getProperty')
             ->with(TaoOntology::PROPERTY_UPDATED_AT)
