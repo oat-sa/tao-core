@@ -85,7 +85,6 @@ class ResourceWatcher extends ConfigurableService
 
         if ($updatedAt === null || ($now - $updatedAt) > $threshold) {
             $this->getLogger()->debug(
-                self::class . ' ' .
                 'triggering index update on resourceUpdated event'
             );
 
