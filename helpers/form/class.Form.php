@@ -440,6 +440,9 @@ abstract class tao_helpers_form_Form
                 $element->addClass('error');
             }
 
+            //Pass Resource Type
+            $element->addAttribute('resourceType', $this->options['resourceType'] ?? null);
+
             //render element
             $returnValue .= $element->render();
 
