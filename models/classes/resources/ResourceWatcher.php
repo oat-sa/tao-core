@@ -73,10 +73,6 @@ class ResourceWatcher extends ConfigurableService
      */
     public function catchUpdatedResourceEvent(ResourceUpdated $event): void
     {
-        $this->getLogger()->logCritical(
-            self::class.' catchUpdatedResourceEvent'
-        );
-
         $resource = $event->getResource();
         $updatedAt = $this->getUpdatedAt($resource);
 
