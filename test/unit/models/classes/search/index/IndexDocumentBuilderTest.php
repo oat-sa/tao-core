@@ -150,7 +150,7 @@ class IndexDocumentBuilderTest extends TestCase
             ->expects($this->once())
             ->method('generateTokens')
             ->willReturnCallback(function (core_kernel_classes_Resource $resource) {
-                if ($resource->getUri() == self::RESOURCE_URI) {
+                if ($resource->getUri() === self::RESOURCE_URI) {
                     return [];
                 }
 
