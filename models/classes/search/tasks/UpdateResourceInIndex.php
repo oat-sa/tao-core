@@ -37,6 +37,8 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * @author Ilya Yarkavets <ilya@taotesting.com>
+ *
+ * @TODO Deprecate, clear methods and move to AdvancedSearch
  */
 class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
 {

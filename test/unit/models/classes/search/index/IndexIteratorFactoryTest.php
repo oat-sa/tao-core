@@ -25,6 +25,7 @@ use oat\generis\test\TestCase;
 use oat\tao\model\search\index\IndexIterator;
 use oat\tao\model\search\index\IndexIteratorFactory;
 
+//@TODO Move to advancedSearch
 class IndexIteratorFactoryTest extends TestCase
 {
     public function testMakeIterator(): void
