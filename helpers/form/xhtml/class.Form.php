@@ -22,9 +22,6 @@
  */
 
 use oat\oatbox\log\LoggerAwareTrait;
-use oat\tao\helpers\form\elements\xhtml\CsrfToken;
-use oat\tao\model\security\xsrf\TokenService;
-use \tao_helpers_form_FormFactory as FormFactory;
 
 /**
  * Short description of class tao_helpers_form_xhtml_Form
@@ -34,6 +31,7 @@ use \tao_helpers_form_FormFactory as FormFactory;
  * @package tao
 
  */
+// phpcs:ignore
 class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
 {
     use LoggerAwareTrait;

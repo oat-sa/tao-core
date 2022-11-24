@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:disable Generic.Files.LineLength
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,6 +20,7 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *               2021 (original work) Open Assessment Technologies SA
  */
+// phpcs:enable
 
 declare(strict_types=1);
 
@@ -41,7 +43,6 @@ declare(strict_types=1);
  */
 abstract class tao_helpers_form_Form
 {
-
     /**
      * the form name
      *
@@ -313,7 +314,9 @@ abstract class tao_helpers_form_Form
 
         foreach ($actions as $action) {
             if (!$action instanceof tao_helpers_form_FormElement) {
-                throw new Exception('The actions parameter must only contains instances of tao_helpers_form_FormElement');
+                throw new Exception(
+                    'The actions parameter must only contains instances of tao_helpers_form_FormElement'
+                );
             }
             $this->actions[$context][] = $action;
         }
