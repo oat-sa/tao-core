@@ -101,7 +101,15 @@ interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
 
     public function getStats(TaskLogFilter $filter): TasksLogsStats;
 
-    public function getMonitoringTaskqueueStats(DateTime $from, DateTime $to): iterable;
+    /**
+     * Fetch task execution times for given date range
+     * Formatted with task id as key and execution time as value
+     *
+     * @param DateTime $from
+     * @param DateTime $to
+     * @return array [ 'task1'=> 'time-in-second', 'task-id-1' => 10]`
+     */
+    public function getTaskExecutionTimesByDateRange(DateTime $from, DateTime $to): array;
 
     /**
      * Setting the status to archive, the record is kept. (Soft Delete)

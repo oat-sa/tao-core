@@ -236,9 +236,9 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
     /**
      * @inheritdoc
      */
-    public function getMonitoringTaskqueueStats(DateTime $from, DateTime $to): iterable
+    public function getTaskExecutionTimesByDateRange(DateTime $from, DateTime $to): iterable
     {
-        return $this->getBroker()->getMonitoringTaskqueueStats($from, $to);
+        return $this->getBroker()->getTaskExecutionTimesByDateRange($from, $to);
     }
 
     /**

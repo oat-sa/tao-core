@@ -32,7 +32,7 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use common_report_Report as Report;
 use Exception;
-use \DateTime;
+use DateTime;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
@@ -40,7 +40,6 @@ use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 use oat\tao\model\taskQueue\TaskLog\CollectionInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
-use oat\tao\model\taskQueue\TaskLog\TaskLogCollection;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
 use oat\tao\model\taskQueue\TaskLogInterface;
@@ -67,41 +66,46 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
         $this->containerName = $containerName ?? self::DEFAULT_CONTAINER_NAME;
     }
 
-    public function getMonitoringTaskqueueStats(DateTime $from, DateTime $to): iterable
+    public function getTaskExecutionTimesByDateRange(DateTime $from, DateTime $to): array
     {
+        $collection = [];
+
         try {
+            $queryDiffInSecond = ($this->getPersistence()->getPlatForm()->getName() === 'postgresql')
+                ? 'extract(second from (%2$s - %1$s))'
+                : 'timestampdiff(second, %1$s, %2$s)';
+
             $qb = $this->getQueryBuilder();
-
-            $qb->select([TaskLogBrokerInterface::COLUMN_CREATED_AT, TaskLogBrokerInterface::COLUMN_UPDATED_AT])
+            $qb
+                ->select(
+                    TaskLogBrokerInterface::COLUMN_ID,
+                    sprintf(
+                        $queryDiffInSecond . ' as executionTime',
+                        TaskLogBrokerInterface::COLUMN_CREATED_AT,
+                        TaskLogBrokerInterface::COLUMN_UPDATED_AT
+                    )
+                )
                 ->from($this->getTableName())
-                ->where($qb->expr()->in(TaskLogBrokerInterface::COLUMN_STATUS, ':statuses'))
-                ->andWhere($qb->expr()->gte(TaskLogBrokerInterface::COLUMN_CREATED_AT, ':from'))
-                ->andWhere($qb->expr()->lte(TaskLogBrokerInterface::COLUMN_CREATED_AT, ':to'))
-            ;
+                ->where(
+                    $qb->expr()->in(TaskLogBrokerInterface::COLUMN_STATUS, [
+                        $qb->expr()->literal(TaskLogInterface::STATUS_COMPLETED),
+                        $qb->expr()->literal(TaskLogInterface::STATUS_ARCHIVED),
+                    ]),
+                    $qb->expr()->gte(TaskLogBrokerInterface::COLUMN_CREATED_AT, ':from'),
+                    $qb->expr()->lte(TaskLogBrokerInterface::COLUMN_CREATED_AT, ':to')
+                )
+                ->setParameters([
+                    'from' => $from->format('Y-m-d H:i:s'),
+                    'to' => $to->format('Y-m-d H:i:s')
+                ]);
 
-            $qb->setParameter(':statuses', [TaskLogInterface::STATUS_COMPLETED, TaskLogInterface::STATUS_ARCHIVED]);
-            $qb->setParameter(':from', $from->format('Y-m-d H:i:s'));
-            $qb->setParameter(':to', $to->format('Y-m-d H:i:s'));
-
-//            var_dump($qb->getSQL());die;
-            $dateFormat = $this->getPersistence()->getPlatForm()->getDateTimeFormatString();
-            $data = $qb->execute()->fetchAllAssociative();
-
-            $dateFormatter = function(string $date) use ($dateFormat) {
-                return \DateTime::createFromFormat($dateFormat, $date, new \DateTimeZone('UTC'));
-            };
-
-            $collection = [];
-            foreach ($data as $row) {
-                $collection[$row[TaskLogBrokerInterface::COLUMN_ID]] = [
-                    'createdAt' => $dateFormatter($row[TaskLogBrokerInterface::COLUMN_CREATED_AT]),
-                    'updatedAt' => $dateFormatter($row[TaskLogBrokerInterface::COLUMN_UPDATED_AT]),
-                ];
+            $results = $qb->execute();
+            while (($row = $results->fetchAssociative()) !== false) {
+                $collection[$row[TaskLogBrokerInterface::COLUMN_ID]] = $row['executionTime'];
             }
-
+            
         } catch (Exception $exception) {
             $this->logError('Searching for task logs failed with MSG: ' . $exception->getMessage());
-            $collection = TaskLogCollection::createEmptyCollection();
         }
 
         return $collection;
