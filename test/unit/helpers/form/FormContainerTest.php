@@ -113,7 +113,7 @@ class FormContainerTest extends GenerisTestCase
     public function dataProvider(): array
     {
         $token = self::TOKEN_VALUE;
-
+        // phpcs:disable Generic.Files.LineLength
         return [
             'Simple form' => [
                 'expected' => <<<HTML
@@ -228,6 +228,7 @@ HTML
                 new tao_helpers_form_elements_xhtml_Textbox('test'),
             ],
         ];
+        // phpcs:enable
     }
 
     private function createApplicationServiceTestDouble(): ApplicationService
