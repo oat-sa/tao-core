@@ -31,6 +31,7 @@ use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
 use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
 use Psr\Log\LoggerAwareInterface;
+use Datetime;
 
 /**
  * @author Gyula Szucs <gyula@taotesting.com>
@@ -247,4 +248,6 @@ interface TaskLogInterface extends LoggerAwareInterface
      * @return array
      */
     public function getTaskCategories();
+
+    public function getMonitoringTaskqueueStats(DateTime $from, DateTime $to): iterable;
 }

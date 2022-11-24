@@ -22,6 +22,7 @@
 namespace oat\tao\model\taskQueue\TaskLog\Broker;
 
 use common_report_Report as Report;
+use \DateTime;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\CollectionInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
@@ -99,6 +100,8 @@ interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
     public function count(TaskLogFilter $filter): int;
 
     public function getStats(TaskLogFilter $filter): TasksLogsStats;
+
+    public function getMonitoringTaskqueueStats(DateTime $from, DateTime $to): iterable;
 
     /**
      * Setting the status to archive, the record is kept. (Soft Delete)
