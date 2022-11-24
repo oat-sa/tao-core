@@ -116,9 +116,9 @@ HTML
     <form method='post' id='test' name='test' action=''>
     <input type='hidden' class='global' name='test_sent' value='1'/>
     <div>
-        <input id="test" name="test" type="text" value="" data-testid="Test"/>
+        <input id="test" name="test" resourceType="" type="text" value="" data-testid="Test"/>
     </div>
-    <input id="X-CSRF-Token" name="X-CSRF-Token" type="hidden" value="$token"/>
+    <input id="X-CSRF-Token" name="X-CSRF-Token" resourceType="" type="hidden" value="$token"/>
         <div class='form-toolbar'>
             <button type='submit' name='Save' id='Save' class='form-submitter btn-success small' value="Save" data-testid="save">
                 <span class="icon-save"></span> Save</button>
@@ -137,7 +137,7 @@ HTML
 <div class='xhtml_form'>
     <form method='post' id='test' name='test' action=''>
     <input type='hidden' class='global' name='test_sent' value='1'/>
-    <input id="X-CSRF-Token" name="X-CSRF-Token" type="hidden" value="$token"/>
+    <input id="X-CSRF-Token" name="X-CSRF-Token" resourceType="" type="hidden" value="$token"/>
         <div class='form-toolbar'>
             <button type='submit' name='Save' id='Save' class='form-submitter btn-success small' value="Save" data-testid="save">
                 <span class="icon-save"></span> Save</button>
@@ -172,7 +172,7 @@ HTML
 <div class='xhtml_form'>
     <form method='post' id='test' name='test' action=''>
     <input type='hidden' class='global' name='test_sent' value='1'/>
-    <input id="X-CSRF-Token" name="X-CSRF-Token" type="hidden" value="$token"/>
+    <input id="X-CSRF-Token" name="X-CSRF-Token" resourceType="" type="hidden" value="$token"/>
         <div class='form-toolbar'>
             <button disabled="disabled" type='submit' name='Save' id='Save' class='form-submitter btn-success small' value="Save" data-testid="save">
                 <span class="icon-save"></span> Save</button>
@@ -192,9 +192,9 @@ HTML
     <form method='post' id='test' name='test' action=''>
     <input type='hidden' class='global' name='test_sent' value='1'/>
     <div>
-        <input disabled="disabled" id="test" name="test" type="text" value="" data-testid="Test"/>
+        <input disabled="disabled" id="test" name="test" resourceType="" type="text" value="" data-testid="Test"/>
     </div>
-    <input id="X-CSRF-Token" name="X-CSRF-Token" type="hidden" value="$token"/>
+    <input id="X-CSRF-Token" name="X-CSRF-Token" resourceType="" type="hidden" value="$token"/>
         <div class='form-toolbar'>
             <button disabled="disabled" type='submit' name='Save' id='Save' class='form-submitter btn-success small' value="Save" data-testid="save">
                 <span class="icon-save"></span> Save</button>
