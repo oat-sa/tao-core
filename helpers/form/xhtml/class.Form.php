@@ -15,9 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ * (under the project TAO-TRANSFER);
+ *              2009-2012 (update and modification) Public Research Centre Henri Tudor
+ * (under the project TAO-SUSTAIN & TAO-DEV);
  */
 
 use oat\oatbox\log\LoggerAwareTrait;
@@ -36,13 +37,6 @@ use \tao_helpers_form_FormFactory as FormFactory;
 class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
 {
     use LoggerAwareTrait;
-
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
 
     /**
      * Short description of method getValues
@@ -108,7 +102,9 @@ class tao_helpers_form_xhtml_Form extends tao_helpers_form_Form
         $returnValue = '';
 
         $requestUri = $_SERVER['REQUEST_URI'] ?? '';
-        $action = strpos($requestUri, '?') > 0 ? substr($requestUri, 0, strpos($requestUri, '?')) : $requestUri;
+        $action = strpos($requestUri, '?') > 0
+            ? substr($requestUri, 0, strpos($requestUri, '?'))
+            : $requestUri;
 
         // Defensive code, prevent double leading slashes issue.
         if (strpos($action, '//') === 0) {
