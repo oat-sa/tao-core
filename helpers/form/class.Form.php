@@ -41,6 +41,7 @@ declare(strict_types=1);
  * @package tao
 
  */
+// phpcs:ignore
 abstract class tao_helpers_form_Form
 {
     /**
