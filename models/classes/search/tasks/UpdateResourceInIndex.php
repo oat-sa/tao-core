@@ -25,22 +25,19 @@ namespace oat\tao\model\search\tasks;
 use common_Exception;
 use common_exception_InconsistentData;
 use common_exception_MissingParameter;
-use core_kernel_classes_Resource;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\reporting\Report;
-use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
-use oat\tao\model\search\index\IndexDocument;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\SearchProxy;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
-use oat\taoAdvancedSearch\model\Index\Service\ResourceReferencesService;
-use Psr\Container\ContainerInterface;
+use oat\taoAdvancedSearch\model\Index\Service\AdvancedSearchIndexDocumentBuilder;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use Exception;
 
 /**
  * @author Ilya Yarkavets <ilya@taotesting.com>
@@ -53,7 +50,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
     use LoggerAwareTrait;
 
     /** @var string[] */
-    private $resourceUris = [];
+    private array $resourceUris = [];
 
     /**
      * @throws common_Exception
@@ -85,47 +82,13 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
 
         foreach ($resourceUris as $resourceUri) {
             $this->resourceUris[] = $resourceUri;
-            $documents[] = $this->getDocumentFor($resourceUri);
-        }
 
-        return $documents;
-    }
-
-    /**
-     * @throws common_exception_InconsistentData
-     * @throws common_Exception
-     * @throws Exception
-     */
-    private function getDocumentFor(string $resourceUri): IndexDocument
-    {
-        $resource = $this->getResource($resourceUri);
-        $document =  $this->getDocumentBuilder()->createDocumentFromResource(
-            $resource
-        );
-
-        return new IndexDocument(
-            $document->getId(),
-            $this->getBody($resource, $document),
-            $document->getIndexProperties(),
-            $document->getDynamicProperties(),
-            $document->getAccessProperties()
-        );
-    }
-
-    private function getBody(
-        core_kernel_classes_Resource $resource,
-        IndexDocument $document
-    ): array {
-        // @todo This reference to AdvancedSearch from Core should be
-        //       replaced with a different solution
-        if ($this->hasReferencesService()) {
-            return $this->getReferencesService()->getBodyWithReferences(
-                $resource,
-                $document
+            $documents[] = $this->getDocumentBuilder()->createDocumentFromResource(
+                $this->getResource($resourceUri)
             );
         }
 
-        return $document->getBody();
+        return $documents;
     }
 
     private function getReport($numberOfIndexed): Report
@@ -161,8 +124,12 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         return Report::createWarning($message);
     }
 
-    private function getDocumentBuilder(): IndexDocumentBuilder
+    private function getDocumentBuilder(): IndexDocumentBuilderInterface
     {
+        if ($this->getAdvancedSearchChecker()->isEnabled()) {
+            return $this->getServiceLocator()->getContainer()->get(AdvancedSearchIndexDocumentBuilder::class);
+        }
+
         $documentBuilder = $this->getIndexService()->getDocumentBuilder();
         $documentBuilder->setServiceLocator($this->getServiceLocator());
 
@@ -171,35 +138,16 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
 
     private function getSearchProxy(): SearchProxy
     {
-        return $this->getService(SearchProxy::SERVICE_ID);
+        return $this->getServiceLocator()->getContainer()->get(SearchProxy::SERVICE_ID);
     }
 
     private function getIndexService(): IndexService
     {
-        return $this->getService(IndexService::SERVICE_ID);
+        return $this->getServiceLocator()->getContainer()->get(IndexService::SERVICE_ID);
     }
 
-    // @todo This reference to AdvancedSearch from Core should be
-    //       replaced with a different solution
-    private function getReferencesService(): ResourceReferencesService
+    private function getAdvancedSearchChecker(): AdvancedSearchChecker
     {
-        return $this->getService(ResourceReferencesService::class);
-    }
-
-    // @todo This reference to AdvancedSearch from Core should be
-    //       replaced with a different solution
-    private function hasReferencesService(): bool
-    {
-        return $this->getContainer()->has(ResourceReferencesService::class);
-    }
-
-    private function getService(string $serviceId)
-    {
-        return $this->getContainer()->get($serviceId);
-    }
-
-    private function getContainer(): ContainerInterface
-    {
-        return $this->getServiceLocator()->getContainer();
+        return $this->getServiceLocator()->getContainer()->get(AdvancedSearchChecker::class);
     }
 }
