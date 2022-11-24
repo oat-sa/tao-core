@@ -107,7 +107,7 @@ interface TaskLogBrokerInterface extends ServiceLocatorAwareInterface
      *
      * @param DateTime $from
      * @param DateTime $to
-     * @return array [ 'task1'=> 'time-in-second', 'task-id-1' => 10]`
+     * @return array `[ 'task1'=> 'time-in-second', 'task-id-1' => 10]`
      */
     public function getTaskExecutionTimesByDateRange(DateTime $from, DateTime $to): array;
 

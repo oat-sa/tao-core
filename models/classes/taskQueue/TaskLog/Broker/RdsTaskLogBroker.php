@@ -103,7 +103,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
             while (($row = $results->fetchAssociative()) !== false) {
                 $collection[$row[TaskLogBrokerInterface::COLUMN_ID]] = $row['executionTime'];
             }
-            
+
         } catch (Exception $exception) {
             $this->logError('Searching for task logs failed with MSG: ' . $exception->getMessage());
         }
