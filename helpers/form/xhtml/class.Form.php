@@ -19,6 +19,7 @@
  * (under the project TAO-TRANSFER);
  *              2009-2012 (update and modification) Public Research Centre Henri Tudor
  * (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
  */
 
 use oat\oatbox\log\LoggerAwareTrait;
