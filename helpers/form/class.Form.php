@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:disable Generic.Files.LineLength
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,8 +18,9 @@
  *
  * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2021 (original work) Open Assessment Technologies SA
+ *               2021-2022 (original work) Open Assessment Technologies SA
  */
+// phpcs:enable
 
 declare(strict_types=1);
 
@@ -39,9 +41,9 @@ declare(strict_types=1);
  * @package tao
 
  */
+// phpcs:ignore
 abstract class tao_helpers_form_Form
 {
-
     /**
      * the form name
      *
@@ -313,7 +315,9 @@ abstract class tao_helpers_form_Form
 
         foreach ($actions as $action) {
             if (!$action instanceof tao_helpers_form_FormElement) {
-                throw new Exception('The actions parameter must only contains instances of tao_helpers_form_FormElement');
+                throw new Exception(
+                    'The actions parameter must only contains instances of tao_helpers_form_FormElement'
+                );
             }
             $this->actions[$context][] = $action;
         }
@@ -439,6 +443,9 @@ abstract class tao_helpers_form_Form
             if (!$this->isValid() && $element->getError()) {
                 $element->addClass('error');
             }
+
+            //Pass Resource Type
+            $element->addAttribute('resourceType', $this->options['resourceType'] ?? null);
 
             //render element
             $returnValue .= $element->render();
