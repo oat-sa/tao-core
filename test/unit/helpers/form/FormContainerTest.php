@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
+ */
 
 namespace oat\tao\helpers\test\unit\helpers\form;
 
@@ -95,11 +113,11 @@ class FormContainerTest extends GenerisTestCase
     public function dataProvider(): array
     {
         $token = self::TOKEN_VALUE;
-
+        // phpcs:disable Generic.Files.LineLength
         return [
             'Simple form' => [
                 'expected' => <<<HTML
-<div class='xhtml_form'>
+<div class='xhtml_form'> 
     <form method='post' id='test' name='test' action=''>
     <input type='hidden' class='global' name='test_sent' value='1'/>
         <div class='form-toolbar'>
@@ -116,9 +134,9 @@ HTML
     <form method='post' id='test' name='test' action=''>
     <input type='hidden' class='global' name='test_sent' value='1'/>
     <div>
-        <input id="test" name="test" type="text" value="" data-testid="Test"/>
+        <input id="test" name="test" resourceType="" type="text" value="" data-testid="Test"/>
     </div>
-    <input id="X-CSRF-Token" name="X-CSRF-Token" type="hidden" value="$token"/>
+    <input id="X-CSRF-Token" name="X-CSRF-Token" resourceType="" type="hidden" value="$token"/>
         <div class='form-toolbar'>
             <button type='submit' name='Save' id='Save' class='form-submitter btn-success small' value="Save" data-testid="save">
                 <span class="icon-save"></span> Save</button>
@@ -137,7 +155,7 @@ HTML
 <div class='xhtml_form'>
     <form method='post' id='test' name='test' action=''>
     <input type='hidden' class='global' name='test_sent' value='1'/>
-    <input id="X-CSRF-Token" name="X-CSRF-Token" type="hidden" value="$token"/>
+    <input id="X-CSRF-Token" name="X-CSRF-Token" resourceType="" type="hidden" value="$token"/>
         <div class='form-toolbar'>
             <button type='submit' name='Save' id='Save' class='form-submitter btn-success small' value="Save" data-testid="save">
                 <span class="icon-save"></span> Save</button>
@@ -172,7 +190,7 @@ HTML
 <div class='xhtml_form'>
     <form method='post' id='test' name='test' action=''>
     <input type='hidden' class='global' name='test_sent' value='1'/>
-    <input id="X-CSRF-Token" name="X-CSRF-Token" type="hidden" value="$token"/>
+    <input id="X-CSRF-Token" name="X-CSRF-Token" resourceType="" type="hidden" value="$token"/>
         <div class='form-toolbar'>
             <button disabled="disabled" type='submit' name='Save' id='Save' class='form-submitter btn-success small' value="Save" data-testid="save">
                 <span class="icon-save"></span> Save</button>
@@ -192,9 +210,9 @@ HTML
     <form method='post' id='test' name='test' action=''>
     <input type='hidden' class='global' name='test_sent' value='1'/>
     <div>
-        <input disabled="disabled" id="test" name="test" type="text" value="" data-testid="Test"/>
+        <input disabled="disabled" id="test" name="test" resourceType="" type="text" value="" data-testid="Test"/>
     </div>
-    <input id="X-CSRF-Token" name="X-CSRF-Token" type="hidden" value="$token"/>
+    <input id="X-CSRF-Token" name="X-CSRF-Token" resourceType="" type="hidden" value="$token"/>
         <div class='form-toolbar'>
             <button disabled="disabled" type='submit' name='Save' id='Save' class='form-submitter btn-success small' value="Save" data-testid="save">
                 <span class="icon-save"></span> Save</button>
@@ -210,6 +228,7 @@ HTML
                 new tao_helpers_form_elements_xhtml_Textbox('test'),
             ],
         ];
+        // phpcs:enable
     }
 
     private function createApplicationServiceTestDouble(): ApplicationService
