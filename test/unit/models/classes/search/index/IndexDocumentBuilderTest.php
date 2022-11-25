@@ -159,10 +159,7 @@ class IndexDocumentBuilderTest extends TestCase
                 );
             });
 
-        $doc = $this->builder->createDocumentFromArray(
-            self::ARRAY_RESOURCE,
-            $this->ontologyMock
-        );
+        $doc = $this->builder->createDocumentFromArray(self::ARRAY_RESOURCE);
 
         $this->assertEquals(self::ARRAY_RESOURCE['id'], $doc->getId());
         $this->assertEquals(self::ARRAY_RESOURCE['body'], $doc->getBody());
