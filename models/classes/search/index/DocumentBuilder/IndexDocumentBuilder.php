@@ -28,7 +28,6 @@ use common_exception_InconsistentData;
 use common_exception_MissingParameter;
 use core_kernel_classes_Container;
 use core_kernel_classes_Property;
-use oat\generis\model\data\Ontology;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\data\permission\ReverseRightLookupInterface;
 use oat\generis\model\OntologyAwareTrait;
@@ -85,10 +84,8 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         );
     }
 
-    public function createDocumentFromArray(
-        array $resourceData = [],
-        Ontology $ontology = null
-    ): IndexDocument {
+    public function createDocumentFromArray(array $resourceData = []): IndexDocument
+    {
         if (!isset($resourceData['id'])) {
             throw new common_exception_MissingParameter('id');
         }
@@ -97,9 +94,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
             throw new common_exception_MissingParameter('body');
         }
 
-        $resource = $ontology instanceof Ontology
-            ? $ontology->getResource($resourceData['id'])
-            : new Resource($resourceData['id']);
+        $resource = $this->getResource($resourceData['id']);
 
         if (isset($resourceData['indexProperties'])) {
             $indexProperties = $resourceData['indexProperties'];
