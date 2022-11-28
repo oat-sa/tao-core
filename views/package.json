@@ -17,7 +17,7 @@
         "@oat-sa/tao-core-libs": "0.4.8",
         "@oat-sa/tao-core-sdk": "1.21.0",
         "@oat-sa/tao-core-shared-libs": "1.5.0",
-        "@oat-sa/tao-core-ui": "1.63.0",
+        "@oat-sa/tao-core-ui": "1.63.1",
         "codemirror": "^5.54.0",
         "decimal.js": "10.1.1",
         "dompurify": "1.0.11",
