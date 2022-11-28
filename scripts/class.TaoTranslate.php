@@ -137,9 +137,12 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
     public function preRun()
     {
 
-        $this->options = ['verbose' => false,
-                               'action' => null,
-                               'extension' => null];
+        $this->options = [
+            'verbose' => false,
+            'clearTranslations' => false,
+            'action' => null,
+            'extension' => null,
+        ];
 
         $this->options = array_merge($this->options, $this->parameters);
 
@@ -614,7 +617,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             }
 
             //Do not remove translations that exists on the po files
-            if ($translationFile->getBySource($oldTu) === null) {
+            if ($translationFile->getBySource($oldTu) === null && !$this->options['clearTranslations']) {
                 $this->outVerbose(
                     sprintf(
                         'The translation key "%s" was not found in the codebase. This could be related to a code change where it no longer uses that key. Manually remove it from the "%s" file if not needed.',
