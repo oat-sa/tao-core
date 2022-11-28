@@ -85,7 +85,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
                 if ($hasReadAccess === false) {
                     $content = [
                         'label' => __('Access Denied'),
-                        'id' => ''
+                        'id' => $resourceId,
                     ];
                 }
 
