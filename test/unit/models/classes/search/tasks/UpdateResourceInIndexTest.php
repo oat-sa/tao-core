@@ -17,6 +17,7 @@
  *
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
  */
+
 declare(strict_types=1);
 
 namespace test\unit\models\classes\search\tasks;
@@ -95,7 +96,7 @@ class UpdateResourceInIndexTest extends TestCase
         $this->ontology = $this->createMock(Ontology::class);
         $this->ontology
             ->method('getResource')
-            ->willReturnCallback(function(string $uri) {
+            ->willReturnCallback(function (string $uri) {
                 switch ($uri) {
                     case 'http://resource/1':
                         return $this->resource1;
@@ -130,7 +131,7 @@ class UpdateResourceInIndexTest extends TestCase
         $this->documentBuilder
             ->expects($this->exactly(2))
             ->method('createDocumentFromResource')
-            ->willReturnCallback(function(core_kernel_classes_Resource $r) {
+            ->willReturnCallback(function (core_kernel_classes_Resource $r) {
                 switch ($r->getUri()) {
                     case 'http://resource/1':
                         return $this->document1;
