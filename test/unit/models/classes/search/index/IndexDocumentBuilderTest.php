@@ -222,4 +222,49 @@ class IndexDocumentBuilderTest extends TestCase
             ],
         ];
     }
+
+    public function testCreateDocumentFromArrayUsesProvidedIndexProperties(): void
+    {
+        $updatedAtMock = $this->createMock(core_kernel_classes_Property::class);
+        $updatedAtMock
+            ->method('__toString')
+            ->willReturn('Updated At');
+
+        $this->resourceMock
+            ->method('getUri')
+            ->willReturn(self::RESOURCE_URI);
+        $this->resourceMock
+            ->method('getTypes')
+            ->willReturn([]);
+        $this->resourceMock
+            ->method('getProperty')
+            ->with(TaoOntology::PROPERTY_UPDATED_AT)
+            ->willReturn($updatedAtMock);
+
+        $this->ontologyMock
+            ->method('getResource')
+            ->with(self::RESOURCE_URI)
+            ->willReturn($this->resourceMock);
+
+        $this->tokenGeneratorMock
+            ->expects($this->never())
+            ->method('generateTokens');
+
+        $data = [
+            'id' => self::RESOURCE_URI,
+            'body' => [
+                'type' => ['type1']
+            ],
+            'indexProperties' => [
+                'property' => 'value',
+            ],
+        ];
+
+        $doc = $this->builder->createDocumentFromArray($data);
+
+        $this->assertEquals(self::RESOURCE_URI, $doc->getId());
+        $this->assertEquals(['type' => ['type1']], $doc->getBody());
+        $this->assertEquals(['property' => 'value'], $doc->getIndexProperties());
+        $this->assertEquals([], iterator_to_array($doc->getDynamicProperties()));
+    }
 }
