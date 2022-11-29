@@ -27,6 +27,7 @@ use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\data\permission\PermissionInterface;
+use oat\generis\model\data\permission\ReverseRightLookupInterface;
 use oat\generis\test\OntologyMockTrait;
 use oat\generis\test\ServiceManagerMockTrait;
 use oat\generis\test\TestCase;
@@ -69,6 +70,9 @@ class IndexDocumentBuilderTest extends TestCase
     /** @var SearchTokenGenerator|MockObject */
     private $tokenGeneratorMock;
 
+    /** @var PermissionInterface|MockObject */
+    private $permissionProvider;
+
     public function setUp(): void
     {
         $this->ontologyMock = $this->createMock(Ontology::class);
@@ -87,13 +91,16 @@ class IndexDocumentBuilderTest extends TestCase
         $this->tokenGeneratorMock = $this->createMock(
             SearchTokenGenerator::class
         );
+        $this->permissionProvider = $this->createMock(
+            ReverseRightLookupInterface::class
+        );
 
         $this->builder = new IndexDocumentBuilder();
         $this->builder->setServiceManager(
             $this->getServiceManagerMock(
                 [
                     Ontology::SERVICE_ID => $this->ontologyMock,
-                    PermissionInterface::SERVICE_ID => $this->createMock(PermissionInterface::class),
+                    PermissionInterface::SERVICE_ID => $this->permissionProvider,
                     SearchTokenGenerator::class => $this->tokenGeneratorMock,
                     LoggerService::SERVICE_ID => new NullLogger(),
                     PropertyIndexReferenceFactory::class => $this->propertyIndexReferenceFactory,
@@ -114,8 +121,14 @@ class IndexDocumentBuilderTest extends TestCase
                 'updated_at' => '',
             ],
             [],
-            new ArrayIterator()
+            new ArrayIterator(),
+            new ArrayIterator(['read_access' => []])
         );
+
+        $this->permissionProvider
+            ->expects($this->once())
+            ->method('getResourceAccessData')
+            ->willReturn([]);
 
         $this->assertEquals(
             $document,
@@ -159,6 +172,11 @@ class IndexDocumentBuilderTest extends TestCase
                 );
             });
 
+        $this->permissionProvider
+            ->expects($this->once())
+            ->method('getResourceAccessData')
+            ->willReturn([]);
+
         $doc = $this->builder->createDocumentFromArray(self::ARRAY_RESOURCE);
 
         $this->assertEquals(self::ARRAY_RESOURCE['id'], $doc->getId());
@@ -173,6 +191,10 @@ class IndexDocumentBuilderTest extends TestCase
     public function testCreateDocumentFromArrayThrowsOnInvalidInput(array $resourceData): void
     {
         $this->expectException(\common_exception_MissingParameter::class);
+
+        $this->permissionProvider
+            ->expects($this->never())
+            ->method('getResourceAccessData');
 
         $updatedAtMock = $this->createMock(core_kernel_classes_Property::class);
         $updatedAtMock
@@ -225,6 +247,61 @@ class IndexDocumentBuilderTest extends TestCase
 
     public function testCreateDocumentFromArrayUsesProvidedIndexProperties(): void
     {
+        $this->permissionProvider
+            ->expects($this->once())
+            ->method('getResourceAccessData')
+            ->willReturn([]);
+
+        $updatedAtMock = $this->createMock(core_kernel_classes_Property::class);
+        $updatedAtMock
+            ->method('__toString')
+            ->willReturn('Updated At');
+
+        $this->resourceMock
+            ->method('getUri')
+            ->willReturn(self::RESOURCE_URI);
+        $this->resourceMock
+            ->method('getTypes')
+            ->willReturn([]);
+        $this->resourceMock
+            ->method('getProperty')
+            ->with(TaoOntology::PROPERTY_UPDATED_AT)
+            ->willReturn($updatedAtMock);
+
+        $this->ontologyMock
+            ->method('getResource')
+            ->with(self::RESOURCE_URI)
+            ->willReturn($this->resourceMock);
+
+        $this->tokenGeneratorMock
+            ->expects($this->never())
+            ->method('generateTokens');
+
+        $this->permissionProvider
+            ->expects($this->once())
+            ->method('getResourceAccessData')
+            ->willReturn([]);
+
+        $data = [
+            'id' => self::RESOURCE_URI,
+            'body' => [
+                'type' => ['type1']
+            ],
+            'indexProperties' => [
+                'property' => 'value',
+            ],
+        ];
+
+        $doc = $this->builder->createDocumentFromArray($data);
+
+        $this->assertEquals(self::RESOURCE_URI, $doc->getId());
+        $this->assertEquals(['type' => ['type1']], $doc->getBody());
+        $this->assertEquals(['property' => 'value'], $doc->getIndexProperties());
+        $this->assertEquals([], iterator_to_array($doc->getDynamicProperties()));
+    }
+
+    public function testCreateDocumentFromArrayUsesPermissionsFromProvider(): void
+    {
         $updatedAtMock = $this->createMock(core_kernel_classes_Property::class);
         $updatedAtMock
             ->method('__toString')
@@ -259,6 +336,14 @@ class IndexDocumentBuilderTest extends TestCase
                 'property' => 'value',
             ],
         ];
+
+        $this->permissionProvider
+            ->expects($this->once())
+            ->method('getResourceAccessData')
+            ->willReturn([
+                'right1' => 'value',
+                'right2' => 'value',
+            ]);
 
         $doc = $this->builder->createDocumentFromArray($data);
 
