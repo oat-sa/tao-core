@@ -124,7 +124,7 @@ class UpdateResourceInIndexTest extends TestCase
     public function testIndexDocuments(): void
     {
         $this->checker
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(1))
             ->method('isEnabled')
             ->willReturn(true);
 
