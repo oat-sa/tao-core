@@ -45,10 +45,10 @@ class ResourceWatcher extends ConfigurableService
 {
     use OntologyAwareTrait;
 
-    const SERVICE_ID = 'tao/ResourceWatcher';
+    public const SERVICE_ID = 'tao/ResourceWatcher';
 
     /** Time in seconds for updatedAt threshold */
-    const OPTION_THRESHOLD = 'threshold';
+    public const OPTION_THRESHOLD = 'threshold';
 
     /** @var array */
     protected $updatedAtCache = [];

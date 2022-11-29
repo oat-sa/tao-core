@@ -155,7 +155,7 @@ class IndexDocumentBuilderTest extends TestCase
                 }
 
                 $this->fail(
-                    'Unexpected resource requested: '.$resource->getUri()
+                    "Unexpected resource requested: {$resource->getUri()}"
                 );
             });
 
