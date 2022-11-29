@@ -78,14 +78,13 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
      */
     private function getIndexDocuments(array $resourceUris): array
     {
+        $documentBuilder = $this->getDocumentBuilder();
         $documents = [];
 
         foreach ($resourceUris as $resourceUri) {
             $this->resourceUris[] = $resourceUri;
 
-            $documents[] = $this->getDocumentBuilder()->createDocumentFromResource(
-                $this->getResource($resourceUri)
-            );
+            $documents[] = $documentBuilder->createDocumentFromResource($this->getResource($resourceUri));
         }
 
         return $documents;
