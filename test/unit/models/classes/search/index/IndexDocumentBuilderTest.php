@@ -166,4 +166,60 @@ class IndexDocumentBuilderTest extends TestCase
         $this->assertEquals([], $doc->getIndexProperties());
         $this->assertEquals([], iterator_to_array($doc->getDynamicProperties()));
     }
+
+    /**
+     * @dataProvider createDocumentFromArrayThrowsOnInvalidInputDataProvider
+     */
+    public function testCreateDocumentFromArrayThrowsOnInvalidInput(array $resourceData): void
+    {
+        $this->expectException(\common_exception_MissingParameter::class);
+
+        $updatedAtMock = $this->createMock(core_kernel_classes_Property::class);
+        $updatedAtMock
+            ->expects($this->never())
+            ->method('__toString');
+
+        $this->resourceMock
+            ->expects($this->never())
+            ->method('getUri');
+
+        $this->resourceMock
+            ->expects($this->never())
+            ->method('getTypes');
+
+        $this->resourceMock
+            ->expects($this->never())
+            ->method('getProperty');
+
+        $this->ontologyMock
+            ->expects($this->never())
+            ->method('getResource');
+
+        $this->tokenGeneratorMock
+            ->expects($this->never())
+            ->method('generateTokens');
+
+        $this->builder->createDocumentFromArray($resourceData);
+    }
+
+    public function createDocumentFromArrayThrowsOnInvalidInputDataProvider(): array
+    {
+        return [
+            'Missing ID property' => [
+                [
+                    'body' => [
+                        'type' => []
+                    ]
+                ]
+            ],
+            'Missing body property' => [
+                [
+                    'id' => self::RESOURCE_URI,
+                ]
+            ],
+            'Missing both ID and body' => [
+                []
+            ],
+        ];
+    }
 }
