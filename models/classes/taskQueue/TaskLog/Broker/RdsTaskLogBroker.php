@@ -71,26 +71,22 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
         $collection = [];
 
         try {
-            $queryDiffInSecond = ($this->getPersistence()->getPlatForm()->getName() === 'postgresql')
-                ? 'extract(second from (%2$s - %1$s))'
-                : 'timestampdiff(second, %1$s, %2$s)';
-
             $qb = $this->getQueryBuilder();
             $qb
                 ->select(
                     TaskLogBrokerInterface::COLUMN_ID,
-                    sprintf(
-                        $queryDiffInSecond . ' as executionTime',
-                        TaskLogBrokerInterface::COLUMN_CREATED_AT,
-                        TaskLogBrokerInterface::COLUMN_UPDATED_AT
-                    )
+                    TaskLogBrokerInterface::COLUMN_CREATED_AT,
+                    TaskLogBrokerInterface::COLUMN_UPDATED_AT
                 )
                 ->from($this->getTableName())
                 ->where(
-                    $qb->expr()->in(TaskLogBrokerInterface::COLUMN_STATUS, [
-                        $qb->expr()->literal(TaskLogInterface::STATUS_COMPLETED),
-                        $qb->expr()->literal(TaskLogInterface::STATUS_ARCHIVED),
-                    ]),
+                    $qb->expr()->in(
+                        TaskLogBrokerInterface::COLUMN_STATUS,
+                        [
+                            $qb->expr()->literal(TaskLogInterface::STATUS_COMPLETED),
+                            $qb->expr()->literal(TaskLogInterface::STATUS_ARCHIVED),
+                        ]
+                    ),
                     $qb->expr()->gte(TaskLogBrokerInterface::COLUMN_CREATED_AT, ':from'),
                     $qb->expr()->lte(TaskLogBrokerInterface::COLUMN_CREATED_AT, ':to')
                 )
@@ -100,8 +96,14 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
                 ]);
 
             $results = $qb->execute();
+
             while (($row = $results->fetchAssociative()) !== false) {
-                $collection[$row[TaskLogBrokerInterface::COLUMN_ID]] = $row['executionTime'];
+                if (empty($row[TaskLogBrokerInterface::COLUMN_UPDATED_AT])) {
+                    continue;
+                }
+                $collection[$row[TaskLogBrokerInterface::COLUMN_ID]] =
+                    strtotime($row[TaskLogBrokerInterface::COLUMN_UPDATED_AT])
+                    - strtotime($row[TaskLogBrokerInterface::COLUMN_CREATED_AT]);
             }
 
         } catch (Exception $exception) {
