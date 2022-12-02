@@ -35,6 +35,9 @@ use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
+/**
+ * @TODO Deprecate, remove content and Move to AdvancedSearch
+ */
 class UpdateClassInIndex implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
 {
     use ServiceLocatorAwareTrait;

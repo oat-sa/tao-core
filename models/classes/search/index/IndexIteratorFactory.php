@@ -26,6 +26,7 @@ use oat\tao\model\resources\ResourceIterator;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+//@TODO Move to advancedSearch
 class IndexIteratorFactory
 {
     use ServiceLocatorAwareTrait;

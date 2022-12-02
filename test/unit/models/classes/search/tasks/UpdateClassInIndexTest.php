@@ -32,6 +32,7 @@ use oat\tao\model\search\tasks\UpdateClassInIndex;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
+// @TODO Move to AdvancedSearch
 class UpdateClassInIndexTest extends TestCase
 {
     /** @var UpdateClassInIndex */

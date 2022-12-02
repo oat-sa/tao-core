@@ -36,6 +36,8 @@ use oat\generis\model\OntologyAwareTrait;
  *
  * @author Aleksej Tikhanovich <aleksej@taotesting.com>
  * @package oat\tao\model\search\tasks
+ *
+ * @TODO Remove references and use AdvancedSearch
  */
 class AddSearchIndexFromArray implements Action, ServiceLocatorAwareInterface, TaskAwareInterface
 {
