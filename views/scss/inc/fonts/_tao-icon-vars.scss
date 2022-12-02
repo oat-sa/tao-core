@@ -13,11 +13,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-furigana { content: "\e919"; }
+@mixin icon-add-subsection { content: "\e918"; }
 @mixin icon-info-bare { content: "\e923"; }
 @mixin icon-bookmark-outline { content: "\e922"; }
 @mixin icon-bookmark { content: "\e921"; }
 @mixin icon-indicator { content: "\e920"; }
-@mixin icon-add-subsection { content: "\e918"; }
 @mixin icon-wrap-inline { content: "\e915"; }
 @mixin icon-wrap-left { content: "\e916"; }
 @mixin icon-wrap-right { content: "\e917"; }
