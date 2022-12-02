@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2022.11\n"
-"PO-Revision-Date: 2022-11-24T14:25:29\n"
+"PO-Revision-Date: 2022-12-02T14:02:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -1450,7 +1450,7 @@ msgid "Mind mapping software application (free mind open source)"
 msgstr ""
 
 msgid "minimum %s"
-msgstr ""
+msgstr "mindestens %s"
 
 msgid "minutes"
 msgstr "Minuten"
