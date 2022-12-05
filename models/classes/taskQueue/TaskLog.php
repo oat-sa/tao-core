@@ -21,6 +21,7 @@
 
 namespace oat\tao\model\taskQueue;
 
+use Datetime;
 use common_report_Report as Report;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\FileSystemService;
@@ -230,6 +231,14 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
     public function search(TaskLogFilter $filter)
     {
         return $this->getBroker()->search($filter);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTaskExecutionTimesByDateRange(DateTime $from, DateTime $to): array
+    {
+        return $this->getBroker()->getTaskExecutionTimesByDateRange($from, $to);
     }
 
     /**
