@@ -22,7 +22,7 @@
 namespace oat\tao\model\taskQueue\TaskLog\Broker;
 
 use common_report_Report as Report;
-use \DateTime;
+use DateTime;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\CollectionInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
