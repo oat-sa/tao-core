@@ -22,6 +22,7 @@
 namespace oat\tao\model\taskQueue;
 
 use common_report_Report as Report;
+use DateTime;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\DataTablePayload;
@@ -246,4 +247,14 @@ interface TaskLogInterface extends LoggerAwareInterface
      * @return array
      */
     public function getTaskCategories();
+
+    /**
+     * Fetch task execution times for given date range
+     * Formatted with task id as key and execution time as value
+     *
+     * @param DateTime $from
+     * @param DateTime $to
+     * @return array [ 'task1'=> 'time-in-second', 'task-id-1' => 10]`
+     */
+    public function getTaskExecutionTimesByDateRange(DateTime $from, DateTime $to): array;
 }

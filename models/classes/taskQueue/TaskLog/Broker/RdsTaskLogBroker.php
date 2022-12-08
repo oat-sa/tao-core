@@ -30,6 +30,8 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use common_report_Report as Report;
+use Exception;
+use DateTime;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
@@ -61,6 +63,53 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
     {
         $this->persistenceId = $persistenceId;
         $this->containerName = $containerName ?? self::DEFAULT_CONTAINER_NAME;
+    }
+
+    public function getTaskExecutionTimesByDateRange(DateTime $from, DateTime $to): array
+    {
+        $collection = [];
+
+        try {
+            $qb = $this->getQueryBuilder();
+            $qb
+                ->select(
+                    TaskLogBrokerInterface::COLUMN_ID,
+                    TaskLogBrokerInterface::COLUMN_CREATED_AT,
+                    TaskLogBrokerInterface::COLUMN_UPDATED_AT
+                )
+                ->from($this->getTableName())
+                ->where(
+                    $qb->expr()->in(
+                        TaskLogBrokerInterface::COLUMN_STATUS,
+                        [
+                            $qb->expr()->literal(TaskLogInterface::STATUS_COMPLETED),
+                            $qb->expr   ()->literal(TaskLogInterface::STATUS_ARCHIVED),
+                        ]
+                    ),
+                    $qb->expr()->gte(TaskLogBrokerInterface::COLUMN_CREATED_AT, ':from'),
+                    $qb->expr()->lte(TaskLogBrokerInterface::COLUMN_CREATED_AT, ':to')
+                )
+                ->setParameters([
+                    'from' => $from->format('Y-m-d H:i:s'),
+                    'to' => $to->format('Y-m-d H:i:s')
+                ]);
+
+            $results = $qb->execute();
+
+            while (($row = $results->fetchAssociative()) !== false) {
+                if (empty($row[TaskLogBrokerInterface::COLUMN_UPDATED_AT])) {
+                    continue;
+                }
+                $collection[$row[TaskLogBrokerInterface::COLUMN_ID]] =
+                    strtotime($row[TaskLogBrokerInterface::COLUMN_UPDATED_AT])
+                    - strtotime($row[TaskLogBrokerInterface::COLUMN_CREATED_AT]);
+            }
+
+        } catch (Exception $exception) {
+            $this->logError('Searching for task logs failed with MSG: ' . $exception->getMessage());
+        }
+
+        return $collection;
     }
 
     /**
