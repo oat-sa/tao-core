@@ -94,9 +94,10 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
                     'to' => $to->format('Y-m-d H:i:s')
                 ]);
 
-            $results = $qb->execute();
+            $stmt = $qb->execute();
+            $results = $stmt->fetchAll();
 
-            while (($row = $results->fetchAssociative()) !== false) {
+            foreach ($results as $row) {
                 if (empty($row[TaskLogBrokerInterface::COLUMN_UPDATED_AT])) {
                     continue;
                 }
