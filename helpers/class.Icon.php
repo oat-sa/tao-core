@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 use oat\tao\model\iconBuilder\IconBuilderTrait;
@@ -27,18 +27,19 @@ use oat\tao\model\iconBuilder\IconBuilderTrait;
  *
  * @access		public
  * @author		Dieter Raber, <dieter@taotesting.com>
- * @date		2021-12-09 09:04:40
+ * @date		2022-10-05 16:44:44
  * @package		tao
  */
 class tao_helpers_Icon
 {
     use IconBuilderTrait;
 
+    public const CLASS_FURIGANA = 'icon-furigana';
+    public const CLASS_ADD_SUBSECTION = 'icon-add-subsection';
     public const CLASS_INFO_BARE = 'icon-info-bare';
     public const CLASS_BOOKMARK_OUTLINE = 'icon-bookmark-outline';
     public const CLASS_BOOKMARK = 'icon-bookmark';
     public const CLASS_INDICATOR = 'icon-indicator';
-    public const CLASS_ADD_SUBSECTION = 'icon-add-subsection';
     public const CLASS_WRAP_INLINE = 'icon-wrap-inline';
     public const CLASS_WRAP_LEFT = 'icon-wrap-left';
     public const CLASS_WRAP_RIGHT = 'icon-wrap-right';
@@ -260,6 +261,16 @@ class tao_helpers_Icon
     public const CLASS_ELIMINATE_CROSSED = 'icon-eliminate-crossed';
     public const CLASS_PLAY_FROM_HERE = 'icon-play-from-here';
 
+    public static function iconFurigana(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_FURIGANA, $options);
+    }
+
+    public static function iconAddSubsection(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_ADD_SUBSECTION, $options);
+    }
+
     public static function iconInfoBare(array $options = [])
     {
         return self::buildIcon(self::CLASS_INFO_BARE, $options);
@@ -278,11 +289,6 @@ class tao_helpers_Icon
     public static function iconIndicator(array $options = [])
     {
         return self::buildIcon(self::CLASS_INDICATOR, $options);
-    }
-
-    public static function iconAddSubsection(array $options = [])
-    {
-        return self::buildIcon(self::CLASS_ADD_SUBSECTION, $options);
     }
 
     public static function iconWrapInline(array $options = [])

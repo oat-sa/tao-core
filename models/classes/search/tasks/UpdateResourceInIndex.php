@@ -22,16 +22,20 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\tasks;
 
+use common_Exception;
+use common_exception_InconsistentData;
 use common_exception_MissingParameter;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\action\Action;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\reporting\Report;
-use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
+use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\SearchProxy;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
+use oat\taoAdvancedSearch\model\Index\Service\AdvancedSearchIndexDocumentBuilder;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -45,10 +49,12 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
     use TaskAwareTrait;
     use LoggerAwareTrait;
 
-    /** @var array  */
-    private $resourceUris = [];
+    /** @var string[] */
+    private array $resourceUris = [];
 
     /**
+     * @throws common_Exception
+     * @throws common_exception_InconsistentData
      * @throws common_exception_MissingParameter
      */
     public function __invoke($params): Report
@@ -57,7 +63,35 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
             throw new common_exception_MissingParameter();
         }
 
-        $numberOfIndexed = $this->getSearchProxy()->index($this->getIndexDocuments($params));
+        $resourceUris = is_array($params[0]) ? $params[0] : [$params[0]];
+
+        return $this->getReport(
+            $this->getSearchProxy()->index(
+                $this->getIndexDocuments($resourceUris)
+            )
+        );
+    }
+
+    /**
+     * @throws common_exception_InconsistentData
+     * @throws common_Exception
+     */
+    private function getIndexDocuments(array $resourceUris): array
+    {
+        $documentBuilder = $this->getDocumentBuilder();
+        $documents = [];
+
+        foreach ($resourceUris as $resourceUri) {
+            $this->resourceUris[] = $resourceUri;
+
+            $documents[] = $documentBuilder->createDocumentFromResource($this->getResource($resourceUri));
+        }
+
+        return $documents;
+    }
+
+    private function getReport($numberOfIndexed): Report
+    {
         $expectedIndexations = count($this->resourceUris);
         $resourceUris = implode(',', $this->resourceUris);
 
@@ -89,25 +123,12 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
         return Report::createWarning($message);
     }
 
-    private function getIndexDocuments(array $params): array
+    private function getDocumentBuilder(): IndexDocumentBuilderInterface
     {
-        $documents = [];
-        $resourceUris = is_array($params[0]) ? $params[0] : [$params[0]];
-        $documentBuilder = $this->getIndexDocumentBuilder();
-
-        foreach ($resourceUris as $resourceUri) {
-            $this->resourceUris[] = $resourceUri;
-
-            $createdResource = $this->getResource($resourceUri);
-
-            $documents[] = $documentBuilder->createDocumentFromResource($createdResource);
+        if ($this->getAdvancedSearchChecker()->isEnabled()) {
+            return $this->getServiceLocator()->getContainer()->get(AdvancedSearchIndexDocumentBuilder::class);
         }
 
-        return $documents;
-    }
-
-    private function getIndexDocumentBuilder(): IndexDocumentBuilder
-    {
         $documentBuilder = $this->getIndexService()->getDocumentBuilder();
         $documentBuilder->setServiceLocator($this->getServiceLocator());
 
@@ -122,5 +143,10 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
     private function getIndexService(): IndexService
     {
         return $this->getServiceLocator()->getContainer()->get(IndexService::SERVICE_ID);
+    }
+
+    private function getAdvancedSearchChecker(): AdvancedSearchChecker
+    {
+        return $this->getServiceLocator()->getContainer()->get(AdvancedSearchChecker::class);
     }
 }

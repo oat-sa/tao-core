@@ -31,6 +31,7 @@ use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLog\TasksLogsStats;
 use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
 use Psr\Log\LoggerAwareInterface;
+use Datetime;
 
 /**
  * @author Gyula Szucs <gyula@taotesting.com>
@@ -247,4 +248,14 @@ interface TaskLogInterface extends LoggerAwareInterface
      * @return array
      */
     public function getTaskCategories();
+
+    /**
+     * Fetch task execution times for given date range
+     * Formatted with task id as key and execution time as value
+     *
+     * @param DateTime $from
+     * @param DateTime $to
+     * @return array [ 'task1'=> 'time-in-second', 'task-id-1' => 10]`
+     */
+    public function getTaskExecutionTimesByDateRange(DateTime $from, DateTime $to): array;
 }

@@ -1,9 +1,10 @@
 /* Do not edit */[class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-furigana:before { @include icon-furigana; }
+.icon-add-subsection:before { @include icon-add-subsection; }
 .icon-info-bare:before { @include icon-info-bare; }
 .icon-bookmark-outline:before { @include icon-bookmark-outline; }
 .icon-bookmark:before { @include icon-bookmark; }
 .icon-indicator:before { @include icon-indicator; }
-.icon-add-subsection:before { @include icon-add-subsection; }
 .icon-wrap-inline:before { @include icon-wrap-inline; }
 .icon-wrap-left:before { @include icon-wrap-left; }
 .icon-wrap-right:before { @include icon-wrap-right; }

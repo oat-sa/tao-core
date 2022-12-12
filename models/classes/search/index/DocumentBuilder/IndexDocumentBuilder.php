@@ -74,32 +74,41 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         $indexProperties = $tokenizationInfo['indexProperties'];
 
         $body['type'] = $this->getTypesForResource($resource);
-        $dynamicProperties = $this->getDynamicProperties($resource->getTypes(), $resource);
-        $accessProperties = $this->getAccessProperties($resource);
 
         return new IndexDocument(
             $resource->getUri(),
             $body,
             $indexProperties,
-            $dynamicProperties,
-            $accessProperties
+            $this->getDynamicProperties($resource->getTypes(), $resource),
+            $this->getAccessProperties($resource)
         );
     }
 
-    public function createDocumentFromArray(array $resource = []): IndexDocument
+    public function createDocumentFromArray(array $resourceData = []): IndexDocument
     {
-        if (!isset($resource['id'])) {
+        if (!isset($resourceData['id'])) {
             throw new common_exception_MissingParameter('id');
         }
 
-        if (!isset($resource['body'])) {
+        if (!isset($resourceData['body'])) {
             throw new common_exception_MissingParameter('body');
         }
 
+        $resource = $this->getResource($resourceData['id']);
+
+        if (isset($resourceData['indexProperties'])) {
+            $indexProperties = $resourceData['indexProperties'];
+        } else {
+            $tokenizationInfo = $this->getTokenizedResourceBody($resource);
+            $indexProperties = $tokenizationInfo['indexProperties'];
+        }
+
         return new IndexDocument(
-            $resource['id'],
-            $resource['body'],
-            $resource['indexProperties'] ?? []
+            $resourceData['id'],
+            $resourceData['body'],
+            $indexProperties,
+            $this->getDynamicProperties($resource->getTypes(), $resource),
+            $this->getAccessProperties($resource)
         );
     }
 
