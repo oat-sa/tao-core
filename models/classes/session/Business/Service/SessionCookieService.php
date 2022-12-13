@@ -34,13 +34,19 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
 {
     /** @var SessionCookieAttributesFactoryInterface */
     private $sessionCookieAttributesFactory;
+    private bool $flagByArray = false;
 
     public function __construct(SessionCookieAttributesFactoryInterface $sessionCookieAttributesFactory)
     {
         parent::__construct();
 
         $this->sessionCookieAttributesFactory = $sessionCookieAttributesFactory;
+        if (PHP_VERSION_ID > 70300) {
+            $this->flagByArray = true;
+        }
+        //$this->flagByArray = false;
     }
+
 
     public function initializeSessionCookie(): void
     {
@@ -50,14 +56,23 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
             : $sessionParams['domain'];
         $isSecureFlag  = Request::isHttps();
         $sessionCookieAttributes = $this->sessionCookieAttributesFactory->create();
-
-        session_set_cookie_params(
-            $sessionParams['lifetime'],
-            (string)$sessionCookieAttributes,
-            $cookieDomain,
-            $isSecureFlag,
-            true
-        );
+        if ($this->flagByArray) {
+            session_set_cookie_params([
+                'lifetime' => $sessionParams['lifetime'],
+                'path' => (string)$sessionCookieAttributes,
+                'domain' => $cookieDomain,
+                'secure' => $isSecureFlag,
+                'httponly' => true,
+            ]);
+        } else {
+            session_set_cookie_params(
+                $sessionParams['lifetime'],
+                (string)$sessionCookieAttributes,
+                $cookieDomain,
+                $isSecureFlag,
+                true
+            );
+        }
 
         session_name(GENERIS_SESSION_NAME);
 
@@ -68,15 +83,25 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
             //cookie keep alive, if lifetime is not 0
             if ($sessionParams['lifetime'] !== 0) {
                 $expiryTime = $sessionParams['lifetime'] + time();
-                setcookie(
-                    GENERIS_SESSION_NAME,
-                    session_id(),
-                    $expiryTime,
-                    (string)$sessionCookieAttributes,
-                    $cookieDomain,
-                    $isSecureFlag,
-                    true
-                );
+                if ($this->flagByArray) {
+                    setcookie(GENERIS_SESSION_NAME, session_id(), [
+                        'expires' => $expiryTime,
+                        'path' => (string)$sessionCookieAttributes,
+                        'domain' => $cookieDomain,
+                        'secure' => $isSecureFlag,
+                        'httponly' => true,
+                    ]);
+                } else {
+                    setcookie(
+                        GENERIS_SESSION_NAME,
+                        session_id(),
+                        $expiryTime,
+                        (string)$sessionCookieAttributes,
+                        $cookieDomain,
+                        $isSecureFlag,
+                        true
+                    );
+                }
             }
         }
     }

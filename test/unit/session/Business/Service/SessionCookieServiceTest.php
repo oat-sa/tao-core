@@ -89,6 +89,7 @@ namespace oat\tao\test\unit\session\Business\Service {
 
         /** @var SessionCookieService */
         private $sut;
+        private bool $flagByArray = false;
 
         public static function makeMockFunctionCall(string $function, array $arguments = [])
         {
@@ -119,6 +120,9 @@ namespace oat\tao\test\unit\session\Business\Service {
          */
         public function init(): void
         {
+            if (PHP_VERSION_ID > 70300) {
+                $this->flagByArray = true;
+            }
             $this->sut = new SessionCookieService(
                 $this->createSessionCookieAttributeFactoryMock()
             );
@@ -206,19 +210,37 @@ namespace oat\tao\test\unit\session\Business\Service {
             return (new SessionCookieAttributeCollection())
                 ->add(new SessionCookieAttribute(self::SESSION_ATTRIBUTE_NAME, self::SESSION_ATTRIBUTE_VALUE));
         }
+        // if ($this->flagByArray) {
+        //     session_set_cookie_params([
+        //         'lifetime' => $sessionParams['lifetime'],
+        //         'path' => (string)$sessionCookieAttributes,
+        //         'domain' => $cookieDomain,
+        //         'secure' => $isSecureFlag,
+        //         'httponly' => true,
+        //     ]);
+        // } else {
 
         private function expectCookieParametersCall(string $domain, int $lifetime): void
         {
-            self::setGlobalFunctionExpectations('session_get_cookie_params', compact('domain', 'lifetime'));
-            self::setGlobalFunctionExpectations(
-                'session_set_cookie_params',
-                true,
-                $lifetime,
-                $this->createSessionCookieAttributeString(),
-                $this->getCookieDomain($domain),
-                Request::isHttps(),
-                true
-            );
+            if ($this->flagByArray) {
+                //echo "Have to make it!";
+                self::setGlobalFunctionExpectations('session_get_cookie_params', compact('lifetime', $lifetime));
+                self::setGlobalFunctionExpectations('session_get_cookie_params', compact('path', $this->createSessionCookieAttributeString()));
+                self::setGlobalFunctionExpectations('session_get_cookie_params', compact('domain', $this->getCookieDomain($domain)));
+                self::setGlobalFunctionExpectations('session_get_cookie_params', compact('secure', Request::isHttps()));
+                self::setGlobalFunctionExpectations('session_get_cookie_params', compact('httponly', true));
+            } else {
+                self::setGlobalFunctionExpectations('session_get_cookie_params', compact('domain', 'lifetime'));
+                self::setGlobalFunctionExpectations(
+                    'session_set_cookie_params',
+                    true,
+                    $lifetime,
+                    $this->createSessionCookieAttributeString(),
+                    $this->getCookieDomain($domain),
+                    Request::isHttps(),
+                    true
+                );
+            }
             self::setGlobalFunctionExpectations('session_name', GENERIS_SESSION_NAME, GENERIS_SESSION_NAME);
         }
 
