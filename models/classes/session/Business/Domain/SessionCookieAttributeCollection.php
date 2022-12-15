@@ -40,6 +40,40 @@ final class SessionCookieAttributeCollection implements IteratorAggregate
 
         return $collection;
     }
+    
+    /**
+     * getCookieParams
+     * convert collection attributes to cookie options array
+     *
+     * @param  array $params predefined cookie params array from caller code
+     * @param  bool $replace if true it will replace values from collection
+     * @return array
+     */
+    public function getCookieParams(array $params, bool $replace): array
+    {
+        $retVal = $params;
+        foreach ($this as $attribute) {
+            switch ($attribute->name()) {
+                //this is not exists in params array always need to be set not
+                //dependent from replace flag
+                case 'path':
+                     $retVal[$attribute->name()] = $attribute->value();
+                     break;
+                case 'lifetime':
+                case 'domain':
+                case 'secure':
+                case 'httponly':
+                    if ($replace) {
+                        $retVal[$attribute->name()] = $attribute->value();
+                    }
+                    break;
+                default:
+                    $retVal[$attribute->name()]= $attribute->value();
+                    break;
+            }
+        }
+        return $retVal;
+    }
 
     /**
      * @return iterable|SessionCookieAttributeInterface[]

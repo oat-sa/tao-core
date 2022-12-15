@@ -39,6 +39,16 @@ final class SessionCookieAttribute implements SessionCookieAttributeInterface
         $this->value = $value;
     }
 
+    public function name(): string
+    {
+        return $this->name;
+    }
+    public function value(): string
+    {
+        return $this->value;
+    }
+
+
     public function __toString(): string
     {
         return "$this->name=$this->value";
