@@ -58,7 +58,8 @@ namespace oat\tao\model\session\Business\Service {
 
     function setcookie(): bool
     {
-        return SessionCookieServiceTest::makeMockFunctionCall('setcookie', func_get_args());
+        $retVal = SessionCookieServiceTest::makeMockFunctionCall('setcookie', func_get_args());
+        return $retVal;
     }
 }
 
@@ -102,8 +103,8 @@ namespace oat\tao\test\unit\session\Business\Service {
             }
 
             $function = "\\$function";
-
-            return $function(...$arguments);
+            $retVal = $function(...$arguments);
+            return $retVal;
         }
 
         /**
@@ -123,6 +124,7 @@ namespace oat\tao\test\unit\session\Business\Service {
             if (PHP_VERSION_ID > 70300) {
                 $this->flagByArray = true;
             }
+            //$this->flagByArray = false;
             $this->sut = new SessionCookieService(
                 $this->createSessionCookieAttributeFactoryMock()
             );
@@ -249,21 +251,44 @@ namespace oat\tao\test\unit\session\Business\Service {
             self::setGlobalFunctionExpectations('session_start', true);
         }
 
+        // setcookie(GENERIS_SESSION_NAME, session_id(), [
+        //     'expires' => $expiryTime,
+        //     'path' => (string)$sessionCookieAttributes,
+        //     'domain' => $cookieDomain,
+        //     'secure' => $isSecureFlag,
+        //     'httponly' => true,
+        // ]);
+
         private function expectSessionCookieReset(int $lifetime, string $domain): void
         {
             self::setGlobalFunctionExpectations('time', self::TIME);
             self::setGlobalFunctionExpectations('session_id', self::SESSION_ID);
-            self::setGlobalFunctionExpectations(
-                'setcookie',
-                true,
-                GENERIS_SESSION_NAME,
-                self::SESSION_ID,
-                $lifetime + self::TIME,
-                $this->createSessionCookieAttributeString(),
-                $this->getCookieDomain($domain),
-                Request::isHttps(),
-                true
-            );
+
+            if ($this->flagByArray) {
+                // $expires = $lifetime + self::TIME;
+                // $path = $this->createSessionCookieAttributeString();
+                // $domain = $this->getCookieDomain($domain);
+                // $secure = Request::isHttps();
+                // $httponly = true;
+                // self::setGlobalFunctionExpectations(
+                //     'setcookie',
+                //     GENERIS_SESSION_NAME,
+                //     self::SESSION_ID,
+                //     compact('expires', 'path', 'domain', 'secure', 'httponly')
+                // );
+            } else {
+                self::setGlobalFunctionExpectations(
+                    'setcookie',
+                    true,
+                    GENERIS_SESSION_NAME,
+                    self::SESSION_ID,
+                    $lifetime + self::TIME,
+                    $this->createSessionCookieAttributeString(),
+                    $this->getCookieDomain($domain),
+                    Request::isHttps(),
+                    true
+                );
+            }
         }
 
         private function createSessionCookieAttributeString(): string
