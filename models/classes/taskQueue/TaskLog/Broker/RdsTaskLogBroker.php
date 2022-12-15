@@ -26,10 +26,13 @@ namespace oat\tao\model\taskQueue\TaskLog\Broker;
 use common_persistence_sql_SchemaManager;
 use common_persistence_SqlPersistence as SqlPersistence;
 use common_persistence_Persistence as Persistence;
+use common_Utils;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use common_report_Report as Report;
+use Exception;
+use DateTime;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
@@ -61,6 +64,53 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
     {
         $this->persistenceId = $persistenceId;
         $this->containerName = $containerName ?? self::DEFAULT_CONTAINER_NAME;
+    }
+
+    public function getTaskExecutionTimesByDateRange(DateTime $from, DateTime $to): array
+    {
+        $collection = [];
+
+        try {
+            $qb = $this->getQueryBuilder();
+            $qb
+                ->select(
+                    TaskLogBrokerInterface::COLUMN_ID,
+                    TaskLogBrokerInterface::COLUMN_CREATED_AT,
+                    TaskLogBrokerInterface::COLUMN_UPDATED_AT
+                )
+                ->from($this->getTableName())
+                ->where(
+                    $qb->expr()->in(
+                        TaskLogBrokerInterface::COLUMN_STATUS,
+                        [
+                            $qb->expr()->literal(TaskLogInterface::STATUS_COMPLETED),
+                            $qb->expr()->literal(TaskLogInterface::STATUS_ARCHIVED),
+                        ]
+                    ),
+                    $qb->expr()->gte(TaskLogBrokerInterface::COLUMN_CREATED_AT, ':from'),
+                    $qb->expr()->lte(TaskLogBrokerInterface::COLUMN_CREATED_AT, ':to')
+                )
+                ->setParameters([
+                    'from' => $from->format('Y-m-d H:i:s'),
+                    'to' => $to->format('Y-m-d H:i:s')
+                ]);
+
+            $results = $qb->execute();
+
+            while (($row = $results->fetchAssociative()) !== false) {
+                if (empty($row[TaskLogBrokerInterface::COLUMN_UPDATED_AT])) {
+                    continue;
+                }
+                $collection[$row[TaskLogBrokerInterface::COLUMN_ID]] =
+                    strtotime($row[TaskLogBrokerInterface::COLUMN_UPDATED_AT])
+                    - strtotime($row[TaskLogBrokerInterface::COLUMN_CREATED_AT]);
+            }
+
+        } catch (Exception $exception) {
+            $this->logError('Searching for task logs failed with MSG: ' . $exception->getMessage());
+        }
+
+        return $collection;
     }
 
     /**
@@ -139,9 +189,9 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
     public function __toPhpCode()
     {
         return 'new ' . get_called_class() . '('
-            . \common_Utils::toHumanReadablePhpString($this->persistenceId)
+            . common_Utils::toHumanReadablePhpString($this->persistenceId)
             . ', '
-            . \common_Utils::toHumanReadablePhpString($this->containerName)
+            . common_Utils::toHumanReadablePhpString($this->containerName)
             . ')';
     }
 
@@ -254,7 +304,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
 
             $qb->execute();
             $this->getPersistence()->getPlatform()->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->getPersistence()->getPlatform()->rollBack();
 
             return false;
@@ -317,7 +367,7 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
 
             $exec = $qb->execute();
             $this->getPersistence()->getPlatform()->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->getPersistence()->getPlatform()->rollBack();
             $this->logDebug($e->getMessage());
 
