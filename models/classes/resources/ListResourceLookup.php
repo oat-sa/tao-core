@@ -74,7 +74,13 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
         /** @var ResultSet $result */
         $result = $searchService->query($searchString, $rootClass, $offset, $limit);
         $count = $result->getTotalCount();
-        return $this->format($result, $count, $offset, $limit);
+
+        $ids = [];
+        foreach ($result as $item) {
+            $ids[] = $item['id'];
+        }
+
+        return $this->format($ids, $count, $offset, $limit);
     }
 
     /**
