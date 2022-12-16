@@ -82,7 +82,7 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
 
         $ids = [];
         foreach ($result as $item) {
-            $ids[] = $item['id'];
+            $ids[] = $item['id'] ?? $item;
         }
 
         return $this->format($ids, $count, $offset, $limit);
