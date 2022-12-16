@@ -17,7 +17,7 @@
         "@oat-sa/tao-core-libs": "^0.5.1",
         "@oat-sa/tao-core-sdk": "^1.21.1",
         "@oat-sa/tao-core-shared-libs": "1.4.1",
-        "@oat-sa/tao-core-ui": "https://github.com/oat-sa/tao-core-ui-fe#fix/AUT-2349/fix-alignment-form-error-message",
+        "@oat-sa/tao-core-ui": "1.64.2",
         "codemirror": "^5.54.0",
         "decimal.js": "10.1.1",
         "dompurify": "^2.4.0",
