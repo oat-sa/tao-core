@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.09\n"
-"PO-Revision-Date: 2022-08-12T16:45:46\n"
+"Project-Id-Version: TAO 2022.11\n"
+"PO-Revision-Date: 2022-11-24T09:31:01\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ja-JP\n"
@@ -1072,10 +1072,10 @@ msgstr "インポートが無事終了しました"
 msgid "impossible to update task status"
 msgstr "タスクステータスを更新できません"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "処理中"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "処理中"
 
 msgid "Inclusive (AND)"
@@ -1285,6 +1285,9 @@ msgstr "ログアウト"
 msgid "M4A audio"
 msgstr "M4A音声"
 
+msgid "Mail"
+msgstr "Eメール"
+
 msgid "Main Menu"
 msgstr "メインメニュー"
 
@@ -1305,6 +1308,9 @@ msgstr "メンテナンス用ストレージドライバが設定されていま
 
 msgid "Manage class schema"
 msgstr "クラススキーマ管理"
+
+msgid "manage columns"
+msgstr ""
 
 #, tao-public
 msgid "Manage roles"
@@ -1567,10 +1573,10 @@ msgstr "Ogg Vorbis音声"
 msgid "Ogg Vorbis video"
 msgstr "Ogg Vorbis動画"
 
-msgid "Ok"
+msgid "OK"
 msgstr "OK"
 
-msgid "OK"
+msgid "Ok"
 msgstr "OK"
 
 msgid "Old Password"
