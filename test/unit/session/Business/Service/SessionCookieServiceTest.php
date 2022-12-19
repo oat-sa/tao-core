@@ -20,9 +20,9 @@
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
-declare(strict_types=1);
+declare (strict_types = 1);
 
-namespace oat\tao\model\session\Business\Service {
+namespace oat\tao\model\session\Business\Service{
 
     use oat\tao\test\unit\session\Business\Service\SessionCookieServiceTest;
 
@@ -62,7 +62,7 @@ namespace oat\tao\model\session\Business\Service {
     }
 }
 
-namespace oat\tao\test\unit\session\Business\Service {
+namespace oat\tao\test\unit\session\Business\Service{
 
     use common_http_Request as Request;
     use oat\generis\test\TestCase;
@@ -77,7 +77,7 @@ namespace oat\tao\test\unit\session\Business\Service {
      */
     class SessionCookieServiceTest extends TestCase
     {
-        private const SESSION_ATTRIBUTE_NAME  = 'test-name';
+        private const SESSION_ATTRIBUTE_NAME = 'test-name';
         private const SESSION_ATTRIBUTE_VALUE = 'test-value';
 
         private const TIME = 1;
@@ -89,7 +89,6 @@ namespace oat\tao\test\unit\session\Business\Service {
 
         /** @var SessionCookieService */
         private $sut;
-        private bool $flagByArray = false;
 
         public static function makeMockFunctionCall(string $function, array $arguments = [])
         {
@@ -130,8 +129,8 @@ namespace oat\tao\test\unit\session\Business\Service {
         public function assertGlobalFunctionCalls(): void
         {
             foreach (self::$mockFunctions as $globalFunctionExpectation) {
-                // var_dump($globalFunctionExpectation['arguments']);
-                // var_dump($globalFunctionExpectation['actualArguments']);
+                //var_dump("==ARGUMENTS==:",$globalFunctionExpectation['arguments']);
+                //var_dump("==ACTUAL ARGUMENTS==:",$globalFunctionExpectation['actualArguments']);
                 static::assertSame(
                     $globalFunctionExpectation['arguments'],
                     $globalFunctionExpectation['actualArguments']
@@ -176,11 +175,11 @@ namespace oat\tao\test\unit\session\Business\Service {
         {
             return [
                 [
-                    'domain'   => 'test0.com',
+                    'domain' => 'test0.com',
                     'lifetime' => 0,
                 ],
                 [
-                    'domain'   => 'test1.com',
+                    'domain' => 'test1.com',
                     'lifetime' => 1,
                 ],
             ];
@@ -205,20 +204,23 @@ namespace oat\tao\test\unit\session\Business\Service {
 
         private function createSessionCookieAttributeCollection(): SessionCookieAttributeCollection
         {
+            $sessionParams = session_get_cookie_params();
+            $cookieDomain = UriHelper::isValidAsCookieDomain(ROOT_URL)
+            ? UriHelper::getDomain(ROOT_URL)
+            : $sessionParams['domain'];
+
             return (new SessionCookieAttributeCollection())
                 ->add(new SessionCookieAttribute(self::SESSION_ATTRIBUTE_NAME, self::SESSION_ATTRIBUTE_VALUE))
-                ->add(new SessionCookieAttribute('something', 'xyz'))
-                ->add(new SessionCookieAttribute('lifetime', '2'))
-                ->add(new SessionCookieAttribute('path', '/'));
+                ->add(new SessionCookieAttribute('domain', $cookieDomain))
+                ->add(new SessionCookieAttribute('secure', (string) Request::isHttps()))
+                ->add(new SessionCookieAttribute('httponly', 'true'));
+
         }
 
         private function expectCookieParametersCall(string $domain, int $lifetime): void
         {
-            self::setGlobalFunctionExpectations('session_get_cookie_params', compact('lifetime', $lifetime));
-            self::setGlobalFunctionExpectations('session_get_cookie_params', compact('path', $this->createSessionCookieAttributeString()));
-            self::setGlobalFunctionExpectations('session_get_cookie_params', compact('domain', $this->getCookieDomain($domain)));
-            self::setGlobalFunctionExpectations('session_get_cookie_params', compact('secure', Request::isHttps()));
-            self::setGlobalFunctionExpectations('session_get_cookie_params', compact('httponly', true));
+            self::setGlobalFunctionExpectations('session_get_cookie_params', ['lifetime' => $lifetime]);
+            self::setGlobalFunctionExpectations('session_get_cookie_params', ['path' => $this->createSessionCookieAttributeString()]);
             self::setGlobalFunctionExpectations('session_name', GENERIS_SESSION_NAME, GENERIS_SESSION_NAME);
         }
 
@@ -226,7 +228,6 @@ namespace oat\tao\test\unit\session\Business\Service {
         {
             self::setGlobalFunctionExpectations('session_start', true);
         }
-
 
         private function expectSessionCookieReset(int $lifetime, string $domain): void
         {
@@ -238,10 +239,10 @@ namespace oat\tao\test\unit\session\Business\Service {
                 GENERIS_SESSION_NAME,
                 self::SESSION_ID,
                 [
-                    'expires' => 1,//$lifetime + self::TIME,
+                    'expires' => 1, //$lifetime + self::TIME,
                     'domain' => $this->getCookieDomain($domain),
-                    'secure' => Request::isHttps(),
-                    'httponly'=>true
+                    'secure' => (string) Request::isHttps(),
+                    'httponly' => 'true',
                 ],
             );
         }
@@ -254,8 +255,8 @@ namespace oat\tao\test\unit\session\Business\Service {
         private function getCookieDomain(string $domain): string
         {
             return UriHelper::isValidAsCookieDomain(ROOT_URL)
-                ? UriHelper::getDomain(ROOT_URL)
-                : $domain;
+            ? UriHelper::getDomain(ROOT_URL)
+            : $domain;
         }
     }
 }

@@ -20,29 +20,25 @@
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace oat\tao\model\session\Business\Service;
 
-use common_http_Request as Request;
 use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\session\Business\Contract\SessionCookieAttributesFactoryInterface;
 use oat\tao\model\session\Business\Contract\SessionCookieServiceInterface;
-use tao_helpers_Uri as UriHelper;
-use oat\tao\model\session\Business\Domain\SessionCookieAttribute;
 
 class SessionCookieService extends InjectionAwareService implements SessionCookieServiceInterface
 {
     /** @var SessionCookieAttributesFactoryInterface */
     private $sessionCookieAttributesFactory;
-    private bool $flagByArray = false;
 
     public function __construct(SessionCookieAttributesFactoryInterface $sessionCookieAttributesFactory)
     {
         parent::__construct();
         $this->sessionCookieAttributesFactory = $sessionCookieAttributesFactory;
     }
-    
+
     /**
      * initializeSessionCookie
      *
@@ -51,14 +47,7 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
     public function initializeSessionCookie(): void
     {
         $sessionParams = session_get_cookie_params();
-        $cookieDomain  = UriHelper::isValidAsCookieDomain(ROOT_URL)
-            ? UriHelper::getDomain(ROOT_URL)
-            : $sessionParams['domain'];
-        $isSecureFlag  = Request::isHttps();
-        
-        $cookieParams = $this->sessionCookieAttributesFactory->create();
-        $cookieParams->add(new SessionCookieAttribute('lifetime', (string) $sessionParams['lifetime']));
-
+        $cookieParams = $this->sessionCookieAttributesFactory->create()->getCookieParams($sessionParams['lifetime']);
         session_set_cookie_params($cookieParams);
         session_name(GENERIS_SESSION_NAME);
 
@@ -71,9 +60,9 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
                 $expiryTime = $sessionParams['lifetime'] + time();
                 setcookie(GENERIS_SESSION_NAME, session_id(), [
                     'expires' => $expiryTime,
-                    'domain' => $cookieDomain,
-                    'secure' => $isSecureFlag,
-                    'httponly' => true,
+                    'domain' => $cookieParams['domain'],
+                    'secure' => $cookieParams['secure'],
+                    'httponly' => $cookieParams['httponly'],
                 ]);
             }
         }
