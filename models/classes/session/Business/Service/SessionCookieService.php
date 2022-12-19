@@ -29,6 +29,7 @@ use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\session\Business\Contract\SessionCookieAttributesFactoryInterface;
 use oat\tao\model\session\Business\Contract\SessionCookieServiceInterface;
 use tao_helpers_Uri as UriHelper;
+use oat\tao\model\session\Business\Domain\SessionCookieAttribute;
 
 class SessionCookieService extends InjectionAwareService implements SessionCookieServiceInterface
 {
@@ -55,8 +56,9 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
             : $sessionParams['domain'];
         $isSecureFlag  = Request::isHttps();
         
+        $cookieParams = $this->sessionCookieAttributesFactory->create();
+        $cookieParams->add(new SessionCookieAttribute('lifetime', (string) $sessionParams['lifetime']));
 
-        $cookieParams = $this->sessionCookieAttributesFactory->create()->getCookieParams();
         session_set_cookie_params($cookieParams);
         session_name(GENERIS_SESSION_NAME);
 

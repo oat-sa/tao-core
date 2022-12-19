@@ -23,6 +23,7 @@
 declare(strict_types=1);
 
 namespace oat\tao\model\session\Business\Domain;
+
 use tao_helpers_Uri as UriHelper;
 
 use common_http_Request as Request;
@@ -35,23 +36,7 @@ final class SessionCookieAttributeCollection implements IteratorAggregate
     /** @var SessionCookieAttributeInterface[] */
     private $attributes = [];
 
-    public function add(SessionCookieAttributeInterface $attribute): self
-    {
-        $collection = clone $this;
-
-        $collection->attributes[] = $attribute;
-
-        return $collection;
-    }
-    
-    /**
-     * convert collection attributes to cookie options array
-     *
-     * @param  array $params predefined cookie params array from caller code
-     * @param  bool $replace if true it will replace values from collection
-     * @return array
-     */
-    public function getCookieParams(): array
+    public function __construct()
     {
         $sessionParams = session_get_cookie_params();
         $cookieDomain  = UriHelper::isValidAsCookieDomain(ROOT_URL)
@@ -59,16 +44,18 @@ final class SessionCookieAttributeCollection implements IteratorAggregate
             : $sessionParams['domain'];
         $isSecureFlag  = Request::isHttps();
 
-        $retVal = [
-            'lifetime' => $sessionParams['lifetime'],
-            'domain' => $cookieDomain,
-            'secure' => $isSecureFlag,
-            'httponly' => true,
-        ];
-        foreach ($this as $attribute) {
-            $retVal[$attribute->name()]=$attribute->value();
-        }
-        return $retVal;
+        $this->add(new SessionCookieAttribute('domain', $cookieDomain));
+        $this->add(new SessionCookieAttribute('secure', (string)$isSecureFlag));
+        $this->add(new SessionCookieAttribute('httponly', 'true'));
+    }
+
+    public function add(SessionCookieAttributeInterface $attribute): self
+    {
+        $collection = clone $this;
+
+        $collection->attributes[] = $attribute;
+
+        return $collection;
     }
 
     /**
