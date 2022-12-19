@@ -53,7 +53,10 @@ final class SessionCookieAttributeCollection implements IteratorAggregate
         foreach ($this as $attribute) {
             $retVal[$attribute->name()] = $attribute->value();
         }
-        $retVal['lifetime'] = $lifetime;
+        if (isset($lifetime)) {
+            $retVal['lifetime'] = $lifetime;
+        }
+
         return $retVal;
     }
 
