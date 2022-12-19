@@ -1,4 +1,0 @@
-../../vendor/bin/phpunit . --filter testReInitializeSessionCookie
-#../../vendor/bin/phpunit . --filter testInitializeSessionCookie
-
-
