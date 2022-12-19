@@ -42,7 +42,9 @@ final class SessionCookieAttributeCollection implements IteratorAggregate
         : $sessionParams['domain'];
         $isSecureFlag = Request::isHttps();
 
-        $this->add(new SessionCookieAttribute('lifetime', (string) $sessionParams['lifetime']));
+        if (isset($sessionParams['lifetime'])) {
+            $this->add(new SessionCookieAttribute('lifetime', (string) $sessionParams['lifetime']));
+        }
         $this->add(new SessionCookieAttribute('domain', $cookieDomain));
         $this->add(new SessionCookieAttribute('secure', (string) $isSecureFlag));
         $this->add(new SessionCookieAttribute('httponly', 'true'));
