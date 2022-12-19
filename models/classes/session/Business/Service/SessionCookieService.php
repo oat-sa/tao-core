@@ -47,6 +47,10 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
     public function initializeSessionCookie(): void
     {
         $sessionParams = session_get_cookie_params();
+        $lifeTime = null;
+        if (isset($sessionParams['lifetime'])) {
+            $lifeTime = $sessionParams['lifetime'];
+        }
         $cookieParams = $this->sessionCookieAttributesFactory->create()->getCookieParams($sessionParams['lifetime']);
         session_set_cookie_params($cookieParams);
         session_name(GENERIS_SESSION_NAME);
