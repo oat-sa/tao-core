@@ -15,15 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace oat\tao\model\session\Business\Service{
-
     use oat\tao\test\unit\session\Business\Service\SessionCookieServiceTest;
 
     function session_get_cookie_params(): array
@@ -63,7 +62,6 @@ namespace oat\tao\model\session\Business\Service{
 }
 
 namespace oat\tao\test\unit\session\Business\Service{
-
     use common_http_Request as Request;
     use oat\generis\test\TestCase;
     use oat\tao\model\session\Business\Contract\SessionCookieAttributesFactoryInterface;
@@ -214,7 +212,6 @@ namespace oat\tao\test\unit\session\Business\Service{
                 ->add(new SessionCookieAttribute('domain', $cookieDomain))
                 ->add(new SessionCookieAttribute('secure', (string) Request::isHttps()))
                 ->add(new SessionCookieAttribute('httponly', 'true'));
-
         }
 
         private function expectCookieParametersCall(string $domain, int $lifetime): void
