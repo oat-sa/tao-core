@@ -58,8 +58,7 @@ namespace oat\tao\model\session\Business\Service {
 
     function setcookie(): bool
     {
-        $retVal = SessionCookieServiceTest::makeMockFunctionCall('setcookie', func_get_args());
-        return $retVal;
+        return SessionCookieServiceTest::makeMockFunctionCall('setcookie', func_get_args());
     }
 }
 
@@ -103,8 +102,7 @@ namespace oat\tao\test\unit\session\Business\Service {
             }
 
             $function = "\\$function";
-            $retVal = $function(...$arguments);
-            return $retVal;
+            return $function(...$arguments);
         }
 
         /**

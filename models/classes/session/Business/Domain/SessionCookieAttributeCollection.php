@@ -23,6 +23,9 @@
 declare(strict_types=1);
 
 namespace oat\tao\model\session\Business\Domain;
+use tao_helpers_Uri as UriHelper;
+
+use common_http_Request as Request;
 
 use IteratorAggregate;
 use oat\tao\model\session\Business\Contract\SessionCookieAttributeInterface;
@@ -42,35 +45,28 @@ final class SessionCookieAttributeCollection implements IteratorAggregate
     }
     
     /**
-     * getCookieParams
      * convert collection attributes to cookie options array
      *
      * @param  array $params predefined cookie params array from caller code
      * @param  bool $replace if true it will replace values from collection
      * @return array
      */
-    public function getCookieParams(array $params, bool $replace): array
+    public function getCookieParams(): array
     {
-        $retVal = $params;
+        $sessionParams = session_get_cookie_params();
+        $cookieDomain  = UriHelper::isValidAsCookieDomain(ROOT_URL)
+            ? UriHelper::getDomain(ROOT_URL)
+            : $sessionParams['domain'];
+        $isSecureFlag  = Request::isHttps();
+
+        $retVal = [
+            'lifetime' => $sessionParams['lifetime'],
+            'domain' => $cookieDomain,
+            'secure' => $isSecureFlag,
+            'httponly' => true,
+        ];
         foreach ($this as $attribute) {
-            switch ($attribute->name()) {
-                //this is not exists in params array always need to be set not
-                //dependent from replace flag
-                case 'path':
-                     $retVal[$attribute->name()] = $attribute->value();
-                     break;
-                case 'lifetime':
-                case 'domain':
-                case 'secure':
-                case 'httponly':
-                    if ($replace) {
-                        $retVal[$attribute->name()] = $attribute->value();
-                    }
-                    break;
-                default:
-                    $retVal[$attribute->name()]= $attribute->value();
-                    break;
-            }
+            $retVal[$attribute->name()]=$attribute->value();
         }
         return $retVal;
     }

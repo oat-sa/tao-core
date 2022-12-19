@@ -55,14 +55,8 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
             : $sessionParams['domain'];
         $isSecureFlag  = Request::isHttps();
         
-        $params = [
-            'lifetime' => $sessionParams['lifetime'],
-            'domain' => $cookieDomain,
-            'secure' => $isSecureFlag,
-            'httponly' => true,
-        ];
 
-        $cookieParams = $this->sessionCookieAttributesFactory->create()->getCookieParams($params, false);
+        $cookieParams = $this->sessionCookieAttributesFactory->create()->getCookieParams();
         session_set_cookie_params($cookieParams);
         session_name(GENERIS_SESSION_NAME);
 
