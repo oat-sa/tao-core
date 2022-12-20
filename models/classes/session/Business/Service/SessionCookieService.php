@@ -45,6 +45,14 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
     public function initializeSessionCookie(): void
     {
         $sessionParams = session_get_cookie_params();
+        $lifeTime=0;
+        if (is_string($sessionParams['lifetime']))
+        {
+            $lifeTime=(int)trim($sessionParams['lifetime']);
+        }else
+        {
+            $lifeTime=$sessionParams['lifetime'];
+        }
         $cookieDomain  = UriHelper::isValidAsCookieDomain(ROOT_URL)
             ? UriHelper::getDomain(ROOT_URL)
             : $sessionParams['domain'];
@@ -52,7 +60,7 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
         $sessionCookieAttributes = $this->sessionCookieAttributesFactory->create();
 
         session_set_cookie_params(
-            $sessionParams['lifetime'],
+            $lifeTime,
             (string)$sessionCookieAttributes,
             $cookieDomain,
             $isSecureFlag,
@@ -66,8 +74,8 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
             session_start();
 
             //cookie keep alive, if lifetime is not 0
-            if ($sessionParams['lifetime'] !== 0) {
-                $expiryTime = $sessionParams['lifetime'] + time();
+            if ($lifeTime !== 0) {
+                $expiryTime = $lifeTime + time();
                 setcookie(
                     GENERIS_SESSION_NAME,
                     session_id(),
