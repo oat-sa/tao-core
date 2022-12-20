@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -35,17 +35,8 @@ final class SessionCookieAttribute implements SessionCookieAttributeInterface
 
     public function __construct(string $name, string $value)
     {
-        $this->name = $name;
+        $this->name  = $name;
         $this->value = $value;
-    }
-
-    public function name(): string
-    {
-        return $this->name;
-    }
-    public function value(): string
-    {
-        return $this->value;
     }
 
     public function __toString(): string

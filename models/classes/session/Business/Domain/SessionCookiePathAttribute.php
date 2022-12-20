@@ -30,16 +30,6 @@ final class SessionCookiePathAttribute implements SessionCookieAttributeInterfac
 {
     /** @var string */
     private $value;
-    /** @var string */
-    private $name;
-    public function name(): ?string
-    {
-        return 'path';
-    }
-    public function value(): string
-    {
-        return $this->value;
-    }
 
     public function __construct(string $value)
     {
