@@ -45,14 +45,7 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
     public function initializeSessionCookie(): void
     {
         $sessionParams = session_get_cookie_params();
-        $lifeTime=0;
-        if (is_string($sessionParams['lifetime']))
-        {
-            $lifeTime=(int)trim($sessionParams['lifetime']);
-        }else
-        {
-            $lifeTime=$sessionParams['lifetime'];
-        }
+        $lifeTime=(int)($sessionParams['lifetime']);
         $cookieDomain  = UriHelper::isValidAsCookieDomain(ROOT_URL)
             ? UriHelper::getDomain(ROOT_URL)
             : $sessionParams['domain'];
