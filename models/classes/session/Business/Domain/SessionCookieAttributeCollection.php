@@ -15,22 +15,50 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace oat\tao\model\session\Business\Domain;
-
+use common_http_Request as Request;
 use IteratorAggregate;
 use oat\tao\model\session\Business\Contract\SessionCookieAttributeInterface;
+use tao_helpers_Uri as UriHelper;
 
 final class SessionCookieAttributeCollection implements IteratorAggregate
 {
     /** @var SessionCookieAttributeInterface[] */
     private $attributes = [];
+
+    public function __construct()
+    {
+        $sessionParams = session_get_cookie_params();
+        $cookieDomain = UriHelper::isValidAsCookieDomain(ROOT_URL)
+        ? UriHelper::getDomain(ROOT_URL)
+        : $sessionParams['domain'];
+        $isSecureFlag = Request::isHttps();
+
+        if (isset($sessionParams['lifetime'])) {
+            $this->attributes[] = new SessionCookieAttribute('lifetime', $sessionParams['lifetime']);
+        }
+
+        $this->attributes[] = new SessionCookieAttribute('domain', $cookieDomain);
+        $this->attributes[] = new SessionCookieAttribute('secure', $isSecureFlag);
+        $this->attributes[] = new SessionCookieAttribute('httponly', true);
+    }
+    //iterator_to_array not formated properly as we need for cookie paramters
+    //iterator to array make a simple array with objects
+    public function toArray(): array
+    {
+        $retVal = [];
+        foreach ($this as $attribute) {
+            $retVal[$attribute->getName()] = $attribute->getValue();
+        }
+        return $retVal;
+    }
 
     public function add(SessionCookieAttributeInterface $attribute): self
     {
