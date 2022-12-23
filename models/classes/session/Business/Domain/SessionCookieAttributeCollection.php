@@ -59,4 +59,13 @@ final class SessionCookieAttributeCollection implements IteratorAggregate
 
         return implode('; ', $rawAttributes);
     }
+
+    public function toCookieAttributesMap(): array
+    {
+        $resultMap = [];
+        foreach ($this->attributes as $attribute) {
+            $resultMap[$attribute->getName()] = $attribute->getValue();
+        }
+        return $resultMap;
+    }
 }
