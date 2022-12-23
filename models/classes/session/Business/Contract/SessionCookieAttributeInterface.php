@@ -27,4 +27,8 @@ namespace oat\tao\model\session\Business\Contract;
 interface SessionCookieAttributeInterface
 {
     public function __toString(): string;
+
+    public function getName(): string;
+
+    public function getValue();
 }
