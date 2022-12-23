@@ -34,7 +34,7 @@ final class SessionCookieAttribute implements SessionCookieAttributeInterface
 
     public function __construct(string $name, $value)
     {
-        $this->name  = $name;
+        $this->name = $name;
         $this->value = $value;
     }
 
@@ -43,15 +43,13 @@ final class SessionCookieAttribute implements SessionCookieAttributeInterface
         return "$this->name=$this->value";
     }
 
-    public function getName():string
+    public function getName(): string
     {
         return $this->name;
     }
-
 
     public function getValue()
     {
         return $this->value;
     }
-
 }
