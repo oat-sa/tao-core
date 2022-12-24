@@ -36,7 +36,7 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
     /** @var SessionCookieAttributesFactoryInterface */
     private $sessionCookieAttributesFactory;
     private $attributes = [];
-    private $cookieParams = [];
+    private $sessionCookieParams = [];
 
     public function __construct(SessionCookieAttributesFactoryInterface $sessionCookieAttributesFactory)
     {
@@ -67,34 +67,34 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
         $this->attributes[] = new SessionCookieAttribute('httponly', true);
         
         foreach ($this->attributes as $attribute) {
-            $this->cookieParams[$attribute->getName()] = $attribute->getValue();
+            $this->sessionCookieParams[$attribute->getName()] = $attribute->getValue();
         }
-    }
-
-    private function getCookieParams(): array
-    {
-        return $this->cookieParams;
     }
 
     private function getSessionCookieParams(): array
     {
-        $sessionCookieParams = [];
-        if ($this->cookieParams['lifetime'] !== 0) {
-            $expires = $this->cookieParams['lifetime'] + time();
-            foreach ($this->cookieParams as $key => $value) {
+        return $this->sessionCookieParams;
+    }
+
+    private function getCookieParams(): array
+    {
+        $cookieParams = [];
+        if ($this->sessionCookieParams['lifetime'] !== 0) {
+            $expires = $this->sessionCookieParams['lifetime'] + time();
+            foreach ($this->sessionCookieParams as $key => $value) {
                 if ($key === 'lifetime') {
-                    $sessionCookieParams['expires'] = $expires;
+                    $cookieParams['expires'] = $expires;
                 } else {
-                    $sessionCookieParams[$key] = $value;
+                    $cookieParams[$key] = $value;
                 }
             }
         }
-        return $sessionCookieParams;
+        return $cookieParams;
     }
 
     public function initializeSessionCookie(): void
     {
-        session_set_cookie_params($this->getCookieParams());
+        session_set_cookie_params($this->getSessionCookieParams());
         //temporary line to verify replace is working $tmp = $this->setExpires($params);
         session_name(GENERIS_SESSION_NAME);
 
@@ -103,11 +103,11 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
             session_start();
 
             //cookie keep alive, if lifetime is not 0
-            if ($this->cookieParams['lifetime'] !== 0) {
+            if ($this->sessionCookieParams['lifetime'] !== 0) {
                 setcookie(
                     GENERIS_SESSION_NAME,
                     session_id(),
-                    $this->getSessionCookieParams()
+                    $this->getCookieParams()
                 );
             }
         }
