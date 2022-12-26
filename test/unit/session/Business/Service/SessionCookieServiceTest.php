@@ -143,9 +143,9 @@ namespace oat\tao\test\unit\session\Business\Service {
          *
          * @dataProvider dataProvider
          */
-        public function testInitializeSessionCookie(string $domain, int $lifetime, bool $secure, bool $httponly): void
+        public function testInitializeSessionCookie(string $domain, int $lifetime): void
         {
-            $this->expectCookieParametersCall($domain, $lifetime, $secure, $httponly);
+            $this->expectCookieParametersCall($domain, $lifetime);
 
             $this->sut->initializeSessionCookie();
         }
@@ -156,11 +156,11 @@ namespace oat\tao\test\unit\session\Business\Service {
          *
          * @dataProvider dataProvider
          */
-        public function testReInitializeSessionCookie(string $domain, int $lifetime, bool $secure, bool $httponly): void
+        public function testReInitializeSessionCookie(string $domain, int $lifetime): void
         {
             $_COOKIE[GENERIS_SESSION_NAME] = 'test';
 
-            $this->expectCookieParametersCall($domain, $lifetime, $secure, $httponly);
+            $this->expectCookieParametersCall($domain, $lifetime);
             $this->expectSessionReStart();
 
             if (0 !== $lifetime) {
@@ -177,14 +177,10 @@ namespace oat\tao\test\unit\session\Business\Service {
                 [
                     'domain' => 'test0.com',
                     'lifetime' => 0,
-                    'secure' => $isSecureFlag,
-                    'httponly' => true,
                 ],
                 [
                     'domain' => 'test1.com',
                     'lifetime' => 1,
-                    'secure' => $isSecureFlag,
-                    'httponly' => true,
                 ],
             ];
         }
@@ -212,11 +208,11 @@ namespace oat\tao\test\unit\session\Business\Service {
                 ->add(new SessionCookieAttribute(self::SESSION_ATTRIBUTE_NAME, self::SESSION_ATTRIBUTE_VALUE));
         }
 
-        private function expectCookieParametersCall(string $domain, int $lifetime, bool $secure, bool $httponly): void
+        private function expectCookieParametersCall(string $domain, int $lifetime): void
         {
             self::setGlobalFunctionExpectations(
                 'session_get_cookie_params',
-                compact('domain', 'lifetime', 'secure', 'httponly')
+                compact('domain', 'lifetime')
             );
             $params = [
                 'test-name' => 'test-value',
@@ -229,11 +225,6 @@ namespace oat\tao\test\unit\session\Business\Service {
                 'session_set_cookie_params',
                 true,
                 $params
-            // $lifetime,
-            // $this->createSessionCookieAttributeString(),
-            // $this->getCookieDomain($domain),
-            // Request::isHttps(),
-            // true
             );
             self::setGlobalFunctionExpectations('session_name', GENERIS_SESSION_NAME, GENERIS_SESSION_NAME);
         }
