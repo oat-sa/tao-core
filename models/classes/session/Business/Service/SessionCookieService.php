@@ -42,7 +42,8 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
     {
         parent::__construct();
         $this->sessionCookieAttributesFactory = $sessionCookieAttributesFactory;
-        $this->init();
+        //it will brake the unit test logic
+        //   $this->init();
     }
 
     private function init():void
@@ -93,7 +94,9 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
     }
 
     public function initializeSessionCookie(): void
-    {
+    {   //call it here not in the constructor, to keep original logic
+        //of unit test
+        $this->init();
         session_set_cookie_params($this->getSessionCookieParams());
         //temporary line to verify replace is working $tmp = $this->setExpires($params);
         session_name(GENERIS_SESSION_NAME);
