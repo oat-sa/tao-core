@@ -20,7 +20,7 @@
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
-declare(strict_types=1);
+declare (strict_types=1);
 
 namespace oat\tao\model\session\Business\Service {
 
@@ -77,7 +77,7 @@ namespace oat\tao\test\unit\session\Business\Service {
      */
     class SessionCookieServiceTest extends TestCase
     {
-        private const SESSION_ATTRIBUTE_NAME  = 'test-name';
+        private const SESSION_ATTRIBUTE_NAME = 'test-name';
         private const SESSION_ATTRIBUTE_VALUE = 'test-value';
 
         private const TIME = 1;
@@ -139,7 +139,7 @@ namespace oat\tao\test\unit\session\Business\Service {
 
         /**
          * @param string $domain
-         * @param int    $lifetime
+         * @param int $lifetime
          *
          * @dataProvider dataProvider
          */
@@ -152,7 +152,7 @@ namespace oat\tao\test\unit\session\Business\Service {
 
         /**
          * @param string $domain
-         * @param int    $lifetime
+         * @param int $lifetime
          *
          * @dataProvider dataProvider
          */
@@ -172,13 +172,14 @@ namespace oat\tao\test\unit\session\Business\Service {
 
         public function dataProvider(): array
         {
+            $isSecureFlag = Request::isHttps();
             return [
                 [
-                    'domain'   => 'test0.com',
+                    'domain' => 'test0.com',
                     'lifetime' => 0,
                 ],
                 [
-                    'domain'   => 'test1.com',
+                    'domain' => 'test1.com',
                     'lifetime' => 1,
                 ],
             ];
@@ -209,15 +210,21 @@ namespace oat\tao\test\unit\session\Business\Service {
 
         private function expectCookieParametersCall(string $domain, int $lifetime): void
         {
-            self::setGlobalFunctionExpectations('session_get_cookie_params', compact('domain', 'lifetime'));
+            self::setGlobalFunctionExpectations(
+                'session_get_cookie_params',
+                compact('domain', 'lifetime')
+            );
+            $params = [
+                'test-name' => 'test-value',
+                'lifetime' => $lifetime,
+                'domain' => $this->getCookieDomain($domain),
+                'secure' => Request::isHttps(),
+                'httponly' => true
+            ];
             self::setGlobalFunctionExpectations(
                 'session_set_cookie_params',
                 true,
-                $lifetime,
-                $this->createSessionCookieAttributeString(),
-                $this->getCookieDomain($domain),
-                Request::isHttps(),
-                true
+                $params
             );
             self::setGlobalFunctionExpectations('session_name', GENERIS_SESSION_NAME, GENERIS_SESSION_NAME);
         }
@@ -231,16 +238,20 @@ namespace oat\tao\test\unit\session\Business\Service {
         {
             self::setGlobalFunctionExpectations('time', self::TIME);
             self::setGlobalFunctionExpectations('session_id', self::SESSION_ID);
+            $params = [
+                'test-name' => 'test-value',
+                'expires' => $lifetime + self::TIME,
+                'domain' => $this->getCookieDomain($domain),
+                'secure' => Request::isHttps(),
+                'httponly' => true
+            ];
+
             self::setGlobalFunctionExpectations(
                 'setcookie',
                 true,
                 GENERIS_SESSION_NAME,
                 self::SESSION_ID,
-                $lifetime + self::TIME,
-                $this->createSessionCookieAttributeString(),
-                $this->getCookieDomain($domain),
-                Request::isHttps(),
-                true
+                $params
             );
         }
 
