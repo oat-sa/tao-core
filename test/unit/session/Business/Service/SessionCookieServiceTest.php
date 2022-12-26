@@ -238,16 +238,20 @@ namespace oat\tao\test\unit\session\Business\Service {
         {
             self::setGlobalFunctionExpectations('time', self::TIME);
             self::setGlobalFunctionExpectations('session_id', self::SESSION_ID);
+            $params = [
+                'test-name' => 'test-value',
+                'expires' => $lifetime + self::TIME,
+                'domain' => $this->getCookieDomain($domain),
+                'secure' => Request::isHttps(),
+                'httponly' => true
+            ];
+
             self::setGlobalFunctionExpectations(
                 'setcookie',
                 true,
                 GENERIS_SESSION_NAME,
                 self::SESSION_ID,
-                $lifetime + self::TIME,
-                $this->createSessionCookieAttributeString(),
-                $this->getCookieDomain($domain),
-                Request::isHttps(),
-                true
+                $params
             );
         }
 

@@ -46,7 +46,7 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
         //   $this->init();
     }
 
-    private function init():void
+    private function init(): void
     {
         $iterator = $this->sessionCookieAttributesFactory->create()->getIterator();
         while ($iterator->valid()) {
@@ -66,7 +66,7 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
         $this->attributes[] = new SessionCookieAttribute('domain', $cookieDomain);
         $this->attributes[] = new SessionCookieAttribute('secure', $isSecureFlag);
         $this->attributes[] = new SessionCookieAttribute('httponly', true);
-        
+
         foreach ($this->attributes as $attribute) {
             $this->sessionCookieParams[$attribute->getName()] = $attribute->getValue();
         }
