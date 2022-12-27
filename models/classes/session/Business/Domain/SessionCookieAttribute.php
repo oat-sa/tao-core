@@ -50,10 +50,8 @@ final class SessionCookieAttribute implements SessionCookieAttributeInterface
         return $this->name;
     }
 
-
     public function getValue()
     {
         return $this->value;
     }
-
 }
