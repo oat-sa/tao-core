@@ -149,7 +149,7 @@ abstract class TaskLogEntityDecorator implements EntityInterface
     /**
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->entity->jsonSerialize();
     }
@@ -157,7 +157,7 @@ abstract class TaskLogEntityDecorator implements EntityInterface
     /**
      * @inheritdoc
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->entity->toArray();
     }

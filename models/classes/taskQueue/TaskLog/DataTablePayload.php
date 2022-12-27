@@ -186,7 +186,7 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
     /**
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->getPayload();
     }

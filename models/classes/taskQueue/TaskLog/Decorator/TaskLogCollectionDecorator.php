@@ -102,7 +102,7 @@ abstract class TaskLogCollectionDecorator implements CollectionInterface
     /**
      * @inheritdoc
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->collection->jsonSerialize();
     }

@@ -289,7 +289,7 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
     /**
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->getPayload();
     }

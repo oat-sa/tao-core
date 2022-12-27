@@ -205,10 +205,7 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
         return self::fromJson($data);
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'service' => $this->serviceDefinitionId,

@@ -266,7 +266,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
      *
      * @return ArrayIterator
      */
-    public function getIterator(): Traversable
+    public function getIterator(): ArrayIterator
     {
         $files = [];
         $iterator = $this->getFlyIterator(Directory::ITERATOR_FILE | Directory::ITERATOR_RECURSIVE);

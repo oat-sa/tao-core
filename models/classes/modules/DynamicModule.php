@@ -172,7 +172,7 @@ class DynamicModule implements JsonSerializable
     /**
      * @see JsonSerializable::jsonSerialize
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }

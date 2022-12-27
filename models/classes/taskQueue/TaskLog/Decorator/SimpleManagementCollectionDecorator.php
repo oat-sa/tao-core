@@ -72,7 +72,7 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
     /**
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $data = [];
 
@@ -102,7 +102,7 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
     /**
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }

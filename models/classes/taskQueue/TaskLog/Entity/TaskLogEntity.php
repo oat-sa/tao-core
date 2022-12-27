@@ -285,7 +285,7 @@ class TaskLogEntity implements EntityInterface
     /**
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
