@@ -174,11 +174,11 @@ namespace oat\tao\test\unit\session\Business\Service {
         {
             return [
                 [
-                    'domain'   => 'test0.com',
+                    'domain' => 'test0.com',
                     'lifetime' => 0,
                 ],
                 [
-                    'domain'   => 'test1.com',
+                    'domain' => 'test1.com',
                     'lifetime' => 1,
                 ],
             ];
@@ -213,11 +213,7 @@ namespace oat\tao\test\unit\session\Business\Service {
             self::setGlobalFunctionExpectations(
                 'session_set_cookie_params',
                 true,
-                $lifetime,
-                $this->createSessionCookieAttributeString(),
-                $this->getCookieDomain($domain),
-                Request::isHttps(),
-                true
+                $this->createSessionCookieParams($lifetime, $domain, false)
             );
             self::setGlobalFunctionExpectations('session_name', GENERIS_SESSION_NAME, GENERIS_SESSION_NAME);
         }
@@ -236,17 +232,23 @@ namespace oat\tao\test\unit\session\Business\Service {
                 true,
                 GENERIS_SESSION_NAME,
                 self::SESSION_ID,
-                $lifetime + self::TIME,
-                $this->createSessionCookieAttributeString(),
-                $this->getCookieDomain($domain),
-                Request::isHttps(),
-                true
+                $this->createSessionCookieParams($lifetime, $domain, true)
             );
         }
 
-        private function createSessionCookieAttributeString(): string
+        private function createSessionCookieParams(int $lifetime, string $domain, bool $reset): array
         {
-            return sprintf('%s=%s', self::SESSION_ATTRIBUTE_NAME, self::SESSION_ATTRIBUTE_VALUE);
+            $params = [];
+            $params[self::SESSION_ATTRIBUTE_NAME] = self::SESSION_ATTRIBUTE_VALUE;
+            if ($reset) {
+                $params['expires'] = $lifetime + self::TIME;
+            } else {
+                $params['lifetime'] = $lifetime;
+            }
+            $params['domain'] = $this->getCookieDomain($domain);
+            $params['secure'] = Request::isHttps();
+            $params['httponly'] = true;
+            return $params;
         }
 
         private function getCookieDomain(string $domain): string
