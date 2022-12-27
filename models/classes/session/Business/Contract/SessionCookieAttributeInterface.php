@@ -31,5 +31,4 @@ interface SessionCookieAttributeInterface
     public function getName(): string;
 
     public function getValue();
-
 }

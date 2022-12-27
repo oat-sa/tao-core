@@ -41,12 +41,10 @@ final class SessionCookiePathAttribute implements SessionCookieAttributeInterfac
         return 'path';
     }
 
-
     public function getValue()
     {
         return $this->value;
     }
-
 
     public function __toString(): string
     {

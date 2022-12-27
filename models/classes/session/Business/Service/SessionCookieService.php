@@ -20,7 +20,7 @@
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
 
-declare (strict_types=1);
+declare(strict_types=1);
 
 namespace oat\tao\model\session\Business\Service;
 
@@ -35,39 +35,58 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
 {
     /** @var SessionCookieAttributesFactoryInterface */
     private $sessionCookieAttributesFactory;
-    private $attributes = [];
     private $sessionCookieParams = [];
 
     public function __construct(SessionCookieAttributesFactoryInterface $sessionCookieAttributesFactory)
     {
         parent::__construct();
         $this->sessionCookieAttributesFactory = $sessionCookieAttributesFactory;
-        //it will brake the unit test logic
-        //   $this->init();
+    }
+
+    public function initializeSessionCookie(): void
+    {
+        //call it here not in the constructor, to keep original logic
+        //of unit test
+        $this->init();
+        session_set_cookie_params($this->getSessionCookieParams());
+        session_name(GENERIS_SESSION_NAME);
+
+        if (isset($_COOKIE[GENERIS_SESSION_NAME])) {
+            // Resume the session
+            session_start();
+
+            //cookie keep alive, if lifetime is not 0
+            if ($this->sessionCookieParams['lifetime'] !== 0) {
+                setcookie(
+                    GENERIS_SESSION_NAME,
+                    session_id(),
+                    $this->getCookieParams()
+                );
+            }
+        }
     }
 
     private function init(): void
     {
-        $iterator = $this->sessionCookieAttributesFactory->create()->getIterator();
-        while ($iterator->valid()) {
-            $this->attributes[] = $iterator->current();
-            $iterator->next();
-        }
+        $sessionCookieAttributeCollection = $this->sessionCookieAttributesFactory->create();
 
         $sessionParams = session_get_cookie_params();
         $cookieDomain = UriHelper::isValidAsCookieDomain(ROOT_URL)
             ? UriHelper::getDomain(ROOT_URL)
             : $sessionParams['domain'];
         $isSecureFlag = Request::isHttps();
+
         if (isset($sessionParams['lifetime'])) {
-            $this->attributes[] = new SessionCookieAttribute('lifetime', $sessionParams['lifetime']);
+            $sessionCookieAttributeCollection = $sessionCookieAttributeCollection->add(
+                new SessionCookieAttribute('lifetime', $sessionParams['lifetime'])
+            );
         }
+        $sessionCookieAttributeCollection = $sessionCookieAttributeCollection
+            ->add(new SessionCookieAttribute('domain', $cookieDomain))
+            ->add(new SessionCookieAttribute('secure', $isSecureFlag))
+            ->add(new SessionCookieAttribute('httponly', true));
 
-        $this->attributes[] = new SessionCookieAttribute('domain', $cookieDomain);
-        $this->attributes[] = new SessionCookieAttribute('secure', $isSecureFlag);
-        $this->attributes[] = new SessionCookieAttribute('httponly', true);
-
-        foreach ($this->attributes as $attribute) {
+        foreach ($sessionCookieAttributeCollection as $attribute) {
             $this->sessionCookieParams[$attribute->getName()] = $attribute->getValue();
         }
     }
@@ -91,29 +110,5 @@ class SessionCookieService extends InjectionAwareService implements SessionCooki
             }
         }
         return $cookieParams;
-    }
-
-    public function initializeSessionCookie(): void
-    {
-        //call it here not in the constructor, to keep original logic
-        //of unit test
-        $this->init();
-        session_set_cookie_params($this->getSessionCookieParams());
-        //temporary line to verify replace is working $tmp = $this->setExpires($params);
-        session_name(GENERIS_SESSION_NAME);
-
-        if (isset($_COOKIE[GENERIS_SESSION_NAME])) {
-            // Resume the session
-            session_start();
-
-            //cookie keep alive, if lifetime is not 0
-            if ($this->sessionCookieParams['lifetime'] !== 0) {
-                setcookie(
-                    GENERIS_SESSION_NAME,
-                    session_id(),
-                    $this->getCookieParams()
-                );
-            }
-        }
     }
 }
