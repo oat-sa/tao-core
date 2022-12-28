@@ -35,7 +35,7 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
 {
     use OntologyAwareTrait;
 
-    private ?core_kernel_classes_Resource $serviceDefinitionId;
+    private $serviceDefinitionId = null;
     private array $inParameters = [];
     private ?tao_models_classes_service_VariableParameter $outParameter = null;
 
