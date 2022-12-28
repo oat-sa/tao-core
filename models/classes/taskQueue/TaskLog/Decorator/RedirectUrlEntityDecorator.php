@@ -69,7 +69,7 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $data = parent::toArray();
 
@@ -108,14 +108,12 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
 
     /**
      * Check the ACL
-     *
      * @param $user
      * @param $class
      * @param $method
      * @param $parameters
-     * @return bool
      */
-    protected function hasAccess($user, $class, $method, $parameters)
+    protected function hasAccess($user, $class, $method, $parameters): bool
     {
         return AclProxy::hasAccess($user, $class, $method, $parameters);
     }
