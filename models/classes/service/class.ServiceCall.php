@@ -39,7 +39,7 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
     private array $inParameters = [];
     private ?tao_models_classes_service_VariableParameter $outParameter = null;
 
-    public function __construct(core_kernel_classes_Resource $serviceDefinition)
+    public function __construct($serviceDefinition)
     {
         $this->serviceDefinitionId = is_object($serviceDefinition)
            ? $serviceDefinition->getUri()
