@@ -15,9 +15,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2016-2022 (original work) Open Assessment Technologies SA
  *
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\event;
 
@@ -26,18 +28,12 @@ use oat\oatbox\event\Event;
 
 abstract class AbstractRoleEvent implements Event, JsonSerializable
 {
+    protected string $roleUri;
 
-    /** @var  string */
-    protected $roleUri;
-
-    /**
-     * @param String $roleUri
-     */
-    public function __construct($roleUri)
+    public function __construct(string $roleUri)
     {
         $this->roleUri = $roleUri;
     }
-
 
     /**
      * Return a unique name for this event

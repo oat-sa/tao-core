@@ -15,9 +15,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\taskQueue\TaskLog;
 
@@ -25,61 +27,41 @@ use JsonSerializable;
 
 class TasksLogsStats implements JsonSerializable
 {
-    const COMPLETED_TASKS = 'completedtasks';
-    const FAILED_TASKS = 'failedtasks';
-    const IN_PROGRESS_TASKS = 'inprogresstasks';
+    public const COMPLETED_TASKS = 'completedtasks';
+    public const FAILED_TASKS = 'failedtasks';
+    public const IN_PROGRESS_TASKS = 'inprogresstasks';
 
-    /** @var  int */
-    private $numberOfTasksCompleted;
+    private int $numberOfTasksCompleted;
+    private int $numberOfTasksFailed;
+    private int $numberOfTasksInProgress;
 
-    /** @var  int */
-    private $numberOfTasksFailed;
-
-    /** @var  int */
-    private $numberOfTasksInProgress;
-
-    /**
-     * TaskLogStatus constructor.
-     * @param int $numberOfTasksCompleted
-     * @param int $numberOfTasksFailed
-     * @param int $numberOfTasksInProgress
-     */
-    public function __construct($numberOfTasksCompleted, $numberOfTasksFailed, $numberOfTasksInProgress)
+    public function __construct(int $numberOfTasksCompleted, int $numberOfTasksFailed, int $numberOfTasksInProgress)
     {
         $this->numberOfTasksCompleted = $numberOfTasksCompleted;
         $this->numberOfTasksFailed = $numberOfTasksFailed;
         $this->numberOfTasksInProgress = $numberOfTasksInProgress;
     }
 
-    /**
-     * @param array $rawData
-     * @return TasksLogsStats
-     */
-    public static function buildFromArray(array $rawData)
+    public static function buildFromArray(array $rawData): TasksLogsStats
     {
-        return new self($rawData[static::COMPLETED_TASKS], $rawData[static::FAILED_TASKS], $rawData[static::IN_PROGRESS_TASKS]);
+        return new self(
+            $rawData[static::COMPLETED_TASKS],
+            $rawData[static::FAILED_TASKS],
+            $rawData[static::IN_PROGRESS_TASKS]
+        );
     }
 
-    /**
-     * @return int
-     */
-    public function getNumberOfTasksCompleted()
+    public function getNumberOfTasksCompleted(): int
     {
         return $this->numberOfTasksCompleted;
     }
 
-    /**
-     * @return int
-     */
-    public function getNumberOfTasksFailed()
+    public function getNumberOfTasksFailed(): int
     {
         return $this->numberOfTasksFailed;
     }
 
-    /**
-     * @return int
-     */
-    public function getNumberOfTasksInProgress()
+    public function getNumberOfTasksInProgress(): int
     {
         return $this->numberOfTasksInProgress;
     }
@@ -96,10 +78,7 @@ class TasksLogsStats implements JsonSerializable
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->jsonSerialize();
     }

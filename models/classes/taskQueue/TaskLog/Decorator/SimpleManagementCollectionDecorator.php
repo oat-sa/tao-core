@@ -15,9 +15,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
@@ -33,33 +35,19 @@ use oat\tao\model\taskQueue\TaskLogInterface;
  */
 class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
 {
-    /**
-     * @var CollectionInterface
-     */
-    private $collection;
+    private CollectionInterface $collection;
+    private TaskLogInterface $taskLogService;
+    private FileSystemService $fileSystemService;
+    private bool $reportIncluded;
+    private FileReferenceSerializer $fileReferenceSerializer;
 
-    /**
-     * @var TaskLogInterface
-     */
-    private $taskLogService;
-
-    /**
-     * @var FileSystemService
-     */
-    private $fileSystemService;
-
-    /**
-     * @var bool
-     */
-    private $reportIncluded;
-
-    /**
-     * @var FileReferenceSerializer
-     */
-    private $fileReferenceSerializer;
-
-    public function __construct(CollectionInterface $collection, TaskLogInterface $taskLogService, FileSystemService $fileSystemService, FileReferenceSerializer $fileReferenceSerializer, $reportIncluded)
-    {
+    public function __construct(
+        CollectionInterface $collection,
+        TaskLogInterface $taskLogService,
+        FileSystemService $fileSystemService,
+        FileReferenceSerializer $fileReferenceSerializer,
+        $reportIncluded
+    ) {
         parent::__construct($collection);
 
         $this->fileSystemService = $fileSystemService;
@@ -99,9 +87,6 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
         return $data;
     }
 
-    /**
-     * @return array
-     */
     public function jsonSerialize(): array
     {
         return $this->toArray();

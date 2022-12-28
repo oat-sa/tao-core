@@ -19,6 +19,8 @@
  *
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
 use oat\generis\model\fileReference\FileReferenceSerializer;
@@ -35,27 +37,19 @@ class HasFileEntityDecorator extends TaskLogEntityDecorator
     use FilesystemAwareTrait;
     use FileReferenceSerializerAwareTrait;
 
-    /**
-     * @var FileSystemService
-     */
-    private $fileSystemService;
+    private FileSystemService $fileSystemService;
+    private FileReferenceSerializer $fileReferenceSerializer;
 
-    /**
-     * @var FileReferenceSerializer
-     */
-    private $fileReferenceSerializer;
-
-    public function __construct(EntityInterface $entity, FileSystemService $fileSystemService, FileReferenceSerializer $fileReferenceSerializer)
-    {
+    public function __construct(
+        EntityInterface $entity,
+        FileSystemService $fileSystemService,
+        FileReferenceSerializer $fileReferenceSerializer
+    ) {
         parent::__construct($entity);
-
         $this->fileSystemService = $fileSystemService;
         $this->fileReferenceSerializer = $fileReferenceSerializer;
     }
 
-    /**
-     * @return array
-     */
     public function jsonSerialize(): array
     {
         return $this->toArray();
@@ -63,10 +57,8 @@ class HasFileEntityDecorator extends TaskLogEntityDecorator
 
     /**
      * Add 'hasFile' to the result. Required by our frontend.
-     *
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $result = parent::toArray();
 
@@ -76,19 +68,18 @@ class HasFileEntityDecorator extends TaskLogEntityDecorator
 
         if ($fileNameOrSerial) {
             $result['hasFile'] = $this->isFileReferenced($fileNameOrSerial)
-                ? true
-                : $this->isFileStoredInQueueStorage($fileNameOrSerial);
+                || $this->isFileStoredInQueueStorage($fileNameOrSerial);
         }
 
         return $result;
     }
 
-    protected function getFileSystemService()
+    protected function getFileSystemService(): FileSystemService
     {
         return $this->fileSystemService;
     }
 
-    protected function getFileReferenceSerializer()
+    protected function getFileReferenceSerializer(): FileReferenceSerializer
     {
         return $this->fileReferenceSerializer;
     }

@@ -19,8 +19,10 @@
  *
  */
 
+declare(strict_types=1);
+
 use oat\tao\model\WfEngineOntology;
-use \oat\generis\model\data\Ontology;
+use oat\generis\model\data\Ontology;
 
 /**
  * Represents tao service parameter
@@ -28,20 +30,11 @@ use \oat\generis\model\data\Ontology;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
-
  */
 abstract class tao_models_classes_service_Parameter implements JsonSerializable
 {
-    /**
-     * @var core_kernel_classes_Resource
-     */
-    private $definition;
-    
-    /**
-     * Base constructor of abstract parameter
-     *
-     * @param core_kernel_classes_Resource $definition
-     */
+    private core_kernel_classes_Resource $definition;
+
     public function __construct(core_kernel_classes_Resource $definition)
     {
         $this->definition = $definition;
@@ -49,17 +42,13 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
     
     /**
      * Returns the formal definition of this parameter
-     *
-     * @return core_kernel_classes_Resource
      */
-    public function getDefinition()
+    public function getDefinition(): core_kernel_classes_Resource
     {
         return $this->definition;
     }
-    /**
-     * @return core_kernel_classes_Resource
-     */
-    abstract public function toOntology(Ontology $model);
+
+    abstract public function toOntology(Ontology $model): core_kernel_classes_Resource;
 
     abstract public function jsonSerialize(): array;
 
@@ -78,14 +67,13 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
         }
         return $param;
     }
-    
+
     /**
      * Builds a service call parameter from it's serialized form
-     *
-     * @param core_kernel_classes_Resource $resource
-     * @return tao_models_classes_service_Parameter
+     * @throws common_exception_InconsistentData
+     * @throws common_exception_InvalidArgumentType
      */
-    public static function fromResource(core_kernel_classes_Resource $resource)
+    public static function fromResource(core_kernel_classes_Resource $resource): tao_models_classes_service_Parameter
     {
         $values = $resource->getPropertiesValues([
             WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_FORMAL_PARAMETER,
@@ -93,9 +81,12 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
             WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE
         ]);
         if (count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_FORMAL_PARAMETER]) != 1) {
-            throw new common_exception_InconsistentData('Actual variable ' . $resource->getUri() . ' missing formal parameter');
+            throw new common_exception_InconsistentData(
+                'Actual variable ' . $resource->getUri() . ' missing formal parameter'
+            );
         }
-        if (count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE]) + count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE]) != 1) {
+        if (count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE])
+            + count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE]) != 1) {
             throw new common_exception_InconsistentData('Actual variable ' . $resource->getUri() . ' invalid, '
                 . count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE]) . ' constant values and '
                 . count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE]) . ' process variables');

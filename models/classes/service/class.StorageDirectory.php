@@ -15,15 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
- *
+ * Copyright (c) 2016-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-use \oat\tao\model\websource\Websource;
-use \League\Flysystem\Filesystem;
-use \League\Flysystem\Adapter\Local;
-use \oat\oatbox\filesystem\Directory;
+declare(strict_types=1);
+
+use oat\tao\model\websource\Websource;
+use League\Flysystem\Filesystem;
+use League\Flysystem\Adapter\Local;
+use oat\oatbox\filesystem\Directory;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -32,13 +32,12 @@ use Psr\Http\Message\StreamInterface;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
+ * phpcs:disable Squiz.Classes.ValidClassName
  */
 class tao_models_classes_service_StorageDirectory extends Directory
 {
     private $id;
-
-    /** @var Websource */
-    private $accessProvider;
+    private Websource $accessProvider;
 
     public function __construct($id, $filesystemId, $path, Websource $provider = null)
     {
@@ -69,10 +68,8 @@ class tao_models_classes_service_StorageDirectory extends Directory
 
     /**
      * Returns whenever or not this directory is public
-     *
-     * @return boolean
      */
-    public function isPublic()
+    public function isPublic(): bool
     {
         return !is_null($this->accessProvider);
     }
@@ -81,10 +78,9 @@ class tao_models_classes_service_StorageDirectory extends Directory
      * Returns a URL that allows you to access the files in a directory
      * preserving the relative paths
      *
-     * @return string
      * @throws common_Exception
      */
-    public function getPublicAccessUrl()
+    public function getPublicAccessUrl(): string
     {
         if (is_null($this->accessProvider)) {
             common_Logger::e('accessss');

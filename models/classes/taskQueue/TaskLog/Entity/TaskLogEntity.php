@@ -15,14 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\taskQueue\TaskLog\Entity;
 
+use common_exception_Error;
 use common_report_Report as Report;
 use DateTime;
+use DateTimeZone;
 use Exception;
 use oat\oatbox\reporting\Report as NewReport;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
@@ -30,66 +33,30 @@ use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 
 class TaskLogEntity implements EntityInterface
 {
-    /** @var string */
-    private $id;
+    private string $id;
+    private string $parentId;
+    private string $taskName;
+    private array $parameters;
+    private  string $label;
+    private CategorizedStatus $status;
+    private bool $masterStatus;
+    private string $owner;
+    private  Report $report;
+    private  DateTime $createdAt;
+    private DateTime $updatedAt;
 
-    /** @var string */
-    private $parentId;
-
-    /** @var string */
-    private $taskName;
-
-    /** @var array */
-    private $parameters;
-
-    /** @var  string */
-    private $label;
-
-    /** @var CategorizedStatus */
-    private $status;
-
-    /** @var bool  */
-    private $masterStatus;
-
-    /** @var string */
-    private $owner;
-
-    /** @var  Report */
-    private $report;
-
-    /** @var  DateTime */
-    private $createdAt;
-
-    /** @var  DateTime */
-    private $updatedAt;
-
-    /**
-     * TaskLogEntity constructor.
-     *
-     * @param string                   $id
-     * @param string                   $parentId
-     * @param string                   $taskName
-     * @param CategorizedStatus        $status
-     * @param boolean                  $masterStatus
-     * @param array                    $parameters
-     * @param string                   $label
-     * @param string                   $owner
-     * @param DateTime|null            $createdAt
-     * @param DateTime|null            $updatedAt
-     * @param Report|null              $report
-     */
     public function __construct(
-        $id,
-        $parentId,
-        $taskName,
+        string $id,
+        string $parentId,
+        string $taskName,
         CategorizedStatus $status,
         array $parameters,
-        $label,
-        $owner,
+        string $label,
+        string $owner,
         DateTime $createdAt = null,
         DateTime $updatedAt = null,
         Report $report = null,
-        $masterStatus = false
+        bool $masterStatus = false
     ) {
         $this->id = $id;
         $this->parentId = $parentId;
@@ -105,24 +72,25 @@ class TaskLogEntity implements EntityInterface
     }
 
     /**
-     * @param array $row
-     * @return TaskLogEntity
+     * @throws common_exception_Error
      * @throws Exception
      */
-    public static function createFromArray(array $row, string $dateFormat)
+    public static function createFromArray(array $row, string $dateFormat): TaskLogEntity
     {
         return new self(
             $row[TaskLogBrokerInterface::COLUMN_ID],
             $row[TaskLogBrokerInterface::COLUMN_PARENT_ID],
             $row[TaskLogBrokerInterface::COLUMN_TASK_NAME],
             CategorizedStatus::createFromString($row[TaskLogBrokerInterface::COLUMN_STATUS]),
-            isset($row[TaskLogBrokerInterface::COLUMN_PARAMETERS]) ? json_decode($row[TaskLogBrokerInterface::COLUMN_PARAMETERS], true) : [],
-            isset($row[TaskLogBrokerInterface::COLUMN_LABEL]) ? $row[TaskLogBrokerInterface::COLUMN_LABEL] : '',
-            isset($row[TaskLogBrokerInterface::COLUMN_OWNER]) ? $row[TaskLogBrokerInterface::COLUMN_OWNER] : '',
+            isset($row[TaskLogBrokerInterface::COLUMN_PARAMETERS])
+                ? json_decode($row[TaskLogBrokerInterface::COLUMN_PARAMETERS], true)
+                : [],
+            $row[TaskLogBrokerInterface::COLUMN_LABEL] ?? '',
+            $row[TaskLogBrokerInterface::COLUMN_OWNER] ?? '',
             self::parseDateTime($row, TaskLogBrokerInterface::COLUMN_CREATED_AT, $dateFormat),
             self::parseDateTime($row, TaskLogBrokerInterface::COLUMN_UPDATED_AT, $dateFormat),
             NewReport::jsonUnserialize($row[TaskLogBrokerInterface::COLUMN_REPORT]),
-            isset($row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS]) ? $row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS] : false
+            $row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS] ?? false
         );
     }
 
@@ -140,91 +108,57 @@ class TaskLogEntity implements EntityInterface
         return $dateTime;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getParentId()
+    public function getParentId(): string
     {
         return $this->parentId;
     }
 
-    /**
-     * @return string
-     */
-    public function getTaskName()
+    public function getTaskName(): string
     {
         return $this->taskName;
     }
 
-    /**
-     * @return array
-     */
-    public function getParameters()
+    public function getParameters(): array
     {
         return $this->parameters;
     }
 
-    /**
-     * @return string
-     */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
 
-    /**
-     * @return string
-     */
-    public function getOwner()
+    public function getOwner(): string
     {
         return $this->owner;
     }
 
-    /**
-     * @return Report|null
-     */
-    public function getReport()
+    public function getReport(): ?Report
     {
         return $this->report;
     }
 
-    /**
-     * @return DateTime|null
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @return DateTime|null
-     */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;
     }
 
-
-    /**
-     * @return CategorizedStatus
-     */
-    public function getStatus()
+    public function getStatus(): CategorizedStatus
     {
         return $this->status;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isMasterStatus()
+    public function isMasterStatus(): bool
     {
         return (bool) $this->masterStatus;
     }
@@ -232,12 +166,11 @@ class TaskLogEntity implements EntityInterface
     /**
      * Returns the file name from the generated report.
      *
-     * NOTE: it is not 100% sure that the returned string is really a file name because different reports set different values as data.
+     * NOTE: it is not 100% sure that the returned string is really a file name
+     * because different reports set different values as data.
      * So this return value can be any kind of string. Please check the file whether it exist or not before usage.
-     *
-     * @return string
      */
-    public function getFileNameFromReport()
+    public function getFileNameFromReport(): string
     {
         $filename = '';
 
@@ -261,7 +194,6 @@ class TaskLogEntity implements EntityInterface
         return $filename;
     }
 
-
     public function getResourceUriFromReport()
     {
         $uri = '';
@@ -282,18 +214,12 @@ class TaskLogEntity implements EntityInterface
         return $uri;
     }
 
-    /**
-     * @return array
-     */
     public function jsonSerialize(): array
     {
         return $this->toArray();
     }
 
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         // add basic fields which always have values
         $rs = [
@@ -309,14 +235,14 @@ class TaskLogEntity implements EntityInterface
             $rs['taskLabel'] = $this->label;
         }
 
-        if ($this->createdAt instanceof \DateTime) {
+        if ($this->createdAt instanceof DateTime) {
             $rs['createdAt'] = $this->createdAt->getTimestamp();
-            $rs['createdAtElapsed'] = (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp() - $this->createdAt->getTimestamp();
+            $rs['createdAtElapsed'] = $this->getCurrentUTCDateTime()->getTimestamp()- $this->createdAt->getTimestamp();
         }
 
-        if ($this->updatedAt instanceof \DateTime) {
+        if ($this->updatedAt instanceof DateTime) {
             $rs['updatedAt'] = $this->updatedAt->getTimestamp();
-            $rs['updatedAtElapsed'] = (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp() - $this->updatedAt->getTimestamp();
+            $rs['updatedAtElapsed'] = $this->getCurrentUTCDateTime()->getTimestamp() - $this->updatedAt->getTimestamp();
         }
 
         if ($this->report instanceof Report) {
@@ -324,5 +250,14 @@ class TaskLogEntity implements EntityInterface
         }
 
         return $rs;
+    }
+
+    /**
+     * @return DateTime
+     * @throws Exception
+     */
+    private function getCurrentUTCDateTime(): DateTime
+    {
+        return (new DateTime('now', new DateTimeZone('UTC')));
     }
 }

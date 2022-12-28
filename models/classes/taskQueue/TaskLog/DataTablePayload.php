@@ -15,14 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model\taskQueue\TaskLog;
 
+use Closure;
+use Countable;
 use oat\tao\model\datatable\DatatablePayload as DataTablePayloadInterface;
-use oat\tao\model\datatable\implementation\DatatableRequest;
 use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
@@ -32,31 +35,20 @@ use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
  *
  * @author Gyula Szucs <gyula@taotesting.com>
  */
-class DataTablePayload implements DataTablePayloadInterface, \Countable
+class DataTablePayload implements DataTablePayloadInterface, Countable
 {
-    private $taskLogFilter;
-    private $broker;
-    private $request;
+    private TaskLogFilter $taskLogFilter;
+    private TaskLogBrokerInterface$broker;
+    private DatatableRequestInterface $request;
 
-    /**
-     * @var \Closure
-     */
-    private $rowCustomiser;
+    private Closure $rowCustomiser;
+    private bool $overrideDefaultPayload = false;
 
-    /**
-     * @var bool
-     */
-    private $overrideDefaultPayload = false;
-
-    /**
-     * DataTablePayload constructor.
-     *
-     * @param TaskLogFilter             $filter
-     * @param TaskLogBrokerInterface    $broker
-     * @param DatatableRequestInterface $request
-     */
-    public function __construct(TaskLogFilter $filter, TaskLogBrokerInterface $broker, DatatableRequestInterface $request)
-    {
+    public function __construct(
+        TaskLogFilter $filter,
+        TaskLogBrokerInterface $broker,
+        DatatableRequestInterface $request
+    ) {
         $this->taskLogFilter = $filter;
         $this->broker = $broker;
         $this->request = $request;
@@ -65,7 +57,8 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
     }
 
     /**
-     * You can pass an anonymous function to customise the final payload: either to change the value of a field or to add extra field(s);
+     * You can pass an anonymous function to customise the final payload:
+     * either to change the value of a field or to add extra field(s);
      *
      * The function will be bind to the task log entity (TaskLogEntity) so $this can be used inside of the closure.
      * The return value needs to be an array.
@@ -183,9 +176,6 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
         }
     }
 
-    /**
-     * @return array
-     */
     public function jsonSerialize(): array
     {
         return $this->getPayload();
