@@ -60,14 +60,14 @@ class tao_models_classes_service_ConstantParameter extends tao_models_classes_se
      * (non-PHPdoc)
      * @see tao_models_classes_service_Parameter::serialize()
      */
-    public function toOntology(Ontology $model)
+    public function toOntology(Ontology $model): core_kernel_classes_Resource
     {
         $serviceCallClass = $model->getClass(WfEngineOntology::CLASS_URI_ACTUAL_PARAMETER);
-        $resource = $serviceCallClass->createInstanceWithProperties([
+
+        return $serviceCallClass->createInstanceWithProperties([
             WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_FORMAL_PARAMETER    => $this->getDefinition(),
             WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE      => $this->value
         ]);
-        return $resource;
     }
 
     public function jsonSerialize(): array
