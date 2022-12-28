@@ -82,7 +82,7 @@ class ElementDecoratorTest extends TestCase
             ->willReturn('primaryPropertyUri');
 
         $dependsOnPropertyCollection = $this->createIteratorMock(
-            DependsOnPropertyCollection::class,
+            DependsOnPropertyCollectionForTest::class,
             [$primaryProperty]
         );
 
@@ -141,3 +141,17 @@ class ElementDecoratorTest extends TestCase
         $this->assertCount(1, $this->sut->getPrimaryElementsDecorators());
     }
 }
+
+/**
+ * Class needed to override methods form DependsOnPropertyCollection needed for this test.
+ * Method key() has UnionType return and therefore cant be mocked by PHPUnit in version lower
+ * than 9 (currently 8.5 is installed)
+ */
+// @codingStandardsIgnoreStart
+class DependsOnPropertyCollectionForTest extends DependsOnPropertyCollection
+{
+    public function key()
+    {
+    }
+}
+// @codingStandardsIgnoreEnd

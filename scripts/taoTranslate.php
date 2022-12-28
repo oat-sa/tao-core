@@ -97,6 +97,12 @@ new tao_scripts_TaoTranslate([
             'type' => 'string',
             'shortcut' => 'p',
             'description' => 'TAO password'
+        ],
+        [
+            'name' => 'clearTranslations',
+            'type' => 'boolean',
+            'shortcut' => 'ct',
+            'description' => 'Clear translations entry when there is not translation proposal'
         ]
     ]
 ]);
