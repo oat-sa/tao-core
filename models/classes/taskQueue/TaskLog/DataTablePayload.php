@@ -38,7 +38,7 @@ use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 class DataTablePayload implements DataTablePayloadInterface, Countable
 {
     private TaskLogFilter $taskLogFilter;
-    private TaskLogBrokerInterface$broker;
+    private TaskLogBrokerInterface $broker;
     private DatatableRequestInterface $request;
 
     private Closure $rowCustomiser;

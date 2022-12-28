@@ -30,6 +30,7 @@ use oat\tao\model\WfEngineOntology;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
+ * phpcs:disable Squiz.Classes.ValidClassName
  */
 class tao_models_classes_service_ServiceCall implements JsonSerializable
 {

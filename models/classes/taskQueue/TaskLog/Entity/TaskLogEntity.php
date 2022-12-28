@@ -273,7 +273,7 @@ class TaskLogEntity implements EntityInterface
 
         if ($this->createdAt instanceof DateTime) {
             $rs['createdAt'] = $this->createdAt->getTimestamp();
-            $rs['createdAtElapsed'] = $this->getCurrentUTCDateTime()->getTimestamp()- $this->createdAt->getTimestamp();
+            $rs['createdAtElapsed'] = $this->getCurrentUTCDateTime()->getTimestamp() - $this->createdAt->getTimestamp();
         }
 
         if ($this->updatedAt instanceof DateTime) {

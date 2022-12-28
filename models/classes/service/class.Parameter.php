@@ -30,6 +30,7 @@ use oat\generis\model\data\Ontology;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
+ * phpcs:disable Squiz.Classes.ValidClassName
  */
 abstract class tao_models_classes_service_Parameter implements JsonSerializable
 {
@@ -39,7 +40,7 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
     {
         $this->definition = $definition;
     }
-    
+
     /**
      * Returns the formal definition of this parameter
      */
@@ -80,17 +81,20 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
             WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE,
             WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE
         ]);
+
         if (count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_FORMAL_PARAMETER]) != 1) {
             throw new common_exception_InconsistentData(
                 'Actual variable ' . $resource->getUri() . ' missing formal parameter'
             );
         }
+
         if (count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE])
             + count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE]) != 1) {
             throw new common_exception_InconsistentData('Actual variable ' . $resource->getUri() . ' invalid, '
                 . count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE]) . ' constant values and '
                 . count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE]) . ' process variables');
         }
+
         if (count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE]) > 0) {
             $param = new tao_models_classes_service_ConstantParameter(
                 current($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_FORMAL_PARAMETER]),
@@ -102,6 +106,7 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
                 current($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE])
             );
         }
+
         return $param;
     }
 }
