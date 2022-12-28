@@ -33,17 +33,38 @@ use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 
 class TaskLogEntity implements EntityInterface
 {
-    private string $id;
-    private string $parentId;
-    private string $taskName;
-    private array $parameters;
-    private  string $label;
-    private CategorizedStatus $status;
-    private bool $masterStatus;
-    private string $owner;
-    private  Report $report;
-    private  DateTime $createdAt;
-    private DateTime $updatedAt;
+    /** @var string */
+    private $id;
+
+    /** @var string */
+    private $parentId;
+
+    /** @var string */
+    private $taskName;
+
+    /** @var array */
+    private $parameters;
+
+    /** @var  string */
+    private $label;
+
+    /** @var CategorizedStatus */
+    private $status;
+
+    /** @var bool  */
+    private $masterStatus;
+
+    /** @var string */
+    private $owner;
+
+    /** @var  Report */
+    private $report;
+
+    /** @var  DateTime */
+    private $createdAt;
+
+    /** @var  DateTime */
+    private $updatedAt;
 
     /**
      * TaskLogEntity constructor.
