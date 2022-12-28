@@ -79,7 +79,7 @@ class TokenStoreKeyValueTest extends TestCase
     {
         $tokenData = [
             'token' => self::TOKEN,
-            'ts' => 12345,
+            'ts' => 12345.0,
         ];
 
         $this->persistenceMock
@@ -257,7 +257,7 @@ class TokenStoreKeyValueTest extends TestCase
 
     public function dataProviderTestGetAllTokens(): array
     {
-        $jsonToken1 = '{"token": "TOKEN_VALUE_1","ts":12345}';
+        $jsonToken1 = '{"token": "TOKEN_VALUE_1","ts":12345.0}';
         $jsonToken2 = '{"token": "TOKEN_VALUE_2","ts":6789}';
 
         return [
