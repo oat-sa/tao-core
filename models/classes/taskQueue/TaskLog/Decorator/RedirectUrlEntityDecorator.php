@@ -63,7 +63,7 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
 
         if (
             !in_array($this->taskLogService->getCategoryForTask($this->getTaskName()), $deniedCategories) &&
-             ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived())
+            ($this->getStatus()->isCompleted() || $this->getStatus()->isArchived())
         ) {
             $user = $this->user;
             $params = [
@@ -77,14 +77,13 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
             );
             if ($hasAccess) {
                 $data = array_merge($data, [
-                        'redirectUrl' => _url(
-                            'redirectTaskToInstance',
-                            'Redirector',
-                            'taoBackOffice',
-                            $params
-                        )
-                    ]
-                );
+                    'redirectUrl' => _url(
+                        'redirectTaskToInstance',
+                        'Redirector',
+                        'taoBackOffice',
+                        $params
+                    )
+                ]);
             } else {
                 common_Logger::w(
                     'User \'' . $user->getIdentifier() . '\' does not have access to redirectTaskToInstance'

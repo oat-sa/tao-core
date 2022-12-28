@@ -88,11 +88,13 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
             );
         }
 
-        if (count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE])
-            + count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE]) != 1) {
+        $countConstValue = count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE]);
+        $countProcessVariable = count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE]);
+
+        if ($countConstValue + $countProcessVariable != 1) {
             throw new common_exception_InconsistentData('Actual variable ' . $resource->getUri() . ' invalid, '
-                . count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE]) . ' constant values and '
-                . count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE]) . ' process variables');
+                . $countConstValue . ' constant values and '
+                . $countProcessVariable . ' process variables');
         }
 
         if (count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE]) > 0) {
