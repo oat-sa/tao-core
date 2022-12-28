@@ -45,18 +45,33 @@ class TaskLogEntity implements EntityInterface
     private  DateTime $createdAt;
     private DateTime $updatedAt;
 
+    /**
+     * TaskLogEntity constructor.
+     *
+     * @param string                   $id
+     * @param string                   $parentId
+     * @param string                   $taskName
+     * @param CategorizedStatus        $status
+     * @param boolean                  $masterStatus
+     * @param array                    $parameters
+     * @param string                   $label
+     * @param string                   $owner
+     * @param DateTime|null            $createdAt
+     * @param DateTime|null            $updatedAt
+     * @param Report|null              $report
+     */
     public function __construct(
-        string $id,
-        string $parentId,
-        string $taskName,
+        $id,
+        $parentId,
+        $taskName,
         CategorizedStatus $status,
         array $parameters,
-        string $label,
-        string $owner,
+        $label,
+        $owner,
         DateTime $createdAt = null,
         DateTime $updatedAt = null,
         Report $report = null,
-        bool $masterStatus = false
+        $masterStatus = false
     ) {
         $this->id = $id;
         $this->parentId = $parentId;
