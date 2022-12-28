@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2022 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -28,12 +28,13 @@ use oat\tao\model\session\Business\Contract\SessionCookieAttributeInterface;
 
 final class SessionCookieAttribute implements SessionCookieAttributeInterface
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private $name;
-    /** @var string */
     private $value;
 
-    public function __construct(string $name, string $value)
+    public function __construct(string $name, $value)
     {
         $this->name  = $name;
         $this->value = $value;
@@ -42,5 +43,15 @@ final class SessionCookieAttribute implements SessionCookieAttributeInterface
     public function __toString(): string
     {
         return "$this->name=$this->value";
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
     }
 }
