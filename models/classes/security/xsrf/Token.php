@@ -39,13 +39,22 @@ class Token implements JsonSerializable
     public const TOKEN_KEY = 'token';
     public const TIMESTAMP_KEY = 'ts';
 
-    private string $token;
-    private float $tokenTimeStamp;
+    /**
+     * @var string
+     */
+    private $token;
 
     /**
-     * @throws common_Exception
+     * @var float
      */
-    public function __construct(array $data = [])
+    private $tokenTimeStamp;
+
+    /**
+     * Token constructor.
+     * @param array $data
+     * @throws \common_Exception
+     */
+    public function __construct($data = [])
     {
         if (empty($data)) {
             $this->token = $this->generate();
@@ -56,15 +65,21 @@ class Token implements JsonSerializable
         }
     }
 
-    public function setValue(string $token): void
+    /**
+     * Set the value of the token.
+     *
+     * @param string $token
+     */
+    public function setValue($token)
     {
         $this->token = $token;
     }
 
     /**
      * Set the microtime at which the token was created.
+     * @param float $timestamp
      */
-    public function setCreatedAt(float $timestamp): void
+    public function setCreatedAt($timestamp)
     {
         $this->tokenTimeStamp = $timestamp;
     }
@@ -79,8 +94,10 @@ class Token implements JsonSerializable
 
     /**
      * Get the microtime at which the token was created.
+     *
+     * @return float
      */
-    public function getCreatedAt(): float
+    public function getCreatedAt()
     {
         return $this->tokenTimeStamp;
     }
