@@ -29,9 +29,14 @@ use oat\oatbox\event\Event;
 
 class UserUpdatedEvent implements Event, JsonSerializable
 {
-    protected string $user;
-    protected array $data;
+    /** @var  string */
+    protected $user;
+    protected $data;
 
+    /**
+     * @param core_kernel_classes_Resource $user
+     * @param array $data
+     */
     public function __construct(core_kernel_classes_Resource $user, array $data)
     {
         $this->user = $user;
