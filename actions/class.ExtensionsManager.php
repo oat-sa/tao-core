@@ -94,22 +94,46 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
     public function install()
     {
         $this->assertIsDebugMode();
-        $success = false;
+
         try {
-            $extInstaller = new tao_install_ExtensionInstaller($this->getCurrentExtension());
+            $currentExtension = $this->getCurrentExtension();
+            $extensionId = $currentExtension ? $currentExtension->getId() : '';
+
+            $configChecker = tao_install_utils_ChecksHelper::getConfigChecker([$extensionId]);
+
+            foreach ($configChecker->check() as $report) {
+                $msg = $report->getMessage();
+                $this->logInfo($msg);
+
+                if (
+                    $report->getStatus() !== common_configuration_Report::VALID
+                    && !$report->getComponent()->isOptional()
+                ) {
+                    throw new common_ext_ExtensionException($msg, $extensionId);
+                }
+            }
+
+            $extInstaller = new tao_install_ExtensionInstaller($currentExtension);
             $extInstaller->install();
-            $message =   __('Extension "%s" has been installed', $this->getCurrentExtension()->getId());
+
             $success = true;
-            // reinit user session
+            $message =  __('Extension "%s" has been installed', $extensionId);
 
             $this->forceRebuildDependencyInjectionContainer();
 
-            $session = $this->getSession()->refresh();
+            // Re-init user session
+            $this->getSession()->refresh();
         } catch (common_ext_ExtensionException $e) {
+            $success = false;
             $message = $e->getMessage();
         }
 
-        $this->returnJson(['success' => $success, 'message' => $message]);
+        $this->returnJson(
+            [
+                'success' => $success,
+                'message' => $message,
+            ]
+        );
     }
 
     /**
