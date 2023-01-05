@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 use oat\tao\model\iconBuilder\IconBuilderTrait;
@@ -27,13 +27,14 @@ use oat\tao\model\iconBuilder\IconBuilderTrait;
  *
  * @access		public
  * @author		Dieter Raber, <dieter@taotesting.com>
- * @date		2022-10-05 16:44:44
+ * @date		2023-01-05 14:37:55
  * @package		tao
  */
 class tao_helpers_Icon
 {
     use IconBuilderTrait;
 
+    public const CLASS_SCORE_PARTIAL = 'icon-score-partial';
     public const CLASS_FURIGANA = 'icon-furigana';
     public const CLASS_ADD_SUBSECTION = 'icon-add-subsection';
     public const CLASS_INFO_BARE = 'icon-info-bare';
@@ -260,6 +261,11 @@ class tao_helpers_Icon
     public const CLASS_HIGHLIGHTER = 'icon-highlighter';
     public const CLASS_ELIMINATE_CROSSED = 'icon-eliminate-crossed';
     public const CLASS_PLAY_FROM_HERE = 'icon-play-from-here';
+
+    public static function iconScorePartial(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_SCORE_PARTIAL, $options);
+    }
 
     public static function iconFurigana(array $options = [])
     {

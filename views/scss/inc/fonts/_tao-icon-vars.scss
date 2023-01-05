@@ -13,6 +13,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-score-partial { content: "\e91a"; }
 @mixin icon-furigana { content: "\e919"; }
 @mixin icon-add-subsection { content: "\e918"; }
 @mixin icon-info-bare { content: "\e923"; }
