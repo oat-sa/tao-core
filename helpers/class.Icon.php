@@ -27,13 +27,16 @@ use oat\tao\model\iconBuilder\IconBuilderTrait;
  *
  * @access		public
  * @author		Dieter Raber, <dieter@taotesting.com>
- * @date		2023-01-05 14:37:55
+ * @date		2023-01-13 11:08:59
  * @package		tao
  */
 class tao_helpers_Icon
 {
     use IconBuilderTrait;
 
+    public const CLASS_JAPAN_INCORRECT = 'icon-japan-incorrect';
+    public const CLASS_JAPAN_CORRECT = 'icon-japan-correct';
+    public const CLASS_JAPAN_PARTIAL = 'icon-japan-partial';
     public const CLASS_SCORE_PARTIAL = 'icon-score-partial';
     public const CLASS_FURIGANA = 'icon-furigana';
     public const CLASS_ADD_SUBSECTION = 'icon-add-subsection';
@@ -261,6 +264,21 @@ class tao_helpers_Icon
     public const CLASS_HIGHLIGHTER = 'icon-highlighter';
     public const CLASS_ELIMINATE_CROSSED = 'icon-eliminate-crossed';
     public const CLASS_PLAY_FROM_HERE = 'icon-play-from-here';
+
+    public static function iconJapanIncorrect(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_JAPAN_INCORRECT, $options);
+    }
+
+    public static function iconJapanCorrect(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_JAPAN_CORRECT, $options);
+    }
+
+    public static function iconJapanPartial(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_JAPAN_PARTIAL, $options);
+    }
 
     public static function iconScorePartial(array $options = [])
     {

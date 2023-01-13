@@ -13,6 +13,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-japan-incorrect { content: "\e91b"; }
+@mixin icon-japan-correct { content: "\e91c"; }
+@mixin icon-japan-partial { content: "\e91d"; }
 @mixin icon-score-partial { content: "\e91a"; }
 @mixin icon-furigana { content: "\e919"; }
 @mixin icon-add-subsection { content: "\e918"; }
