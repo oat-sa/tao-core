@@ -291,7 +291,6 @@ class tao_install_Setup implements Action
             }
             $logger->notice('Installation completed!');
         });
-
     }
 
     /**
@@ -310,8 +309,8 @@ class tao_install_Setup implements Action
 
         $sortedParameters = [];
 
-        while($constructParameters && $parametersToSort) {
-            $parameter     = array_shift($constructParameters);
+        while ($constructParameters && $parametersToSort) {
+            $parameter = array_shift($constructParameters);
             $parameterName = $parameter->getName();
 
             try {
