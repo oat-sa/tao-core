@@ -224,6 +224,12 @@ class tao_install_Setup implements Action
             throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
         }
 
+        $markers = new tao_install_utils_ConfigurationMarkers($parameters['configuration']);
+        $markers->setSecretsStorage($_ENV)
+            ->setLogger($this->getLogger());
+
+        $parameters['configuration'] = $markers->replace();
+
         foreach ($parameters['configuration'] as $extension => $configs) {
             foreach ($configs as $key => $config) {
                 if (isset($config['type']) && $config['type'] === 'configurableService') {
