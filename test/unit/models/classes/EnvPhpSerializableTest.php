@@ -31,9 +31,9 @@ class EnvPhpSerializableTest extends TestCase
 
     public function setUp(): void
     {
-        $this->envHost = $_ENV['PERSISTENCES_PGSQL_HOST'];
-        $this->envUser = $_ENV['PERSISTENCES_PGSQL_USER'];
-        $this->envPassword = $_ENV['PERSISTENCES_PGSQL_PASSWORD'];
+        $this->envHost = $_ENV['PERSISTENCES_PGSQL_HOST'] ?? null;
+        $this->envUser = $_ENV['PERSISTENCES_PGSQL_USER'] ?? null;
+        $this->envPassword = $_ENV['PERSISTENCES_PGSQL_PASSWORD'] ?? null;
 
         $_ENV['PERSISTENCES_PGSQL_HOST'] = 'tao-postgres';
         $_ENV['PERSISTENCES_PGSQL_USER'] = 'tao';
