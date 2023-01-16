@@ -37,7 +37,6 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 class tao_install_Setup implements Action
 {
     // @codingStandardsIgnoreEnd
-
     // Adding container and logger.
     use ContainerLoggerTrait;
 
