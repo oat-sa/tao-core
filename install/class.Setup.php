@@ -28,12 +28,16 @@ use oat\oatbox\log\logger\TaoLog;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\install\utils\ConfigurationMarkers;
 use oat\tao\model\service\InjectionAwareService;
 use Pimple\Container;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
+// @codingStandardsIgnoreStart
 class tao_install_Setup implements Action
 {
+    // @codingStandardsIgnoreEnd
+
     // Adding container and logger.
     use ContainerLoggerTrait;
 
@@ -224,7 +228,7 @@ class tao_install_Setup implements Action
             throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
         }
 
-        $markers = new tao_install_utils_ConfigurationMarkers($parameters['configuration']);
+        $markers = new ConfigurationMarkers($parameters['configuration']);
         $markers->setSecretsStorage($_ENV)
             ->setLogger($this->getLogger());
 

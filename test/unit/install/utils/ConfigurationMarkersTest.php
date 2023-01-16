@@ -20,6 +20,7 @@
 
 namespace oat\tao\test\unit\install\utils;
 
+use oat\tao\install\utils\ConfigurationMarkers;
 use oat\tao\model\EnvPhpSerializable;
 use PHPUnit\Framework\TestCase;
 use tao_install_utils_ConfigurationMarkers;
@@ -45,7 +46,7 @@ class ConfigurationMarkersTest extends TestCase
             'PERSISTENCES_PGSQL_PASSWORD' => 'r00t',
         ];
 
-        $markers = new tao_install_utils_ConfigurationMarkers($configuration);
+        $markers = new ConfigurationMarkers($configuration);
         $markers->setSecretsStorage($env);
 
         $replaced = $markers->replace();

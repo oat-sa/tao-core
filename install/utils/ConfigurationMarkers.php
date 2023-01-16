@@ -19,10 +19,12 @@
  *
  */
 
+namespace oat\tao\install\utils;
+
 use oat\tao\model\EnvPhpSerializable;
 use Psr\Log\LoggerInterface;
 
-class tao_install_utils_ConfigurationMarkers
+class ConfigurationMarkers
 {
     /** @var string */
     private const MARKER_PATTERN = '/\$ENV{(.*)}/';
