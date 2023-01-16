@@ -43,12 +43,12 @@ class tao_install_Setup implements Action
     /**
      * Setup related dependencies will be reached under this offset.
      */
-    const CONTAINER_INDEX = 'taoInstallSetup';
+    private const CONTAINER_INDEX = 'taoInstallSetup';
 
     /**
      * The setup json content offset in the container.
      */
-    const SETUP_JSON_CONTENT_OFFSET = 'setupJsonContentOffset';
+    private const SETUP_JSON_CONTENT_OFFSET = 'setupJsonContentOffset';
 
     /**
      * @param mixed $params The setup params.
@@ -240,14 +240,20 @@ class tao_install_Setup implements Action
                     $params = $config['options'];
                     if (is_a($className, ConfigurableService::class, true)) {
                         if (is_a($className, InjectionAwareService::class, true)) {
-                            $service = new $className(...$this->prepareParameters($className, $params, $serviceManager));
+                            $service = new $className(
+                                ...$this->prepareParameters($className, $params, $serviceManager)
+                            );
                         } else {
                             $service = new $className($params);
                         }
                         $serviceManager->register($extension . '/' . $key, $service);
                     } else {
-                        $this->logWarning('The class : ' . $className . ' can not be set as a Configurable Service');
-                        $this->logWarning('Make sure your configuration is correct and all required libraries are installed');
+                        $this->logWarning(
+                            'The class : ' . $className . ' can not be set as a Configurable Service'
+                        );
+                        $this->logWarning(
+                            'Make sure your configuration is correct and all required libraries are installed'
+                        );
                     }
                 }
             }
@@ -265,9 +271,14 @@ class tao_install_Setup implements Action
                     if (! (isset($config['type']) && $config['type'] === 'configurableService')) {
                         if (! is_null($extensionManager->getInstalledVersion($ext))) {
                             $extension = $extensionManager->getExtensionById($ext);
-                            if (! $extension->hasConfig($key) || ! $extension->getConfig($key) instanceof ConfigurableService) {
+                            if (
+                                !$extension->hasConfig($key) ||
+                                !$extension->getConfig($key) instanceof ConfigurableService
+                            ) {
                                 if (! $extension->setConfig($key, $config)) {
-                                    throw new ErrorException('Your config ' . $ext . '/' . $key . ' cannot be set');
+                                    throw new ErrorException(
+                                        'Your config ' . $ext . '/' . $key . ' cannot be set'
+                                    );
                                 }
                             }
                         }
