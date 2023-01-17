@@ -28,17 +28,11 @@ class ConfigurationMarkers
 {
     /** @var string */
     private const MARKER_PATTERN = '/\$ENV{(.*)}/';
-    /** @var array */
     private array $configurationWithMarkers;
-    /** @var ?LoggerInterface */
     private ?LoggerInterface $logger = null;
     private string $serializableClass = EnvPhpSerializable::class;
     private ?array $secretsStorage;
 
-    /**
-     * @param array $configurationWithMarkers
-     * @throws Exception
-     */
     public function __construct(array $configurationWithMarkers)
     {
         $this->configurationWithMarkers = $configurationWithMarkers;
@@ -54,10 +48,6 @@ class ConfigurationMarkers
         return $this;
     }
 
-    /**
-     * @param string $serializableClass
-     * @return self
-     */
     public function setSerializableClass(string $serializableClass): self
     {
         $this->serializableClass = $serializableClass;
@@ -65,10 +55,6 @@ class ConfigurationMarkers
         return $this;
     }
 
-    /**
-     * @param array $secretsStorage
-     * @return self
-     */
     public function setSecretsStorage(array $secretsStorage): self
     {
         $this->secretsStorage = $secretsStorage;
@@ -76,10 +62,6 @@ class ConfigurationMarkers
         return $this;
     }
 
-
-    /**
-     * @return array
-     */
     public function replace(): array
     {
         array_walk_recursive($this->configurationWithMarkers, 'self::walk');
@@ -91,17 +73,13 @@ class ConfigurationMarkers
     {
         if (is_string($item) && (int)preg_match(self::MARKER_PATTERN, $item, $matches) > 0) {
             $this->printMatchNotification($matches);
-            if ($this->secretValueExist($matches[1]) === false) {
+            if (isset($this->secretsStorage[$matches[1] ?? '']) === false) {
                 return;
             }
             $this->convertToSerializable($item, $matches[1]);
         }
     }
 
-    /**
-     * @param array $match
-     * @return void
-     */
     private function printMatchNotification(array $match): void
     {
         if (empty($match)) {
@@ -114,38 +92,20 @@ class ConfigurationMarkers
         } else {
             $message .= ' but NO CORRESPONDING value in Secrets Storage!';
         }
-        $this->notice($message);
+        $this->info($message);
     }
 
-    /**
-     * @param string $item
-     * @param string $match
-     * @return void
-     */
     private function convertToSerializable(string &$item, string $match): void
     {
         $item = new $this->serializableClass($match);
-        $this->notice(sprintf('Converted config %s value to PHP Serializable.', $item));
+        $this->info(sprintf('Converted config %s value to PHP Serializable.', $item));
     }
 
-    /**
-     * @param string $message
-     * @return void
-     */
-    private function notice(string $message): void
+    private function info(string $message): void
     {
         if ($this->logger === null) {
             return;
         }
-        $this->logger->notice($message);
-    }
-
-    /**
-     * @param string $key
-     * @return bool
-     */
-    private function secretValueExist(string $key): bool
-    {
-        return isset($this->secretsStorage[$key]);
+        $this->logger->info($message);
     }
 }
