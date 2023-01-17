@@ -43,7 +43,7 @@ class tao_install_Setup implements Action
     /**
      * Setup related dependencies will be reached under this offset.
      */
-    private const CONTAINER_INDEX = 'taoInstallSetup';
+    public const CONTAINER_INDEX = 'taoInstallSetup';
 
     /**
      * The setup json content offset in the container.
