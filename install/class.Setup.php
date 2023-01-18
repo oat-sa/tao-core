@@ -227,9 +227,8 @@ class tao_install_Setup implements Action
             throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
         }
 
-        $markers = new ConfigurationMarkers($parameters['configuration']);
-        $markers->setSecretsStorage($_ENV)
-            ->setLogger($this->getLogger());
+        $markers = new ConfigurationMarkers($parameters['configuration'], $this->getLogger());
+        $markers->setSecretsStorage($_ENV);
 
         $parameters['configuration'] = $markers->replace();
 
@@ -249,7 +248,7 @@ class tao_install_Setup implements Action
                         $serviceManager->register($extension . '/' . $key, $service);
                     } else {
                         $this->logWarning(
-                            'The class : ' . $className . ' can not be set as a Configurable Service'
+                            sprintf('The class : %s can not be set as a Configurable Service', $className)
                         );
                         $this->logWarning(
                             'Make sure your configuration is correct and all required libraries are installed'
@@ -277,7 +276,7 @@ class tao_install_Setup implements Action
                             ) {
                                 if (! $extension->setConfig($key, $config)) {
                                     throw new ErrorException(
-                                        'Your config ' . $ext . '/' . $key . ' cannot be set'
+                                        sprintf('Your config %s/%s cannot be set', $ext, $key)
                                     );
                                 }
                             }
