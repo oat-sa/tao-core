@@ -23,7 +23,7 @@ namespace oat\tao\test\unit\install\utils;
 use oat\tao\install\utils\ConfigurationMarkers;
 use oat\tao\model\EnvPhpSerializable;
 use PHPUnit\Framework\TestCase;
-use tao_install_utils_ConfigurationMarkers;
+use Psr\Log\LoggerInterface;
 
 class ConfigurationMarkersTest extends TestCase
 {
@@ -46,7 +46,9 @@ class ConfigurationMarkersTest extends TestCase
             'PERSISTENCES_PGSQL_PASSWORD' => 'r00t',
         ];
 
-        $markers = new ConfigurationMarkers($configuration);
+        $loggerMock = $this->createMock(LoggerInterface::class);
+
+        $markers = new ConfigurationMarkers($configuration, $loggerMock);
         $markers->setSecretsStorage($env);
 
         $replaced = $markers->replace();
@@ -73,5 +75,73 @@ class ConfigurationMarkersTest extends TestCase
         self::assertSame('PERSISTENCES_PGSQL_HOST', $replaced['connection']['host']->getEnvIndex());
         self::assertSame('PERSISTENCES_PGSQL_USER', $replaced['connection']['user']->getEnvIndex());
         self::assertSame('PERSISTENCES_PGSQL_PASSWORD', $replaced['connection']['password']->getEnvIndex());
+    }
+
+    public function testNotifications(): void
+    {
+        $configuration = [
+            'connection' => [
+                'password' => '$ENV{PERSISTENCES_PGSQL_PASSWORD}',
+            ]
+        ];
+        $env = [
+            'PERSISTENCES_PGSQL_PASSWORD' => 'r00t',
+        ];
+        $loggerMock = $this->createMock(LoggerInterface::class);
+        $loggerMock->expects($this->atLeast(1))->method('info');
+
+        $markers = new ConfigurationMarkers($configuration, $loggerMock);
+        $markers->setSecretsStorage($env);
+
+        $markers->replace();
+    }
+
+    public function testEmptyConfiguration(): void
+    {
+        $configuration = [];
+
+        $loggerMock = $this->createMock(LoggerInterface::class);
+        $this->expectException(\InvalidArgumentException::class);
+        new ConfigurationMarkers($configuration, $loggerMock);
+    }
+
+    public function testEmptySecretsStorage(): void
+    {
+        $configuration = [
+            'connection' => [
+                'password' => '$ENV{PERSISTENCES_PGSQL_PASSWORD}',
+            ]
+        ];
+
+        $loggerMock = $this->createMock(LoggerInterface::class);
+        $markers = new ConfigurationMarkers($configuration, $loggerMock);
+        $markers->setSecretsStorage([]);
+
+        $replaced = $markers->replace();
+
+        self::assertArrayHasKey('connection', $replaced);
+        self::assertArrayHasKey('password', $replaced['connection']);
+        self::assertSame('$ENV{PERSISTENCES_PGSQL_PASSWORD}', $replaced['connection']['password']);
+    }
+
+    public function testNoMatchedMarker(): void
+    {
+        $configuration = [
+            'connection' => [
+                'password' => '$ENV{NOT_MATCHING_MARKER}',
+            ]
+        ];
+        $env = [
+            'PERSISTENCES_PGSQL_PASSWORD' => 'r00t',
+        ];
+
+        $loggerMock = $this->createMock(LoggerInterface::class);
+
+        $markers = new ConfigurationMarkers($configuration, $loggerMock);
+        $markers->setSecretsStorage($env);
+
+        $replaced = $markers->replace();
+
+        self::assertSame('$ENV{NOT_MATCHING_MARKER}', $replaced['connection']['password']);
     }
 }

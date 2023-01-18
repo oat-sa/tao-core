@@ -40,7 +40,7 @@ class EnvPhpSerializableTest extends TestCase
         $_ENV['PERSISTENCES_PGSQL_PASSWORD'] = 'r00t';
     }
 
-    public function testIndexesAndValues()
+    public function testIndexesAndValues(): void
     {
         $host = new EnvPhpSerializable('PERSISTENCES_PGSQL_HOST');
         $user = new EnvPhpSerializable('PERSISTENCES_PGSQL_USER');

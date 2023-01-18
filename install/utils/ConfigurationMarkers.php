@@ -19,6 +19,8 @@
  *
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\install\utils;
 
 use oat\tao\model\EnvPhpSerializable;
@@ -29,23 +31,18 @@ class ConfigurationMarkers
     /** @var string */
     private const MARKER_PATTERN = '/\$ENV{(.*)}/';
     private array $configurationWithMarkers;
-    private ?LoggerInterface $logger = null;
+    private LoggerInterface $logger;
     private string $serializableClass = EnvPhpSerializable::class;
     private ?array $secretsStorage;
 
-    public function __construct(array $configurationWithMarkers)
+    public function __construct(array $configurationWithMarkers, LoggerInterface $logger)
     {
-        $this->configurationWithMarkers = $configurationWithMarkers;
-        if (empty($this->configurationWithMarkers)) {
-            throw new InvalidArgumentException('Empty configuration');
+        if (empty($configurationWithMarkers)) {
+            throw new \InvalidArgumentException('Empty configuration');
         }
-    }
+        $this->configurationWithMarkers = $configurationWithMarkers;
 
-    public function setLogger(LoggerInterface $logger): self
-    {
         $this->logger = $logger;
-
-        return $this;
     }
 
     public function setSerializableClass(string $serializableClass): self
@@ -72,23 +69,20 @@ class ConfigurationMarkers
     private function walk(&$item): void
     {
         if (is_string($item) && (int)preg_match(self::MARKER_PATTERN, $item, $matches) > 0) {
-            $this->printMatchNotification($matches);
-            if (isset($this->secretsStorage[$matches[1] ?? '']) === false) {
+            $isSecretDefined = isset($this->secretsStorage[$matches[1] ?? '']);
+            $this->printMatchNotification($isSecretDefined, $matches[1]);
+            if (!$isSecretDefined) {
                 return;
             }
             $this->convertToSerializable($item, $matches[1]);
         }
     }
 
-    private function printMatchNotification(array $match): void
+    private function printMatchNotification(bool $isSecretDefined, string $secretName): void
     {
-        if (empty($match)) {
-            return;
-        }
-
-        $message = sprintf('Found seed file marker: %s', $match[0]);
-        if (isset($this->secretsStorage[$match[1] ?? ''])) {
-            $message .= sprintf(' and Secrets Storage value "%s"', $this->secretsStorage[$match[1] ?? '']);
+        $message = sprintf('Found seed file marker: %s', $secretName);
+        if ($isSecretDefined) {
+            $message .= ' and its Secrets Storage value.';
         } else {
             $message .= ' but NO CORRESPONDING value in Secrets Storage!';
         }
@@ -103,9 +97,6 @@ class ConfigurationMarkers
 
     private function info(string $message): void
     {
-        if ($this->logger === null) {
-            return;
-        }
         $this->logger->info($message);
     }
 }

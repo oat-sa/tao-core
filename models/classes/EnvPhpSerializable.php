@@ -19,6 +19,8 @@
  *
  */
 
+declare(strict_types=1);
+
 namespace oat\tao\model;
 
 use oat\oatbox\PhpSerializable;
