@@ -36,18 +36,9 @@ class ResultSetResponseNormalizer extends ConfigurableService
      */
     public function normalize(SearchQuery $searchQuery, ResultSet $resultSet, string $structure): array
     {
-        $totalPages = is_null($searchQuery->getRows()) || $searchQuery->getRows() === 0
-            ? 1
-            : ceil($resultSet->getTotalCount() / $searchQuery->getRows());
-
         $resultsRaw = $resultSet->getArrayCopy();
-
         $resultAmount = count($resultsRaw);
-
-        $response = [];
-
         $resourcePermissions = [];
-
         $resultAccessChecker = $this->getResultAccessChecker();
 
         if ($resultAmount > 0) {
@@ -91,14 +82,78 @@ class ResultSetResponseNormalizer extends ConfigurableService
 
                 $resourcePermissions[$resourceId] = !$hasReadAccess;
 
-                $response['data'][] = $content;
+                $responseData[] = $content;
             }
         }
 
+        return $this->createResponse(
+            !empty($responseData) ? $responseData : [],
+            $resourcePermissions,
+            $searchQuery,
+            $resultSet,
+            $resultAmount
+        );
+    }
+
+    public function normalizeSafeClass(SearchQuery $searchQuery, ResultSet $resultSet, string $structure): array
+    {
+        $resultsRaw = $resultSet->getArrayCopy();
+        $resultAmount = count($resultsRaw);
+        $resourcePermissions = [];
+
+        if ($resultAmount > 0) {
+            $accessibleResultsMap = array_flip(
+                $this->getPermissionHelper()
+                    ->filterByPermission(
+                        array_column($resultsRaw, 'id'),
+                        PermissionInterface::RIGHT_READ
+                    )
+            );
+
+            foreach ($resultsRaw as $content) {
+                if (!is_array($content)) {
+                    $this->logError(
+                        sprintf(
+                            'Search content issue detected: expected array, but %s given',
+                            json_encode($content)
+                        )
+                    );
+                    continue;
+                }
+
+                $isAccessible = isset($accessibleResultsMap[$content['id']]);
+                $resourcePermissions[$content['id']] = !$isAccessible;
+                $responseData[] = $content;
+            }
+        }
+
+        $data = !empty($responseData) ? $responseData : [];
+
+        return $this->createResponse(
+            $data,
+            $resourcePermissions,
+            $searchQuery,
+            $resultSet,
+            $resultAmount
+        );
+
+    }
+
+    private function createResponse(
+        array $responseData,
+        array $resourcePermissions,
+        SearchQuery $searchQuery,
+        ResultSet $resultSet,
+        $resultAmount
+    ): array {
+
+        $response['data'] = $responseData;
         $response['readonly'] = $resourcePermissions;
         $response['success'] = true;
         $response['page'] = empty($response['data']) ? 0 : $searchQuery->getPage();
-        $response['total'] = $totalPages;
+        $response['total'] = is_null($searchQuery->getRows()) || $searchQuery->getRows() === 0
+            ? 1
+            : ceil($resultSet->getTotalCount() / $searchQuery->getRows());;
         $response['totalCount'] = $resultSet->getTotalCount();
         $response['records'] = $resultAmount;
 
