@@ -87,7 +87,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
         }
 
         return $this->createResponse(
-            !empty($responseData) ? $responseData : [],
+            $responseData ?? [],
             $resourcePermissions,
             $searchQuery,
             $resultSet,
@@ -127,10 +127,8 @@ class ResultSetResponseNormalizer extends ConfigurableService
             }
         }
 
-        $data = !empty($responseData) ? $responseData : [];
-
         return $this->createResponse(
-            $data,
+            $responseData ?? [],
             $resourcePermissions,
             $searchQuery,
             $resultSet,
