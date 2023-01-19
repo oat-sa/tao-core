@@ -95,6 +95,9 @@ class ResultSetResponseNormalizer extends ConfigurableService
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function normalizeSafeClass(SearchQuery $searchQuery, ResultSet $resultSet, string $structure): array
     {
         $resultsRaw = $resultSet->getArrayCopy();
@@ -136,13 +139,13 @@ class ResultSetResponseNormalizer extends ConfigurableService
         );
 
     }
-
+    
     private function createResponse(
         array $responseData,
         array $resourcePermissions,
         SearchQuery $searchQuery,
         ResultSet $resultSet,
-        $resultAmount
+        int $resultAmount
     ): array {
 
         $response['data'] = $responseData;
