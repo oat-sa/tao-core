@@ -48,8 +48,10 @@ class ConfigurationMarkersTest extends TestCase
 
         $loggerMock = $this->createMock(LoggerInterface::class);
 
-        $markers = new ConfigurationMarkers($configuration, $loggerMock);
-        $markers->setSecretsStorage($env);
+        $markers = new ConfigurationMarkers($loggerMock);
+        $markers
+            ->setSecretsStorage($env)
+            ->setConfigurationWithMarkers($configuration);
 
         $replaced = $markers->replace();
 
@@ -64,7 +66,7 @@ class ConfigurationMarkersTest extends TestCase
         self::assertArrayHasKey('driverOptions', $replaced['connection']);
 
         self::assertSame(
-            '$ENV{NON_EXISTING_ENTRY_IN_ENV}',
+            '',
             $replaced['connection']['non_existing_entry_in_env']
         );
 
@@ -90,8 +92,10 @@ class ConfigurationMarkersTest extends TestCase
         $loggerMock = $this->createMock(LoggerInterface::class);
         $loggerMock->expects($this->atLeast(1))->method('info');
 
-        $markers = new ConfigurationMarkers($configuration, $loggerMock);
-        $markers->setSecretsStorage($env);
+        $markers = new ConfigurationMarkers($loggerMock);
+        $markers
+            ->setSecretsStorage($env)
+            ->setConfigurationWithMarkers($configuration);
 
         $markers->replace();
     }
@@ -102,7 +106,9 @@ class ConfigurationMarkersTest extends TestCase
 
         $loggerMock = $this->createMock(LoggerInterface::class);
         $this->expectException(\InvalidArgumentException::class);
-        new ConfigurationMarkers($configuration, $loggerMock);
+        $markers = new ConfigurationMarkers($loggerMock);
+        $markers->setConfigurationWithMarkers($configuration);
+        $markers->replace();
     }
 
     public function testEmptySecretsStorage(): void
@@ -114,14 +120,16 @@ class ConfigurationMarkersTest extends TestCase
         ];
 
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $markers = new ConfigurationMarkers($configuration, $loggerMock);
-        $markers->setSecretsStorage([]);
+        $markers = new ConfigurationMarkers($loggerMock);
+        $markers
+            ->setSecretsStorage([])
+            ->setConfigurationWithMarkers($configuration);;
 
         $replaced = $markers->replace();
 
         self::assertArrayHasKey('connection', $replaced);
         self::assertArrayHasKey('password', $replaced['connection']);
-        self::assertSame('$ENV{PERSISTENCES_PGSQL_PASSWORD}', $replaced['connection']['password']);
+        self::assertSame('', $replaced['connection']['password']);
     }
 
     public function testNoMatchedMarker(): void
@@ -137,11 +145,13 @@ class ConfigurationMarkersTest extends TestCase
 
         $loggerMock = $this->createMock(LoggerInterface::class);
 
-        $markers = new ConfigurationMarkers($configuration, $loggerMock);
-        $markers->setSecretsStorage($env);
+        $markers = new ConfigurationMarkers($loggerMock);
+        $markers
+            ->setSecretsStorage($env)
+            ->setConfigurationWithMarkers($configuration);;
 
         $replaced = $markers->replace();
 
-        self::assertSame('$ENV{NOT_MATCHING_MARKER}', $replaced['connection']['password']);
+        self::assertSame('', $replaced['connection']['password']);
     }
 }

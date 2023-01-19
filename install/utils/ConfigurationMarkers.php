@@ -35,13 +35,8 @@ class ConfigurationMarkers
     private string $serializableClass = EnvPhpSerializable::class;
     private ?array $secretsStorage;
 
-    public function __construct(array $configurationWithMarkers, LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger)
     {
-        if (empty($configurationWithMarkers)) {
-            throw new \InvalidArgumentException('Empty configuration');
-        }
-        $this->configurationWithMarkers = $configurationWithMarkers;
-
         $this->logger = $logger;
     }
 
@@ -61,9 +56,20 @@ class ConfigurationMarkers
 
     public function replace(): array
     {
+        if (empty($this->configurationWithMarkers)) {
+            throw new \InvalidArgumentException('Empty configuration.');
+        }
+
         array_walk_recursive($this->configurationWithMarkers, 'self::walk');
 
         return $this->configurationWithMarkers;
+    }
+
+    public function setConfigurationWithMarkers(array $configurationWithMarkers): self
+    {
+        $this->configurationWithMarkers = $configurationWithMarkers;
+
+        return $this;
     }
 
     private function walk(&$item): void
@@ -72,10 +78,13 @@ class ConfigurationMarkers
             $isSecretDefined = isset($this->secretsStorage[$matches[1] ?? '']);
             $this->printMatchNotification($isSecretDefined, $matches[1]);
             if (!$isSecretDefined) {
+                //remove not found markers from config array
+                $item = '';
                 return;
             }
             $this->convertToSerializable($item, $matches[1]);
         }
+
     }
 
     private function printMatchNotification(bool $isSecretDefined, string $secretName): void

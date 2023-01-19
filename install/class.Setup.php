@@ -227,8 +227,10 @@ class tao_install_Setup implements Action
             throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
         }
 
-        $markers = new ConfigurationMarkers($parameters['configuration'], $this->getLogger());
-        $markers->setSecretsStorage($_ENV);
+        $markers = new ConfigurationMarkers($this->getLogger());
+        $markers
+            ->setConfigurationWithMarkers($parameters['configuration'])
+            ->setSecretsStorage($_ENV);
 
         $parameters['configuration'] = $markers->replace();
 
