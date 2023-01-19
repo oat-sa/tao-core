@@ -102,12 +102,13 @@ class SearchProxy extends ConfigurableService implements Search
      * @throws Exception
      */
     public function search(ServerRequestInterface $request): array
-    {;
+    {
         $query = $this->getQueryFactory()->create($request);
         $queryParams = $request->getQueryParams();
         $results = $this->executeSearch($query);
 
-        if (isset($queryParams['params']['rootNode'])
+        if (
+            isset($queryParams['params']['rootNode'])
             && in_array($queryParams['params']['rootNode'], self::SAFE_NODES)
         ) {
             return $this->getResultSetResponseNormalizer()

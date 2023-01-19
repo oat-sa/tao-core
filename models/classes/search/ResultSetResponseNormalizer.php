@@ -137,9 +137,8 @@ class ResultSetResponseNormalizer extends ConfigurableService
             $resultSet,
             $resultAmount
         );
-
     }
-    
+
     private function createResponse(
         array $responseData,
         array $resourcePermissions,
@@ -154,7 +153,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $response['page'] = empty($response['data']) ? 0 : $searchQuery->getPage();
         $response['total'] = is_null($searchQuery->getRows()) || $searchQuery->getRows() === 0
             ? 1
-            : ceil($resultSet->getTotalCount() / $searchQuery->getRows());;
+            : ceil($resultSet->getTotalCount() / $searchQuery->getRows());
         $response['totalCount'] = $resultSet->getTotalCount();
         $response['records'] = $resultAmount;
 
