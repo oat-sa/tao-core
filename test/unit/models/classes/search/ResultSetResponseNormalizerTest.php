@@ -212,4 +212,59 @@ class ResultSetResponseNormalizerTest extends TestCase
             $result
         );
     }
+
+    public function testNormalizeSafeClass()
+    {
+        $this->resultSetMock
+            ->expects($this->once())
+            ->method('getTotalCount')
+            ->willReturn(100);
+
+        $this->searchQueryMock
+            ->method('getRows')
+            ->willReturn(0);
+
+        $this->permissionHelperMock
+            ->expects($this->once())
+            ->method('filterByPermission')
+            ->willReturn(
+                [
+                    'READ' => 'uri1',
+                    'WRITE' => 'uri2',
+                ]
+            );
+
+        $this->searchQueryMock
+            ->method('getPage')
+            ->willReturn(1);
+
+        $this->resultAccessChecker
+            ->expects($this->never())
+            ->method('hasReadAccess');
+
+        $result = $this->subject->normalizeSafeClass($this->searchQueryMock, $this->resultSetMock, 'result');
+
+        $this->assertSame(
+            array(
+                'data' => [
+                    [
+                        'id' => 'uri1',
+                    ],
+                    [
+                        'id' => 'uri2',
+                    ],
+                ],
+                'readonly' => [
+                    'uri1' => false,
+                    'uri2' => false,
+                ],
+                'success' => true,
+                'page' => 1,
+                'total' => 1,
+                'totalCount' => 100,
+                'records' => 2,
+            ),
+            $result
+        );
+    }
 }
