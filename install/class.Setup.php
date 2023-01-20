@@ -228,9 +228,7 @@ class tao_install_Setup implements Action
             throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
         }
 
-        $markers = new ConfigurationMarkers($this->getLogger());
-        $markers->setSecretsStorage($_ENV);
-
+        $markers = new ConfigurationMarkers($_ENV, new \oat\tao\model\EnvPhpSerializableFactory(), $this->getLogger());
         $parameters = $markers->replaceMarkers($parameters);
 
         foreach ($parameters['configuration'] as $extension => $configs) {
@@ -285,7 +283,6 @@ class tao_install_Setup implements Action
                     }
                 }
             }
-
             // execute post install scripts
             if (isset($parameters['postInstall'])) {
                 foreach ($parameters['postInstall'] as $script) {

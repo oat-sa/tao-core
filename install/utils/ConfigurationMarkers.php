@@ -23,8 +23,7 @@ declare(strict_types=1);
 
 namespace oat\tao\install\utils;
 
-use oat\oatbox\PhpSerializable;
-use oat\tao\model\EnvPhpSerializable;
+use oat\tao\model\EnvPhpSerializableFactory;
 use Psr\Log\LoggerInterface;
 
 class ConfigurationMarkers
@@ -32,20 +31,14 @@ class ConfigurationMarkers
     /** @var string */
     private const MARKER_PATTERN = '/\$ENV{(.*)}/';
     private LoggerInterface $logger;
-    private string $serializableClass;
+    private EnvPhpSerializableFactory $serializableFactory;
     private ?array $secretsStorage;
 
-    public function __construct(LoggerInterface $logger, string $serializableClass = EnvPhpSerializable::class)
-    {
-        $this->serializableClass = $serializableClass;
-        $this->logger = $logger;
-    }
-
-    public function setSecretsStorage(array $secretsStorage): self
+    public function __construct(array $secretsStorage, EnvPhpSerializableFactory $serializableFactory, LoggerInterface $logger)
     {
         $this->secretsStorage = $secretsStorage;
-
-        return $this;
+        $this->serializableFactory = $serializableFactory;
+        $this->logger = $logger;
     }
 
     public function replaceMarkers(array $configurationWithMarkers): array
@@ -65,11 +58,11 @@ class ConfigurationMarkers
             $isSecretDefined = isset($this->secretsStorage[$matches[1] ?? '']);
             $this->printMatchNotification($isSecretDefined, $matches[1]);
             if (!$isSecretDefined) {
-                //remove not found markers from config array
+                //remove not found markers from config array as reference
                 $item = '';
                 return;
             }
-            $item = $this->serializableFactory($matches[1]);
+            $item = $this->serializableFactory->create($matches[1]);
             $this->info(sprintf('Converted config %s value to PHP Serializable.', $item));
         }
     }
@@ -83,11 +76,6 @@ class ConfigurationMarkers
             $message .= ' but NO CORRESPONDING value in Secrets Storage!';
         }
         $this->info($message);
-    }
-
-    private function serializableFactory(string $index): PhpSerializable
-    {
-        return new $this->serializableClass($index);
     }
 
     private function info(string $message): void
