@@ -142,6 +142,8 @@ trait tao_actions_RestTrait
      *
      * @param array $rawData
      * @param bool $withMessage
+     * @deprecated use \oat\tao\model\http\HttpJsonResponseTrait::setSuccessJsonResponse, be mindful that this
+     * trait doesn't return the version attribute like the method bellow.
      * @throws common_exception_NotImplemented
      */
     protected function returnSuccess($rawData = [], $withMessage = true)
