@@ -29,6 +29,7 @@ use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\install\utils\ConfigurationMarkers;
+use oat\tao\model\EnvPhpSerializable;
 use oat\tao\model\service\InjectionAwareService;
 use Pimple\Container;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -228,11 +229,9 @@ class tao_install_Setup implements Action
         }
 
         $markers = new ConfigurationMarkers($this->getLogger());
-        $markers
-            ->setConfigurationWithMarkers($parameters['configuration'])
-            ->setSecretsStorage($_ENV);
+        $markers->setSecretsStorage($_ENV);
 
-        $parameters['configuration'] = $markers->replace();
+        $parameters = $markers->replaceMarkers($parameters);
 
         foreach ($parameters['configuration'] as $extension => $configs) {
             foreach ($configs as $key => $config) {
