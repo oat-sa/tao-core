@@ -50,10 +50,9 @@ class ConfigurationMarkersTest extends TestCase
 
         $markers = new ConfigurationMarkers($loggerMock);
         $markers
-            ->setSecretsStorage($env)
-            ->setConfigurationWithMarkers($configuration);
+            ->setSecretsStorage($env);
 
-        $replaced = $markers->replace();
+        $replaced = $markers->replaceMarkers($configuration);
 
         self::assertArrayHasKey('connection', $replaced);
         self::assertCount(7, $replaced['connection']);
@@ -94,10 +93,9 @@ class ConfigurationMarkersTest extends TestCase
 
         $markers = new ConfigurationMarkers($loggerMock);
         $markers
-            ->setSecretsStorage($env)
-            ->setConfigurationWithMarkers($configuration);
+            ->setSecretsStorage($env);
 
-        $markers->replace();
+        $markers->replaceMarkers($configuration);
     }
 
     public function testEmptyConfiguration(): void
@@ -105,10 +103,9 @@ class ConfigurationMarkersTest extends TestCase
         $configuration = [];
 
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $this->expectException(\InvalidArgumentException::class);
         $markers = new ConfigurationMarkers($loggerMock);
-        $markers->setConfigurationWithMarkers($configuration);
-        $markers->replace();
+        $this->expectException(\InvalidArgumentException::class);
+        $markers->replaceMarkers($configuration);
     }
 
     public function testEmptySecretsStorage(): void
@@ -122,10 +119,9 @@ class ConfigurationMarkersTest extends TestCase
         $loggerMock = $this->createMock(LoggerInterface::class);
         $markers = new ConfigurationMarkers($loggerMock);
         $markers
-            ->setSecretsStorage([])
-            ->setConfigurationWithMarkers($configuration);;
+            ->setSecretsStorage([]);
 
-        $replaced = $markers->replace();
+        $replaced = $markers->replaceMarkers($configuration);
 
         self::assertArrayHasKey('connection', $replaced);
         self::assertArrayHasKey('password', $replaced['connection']);
@@ -147,10 +143,9 @@ class ConfigurationMarkersTest extends TestCase
 
         $markers = new ConfigurationMarkers($loggerMock);
         $markers
-            ->setSecretsStorage($env)
-            ->setConfigurationWithMarkers($configuration);;
+            ->setSecretsStorage($env);
 
-        $replaced = $markers->replace();
+        $replaced = $markers->replaceMarkers($configuration);
 
         self::assertSame('', $replaced['connection']['password']);
     }
