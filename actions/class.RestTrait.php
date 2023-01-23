@@ -19,6 +19,7 @@
  *
  */
 
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace, Squiz.Classes.ValidClassName.NotCamelCaps
 use oat\oatbox\log\logger\AdvancedLogger;
 use oat\oatbox\log\logger\extender\ContextExtenderInterface;
 use oat\tao\helpers\RestExceptionHandler;
@@ -142,6 +143,8 @@ trait tao_actions_RestTrait
      *
      * @param array $rawData
      * @param bool $withMessage
+     * @deprecated use \oat\tao\model\http\HttpJsonResponseTrait::setSuccessJsonResponse, be mindful that this
+     * trait doesn't return the version attribute like the method bellow.
      * @throws common_exception_NotImplemented
      */
     protected function returnSuccess($rawData = [], $withMessage = true)
@@ -192,7 +195,8 @@ trait tao_actions_RestTrait
         if (DEBUG_MODE) {
             $defaultMessage = $exception->getMessage();
         }
-        return ($exception instanceof common_exception_UserReadableException) ? $exception->getUserMessage() :  $defaultMessage;
+        return ($exception instanceof common_exception_UserReadableException) ? $exception->getUserMessage(
+        ) : $defaultMessage;
     }
 
     private function logException(Throwable $exception): void
