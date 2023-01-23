@@ -150,7 +150,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
             'data' => $responseData,
             'readonly' => $resourcePermissions,
             'success' => true,
-            'page' => empty($response['data']) ? 0 : $searchQuery->getPage(),
+            'page' => empty($responseData) ? 0 : $searchQuery->getPage(),
             'total' => empty($searchQuery->getRows())
                 ? 1
                 : ceil($resultSet->getTotalCount() / $searchQuery->getRows()),
