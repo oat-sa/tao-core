@@ -154,7 +154,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
             'total' => empty($searchQuery->getRows())
                 ? 1
                 : ceil($resultSet->getTotalCount() / $searchQuery->getRows()),
-            'totalCount'=> $resultSet->getTotalCount(),
+            'totalCount' => $resultSet->getTotalCount(),
             'records' => $resultAmount,
         ];
     }
