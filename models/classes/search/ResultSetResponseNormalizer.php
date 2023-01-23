@@ -146,18 +146,17 @@ class ResultSetResponseNormalizer extends ConfigurableService
         ResultSet $resultSet,
         int $resultAmount
     ): array {
-
-        $response['data'] = $responseData;
-        $response['readonly'] = $resourcePermissions;
-        $response['success'] = true;
-        $response['page'] = empty($response['data']) ? 0 : $searchQuery->getPage();
-        $response['total'] = empty($searchQuery->getRows())
-            ? 1
-            : ceil($resultSet->getTotalCount() / $searchQuery->getRows());
-        $response['totalCount'] = $resultSet->getTotalCount();
-        $response['records'] = $resultAmount;
-
-        return $response;
+        return [
+            'data' => $responseData,
+            'readonly' => $resourcePermissions,
+            'success' => true,
+            'page' => empty($response['data']) ? 0 : $searchQuery->getPage(),
+            'total' => empty($searchQuery->getRows())
+                ? 1
+                : ceil($resultSet->getTotalCount() / $searchQuery->getRows()),
+            'totalCount'=> $resultSet->getTotalCount(),
+            'records' => $resultAmount,
+        ];
     }
 
     private function getPermissionHelper(): PermissionHelper
