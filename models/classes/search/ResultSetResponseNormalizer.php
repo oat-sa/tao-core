@@ -125,7 +125,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
                     continue;
                 }
 
-                $resourcePermissions[$content['id']] = !isset($accessibleResultsMap[$content['id']]);;
+                $resourcePermissions[$content['id']] = !isset($accessibleResultsMap[$content['id']]);
                 $responseData[] = $content;
             }
         }
