@@ -39,6 +39,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $resultsRaw = $resultSet->getArrayCopy();
         $resultAmount = count($resultsRaw);
         $resourcePermissions = [];
+        $responseData = [];
         $resultAccessChecker = $this->getResultAccessChecker();
 
         if ($resultAmount > 0) {
@@ -87,7 +88,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
         }
 
         return $this->createResponse(
-            $responseData ?? [],
+            $responseData,
             $resourcePermissions,
             $searchQuery,
             $resultSet,
@@ -103,14 +104,14 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $resultsRaw = $resultSet->getArrayCopy();
         $resultAmount = count($resultsRaw);
         $resourcePermissions = [];
+        $responseData = [];
 
         if ($resultAmount > 0) {
             $accessibleResultsMap = array_flip(
-                $this->getPermissionHelper()
-                    ->filterByPermission(
-                        array_column($resultsRaw, 'id'),
-                        PermissionInterface::RIGHT_READ
-                    )
+                $this->getPermissionHelper()->filterByPermission(
+                    array_column($resultsRaw, 'id'),
+                    PermissionInterface::RIGHT_READ
+                )
             );
 
             foreach ($resultsRaw as $content) {
@@ -124,14 +125,13 @@ class ResultSetResponseNormalizer extends ConfigurableService
                     continue;
                 }
 
-                $isAccessible = isset($accessibleResultsMap[$content['id']]);
-                $resourcePermissions[$content['id']] = !$isAccessible;
+                $resourcePermissions[$content['id']] = !isset($accessibleResultsMap[$content['id']]);;
                 $responseData[] = $content;
             }
         }
 
         return $this->createResponse(
-            $responseData ?? [],
+            $responseData,
             $resourcePermissions,
             $searchQuery,
             $resultSet,
@@ -151,7 +151,7 @@ class ResultSetResponseNormalizer extends ConfigurableService
         $response['readonly'] = $resourcePermissions;
         $response['success'] = true;
         $response['page'] = empty($response['data']) ? 0 : $searchQuery->getPage();
-        $response['total'] = is_null($searchQuery->getRows()) || $searchQuery->getRows() === 0
+        $response['total'] = empty($searchQuery->getRows())
             ? 1
             : ceil($resultSet->getTotalCount() / $searchQuery->getRows());
         $response['totalCount'] = $resultSet->getTotalCount();

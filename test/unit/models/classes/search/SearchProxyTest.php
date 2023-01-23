@@ -165,12 +165,11 @@ class SearchProxyTest extends TestCase
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getQueryParams')->willReturn(
             [
-                'params' =>
-                    [
-                        'query' => 'test',
-                        'structure' => 'exampleRootNode',
-                        'rootNode' => 'http://www.tao.lu/Ontologies/generis.rdf#ClassRole'
-                    ],
+                'params' => [
+                    'query' => 'test',
+                    'structure' => 'exampleRootNode',
+                    'rootNode' => 'http://www.tao.lu/Ontologies/generis.rdf#ClassRole'
+                ],
             ]
         );
 

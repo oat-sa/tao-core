@@ -213,7 +213,7 @@ class ResultSetResponseNormalizerTest extends TestCase
         );
     }
 
-    public function testNormalizeSafeClass()
+    public function testNormalizeSafeClass(): void
     {
         $this->resultSetMock
             ->expects($this->once())
@@ -245,7 +245,7 @@ class ResultSetResponseNormalizerTest extends TestCase
         $result = $this->subject->normalizeSafeClass($this->searchQueryMock, $this->resultSetMock, 'result');
 
         $this->assertSame(
-            array(
+            [
                 'data' => [
                     [
                         'id' => 'uri1',
@@ -263,7 +263,7 @@ class ResultSetResponseNormalizerTest extends TestCase
                 'total' => 1,
                 'totalCount' => 100,
                 'records' => 2,
-            ),
+            ],
             $result
         );
     }

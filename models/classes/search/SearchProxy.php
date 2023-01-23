@@ -41,7 +41,7 @@ class SearchProxy extends ConfigurableService implements Search
     public const OPTION_ADVANCED_SEARCH_CLASS = 'advanced_search_class';
     public const OPTION_DEFAULT_SEARCH_CLASS = 'default_search_class';
     public const OPTION_GENERIS_SEARCH_WHITELIST = 'generis_search_whitelist';
-    public const SAFE_NODES = ['http://www.tao.lu/Ontologies/generis.rdf#ClassRole'];
+    public const SAFE_NODES = [GenerisRdf::CLASS_ROLE];
 
     public const GENERIS_SEARCH_DEFAULT_WHITELIST = [
         GenerisRdf::CLASS_ROLE,
@@ -109,7 +109,7 @@ class SearchProxy extends ConfigurableService implements Search
 
         if (
             isset($queryParams['params']['rootNode'])
-            && in_array($queryParams['params']['rootNode'], self::SAFE_NODES)
+            && in_array($queryParams['params']['rootNode'], self::SAFE_NODES, true)
         ) {
             return $this->getResultSetResponseNormalizer()
                 ->normalizeSafeClass($query, $results, $queryParams['params']['structure']);
