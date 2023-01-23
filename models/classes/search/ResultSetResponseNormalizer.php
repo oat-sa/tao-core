@@ -36,18 +36,10 @@ class ResultSetResponseNormalizer extends ConfigurableService
      */
     public function normalize(SearchQuery $searchQuery, ResultSet $resultSet, string $structure): array
     {
-        $totalPages = is_null($searchQuery->getRows()) || $searchQuery->getRows() === 0
-            ? 1
-            : ceil($resultSet->getTotalCount() / $searchQuery->getRows());
-
         $resultsRaw = $resultSet->getArrayCopy();
-
         $resultAmount = count($resultsRaw);
-
-        $response = [];
-
         $resourcePermissions = [];
-
+        $responseData = [];
         $resultAccessChecker = $this->getResultAccessChecker();
 
         if ($resultAmount > 0) {
@@ -91,18 +83,80 @@ class ResultSetResponseNormalizer extends ConfigurableService
 
                 $resourcePermissions[$resourceId] = !$hasReadAccess;
 
-                $response['data'][] = $content;
+                $responseData[] = $content;
             }
         }
 
-        $response['readonly'] = $resourcePermissions;
-        $response['success'] = true;
-        $response['page'] = empty($response['data']) ? 0 : $searchQuery->getPage();
-        $response['total'] = $totalPages;
-        $response['totalCount'] = $resultSet->getTotalCount();
-        $response['records'] = $resultAmount;
+        return $this->createResponse(
+            $responseData,
+            $resourcePermissions,
+            $searchQuery,
+            $resultSet,
+            $resultAmount
+        );
+    }
 
-        return $response;
+    /**
+     * @inheritDoc
+     */
+    public function normalizeSafeClass(SearchQuery $searchQuery, ResultSet $resultSet, string $structure): array
+    {
+        $resultsRaw = $resultSet->getArrayCopy();
+        $resultAmount = count($resultsRaw);
+        $resourcePermissions = [];
+        $responseData = [];
+
+        if ($resultAmount > 0) {
+            $accessibleResultsMap = array_flip(
+                $this->getPermissionHelper()->filterByPermission(
+                    array_column($resultsRaw, 'id'),
+                    PermissionInterface::RIGHT_READ
+                )
+            );
+
+            foreach ($resultsRaw as $content) {
+                if (!is_array($content)) {
+                    $this->logError(
+                        sprintf(
+                            'Search content issue detected: expected array, but %s given',
+                            json_encode($content)
+                        )
+                    );
+                    continue;
+                }
+
+                $resourcePermissions[$content['id']] = !isset($accessibleResultsMap[$content['id']]);
+                $responseData[] = $content;
+            }
+        }
+
+        return $this->createResponse(
+            $responseData,
+            $resourcePermissions,
+            $searchQuery,
+            $resultSet,
+            $resultAmount
+        );
+    }
+
+    private function createResponse(
+        array $responseData,
+        array $resourcePermissions,
+        SearchQuery $searchQuery,
+        ResultSet $resultSet,
+        int $resultAmount
+    ): array {
+        return [
+            'data' => $responseData,
+            'readonly' => $resourcePermissions,
+            'success' => true,
+            'page' => empty($responseData) ? 0 : $searchQuery->getPage(),
+            'total' => empty($searchQuery->getRows())
+                ? 1
+                : ceil($resultSet->getTotalCount() / $searchQuery->getRows()),
+            'totalCount' => $resultSet->getTotalCount(),
+            'records' => $resultAmount,
+        ];
     }
 
     private function getPermissionHelper(): PermissionHelper
