@@ -118,6 +118,29 @@ class SearchProxyTest extends TestCase
         $this->assertSame([], $this->subject->search($this->requestMock));
     }
 
+    public function testSearchByQuery(): void
+    {
+        $query = new SearchQuery(
+            '',
+            '',
+            GenerisRdf::CLASS_ROLE,
+            0,
+            10,
+            0
+        );
+
+        $this->identifierSearcher
+            ->method('search')
+            ->willReturn(new ResultSet([], 1));
+
+        $this->resultSetResponseNormalizerMock
+            ->expects($this->once())
+            ->method('normalizeSafeClass')
+            ->willReturn([]);
+
+        $this->assertSame([], $this->subject->searchByQuery($query));
+    }
+
     public function testSearchByDefaultSearch(): void
     {
         $this->advancedSearchCheckerMock
@@ -135,6 +158,36 @@ class SearchProxyTest extends TestCase
             ->willReturn([]);
 
         $this->assertSame([], $this->subject->search($this->requestMock));
+    }
+
+    public function testSearchWithSafeNode(): void
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getQueryParams')->willReturn(
+            [
+                'params' => [
+                    'query' => 'test',
+                    'structure' => 'exampleRootNode',
+                    'rootNode' => 'http://www.tao.lu/Ontologies/generis.rdf#ClassRole'
+                ],
+            ]
+        );
+
+        $this->advancedSearchCheckerMock
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->willReturn(false);
+
+        $this->defaultSearch
+            ->method('query')
+            ->willReturn(new ResultSet([], 1));
+
+        $this->resultSetResponseNormalizerMock
+            ->expects($this->once())
+            ->method('normalizeSafeClass')
+            ->willReturn([]);
+
+        $this->assertSame([], $this->subject->search($request));
     }
 
     public function testForceGenerisSearch(): void

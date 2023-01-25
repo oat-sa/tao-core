@@ -41,6 +41,7 @@ class SearchProxy extends ConfigurableService implements Search
     public const OPTION_ADVANCED_SEARCH_CLASS = 'advanced_search_class';
     public const OPTION_DEFAULT_SEARCH_CLASS = 'default_search_class';
     public const OPTION_GENERIS_SEARCH_WHITELIST = 'generis_search_whitelist';
+    public const SAFE_NODES = [GenerisRdf::CLASS_ROLE];
 
     public const GENERIS_SEARCH_DEFAULT_WHITELIST = [
         GenerisRdf::CLASS_ROLE,
@@ -94,7 +95,7 @@ class SearchProxy extends ConfigurableService implements Search
         $results = $this->executeSearch($query);
 
         return $this->getResultSetResponseNormalizer()
-            ->normalize($query, $results, '');
+            ->normalizeSafeClass($query, $results, '');
     }
 
     /**
@@ -106,10 +107,16 @@ class SearchProxy extends ConfigurableService implements Search
         $queryParams = $request->getQueryParams();
         $results = $this->executeSearch($query);
 
-        $response = $this->getResultSetResponseNormalizer()
-            ->normalize($query, $results, $queryParams['params']['structure']);
+        if (
+            isset($queryParams['params']['rootNode'])
+            && in_array($queryParams['params']['rootNode'], self::SAFE_NODES, true)
+        ) {
+            return $this->getResultSetResponseNormalizer()
+                ->normalizeSafeClass($query, $results, $queryParams['params']['structure']);
+        }
 
-        return $response;
+        return $this->getResultSetResponseNormalizer()
+            ->normalize($query, $results, $queryParams['params']['structure']);
     }
 
     /**
