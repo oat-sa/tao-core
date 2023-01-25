@@ -1,4 +1,8 @@
 /* Do not edit */[class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+.icon-japan-incorrect:before { @include icon-japan-incorrect; }
+.icon-japan-correct:before { @include icon-japan-correct; }
+.icon-japan-partial:before { @include icon-japan-partial; }
+.icon-score-partial:before { @include icon-score-partial; }
 .icon-furigana:before { @include icon-furigana; }
 .icon-add-subsection:before { @include icon-add-subsection; }
 .icon-info-bare:before { @include icon-info-bare; }
