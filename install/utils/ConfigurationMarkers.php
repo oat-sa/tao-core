@@ -38,8 +38,7 @@ class ConfigurationMarkers
         array $secretsStorage,
         EnvPhpSerializableFactory $serializableFactory,
         LoggerInterface $logger
-    )
-    {
+    ) {
         $this->secretsStorage = $secretsStorage;
         $this->serializableFactory = $serializableFactory;
         $this->logger = $logger;
