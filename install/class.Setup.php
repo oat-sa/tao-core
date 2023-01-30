@@ -29,15 +29,13 @@ use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\install\utils\ConfigurationMarkers;
-use oat\tao\model\EnvPhpSerializable;
 use oat\tao\model\service\InjectionAwareService;
 use Pimple\Container;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
-// @codingStandardsIgnoreStart
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace, Squiz.Classes.ValidClassName.NotCamelCaps
 class tao_install_Setup implements Action
 {
-    // @codingStandardsIgnoreEnd
     // Adding container and logger.
     use ContainerLoggerTrait;
 

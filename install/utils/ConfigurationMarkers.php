@@ -34,7 +34,11 @@ class ConfigurationMarkers
     private EnvPhpSerializableFactory $serializableFactory;
     private ?array $secretsStorage;
 
-    public function __construct(array $secretsStorage, EnvPhpSerializableFactory $serializableFactory, LoggerInterface $logger)
+    public function __construct(
+        array $secretsStorage,
+        EnvPhpSerializableFactory $serializableFactory,
+        LoggerInterface $logger
+    )
     {
         $this->secretsStorage = $secretsStorage;
         $this->serializableFactory = $serializableFactory;
