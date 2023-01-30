@@ -88,7 +88,7 @@ class ConfigurationMarkersTest extends TestCase
             'PERSISTENCES_PGSQL_PASSWORD' => 'r00t',
         ];
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $loggerMock->expects($this->atLeast(1))->method('info');
+        $loggerMock->expects($this->atLeast(1))->method('notice');
 
         $markers = new ConfigurationMarkers($env, new EnvPhpSerializableFactory(), $loggerMock);
 
