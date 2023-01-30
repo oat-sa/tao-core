@@ -66,7 +66,6 @@ class ConfigurationMarkers
                 return;
             }
             $item = $this->serializableFactory->create($matches[1]);
-            $this->info(sprintf('Converted config %s value to PHP Serializable.', $item));
         }
     }
 
@@ -75,14 +74,20 @@ class ConfigurationMarkers
         $message = sprintf('Found seed file marker: %s', $secretName);
         if ($isSecretDefined) {
             $message .= ' and its Secrets Storage value.';
-        } else {
-            $message .= ' but NO CORRESPONDING value in Secrets Storage!';
+            $this->notice($message);
+            return;
         }
-        $this->info($message);
+        $message .= ' but no corresponding value in Secrets Storage!';
+        $this->error($message);
     }
 
-    private function info(string $message): void
+    private function notice(string $message): void
     {
-        $this->logger->info($message);
+        $this->logger->notice($message);
+    }
+
+    private function error(string $message): void
+    {
+        $this->logger->error($message);
     }
 }
