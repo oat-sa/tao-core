@@ -146,7 +146,8 @@ class RunConfigurationMarkers extends ScriptAction
         if ($installedExtension->hasConfig($key) === false) {
             $this->report->add(
                 Report::createError(
-                    sprintf('Extension: %s has no config key: %s', $installedExtension->getName(), $key))
+                    sprintf('Extension: %s has no config key: %s', $installedExtension->getName(), $key)
+                )
             );
 
             return;
