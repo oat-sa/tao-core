@@ -514,7 +514,10 @@ define([
                         //prevent selection on nodes without WRITE permissions
                         if (($node.length && $node.data('access') === 'partial') || $node.data('access') === 'denied') {
                             if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
-                                feedback().warning(__('You are not allowed to write in the class %s', node.label));
+                                feedback().warning(
+                                    __('You are not allowed to write in the class %s', node.label),
+                                    { encodeHtml: false }
+                                );
                                 return true;
                             }
                         }
@@ -603,7 +606,10 @@ define([
                         //prevent selection on nodes without WRITE permissions
                         if (($node.length && $node.data('access') === 'partial') || $node.data('access') === 'denied') {
                             if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
-                                feedback().warning(__('You are not allowed to write in the class %s', node.label));
+                                feedback().warning(
+                                    __('You are not allowed to write in the class %s', node.label),
+                                    { encodeHtml: false }
+                                );
                                 return true;
                             }
                         }
@@ -689,7 +695,10 @@ define([
                         //prevent selection on nodes without WRITE permissions
                         if (($node.length && $node.data('access') === 'partial') || $node.data('access') === 'denied') {
                             if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
-                                feedback().warning(__('You are not allowed to write in the class %s', node.label));
+                                feedback().warning(
+                                    __('You are not allowed to write in the class %s', node.label),
+                                    { encodeHtml: false }
+                                );
                                 return true;
                             }
                         }
@@ -704,7 +713,8 @@ define([
                         //prevent selection on nodes that are already the containers of the resources or the resources themselves
                         if (_.intersection(selectedUri, uriList).length) {
                             feedback().warning(
-                                __('You cannot move the selected resources in the class %s', node.label)
+                                __('You cannot move the selected resources in the class %s', node.label),
+                                { encodeHtml: false }
                             );
                             return true;
                         }
