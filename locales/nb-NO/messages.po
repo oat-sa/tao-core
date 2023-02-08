@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2021.10\n"
-"PO-Revision-Date: 2021-11-02T12:20:54\n"
+"Project-Id-Version: TAO 2023.02 LTS\n"
+"PO-Revision-Date: 2023-02-03T13:06:22\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nb-NO\n"
@@ -12,6 +12,9 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+
+msgid ""
+msgstr ""
 
 msgid " AND "
 msgstr " OG "
@@ -75,6 +78,9 @@ msgstr "%s Mappe lagret"
 
 msgid "%s classes"
 msgstr "%s mapper"
+
+msgid "%s completed"
+msgstr ""
 
 msgid "%s Confirmation"
 msgstr "%s Bekreftelse"
@@ -212,6 +218,9 @@ msgstr "legg til kriterier"
 msgid "Add file(s)"
 msgstr "Legg til fil(er)"
 
+msgid "Add index"
+msgstr ""
+
 msgid "Add property"
 msgstr "Legg til egenskap"
 
@@ -235,9 +244,6 @@ msgstr "Adobe Flash-fil"
 
 msgid "Advanced search, add filters"
 msgstr "Avansert søk, legg til filtre"
-
-msgid "aliases:"
-msgstr ""
 
 msgid "all"
 msgstr "alle"
@@ -312,19 +318,10 @@ msgstr "Er du sikker på å slette den versjonerte ressursen? Historikken vil og
 msgid "Are you sure you want to delete it?"
 msgstr "Er du sikker på at du ønsker slette?"
 
-msgid "Are you wish to delete it"
-msgstr ""
-
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
+msgid "Are you sure you wish to delete it"
 msgstr ""
 
 msgid "Arguments separator"
-msgstr ""
-
-msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -346,7 +343,6 @@ msgstr "Forfatter"
 msgid "Author Item"
 msgstr "Forfatte oppgave"
 
-#, fuzzy
 msgid "Authoring"
 msgstr "Rediger"
 
@@ -389,13 +385,12 @@ msgstr "Binær operatør modulo"
 msgid "Bitmap image"
 msgstr "Bitmap bilde"
 
-msgid "boolean"
-msgstr ""
-
 msgid "Browse folders:"
 msgstr "Søk gjennom mapper:"
 
-#, fuzzy
+msgid "Browse resources"
+msgstr ""
+
 msgid "Browse..."
 msgstr "Søk..."
 
@@ -417,11 +412,11 @@ msgstr "Kalkulator"
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "cancel"
-msgstr "avbryt"
-
 msgid "Cancel"
 msgstr "Avbryt"
+
+msgid "cancel"
+msgstr "avbryt"
 
 msgid "cancel the action"
 msgstr "avbryt handlingen"
@@ -463,7 +458,7 @@ msgstr "Sjekk alle"
 msgid "Check-in"
 msgstr "Innsjekking"
 
-msgid "choices:"
+msgid "Choose a type for your property first"
 msgstr ""
 
 msgid "Choose a value..."
@@ -487,39 +482,30 @@ msgstr "Rydding av tmp-plass er fullført"
 msgid "Cleaning up tmp space started"
 msgstr "Rydding av tmp-plass er påbegynt"
 
-#, fuzzy
 msgid "Clear"
 msgstr "Nullstill"
 
-#, fuzzy
 msgid "Clear All"
 msgstr "Nullstill alt"
 
-#, fuzzy
 msgid "Clear all data"
 msgstr "Nullstill alle data"
 
-#, fuzzy
 msgid "Clear expression"
 msgstr "Nullstill uttrykk"
 
-#, fuzzy
-msgid "Clear history"
-msgstr "Nullstill historikk"
-
-#, fuzzy
 msgid "Clear History"
 msgstr "Nullstill Historikk"
 
-#, fuzzy
+msgid "Clear history"
+msgstr "Nullstill historikk"
+
 msgid "Clear selection"
 msgstr "Nullstill utvalg"
 
-#, fuzzy
 msgid "Clear the date time picker"
 msgstr "Nullstill datovelger"
 
-#, fuzzy
 msgid "Clear the stored variables"
 msgstr "Nullstill lagrede variabler"
 
@@ -546,12 +532,6 @@ msgstr "Samling av forlatte handlinger i handlingskøen..."
 
 msgid "Column"
 msgstr "Kolonne"
-
-msgid "command"
-msgstr ""
-
-msgid "Commands:"
-msgstr ""
 
 msgid "comment..."
 msgstr "kommentar..."
@@ -598,9 +578,6 @@ msgstr ""
 msgid "Cosine"
 msgstr "Kosinus"
 
-msgid "count"
-msgstr ""
-
 msgid "Create"
 msgstr "Opprett"
 
@@ -646,11 +623,11 @@ msgstr "Data importert"
 msgid "Data imported. Some records are invalid."
 msgstr "Data importert. Noen registreriger er ugyldige."
 
-msgid "Data Language"
-msgstr "Data Språk"
-
 msgid "Data language"
 msgstr "Data språk"
+
+msgid "Data Language"
+msgstr "Data Språk"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Data ble ikke importert. Alle registreringene er ugyldige."
@@ -675,9 +652,6 @@ msgstr "dato tidsintervall"
 
 msgid "Default search"
 msgstr "Standard søk"
-
-msgid "default:"
-msgstr ""
 
 msgid "Define the default values"
 msgstr "Definer standardverdiene"
@@ -719,9 +693,6 @@ msgstr ""
 msgid "Depends on property"
 msgstr ""
 
-msgid "Did you mean %s?"
-msgstr ""
-
 msgid "Digit 0"
 msgstr "Siffer 0"
 
@@ -754,6 +725,9 @@ msgstr "Siffer 9"
 
 msgid "Disabled %s"
 msgstr "Deaktivert %s"
+
+msgid "Do you want to override \"%s\"?"
+msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -796,7 +770,6 @@ msgstr "Rediger en bruker"
 msgid "Edit class %s"
 msgstr "Rediger mappe %s"
 
-#, fuzzy
 msgid "Edit Instance"
 msgstr "Rediger egenskaper"
 
@@ -845,9 +818,6 @@ msgstr "Feil i verdi"
 msgid "Error: %s"
 msgstr "Feil: %s"
 
-msgid "Examples:"
-msgstr ""
-
 msgid "Exclusive (OR)"
 msgstr "Eksklusiv (OR)"
 
@@ -888,7 +858,7 @@ msgstr "Eksporten var vellykket."
 msgid "Extension \"%s\" has been installed"
 msgstr "Utvidelsen \"%s\" er installert"
 
-#, fuzzy
+#, tao-public
 msgid "Extensions manager"
 msgstr "Utvidelser"
 
@@ -898,10 +868,12 @@ msgstr "Faktorisk"
 msgid "Failed"
 msgstr "Mislyktes"
 
+msgid "Failed to copy class."
+msgstr ""
+
 msgid "Failed to delete index for %s"
 msgstr "Kunne ikke slette indeksen for %s"
 
-#, fuzzy
 msgid "False"
 msgstr "Usant"
 
@@ -989,9 +961,6 @@ msgstr "Fra"
 msgid "Fuzzy Matching"
 msgstr "Uklar Matching"
 
-msgid "generated-value"
-msgstr ""
-
 msgid "Generis Form"
 msgstr "Generis Form"
 
@@ -1067,9 +1036,6 @@ msgstr "Identifikator"
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr "Hvis du ikke ønsker å tilbakestille passordet ditt, kan du bare ignorere denne e -posten, og passordet forblir uendret."
 
-msgid "Implications failed:"
-msgstr ""
-
 msgid "Import"
 msgstr "Import"
 
@@ -1091,6 +1057,10 @@ msgstr "Importer metadata fra CSV-fil"
 msgid "Import Metadata from RDF file"
 msgstr "Importer metadata fra RDF-fil"
 
+#, tao-public
+msgid "Import statistical analysis metadata"
+msgstr ""
+
 msgid "Import succeeded."
 msgstr "Importen var vellykket."
 
@@ -1102,6 +1072,9 @@ msgstr "Importerte %d ressurser"
 
 msgid "Imported resource \"%s"
 msgstr "Importerte ressurs \"%s"
+
+msgid "Imported successfully finished!"
+msgstr ""
 
 msgid "impossible to update task status"
 msgstr "umulig å oppdatere oppgavestatus"
@@ -1151,10 +1124,10 @@ msgstr "Installerer utvidelse %s..."
 msgid "Instance saved"
 msgstr "Forekomsten er lagret"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Grensesnittspråk"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Grensesnittspråk"
 
 msgid "Invalid CSP header."
@@ -1196,14 +1169,14 @@ msgstr "Ugyldig input"
 msgid "Invalid input for function"
 msgstr "Ugyldig input for denne handlingen"
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr "Ugyldig brukernavn eller passord. Prøv på nytt."
 
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
 msgstr "Ugyldig brukernavn eller passord. Kontoen din er låst. Ta kontakt med administrator."
+
+msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
+msgstr ""
 
 msgid "invalid regular expression"
 msgstr "ugyldig uttrykk"
@@ -1211,7 +1184,7 @@ msgstr "ugyldig uttrykk"
 msgid "Invalid value"
 msgstr ""
 
-msgid "Invalid values:"
+msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
 msgstr ""
 
 msgid "items per page"
@@ -1223,14 +1196,12 @@ msgstr "Javascript-kode"
 msgid "JPEG image"
 msgstr "JPEG-bilde"
 
-#, fuzzy
 msgid "Label"
 msgstr "Navn"
 
 msgid "Label Path"
 msgstr "Etikettsti"
 
-#, fuzzy
 msgid "Language"
 msgstr "Språk"
 
@@ -1254,6 +1225,9 @@ msgstr "mindre enn ett minutt"
 
 msgid "List"
 msgstr "Liste"
+
+msgid "List \"%s\" has duplicated values."
+msgstr ""
 
 msgid "List - Multiple choice - Check box"
 msgstr "Liste - Flervalg - Avhukingsboks"
@@ -1345,14 +1319,16 @@ msgstr "Vedlikeholdstjenesten ble installert. Plattformen er aktivert."
 msgid "Maintenance storage driver is not set"
 msgstr "Vedlikeholdslagringsdriver er ikke angitt"
 
-#, fuzzy
 msgid "Manage class schema"
 msgstr "Administrer egenskaper for oppgavemappe"
 
-#, tao-public
+msgid "manage columns"
+msgstr ""
+
 msgid "Manage data list"
 msgstr "Administrer dataliste"
 
+#, tao-public
 msgid "Manage roles"
 msgstr "Administrer roller"
 
@@ -1368,6 +1344,9 @@ msgstr "Administrer versjonert fil"
 
 msgid "Map the properties to the CSV columns"
 msgstr "Gi egenskaper til CSV-kolonnene"
+
+msgid "maximum %s"
+msgstr ""
 
 msgid "Maximum selection reached"
 msgstr "Maksimalt valg er nådd"
@@ -1423,6 +1402,9 @@ msgstr "MIME-innkapsling av samlede HTML-dokumenter"
 msgid "Mind mapping software application (free mind open source)"
 msgstr "Mind mapping programvare (gratis åpen kildekode)"
 
+msgid "minimum %s"
+msgstr ""
+
 msgid "minutes"
 msgstr "minutter"
 
@@ -1438,15 +1420,12 @@ msgstr "modulo"
 msgid "More"
 msgstr "Mer"
 
-#, fuzzy
 msgid "Move"
 msgstr "Flytt"
 
-#, fuzzy
 msgid "Move Left"
 msgstr "Flytt til venstre"
 
-#, fuzzy
 msgid "Move Right"
 msgstr "Flytt til høyre"
 
@@ -1483,6 +1462,21 @@ msgstr "Avgrensning av flere verdier"
 
 msgid "Multiply the value by 10^x"
 msgstr "Multipliser verdien med 10^x"
+
+msgid "Must include at least one letter"
+msgstr ""
+
+msgid "Must include at least one number"
+msgstr ""
+
+msgid "Must include at least one special letter"
+msgstr ""
+
+msgid "Must include lower case letters"
+msgstr ""
+
+msgid "Must include upper case letters"
+msgstr ""
 
 msgid "Mute"
 msgstr "Dempe"
@@ -1555,14 +1549,11 @@ msgstr "Nodeduplisering mislyktes"
 msgid "none"
 msgstr ""
 
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr ""
-
 msgid "Not started"
 msgstr "Ikke startet"
+
+msgid "NotEmpty"
+msgstr ""
 
 msgid "Nothing imported"
 msgstr "Ingenting importert"
@@ -1580,11 +1571,11 @@ msgstr "Varsler"
 msgid "notifications drivers aren't persistent. use a persistent database storage driver"
 msgstr "varslingsdrivere er ikke permanente. Bruk en permanente driver for databaselagring"
 
+msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgstr ""
+
 msgid "Nth root"
 msgstr "Hth rot"
-
-msgid "number"
-msgstr ""
 
 msgid "Number of elements"
 msgstr "Antall elementer"
@@ -1601,11 +1592,11 @@ msgstr "Ogg Vorbis lyd"
 msgid "Ogg Vorbis video"
 msgstr "Ogg Vorbis video"
 
-msgid "Ok"
-msgstr "Ok"
-
 msgid "OK"
 msgstr "OK"
+
+msgid "Ok"
+msgstr "Ok"
 
 msgid "Old Password"
 msgstr "Gammelt passord"
@@ -1733,6 +1724,12 @@ msgstr "Vennligst rapporter feil, ideer, kommentarer eller tilbakemeldinger på 
 msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
 msgstr "Velg en bildefil fra filvelgeren. Du kan legge til filer fra datamaskinen din med knappen \"Legg til fil(er)\"."
 
+msgid "Please set 'min' and/or 'max' options!"
+msgstr ""
+
+msgid "Please try in %s."
+msgstr ""
+
 msgid "Please wait"
 msgstr "Vennligst vent"
 
@@ -1744,9 +1741,6 @@ msgstr "PNG-bilde"
 
 msgid "Position"
 msgstr "Posisjon"
-
-msgid "Positionals:"
-msgstr ""
 
 msgid "Post install processing"
 msgstr "Etter installasjon"
@@ -1760,7 +1754,6 @@ msgstr "Styrke på 10"
 msgid "Preparing installation..."
 msgstr "Forbereder installasjon..."
 
-#, fuzzy
 msgid "Preview"
 msgstr "Forhåndsvis"
 
@@ -1855,6 +1848,9 @@ msgstr "Fjern"
 msgid "Remove criteria"
 msgstr "Fjern kriterier"
 
+msgid "remove index"
+msgstr ""
+
 msgid "Remove Message"
 msgstr "Fjern melding"
 
@@ -1885,9 +1881,6 @@ msgstr "Be om tilbakestilling av passord via e -post."
 msgid "require notification ID"
 msgstr "krever varslings-ID"
 
-msgid "required"
-msgstr ""
-
 msgid "required length"
 msgstr "påkrevd lengde"
 
@@ -1909,15 +1902,12 @@ msgstr "Ressurs ble kopiert"
 msgid "Resource deleted"
 msgstr "Ressurs ble slettet"
 
-#, fuzzy
 msgid "Resource Identifier"
 msgstr "Ressurs ID"
 
-#, fuzzy
 msgid "Resource Identifier could not be copied to the clipboard"
 msgstr "Ressurs ID kunne ikke kopieres til utklippstavlen"
 
-#, fuzzy
 msgid "Resource Identifier has been copied to the clipboard"
 msgstr "Ressurs ID ble kopiert til utklippstavlen"
 
@@ -2025,11 +2015,11 @@ msgstr "Sikkerhet"
 msgid "Security settings"
 msgstr "Sikkerhetsinnstillinger"
 
-msgid "select"
-msgstr "velg"
-
 msgid "Select"
 msgstr "Velg"
+
+msgid "select"
+msgstr "velg"
 
 msgid "Select a class"
 msgstr "Velg en mappe"
@@ -2130,9 +2120,6 @@ msgstr "Lagre verdien som en variabel"
 
 msgid "Storing digital video data on a computer game"
 msgstr "Lagring av digitale videodata på et dataspill"
-
-msgid "string"
-msgstr ""
 
 msgid "Submit"
 msgstr "Lever"
@@ -2242,6 +2229,9 @@ msgstr "Tekst - kort - felt"
 msgid "Text document file format (Staroffice)"
 msgstr "Tekstdokument filformat (Staroffice)"
 
+msgid "Text to translate"
+msgstr ""
+
 msgid "The action will be applied to"
 msgstr "Handlingen vil bli brukt på"
 
@@ -2253,6 +2243,9 @@ msgstr "Handlingen vil ikke bli brukt på "
 
 msgid "The action will not be applied to the following"
 msgstr "Handlingen vil ikke bli brukt på følgende"
+
+msgid "The class has been copied."
+msgstr ""
 
 msgid "The column "
 msgstr "Kolonnen "
@@ -2371,9 +2364,6 @@ msgstr "Veksle datovelgeren"
 msgid "Tokenizer"
 msgstr "Tokenizer"
 
-msgid "Too many non-option arguments: got %s, maximum of %s"
-msgstr ""
-
 msgid "Too many suggestions match your query. Only a few are listed"
 msgstr "For mange forslag samsvarer med søket ditt. Bare noen få er oppført"
 
@@ -2398,13 +2388,15 @@ msgstr "Oversettelsen ble lagret"
 msgid "Transport Layer Security"
 msgstr "Sikkerhet"
 
+msgid "Tree - Multiple node choice"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
 msgstr "Treet - Valg av flere noder "
 
 msgid "Tree values"
 msgstr "Tre-verdier"
 
-#, fuzzy
 msgid "True"
 msgstr "Sant"
 
@@ -2431,6 +2423,9 @@ msgstr "Kan ikke slette %s"
 
 msgid "Unable to delete the selected resource"
 msgstr "Kan ikke slette den valgte ressursen"
+
+msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
+msgstr ""
 
 msgid "Unable to delete the selected resources"
 msgstr "Kan ikke slette de valgte ressursene"
@@ -2459,6 +2454,9 @@ msgstr "kunne ikke søke etter varsling."
 msgid "Unable to send the password reset request"
 msgstr "Kan ikke sende forespørselen om tilbakestilling av passord"
 
+msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
+msgstr ""
+
 msgid "Unable to update the asset service"
 msgstr "Kan ikke oppdatere medietjenesten"
 
@@ -2474,13 +2472,13 @@ msgstr "Unary operatør +"
 msgid "Unary operator -"
 msgstr "Unary operatør -"
 
+msgid "Unauthorized files have been removed"
+msgstr ""
+
 msgid "Uncheck all"
 msgstr "Fjern merket for alle"
 
 msgid "Uncheck All"
-msgstr "Fjern merket for alle"
-
-msgid "Uncheck all"
 msgstr "Fjern merket for alle"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2671,6 +2669,9 @@ msgstr "Windows Media fil (metafil)"
 msgid "Windows Media video"
 msgstr "Windows Media video"
 
+msgid "with"
+msgstr ""
+
 msgid "Wrap image left"
 msgstr "Pakk bildet til venstre"
 
@@ -2693,10 +2694,10 @@ msgid "Yes"
 msgstr "Ja"
 
 msgid "You are encountering a prolonged connectivity loss."
-msgstr "Du sopplever et langvarig tap av tilkobling."
+msgstr "Du opplever et langvarig tap av tilkobling."
 
 msgid "You are not allowed to write in the class %s"
-msgstr "Du har ikkeskrivetilgang i mappen %s"
+msgstr "Du har ikke skrivetilgang i mappen %s"
 
 msgid "You are not authorised to remove this lock"
 msgstr "Du er ikke atilgang til å fjerne denne låsen"
