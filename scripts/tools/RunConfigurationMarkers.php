@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,12 +17,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\scripts\tools;
 
 use common_ext_ExtensionsManager;
+use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
 use oat\tao\install\utils\ConfigurationMarkers;
@@ -29,13 +32,16 @@ use oat\generis\model\DependencyInjection\ContainerStarter;
 
 /**
  * Usage
- * php index.php 'oat\tao\scripts\tools\RunConfigurationMarkers' -c path/to/seed.json
- * php index.php 'oat\tao\scripts\tools\RunConfigurationMarkers' -c path/to/seed.json -e generis
+ * php index.php 'oat\tao\scripts\tools\RunConfigurationMarkers' -s path/to/seed.json
+ * php index.php 'oat\tao\scripts\tools\RunConfigurationMarkers' -s path/to/seed.json -e generis
  */
 class RunConfigurationMarkers extends ScriptAction
 {
+    use ServiceLocatorAwareTrait;
+
     private const OPTION_SELECT_EXTENSION_ID = 'select-extension-id';
     private const OPTION_SEED_FILE_PATH = 'seed-path';
+    private Report $report;
 
     protected function provideOptions(): array
     {
@@ -60,7 +66,7 @@ class RunConfigurationMarkers extends ScriptAction
 
     protected function run(): Report
     {
-        $container = (new ContainerStarter(ServiceManager::getServiceManager()))->getContainer();
+        $this->report = Report::createInfo('Starting.');
         if ($this->hasOption(self::OPTION_SEED_FILE_PATH) === false) {
             return Report::createError(sprintf('Option %s is mandatory.', self::OPTION_SEED_FILE_PATH));
         }
@@ -68,50 +74,99 @@ class RunConfigurationMarkers extends ScriptAction
         $filePath = $this->getOption(self::OPTION_SEED_FILE_PATH);
         $fileContents = file_get_contents($filePath);
         if ($fileContents === false) {
-            return Report::createError('Empty seed file or wrong file path, aborting.');
+            $this->report->add(Report::createError('Empty seed file or wrong file path, aborting.'));
+
+            return $this->report;
         }
         $parameters = json_decode($fileContents, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            return Report::createError('Json file contains errors, aborting.');
+            $this->logError(
+                sprintf(
+                    'Json file malformed, last json error : %s , message: %s',
+                    json_last_error(),
+                    json_last_error_msg()
+                )
+            );
+            $this->report->add(
+                Report::createError('Json file contains errors see logs for details, aborting.')
+            );
+
+            return $this->report;
         }
 
         $markers = new ConfigurationMarkers($_ENV, new \oat\tao\model\EnvPhpSerializableFactory(), $this->getLogger());
         $parameters = $markers->replaceMarkers($parameters);
-
-        $updatedExtensions = [];
-
-        /** @var common_ext_ExtensionsManager $extensionManager */
-        $extensionManager = $container->get(common_ext_ExtensionsManager::SERVICE_ID);
         foreach ($parameters['configuration'] as $extensionId => $configs) {
-            $selectedExtension = $this->getOption(self::OPTION_SELECT_EXTENSION_ID);
-            if ($selectedExtension !== null && $selectedExtension !== $extensionId) {
-                continue;
+            $processed = $this->processExtension($extensionId, $configs);
+            if ($processed) {
+                $reportMessage = Report::createSuccess(
+                    sprintf('Extension %s processed successfully.', $extensionId)
+                );
+            } else {
+                $reportMessage = Report::createError(sprintf('Failed to process extension %s .', $extensionId));
             }
-            try {
-                $installedExtension = $extensionManager->getExtensionById($extensionId);
-            } catch (\common_ext_ExtensionException $e) {
-                return Report::createError(sprintf('Extension %s is not installed, aborting.', $extensionId));
-            }
-            foreach ($configs as $key => $config) {
-                if (!(isset($config['type']) && $config['type'] === 'configurableService')) {
-                    if ($installedExtension->hasConfig($key)) {
-                        try {
-                            $installedExtension->setConfig($key, $config);
-                            $updatedExtensions[] = $extensionId;
-                        } catch (\common_exception_Error $e) {
-                            return Report::createError(
-                                sprintf('Your config %s/%s cannot be set, aborting', $extensionId, $key)
-                            );
-                        }
-                    }
-                }
-            }
+            $this->report->add($reportMessage);
         }
 
-        return Report::createSuccess(
-            sprintf(
-                'Configuration of extension(s) %s completed successfully.',
-                implode(',', $updatedExtensions)
+        return $this->report;
+    }
+
+    private function processExtension(string $extensionId, array $configs): bool
+    {
+        /** @var common_ext_ExtensionsManager $extensionManager */
+        $extensionManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
+        $selectedExtension = $this->getOption(self::OPTION_SELECT_EXTENSION_ID);
+        if ($selectedExtension !== null && $selectedExtension !== $extensionId) {
+            $this->report->add(Report::createInfo(sprintf('Skipping extension %s .', $extensionId)));
+
+            return true;
+        }
+        if ($extensionManager->isInstalled($extensionId)) {
+            $installedExtension = $extensionManager->getExtensionById($extensionId);
+        } else {
+            $this->report->add(
+                Report::createError(sprintf('Extension %s is not installed, aborting.', $extensionId))
+            );
+
+            return false;
+        }
+        foreach ($configs as $key => $config) {
+            $this->updateConfiguration($key, $config, $installedExtension);
+        }
+
+        return true;
+    }
+
+    private function updateConfiguration(string $key, array $config, \common_ext_Extension $installedExtension): void
+    {
+        if (isset($config['type']) && $config['type'] !== 'configurableService') {
+            return;
+        }
+
+        if ($installedExtension->hasConfig($key) === false) {
+            $this->report->add(
+                Report::createError(
+                    sprintf('Extension: %s has no config key: %s', $installedExtension->getName(), $key))
+            );
+
+            return;
+        }
+        try {
+            $installedExtension->setConfig($key, $config);
+        } catch (\common_exception_Error $e) {
+            $this->logError(sprintf('Exception throw: %e', $e->getMessage()));
+            $this->report->add(Report::createError(
+                sprintf(
+                    'Config key %s for extension %s cannot be set check logs for errors. Aborting',
+                    $key,
+                    $installedExtension->getName()
+                )
+            ));
+        }
+
+        $this->report->add(
+            Report::createSuccess(
+                sprintf('Configuration of extension %s completed successfully.', $installedExtension->getName())
             )
         );
     }
