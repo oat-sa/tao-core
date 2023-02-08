@@ -88,7 +88,7 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
         }
 
         $response = $this->format($ids, $count, $offset, $limit);
-        $response["classSignature"] = $this->getSignatureGenerator()->generate(
+        $response['classSignature'] = $this->getSignatureGenerator()->generate(
             $this->getResource($rootClass)->getUri()
         );
         return $response;
