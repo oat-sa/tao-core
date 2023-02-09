@@ -20,7 +20,7 @@
 
 namespace oat\tao\test\model;
 
-use oat\tao\model\EnvPhpSerializable;
+use oat\tao\model\configurationMarkers\EnvPhpSerializable;
 use PHPUnit\Framework\TestCase;
 
 class EnvPhpSerializableTest extends TestCase
@@ -43,8 +43,8 @@ class EnvPhpSerializableTest extends TestCase
     public function testIndexesAndValues(): void
     {
         $host = new EnvPhpSerializable('PERSISTENCES_PGSQL_HOST');
-        $user = new EnvPhpSerializable('PERSISTENCES_PGSQL_USER');
-        $password = new EnvPhpSerializable('PERSISTENCES_PGSQL_PASSWORD');
+        $user = new \oat\tao\model\configurationMarkers\EnvPhpSerializable('PERSISTENCES_PGSQL_USER');
+        $password = new \oat\tao\model\configurationMarkers\EnvPhpSerializable('PERSISTENCES_PGSQL_PASSWORD');
 
         self::assertSame('PERSISTENCES_PGSQL_HOST', $host->getEnvIndex());
         self::assertSame('PERSISTENCES_PGSQL_USER', $user->getEnvIndex());

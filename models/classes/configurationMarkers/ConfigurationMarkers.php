@@ -21,9 +21,8 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\install\utils;
+namespace oat\tao\model\configurationMarkers;
 
-use oat\tao\model\EnvPhpSerializableFactory;
 use Psr\Log\LoggerInterface;
 
 class ConfigurationMarkers

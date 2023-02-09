@@ -28,6 +28,8 @@
 declare(strict_types=1);
 
 use oat\tao\controller\api\Users;
+use oat\tao\model\configurationMarkers\ConfigurationMarkersProvider;
+use oat\tao\model\configurationMarkers\EnvPhpSerializableFactoryProvider;
 use oat\tao\model\resources\CopierServiceProvider;
 use oat\tao\controller\Middleware\MiddlewareConfig;
 use oat\tao\model\accessControl\AccessControlServiceProvider;
@@ -395,6 +397,8 @@ return [
         FeatureVisibilityServiceProvider::class,
         CopierServiceProvider::class,
         SearchServiceProvider::class,
+        EnvPhpSerializableFactoryProvider::class,
+        ConfigurationMarkersProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,

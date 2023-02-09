@@ -2,8 +2,8 @@
 
 namespace oat\tao\test\model;
 
-use oat\tao\model\EnvPhpSerializable;
-use oat\tao\model\EnvPhpSerializableFactory;
+use oat\tao\model\configurationMarkers\EnvPhpSerializable;
+use oat\tao\model\configurationMarkers\EnvPhpSerializableFactory;
 use PHPUnit\Framework\TestCase;
 
 class EnvPhpSerializableFactoryTest extends TestCase
@@ -12,7 +12,7 @@ class EnvPhpSerializableFactoryTest extends TestCase
 
     public function testFactory(): void
     {
-        $factory = new EnvPhpSerializableFactory();
+        $factory = new \oat\tao\model\configurationMarkers\EnvPhpSerializableFactory();
         $object = $factory->create(self::TEST_INDEX);
         self::assertInstanceOf(EnvPhpSerializable::class, $object);
         self::assertSame(self::TEST_INDEX, $object->getEnvIndex());

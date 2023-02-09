@@ -26,7 +26,7 @@ use common_ext_ExtensionsManager;
 use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
-use oat\tao\install\utils\ConfigurationMarkers;
+use oat\tao\model\configurationMarkers\ConfigurationMarkers;
 use oat\oatbox\service\ServiceManager;
 use oat\generis\model\DependencyInjection\ContainerStarter;
 
@@ -94,8 +94,11 @@ class RunConfigurationMarkers extends ScriptAction
             return $this->report;
         }
 
-        $markers = new ConfigurationMarkers($_ENV, new \oat\tao\model\EnvPhpSerializableFactory(), $this->getLogger());
+        $container = $this->getServiceLocator()->getContainer();
+        $markers = $container->get(ConfigurationMarkers::class);
+
         $parameters = $markers->replaceMarkers($parameters);
+
         foreach ($parameters['configuration'] as $extensionId => $configs) {
             $processed = $this->processExtension($extensionId, $configs);
             if ($processed) {

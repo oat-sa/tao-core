@@ -20,9 +20,9 @@
 
 namespace oat\tao\test\unit\install\utils;
 
-use oat\tao\install\utils\ConfigurationMarkers;
-use oat\tao\model\EnvPhpSerializable;
-use oat\tao\model\EnvPhpSerializableFactory;
+use oat\tao\model\configurationMarkers\ConfigurationMarkers;
+use oat\tao\model\configurationMarkers\EnvPhpSerializable;
+use oat\tao\model\configurationMarkers\EnvPhpSerializableFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -90,7 +90,7 @@ class ConfigurationMarkersTest extends TestCase
         $loggerMock = $this->createMock(LoggerInterface::class);
         $loggerMock->expects($this->atLeast(1))->method('notice');
 
-        $markers = new ConfigurationMarkers($env, new EnvPhpSerializableFactory(), $loggerMock);
+        $markers = new \oat\tao\model\configurationMarkers\ConfigurationMarkers($env, new EnvPhpSerializableFactory(), $loggerMock);
 
         $markers->replaceMarkers($configuration);
     }
@@ -100,7 +100,7 @@ class ConfigurationMarkersTest extends TestCase
         $configuration = [];
         $env = [];
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $markers = new ConfigurationMarkers($env, new EnvPhpSerializableFactory(), $loggerMock);
+        $markers = new \oat\tao\model\configurationMarkers\ConfigurationMarkers($env, new EnvPhpSerializableFactory(), $loggerMock);
         $this->expectException(\InvalidArgumentException::class);
         $markers->replaceMarkers($configuration);
     }
@@ -136,7 +136,7 @@ class ConfigurationMarkersTest extends TestCase
 
         $loggerMock = $this->createMock(LoggerInterface::class);
 
-        $markers = new ConfigurationMarkers($env, new EnvPhpSerializableFactory(), $loggerMock);
+        $markers = new \oat\tao\model\configurationMarkers\ConfigurationMarkers($env, new EnvPhpSerializableFactory(), $loggerMock);
 
         $replaced = $markers->replaceMarkers($configuration);
 

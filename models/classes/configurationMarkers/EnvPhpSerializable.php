@@ -21,7 +21,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model;
+namespace oat\tao\model\configurationMarkers;
 
 use oat\oatbox\PhpSerializable;
 
