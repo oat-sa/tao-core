@@ -131,10 +131,7 @@ class JsonLdExport implements JsonSerializable
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $data = [
             '@context' => [],

@@ -74,7 +74,7 @@ class tao_models_classes_service_ConstantParameter extends tao_models_classes_se
         return $resource;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'def' => $this->getDefinition()->getUri(),

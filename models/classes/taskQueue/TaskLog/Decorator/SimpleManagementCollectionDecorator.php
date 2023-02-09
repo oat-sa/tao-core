@@ -99,10 +99,7 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
         return $data;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }

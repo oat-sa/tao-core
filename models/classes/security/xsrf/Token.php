@@ -82,10 +82,7 @@ class Token implements JsonSerializable
         return $this->tokenTimeStamp;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             self::TOKEN_KEY     => $this->getValue(),

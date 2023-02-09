@@ -84,10 +84,7 @@ class TasksLogsStats implements JsonSerializable
         return $this->numberOfTasksInProgress;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'numberOfTasksCompleted' => $this->numberOfTasksCompleted,

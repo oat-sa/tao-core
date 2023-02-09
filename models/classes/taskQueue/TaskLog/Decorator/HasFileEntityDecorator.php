@@ -53,10 +53,7 @@ class HasFileEntityDecorator extends TaskLogEntityDecorator
         $this->fileReferenceSerializer = $fileReferenceSerializer;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }

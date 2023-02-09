@@ -55,10 +55,7 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
         $this->user = $user;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
