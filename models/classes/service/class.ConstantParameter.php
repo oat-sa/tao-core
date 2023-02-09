@@ -20,7 +20,7 @@
  */
 
 use oat\tao\model\WfEngineOntology;
-use \oat\generis\model\data\Ontology;
+use oat\generis\model\data\Ontology;
 
 /**
  * Represents tao service parameter
@@ -28,7 +28,7 @@ use \oat\generis\model\data\Ontology;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
-
+ * phpcs:disable Squiz.Classes.ValidClassName
  */
 class tao_models_classes_service_ConstantParameter extends tao_models_classes_service_Parameter
 {
@@ -36,7 +36,7 @@ class tao_models_classes_service_ConstantParameter extends tao_models_classes_se
      * @var string
      */
     private $value;
-    
+
     /**
      * Instantiates a parameter that takes
      * a constant value
@@ -47,9 +47,11 @@ class tao_models_classes_service_ConstantParameter extends tao_models_classes_se
     public function __construct(core_kernel_classes_Resource $definition, $value)
     {
         parent::__construct($definition);
-        $this->value = is_object($value) && $value instanceof core_kernel_classes_Resource ? $value->getUri() : (string)$value;
+        $this->value = is_object($value) && $value instanceof core_kernel_classes_Resource
+            ? $value->getUri()
+            : (string)$value;
     }
-    
+
     /**
      * Returns the actual value associated to this parameter
      *
@@ -59,7 +61,7 @@ class tao_models_classes_service_ConstantParameter extends tao_models_classes_se
     {
         return $this->value;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_service_Parameter::serialize()

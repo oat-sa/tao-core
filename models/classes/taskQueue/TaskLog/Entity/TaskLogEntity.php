@@ -116,13 +116,17 @@ class TaskLogEntity implements EntityInterface
             $row[TaskLogBrokerInterface::COLUMN_PARENT_ID],
             $row[TaskLogBrokerInterface::COLUMN_TASK_NAME],
             CategorizedStatus::createFromString($row[TaskLogBrokerInterface::COLUMN_STATUS]),
-            isset($row[TaskLogBrokerInterface::COLUMN_PARAMETERS]) ? json_decode($row[TaskLogBrokerInterface::COLUMN_PARAMETERS], true) : [],
+            isset($row[TaskLogBrokerInterface::COLUMN_PARAMETERS])
+                ? json_decode($row[TaskLogBrokerInterface::COLUMN_PARAMETERS], true)
+                : [],
             isset($row[TaskLogBrokerInterface::COLUMN_LABEL]) ? $row[TaskLogBrokerInterface::COLUMN_LABEL] : '',
             isset($row[TaskLogBrokerInterface::COLUMN_OWNER]) ? $row[TaskLogBrokerInterface::COLUMN_OWNER] : '',
             self::parseDateTime($row, TaskLogBrokerInterface::COLUMN_CREATED_AT, $dateFormat),
             self::parseDateTime($row, TaskLogBrokerInterface::COLUMN_UPDATED_AT, $dateFormat),
             NewReport::jsonUnserialize($row[TaskLogBrokerInterface::COLUMN_REPORT]),
-            isset($row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS]) ? $row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS] : false
+            isset($row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS])
+                ? $row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS]
+                : false
         );
     }
 
@@ -232,7 +236,8 @@ class TaskLogEntity implements EntityInterface
     /**
      * Returns the file name from the generated report.
      *
-     * NOTE: it is not 100% sure that the returned string is really a file name because different reports set different values as data.
+     * NOTE: it is not 100% sure that the returned string is really a file name because different reports set different
+     * values as data.
      * So this return value can be any kind of string. Please check the file whether it exist or not before usage.
      *
      * @return string
@@ -308,12 +313,19 @@ class TaskLogEntity implements EntityInterface
 
         if ($this->createdAt instanceof \DateTime) {
             $rs['createdAt'] = $this->createdAt->getTimestamp();
-            $rs['createdAtElapsed'] = (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp() - $this->createdAt->getTimestamp();
+            $rs['createdAtElapsed'] = (new \DateTime(
+                'now',
+                new \DateTimeZone('UTC')
+            )
+                )->getTimestamp() - $this->createdAt->getTimestamp();
         }
 
         if ($this->updatedAt instanceof \DateTime) {
             $rs['updatedAt'] = $this->updatedAt->getTimestamp();
-            $rs['updatedAtElapsed'] = (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp() - $this->updatedAt->getTimestamp();
+            $rs['updatedAtElapsed'] = (new \DateTime(
+                'now',
+                new \DateTimeZone('UTC')
+            ))->getTimestamp() - $this->updatedAt->getTimestamp();
         }
 
         if ($this->report instanceof Report) {

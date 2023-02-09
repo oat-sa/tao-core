@@ -58,8 +58,13 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
      */
     private $fileReferenceSerializer;
 
-    public function __construct(CollectionInterface $collection, TaskLogInterface $taskLogService, FileSystemService $fileSystemService, FileReferenceSerializer $fileReferenceSerializer, $reportIncluded)
-    {
+    public function __construct(
+        CollectionInterface $collection,
+        TaskLogInterface $taskLogService,
+        FileSystemService $fileSystemService,
+        FileReferenceSerializer $fileReferenceSerializer,
+        $reportIncluded
+    ) {
         parent::__construct($collection);
 
         $this->fileSystemService = $fileSystemService;

@@ -19,7 +19,7 @@
  *
  */
 
-use \oat\generis\model\data\Ontology;
+use oat\generis\model\data\Ontology;
 use oat\tao\model\WfEngineOntology;
 
 /**
@@ -29,7 +29,7 @@ use oat\tao\model\WfEngineOntology;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
-
+ * phpcs:disable Squiz.Classes.ValidClassName
  */
 class tao_models_classes_service_VariableParameter extends tao_models_classes_service_Parameter
 {
@@ -37,7 +37,7 @@ class tao_models_classes_service_VariableParameter extends tao_models_classes_se
      * @var core_kernel_classes_Resource
      */
     private $variable;
-    
+
     /**
      * Instantiates an new variable parameter
      *
@@ -49,7 +49,7 @@ class tao_models_classes_service_VariableParameter extends tao_models_classes_se
         parent::__construct($definition);
         $this->variable = $variable;
     }
-    
+
     /**
      * Returns the variable proividing the value
      * for this parameter
@@ -60,7 +60,7 @@ class tao_models_classes_service_VariableParameter extends tao_models_classes_se
     {
         return $this->variable;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see tao_models_classes_service_Parameter::serialize()

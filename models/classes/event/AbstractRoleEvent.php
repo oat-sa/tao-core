@@ -26,7 +26,6 @@ use oat\oatbox\event\Event;
 
 abstract class AbstractRoleEvent implements Event, JsonSerializable
 {
-
     /** @var  string */
     protected $roleUri;
 

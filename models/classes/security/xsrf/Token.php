@@ -14,8 +14,8 @@ class Token implements JsonSerializable
 {
     use TokenGenerator;
 
-    const TOKEN_KEY = 'token';
-    const TIMESTAMP_KEY = 'ts';
+    public const TOKEN_KEY = 'token';
+    public const TIMESTAMP_KEY = 'ts';
 
     /**
      * @var string

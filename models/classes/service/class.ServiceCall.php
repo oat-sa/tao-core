@@ -19,7 +19,6 @@
  *
  */
 
-use \oat\tao\model\exceptions\UserErrorException;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\WfEngineOntology;
@@ -30,6 +29,7 @@ use oat\tao\model\WfEngineOntology;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
+ * phpcs:disable Squiz.Classes.ValidClassName
  */
 class tao_models_classes_service_ServiceCall implements JsonSerializable
 {
@@ -38,7 +38,7 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
     /**
      * @var core_kernel_classes_Resource
      */
-    
+
     private $serviceDefinitionId = null;
 
     /**
@@ -47,14 +47,14 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
      * @var array
      */
     private $inParameters = [];
-    
+
     /**
      * Variable parameter to which the outcome of the service is send
      *
      * @var tao_models_classes_service_VariableParameter
      */
     private $outParameter = null;
-    
+
     /**
      * Instantiates a new service call
      *
@@ -66,7 +66,7 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
            ? $serviceDefinition->getUri()
            : $serviceDefinition;
     }
-    
+
     /**
      * Adds an input parameter
      *
@@ -76,7 +76,7 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
     {
         $this->inParameters[] = $param;
     }
-    
+
     /**
      * Sets the output parameter, does not except constants
      *
@@ -86,7 +86,7 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
     {
         $this->outParameter = $param;
     }
-    
+
     /**
      * returns the definition of the called service
      *
@@ -96,7 +96,7 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
     {
         return $this->serviceDefinitionId;
     }
-    
+
     /**
      * returns the call parameters
      *
@@ -122,7 +122,7 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
         }
         return $variables;
     }
-    
+
     /**
      * Stores a service call in the ontology
      *
@@ -146,10 +146,10 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
             WfEngineOntology::PROPERTY_CALL_OF_SERVICES_WIDTH                => '100',
             WfEngineOntology::PROPERTY_CALL_OF_SERVICES_HEIGHT               => '100'
         ]);
-             
+
         return $resource;
     }
-    
+
     /**
      * Builds a service call from it's serialized form
      *
@@ -170,12 +170,15 @@ class tao_models_classes_service_ServiceCall implements JsonSerializable
             $serviceCall->addInParameter($param);
         }
         if (!empty($values[WfEngineOntology::PROPERTY_CALL_OF_SERVICES_ACTUAL_PARAMETER_OUT])) {
-            $param = tao_models_classes_service_Parameter::fromResource(current($values[WfEngineOntology::PROPERTY_CALL_OF_SERVICES_ACTUAL_PARAMETER_OUT]));
+            $param = tao_models_classes_service_Parameter::fromResource(
+                current($values[WfEngineOntology::PROPERTY_CALL_OF_SERVICES_ACTUAL_PARAMETER_OUT])
+            );
+
             $serviceCall->setOutParameter($param);
         }
         return $serviceCall;
     }
-    
+
     /**
      * Serialize the current serivceCall object to a string
      *
