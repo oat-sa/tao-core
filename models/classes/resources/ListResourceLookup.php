@@ -173,11 +173,8 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
         return [];
     }
 
-    /**
-     * @return SignatureGenerator
-     */
-    private function getSignatureGenerator()
+    private function getSignatureGenerator(): SignatureGenerator
     {
-        return ServiceManager::getServiceManager()->get(SignatureGenerator::class);
+        return $this->getServiceManager()->get(SignatureGenerator::class);
     }
 }
