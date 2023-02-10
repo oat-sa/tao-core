@@ -26,6 +26,8 @@ use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\Search;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\security\SignatureGenerator;
 
 /**
  * Look up resources and format them as a flat list
@@ -85,7 +87,11 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
             $ids[] = $item['id'] ?? $item;
         }
 
-        return $this->format($ids, $count, $offset, $limit);
+        $response = $this->format($ids, $count, $offset, $limit);
+        $response['classSignature'] = $this->getSignatureGenerator()->generate(
+            $this->getResource($rootClass)->getUri()
+        );
+        return $response;
     }
 
     /**
@@ -150,7 +156,8 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
                 'uri'        => $resource->getUri(),
                 'classUri'   => $resourceTypes[0],
                 'label'      => $resource->getLabel(),
-                'type'       => 'instance'
+                'type'       => 'instance',
+                'signature'  => $this->getSignatureGenerator()->generate($resource->getUri()),
             ];
         }
         return $data;
@@ -164,5 +171,10 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
         $limit = 30
     ) {
         return [];
+    }
+
+    private function getSignatureGenerator(): SignatureGenerator
+    {
+        return $this->getServiceManager()->get(SignatureGenerator::class);
     }
 }
