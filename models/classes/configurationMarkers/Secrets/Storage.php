@@ -20,18 +20,22 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\configurationMarkers;
 
-use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+namespace oat\tao\model\configurationMarkers\Secrets;
 
-class EnvPhpSerializableFactoryProvider implements ContainerServiceProviderInterface
+class Storage
 {
-    public function __invoke(ContainerConfigurator $configurator): void
+    public function get(string $index): string
     {
-        $services = $configurator->services();
-        $services
-            ->set(EnvPhpSerializableFactory::class, EnvPhpSerializableFactory::class)
-            ->public();
+        $storage = $this->vault();
+        if (isset($storage[$index]) === false) {
+            throw new \InvalidArgumentException(sprintf('Secret index "%s" missing in storage.', $index));
+        }
+        return $storage[$index];
+    }
+
+    private function vault(): array
+    {
+        return $_ENV;
     }
 }

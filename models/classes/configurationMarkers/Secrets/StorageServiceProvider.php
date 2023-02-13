@@ -15,21 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\configurationMarkers;
 
-class EnvPhpSerializableFactory
+namespace oat\tao\model\configurationMarkers\Secrets;
+
+use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+class StorageServiceProvider implements ContainerServiceProviderInterface
 {
-    public function create(string $index): EnvPhpSerializable
+    public function __invoke(ContainerConfigurator $configurator): void
     {
-        if (strlen($index) < 1) {
-            throw new \InvalidArgumentException('Empty index.');
-        }
-        return new EnvPhpSerializable($index);
+        $services = $configurator->services();
+
+        $services
+            ->set(Storage::class, Storage::class)
+            ->public();
     }
 }

@@ -21,14 +21,14 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\configurationMarkers;
+namespace oat\tao\model\configurationMarkers\Secrets;
 
 use oat\oatbox\PhpSerializable;
 
 /**
  * Class encapsulating $_ENV indexes for purpose of configuration files
  */
-class EnvPhpSerializable implements PhpSerializable
+class PhpSerializableSecret implements PhpSerializable
 {
     private string $envIndex;
 
