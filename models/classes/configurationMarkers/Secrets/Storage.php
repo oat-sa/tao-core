@@ -27,11 +27,19 @@ class Storage
 {
     public function get(string $index): string
     {
-        $storage = $this->vault();
-        if (isset($storage[$index]) === false) {
+        if ($this->exist($index) === false) {
             throw new \InvalidArgumentException(sprintf('Secret index "%s" missing in storage.', $index));
         }
+        $storage = $this->vault();
+
         return $storage[$index];
+    }
+
+    public function exist(string $index): bool
+    {
+        $storage = $this->vault();
+
+        return isset($storage[$index]);
     }
 
     private function vault(): array

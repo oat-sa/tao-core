@@ -23,6 +23,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\configurationMarkers;
 
+use oat\tao\model\configurationMarkers\Secrets\SerializableFactory;
+use oat\tao\model\configurationMarkers\Secrets\Storage;
 use Psr\Log\LoggerInterface;
 
 class ConfigurationMarkers
@@ -30,12 +32,12 @@ class ConfigurationMarkers
     /** @var string */
     private const MARKER_PATTERN = '/\$ENV{(.*)}/';
     private LoggerInterface $logger;
-    private EnvPhpSerializableFactory $serializableFactory;
-    private ?array $secretsStorage;
+    private SerializableFactory $serializableFactory;
+    private Storage $secretsStorage;
 
     public function __construct(
-        array $secretsStorage,
-        EnvPhpSerializableFactory $serializableFactory,
+        Storage $secretsStorage,
+        SerializableFactory $serializableFactory,
         LoggerInterface $logger
     ) {
         $this->secretsStorage = $secretsStorage;
@@ -57,7 +59,7 @@ class ConfigurationMarkers
     private function walk(&$item): void
     {
         if (is_string($item) && (int)preg_match(self::MARKER_PATTERN, $item, $matches) > 0) {
-            $isSecretDefined = isset($this->secretsStorage[$matches[1] ?? '']);
+            $isSecretDefined = $this->secretsStorage->exist($matches[1] ?? '');
             $this->printMatchNotification($isSecretDefined, $matches[1]);
             if (!$isSecretDefined) {
                 //remove not found markers from config array as reference

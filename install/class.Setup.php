@@ -228,8 +228,8 @@ class tao_install_Setup implements Action
 
         //use $serviceManager->getContainer(ConfigurationMarkers::class) after refactoring taoSetup to use full DI
         $markers = new ConfigurationMarkers(
-            $_ENV,
-            new \oat\tao\model\configurationMarkers\EnvPhpSerializableFactory(),
+            new \oat\tao\model\configurationMarkers\Secrets\Storage(),
+            new \oat\tao\model\configurationMarkers\Secrets\SerializableFactory(),
             $this->getLogger()
         );
         $parameters = $markers->replaceMarkers($parameters);
