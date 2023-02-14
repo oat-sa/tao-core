@@ -18,12 +18,14 @@
  * Copyright (c) 2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\test\model;
+declare(strict_types=1);
 
-use oat\tao\model\configurationMarkers\EnvPhpSerializable;
+namespace oat\tao\test\unit\models\classes\configurationMarkers;
+
+use oat\tao\model\configurationMarkers\Secrets\PhpSerializableSecret;
 use PHPUnit\Framework\TestCase;
 
-class EnvPhpSerializableTest extends TestCase
+class PhpSerializableSecretTest extends TestCase
 {
     private ?string $envHost;
     private ?string $envUser;
@@ -42,9 +44,9 @@ class EnvPhpSerializableTest extends TestCase
 
     public function testIndexesAndValues(): void
     {
-        $host = new EnvPhpSerializable('PERSISTENCES_PGSQL_HOST');
-        $user = new \oat\tao\model\configurationMarkers\EnvPhpSerializable('PERSISTENCES_PGSQL_USER');
-        $password = new \oat\tao\model\configurationMarkers\EnvPhpSerializable('PERSISTENCES_PGSQL_PASSWORD');
+        $host = new PhpSerializableSecret('PERSISTENCES_PGSQL_HOST');
+        $user = new PhpSerializableSecret('PERSISTENCES_PGSQL_USER');
+        $password = new PhpSerializableSecret('PERSISTENCES_PGSQL_PASSWORD');
 
         self::assertSame('PERSISTENCES_PGSQL_HOST', $host->getEnvIndex());
         self::assertSame('PERSISTENCES_PGSQL_USER', $user->getEnvIndex());
