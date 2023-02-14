@@ -25,25 +25,24 @@ namespace oat\tao\model\configurationMarkers\Secrets;
 
 class Storage
 {
+    private array $vault;
+
+    public function __construct(array $vault)
+    {
+        $this->vault = $vault;
+    }
+
     public function get(string $index): string
     {
         if ($this->exist($index) === false) {
             throw new \InvalidArgumentException(sprintf('Secret index "%s" missing in storage.', $index));
         }
-        $storage = $this->vault();
 
-        return $storage[$index];
+        return $this->vault[$index];
     }
 
     public function exist(string $index): bool
     {
-        $storage = $this->vault();
-
-        return isset($storage[$index]);
-    }
-
-    private function vault(): array
-    {
-        return $_ENV;
+        return isset($this->vault[$index]);
     }
 }

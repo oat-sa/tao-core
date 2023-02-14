@@ -34,6 +34,7 @@ class StorageServiceProvider implements ContainerServiceProviderInterface
 
         $services
             ->set(Storage::class, Storage::class)
+            ->args([$_ENV])
             ->public();
     }
 }
