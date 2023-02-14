@@ -32,7 +32,7 @@ class PhpSerializableFactoryTest extends TestCase
 
     public function testFactory(): void
     {
-        $factory = new SerializableFactory;
+        $factory = new SerializableFactory();
         $object = $factory->create(self::TEST_INDEX);
         self::assertInstanceOf(PhpSerializableSecret::class, $object);
         self::assertSame(self::TEST_INDEX, $object->getEnvIndex());

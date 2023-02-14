@@ -20,7 +20,6 @@
 
 declare(strict_types=1);
 
-
 namespace oat\tao\model\configurationMarkers\Secrets;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
