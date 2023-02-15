@@ -84,7 +84,7 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
      * Template method to find data.
      * Any step (such as filtration, pagination, sorting e.t.c. can be changed in concrete class).
      */
-    public function getPayload()
+    public function getPayload(): array
     {
         $queryBuilder = $this->getSearchService()->query();
 
@@ -92,9 +92,8 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
         $this->doPagination($queryBuilder);
         $this->doSorting($queryBuilder);
         $searchResult = $this->doSearch($queryBuilder);
-        $result = $this->doPostProcessing($searchResult);
 
-        return $result;
+        return  $this->doPostProcessing($searchResult);
     }
 
     /**
@@ -162,11 +161,7 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
         return $this->getSearchService()->getGateway()->search($queryBuilder);
     }
 
-    /**
-     * @param TaoResultSet $result
-     * @return array
-     */
-    protected function doPostProcessing(TaoResultSet $result)
+    protected function doPostProcessing(TaoResultSet $result): array
     {
         $payload = [
             'data' => $result->getArrayCopy(),
@@ -259,10 +254,9 @@ abstract class AbstractDatatablePayload implements DatatablePayloadInterface, Se
      * Fetch all the values of properties listed in properties map
      *
      * @param $payload
-     * @return mixed
      * @throws \common_exception_InvalidArgumentType
      */
-    protected function fetchPropertyValues($payload)
+    protected function fetchPropertyValues($payload): array
     {
         $propertyMap = $this->getPropertiesMap();
         $data = [];

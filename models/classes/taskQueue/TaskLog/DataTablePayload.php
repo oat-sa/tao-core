@@ -97,10 +97,7 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getPayload()
+    public function getPayload(): array
     {
         $countTotal = $this->count();
 
@@ -121,15 +118,13 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
         // get customised data
         $customisedData = $this->getCustomisedData($collection);
 
-        $data = [
+        return [
             'rows'    => $limit,
             'page'    => $page,
             'amount'  => count($collection),
             'total'   => ceil($countTotal / $limit),
             'data'    => $customisedData ?: $collection->toArray(),
         ];
-
-        return $data;
     }
 
     /**
