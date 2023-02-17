@@ -13,42 +13,47 @@ msgstr ""
 "X-Crowdin-Project: oat-sa-tao\n"
 "X-Crowdin-Project-ID: 568823\n"
 "X-Crowdin-Language: ro\n"
-"X-Crowdin-File: /[oat-sa.tao-core] master/locales/fi-FI/oauth.rdf.po\n"
-"X-Crowdin-File-ID: 361\n"
+"X-Crowdin-File: /[oat-sa.tao-core] master/locales/fi-FI/requiredaction.rdf.po\n"
+"X-Crowdin-File-ID: 363\n"
 "Language-Team: Romanian\n"
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Oauth Credentials"
+msgid "Required Action Time Rule"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthKey
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "OAuth consumer key"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthKey
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "identifier of OAuth consumer"
+msgid "Required Action Time Rule"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Oauth consumer secret"
+msgid "Required Action Name"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Secret used for signatures"
+msgid "Name Of Required Action"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "OAuth consumer callback URL"
+msgid "Executed At Date"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "URL to call after autentification"
+msgid "Time of execution of required action"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Executed by"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Required action executed by user"
 msgstr ""
 
