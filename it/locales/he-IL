@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: oat-sa-tao\n"
-"PO-Revision-Date: 2023-02-17 17:04\n"
+"PO-Revision-Date: 2023-02-17 17:05\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it\n"
@@ -13,412 +13,127 @@ msgstr ""
 "X-Crowdin-Project: oat-sa-tao\n"
 "X-Crowdin-Project-ID: 568823\n"
 "X-Crowdin-Language: it\n"
-"X-Crowdin-File: /[oat-sa.tao-core] master/locales/he-IL/tao.rdf.po\n"
-"X-Crowdin-File-ID: 439\n"
+"X-Crowdin-File: /[oat-sa.tao-core] master/locales/he-IL/widgetdefinitions.rdf.po\n"
+"X-Crowdin-File-ID: 447\n"
 "Language-Team: Italian\n"
 
-# http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "TAO User Object"
+msgid "Search Input"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Any user-level resource related to etesting"
+msgid "One may select 0 to N values from a defined list"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#SystemObject
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchDropdown
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "System Object"
+msgid "Search Dropdown"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#SystemObject
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchDropdown
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Any system resource related to etesting"
+msgid "One may select 1 value from a defined list"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#List
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Label
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "List"
+msgid "Text Label"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Remote list source"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Label
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Remote list source"
+msgid "Content is read only"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Remote list source uri path"
+msgid "Hidden Box"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Remote list source uri path"
+msgid "Content is hidden, but visibility can be toggled"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Remote list source label path"
+msgid "Calendar"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Remote list source label path"
+msgid "Dynamic Calendar for easy date selecting"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#ListType
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "List type"
+msgid "Authoring"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#ListType
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "List type"
+msgid "Open a tool to edit special content"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#ListRemote
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Remote list type"
+msgid "VersionedFile"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#ListRemote
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Remote list type"
+msgid "Manage your versioned file"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListDependencyItemUriPath
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Remote list dependency source uri path"
+msgid "File"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListDependencyItemUriPath
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Remote list dependency source uri path"
+msgid "Upload and download file"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Updated"
+msgid "Readonly"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Last updated date"
+msgid "Display a constant and uneditable value"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#level
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "level"
+msgid "Literal Readonly"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#Languages
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Languages"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Usage"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Usage of a language"
+msgid "Display a literal constant and uneditable value"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Language Usage"
+msgid "A Tree Box"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Language usage class"
+msgid "A particular tree box"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "GUI Usage"
+msgid "Json Object"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Graphical User Interface language usage"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Data Usage"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Data language usage"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientations
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Language orientation"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientations
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Language orientation class"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Orientation"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Orientation of a language"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Left-to-right orientation"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Left-to-right language orientation"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Right-to-left orientation"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Right-to-left language orientation"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#User
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "User"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#User
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "TAO User Class"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Management"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The Management Role Class"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Back Office"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The BackOffice Role"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Front Office"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The FrontOffice Role"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Service"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The Service Role"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "TAO Manager"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The TAO Manager Role"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Metadata Manager Role"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#PropertyManagerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The Metadata Manager Role allows you to modify the properties of the classes."
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Global Manager"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The Global Manager Role"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Lock Manager"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LockManagerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The role that can unlock all resources"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "System Administrator"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The System Administrator Role"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Task Queue Manager"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TaskQueueManager
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The Task Queue Manager Role"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "REST Publisher"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#RestPublisher
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The REST API Publishing Role"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Operational Administrator"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#OperationalAdministrator
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The Operational Administrator role"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Test Taker"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The Test Taker Role"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Form Field Order"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TAOGUIOrder
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The order of the property within the class"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/generis.rdf#passwordRecoveryToken
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Password recovery token"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/generis.rdf#passwordRecoveryToken
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Password recovery token"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#Lock
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Lock"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#Lock
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Lock information related to the resource"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/generis.rdf#validationRule
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Validation Rules"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/generis.rdf#validationRule
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Validation rules for the values of this property"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Validation"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ValidationSelector
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Select the validation rules"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "LastExtensionUsed"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Saves the last extension the user had visited."
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "First Time In Tao"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Is it the first the user connects to TAO?"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "assessmentObject"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Object to represent assessment contents"
+msgid "Display a Json Object stored as a literal value as a collection of key/value pairs."
 msgstr ""
 
