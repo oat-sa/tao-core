@@ -49,7 +49,7 @@ class ResponseEmitter
             header($http_line, true, $response->getStatusCode());
             foreach ($response->getHeaders() as $name => $values) {
                 foreach ($values as $value) {
-                    header("$name: $value", false);
+                    header("$name: $value");
                 }
             }
         }
