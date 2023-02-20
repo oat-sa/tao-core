@@ -94,10 +94,7 @@ class RunConfigurationMarkers extends ScriptAction
             return $this->report;
         }
 
-        $container = $this->getServiceLocator()->getContainer();
-        $markers = $container->get(ConfigurationMarkers::class);
-
-        $parameters = $markers->replaceMarkers($parameters);
+        $parameters = $this->getConfigurationMarkers()->replaceMarkers($parameters);
 
         foreach ($parameters['configuration'] as $extensionId => $configs) {
             $processed = $this->processExtension($extensionId, $configs);
@@ -116,8 +113,7 @@ class RunConfigurationMarkers extends ScriptAction
 
     private function processExtension(string $extensionId, array $configs): bool
     {
-        /** @var common_ext_ExtensionsManager $extensionManager */
-        $extensionManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
+        $extensionManager = $this->getExtensionManager();
         $selectedExtension = $this->getOption(self::OPTION_SELECT_EXTENSION_ID);
         if ($selectedExtension !== null && $selectedExtension !== $extensionId) {
             $this->report->add(Report::createInfo(sprintf('Skipping extension %s .', $extensionId)));
@@ -173,5 +169,16 @@ class RunConfigurationMarkers extends ScriptAction
                 sprintf('Configuration of extension %s completed successfully.', $installedExtension->getName())
             )
         );
+    }
+
+    private function getExtensionManager(): common_ext_ExtensionsManager
+    {
+        return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
+    }
+
+    private function getConfigurationMarkers(): ConfigurationMarkers
+    {
+        $container = $this->getServiceLocator()->getContainer();
+        return $container->get(ConfigurationMarkers::class);
     }
 }

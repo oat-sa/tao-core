@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\configurationMarkers;
 
-use oat\tao\model\configurationMarkers\Secrets\PhpSerializableSecret;
+use oat\tao\model\configurationMarkers\Secrets\EnvPhpSerializableSecret;
 use PHPUnit\Framework\TestCase;
 
 class PhpSerializableSecretTest extends TestCase
@@ -44,9 +44,9 @@ class PhpSerializableSecretTest extends TestCase
 
     public function testIndexesAndValues(): void
     {
-        $host = new PhpSerializableSecret('PERSISTENCES_PGSQL_HOST');
-        $user = new PhpSerializableSecret('PERSISTENCES_PGSQL_USER');
-        $password = new PhpSerializableSecret('PERSISTENCES_PGSQL_PASSWORD');
+        $host = new EnvPhpSerializableSecret('PERSISTENCES_PGSQL_HOST');
+        $user = new EnvPhpSerializableSecret('PERSISTENCES_PGSQL_USER');
+        $password = new EnvPhpSerializableSecret('PERSISTENCES_PGSQL_PASSWORD');
 
         self::assertSame('PERSISTENCES_PGSQL_HOST', $host->getEnvIndex());
         self::assertSame('PERSISTENCES_PGSQL_USER', $user->getEnvIndex());

@@ -25,6 +25,7 @@ namespace oat\tao\model\configurationMarkers;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\configurationMarkers\Secrets\SerializableFactory;
+use oat\tao\model\configurationMarkers\Secrets\Storage;
 use oat\tao\model\configurationMarkers\Secrets\Storage as SecretsStorage;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -35,6 +36,15 @@ class ConfigurationMarkersProvider implements ContainerServiceProviderInterface
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
+
+        $services
+            ->set(Storage::class, Storage::class)
+            ->args([$_ENV])
+            ->public();
+
+        $services
+            ->set(SerializableFactory::class, SerializableFactory::class)
+            ->public();
 
         $services
             ->set(

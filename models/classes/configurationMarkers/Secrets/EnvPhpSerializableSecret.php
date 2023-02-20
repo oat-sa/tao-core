@@ -28,7 +28,7 @@ use oat\oatbox\PhpSerializable;
 /**
  * Class encapsulating $_ENV indexes for purpose of configuration files
  */
-class PhpSerializableSecret implements PhpSerializable
+class EnvPhpSerializableSecret implements PhpSerializable
 {
     private string $envIndex;
 

@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\configurationMarkers;
 
 use oat\tao\model\configurationMarkers\ConfigurationMarkers;
-use oat\tao\model\configurationMarkers\Secrets\PhpSerializableSecret;
+use oat\tao\model\configurationMarkers\Secrets\EnvPhpSerializableSecret;
 use oat\tao\model\configurationMarkers\Secrets\SerializableFactory;
 use oat\tao\model\configurationMarkers\Secrets\Storage;
 use PHPUnit\Framework\TestCase;
@@ -71,9 +71,9 @@ class ConfigurationMarkersTest extends TestCase
             $replaced['connection']['non_existing_entry_in_env']
         );
 
-        self::assertInstanceOf(PhpSerializableSecret::class, $replaced['connection']['host']);
-        self::assertInstanceOf(PhpSerializableSecret::class, $replaced['connection']['user']);
-        self::assertInstanceOf(PhpSerializableSecret::class, $replaced['connection']['password']);
+        self::assertInstanceOf(EnvPhpSerializableSecret::class, $replaced['connection']['host']);
+        self::assertInstanceOf(EnvPhpSerializableSecret::class, $replaced['connection']['user']);
+        self::assertInstanceOf(EnvPhpSerializableSecret::class, $replaced['connection']['password']);
 
         self::assertSame('PERSISTENCES_PGSQL_HOST', $replaced['connection']['host']->getEnvIndex());
         self::assertSame('PERSISTENCES_PGSQL_USER', $replaced['connection']['user']->getEnvIndex());

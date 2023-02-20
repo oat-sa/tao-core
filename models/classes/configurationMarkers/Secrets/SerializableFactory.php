@@ -25,11 +25,11 @@ namespace oat\tao\model\configurationMarkers\Secrets;
 
 class SerializableFactory
 {
-    public function create(string $index): PhpSerializableSecret
+    public function create(string $index): EnvPhpSerializableSecret
     {
         if (strlen($index) < 1) {
             throw new \InvalidArgumentException('Empty index.');
         }
-        return new PhpSerializableSecret($index);
+        return new EnvPhpSerializableSecret($index);
     }
 }
