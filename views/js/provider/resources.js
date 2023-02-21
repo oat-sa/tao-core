@@ -21,7 +21,7 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
- define([
+define([
     'lodash',
     'i18n',
     'util/url',
