@@ -13,87 +13,42 @@ msgstr ""
 "X-Crowdin-Project: oat-sa-tao\n"
 "X-Crowdin-Project-ID: 568823\n"
 "X-Crowdin-Language: pt-PT\n"
-"X-Crowdin-File: /[oat-sa.tao-core] master/locales/ps-AF/model.rdf.po\n"
-"X-Crowdin-File-ID: 815\n"
+"X-Crowdin-File: /[oat-sa.tao-core] master/locales/ps-AF/oauth.rdf.po\n"
+"X-Crowdin-File-ID: 817\n"
 "Language-Team: Portuguese\n"
 
-# http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
+# http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Abstract Model"
+msgid "Oauth Credentials"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
+# http://www.tao.lu/Ontologies/TAO.rdf#OauthKey
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "OAuth consumer key"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#OauthKey
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "An abstract model to differentiate implementations of resources of the same type"
+msgid "identifier of OAuth consumer"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#ModelImplementation
+# http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Model implementation"
+msgid "Oauth consumer secret"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatus
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Model Status"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Stable"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
+# http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "This model can be used in production"
+msgid "Secret used for signatures"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
+# http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Deprecated"
+msgid "OAuth consumer callback URL"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
+# http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "This model is not supported anymore, we advise to migrate"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Development"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "this model has not been tested in a production environment, we advise to be carefull with it"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Experimental"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "this model is still in conception, but you can try it, give your feedback and it will be improved."
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Status"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The status of a model"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Model"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Select the associated model"
+msgid "URL to call after autentification"
 msgstr ""
 
