@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: oat-sa-tao\n"
-"PO-Revision-Date: 2023-02-17 17:05\n"
+"PO-Revision-Date: 2023-02-21 07:24\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: it\n"
@@ -13,127 +13,67 @@ msgstr ""
 "X-Crowdin-Project: oat-sa-tao\n"
 "X-Crowdin-Project-ID: 568823\n"
 "X-Crowdin-Language: it\n"
-"X-Crowdin-File: /[oat-sa.tao-core] master/locales/he-IL/widgetdefinitions.rdf.po\n"
-"X-Crowdin-File-ID: 447\n"
+"X-Crowdin-File: /[oat-sa.tao-core] master/locales/he-IL/userlocks.rdf.po\n"
+"X-Crowdin-File-ID: 443\n"
 "Language-Team: Italian\n"
 
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox
+# http://www.tao.lu/Ontologies/TAO.rdf#accountStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Search Input"
+msgid "Is locked?"
 msgstr ""
 
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox
+# http://www.tao.lu/Ontologies/TAO.rdf#accountStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "One may select 0 to N values from a defined list"
+msgid "Shows account status, locked or not"
 msgstr ""
 
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchDropdown
+# http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Search Dropdown"
+msgid "Check Locked"
 msgstr ""
 
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchDropdown
+# http://www.tao.lu/Ontologies/TAO.rdf#LockedStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "One may select 1 value from a defined list"
+msgid "Check Locked"
 msgstr ""
 
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Label
+# http://www.tao.lu/Ontologies/TAO.rdf#Locked
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Text Label"
+msgid "Yes"
 msgstr ""
 
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Label
+# http://www.tao.lu/Ontologies/TAO.rdf#Locked
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Content is read only"
+msgid "Yes"
 msgstr ""
 
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox
+# http://www.tao.lu/Ontologies/TAO.rdf#logonFailures
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Hidden Box"
+msgid "Logon failures"
 msgstr ""
 
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ViewableHiddenBox
+# http://www.tao.lu/Ontologies/TAO.rdf#logonFailures
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Content is hidden, but visibility can be toggled"
+msgid "Count of user logon failures"
 msgstr ""
 
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar
+# http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Calendar"
+msgid "Last logon failure"
 msgstr ""
 
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Calendar
+# http://www.tao.lu/Ontologies/TAO.rdf#lastLogonFailureTime
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Dynamic Calendar for easy date selecting"
+msgid "Time when the last logon failure occurred"
 msgstr ""
 
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring
+# http://www.tao.lu/Ontologies/TAO.rdf#lockedBy
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Authoring"
+msgid "Locked by"
 msgstr ""
 
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring
+# http://www.tao.lu/Ontologies/TAO.rdf#lockedBy
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Open a tool to edit special content"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "VersionedFile"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#VersionedFile
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Manage your versioned file"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "File"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Upload and download file"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Readonly"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Display a constant and uneditable value"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Literal Readonly"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ReadonlyLiteral
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Display a literal constant and uneditable value"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "A Tree Box"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TreeBox
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "A particular tree box"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Json Object"
-msgstr ""
-
-# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#JsonObject
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Display a Json Object stored as a literal value as a collection of key/value pairs."
+msgid "Indicates by which user current user was locked"
 msgstr ""
 
