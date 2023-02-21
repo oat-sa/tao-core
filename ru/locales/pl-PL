@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: oat-sa-tao\n"
-"PO-Revision-Date: 2023-02-21 07:40\n"
+"PO-Revision-Date: 2023-02-21 07:41\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ru\n"
@@ -13,42 +13,47 @@ msgstr ""
 "X-Crowdin-Project: oat-sa-tao\n"
 "X-Crowdin-Project-ID: 568823\n"
 "X-Crowdin-Language: ru\n"
-"X-Crowdin-File: /[oat-sa.tao-core] master/locales/pl-PL/oauth.rdf.po\n"
-"X-Crowdin-File-ID: 793\n"
+"X-Crowdin-File: /[oat-sa.tao-core] master/locales/pl-PL/services.rdf.po\n"
+"X-Crowdin-File-ID: 797\n"
 "Language-Team: Russian\n"
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Oauth Credentials"
+msgid "Services Definition"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthKey
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "OAuth consumer key"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthKey
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "identifier of OAuth consumer"
+msgid "Services Definition"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Oauth consumer secret"
+msgid "Support Services"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Secret used for signatures"
+msgid "Support Services"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "OAuth consumer callback URL"
+msgid "Web Service"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "URL to call after autentification"
+msgid "Web Service"
+msgstr ""
+
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Delivery Services"
+msgstr ""
+
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Delivery Services"
 msgstr ""
 
