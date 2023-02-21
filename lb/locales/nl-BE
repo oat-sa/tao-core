@@ -13,42 +13,47 @@ msgstr ""
 "X-Crowdin-Project: oat-sa-tao\n"
 "X-Crowdin-Project-ID: 568823\n"
 "X-Crowdin-Language: lb\n"
-"X-Crowdin-File: /[oat-sa.tao-core] master/locales/nl-BE/oauth.rdf.po\n"
-"X-Crowdin-File-ID: 721\n"
+"X-Crowdin-File: /[oat-sa.tao-core] master/locales/nl-BE/services.rdf.po\n"
+"X-Crowdin-File-ID: 725\n"
 "Language-Team: Luxembourgish\n"
 
-# Oauth ?
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Oauth Credentials"
+msgid "Services Definition"
 msgstr ""
 
-# key maybe code?
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "OAuth consumer key"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthKey
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "identifier of OAuth consumer"
+msgid "Services Definition"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Oauth consumer secret"
+msgid "Support Services"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Secret used for signatures"
+msgid "Support Services"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "OAuth consumer callback URL"
+msgid "Web Service"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "URL to call after autentification"
+msgid "Web Service"
+msgstr ""
+
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Delivery Services"
+msgstr ""
+
+# http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Delivery Services"
 msgstr ""
 
