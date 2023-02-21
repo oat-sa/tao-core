@@ -13,22 +13,122 @@ msgstr ""
 "X-Crowdin-Project: oat-sa-tao\n"
 "X-Crowdin-Project-ID: 568823\n"
 "X-Crowdin-Language: be\n"
-"X-Crowdin-File: /[oat-sa.tao-core] master/locales/lt-LT/basicauth.rdf.po\n"
-"X-Crowdin-File-ID: 665\n"
+"X-Crowdin-File: /[oat-sa.tao-core] master/locales/lt-LT/indexation.rdf.po\n"
+"X-Crowdin-File-ID: 667\n"
 "Language-Team: Belarusian\n"
 
-# http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthConsumer
+# http://www.tao.lu/Ontologies/TAO.rdf#Index
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Basic Auth Credentials"
+msgid "Index"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthLogin
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Login"
+# http://www.tao.lu/Ontologies/TAO.rdf#Index
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Index class"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthPassword
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Password"
+msgid "Identifier"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Humanreadable identifier of the index"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Tokenizer of index"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Tokenizer to be used to extract search strings"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Fuzzy matching"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Should the string matching be exact or fuzzy"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Use by default"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Should this property be used implicitly in the defautl search"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Tokenizer"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Tokenizer class"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Tokenizer implementation"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Classname of the tokenizer implementation"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Property Indexation"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "How a property should be indexed"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Raw Value Tokenizer"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Tokenizer using the raw property value"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Label Tokenizer"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Tokenizer using the resource labels"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#LabelIndex
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Label Index"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#TypeIndex
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Type Index"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#LoginIndex
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Login Index"
 msgstr ""
 
