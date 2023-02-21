@@ -13,122 +13,87 @@ msgstr ""
 "X-Crowdin-Project: oat-sa-tao\n"
 "X-Crowdin-Project-ID: 568823\n"
 "X-Crowdin-Language: ja\n"
-"X-Crowdin-File: /[oat-sa.tao-core] master/locales/nl-BE/indexation.rdf.po\n"
-"X-Crowdin-File-ID: 715\n"
+"X-Crowdin-File: /[oat-sa.tao-core] master/locales/nl-BE/model.rdf.po\n"
+"X-Crowdin-File-ID: 719\n"
 "Language-Team: Japanese\n"
 
-# http://www.tao.lu/Ontologies/TAO.rdf#Index
+# http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Index"
+msgid "Abstract Model"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#Index
+# http://www.tao.lu/Ontologies/TAO.rdf#AbstractModel
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Index class"
+msgid "An abstract model to differentiate implementations of resources of the same type"
 msgstr ""
 
-# kan ook uniek id zijn.
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelImplementation
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Identifier"
+msgid "Model implementation"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#IndexIdentifier
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatus
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Model Status"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Stable"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusStable
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Humanreadable identifier of the index"
+msgid "This model can be used in production"
 msgstr ""
 
-# There is no Dutch for tokenizer as far as I know
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Tokenizer of index"
+msgid "Deprecated"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#IndexTokenizer
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDeprecated
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Tokenizer to be used to extract search strings"
+msgid "This model is not supported anymore, we advise to migrate"
 msgstr ""
 
-# English will be best known to Dutch
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Fuzzy matching"
+msgid "Development"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#IndexFuzzyMatching
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusDevelopment
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Should the string matching be exact or fuzzy"
+msgid "this model has not been tested in a production environment, we advise to be carefull with it"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Use by default"
+msgid "Experimental"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#IndexDefaultSearch
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelStatusExperimental
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Should this property be used implicitly in the defautl search"
+msgid "this model is still in conception, but you can try it, give your feedback and it will be improved."
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Tokenizer"
+msgid "Status"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer
+# http://www.tao.lu/Ontologies/TAO.rdf#ModelAbstractModelStatus
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Tokenizer class"
+msgid "The status of a model"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Tokenizer implementation"
+msgid "Model"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass
+# http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ModelSelector
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Classname of the tokenizer implementation"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Property Indexation"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#PropertyIndex
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "How a property should be indexed"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Raw Value Tokenizer"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Tokenizer using the raw property value"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Label Tokenizer"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LabelTokenizer
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Tokenizer using the resource labels"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LabelIndex
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Label Index"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TypeIndex
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Type Index"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#LoginIndex
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Login Index"
+msgid "Select the associated model"
 msgstr ""
 
