@@ -21,6 +21,9 @@
 
 namespace oat\tao\model\resources;
 
+use core_kernel_classes_Class;
+use core_kernel_classes_Resource;
+use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
@@ -87,11 +90,7 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
             $ids[] = $item['id'] ?? $item;
         }
 
-        $response = $this->format($ids, $count, $offset, $limit);
-        $response['classSignature'] = $this->getSignatureGenerator()->generate(
-            $this->getResource($rootClass)->getUri()
-        );
-        return $response;
+        return $this->format($ids, $count, $offset, $limit);
     }
 
     /**
@@ -153,11 +152,14 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
         if (!is_null($resource) && $resource->exists()) {
             $resourceTypes = array_keys($resource->getTypes());
             $data = [
-                'uri'        => $resource->getUri(),
-                'classUri'   => $resourceTypes[0],
-                'label'      => $resource->getLabel(),
-                'type'       => 'instance',
-                'signature'  => $this->getSignatureGenerator()->generate($resource->getUri()),
+                'uri'               => $resource->getUri(),
+                'classUri'          => $resourceTypes[0],
+                'label'             => $resource->getLabel(),
+                'type'              => 'instance',
+                'signature'         => $this->getSignatureGenerator()->generate($resource->getUri()),
+                'classSignature'    => $this->getSignatureGenerator()->generate(
+                    $this->getParentClass($resource)->getUri()
+                ),
             ];
         }
         return $data;
@@ -176,5 +178,14 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
     private function getSignatureGenerator(): SignatureGenerator
     {
         return $this->getServiceManager()->get(SignatureGenerator::class);
+    }
+
+    private function getParentClass(core_kernel_classes_Resource $resource): ?core_kernel_classes_Class
+    {
+        $parentClassUri = $resource->getOnePropertyValue($resource->getProperty(OntologyRdf::RDF_TYPE));
+        
+        return $parentClassUri !== null
+            ? $resource->getClass($parentClassUri)
+            : null;
     }
 }
