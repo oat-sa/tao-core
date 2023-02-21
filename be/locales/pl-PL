@@ -13,17 +13,27 @@ msgstr ""
 "X-Crowdin-Project: oat-sa-tao\n"
 "X-Crowdin-Project-ID: 568823\n"
 "X-Crowdin-Language: be\n"
-"X-Crowdin-File: /[oat-sa.tao-core] master/locales/pl-PL/taoaclrole.rdf.po\n"
-"X-Crowdin-File-ID: 801\n"
+"X-Crowdin-File: /[oat-sa.tao-core] master/locales/pl-PL/webservice.rdf.po\n"
+"X-Crowdin-File-ID: 805\n"
 "Language-Team: Belarusian\n"
 
-# http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
+# http://www.tao.lu/Ontologies/TAO.rdf#WebServiceUrl
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Base User"
+msgid "Web Service Url"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
+# http://www.tao.lu/Ontologies/TAO.rdf#WebServiceUrl
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Base User Role"
+msgid "Web Service Url"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ServiceWebService
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Web Service"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ServiceWebService
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Embed a generic web service accessible via url in an iframe"
 msgstr ""
 
