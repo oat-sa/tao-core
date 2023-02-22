@@ -151,11 +151,11 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
         if (!is_null($resource) && $resource->exists()) {
             $resourceTypes = array_keys($resource->getTypes());
             $data = [
-                'uri'               => $resource->getUri(),
-                'classUri'          => $resourceTypes[0],
-                'label'             => $resource->getLabel(),
-                'type'              => 'instance',
-                'signature'         => $this->getSignatureGenerator()->generate($resource->getUri()),
+                'uri'        => $resource->getUri(),
+                'classUri'   => $resourceTypes[0],
+                'label'      => $resource->getLabel(),
+                'type'       => 'instance',
+                'signature'  => $this->getSignatureGenerator()->generate($resource->getUri()),
             ];
             $parentClassUri = $this->getParentClassUri($resource);
             if ($parentClassUri !== null) {
