@@ -21,7 +21,6 @@
 
 namespace oat\tao\model\resources;
 
-use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyAwareTrait;
@@ -157,10 +156,11 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
                 'label'             => $resource->getLabel(),
                 'type'              => 'instance',
                 'signature'         => $this->getSignatureGenerator()->generate($resource->getUri()),
-                'classSignature'    => $this->getSignatureGenerator()->generate(
-                    $this->getParentClass($resource)->getUri()
-                ),
             ];
+            $parentClassUri = $this->getParentClassUri($resource);
+            if ($parentClassUri !== null) {
+                $data['classSignature'] = $this->getSignatureGenerator()->generate($parentClassUri);
+            }
         }
         return $data;
     }
@@ -180,12 +180,11 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
         return $this->getServiceManager()->get(SignatureGenerator::class);
     }
 
-    private function getParentClass(core_kernel_classes_Resource $resource): ?core_kernel_classes_Class
+    private function getParentClassUri(core_kernel_classes_Resource $resource): ?string
     {
         $parentClassUri = $resource->getOnePropertyValue($resource->getProperty(OntologyRdf::RDF_TYPE));
-        
         return $parentClassUri !== null
-            ? $resource->getClass($parentClassUri)
+            ? $parentClassUri->getUri()
             : null;
     }
 }
