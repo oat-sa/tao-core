@@ -31,6 +31,9 @@ use oat\oatbox\reporting\Report;
 use tao_models_classes_import_RdfImporter;
 use tao_models_classes_Parser;
 
+/**
+ * Purpose of this class extension is to avoid creating new identifiers for imported resources as it is done in parent
+ */
 class CustomizedRdfImporter extends tao_models_classes_import_RdfImporter
 {
     public function importFromFile(RdfClass $targetClass, string $filePath): Report
@@ -42,10 +45,10 @@ class CustomizedRdfImporter extends tao_models_classes_import_RdfImporter
                 ->add($parser->getReport());
         }
 
-        return $this->fetchContent($parser->getContent(), $targetClass);
+        return $this->importFileContent($parser->getContent(), $targetClass);
     }
 
-    private function fetchContent($content, $targetClass): Report
+    private function importFileContent($content, $targetClass): Report
     {
         $report = Report::createInfo('Imported data:');
         $graph = new Graph();
