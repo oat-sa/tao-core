@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: oat-sa-tao\n"
-"PO-Revision-Date: 2023-02-23 08:46\n"
+"PO-Revision-Date: 2023-02-23 08:47\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -13,47 +13,17 @@ msgstr ""
 "X-Crowdin-Project: oat-sa-tao\n"
 "X-Crowdin-Project-ID: 568823\n"
 "X-Crowdin-Language: ro\n"
-"X-Crowdin-File: /[oat-sa.tao-core] master/locales/zh-SG/requiredaction.rdf.po\n"
-"X-Crowdin-File-ID: 1035\n"
+"X-Crowdin-File: /[oat-sa.tao-core] master/locales/zh-SG/taoaclrole.rdf.po\n"
+"X-Crowdin-File-ID: 1041\n"
 "Language-Team: Romanian\n"
 
-# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
+# http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Required Action Time Rule"
+msgid "Base User"
 msgstr ""
 
-# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule
+# http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Required Action Time Rule"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Required Action Name"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Name Of Required Action"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Executed At Date"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Time of execution of required action"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Executed by"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Required action executed by user"
+msgid "Base User Role"
 msgstr ""
 
