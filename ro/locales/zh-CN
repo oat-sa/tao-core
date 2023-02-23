@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: oat-sa-tao\n"
-"PO-Revision-Date: 2023-02-23 08:43\n"
+"PO-Revision-Date: 2023-02-23 08:44\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ro\n"
@@ -13,47 +13,17 @@ msgstr ""
 "X-Crowdin-Project: oat-sa-tao\n"
 "X-Crowdin-Project-ID: 568823\n"
 "X-Crowdin-Language: ro\n"
-"X-Crowdin-File: /[oat-sa.tao-core] master/locales/zh-CN/services.rdf.po\n"
-"X-Crowdin-File-ID: 1013\n"
+"X-Crowdin-File: /[oat-sa.tao-core] master/locales/zh-CN/taoaclrole.rdf.po\n"
+"X-Crowdin-File-ID: 1017\n"
 "Language-Team: Romanian\n"
 
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions
+# http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Services Definition"
+msgid "Base User"
 msgstr ""
 
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassServiceDefinitions
+# http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Services Definition"
-msgstr ""
-
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Support Services"
-msgstr ""
-
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassSupportServices
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Support Services"
-msgstr ""
-
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Web Service"
-msgstr ""
-
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassWebServices
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Web Service"
-msgstr ""
-
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Delivery Services"
-msgstr ""
-
-# http://www.tao.lu/middleware/wfEngine.rdf#ClassDeliveryServices
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Delivery Services"
+msgid "Base User Role"
 msgstr ""
 
