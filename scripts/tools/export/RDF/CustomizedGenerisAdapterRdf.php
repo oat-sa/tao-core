@@ -26,6 +26,9 @@ use tao_helpers_data_GenerisAdapterRdf;
 
 class CustomizedGenerisAdapterRdf extends tao_helpers_data_GenerisAdapterRdf
 {
+    /*
+     * The quick fix to not skip file link property while building RDF export file
+     */
     private function isSerializedFile($object): bool
     {
         return false;
