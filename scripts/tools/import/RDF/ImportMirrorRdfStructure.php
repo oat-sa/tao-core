@@ -22,8 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\scripts\tools\import\RDF;
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\tao\model\import\CustomizedRdfImporter;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * sudo -u www-data php index.php 'oat\tao\scripts\tools\import\RDF\ImportMirrorRdfStructure' \
@@ -33,6 +38,8 @@ use oat\oatbox\reporting\Report;
  */
 class ImportMirrorRdfStructure extends ScriptAction
 {
+    use OntologyAwareTrait;
+
     protected function provideOptions(): array
     {
         return [
@@ -60,9 +67,21 @@ class ImportMirrorRdfStructure extends ScriptAction
     {
         $path = $this->getOption('file-path');
         $parentClassUri = $this->getOption('parent-class-uri');
-        $targetClass = new \core_kernel_classes_Class($parentClassUri);
+        $targetClass = $this->getClass($parentClassUri);
 
-        $importer = new CustomizedRdfImporter();
-        return $importer->importFromFile($targetClass, $path);
+        return $this->getRdfImporter()
+            ->importFromFile($targetClass, $path);
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws InvalidServiceManagerException
+     */
+    private function getRdfImporter(): CustomizedRdfImporter
+    {
+        return $this->getServiceManager()
+            ->getContainer()
+            ->get(CustomizedRdfImporter::class);
     }
 }

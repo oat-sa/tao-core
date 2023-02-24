@@ -15,22 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2023 (update and modification) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\scripts\tools\export\RDF;
+namespace oat\tao\model\export\ServiceProvider;
 
-use tao_helpers_data_GenerisAdapterRdf;
+use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\export\CustomizedGenerisAdapterRdf;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-class CustomizedGenerisAdapterRdf extends tao_helpers_data_GenerisAdapterRdf
+class ExportServiceProvider implements ContainerServiceProviderInterface
 {
-    /*
-     * The quick fix to not skip file link property while building RDF export file
-     */
-    private function isSerializedFile($object): bool
+    public function __invoke(ContainerConfigurator $configurator): void
     {
-        return false;
+        $services = $configurator->services();
+
+        $services
+            ->set(CustomizedGenerisAdapterRdf::class, CustomizedGenerisAdapterRdf::class)
+            ->public();
     }
 }
