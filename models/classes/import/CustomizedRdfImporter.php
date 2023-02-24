@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\scripts\tools\import\RDF;
+namespace oat\tao\model\import;
 
 use core_kernel_classes_Class as RdfClass;
 use core_kernel_classes_Resource as RdfResource;
