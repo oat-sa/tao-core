@@ -23,8 +23,13 @@ declare(strict_types=1);
 namespace oat\tao\scripts\tools\export\RDF;
 
 use EasyRdf\Exception;
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\tao\model\export\CustomizedGenerisAdapterRdf;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * sudo -u www-data php index.php 'oat\tao\scripts\tools\export\RDF\ExportRdfStructure' \
@@ -34,6 +39,8 @@ use oat\oatbox\reporting\Report;
  */
 class ExportRdfStructure extends ScriptAction
 {
+    use OntologyAwareTrait;
+
     protected function provideOptions(): array
     {
         return [
@@ -61,16 +68,28 @@ class ExportRdfStructure extends ScriptAction
     {
         $path = $this->getOption('output-file-path');
         $parentClassUri = $this->getOption('class-uri');
-        $class = new \core_kernel_classes_Class($parentClassUri);
+        $class = $this->getClass($parentClassUri);
 
-        $adapter = new CustomizedGenerisAdapterRdf();
         try {
-            $rdf = $adapter->export($class);
+            $rdf = $this->getCustomizedGenerisAdapterRdf()
+                ->export($class);
         } catch (Exception $e) {
             return Report::createError($e->getMessage());
         }
 
         file_put_contents($path, $rdf);
         return Report::createSuccess(sprintf('%s content saved to %s file', $parentClassUri, $path));
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws InvalidServiceManagerException
+     */
+    private function getCustomizedGenerisAdapterRdf(): CustomizedGenerisAdapterRdf
+    {
+        return $this->getServiceManager()
+            ->getContainer()
+            ->get(CustomizedGenerisAdapterRdf::class);
     }
 }
