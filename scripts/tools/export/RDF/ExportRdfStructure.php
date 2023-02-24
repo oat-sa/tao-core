@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\scripts\tools\export\RDF;
 
-use EasyRdf\Exception;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
@@ -73,11 +72,12 @@ class ExportRdfStructure extends ScriptAction
         try {
             $rdf = $this->getCustomizedGenerisAdapterRdf()
                 ->export($class);
-        } catch (Exception $e) {
+
+            file_put_contents($path, $rdf);
+        } catch (\Exception $e) {
             return Report::createError($e->getMessage());
         }
 
-        file_put_contents($path, $rdf);
         return Report::createSuccess(sprintf('%s content saved to %s file', $parentClassUri, $path));
     }
 
