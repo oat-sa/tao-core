@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\scripts\tools\export\RDF;
 
+use EasyRdf\Exception;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
 
@@ -63,7 +64,11 @@ class ExportRdfStructure extends ScriptAction
         $class = new \core_kernel_classes_Class($parentClassUri);
 
         $adapter = new CustomizedGenerisAdapterRdf();
-        $rdf = $adapter->export($class);
+        try {
+            $rdf = $adapter->export($class);
+        } catch (Exception $e) {
+            return Report::createError($e->getMessage());
+        }
 
         file_put_contents($path, $rdf);
         return Report::createSuccess(sprintf('%s content saved to %s file', $parentClassUri, $path));
