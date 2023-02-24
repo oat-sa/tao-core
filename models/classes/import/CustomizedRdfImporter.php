@@ -36,6 +36,13 @@ use tao_models_classes_Parser;
  */
 class CustomizedRdfImporter extends tao_models_classes_import_RdfImporter
 {
+    private Graph $easyRdfGraph;
+
+    public function __construct(Graph $easyRdfGraph)
+    {
+        $this->easyRdfGraph = $easyRdfGraph;
+    }
+
     public function importFromFile(RdfClass $targetClass, string $filePath): Report
     {
         $parser = new tao_models_classes_Parser($filePath, ['extension' => 'rdf']);
@@ -51,19 +58,18 @@ class CustomizedRdfImporter extends tao_models_classes_import_RdfImporter
     private function importFileContent($content, $targetClass): Report
     {
         $report = Report::createInfo('Imported data:');
-        $graph = new Graph();
-        $graph->parse($content);
+        $this->easyRdfGraph->parse($content);
 
         $map = [
             OntologyRdf::RDF_PROPERTY => OntologyRdf::RDF_PROPERTY
         ];
 
-        foreach ($graph->resources() as $resource) {
+        foreach ($this->easyRdfGraph->resources() as $resource) {
             $map[$resource->getUri()] = $resource->getUri();
         }
 
         $format = Format::getFormat('php');
-        $data = $graph->serialise($format);
+        $data = $this->easyRdfGraph->serialise($format);
 
         foreach ($data as $subjectUri => $propertiesValues) {
             $report->add(
