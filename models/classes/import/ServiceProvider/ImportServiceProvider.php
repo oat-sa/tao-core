@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\import\ServiceProvider;
 
+use EasyRdf\Graph;
 use oat\tao\model\import\CustomizedRdfImporter;
 use oat\tao\model\upload\UploadService;
 use oat\tao\model\import\service\AgnosticImportHandler;
@@ -30,6 +31,7 @@ use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
 
 class ImportServiceProvider implements ContainerServiceProviderInterface
 {
@@ -69,6 +71,11 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
 
         $services
             ->set(CustomizedRdfImporter::class, CustomizedRdfImporter::class)
+            ->args(
+                [
+                    inline_service(Graph::class),
+                ]
+            )
             ->public();
     }
 }
