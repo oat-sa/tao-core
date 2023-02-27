@@ -93,8 +93,15 @@ class RunConfigurationMarkers extends ScriptAction
 
             return $this->report;
         }
-
-        $parameters = $this->getConfigurationMarkers()->replaceMarkers($parameters);
+        if (isset($parameters['configuration']) === false) {
+            $this->report->add(
+                Report::createError('Configuration seed needs to have "configuration" index, aborting.')
+            );
+            return $this->report;
+        }
+        $markers = $this->getConfigurationMarkers();
+        $parameters = $markers->removeIndexesWithoutMarkers($parameters);
+        $parameters = $markers->replaceMarkers($parameters);
 
         foreach ($parameters['configuration'] as $extensionId => $configs) {
             $processed = $this->processExtension($extensionId, $configs);
