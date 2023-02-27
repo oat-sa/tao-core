@@ -129,18 +129,17 @@ class RunConfigurationMarkers extends ScriptAction
         }
         if ($extensionManager->isInstalled($extensionId)) {
             $installedExtension = $extensionManager->getExtensionById($extensionId);
-        } else {
-            $this->report->add(
-                Report::createError(sprintf('Extension %s is not installed, aborting.', $extensionId))
-            );
+            foreach ($configs as $key => $config) {
+                $this->updateConfiguration($key, $config, $installedExtension);
+            }
 
-            return false;
+            return true;
         }
-        foreach ($configs as $key => $config) {
-            $this->updateConfiguration($key, $config, $installedExtension);
-        }
+        $this->report->add(
+            Report::createError(sprintf('Extension %s is not installed, aborting.', $extensionId))
+        );
 
-        return true;
+        return false;
     }
 
     private function updateConfiguration(string $key, array $config, \common_ext_Extension $installedExtension): void
