@@ -36,11 +36,10 @@ class ConfigurationMarkers
     private Storage $secretsStorage;
 
     public function __construct(
-        Storage             $secretsStorage,
+        Storage $secretsStorage,
         SerializableFactory $serializableFactory,
-        LoggerInterface     $logger
-    )
-    {
+        LoggerInterface $logger
+    ) {
         $this->secretsStorage = $secretsStorage;
         $this->serializableFactory = $serializableFactory;
         $this->logger = $logger;
