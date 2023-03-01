@@ -89,7 +89,7 @@ define([
                 applyClassSignatures(resources.children, resources.signature || signature);
             }
             if (resources.nodes) {
-                applyClassSignatures(resources.nodes, resources.classSignature);
+                applyClassSignatures(resources.nodes, resources.nodes.classSignature);
             }
         }
         return resources;
