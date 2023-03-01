@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018-2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2018-2023 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -25,7 +25,6 @@ namespace oat\tao\model\security\xsrf;
 use common_exception_Error;
 use Psr\Container\ContainerInterface;
 use oat\oatbox\session\SessionService;
-use common_persistence_KeyValuePersistence;
 use oat\oatbox\service\ConfigurableService;
 use common_persistence_AdvKeyValuePersistence;
 use oat\generis\persistence\PersistenceManager;
@@ -41,31 +40,29 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
     public const OPTION_TTL = 'ttl';
 
     public const TOKENS_STORAGE_KEY = 'tao_tokens';
+    private const TOKENS_STORAGE_COLLECTION_KEY_SUFFIX = 'keys';
 
-    /** @var common_persistence_KeyValuePersistence */
-    private $persistence;
-
-    /** @var string */
-    private $keyPrefix;
+    private common_persistence_AdvKeyValuePersistence $persistence;
+    private string $keyPrefix;
 
     public function getToken(string $tokenId): ?Token
     {
-        if (!$this->hasToken($tokenId)) {
-            return null;
-        }
-
         $tokenData = $this->getPersistence()->get($this->buildKey($tokenId));
 
-        return new Token(json_decode($tokenData, true));
+        return is_string($tokenData) ? new Token(json_decode($tokenData, true)) : null;
     }
 
     public function setToken(string $tokenId, Token $token): void
     {
+        $tokenKey = $this->buildKey($tokenId);
+
         $this->getPersistence()->set(
-            $this->buildKey($tokenId),
+            $tokenKey,
             json_encode($token),
             $this->getTtl()
         );
+
+        $this->addTokenKeyToCollection($tokenKey);
     }
 
     public function hasToken(string $tokenId): bool
@@ -75,18 +72,18 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
 
     public function removeToken(string $tokenId): bool
     {
-        if (!$this->hasToken($tokenId)) {
-            return false;
-        }
+        $this->removeTokenKeyFromCollection($tokenId);
 
         return $this->getPersistence()->del($this->buildKey($tokenId));
     }
 
     public function clear(): void
     {
-        foreach ($this->getKeys() as $key) {
-            $this->getPersistence()->del($key);
+        foreach ($this->getTokenKeys() as $tokenKey) {
+            $this->getPersistence()->del($tokenKey);
         }
+
+        $this->clearTokenCollection();
     }
 
     /**
@@ -96,9 +93,12 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
     {
         $tokens = [];
 
-        foreach ($this->getKeys() as $key) {
+        foreach ($this->getTokenKeys() as $key) {
             $tokenData = $this->getPersistence()->get($key);
-            $tokens[] = new Token(json_decode($tokenData, true));
+
+            if (is_string($tokenData)) {
+                $tokens[] = new Token(json_decode($tokenData, true));
+            }
         }
 
         return $tokens;
@@ -142,16 +142,56 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
         return $this->keyPrefix;
     }
 
-    private function getKeys(): array
+    private function getTokenCollectionKey(): string
     {
-        $keys = $this->getPersistence()->keys($this->getKeyPrefix() . '*');
-
-        return is_array($keys) ? $keys : [];
+        return $this->buildKey(self::TOKENS_STORAGE_COLLECTION_KEY_SUFFIX);
     }
 
     private function buildKey(string $name): string
     {
         return sprintf('%s_%s', $this->getKeyPrefix(), $name);
+    }
+
+    private function addTokenKeyToCollection(string $tokenKey): bool
+    {
+        return $this->getPersistence()->set(
+            $this->getTokenCollectionKey(),
+            json_encode(array_merge($this->getTokenKeys(), [$tokenKey])),
+            $this->getTtl()
+        );
+    }
+
+    private function removeTokenKeyFromCollection(string $tokenKey): void
+    {
+        $collection = $this->getTokenKeys();
+
+        if (empty($collection)) {
+            return;
+        }
+
+        $key = array_search($tokenKey, $collection);
+
+        if ($key === false) {
+            return;
+        }
+
+        unset($collection[$key]);
+
+        $this->getPersistence()->set(
+            $this->getTokenCollectionKey(),
+            json_encode($collection),
+            $this->getTtl()
+        );
+    }
+
+    private function clearTokenCollection(): void
+    {
+        $this->getPersistence()->del($this->getTokenCollectionKey());
+    }
+
+    private function getTokenKeys(): array
+    {
+        return json_decode((string)$this->getPersistence()->get($this->getTokenCollectionKey())) ?? [];
     }
 
     private function getTtl(): ?int
