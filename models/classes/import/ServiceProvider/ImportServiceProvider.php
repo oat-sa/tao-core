@@ -15,13 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (update and modification) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2023 (update and modification) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\model\import\ServiceProvider;
 
+use EasyRdf\Graph;
+use oat\tao\model\import\CustomizedRdfImporter;
 use oat\tao\model\upload\UploadService;
 use oat\tao\model\import\service\AgnosticImportHandler;
 use oat\tao\model\StatisticalMetadata\Import\Processor\ImportProcessor;
@@ -29,6 +31,7 @@ use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
 
 class ImportServiceProvider implements ContainerServiceProviderInterface
 {
@@ -65,5 +68,14 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
                     __('CSV file'),
                 ]
             );
+
+        $services
+            ->set(CustomizedRdfImporter::class, CustomizedRdfImporter::class)
+            ->args(
+                [
+                    inline_service(Graph::class),
+                ]
+            )
+            ->public();
     }
 }
