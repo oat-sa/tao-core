@@ -27,8 +27,6 @@ use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\configurationMarkers\ConfigurationMarkers;
-use oat\oatbox\service\ServiceManager;
-use oat\generis\model\DependencyInjection\ContainerStarter;
 
 /**
  * Usage
@@ -66,7 +64,7 @@ class RunConfigurationMarkers extends ScriptAction
 
     protected function run(): Report
     {
-        $this->report = Report::createInfo('Starting.');
+        $this->report = Report::createInfo('Starting RunConfigurationMarkers action.');
         if ($this->hasOption(self::OPTION_SEED_FILE_PATH) === false) {
             return Report::createError(sprintf('Option %s is mandatory.', self::OPTION_SEED_FILE_PATH));
         }
@@ -102,6 +100,15 @@ class RunConfigurationMarkers extends ScriptAction
         $markers = $this->getConfigurationMarkers();
         $parameters = $markers->removeIndexesWithoutMarkers($parameters);
         $parameters = $markers->replaceMarkers($parameters);
+        $this->report->add($markers->getReport());
+
+        if ($markers->isErrors()) {
+            $this->report->add(
+                Report::createError('Found errors during markers replacement, aborting.')
+            );
+
+            return $this->report;
+        }
 
         foreach ($parameters['configuration'] as $extensionId => $configs) {
             $processed = $this->processExtension($extensionId, $configs);

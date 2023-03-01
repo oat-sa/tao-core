@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\configurationMarkers;
 
+use oat\oatbox\reporting\Report;
 use oat\tao\model\configurationMarkers\Secrets\SerializableFactory;
 use oat\tao\model\configurationMarkers\Secrets\Storage;
 use Psr\Log\LoggerInterface;
@@ -34,6 +35,8 @@ class ConfigurationMarkers
     private LoggerInterface $logger;
     private SerializableFactory $serializableFactory;
     private Storage $secretsStorage;
+    private Report $report;
+    private $isErrors = false;
 
     public function __construct(
         Storage $secretsStorage,
@@ -47,6 +50,7 @@ class ConfigurationMarkers
 
     public function replaceMarkers(array $configurationWithMarkers): array
     {
+        $this->report = Report::createInfo('Starting ConfigurationMarkers.');
         if (empty($configurationWithMarkers)) {
             throw new \InvalidArgumentException('Empty configuration.');
         }
@@ -67,6 +71,16 @@ class ConfigurationMarkers
         return $configurationWithMarkers;
     }
 
+    public function getReport(): Report
+    {
+        return $this->report;
+    }
+
+    public function isErrors(): bool
+    {
+        return $this->isErrors;
+    }
+
     private function walkReplaceMarkers(&$item): void
     {
         $matches = $this->findMatches($item);
@@ -84,7 +98,7 @@ class ConfigurationMarkers
         $item = $this->serializableFactory->create($matches[1]);
     }
 
-    public function unsetRecursive(&$array): bool
+    private function unsetRecursive(&$array): bool
     {
         foreach ($array as $key => &$value) {
             if (is_array($value)) {
@@ -123,10 +137,22 @@ class ConfigurationMarkers
         if ($isSecretDefined) {
             $message .= ' and its Secrets Storage value.';
             $this->notice($message);
+            $this->reportSuccess($message);
             return;
         }
         $message .= ' but no corresponding value in Secrets Storage!';
         $this->error($message);
+        $this->reportError($message);
+        $this->isErrors = true;
+    }
+
+    private function reportError(string $message): void
+    {
+        $this->report->add(Report::createError($message));
+    }
+    private function reportSuccess(string $message): void
+    {
+        $this->report->add(Report::createSuccess($message));
     }
 
     private function notice(string $message): void
