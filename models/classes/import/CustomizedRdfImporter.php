@@ -23,9 +23,9 @@ declare(strict_types=1);
 namespace oat\tao\model\import;
 
 use core_kernel_classes_Class as RdfClass;
-use core_kernel_classes_Resource as RdfResource;
 use EasyRdf\Format;
 use EasyRdf\Graph;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdf;
 use oat\oatbox\reporting\Report;
 use tao_models_classes_import_RdfImporter;
@@ -36,6 +36,8 @@ use tao_models_classes_Parser;
  */
 class CustomizedRdfImporter extends tao_models_classes_import_RdfImporter
 {
+    use OntologyAwareTrait;
+
     private Graph $easyRdfGraph;
 
     public function __construct(Graph $easyRdfGraph)
@@ -68,12 +70,11 @@ class CustomizedRdfImporter extends tao_models_classes_import_RdfImporter
             $map[$resource->getUri()] = $resource->getUri();
         }
 
-        $format = Format::getFormat('php');
-        $data = $this->easyRdfGraph->serialise($format);
+        $data = $this->easyRdfGraph->serialise(Format::getFormat('php'));
 
         foreach ($data as $subjectUri => $propertiesValues) {
             $report->add(
-                $this->importProperties(new RdfResource($subjectUri), $propertiesValues, $map, $targetClass)
+                $this->importProperties($this->getResource($subjectUri), $propertiesValues, $map, $targetClass)
             );
         }
 
