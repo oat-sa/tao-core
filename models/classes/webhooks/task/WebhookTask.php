@@ -25,7 +25,7 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
-use common_Exception;
+use Throwable;
 use GuzzleHttp\Psr7\Request;
 use oat\oatbox\extension\AbstractAction;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
@@ -127,11 +127,11 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
                 $this->getTaskContext(),
                 $requestException
             );
-        } catch (common_Exception $requestException) {
+        } catch (Throwable $exception) {
             $this->retryTask();
             $errorReport = $this->getWebhookTaskReports()->reportInternalException(
                 $this->getTaskContext(),
-                $requestException
+                $exception
             );
         }
 
