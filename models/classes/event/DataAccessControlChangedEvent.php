@@ -32,14 +32,25 @@ class DataAccessControlChangedEvent implements Event
     /** @var array */
     private $addRemove;
 
-    /** @var bool */
+    /**
+     * @deprecated Use $processNestedResources cause processing recursively causes performance issues
+     * @var bool
+     */
     private $isRecursive;
 
-    public function __construct(string $resourceId, array $addRemove, bool $isRecursive = false)
-    {
+    /** @var bool */
+    private $processNestedResources;
+
+    public function __construct(
+        string $resourceId,
+        array $addRemove,
+        bool $isRecursive = false,
+        bool $processNestedResources = false
+    ) {
         $this->resourceId = $resourceId;
         $this->addRemove = $addRemove;
         $this->isRecursive = $isRecursive;
+        $this->processNestedResources = $processNestedResources;
     }
 
     public function getName(): string
@@ -57,8 +68,16 @@ class DataAccessControlChangedEvent implements Event
         return array_keys($this->addRemove[$operation] ?? []);
     }
 
+    /**
+     * @deprecated Use isProcessNestedResources cause processing recursively causes performance issues
+     */
     public function isRecursive(): bool
     {
         return $this->isRecursive;
+    }
+
+    public function isProcessNestedResources(): bool
+    {
+        return $this->processNestedResources;
     }
 }
