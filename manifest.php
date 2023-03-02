@@ -28,6 +28,7 @@
 declare(strict_types=1);
 
 use oat\tao\controller\api\Users;
+use oat\tao\model\export\ServiceProvider\ExportServiceProvider;
 use oat\tao\model\resources\CopierServiceProvider;
 use oat\tao\controller\Middleware\MiddlewareConfig;
 use oat\tao\model\accessControl\AccessControlServiceProvider;
@@ -386,6 +387,7 @@ return [
         ResourcesServiceProvider::class,
         RoutingServiceProvider::class,
         ImportServiceProvider::class,
+        ExportServiceProvider::class,
         UserSettingsServiceProvider::class,
         StatisticalMetadataServiceProvider::class,
         CsvServiceProvider::class,
