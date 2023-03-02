@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\configurationMarkers;
 
+use InvalidArgumentException;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\configurationMarkers\Secrets\SerializableFactory;
 use oat\tao\model\configurationMarkers\Secrets\Storage;
@@ -36,7 +37,7 @@ class ConfigurationMarkers
     private SerializableFactory $serializableFactory;
     private Storage $secretsStorage;
     private Report $report;
-    private $isErrors = false;
+    private bool $hasErrors = false;
 
     public function __construct(
         Storage $secretsStorage,
@@ -52,7 +53,7 @@ class ConfigurationMarkers
     {
         $this->report = Report::createInfo('Starting ConfigurationMarkers.');
         if (empty($configurationWithMarkers)) {
-            throw new \InvalidArgumentException('Empty configuration.');
+            throw new InvalidArgumentException('Empty configuration.');
         }
 
         array_walk_recursive($configurationWithMarkers, 'self::walkReplaceMarkers');
@@ -63,7 +64,7 @@ class ConfigurationMarkers
     public function removeIndexesWithoutMarkers(array $configurationWithMarkers): array
     {
         if (empty($configurationWithMarkers)) {
-            throw new \InvalidArgumentException('Empty configuration.');
+            throw new InvalidArgumentException('Empty configuration.');
         }
 
         $this->unsetRecursive($configurationWithMarkers);
@@ -76,9 +77,9 @@ class ConfigurationMarkers
         return $this->report;
     }
 
-    public function isErrors(): bool
+    public function hasErrors(): bool
     {
-        return $this->isErrors;
+        return $this->hasErrors;
     }
 
     private function walkReplaceMarkers(&$item): void
@@ -98,28 +99,24 @@ class ConfigurationMarkers
         $item = $this->serializableFactory->create($matches[1]);
     }
 
-    private function unsetRecursive(&$array): bool
+    private function unsetRecursive(&$item): bool
     {
-        foreach ($array as $key => &$value) {
+        foreach ($item as $key => &$value) {
             if (is_array($value)) {
                 $arraySize = $this->unsetRecursive($value);
                 if (!$arraySize) {
-                    unset($array[$key]);
+                    unset($item[$key]);
                 }
             } else {
                 $matches = $this->findMatches($value);
                 if (empty($matches)) {
-                    unset($array[$key]);
+                    unset($item[$key]);
                 }
             }
         }
-        return count($array) > 0;
+        return count($item) > 0;
     }
 
-    /**
-     * @param $item
-     * @return array
-     */
     private function findMatches($item): array
     {
         $matches = [];
@@ -143,7 +140,7 @@ class ConfigurationMarkers
         $message .= ' but no corresponding value in Secrets Storage!';
         $this->error($message);
         $this->reportError($message);
-        $this->isErrors = true;
+        $this->hasErrors = true;
     }
 
     private function reportError(string $message): void

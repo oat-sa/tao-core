@@ -228,7 +228,7 @@ class tao_install_Setup implements Action
             throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
         }
 
-        //use $serviceManager->getContainer(ConfigurationMarkers::class) after refactoring taoSetup to use full DI
+        //@TODO use $serviceManager->getContainer(ConfigurationMarkers::class) after refactoring taoSetup to use full DI
         $markers = new ConfigurationMarkers(
             new Storage($_ENV),
             new SerializableFactory(),

@@ -23,10 +23,13 @@ declare(strict_types=1);
 namespace oat\tao\scripts\tools;
 
 use common_ext_ExtensionsManager;
+use InvalidArgumentException;
 use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\configurationMarkers\ConfigurationMarkers;
+use oat\tao\model\entryPoint\Entrypoint;
+use oat\taoQtiItem\model\portableElement\clientConfigRegistry\CustomInteractionRegistry;
 
 /**
  * Usage
@@ -72,7 +75,7 @@ class RunConfigurationMarkers extends ScriptAction
         $filePath = $this->getOption(self::OPTION_SEED_FILE_PATH);
         $fileContents = file_get_contents($filePath);
         if ($fileContents === false) {
-            $this->report->add(Report::createError('Empty seed file or wrong file path, aborting.'));
+            $this->report->add(Report::createError('Empty seed file or wrong file path. Aborting.'));
 
             return $this->report;
         }
@@ -86,27 +89,24 @@ class RunConfigurationMarkers extends ScriptAction
                 )
             );
             $this->report->add(
-                Report::createError('Json file contains errors see logs for details, aborting.')
+                Report::createError('Json file contains errors see logs for details. Aborting.')
             );
 
             return $this->report;
         }
         if (isset($parameters['configuration']) === false) {
             $this->report->add(
-                Report::createError('Configuration seed needs to have "configuration" index, aborting.')
+                Report::createError('Configuration seed needs to have "configuration" index. Aborting.')
             );
             return $this->report;
         }
-        $markers = $this->getConfigurationMarkers();
-        $parameters = $markers->removeIndexesWithoutMarkers($parameters);
-        $parameters = $markers->replaceMarkers($parameters);
-        $this->report->add($markers->getReport());
 
-        if ($markers->isErrors()) {
+        try {
+            $parameters = $this->replaceMarkers($parameters);
+        } catch (InvalidArgumentException $e) {
             $this->report->add(
-                Report::createError('Found errors during markers replacement, aborting.')
+                Report::createError('Found errors during markers replacement. Aborting.')
             );
-
             return $this->report;
         }
 
@@ -123,6 +123,19 @@ class RunConfigurationMarkers extends ScriptAction
         }
 
         return $this->report;
+    }
+
+    private function replaceMarkers(array $parameters): array
+    {
+        $markers = $this->getConfigurationMarkersService();
+        $parameters = $markers->removeIndexesWithoutMarkers($parameters);
+        $parameters = $markers->replaceMarkers($parameters);
+        $this->report->add($markers->getReport());
+        if ($markers->hasErrors()) {
+            throw new InvalidArgumentException();
+        }
+
+        return $parameters;
     }
 
     private function processExtension(string $extensionId, array $configs): bool
@@ -143,7 +156,7 @@ class RunConfigurationMarkers extends ScriptAction
             return true;
         }
         $this->report->add(
-            Report::createError(sprintf('Extension %s is not installed, aborting.', $extensionId))
+            Report::createError(sprintf('Extension %s is not installed. Aborting.', $extensionId))
         );
 
         return false;
@@ -189,9 +202,8 @@ class RunConfigurationMarkers extends ScriptAction
         return $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
     }
 
-    private function getConfigurationMarkers(): ConfigurationMarkers
+    private function getConfigurationMarkersService(): ConfigurationMarkers
     {
-        $container = $this->getServiceLocator()->getContainer();
-        return $container->get(ConfigurationMarkers::class);
+        return $this->getServiceLocator()->getContainer()->get(ConfigurationMarkers::class);
     }
 }

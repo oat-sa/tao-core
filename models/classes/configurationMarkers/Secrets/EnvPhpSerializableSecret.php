@@ -26,7 +26,7 @@ namespace oat\tao\model\configurationMarkers\Secrets;
 use oat\oatbox\PhpSerializable;
 
 /**
- * Class encapsulating $_ENV indexes for purpose of configuration files
+ * Replace configuration variable with environment variable
  */
 class EnvPhpSerializableSecret implements PhpSerializable
 {
