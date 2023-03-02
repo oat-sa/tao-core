@@ -28,10 +28,9 @@ use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\configurationMarkers\ConfigurationMarkers;
-use oat\tao\model\entryPoint\Entrypoint;
-use oat\taoQtiItem\model\portableElement\clientConfigRegistry\CustomInteractionRegistry;
 
 /**
+ * Runs ConfigurationMarkers class against provided seed file and updates config files defined in it.
  * Usage
  * php index.php 'oat\tao\scripts\tools\RunConfigurationMarkers' -s path/to/seed.json
  * php index.php 'oat\tao\scripts\tools\RunConfigurationMarkers' -s path/to/seed.json -e generis
