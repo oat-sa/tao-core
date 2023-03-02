@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\security\xsrf;
 
 use common_exception_Error;
+use common_persistence_PhpRedisDriver;
 use Psr\Container\ContainerInterface;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\service\ConfigurableService;
@@ -79,6 +80,15 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
 
     public function clear(): void
     {
+        /** @var common_persistence_PhpRedisDriver $driver */
+        $driver = $this->getPersistence()->getDriver();
+
+        if ($driver instanceof common_persistence_PhpRedisDriver) {
+            $driver->mDel(array_merge($this->getTokenKeys(), [$this->getTokenCollectionKey()]));
+
+            return;
+        }
+
         foreach ($this->getTokenKeys() as $tokenKey) {
             $this->getPersistence()->del($tokenKey);
         }
@@ -91,7 +101,23 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
      */
     public function getAll(): array
     {
-        $tokens = [];
+        /** @var common_persistence_PhpRedisDriver $driver */
+        $driver = $this->getPersistence()->getDriver();
+
+        if ($driver instanceof common_persistence_PhpRedisDriver) {
+            $res = $driver->mGet($this->getTokenKeys());
+            $tokens = [];
+
+            if ($res && count($res)) {
+                foreach ($res as $tokenData) {
+                    if (is_string($tokenData)) {
+                        $tokens[] = new Token(json_decode($tokenData, true));
+                    }
+                }
+            }
+
+            return $tokens;
+        }
 
         foreach ($this->getTokenKeys() as $key) {
             $tokenData = $this->getPersistence()->get($key);
