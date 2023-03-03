@@ -83,22 +83,20 @@ class TokenStoreKeyValueRedis implements TokenStore
         /** @var common_persistence_PhpRedisDriver $driver */
         $driver = $this->persistence->getDriver();
 
-//        if ($driver instanceof common_persistence_PhpRedisDriver) {
-//            $driver->mDel(array_merge($this->getTokenKeys(), [$this->getTokenCollectionKey()]));
-//
-//            return;
-//        }
+        // @TODO Experimenting with changed on RedisDriver
+        // $this->driver->mDel(array_merge($this->getTokenKeys(), [$this->getTokenCollectionKey()]));
 
         foreach ($this->getTokenKeys() as $tokenKey) {
             $this->persistence->del($tokenKey);
         }
 
-        $this->clearTokenCollection();
+        $this->persistence->del($this->getTokenCollectionKey());
     }
 
     public function getAll(): array
     {
         $tokens = [];
+        // @TODO Experimenting with changed on RedisDriver
 //        $res = $this->driver->mGet($this->getTokenKeys());
 //
 //        if ($res && count($res)) {
@@ -160,11 +158,6 @@ class TokenStoreKeyValueRedis implements TokenStore
             json_encode($collection),
             $this->ttl
         );
-    }
-
-    private function clearTokenCollection(): void
-    {
-        $this->persistence->del($this->getTokenCollectionKey());
     }
 
     private function getTokenKeys(): array
