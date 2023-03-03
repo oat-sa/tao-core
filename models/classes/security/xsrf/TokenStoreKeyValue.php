@@ -40,7 +40,7 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
     public const OPTION_TTL = 'ttl';
 
     public const TOKENS_STORAGE_KEY = 'tao_tokens';
-    private const TOKENS_STORAGE_COLLECTION_KEY_SUFFIX = 'keys';
+    public const TOKENS_STORAGE_COLLECTION_KEY_SUFFIX = 'keys';
 
     private common_persistence_AdvKeyValuePersistence $persistence;
     private string $keyPrefix;
@@ -152,9 +152,9 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
         return sprintf('%s_%s', $this->getKeyPrefix(), $name);
     }
 
-    private function addTokenKeyToCollection(string $tokenKey): bool
+    private function addTokenKeyToCollection(string $tokenKey): void
     {
-        return $this->getPersistence()->set(
+        $this->getPersistence()->set(
             $this->getTokenCollectionKey(),
             json_encode(array_merge($this->getTokenKeys(), [$tokenKey])),
             $this->getTtl()
@@ -191,7 +191,11 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
 
     private function getTokenKeys(): array
     {
-        return json_decode((string)$this->getPersistence()->get($this->getTokenCollectionKey())) ?? [];
+        return array_filter(
+            (array)json_decode(
+                (string)$this->getPersistence()->get($this->getTokenCollectionKey())
+            )
+        ) ?? [];
     }
 
     private function getTtl(): ?int

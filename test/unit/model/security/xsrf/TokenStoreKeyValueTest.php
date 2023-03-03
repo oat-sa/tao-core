@@ -40,6 +40,9 @@ class TokenStoreKeyValueTest extends TestCase
     private const USER_IDENTIFIER = 'CURRENT_USER_IDENTIFIER';
     private const TOKEN = 'TOKEN';
     private const KEY = self::USER_IDENTIFIER . '_' . TokenStoreKeyValue::TOKENS_STORAGE_KEY . '_' . self::TOKEN;
+    private const COLLECTION_KEY = self::USER_IDENTIFIER . '_' .
+    TokenStoreKeyValue::TOKENS_STORAGE_KEY . '_' .
+    TokenStoreKeyValue::TOKENS_STORAGE_COLLECTION_KEY_SUFFIX;
 
     private TokenStoreKeyValue $subject;
 
@@ -115,7 +118,7 @@ class TokenStoreKeyValueTest extends TestCase
     public function testGetTokenWhenTokenDontExistsReturnNull(): void
     {
         $this->persistenceMock
-            ->method('exists')
+            ->method('get')
             ->willReturn(false);
 
         $this->assertNull(
@@ -132,9 +135,21 @@ class TokenStoreKeyValueTest extends TestCase
             ->willReturn([]);
 
         $this->persistenceMock
-            ->expects($this->once())
             ->method('set')
-            ->with(self::KEY, json_encode($token));
+            ->withConsecutive(
+                [
+                    self::KEY, json_encode($token)
+                ],
+                [
+                    self::COLLECTION_KEY, json_encode(['ABC', self::KEY]),
+                ]
+            );
+
+        $this->persistenceMock
+            ->expects($this->once())
+            ->method('get')
+            ->with(self::COLLECTION_KEY)
+            ->willReturn('["ABC"]');
 
         $this->subject->setToken(self::TOKEN, $token);
     }
@@ -168,9 +183,14 @@ class TokenStoreKeyValueTest extends TestCase
     public function testRemoveTokenWhenTokenWasRemovedThenReturnTrue(): void
     {
         $this->persistenceMock
-            ->method('exists')
-            ->with(self::KEY)
-            ->willReturn(true);
+            ->expects($this->once())
+            ->method('get')
+            ->with(self::COLLECTION_KEY)
+            ->willReturn(json_encode([self::KEY]));
+
+        $this->persistenceMock
+            ->method('set')
+            ->with(self::COLLECTION_KEY, json_encode([]));
 
         $this->persistenceMock
             ->method('del')
@@ -183,12 +203,17 @@ class TokenStoreKeyValueTest extends TestCase
         );
     }
 
-    public function testRemoveTokenWhenTokenWasNotRemovedThenReturnTrue(): void
+    public function testRemoveTokenWhenTokenWasNotRemovedThenReturnFalse(): void
     {
         $this->persistenceMock
-            ->method('exists')
-            ->with(self::KEY)
-            ->willReturn(true);
+            ->expects($this->once())
+            ->method('get')
+            ->with(self::COLLECTION_KEY)
+            ->willReturn(json_encode([self::KEY]));
+
+        $this->persistenceMock
+            ->method('set')
+            ->with(self::COLLECTION_KEY, json_encode([]));
 
         $this->persistenceMock
             ->method('del')
@@ -204,13 +229,19 @@ class TokenStoreKeyValueTest extends TestCase
     public function testRemoveTokenWhenTokenDoesNotExistsThenReturnFalse(): void
     {
         $this->persistenceMock
-            ->method('exists')
+            ->expects($this->once())
+            ->method('get')
+            ->with(self::COLLECTION_KEY)
+            ->willReturn(json_encode([]));
+
+        $this->persistenceMock
+            ->method('del')
             ->with(self::KEY)
             ->willReturn(false);
 
         $this->assertFalse(
             $this->subject->removeToken(self::TOKEN),
-            'Method must return FALSE when token do not exist.'
+            'Method must return FALSE when token does not exist.'
         );
     }
 
@@ -218,69 +249,82 @@ class TokenStoreKeyValueTest extends TestCase
     {
         $this->persistenceMock
             ->expects($this->once())
-            ->method('keys')
-            ->willReturn([self::KEY]);
+            ->method('get')
+            ->with(self::COLLECTION_KEY)
+            ->willReturn(json_encode([self::KEY]));
+
         $this->persistenceMock
-            ->expects($this->once())
             ->method('del')
-            ->with(self::KEY);
+            ->withConsecutive(
+                [
+                    self::KEY,
+                ],
+                [
+                    self::COLLECTION_KEY,
+                ]
+            );
 
         $this->subject->clear();
     }
 
-    /**
-     * @param mixed $tokensData
-     * @param array $expected
-     *
-     * @dataProvider dataProviderTestGetAllTokens
-     */
-    public function testGetAll($tokensData, array $expected): void
+    public function testGetAllWithSuccess(): void
     {
-        $keys = is_array($tokensData)
-            ? array_keys($tokensData)
-            : $tokensData;
+        $jsonToken1 = '{"token": "TOKEN_VALUE_1","ts":12345}';
+        $jsonToken2 = '{"token": "TOKEN_VALUE_2","ts":6789}';
+        $tokensData = [
+            'TOKEN_ID_1' => $jsonToken1,
+            'TOKEN_ID_2' => $jsonToken2,
+        ];
 
-        $this->persistenceMock
-            ->expects($this->once())
-            ->method('keys')
-            ->willReturn($keys);
         $this->persistenceMock
             ->method('get')
             ->willReturnCallback(
                 static function (string $key) use ($tokensData): string {
+                    if ($key === self::COLLECTION_KEY) {
+                        return json_encode(
+                            [
+                                'TOKEN_ID_1',
+                                'TOKEN_ID_2',
+                            ]
+                        );
+                    }
+
                     return $tokensData[$key];
                 }
             );
 
-        $result = $this->subject->getAll();
-
-        $this->assertEquals($expected, $result);
+        $this->assertEquals(
+            [
+                new Token(json_decode($jsonToken1, true)),
+                new Token(json_decode($jsonToken2, true)),
+            ],
+            $this->subject->getAll()
+        );
     }
 
-    public function dataProviderTestGetAllTokens(): array
+    public function testGetAllWillReturnEmptyWhenNoStoredTokens(): void
     {
-        $jsonToken1 = '{"token": "TOKEN_VALUE_1","ts":12345}';
-        $jsonToken2 = '{"token": "TOKEN_VALUE_2","ts":6789}';
+        $this->persistenceMock
+            ->method('get')
+            ->willReturn(json_encode([]));
 
-        return [
-            'List of tokens stored' => [
-                'tokensData' => [
-                    'TOKEN_ID_1' => $jsonToken1,
-                    'TOKEN_ID_2' => $jsonToken2,
-                ],
-                'expected' => [
-                    new Token(json_decode($jsonToken1, true)),
-                    new Token(json_decode($jsonToken2, true)),
-                ]
-            ],
-            'No stored tokens' => [
-                'tokensData' => [],
-                'expected' => [],
-            ],
-            'Not valid storage response' => [
-                'tokensData' => false,
-                'expected' => [],
-            ]
-        ];
+        $this->assertEquals([], $this->subject->getAll());
+    }
+
+    public function testGetAllWithReturnEmptyWhenInvalidKey(): void
+    {
+        $this->persistenceMock
+            ->method('get')
+            ->willReturnCallback(
+                static function (string $key) {
+                    if ($key === self::COLLECTION_KEY) {
+                        return json_encode(['TOKEN_ID_1']);
+                    }
+
+                    return false;
+                }
+            );
+
+        $this->assertEquals([], $this->subject->getAll());
     }
 }
