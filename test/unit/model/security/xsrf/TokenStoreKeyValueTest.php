@@ -15,34 +15,36 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017-2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2017-2023 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\security\xsrf;
 
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\oatbox\user\User;
-use oat\generis\test\TestCase;
 use oat\generis\test\MockObject;
 use oat\oatbox\session\SessionService;
 use oat\tao\model\security\xsrf\Token;
 use common_persistence_AdvKeyValuePersistence;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\security\xsrf\TokenStoreKeyValue;
+use PHPUnit\Framework\TestCase;
 
 class TokenStoreKeyValueTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private const PERSISTENCE_NAME = 'ADVANCED_KV_PERSISTENCE';
     private const USER_IDENTIFIER = 'CURRENT_USER_IDENTIFIER';
     private const TOKEN = 'TOKEN';
     private const KEY = self::USER_IDENTIFIER . '_' . TokenStoreKeyValue::TOKENS_STORAGE_KEY . '_' . self::TOKEN;
 
-    /** @var TokenStoreKeyValue */
-    private $subject;
+    private TokenStoreKeyValue $subject;
 
     /** @var common_persistence_AdvKeyValuePersistence|MockObject */
-    private $persistenceMock;
+    private common_persistence_AdvKeyValuePersistence $persistenceMock;
 
     protected function setUp(): void
     {
@@ -66,7 +68,7 @@ class TokenStoreKeyValueTest extends TestCase
 
         $this->subject = new TokenStoreKeyValue(['persistence' => self::PERSISTENCE_NAME]);
         $this->subject->setServiceManager(
-            $this->getServiceLocatorMock(
+            $this->getServiceManagerMock(
                 [
                     PersistenceManager::SERVICE_ID => $persistenceManagerMock,
                     SessionService::SERVICE_ID => $sessionServiceMock,
@@ -75,7 +77,7 @@ class TokenStoreKeyValueTest extends TestCase
         );
     }
 
-    public function testGetToken_WhenTokenExists_ReturnToken(): void
+    public function testGetTokenWhenTokenExistsReturnToken(): void
     {
         $tokenData = [
             'token' => self::TOKEN,
@@ -110,7 +112,7 @@ class TokenStoreKeyValueTest extends TestCase
         );
     }
 
-    public function testGetToken_WhenTokenDontExists_ReturnNull(): void
+    public function testGetTokenWhenTokenDontExistsReturnNull(): void
     {
         $this->persistenceMock
             ->method('exists')
@@ -137,7 +139,7 @@ class TokenStoreKeyValueTest extends TestCase
         $this->subject->setToken(self::TOKEN, $token);
     }
 
-    public function testHasToken_WhenTokenExists_ThenReturnTrue(): void
+    public function testHasTokenWhenTokenExistsThenReturnTrue(): void
     {
         $this->persistenceMock
             ->method('exists')
@@ -150,7 +152,7 @@ class TokenStoreKeyValueTest extends TestCase
         );
     }
 
-    public function testHasToken_WhenTokenDontExists_ThenReturnFalse(): void
+    public function testHasTokenWhenTokenDontExistsThenReturnFalse(): void
     {
         $this->persistenceMock
             ->method('exists')
@@ -163,7 +165,7 @@ class TokenStoreKeyValueTest extends TestCase
         );
     }
 
-    public function testRemoveToken_WhenTokenWasRemoved_ThenReturnTrue(): void
+    public function testRemoveTokenWhenTokenWasRemovedThenReturnTrue(): void
     {
         $this->persistenceMock
             ->method('exists')
@@ -181,7 +183,7 @@ class TokenStoreKeyValueTest extends TestCase
         );
     }
 
-    public function testRemoveToken_WhenTokenWasNotRemoved_ThenReturnTrue(): void
+    public function testRemoveTokenWhenTokenWasNotRemovedThenReturnTrue(): void
     {
         $this->persistenceMock
             ->method('exists')
@@ -199,7 +201,7 @@ class TokenStoreKeyValueTest extends TestCase
         );
     }
 
-    public function testRemoveToken_WhenTokenDoesNotExists_ThenReturnFalse(): void
+    public function testRemoveTokenWhenTokenDoesNotExistsThenReturnFalse(): void
     {
         $this->persistenceMock
             ->method('exists')
@@ -212,7 +214,7 @@ class TokenStoreKeyValueTest extends TestCase
         );
     }
 
-    public function testClear_WhenThereAreTokensStored_RemoveAllTokens(): void
+    public function testClearWhenThereAreTokensStoredRemoveAllTokens(): void
     {
         $this->persistenceMock
             ->expects($this->once())
