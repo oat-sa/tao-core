@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace oat\tao\model\security\xsrf;
 
 use common_exception_Error;
-use common_persistence_PhpRedisDriver;
 use Psr\Container\ContainerInterface;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\service\ConfigurableService;
@@ -41,37 +40,158 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
     public const OPTION_TTL = 'ttl';
 
     public const TOKENS_STORAGE_KEY = 'tao_tokens';
+    private const TOKENS_STORAGE_COLLECTION_KEY_SUFFIX = 'keys';
 
-    private ?TokenStore $implementation = null;
+    private common_persistence_AdvKeyValuePersistence $persistence;
+    private string $keyPrefix;
 
     public function getToken(string $tokenId): ?Token
     {
-        return $this->getImplementation()->getToken($tokenId);
+        $tokenData = $this->getPersistence()->get($this->buildKey($tokenId));
+
+        return is_string($tokenData) ? new Token(json_decode($tokenData, true)) : null;
     }
 
     public function setToken(string $tokenId, Token $token): void
     {
-        $this->getImplementation()->setToken($tokenId, $token);
+        $tokenKey = $this->buildKey($tokenId);
+
+        $this->getPersistence()->set(
+            $tokenKey,
+            json_encode($token),
+            $this->getTtl()
+        );
+
+        $this->addTokenKeyToCollection($tokenKey);
     }
 
     public function hasToken(string $tokenId): bool
     {
-        return $this->getImplementation()->hasToken($tokenId);
+        return $this->getPersistence()->exists($this->buildKey($tokenId));
     }
 
     public function removeToken(string $tokenId): bool
     {
-        return $this->getImplementation()->removeToken($tokenId);
+        $this->removeTokenKeyFromCollection($tokenId);
+
+        return $this->getPersistence()->del($this->buildKey($tokenId));
     }
 
     public function clear(): void
     {
-        $this->getImplementation()->clear();
+        foreach ($this->getTokenKeys() as $tokenKey) {
+            $this->getPersistence()->del($tokenKey);
+        }
+
+        $this->clearTokenCollection();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getAll(): array
     {
-        return $this->getImplementation()->getAll();
+        $tokens = [];
+
+        foreach ($this->getTokenKeys() as $key) {
+            $tokenData = $this->getPersistence()->get($key);
+
+            if (is_string($tokenData)) {
+                $tokens[] = new Token(json_decode($tokenData, true));
+            }
+        }
+
+        return $tokens;
+    }
+
+    /**
+     * @throws common_exception_Error
+     */
+    protected function getPersistence(): common_persistence_AdvKeyValuePersistence
+    {
+        if (!isset($this->persistence)) {
+            $persistence = $this->getPersistenceManager()->getPersistenceById(
+                $this->getOption(self::OPTION_PERSISTENCE)
+            );
+
+            if (!$persistence instanceof common_persistence_AdvKeyValuePersistence) {
+                throw new common_exception_Error(
+                    'TokenStoreKeyValue expects advanced key value persistence implementation.'
+                );
+            }
+
+            $this->persistence = $persistence;
+        }
+
+        return $this->persistence;
+    }
+
+    /**
+     * @throws common_exception_Error
+     */
+    protected function getKeyPrefix(): string
+    {
+        if (!isset($this->keyPrefix)) {
+            $this->keyPrefix = sprintf(
+                '%s_%s',
+                $this->getSessionService()->getCurrentUser()->getIdentifier(),
+                self::TOKENS_STORAGE_KEY
+            );
+        }
+
+        return $this->keyPrefix;
+    }
+
+    private function getTokenCollectionKey(): string
+    {
+        return $this->buildKey(self::TOKENS_STORAGE_COLLECTION_KEY_SUFFIX);
+    }
+
+    private function buildKey(string $name): string
+    {
+        return sprintf('%s_%s', $this->getKeyPrefix(), $name);
+    }
+
+    private function addTokenKeyToCollection(string $tokenKey): bool
+    {
+        return $this->getPersistence()->set(
+            $this->getTokenCollectionKey(),
+            json_encode(array_merge($this->getTokenKeys(), [$tokenKey])),
+            $this->getTtl()
+        );
+    }
+
+    private function removeTokenKeyFromCollection(string $tokenKey): void
+    {
+        $collection = $this->getTokenKeys();
+
+        if (empty($collection)) {
+            return;
+        }
+
+        $key = array_search($tokenKey, $collection);
+
+        if ($key === false) {
+            return;
+        }
+
+        unset($collection[$key]);
+
+        $this->getPersistence()->set(
+            $this->getTokenCollectionKey(),
+            json_encode($collection),
+            $this->getTtl()
+        );
+    }
+
+    private function clearTokenCollection(): void
+    {
+        $this->getPersistence()->del($this->getTokenCollectionKey());
+    }
+
+    private function getTokenKeys(): array
+    {
+        return json_decode((string)$this->getPersistence()->get($this->getTokenCollectionKey())) ?? [];
     }
 
     private function getTtl(): ?int
@@ -92,38 +212,5 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
     private function getContainer(): ContainerInterface
     {
         return $this->getServiceManager()->getContainer();
-    }
-
-    private function getImplementation(): TokenStore
-    {
-        if ($this->implementation === null) {
-            $persistence = $this->getPersistenceManager()->getPersistenceById(
-                $this->getOption(self::OPTION_PERSISTENCE)
-            );
-
-            if (!$persistence instanceof common_persistence_AdvKeyValuePersistence) {
-                throw new common_exception_Error(
-                    'TokenStoreKeyValue expects advanced key value persistence implementation.'
-                );
-            }
-
-            $driver = $persistence->getDriver();
-            $keyPrefix = sprintf(
-                '%s_%s',
-                //FIXME @Todo remove after tests
-                defined('POC_USER_ID') ? POC_USER_ID : $this->getSessionService()->getCurrentUser()->getIdentifier(),
-                self::TOKENS_STORAGE_KEY
-            );
-
-            //$this->implementation = new TokenStoreKeyValueRedis($persistence, $driver, $keyPrefix, $this->getTtl());
-            $this->implementation = new TokenStoreKeyValueGeneric($persistence, $keyPrefix, $this->getTtl());
-
-            //@TODO Uncomment after tests
-//            $this->implementation = $driver instanceof common_persistence_PhpRedisDriver
-//                ? new TokenStoreKeyValueRedis($persistence, $driver, $keyPrefix, $this->getTtl())
-//                : new TokenStoreKeyValueGeneric($persistence, $keyPrefix, $this->getTtl());
-        }
-
-        return $this->implementation;
     }
 }
