@@ -80,9 +80,6 @@ class TokenStoreKeyValueRedis implements TokenStore
 
     public function clear(): void
     {
-        /** @var common_persistence_PhpRedisDriver $driver */
-        $driver = $this->persistence->getDriver();
-
         // @TODO Experimenting with changed on RedisDriver
         // $this->driver->mDel(array_merge($this->getTokenKeys(), [$this->getTokenCollectionKey()]));
 
