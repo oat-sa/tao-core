@@ -21,15 +21,18 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\configurationMarkers\Secrets;
+namespace oat\tao\model\configurationMarkers;
+
+use InvalidArgumentException;
+use oat\tao\model\configurationMarkers\Secrets\SerializableSecretDto;
 
 class SerializableFactory
 {
-    public function create(string $index): EnvPhpSerializableSecret
+    public function create(string $index): SerializableSecretDto
     {
         if (strlen($index) < 1) {
-            throw new \InvalidArgumentException('Empty index.');
+            throw new InvalidArgumentException('Empty index.');
         }
-        return new EnvPhpSerializableSecret($index);
+        return new SerializableSecretDto($index);
     }
 }

@@ -25,8 +25,8 @@ namespace oat\tao\model\configurationMarkers;
 
 use InvalidArgumentException;
 use oat\oatbox\reporting\Report;
-use oat\tao\model\configurationMarkers\Secrets\SerializableFactory;
-use oat\tao\model\configurationMarkers\Secrets\Storage;
+use oat\tao\model\configurationMarkers\SerializableFactory;
+use oat\tao\model\configurationMarkers\Secrets\EnvStorage;
 use Psr\Log\LoggerInterface;
 
 class ConfigurationMarkers
@@ -35,14 +35,14 @@ class ConfigurationMarkers
     private const MARKER_PATTERN = '/\$ENV{([a-zA-Z0-9\-\_]+)}/';
     private LoggerInterface $logger;
     private SerializableFactory $serializableFactory;
-    private Storage $secretsStorage;
+    private EnvStorage $secretsStorage;
     private Report $report;
     private bool $hasErrors = false;
 
     public function __construct(
-        Storage $secretsStorage,
+        EnvStorage          $secretsStorage,
         SerializableFactory $serializableFactory,
-        LoggerInterface $logger
+        LoggerInterface     $logger
     ) {
         $this->secretsStorage = $secretsStorage;
         $this->serializableFactory = $serializableFactory;
@@ -84,6 +84,9 @@ class ConfigurationMarkers
 
     private function walkReplaceMarkers(&$item): void
     {
+        if (is_string($item) === false) {
+            return;
+        }
         $matches = $this->findMatches($item);
         if (empty($matches)) {
             return;
@@ -102,27 +105,27 @@ class ConfigurationMarkers
     private function unsetRecursive(&$item): bool
     {
         foreach ($item as $key => &$value) {
-            if (is_array($value)) {
-                $arraySize = $this->unsetRecursive($value);
-                if (!$arraySize) {
-                    unset($item[$key]);
+            if (!is_array($value)) {
+                if (is_string($item) === false) {
+                    continue;
                 }
-            } else {
                 $matches = $this->findMatches($value);
                 if (empty($matches)) {
                     unset($item[$key]);
                 }
+                continue;
+            }
+            $size = $this->unsetRecursive($value);
+            if (!$size) {
+                unset($item[$key]);
             }
         }
         return count($item) > 0;
     }
 
-    private function findMatches($item): array
+    private function findMatches(string $item): array
     {
         $matches = [];
-        if (is_string($item) === false) {
-            return $matches;
-        }
         preg_match(self::MARKER_PATTERN, $item, $matches);
 
         return $matches;

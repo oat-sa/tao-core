@@ -29,8 +29,8 @@ use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\configurationMarkers\ConfigurationMarkers;
-use oat\tao\model\configurationMarkers\Secrets\SerializableFactory;
-use oat\tao\model\configurationMarkers\Secrets\Storage;
+use oat\tao\model\configurationMarkers\SerializableFactory;
+use oat\tao\model\configurationMarkers\Secrets\EnvStorage;
 use oat\tao\model\service\InjectionAwareService;
 use Pimple\Container;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -230,7 +230,7 @@ class tao_install_Setup implements Action
 
         //@TODO use $serviceManager->getContainer(ConfigurationMarkers::class) after refactoring taoSetup to use full DI
         $markers = new ConfigurationMarkers(
-            new Storage($_ENV),
+            new EnvStorage($_ENV),
             new SerializableFactory(),
             $this->getLogger()
         );

@@ -22,7 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\configurationMarkers\Secrets;
 
-class Storage
+use InvalidArgumentException;
+
+class EnvStorage
 {
     private array $vault;
 
@@ -34,7 +36,7 @@ class Storage
     public function get(string $index): string
     {
         if ($this->exist($index) === false) {
-            throw new \InvalidArgumentException(sprintf('Secret index "%s" missing in storage.', $index));
+            throw new InvalidArgumentException(sprintf('Secret index "%s" missing in storage.', $index));
         }
 
         return $this->vault[$index];

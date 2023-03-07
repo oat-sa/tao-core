@@ -30,7 +30,8 @@ use oat\oatbox\reporting\Report;
 use oat\tao\model\configurationMarkers\ConfigurationMarkers;
 
 /**
- * Runs ConfigurationMarkers class against provided seed file and updates config files defined in it.
+ * Runs ConfigurationMarkers command using existing seed file to update config files to replace hardcoded secret
+ * variables with environment variables that will contain those secrets
  * Usage
  * php index.php 'oat\tao\scripts\tools\RunConfigurationMarkers' -s path/to/seed.json
  * php index.php 'oat\tao\scripts\tools\RunConfigurationMarkers' -s path/to/seed.json -e generis
@@ -49,7 +50,7 @@ class RunConfigurationMarkers extends ScriptAction
             self::OPTION_SELECT_EXTENSION_ID => [
                 'prefix' => 'e',
                 'longPrefix' => self::OPTION_SELECT_EXTENSION_ID,
-                'description' => 'Select single extensions config to change.',
+                'description' => 'Select single extension config to change.',
             ],
             self::OPTION_SEED_FILE_PATH => [
                 'prefix' => 's',
@@ -62,6 +63,25 @@ class RunConfigurationMarkers extends ScriptAction
     protected function provideDescription(): string
     {
         return 'Remove secret data from extension\'s config file using markers in seed file';
+    }
+
+    private function validateJsonPayload(): bool
+    {
+        if (json_last_error() === JSON_ERROR_NONE) {
+            return true;
+        }
+        $this->logError(
+            sprintf(
+                'Json file malformed, last json error : %s , message: %s',
+                json_last_error(),
+                json_last_error_msg()
+            )
+        );
+        $this->report->add(
+            Report::createError('Json file contains errors see logs for details. Aborting.')
+        );
+
+        return false;
     }
 
     protected function run(): Report
@@ -79,20 +99,10 @@ class RunConfigurationMarkers extends ScriptAction
             return $this->report;
         }
         $parameters = json_decode($fileContents, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            $this->logError(
-                sprintf(
-                    'Json file malformed, last json error : %s , message: %s',
-                    json_last_error(),
-                    json_last_error_msg()
-                )
-            );
-            $this->report->add(
-                Report::createError('Json file contains errors see logs for details. Aborting.')
-            );
-
+        if ($this->validateJsonPayload() === false) {
             return $this->report;
         }
+
         if (isset($parameters['configuration']) === false) {
             $this->report->add(
                 Report::createError('Configuration seed needs to have "configuration" index. Aborting.')
@@ -112,13 +122,12 @@ class RunConfigurationMarkers extends ScriptAction
         foreach ($parameters['configuration'] as $extensionId => $configs) {
             $processed = $this->processExtension($extensionId, $configs);
             if ($processed) {
-                $reportMessage = Report::createSuccess(
+                $this->report->add(Report::createSuccess(
                     sprintf('Extension %s processed successfully.', $extensionId)
-                );
-            } else {
-                $reportMessage = Report::createError(sprintf('Failed to process extension %s .', $extensionId));
+                ));
+                continue;
             }
-            $this->report->add($reportMessage);
+            $this->report->add(Report::createError(sprintf('Failed to process extension %s .', $extensionId)));
         }
 
         return $this->report;
@@ -146,6 +155,7 @@ class RunConfigurationMarkers extends ScriptAction
 
             return true;
         }
+
         if ($extensionManager->isInstalled($extensionId)) {
             $installedExtension = $extensionManager->getExtensionById($extensionId);
             foreach ($configs as $key => $config) {
