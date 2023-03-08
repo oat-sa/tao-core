@@ -70,23 +70,35 @@ class DataAccessControlChangedListenerTest extends TestCase
     }
 
     /**
-     * @dataProvider provideSuccessfulCases
+     * @dataProvider handleEventSuccessfulCasesDataProvider
      */
-    public function testHandleEventShouldCreateTaskSuccessfully(bool $isRecursive, bool $isclass): void
+    public function testHandleEventShouldCreateTaskSuccessfully(bool $isRecursive, bool $isClass): void
     {
         $documentUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
+
         $resource = $this->createMock(core_kernel_classes_Resource::class);
-        $this->advancedSearchChecker->method('isEnabled')->willReturn(true);
 
-        $resource->expects($this->once())->method('getUri')
+        $this->advancedSearchChecker
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $resource
+            ->expects($this->once())
+            ->method('getUri')
             ->willReturn($documentUri);
-        $resource->expects($this->once())->method('isClass')
-            ->willReturn($isclass);
+        $resource
+            ->expects($this->once())
+            ->method('isClass')
+            ->willReturn($isClass);
 
-        $this->logger->expects($this->once())->method('debug')
+        $this->logger
+            ->expects($this->once())
+            ->method('debug')
             ->with('triggering index update on DataAccessControlChanged event');
 
-        $this->ontology->expects($this->once())->method('getResource')
+        $this->ontology
+            ->expects($this->once())
+            ->method('getResource')
             ->willReturn($resource);
 
         $this->queueDispatcher->expects($this->once())
@@ -102,10 +114,12 @@ class DataAccessControlChangedListenerTest extends TestCase
                 false
             );
 
-        $this->sut->handleEvent(new DataAccessControlChangedEvent($documentUri, [], $isRecursive));
+        $this->sut->handleEvent(
+            new DataAccessControlChangedEvent($documentUri, [], $isRecursive, $isRecursive)
+        );
     }
 
-    public function provideSuccessfulCases(): array
+    public function handleEventSuccessfulCasesDataProvider(): array
     {
         return [
             'case event is recursive and resource is NOT a class' => [

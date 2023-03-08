@@ -38,6 +38,8 @@ class DataAccessControlChangedListener extends ConfigurableService
 
     public function handleEvent(DataAccessControlChangedEvent $event): void
     {
+        $this->getLogger()->debug('triggering index update on DataAccessControlChanged event');
+
         if (!$this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
             return;
         }
@@ -52,7 +54,6 @@ class DataAccessControlChangedListener extends ConfigurableService
          * but not marking `recursive` if it never applied
          */
         if ($resource->isClass() && !$event->applyToNestedResources()) {
-            $this->getLogger()->debug('Exit early from ' . self::class);
             return;
         }
 
