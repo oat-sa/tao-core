@@ -39,18 +39,18 @@ class DataAccessControlChangedEvent implements Event
     private $isRecursive;
 
     /** @var bool */
-    private $processNestedResources;
+    private $applyToNestedResources;
 
     public function __construct(
         string $resourceId,
         array $addRemove,
         bool $isRecursive = false,
-        bool $processNestedResources = false
+        bool $applyToNestedResources = false
     ) {
         $this->resourceId = $resourceId;
         $this->addRemove = $addRemove;
         $this->isRecursive = $isRecursive;
-        $this->processNestedResources = $processNestedResources;
+        $this->applyToNestedResources = $applyToNestedResources;
     }
 
     public function getName(): string
@@ -69,15 +69,15 @@ class DataAccessControlChangedEvent implements Event
     }
 
     /**
-     * @deprecated Use isProcessNestedResources cause processing recursively causes performance issues
+     * @deprecated Use applyToNestedResources because processing recursively causes performance issues
      */
     public function isRecursive(): bool
     {
         return $this->isRecursive;
     }
 
-    public function isProcessNestedResources(): bool
+    public function applyToNestedResources(): bool
     {
-        return $this->processNestedResources;
+        return $this->applyToNestedResources;
     }
 }
