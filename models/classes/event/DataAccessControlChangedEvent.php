@@ -33,7 +33,7 @@ class DataAccessControlChangedEvent implements Event
     private $addRemove;
 
     /**
-     * @deprecated Use $processNestedResources cause processing recursively causes performance issues
+     * @deprecated Use $applyToNestedResources cause processing recursively causes performance issues
      * @var bool
      */
     private $isRecursive;
