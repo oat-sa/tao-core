@@ -25,8 +25,7 @@ namespace oat\tao\model\configurationMarkers;
 
 use InvalidArgumentException;
 use oat\oatbox\reporting\Report;
-use oat\tao\model\configurationMarkers\SerializableFactory;
-use oat\tao\model\configurationMarkers\Secrets\EnvStorage;
+use oat\tao\model\configurationMarkers\Secrets\EnvironmentValueStorage;
 use Psr\Log\LoggerInterface;
 
 class ConfigurationMarkers
@@ -35,14 +34,13 @@ class ConfigurationMarkers
     private const MARKER_PATTERN = '/\$ENV{([a-zA-Z0-9\-\_]+)}/';
     private LoggerInterface $logger;
     private SerializableFactory $serializableFactory;
-    private EnvStorage $secretsStorage;
+    private EnvironmentValueStorage $secretsStorage;
     private Report $report;
-    private bool $hasErrors = false;
 
     public function __construct(
-        EnvStorage          $secretsStorage,
-        SerializableFactory $serializableFactory,
-        LoggerInterface     $logger
+        EnvironmentValueStorage $secretsStorage,
+        SerializableFactory     $serializableFactory,
+        LoggerInterface         $logger
     ) {
         $this->secretsStorage = $secretsStorage;
         $this->serializableFactory = $serializableFactory;
@@ -75,11 +73,6 @@ class ConfigurationMarkers
     public function getReport(): Report
     {
         return $this->report;
-    }
-
-    public function hasErrors(): bool
-    {
-        return $this->hasErrors;
     }
 
     private function walkReplaceMarkers(&$item): void
@@ -143,7 +136,6 @@ class ConfigurationMarkers
         $message .= ' but no corresponding value in Secrets Storage!';
         $this->error($message);
         $this->reportError($message);
-        $this->hasErrors = true;
     }
 
     private function reportError(string $message): void

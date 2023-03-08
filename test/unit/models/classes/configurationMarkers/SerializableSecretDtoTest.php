@@ -25,7 +25,7 @@ namespace oat\tao\test\unit\models\classes\configurationMarkers;
 use oat\tao\model\configurationMarkers\Secrets\SerializableSecretDto;
 use PHPUnit\Framework\TestCase;
 
-class PhpSerializableSecretTest extends TestCase
+class SerializableSecretDtoTest extends TestCase
 {
     private ?string $envHost;
     private ?string $envUser;

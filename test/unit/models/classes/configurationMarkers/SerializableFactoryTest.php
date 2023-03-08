@@ -22,11 +22,12 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\configurationMarkers;
 
+use oat\oatbox\PhpSerializable;
 use oat\tao\model\configurationMarkers\Secrets\SerializableSecretDto;
 use oat\tao\model\configurationMarkers\SerializableFactory;
 use PHPUnit\Framework\TestCase;
 
-class PhpSerializableFactoryTest extends TestCase
+class SerializableFactoryTest extends TestCase
 {
     private const TEST_INDEX = 'TEST_INDEX';
 
@@ -35,6 +36,7 @@ class PhpSerializableFactoryTest extends TestCase
         $factory = new SerializableFactory();
         $object = $factory->create(self::TEST_INDEX);
         self::assertInstanceOf(SerializableSecretDto::class, $object);
+        self::assertInstanceOf(PhpSerializable::class, $object);
         self::assertSame(self::TEST_INDEX, $object->getEnvIndex());
     }
 }

@@ -24,8 +24,8 @@ namespace oat\tao\model\configurationMarkers;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
-use oat\tao\model\configurationMarkers\Secrets\EnvStorage;
-use oat\tao\model\configurationMarkers\Secrets\EnvStorage as SecretsStorage;
+use oat\tao\model\configurationMarkers\Secrets\EnvironmentValueStorage;
+use oat\tao\model\configurationMarkers\Secrets\EnvironmentValueStorage as SecretsStorage;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -37,7 +37,7 @@ class ConfigurationMarkersProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services
-            ->set(EnvStorage::class, EnvStorage::class)
+            ->set(EnvironmentValueStorage::class, EnvironmentValueStorage::class)
             ->args([$_ENV])
             ->public();
 

@@ -24,7 +24,7 @@ namespace oat\tao\model\configurationMarkers\Secrets;
 
 use InvalidArgumentException;
 
-class EnvStorage
+class EnvironmentValueStorage
 {
     private array $vault;
 

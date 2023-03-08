@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace oat\tao\scripts\tools;
 
 use common_ext_ExtensionsManager;
-use InvalidArgumentException;
 use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
@@ -110,9 +109,9 @@ class RunConfigurationMarkers extends ScriptAction
             return $this->report;
         }
 
-        try {
-            $parameters = $this->replaceMarkers($parameters);
-        } catch (InvalidArgumentException $e) {
+        $parameters = $this->replaceMarkers($parameters);
+
+        if ($this->report->contains('error')) {
             $this->report->add(
                 Report::createError('Found errors during markers replacement. Aborting.')
             );
@@ -139,9 +138,6 @@ class RunConfigurationMarkers extends ScriptAction
         $parameters = $markers->removeIndexesWithoutMarkers($parameters);
         $parameters = $markers->replaceMarkers($parameters);
         $this->report->add($markers->getReport());
-        if ($markers->hasErrors()) {
-            throw new InvalidArgumentException();
-        }
 
         return $parameters;
     }
