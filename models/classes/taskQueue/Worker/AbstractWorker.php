@@ -73,7 +73,17 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
             $report = Report::createInfo(__('Running task %s', $task->getId()));
             try {
                 $this->startUserSession($task);
-                $this->logInfo(sprintf('Processing task %s [%s]', $task->getLabel(), $task->getId()), $this->getLogContext());
+
+                $this->logInfo(
+                    sprintf(
+                        'Processing task %s [%s]',
+                        (strlen($task->getLabel()) > 255
+                            ? '...' . substr($task->getLabel(), -252)
+                            : $task->getLabel()),
+                        $task->getId()
+                    ),
+                    $this->getLogContext()
+                );
 
                 //Database operation in task log
                 $rowsTouched = $this->taskLog->setStatus($task->getId(), TaskLogInterface::STATUS_RUNNING, TaskLogInterface::STATUS_DEQUEUED);
