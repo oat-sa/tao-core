@@ -20,7 +20,6 @@
 
 declare(strict_types=1);
 
-
 namespace oat\tao\test\unit\models\classes\configurationMarkers;
 
 use oat\tao\model\configurationMarkers\Secrets\EnvironmentValueStorage;

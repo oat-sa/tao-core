@@ -38,9 +38,9 @@ class ConfigurationMarkers
     private Report $report;
 
     public function __construct(
-        EnvironmentValueStorage      $secretsStorage,
+        EnvironmentValueStorage $secretsStorage,
         SerializableSecretDtoFactory $serializableFactory,
-        LoggerInterface              $logger
+        LoggerInterface $logger
     ) {
         $this->secretsStorage = $secretsStorage;
         $this->serializableFactory = $serializableFactory;

@@ -52,7 +52,9 @@ class ConfigurationMarkersTest extends TestCase
 
         $loggerMock = $this->createMock(LoggerInterface::class);
 
-        $markers = new ConfigurationMarkers(new EnvironmentValueStorage($env), new SerializableSecretDtoFactory(), $loggerMock);
+        $markers = new ConfigurationMarkers(
+            new EnvironmentValueStorage($env), new SerializableSecretDtoFactory(), $loggerMock
+        );
 
         $replaced = $markers->replaceMarkers($configuration);
 
@@ -93,7 +95,9 @@ class ConfigurationMarkersTest extends TestCase
         $loggerMock = $this->createMock(LoggerInterface::class);
         $loggerMock->expects($this->atLeast(1))->method('notice');
 
-        $markers = new ConfigurationMarkers(new EnvironmentValueStorage($env), new SerializableSecretDtoFactory(), $loggerMock);
+        $markers = new ConfigurationMarkers(
+            new EnvironmentValueStorage($env), new SerializableSecretDtoFactory(), $loggerMock
+        );
 
         $markers->replaceMarkers($configuration);
     }
@@ -103,7 +107,9 @@ class ConfigurationMarkersTest extends TestCase
         $configuration = [];
         $env = [];
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $markers = new ConfigurationMarkers(new EnvironmentValueStorage($env), new SerializableSecretDtoFactory(), $loggerMock);
+        $markers = new ConfigurationMarkers(
+            new EnvironmentValueStorage($env), new SerializableSecretDtoFactory(), $loggerMock
+        );
         $this->expectException(\InvalidArgumentException::class);
         $markers->replaceMarkers($configuration);
     }
@@ -117,7 +123,9 @@ class ConfigurationMarkersTest extends TestCase
         ];
         $env = [];
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $markers = new ConfigurationMarkers(new EnvironmentValueStorage($env), new SerializableSecretDtoFactory(), $loggerMock);
+        $markers = new ConfigurationMarkers(
+            new EnvironmentValueStorage($env), new SerializableSecretDtoFactory(), $loggerMock
+        );
 
         $replaced = $markers->replaceMarkers($configuration);
 
@@ -139,7 +147,9 @@ class ConfigurationMarkersTest extends TestCase
 
         $loggerMock = $this->createMock(LoggerInterface::class);
 
-        $markers = new ConfigurationMarkers(new EnvironmentValueStorage($env), new SerializableSecretDtoFactory(), $loggerMock);
+        $markers = new ConfigurationMarkers(
+            new EnvironmentValueStorage($env), new SerializableSecretDtoFactory(), $loggerMock
+        );
 
         $replaced = $markers->replaceMarkers($configuration);
 
