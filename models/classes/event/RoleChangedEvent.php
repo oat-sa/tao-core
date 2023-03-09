@@ -26,7 +26,7 @@ class RoleChangedEvent extends AbstractRoleEvent
     protected $essence;
     protected $changes;
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'roleUri' => $this->roleUri,

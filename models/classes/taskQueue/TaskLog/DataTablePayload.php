@@ -55,8 +55,11 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
      * @param TaskLogBrokerInterface    $broker
      * @param DatatableRequestInterface $request
      */
-    public function __construct(TaskLogFilter $filter, TaskLogBrokerInterface $broker, DatatableRequestInterface $request)
-    {
+    public function __construct(
+        TaskLogFilter $filter,
+        TaskLogBrokerInterface $broker,
+        DatatableRequestInterface $request
+    ) {
         $this->taskLogFilter = $filter;
         $this->broker = $broker;
         $this->request = $request;
@@ -65,7 +68,8 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
     }
 
     /**
-     * You can pass an anonymous function to customise the final payload: either to change the value of a field or to add extra field(s);
+     * You can pass an anonymous function to customise the final payload: either to change the value of a field or
+     * to add extra field(s);
      *
      * The function will be bind to the task log entity (TaskLogEntity) so $this can be used inside of the closure.
      * The return value needs to be an array.
@@ -93,10 +97,7 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getPayload()
+    public function getPayload(): array
     {
         $countTotal = $this->count();
 
@@ -117,15 +118,13 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
         // get customised data
         $customisedData = $this->getCustomisedData($collection);
 
-        $data = [
+        return [
             'rows'    => $limit,
             'page'    => $page,
             'amount'  => count($collection),
             'total'   => ceil($countTotal / $limit),
             'data'    => $customisedData ?: $collection->toArray(),
         ];
-
-        return $data;
     }
 
     /**
@@ -183,10 +182,7 @@ class DataTablePayload implements DataTablePayloadInterface, \Countable
         }
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->getPayload();
     }

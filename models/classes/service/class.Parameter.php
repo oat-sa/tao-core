@@ -20,7 +20,7 @@
  */
 
 use oat\tao\model\WfEngineOntology;
-use \oat\generis\model\data\Ontology;
+use oat\generis\model\data\Ontology;
 
 /**
  * Represents tao service parameter
@@ -28,7 +28,7 @@ use \oat\generis\model\data\Ontology;
  * @access public
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
-
+ * phpcs:disable Squiz.Classes.ValidClassName
  */
 abstract class tao_models_classes_service_Parameter implements JsonSerializable
 {
@@ -36,7 +36,7 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
      * @var core_kernel_classes_Resource
      */
     private $definition;
-    
+
     /**
      * Base constructor of abstract parameter
      *
@@ -46,7 +46,7 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
     {
         $this->definition = $definition;
     }
-    
+
     /**
      * Returns the formal definition of this parameter
      *
@@ -56,6 +56,7 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
     {
         return $this->definition;
     }
+
     /**
      * @return core_kernel_classes_Resource
      */
@@ -78,7 +79,7 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
         }
         return $param;
     }
-    
+
     /**
      * Builds a service call parameter from it's serialized form
      *
@@ -93,9 +94,15 @@ abstract class tao_models_classes_service_Parameter implements JsonSerializable
             WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE
         ]);
         if (count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_FORMAL_PARAMETER]) != 1) {
-            throw new common_exception_InconsistentData('Actual variable ' . $resource->getUri() . ' missing formal parameter');
+            throw new common_exception_InconsistentData(
+                'Actual variable ' . $resource->getUri() . ' missing formal parameter'
+            );
         }
-        if (count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE]) + count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE]) != 1) {
+
+        if (
+            count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE])
+            + count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE]) != 1
+        ) {
             throw new common_exception_InconsistentData('Actual variable ' . $resource->getUri() . ' invalid, '
                 . count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_CONSTANT_VALUE]) . ' constant values and '
                 . count($values[WfEngineOntology::PROPERTY_ACTUAL_PARAMETER_PROCESS_VARIABLE]) . ' process variables');

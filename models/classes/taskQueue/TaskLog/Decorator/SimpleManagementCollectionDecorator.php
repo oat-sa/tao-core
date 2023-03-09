@@ -58,8 +58,13 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
      */
     private $fileReferenceSerializer;
 
-    public function __construct(CollectionInterface $collection, TaskLogInterface $taskLogService, FileSystemService $fileSystemService, FileReferenceSerializer $fileReferenceSerializer, $reportIncluded)
-    {
+    public function __construct(
+        CollectionInterface $collection,
+        TaskLogInterface $taskLogService,
+        FileSystemService $fileSystemService,
+        FileReferenceSerializer $fileReferenceSerializer,
+        $reportIncluded
+    ) {
         parent::__construct($collection);
 
         $this->fileSystemService = $fileSystemService;
@@ -99,10 +104,7 @@ class SimpleManagementCollectionDecorator extends TaskLogCollectionDecorator
         return $data;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }

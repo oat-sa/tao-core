@@ -41,10 +41,7 @@ class CategoryEntityDecorator extends TaskLogEntityDecorator
         $this->taskLogService = $taskLogService;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
