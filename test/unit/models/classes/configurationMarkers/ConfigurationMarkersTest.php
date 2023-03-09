@@ -18,11 +18,14 @@
  * Copyright (c) 2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-namespace oat\tao\test\unit\install\utils;
+declare(strict_types=1);
 
-use oat\tao\install\utils\ConfigurationMarkers;
-use oat\tao\model\EnvPhpSerializable;
-use oat\tao\model\EnvPhpSerializableFactory;
+namespace oat\tao\test\unit\models\classes\configurationMarkers;
+
+use oat\tao\model\configurationMarkers\ConfigurationMarkers;
+use oat\tao\model\configurationMarkers\Secrets\SerializableSecretDto;
+use oat\tao\model\configurationMarkers\SerializableSecretDtoFactory;
+use oat\tao\model\configurationMarkers\Secrets\EnvironmentValueStorage;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -49,7 +52,11 @@ class ConfigurationMarkersTest extends TestCase
 
         $loggerMock = $this->createMock(LoggerInterface::class);
 
-        $markers = new ConfigurationMarkers($env, new EnvPhpSerializableFactory(), $loggerMock);
+        $markers = new ConfigurationMarkers(
+            new EnvironmentValueStorage($env),
+            new SerializableSecretDtoFactory(),
+            $loggerMock
+        );
 
         $replaced = $markers->replaceMarkers($configuration);
 
@@ -68,9 +75,9 @@ class ConfigurationMarkersTest extends TestCase
             $replaced['connection']['non_existing_entry_in_env']
         );
 
-        self::assertInstanceOf(EnvPhpSerializable::class, $replaced['connection']['host']);
-        self::assertInstanceOf(EnvPhpSerializable::class, $replaced['connection']['user']);
-        self::assertInstanceOf(EnvPhpSerializable::class, $replaced['connection']['password']);
+        self::assertInstanceOf(SerializableSecretDto::class, $replaced['connection']['host']);
+        self::assertInstanceOf(SerializableSecretDto::class, $replaced['connection']['user']);
+        self::assertInstanceOf(SerializableSecretDto::class, $replaced['connection']['password']);
 
         self::assertSame('PERSISTENCES_PGSQL_HOST', $replaced['connection']['host']->getEnvIndex());
         self::assertSame('PERSISTENCES_PGSQL_USER', $replaced['connection']['user']->getEnvIndex());
@@ -90,7 +97,11 @@ class ConfigurationMarkersTest extends TestCase
         $loggerMock = $this->createMock(LoggerInterface::class);
         $loggerMock->expects($this->atLeast(1))->method('notice');
 
-        $markers = new ConfigurationMarkers($env, new EnvPhpSerializableFactory(), $loggerMock);
+        $markers = new ConfigurationMarkers(
+            new EnvironmentValueStorage($env),
+            new SerializableSecretDtoFactory(),
+            $loggerMock
+        );
 
         $markers->replaceMarkers($configuration);
     }
@@ -100,7 +111,11 @@ class ConfigurationMarkersTest extends TestCase
         $configuration = [];
         $env = [];
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $markers = new ConfigurationMarkers($env, new EnvPhpSerializableFactory(), $loggerMock);
+        $markers = new ConfigurationMarkers(
+            new EnvironmentValueStorage($env),
+            new SerializableSecretDtoFactory(),
+            $loggerMock
+        );
         $this->expectException(\InvalidArgumentException::class);
         $markers->replaceMarkers($configuration);
     }
@@ -114,7 +129,11 @@ class ConfigurationMarkersTest extends TestCase
         ];
         $env = [];
         $loggerMock = $this->createMock(LoggerInterface::class);
-        $markers = new ConfigurationMarkers($env, new EnvPhpSerializableFactory(), $loggerMock);
+        $markers = new ConfigurationMarkers(
+            new EnvironmentValueStorage($env),
+            new SerializableSecretDtoFactory(),
+            $loggerMock
+        );
 
         $replaced = $markers->replaceMarkers($configuration);
 
@@ -136,7 +155,11 @@ class ConfigurationMarkersTest extends TestCase
 
         $loggerMock = $this->createMock(LoggerInterface::class);
 
-        $markers = new ConfigurationMarkers($env, new EnvPhpSerializableFactory(), $loggerMock);
+        $markers = new ConfigurationMarkers(
+            new EnvironmentValueStorage($env),
+            new SerializableSecretDtoFactory(),
+            $loggerMock
+        );
 
         $replaced = $markers->replaceMarkers($configuration);
 
