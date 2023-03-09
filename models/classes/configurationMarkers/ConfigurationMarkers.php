@@ -33,14 +33,14 @@ class ConfigurationMarkers
     /** @var string */
     private const MARKER_PATTERN = '/\$ENV{([a-zA-Z0-9\-\_]+)}/';
     private LoggerInterface $logger;
-    private SerializableFactory $serializableFactory;
+    private SerializableSecretDtoFactory $serializableFactory;
     private EnvironmentValueStorage $secretsStorage;
     private Report $report;
 
     public function __construct(
-        EnvironmentValueStorage $secretsStorage,
-        SerializableFactory     $serializableFactory,
-        LoggerInterface         $logger
+        EnvironmentValueStorage      $secretsStorage,
+        SerializableSecretDtoFactory $serializableFactory,
+        LoggerInterface              $logger
     ) {
         $this->secretsStorage = $secretsStorage;
         $this->serializableFactory = $serializableFactory;

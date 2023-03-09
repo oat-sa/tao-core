@@ -26,7 +26,7 @@ namespace oat\tao\model\configurationMarkers;
 use InvalidArgumentException;
 use oat\tao\model\configurationMarkers\Secrets\SerializableSecretDto;
 
-class SerializableFactory
+class SerializableSecretDtoFactory
 {
     public function create(string $index): SerializableSecretDto
     {

@@ -42,7 +42,7 @@ class ConfigurationMarkersProvider implements ContainerServiceProviderInterface
             ->public();
 
         $services
-            ->set(SerializableFactory::class, SerializableFactory::class)
+            ->set(SerializableSecretDtoFactory::class, SerializableSecretDtoFactory::class)
             ->public();
 
         $services
@@ -54,7 +54,7 @@ class ConfigurationMarkersProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(SecretsStorage::class),
-                    service(SerializableFactory::class),
+                    service(SerializableSecretDtoFactory::class),
                     service(LoggerService::SERVICE_ID)
                 ]
             );
