@@ -1,0 +1,3 @@
+files:
+  - source: /locales/*/*.po
+    translation: '%original_path%'

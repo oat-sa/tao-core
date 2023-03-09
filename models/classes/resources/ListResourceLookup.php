@@ -21,11 +21,15 @@
 
 namespace oat\tao\model\resources;
 
+use core_kernel_classes_Resource;
+use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\Search;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\security\SignatureGenerator;
 
 /**
  * Look up resources and format them as a flat list
@@ -150,8 +154,13 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
                 'uri'        => $resource->getUri(),
                 'classUri'   => $resourceTypes[0],
                 'label'      => $resource->getLabel(),
-                'type'       => 'instance'
+                'type'       => 'instance',
+                'signature'  => $this->getSignatureGenerator()->generate($resource->getUri()),
             ];
+            $parentClassUri = $this->getParentClassUri($resource);
+            if ($parentClassUri !== null) {
+                $data['classSignature'] = $this->getSignatureGenerator()->generate($parentClassUri);
+            }
         }
         return $data;
     }
@@ -164,5 +173,18 @@ class ListResourceLookup extends ConfigurableService implements ResourceLookup
         $limit = 30
     ) {
         return [];
+    }
+
+    private function getSignatureGenerator(): SignatureGenerator
+    {
+        return $this->getServiceManager()->get(SignatureGenerator::class);
+    }
+
+    private function getParentClassUri(core_kernel_classes_Resource $resource): ?string
+    {
+        $parentClassUri = $resource->getOnePropertyValue($resource->getProperty(OntologyRdf::RDF_TYPE));
+        return $parentClassUri !== null
+            ? $parentClassUri->getUri()
+            : null;
     }
 }

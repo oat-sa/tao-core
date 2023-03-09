@@ -15,43 +15,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA
- *
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\event;
+declare(strict_types=1);
 
-use oat\oatbox\event\Event;
+namespace oat\tao\model\export;
 
-abstract class AbstractImportEvent implements Event, \JsonSerializable
+use tao_helpers_data_GenerisAdapterRdf;
+
+class CustomizedGenerisAdapterRdf extends tao_helpers_data_GenerisAdapterRdf
 {
-    /**
-     * @var \common_report_Report
+    /*
+     * The quick fix to not skip serialized file link property while building RDF export file
      */
-    private $report;
-
-    public function __construct(\common_report_Report $report)
+    private function isSerializedFile($object): bool
     {
-        $this->report = $report;
-    }
-
-    public function getName()
-    {
-        return get_class($this);
-    }
-
-    /**
-     * @return \common_report_Report
-     */
-    public function getReport()
-    {
-        return $this->report;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'report' => $this->report->toArray()
-        ];
+        return false;
     }
 }

@@ -15,43 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA
- *
+ * Copyright (c) 2023 (update and modification) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\event;
+declare(strict_types=1);
 
-use oat\oatbox\event\Event;
+namespace oat\tao\model\export\ServiceProvider;
 
-abstract class AbstractImportEvent implements Event, \JsonSerializable
+use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\export\CustomizedGenerisAdapterRdf;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+class ExportServiceProvider implements ContainerServiceProviderInterface
 {
-    /**
-     * @var \common_report_Report
-     */
-    private $report;
-
-    public function __construct(\common_report_Report $report)
+    public function __invoke(ContainerConfigurator $configurator): void
     {
-        $this->report = $report;
-    }
+        $services = $configurator->services();
 
-    public function getName()
-    {
-        return get_class($this);
-    }
-
-    /**
-     * @return \common_report_Report
-     */
-    public function getReport()
-    {
-        return $this->report;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'report' => $this->report->toArray()
-        ];
+        $services
+            ->set(CustomizedGenerisAdapterRdf::class, CustomizedGenerisAdapterRdf::class)
+            ->public();
     }
 }
