@@ -21,6 +21,7 @@
 
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
+use common_Logger;
 use oat\oatbox\user\User;
 use oat\tao\model\accessControl\AclProxy;
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
@@ -55,10 +56,7 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
         $this->user = $user;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
@@ -96,10 +94,17 @@ class RedirectUrlEntityDecorator extends TaskLogEntityDecorator
             );
             if ($hasAccess) {
                 $data = array_merge($data, [
-                    'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', $params)
+                    'redirectUrl' => _url(
+                        'redirectTaskToInstance',
+                        'Redirector',
+                        'taoBackOffice',
+                        $params
+                    )
                 ]);
             } else {
-                \common_Logger::w('User \'' . $user->getIdentifier() . '\' does not have access to redirectTaskToInstance');
+                common_Logger::w(
+                    'User \'' . $user->getIdentifier() . '\' does not have access to redirectTaskToInstance'
+                );
             }
         }
 
