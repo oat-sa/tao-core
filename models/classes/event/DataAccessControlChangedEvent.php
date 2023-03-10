@@ -38,8 +38,7 @@ class DataAccessControlChangedEvent implements Event
      */
     private $isRecursive;
 
-    /** @var bool */
-    private $applyToNestedResources;
+    private bool $applyToNestedResources;
 
     public function __construct(
         string $resourceId,
