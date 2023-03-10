@@ -236,7 +236,7 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
     {
         return strlen($task->getLabel()) > 255
             ? '...' . substr($task->getLabel(), -252)
-            : $task->getLabel();
+            :  $task->getLabel();
     }
 
 
