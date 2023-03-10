@@ -49,11 +49,7 @@ class DataAccessControlChangedListener extends ConfigurableService
         /** @noinspection PhpUnhandledExceptionInspection */
         $resource = $this->getResource($event->getResourceId());
 
-        /**
-         * @TODO Verify if we already had a bug before when a class ACL is updated,
-         * but not marking `recursive` if it never applied
-         */
-        if ($resource->isClass() && !$event->applyToNestedResources()) {
+        if ($resource->isClass() && !$event->applyToNestedResources() && !$event->isRecursive()) {
             return;
         }
 
