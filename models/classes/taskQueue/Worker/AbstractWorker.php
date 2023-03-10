@@ -77,9 +77,7 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
                 $this->logInfo(
                     sprintf(
                         'Processing task %s [%s]',
-                        (strlen($task->getLabel()) > 255
-                            ? '...' . substr($task->getLabel(), -252)
-                            : $task->getLabel()),
+                        $this->formatTaskLabel($task),
                         $task->getId()
                     ),
                     $this->getLogContext()
@@ -95,7 +93,11 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
                 // if the task is being executed by another worker, just return, no report needs to be saved
                 if (!$rowsTouched) {
                     $this->logInfo(
-                        sprintf('Task %s seems to be processed by another worker.', $task->getId()),
+                        sprintf(
+                            'Task %s [%s] seems to be processed by another worker.',
+                            $this->formatTaskLabel($task),
+                            $task->getId()
+                        ),
                         $this->getLogContext()
                     );
                     return TaskLogInterface::STATUS_UNKNOWN;
@@ -110,11 +112,22 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
                 // execute the task
                 $taskReport = $task();
 
-                $this->logInfo('Task ' . $task->getId() . ' has been processed.', $this->getLogContext());
+                $this->logInfo(
+                    sprintf(
+                        'Task %s [%s] has been processed.',
+                        $this->formatTaskLabel($task),
+                        $task->getId()
+                    ),
+                    $this->getLogContext()
+                );
 
                 if (!$taskReport instanceof Report) {
                     $this->logWarning(
-                        sprintf('Task %s should return a report object.', $task->getId()),
+                        sprintf(
+                            'Task %s [%s] should return a report object.',
+                            $this->formatTaskLabel($task),
+                            $task->getId()
+                        ),
                         $this->getLogContext()
                     );
                     //todo: isn't this message confusinig?
@@ -126,13 +139,24 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
                 unset($taskReport, $rowsTouched);
             } catch (\Error $e) {
                 $this->logCritical(
-                    sprintf('Executing task %s failed with MSG: %s', $task->getId(), $e->getMessage()),
+                    sprintf(
+                        'Executing task %s [%] failed with MSG: %s',
+                        $this->formatTaskLabel($task),
+                        $task->getId(),
+                        $e->getMessage()
+                    ),
                     $this->getLogContext()
                 );
+
                 $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
             } catch (\Exception $e) {
                 $this->logError(
-                    sprintf('Executing task %s failed with MSG: %s', $task->getId(), $e->getMessage()),
+                    sprintf(
+                        'Executing task %s [%s] failed with MSG: %s',
+                        $this->formatTaskLabel($task),
+                        $task->getId(),
+                        $e->getMessage()
+                    ),
                     $this->getLogContext()
                 );
                 $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
@@ -207,6 +231,14 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
 
         return $status;
     }
+
+    protected function formatTaskLabel(TaskInterface $task): string
+    {
+        return strlen($task->getLabel()) > 255
+            ? '...' . substr($task->getLabel(), -252)
+            : $task->getLabel();
+    }
+
 
     protected function getLogContext()
     {
