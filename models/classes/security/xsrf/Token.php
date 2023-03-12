@@ -72,6 +72,13 @@ class Token implements JsonSerializable
         return $this->token;
     }
 
+    public function isExpired(int $timeLimit): bool
+    {
+        $actualTime = microtime(true);
+
+        return $timeLimit > 0 && ($this->getCreatedAt() + $timeLimit) < $actualTime;
+    }
+
     /**
      * Get the microtime at which the token was created.
      *
