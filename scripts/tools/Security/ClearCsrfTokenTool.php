@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
  *
  * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
@@ -27,6 +27,7 @@ namespace oat\tao\scripts\tools\Security;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\security\xsrf\TokenService;
+use Throwable;
 
 /**
  * Clear all tokens created after 120 seconds ago:
@@ -36,6 +37,8 @@ class ClearCsrfTokenTool extends ScriptAction
 {
     private const OPTION_TIME_LIMIT = 'time_limit';
     private const OPTION_SLEEP_INTERVAL = 'sleep_internal';
+    private const DEFAULT_TIME_LIMIT = 24 * 60 * 60;
+    private const DEFAULT_SLEEP_INTERVAL = 1000;
 
     protected function provideOptions(): array
     {
@@ -70,29 +73,38 @@ class ClearCsrfTokenTool extends ScriptAction
 
     protected function run(): Report
     {
-        $sleepInterval = filter_var($this->getOption(self::OPTION_SLEEP_INTERVAL) ?? 1000, FILTER_VALIDATE_INT);
-        $timeLimit = filter_var($this->getOption(self::OPTION_TIME_LIMIT) ?? (24 * 60 * 60), FILTER_VALIDATE_INT);
+        $sleepInterval = filter_var(
+            $this->getOption(self::OPTION_SLEEP_INTERVAL) ?? self::DEFAULT_SLEEP_INTERVAL,
+            FILTER_VALIDATE_INT
+        );
+        $timeLimit = filter_var(
+            $this->getOption(self::OPTION_TIME_LIMIT) ?? self::DEFAULT_TIME_LIMIT,
+            FILTER_VALIDATE_INT
+        );
 
         try {
             $totalRemoved = $this->getTokenService()->clearAll($sleepInterval, $timeLimit);
+            $message = sprintf('A total of %s CSRF tokens were removed', $totalRemoved);
 
-            return Report::createSuccess(
-                sprintf('A total of %s CSRF tokens were removed', $totalRemoved)
-            );
+            $this->logInfo($message);
+
+            return Report::createSuccess($message);
         } catch (Throwable $exception) {
-            return Report::createError(
-                sprintf(
-                    'Error (%s)%s, trace %s',
-                    get_class($exception),
-                    $exception->getMessage(),
-                    $exception->getTraceAsString()
-                )
+            $message = sprintf(
+                'Error removing CSRF tokens: (%s) %s, trace %s',
+                get_class($exception),
+                $exception->getMessage(),
+                $exception->getTraceAsString()
             );
+
+            $this->logInfo($message);
+
+            return Report::createError($message);
         }
     }
 
     private function getTokenService(): TokenService
     {
-        return $this->getServiceManager()->get(TokenService::SERVICE_ID);
+        return $this->getServiceManager()->getContainer()->get(TokenService::SERVICE_ID);
     }
 }

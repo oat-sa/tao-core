@@ -3,11 +3,10 @@ tao-core
 
 [![codecov](https://codecov.io/gh/oat-sa/tao-core/branch/master/graph/badge.svg?token=uPVdj0JrEn)](https://codecov.io/gh/oat-sa/tao-core)
 
-[Task Queue Doc](models/classes/taskQueue/README.md)
-
-[Middlewares Doc](models/classes/Middleware/README.md)
-
-[Feature Flag](models/classes/featureFlag/README.md)
+- [Task Queue Doc](models/classes/taskQueue/README.md)
+- [Middlewares Doc](models/classes/Middleware/README.md)
+- [Feature Flag](models/classes/featureFlag/README.md)
+- [CSRF Tokens](models/classes/security/xsrf/README.md)
 
 # Webhooks
 
