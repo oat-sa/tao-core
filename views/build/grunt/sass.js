@@ -19,6 +19,7 @@ module.exports = function(grunt) {
                 files : {
                     '../css/tao-main-style.css' : '../scss/tao-main-style.scss',
                     '../css/tao-3.css' : '../scss/tao-3.scss',
+                    '../css/auth-selector.css' : '../scss/auth-selector.scss',
                     '../css/layout.css' : '../scss/layout.scss',
                     '../css/error-page.css': '../scss/error-page.scss',
                     '../js/lib/jsTree/themes/css/style.css' : '../js/lib/jsTree/themes/scss/style.scss'
