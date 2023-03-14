@@ -57,8 +57,9 @@ class FormContainerTest extends GenerisTestCase
             ->get(PersistenceManager::SERVICE_ID)
             ->getPersistenceById(self::PERSISTENCE_KEY);
 
-        $persistence->set(
-            self::TEST_USER_SESSION_ID . '_tao_tokens_form_token',
+        $persistence->hSet(
+            self::TEST_USER_SESSION_ID . '_' . TokenStoreKeyValue::TOKENS_STORAGE_KEY,
+            TokenService::FORM_TOKEN_NAMESPACE,
             json_encode(
                 [
                     Token::TOKEN_KEY => self::TOKEN_VALUE,
