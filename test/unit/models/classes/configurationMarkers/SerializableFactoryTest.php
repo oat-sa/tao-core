@@ -16,48 +16,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model;
+namespace oat\tao\test\unit\models\classes\configurationMarkers;
 
 use oat\oatbox\PhpSerializable;
+use oat\tao\model\configurationMarkers\Secrets\SerializableSecretDto;
+use oat\tao\model\configurationMarkers\SerializableSecretDtoFactory;
+use PHPUnit\Framework\TestCase;
 
-/**
- * Class encapsulating $_ENV indexes for purpose of configuration files
- */
-class EnvPhpSerializable implements PhpSerializable
+class SerializableFactoryTest extends TestCase
 {
-    private string $envIndex;
+    private const TEST_INDEX = 'TEST_INDEX';
 
-    public function __construct(string $envIndex)
+    public function testFactory(): void
     {
-        $this->envIndex = $envIndex;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toPhpCode(): string
-    {
-        return '$_ENV[\'' . $this->envIndex . '\']';
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $_ENV[$this->envIndex] ?? '';
-    }
-
-    /**
-     * @return string
-     */
-    public function getEnvIndex(): string
-    {
-        return $this->envIndex;
+        $factory = new SerializableSecretDtoFactory();
+        $object = $factory->create(self::TEST_INDEX);
+        self::assertInstanceOf(SerializableSecretDto::class, $object);
+        self::assertInstanceOf(PhpSerializable::class, $object);
+        self::assertSame(self::TEST_INDEX, $object->getEnvIndex());
     }
 }

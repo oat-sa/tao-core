@@ -15,43 +15,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
-namespace oat\tao\model\event;
+declare(strict_types=1);
 
-use oat\oatbox\event\Event;
+namespace oat\tao\model\configurationMarkers;
 
-abstract class AbstractImportEvent implements Event, \JsonSerializable
+use InvalidArgumentException;
+use oat\tao\model\configurationMarkers\Secrets\SerializableSecretDto;
+
+class SerializableSecretDtoFactory
 {
-    /**
-     * @var \common_report_Report
-     */
-    private $report;
-
-    public function __construct(\common_report_Report $report)
+    public function create(string $index): SerializableSecretDto
     {
-        $this->report = $report;
-    }
-
-    public function getName()
-    {
-        return get_class($this);
-    }
-
-    /**
-     * @return \common_report_Report
-     */
-    public function getReport()
-    {
-        return $this->report;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'report' => $this->report->toArray()
-        ];
+        if (strlen($index) < 1) {
+            throw new InvalidArgumentException('Empty index.');
+        }
+        return new SerializableSecretDto($index);
     }
 }

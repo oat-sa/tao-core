@@ -15,60 +15,49 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
-namespace oat\tao\model\event;
+declare(strict_types=1);
 
-use JsonSerializable;
-use oat\oatbox\event\Event;
+namespace oat\tao\model\configurationMarkers\Secrets;
 
-class LoginSucceedEvent implements Event, JsonSerializable
+use oat\oatbox\PhpSerializable;
+
+/**
+ * Replace configuration variable with environment variable
+ */
+class SerializableSecretDto implements PhpSerializable
 {
-    private $login = '';
-    private $time;
+    private string $envIndex;
 
-    /**
-     * LoginEvent constructor.
-     * @param $login
-     */
-    public function __construct($login = '')
+    public function __construct(string $envIndex)
     {
-        $this->login = $login;
-        $this->time = time();
+        $this->envIndex = $envIndex;
     }
 
     /**
      * @return string
      */
-    public function getLogin()
+    public function __toPhpCode(): string
     {
-        return $this->login;
+        return '$_ENV[\'' . $this->envIndex . '\']';
     }
 
     /**
-     * Return a unique name for this event
-     * @see \oat\oatbox\event\Event::getName()
+     * @return string
      */
-    public function getName()
+    public function __toString(): string
     {
-        return __CLASS__;
+        return $_ENV[$this->envIndex] ?? '';
     }
-
 
     /**
-     * @return \DateTime
+     * @return string
      */
-    public function getTime()
+    public function getEnvIndex(): string
     {
-        return $this->time;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'login' => $this->getLogin()
-        ];
+        return $this->envIndex;
     }
 }

@@ -15,43 +15,35 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018 (original work) Open Assessment Technologies SA
- *
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\event;
+declare(strict_types=1);
 
-use oat\oatbox\event\Event;
+namespace oat\tao\model\configurationMarkers\Secrets;
 
-abstract class AbstractImportEvent implements Event, \JsonSerializable
+use InvalidArgumentException;
+
+class EnvironmentValueStorage
 {
-    /**
-     * @var \common_report_Report
-     */
-    private $report;
+    private array $vault;
 
-    public function __construct(\common_report_Report $report)
+    public function __construct(array $vault)
     {
-        $this->report = $report;
+        $this->vault = $vault;
     }
 
-    public function getName()
+    public function get(string $index): string
     {
-        return get_class($this);
+        if ($this->exist($index) === false) {
+            throw new InvalidArgumentException(sprintf('Secret index "%s" missing in storage.', $index));
+        }
+
+        return $this->vault[$index];
     }
 
-    /**
-     * @return \common_report_Report
-     */
-    public function getReport()
+    public function exist(string $index): bool
     {
-        return $this->report;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'report' => $this->report->toArray()
-        ];
+        return isset($this->vault[$index]);
     }
 }
