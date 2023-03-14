@@ -140,8 +140,6 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
     public function clearAll(int $uSleepInterval, int $timeLimit = 0): int
     {
         $persistence = $this->getPersistence();
-
-        /** @var common_persistence_PhpRedisDriver $driver */
         $driver = $persistence->getDriver();
         $pattern = sprintf('*%s*', self::TOKENS_STORAGE_KEY);
         $countDeleted = 0;

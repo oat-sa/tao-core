@@ -97,7 +97,7 @@ class ClearCsrfTokenTool extends ScriptAction
                 $exception->getTraceAsString()
             );
 
-            $this->logInfo($message);
+            $this->logError($message);
 
             return Report::createError($message);
         }
