@@ -124,7 +124,7 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
         if (!isset($this->keyPrefix)) {
             $this->keyPrefix = sprintf(
                 '%s_%s',
-                defined('POC_USER_ID') ? POC_USER_ID : $this->getSessionService()->getCurrentUser()->getIdentifier(), //FIXME $this->getSessionService()->getCurrentUser()->getIdentifier(),
+                $this->getSessionService()->getCurrentUser()->getIdentifier(),
                 self::TOKENS_STORAGE_KEY
             );
         }
