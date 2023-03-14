@@ -49,12 +49,28 @@ class DataAccessControlChangedListener extends ConfigurableService
         /** @noinspection PhpUnhandledExceptionInspection */
         $resource = $this->getResource($event->getResourceId());
 
-        if ($resource->isClass() && !$event->applyToNestedResources() && !$event->isRecursive()) {
+        if ($event->getResourceId() !== $event->getRrootResourceId()) {
+            $this->getLogger()->debug(
+                sprintf(
+                    'Not triggering %s for non-root resource %s [%s]',
+                    UpdateDataAccessControlInIndex::class,
+                    $resource->getLabel(),
+                    $resource->getUri()
+                )
+            );
+
             return;
         }
 
-        $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-        $queueDispatcher->createTask(
+        $this->getLogger()->debug(
+            sprintf(
+                'Dispatching UpdateDataAccessControlInIndex for root resource %s [%s]',
+                $resource->getLabel(),
+                $resource->getLabel()
+            )
+        );
+
+        $this->getQueueDispatcher()->createTask(
             new UpdateDataAccessControlInIndex(),
             [
                 $resource->getUri(),
@@ -62,5 +78,10 @@ class DataAccessControlChangedListener extends ConfigurableService
             ],
             $taskMessage
         );
+    }
+
+    private function getQueueDispatcher(): QueueDispatcherInterface
+    {
+        return $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
     }
 }

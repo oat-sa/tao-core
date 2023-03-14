@@ -29,6 +29,9 @@ class DataAccessControlChangedEvent implements Event
     /** @var string */
     private $resourceId;
 
+    /** @var string */
+    private $rootResourceId;
+
     /** @var array */
     private $addRemove;
 
@@ -42,11 +45,13 @@ class DataAccessControlChangedEvent implements Event
 
     public function __construct(
         string $resourceId,
+        string $rootResourceId, // @todo Update unit tests
         array $addRemove,
         bool $isRecursive = false,
         bool $applyToNestedResources = false
     ) {
         $this->resourceId = $resourceId;
+        $this->rootResourceId = $rootResourceId;
         $this->addRemove = $addRemove;
         $this->isRecursive = $isRecursive;
         $this->applyToNestedResources = $applyToNestedResources;
@@ -60,6 +65,11 @@ class DataAccessControlChangedEvent implements Event
     public function getResourceId(): string
     {
         return $this->resourceId;
+    }
+
+    public function getRrootResourceId(): string
+    {
+        return $this->rootResourceId;
     }
 
     public function getOperations(string $operation): array
