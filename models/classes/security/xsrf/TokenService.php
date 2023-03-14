@@ -219,7 +219,7 @@ class TokenService extends ConfigurableService
         $poolSize = $this->getPoolSize();
 
         if ($timeLimit > 0) {
-            foreach ($tokens as $key =>$token) {
+            foreach ($tokens as $key => $token) {
                 if ($this->isExpired($token)) {
                     $this->getStore()->removeToken($token->getValue());
                     unset($tokens[$key]);
@@ -338,7 +338,8 @@ class TokenService extends ConfigurableService
     {
         $tokenPool = $this->generateTokenPool();
         $jsTokenPool = [];
-        $storedFormToken = $this->getStore()->getToken(self::FORM_TOKEN_NAMESPACE);;
+        $storedFormToken = $this->getStore()->getToken(self::FORM_TOKEN_NAMESPACE);
+
         foreach ($tokenPool as $token) {
             if ($storedFormToken && $token->getValue() === $storedFormToken->getValue()) {
                 // exclude form token from client configuration
