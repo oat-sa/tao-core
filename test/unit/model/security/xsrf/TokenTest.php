@@ -22,8 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\security\xsrf;
 
-use oat\generis\test\TestCase;
 use oat\tao\model\security\xsrf\Token;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Unit Tests for oat\tao\model\security\Token
