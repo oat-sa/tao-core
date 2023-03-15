@@ -49,7 +49,7 @@ class DataAccessControlChangedListener extends ConfigurableService
         /** @noinspection PhpUnhandledExceptionInspection */
         $resource = $this->getResource($event->getResourceId());
 
-        if ($event->getResourceId() !== $event->getRrootResourceId()) {
+        if ($event->getResourceId() !== $event->getRootResourceId()) {
             $this->getLogger()->debug(
                 sprintf(
                     'Not triggering %s for non-root resource %s [%s]',
