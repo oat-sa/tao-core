@@ -73,7 +73,7 @@ class DataAccessControlChangedListenerTest extends TestCase
     /**
      * @dataProvider handleEventSuccessfulCasesDataProvider
      */
-    public function testHandleEventShouldCreateTaskSuccessfully(bool $isRecursive, bool $isClass): void
+    public function testHandleEventShouldCreateTaskSuccessfully(bool $isRecursive): void
     {
         $documentUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
 
@@ -88,21 +88,28 @@ class DataAccessControlChangedListenerTest extends TestCase
             ->method('getUri')
             ->willReturn($documentUri);
         $resource
-            ->expects($this->once())
-            ->method('isClass')
-            ->willReturn($isClass);
+            ->method('getLabel')
+            ->willReturn('Resource Label');
 
         $this->logger
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('debug')
-            ->with('triggering index update on DataAccessControlChanged event');
+            ->withConsecutive(
+                ['triggering index update on DataAccessControlChanged event'],
+                [
+                    $this->stringStartsWith(
+                        'Dispatching UpdateDataAccessControlInIndex for root resource'
+                    )
+                ]
+            );
 
         $this->ontology
             ->expects($this->once())
             ->method('getResource')
             ->willReturn($resource);
 
-        $this->queueDispatcher->expects($this->once())
+        $this->queueDispatcher
+            ->expects($this->once())
             ->method('createTask')
             ->with(
                 new UpdateDataAccessControlInIndex(),
@@ -116,7 +123,13 @@ class DataAccessControlChangedListenerTest extends TestCase
             );
 
         $this->sut->handleEvent(
-            new DataAccessControlChangedEvent($documentUri, [], $isRecursive, $isRecursive)
+            new DataAccessControlChangedEvent(
+                $documentUri,
+                [],
+                $isRecursive,
+                $isRecursive,
+                $documentUri
+            )
         );
     }
 
@@ -124,13 +137,13 @@ class DataAccessControlChangedListenerTest extends TestCase
     {
         return [
             'case event is recursive and resource is NOT a class' => [
-                true, false
+                true,
             ],
             'case event is recursive and resource is a class' => [
-                true, true
+                true,
             ],
             'case event is NOT recursive and resource is not a class' => [
-                false, false
+                false,
             ],
         ];
     }
@@ -142,8 +155,6 @@ class DataAccessControlChangedListenerTest extends TestCase
         $this->advancedSearchChecker->method('isEnabled')->willReturn(true);
 
         $resource->expects($this->never())->method('getUri');
-        $resource->expects($this->once())->method('isClass')
-            ->willReturn(true);
 
         $this->logger->expects($this->once())->method('debug')
             ->with('triggering index update on DataAccessControlChanged event');

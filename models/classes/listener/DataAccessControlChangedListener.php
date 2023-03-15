@@ -50,15 +50,6 @@ class DataAccessControlChangedListener extends ConfigurableService
         $resource = $this->getResource($event->getResourceId());
 
         if ($event->getResourceId() !== $event->getRootResourceId()) {
-            $this->getLogger()->debug(
-                sprintf(
-                    'Not triggering %s for non-root resource %s [%s]',
-                    UpdateDataAccessControlInIndex::class,
-                    $resource->getLabel(),
-                    $resource->getUri()
-                )
-            );
-
             return;
         }
 
