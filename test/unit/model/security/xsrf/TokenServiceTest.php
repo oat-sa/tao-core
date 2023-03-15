@@ -500,6 +500,14 @@ class TokenServiceTest extends TestCase
         $poolSize = 5;
         $this->subject = $this->createSubject($this->tokenStoreMock, $poolSize, 60, true);
 
+        $formToken = new Token();
+
+        $this->tokenStoreMock
+            ->expects($this->once())
+            ->method('getToken')
+            ->with(TokenService::FORM_TOKEN_NAMESPACE)
+            ->willReturn($formToken);
+
         $result = $this->subject->getClientConfig();
 
         self::assertArrayHasKey('tokenTimeLimit', $result, 'Client config must contain time limit value.');
@@ -531,7 +539,7 @@ class TokenServiceTest extends TestCase
         $storedFormToken = new Token();
         $this->tokenStoreMock
             ->method('getToken')
-            ->with('form_token')
+            ->with(TokenService::FORM_TOKEN_NAMESPACE)
             ->willReturn($storedFormToken);
 
         $result = $this->subject->getFormToken();
@@ -544,7 +552,7 @@ class TokenServiceTest extends TestCase
         // Form token does not exist in token store during the first call but exists during the second call.
         $this->tokenStoreMock
             ->method('getToken')
-            ->with('form_token')
+            ->with(TokenService::FORM_TOKEN_NAMESPACE)
             ->willReturnOnConsecutiveCalls(
                 null,
                 new Token()
@@ -555,7 +563,7 @@ class TokenServiceTest extends TestCase
             ->expects(self::once())
             ->method('setToken')
             ->with(
-                'form_token',
+                TokenService::FORM_TOKEN_NAMESPACE,
                 self::callback(
                     function (Token $token) {
                         return true;
@@ -566,6 +574,47 @@ class TokenServiceTest extends TestCase
         $this->subject->getFormToken();
     }
 
+    public function testGetFormTokenWhenFormTokenIsExpired(): void
+    {
+        $expiredToken = new Token(
+            [
+                'token' => 'expiredKey',
+                'ts' => microtime(true) - 3600,
+            ]
+        );
+        $newToken = new Token(
+            [
+                'token' => 'newKey',
+                'ts' => microtime(true),
+            ]
+        );
+
+        $this->subject = $this->createSubject($this->tokenStoreMock, 10, 2, true);
+
+        $this->tokenStoreMock
+            ->method('getToken')
+            ->with(TokenService::FORM_TOKEN_NAMESPACE)
+            ->willReturnOnConsecutiveCalls($expiredToken, $newToken);
+
+        $this->tokenStoreMock
+            ->method('removeToken')
+            ->with($expiredToken->getValue())
+            ->willReturn(true);
+
+        $this->tokenStoreMock
+            ->expects(self::once())
+            ->method('setToken')
+            ->with(
+                TokenService::FORM_TOKEN_NAMESPACE,
+                self::callback(
+                    function (Token $token) {
+                        return true;
+                    }
+                )
+            );
+
+        $this->assertSame($newToken, $this->subject->getFormToken());
+    }
 
     public function dataProviderTestGetPoolSize(): array
     {

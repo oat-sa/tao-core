@@ -336,9 +336,9 @@ class TokenService extends ConfigurableService
      */
     public function getClientConfig(): array
     {
+        $storedFormToken = $this->getFormToken();
         $tokenPool = $this->generateTokenPool();
         $jsTokenPool = [];
-        $storedFormToken = $this->getStore()->getToken(self::FORM_TOKEN_NAMESPACE);
 
         foreach ($tokenPool as $token) {
             if ($storedFormToken && $token->getValue() === $storedFormToken->getValue()) {
@@ -373,14 +373,23 @@ class TokenService extends ConfigurableService
      */
     public function getFormToken(): Token
     {
-        $formToken = $this->getStore()->getToken(self::FORM_TOKEN_NAMESPACE);
+        $store = $this->getStore();
+        $token = $store->getToken(self::FORM_TOKEN_NAMESPACE);
 
-        if ($formToken === null) {
+        if ($token === null) {
             $this->addFormToken();
-            $formToken = $this->getStore()->getToken(self::FORM_TOKEN_NAMESPACE);
+
+            return $store->getToken(self::FORM_TOKEN_NAMESPACE);
         }
 
-        return $formToken;
+        if ($token->isExpired($this->getTimeLimit())) {
+            $this->revokeToken($token);
+            $this->addFormToken();
+
+            return $store->getToken(self::FORM_TOKEN_NAMESPACE);
+        }
+
+        return $token;
     }
 
     private function getClientStore(): string
