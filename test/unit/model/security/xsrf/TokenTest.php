@@ -15,20 +15,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2023 (original work) Open Assessment Technologies SA ;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\security\xsrf;
 
-use oat\generis\test\TestCase;
 use oat\tao\model\security\xsrf\Token;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Unit Tests for oat\tao\model\security\Token
  */
 class TokenTest extends TestCase
 {
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $key = 'a token key';
         $timeStamp = 1234567890.123456;
@@ -47,11 +49,35 @@ class TokenTest extends TestCase
         $this->assertEquals($key, $encodedTokenData[Token::TOKEN_KEY]);
     }
 
-    public function testCreateNewToken()
+    public function testCreateNewToken(): void
     {
         $token = new Token();
 
         self::assertSame(40, strlen($token->getValue()), 'The token has the expected length');
         self::assertRegExp('/^[0-9a-f]{40}$/', $token->getValue(), 'The token is correctly formatted');
+    }
+
+    public function testIsExpired(): void
+    {
+        $token = new Token(
+            [
+                Token::TOKEN_KEY => 'abc123',
+                Token::TIMESTAMP_KEY => microtime(true) - 2,
+            ]
+        );
+
+        self::assertTrue($token->isExpired(1));
+    }
+
+    public function testIsNotExpired(): void
+    {
+        $token = new Token(
+            [
+                Token::TOKEN_KEY => 'abc123',
+                Token::TIMESTAMP_KEY => microtime(true),
+            ]
+        );
+
+        self::assertFalse($token->isExpired(5));
     }
 }

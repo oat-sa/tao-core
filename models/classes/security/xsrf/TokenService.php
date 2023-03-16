@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\security\xsrf;
 
 use common_Exception;
+use common_exception_NoImplementation;
 use common_exception_Unauthorized;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\service\ConfigurableService;
@@ -77,6 +78,28 @@ class TokenService extends ConfigurableService
     private const DEFAULT_POOL_SIZE    = 6;
     private const DEFAULT_TIME_LIMIT   = 0;
     private const DEFAULT_CLIENT_STORE = self::OPTION_CLIENT_STORE_MEMORY;
+
+    /**
+     * @param int $uSleepInterval Microseconds interval between scan/keys to perform deletion
+     * @param int $timeLimit Expiration time for tokens, 0 means, no expiration
+     * @return int - The total deleted records
+     */
+    public function clearAll(int $uSleepInterval, int $timeLimit): int
+    {
+        $store = $this->getStore();
+
+        if ($store instanceof TokenStoreKeyValue) {
+            return $store->clearAll($uSleepInterval, $timeLimit);
+        }
+
+        throw new common_exception_NoImplementation(
+            sprintf(
+                'There is no implementation of %s to the Store Driver %s',
+                __METHOD__,
+                get_class($store)
+            )
+        );
+    }
 
     /**
      * Generates, stores and return a brand new token
@@ -161,15 +184,7 @@ class TokenService extends ConfigurableService
      */
     private function isExpired(Token $token): bool
     {
-        $expired = false;
-        $actualTime = microtime(true);
-        $timeLimit = $this->getTimeLimit();
-
-        if (($timeLimit > 0) && $token->getCreatedAt() + $timeLimit < $actualTime) {
-            $expired = true;
-        }
-
-        return $expired;
+        return $token->isExpired($this->getTimeLimit());
     }
 
     /**
@@ -204,7 +219,7 @@ class TokenService extends ConfigurableService
         $poolSize = $this->getPoolSize();
 
         if ($timeLimit > 0) {
-            foreach ($tokens as $key =>$token) {
+            foreach ($tokens as $key => $token) {
                 if ($this->isExpired($token)) {
                     $this->getStore()->removeToken($token->getValue());
                     unset($tokens[$key]);
@@ -321,9 +336,10 @@ class TokenService extends ConfigurableService
      */
     public function getClientConfig(): array
     {
+        $storedFormToken = $this->getFormToken();
         $tokenPool = $this->generateTokenPool();
         $jsTokenPool = [];
-        $storedFormToken = $this->getStore()->getToken(self::FORM_TOKEN_NAMESPACE);;
+
         foreach ($tokenPool as $token) {
             if ($storedFormToken && $token->getValue() === $storedFormToken->getValue()) {
                 // exclude form token from client configuration
@@ -357,14 +373,23 @@ class TokenService extends ConfigurableService
      */
     public function getFormToken(): Token
     {
-        $formToken = $this->getStore()->getToken(self::FORM_TOKEN_NAMESPACE);
+        $store = $this->getStore();
+        $token = $store->getToken(self::FORM_TOKEN_NAMESPACE);
 
-        if ($formToken === null) {
+        if ($token === null) {
             $this->addFormToken();
-            $formToken = $this->getStore()->getToken(self::FORM_TOKEN_NAMESPACE);
+
+            return $store->getToken(self::FORM_TOKEN_NAMESPACE);
         }
 
-        return $formToken;
+        if ($token->isExpired($this->getTimeLimit())) {
+            $this->revokeToken($token);
+            $this->addFormToken();
+
+            return $store->getToken(self::FORM_TOKEN_NAMESPACE);
+        }
+
+        return $token;
     }
 
     private function getClientStore(): string
