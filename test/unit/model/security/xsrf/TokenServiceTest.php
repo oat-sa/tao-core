@@ -15,18 +15,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2017-2023 (original work) Open Assessment Technologies SA ;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\security\xsrf;
 
+use common_exception_NoImplementation;
 use common_exception_Unauthorized as UnauthorizedException;
 use oat\generis\test\MockObject;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\exception\InvalidService;
 use oat\tao\model\security\xsrf\Token;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\tao\model\security\xsrf\TokenStore;
+use oat\tao\model\security\xsrf\TokenStoreKeyValue;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Unit Test of oat\tao\model\security\xsrf\TokenService
@@ -35,6 +41,8 @@ use oat\tao\model\security\xsrf\TokenStore;
  */
 class TokenServiceTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     /**
      * @var TokenService
      */
@@ -48,16 +56,30 @@ class TokenServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->tokenStoreMock = $this->createMock(TokenStore::class);
+        $this->tokenStoreMock = $this->createMock(TokenStoreKeyValue::class);
+        $this->subject = $this->createSubject($this->tokenStoreMock, 10, 0, true);
+    }
 
-        $this->subject = new TokenService(
-            [
-                'store' => $this->tokenStoreMock,
-                'poolSize' => 10,
-                'timeLimit' => 0,
-                'validateTokens' => true
-            ]
-        );
+    public function testClearAll(): void
+    {
+        $this->tokenStoreMock
+            ->expects($this->once())
+            ->method('clearAll')
+            ->with(1000, 120)
+            ->willReturn(1);
+
+        static::assertSame(1, $this->subject->clearAll(1000, 120));
+    }
+
+    public function testClearWithInvalidStore(): void
+    {
+        $this->tokenStoreMock = $this->createMock(TokenStore::class);
+        $this->subject = $this->createSubject($this->tokenStoreMock, 10, 0, true);
+
+        $this->expectException(common_exception_NoImplementation::class);
+        $this->expectExceptionMessage('There is no implementation of');
+
+        $this->subject->clearAll(1000, 120);
     }
 
     public function testValidateToken(): void
@@ -105,13 +127,15 @@ class TokenServiceTest extends TestCase
     public function testInstantiateBadStore(): void
     {
         $this->expectException(InvalidService::class);
-        $service = new TokenService([
+        $service = new TokenService(
+            [
             'store' => []
-        ]);
+            ]
+        );
         $service->checkToken('unusedString');
     }
 
-    public function testCreateToken_WhenCalledTwice_ThenReturnsDifferentNewTokes(): void
+    public function testCreateTokenWhenCalledTwiceThenReturnsDifferentNewTokes(): void
     {
         $this->tokenStoreMock
             ->expects(self::exactly(2))
@@ -128,7 +152,7 @@ class TokenServiceTest extends TestCase
         self::assertNotEquals($token1->getValue(), $token2->getValue(), 'Method must return new token on each call.');
     }
 
-    public function testCheckToken_WhenValidTokenObject_ThenReturnTrue(): void
+    public function testCheckTokenWhenValidTokenObjectThenReturnTrue(): void
     {
         $tokenString = 'TOKEN_STRING';
         $tokenData = [
@@ -144,9 +168,9 @@ class TokenServiceTest extends TestCase
         self::assertTrue($this->subject->checkToken($token), 'Method must return TRUE for valid token object.');
     }
 
-    public function testCheckToken_WhenValidTokenString_ThenReturnTrue(): void
+    public function testCheckTokenWhenValidTokenStringThenReturnTrue(): void
     {
-        $tokenString = 'TOKEN_STRING';
+        $tokenString = 'TOKENSTRING';
         $tokenData = [
             'token' => $tokenString,
             'ts' => 12345,
@@ -160,7 +184,7 @@ class TokenServiceTest extends TestCase
         self::assertTrue($this->subject->checkToken($tokenString), 'Method must return TRUE for valid token string.');
     }
 
-    public function testCheckToken_WhenTokeDontExist_ThenReturnFalse(): void
+    public function testCheckTokenWhenTokeDontExistThenReturnFalse(): void
     {
         $tokenString = 'TOKEN_STRING';
         $this->tokenStoreMock
@@ -174,7 +198,7 @@ class TokenServiceTest extends TestCase
         );
     }
 
-    public function testCheckToken_WhenInvalidTokenString_ThenReturnFalse(): void
+    public function testCheckTokenWhenInvalidTokenStringThenReturnFalse(): void
     {
         $tokenString = 'TOKEN_STRING';
         $tokenData = [
@@ -197,16 +221,9 @@ class TokenServiceTest extends TestCase
         );
     }
 
-    public function testCheckToken_WhenValidExpiredTokenTimeLimitOn_ThenReturnFalse(): void
+    public function testCheckTokenWhenValidExpiredTokenTimeLimitOnThenReturnFalse(): void
     {
-        $this->subject = new TokenService(
-            [
-                'store' => $this->tokenStoreMock,
-                'poolSize' => 10,
-                'timeLimit' => 1,
-                'validateTokens' => true
-            ]
-        );
+        $this->subject = $this->createSubject($this->tokenStoreMock, 10, 1, true);
 
         $tokenString = 'TOKEN_STRING';
         $tokenData = [
@@ -225,17 +242,8 @@ class TokenServiceTest extends TestCase
         );
     }
 
-    public function testCheckToken_WhenValidExpiredTokenTimeLimitOff_ThenReturnTrue(): void
+    public function testCheckTokenWhenValidExpiredTokenTimeLimitOffThenReturnTrue(): void
     {
-        $this->subject = new TokenService(
-            [
-                'store' => $this->tokenStoreMock,
-                'poolSize' => 10,
-                'timeLimit' => 0, // Big time limit for token to not expire during test execution
-                'validateTokens' => true
-            ]
-        );
-
         $tokenString = 'TOKEN_STRING';
         $tokenData = [
             'token' => $tokenString,
@@ -253,7 +261,7 @@ class TokenServiceTest extends TestCase
         );
     }
 
-    public function testCheckFormToken_WhenCalled_ThenWillCheckCorrectToken(): void
+    public function testCheckFormTokenWhenCalledThenWillCheckCorrectToken(): void
     {
         $tokenString = 'TOKEN_STRING';
         $tokenData = [
@@ -269,19 +277,15 @@ class TokenServiceTest extends TestCase
             ->with(TokenService::FORM_TOKEN_NAMESPACE)
             ->willReturn($token);
 
-        self::assertTrue($this->subject->checkFormToken($token), 'Method must return TRUE for valid form token object.');
+        self::assertTrue(
+            $this->subject->checkFormToken($token),
+            'Method must return TRUE for valid form token object.'
+        );
     }
 
     public function testInvalidateRemovesExpiredTokens(): void
     {
-        $this->subject = new TokenService(
-            [
-                'store' => $this->tokenStoreMock,
-                'poolSize' => 10,
-                'timeLimit' => 1,
-                'validateTokens' => true
-            ]
-        );
+        $this->subject = $this->createSubject($this->tokenStoreMock, 10, 1, true);
 
         $tokenString1 = 'TOKEN_1';
         $expiredTokenData1 = [
@@ -320,14 +324,7 @@ class TokenServiceTest extends TestCase
 
     public function testInvalidateRemovesOldestTokensWhenPoolIfFull(): void
     {
-        $this->subject = new TokenService(
-            [
-                'store' => $this->tokenStoreMock,
-                'poolSize' => 2,
-                'timeLimit' => 1000,
-                'validateTokens' => true
-            ]
-        );
+        $this->subject = $this->createSubject($this->tokenStoreMock, 2, 1000, true);
 
         $tokenString1 = 'TOKEN_1';
         $tokenData1 = [
@@ -365,24 +362,17 @@ class TokenServiceTest extends TestCase
     }
 
     /**
-     * @param int $poolSizeOption
-     * @param bool $withForm
-     * @param bool $hasFormToken
-     * @param int $expectedResult
+     * @param  int  $poolSizeOption
+     * @param  bool $withForm
+     * @param  bool $hasFormToken
+     * @param  int  $expectedResult
      * @throws InvalidService
      *
      * @dataProvider dataProviderTestGetPoolSize
      */
     public function testGetPoolSize(int $poolSizeOption, bool $withForm, bool $hasFormToken, int $expectedResult): void
     {
-        $this->subject = new TokenService(
-            [
-                'store' => $this->tokenStoreMock,
-                'poolSize' => $poolSizeOption,
-                'timeLimit' => 0,
-                'validateTokens' => true
-            ]
-        );
+        $this->subject = $this->createSubject($this->tokenStoreMock, $poolSizeOption, 0, true);
 
         $this->tokenStoreMock
             ->method('hasToken')
@@ -394,33 +384,21 @@ class TokenServiceTest extends TestCase
         self::assertSame($expectedResult, $result, 'Method must return correct pool size value.');
     }
 
-    public function testGetPoolSize_WhenSizeNotConfigured_WillReturnDefaultValue(): void
+    public function testGetPoolSizeWhenSizeNotConfiguredWillReturnDefaultValue(): void
     {
         $defaultPoolSize = 6;
-        $this->subject = new TokenService(
-            [
-                'store' => $this->tokenStoreMock,
-                'timeLimit' => 0,
-                'validateTokens' => true
-            ]
-        );
+        $this->subject = $this->createSubject($this->tokenStoreMock, null, 0, true);
 
         $result = $this->subject->getPoolSize();
 
         self::assertSame($defaultPoolSize, $result, 'Method must return default pool size if it is not configured.');
     }
 
-    public function testGenerateTokenPool_WhenNoTokensStored_ThenGeneratesNewPool(): void
+    public function testGenerateTokenPoolWhenNoTokensStoredThenGeneratesNewPool(): void
     {
         $poolSize = 5;
-        $this->subject = new TokenService(
-            [
-                'store' => $this->tokenStoreMock,
-                'poolSize' => $poolSize,
-                'timeLimit' => 0,
-                'validateTokens' => true
-            ]
-        );
+
+        $this->subject = $this->createSubject($this->tokenStoreMock, $poolSize, 0, true);
 
         $this->tokenStoreMock
             ->method('getAll')
@@ -435,17 +413,11 @@ class TokenServiceTest extends TestCase
         self::assertCount($poolSize, $result, 'Method must return a tokens pool of correct size.');
     }
 
-    public function testGenerateTokenPool_WhenStoredPoolNotFull_ThenGeneratesMissingTokens(): void
+    public function testGenerateTokenPoolWhenStoredPoolNotFullThenGeneratesMissingTokens(): void
     {
         $poolSize = 5;
-        $this->subject = new TokenService(
-            [
-                'store' => $this->tokenStoreMock,
-                'poolSize' => $poolSize,
-                'timeLimit' => 0,
-                'validateTokens' => true
-            ]
-        );
+
+        $this->subject = $this->createSubject($this->tokenStoreMock, $poolSize, 0, true);
 
         $storedTokens = [
             new Token(),
@@ -465,17 +437,10 @@ class TokenServiceTest extends TestCase
         self::assertCount($poolSize, $result, 'Method must return a tokens pool of correct size.');
     }
 
-    public function testGenerateTokenPool_WhenStoredPoolIsFull_ThenReturnStoredTokens(): void
+    public function testGenerateTokenPoolWhenStoredPoolIsFullThenReturnStoredTokens(): void
     {
         $poolSize = 3;
-        $this->subject = new TokenService(
-            [
-                'store' => $this->tokenStoreMock,
-                'poolSize' => $poolSize,
-                'timeLimit' => 0,
-                'validateTokens' => true
-            ]
-        );
+        $this->subject = $this->createSubject($this->tokenStoreMock, $poolSize, 0, true);
 
         $storedTokens = [
             new Token(),
@@ -497,17 +462,10 @@ class TokenServiceTest extends TestCase
         self::assertSame($storedTokens, $result, 'Method must return a pool of stored tokens.');
     }
 
-    public function testGenerateTokenPool_WhenStoredPoolHasExpiredTokens_ThenGeneratesNewTokens(): void
+    public function testGenerateTokenPoolWhenStoredPoolHasExpiredTokensThenGeneratesNewTokens(): void
     {
         $poolSize = 3;
-        $this->subject = new TokenService(
-            [
-                'store' => $this->tokenStoreMock,
-                'poolSize' => $poolSize,
-                'timeLimit' => 1000,
-                'validateTokens' => true
-            ]
-        );
+        $this->subject = $this->createSubject($this->tokenStoreMock, $poolSize, 1000, true);
 
         $expiredTokenValue = 'EXPIRED_TOKEN_VALUE';
         $expiredTokenData = [
@@ -540,14 +498,15 @@ class TokenServiceTest extends TestCase
     public function testGetClientConfig(): void
     {
         $poolSize = 5;
-        $this->subject = new TokenService(
-            [
-                'store' => $this->tokenStoreMock,
-                'poolSize' => $poolSize,
-                'timeLimit' => 60,
-                'validateTokens' => true
-            ]
-        );
+        $this->subject = $this->createSubject($this->tokenStoreMock, $poolSize, 60, true);
+
+        $formToken = new Token();
+
+        $this->tokenStoreMock
+            ->expects($this->once())
+            ->method('getToken')
+            ->with(TokenService::FORM_TOKEN_NAMESPACE)
+            ->willReturn($formToken);
 
         $result = $this->subject->getClientConfig();
 
@@ -565,20 +524,22 @@ class TokenServiceTest extends TestCase
             ->method('setToken')
             ->with(
                 'form_token',
-                self::callback(function (Token $token) {
-                    return true;
-                })
+                self::callback(
+                    function (Token $token) {
+                        return true;
+                    }
+                )
             );
 
         $this->subject->addFormToken();
     }
 
-    public function testGetFormToken_WhenFormTokenExist_ReturnStoredToken(): void
+    public function testGetFormTokenWhenFormTokenExistReturnStoredToken(): void
     {
         $storedFormToken = new Token();
         $this->tokenStoreMock
             ->method('getToken')
-            ->with('form_token')
+            ->with(TokenService::FORM_TOKEN_NAMESPACE)
             ->willReturn($storedFormToken);
 
         $result = $this->subject->getFormToken();
@@ -586,12 +547,12 @@ class TokenServiceTest extends TestCase
         self::assertSame($storedFormToken, $result, 'Method must return form tokens from tokens store.');
     }
 
-    public function testGetFormToken_WhenFormTokenDontExist_ReturnStoredToken(): void
+    public function testGetFormTokenWhenFormTokenDontExistReturnStoredToken(): void
     {
         // Form token does not exist in token store during the first call but exists during the second call.
         $this->tokenStoreMock
             ->method('getToken')
-            ->with('form_token')
+            ->with(TokenService::FORM_TOKEN_NAMESPACE)
             ->willReturnOnConsecutiveCalls(
                 null,
                 new Token()
@@ -602,15 +563,58 @@ class TokenServiceTest extends TestCase
             ->expects(self::once())
             ->method('setToken')
             ->with(
-                'form_token',
-                self::callback(function (Token $token) {
-                    return true;
-                })
+                TokenService::FORM_TOKEN_NAMESPACE,
+                self::callback(
+                    function (Token $token) {
+                        return true;
+                    }
+                )
             );
 
         $this->subject->getFormToken();
     }
 
+    public function testGetFormTokenWhenFormTokenIsExpired(): void
+    {
+        $expiredToken = new Token(
+            [
+                'token' => 'expiredKey',
+                'ts' => microtime(true) - 3600,
+            ]
+        );
+        $newToken = new Token(
+            [
+                'token' => 'newKey',
+                'ts' => microtime(true),
+            ]
+        );
+
+        $this->subject = $this->createSubject($this->tokenStoreMock, 10, 2, true);
+
+        $this->tokenStoreMock
+            ->method('getToken')
+            ->with(TokenService::FORM_TOKEN_NAMESPACE)
+            ->willReturnOnConsecutiveCalls($expiredToken, $newToken);
+
+        $this->tokenStoreMock
+            ->method('removeToken')
+            ->with($expiredToken->getValue())
+            ->willReturn(true);
+
+        $this->tokenStoreMock
+            ->expects(self::once())
+            ->method('setToken')
+            ->with(
+                TokenService::FORM_TOKEN_NAMESPACE,
+                self::callback(
+                    function (Token $token) {
+                        return true;
+                    }
+                )
+            );
+
+        $this->assertSame($newToken, $this->subject->getFormToken());
+    }
 
     public function dataProviderTestGetPoolSize(): array
     {
@@ -665,5 +669,30 @@ class TokenServiceTest extends TestCase
             ->willReturn($token);
 
         return $token;
+    }
+
+    private function createSubject(
+        TokenStore $tokenStore,
+        ?int $poolSize,
+        $timeLimit,
+        bool $validateTokens
+    ): TokenService {
+        $subject = new TokenService(
+            [
+                'store' => $tokenStore,
+                'poolSize' => $poolSize,
+                'timeLimit' => $timeLimit,
+                'validateTokens' => $validateTokens
+            ]
+        );
+        $subject->setServiceManager(
+            $this->getServiceManagerMock(
+                [
+                    LoggerService::SERVICE_ID => $this->createMock(LoggerService::class),
+                ]
+            )
+        );
+
+        return $subject;
     }
 }
