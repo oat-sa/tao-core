@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2023 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -49,12 +49,19 @@ class DataAccessControlChangedListener extends ConfigurableService
         /** @noinspection PhpUnhandledExceptionInspection */
         $resource = $this->getResource($event->getResourceId());
 
-        if ($resource->isClass() && !$event->isRecursive()) {
+        if ($event->getResourceId() !== $event->getRootResourceId()) {
             return;
         }
 
-        $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
-        $queueDispatcher->createTask(
+        $this->getLogger()->debug(
+            sprintf(
+                'Dispatching UpdateDataAccessControlInIndex for root resource %s [%s]',
+                $resource->getLabel(),
+                $resource->getLabel()
+            )
+        );
+
+        $this->getQueueDispatcher()->createTask(
             new UpdateDataAccessControlInIndex(),
             [
                 $resource->getUri(),
@@ -62,5 +69,10 @@ class DataAccessControlChangedListener extends ConfigurableService
             ],
             $taskMessage
         );
+    }
+
+    private function getQueueDispatcher(): QueueDispatcherInterface
+    {
+        return $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
     }
 }
