@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2023 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -29,17 +29,32 @@ class DataAccessControlChangedEvent implements Event
     /** @var string */
     private $resourceId;
 
+    /** @var ?string */
+    private $rootResourceId;
+
     /** @var array */
     private $addRemove;
 
-    /** @var bool */
+    /**
+     * @deprecated Use $applyToNestedResources cause processing recursively causes performance issues
+     * @var bool
+     */
     private $isRecursive;
 
-    public function __construct(string $resourceId, array $addRemove, bool $isRecursive = false)
-    {
+    private bool $applyToNestedResources;
+
+    public function __construct(
+        string $resourceId,
+        array $addRemove,
+        bool $isRecursive = false,
+        bool $applyToNestedResources = false,
+        string $rootResourceId = null
+    ) {
         $this->resourceId = $resourceId;
         $this->addRemove = $addRemove;
         $this->isRecursive = $isRecursive;
+        $this->applyToNestedResources = $applyToNestedResources;
+        $this->rootResourceId = $rootResourceId;
     }
 
     public function getName(): string
@@ -52,13 +67,26 @@ class DataAccessControlChangedEvent implements Event
         return $this->resourceId;
     }
 
+    public function getRootResourceId(): ?string
+    {
+        return $this->rootResourceId;
+    }
+
     public function getOperations(string $operation): array
     {
         return array_keys($this->addRemove[$operation] ?? []);
     }
 
+    /**
+     * @deprecated Use applyToNestedResources because processing recursively causes performance issues
+     */
     public function isRecursive(): bool
     {
         return $this->isRecursive;
+    }
+
+    public function applyToNestedResources(): bool
+    {
+        return $this->applyToNestedResources;
     }
 }
