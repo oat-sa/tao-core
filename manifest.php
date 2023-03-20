@@ -57,6 +57,7 @@ use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
+use oat\tao\scripts\install\EnableFuriganaRubyPlugin;
 use oat\tao\scripts\install\InstallNotificationTable;
 use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterActionAccessControl;
@@ -269,7 +270,8 @@ return [
             RegisterTaoUpdateEventListener::class,
             RegisterActionAccessControl::class,
             RegisterRtlLocales::class,
-            RegisterSearchServices::class
+            RegisterSearchServices::class,
+            EnableFuriganaRubyPlugin::class
         ],
     ],
     'update' => Updater::class,
