@@ -27,7 +27,6 @@ use oat\tao\model\ClientLibConfigRegistry;
 
 class EnableFuriganaRubyPlugin extends \common_ext_action_InstallAction
 {
-
     public function __invoke($params)
     {
         $featuresVisibility = ClientLibConfigRegistry::getRegistry()->get('services/features');
