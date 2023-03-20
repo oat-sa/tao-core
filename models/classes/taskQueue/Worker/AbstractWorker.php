@@ -234,9 +234,13 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
 
     protected function formatTaskLabel(TaskInterface $task): string
     {
-        return strlen($task->getLabel()) > 255
-            ? '...' . substr($task->getLabel(), -252)
-            : $task->getLabel();
+        $label = $task->getLabel();
+
+        if (!is_string($label)) {
+            return '';
+        }
+
+        return strlen($label) > 255 ? '...' . substr($label, -252) : $label;
     }
 
 
