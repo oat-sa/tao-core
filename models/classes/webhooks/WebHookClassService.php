@@ -23,17 +23,24 @@ declare(strict_types=1);
 namespace oat\tao\model\webhooks;
 
 use common_Exception;
+use common_exception_Error;
+use common_exception_InvalidArgumentType;
 use core_kernel_classes_Class;
-use core_kernel_classes_Property as Property;
+use core_kernel_classes_Resource;
 use core_kernel_persistence_Exception;
+use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\generis\model\data\Ontology;
+use oat\tao\model\auth\AuthUriClassMapper;
+use oat\tao\model\auth\BasicAuth;
+use oat\tao\model\auth\BasicAuthCredentials;
 use oat\tao\model\OntologyClassService;
-use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\configEntity\WebhookAuth;
+use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
+use tao_models_classes_dataBinding_GenerisFormDataBinder;
 
-class WebHookClassService extends OntologyClassService
+class WebHookClassService extends OntologyClassService implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
@@ -44,6 +51,9 @@ class WebHookClassService extends OntologyClassService
     public const PROPERTY_WEB_HOOK_RETRY = 'http://www.tao.lu/Ontologies/TAO.rdf#WebHookRetry';
     public const PROPERTY_RESPONSE_VALIDATION = 'http://www.tao.lu/Ontologies/TAO.rdf#WebHookResponseValidation';
     public const PROPERTY_WEBHOOK_EVENT = 'http://www.tao.lu/Ontologies/TAO.rdf#WebhookEvent';
+    public const RDF_HTTP_METHOD_POST = 'http://www.tao.lu/Ontologies/TAO.rdf#HTTPMethodPOST';
+    public const RDF_HTTP_METHOD_GET = 'http://www.tao.lu/Ontologies/TAO.rdf#HTTPMethodGET';
+    public const RDF_COMPLY_ENABLED = 'http://www.tao.lu/Ontologies/TAO.rdf#ComplyEnabled';
 
 
     private ?Ontology $ontology;
@@ -65,38 +75,7 @@ class WebHookClassService extends OntologyClassService
             return null;
         }
 
-        $responseValidation = $webhookClass->getOnePropertyValue(
-            $this->getProperty(self::PROPERTY_RESPONSE_VALIDATION)
-        )->getLabel();
-
-        /** @var WebhookAuthService $webhookAuthService */
-        $webhookAuthService = $this->getServiceLocator()->get(WebhookAuthService::SERVICE_ID);
-        $authType = $webhookAuthService->getAuthType(
-            $webhookClass->getOnePropertyValue($this->getProperty(self::PROPERTY_AUTH_TYPE))
-        );
-
-        $authProperties = $authType->getAuthProperties();
-        $extractedAuthProperties = [];
-        foreach ($authProperties as $authProperty) {
-            $propertyLabel = strtolower($authProperty->getLabel());
-            $extractedAuthProperties[$propertyLabel] = $webhookClass->getOnePropertyValue(
-                $this->getProperty($authProperty->getUri())
-            );
-        }
-
-        $webHookAuth = new WebhookAuth(
-            get_class($authType),
-            $extractedAuthProperties
-        );
-
-        return new Webhook(
-            $uri,
-            $uri,
-            $webhookClass->getOnePropertyValue(new Property(self::PROPERTY_WEB_HOOK_METHOD))->getLabel(),
-            (int)$webhookClass->getOnePropertyValue(new Property(self::PROPERTY_WEB_HOOK_RETRY))->__toString(),
-            $webHookAuth,
-            $responseValidation === 'Enable'
-        );
+        return $this->rdfInstanceToEntity($webhookClass);
     }
 
     public function getWebhookByEventClass(string $eventClassName): array
@@ -114,5 +93,150 @@ class WebHookClassService extends OntologyClassService
         }
 
         return $result;
+    }
+
+    /**
+     * @throws core_kernel_persistence_Exception
+     * @throws common_exception_InvalidArgumentType
+     * @throws common_Exception
+     */
+    public function getWebhooks(): array
+    {
+        $rootClass = $this->getRootClass();
+        $webhookInstances = $rootClass->getInstances(false);
+
+        $result = [];
+        foreach ($webhookInstances as $webhookInstance) {
+            $result[] = $this->rdfInstanceToEntity($webhookInstance);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @throws common_exception_Error
+     * @throws common_Exception
+     */
+    public function saveWebhook(WebhookInterface $webhook, array $events): void
+    {
+        $values = [
+            self::PROPERTY_WEB_HOOK_URL => $webhook->getUrl(),
+            self::PROPERTY_WEB_HOOK_RETRY => (string)$webhook->getMaxRetries(),
+            self::PROPERTY_WEB_HOOK_METHOD => $webhook->getHttpMethod() === 'POST'
+                ? self::RDF_HTTP_METHOD_POST
+                : self::RDF_HTTP_METHOD_GET
+        ];
+
+        if ($webhook->getResponseValidationEnable()) {
+            $values[self::PROPERTY_RESPONSE_VALIDATION] =
+                self::RDF_COMPLY_ENABLED;
+        }
+
+        $uriClassMapper = new AuthUriClassMapper();
+        $authTypeUri = $uriClassMapper->getUriByClass($webhook->getAuth()->getAuthClass());
+        $values[self::PROPERTY_AUTH_TYPE] = $authTypeUri;
+
+        if ($authTypeUri === BasicAuth::CLASS_BASIC_AUTH) {
+            $credentials = $webhook->getAuth()->getCredentials();
+            $values[BasicAuth::PROPERTY_LOGIN] = $credentials[BasicAuthCredentials::LOGIN];
+            $values[BasicAuth::PROPERTY_PASSWORD] = $credentials[BasicAuthCredentials::PASSWORD];
+        }
+
+        if (!empty($events)) {
+            $values[self::PROPERTY_WEBHOOK_EVENT] = [];
+            foreach ($events as $eventClass) {
+                $values[self::PROPERTY_WEBHOOK_EVENT][] = $eventClass;
+            }
+        }
+
+        $this->saveWebhookInstance($values);
+    }
+
+    /**
+     * @throws common_exception_Error
+     * @throws common_Exception
+     */
+    public function saveWebhookInstance(array $parameters, ?core_kernel_classes_Resource $instance = null): void
+    {
+
+        if (!$instance) {
+            $currentClass = $this->getCurrentClass();
+
+            $instance = $this->createInstance($currentClass);
+        }
+
+        // save properties
+        $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
+        $binder->bind($parameters);
+    }
+
+    protected function getCurrentClass(): ?core_kernel_classes_Class
+    {
+        return $this->getModel()->getClass(self::CLASS_URI);
+    }
+
+    /**
+     * @throws core_kernel_persistence_Exception
+     * @throws common_Exception
+     */
+    private function getAuth(core_kernel_classes_Resource $webhookClass): WebhookAuth
+    {
+        /** @var WebhookAuthService $webhookAuthService */
+        $webhookAuthService = $this->getServiceLocator()->get(WebhookAuthService::SERVICE_ID);
+        $authType = $webhookAuthService->getAuthType(
+            $webhookClass->getOnePropertyValue($this->getProperty(self::PROPERTY_AUTH_TYPE))
+        );
+
+        $authProperties = $authType->getAuthProperties();
+        $extractedAuthProperties = [];
+        foreach ($authProperties as $authProperty) {
+            $propertyLabel = strtolower($authProperty->getLabel());
+            $extractedAuthProperties[$propertyLabel] = (string)$webhookClass->getOnePropertyValue(
+                $this->getProperty($authProperty->getUri())
+            );
+        }
+
+        return $this->getWebhookEntryFactory()->createAuthEntry(get_class($authType), $extractedAuthProperties);
+    }
+
+    /**
+     * @param core_kernel_classes_Resource $webhookResource
+     *
+     * @return WebhookInterface
+     *
+     * @throws common_Exception
+     * @throws common_exception_InvalidArgumentType
+     * @throws core_kernel_persistence_Exception
+     */
+    private function rdfInstanceToEntity(core_kernel_classes_Resource $webhookResource): WebhookInterface
+    {
+        $properties = $webhookResource->getPropertiesValues([
+            self::PROPERTY_WEB_HOOK_URL,
+            self::PROPERTY_WEB_HOOK_METHOD,
+            self::PROPERTY_WEB_HOOK_RETRY,
+            self::PROPERTY_AUTH_TYPE,
+            self::PROPERTY_RESPONSE_VALIDATION
+        ]);
+
+        return $this->getWebhookEntryFactory()->createEntry(
+            $webhookResource->getUri(),
+            $properties[self::PROPERTY_WEB_HOOK_URL][0]->__toString(),
+            $properties[self::PROPERTY_WEB_HOOK_METHOD][0]->getLabel(),
+            (int)$properties[self::PROPERTY_WEB_HOOK_RETRY][0]->__toString(),
+            $this->getAuth($webhookResource),
+            $properties[self::PROPERTY_RESPONSE_VALIDATION][0]->getLabel() === 'Enabled',
+        );
+    }
+
+    private function getWebhookEntryFactory(): WebhookEntryFactory
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(WebhookEntryFactory::class);
+    }
+
+    private function getWebhookAuthService(): WebhookAuthService
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->get(WebhookAuthService::class);
     }
 }
