@@ -41,4 +41,11 @@ interface WebhookRegistryInterface
      * @return string[]
      */
     public function getWebhookConfigIds($eventName);
+
+    /**
+     * @return WebhookInterface[]
+     */
+    public function getWebhooks(): array;
+
+    public function addWebhook(WebhookInterface $webhook, array $events = []): void;
 }

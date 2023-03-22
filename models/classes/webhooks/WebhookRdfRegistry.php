@@ -23,6 +23,8 @@ declare(strict_types=1);
 namespace oat\tao\model\webhooks;
 
 use common_Exception;
+use common_exception_Error;
+use common_exception_InvalidArgumentType;
 use core_kernel_classes_Resource;
 use core_kernel_persistence_Exception;
 use Laminas\ServiceManager\ServiceLocatorAwareInterface;
@@ -49,6 +51,25 @@ class WebhookRdfRegistry implements WebhookRegistryInterface, ServiceLocatorAwar
         return array_map(static function (core_kernel_classes_Resource $webHook) {
             return $webHook->getUri();
         }, $webHooks);
+    }
+
+    /**
+     * @throws common_exception_Error
+     * @throws common_Exception
+     */
+    public function addWebhook(WebhookInterface $webhook, array $events = []): void
+    {
+        $this->getClassService()->saveWebhook($webhook, $events);
+    }
+
+    /**
+     * @throws core_kernel_persistence_Exception
+     * @throws common_exception_InvalidArgumentType
+     * @throws common_Exception
+     */
+    public function getWebhooks(): array
+    {
+        return $this->getClassService()->getWebhooks();
     }
 
     private function getClassService(): WebHookClassService

@@ -120,7 +120,7 @@ class Webhook implements WebhookInterface
     /**
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             self::ID => $this->getId(),
