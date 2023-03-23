@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint157\n"
-"PO-Revision-Date: 2021-06-18T08:55:20\n"
+"Project-Id-Version: TAO 2023.04\n"
+"PO-Revision-Date: 2023-03-23T13:15:23\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nn-NO\n"
@@ -77,6 +77,9 @@ msgid "%s Class saved"
 msgstr ""
 
 msgid "%s classes"
+msgstr ""
+
+msgid "%s completed"
 msgstr ""
 
 msgid "%s Confirmation"
@@ -215,6 +218,9 @@ msgstr ""
 msgid "Add file(s)"
 msgstr ""
 
+msgid "Add index"
+msgstr ""
+
 msgid "Add property"
 msgstr ""
 
@@ -315,6 +321,9 @@ msgstr ""
 msgid "Are you sure you want to delete it?"
 msgstr ""
 
+msgid "Are you sure you wish to delete it"
+msgstr ""
+
 msgid "Argument check failed: %s"
 msgstr ""
 
@@ -394,6 +403,9 @@ msgstr ""
 msgid "Browse folders:"
 msgstr ""
 
+msgid "Browse resources"
+msgstr ""
+
 msgid "Browse..."
 msgstr ""
 
@@ -415,10 +427,10 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-msgid "Cancel"
+msgid "cancel"
 msgstr ""
 
-msgid "cancel"
+msgid "Cancel"
 msgstr ""
 
 msgid "cancel the action"
@@ -452,16 +464,19 @@ msgstr ""
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check All"
+msgid "Check all"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr ""
 
 msgid "Check-in"
 msgstr ""
 
 msgid "choices:"
+msgstr ""
+
+msgid "Choose a type for your property first"
 msgstr ""
 
 msgid "Choose a value..."
@@ -513,6 +528,9 @@ msgid "Clear the stored variables"
 msgstr ""
 
 msgid "Click to reload."
+msgstr ""
+
+msgid "Click to start"
 msgstr ""
 
 msgid "Close"
@@ -620,6 +638,9 @@ msgstr ""
 msgid "Current playback position"
 msgstr ""
 
+msgid "currently has a dependency established with "
+msgstr ""
+
 msgid "Data imported"
 msgstr ""
 
@@ -690,7 +711,16 @@ msgstr ""
 msgid "Deleting search index for %s"
 msgstr ""
 
+msgid "Deleting this property will also remove the dependency"
+msgstr ""
+
 msgid "Demo Sandbox"
+msgstr ""
+
+msgid "Dependency URI Path"
+msgstr ""
+
+msgid "Depends on property"
 msgstr ""
 
 msgid "Did you mean %s?"
@@ -727,6 +757,9 @@ msgid "Digit 9"
 msgstr ""
 
 msgid "Disabled %s"
+msgstr ""
+
+msgid "Do you want to override \"%s\"?"
 msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
@@ -869,6 +902,9 @@ msgid "Factorial"
 msgstr ""
 
 msgid "Failed"
+msgstr ""
+
+msgid "Failed to copy class."
 msgstr ""
 
 msgid "Failed to delete index for %s"
@@ -1063,6 +1099,10 @@ msgstr ""
 msgid "Import Metadata from RDF file"
 msgstr ""
 
+#, tao-public
+msgid "Import statistical analysis metadata"
+msgstr ""
+
 msgid "Import succeeded."
 msgstr ""
 
@@ -1073,6 +1113,9 @@ msgid "Imported %d resources"
 msgstr ""
 
 msgid "Imported resource \"%s"
+msgstr ""
+
+msgid "Imported successfully finished!"
 msgstr ""
 
 msgid "impossible to update task status"
@@ -1123,10 +1166,10 @@ msgstr ""
 msgid "Instance saved"
 msgstr ""
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr ""
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr ""
 
 msgid "Invalid CSP header."
@@ -1177,10 +1220,19 @@ msgstr ""
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
 msgstr ""
 
+msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
+msgstr ""
+
 msgid "invalid regular expression"
 msgstr ""
 
+msgid "Invalid value"
+msgstr ""
+
 msgid "Invalid values:"
+msgstr ""
+
+msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
 msgstr ""
 
 msgid "items per page"
@@ -1220,6 +1272,9 @@ msgid "less than a minute"
 msgstr ""
 
 msgid "List"
+msgstr ""
+
+msgid "List \"%s\" has duplicated values."
 msgstr ""
 
 msgid "List - Multiple choice - Check box"
@@ -1309,6 +1364,9 @@ msgstr ""
 msgid "Manage class schema"
 msgstr ""
 
+msgid "manage columns"
+msgstr "Administrer kolonnar"
+
 msgid "Manage data list"
 msgstr ""
 
@@ -1327,6 +1385,9 @@ msgid "Manage Versioned File"
 msgstr ""
 
 msgid "Map the properties to the CSV columns"
+msgstr ""
+
+msgid "maximum %s"
 msgstr ""
 
 msgid "Maximum selection reached"
@@ -1381,6 +1442,9 @@ msgid "MIME encapsulation of aggregate HTML documents"
 msgstr ""
 
 msgid "Mind mapping software application (free mind open source)"
+msgstr ""
+
+msgid "minimum %s"
 msgstr ""
 
 msgid "minutes"
@@ -1439,6 +1503,21 @@ msgid "Multiple values delimiter"
 msgstr ""
 
 msgid "Multiply the value by 10^x"
+msgstr ""
+
+msgid "Must include at least one letter"
+msgstr ""
+
+msgid "Must include at least one number"
+msgstr ""
+
+msgid "Must include at least one special letter"
+msgstr ""
+
+msgid "Must include lower case letters"
+msgstr ""
+
+msgid "Must include upper case letters"
 msgstr ""
 
 msgid "Mute"
@@ -1509,6 +1588,9 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
+msgid "none"
+msgstr ""
+
 msgid "Not enough arguments following: %s"
 msgstr ""
 
@@ -1516,6 +1598,9 @@ msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
+msgstr ""
+
+msgid "NotEmpty"
 msgstr ""
 
 msgid "Nothing imported"
@@ -1684,6 +1769,15 @@ msgstr ""
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
 
+msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please set 'min' and/or 'max' options!"
+msgstr ""
+
+msgid "Please try in %s."
+msgstr ""
+
 msgid "Please wait"
 msgstr ""
 
@@ -1803,6 +1897,9 @@ msgid "Remove"
 msgstr ""
 
 msgid "Remove criteria"
+msgstr ""
+
+msgid "remove index"
 msgstr ""
 
 msgid "Remove Message"
@@ -2057,6 +2154,9 @@ msgstr ""
 msgid "Square root"
 msgstr ""
 
+msgid "Start"
+msgstr ""
+
 msgid "Start of document reached. Continuing from the end."
 msgstr ""
 
@@ -2198,7 +2298,13 @@ msgstr ""
 msgid "The action will not be applied to the following"
 msgstr ""
 
+msgid "The class has been copied."
+msgstr ""
+
 msgid "The column "
+msgstr ""
+
+msgid "The field \"List\" is disabled because the property is part of a dependency"
 msgstr ""
 
 msgid "The following criteria are not applicable to the selected class and have been removed from the search"
@@ -2217,6 +2323,9 @@ msgid "The lock has been released"
 msgstr ""
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
+msgstr ""
+
+msgid "The selected value(s) must be compatible with the primary property."
 msgstr ""
 
 msgid "The server has sent an empty response"
@@ -2336,6 +2445,9 @@ msgstr ""
 msgid "Transport Layer Security"
 msgstr ""
 
+msgid "Tree - Multiple node choice"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
 msgstr ""
 
@@ -2369,6 +2481,9 @@ msgstr ""
 msgid "Unable to delete the selected resource"
 msgstr ""
 
+msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
+msgstr ""
+
 msgid "Unable to delete the selected resources"
 msgstr ""
 
@@ -2396,6 +2511,9 @@ msgstr ""
 msgid "Unable to send the password reset request"
 msgstr ""
 
+msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
+msgstr ""
+
 msgid "Unable to update the asset service"
 msgstr ""
 
@@ -2409,6 +2527,9 @@ msgid "Unary operator +"
 msgstr ""
 
 msgid "Unary operator -"
+msgstr ""
+
+msgid "Unauthorized files have been removed"
 msgstr ""
 
 msgid "Uncheck all"
@@ -2603,6 +2724,9 @@ msgid "Windows Media file (metafile)"
 msgstr ""
 
 msgid "Windows Media video"
+msgstr ""
+
+msgid "with"
 msgstr ""
 
 msgid "Wrap image left"
