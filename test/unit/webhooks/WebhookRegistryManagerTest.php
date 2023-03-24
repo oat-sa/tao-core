@@ -26,6 +26,7 @@ use oat\generis\test\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\WebhookFileRegistry;
+use oat\tao\model\webhooks\WebhookRegistryInterface;
 use oat\tao\model\webhooks\WebhookRegistryManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -50,7 +51,7 @@ class WebhookRegistryManagerTest extends TestCase
         $this->serviceManager = $this->createMock(ServiceManager::class);
         $this->serviceManager
             ->method('get')
-            ->with(WebhookFileRegistry::class)
+            ->with(WebhookRegistryInterface::SERVICE_ID)
             ->willReturn($this->webhookFileRegistryMock);
 
         $this->subject = new WebhookRegistryManager();
@@ -62,58 +63,8 @@ class WebhookRegistryManagerTest extends TestCase
     public function testAddWebhookConfig(): void
     {
         $this->webhookFileRegistryMock
-            ->expects($this->exactly(2))
-            ->method('getOption')
-            ->withConsecutive(
-                [
-                    'webhooks',
-                ],
-                [
-                    'events',
-                ]
-            )
-            ->willReturnOnConsecutiveCalls(
-                [],
-                []
-            );
-
-        $this->webhookMock
-            ->expects($this->exactly(2))
-            ->method('getid')
-            ->willReturn('webhookId');
-
-        $this->webhookMock
             ->expects($this->once())
-            ->method('toArray')
-            ->willReturn(
-                [
-                    'id' => 'webhookId',
-                ]
-            );
-
-        $this->webhookFileRegistryMock
-            ->expects($this->exactly(2))
-            ->method('setOption')
-            ->withConsecutive(
-                ['webhooks', [
-                    'webhookId' => [
-                        'id' => 'webhookId',
-                    ]
-                ]],
-                ['events', [
-                    'SomeEventClass' => [
-                        'webhookId'
-                    ]
-                ]]
-            );
-
-        $this->serviceManager
-            ->expects($this->once())
-            ->method('register')
-            ->with(
-                WebhookFileRegistry::SERVICE_ID,
-                $this->webhookFileRegistryMock
-            );
+            ->method('addWebhook');
 
         $this->subject->addWebhookConfig($this->webhookMock, 'SomeEventClass');
     }

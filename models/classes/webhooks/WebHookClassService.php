@@ -218,13 +218,17 @@ class WebHookClassService extends OntologyClassService implements ServiceLocator
             self::PROPERTY_RESPONSE_VALIDATION
         ]);
 
+        $responseValidation = empty($properties[self::PROPERTY_RESPONSE_VALIDATION])
+            ? ''
+            : $properties[self::PROPERTY_RESPONSE_VALIDATION][0]->getLabel();
+
         return $this->getWebhookEntryFactory()->createEntry(
             $webhookResource->getUri(),
             $properties[self::PROPERTY_WEB_HOOK_URL][0]->__toString(),
             $properties[self::PROPERTY_WEB_HOOK_METHOD][0]->getLabel(),
             (int)$properties[self::PROPERTY_WEB_HOOK_RETRY][0]->__toString(),
             $this->getAuth($webhookResource),
-            $properties[self::PROPERTY_RESPONSE_VALIDATION][0]->getLabel() === 'Enabled',
+            $responseValidation === 'Enable',
         );
     }
 
