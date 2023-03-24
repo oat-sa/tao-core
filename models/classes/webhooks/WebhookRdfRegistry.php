@@ -29,9 +29,10 @@ use core_kernel_classes_Resource;
 use core_kernel_persistence_Exception;
 use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use Laminas\ServiceManager\ServiceLocatorAwareTrait;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
 
-class WebhookRdfRegistry implements WebhookRegistryInterface, ServiceLocatorAwareInterface
+class WebhookRdfRegistry extends ConfigurableService implements WebhookRegistryInterface, ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
