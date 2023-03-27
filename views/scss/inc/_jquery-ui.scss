@@ -544,7 +544,7 @@
             background: none;
         }
         &:before {
-            @extend .icon-close:before;
+            @extend %icon-close-before;
         }
         &:focus, &:hover {
             padding: 0;
