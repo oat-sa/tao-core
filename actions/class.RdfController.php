@@ -29,7 +29,7 @@ use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\ActionService;
 use oat\tao\model\resources\Command\ResourceTransferCommand;
 use oat\tao\model\resources\Contract\ResourceTransferInterface;
-use oat\tao\model\resources\Service\InstanceCopier;
+use oat\tao\model\resources\Service\ResourceTransferProxy;
 use oat\tao\model\task\CopyClassTask;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\search\tasks\IndexTrait;
@@ -722,7 +722,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                     //@TODO Use the Instance Copier / Make sure it is compatible to old behavior...
                     //$copy = $this->getClassService()->cloneInstance($instance, $destinationClass);
 
-                    $result = $this->getInstanceCopier()->transfer(
+                    $result = $this->getResourceTransfer()->transfer(
                         new ResourceTransferCommand(
                             $instance->getUri(),
                             $destinationClass->getUri(),
@@ -842,7 +842,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         //@TODO Deprecate and delegate old code and delete what is possible without breaking change
         //@TODO If feasible, move it to a task queue (nice to have)
 
-        $response = [];
         if ($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')) {
             $id = $this->getRequestParameter('uri');
             try {
@@ -863,19 +862,48 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $this->validateDestinationClass($destinationUri, $class->getUri());
             $destinationClass = $this->getClass($destinationUri);
             $confirmed = $this->getRequestParameter('confirmed');
-            if (empty($confirmed) || $confirmed == 'false' || $confirmed ===  false) {
-                $diff = $this->getClassService()->getPropertyDiff($class, $destinationClass);
-                if (count($diff) > 0) {
-                    return $this->returnJson([
-                        'status'        => 'diff',
-                        'data'          => $diff
-                    ]);
+
+            try {
+                if (empty($confirmed) || $confirmed == 'false' || $confirmed ===  false) {
+                    $diff = $this->getClassService()->getPropertyDiff($class, $destinationClass);
+
+                    if (!empty($diff)) {
+                        return $this->returnJson(
+                            [
+                                'status' => 'diff',
+                                'data' => $diff,
+                            ]
+                        );
+                    }
                 }
+
+                //@TODO FIXME Check if it works
+                $result = $this->getResourceTransfer()->transfer(
+                    new ResourceTransferCommand(
+                        $instance->getUri(),
+                        $destinationClass->getUri(),
+                        $this->getRequestParameter('aclMode'),
+                        ResourceTransferCommand::TRANSFER_MODE_MOVE
+                    )
+                );
+
+                // $status = $this->getClassService()->changeClass($instance, $destinationClass);
+
+                return $this->returnJson(
+                    [
+                        'status' => true,
+                    ]
+                );
+            } catch (Throwable $exception) {
+                return $this->returnJson(
+                    [
+                        'status' => true,
+                    ]
+                );
             }
-            $status = $this->getClassService()->changeClass($instance, $destinationClass);
-            $response = ['status' => $status];
         }
-        $this->returnJson($response);
+
+        return $this->returnJson([]);
     }
 
     /**
@@ -917,8 +945,30 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             $this->validateMoveRequest();
             $response = $this->moveAllInstances($ids);
-            $this->returnJson($response);
-        } catch (\InvalidArgumentException $e) {
+
+            //@TODO FIXME Check if it works
+            $result = $this->getResourceTransfer()->transfer(
+                new ResourceTransferCommand(
+                    $id,
+                    $this->getRequestParameter('destinationClassUri'),
+                    $this->getRequestParameter('aclMode'),
+                    ResourceTransferCommand::TRANSFER_MODE_MOVE
+                )
+            );
+
+            //@TODO @FIXME It is mandatory to return the report with the statuses as it was before
+            //@TODO @FIXME It is mandatory to return the report with the statuses as it was before
+            //@TODO @FIXME It is mandatory to return the report with the statuses as it was before
+            //@TODO @FIXME It is mandatory to return the report with the statuses as it was before
+            return $this->returnJson(
+                [
+                    'success' => true,
+                    'data' => [ //@TODO Check statuses on move() method called by moveAllInstances()
+                        'uri' => 'message bla bla bla' //FIXME @TODO
+                    ]
+                ]
+            );
+        } catch (InvalidArgumentException $e) {
             $this->returnJsonError($e->getMessage());
         }
     }
@@ -932,6 +982,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function moveAll()
     {
+        //@FIXME @TODO Check if this is used and use the new logic here
+        //@FIXME @TODO Check if this is used and use the new logic here
+        //@FIXME @TODO Check if this is used and use the new logic here
+        //@FIXME @TODO Check if this is used and use the new logic here
+        //@FIXME @TODO Check if this is used and use the new logic here
         try {
             if (!$this->hasRequestParameter('ids')) {
                 throw new InvalidArgumentException('Resource ids must be specified.');
@@ -956,7 +1011,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             $response = $this->moveAllInstances($ids);
             $this->returnJson($response);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->returnJsonError($e->getMessage());
         }
     }
@@ -1343,6 +1398,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     protected function moveAllInstances(array $ids)
     {
+        //@TODO @FIXME Check with we can use and test the new logic here
+        //@TODO @FIXME Check with we can use and test the new logic here
+        //@TODO @FIXME Check with we can use and test the new logic here
+        //@TODO @FIXME Check with we can use and test the new logic here
+
         $rootClass = $this->getClassService()->getRootClass();
 
         if (in_array($rootClass->getUri(), $ids)) {
@@ -1572,8 +1632,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         return $this->getPsrContainer()->get(QueueDispatcherInterface::SERVICE_ID);
     }
 
-    private function getInstanceCopier(): ResourceTransferInterface
+    private function getResourceTransfer(): ResourceTransferInterface
     {
-        return $this->getPsrContainer()->get(InstanceCopier::class);
+        return $this->getPsrContainer()->get(ResourceTransferProxy::class);
     }
 }

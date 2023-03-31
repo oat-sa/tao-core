@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
@@ -26,6 +26,7 @@ namespace oat\tao\model\task;
 
 use oat\tao\model\resources\Command\ResourceTransferCommand;
 use oat\tao\model\resources\Contract\ResourceTransferInterface;
+use oat\tao\model\resources\Service\ResourceTransferProxy;
 use Throwable;
 use oat\oatbox\action\Action;
 use oat\oatbox\reporting\Report;
@@ -34,9 +35,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
-use oat\tao\model\resources\Service\ClassCopierProxy;
 use Laminas\ServiceManager\ServiceLocatorAwareInterface;
-use oat\tao\model\resources\Contract\ClassCopierInterface;
 use oat\oatbox\log\logger\extender\ContextExtenderInterface;
 
 class CopyClassTask implements Action, TaskAwareInterface, ServiceLocatorAwareInterface
@@ -72,6 +71,6 @@ class CopyClassTask implements Action, TaskAwareInterface, ServiceLocatorAwareIn
 
     private function getClassCopier(): ResourceTransferInterface
     {
-        return $this->getServiceLocator()->getContainer()->get(ClassCopierProxy::class);
+        return $this->getServiceLocator()->getContainer()->get(ResourceTransferProxy::class);
     }
 }
