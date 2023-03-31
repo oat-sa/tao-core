@@ -26,14 +26,17 @@ namespace oat\tao\model\resources\Service;
 
 use InvalidArgumentException;
 use core_kernel_classes_Class;
+use oat\tao\model\resources\Command\ResourceTransferCommand;
 use oat\tao\model\resources\Contract\ClassCopierInterface;
 use oat\tao\model\resources\Contract\InstanceCopierInterface;
 use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\Contract\ClassMetadataCopierInterface;
 use oat\tao\model\resources\Contract\ClassMetadataMapperInterface;
+use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
+use oat\tao\model\resources\ResourceTransferResult;
 
-class ClassCopier implements ClassCopierInterface
+class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
 {
     /** @var RootClassesListServiceInterface */
     private $rootClassesListService;
@@ -71,6 +74,11 @@ class ClassCopier implements ClassCopierInterface
     public function withPermissionCopier(PermissionCopierInterface $permissionCopier): void
     {
         $this->permissionCopier = $permissionCopier;
+    }
+
+    public function transfer(ResourceTransferCommand $command): ResourceTransferResult
+    {
+        // TODO: Implement transfer() method.
     }
 
     /**

@@ -27,6 +27,9 @@ use oat\generis\model\OntologyRdfs;
 use oat\tao\model\lock\LockManager;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\ActionService;
+use oat\tao\model\resources\Command\ResourceTransferCommand;
+use oat\tao\model\resources\Contract\ResourceTransferInterface;
+use oat\tao\model\resources\Service\InstanceCopier;
 use oat\tao\model\task\CopyClassTask;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\search\tasks\IndexTrait;
@@ -715,9 +718,21 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $destinationClass = $this->getClass($this->getRequestParameter('destinationClassUri'));
 
             if ($this->hasWriteAccess($destinationClass->getUri())) {
-                $copy = $this->getClassService()->cloneInstance($instance, $destinationClass);
+                try {
+                    //@TODO Use the Instance Copier / Make sure it is compatible to old behavior...
+                    //$copy = $this->getClassService()->cloneInstance($instance, $destinationClass);
 
-                if (!is_null($copy)) {
+                    $result = $this->getInstanceCopier()->transfer(
+                        new ResourceTransferCommand(
+                            $instance->getUri(),
+                            $destinationClass->getUri(),
+                            $this->getRequestParameter('aclMode'),
+                            ResourceTransferCommand::TRANSFER_MODE_COPY
+                        )
+                    );
+
+                    $copy = $this->getResource($result->getDestination());
+
                     return $this->returnJson([
                         'success'  => true,
                         'data' => [
@@ -725,19 +740,22 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                             'uri'   => $copy->getUri()
                         ]
                     ]);
+                } catch (Throwable $exception) {
+                    return $this->returnJson([
+                        'success'  => false,
+                        'errorCode' => 204,
+                        'errorMessage' =>  __("Unable to copy the resource")
+                    ], 204);
                 }
-                return $this->returnJson([
-                    'success'  => false,
-                    'errorCode' => 204,
-                    'errorMessage' =>  __("Unable to copy the resource")
-                ], 204);
             }
+
             return $this->returnJson([
                 'success'  => false,
                 'errorCode' => 401,
                 'errorMessage' =>  __("Permission denied to write in the selected class")
             ], 401);
         }
+
         return $this->returnJson([
             'success' => false,
             'errorCode' => 412,
@@ -751,11 +769,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     public function copyClass(): void
     {
         $parsedBody = $this->getPsrRequest()->getParsedBody();
-
-        //@TODO Get new option parameters
-        //@TODO Get new option parameters
-        //@TODO Get new option parameters
-        //@TODO Get new option parameters
 
         if (empty($parsedBody['classUri']) || empty($parsedBody['uri'])) {
             $this->returnJson(
@@ -795,7 +808,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                 [
                     CopyClassTask::PARAM_CLASS_URI => $currentClass->getUri(),
                     CopyClassTask::PARAM_DESTINATION_CLASS_URI => $destinationClass->getUri(),
-                    //@TODO Pass the new option parameters
+                    CopyClassTask::PARAM_ACL_MODE => $parsedBody['aclMode'] ?? null,
                 ],
                 __(
                     'Copying class "%s" to "%s"',
@@ -1557,5 +1570,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     private function getQueueDispatcher(): QueueDispatcherInterface
     {
         return $this->getPsrContainer()->get(QueueDispatcherInterface::SERVICE_ID);
+    }
+
+    private function getInstanceCopier(): ResourceTransferInterface
+    {
+        return $this->getPsrContainer()->get(InstanceCopier::class);
     }
 }

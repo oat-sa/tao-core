@@ -24,6 +24,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Service;
 
+use oat\tao\model\resources\Command\ResourceTransferCommand;
+use oat\tao\model\resources\Contract\ResourceTransferInterface;
+use oat\tao\model\resources\ResourceTransferResult;
 use RuntimeException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
@@ -32,7 +35,7 @@ use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\Contract\InstanceContentCopierInterface;
 use oat\tao\model\resources\Contract\InstanceMetadataCopierInterface;
 
-class InstanceCopier implements InstanceCopierInterface
+class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterface
 {
     /** @var InstanceMetadataCopierInterface */
     private $instanceMetadataCopier;
@@ -99,5 +102,10 @@ class InstanceCopier implements InstanceCopierInterface
         }
 
         return $newInstance;
+    }
+
+    public function transfer(ResourceTransferCommand $command): ResourceTransferResult
+    {
+        // TODO: Implement transfer() method.
     }
 }

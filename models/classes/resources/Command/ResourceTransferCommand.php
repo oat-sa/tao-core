@@ -28,17 +28,23 @@ class ResourceTransferCommand
 {
     public const ACL_KEEP_ORIGINAL = 'acl.keep.original';
     public const ACL_USE_DESTINATION = 'acl.use.destination';
-
+    public const TRANSFER_MODE_COPY = 'copy';
+    public const TRANSFER_MODE_MOVE = 'move';
     private const ACL_OPTIONS = [
         self::ACL_KEEP_ORIGINAL,
         self::ACL_USE_DESTINATION,
+    ];
+    private const TRANSFER_MODE_OPTIONS = [
+        self::TRANSFER_MODE_COPY,
+        self::TRANSFER_MODE_MOVE,
     ];
 
     private string $from;
     private string $to;
     private string $aclMode;
+    private string $transferMode;
 
-    public function __construct(string $from, string $to, string $aclMode)
+    public function __construct(string $from, string $to, string $aclMode, string $transferMode)
     {
         if (!in_array($aclMode, self::ACL_OPTIONS, true)) {
             throw new InvalidArgumentException(
@@ -50,9 +56,20 @@ class ResourceTransferCommand
             );
         }
 
+        if (!in_array($transferMode, self::TRANSFER_MODE_OPTIONS, true)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Transfer mode %s not supported. Only supported %s',
+                    $transferMode,
+                    implode(',', self::TRANSFER_MODE_OPTIONS)
+                )
+            );
+        }
+
         $this->from = $from;
         $this->to = $to;
         $this->aclMode = $aclMode;
+        $this->transferMode = $transferMode;
     }
 
     public function getFrom(): string
@@ -73,5 +90,15 @@ class ResourceTransferCommand
     public function useDestinationAcl(): bool
     {
         return $this->aclMode === self::ACL_USE_DESTINATION;
+    }
+
+    public function isCopyTo(): bool
+    {
+        return $this->transferMode === self::TRANSFER_MODE_COPY;
+    }
+
+    public function isMoveTo(): bool
+    {
+        return $this->transferMode === self::TRANSFER_MODE_MOVE;
     }
 }

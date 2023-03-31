@@ -67,6 +67,7 @@ class CopierServiceProvider implements ContainerServiceProviderInterface
 
         $services
             ->set(InstanceCopier::class, InstanceCopier::class)
+            ->public()
             ->args(
                 [
                     service(InstanceMetadataCopier::class),

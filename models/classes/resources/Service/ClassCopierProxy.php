@@ -26,10 +26,13 @@ namespace oat\tao\model\resources\Service;
 
 use InvalidArgumentException;
 use core_kernel_classes_Class;
+use oat\tao\model\resources\Command\ResourceTransferCommand;
 use oat\tao\model\resources\Contract\ClassCopierInterface;
+use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
+use oat\tao\model\resources\ResourceTransferResult;
 
-class ClassCopierProxy implements ClassCopierInterface
+class ClassCopierProxy implements ClassCopierInterface, ResourceTransferInterface
 {
     /** @var RootClassesListServiceInterface */
     private $rootClassesListService;
@@ -92,5 +95,10 @@ class ClassCopierProxy implements ClassCopierInterface
         }
 
         throw new InvalidArgumentException('Provided class does not belong to any root class');
+    }
+
+    public function transfer(ResourceTransferCommand $command): ResourceTransferResult
+    {
+        // TODO: Implement transfer() method.
     }
 }
