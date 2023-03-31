@@ -24,12 +24,17 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources;
 
+use oat\generis\model\data\Ontology;
 use oat\oatbox\filesystem\FileSystemService;
+use oat\tao\model\resources\Contract\ResourceTransferInterface;
+use oat\tao\model\resources\Service\ClassMover;
 use oat\tao\model\resources\Service\InstanceCopier;
 use oat\tao\model\resources\Service\ClassCopierProxy;
 use oat\tao\model\resources\Service\ClassMetadataMapper;
 use oat\tao\model\resources\Service\ClassMetadataCopier;
 use oat\tao\model\resources\Service\InstanceMetadataCopier;
+use oat\tao\model\resources\Service\InstanceMover;
+use oat\tao\model\resources\Service\ResourceTransferProxy;
 use oat\tao\model\resources\Service\RootClassesListService;
 use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
@@ -80,6 +85,25 @@ class CopierServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(RootClassesListService::class),
+                    service(Ontology::SERVICE_ID),
+                ]
+            );
+
+        $services
+            ->set(ClassMover::class, ClassMover::class);
+
+        $services
+            ->set(InstanceMover::class, InstanceMover::class);
+
+        $services
+            ->set(ResourceTransferProxy::class, ResourceTransferProxy::class)
+            ->public()
+            ->args(
+                [
+                    service(ClassCopierProxy::class),
+                    service(InstanceCopier::class),
+                    service(ClassMover::class),
+                    service(InstanceMover::class)
                 ]
             );
     }

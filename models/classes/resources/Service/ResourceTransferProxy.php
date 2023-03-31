@@ -50,7 +50,6 @@ class ResourceTransferProxy implements ResourceTransferInterface
         $this->ontology = $ontology;
     }
 
-
     public function transfer(ResourceTransferCommand $command): ResourceTransferResult
     {
         return $this->getTransfer($command)->transfer($command);
@@ -58,6 +57,15 @@ class ResourceTransferProxy implements ResourceTransferInterface
 
     private function getTransfer(ResourceTransferCommand $command): ResourceTransferInterface
     {
+        //FIXME @TODO Remove after tests
+        $command = new ResourceTransferCommand(
+            $command->getFrom(),
+            $command->getTo(),
+            getenv('ACL_TRANSFER_MODE') ?? ResourceTransferCommand::ACL_KEEP_ORIGINAL,
+            $command->isCopyTo() ? ResourceTransferCommand::TRANSFER_MODE_COPY : ResourceTransferCommand::TRANSFER_MODE_MOVE
+        );
+        //FIXME @TODO Remove after tests
+
         $from = $this->ontology->getResource($command->getFrom());
         $to = $this->ontology->getResource($command->getTo());
         $fromIsClass = $from->isClass();
