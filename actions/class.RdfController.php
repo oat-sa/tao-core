@@ -687,6 +687,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function copyInstance()
     {
+        //@TODO Get new option parameters
+        //@TODO Deprecate and delegate old code and delete what is possible without breaking change
+        //@TODO If feasible, move it to a task queue (nice to have)
+
         if (
             $this->hasRequestParameter('destinationClassUri')
             && $this->hasRequestParameter('uri')
@@ -748,6 +752,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     {
         $parsedBody = $this->getPsrRequest()->getParsedBody();
 
+        //@TODO Get new option parameters
+        //@TODO Get new option parameters
+        //@TODO Get new option parameters
+        //@TODO Get new option parameters
+
         if (empty($parsedBody['classUri']) || empty($parsedBody['uri'])) {
             $this->returnJson(
                 [
@@ -786,6 +795,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                 [
                     CopyClassTask::PARAM_CLASS_URI => $currentClass->getUri(),
                     CopyClassTask::PARAM_DESTINATION_CLASS_URI => $destinationClass->getUri(),
+                    //@TODO Pass the new option parameters
                 ],
                 __(
                     'Copying class "%s" to "%s"',
@@ -814,6 +824,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function moveInstance()
     {
+        //@TODO Get new option parameters
+        //@TODO Refactor to use similar logic as per CopyTo
+        //@TODO Deprecate and delegate old code and delete what is possible without breaking change
+        //@TODO If feasible, move it to a task queue (nice to have)
+
         $response = [];
         if ($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')) {
             $id = $this->getRequestParameter('uri');
@@ -861,6 +876,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     public function moveResource()
     {
         try {
+            //@TODO Get new option parameters
+            //@TODO Refactor to use similar logic as per CopyTo
+            //@TODO Deprecate and delegate old code and delete what is possible without breaking change
+            //@TODO If feasible, move it to a task queue (nice to have)
+
             if (!$this->hasRequestParameter('uri')) {
                 throw new InvalidArgumentException('Resource uri must be specified.');
             }
