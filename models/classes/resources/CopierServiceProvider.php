@@ -26,7 +26,6 @@ namespace oat\tao\model\resources;
 
 use oat\generis\model\data\Ontology;
 use oat\oatbox\filesystem\FileSystemService;
-use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\resources\Service\ClassMover;
 use oat\tao\model\resources\Service\InstanceCopier;
 use oat\tao\model\resources\Service\ClassCopierProxy;
