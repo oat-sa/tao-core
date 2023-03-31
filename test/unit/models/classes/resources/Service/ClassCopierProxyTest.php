@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\resources\Service;
 
+use oat\generis\model\data\Ontology;
 use Throwable;
 use InvalidArgumentException;
 use core_kernel_classes_Class;
@@ -35,8 +36,7 @@ use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 
 class ClassCopierProxyTest extends TestCase
 {
-    /** @var ClassCopierProxy */
-    private $sut;
+    private ClassCopierProxy $sut;
 
     /** @var core_kernel_classes_Class|MockObject */
     private $rootClass;
@@ -47,13 +47,17 @@ class ClassCopierProxyTest extends TestCase
     /** @var ClassCopierInterface|MockObject */
     private $classCopier;
 
+    /** @var Ontology|MockObject */
+    private $ontology;
+
     protected function setUp(): void
     {
         $this->rootClass = $this->createMock(core_kernel_classes_Class::class);
         $this->rootClassesListService = $this->createMock(RootClassesListServiceInterface::class);
         $this->classCopier = $this->createMock(ClassCopierInterface::class);
+        $this->ontology = $this->createMock(Ontology::class);
 
-        $this->sut = new ClassCopierProxy($this->rootClassesListService);
+        $this->sut = new ClassCopierProxy($this->rootClassesListService, $this->ontology);
     }
 
     public function testAddClassCopier(): void

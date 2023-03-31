@@ -53,7 +53,7 @@ class ClassCopierProxy implements ClassCopierInterface, ResourceTransferInterfac
      */
     public function addClassCopier(string $rootClassUri, $classCopier): void
     {
-        if (!$classCopier instanceof ClassCopierInterface || !$classCopier instanceof ResourceTransferInterface) {
+        if (!$classCopier instanceof ClassCopierInterface && !$classCopier instanceof ResourceTransferInterface) {
             throw new InvalidArgumentException(
                 sprintf(
                     'Class copier not supported: %s',
