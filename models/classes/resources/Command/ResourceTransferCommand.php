@@ -44,8 +44,11 @@ class ResourceTransferCommand
     private string $aclMode;
     private string $transferMode;
 
-    public function __construct(string $from, string $to, string $aclMode, string $transferMode)
+    public function __construct(string $from, string $to, ?string $aclMode, ?string $transferMode)
     {
+        $aclMode = $aclMode ?? self::ACL_KEEP_ORIGINAL;
+        $transferMode = $transferMode ?? self::TRANSFER_MODE_COPY;
+
         if (!in_array($aclMode, self::ACL_OPTIONS, true)) {
             throw new InvalidArgumentException(
                 sprintf(

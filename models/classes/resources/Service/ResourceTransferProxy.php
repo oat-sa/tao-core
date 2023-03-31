@@ -64,6 +64,8 @@ class ResourceTransferProxy implements ResourceTransferInterface
             getenv('ACL_TRANSFER_MODE') ?? ResourceTransferCommand::ACL_KEEP_ORIGINAL,
             $command->isCopyTo() ? ResourceTransferCommand::TRANSFER_MODE_COPY : ResourceTransferCommand::TRANSFER_MODE_MOVE
         );
+
+        \common_Logger::e('=========> RESOURCE TRANSFER (' . __METHOD__ . ') ' . var_export($command, true));
         //FIXME @TODO Remove after tests
 
         $from = $this->ontology->getResource($command->getFrom());

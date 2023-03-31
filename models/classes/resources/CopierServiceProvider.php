@@ -103,7 +103,8 @@ class CopierServiceProvider implements ContainerServiceProviderInterface
                     service(ClassCopierProxy::class),
                     service(InstanceCopier::class),
                     service(ClassMover::class),
-                    service(InstanceMover::class)
+                    service(InstanceMover::class),
+                    service(Ontology::SERVICE_ID)
                 ]
             );
     }

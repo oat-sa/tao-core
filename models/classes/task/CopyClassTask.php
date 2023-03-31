@@ -56,7 +56,7 @@ class CopyClassTask implements Action, TaskAwareInterface, ServiceLocatorAwareIn
                 new ResourceTransferCommand(
                     $params[self::PARAM_CLASS_URI],
                     $params[self::PARAM_DESTINATION_CLASS_URI],
-                    $params[self::PARAM_ACL_MODE],
+                    $params[self::PARAM_ACL_MODE] ?? null,
                     ResourceTransferCommand::TRANSFER_MODE_COPY
                 )
             );
