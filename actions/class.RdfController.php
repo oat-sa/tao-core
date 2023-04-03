@@ -733,34 +733,54 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
                     $copy = $this->getResource($result->getDestination());
 
-                    return $this->returnJson([
-                        'success'  => true,
-                        'data' => [
-                            'label' => $copy->getLabel(),
-                            'uri'   => $copy->getUri()
+                    return $this->returnJson(
+                        [
+                            'success'  => true,
+                            'data' => [
+                                'label' => $copy->getLabel(),
+                                'uri'   => $copy->getUri()
+                            ]
                         ]
-                    ]);
+                    );
                 } catch (Throwable $exception) {
-                    return $this->returnJson([
+                    $this->logError(
+                        sprintf(
+                            'Error copying instance %s to %s: %s',
+                            $instance->getUri(),
+                            $destinationClass->getUri(),
+                            $exception->getMessage() . ' - ' . $exception->getTraceAsString()
+                        )
+                    );
+
+                    return $this->returnJson(
+                        [
                         'success'  => false,
                         'errorCode' => 204,
                         'errorMessage' =>  __("Unable to copy the resource")
-                    ], 204);
+                        ],
+                        204
+                    );
                 }
             }
 
-            return $this->returnJson([
-                'success'  => false,
-                'errorCode' => 401,
-                'errorMessage' =>  __("Permission denied to write in the selected class")
-            ], 401);
+            return $this->returnJson(
+                [
+                    'success'  => false,
+                    'errorCode' => 401,
+                    'errorMessage' =>  __("Permission denied to write in the selected class")
+                ],
+                401
+            );
         }
 
-        return $this->returnJson([
-            'success' => false,
-            'errorCode' => 412,
-            'errorMessage' => __('Missing Parameters')
-        ], 412);
+        return $this->returnJson(
+            [
+                'success' => false,
+                'errorCode' => 412,
+                'errorMessage' => __('Missing Parameters')
+            ],
+            412
+        );
     }
 
     /**
@@ -819,7 +839,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             $this->returnTaskJson($task);
         } catch (Throwable $exception) {
-            $this->logError($exception->getMessage());
+            $this->logError(
+                sprintf(
+                    'Error copying class %s to %s: %s',
+                    $currentClass->getUri(),
+                    $destinationClass->getUri(),
+                    $exception->getMessage() . ' - ' . $exception->getTraceAsString()
+                )
+            );
             $this->returnJson(
                 [
                     'success' => false,

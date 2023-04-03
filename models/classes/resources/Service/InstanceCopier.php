@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Service;
 
+use oat\generis\model\data\Ontology;
 use oat\tao\model\resources\Command\ResourceTransferCommand;
 use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\resources\ResourceTransferResult;
@@ -37,18 +38,15 @@ use oat\tao\model\resources\Contract\InstanceMetadataCopierInterface;
 
 class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterface
 {
-    /** @var InstanceMetadataCopierInterface */
-    private $instanceMetadataCopier;
+    private InstanceMetadataCopierInterface $instanceMetadataCopier;
+    private InstanceContentCopierInterface $instanceContentCopier;
+    private PermissionCopierInterface $permissionCopier;
+    private Ontology $ontology;
 
-    /** @var InstanceContentCopierInterface */
-    private $instanceContentCopier;
-
-    /** @var PermissionCopierInterface */
-    private $permissionCopier;
-
-    public function __construct(InstanceMetadataCopierInterface $instanceMetadataCopier)
+    public function __construct(InstanceMetadataCopierInterface $instanceMetadataCopier, Ontology $ontology)
     {
         $this->instanceMetadataCopier = $instanceMetadataCopier;
+        $this->ontology = $ontology;
     }
 
     public function withInstanceContentCopier(InstanceContentCopierInterface $instanceContentCopier): void
@@ -72,12 +70,26 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
         }
     }
 
-    /**
-     * @inheritDoc
-     */
+    public function transfer(ResourceTransferCommand $command): ResourceTransferResult
+    {
+        $instance = $this->ontology->getResource($command->getFrom());
+        $destinationClass = $this->ontology->getClass($command->getTo());
+        $newInstance = $this->doCopy($instance, $destinationClass);
+
+        return new ResourceTransferResult($newInstance->getUri());
+    }
+
     public function copy(
         core_kernel_classes_Resource $instance,
         core_kernel_classes_Class $destinationClass
+    ): core_kernel_classes_Resource {
+        return $this->doCopy($instance, $destinationClass);
+    }
+
+    private function doCopy(
+        core_kernel_classes_Resource $instance,
+        core_kernel_classes_Class $destinationClass,
+        bool $keepOriginalPermissions = true
     ): core_kernel_classes_Resource {
         $newInstance = $destinationClass->createInstance($instance->getLabel());
 
@@ -102,10 +114,5 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
         }
 
         return $newInstance;
-    }
-
-    public function transfer(ResourceTransferCommand $command): ResourceTransferResult
-    {
-        // TODO: Implement transfer() method.
     }
 }
