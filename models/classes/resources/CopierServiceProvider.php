@@ -31,6 +31,7 @@ use oat\tao\model\resources\Service\InstanceCopier;
 use oat\tao\model\resources\Service\ClassCopierProxy;
 use oat\tao\model\resources\Service\ClassMetadataMapper;
 use oat\tao\model\resources\Service\ClassMetadataCopier;
+use oat\tao\model\resources\Service\InstanceCopierProxy;
 use oat\tao\model\resources\Service\InstanceMetadataCopier;
 use oat\tao\model\resources\Service\InstanceMover;
 use oat\tao\model\resources\Service\ResourceTransferProxy;
@@ -90,6 +91,17 @@ class CopierServiceProvider implements ContainerServiceProviderInterface
             );
 
         $services
+            ->set(InstanceCopierProxy::class, InstanceCopierProxy::class)
+            ->share(false)
+            ->public()
+            ->args(
+                [
+                    service(RootClassesListService::class),
+                    service(Ontology::SERVICE_ID),
+                ]
+            );
+
+        $services
             ->set(ClassMover::class, ClassMover::class);
 
         $services
@@ -101,7 +113,7 @@ class CopierServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(ClassCopierProxy::class),
-                    service(InstanceCopier::class),
+                    service(InstanceCopierProxy::class),
                     service(ClassMover::class),
                     service(InstanceMover::class),
                     service(Ontology::SERVICE_ID)

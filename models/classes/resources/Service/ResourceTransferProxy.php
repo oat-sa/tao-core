@@ -30,20 +30,20 @@ use oat\tao\model\resources\ResourceTransferResult;
 
 class ResourceTransferProxy implements ResourceTransferInterface
 {
-    private ResourceTransferInterface $classCopierProxy;
+    private ResourceTransferInterface $classCopier;
     private ResourceTransferInterface $instanceCopier;
     private ResourceTransferInterface $classMover;
     private ResourceTransferInterface $instanceMover;
     private Ontology $ontology;
 
     public function __construct(
-        ResourceTransferInterface $classCopierProxy,
+        ResourceTransferInterface $classCopier,
         ResourceTransferInterface $instanceCopier,
         ResourceTransferInterface $classMover,
         ResourceTransferInterface $instanceMover,
         Ontology $ontology
     ) {
-        $this->classCopierProxy = $classCopierProxy;
+        $this->classCopier = $classCopier;
         $this->instanceCopier = $instanceCopier;
         $this->classMover = $classMover;
         $this->instanceMover = $instanceMover;
@@ -85,7 +85,7 @@ class ResourceTransferProxy implements ResourceTransferInterface
 
         if ($fromIsClass) {
             if ($command->isCopyTo()) {
-                return $this->classCopierProxy;
+                return $this->classCopier;
             }
 
             return $this->classMover;

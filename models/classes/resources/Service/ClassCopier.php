@@ -119,11 +119,11 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
         }
 
         if (isset($this->permissionCopier)) {
-            if (!$keepOriginalPermission) {
-                //@TODO Implement behavior here...
+            if ($keepOriginalPermission) {
+                $this->permissionCopier->copy($class, $newClass);
             }
 
-            $this->permissionCopier->copy($class, $newClass);
+            //@TODO Implement new logic
         }
 
         $this->classMetadataMapper->remove($newClass->getProperties());
