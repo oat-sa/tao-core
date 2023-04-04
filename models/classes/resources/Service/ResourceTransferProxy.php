@@ -52,28 +52,28 @@ class ResourceTransferProxy implements ResourceTransferInterface
 
     public function transfer(ResourceTransferCommand $command): ResourceTransferResult
     {
+        //FIXME @TODO Remove after tests
+        $command = new ResourceTransferCommand(
+            $command->getFrom(),
+            $command->getTo(),
+            getenv('ACL_TRANSFER_MODE') ?: ResourceTransferCommand::ACL_KEEP_ORIGINAL,
+            $command->isCopyTo() ? ResourceTransferCommand::TRANSFER_MODE_COPY : ResourceTransferCommand::TRANSFER_MODE_MOVE
+        );
+        //FIXME @TODO Remove after tests
+
         return $this->getTransfer($command)->transfer($command);
     }
 
     private function getTransfer(ResourceTransferCommand $command): ResourceTransferInterface
     {
         //FIXME @TODO Remove after tests
-        $command = new ResourceTransferCommand(
-            $command->getFrom(),
-            $command->getTo(),
-            getenv('ACL_TRANSFER_MODE') ?? ResourceTransferCommand::ACL_KEEP_ORIGINAL,
-            $command->isCopyTo() ? ResourceTransferCommand::TRANSFER_MODE_COPY : ResourceTransferCommand::TRANSFER_MODE_MOVE
-        );
-
         \common_Logger::e('=========> RESOURCE TRANSFER (' . __METHOD__ . ') ' . var_export($command, true));
         //FIXME @TODO Remove after tests
 
         $from = $this->ontology->getResource($command->getFrom());
         $to = $this->ontology->getResource($command->getTo());
-        $fromIsClass = $from->isClass();
-        $toIsClass = $to->isClass();
 
-        if (!$toIsClass) {
+        if (!$to->isClass()) {
             throw new InvalidArgumentException(
                 sprintf(
                     'The destination resource [%s:%s] is not a class',
@@ -83,7 +83,7 @@ class ResourceTransferProxy implements ResourceTransferInterface
             );
         }
 
-        if ($fromIsClass) {
+        if ($from->isClass()) {
             if ($command->isCopyTo()) {
                 return $this->classCopier;
             }

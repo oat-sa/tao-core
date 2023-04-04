@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace oat\tao\model\resources;
 
 use oat\generis\model\data\Ontology;
+use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\resources\Service\ClassMover;
 use oat\tao\model\resources\Service\InstanceCopier;
@@ -37,10 +38,12 @@ use oat\tao\model\resources\Service\InstanceMover;
 use oat\tao\model\resources\Service\ResourceTransferProxy;
 use oat\tao\model\resources\Service\RootClassesListService;
 use oat\generis\model\fileReference\FileReferenceSerializer;
+use oat\tao\model\resources\Specification\RootClassSpecification;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 class CopierServiceProvider implements ContainerServiceProviderInterface
 {
@@ -102,10 +105,37 @@ class CopierServiceProvider implements ContainerServiceProviderInterface
             );
 
         $services
-            ->set(ClassMover::class, ClassMover::class);
+            ->set(ClassMover::class, ClassMover::class)
+            ->share(false)
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
+                    service(RootClassSpecification::class),
+                    service(RootClassesListService::class),
+                    service(EventManager::SERVICE_ID)
+                ]
+            )
+            ->call(
+                'withPermissionCopiers',
+                [
+                    tagged_iterator('tao.copier.permissions'),
+                ]
+            );
 
         $services
-            ->set(InstanceMover::class, InstanceMover::class);
+            ->set(InstanceMover::class, InstanceMover::class)
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
+                    service(RootClassesListService::class),
+                ]
+            )
+            ->call(
+                'withPermissionCopiers',
+                [
+                    tagged_iterator('tao.copier.permissions'),
+                ]
+            );
 
         $services
             ->set(ResourceTransferProxy::class, ResourceTransferProxy::class)

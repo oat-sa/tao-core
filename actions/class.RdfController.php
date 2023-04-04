@@ -869,68 +869,76 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         //@TODO Deprecate and delegate old code and delete what is possible without breaking change
         //@TODO If feasible, move it to a task queue (nice to have)
 
-        if ($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')) {
-            $id = $this->getRequestParameter('uri');
-            try {
-                $this->validateCsrf();
-            } catch (common_exception_Unauthorized $e) {
-                $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
-                return;
-            }
-
-            $this->validateInstanceRoot($id);
-
-            $this->signatureValidator->checkSignature($this->getRequestParameter('signature'), $id);
-
-            $instance = $this->getResource($id);
-            $types = $instance->getTypes();
-            $class = reset($types);
-            $destinationUri = tao_helpers_Uri::decode($this->getRequestParameter('destinationClassUri'));
-            $this->validateDestinationClass($destinationUri, $class->getUri());
-            $destinationClass = $this->getClass($destinationUri);
-            $confirmed = $this->getRequestParameter('confirmed');
-
-            try {
-                if (empty($confirmed) || $confirmed == 'false' || $confirmed ===  false) {
-                    $diff = $this->getClassService()->getPropertyDiff($class, $destinationClass);
-
-                    if (!empty($diff)) {
-                        return $this->returnJson(
-                            [
-                                'status' => 'diff',
-                                'data' => $diff,
-                            ]
-                        );
-                    }
-                }
-
-                //@TODO FIXME Check if it works
-                $result = $this->getResourceTransfer()->transfer(
-                    new ResourceTransferCommand(
-                        $instance->getUri(),
-                        $destinationClass->getUri(),
-                        $this->getRequestParameter('aclMode'),
-                        ResourceTransferCommand::TRANSFER_MODE_MOVE
-                    )
-                );
-
-                // $status = $this->getClassService()->changeClass($instance, $destinationClass);
-
-                return $this->returnJson(
-                    [
-                        'status' => true,
-                    ]
-                );
-            } catch (Throwable $exception) {
-                return $this->returnJson(
-                    [
-                        'status' => true,
-                    ]
-                );
-            }
+        if (!$this->hasRequestParameter('destinationClassUri') || !$this->hasRequestParameter('uri')) {
+            return $this->returnJson([]);
         }
 
-        return $this->returnJson([]);
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+
+            return;
+        }
+
+        $id = $this->getRequestParameter('uri');
+        $this->validateInstanceRoot($id);
+
+        $this->signatureValidator->checkSignature($this->getRequestParameter('signature'), $id);
+
+        $instance = $this->getResource($id);
+        $types = $instance->getTypes();
+        $class = reset($types);
+        $destinationUri = tao_helpers_Uri::decode($this->getRequestParameter('destinationClassUri'));
+        $this->validateDestinationClass($destinationUri, $class->getUri());
+        $destinationClass = $this->getClass($destinationUri);
+        $confirmed = $this->getRequestParameter('confirmed');
+
+        try {
+            if (!filter_var($confirmed, FILTER_VALIDATE_BOOLEAN)) {
+                $diff = $this->getClassService()->getPropertyDiff($class, $destinationClass);
+
+                if (!empty($diff)) {
+                    return $this->returnJson(
+                        [
+                            'status' => 'diff',
+                            'data' => $diff,
+                        ]
+                    );
+                }
+            }
+
+            $result = $this->getResourceTransfer()->transfer(
+                new ResourceTransferCommand(
+                    $instance->getUri(),
+                    $destinationUri,
+                    $this->getRequestParameter('aclMode'),
+                    ResourceTransferCommand::TRANSFER_MODE_MOVE
+                )
+            );
+
+            return $this->returnJson(
+                [
+                    'status' => true,
+                    'data' => [
+                        $result->getDestination() => [
+                            'success' => true,
+                            'message' => sprintf(
+                                'Instance "%s" has been successfully moved to "%s"',
+                                $result->getDestination(),
+                                $destinationUri
+                            ),
+                        ],
+                    ],
+                ]
+            );
+        } catch (Throwable $exception) {
+            return $this->returnJson(
+                [
+                    'status' => false,
+                ]
+            );
+        }
     }
 
     /**
@@ -959,40 +967,42 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             try {
                 $this->validateCsrf();
             } catch (common_exception_Unauthorized $e) {
-                $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+                $this->response = $this->getPsrResponse()->withStatus(
+                    403,
+                    __('Unable to process your request')
+                );
+
                 return;
             }
 
             $this->validateUri($id);
             $this->validateInstanceRoot($id);
-
             $this->signatureValidator->checkSignature($data['signature'], $id);
-
-            $ids = [$id];
-
             $this->validateMoveRequest();
-            $response = $this->moveAllInstances($ids);
 
-            //@TODO FIXME Check if it works
+            $destinationClassUri = $this->getRequestParameter('destinationClassUri');
             $result = $this->getResourceTransfer()->transfer(
                 new ResourceTransferCommand(
                     $id,
-                    $this->getRequestParameter('destinationClassUri'),
+                    $destinationClassUri,
                     $this->getRequestParameter('aclMode'),
                     ResourceTransferCommand::TRANSFER_MODE_MOVE
                 )
             );
 
-            //@TODO @FIXME It is mandatory to return the report with the statuses as it was before
-            //@TODO @FIXME It is mandatory to return the report with the statuses as it was before
-            //@TODO @FIXME It is mandatory to return the report with the statuses as it was before
-            //@TODO @FIXME It is mandatory to return the report with the statuses as it was before
             return $this->returnJson(
                 [
                     'success' => true,
-                    'data' => [ //@TODO Check statuses on move() method called by moveAllInstances()
-                        'uri' => 'message bla bla bla' //FIXME @TODO
-                    ]
+                    'data' => [
+                        $result->getDestination() => [
+                            'success' => true,
+                            'message' => sprintf(
+                                'Resource "%s" has been successfully moved to "%s"',
+                                $id,
+                                $destinationClassUri
+                            )
+                        ],
+                    ],
                 ]
             );
         } catch (InvalidArgumentException $e) {
