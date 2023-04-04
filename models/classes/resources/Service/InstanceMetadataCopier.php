@@ -103,19 +103,6 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
                     continue;
                 }
 
-                //FIXME
-                //FIXME
-                //FIXME
-                \common_Logger::e(
-                    '===================> Will to copy property ' .
-                    $destinationProperty->getUri() . ' ' . $destinationProperty->getLabel() . ' === ' .
-                    ($originalProperty === null ? 'No original property' : ($originalProperty->getUri() . ' _ ' . $originalProperty->getLabel()))
-                    . ' ===> ' . var_export($this->blacklistedProperties, true)
-                );
-                //FIXME
-                //FIXME
-                //FIXME
-
                 $destinationInstance->setPropertyValue($destinationProperty, $propertyValue);
             }
         }
@@ -125,11 +112,7 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
     {
         $originalPropertyUri = $this->classMetadataMapper->get($property);
 
-        if ($originalPropertyUri === null) {
-            return $property->isCustom() ? $property : null;
-        }
-
-        return $property->getProperty($originalPropertyUri);
+        return $originalPropertyUri === null ? $property : $property->getProperty($originalPropertyUri);
     }
 
     private function isFileProperty(core_kernel_classes_Property $property): bool
@@ -154,12 +137,6 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
         core_kernel_classes_Property $property,
         $propertyValue
     ): void {
-        if ($propertyValue instanceof core_kernel_classes_Literal) {
-            var_dump($property->getLabel());
-            var_dump($propertyValue);
-            exit('_____________________');
-        }
-
         $oldFile = $this->fileReferenceSerializer->unserializeFile($propertyValue->getUri());
 
         $newFile = $this->fileSystemService

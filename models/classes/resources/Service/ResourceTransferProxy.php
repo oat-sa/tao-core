@@ -22,10 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Service;
 
-use core_kernel_classes_Class;
 use InvalidArgumentException;
 use oat\generis\model\data\Ontology;
-use oat\oatbox\service\ServiceManager;
 use oat\tao\model\resources\Command\ResourceTransferCommand;
 use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\resources\ResourceTransferResult;
@@ -37,22 +35,19 @@ class ResourceTransferProxy implements ResourceTransferInterface
     private ResourceTransferInterface $classMover;
     private ResourceTransferInterface $instanceMover;
     private Ontology $ontology;
-    private ClassMetadataCopier $classMetadataCopier;
 
     public function __construct(
         ResourceTransferInterface $classCopier,
         ResourceTransferInterface $instanceCopier,
         ResourceTransferInterface $classMover,
         ResourceTransferInterface $instanceMover,
-        Ontology $ontology,
-        ClassMetadataCopier $classMetadataCopier
+        Ontology $ontology
     ) {
         $this->classCopier = $classCopier;
         $this->instanceCopier = $instanceCopier;
         $this->classMover = $classMover;
         $this->instanceMover = $instanceMover;
         $this->ontology = $ontology;
-        $this->classMetadataCopier = $classMetadataCopier;
     }
 
     public function transfer(ResourceTransferCommand $command): ResourceTransferResult
@@ -97,12 +92,6 @@ class ResourceTransferProxy implements ResourceTransferInterface
         }
 
         if ($command->isCopyTo()) {
-            //FIXME
-            //FIXME
-            $this->classMetadataCopier->copyForInstance($from, $this->ontology->getClass($command->getTo()));
-            //FIXME
-            //FIXME
-
             return $this->instanceCopier;
         }
 

@@ -26,7 +26,6 @@ namespace oat\tao\model\resources\Service;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
-use core_kernel_classes_Resource;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\resources\Contract\ClassMetadataCopierInterface;
 use oat\tao\model\resources\Contract\ClassMetadataMapperInterface;
@@ -59,31 +58,6 @@ class ClassMetadataCopier implements ClassMetadataCopierInterface
 
             $this->copiedProperties[] = $propertyUri;
             $this->classMetadataMapper->add($property, $newProperty);
-        }
-    }
-
-    //@TODO @FIXME - Remove this method after tests or put it in a proper place...
-    public function copyForInstance(
-        core_kernel_classes_Resource $fromInstance,
-        core_kernel_classes_Class $destinationClass
-    ): void {
-        $copiedProperties = [];
-        $originClass = current($fromInstance->getTypes());
-        $allClassProperties = $originClass->getProperties(true);
-        $destinationClassProperties = $destinationClass->getProperties(true);
-
-        foreach ($allClassProperties as $propertyUri => $property) {
-            if (in_array($propertyUri, $copiedProperties, true)) {
-                continue;
-            }
-
-            foreach ($destinationClassProperties as $newProperty) {
-                if ($propertyUri === $newProperty->getUri()) {
-                    $this->classMetadataMapper->add($property, $newProperty);
-                }
-            }
-
-            $copiedProperties[] = $propertyUri;
         }
     }
 
