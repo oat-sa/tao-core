@@ -59,6 +59,8 @@ class ResourceTransferProxy implements ResourceTransferInterface
             getenv('ACL_TRANSFER_MODE') ?: ResourceTransferCommand::ACL_KEEP_ORIGINAL,
             $command->isCopyTo() ? ResourceTransferCommand::TRANSFER_MODE_COPY : ResourceTransferCommand::TRANSFER_MODE_MOVE
         );
+        \common_Logger::e('============> ACL_TRANSFER_MODE '  . var_export($command->keepOriginalAcl(), true));//FIXME
+
         //FIXME @TODO Remove after tests
 
         return $this->getTransfer($command)->transfer($command);

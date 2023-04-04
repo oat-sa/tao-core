@@ -74,7 +74,7 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
     {
         $instance = $this->ontology->getResource($command->getFrom());
         $destinationClass = $this->ontology->getClass($command->getTo());
-        $newInstance = $this->doCopy($instance, $destinationClass);
+        $newInstance = $this->doCopy($instance, $destinationClass, $command->keepOriginalAcl());
 
         return new ResourceTransferResult($newInstance->getUri());
     }
@@ -106,14 +106,14 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
         $this->instanceMetadataCopier->copy($instance, $newInstance);
 
         if (isset($this->instanceContentCopier)) {
-            $this->instanceContentCopier->copy(
-                $keepOriginalPermissions ? $instance : $destinationClass,
-                $newInstance
-            );
+            $this->instanceContentCopier->copy($instance, $newInstance);
         }
 
         if (isset($this->permissionCopier)) {
-            $this->permissionCopier->copy($instance, $newInstance);
+            $this->permissionCopier->copy(
+                $keepOriginalPermissions ? $instance : $destinationClass,
+                $newInstance
+            );
         }
 
         return $newInstance;

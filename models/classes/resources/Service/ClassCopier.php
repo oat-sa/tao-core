@@ -41,7 +41,9 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
 {
     private RootClassesListServiceInterface $rootClassesListService;
     private ClassMetadataCopier $classMetadataCopier;
-    private InstanceCopierInterface $instanceCopier;
+
+    /** @var InstanceCopierInterface|ResourceTransferInterface */
+    private $instanceCopier;
     private ClassMetadataMapperInterface $classMetadataMapper;
     private PermissionCopierInterface $permissionCopier;
     private Ontology $ontology;
@@ -110,19 +112,30 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
 
         $this->classMetadataCopier->copy($class, $newClass);
 
-        foreach ($class->getInstances() as $instance) {
-            $this->instanceCopier->copy($instance, $newClass);
-        }
-
-        foreach ($class->getSubClasses() as $subClass) {
-            $this->doCopy($subClass, $newClass);
-        }
-
         if (isset($this->permissionCopier)) {
             $this->permissionCopier->copy(
                 $keepOriginalPermission ? $class : $destinationClass,
                 $newClass
             );
+        }
+
+        foreach ($class->getInstances() as $instance) {
+            $aclMode = $keepOriginalPermission ?
+                ResourceTransferCommand::ACL_KEEP_ORIGINAL :
+                ResourceTransferCommand::ACL_USE_DESTINATION;
+
+            $this->instanceCopier->transfer(
+                new ResourceTransferCommand(
+                    $instance->getUri(),
+                    $newClass->getUri(),
+                    $aclMode,
+                    ResourceTransferCommand::TRANSFER_MODE_COPY
+                )
+            );
+        }
+
+        foreach ($class->getSubClasses() as $subClass) {
+            $this->doCopy($subClass, $newClass);
         }
 
         $this->classMetadataMapper->remove($newClass->getProperties());
