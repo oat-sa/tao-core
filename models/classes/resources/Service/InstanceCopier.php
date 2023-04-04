@@ -65,7 +65,7 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
      */
     public function withPermissionCopiers(iterable $copiers): void
     {
-        foreach($copiers as $copier) {
+        foreach ($copiers as $copier) {
             $this->withPermissionCopier($copier);
         }
     }
