@@ -720,7 +720,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             if ($this->hasWriteAccess($destinationClass->getUri())) {
                 try {
                     //@TODO Use the Instance Copier / Make sure it is compatible to old behavior...
-                    //$copy = $this->getClassService()->cloneInstance($instance, $destinationClass);
+//                    var_export(get_class($this->getClassService()));
+//                    exit('------------------------');//FIXME
+//                    $copy = $this->getClassService()->cloneInstance($instance, $destinationClass);
 
                     $result = $this->getResourceTransfer()->transfer(
                         new ResourceTransferCommand(

@@ -80,6 +80,18 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
         foreach ($destinationClass->getProperties(true) as $destinationProperty) {
             $originalProperty = $this->getOriginalProperty($destinationProperty);
 
+            //FIXME
+            //FIXME
+            //FIXME
+            \common_Logger::e(
+                '================> Trying to copy property ' .
+                $destinationProperty->getUri() . ' ' . $destinationProperty->getLabel() . ' === ' .
+                ($originalProperty === null ? 'No original property' : ($originalProperty->getUri() . ' _ ' . $originalProperty->getLabel()))
+            );
+            //FIXME
+            //FIXME
+            //FIXME
+
             if (
                 $originalProperty === null
                 || in_array($originalProperty->getUri(), $this->blacklistedProperties, true)
