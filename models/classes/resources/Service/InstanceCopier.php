@@ -106,7 +106,10 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
         $this->instanceMetadataCopier->copy($instance, $newInstance);
 
         if (isset($this->instanceContentCopier)) {
-            $this->instanceContentCopier->copy($instance, $newInstance);
+            $this->instanceContentCopier->copy(
+                $keepOriginalPermissions ? $instance : $destinationClass,
+                $newInstance
+            );
         }
 
         if (isset($this->permissionCopier)) {
