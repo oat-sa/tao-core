@@ -71,6 +71,11 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
         }
     }
 
+    public function addPropertyUrisToBlacklist(array $propertyUris): void
+    {
+        $this->blacklistedProperties = array_merge($this->blacklistedProperties, $propertyUris);
+    }
+
     public function copy(
         core_kernel_classes_Resource $instance,
         core_kernel_classes_Resource $destinationInstance
@@ -79,18 +84,6 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
 
         foreach ($destinationClass->getProperties(true) as $destinationProperty) {
             $originalProperty = $this->getOriginalProperty($destinationProperty);
-
-            //FIXME
-            //FIXME
-            //FIXME
-            \common_Logger::e(
-                '================> Trying to copy property ' .
-                $destinationProperty->getUri() . ' ' . $destinationProperty->getLabel() . ' === ' .
-                ($originalProperty === null ? 'No original property' : ($originalProperty->getUri() . ' _ ' . $originalProperty->getLabel()))
-            );
-            //FIXME
-            //FIXME
-            //FIXME
 
             if (
                 $originalProperty === null
@@ -109,6 +102,19 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
 
                     continue;
                 }
+
+                //FIXME
+                //FIXME
+                //FIXME
+                \common_Logger::e(
+                    '===================> Will to copy property ' .
+                    $destinationProperty->getUri() . ' ' . $destinationProperty->getLabel() . ' === ' .
+                    ($originalProperty === null ? 'No original property' : ($originalProperty->getUri() . ' _ ' . $originalProperty->getLabel()))
+                    . ' ===> ' . var_export($this->blacklistedProperties, true)
+                );
+                //FIXME
+                //FIXME
+                //FIXME
 
                 $destinationInstance->setPropertyValue($destinationProperty, $propertyValue);
             }
@@ -148,6 +154,12 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
         core_kernel_classes_Property $property,
         $propertyValue
     ): void {
+        if ($propertyValue instanceof core_kernel_classes_Literal) {
+            var_dump($property->getLabel());
+            var_dump($propertyValue);
+            exit('_____________________');
+        }
+
         $oldFile = $this->fileReferenceSerializer->unserializeFile($propertyValue->getUri());
 
         $newFile = $this->fileSystemService

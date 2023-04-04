@@ -740,7 +740,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                             'success'  => true,
                             'data' => [
                                 'label' => $copy->getLabel(),
-                                'uri'   => $copy->getUri()
+                                'uri'   => $copy->getUri(),
                             ]
                         ]
                     );
@@ -756,9 +756,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
                     return $this->returnJson(
                         [
-                        'success'  => false,
-                        'errorCode' => 204,
-                        'errorMessage' =>  __("Unable to copy the resource")
+                            'success'  => false,
+                            'errorCode' => 204,
+                            'errorMessage' =>  __("Unable to copy the resource")
                         ],
                         204
                     );
