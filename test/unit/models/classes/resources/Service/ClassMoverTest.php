@@ -24,22 +24,22 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\resources\Service;
 
+use InvalidArgumentException;
 use core_kernel_classes_Class;
+use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
-use InvalidArgumentException;
-use oat\generis\model\data\Ontology;
-use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManager;
+use oat\generis\model\OntologyRdfs;
+use oat\generis\model\data\Ontology;
 use oat\tao\model\event\ClassMovedEvent;
+use PHPUnit\Framework\MockObject\MockObject;
+use oat\tao\model\resources\Service\ClassMover;
+use oat\tao\model\resources\ResourceTransferResult;
 use oat\tao\model\resources\Command\ResourceTransferCommand;
+use oat\tao\model\Specification\ClassSpecificationInterface;
 use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
-use oat\tao\model\resources\ResourceTransferResult;
-use oat\tao\model\resources\Service\ClassMover;
-use oat\tao\model\Specification\ClassSpecificationInterface;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 
 class ClassMoverTest extends TestCase
 {
@@ -98,7 +98,7 @@ class ClassMoverTest extends TestCase
             ->expects($this->exactly(2))
             ->method('getClass')
             ->willReturnCallback(
-                fn(string $uri): core_kernel_classes_Class => $uri === 'fromClassUri' ? $fromClass : $toClass
+                fn (string $uri): core_kernel_classes_Class => $uri === 'fromClassUri' ? $fromClass : $toClass
             );
 
         $this->rootClassSpecification
@@ -132,7 +132,7 @@ class ClassMoverTest extends TestCase
         $toClass
             ->expects($this->exactly(2))
             ->method('isSubClassOf')
-            ->willReturnCallback(fn(core_kernel_classes_Class $class): bool => $class === $rootClass);
+            ->willReturnCallback(fn (core_kernel_classes_Class $class): bool => $class === $rootClass);
 
         $subclassOfProperty = $this->createMock(core_kernel_classes_Property::class);
 
@@ -217,7 +217,7 @@ class ClassMoverTest extends TestCase
             ->expects($this->exactly(2))
             ->method('getClass')
             ->willReturnCallback(
-                fn(string $uri): core_kernel_classes_Class => $uri === 'fromClassUri' ? $fromClass : $toClass
+                fn (string $uri): core_kernel_classes_Class => $uri === 'fromClassUri' ? $fromClass : $toClass
             );
 
         $this->rootClassSpecification
@@ -256,7 +256,7 @@ class ClassMoverTest extends TestCase
             ->expects($this->exactly(2))
             ->method('getClass')
             ->willReturnCallback(
-                fn(string $uri): core_kernel_classes_Class => $uri === 'fromClassUri' ? $fromClass : $toClass
+                fn (string $uri): core_kernel_classes_Class => $uri === 'fromClassUri' ? $fromClass : $toClass
             );
 
         $this->rootClassSpecification
@@ -335,7 +335,7 @@ class ClassMoverTest extends TestCase
             ->expects($this->exactly(2))
             ->method('getClass')
             ->willReturnCallback(
-                fn(string $uri): core_kernel_classes_Class => $uri === 'fromClassUri' ? $fromClass : $toClass
+                fn (string $uri): core_kernel_classes_Class => $uri === 'fromClassUri' ? $fromClass : $toClass
             );
 
         $this->rootClassSpecification
@@ -354,7 +354,7 @@ class ClassMoverTest extends TestCase
         $fromClass
             ->expects($this->exactly(2))
             ->method('equals')
-            ->willReturnCallback(fn(core_kernel_classes_Class $class) => $class === $toClass);
+            ->willReturnCallback(fn (core_kernel_classes_Class $class) => $class === $toClass);
 
         $fromClass
             ->expects($this->once())
@@ -393,7 +393,7 @@ class ClassMoverTest extends TestCase
             ->expects($this->exactly(2))
             ->method('getClass')
             ->willReturnCallback(
-                fn(string $uri): core_kernel_classes_Class => $uri === 'fromClassUri' ? $fromClass : $toClass
+                fn (string $uri): core_kernel_classes_Class => $uri === 'fromClassUri' ? $fromClass : $toClass
             );
 
         $this->rootClassSpecification
