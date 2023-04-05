@@ -16,8 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
- *
- * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
 
 declare(strict_types=1);
@@ -31,12 +29,10 @@ use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 use oat\tao\model\resources\ResourceTransferResult;
 use core_kernel_classes_Class;
-use core_kernel_classes_Resource;
-use oat\tao\model\resources\Contract\InstanceCopierInterface;
 
-class InstanceCopierProxy implements InstanceCopierInterface, ResourceTransferInterface
+class InstanceCopierProxy implements ResourceTransferInterface
 {
-    /** @var InstanceCopierInterface[]|ResourceTransferInterface[] */
+    /** @var ResourceTransferInterface[] */
     private array $instanceCopiers;
     private RootClassesListServiceInterface $rootClassesListService;
     private Ontology $ontology;
@@ -47,20 +43,8 @@ class InstanceCopierProxy implements InstanceCopierInterface, ResourceTransferIn
         $this->ontology = $ontology;
     }
 
-    /**
-     * @param InstanceCopierInterface|ResourceTransferInterface $copier
-     */
     public function addInstanceCopier(string $rootClassUri, ResourceTransferInterface $copier): void
     {
-        if (!$copier instanceof InstanceCopierInterface) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Instance copier not supported: %s',
-                    get_class($copier)
-                )
-            );
-        }
-
         $this->instanceCopiers[$rootClassUri] = $copier;
     }
 
@@ -71,17 +55,7 @@ class InstanceCopierProxy implements InstanceCopierInterface, ResourceTransferIn
         return $this->getCopier($destinationClass)->transfer($command);
     }
 
-    public function copy(
-        core_kernel_classes_Resource $instance,
-        core_kernel_classes_Class $destinationClass
-    ): core_kernel_classes_Resource {
-        return $this->getCopier($destinationClass)->copy($instance, $destinationClass);
-    }
-
-    /**
-     * @return InstanceCopierInterface|ResourceTransferInterface
-     */
-    private function getCopier(core_kernel_classes_Class $class)
+    private function getCopier(core_kernel_classes_Class $class): ResourceTransferInterface
     {
         $rootClasUri = $this->getRootClassUri($class);
 
