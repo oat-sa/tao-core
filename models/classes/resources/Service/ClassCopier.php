@@ -29,7 +29,6 @@ use core_kernel_classes_Class;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\resources\Command\ResourceTransferCommand;
 use oat\tao\model\resources\Contract\ClassCopierInterface;
-use oat\tao\model\resources\Contract\InstanceCopierInterface;
 use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\Contract\ClassMetadataCopierInterface;
 use oat\tao\model\resources\Contract\ClassMetadataMapperInterface;
@@ -40,10 +39,8 @@ use oat\tao\model\resources\ResourceTransferResult;
 class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
 {
     private RootClassesListServiceInterface $rootClassesListService;
-    private ClassMetadataCopier $classMetadataCopier;
-
-    /** @var InstanceCopierInterface|ResourceTransferInterface */
-    private $instanceCopier;
+    private ClassMetadataCopierInterface $classMetadataCopier;
+    private ResourceTransferInterface $instanceCopier;
     private ClassMetadataMapperInterface $classMetadataMapper;
     private PermissionCopierInterface $permissionCopier;
     private Ontology $ontology;
@@ -53,7 +50,7 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
     public function __construct(
         RootClassesListServiceInterface $rootClassesListService,
         ClassMetadataCopierInterface $classMetadataCopier,
-        InstanceCopierInterface $instanceCopier,
+        ResourceTransferInterface $instanceCopier,
         ClassMetadataMapperInterface $classMetadataMapper,
         Ontology $ontology
     ) {
@@ -108,7 +105,9 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
         $this->assertInSameRootClass($class, $destinationClass);
 
         $newClass = $destinationClass->createSubClass($class->getLabel());
-        $this->copiedClasses[] = $newClass->getUri();
+        $newClassUri = $newClass->getUri();
+
+        $this->copiedClasses[] = $newClassUri;
 
         $this->classMetadataCopier->copy($class, $newClass);
 
@@ -127,7 +126,7 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
             $this->instanceCopier->transfer(
                 new ResourceTransferCommand(
                     $instance->getUri(),
-                    $newClass->getUri(),
+                    $newClassUri,
                     $aclMode,
                     ResourceTransferCommand::TRANSFER_MODE_COPY
                 )

@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
@@ -26,6 +26,10 @@ namespace oat\tao\test\unit\model\resources\Service;
 
 use InvalidArgumentException;
 use core_kernel_classes_Class;
+use oat\generis\model\data\Ontology;
+use oat\tao\model\resources\Command\ResourceTransferCommand;
+use oat\tao\model\resources\Contract\ResourceTransferInterface;
+use oat\tao\model\resources\ResourceTransferResult;
 use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Property;
@@ -38,8 +42,7 @@ use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 
 class ClassCopierTest extends TestCase
 {
-    /** @var ClassCopier */
-    private $sut;
+    private ClassCopier $sut;
 
     /** @var RootClassesListServiceInterface|MockObject */
     private $rootClassesListService;
@@ -53,205 +56,67 @@ class ClassCopierTest extends TestCase
     /** @var ClassMetadataMapperInterface|MockObject */
     private $classMetadataMapper;
 
+    /** @var Ontology|MockObject */
+    private $ontology;
+
     protected function setUp(): void
     {
         $this->rootClassesListService = $this->createMock(RootClassesListServiceInterface::class);
         $this->classMetadataCopier = $this->createMock(ClassMetadataCopierInterface::class);
-        $this->instanceCopier = $this->createMock(InstanceCopierInterface::class);
+        $this->instanceCopier = $this->createMock(ResourceTransferInterface::class);
         $this->classMetadataMapper = $this->createMock(ClassMetadataMapperInterface::class);
+        $this->ontology = $this->createMock(Ontology::class);
 
         $this->sut = new ClassCopier(
             $this->rootClassesListService,
             $this->classMetadataCopier,
             $this->instanceCopier,
-            $this->classMetadataMapper
+            $this->classMetadataMapper,
+            $this->ontology
+        );
+    }
+
+    public function testTransfer(): void
+    {
+        $destinationClass = $this->createClass('destinationClassUri', 'classLabel');
+        $fromClass = $this->createClass('classUri', 'classLabel');
+
+        $this->ontology
+            ->method('getClass')
+            ->willReturnOnConsecutiveCalls(
+                $fromClass,
+                $destinationClass
+            );
+
+        $this->doCopy($fromClass, $destinationClass);
+
+        $this->assertEquals(
+            new ResourceTransferResult('newClassUri'),
+            $this->sut->transfer(
+                new ResourceTransferCommand(
+                    'classUri',
+                    'destinationClassUri',
+                    ResourceTransferCommand::ACL_KEEP_ORIGINAL,
+                    ResourceTransferCommand::TRANSFER_MODE_COPY
+                )
+            )
         );
     }
 
     public function testCopy(): void
     {
-        $rootClass = $this->createMock(core_kernel_classes_Class::class);
+        $destinationClass = $this->createClass('destinationClassUri', 'classLabel');
+        $fromClass = $this->createClass('classUri', 'classLabel');
 
-        $this->rootClassesListService
-            ->expects($this->atLeastOnce())
-            ->method('list')
-            ->willReturn([$rootClass]);
-
-        $class = $this->createMock(core_kernel_classes_Class::class);
-        $class
-            ->expects($this->once())
-            ->method('getUri')
-            ->willReturn('classUri');
-        $class
-            ->expects($this->once())
-            ->method('equals')
-            ->with($rootClass)
-            ->willReturn(true);
-        $class
-            ->expects($this->never())
-            ->method('isSubClassOf');
-
-        $destinationClass = $this->createMock(core_kernel_classes_Class::class);
-        $destinationClass
-            ->expects($this->once())
-            ->method('equals')
-            ->with($rootClass)
-            ->willReturn(true);
-        $destinationClass
-            ->expects($this->never())
-            ->method('isSubClassOf');
-        $destinationClass
-            ->expects($this->never())
-            ->method('getUri');
-
-        $class
-            ->expects($this->once())
-            ->method('getLabel')
-            ->willReturn('classLabel');
-
-        $newClass = $this->createMock(core_kernel_classes_Class::class);
-        $newClass
-            ->expects($this->once())
-            ->method('getUri')
-            ->willReturn('newClassUri');
-
-        $destinationClass
-            ->expects($this->once())
-            ->method('createSubClass')
-            ->with('classLabel')
-            ->willReturn($newClass);
-
-        $this->classMetadataCopier
-            ->expects($this->at(0))
-            ->method('copy')
-            ->with($class, $newClass);
-
-        $classInstance = $this->createMock(core_kernel_classes_Resource::class);
-
-        $class
-            ->expects($this->once())
-            ->method('getInstances')
-            ->willReturn(
-                [
-                    $classInstance,
-                ]
-            );
-
-        $this->instanceCopier
-            ->expects($this->once())
-            ->method('copy')
-            ->with($classInstance, $newClass);
-
-        $subClass = $this->createMock(core_kernel_classes_Class::class);
-
-        $class
-            ->expects($this->once())
-            ->method('getSubClasses')
-            ->willReturn(
-                [
-                    $subClass,
-                ]
-            );
-
-        $subClass
-            ->expects($this->once())
-            ->method('getUri')
-            ->willReturn('classUri');
-        $subClass
-            ->expects($this->never())
-            ->method('equals');
-        $subClass
-            ->expects($this->never())
-            ->method('isSubClassOf');
-
-        $newClass
-            ->expects($this->never())
-            ->method('equals');
-        $newClass
-            ->expects($this->never())
-            ->method('isSubClassOf');
-
-        $subClass
-            ->expects($this->once())
-            ->method('getLabel')
-            ->willReturn('subClassLabel');
-
-        $newSubClass = $this->createMock(core_kernel_classes_Class::class);
-        $newSubClass
-            ->expects($this->once())
-            ->method('getUri')
-            ->willReturn('newSubClassUri');
-
-        $newClass
-            ->expects($this->once())
-            ->method('createSubClass')
-            ->with('subClassLabel')
-            ->willReturn($newSubClass);
-
-        $this->classMetadataCopier
-            ->expects($this->at(1))
-            ->method('copy')
-            ->with($subClass, $newSubClass);
-
-        $subClass
-            ->expects($this->once())
-            ->method('getInstances')
-            ->willReturn([]);
-        $subClass
-            ->expects($this->once())
-            ->method('getSubClasses')
-            ->willReturn([]);
-
-        $newClassProperty = $this->createMock(core_kernel_classes_Property::class);
-
-        $newClass
-            ->expects($this->once())
-            ->method('getProperties')
-            ->willReturn(
-                [
-                    $newClassProperty,
-                ]
-            );
-
-        $this->classMetadataMapper
-            ->expects($this->at(0))
-            ->method('remove')
-            ->with(
-                [
-                    $newClassProperty,
-                ]
-            );
-
-        $newSubClassProperty = $this->createMock(core_kernel_classes_Property::class);
-
-        $newSubClass
-            ->expects($this->once())
-            ->method('getProperties')
-            ->willReturn(
-                [
-                    $newSubClassProperty,
-                ]
-            );
-
-        $this->classMetadataMapper
-            ->expects($this->at(1))
-            ->method('remove')
-            ->with(
-                [
-                    $newSubClassProperty,
-                ]
-            );
-
-        $this->assertEquals($newClass, $this->sut->copy($class, $destinationClass));
+        $this->assertEquals(
+            $this->doCopy($fromClass, $destinationClass),
+            $this->sut->copy($fromClass, $destinationClass)
+        );
     }
 
     public function testCopyWithInvalidDestinationClass(): void
     {
-        $rootClass = $this->createMock(core_kernel_classes_Class::class);
-        $rootClass
-            ->expects($this->once())
-            ->method('getUri')
-            ->willReturn('rootClassUri');
+        $rootClass = $this->createClass('rootClassUri', 'label');
 
         $this->rootClassesListService
             ->expects($this->once())
@@ -262,39 +127,206 @@ class ClassCopierTest extends TestCase
                 ]
             );
 
-        $class = $this->createMock(core_kernel_classes_Class::class);
-        $class
-            ->expects($this->exactly(2))
-            ->method('getUri')
-            ->willReturn('classUri');
-        $class
-            ->expects($this->once())
+        $class = $this->createClass('classUri', 'label');
+
+        $class->expects($this->once())
             ->method('equals')
             ->willReturn(true);
-        $class
-            ->expects($this->never())
+
+        $class->expects($this->never())
             ->method('isSubClassOf');
 
-        $destinationClass = $this->createMock(core_kernel_classes_Class::class);
-        $destinationClass
-            ->expects($this->once())
-            ->method('getUri')
-            ->willReturn('destinationClassUri');
-        $destinationClass
-            ->expects($this->once())
+        $destinationClass = $this->createClass('destinationClassUri', 'label');
+
+        $destinationClass->expects($this->once())
             ->method('equals')
             ->willReturn(false);
-        $destinationClass
-            ->expects($this->once())
+
+        $destinationClass->expects($this->once())
             ->method('isSubClassOf')
             ->with($rootClass)
             ->willReturn(false);
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Selected class (classUri) and destination class (destinationClassUri) must be in the same root class (rootClassUri).'
+            'Selected class (classUri) and destination class (destinationClassUri) ' .
+            'must be in the same root class (rootClassUri).'
         );
 
         $this->sut->copy($class, $destinationClass);
+    }
+
+    /**
+     * @param core_kernel_classes_Class|MockObject $fromClass
+     * @param core_kernel_classes_Class|MockObject $destinationClass
+     * @return core_kernel_classes_Class|MockObject
+     */
+    private function doCopy(MockObject $fromClass, MockObject $destinationClass): MockObject
+    {
+        $classInstance = $this->createInstance('newInstanceUri', 'label');
+
+        $rootClass = $this->createClass('rootClassUri', 'rootClassLabel');
+        $subClass = $this->createClass('classUri', 'subClassLabel');
+        $newClass = $this->createClass('newClassUri', 'classLabel');
+        $newSubClass = $this->createClass('newSubClassUri', 'newSubClassLabel');
+
+        $newClassProperty = $this->createMock(core_kernel_classes_Property::class);
+        $newSubClassProperty = $this->createMock(core_kernel_classes_Property::class);
+
+        $newSubClass->expects($this->once())
+            ->method('getProperties')
+            ->willReturn(
+                [
+                    $newSubClassProperty,
+                ]
+            );
+
+        $subClass->expects($this->never())
+            ->method('equals');
+
+        $subClass->expects($this->never())
+            ->method('isSubClassOf');
+
+        $subClass->expects($this->once())
+            ->method('getInstances')
+            ->willReturn([]);
+
+        $subClass->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn([]);
+
+        $fromClass->expects($this->once())
+            ->method('equals')
+            ->with($rootClass)
+            ->willReturn(true);
+
+        $fromClass->expects($this->once())
+            ->method('getInstances')
+            ->willReturn(
+                [
+                    $classInstance,
+                ]
+            );
+
+        $fromClass->expects($this->never())
+            ->method('isSubClassOf');
+
+        $fromClass->expects($this->once())
+            ->method('getSubClasses')
+            ->willReturn(
+                [
+                    $subClass,
+                ]
+            );
+
+        $newClass->expects($this->never())
+            ->method('equals');
+
+        $newClass->expects($this->never())
+            ->method('isSubClassOf');
+
+        $newClass->expects($this->once())
+            ->method('createSubClass')
+            ->with('subClassLabel')
+            ->willReturn($newSubClass);
+
+        $newClass->expects($this->once())
+            ->method('getProperties')
+            ->willReturn(
+                [
+                    $newClassProperty,
+                ]
+            );
+
+        $destinationClass
+            ->expects($this->once())
+            ->method('equals')
+            ->with($rootClass)
+            ->willReturn(true);
+
+        $destinationClass
+            ->expects($this->once())
+            ->method('createSubClass')
+            ->with('classLabel')
+            ->willReturn($newClass);
+
+        $this->rootClassesListService
+            ->expects($this->atLeastOnce())
+            ->method('list')
+            ->willReturn([$rootClass]);
+
+        $this->classMetadataCopier
+            ->expects($this->at(0))
+            ->method('copy')
+            ->with($fromClass, $newClass);
+
+        $this->instanceCopier
+            ->expects($this->once())
+            ->method('transfer')
+            ->with(
+                new ResourceTransferCommand(
+                    'newInstanceUri',
+                    'newClassUri',
+                    ResourceTransferCommand::ACL_KEEP_ORIGINAL,
+                    ResourceTransferCommand::TRANSFER_MODE_COPY
+                )
+            );
+
+        $this->classMetadataCopier
+            ->expects($this->at(1))
+            ->method('copy')
+            ->with($subClass, $newSubClass);
+
+        $this->classMetadataMapper
+            ->expects($this->at(0))
+            ->method('remove')
+            ->with(
+                [
+                    $newClassProperty,
+                ]
+            );
+
+        $this->classMetadataMapper
+            ->expects($this->at(1))
+            ->method('remove')
+            ->with(
+                [
+                    $newSubClassProperty,
+                ]
+            );
+
+        return $newClass;
+    }
+
+    /**
+     * @return core_kernel_classes_Class|MockObject
+     */
+    private function createClass(string $uri, string $classLabel)
+    {
+        $class = $this->createMock(core_kernel_classes_Class::class);
+
+        $class->method('getUri')
+            ->willReturn($uri);
+
+        $class->method('getLabel')
+            ->willReturn($classLabel);
+
+        return $class;
+    }
+
+    /**
+     * @return core_kernel_classes_Resource|MockObject
+     */
+    private function createInstance(string $uri, string $label): core_kernel_classes_Resource
+    {
+        $instance = $this->createMock(core_kernel_classes_Resource::class);
+
+        $instance->method('getUri')
+            ->willReturn($uri);
+
+        $instance->method('getLabel')
+            ->willReturn($label);
+
+        return $instance;
     }
 }
