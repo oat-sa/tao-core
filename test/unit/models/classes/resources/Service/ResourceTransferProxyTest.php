@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\resources\Service;
 
 use core_kernel_classes_Resource;
+use InvalidArgumentException;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\resources\Command\ResourceTransferCommand;
 use oat\tao\model\resources\Contract\ResourceTransferInterface;
@@ -75,14 +76,7 @@ class ResourceTransferProxyTest extends TestCase
         bool $isToAClass,
         string $mode
     ): void {
-        $fromResource = $this->createMock(core_kernel_classes_Resource::class);
-        $toResource = $this->createMock(core_kernel_classes_Resource::class);
-
-        $fromResource->method('isClass')
-            ->willReturn($isFromAClass);
-
-        $toResource->method('isClass')
-            ->willReturn($isToAClass);
+        $this->mockFromToResource($isFromAClass, $isToAClass);
 
         $command = new ResourceTransferCommand(
             'fromResourceUri',
@@ -97,21 +91,22 @@ class ResourceTransferProxyTest extends TestCase
             ->method('transfer')
             ->with($command);
 
-        $this->ontology
-            ->method('getResource')
-            ->willReturnCallback(
-                function ($uri) use ($fromResource, $toResource) {
-                    if ($uri === 'fromResourceUri') {
-                        return $fromResource;
-                    }
+        $this->sut->transfer($command);
+    }
 
-                    if ($uri === 'toResourceUri') {
-                        return $toResource;
-                    }
+    public function testTransferWithInvalidDestination(): void
+    {
+        $this->mockFromToResource(true, false);
 
-                    return null;
-                }
-            );
+        $command = new ResourceTransferCommand(
+            'fromResourceUri',
+            'toResourceUri',
+            ResourceTransferCommand::ACL_KEEP_ORIGINAL,
+            ResourceTransferCommand::TRANSFER_MODE_MOVE
+        );
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The destination resource [toResourceUri:] is not a class');
 
         $this->sut->transfer($command);
     }
@@ -144,5 +139,33 @@ class ResourceTransferProxyTest extends TestCase
                 ResourceTransferCommand::TRANSFER_MODE_MOVE
             ],
         ];
+    }
+
+    private function mockFromToResource(bool $isFromAClass, bool $isToAClass): void
+    {
+        $fromResource = $this->createMock(core_kernel_classes_Resource::class);
+        $toResource = $this->createMock(core_kernel_classes_Resource::class);
+
+        $fromResource->method('isClass')
+            ->willReturn($isFromAClass);
+
+        $toResource->method('isClass')
+            ->willReturn($isToAClass);
+
+        $this->ontology
+            ->method('getResource')
+            ->willReturnCallback(
+                function ($uri) use ($fromResource, $toResource) {
+                    if ($uri === 'fromResourceUri') {
+                        return $fromResource;
+                    }
+
+                    if ($uri === 'toResourceUri') {
+                        return $toResource;
+                    }
+
+                    return null;
+                }
+            );
     }
 }
