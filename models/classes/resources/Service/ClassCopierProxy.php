@@ -79,7 +79,7 @@ class ClassCopierProxy implements ClassCopierInterface, ResourceTransferInterfac
         core_kernel_classes_Class $class,
         core_kernel_classes_Class $destinationClass
     ): core_kernel_classes_Class {
-        $result = $this->getTransfer($class, $destinationClass->getUri())->transfer(
+        $result = $this->transfer(
             new ResourceTransferCommand(
                 $class->getUri(),
                 $destinationClass->getUri(),

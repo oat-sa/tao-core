@@ -154,6 +154,10 @@ class ClassCopierProxyTest extends TestCase
         $class = $this->createMock(core_kernel_classes_Class::class);
 
         $class->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classUri');
+
+        $class->expects($this->once())
             ->method('equals')
             ->with($this->rootClass)
             ->willReturn(false);
@@ -162,6 +166,10 @@ class ClassCopierProxyTest extends TestCase
             ->method('isSubClassOf')
             ->with($this->rootClass)
             ->willReturn(false);
+
+        $this->ontology
+            ->method('getClass')
+            ->willReturn($class);
 
         $destinationClass = $this->createMock(core_kernel_classes_Class::class);
 
