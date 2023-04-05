@@ -22,18 +22,18 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Service;
 
-use core_kernel_classes_Class;
 use InvalidArgumentException;
-use oat\generis\model\data\Ontology;
-use oat\generis\model\OntologyRdfs;
+use core_kernel_classes_Class;
 use oat\oatbox\event\EventManager;
+use oat\generis\model\OntologyRdfs;
+use oat\generis\model\data\Ontology;
 use oat\tao\model\event\ClassMovedEvent;
-use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\ResourceTransferResult;
 use oat\tao\model\resources\Command\ResourceTransferCommand;
+use oat\tao\model\Specification\ClassSpecificationInterface;
+use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
-use oat\tao\model\Specification\ClassSpecificationInterface;
 
 class ClassMover implements ResourceTransferInterface
 {
@@ -86,10 +86,11 @@ class ClassMover implements ResourceTransferInterface
 
         if ($status) {
             $this->eventManager->trigger(ClassMovedEvent::class);
-        }
 
-        if (isset($this->permissionCopier) && $command->useDestinationAcl()) {
-            $this->changePermissions($from, $to);
+
+            if (isset($this->permissionCopier) && $command->useDestinationAcl()) {
+                $this->changePermissions($from, $to);
+            }
         }
 
         return new ResourceTransferResult($from->getUri());
@@ -123,9 +124,9 @@ class ClassMover implements ResourceTransferInterface
     ): self {
         foreach ($this->rootClassesListService->list() as $rootClass) {
             if (
-                !$to->equals($rootClass)
+                ($from->equals($rootClass) || $from->isSubClassOf($rootClass))
+                && !$to->equals($rootClass)
                 && !$to->isSubClassOf($rootClass)
-                && ($from->equals($rootClass) || $from->isSubClassOf($rootClass))
             ) {
                 throw new InvalidArgumentException(
                     sprintf(
@@ -145,7 +146,7 @@ class ClassMover implements ResourceTransferInterface
         core_kernel_classes_Class $from,
         core_kernel_classes_Class $to
     ): self {
-        if ($from->getUri() === $to->getUri()) {
+        if ($from->equals($to)) {
             throw new InvalidArgumentException(
                 sprintf(
                     'Selected class (%s) and destination class (%s) cannot be the same class.',
