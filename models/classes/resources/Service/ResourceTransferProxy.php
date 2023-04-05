@@ -53,14 +53,13 @@ class ResourceTransferProxy implements ResourceTransferInterface
     public function transfer(ResourceTransferCommand $command): ResourceTransferResult
     {
         //FIXME @TODO Remove after tests
-        $command = new ResourceTransferCommand(
-            $command->getFrom(),
-            $command->getTo(),
-            getenv('ACL_TRANSFER_MODE') ?: ResourceTransferCommand::ACL_KEEP_ORIGINAL,
-            $command->isCopyTo() ? ResourceTransferCommand::TRANSFER_MODE_COPY : ResourceTransferCommand::TRANSFER_MODE_MOVE
-        );
-        \common_Logger::e('============> ACL_TRANSFER_MODE '  . var_export($command->keepOriginalAcl(), true));//FIXME
-
+//        $command = new ResourceTransferCommand(
+//            $command->getFrom(),
+//            $command->getTo(),
+//            ,
+//            $command->isCopyTo() ? ResourceTransferCommand::TRANSFER_MODE_COPY : ResourceTransferCommand::TRANSFER_MODE_MOVE
+//        );
+//        \common_Logger::e('============> ACL_TRANSFER_MODE '  . var_export($command, true));//FIXME
         //FIXME @TODO Remove after tests
 
         return $this->getTransfer($command)->transfer($command);
@@ -68,10 +67,6 @@ class ResourceTransferProxy implements ResourceTransferInterface
 
     private function getTransfer(ResourceTransferCommand $command): ResourceTransferInterface
     {
-        //FIXME @TODO Remove after tests
-        \common_Logger::e('=========> RESOURCE TRANSFER (' . __METHOD__ . ') ' . var_export($command, true));
-        //FIXME @TODO Remove after tests
-
         $from = $this->ontology->getResource($command->getFrom());
         $to = $this->ontology->getResource($command->getTo());
 
