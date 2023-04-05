@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
@@ -48,20 +48,8 @@ class ClassCopierProxy implements ClassCopierInterface, ResourceTransferInterfac
         $this->ontology = $ontology;
     }
 
-    /**
-     * @param ClassCopierInterface|ResourceTransferInterface $classCopier
-     */
-    public function addClassCopier(string $rootClassUri, $classCopier): void
+    public function addClassCopier(string $rootClassUri, ResourceTransferInterface $classCopier): void
     {
-        if (!$classCopier instanceof ClassCopierInterface && !$classCopier instanceof ResourceTransferInterface) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Class copier not supported: %s',
-                    get_class($classCopier)
-                )
-            );
-        }
-
         if (!in_array($rootClassUri, $this->rootClassesListService->listUris(), true)) {
             throw new InvalidArgumentException('Provided root class URI was not found in root classes list.');
         }
@@ -81,40 +69,41 @@ class ClassCopierProxy implements ClassCopierInterface, ResourceTransferInterfac
 
     public function transfer(ResourceTransferCommand $command): ResourceTransferResult
     {
-        $class = $this->ontology->getClass($command->getFrom());
-        $rootClassUri = $this->extractRootClass($class)->getUri();
-
-        if (isset($this->classCopiers[$rootClassUri])) {
-            return $this->classCopiers[$rootClassUri]->transfer($command);
-        }
-
-        throw new InvalidArgumentException(
-            sprintf(
-                'Provided class (%s) cannot be copied to the destination class (%s) - not supported by any class copier.',
-                $command->getFrom(),
-                $command->getTo()
-            )
-        );
+        return $this->getTransfer(
+            $this->ontology->getClass($command->getFrom()),
+            $command->getTo()
+        )->transfer($command);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function copy(
         core_kernel_classes_Class $class,
         core_kernel_classes_Class $destinationClass
     ): core_kernel_classes_Class {
-        $rootClassUri = $this->extractRootClass($class)->getUri();
+        $result = $this->getTransfer($class, $destinationClass->getUri())->transfer(
+            new ResourceTransferCommand(
+                $class->getUri(),
+                $destinationClass->getUri(),
+                ResourceTransferCommand::ACL_KEEP_ORIGINAL,
+                ResourceTransferCommand::TRANSFER_MODE_COPY
+            )
+        );
+
+        return $this->ontology->getClass($result->getDestination());
+    }
+
+    private function getTransfer(core_kernel_classes_Class $from, string $toUri): ResourceTransferInterface
+    {
+        $rootClassUri = $this->extractRootClass($from)->getUri();
 
         if (isset($this->classCopiers[$rootClassUri])) {
-            return $this->classCopiers[$rootClassUri]->copy($class, $destinationClass);
+            return $this->classCopiers[$rootClassUri];
         }
 
         throw new InvalidArgumentException(
             sprintf(
-                'Provided class (%s) cannot be copied to the destination class (%s) - not supported by any class copier.',
-                $class->getUri(),
-                $destinationClass->getUri()
+                'Class (%s) cannot be copied to the class (%s) - not supported by any class copier.',
+                $from->getUri(),
+                $toUri
             )
         );
     }
