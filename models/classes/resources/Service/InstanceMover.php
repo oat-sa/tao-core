@@ -89,9 +89,9 @@ class InstanceMover implements ResourceTransferInterface
     ): void {
         foreach ($this->rootClassesListService->list() as $rootClass) {
             if (
-                !$toClass->equals($rootClass)
+                ($fromClass->equals($rootClass) || $fromClass->isSubClassOf($rootClass))
+                && !$toClass->equals($rootClass)
                 && !$toClass->isSubClassOf($rootClass)
-                && ($fromClass->equals($rootClass) || $fromClass->isSubClassOf($rootClass))
             ) {
                 throw new InvalidArgumentException(
                     sprintf(
