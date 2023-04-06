@@ -690,10 +690,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function copyInstance()
     {
-        //@TODO Get new option parameters
-        //@TODO Deprecate and delegate old code and delete what is possible without breaking change
-        //@TODO If feasible, move it to a task queue (nice to have)
-
         if (
             $this->hasRequestParameter('destinationClassUri')
             && $this->hasRequestParameter('uri')
@@ -719,11 +715,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             if ($this->hasWriteAccess($destinationClass->getUri())) {
                 try {
-                    //@TODO Use the Instance Copier / Make sure it is compatible to old behavior...
-//                    var_export(get_class($this->getClassService()));
-//                    exit('------------------------');//FIXME
-//                    $copy = $this->getClassService()->cloneInstance($instance, $destinationClass);
-
                     $result = $this->getResourceTransfer()->transfer(
                         new ResourceTransferCommand(
                             $instance->getUri(),
@@ -866,11 +857,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function moveInstance()
     {
-        //@TODO Get new option parameters
-        //@TODO Refactor to use similar logic as per CopyTo
-        //@TODO Deprecate and delegate old code and delete what is possible without breaking change
-        //@TODO If feasible, move it to a task queue (nice to have)
-
         if (!$this->hasRequestParameter('destinationClassUri') || !$this->hasRequestParameter('uri')) {
             return $this->returnJson([]);
         }
@@ -963,8 +949,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     public function moveResource()
     {
         try {
-            //@TODO Deprecate and delegate old code and delete what is possible without breaking change
-
             if (!$this->hasRequestParameter('uri')) {
                 throw new InvalidArgumentException('Resource uri must be specified.');
             }
