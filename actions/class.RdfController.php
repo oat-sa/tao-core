@@ -935,6 +935,15 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                 ]
             );
         } catch (Throwable $exception) {
+            $this->logError(
+                sprintf(
+                    'Error moving instance %s to %s: %s',
+                    $instance->getUri(),
+                    $destinationClass->getUri(),
+                    $exception->getMessage() . ' - ' . $exception->getTraceAsString()
+                )
+            );
+
             return $this->returnJson(
                 [
                     'status' => false,
@@ -954,10 +963,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     public function moveResource()
     {
         try {
-            //@TODO Get new option parameters
-            //@TODO Refactor to use similar logic as per CopyTo
             //@TODO Deprecate and delegate old code and delete what is possible without breaking change
-            //@TODO If feasible, move it to a task queue (nice to have)
 
             if (!$this->hasRequestParameter('uri')) {
                 throw new InvalidArgumentException('Resource uri must be specified.');
@@ -965,6 +971,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             $data = $this->getRequestParameter('uri');
             $id = $data['id'];
+            $destinationClassUri = $this->getRequestParameter('destinationClassUri');
 
             try {
                 $this->validateCsrf();
@@ -982,7 +989,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $this->signatureValidator->checkSignature($data['signature'], $id);
             $this->validateMoveRequest();
 
-            $destinationClassUri = $this->getRequestParameter('destinationClassUri');
             $result = $this->getResourceTransfer()->transfer(
                 new ResourceTransferCommand(
                     $id,
@@ -1007,7 +1013,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                     ],
                 ]
             );
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $exception) {
+            $this->logError(
+                sprintf(
+                    'Error moving instance %s to %s: %s',
+                    $id ?? '',
+                    $destinationClassUri ?? '',
+                    $exception->getMessage() . ' - ' . $exception->getTraceAsString()
+                )
+            );
+
             $this->returnJsonError($e->getMessage());
         }
     }
@@ -1021,11 +1036,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function moveAll()
     {
-        //@FIXME @TODO Check if this is used and use the new logic here
-        //@FIXME @TODO Check if this is used and use the new logic here
-        //@FIXME @TODO Check if this is used and use the new logic here
-        //@FIXME @TODO Check if this is used and use the new logic here
-        //@FIXME @TODO Check if this is used and use the new logic here
         try {
             if (!$this->hasRequestParameter('ids')) {
                 throw new InvalidArgumentException('Resource ids must be specified.');
@@ -1437,11 +1447,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     protected function moveAllInstances(array $ids)
     {
-        //@TODO @FIXME Check with we can use and test the new logic here
-        //@TODO @FIXME Check with we can use and test the new logic here
-        //@TODO @FIXME Check with we can use and test the new logic here
-        //@TODO @FIXME Check with we can use and test the new logic here
-
         $rootClass = $this->getClassService()->getRootClass();
 
         if (in_array($rootClass->getUri(), $ids)) {
