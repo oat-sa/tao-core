@@ -310,7 +310,8 @@ class ClassMoverTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Selected class (fromClassUri) and destination class (toClassUri) must be in the same root class (rootClassUri).'
+            'Selected class (fromClassUri) and destination class (toClassUri) must be in the same root class '
+            . '(rootClassUri).'
         );
 
         $this->sut->transfer($resourceTransferCommand);

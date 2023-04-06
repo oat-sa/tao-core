@@ -15,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2022 (update and modification) Open Assessment Technologies SA.
  */
 
@@ -60,6 +63,8 @@ use oat\tao\model\resources\Exception\PartialClassDeletionException;
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ *
+ * phpcs:disable Squiz.Classes.ValidClassName
  */
 abstract class tao_actions_RdfController extends tao_actions_CommonModule
 {
@@ -238,8 +243,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      *
      * @deprecated
      */
-    protected function editClass(core_kernel_classes_Class $class, core_kernel_classes_Resource $resource, core_kernel_classes_Class $topclass = null)
-    {
+    protected function editClass(
+        core_kernel_classes_Class $class,
+        core_kernel_classes_Resource $resource,
+        core_kernel_classes_Class $topclass = null
+    ) {
         return $this->getClassForm($class, $resource, $topclass);
     }
 
@@ -268,7 +276,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      *
      * The possible request parameters are the following:
      *
-     * * uniqueNode: A URI indicating the returned hiearchy will be a single class, with a single children corresponding to the URI.
+     * * uniqueNode: A URI indicating the returned hierarchy will be a single class, with a single children
+     *               corresponding to the URI.
      * * browse:
      * * hideInstances:
      * * chunk:
@@ -1162,9 +1171,27 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
 
         if ($this->hasRequestParameter('uri')) {
-            return $this->forward('deleteResource', null, null, (['id' => tao_helpers_Uri::decode($this->getRequestParameter('uri'))]));
+            $this->forward(
+                'deleteResource',
+                null,
+                null,
+                (
+                    [
+                        'id' => tao_helpers_Uri::decode($this->getRequestParameter('uri'))
+                    ]
+                )
+            );
         } elseif ($this->hasRequestParameter('classUri')) {
-            return $this->forward('deleteClass', null, null, (['id' => tao_helpers_Uri::decode($this->getRequestParameter('classUri'))]));
+            $this->forward(
+                'deleteClass',
+                null,
+                null,
+                (
+                    [
+                        'id' => tao_helpers_Uri::decode($this->getRequestParameter('classUri'))
+                    ]
+                )
+            );
         } else {
             throw new common_exception_MissingParameter();
         }
@@ -1314,7 +1341,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                 if ($this->hasWriteAccess($id)) {
                     $resource = new \core_kernel_classes_Resource($id);
                     if ($resource->isClass()) {
-                        $class = new \core_kernel_classes_Class($id);
+                        $class = new core_kernel_classes_Class($id);
                         $deletedResourceLabel = $class->getLabel();
                         $deleted = $this->getClassService()->deleteClass($class);
                     } else {
@@ -1406,7 +1433,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             throw new InvalidArgumentException('Destination class must be specified');
         }
 
-        $destinationClass = new \core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
+        $destinationClass = new core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
         if (!$destinationClass->isClass()) {
             throw new InvalidArgumentException('Destination class must be a valid class');
         }
@@ -1437,10 +1464,15 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             throw new InvalidArgumentException(sprintf('Root class "%s" cannot be moved', $rootClass->getUri()));
         }
 
-        $destinationClass = new \core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
+        $destinationClass = new core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
 
         if (!$destinationClass->isSubClassOf($rootClass) && $destinationClass->getUri() != $rootClass->getUri()) {
-            throw new InvalidArgumentException(sprintf('Instance "%s" cannot be moved to another root class', $destinationClass->getUri()));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Instance "%s" cannot be moved to another root class',
+                    $destinationClass->getUri()
+                )
+            );
         }
 
         [$statuses, $instances, $classes] = $this->getInstancesList($ids);
@@ -1508,7 +1540,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                     if ($class->getUri() != $instance->getUri() && $instance->isSubClassOf($class)) {
                         $statuses[$instance->getUri()] = [
                             'success' => false,
-                            'message' => sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri()),
+                            'message' => sprintf(
+                                'Instance "%s" cannot be moved to class to move "%s"',
+                                $instance->getUri(),
+                                $class->getUri()
+                            ),
                         ];
                         $isValid = false;
                         break;
@@ -1518,7 +1554,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                     if ($instance->isInstanceOf($class)) {
                         $statuses[$instance->getUri()] = [
                             'success' => false,
-                            'message' => sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri()),
+                            'message' => sprintf(
+                                'Instance "%s" cannot be moved to class to move "%s"',
+                                $instance->getUri(),
+                                $class->getUri()
+                            ),
                         ];
                         $isValid = false;
                         break;
@@ -1542,8 +1582,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      *
      * @return array $statuses updated list of statuses
      */
-    private function move(\core_kernel_classes_Class $destinationClass, array $movableInstances = [], array $statuses = [])
-    {
+    private function move(
+        core_kernel_classes_Class $destinationClass,
+        array $movableInstances = [],
+        array $statuses = []
+    ) {
         /** @var core_kernel_classes_Resource $movableInstance */
         foreach ($movableInstances as $movableInstance) {
             $statuses[$movableInstance->getUri()] = [
@@ -1558,7 +1601,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
                 $this->getEventManager()->trigger(new ResourceMovedEvent($movableInstance, $destinationClass));
             } else {
-                $statuses[$movableInstance->getUri()]['message'] = sprintf('An error has occurred while persisting instance "%s"', $movableInstance->getUri());
+                $statuses[$movableInstance->getUri()]['message'] = sprintf(
+                    'An error has occurred while persisting instance "%s"',
+                    $movableInstance->getUri()
+                );
             }
         }
 

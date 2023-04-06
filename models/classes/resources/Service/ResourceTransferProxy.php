@@ -58,7 +58,9 @@ class ResourceTransferProxy implements ResourceTransferInterface
                 $command->getFrom(),
                 $command->getTo(),
                 getenv('ACL_TRANSFER_MODE'),
-                $command->isCopyTo() ? ResourceTransferCommand::TRANSFER_MODE_COPY : ResourceTransferCommand::TRANSFER_MODE_MOVE
+                $command->isCopyTo()
+                    ? ResourceTransferCommand::TRANSFER_MODE_COPY
+                    : ResourceTransferCommand::TRANSFER_MODE_MOVE
             );
         }
         \common_Logger::e('============> ACL_TRANSFER_MODE '  . var_export($command, true));

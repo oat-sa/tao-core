@@ -235,7 +235,8 @@ class InstanceMoverTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Selected instance (fromInstanceUri) and destination class (toClassUri) must be in the same root class (rootClassUri).'
+            'Selected instance (fromInstanceUri) and destination class (toClassUri) must be in the same root class '
+            . '(rootClassUri).'
         );
 
         $this->sut->transfer($resourceTransferCommand);
