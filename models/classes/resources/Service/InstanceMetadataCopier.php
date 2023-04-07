@@ -112,7 +112,11 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
     {
         $originalPropertyUri = $this->classMetadataMapper->get($property);
 
-        return $originalPropertyUri === null ? $property : $property->getProperty($originalPropertyUri);
+        if ($originalPropertyUri === null) {
+            return $property->isCustom() ? $property : null;
+        }
+
+        return $property->getProperty($originalPropertyUri);
     }
 
     private function isFileProperty(core_kernel_classes_Property $property): bool
