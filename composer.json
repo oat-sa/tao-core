@@ -53,9 +53,6 @@
                 "--prefix",
                 "views"
             ]
-        },
-        "branch-alias": {
-            "dev-master": "v52.0.0"
         }
     },
     "require": {
