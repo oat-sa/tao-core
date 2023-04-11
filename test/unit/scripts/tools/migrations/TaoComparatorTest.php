@@ -46,6 +46,7 @@ class TaoComparatorTest extends TestCase
             $extensionBar4 = new Version('Version4_bar'),
             $extensionBar2 = new Version('Version2_bar'),
             $extensionBaz1 = new Version('Version1_baz'),
+            $illigalVersion = new Version('Version1Baz'),
         ];
 
         usort($versions, [$comparator, 'compare']);
@@ -57,6 +58,7 @@ class TaoComparatorTest extends TestCase
             'Version3_foo',
             'Version5_foo',
             'Version1_baz',
+            'Version1Baz',
             'Version2_bar',
             'Version4_bar',
         ], $versionKeys);

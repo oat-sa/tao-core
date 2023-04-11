@@ -27,6 +27,7 @@ use Doctrine\Migrations\Version\Version;
 use common_ext_ExtensionsManager as ExtensionsManager;
 use common_ext_Extension as Extension;
 use helpers_ExtensionHelper as ExtensionHelper;
+use League\Csv\Exception;
 
 /**
  * Class TaoComparator is used by a migration repository to sort migrations by extensions according to
@@ -36,6 +37,7 @@ use helpers_ExtensionHelper as ExtensionHelper;
  */
 class TaoComparator implements Comparator
 {
+    private const VERSION_REGEX = '/.*Version(\d+)_?(.*)$/';
     /** @var ExtensionsManager  */
     private $extensionsManager;
 
@@ -61,13 +63,12 @@ class TaoComparator implements Comparator
         $sortedExtensions = array_flip(array_keys($this->extensionHelper::sortByDependencies($merged)));
         $versionA = (string) $a;
         $versionB = (string) $b;
-        preg_match('/.*Version(\d+)_(.*)$/', $versionA, $matchesA);
-        preg_match('/.*Version(\d+)_(.*)$/', $versionB, $matchesB);
-        list($aClass, $aTime, $aExt) = $matchesA;
-        list($bClass, $bTime, $bExt) = $matchesB;
+        list($aClass, $aTime, $aExt) = $this->matchExtensionName($versionA);
+        list($bClass, $bTime, $bExt) = $this->matchExtensionName($versionB);
         if ($aExt === $bExt) {
             return ((int) $aTime) - ((int) $bTime);
         }
+
         return $sortedExtensions[$aExt] - $sortedExtensions[$bExt];
     }
 
@@ -81,5 +82,13 @@ class TaoComparator implements Comparator
             $result[$extId] = $this->extensionsManager->getExtensionById($extId);
         }
         return $result;
+    }
+
+    private function matchExtensionName(string $versionA): array
+    {
+        preg_match(self::VERSION_REGEX, $versionA, $matches);
+        $extName = $matches[2];
+        $matches[2] = strtolower($extName[0]) . substr($extName, 1);
+        return $matches;
     }
 }
