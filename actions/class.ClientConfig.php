@@ -1,42 +1,40 @@
 <?php
 
 /**
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; under version 2
-* of the License (non-upgradable).
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-*
-* Copyright (c) 2013-2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT).
-*/
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2013-2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT).
+ */
 
 declare(strict_types=1);
 
-use oat\tao\model\clientConfig\ClientLibConfigSwitcher;
-use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\routing\Resolver;
-use tao_helpers_Date as DateHelper;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\asset\AssetService;
 use oat\oatbox\user\UserLanguageService;
 use oat\tao\model\security\xsrf\TokenService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\clientConfig\ClientConfigService;
+use oat\tao\model\clientConfig\ClientLibConfigSwitcher;
+use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 
 /**
  * Generates client side configuration.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
- *
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 class tao_actions_ClientConfig extends tao_actions_CommonModule
@@ -110,9 +108,9 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
     }
 
     /**
-     * @return bool
-     *
      * @throws common_ext_ExtensionException
+     *
+     * @return bool
      */
     protected function isCrossorigin()
     {

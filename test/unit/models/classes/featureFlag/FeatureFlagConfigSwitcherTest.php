@@ -25,11 +25,11 @@ declare(strict_types=1);
 namespace oat\tao\unit\test\model\featureFlag;
 
 use common_ext_Extension;
-use oat\tao\model\clientConfig\ClientLibConfigSwitcher;
 use PHPUnit\Framework\TestCase;
 use common_ext_ExtensionsManager;
 use Psr\Container\ContainerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use oat\tao\model\clientConfig\ClientLibConfigSwitcher;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 
 class FeatureFlagConfigSwitcherTest extends TestCase

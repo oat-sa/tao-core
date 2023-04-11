@@ -25,14 +25,12 @@ declare(strict_types=1);
 namespace oat\tao\model\featureFlag;
 
 use common_ext_ExtensionsManager;
-use oat\oatbox\AbstractRegistry;
-use oat\tao\model\clientConfig\ClientLibConfigSwitcher;
-use oat\tao\model\ClientLibConfigRegistry;
 use Psr\Container\ContainerInterface;
+use oat\tao\model\clientConfig\ClientLibConfigSwitcher;
 
 class FeatureFlagConfigSwitcher
 {
-    private  ContainerInterface $container;
+    private ContainerInterface $container;
     private common_ext_ExtensionsManager $extensionsManager;
     private ClientLibConfigSwitcher $clientLibConfigSwitcher;
 
