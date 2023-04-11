@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2020-2023 (original work) Open Assessment Technologies SA
  *
  */
 
@@ -53,7 +54,7 @@ class TaoComparator implements Comparator
         $this->extensionHelper = $extensionHelper;
     }
 
-    public function compare(Version $a, Version $b) : int
+    public function compare(Version $a, Version $b): int
     {
         $merged = array_merge(
             $this->extensionsManager->getInstalledExtensions(),
@@ -77,7 +78,11 @@ class TaoComparator implements Comparator
     protected function getMissingExtensions()
     {
         $result = [];
-        foreach ($this->extensionHelper::getMissingExtensionIds($this->extensionsManager->getInstalledExtensions()) as $extId) {
+        $missingExtensions = $this->extensionHelper::getMissingExtensionIds(
+            $this->extensionsManager->getInstalledExtensions()
+        );
+
+        foreach ($missingExtensions as $extId) {
             $result[$extId] = $this->extensionsManager->getExtensionById($extId);
         }
         return $result;
