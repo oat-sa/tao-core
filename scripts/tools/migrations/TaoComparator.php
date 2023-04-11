@@ -27,7 +27,6 @@ use Doctrine\Migrations\Version\Version;
 use common_ext_ExtensionsManager as ExtensionsManager;
 use common_ext_Extension as Extension;
 use helpers_ExtensionHelper as ExtensionHelper;
-use League\Csv\Exception;
 
 /**
  * Class TaoComparator is used by a migration repository to sort migrations by extensions according to
@@ -84,11 +83,10 @@ class TaoComparator implements Comparator
         return $result;
     }
 
-    private function matchExtensionName(string $versionA): array
+    private function matchExtensionName(string $version): array
     {
-        preg_match(self::VERSION_REGEX, $versionA, $matches);
-        $extName = $matches[2];
-        $matches[2] = strtolower($extName[0]) . substr($extName, 1);
+        preg_match(self::VERSION_REGEX, $version, $matches);
+        $matches[2] = lcfirst($matches[2]);
         return $matches;
     }
 }
