@@ -38,7 +38,7 @@ use oat\tao\model\OntologyClassService;
 use oat\tao\model\webhooks\configEntity\WebhookAuth;
 use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
-use tao_models_classes_dataBinding_GenerisFormDataBinder;
+use tao_models_classes_dataBinding_GenerisFormDataBinder as DataBinder;
 
 class WebHookClassService extends OntologyClassService implements ServiceLocatorAwareInterface
 {
@@ -158,7 +158,6 @@ class WebHookClassService extends OntologyClassService implements ServiceLocator
      */
     public function saveWebhookInstance(array $parameters, ?core_kernel_classes_Resource $instance = null): void
     {
-
         if (!$instance) {
             $currentClass = $this->getCurrentClass();
 
@@ -166,13 +165,17 @@ class WebHookClassService extends OntologyClassService implements ServiceLocator
         }
 
         // save properties
-        $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
-        $binder->bind($parameters);
+        $this->getDataBinder($instance)->bind($parameters);
     }
 
     protected function getCurrentClass(): ?core_kernel_classes_Class
     {
         return $this->getModel()->getClass(self::CLASS_URI);
+    }
+
+    protected function getDataBinder(core_kernel_classes_Resource $targetInstance): DataBinder
+    {
+        return new DataBinder($targetInstance);
     }
 
     /**
