@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2023 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -23,12 +23,12 @@ declare(strict_types=1);
 namespace oat\tao\model\featureFlag;
 
 use common_ext_ExtensionsManager;
-use oat\generis\model\data\Ontology;
-use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\cache\SimpleCache;
-use oat\tao\model\ClientLibConfigRegistry;
+use oat\generis\model\data\Ontology;
+use oat\tao\model\clientConfig\ClientLibConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepository;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
+use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -53,9 +53,9 @@ class FeatureFlagServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
-                    service(ClientLibConfigRegistry::class),
                     service(common_ext_ExtensionsManager::class),
                     service(self::CONTAINER_SERVICE_ID),
+                    service(ClientLibConfigSwitcher::class),
                 ]
             );
 

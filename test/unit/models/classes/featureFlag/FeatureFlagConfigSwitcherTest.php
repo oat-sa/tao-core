@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
  *
  * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
@@ -25,61 +25,53 @@ declare(strict_types=1);
 namespace oat\tao\unit\test\model\featureFlag;
 
 use common_ext_Extension;
-use common_ext_ExtensionsManager;
-use oat\tao\model\ClientLibConfigRegistry;
-use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
-use PHPUnit\Framework\MockObject\MockObject;
+use oat\tao\model\clientConfig\ClientLibConfigSwitcher;
 use PHPUnit\Framework\TestCase;
+use common_ext_ExtensionsManager;
 use Psr\Container\ContainerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 
 class FeatureFlagConfigSwitcherTest extends TestCase
 {
-    /** @var FeatureFlagConfigSwitcher */
-    private $subject;
-
-    /** @var ClientLibConfigRegistry|MockObject */
-    private $registry;
+    private FeatureFlagConfigSwitcher $subject;
 
     /** @var MockObject|ContainerInterface */
-    private $container;
+    private ContainerInterface $container;
 
     /** @var common_ext_ExtensionsManager|MockObject */
-    private $extensionManager;
+    private common_ext_ExtensionsManager $extensionManager;
+
+    /** @var ClientLibConfigSwitcher|MockObject */
+    private ClientLibConfigSwitcher $clientLibConfigSwitcher;
 
     public function setUp(): void
     {
-        $this->registry = $this->createMock(ClientLibConfigRegistry::class);
         $this->extensionManager = $this->createMock(common_ext_ExtensionsManager::class);
         $this->container = $this->createMock(ContainerInterface::class);
+        $this->clientLibConfigSwitcher = $this->createMock(ClientLibConfigSwitcher::class);
 
         $this->subject = new FeatureFlagConfigSwitcher(
-            $this->registry,
             $this->extensionManager,
-            $this->container
+            $this->container,
+            $this->clientLibConfigSwitcher,
         );
     }
 
     public function testGetSwitchedClientConfig(): void
     {
         //@TODO Create test for non empty config
-        $this->registry
-            ->method('getMap')
+        $this->clientLibConfigSwitcher
+            ->method('getSwitchedClientLibConfig')
             ->willReturn([]);
 
-        $this->assertEquals(
-            [],
-            $this->subject->getSwitchedClientConfig()
-        );
+        $this->assertEquals([], $this->clientLibConfigSwitcher->getSwitchedClientLibConfig());
     }
 
     public function testGetSwitchedExtensionConfigEmpty(): void
     {
         //@TODO Create test for non empty config
         $extension = $this->createMock(common_ext_Extension::class);
-
-        $this->registry
-            ->method('getMap')
-            ->willReturn([]);
 
         $this->extensionManager
             ->method('getExtensionById')
@@ -104,11 +96,5 @@ class FeatureFlagConfigSwitcherTest extends TestCase
                 'handler'
             )
         );
-    }
-
-    public function testAddClientConfigHandler(): void
-    {
-        //@TODO Improve test to assert added handler
-        $this->assertNull($this->subject->addClientConfigHandler('handler'));
     }
 }

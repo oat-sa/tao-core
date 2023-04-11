@@ -15,12 +15,12 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 *
-* Copyright (c) 2013-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+* Copyright (c) 2013-2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT).
 */
 
 declare(strict_types=1);
 
-use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
+use oat\tao\model\clientConfig\ClientLibConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\routing\Resolver;
@@ -57,11 +57,9 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         $extensionsAliases = ClientLibRegistry::getRegistry()->getLibAliasMap();
         $this->setData('extensionsAliases', $extensionsAliases);
 
-        $featureVisibility = $this->getFeatureFlagConfigSwitcher();
-        $libConfigs = $featureVisibility->getSwitchedClientConfig();
-        // Dynamically adds the date format.
-        $formatter = DateHelper::getDateFormatter();
-        $libConfigs['util/locale']['dateTimeFormat'] = $formatter->getJavascriptFormat(DateHelper::FORMAT_LONG);
+        $clientLibConfigSwitcher = $this->getClientLibConfigSwitcher();
+        $libConfigs = $clientLibConfigSwitcher->getSwitchedClientLibConfig();
+
         $this->setData('libConfigs', $libConfigs);
 
         foreach ($this->getClientConfigService()->getExtendedConfig() as $key => $value) {
@@ -217,8 +215,8 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
         return $this->getPsrContainer()->get(FeatureFlagRepositoryInterface::class);
     }
 
-    private function getFeatureFlagConfigSwitcher(): FeatureFlagConfigSwitcher
+    private function getClientLibConfigSwitcher(): ClientLibConfigSwitcher
     {
-        return $this->getPsrContainer()->get(FeatureFlagConfigSwitcher::class);
+        return $this->getPsrContainer()->get(ClientLibConfigSwitcher::class);
     }
 }

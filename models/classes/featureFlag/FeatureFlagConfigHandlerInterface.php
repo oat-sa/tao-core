@@ -24,7 +24,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\featureFlag;
 
-interface FeatureFlagConfigHandlerInterface
+use oat\tao\model\clientConfig\ClientLibConfigHandlerInterface;
+
+interface FeatureFlagConfigHandlerInterface extends ClientLibConfigHandlerInterface
 {
     public function __invoke(array $configs): array;
 }

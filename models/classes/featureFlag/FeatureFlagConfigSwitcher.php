@@ -26,39 +26,33 @@ namespace oat\tao\model\featureFlag;
 
 use common_ext_ExtensionsManager;
 use oat\oatbox\AbstractRegistry;
+use oat\tao\model\clientConfig\ClientLibConfigSwitcher;
 use oat\tao\model\ClientLibConfigRegistry;
 use Psr\Container\ContainerInterface;
 
 class FeatureFlagConfigSwitcher
 {
-    /** @var AbstractRegistry */
-    private $registry;
-
-    /** @var ContainerInterface */
-    private $container;
-
-    /** @var common_ext_ExtensionsManager */
-    private $extensionsManager;
-
-    /** @var string[] */
-    private $clientConfigHandlers = [];
+    private  ContainerInterface $container;
+    private common_ext_ExtensionsManager $extensionsManager;
+    private ClientLibConfigSwitcher $clientLibConfigSwitcher;
 
     /** @var string[][] */
-    private $extensionConfigHandlers = [];
+    private array $extensionConfigHandlers = [];
 
     public function __construct(
-        ClientLibConfigRegistry $registry,
         common_ext_ExtensionsManager $extensionsManager,
-        ContainerInterface $container
+        ContainerInterface $container,
+        ClientLibConfigSwitcher $clientLibConfigSwitcher
     ) {
-        $this->registry = $registry;
         $this->container = $container;
         $this->extensionsManager = $extensionsManager;
+        $this->clientLibConfigSwitcher = $clientLibConfigSwitcher;
     }
 
+    /** @deprecated Use oat\tao\model\clientConfig\ClientLibConfigSwitcher::getSwitchedClientLibConfig() instead */
     public function getSwitchedClientConfig(): array
     {
-        return $this->handle($this->clientConfigHandlers, $this->registry->getMap());
+        return $this->clientLibConfigSwitcher->getSwitchedClientLibConfig();
     }
 
     public function getSwitchedExtensionConfig(string $extension, string $configName): array
@@ -72,9 +66,12 @@ class FeatureFlagConfigSwitcher
         return $this->handle($this->getExtensionConfigHandlers($extension, $configName), $configs);
     }
 
+    /**
+     * @deprecated Implement oat\tao\model\clientConfig\ClientLibConfigHandlerInterface for necessary handlers and use
+     *             'tao.client_lib_config.handler' tag to add config handler via DI.
+     */
     public function addClientConfigHandler(string $handler): void
     {
-        $this->clientConfigHandlers[$handler] = $handler;
     }
 
     public function addExtensionConfigHandler(string $extension, string $configName, string $handler): void

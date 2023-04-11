@@ -28,6 +28,7 @@
 declare(strict_types=1);
 
 use oat\tao\controller\api\Users;
+use oat\tao\model\clientConfig\ClientConfigServiceProvider;
 use oat\tao\model\configurationMarkers\ConfigurationMarkersProvider;
 use oat\tao\model\export\ServiceProvider\ExportServiceProvider;
 use oat\tao\model\resources\CopierServiceProvider;
@@ -401,6 +402,7 @@ return [
         CopierServiceProvider::class,
         SearchServiceProvider::class,
         ConfigurationMarkersProvider::class,
+        ClientConfigServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
