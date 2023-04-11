@@ -66,7 +66,11 @@ class WebhookEntryFactory extends ConfigurableService
             ? $this->createAuthEntryFromArray($data[Webhook::AUTH])
             : null;
 
-        $responseValidation = true; // default value for validation for back compatibility, because old webhooks are nod updated and may not contain this new parameter
+        /*
+         * default value for validation for back compatibility,
+         * because old webhooks are nod updated and may not contain this new parameter
+         */
+        $responseValidation = true;
         if (array_key_exists(Webhook::RESPONSE_VALIDATION, $data)) {
             $responseValidation = $data[Webhook::RESPONSE_VALIDATION];
         }
