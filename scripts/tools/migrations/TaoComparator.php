@@ -86,6 +86,7 @@ class TaoComparator implements Comparator
     private function matchExtensionName(string $version): array
     {
         preg_match(self::VERSION_REGEX, $version, $matches);
+        //Make sure that extension name is starting from small letter
         $matches[2] = lcfirst($matches[2]);
         return $matches;
     }
