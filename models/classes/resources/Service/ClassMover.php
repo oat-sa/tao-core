@@ -96,16 +96,18 @@ class ClassMover implements ResourceTransferInterface
         return new ResourceTransferResult($from->getUri());
     }
 
-    private function changePermissions(core_kernel_classes_Class $from, core_kernel_classes_Class $to): void
-    {
-        $this->permissionCopier->copy($to, $from);
+    private function changePermissions(
+        core_kernel_classes_Class $source,
+        core_kernel_classes_Class $destination
+    ): void {
+        $this->permissionCopier->copy($destination, $source);
 
-        foreach ($from->getInstances() as $instance) {
-            $this->permissionCopier->copy($to, $instance);
+        foreach ($source->getInstances() as $instance) {
+            $this->permissionCopier->copy($destination, $instance);
         }
 
-        foreach ($from->getSubClasses() as $subClass) {
-            $this->changePermissions($subClass, $from);
+        foreach ($source->getSubClasses() as $subClass) {
+            $this->changePermissions($subClass, $source);
         }
     }
 
@@ -119,20 +121,20 @@ class ClassMover implements ResourceTransferInterface
     }
 
     private function assertInSameRootClass(
-        core_kernel_classes_Class $from,
-        core_kernel_classes_Class $to
+        core_kernel_classes_Class $source,
+        core_kernel_classes_Class $destionation
     ): self {
         foreach ($this->rootClassesListService->list() as $rootClass) {
             if (
-                ($from->equals($rootClass) || $from->isSubClassOf($rootClass))
-                && !$to->equals($rootClass)
-                && !$to->isSubClassOf($rootClass)
+                ($source->equals($rootClass) || $source->isSubClassOf($rootClass))
+                && !$destionation->equals($rootClass)
+                && !$destionation->isSubClassOf($rootClass)
             ) {
                 throw new InvalidArgumentException(
                     sprintf(
                         'Selected class (%s) and destination class (%s) must be in the same root class (%s).',
-                        $from->getUri(),
-                        $to->getUri(),
+                        $source->getUri(),
+                        $destionation->getUri(),
                         $rootClass->getUri()
                     )
                 );
@@ -143,15 +145,15 @@ class ClassMover implements ResourceTransferInterface
     }
 
     private function assertIsNotSameClass(
-        core_kernel_classes_Class $from,
-        core_kernel_classes_Class $to
+        core_kernel_classes_Class $source,
+        core_kernel_classes_Class $destination
     ): self {
-        if ($from->equals($to)) {
+        if ($source->equals($destination)) {
             throw new InvalidArgumentException(
                 sprintf(
                     'Selected class (%s) and destination class (%s) cannot be the same class.',
-                    $from->getUri(),
-                    $to->getUri()
+                    $source->getUri(),
+                    $destination->getUri()
                 )
             );
         }
@@ -160,15 +162,15 @@ class ClassMover implements ResourceTransferInterface
     }
 
     private function assertIsNotSubclass(
-        core_kernel_classes_Class $from,
-        core_kernel_classes_Class $to
+        core_kernel_classes_Class $source,
+        core_kernel_classes_Class $destination
     ): void {
-        if ($to->isSubClassOf($from)) {
+        if ($destination->isSubClassOf($source)) {
             throw new InvalidArgumentException(
                 sprintf(
                     'The destination class (%s) cannot be a subclass of the selected class (%s).',
-                    $to->getUri(),
-                    $from->getUri()
+                    $destination->getUri(),
+                    $source->getUri()
                 )
             );
         }
