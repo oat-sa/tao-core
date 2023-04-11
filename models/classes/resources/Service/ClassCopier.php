@@ -134,7 +134,7 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
         }
 
         foreach ($class->getSubClasses() as $subClass) {
-            $this->doCopy($subClass, $newClass);
+            $this->doCopy($subClass, $newClass, $keepOriginalPermission);
         }
 
         $this->classMetadataMapper->remove($newClass->getProperties());
