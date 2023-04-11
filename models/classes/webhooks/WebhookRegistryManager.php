@@ -27,7 +27,8 @@ use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\webhooks\configEntity\Webhook;
 
-class WebhookRegistryManager extends ConfigurableService implements WebhookRegistryManagerInterface, ServiceLocatorAwareInterface
+class WebhookRegistryManager extends ConfigurableService
+    implements WebhookRegistryManagerInterface, ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 

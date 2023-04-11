@@ -151,7 +151,9 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
 
         foreach ($webhookConfigIds as $webhookConfigId) {
             if (($webhookConfig = $this->getWebhookRegistry()->getWebhookConfig($webhookConfigId)) === null) {
-                throw new WebhookConfigMissingException(sprintf('Webhook config for id %s not found', $webhookConfigId));
+                throw new WebhookConfigMissingException(
+                    sprintf('Webhook config for id %s not found', $webhookConfigId)
+                );
             }
 
             if (($event instanceof WebhookConditionalEventInterface) && !$event->isSatisfiedBy($webhookConfig)) {
