@@ -28,6 +28,8 @@ use oat\tao\model\clientConfig\ClientConfigStorage;
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
+ *
+ * phpcs:disable Squiz.Classes.ValidClassName
  */
 class tao_actions_ClientConfig extends tao_actions_CommonModule
 {
