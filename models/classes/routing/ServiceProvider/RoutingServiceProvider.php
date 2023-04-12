@@ -22,9 +22,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model\routing\ServiceProvider;
 
-use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\routing\ResolverFactory;
 use oat\tao\model\routing\Service\ActionFinder;
+use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -43,5 +45,13 @@ class RoutingServiceProvider implements ContainerServiceProviderInterface
                 ]
             )
             ->public();
+
+        $services
+            ->set(ResolverFactory::class, ResolverFactory::class)
+            ->args(
+                [
+                    service(ServiceManager::class),
+                ]
+            );
     }
 }

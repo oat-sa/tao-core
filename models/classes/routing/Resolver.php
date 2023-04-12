@@ -16,17 +16,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 namespace oat\tao\model\routing;
 
 use common_http_Request;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\extension\exception\ManifestNotFoundException;
 
 /**
@@ -61,13 +59,14 @@ class Resolver implements ServiceLocatorAwareInterface
      * Resolves a request to a method
      *
      * @param common_http_Request|ServerRequestInterface $request
+     *
      * @throws \common_exception_InvalidArgumentType
      */
     public function __construct($request)
     {
         if (is_object($request)) {
             if ($request instanceof \common_http_Request) {
-                /** @var common_http_Request $request */
+                /* @var common_http_Request $request */
                 $this->request = new ServerRequest(
                     $request->getMethod(),
                     $request->getUrl(),
@@ -87,6 +86,7 @@ class Resolver implements ServiceLocatorAwareInterface
 
     /**
      * Return the PSR7 request
+     *
      * @return ServerRequestInterface
      */
     public function getRequest()
@@ -95,10 +95,11 @@ class Resolver implements ServiceLocatorAwareInterface
     }
 
     /**
-     * @return null
      * @throws \ResolverException
      * @throws \common_exception_InconsistentData
      * @throws ManifestNotFoundException
+     *
+     * @return string
      */
     public function getExtensionId()
     {
@@ -109,10 +110,11 @@ class Resolver implements ServiceLocatorAwareInterface
     }
 
     /**
-     * @return null
      * @throws \ResolverException
      * @throws \common_exception_InconsistentData
      * @throws ManifestNotFoundException
+     *
+     * @return null
      */
     public function getControllerClass()
     {
@@ -123,10 +125,11 @@ class Resolver implements ServiceLocatorAwareInterface
     }
 
     /**
-     * @return null
      * @throws \ResolverException
      * @throws \common_exception_InconsistentData
      * @throws ManifestNotFoundException
+     *
+     * @return null
      */
     public function getMethodName()
     {
@@ -138,8 +141,10 @@ class Resolver implements ServiceLocatorAwareInterface
 
     /**
      * Get the controller short name as used into the URL
-     * @return string the name
+     *
      * @throws \ResolverException
+     *
+     * @return string the name
      */
     public function getControllerShortName()
     {
@@ -162,10 +167,12 @@ class Resolver implements ServiceLocatorAwareInterface
     /**
      * Tries to resolve the current request using the routes first
      * and then falls back to the legacy controllers
-     * @return bool
+     *
      * @throws \ResolverException
      * @throws \common_exception_InconsistentData
      * @throws ManifestNotFoundException
+     *
+     * @return bool
      */
     protected function resolve()
     {
@@ -193,9 +200,11 @@ class Resolver implements ServiceLocatorAwareInterface
 
     /**
      * @param \common_ext_Extension $extension
-     * @return mixed
+     *
      * @throws \common_exception_InconsistentData
      * @throws ManifestNotFoundException
+     *
+     * @return mixed
      */
     private function getRoutes(\common_ext_Extension $extension)
     {
@@ -205,13 +214,13 @@ class Resolver implements ServiceLocatorAwareInterface
             foreach ($extension->getManifest()->getRoutes() as $routeId => $routeData) {
                 $routes[] = [
                     'extId' => $extId,
-                    'route' => $this->getRoute($extension, $routeId, $routeData)
+                    'route' => $this->getRoute($extension, $routeId, $routeData),
                 ];
             }
             if (empty($routes)) {
                 $routes[] = [
                     'extId' => $extId,
-                    'route' => new LegacyRoute($extension, $extension->getName(), [])
+                    'route' => new LegacyRoute($extension, $extension->getName(), []),
                 ];
             }
             self::$extRoutes[$extId] = $routes;
@@ -223,15 +232,17 @@ class Resolver implements ServiceLocatorAwareInterface
      * @param \common_ext_Extension $extension
      * @param $routeId
      * @param $routeData
-     * @return \oat\tao\model\routing\Route
+     *
      * @throws \common_exception_InconsistentData
+     *
+     * @return \oat\tao\model\routing\Route
      */
     private function getRoute(\common_ext_Extension $extension, $routeId, $routeData)
     {
         if (is_string($routeData)) {
             $routeData = [
                 'class' => NamespaceRoute::class,
-                NamespaceRoute::OPTION_NAMESPACE => $routeData
+                NamespaceRoute::OPTION_NAMESPACE => $routeData,
             ];
         }
         if (!isset($routeData['class']) || !is_subclass_of($routeData['class'], Route::class)) {
