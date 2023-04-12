@@ -89,7 +89,7 @@ class ClassMover implements ResourceTransferInterface
 
 
             if (isset($this->permissionCopier) && $command->useDestinationAcl()) {
-                $this->changePermissions($from, $to);
+                $this->changePermissions($to, $from);
             }
         }
 
@@ -100,14 +100,14 @@ class ClassMover implements ResourceTransferInterface
         core_kernel_classes_Class $source,
         core_kernel_classes_Class $destination
     ): void {
-        $this->permissionCopier->copy($destination, $source);
+        $this->permissionCopier->copy($source, $destination);
 
-        foreach ($source->getInstances() as $instance) {
-            $this->permissionCopier->copy($destination, $instance);
+        foreach ($destination->getInstances() as $instance) {
+            $this->permissionCopier->copy($source, $instance);
         }
 
-        foreach ($source->getSubClasses() as $subClass) {
-            $this->changePermissions($subClass, $source);
+        foreach ($destination->getSubClasses() as $subClass) {
+            $this->changePermissions($destination, $subClass);
         }
     }
 
