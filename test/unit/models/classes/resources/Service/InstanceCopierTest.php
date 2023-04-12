@@ -62,7 +62,7 @@ class InstanceCopierTest extends TestCase
     {
         $instance = $this->createInstance('instanceLabel', 'instanceUri');
         $newInstance = $this->createInstance('instanceLabel', 'newInstanceUri');
-        $destinationClass = $this->createClas('destinationClassUri', $newInstance);
+        $destinationClass = $this->createClass('destinationClassUri', $newInstance);
 
         $this->ontology
             ->expects($this->once())
@@ -102,7 +102,7 @@ class InstanceCopierTest extends TestCase
     {
         $instance = $this->createInstance('instanceLabel', 'instanceUri');
         $newInstance = $this->createMock(core_kernel_classes_Resource::class);
-        $destinationClass = $this->createClas('destinationClassUri', $newInstance);
+        $destinationClass = $this->createClass('destinationClassUri', $newInstance);
 
         $this->instanceMetadataCopier
             ->expects($this->once())
@@ -119,7 +119,7 @@ class InstanceCopierTest extends TestCase
     public function testCopyInstanceNotCreated(): void
     {
         $instance = $this->createInstance('instanceLabel', 'instanceUri');
-        $destinationClass = $this->createClas('destinationClassUri', null);
+        $destinationClass = $this->createClass('destinationClassUri', null);
 
         $this->instanceMetadataCopier
             ->expects($this->never())
@@ -142,7 +142,7 @@ class InstanceCopierTest extends TestCase
     {
         $instance = $this->createInstance('instanceLabel', 'uri');
         $newInstance = $this->createMock(core_kernel_classes_Resource::class);
-        $destinationClass = $this->createClas('destinationClassUri', $newInstance);
+        $destinationClass = $this->createClass('destinationClassUri', $newInstance);
 
         $this->instanceMetadataCopier
             ->expects($this->once())
@@ -159,7 +159,7 @@ class InstanceCopierTest extends TestCase
         $this->assertEquals($newInstance, $this->sut->copy($instance, $destinationClass));
     }
 
-    private function createClas(string $uri, ?core_kernel_classes_Resource $newInstance): core_kernel_classes_Class
+    private function createClass(string $uri, ?core_kernel_classes_Resource $newInstance): core_kernel_classes_Class
     {
         $class = $this->createMock(core_kernel_classes_Class::class);
         $class->method('createInstance')
