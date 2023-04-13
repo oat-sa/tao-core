@@ -543,13 +543,13 @@ define([
                                 self.trigger('error', err);
                             });
                     })
-                    .on('select', function (destinationClassUri) {
+                    .on('select', function (destinationClassUri, aclTransferMode) {
                         var self = this;
                         if (!_.isEmpty(destinationClassUri)) {
                             this.disable();
 
                             resourceProvider
-                                .copyTo(actionContext.id, destinationClassUri, actionContext.signature)
+                                .copyTo(actionContext.id, destinationClassUri, actionContext.signature, aclTransferMode)
                                 .then(function (result) {
                                     if (result && result.uri) {
                                         feedback().success(__('Resource copied'));
@@ -745,14 +745,14 @@ define([
                                 self.trigger('error', err);
                             });
                     })
-                    .on('select', function (destinationClassUri) {
+                    .on('select', function (destinationClassUri, aclTransferMode) {
                         var self = this;
 
                         if (!_.isEmpty(destinationClassUri)) {
                             this.disable();
 
                             resourceProvider
-                                .moveTo(selectedData, destinationClassUri)
+                                .moveTo(selectedData, destinationClassUri, aclTransferMode)
                                 .then(function (results) {
                                     var failed = [];
                                     var success = [];

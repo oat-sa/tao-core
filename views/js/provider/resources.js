@@ -180,9 +180,10 @@ define([
              * @param {String} uri - the resource to copy
              * @param {String} destinationClassUri - the destination class
              * @param {String} signature - the signature for the uri
+             * @param {String} aclTransferMode - the ACL policy to follow with the new resource
              * @returns {Promise<Object>} resolves with the data of the new resource
              */
-            copyTo : function copyTo(uri, destinationClassUri, signature) {
+            copyTo : function copyTo(uri, destinationClassUri, signature, aclTransferMode) {
                 if(_.isEmpty(config.copyTo.url)){
                     return Promise.reject('Please define the action URL');
                 }
@@ -196,7 +197,8 @@ define([
                 return request(config.copyTo.url, {
                     uri : uri,
                     destinationClassUri : destinationClassUri,
-                    signature: signature
+                    signature: signature,
+                    aclMode: aclTransferMode
                 }, 'POST', null, true, false);
             },
 
@@ -204,11 +206,13 @@ define([
              * Move resources into another class
              * @param {String|String[]} ids - the resources to move
              * @param {String} destinationClassUri - the destination class
+             * @param {String} aclTransferMode - the ACL policy to follow with the moved resource
              * @returns {Promise<Object>} resolves with the data of the new resource
              */
-            moveTo: function moveTo(ids, destinationClassUri) {
+            moveTo: function moveTo(ids, destinationClassUri, aclTransferMode) {
                 var params = {
-                    destinationClassUri: destinationClassUri
+                    destinationClassUri: destinationClassUri,
+                    aclMode: aclTransferMode
                 };
 
                 if (!ids) {
