@@ -512,7 +512,7 @@ define([
                 //set up a destination selector
                 destinationSelectorFactory($container, {
                     showACL: module.config().aclTransferMode !== undefined,
-                    ACLMode: module.config().aclTransferMode,
+                    aclTransferMode: module.config().aclTransferMode,
                     classUri: actionContext.rootClassUri,
                     preventSelection: function preventSelection(nodeUri, node, $node) {
                         //prevent selection on nodes without WRITE permissions
@@ -600,7 +600,7 @@ define([
                 //set up a destination selector
                 const destinationSelector = destinationSelectorFactory($container, {
                     showACL: module.config().aclTransferMode !== undefined,
-                    ACLMode: module.config().aclTransferMode,
+                    aclTransferMode: module.config().aclTransferMode,
                     taskQueue: taskQueue,
                     taskCreationData: {
                         uri: actionContext.id,
@@ -690,7 +690,7 @@ define([
 
                 //set up a destination selector
                 destinationSelectorFactory($container, {
-                    ACLMode: module.config().aclTransferMode,
+                    aclTransferMode: module.config().aclTransferMode,
                     showACL: module.config().aclTransferMode !== undefined,
                     title: __('Move to'),
                     actionName: __('Move'),
