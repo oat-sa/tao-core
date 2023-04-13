@@ -511,7 +511,8 @@ define([
             return new Promise(function (resolve, reject) {
                 //set up a destination selector
                 destinationSelectorFactory($container, {
-                    showACL: module.config().showACL,
+                    showACL: module.config().aclTransferMode !== undefined,
+                    ACLMode: module.config().aclTransferMode,
                     classUri: actionContext.rootClassUri,
                     preventSelection: function preventSelection(nodeUri, node, $node) {
                         //prevent selection on nodes without WRITE permissions
@@ -598,7 +599,8 @@ define([
             return new Promise((resolve, reject) => {
                 //set up a destination selector
                 const destinationSelector = destinationSelectorFactory($container, {
-                    showACL: module.config().showACL,
+                    showACL: module.config().aclTransferMode !== undefined,
+                    ACLMode: module.config().aclTransferMode,
                     taskQueue: taskQueue,
                     taskCreationData: {
                         uri: actionContext.id,
@@ -688,7 +690,8 @@ define([
 
                 //set up a destination selector
                 destinationSelectorFactory($container, {
-                    showACL: module.config().showACL,
+                    ACLMode: module.config().aclTransferMode,
+                    showACL: module.config().aclTransferMode !== undefined,
                     title: __('Move to'),
                     actionName: __('Move'),
                     icon: 'move-item',
