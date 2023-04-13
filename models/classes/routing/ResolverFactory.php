@@ -22,11 +22,11 @@ declare(strict_types=1);
 
 namespace oat\tao\model\routing;
 
-use Exception;
-use Throwable;
-use tao_helpers_Uri;
 use common_http_Request;
+use Exception;
 use oat\oatbox\service\ServiceManager;
+use tao_helpers_Uri;
+use Throwable;
 
 class ResolverFactory
 {

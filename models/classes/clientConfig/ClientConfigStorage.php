@@ -24,23 +24,23 @@ declare(strict_types=1);
 
 namespace oat\tao\model\clientConfig;
 
+use common_ext_Extension;
+use common_ext_ExtensionException;
+use common_ext_ExtensionsManager;
 use Exception;
-use Throwable;
+use oat\oatbox\user\UserLanguageServiceInterface;
+use oat\tao\model\asset\AssetService;
+use oat\tao\model\ClientLibRegistry;
+use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
+use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
+use oat\tao\model\menu\MenuService;
+use oat\tao\model\routing\ResolverFactory;
+use oat\tao\model\security\xsrf\TokenService;
+use Psr\Log\LoggerInterface;
 use tao_helpers_Date;
 use tao_helpers_I18n;
 use tao_helpers_Mode;
-use common_ext_Extension;
-use Psr\Log\LoggerInterface;
-use common_ext_ExtensionsManager;
-use common_ext_ExtensionException;
-use oat\tao\model\menu\MenuService;
-use oat\tao\model\ClientLibRegistry;
-use oat\tao\model\asset\AssetService;
-use oat\tao\model\routing\ResolverFactory;
-use oat\tao\model\security\xsrf\TokenService;
-use oat\oatbox\user\UserLanguageServiceInterface;
-use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
-use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
+use Throwable;
 
 class ClientConfigStorage
 {
@@ -118,12 +118,12 @@ class ClientConfigStorage
         $this->config = array_merge_recursive($this->config, $path);
     }
 
-    public function getConfig(GetConfigQuery $command): array
+    public function getConfig(GetConfigQuery $query): array
     {
         $resolver = $this->resolverFactory->create([
-            'extension' => $command->getExtension(),
-            'action' => $command->getAction(),
-            'module' => $command->getModule(),
+            'extension' => $query->getExtension(),
+            'action' => $query->getAction(),
+            'module' => $query->getModule(),
         ]);
 
         $taoBaseWww = $this->assetService->getJsBaseWww('tao');
@@ -154,8 +154,8 @@ class ClientConfigStorage
                         'extension' => $extensionId,
                         'module' => $resolver->getControllerShortName(),
                         'action' => $resolver->getMethodName(),
-                        'shownExtension' => $this->getShownExtension($command),
-                        'shownStructure' => $this->getShownStructure($command),
+                        'shownExtension' => $this->getShownExtension($query),
+                        'shownStructure' => $this->getShownStructure($query),
                         'bundle' => tao_helpers_Mode::is(tao_helpers_Mode::PRODUCTION),
                         'featureFlags' => $this->featureFlagRepository->list(),
                     ]

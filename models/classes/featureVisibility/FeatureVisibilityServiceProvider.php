@@ -22,9 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\featureVisibility;
 
-use oat\tao\model\ClientLibRegistry;
-use oat\tao\model\ClientLibConfigRegistry;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\ClientLibRegistry;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;

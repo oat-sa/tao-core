@@ -25,15 +25,15 @@ declare(strict_types=1);
 namespace oat\tao\model\clientConfig;
 
 use common_ext_ExtensionsManager;
+use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
-use oat\tao\model\ClientLibRegistry;
-use oat\tao\model\asset\AssetService;
-use oat\tao\model\routing\ResolverFactory;
-use oat\tao\model\security\xsrf\TokenService;
 use oat\oatbox\user\UserLanguageServiceInterface;
+use oat\tao\model\asset\AssetService;
+use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
-use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\routing\ResolverFactory;
+use oat\tao\model\security\xsrf\TokenService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;

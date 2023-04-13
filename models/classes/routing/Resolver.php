@@ -22,10 +22,10 @@ namespace oat\tao\model\routing;
 
 use common_http_Request;
 use GuzzleHttp\Psr7\ServerRequest;
-use Psr\Http\Message\ServerRequestInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\extension\exception\ManifestNotFoundException;
+use Psr\Http\Message\ServerRequestInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Resolves a http request to a controller and method
