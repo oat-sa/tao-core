@@ -650,7 +650,11 @@ define([
                         }
                     })
                     .on('continue', () => refreshTree(actionContext.id))
-                    .on('select', resolve)
+                    .on('select', (uri, aclMode) => {
+                        destinationSelector.config.taskCreationData.aclMode = aclMode;
+
+                        return resolve(uri);
+                    })
                     .on('error', reject);
             });
         });
