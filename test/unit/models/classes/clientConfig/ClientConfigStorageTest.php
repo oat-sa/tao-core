@@ -88,7 +88,7 @@ class ClientConfigStorageTest extends TestCase
     private tao_helpers_Mode $modeHelper;
 
     /** @var DateFormatterFactory|MockObject */
-    private DateFormatterFactory$dateFormatterFactory;
+    private DateFormatterFactory $dateFormatterFactory;
 
     /** @var MenuService|MockObject */
     private MenuService $menuService;
