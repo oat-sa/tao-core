@@ -180,10 +180,10 @@ define(['lodash', 'i18n', 'util/url', 'core/promise', 'core/dataProvider/request
              * @param {String} uri - the resource to copy
              * @param {String} destinationClassUri - the destination class
              * @param {String} signature - the signature for the uri
-             * @param {String} aclTransferMode - the ACL policy to follow with the new resource
+             * @param {String} aclMode - the ACL policy to follow with the new resource
              * @returns {Promise<Object>} resolves with the data of the new resource
              */
-            copyTo: function copyTo(uri, destinationClassUri, signature, aclTransferMode) {
+            copyTo: function copyTo(uri, destinationClassUri, signature, aclMode) {
                 if (_.isEmpty(config.copyTo.url)) {
                     return Promise.reject('Please define the action URL');
                 }
@@ -200,7 +200,7 @@ define(['lodash', 'i18n', 'util/url', 'core/promise', 'core/dataProvider/request
                         uri: uri,
                         destinationClassUri: destinationClassUri,
                         signature: signature,
-                        aclMode: aclTransferMode
+                        aclMode
                     },
                     'POST',
                     null,

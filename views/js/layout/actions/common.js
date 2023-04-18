@@ -598,7 +598,7 @@ define([
             return new Promise((resolve, reject) => {
                 //set up a destination selector
                 const destinationSelector = destinationSelectorFactory($container, {
-                    showACL: module.config().aclTransferMode !== undefined,
+                    showACL: !!module.config().aclTransferMode,
                     aclTransferMode: module.config().aclTransferMode,
                     taskQueue: taskQueue,
                     taskCreationData: {
@@ -695,7 +695,7 @@ define([
                 //set up a destination selector
                 destinationSelectorFactory($container, {
                     aclTransferMode: module.config().aclTransferMode,
-                    showACL: module.config().aclTransferMode !== undefined,
+                    showACL: !!module.config().aclTransferMode,
                     title: __('Move to'),
                     actionName: __('Move'),
                     icon: 'move-item',
