@@ -511,7 +511,7 @@ define([
             return new Promise(function (resolve, reject) {
                 //set up a destination selector
                 destinationSelectorFactory($container, {
-                    showACL: module.config().aclTransferMode !== undefined,
+                    showACL: !!module.config().aclTransferMode,
                     aclTransferMode: module.config().aclTransferMode,
                     classUri: actionContext.rootClassUri,
                     preventSelection: function preventSelection(nodeUri, node, $node) {
