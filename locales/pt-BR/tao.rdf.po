@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2023.05\n"
-"PO-Revision-Date: 2023-04-18T13:40:47\n"
+"PO-Revision-Date: 2023-04-18T16:06:51\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-BR\n"
@@ -63,7 +63,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#List
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "List"
-msgstr "Lista"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -138,7 +138,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#level
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "level"
-msgstr "nível"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#Languages
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -268,7 +268,7 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Service"
-msgstr "Serviço"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -443,45 +443,5 @@ msgstr ""
 # http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Object to represent assessment contents"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "TAO Object"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Any resource related to etesting"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Worker"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The Worker Role Class"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Workflow Participant"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The Workflow Participant Role"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "WfUser"
-msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Workflow User: sub class to group the workflow user, not deletable"
 msgstr ""
 

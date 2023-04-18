@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2023.05\n"
-"PO-Revision-Date: 2023-04-18T13:40:47\n"
+"PO-Revision-Date: 2023-04-18T16:06:51\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-BR\n"
@@ -199,9 +199,6 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-msgid "Add / Edit lists"
-msgstr ""
-
 msgid "Add a CSV file"
 msgstr ""
 
@@ -243,9 +240,6 @@ msgid "Adobe Flash file"
 msgstr ""
 
 msgid "Advanced search, add filters"
-msgstr ""
-
-msgid "aliases:"
 msgstr ""
 
 msgid "all"
@@ -324,16 +318,7 @@ msgstr ""
 msgid "Are you sure you wish to delete it"
 msgstr ""
 
-msgid "Argument check failed: %s"
-msgstr ""
-
-msgid "Arguments %s and %s are mutually exclusive"
-msgstr ""
-
 msgid "Arguments separator"
-msgstr ""
-
-msgid "array"
 msgstr ""
 
 msgid "Assign"
@@ -395,9 +380,6 @@ msgid "Binary operator modulo"
 msgstr ""
 
 msgid "Bitmap image"
-msgstr ""
-
-msgid "boolean"
 msgstr ""
 
 msgid "Browse folders:"
@@ -473,9 +455,6 @@ msgstr ""
 msgid "Check-in"
 msgstr ""
 
-msgid "choices:"
-msgstr ""
-
 msgid "Choose a type for your property first"
 msgstr ""
 
@@ -512,10 +491,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
 msgid "Clear selection"
@@ -549,12 +528,6 @@ msgid "Collecting of abandoned actions in the action queue ..."
 msgstr ""
 
 msgid "Column"
-msgstr ""
-
-msgid "command"
-msgstr ""
-
-msgid "Commands:"
 msgstr ""
 
 msgid "comment..."
@@ -602,9 +575,6 @@ msgstr ""
 msgid "Cosine"
 msgstr ""
 
-msgid "count"
-msgstr ""
-
 msgid "Create"
 msgstr ""
 
@@ -650,10 +620,10 @@ msgstr ""
 msgid "Data imported. Some records are invalid."
 msgstr ""
 
-msgid "Data Language"
+msgid "Data language"
 msgstr ""
 
-msgid "Data language"
+msgid "Data Language"
 msgstr ""
 
 msgid "Data not imported. All records are invalid."
@@ -678,9 +648,6 @@ msgid "date time range"
 msgstr ""
 
 msgid "Default search"
-msgstr ""
-
-msgid "default:"
 msgstr ""
 
 msgid "Define the default values"
@@ -721,9 +688,6 @@ msgid "Dependency URI Path"
 msgstr ""
 
 msgid "Depends on property"
-msgstr ""
-
-msgid "Did you mean %s?"
 msgstr ""
 
 msgid "Digit 0"
@@ -851,9 +815,6 @@ msgstr ""
 msgid "Error: %s"
 msgstr ""
 
-msgid "Examples:"
-msgstr ""
-
 msgid "Exclusive (OR)"
 msgstr ""
 
@@ -871,9 +832,6 @@ msgstr ""
 
 #, tao-public
 msgid "Export"
-msgstr ""
-
-msgid "Export "
 msgstr ""
 
 msgid "Export \"%s\" in %s"
@@ -997,9 +955,6 @@ msgstr ""
 msgid "Fuzzy Matching"
 msgstr ""
 
-msgid "generated-value"
-msgstr ""
-
 msgid "Generis Form"
 msgstr ""
 
@@ -1075,13 +1030,7 @@ msgstr ""
 msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
 msgstr ""
 
-msgid "Implications failed:"
-msgstr ""
-
 msgid "Import"
-msgstr ""
-
-msgid "Import "
 msgstr ""
 
 msgid "Import a %s into \"%s"
@@ -1211,9 +1160,6 @@ msgstr ""
 msgid "Invalid input for function"
 msgstr ""
 
-msgid "Invalid JSON config file: %s"
-msgstr ""
-
 msgid "Invalid login or password. Please try again."
 msgstr ""
 
@@ -1227,9 +1173,6 @@ msgid "invalid regular expression"
 msgstr ""
 
 msgid "Invalid value"
-msgstr ""
-
-msgid "Invalid values:"
 msgstr ""
 
 msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
@@ -1290,9 +1233,6 @@ msgid "List - Single choice - Radio button"
 msgstr ""
 
 msgid "List - Single choice - Search input"
-msgstr ""
-
-msgid "List item URI duplications found"
 msgstr ""
 
 msgid "List values"
@@ -1365,9 +1305,6 @@ msgid "Manage class schema"
 msgstr ""
 
 msgid "manage columns"
-msgstr ""
-
-msgid "Manage data list"
 msgstr ""
 
 #, tao-public
@@ -1591,12 +1528,6 @@ msgstr ""
 msgid "none"
 msgstr ""
 
-msgid "Not enough arguments following: %s"
-msgstr ""
-
-msgid "Not enough non-option arguments: got %s, need at least %s"
-msgstr ""
-
 msgid "Not started"
 msgstr ""
 
@@ -1622,9 +1553,6 @@ msgstr ""
 msgid "Nth root"
 msgstr ""
 
-msgid "number"
-msgstr ""
-
 msgid "Number of elements"
 msgstr ""
 
@@ -1640,10 +1568,10 @@ msgstr ""
 msgid "Ogg Vorbis video"
 msgstr ""
 
-msgid "Ok"
+msgid "OK"
 msgstr ""
 
-msgid "OK"
+msgid "Ok"
 msgstr ""
 
 msgid "Old Password"
@@ -1790,9 +1718,6 @@ msgstr ""
 msgid "Position"
 msgstr ""
 
-msgid "Positionals:"
-msgstr ""
-
 msgid "Post install processing"
 msgstr ""
 
@@ -1917,9 +1842,6 @@ msgstr ""
 msgid "Removing: %s"
 msgstr ""
 
-msgid "Rename"
-msgstr ""
-
 msgid "Repeat new password"
 msgstr ""
 
@@ -1930,9 +1852,6 @@ msgid "Request a password reset via Email."
 msgstr ""
 
 msgid "require notification ID"
-msgstr ""
-
-msgid "required"
 msgstr ""
 
 msgid "required length"
@@ -1980,12 +1899,6 @@ msgstr ""
 msgid "Resources moved"
 msgstr ""
 
-msgid "Resources successfully indexed"
-msgstr ""
-
-msgid "Resources was not indexed"
-msgstr ""
-
 msgid "Responsive mode"
 msgstr ""
 
@@ -1996,9 +1909,6 @@ msgid "Return to sign in page"
 msgstr ""
 
 msgid "Rich Text Format file"
-msgstr ""
-
-msgid "Right click the tree to manage your lists"
 msgstr ""
 
 msgid "Right parenthesis"
@@ -2173,9 +2083,6 @@ msgid "Store the value a variable"
 msgstr ""
 
 msgid "Storing digital video data on a computer game"
-msgstr ""
-
-msgid "string"
 msgstr ""
 
 msgid "Submit"
@@ -2395,7 +2302,7 @@ msgid "This should not equal %s"
 msgstr ""
 
 msgid "time"
-msgstr "tempo"
+msgstr ""
 
 msgid "Time zone"
 msgstr ""
@@ -2419,9 +2326,6 @@ msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
-msgstr ""
-
-msgid "Too many non-option arguments: got %s, maximum of %s"
 msgstr ""
 
 msgid "Too many suggestions match your query. Only a few are listed"
@@ -2451,9 +2355,6 @@ msgstr ""
 msgid "Tree - Multiple node choice"
 msgstr ""
 
-msgid "Tree - Multiple node choice "
-msgstr ""
-
 msgid "Tree values"
 msgstr ""
 
@@ -2464,7 +2365,7 @@ msgid "trunc"
 msgstr ""
 
 msgid "Type"
-msgstr "Digite"
+msgstr ""
 
 msgid "Type your search"
 msgstr ""
@@ -2476,9 +2377,6 @@ msgid "Unable to change passwords in demo mode"
 msgstr ""
 
 msgid "Unable to copy the resource"
-msgstr ""
-
-msgid "Unable to delete %s"
 msgstr ""
 
 msgid "Unable to delete the selected resource"
@@ -2548,7 +2446,7 @@ msgid "Undefined amount of the totalPages for pagination"
 msgstr ""
 
 msgid "Undo"
-msgstr "Desfazer"
+msgstr ""
 
 msgid "Unexpected error. Please contact administrator"
 msgstr ""
@@ -2560,10 +2458,10 @@ msgid "Uninstalled %s"
 msgstr ""
 
 msgid "UNIX Compressed Archive File"
-msgstr "Arquivo Compactado UNIX"
+msgstr ""
 
 msgid "unknown"
-msgstr "desconhecido"
+msgstr ""
 
 msgid "Unknown Error"
 msgstr ""
@@ -2572,7 +2470,7 @@ msgid "unkown task id %s"
 msgstr ""
 
 msgid "Update"
-msgstr "Atualizar"
+msgstr ""
 
 msgid "Update ID : %s"
 msgstr ""
@@ -2581,7 +2479,7 @@ msgid "Updating search index"
 msgstr ""
 
 msgid "Upload"
-msgstr "Carregar"
+msgstr ""
 
 msgid "Upload into:"
 msgstr ""
@@ -2703,43 +2601,43 @@ msgid "Waiting"
 msgstr ""
 
 msgid "WAV audio"
-msgstr "áudio WAV"
+msgstr ""
 
 msgid "WebM audio"
-msgstr "áudio WebM"
+msgstr ""
 
 msgid "WebM video"
-msgstr "vídeo WebM"
+msgstr ""
 
 msgid "Whole number part"
 msgstr ""
 
 msgid "Width"
-msgstr "Largura"
+msgstr ""
 
 msgid "Windows help file"
-msgstr "arquivo de ajuda do Windows"
+msgstr ""
 
 msgid "Windows Media audio"
-msgstr "Áudio do Windows Media"
+msgstr ""
 
 msgid "Windows Media file (metafile)"
-msgstr "Arquivo do Windows Media (metarquivo)"
+msgstr ""
 
 msgid "Windows Media video"
-msgstr "Vídeo do Windows Media"
+msgstr ""
 
 msgid "with"
 msgstr ""
 
 msgid "Wrap image left"
-msgstr "Left"
+msgstr ""
 
 msgid "Wrap image right"
-msgstr "Right"
+msgstr ""
 
 msgid "Write Document"
-msgstr "Escrever Documento"
+msgstr ""
 
 msgid "Wrong or missing parameter extension, module or action"
 msgstr ""
@@ -2748,7 +2646,7 @@ msgid "Wrong parameter shownExtension"
 msgstr ""
 
 msgid "XML file"
-msgstr "arquivo XML"
+msgstr ""
 
 msgid "Yes"
 msgstr ""
@@ -2805,5 +2703,5 @@ msgid "Your TAO Password"
 msgstr ""
 
 msgid "ZIP archive"
-msgstr "arquivo ZIP"
+msgstr ""
 
