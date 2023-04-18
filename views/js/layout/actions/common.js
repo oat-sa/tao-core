@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2017 Open Assessment Technologies SA;
+ * Copyright (c) 2023 Open Assessment Technologies SA;
  */
 
 /**
@@ -518,10 +518,9 @@ define([
                         //prevent selection on nodes without WRITE permissions
                         if (($node.length && $node.data('access') === 'partial') || $node.data('access') === 'denied') {
                             if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
-                                feedback().warning(
-                                    __('You are not allowed to write in the class %s', node.label),
-                                    { encodeHtml: false }
-                                );
+                                feedback().warning(__('You are not allowed to write in the class %s', node.label), {
+                                    encodeHtml: false
+                                });
                                 return true;
                             }
                         }
@@ -612,10 +611,9 @@ define([
                         //prevent selection on nodes without WRITE permissions
                         if (($node.length && $node.data('access') === 'partial') || $node.data('access') === 'denied') {
                             if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
-                                feedback().warning(
-                                    __('You are not allowed to write in the class %s', node.label),
-                                    { encodeHtml: false }
-                                );
+                                feedback().warning(__('You are not allowed to write in the class %s', node.label), {
+                                    encodeHtml: false
+                                });
                                 return true;
                             }
                         }
@@ -641,7 +639,9 @@ define([
                                 result.task.report.children[0].data &&
                                 result.task.report.children[0].data.uriResource
                             ) {
-                                feedback().info(__('%s completed', result.task.taskLabel), { encodeHtml: false });
+                                feedback().info(__('%s completed', result.task.taskLabel), {
+                                    encodeHtml: false
+                                });
 
                                 refreshTree(result.task.report.children[0].data.uriResource);
                             } else {
@@ -707,10 +707,9 @@ define([
                         //prevent selection on nodes without WRITE permissions
                         if (($node.length && $node.data('access') === 'partial') || $node.data('access') === 'denied') {
                             if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
-                                feedback().warning(
-                                    __('You are not allowed to write in the class %s', node.label),
-                                    { encodeHtml: false }
-                                );
+                                feedback().warning(__('You are not allowed to write in the class %s', node.label), {
+                                    encodeHtml: false
+                                });
                                 return true;
                             }
                         }
