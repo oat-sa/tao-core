@@ -24,8 +24,13 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\clientConfig;
 
+use common_ext_Extension;
 use common_ext_ExtensionsManager;
-use oat\oatbox\user\UserLanguageServiceInterface;
+use common_session_Session;
+use oat\oatbox\session\SessionService;
+use oat\oatbox\user\UserLanguageService;
+use oat\tao\helpers\dateFormatter\DateFormatterFactory;
+use oat\tao\helpers\dateFormatter\DateFormatterInterface;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\ClientConfigStorage;
@@ -33,11 +38,16 @@ use oat\tao\model\clientConfig\GetConfigQuery;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
+use oat\tao\model\menu\MenuService;
+use oat\tao\model\menu\Perspective;
+use oat\tao\model\routing\Resolver;
 use oat\tao\model\routing\ResolverFactory;
 use oat\tao\model\security\xsrf\TokenService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use tao_helpers_Date;
+use tao_helpers_Mode;
 
 class ClientConfigStorageTest extends TestCase
 {
@@ -59,8 +69,8 @@ class ClientConfigStorageTest extends TestCase
     /** @var ClientConfigService|MockObject */
     private ClientConfigService $clientConfigService;
 
-    /** @var UserLanguageServiceInterface|MockObject */
-    private UserLanguageServiceInterface $userLanguageService;
+    /** @var UserLanguageService|MockObject */
+    private UserLanguageService $userLanguageService;
 
     /** @var FeatureFlagRepositoryInterface|MockObject */
     private FeatureFlagRepositoryInterface $featureFlagRepository;
@@ -71,6 +81,20 @@ class ClientConfigStorageTest extends TestCase
     /** @var LoggerInterface|MockObject */
     private LoggerInterface $logger;
 
+    /** @var SessionService|MockObject */
+    private SessionService $sessionService;
+
+    /** @var tao_helpers_Mode|MockObject */
+    private tao_helpers_Mode $modeHelper;
+
+    /** @var DateFormatterFactory|MockObject */
+    private DateFormatterFactory$dateFormatterFactory;
+
+    /** @var MenuService|MockObject */
+    private MenuService $menuService;
+
+    private ClientConfigStorage $sut;
+
     protected function setUp(): void
     {
         $this->tokenService = $this->createMock(TokenService::class);
@@ -79,10 +103,14 @@ class ClientConfigStorageTest extends TestCase
         $this->assetService = $this->createMock(AssetService::class);
         $this->extensionsManager = $this->createMock(common_ext_ExtensionsManager::class);
         $this->clientConfigService = $this->createMock(ClientConfigService::class);
-        $this->userLanguageService = $this->createMock(UserLanguageServiceInterface::class);
+        $this->userLanguageService = $this->createMock(UserLanguageService::class);
         $this->featureFlagRepository = $this->createMock(FeatureFlagRepositoryInterface::class);
         $this->resolverFactory = $this->createMock(ResolverFactory::class);
         $this->logger = $this->createMock(LoggerInterface::class);
+        $this->sessionService = $this->createMock(SessionService::class);
+        $this->modeHelper = $this->createMock(tao_helpers_Mode::class);
+        $this->dateFormatterFactory = $this->createMock(DateFormatterFactory::class);
+        $this->menuService = $this->createMock(MenuService::class);
 
         $this->sut = new ClientConfigStorage(
             $this->tokenService,
@@ -94,7 +122,11 @@ class ClientConfigStorageTest extends TestCase
             $this->userLanguageService,
             $this->featureFlagRepository,
             $this->resolverFactory,
-            $this->logger
+            $this->logger,
+            $this->sessionService,
+            $this->modeHelper,
+            $this->dateFormatterFactory,
+            $this->menuService
         );
     }
 
@@ -116,5 +148,185 @@ class ClientConfigStorageTest extends TestCase
         $query
             ->method('getShownStructure')
             ->willReturn('shownStructure');
+
+        $resolver = $this->createMock(Resolver::class);
+        $resolver
+            ->method('getExtensionId')
+            ->willReturn('tao');
+        $resolver
+            ->method('getControllerShortName')
+            ->willReturn('controllerShortName');
+        $resolver
+            ->method('getMethodName')
+            ->willReturn('methodName');
+
+        $this->resolverFactory
+            ->expects($this->once())
+            ->method('create')
+            ->with([
+                'extension' => 'extension',
+                'action' => 'action',
+                'module' => 'module',
+            ])
+            ->willReturn($resolver);
+
+        $this->assetService
+            ->method('getJsBaseWww')
+            ->with('tao')
+            ->willReturn('JsBaseWww');
+
+        $session = $this->createMock(common_session_Session::class);
+        $session
+            ->expects($this->once())
+            ->method('getInterfaceLanguage')
+            ->willReturn('en-US');
+
+        $this->sessionService
+            ->expects($this->once())
+            ->method('getCurrentSession')
+            ->willReturn($session);
+
+        $taoExtension = $this->createMock(common_ext_Extension::class);
+        $taoExtension
+            ->method('getConfig')
+            ->with('js')
+            ->willReturn([
+                'timeout' => 10,
+                'crossorigin' => true,
+            ]);
+        $taoExtension
+            ->method('getConstant')
+            ->with('BASE_URL')
+            ->willReturn('baseUrl');
+
+        $shownExtension = $this->createMock(common_ext_Extension::class);
+        $shownExtension
+            ->method('getName')
+            ->willReturn('shownExtensionName');
+
+        $this->extensionsManager
+            ->method('getExtensionById')
+            ->willReturnMap([
+                ['tao', $taoExtension],
+                ['shownExtension', $shownExtension],
+            ]);
+
+        $this->tokenService
+            ->expects($this->once())
+            ->method('getClientConfig')
+            ->willReturn([
+                'clientConfigKey' => 'clientConfigValue',
+            ]);
+
+        $this->clientLibRegistry
+            ->expects($this->once())
+            ->method('getLibAliasMap')
+            ->willReturn([
+                'alias' => 'aliasPath',
+            ]);
+
+        $this->featureFlagConfigSwitcher
+            ->expects($this->once())
+            ->method('getSwitchedClientConfig')
+            ->willReturn([
+                'clientConfig' => 'clientConfigValue',
+            ]);
+
+        $dateFormatter = $this->createMock(DateFormatterInterface::class);
+        $dateFormatter
+            ->method('getJavascriptFormat')
+            ->with(tao_helpers_Date::FORMAT_LONG)
+            ->willReturn('DD/MM/YYYY HH:mm:ss');
+
+        $this->dateFormatterFactory
+            ->expects($this->once())
+            ->method('create')
+            ->willReturn($dateFormatter);
+
+        $this->assetService
+            ->expects($this->once())
+            ->method('getCacheBuster')
+            ->willReturn('cacheBuster');
+        $this->assetService
+            ->method('getJsBaseWww')
+            ->with('tao')
+            ->willReturn('jsBaseWww');
+
+        $this->userLanguageService
+            ->method('getAuthoringLanguage')
+            ->willReturn('en-US');
+
+        $perspective = $this->createMock(Perspective::class);
+        $perspective
+            ->method('getId')
+            ->willReturn('shownStructure');
+
+        $this->menuService
+            ->expects($this->once())
+            ->method('retrieveAllPerspectives')
+            ->willReturn([$perspective]);
+
+        $this->modeHelper
+            ->method('isMode')
+            ->with(tao_helpers_Mode::PRODUCTION)
+            ->willReturn(false);
+
+        $this->featureFlagRepository
+            ->expects($this->once())
+            ->method('list')
+            ->willReturn([
+                'FEATURE_FLAG' => false,
+            ]);
+
+        $this->clientConfigService
+            ->expects($this->once())
+            ->method('getExtendedConfig')
+            ->willReturn([
+                'extendedConfigKey' => ['extendedConfigValue'],
+            ]);
+
+        $this->assertEquals(
+            [
+                'tokenHandler' => json_encode(['clientConfigKey' => 'clientConfigValue'], JSON_THROW_ON_ERROR),
+                'extensionsAliases' => [
+                    'alias' => 'aliasPath',
+                ],
+                'libConfigs' => [
+                    'clientConfig' => 'clientConfigValue',
+                    'util/locale' => [
+                        'dateTimeFormat' => 'DD/MM/YYYY HH:mm:ss',
+                    ],
+                ],
+                'buster' => 'cacheBuster',
+                'locale' => 'en-US',
+                'client_timeout' => 10,
+                'crossorigin' => true,
+                'tao_base_www' => 'JsBaseWww',
+                'context' => json_encode(
+                    [
+                        'root_url' => 'http://demo.taotesting.com/',
+                        'base_url' => 'baseUrl',
+                        'taobase_www' => 'JsBaseWww',
+                        'base_www' => 'JsBaseWww',
+                        'base_lang' => 'en',
+                        'locale' => 'en-US',
+                        'base_authoring_lang' => 'en-US',
+                        'timeout' => 10,
+                        'extension' => 'tao',
+                        'module' => 'controllerShortName',
+                        'action' => 'methodName',
+                        'shownExtension' => 'shownExtensionName',
+                        'shownStructure' => 'shownStructure',
+                        'bundle' => false,
+                        'featureFlags' => [
+                            'FEATURE_FLAG' => false,
+                        ],
+                    ],
+                    JSON_THROW_ON_ERROR
+                ),
+                'extendedConfigKey' => json_encode(['extendedConfigValue'], JSON_THROW_ON_ERROR),
+            ],
+            $this->sut->getConfig($query)
+        );
     }
 }

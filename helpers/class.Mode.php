@@ -50,7 +50,7 @@ class tao_helpers_Mode
      * @var int the current mode
      */
     private static $currentMode;
-    
+
     /**
      * Check the TAO instance current mode
      * @example tao_helpers_Mode::is('production')
@@ -59,7 +59,7 @@ class tao_helpers_Mode
      */
     public static function is($mode)
     {
-       
+
         if (is_int($mode) && self::get() == $mode) {
             return true;
         }
@@ -68,7 +68,12 @@ class tao_helpers_Mode
         }
         return false;
     }
-    
+
+    public function isMode($mode): bool
+    {
+        return self::is($mode);
+    }
+
     /**
      * Get the current mode
      * @example (tao_helpers_Mode::get() == tao_helpers_Mode::DEVELOPMENT)
@@ -81,7 +86,7 @@ class tao_helpers_Mode
         }
         return self::$currentMode;
     }
-    
+
     /**
      * Get the mode constant by name
      * @param string $name the mode name
@@ -101,7 +106,7 @@ class tao_helpers_Mode
                 return false;
         }
     }
-    
+
     /**
      * Reads the current value of DEBUG_MODE
      *
@@ -114,7 +119,7 @@ class tao_helpers_Mode
         if (!defined('DEBUG_MODE')) {
             throw new common_Exception('The DEBUG MODE constant is not defined, it should never occurs');
         }
-        
+
         if (DEBUG_MODE == true) {
             return self::DEVELOPMENT;
         }

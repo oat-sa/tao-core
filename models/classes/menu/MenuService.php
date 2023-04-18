@@ -105,6 +105,14 @@ class MenuService
     }
 
     /**
+     * @return Perspective[]
+     */
+    public function retrieveAllPerspectives(): array
+    {
+        return self::getAllPerspectives();
+    }
+
+    /**
      * Reads the structure data.
      * This method manages to cache the structure if needed.
      * @return array() the structure data

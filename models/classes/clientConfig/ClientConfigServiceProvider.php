@@ -27,14 +27,18 @@ namespace oat\tao\model\clientConfig;
 use common_ext_ExtensionsManager;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
+use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageServiceInterface;
+use oat\tao\helpers\dateFormatter\DateFormatterFactory;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
+use oat\tao\model\menu\MenuService;
 use oat\tao\model\routing\ResolverFactory;
 use oat\tao\model\security\xsrf\TokenService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use tao_helpers_Mode;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
@@ -59,6 +63,10 @@ class ClientConfigServiceProvider implements ContainerServiceProviderInterface
                     service(FeatureFlagRepositoryInterface::class),
                     service(ResolverFactory::class),
                     service(LoggerService::SERVICE_ID),
+                    service(SessionService::SERVICE_ID),
+                    service(tao_helpers_Mode::class),
+                    service(DateFormatterFactory::class),
+                    service(MenuService::class),
                 ]
             );
     }

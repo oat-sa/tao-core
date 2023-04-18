@@ -30,6 +30,7 @@ declare(strict_types=1);
 use oat\tao\controller\api\Users;
 use oat\tao\controller\Middleware\MiddlewareConfig;
 use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
+use oat\tao\helpers\ServiceProvider\HelperServiceProvider;
 use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\AccessControlServiceProvider;
 use oat\tao\model\accessControl\func\AccessRule;
@@ -43,6 +44,7 @@ use oat\tao\model\featureVisibility\FeatureVisibilityServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\LanguageServiceProvider;
 use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
+use oat\tao\model\menu\MenuServiceProvider;
 use oat\tao\model\metadata\ServiceProvider\MetadataServiceProvider;
 use oat\tao\model\Observer\ServiceProvider\ObserverServiceProvider;
 use oat\tao\model\resources\CopierServiceProvider;
@@ -403,6 +405,8 @@ return [
         SearchServiceProvider::class,
         ConfigurationMarkersProvider::class,
         ClientConfigServiceProvider::class,
+        HelperServiceProvider::class,
+        MenuServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,

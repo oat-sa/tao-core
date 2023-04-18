@@ -28,7 +28,9 @@ use common_ext_Extension;
 use common_ext_ExtensionException;
 use common_ext_ExtensionsManager;
 use Exception;
+use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageServiceInterface;
+use oat\tao\helpers\dateFormatter\DateFormatterFactory;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
@@ -38,7 +40,6 @@ use oat\tao\model\routing\ResolverFactory;
 use oat\tao\model\security\xsrf\TokenService;
 use Psr\Log\LoggerInterface;
 use tao_helpers_Date;
-use tao_helpers_I18n;
 use tao_helpers_Mode;
 use Throwable;
 
@@ -54,6 +55,10 @@ class ClientConfigStorage
     private FeatureFlagRepositoryInterface $featureFlagRepository;
     private ResolverFactory $resolverFactory;
     private LoggerInterface $logger;
+    private SessionService $sessionService;
+    private tao_helpers_Mode $modeHelper;
+    private DateFormatterFactory $dateFormatterFactory;
+    private MenuService $menuService;
 
     private array $config = [];
 
@@ -67,7 +72,11 @@ class ClientConfigStorage
         UserLanguageServiceInterface $userLanguageService,
         FeatureFlagRepositoryInterface $featureFlagRepository,
         ResolverFactory $resolverFactory,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        SessionService $sessionService,
+        tao_helpers_Mode $modeHelper,
+        DateFormatterFactory $dateFormatterFactory,
+        MenuService $menuService
     ) {
         $this->tokenService = $tokenService;
         $this->clientLibRegistry = $clientLibRegistry;
@@ -79,6 +88,10 @@ class ClientConfigStorage
         $this->featureFlagRepository = $featureFlagRepository;
         $this->resolverFactory = $resolverFactory;
         $this->logger = $logger;
+        $this->sessionService = $sessionService;
+        $this->modeHelper = $modeHelper;
+        $this->dateFormatterFactory = $dateFormatterFactory;
+        $this->menuService = $menuService;
     }
 
     /**
@@ -112,7 +125,6 @@ class ClientConfigStorage
      *         ]
      *     );
      */
-
     public function setConfigByPath(array $path): void
     {
         $this->config = array_merge_recursive($this->config, $path);
@@ -127,7 +139,7 @@ class ClientConfigStorage
         ]);
 
         $taoBaseWww = $this->assetService->getJsBaseWww('tao');
-        $langCode = tao_helpers_I18n::getLangCode();
+        $langCode = $this->sessionService->getCurrentSession()->getInterfaceLanguage();
         $timeout = $this->getClientTimeout();
         $extensionId = $resolver->getExtensionId();
 
@@ -156,7 +168,7 @@ class ClientConfigStorage
                         'action' => $resolver->getMethodName(),
                         'shownExtension' => $this->getShownExtension($query),
                         'shownStructure' => $this->getShownStructure($query),
-                        'bundle' => tao_helpers_Mode::is(tao_helpers_Mode::PRODUCTION),
+                        'bundle' => $this->modeHelper->isMode(tao_helpers_Mode::PRODUCTION),
                         'featureFlags' => $this->featureFlagRepository->list(),
                     ]
                 ),
@@ -209,7 +221,7 @@ class ClientConfigStorage
             return null;
         }
 
-        foreach (MenuService::getAllPerspectives() as $perspective) {
+        foreach ($this->menuService->retrieveAllPerspectives() as $perspective) {
             if ($perspective->getId() === $shownStructure) {
                 return $perspective->getId();
             }
@@ -222,7 +234,7 @@ class ClientConfigStorage
     {
         $libConfigs = $this->featureFlagConfigSwitcher->getSwitchedClientConfig();
 
-        $libConfigs['util/locale']['dateTimeFormat'] = tao_helpers_Date::getDateFormatter()->getJavascriptFormat(
+        $libConfigs['util/locale']['dateTimeFormat'] = $this->dateFormatterFactory->create()->getJavascriptFormat(
             tao_helpers_Date::FORMAT_LONG
         );
 
