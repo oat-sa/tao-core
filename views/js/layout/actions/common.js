@@ -13,13 +13,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2017 Open Assessment Technologies SA;
+ * Copyright (c) 2023 Open Assessment Technologies SA;
  */
 
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
+    'module',
     'jquery',
     'i18n',
     'lodash',
@@ -35,6 +36,7 @@ define([
     'ui/dialog/confirm',
     'ui/taskQueue/taskQueue'
 ], function (
+    module,
     $,
     __,
     _,
@@ -509,15 +511,16 @@ define([
             return new Promise(function (resolve, reject) {
                 //set up a destination selector
                 destinationSelectorFactory($container, {
+                    showACL: !!module.config().aclTransferMode,
+                    aclTransferMode: module.config().aclTransferMode,
                     classUri: actionContext.rootClassUri,
                     preventSelection: function preventSelection(nodeUri, node, $node) {
                         //prevent selection on nodes without WRITE permissions
                         if (($node.length && $node.data('access') === 'partial') || $node.data('access') === 'denied') {
                             if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
-                                feedback().warning(
-                                    __('You are not allowed to write in the class %s', node.label),
-                                    { encodeHtml: false }
-                                );
+                                feedback().warning(__('You are not allowed to write in the class %s', node.label), {
+                                    encodeHtml: false
+                                });
                                 return true;
                             }
                         }
@@ -539,13 +542,13 @@ define([
                                 self.trigger('error', err);
                             });
                     })
-                    .on('select', function (destinationClassUri) {
+                    .on('select', function (destinationClassUri, aclTransferMode) {
                         var self = this;
                         if (!_.isEmpty(destinationClassUri)) {
                             this.disable();
 
                             resourceProvider
-                                .copyTo(actionContext.id, destinationClassUri, actionContext.signature)
+                                .copyTo(actionContext.id, destinationClassUri, actionContext.signature, aclTransferMode)
                                 .then(function (result) {
                                     if (result && result.uri) {
                                         feedback().success(__('Resource copied'));
@@ -595,6 +598,8 @@ define([
             return new Promise((resolve, reject) => {
                 //set up a destination selector
                 const destinationSelector = destinationSelectorFactory($container, {
+                    showACL: !!module.config().aclTransferMode,
+                    aclTransferMode: module.config().aclTransferMode,
                     taskQueue: taskQueue,
                     taskCreationData: {
                         uri: actionContext.id,
@@ -606,10 +611,9 @@ define([
                         //prevent selection on nodes without WRITE permissions
                         if (($node.length && $node.data('access') === 'partial') || $node.data('access') === 'denied') {
                             if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
-                                feedback().warning(
-                                    __('You are not allowed to write in the class %s', node.label),
-                                    { encodeHtml: false }
-                                );
+                                feedback().warning(__('You are not allowed to write in the class %s', node.label), {
+                                    encodeHtml: false
+                                });
                                 return true;
                             }
                         }
@@ -635,7 +639,9 @@ define([
                                 result.task.report.children[0].data &&
                                 result.task.report.children[0].data.uriResource
                             ) {
-                                feedback().info(__('%s completed', result.task.taskLabel), { encodeHtml: false });
+                                feedback().info(__('%s completed', result.task.taskLabel), {
+                                    encodeHtml: false
+                                });
 
                                 refreshTree(result.task.report.children[0].data.uriResource);
                             } else {
@@ -644,7 +650,11 @@ define([
                         }
                     })
                     .on('continue', () => refreshTree(actionContext.id))
-                    .on('select', resolve)
+                    .on('select', (uri, aclMode) => {
+                        destinationSelector.config.taskCreationData.aclMode = aclMode;
+
+                        return resolve(uri);
+                    })
                     .on('error', reject);
             });
         });
@@ -684,6 +694,8 @@ define([
 
                 //set up a destination selector
                 destinationSelectorFactory($container, {
+                    aclTransferMode: module.config().aclTransferMode,
+                    showACL: !!module.config().aclTransferMode,
                     title: __('Move to'),
                     actionName: __('Move'),
                     icon: 'move-item',
@@ -695,10 +707,9 @@ define([
                         //prevent selection on nodes without WRITE permissions
                         if (($node.length && $node.data('access') === 'partial') || $node.data('access') === 'denied') {
                             if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
-                                feedback().warning(
-                                    __('You are not allowed to write in the class %s', node.label),
-                                    { encodeHtml: false }
-                                );
+                                feedback().warning(__('You are not allowed to write in the class %s', node.label), {
+                                    encodeHtml: false
+                                });
                                 return true;
                             }
                         }
@@ -737,14 +748,14 @@ define([
                                 self.trigger('error', err);
                             });
                     })
-                    .on('select', function (destinationClassUri) {
+                    .on('select', function (destinationClassUri, aclTransferMode) {
                         var self = this;
 
                         if (!_.isEmpty(destinationClassUri)) {
                             this.disable();
 
                             resourceProvider
-                                .moveTo(selectedData, destinationClassUri)
+                                .moveTo(selectedData, destinationClassUri, aclTransferMode)
                                 .then(function (results) {
                                     var failed = [];
                                     var success = [];
