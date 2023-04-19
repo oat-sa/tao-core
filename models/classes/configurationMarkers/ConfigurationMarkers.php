@@ -36,6 +36,7 @@ class ConfigurationMarkers
     private SerializableSecretDtoFactory $serializableFactory;
     private EnvironmentValueStorage $secretsStorage;
     private Report $report;
+    private array $envVars;
 
     public function __construct(
         SerializableSecretDtoFactory $serializableFactory,
@@ -43,6 +44,7 @@ class ConfigurationMarkers
     ) {
         $this->serializableFactory = $serializableFactory;
         $this->logger = $logger;
+        $this->envVars = getenv();
     }
 
     public function replaceMarkers(array $configurationWithMarkers): array
@@ -83,7 +85,7 @@ class ConfigurationMarkers
             return;
         }
 
-        $isSecretDefined = $_ENV[$matches[1]] ?? false;
+        $isSecretDefined = $this->envVars[$matches[1]] ?? false;
         $this->printMatchNotification((bool) $isSecretDefined, $matches[1]);
         if (!$isSecretDefined) {
             //remove not found markers from config array as reference
