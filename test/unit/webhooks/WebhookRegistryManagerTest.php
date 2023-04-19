@@ -42,22 +42,19 @@ class WebhookRegistryManagerTest extends TestCase
     private $webhookMock;
 
     /** @var ServiceManager|MockObject */
-    private $serviceManager;
+    private $serviceLocator;
 
     public function setUp(): void
     {
         $this->webhookMock = $this->createMock(Webhook::class);
         $this->webhookFileRegistryMock = $this->createMock(WebhookFileRegistry::class);
-        $this->serviceManager = $this->createMock(ServiceManager::class);
-        $this->serviceManager
-            ->method('get')
-            ->with(WebhookRegistryInterface::SERVICE_ID)
-            ->willReturn($this->webhookFileRegistryMock);
+
+        $this->serviceLocator = $this->getServiceLocatorMock([
+            WebhookRegistryInterface::class => $this->webhookFileRegistryMock
+        ]);
 
         $this->subject = new WebhookRegistryManager();
-        $this->subject->setServiceLocator(
-            $this->serviceManager
-        );
+        $this->subject->setServiceLocator($this->serviceLocator);
     }
 
     public function testAddWebhookConfig(): void
