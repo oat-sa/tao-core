@@ -30,6 +30,7 @@ use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\model\user\TaoRoles;
+use oat\tao\model\webhooks\WebhookServiceProvider;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -273,5 +274,6 @@ return [
     ],
     'containerServiceProviders' => [
         ListsServiceProvider::class,
+        WebhookServiceProvider::class,
     ],
 ];
