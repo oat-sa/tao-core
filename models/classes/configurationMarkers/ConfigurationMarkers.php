@@ -34,7 +34,6 @@ class ConfigurationMarkers
     private const MARKER_PATTERN = '/\$ENV{([a-zA-Z0-9\-\_]+)}/';
     private LoggerInterface $logger;
     private SerializableSecretDtoFactory $serializableFactory;
-    private EnvironmentValueStorage $secretsStorage;
     private Report $report;
     private array $envVars;
 
@@ -44,7 +43,7 @@ class ConfigurationMarkers
     ) {
         $this->serializableFactory = $serializableFactory;
         $this->logger = $logger;
-        $this->envVars = getenv();
+        $this->envVars = $_ENV;
     }
 
     public function replaceMarkers(array $configurationWithMarkers): array
