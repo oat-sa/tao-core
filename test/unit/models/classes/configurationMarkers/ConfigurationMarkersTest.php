@@ -45,15 +45,16 @@ class ConfigurationMarkersTest extends TestCase
             ]
         ];
 
-        $_ENV['FAKE_PERSISTENCES_PGSQL_HOST'] = 'fake_host';
-        $_ENV['FAKE_PERSISTENCES_PGSQL_USER'] = 'fake_user';
-        $_ENV['FAKE_PERSISTENCES_PGSQL_PASSWORD'] = 'fake_pass';
+        $envVars['FAKE_PERSISTENCES_PGSQL_HOST'] = 'fake_host';
+        $envVars['FAKE_PERSISTENCES_PGSQL_USER'] = 'fake_user';
+        $envVars['FAKE_PERSISTENCES_PGSQL_PASSWORD'] = 'fake_pass';
 
         $loggerMock = $this->createMock(LoggerInterface::class);
 
         $markers = new ConfigurationMarkers(
             new SerializableSecretDtoFactory(),
-            $loggerMock
+            $loggerMock,
+            $envVars
         );
 
         $replaced = $markers->replaceMarkers($configuration);
@@ -90,13 +91,14 @@ class ConfigurationMarkersTest extends TestCase
             ]
         ];
 
-        $_ENV['FAKE_PERSISTENCES_PGSQL_PASSWORD'] = 'fake_pass';
+        $envVars['FAKE_PERSISTENCES_PGSQL_PASSWORD'] = 'fake_pass';
         $loggerMock = $this->createMock(LoggerInterface::class);
         $loggerMock->expects($this->atLeast(1))->method('notice');
 
         $markers = new ConfigurationMarkers(
             new SerializableSecretDtoFactory(),
-            $loggerMock
+            $loggerMock,
+            $envVars
         );
 
         $markers->replaceMarkers($configuration);

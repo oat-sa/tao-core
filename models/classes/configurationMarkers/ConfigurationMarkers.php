@@ -39,11 +39,12 @@ class ConfigurationMarkers
 
     public function __construct(
         SerializableSecretDtoFactory $serializableFactory,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        ?array $envVars = []
     ) {
         $this->serializableFactory = $serializableFactory;
         $this->logger = $logger;
-        $this->envVars = $_ENV;
+        $this->envVars = $envVars ?? $_ENV;
     }
 
     public function replaceMarkers(array $configurationWithMarkers): array
