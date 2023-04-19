@@ -197,9 +197,9 @@ define(['lodash', 'i18n', 'util/url', 'core/promise', 'core/dataProvider/request
                 return request(
                     config.copyTo.url,
                     {
-                        uri: uri,
-                        destinationClassUri: destinationClassUri,
-                        signature: signature,
+                        uri,
+                        destinationClassUri,
+                        signature,
                         aclMode
                     },
                     'POST',
@@ -213,13 +213,13 @@ define(['lodash', 'i18n', 'util/url', 'core/promise', 'core/dataProvider/request
              * Move resources into another class
              * @param {String|String[]} ids - the resources to move
              * @param {String} destinationClassUri - the destination class
-             * @param {String} aclTransferMode - the ACL policy to follow with the moved resource
+             * @param {String} aclMode - the ACL policy to follow with the moved resource
              * @returns {Promise<Object>} resolves with the data of the new resource
              */
-            moveTo: function moveTo(ids, destinationClassUri, aclTransferMode) {
+            moveTo: function moveTo(ids, destinationClassUri, aclMode) {
                 var params = {
-                    destinationClassUri: destinationClassUri,
-                    aclMode: aclTransferMode
+                    destinationClassUri,
+                    aclMode
                 };
 
                 if (!ids) {
