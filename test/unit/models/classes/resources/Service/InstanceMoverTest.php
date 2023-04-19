@@ -24,16 +24,16 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\resources\Service;
 
-use InvalidArgumentException;
 use core_kernel_classes_Class;
-use PHPUnit\Framework\TestCase;
+use InvalidArgumentException;
 use oat\generis\model\data\Ontology;
-use PHPUnit\Framework\MockObject\MockObject;
-use oat\tao\model\resources\Service\InstanceMover;
-use oat\tao\model\resources\ResourceTransferResult;
 use oat\tao\model\resources\Command\ResourceTransferCommand;
 use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
+use oat\tao\model\resources\ResourceTransferResult;
+use oat\tao\model\resources\Service\InstanceMover;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 class InstanceMoverTest extends TestCase
 {

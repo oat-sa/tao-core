@@ -26,19 +26,19 @@ namespace oat\tao\test\unit\model\resources\Service;
 
 use ArrayIterator;
 use core_kernel_classes_Class;
-use oat\oatbox\filesystem\Directory;
-use oat\oatbox\filesystem\File;
-use PHPUnit\Framework\TestCase;
+use core_kernel_classes_ContainerCollection;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\generis\model\GenerisRdf;
 use oat\generis\test\IteratorMockTrait;
-use core_kernel_classes_ContainerCollection;
+use oat\oatbox\filesystem\Directory;
+use oat\oatbox\filesystem\File;
 use oat\oatbox\filesystem\FileSystemService;
-use PHPUnit\Framework\MockObject\MockObject;
-use oat\tao\model\resources\Service\InstanceMetadataCopier;
-use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\tao\model\resources\Contract\ClassMetadataMapperInterface;
+use oat\tao\model\resources\Service\InstanceMetadataCopier;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 class InstanceMetadataCopierTest extends TestCase
 {

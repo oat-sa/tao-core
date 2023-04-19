@@ -22,15 +22,15 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Service;
 
-use InvalidArgumentException;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
+use InvalidArgumentException;
 use oat\generis\model\data\Ontology;
-use oat\tao\model\resources\ResourceTransferResult;
 use oat\tao\model\resources\Command\ResourceTransferCommand;
 use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
+use oat\tao\model\resources\ResourceTransferResult;
 
 class InstanceMover implements ResourceTransferInterface
 {

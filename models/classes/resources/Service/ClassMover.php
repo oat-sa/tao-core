@@ -22,18 +22,18 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Service;
 
-use InvalidArgumentException;
 use core_kernel_classes_Class;
-use oat\oatbox\event\EventManager;
-use oat\generis\model\OntologyRdfs;
+use InvalidArgumentException;
 use oat\generis\model\data\Ontology;
+use oat\generis\model\OntologyRdfs;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\event\ClassMovedEvent;
-use oat\tao\model\resources\ResourceTransferResult;
 use oat\tao\model\resources\Command\ResourceTransferCommand;
-use oat\tao\model\Specification\ClassSpecificationInterface;
 use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
+use oat\tao\model\resources\ResourceTransferResult;
+use oat\tao\model\Specification\ClassSpecificationInterface;
 
 class ClassMover implements ResourceTransferInterface
 {
@@ -76,17 +76,15 @@ class ClassMover implements ResourceTransferInterface
         $from = $this->ontology->getClass($command->getFrom());
         $to = $this->ontology->getClass($command->getTo());
 
-        $this
-            ->assertIsNotRootClass($from)
-            ->assertInSameRootClass($from, $to)
-            ->assertIsNotSameClass($from, $to)
-            ->assertIsNotSubclass($from, $to);
+        $this->assertIsNotRootClass($from);
+        $this->assertInSameRootClass($from, $to);
+        $this->assertIsNotSameClass($from, $to);
+        $this->assertIsNotSubclass($from, $to);
 
         $status = $from->editPropertyValues($this->ontology->getProperty(OntologyRdfs::RDFS_SUBCLASSOF), $to);
 
         if ($status) {
             $this->eventManager->trigger(ClassMovedEvent::class);
-
 
             if (isset($this->permissionCopier) && $command->useDestinationAcl()) {
                 $this->changePermissions($to, $from);
@@ -111,19 +109,17 @@ class ClassMover implements ResourceTransferInterface
         }
     }
 
-    private function assertIsNotRootClass(core_kernel_classes_Class $class): self
+    private function assertIsNotRootClass(core_kernel_classes_Class $class): void
     {
         if ($this->rootClassSpecification->isSatisfiedBy($class)) {
             throw new InvalidArgumentException(sprintf('Root class "%s" cannot be moved', $class->getUri()));
         }
-
-        return $this;
     }
 
     private function assertInSameRootClass(
         core_kernel_classes_Class $source,
         core_kernel_classes_Class $destionation
-    ): self {
+    ): void {
         foreach ($this->rootClassesListService->list() as $rootClass) {
             if (
                 ($source->equals($rootClass) || $source->isSubClassOf($rootClass))
@@ -140,14 +136,12 @@ class ClassMover implements ResourceTransferInterface
                 );
             }
         }
-
-        return $this;
     }
 
     private function assertIsNotSameClass(
         core_kernel_classes_Class $source,
         core_kernel_classes_Class $destination
-    ): self {
+    ): void {
         if ($source->equals($destination)) {
             throw new InvalidArgumentException(
                 sprintf(
@@ -157,8 +151,6 @@ class ClassMover implements ResourceTransferInterface
                 )
             );
         }
-
-        return $this;
     }
 
     private function assertIsNotSubclass(

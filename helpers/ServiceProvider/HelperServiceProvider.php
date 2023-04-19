@@ -15,43 +15,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA.
+ *
+ * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\routing\ServiceProvider;
+namespace oat\tao\helpers\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\oatbox\log\LoggerService;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\routing\ResolverFactory;
-use oat\tao\model\routing\Service\ActionFinder;
+use oat\tao\helpers\dateFormatter\DateFormatterFactory;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use tao_helpers_Mode;
 
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
-
-class RoutingServiceProvider implements ContainerServiceProviderInterface
+class HelperServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
 
-        $services->set(ActionFinder::class, ActionFinder::class)
-            ->args(
-                [
-                    service(ContainerServiceProviderInterface::CONTAINER_SERVICE_ID),
-                    service(LoggerService::SERVICE_ID),
-                ]
-            )
-            ->public();
+        $services->set(DateFormatterFactory::class, DateFormatterFactory::class);
 
-        $services
-            ->set(ResolverFactory::class, ResolverFactory::class)
-            ->args(
-                [
-                    service(ServiceManager::class),
-                ]
-            );
+        $services->set(tao_helpers_Mode::class, tao_helpers_Mode::class);
     }
 }
