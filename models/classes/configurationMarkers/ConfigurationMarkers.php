@@ -40,7 +40,7 @@ class ConfigurationMarkers
     public function __construct(
         SerializableSecretDtoFactory $serializableFactory,
         LoggerInterface $logger,
-        ?array $envVars = []
+        ?array $envVars = null
     ) {
         $this->serializableFactory = $serializableFactory;
         $this->logger = $logger;
