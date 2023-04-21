@@ -29,11 +29,9 @@ class WebhookAuthService extends AbstractAuthService
 {
     public function __construct(BasicAuth $type)
     {
-        parent::__construct(array(
+        parent::__construct([
             'type' => $type,
-            'types' => array(
-                $type
-            )
-        ));
+            'types' => [$type]
+        ]);
     }
 }

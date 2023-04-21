@@ -38,7 +38,6 @@ class WebhookRdfRegistry implements WebhookRegistryInterface
         $this->webHookClassService = $webHookClassService;
     }
 
-
     /**
      * @throws core_kernel_persistence_Exception
      * @throws common_Exception
