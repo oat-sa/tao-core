@@ -27,7 +27,8 @@ use DomainException;
 class AuthUriClassMapper
 {
     private const MAP = [
-        BasicType::class => BasicAuth::CLASS_BASIC_AUTH
+        BasicType::class => BasicAuth::CLASS_BASIC_AUTH,
+        BasicAuthType::class => BasicAuthType::CLASS_BASIC_AUTH
     ];
 
     /**
