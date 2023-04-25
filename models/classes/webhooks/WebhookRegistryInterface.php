@@ -28,7 +28,10 @@ use oat\tao\model\webhooks\configEntity\WebhookInterface;
  */
 interface WebhookRegistryInterface
 {
-    const SERVICE_ID = 'tao/webhookRegistry';
+    /**
+     * @deprecated use DI instead
+     */
+    public const SERVICE_ID = 'tao/webhookRegistry';
 
     /**
      * @param string $id

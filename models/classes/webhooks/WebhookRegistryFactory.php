@@ -20,30 +20,25 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\auth;
+namespace oat\tao\model\webhooks;
 
-use DomainException;
-
-class AuthUriClassMapper
+class WebhookRegistryFactory
 {
-    private const MAP = [
-        BasicType::class => BasicAuth::CLASS_BASIC_AUTH
-    ];
+    private WebhookRdfRegistry $rdfRegistry;
+    private WebhookFileRegistry $fileRegistry;
 
-    /**
-     * @param object|string $class
-     *
-     * @throws DomainException
-     * @return string
-     */
-    public function getUriByClass($class): string
+    public function __construct(
+        WebhookRdfRegistry $rdfRegistry,
+        WebhookFileRegistry $fileRegistry
+    ) {
+        $this->rdfRegistry = $rdfRegistry;
+        $this->fileRegistry = $fileRegistry;
+    }
+
+    public function create(?string $registryType = 'file')
     {
-        $className = is_object($class) ? get_class($class) : $class;
-
-        if (!isset(self::MAP[$className])) {
-            throw new DomainException(sprintf('Class %s is not defined', $className));
-        }
-
-        return self::MAP[$className];
+        return $registryType === null || $registryType === 'file'
+            ? $this->fileRegistry
+            : $this->rdfRegistry;
     }
 }

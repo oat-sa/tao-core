@@ -30,7 +30,6 @@ use core_kernel_classes_Resource;
 use core_kernel_persistence_Exception;
 use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use Laminas\ServiceManager\ServiceLocatorAwareTrait;
-use oat\generis\model\data\Ontology;
 use oat\tao\model\auth\AuthUriClassMapper;
 use oat\tao\model\auth\BasicAuth;
 use oat\tao\model\auth\BasicAuthCredentials;
@@ -55,8 +54,6 @@ class WebHookClassService extends OntologyClassService implements ServiceLocator
     public const RDF_HTTP_METHOD_GET = 'http://www.tao.lu/Ontologies/TAO.rdf#HTTPMethodGET';
     public const RDF_COMPLY_ENABLED = 'http://www.tao.lu/Ontologies/TAO.rdf#ComplyEnabled';
 
-
-    private ?Ontology $ontology;
 
     public function getRootClass(): core_kernel_classes_Class
     {
@@ -185,7 +182,7 @@ class WebHookClassService extends OntologyClassService implements ServiceLocator
     private function getAuth(core_kernel_classes_Resource $webhookClass): WebhookAuth
     {
         /** @var WebhookAuthService $webhookAuthService */
-        $webhookAuthService = $this->getServiceLocator()->get(WebhookAuthService::SERVICE_ID);
+        $webhookAuthService = $this->getServiceLocator()->getContainer()->get(WebhookAuthService::class);
         $authType = $webhookAuthService->getAuthType(
             $webhookClass->getOnePropertyValue($this->getProperty(self::PROPERTY_AUTH_TYPE))
         );

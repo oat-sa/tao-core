@@ -23,8 +23,15 @@ declare(strict_types=1);
 namespace oat\tao\model\webhooks;
 
 use oat\tao\model\auth\AbstractAuthService;
+use oat\tao\model\auth\BasicAuth;
 
 class WebhookAuthService extends AbstractAuthService
 {
-    public const SERVICE_ID = 'tao/WebhookAuthService';
+    public function __construct(BasicAuth $type)
+    {
+        parent::__construct([
+            'type' => $type,
+            'types' => [$type]
+        ]);
+    }
 }

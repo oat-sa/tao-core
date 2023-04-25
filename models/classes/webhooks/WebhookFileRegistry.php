@@ -43,8 +43,8 @@ use oat\tao\model\webhooks\task\WebhookTaskParams;
  */
 class WebhookFileRegistry extends ConfigurableService implements WebhookRegistryInterface
 {
-    const OPTION_WEBHOOKS = 'webhooks';
-    const OPTION_EVENTS = 'events';
+    public const OPTION_WEBHOOKS = 'webhooks';
+    public const OPTION_EVENTS = 'events';
 
     /**
      * @param string $id

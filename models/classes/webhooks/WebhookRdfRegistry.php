@@ -27,14 +27,16 @@ use common_exception_Error;
 use common_exception_InvalidArgumentType;
 use core_kernel_classes_Resource;
 use core_kernel_persistence_Exception;
-use Laminas\ServiceManager\ServiceLocatorAwareInterface;
-use Laminas\ServiceManager\ServiceLocatorAwareTrait;
-use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
 
-class WebhookRdfRegistry extends ConfigurableService implements WebhookRegistryInterface, ServiceLocatorAwareInterface
+class WebhookRdfRegistry implements WebhookRegistryInterface
 {
-    use ServiceLocatorAwareTrait;
+    private WebHookClassService $webHookClassService;
+
+    public function __construct(WebHookClassService $webHookClassService)
+    {
+        $this->webHookClassService = $webHookClassService;
+    }
 
     /**
      * @throws core_kernel_persistence_Exception
@@ -75,7 +77,6 @@ class WebhookRdfRegistry extends ConfigurableService implements WebhookRegistryI
 
     private function getClassService(): WebHookClassService
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->getServiceLocator()->get(WebHookClassService::class);
+        return $this->webHookClassService;
     }
 }

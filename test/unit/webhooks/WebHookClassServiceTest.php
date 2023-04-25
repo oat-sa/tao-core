@@ -28,8 +28,8 @@ use core_kernel_classes_Class as RdfClass;
 use core_kernel_classes_Literal as Literal;
 use core_kernel_classes_Property as Property;
 use core_kernel_classes_Resource as Resource;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 use oat\generis\model\data\Ontology;
+use oat\generis\test\TestCase;
 use oat\tao\model\auth\BasicAuthType;
 use oat\tao\model\auth\BasicType;
 use oat\tao\model\webhooks\configEntity\Webhook;
@@ -37,13 +37,12 @@ use oat\tao\model\webhooks\configEntity\WebhookAuth;
 use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
 use oat\tao\model\webhooks\WebhookAuthService;
 use oat\tao\model\webhooks\WebHookClassService;
-use PHPUnit\Framework\TestCase;
 use tao_models_classes_dataBinding_GenerisFormDataBinder;
 
 class WebHookClassServiceTest extends TestCase
 {
     private WebHookClassService $webhookService;
-    private $webhookEntryFactory;
+    private WebhookEntryFactory $webhookEntryFactory;
 
     protected function setUp(): void
     {
@@ -53,19 +52,17 @@ class WebHookClassServiceTest extends TestCase
         $authService->method('getAuthType')->willReturn($authType);
 
         $this->webhookEntryFactory = $this->createMock(WebhookEntryFactory::class);
-        $serviceMap = [
-            [WebhookEntryFactory::class, $this->webhookEntryFactory],
-            [WebhookAuthService::SERVICE_ID, $authService],
-        ];
-
-        $serviceLocator = $this->createMock(ServiceLocatorInterface::class);
-        $serviceLocator->method('get')->willReturnMap($serviceMap);
-
 
         $this->webhookService = $this->createPartialMock(
             WebHookClassService::class,
             ['getDataBinder', 'getModel', 'getProperty', 'createInstance', 'getRootClass']
         );
+
+        $serviceLocator = $this->getServiceLocatorMock([
+            WebhookEntryFactory::class => $this->webhookEntryFactory,
+            WebhookAuthService::class => $authService,
+        ]);
+
         $this->webhookService->setServiceLocator($serviceLocator);
     }
 
