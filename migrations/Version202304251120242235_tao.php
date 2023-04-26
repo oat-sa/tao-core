@@ -9,7 +9,7 @@ use oat\tao\scripts\SyncModels;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 
 /**
- * Enable Ruby CKEditor plugin
+ * Enable pt-BR language
  */
 final class Version202304251120242235_tao extends AbstractMigration
 {
