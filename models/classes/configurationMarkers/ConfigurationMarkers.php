@@ -34,17 +34,17 @@ class ConfigurationMarkers
     private const MARKER_PATTERN = '/\$ENV{([a-zA-Z0-9\-\_]+)}/';
     private LoggerInterface $logger;
     private SerializableSecretDtoFactory $serializableFactory;
-    private EnvironmentValueStorage $secretsStorage;
     private Report $report;
+    private array $envVars;
 
     public function __construct(
-        EnvironmentValueStorage $secretsStorage,
         SerializableSecretDtoFactory $serializableFactory,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        ?array $envVars = null
     ) {
-        $this->secretsStorage = $secretsStorage;
         $this->serializableFactory = $serializableFactory;
         $this->logger = $logger;
+        $this->envVars = $envVars ?? $_ENV;
     }
 
     public function replaceMarkers(array $configurationWithMarkers): array
@@ -85,8 +85,8 @@ class ConfigurationMarkers
             return;
         }
 
-        $isSecretDefined = $this->secretsStorage->exist($matches[1] ?? '');
-        $this->printMatchNotification($isSecretDefined, $matches[1]);
+        $isSecretDefined = $this->envVars[$matches[1]] ?? false;
+        $this->printMatchNotification((bool) $isSecretDefined, $matches[1]);
         if (!$isSecretDefined) {
             //remove not found markers from config array as reference
             $item = '';
