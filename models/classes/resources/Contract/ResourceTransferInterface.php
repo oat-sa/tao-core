@@ -15,29 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
- *
- * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
 namespace oat\tao\model\resources\Contract;
 
-use InvalidArgumentException;
-use core_kernel_classes_Class;
+use oat\tao\model\resources\Command\ResourceTransferCommand;
+use oat\tao\model\resources\ResourceTransferResult;
 
-/**
- * @deprecated Please use new interface oat\tao\model\resources\Contract\ResourceTransferInterface
- */
-interface ClassCopierInterface
+interface ResourceTransferInterface
 {
-    /**
-     * @throws InvalidArgumentException
-     * @deprecated Please use new interface oat\tao\model\resources\Contract\ResourceTransferInterface
-     */
-    public function copy(
-        core_kernel_classes_Class $class,
-        core_kernel_classes_Class $destinationClass
-    ): core_kernel_classes_Class;
+    public function transfer(ResourceTransferCommand $command): ResourceTransferResult;
 }

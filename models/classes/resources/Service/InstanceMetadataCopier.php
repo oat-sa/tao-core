@@ -71,6 +71,11 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
         }
     }
 
+    public function addPropertyUrisToBlacklist(array $propertyUris): void
+    {
+        $this->blacklistedProperties = array_merge($this->blacklistedProperties, $propertyUris);
+    }
+
     public function copy(
         core_kernel_classes_Resource $instance,
         core_kernel_classes_Resource $destinationInstance

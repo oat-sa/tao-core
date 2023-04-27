@@ -15,29 +15,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\resources\Contract;
+namespace oat\tao\helpers\ServiceProvider;
 
-use InvalidArgumentException;
-use core_kernel_classes_Class;
+use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\helpers\dateFormatter\DateFormatterFactory;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use tao_helpers_Mode;
 
-/**
- * @deprecated Please use new interface oat\tao\model\resources\Contract\ResourceTransferInterface
- */
-interface ClassCopierInterface
+class HelperServiceProvider implements ContainerServiceProviderInterface
 {
-    /**
-     * @throws InvalidArgumentException
-     * @deprecated Please use new interface oat\tao\model\resources\Contract\ResourceTransferInterface
-     */
-    public function copy(
-        core_kernel_classes_Class $class,
-        core_kernel_classes_Class $destinationClass
-    ): core_kernel_classes_Class;
+    public function __invoke(ContainerConfigurator $configurator): void
+    {
+        $services = $configurator->services();
+
+        $services->set(DateFormatterFactory::class, DateFormatterFactory::class);
+
+        $services->set(tao_helpers_Mode::class, tao_helpers_Mode::class);
+    }
 }

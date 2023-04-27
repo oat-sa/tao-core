@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
@@ -24,19 +24,20 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\resources\Service;
 
-use Throwable;
+use oat\generis\model\data\Ontology;
+use oat\tao\model\resources\Command\ResourceTransferCommand;
+use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use InvalidArgumentException;
 use core_kernel_classes_Class;
+use oat\tao\model\resources\ResourceTransferResult;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\resources\Service\ClassCopierProxy;
-use oat\tao\model\resources\Contract\ClassCopierInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 
 class ClassCopierProxyTest extends TestCase
 {
-    /** @var ClassCopierProxy */
-    private $sut;
+    private ClassCopierProxy $sut;
 
     /** @var core_kernel_classes_Class|MockObject */
     private $rootClass;
@@ -44,16 +45,20 @@ class ClassCopierProxyTest extends TestCase
     /** @var RootClassesListServiceInterface|MockObject */
     private $rootClassesListService;
 
-    /** @var ClassCopierInterface|MockObject */
+    /** @var ResourceTransferInterface|MockObject */
     private $classCopier;
+
+    /** @var Ontology|MockObject */
+    private $ontology;
 
     protected function setUp(): void
     {
         $this->rootClass = $this->createMock(core_kernel_classes_Class::class);
         $this->rootClassesListService = $this->createMock(RootClassesListServiceInterface::class);
-        $this->classCopier = $this->createMock(ClassCopierInterface::class);
+        $this->classCopier = $this->createMock(ResourceTransferInterface::class);
+        $this->ontology = $this->createMock(Ontology::class);
 
-        $this->sut = new ClassCopierProxy($this->rootClassesListService);
+        $this->sut = new ClassCopierProxy($this->rootClassesListService, $this->ontology);
     }
 
     public function testAddClassCopier(): void
@@ -103,45 +108,35 @@ class ClassCopierProxyTest extends TestCase
         $this->sut->addClassCopier($rootClassUri, $this->classCopier);
     }
 
+    public function testTransfer(): void
+    {
+        $this->doCopy(
+            $this->createClass('fromClassUri'),
+            $this->createClass('destinationClassUri'),
+            $this->createClass('newClassUri')
+        );
+
+        $this->assertEquals(
+            new ResourceTransferResult('newClassUri'),
+            $this->sut->transfer(
+                new ResourceTransferCommand(
+                    'fromClassUri',
+                    'destinationClassUri',
+                    ResourceTransferCommand::ACL_KEEP_ORIGINAL,
+                    ResourceTransferCommand::TRANSFER_MODE_COPY
+                )
+            )
+        );
+    }
+
     public function testCopy(): void
     {
-        $rootClassUri = 'rootClassUri';
-        $this->rootClass
-            ->expects($this->once())
-            ->method('getUri')
-            ->willReturn($rootClassUri);
+        $class = $this->createClass('fromClassUri');
+        $destinationClass = $this->createClass('destinationClassUri');
+        $newClass = $this->createClass('newClassUri');
 
-        $this->rootClassesListService
-            ->expects($this->once())
-            ->method('list')
-            ->willReturn([$this->rootClass]);
-        $this->rootClassesListService
-            ->expects($this->once())
-            ->method('listUris')
-            ->willReturn([$rootClassUri]);
+        $this->doCopy($class, $destinationClass, $newClass);
 
-        $class = $this->createMock(core_kernel_classes_Class::class);
-        $class
-            ->expects($this->once())
-            ->method('equals')
-            ->with($this->rootClass)
-            ->willReturn(true);
-        $class
-            ->expects($this->never())
-            ->method('isSubClassOf')
-            ->with($this->rootClass);
-
-        $destinationClass = $this->createMock(core_kernel_classes_Class::class);
-
-        $newClass = $this->createMock(core_kernel_classes_Class::class);
-
-        $this->classCopier
-            ->expects($this->once())
-            ->method('copy')
-            ->with($class, $destinationClass)
-            ->willReturn($newClass);
-
-        $this->sut->addClassCopier($rootClassUri, $this->classCopier);
         $this->assertEquals($newClass, $this->sut->copy($class, $destinationClass));
     }
 
@@ -157,16 +152,24 @@ class ClassCopierProxyTest extends TestCase
             ->willReturn([$this->rootClass]);
 
         $class = $this->createMock(core_kernel_classes_Class::class);
-        $class
-            ->expects($this->once())
+
+        $class->expects($this->once())
+            ->method('getUri')
+            ->willReturn('classUri');
+
+        $class->expects($this->once())
             ->method('equals')
             ->with($this->rootClass)
             ->willReturn(false);
-        $class
-            ->expects($this->once())
+
+        $class->expects($this->once())
             ->method('isSubClassOf')
             ->with($this->rootClass)
             ->willReturn(false);
+
+        $this->ontology
+            ->method('getClass')
+            ->willReturn($class);
 
         $destinationClass = $this->createMock(core_kernel_classes_Class::class);
 
@@ -174,5 +177,78 @@ class ClassCopierProxyTest extends TestCase
         $this->expectExceptionMessage('Provided class does not belong to any root class');
 
         $this->sut->copy($class, $destinationClass);
+    }
+
+    private function doCopy(MockObject $class, MockObject $destinationClass, MockObject $newClass): void
+    {
+        $rootClassUri = 'rootClassUri';
+
+        $this->rootClass
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn($rootClassUri);
+
+        $this->rootClassesListService
+            ->expects($this->once())
+            ->method('list')
+            ->willReturn([$this->rootClass]);
+
+        $this->rootClassesListService
+            ->expects($this->once())
+            ->method('listUris')
+            ->willReturn([$rootClassUri]);
+
+        $class->expects($this->once())
+            ->method('equals')
+            ->with($this->rootClass)
+            ->willReturn(true);
+
+        $class->expects($this->never())
+            ->method('isSubClassOf')
+            ->with($this->rootClass);
+
+        $this->classCopier
+            ->expects($this->once())
+            ->method('transfer')
+            ->with(
+                new ResourceTransferCommand(
+                    'fromClassUri',
+                    'destinationClassUri',
+                    ResourceTransferCommand::ACL_KEEP_ORIGINAL,
+                    ResourceTransferCommand::TRANSFER_MODE_COPY
+                )
+            )
+            ->willReturn(new ResourceTransferResult('newClassUri'));
+
+        $this->ontology
+            ->method('getClass')
+            ->willReturnCallback(
+                function ($uri) use ($class, $newClass) {
+                    if ($uri === 'newClassUri') {
+                        return $newClass;
+                    }
+
+                    if ($uri === 'fromClassUri') {
+                        return $class;
+                    }
+
+                    return null;
+                }
+            );
+
+        $this->sut->addClassCopier($rootClassUri, $this->classCopier);
+    }
+
+    /**
+     * @return MockObject|core_kernel_classes_Class
+     */
+    private function createClass(string $uri): MockObject
+    {
+        $class = $this->createMock(core_kernel_classes_Class::class);
+
+        $class->method('getUri')
+            ->willReturn($uri);
+
+        return $class;
     }
 }

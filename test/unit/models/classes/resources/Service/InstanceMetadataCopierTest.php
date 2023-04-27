@@ -24,26 +24,36 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\resources\Service;
 
-use PHPUnit\Framework\TestCase;
-use oat\oatbox\filesystem\FileSystemService;
-use PHPUnit\Framework\MockObject\MockObject;
-use oat\tao\model\resources\Service\InstanceMetadataCopier;
+use ArrayIterator;
+use core_kernel_classes_Class;
+use core_kernel_classes_ContainerCollection;
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
 use oat\generis\model\fileReference\FileReferenceSerializer;
+use oat\generis\model\GenerisRdf;
+use oat\generis\test\IteratorMockTrait;
+use oat\oatbox\filesystem\Directory;
+use oat\oatbox\filesystem\File;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\resources\Contract\ClassMetadataMapperInterface;
+use oat\tao\model\resources\Service\InstanceMetadataCopier;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 class InstanceMetadataCopierTest extends TestCase
 {
-    /** @var InstanceMetadataCopier */
-    private $sut;
+    use IteratorMockTrait;
+
+    private InstanceMetadataCopier $sut;
 
     /** @var ClassMetadataMapperInterface|MockObject */
-    private $classMetadataMapper;
+    private ClassMetadataMapperInterface $classMetadataMapper;
 
     /** @var FileReferenceSerializer|MockObject */
-    private $fileReferenceSerializer;
+    private FileReferenceSerializer $fileReferenceSerializer;
 
     /** @var FileSystemService|MockObject */
-    private $fileSystemService;
+    private FileSystemService $fileSystemService;
 
     protected function setUp(): void
     {
@@ -60,6 +70,168 @@ class InstanceMetadataCopierTest extends TestCase
 
     public function testCopy(): void
     {
-        $this->markTestIncomplete();
+        $fromInstance = $this->createMock(core_kernel_classes_Resource::class);
+        $toInstance = $this->createMock(core_kernel_classes_Resource::class);
+
+        $toClass = $this->createMock(core_kernel_classes_Class::class);
+
+        $toInstance
+            ->expects($this->once())
+            ->method('getTypes')
+            ->willReturn([$toClass]);
+
+        $commonDestinationProperty = $this->createMock(core_kernel_classes_Property::class);
+        $fileDestinationProperty = $this->createMock(core_kernel_classes_Property::class);
+
+        $toClass
+            ->expects($this->once())
+            ->method('getProperties')
+            ->with(true)
+            ->willReturn([$commonDestinationProperty, $fileDestinationProperty]);
+
+        $this->classMetadataMapper
+            ->expects($this->exactly(2))
+            ->method('get')
+            ->willReturnMap([
+                [$commonDestinationProperty, 'commonOriginalPropertyUri'],
+                [$fileDestinationProperty, null],
+            ]);
+
+        $commonOriginalProperty = $this->createMock(core_kernel_classes_Property::class);
+
+        $commonDestinationProperty
+            ->expects($this->once())
+            ->method('getProperty')
+            ->with('commonOriginalPropertyUri')
+            ->willReturn($commonOriginalProperty);
+
+        $fileDestinationProperty
+            ->expects($this->once())
+            ->method('isCustom')
+            ->willReturn(true);
+
+        $commonOriginalProperty
+            ->expects($this->exactly(2))
+            ->method('getUri')
+            ->willReturn('commonOriginalPropertyUri');
+        $fileDestinationProperty
+            ->expects($this->exactly(2))
+            ->method('getUri')
+            ->willReturn('fileDestinationPropertyUri');
+
+        $commonOriginalPropertyValues = $this->createMock(core_kernel_classes_ContainerCollection::class);
+        $commonOriginalPropertyValue = $this->createMock(core_kernel_classes_Resource::class);
+        $fileDestinationPropertyValues = $this->createMock(
+            core_kernel_classes_ContainerCollection::class
+        );
+        $fileDestinationPropertyValue = $this->createMock(core_kernel_classes_Resource::class);
+
+        $fromInstance
+            ->expects($this->exactly(2))
+            ->method('getPropertyValuesCollection')
+            ->willReturnCallback(
+                fn (core_kernel_classes_Property $property) => $property === $commonOriginalProperty
+                    ? $commonOriginalPropertyValues
+                    : $fileDestinationPropertyValues
+            );
+
+        $commonOriginalPropertyValues
+            ->expects($this->once())
+            ->method('getIterator')
+            ->willReturn(
+                $this->createIteratorMock(
+                    ArrayIterator::class,
+                    [$commonOriginalPropertyValue]
+                )
+            );
+
+        $fileDestinationPropertyValues
+            ->expects($this->once())
+            ->method('getIterator')
+            ->willReturn(
+                $this->createIteratorMock(
+                    ArrayIterator::class,
+                    [$fileDestinationPropertyValue]
+                )
+            );
+
+        $commonOriginalPropertyRange = $this->createMock(core_kernel_classes_Class::class);
+
+        $commonOriginalProperty
+            ->expects($this->once())
+            ->method('getRange')
+            ->willReturn($commonOriginalPropertyRange);
+
+        $commonOriginalPropertyRange
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('commonOriginalPropertyRangeUri');
+
+        $fileDestinationPropertyRange = $this->createMock(core_kernel_classes_Class::class);
+
+        $fileDestinationProperty
+            ->expects($this->once())
+            ->method('getRange')
+            ->willReturn($fileDestinationPropertyRange);
+
+        $fileDestinationPropertyRange
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn(GenerisRdf::CLASS_GENERIS_FILE);
+
+        $fileDestinationPropertyValue
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn('fileDestinationPropertyValueUri');
+
+        $oldFile = $this->createMock(File::class);
+
+        $this->fileReferenceSerializer
+            ->expects($this->once())
+            ->method('unserializeFile')
+            ->with('fileDestinationPropertyValueUri')
+            ->willReturn($oldFile);
+
+        $oldFile
+            ->expects($this->once())
+            ->method('getFileSystemId')
+            ->willReturn('fileSystemId');
+        $oldFile
+            ->expects($this->once())
+            ->method('getBasename')
+            ->willReturn('oldFileBasename');
+        $directory = $this->createMock(Directory::class);
+
+        $this->fileSystemService
+            ->expects($this->once())
+            ->method('getDirectory')
+            ->with('fileSystemId')
+            ->willReturn($directory);
+
+        $newFile = $this->createMock(File::class);
+
+        $directory
+            ->expects($this->once())
+            ->method('getFile')
+            ->willReturn($newFile);
+
+        $oldFile
+            ->expects($this->once())
+            ->method('readStream');
+
+        $newFile
+            ->expects($this->once())
+            ->method('write');
+
+        $this->fileReferenceSerializer
+            ->expects($this->once())
+            ->method('serialize')
+            ->with($newFile);
+
+        $toInstance
+            ->expects($this->exactly(2))
+            ->method('setPropertyValue');
+
+        $this->sut->copy($fromInstance, $toInstance);
     }
 }
