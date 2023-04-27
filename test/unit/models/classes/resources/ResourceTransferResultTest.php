@@ -15,29 +15,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
- *
- * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\resources\Contract;
+namespace oat\tao\test\unit\models\classes\resources\ResourceService;
 
-use InvalidArgumentException;
-use core_kernel_classes_Class;
+use oat\tao\model\resources\ResourceTransferResult;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @deprecated Please use new interface oat\tao\model\resources\Contract\ResourceTransferInterface
- */
-interface ClassCopierInterface
+class ResourceTransferResultTest extends TestCase
 {
-    /**
-     * @throws InvalidArgumentException
-     * @deprecated Please use new interface oat\tao\model\resources\Contract\ResourceTransferInterface
-     */
-    public function copy(
-        core_kernel_classes_Class $class,
-        core_kernel_classes_Class $destinationClass
-    ): core_kernel_classes_Class;
+    public function testGetters(): void
+    {
+        $result = new ResourceTransferResult('destinationUri');
+
+        $this->assertSame('destinationUri', $result->getDestination());
+    }
 }

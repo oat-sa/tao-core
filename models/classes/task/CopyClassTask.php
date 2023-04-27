@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
@@ -24,6 +24,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\task;
 
+use oat\tao\model\resources\Command\ResourceTransferCommand;
+use oat\tao\model\resources\Contract\ResourceTransferInterface;
+use oat\tao\model\resources\Service\ResourceTransferProxy;
 use Throwable;
 use oat\oatbox\action\Action;
 use oat\oatbox\reporting\Report;
@@ -32,9 +35,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
 use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
-use oat\tao\model\resources\Service\ClassCopierProxy;
 use Laminas\ServiceManager\ServiceLocatorAwareInterface;
-use oat\tao\model\resources\Contract\ClassCopierInterface;
 use oat\oatbox\log\logger\extender\ContextExtenderInterface;
 
 class CopyClassTask implements Action, TaskAwareInterface, ServiceLocatorAwareInterface
@@ -46,15 +47,21 @@ class CopyClassTask implements Action, TaskAwareInterface, ServiceLocatorAwareIn
 
     public const PARAM_CLASS_URI = 'classUri';
     public const PARAM_DESTINATION_CLASS_URI = 'destinationClassUri';
+    public const PARAM_ACL_MODE = 'aclMode';
 
     public function __invoke($params): Report
     {
         try {
-            $class = $this->getClass($params[self::PARAM_CLASS_URI]);
-            $destinationClass = $this->getClass($params[self::PARAM_DESTINATION_CLASS_URI]);
-            $newClass = $this->getClassCopier()->copy($class, $destinationClass);
+            $result = $this->getClassCopier()->transfer(
+                new ResourceTransferCommand(
+                    $params[self::PARAM_CLASS_URI],
+                    $params[self::PARAM_DESTINATION_CLASS_URI],
+                    $params[self::PARAM_ACL_MODE] ?? null,
+                    ResourceTransferCommand::TRANSFER_MODE_COPY
+                )
+            );
 
-            return Report::createSuccess(__('The class has been copied.'), $newClass);
+            return Report::createSuccess(__('The class has been copied.'), $this->getClass($result->getDestination()));
         } catch (Throwable $exception) {
             $this->logError($exception->getMessage(), [ContextExtenderInterface::CONTEXT_EXCEPTION => $exception]);
 
@@ -62,8 +69,8 @@ class CopyClassTask implements Action, TaskAwareInterface, ServiceLocatorAwareIn
         }
     }
 
-    private function getClassCopier(): ClassCopierInterface
+    private function getClassCopier(): ResourceTransferInterface
     {
-        return $this->getServiceLocator()->getContainer()->get(ClassCopierProxy::class);
+        return $this->getServiceLocator()->getContainer()->get(ResourceTransferProxy::class);
     }
 }
