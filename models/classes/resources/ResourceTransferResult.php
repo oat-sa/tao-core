@@ -22,10 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources;
 
-//@TODO Think of better name and location for this.
 class ResourceTransferResult
 {
-    //@TODO Think about better name
     private string $destination;
 
     public function __construct(string $destination)

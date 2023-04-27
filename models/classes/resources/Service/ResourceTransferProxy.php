@@ -52,20 +52,6 @@ class ResourceTransferProxy implements ResourceTransferInterface
 
     public function transfer(ResourceTransferCommand $command): ResourceTransferResult
     {
-        //FIXME @TODO Remove after tests
-        if ((getenv('ACL_TRANSFER_MODE') ?: null) !== null) {
-            $command = new ResourceTransferCommand(
-                $command->getFrom(),
-                $command->getTo(),
-                getenv('ACL_TRANSFER_MODE'),
-                $command->isCopyTo()
-                    ? ResourceTransferCommand::TRANSFER_MODE_COPY
-                    : ResourceTransferCommand::TRANSFER_MODE_MOVE
-            );
-        }
-        \common_Logger::e('============> ACL_TRANSFER_MODE '  . var_export($command, true));
-        //FIXME @TODO Remove after tests
-
         return $this->getTransfer($command)->transfer($command);
     }
 
