@@ -764,6 +764,7 @@ class Updater extends \common_ext_ExtensionUpdater
 
         if ($this->isVersion('17.13.1')) {
             $rdfLang = dirname(__FILE__) . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, '../../locales/fr-CA/lang.rdf');
+
             $iterator = new FileIterator($rdfLang);
             $rdf = ModelManager::getModel()->getRdfInterface();
 
@@ -1106,6 +1107,7 @@ class Updater extends \common_ext_ExtensionUpdater
             }
 
             $iterator = new FileIterator(__DIR__ . '/../../locales/es-MX/lang.rdf');
+
             $rdf = ModelManager::getModel()->getRdfInterface();
 
             /* @var \core_kernel_classes_Triple $triple */
