@@ -13,10 +13,10 @@
     },
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
-        "@oat-sa/tao-core-libs": "https://github.com/oat-sa/tao-core-libs-fe.git#feature/ADF-1417/upgrade-to-node18",
-        "@oat-sa/tao-core-sdk": "https://github.com/oat-sa/tao-core-sdk-fe.git#feature/ADF-1417/upgrade-to-node18",
+        "@oat-sa/tao-core-libs": "git+https://github.com/oat-sa/tao-core-libs-fe.git#feature/ADF-1417/upgrade-to-node18",
+        "@oat-sa/tao-core-sdk": "git+https://github.com/oat-sa/tao-core-sdk-fe.git#feature/ADF-1417/upgrade-to-node18",
         "@oat-sa/tao-core-shared-libs": "1.5.2",
-        "@oat-sa/tao-core-ui": "https://github.com/oat-sa/tao-core-ui-fe.git#feature/ADF-1417/upgrade-to-node18",
+        "@oat-sa/tao-core-ui": "git+https://github.com/oat-sa/tao-core-ui-fe.git#feature/ADF-1417/upgrade-to-node18",
         "codemirror": "^5.54.0",
         "dompurify": "^2.4.0",
         "gamp": "0.2.1",
