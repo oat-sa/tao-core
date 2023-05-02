@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2022-2023 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
@@ -26,46 +26,39 @@ namespace oat\tao\model\resources\Service;
 
 use InvalidArgumentException;
 use core_kernel_classes_Class;
+use oat\generis\model\data\Ontology;
+use oat\tao\model\resources\Command\ResourceTransferCommand;
 use oat\tao\model\resources\Contract\ClassCopierInterface;
-use oat\tao\model\resources\Contract\InstanceCopierInterface;
 use oat\tao\model\resources\Contract\PermissionCopierInterface;
 use oat\tao\model\resources\Contract\ClassMetadataCopierInterface;
 use oat\tao\model\resources\Contract\ClassMetadataMapperInterface;
+use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
+use oat\tao\model\resources\ResourceTransferResult;
 
-class ClassCopier implements ClassCopierInterface
+class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
 {
-    /** @var RootClassesListServiceInterface */
-    private $rootClassesListService;
-
-    /** @var ClassMetadataCopier */
-    private $classMetadataCopier;
-
-    /** @var InstanceCopierInterface */
-    private $instanceCopier;
-
-    /** @var ClassMetadataMapperInterface */
-    private $classMetadataMapper;
-
-    /** @var PermissionCopierInterface */
-    private $permissionCopier;
-
-    /** @var string[] */
-    private $copiedClasses = [];
-
-    /** @var bool */
-    private $assertionCompleted = false;
+    private RootClassesListServiceInterface $rootClassesListService;
+    private ClassMetadataCopierInterface $classMetadataCopier;
+    private ResourceTransferInterface $instanceCopier;
+    private ClassMetadataMapperInterface $classMetadataMapper;
+    private PermissionCopierInterface $permissionCopier;
+    private Ontology $ontology;
+    private array $copiedClasses = [];
+    private bool $assertionCompleted = false;
 
     public function __construct(
         RootClassesListServiceInterface $rootClassesListService,
         ClassMetadataCopierInterface $classMetadataCopier,
-        InstanceCopierInterface $instanceCopier,
-        ClassMetadataMapperInterface $classMetadataMapper
+        ResourceTransferInterface $instanceCopier,
+        ClassMetadataMapperInterface $classMetadataMapper,
+        Ontology $ontology
     ) {
         $this->rootClassesListService = $rootClassesListService;
         $this->classMetadataCopier = $classMetadataCopier;
         $this->instanceCopier = $instanceCopier;
         $this->classMetadataMapper = $classMetadataMapper;
+        $this->ontology = $ontology;
     }
 
     public function withPermissionCopier(PermissionCopierInterface $permissionCopier): void
@@ -79,17 +72,31 @@ class ClassCopier implements ClassCopierInterface
      */
     public function withPermissionCopiers(iterable $copiers): void
     {
-        foreach($copiers as $copier) {
+        foreach ($copiers as $copier) {
             $this->withPermissionCopier($copier);
         }
     }
 
-    /**
-     * @inheritDoc
-     */
+    public function transfer(ResourceTransferCommand $command): ResourceTransferResult
+    {
+        $class = $this->ontology->getClass($command->getFrom());
+        $destinationClass = $this->ontology->getClass($command->getTo());
+        $newClass = $this->doCopy($class, $destinationClass, $command->keepOriginalAcl());
+
+        return new ResourceTransferResult($newClass->getUri());
+    }
+
     public function copy(
         core_kernel_classes_Class $class,
         core_kernel_classes_Class $destinationClass
+    ): core_kernel_classes_Class {
+        return $this->doCopy($class, $destinationClass);
+    }
+
+    private function doCopy(
+        core_kernel_classes_Class $class,
+        core_kernel_classes_Class $destinationClass,
+        bool $keepOriginalPermission = true
     ): core_kernel_classes_Class {
         if (in_array($class->getUri(), $this->copiedClasses, true)) {
             return $class;
@@ -98,20 +105,36 @@ class ClassCopier implements ClassCopierInterface
         $this->assertInSameRootClass($class, $destinationClass);
 
         $newClass = $destinationClass->createSubClass($class->getLabel());
-        $this->copiedClasses[] = $newClass->getUri();
+        $newClassUri = $newClass->getUri();
+
+        $this->copiedClasses[] = $newClassUri;
 
         $this->classMetadataCopier->copy($class, $newClass);
 
+        if (isset($this->permissionCopier)) {
+            $this->permissionCopier->copy(
+                $keepOriginalPermission ? $class : $destinationClass,
+                $newClass
+            );
+        }
+
         foreach ($class->getInstances() as $instance) {
-            $this->instanceCopier->copy($instance, $newClass);
+            $aclMode = $keepOriginalPermission ?
+                ResourceTransferCommand::ACL_KEEP_ORIGINAL :
+                ResourceTransferCommand::ACL_USE_DESTINATION;
+
+            $this->instanceCopier->transfer(
+                new ResourceTransferCommand(
+                    $instance->getUri(),
+                    $newClassUri,
+                    $aclMode,
+                    ResourceTransferCommand::TRANSFER_MODE_COPY
+                )
+            );
         }
 
         foreach ($class->getSubClasses() as $subClass) {
-            $this->copy($subClass, $newClass);
-        }
-
-        if (isset($this->permissionCopier)) {
-            $this->permissionCopier->copy($class, $newClass);
+            $this->doCopy($subClass, $newClass, $keepOriginalPermission);
         }
 
         $this->classMetadataMapper->remove($newClass->getProperties());

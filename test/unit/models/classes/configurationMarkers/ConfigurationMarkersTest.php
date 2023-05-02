@@ -22,10 +22,10 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\configurationMarkers;
 
+use InvalidArgumentException;
 use oat\tao\model\configurationMarkers\ConfigurationMarkers;
 use oat\tao\model\configurationMarkers\Secrets\SerializableSecretDto;
 use oat\tao\model\configurationMarkers\SerializableSecretDtoFactory;
-use oat\tao\model\configurationMarkers\Secrets\EnvironmentValueStorage;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -37,25 +37,24 @@ class ConfigurationMarkersTest extends TestCase
             'connection' => [
                 'driver' => 'pdo_pgsql',
                 'dbname' => 'tao',
-                'host' => '$ENV{PERSISTENCES_PGSQL_HOST}',
-                'user' => '$ENV{PERSISTENCES_PGSQL_USER}',
-                'password' => '$ENV{PERSISTENCES_PGSQL_PASSWORD}',
+                'host' => '$ENV{FAKE_PERSISTENCES_PGSQL_HOST}',
+                'user' => '$ENV{FAKE_PERSISTENCES_PGSQL_USER}',
+                'password' => '$ENV{FAKE_PERSISTENCES_PGSQL_PASSWORD}',
                 'non_existing_entry_in_env' => '$ENV{NON_EXISTING_ENTRY_IN_ENV}',
                 'driverOptions' => []
             ]
         ];
-        $env = [
-            'PERSISTENCES_PGSQL_HOST' => 'tao-postgres',
-            'PERSISTENCES_PGSQL_USER' => 'tao',
-            'PERSISTENCES_PGSQL_PASSWORD' => 'r00t',
-        ];
+
+        $envVars['FAKE_PERSISTENCES_PGSQL_HOST'] = 'fake_host';
+        $envVars['FAKE_PERSISTENCES_PGSQL_USER'] = 'fake_user';
+        $envVars['FAKE_PERSISTENCES_PGSQL_PASSWORD'] = 'fake_pass';
 
         $loggerMock = $this->createMock(LoggerInterface::class);
 
         $markers = new ConfigurationMarkers(
-            new EnvironmentValueStorage($env),
             new SerializableSecretDtoFactory(),
-            $loggerMock
+            $loggerMock,
+            $envVars
         );
 
         $replaced = $markers->replaceMarkers($configuration);
@@ -79,28 +78,27 @@ class ConfigurationMarkersTest extends TestCase
         self::assertInstanceOf(SerializableSecretDto::class, $replaced['connection']['user']);
         self::assertInstanceOf(SerializableSecretDto::class, $replaced['connection']['password']);
 
-        self::assertSame('PERSISTENCES_PGSQL_HOST', $replaced['connection']['host']->getEnvIndex());
-        self::assertSame('PERSISTENCES_PGSQL_USER', $replaced['connection']['user']->getEnvIndex());
-        self::assertSame('PERSISTENCES_PGSQL_PASSWORD', $replaced['connection']['password']->getEnvIndex());
+        self::assertSame('FAKE_PERSISTENCES_PGSQL_HOST', $replaced['connection']['host']->getEnvIndex());
+        self::assertSame('FAKE_PERSISTENCES_PGSQL_USER', $replaced['connection']['user']->getEnvIndex());
+        self::assertSame('FAKE_PERSISTENCES_PGSQL_PASSWORD', $replaced['connection']['password']->getEnvIndex());
     }
 
     public function testNotifications(): void
     {
         $configuration = [
             'connection' => [
-                'password' => '$ENV{PERSISTENCES_PGSQL_PASSWORD}',
+                'password' => '$ENV{FAKE_PERSISTENCES_PGSQL_PASSWORD}',
             ]
         ];
-        $env = [
-            'PERSISTENCES_PGSQL_PASSWORD' => 'r00t',
-        ];
+
+        $envVars['FAKE_PERSISTENCES_PGSQL_PASSWORD'] = 'fake_pass';
         $loggerMock = $this->createMock(LoggerInterface::class);
         $loggerMock->expects($this->atLeast(1))->method('notice');
 
         $markers = new ConfigurationMarkers(
-            new EnvironmentValueStorage($env),
             new SerializableSecretDtoFactory(),
-            $loggerMock
+            $loggerMock,
+            $envVars
         );
 
         $markers->replaceMarkers($configuration);
@@ -109,14 +107,12 @@ class ConfigurationMarkersTest extends TestCase
     public function testEmptyConfiguration(): void
     {
         $configuration = [];
-        $env = [];
         $loggerMock = $this->createMock(LoggerInterface::class);
         $markers = new ConfigurationMarkers(
-            new EnvironmentValueStorage($env),
             new SerializableSecretDtoFactory(),
             $loggerMock
         );
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $markers->replaceMarkers($configuration);
     }
 
@@ -127,10 +123,8 @@ class ConfigurationMarkersTest extends TestCase
                 'password' => '$ENV{PERSISTENCES_PGSQL_PASSWORD}',
             ]
         ];
-        $env = [];
         $loggerMock = $this->createMock(LoggerInterface::class);
         $markers = new ConfigurationMarkers(
-            new EnvironmentValueStorage($env),
             new SerializableSecretDtoFactory(),
             $loggerMock
         );
@@ -149,14 +143,10 @@ class ConfigurationMarkersTest extends TestCase
                 'password' => '$ENV{NOT_MATCHING_MARKER}',
             ]
         ];
-        $env = [
-            'PERSISTENCES_PGSQL_PASSWORD' => 'r00t',
-        ];
 
         $loggerMock = $this->createMock(LoggerInterface::class);
 
         $markers = new ConfigurationMarkers(
-            new EnvironmentValueStorage($env),
             new SerializableSecretDtoFactory(),
             $loggerMock
         );

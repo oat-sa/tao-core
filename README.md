@@ -7,6 +7,7 @@ tao-core
 - [Middlewares Doc](models/classes/Middleware/README.md)
 - [Feature Flag](models/classes/featureFlag/README.md)
 - [CSRF Tokens](models/classes/security/xsrf/README.md)
+- [Client Config](models/classes/clientConfig/README.md)
 
 # Webhooks
 
