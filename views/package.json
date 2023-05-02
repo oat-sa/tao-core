@@ -33,7 +33,7 @@
         "url-polyfill": "1.1.12"
     },
     "devDependencies": {
-        "@oat-sa/e2e-runner": "^1.5.1",
+        "@oat-sa/e2e-runner": "https://github.com/oat-sa/e2e-runner.git#feature/ADF-1417/upgrade-to-node18",
         "cypress-downloadfile": "^1.2.3",
         "fs": "0.0.1-security"
     }
