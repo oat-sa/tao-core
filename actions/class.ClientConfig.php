@@ -44,8 +44,8 @@ class tao_actions_ClientConfig extends tao_actions_CommonModule
 
         $getConfigQuery = new GetConfigQuery(
             $params['extension'] ?? Context::getInstance()->getExtensionName(),
-            $params['action'],
-            $params['module'],
+            $params['action'] ?? Context::getInstance()->getActionName(),
+            $params['module'] ?? Context::getInstance()->getModuleName(),
             $params['shownExtension'] ?? null,
             $params['shownStructure'] ?? null
         );
