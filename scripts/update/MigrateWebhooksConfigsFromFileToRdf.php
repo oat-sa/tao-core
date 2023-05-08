@@ -23,7 +23,12 @@ declare(strict_types=1);
 namespace oat\tao\scripts\update;
 
 use oat\oatbox\extension\AbstractAction;
+use oat\oatbox\reporting\Report;
 use oat\oatbox\service\ServiceNotFoundException;
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\accessControl\func\AclProxy;
+use oat\tao\model\menu\MenuService;
+use oat\tao\model\user\TaoRoles;
 use oat\tao\model\webhooks\WebhookFileRegistry;
 use oat\tao\model\webhooks\WebhookRdfRegistry;
 
@@ -39,15 +44,17 @@ class MigrateWebhooksConfigsFromFileToRdf extends AbstractAction
 
 
         } catch (ServiceNotFoundException $e) {
-            $this->logError('WebhookFileRegistry not found');
+            $message = 'WebhookFileRegistry not found';
+            $this->logError($message);
 
-            return;
+            return Report::createInfo($message);
         }
 
         if (!($fileRegistry instanceof WebhookFileRegistry)) {
-            $this->logError(sprintf('%s expected, %s found', WebhookFileRegistry::class, get_class($fileRegistry)));
+            $message = sprintf('%s expected, %s found', WebhookFileRegistry::class, get_class($fileRegistry));
+            $this->logError($message);
 
-            return;
+            return Report::createError($message);
         }
 
         $rdfRegistry = $serviceManager->getContainer()->get(WebhookRdfRegistry::class);
@@ -66,5 +73,15 @@ class MigrateWebhooksConfigsFromFileToRdf extends AbstractAction
                 $rdfRegistry->addWebhook($preparedWebHooks[$webhookId], [$eventClass]);
             }
         }
+
+        OntologyUpdater::syncModels();
+        MenuService::flushCache();
+        AclProxy::applyRule(new AccessRule(
+            AccessRule::GRANT,
+            TaoRoles::TAO_MANAGER,
+            ['ext' => 'tao', 'mod' => 'WebHooks']
+        ));
+
+        return Report::createSuccess('Webhooks configs migrated successfully');
     }
 }
