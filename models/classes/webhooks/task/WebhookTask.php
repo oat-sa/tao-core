@@ -192,10 +192,7 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
         return $webhookConfig;
     }
 
-    /**
-     * @return WebhookRegistryInterface
-     */
-    private function getWebhookRegistry()
+    private function getWebhookRegistry(): WebhookRegistryInterface
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->getContainer()->get(WebhookRegistryInterface::class);
