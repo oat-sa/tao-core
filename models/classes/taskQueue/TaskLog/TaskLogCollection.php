@@ -63,9 +63,6 @@ class TaskLogCollection implements CollectionInterface
         return new static([]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function jsonSerialize()
     {
         return $this->toArray();

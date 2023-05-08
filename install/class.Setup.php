@@ -28,7 +28,8 @@ use oat\oatbox\log\logger\TaoLog;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\install\utils\ConfigurationMarkers;
+use oat\tao\model\configurationMarkers\ConfigurationMarkers;
+use oat\tao\model\configurationMarkers\SerializableSecretDtoFactory;
 use oat\tao\model\service\InjectionAwareService;
 use Pimple\Container;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
@@ -226,7 +227,11 @@ class tao_install_Setup implements Action
             throw new InvalidArgumentException('Your config should have a \'default\' key under \'persistences\'');
         }
 
-        $markers = new ConfigurationMarkers($_ENV, new \oat\tao\model\EnvPhpSerializableFactory(), $this->getLogger());
+        //@TODO use $serviceManager->getContainer(ConfigurationMarkers::class) after refactoring taoSetup to use full DI
+        $markers = new ConfigurationMarkers(
+            new SerializableSecretDtoFactory(),
+            $this->getLogger()
+        );
         $parameters = $markers->replaceMarkers($parameters);
 
         foreach ($parameters['configuration'] as $extension => $configs) {

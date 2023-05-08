@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2023 (original work) Open Assessment Technologies SA;
  *
  */
 
@@ -70,26 +71,45 @@ class DataAccessControlChangedListenerTest extends TestCase
     }
 
     /**
-     * @dataProvider provideSuccessfulCases
+     * @dataProvider handleEventSuccessfulCasesDataProvider
      */
-    public function testHandleEventShouldCreateTaskSuccessfully(bool $isRecursive, bool $isclass): void
+    public function testHandleEventShouldCreateTaskSuccessfully(bool $isRecursive): void
     {
         $documentUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
+
         $resource = $this->createMock(core_kernel_classes_Resource::class);
-        $this->advancedSearchChecker->method('isEnabled')->willReturn(true);
 
-        $resource->expects($this->once())->method('getUri')
+        $this->advancedSearchChecker
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $resource
+            ->expects($this->once())
+            ->method('getUri')
             ->willReturn($documentUri);
-        $resource->expects($this->once())->method('isClass')
-            ->willReturn($isclass);
+        $resource
+            ->method('getLabel')
+            ->willReturn('Resource Label');
 
-        $this->logger->expects($this->once())->method('debug')
-            ->with('triggering index update on DataAccessControlChanged event');
+        $this->logger
+            ->expects($this->exactly(2))
+            ->method('debug')
+            ->withConsecutive(
+                ['triggering index update on DataAccessControlChanged event'],
+                [
+                    $this->stringStartsWith(
+                        'Dispatching UpdateDataAccessControlInIndex for root resource'
+                    )
+                ]
+            );
 
-        $this->ontology->expects($this->once())->method('getResource')
+        $this->ontology
+            ->expects($this->once())
+            ->method('getResource')
             ->willReturn($resource);
 
-        $this->queueDispatcher->expects($this->once())
+        $this->queueDispatcher
+            ->expects($this->once())
             ->method('createTask')
             ->with(
                 new UpdateDataAccessControlInIndex(),
@@ -102,20 +122,28 @@ class DataAccessControlChangedListenerTest extends TestCase
                 false
             );
 
-        $this->sut->handleEvent(new DataAccessControlChangedEvent($documentUri, [], $isRecursive));
+        $this->sut->handleEvent(
+            new DataAccessControlChangedEvent(
+                $documentUri,
+                [],
+                $isRecursive,
+                $isRecursive,
+                $documentUri
+            )
+        );
     }
 
-    public function provideSuccessfulCases(): array
+    public function handleEventSuccessfulCasesDataProvider(): array
     {
         return [
             'case event is recursive and resource is NOT a class' => [
-                true, false
+                true,
             ],
             'case event is recursive and resource is a class' => [
-                true, true
+                true,
             ],
             'case event is NOT recursive and resource is not a class' => [
-                false, false
+                false,
             ],
         ];
     }
@@ -127,8 +155,6 @@ class DataAccessControlChangedListenerTest extends TestCase
         $this->advancedSearchChecker->method('isEnabled')->willReturn(true);
 
         $resource->expects($this->never())->method('getUri');
-        $resource->expects($this->once())->method('isClass')
-            ->willReturn(true);
 
         $this->logger->expects($this->once())->method('debug')
             ->with('triggering index update on DataAccessControlChanged event');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA
+ * Copyright (c) 2020-2023 (original work) Open Assessment Technologies SA
  *
  */
 
@@ -36,6 +37,7 @@ use helpers_ExtensionHelper as ExtensionHelper;
  */
 class TaoComparator implements Comparator
 {
+    private const VERSION_REGEX = '/.*Version(\d+)_?(.*)$/';
     /** @var ExtensionsManager  */
     private $extensionsManager;
 
@@ -52,7 +54,7 @@ class TaoComparator implements Comparator
         $this->extensionHelper = $extensionHelper;
     }
 
-    public function compare(Version $a, Version $b) : int
+    public function compare(Version $a, Version $b): int
     {
         $merged = array_merge(
             $this->extensionsManager->getInstalledExtensions(),
@@ -61,13 +63,12 @@ class TaoComparator implements Comparator
         $sortedExtensions = array_flip(array_keys($this->extensionHelper::sortByDependencies($merged)));
         $versionA = (string) $a;
         $versionB = (string) $b;
-        preg_match('/.*Version(\d+)_(.*)$/', $versionA, $matchesA);
-        preg_match('/.*Version(\d+)_(.*)$/', $versionB, $matchesB);
-        list($aClass, $aTime, $aExt) = $matchesA;
-        list($bClass, $bTime, $bExt) = $matchesB;
+        list($aClass, $aTime, $aExt) = $this->matchExtensionName($versionA);
+        list($bClass, $bTime, $bExt) = $this->matchExtensionName($versionB);
         if ($aExt === $bExt) {
             return ((int) $aTime) - ((int) $bTime);
         }
+
         return $sortedExtensions[$aExt] - $sortedExtensions[$bExt];
     }
 
@@ -77,9 +78,21 @@ class TaoComparator implements Comparator
     protected function getMissingExtensions()
     {
         $result = [];
-        foreach ($this->extensionHelper::getMissingExtensionIds($this->extensionsManager->getInstalledExtensions()) as $extId) {
+        $missingExtensions = $this->extensionHelper::getMissingExtensionIds(
+            $this->extensionsManager->getInstalledExtensions()
+        );
+
+        foreach ($missingExtensions as $extId) {
             $result[$extId] = $this->extensionsManager->getExtensionById($extId);
         }
         return $result;
+    }
+
+    private function matchExtensionName(string $version): array
+    {
+        preg_match(self::VERSION_REGEX, $version, $matches);
+        //Make sure that extension name is starting from small letter
+        $matches[2] = lcfirst($matches[2]);
+        return $matches;
     }
 }

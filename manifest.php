@@ -28,26 +28,32 @@
 declare(strict_types=1);
 
 use oat\tao\controller\api\Users;
-use oat\tao\model\export\ServiceProvider\ExportServiceProvider;
-use oat\tao\model\resources\CopierServiceProvider;
 use oat\tao\controller\Middleware\MiddlewareConfig;
+use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
+use oat\tao\helpers\ServiceProvider\HelperServiceProvider;
+use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\AccessControlServiceProvider;
+use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\clientConfig\ClientConfigServiceProvider;
+use oat\tao\model\configurationMarkers\ConfigurationMarkersProvider;
 use oat\tao\model\Csv\CsvServiceProvider;
+use oat\tao\model\export\ServiceProvider\ExportServiceProvider;
+use oat\tao\model\export\ServiceProvider\MetadataServiceProvider as ExportMetadataServiceProvider;
+use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\model\featureVisibility\FeatureVisibilityServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
+use oat\tao\model\LanguageServiceProvider;
+use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
+use oat\tao\model\menu\MenuServiceProvider;
 use oat\tao\model\metadata\ServiceProvider\MetadataServiceProvider;
 use oat\tao\model\Observer\ServiceProvider\ObserverServiceProvider;
+use oat\tao\model\resources\CopierServiceProvider;
 use oat\tao\model\resources\ResourcesServiceProvider;
-use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
-use oat\tao\helpers\form\ServiceProvider\FormServiceProvider;
-use oat\tao\install\services\SetupSettingsStorage;
-use oat\tao\model\accessControl\func\AccessRule;
-use oat\tao\model\export\ServiceProvider\MetadataServiceProvider as ExportMetadataServiceProvider;
-use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
 use oat\tao\model\search\ServiceProvider\SearchServiceProvider;
+use oat\tao\model\StatisticalMetadata\StatisticalMetadataServiceProvider;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\user\UserSettingsServiceProvider;
 use oat\tao\model\LanguageServiceProvider;
@@ -57,9 +63,10 @@ use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
 use oat\tao\scripts\install\CreateRdsListStore;
 use oat\tao\scripts\install\CreateWebhookEventLogTable;
+use oat\tao\scripts\install\EnableFuriganaRubyPlugin;
 use oat\tao\scripts\install\InstallNotificationTable;
-use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterActionAccessControl;
+use oat\tao\scripts\install\RegisterActionService;
 use oat\tao\scripts\install\RegisterClassMetadataServices;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEvent;
 use oat\tao\scripts\install\RegisterClassPropertiesChangedEventListener;
@@ -90,7 +97,6 @@ use oat\tao\scripts\install\SetServiceState;
 use oat\tao\scripts\install\SetupMaintenanceService;
 use oat\tao\scripts\install\SetUpQueueTasks;
 use oat\tao\scripts\update\Updater;
-use oat\tao\model\StatisticalMetadata\StatisticalMetadataServiceProvider;
 
 $extpath = __DIR__ . DIRECTORY_SEPARATOR;
 
@@ -102,7 +108,7 @@ return [
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'models' => [
         'http://www.tao.lu/Ontologies/TAO.rdf',
-        'http://www.tao.lu/middleware/wfEngine.rdf'
+        'http://www.tao.lu/middleware/wfEngine.rdf',
     ],
     'install' => [
         'rdf' => [
@@ -117,7 +123,7 @@ return [
             __DIR__ . '/models/ontology/requiredaction.rdf',
             __DIR__ . '/models/ontology/auth/basicauth.rdf',
             __DIR__ . '/models/ontology/webhook.rdf',
-            __DIR__ . '/models/ontology/userlocks.rdf'
+            __DIR__ . '/models/ontology/userlocks.rdf',
         ],
         'checks' => [
             ['type' => 'CheckPHPRuntime', 'value' => ['id' => 'tao_php_runtime', 'min' => '5.4']],
@@ -134,7 +140,7 @@ return [
                     'id' => 'tao_extension_suhosin',
                     'name' => 'suhosin',
                     'silent' => true,
-                ]
+                ],
             ],
             ['type' => 'CheckPHPExtension', 'value' => ['id' => 'tao_extension_php_finfo', 'name' => 'fileinfo']],
             [
@@ -143,8 +149,8 @@ return [
                     'id' => 'tao_extension_opcache',
                     'name' => 'opcache',
                     'optional' => true,
-                    'extension' => 'tao'
-                ]
+                    'extension' => 'tao',
+                ],
             ],
             [
                 'type' => 'CheckPHPINIValue',
@@ -152,8 +158,8 @@ return [
                     'id' => 'tao_ini_opcache_save_comments',
                     'name' => 'opcache.save_comments',
                     'value' => '1',
-                    'dependsOn' => ['tao_extension_opcache']
-                ]
+                    'dependsOn' => ['tao_extension_opcache'],
+                ],
             ],
             [
                 'type' => 'CheckCustom',
@@ -161,8 +167,8 @@ return [
                     'id' => 'tao_ini_opcache_load_comments',
                     'name' => 'opcache_load_comments',
                     'extension' => 'tao',
-                    'dependsOn' => ['tao_extension_opcache']
-                ]
+                    'dependsOn' => ['tao_extension_opcache'],
+                ],
             ],
             [
                 'type' => 'CheckPHPINIValue',
@@ -170,8 +176,8 @@ return [
                     'id' => 'tao_ini_suhosin_post_max_name_length',
                     'name' => 'suhosin.post.max_name_length',
                     'value' => '128',
-                    'dependsOn' => ['tao_extension_suhosin']
-                ]
+                    'dependsOn' => ['tao_extension_suhosin'],
+                ],
             ],
             [
                 'type' => 'CheckPHPINIValue',
@@ -179,8 +185,8 @@ return [
                     'id' => 'tao_ini_suhosin_request_max_varname_length',
                     'name' => 'suhosin.request.max_varname_length',
                     'value' => '128',
-                    'dependsOn' => ['tao_extension_suhosin']
-                ]
+                    'dependsOn' => ['tao_extension_suhosin'],
+                ],
             ],
             [
                 'type' => 'CheckFileSystemComponent',
@@ -188,8 +194,8 @@ return [
                     'id' => 'fs_generis_common_conf',
                     'location' => 'config',
                     'rights' => 'rw',
-                    'recursive' => true
-                ]
+                    'recursive' => true,
+                ],
             ],
             [
                 'type' => 'CheckFileSystemComponent',
@@ -200,9 +206,9 @@ return [
                     'id' => 'tao_custom_not_nginx',
                     'name' => 'not_nginx',
                     'extension' => 'tao',
-                    "optional" => true,
-                    'dependsOn' => ['tao_extension_curl']
-                ]
+                    'optional' => true,
+                    'dependsOn' => ['tao_extension_curl'],
+                ],
             ],
             [
                 'type' => 'CheckCustom',
@@ -210,9 +216,9 @@ return [
                     'id' => 'tao_custom_allowoverride',
                     'name' => 'allow_override',
                     'extension' => 'tao',
-                    "optional" => true,
-                    'dependsOn' => ['tao_custom_not_nginx']
-                ]
+                    'optional' => true,
+                    'dependsOn' => ['tao_custom_not_nginx'],
+                ],
             ],
             [
                 'type' => 'CheckCustom',
@@ -220,12 +226,12 @@ return [
                     'id' => 'tao_custom_mod_rewrite',
                     'name' => 'mod_rewrite',
                     'extension' => 'tao',
-                    'dependsOn' => ['tao_custom_allowoverride']
-                ]
+                    'dependsOn' => ['tao_custom_allowoverride'],
+                ],
             ],
             [
                 'type' => 'CheckCustom',
-                'value' => ['id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao']
+                'value' => ['id' => 'tao_custom_database_drivers', 'name' => 'database_drivers', 'extension' => 'tao'],
             ],
         ],
         'php' => [
@@ -270,13 +276,14 @@ return [
             RegisterTaoUpdateEventListener::class,
             RegisterActionAccessControl::class,
             RegisterRtlLocales::class,
-            RegisterSearchServices::class
+            RegisterSearchServices::class,
+            EnableFuriganaRubyPlugin::class,
         ],
     ],
     'update' => Updater::class,
     'optimizableClasses' => [
         'http://www.tao.lu/Ontologies/TAO.rdf#Languages',
-        'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages'
+        'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages',
     ],
     'managementRole' => TaoRoles::TAO_MANAGER,
     'acl' => [
@@ -287,7 +294,7 @@ return [
         [
             AccessRule::GRANT,
             TaoRoles::ANONYMOUS,
-            ['ext' => 'tao', 'mod' => 'PasswordRecovery', 'act' => 'resetPassword']
+            ['ext' => 'tao', 'mod' => 'PasswordRecovery', 'act' => 'resetPassword'],
         ],
         [AccessRule::GRANT, TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'ClientConfig']],
         [AccessRule::GRANT, TaoRoles::ANONYMOUS, ['ext' => 'tao', 'mod' => 'Health']],
@@ -348,9 +355,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2023.03',
+        'TAO_VERSION' => '2023.06',
         #TAO version label
-        'TAO_VERSION_NAME' => '2023.03',
+        'TAO_VERSION_NAME' => '2023.06',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
@@ -400,9 +407,13 @@ return [
         FeatureVisibilityServiceProvider::class,
         CopierServiceProvider::class,
         SearchServiceProvider::class,
-        WebhookServiceProvider::class
+        WebhookServiceProvider::class,
+        ConfigurationMarkersProvider::class,
+        ClientConfigServiceProvider::class,
+        HelperServiceProvider::class,
+        MenuServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
-    ]
+    ],
 ];

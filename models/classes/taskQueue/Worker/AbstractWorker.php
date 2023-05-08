@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017-2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -73,14 +73,33 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
             $report = Report::createInfo(__('Running task %s', $task->getId()));
             try {
                 $this->startUserSession($task);
-                $this->logInfo('Processing task ' . $task->getId(), $this->getLogContext());
+
+                $this->logInfo(
+                    sprintf(
+                        'Processing task %s [%s]',
+                        $this->formatTaskLabel($task),
+                        $task->getId()
+                    ),
+                    $this->getLogContext()
+                );
 
                 //Database operation in task log
-                $rowsTouched = $this->taskLog->setStatus($task->getId(), TaskLogInterface::STATUS_RUNNING, TaskLogInterface::STATUS_DEQUEUED);
+                $rowsTouched = $this->taskLog->setStatus(
+                    $task->getId(),
+                    TaskLogInterface::STATUS_RUNNING,
+                    TaskLogInterface::STATUS_DEQUEUED
+                );
 
                 // if the task is being executed by another worker, just return, no report needs to be saved
                 if (!$rowsTouched) {
-                    $this->logInfo('Task ' . $task->getId() . ' seems to be processed by another worker.', $this->getLogContext());
+                    $this->logInfo(
+                        sprintf(
+                            'Task %s [%s] seems to be processed by another worker.',
+                            $this->formatTaskLabel($task),
+                            $task->getId()
+                        ),
+                        $this->getLogContext()
+                    );
                     return TaskLogInterface::STATUS_UNKNOWN;
                 }
 
@@ -93,10 +112,24 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
                 // execute the task
                 $taskReport = $task();
 
-                $this->logInfo('Task ' . $task->getId() . ' has been processed.', $this->getLogContext());
+                $this->logInfo(
+                    sprintf(
+                        'Task %s [%s] has been processed.',
+                        $this->formatTaskLabel($task),
+                        $task->getId()
+                    ),
+                    $this->getLogContext()
+                );
 
                 if (!$taskReport instanceof Report) {
-                    $this->logWarning('Task ' . $task->getId() . ' should return a report object.', $this->getLogContext());
+                    $this->logWarning(
+                        sprintf(
+                            'Task %s [%s] should return a report object.',
+                            $this->formatTaskLabel($task),
+                            $task->getId()
+                        ),
+                        $this->getLogContext()
+                    );
                     //todo: isn't this message confusinig?
                     $taskReport = Report::createInfo(__('Task not returned any report.'));
                 }
@@ -105,10 +138,27 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
 
                 unset($taskReport, $rowsTouched);
             } catch (\Error $e) {
-                $this->logCritical('Executing task ' . $task->getId() . ' failed with MSG: ' . $e->getMessage(), $this->getLogContext());
+                $this->logCritical(
+                    sprintf(
+                        'Executing task %s [%] failed with MSG: %s',
+                        $this->formatTaskLabel($task),
+                        $task->getId(),
+                        $e->getMessage()
+                    ),
+                    $this->getLogContext()
+                );
+
                 $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
             } catch (\Exception $e) {
-                $this->logError('Executing task ' . $task->getId() . ' failed with MSG: ' . $e->getMessage(), $this->getLogContext());
+                $this->logError(
+                    sprintf(
+                        'Executing task %s [%s] failed with MSG: %s',
+                        $this->formatTaskLabel($task),
+                        $task->getId(),
+                        $e->getMessage()
+                    ),
+                    $this->getLogContext()
+                );
                 $report = Report::createFailure(__('Executing task %s failed', $task->getId()));
             }
 
@@ -124,13 +174,20 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
 
             $cloneCreated = false;
 
-            // if the task is a special sync task: the status of the parent task depends on the status of the remote task.
+            // Check if the task is a special sync task: The status of the parent task depends on the status of the
+            // remote task.
             if ($this->isRemoteTaskSynchroniser($task) && $status == TaskLogInterface::STATUS_COMPLETED) {
                 // if the remote task is still in progress, we have to reschedule this task
                 // the RESTApi returns TaskLogCategorizedStatus values
-                if (in_array($this->getRemoteStatus($task), [CategorizedStatus::STATUS_CREATED, CategorizedStatus::STATUS_IN_PROGRESS])) {
+                if (
+                    in_array(
+                        $this->getRemoteStatus($task),
+                        [CategorizedStatus::STATUS_CREATED, CategorizedStatus::STATUS_IN_PROGRESS]
+                    )
+                ) {
                     if ($this->queuer->count() <= 1) {
-                        //if there is less than or exactly one task in the queue, let's sleep a bit, in order not to regenerate the same task too much
+                        // If there is less than or exactly one task in the queue, let's sleep a bit
+                        // in order not to regenerate the same task too much
                         sleep(3);
                     }
 
@@ -175,6 +232,18 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
         return $status;
     }
 
+    protected function formatTaskLabel(TaskInterface $task): string
+    {
+        $label = $task->getLabel();
+
+        if (!is_string($label)) {
+            return '';
+        }
+
+        return strlen($label) > 255 ? '...' . substr($label, -252) : $label;
+    }
+
+
     protected function getLogContext()
     {
         return [];
@@ -189,12 +258,15 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
     {
         /** @var SessionService $sessionService */
         $sessionService = $this->getServiceLocator()->get(SessionService::class);
-        if ($task->getOwner() && $sessionService->getCurrentSession()->getUser()->getIdentifier() !== $task->getOwner()) {
+        if (
+            $task->getOwner()
+            && $sessionService->getCurrentSession()->getUser()->getIdentifier() !== $task->getOwner()
+        ) {
             $user = $this->getUserFactoryService()->createUser($this->getResource($task->getOwner()));
             $session = new StatelessSession($user);
             $sessionService->setSession($session);
         // Create Anonymous session if no owner
-        } else if (!$task->getOwner()) {
+        } elseif (!$task->getOwner()) {
             \common_session_SessionManager::endSession();
         }
     }
@@ -205,7 +277,9 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
      */
     private function isRemoteTaskSynchroniser(TaskInterface $task)
     {
-        return $task instanceof RemoteTaskSynchroniserInterface || ($task instanceof CallbackTaskInterface && $task->getCallable() instanceof RemoteTaskSynchroniserInterface);
+        return $task instanceof RemoteTaskSynchroniserInterface
+            || ($task instanceof CallbackTaskInterface
+                && $task->getCallable() instanceof RemoteTaskSynchroniserInterface);
     }
 
     /**
@@ -214,7 +288,9 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
      */
     private function getRemoteStatus(TaskInterface $task)
     {
-        return $task instanceof CallbackTaskInterface ? $task->getCallable()->getRemoteStatus() : $task->getRemoteStatus();
+        return $task instanceof CallbackTaskInterface
+            ? $task->getCallable()->getRemoteStatus()
+            : $task->getRemoteStatus();
     }
 
     /**

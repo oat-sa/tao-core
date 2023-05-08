@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2018-2022 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2018-2023 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
@@ -23,9 +23,9 @@ declare(strict_types=1);
 namespace oat\tao\model\security\xsrf;
 
 use common_exception_Error;
+use common_persistence_PhpRedisDriver;
 use Psr\Container\ContainerInterface;
 use oat\oatbox\session\SessionService;
-use common_persistence_KeyValuePersistence;
 use oat\oatbox\service\ConfigurableService;
 use common_persistence_AdvKeyValuePersistence;
 use oat\generis\persistence\PersistenceManager;
@@ -42,51 +42,34 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
 
     public const TOKENS_STORAGE_KEY = 'tao_tokens';
 
-    /** @var common_persistence_KeyValuePersistence */
-    private $persistence;
-
-    /** @var string */
-    private $keyPrefix;
+    private common_persistence_AdvKeyValuePersistence $persistence;
+    private string $keyPrefix;
 
     public function getToken(string $tokenId): ?Token
     {
-        if (!$this->hasToken($tokenId)) {
-            return null;
-        }
+        $tokenData = $this->getPersistence()->hGet($this->getKey(), $tokenId);
 
-        $tokenData = $this->getPersistence()->get($this->buildKey($tokenId));
-
-        return new Token(json_decode($tokenData, true));
+        return is_string($tokenData) ? new Token(json_decode($tokenData, true)) : null;
     }
 
     public function setToken(string $tokenId, Token $token): void
     {
-        $this->getPersistence()->set(
-            $this->buildKey($tokenId),
-            json_encode($token),
-            $this->getTtl()
-        );
+        $this->getPersistence()->hSet($this->getKey(), $tokenId, json_encode($token));
     }
 
     public function hasToken(string $tokenId): bool
     {
-        return $this->getPersistence()->exists($this->buildKey($tokenId));
+        return $this->getPersistence()->hExists($this->getKey(), $tokenId);
     }
 
     public function removeToken(string $tokenId): bool
     {
-        if (!$this->hasToken($tokenId)) {
-            return false;
-        }
-
-        return $this->getPersistence()->del($this->buildKey($tokenId));
+        return $this->getPersistence()->hDel($this->getKey(), $tokenId);
     }
 
     public function clear(): void
     {
-        foreach ($this->getKeys() as $key) {
-            $this->getPersistence()->del($key);
-        }
+        $this->getPersistence()->del($this->getKey());
     }
 
     /**
@@ -94,11 +77,18 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
      */
     public function getAll(): array
     {
+        $tokensData = $this->getPersistence()->hGetAll($this->getKey());
+
+        if (!is_array($tokensData)) {
+            return [];
+        }
+
         $tokens = [];
 
-        foreach ($this->getKeys() as $key) {
-            $tokenData = $this->getPersistence()->get($key);
-            $tokens[] = new Token(json_decode($tokenData, true));
+        foreach ($tokensData as $tokenData) {
+            if (is_string($tokenData)) {
+                $tokens[] = new Token(json_decode($tokenData, true));
+            }
         }
 
         return $tokens;
@@ -129,7 +119,7 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
     /**
      * @throws common_exception_Error
      */
-    protected function getKeyPrefix(): string
+    protected function getKey(): string
     {
         if (!isset($this->keyPrefix)) {
             $this->keyPrefix = sprintf(
@@ -142,21 +132,69 @@ class TokenStoreKeyValue extends ConfigurableService implements TokenStore
         return $this->keyPrefix;
     }
 
-    private function getKeys(): array
+    /**
+     * @param int $uSleepInterval Microseconds interval between scan/keys to perform deletion
+     * @param int $timeLimit Expiration time for tokens, 0 means, no expiration
+     * @return int - The total deleted records
+     */
+    public function clearAll(int $uSleepInterval, int $timeLimit = 0): int
     {
-        $keys = $this->getPersistence()->keys($this->getKeyPrefix() . '*');
+        $persistence = $this->getPersistence();
+        $driver = $persistence->getDriver();
+        $pattern = sprintf('*%s*', self::TOKENS_STORAGE_KEY);
+        $countDeleted = 0;
 
-        return is_array($keys) ? $keys : [];
+        if ($driver instanceof common_persistence_PhpRedisDriver) {
+            $iterator = null;
+
+            while ($iterator !== 0) {
+                foreach ($driver->scan($iterator, $pattern) as $key) {
+                    $countDeleted += $this->deleteAllExpiredByKey($key, $timeLimit);
+                }
+
+                usleep($uSleepInterval);
+            }
+
+            return $countDeleted;
+        }
+
+        $keys = $persistence->keys($pattern);
+        $keys = is_array($keys) ? $keys : [];
+
+        foreach ($keys as $key) {
+            $countDeleted += $this->deleteAllExpiredByKey($key, $timeLimit);
+        }
+
+        return $countDeleted;
     }
 
-    private function buildKey(string $name): string
+    private function deleteAllExpiredByKey(string $key, int $timeLimit): int
     {
-        return sprintf('%s_%s', $this->getKeyPrefix(), $name);
-    }
+        $persistence = $this->getPersistence();
+        $tokensData = $persistence->hGetAll($key);
+        $countDeleted = 0;
 
-    private function getTtl(): ?int
-    {
-        return ((int) $this->getOption(self::OPTION_TTL)) ?: null;
+        if (empty($tokensData)) {
+            if ($persistence->del($key)) {
+                return 1;
+            }
+        }
+
+        foreach ($tokensData as $tokenData) {
+            if (is_string($tokenData)) {
+                $token = new Token(json_decode($tokenData, true));
+
+                if (!$token->isExpired($timeLimit)) {
+                    continue;
+                }
+
+                if ($persistence->hDel($key, $token->getValue())) {
+                    $countDeleted++;
+                }
+            }
+        }
+
+        return $countDeleted;
     }
 
     private function getPersistenceManager(): PersistenceManager

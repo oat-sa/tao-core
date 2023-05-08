@@ -146,10 +146,7 @@ abstract class TaskLogEntityDecorator implements EntityInterface
         return $this->entity->getResourceUriFromReport();
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->entity->jsonSerialize();
     }

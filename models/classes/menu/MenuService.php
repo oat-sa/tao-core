@@ -15,37 +15,46 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2014      (update and modification) Open Assessment Technologies SA;
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2014-2023 (update and modification) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\model\menu;
+
+use common_ext_ExtensionsManager;
+use helpers_ExtensionHelper;
+use SimpleXMLElement;
 
 /**
  * @author joel bout, <joel@taotesting.com>
  */
 class MenuService
 {
-
     /**
      * identifier to use to cache the structures
+     *
      * @var string
      */
-    const CACHE_KEY = 'tao_structures';
+    public const CACHE_KEY = 'tao_structures';
 
     /**
      * Use caching mechanism for the structure.
      * For performances issues, cache should be enabled.
+     *
      * @var boolean
      */
-    const USE_CACHE = true;
+    public const USE_CACHE = true;
 
     /**
      * to stock the extension structure
      *
      * @access protected
+     *
      * @var array
      */
     protected static $structure = [];
@@ -57,13 +66,17 @@ class MenuService
      * Return the SimpleXmlElement object (don't forget to cast it)
      *
      * @access protected
+     *
      * @author Jerome Bogaerts, <jerome@taotesting.com>
+     *
      * @param  string extensionId
+     * @param mixed $extensionId
+     *
      * @return SimpleXMLElement
      */
     public static function getStructuresFilePath($extensionId)
     {
-        $extension = \common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
+        $extension = common_ext_ExtensionsManager::singleton()->getExtensionById($extensionId);
         $extra = $extension->getManifest()->getExtra();
         if (isset($extra['structures'])) {
             $structureFilePath = $extra['structures'];
@@ -73,14 +86,15 @@ class MenuService
 
         if (file_exists($structureFilePath)) {
             return $structureFilePath;
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
      * Get the structure content (from the structure.xml file) of each extension filtered by group.
+     *
      * @param $groupId
+     *
      * @return array
      */
     public static function getPerspectivesByGroup($groupId)
@@ -96,6 +110,7 @@ class MenuService
 
     /**
      * Get the structure content (from the structure.xml file) of each extension.
+     *
      * @return array
      */
     public static function getAllPerspectives()
@@ -105,8 +120,17 @@ class MenuService
     }
 
     /**
+     * @return Perspective[]
+     */
+    public function retrieveAllPerspectives(): array
+    {
+        return self::getAllPerspectives();
+    }
+
+    /**
      * Reads the structure data.
      * This method manages to cache the structure if needed.
+     *
      * @return array() the structure data
      */
     public static function readStructure()
@@ -130,18 +154,21 @@ class MenuService
 
     /**
      * Get the structure content (from the structure.xml file) of each extension.
+     *
      * @return array
      */
     protected static function buildStructures()
     {
         $perspectives = [];
         $toAdd = [];
-        $sorted = \helpers_ExtensionHelper::sortByDependencies(\common_ext_ExtensionsManager::singleton()->getEnabledExtensions());
+        $sorted = helpers_ExtensionHelper::sortByDependencies(
+            common_ext_ExtensionsManager::singleton()->getEnabledExtensions()
+        );
         foreach (array_keys($sorted) as $extId) {
             $file = self::getStructuresFilePath($extId);
             if (!is_null($file)) {
-                $xmlStructures = new \SimpleXMLElement($file, null, true);
-                $extStructures = $xmlStructures->xpath("/structures/structure");
+                $xmlStructures = new SimpleXMLElement($file, null, true);
+                $extStructures = $xmlStructures->xpath('/structures/structure');
                 foreach ($extStructures as $xmlStructure) {
                     $perspective = Perspective::fromSimpleXMLElement($xmlStructure, $extId);
                     if (!isset($perspectives[$perspective->getId()])) {
@@ -152,7 +179,7 @@ class MenuService
                         }
                     }
                 }
-                foreach ($xmlStructures->xpath("/structures/toolbar/toolbaraction") as $xmlStructure) {
+                foreach ($xmlStructures->xpath('/structures/toolbar/toolbaraction') as $xmlStructure) {
                     $perspective = Perspective::fromLegacyToolbarAction($xmlStructure, $extId);
                     $perspectives[$perspective->getId()] = $perspective;
                     if (isset($xmlStructure['structure'])) {
@@ -175,7 +202,7 @@ class MenuService
         });
 
         return [
-            'perspectives' => $perspectives
+            'perspectives' => $perspectives,
         ];
     }
 
@@ -184,9 +211,14 @@ class MenuService
      * or null if not found
      *
      * @access public
+     *
      * @author Jerome Bogaerts, <jerome@taotesting.com>
+     *
      * @param  string extension
      * @param  string perspectiveId
+     * @param mixed $extension
+     * @param mixed $perspectiveId
+     *
      * @return Structure
      */
     public static function getPerspective($extension, $perspectiveId)
@@ -210,10 +242,16 @@ class MenuService
      * Short description of method getSection
      *
      * @access public
+     *
      * @author Jerome Bogaerts, <jerome@taotesting.com>
+     *
      * @param  string extension
      * @param  string perspectiveId
      * @param  string sectionId
+     * @param mixed $extension
+     * @param mixed $perspectiveId
+     * @param mixed $sectionId
+     *
      * @return Section
      */
     public static function getSection($extension, $perspectiveId, $sectionId)
@@ -233,7 +271,6 @@ class MenuService
 
         return $returnValue;
     }
-
 
     public static function flushCache()
     {
