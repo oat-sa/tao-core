@@ -30,6 +30,8 @@ use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\model\user\TaoRoles;
+use oat\tao\model\user\UserSettingsServiceProvider;
+use oat\tao\model\LanguageServiceProvider;
 use oat\tao\model\webhooks\WebhookServiceProvider;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
