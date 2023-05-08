@@ -23,6 +23,7 @@
  *
  * @access public
  */
+// phpcs:ignore PSR1.Classes.ClassDeclaration.MissingNamespace, Squiz.Classes.ValidClassName.NotCamelCaps
 class tao_helpers_form_elements_AuthWidget extends tao_helpers_form_elements_xhtml_Textbox
 {
     public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AuthIdentity';
