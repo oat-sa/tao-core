@@ -24,6 +24,7 @@ namespace oat\tao\scripts\update;
 
 use oat\oatbox\extension\AbstractAction;
 use oat\oatbox\reporting\Report;
+use oat\oatbox\service\ServiceManager;
 use oat\oatbox\service\ServiceNotFoundException;
 use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\func\AclProxy;
@@ -36,7 +37,10 @@ class MigrateWebhooksConfigsFromFileToRdf extends AbstractAction
 {
     public function __invoke($params)
     {
+        OntologyUpdater::syncModels();
+
         $serviceManager = $this->getServiceManager();
+        $serviceManager->getContainerBuilder()->forceBuild();
 
         try {
             /** @var WebhookFileRegistry $fileRegistry */
@@ -59,7 +63,6 @@ class MigrateWebhooksConfigsFromFileToRdf extends AbstractAction
 
         $rdfRegistry = $serviceManager->getContainer()->get(WebhookRdfRegistry::class);
 
-
         $webHooks = $fileRegistry->getWebhooks();
         $preparedWebHooks = [];
         foreach ($webHooks as $webHook) {
@@ -74,7 +77,6 @@ class MigrateWebhooksConfigsFromFileToRdf extends AbstractAction
             }
         }
 
-        OntologyUpdater::syncModels();
         MenuService::flushCache();
         AclProxy::applyRule(new AccessRule(
             AccessRule::GRANT,
