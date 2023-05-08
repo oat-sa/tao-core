@@ -49,7 +49,7 @@ class WebhookRdfRegistry implements WebhookRegistryInterface
 
     public function getWebhookConfigIds($eventName): array
     {
-        $webHooks = $this->getClassService()->getWebhookByEventClass($eventName);
+        $webHooks = $this->getClassService()->findWebhookByEventClass($eventName);
 
         return array_map(static function (core_kernel_classes_Resource $webHook) {
             return $webHook->getUri();

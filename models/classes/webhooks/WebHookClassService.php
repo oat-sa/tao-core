@@ -75,7 +75,7 @@ class WebHookClassService extends OntologyClassService implements ServiceLocator
         return $this->rdfInstanceToEntity($webhookClass);
     }
 
-    public function getWebhookByEventClass(string $eventClassName): array
+    public function findWebhookByEventClass(string $eventClassName): array
     {
         $rootClass = $this->getRootClass();
         $webhookInstances = $rootClass->getInstances(false);

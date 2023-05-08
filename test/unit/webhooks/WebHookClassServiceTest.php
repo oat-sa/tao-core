@@ -137,7 +137,7 @@ class WebHookClassServiceTest extends TestCase
         $this->webhookService->saveWebhook($webHook, []);
     }
 
-    public function testGetWebhookByEventClass(): void
+    public function testFindWebhookByEventClass(): void
     {
         $property = $this->createMock(Property::class);
         $this->webhookService->method('getProperty')->willReturn($property);
@@ -150,7 +150,7 @@ class WebHookClassServiceTest extends TestCase
         $rootClass->method('getInstances')->willReturn([$resource]);
         $this->webhookService->method('getRootClass')->willReturn($rootClass);
 
-        $result = $this->webhookService->getWebhookByEventClass('eventName');
+        $result = $this->webhookService->findWebhookByEventClass('eventName');
 
         self::assertCount(1, $result);
     }

@@ -219,10 +219,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
         return [self::SERVICE_ID, 'handleEvent'];
     }
 
-    /**
-     * @return WebhookRegistryInterface
-     */
-    private function getWebhookRegistry()
+    private function getWebhookRegistry(): WebhookRegistryInterface
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->getContainer()->get(WebhookRegistryInterface::class);

@@ -35,7 +35,7 @@ use oat\tao\model\webhooks\WebhookRdfRegistry;
 
 class MigrateWebhooksConfigsFromFileToRdf extends AbstractAction
 {
-    public function __invoke($params)
+    public function __invoke($params): Report
     {
         OntologyUpdater::syncModels();
 
