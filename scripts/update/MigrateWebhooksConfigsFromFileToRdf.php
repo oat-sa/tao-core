@@ -45,8 +45,6 @@ class MigrateWebhooksConfigsFromFileToRdf extends AbstractAction
         try {
             /** @var WebhookFileRegistry $fileRegistry */
             $fileRegistry = $serviceManager->get(WebhookFileRegistry::SERVICE_ID);
-
-
         } catch (ServiceNotFoundException $e) {
             $message = 'WebhookFileRegistry not found';
             $this->logError($message);
