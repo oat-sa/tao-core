@@ -56,7 +56,6 @@ use oat\tao\model\search\ServiceProvider\SearchServiceProvider;
 use oat\tao\model\StatisticalMetadata\StatisticalMetadataServiceProvider;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\user\UserSettingsServiceProvider;
-use oat\tao\model\LanguageServiceProvider;
 use oat\tao\model\webhooks\WebhookServiceProvider;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
