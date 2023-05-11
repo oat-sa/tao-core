@@ -84,9 +84,9 @@ class RegisterEventWebhook extends ScriptAction
                 'required' => false,
                 'description' => 'Provide authentication class that you want to use'
             ],
-            'cred' => [
+            'credentials' => [
                 'prefix' => 'c',
-                'longPrefix' => 'cred',
+                'longPrefix' => 'credentials',
                 'flag' => false,
                 'required' => false,
                 'description' => 'Provide authentication parameters in format login:password'
@@ -154,7 +154,7 @@ class RegisterEventWebhook extends ScriptAction
     {
         if ($authenticationClass = $this->getOption('auth')) {
             if ($this->isAuthenticationClassIsValid($authenticationClass)) {
-                $credentialsParams = explode(':', $this->getOption('cred') ?? '');
+                $credentialsParams = explode(':', $this->getOption('credentials') ?? '');
                 $credentials = $credentialsParams === ['']
                     ? []
                     : array_combine(['login', 'password'], $credentialsParams);
