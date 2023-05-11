@@ -19,7 +19,7 @@
         "@babel/preset-env": "^7.21.5",
         "@oat-sa/browserslist-config-tao": "^1.0.1",
         "@oat-sa/eslint-config-tao": "^2.0.0",
-        "@oat-sa/grunt-tao-bundle": "https://github.com/oat-sa/grunt-tao-bundle.git#feature/ADF-1417/upgrade-to-node18",
+        "@oat-sa/grunt-tao-bundle": "^1.0.0",
         "@oat-sa/prettier-config": "^0.1.1",
         "almond": "^0.3.3",
         "eslint": "^8.39.0",
