@@ -33,7 +33,6 @@ use oat\tao\model\upload\UploadService;
  */
 class tao_helpers_form_validators_FileMimeType extends tao_helpers_form_Validator
 {
-
     protected function getDefaultMessage()
     {
         return __('Invalid file type!');

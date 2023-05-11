@@ -34,7 +34,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  */
 class SessionSubstitutionServiceTest extends TaoPhpUnitTestRunner
 {
-
     private $testUserUri = 'http://sample/first.rdf#tessionSubstitutionServiceTestUser';
 
     public function setUp(): void

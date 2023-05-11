@@ -40,6 +40,7 @@ use common_ext_Extension as Extension;
 class UpdateExtensions extends \common_ext_UpdateExtensions
 {
     use EventManagerAwareTrait;
+
     /**
      * (non-PHPdoc)
      * @see \oat\oatbox\action\Action::__invoke()
@@ -106,7 +107,8 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         } catch (\Exception $e) {
             \common_Logger::e($e->getMessage());
             $report->add(
-                new Report(Report::TYPE_WARNING, __('Unable to update the asset service')));
+                new Report(Report::TYPE_WARNING, __('Unable to update the asset service'))
+            );
         }
     }
 
@@ -126,7 +128,8 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         }
         if (!$report->hasChildren()) {
             $report->add(
-                new Report(Report::TYPE_INFO, 'No actions to be executed'));
+                new Report(Report::TYPE_INFO, 'No actions to be executed')
+            );
         }
         return $report;
     }

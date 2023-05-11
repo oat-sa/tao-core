@@ -38,16 +38,16 @@ use oat\tao\model\service\ApplicationService;
  */
 class AssetService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/asset';
+    public const SERVICE_ID = 'tao/asset';
 
     //the query param key of the cache buster
-    const BUSTER_QUERY_KEY = 'buster';
+    public const BUSTER_QUERY_KEY = 'buster';
 
     //key to get the base
-    const BASE_OPTION_KEY  = 'base';
+    public const BASE_OPTION_KEY  = 'base';
 
     //key to get the buster value
-    const BUSTER_OPTION_KEY = 'buster';
+    public const BUSTER_OPTION_KEY = 'buster';
 
     /**
      * Get the full URL of an asset or a folder

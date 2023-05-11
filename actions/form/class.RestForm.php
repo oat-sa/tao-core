@@ -19,9 +19,9 @@
  *
  */
 
-use \oat\generis\model\OntologyAwareTrait;
-use \oat\tao\helpers\form\ValidationRuleRegistry;
-use \oat\oatbox\validator\ValidatorInterface;
+use oat\generis\model\OntologyAwareTrait;
+use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -34,8 +34,8 @@ class tao_actions_form_RestForm
 {
     use OntologyAwareTrait;
 
-    const PROPERTIES = 'properties';
-    const RANGES = 'ranges';
+    public const PROPERTIES = 'properties';
+    public const RANGES = 'ranges';
 
     /** @var core_kernel_classes_Class|null The class where the resource is */
     protected $class = null;

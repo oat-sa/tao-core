@@ -16,7 +16,6 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
  */
 final class Version202110191149472235_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'This migration will add fa-AF locale to RTL map';

@@ -31,7 +31,6 @@ use oat\tao\model\OntologyClassService;
  */
 class CleanClass extends AbstractAction
 {
-
     /**
      * @var \core_kernel_classes_Class
      */

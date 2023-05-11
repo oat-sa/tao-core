@@ -16,7 +16,6 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
  */
 final class Version202110191349112234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'This migration will add ckb-IR locale to RTL map';

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,7 +33,6 @@
  */
 class tao_install_services_InstallService extends tao_install_services_Service
 {
-    
     /**
      * Creates a new instance of the service.
      * @param tao_install_services_Data $data The input data to be handled by the service.
@@ -42,7 +42,7 @@ class tao_install_services_InstallService extends tao_install_services_Service
     {
         parent::__construct($data);
     }
-    
+
     /**
      * Executes the main logic of the service.
      * @return tao_install_services_Data The result of the service execution.
@@ -50,7 +50,7 @@ class tao_install_services_InstallService extends tao_install_services_Service
     public function execute()
     {
         $content = json_decode($this->getData()->getContent(), true);
-        
+
         //instantiate the installator
         try {
             set_error_handler([get_class($this), 'onError']);
@@ -66,7 +66,7 @@ class tao_install_services_InstallService extends tao_install_services_Service
             );
 
             $installer = new tao_install_Installator($container);
-            
+
             // For the moment, we force English as default language.
             $content['value']['module_lang'] = 'en-US';
             // fallback until ui is ready
@@ -74,11 +74,11 @@ class tao_install_services_InstallService extends tao_install_services_Service
                 $content['value']['file_path'] =  TAO_INSTALL_PATH . 'data' . DIRECTORY_SEPARATOR;
             }
             $installer->install($content['value']);
-            
+
             $installationLog = $installer->getLog();
             $message = (isset($installationLog['e']) || isset($installationLog['f']) || isset($installationLog['w'])) ?
                 'Installation complete (warnings occurred)' : 'Installation successful.';
-            
+
             $report = [
                 'type' => 'InstallReport',
                 'value' => [
@@ -88,7 +88,7 @@ class tao_install_services_InstallService extends tao_install_services_Service
                 ]
             ];
             $this->setResult(new tao_install_services_Data(json_encode($report)));
-            
+
             restore_error_handler();
         } catch (Exception $e) {
             $report = [
@@ -100,11 +100,11 @@ class tao_install_services_InstallService extends tao_install_services_Service
                 ]
             ];
             $this->setResult(new tao_install_services_Data(json_encode($report)));
-            
+
             restore_error_handler();
         }
     }
-    
+
     public static function onError($errno, $errstr, $errfile, $errline)
     {
         common_Logger::w($errfile . ':' . $errline . ' - ' . $errstr);
@@ -116,7 +116,7 @@ class tao_install_services_InstallService extends tao_install_services_Service
                 return true;
         }
     }
-    
+
     protected function checkData()
     {
         $content = json_decode($this->getData()->getContent(), true);

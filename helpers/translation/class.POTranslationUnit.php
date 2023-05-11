@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,7 +41,7 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
      * @access public
      * @var string
      */
-    const TRANSLATOR_COMMENTS = 'po-translator-comments';
+    public const TRANSLATOR_COMMENTS = 'po-translator-comments';
 
     /**
      * Annotation identifier for PO extracted comments.
@@ -48,7 +49,7 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
      * @access public
      * @var string
      */
-    const EXTRACTED_COMMENTS = 'po-extracted-comments';
+    public const EXTRACTED_COMMENTS = 'po-extracted-comments';
 
     /**
      * Annotation identifier for PO message flags.
@@ -56,7 +57,7 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
      * @access public
      * @var string
      */
-    const FLAGS = 'po-flags';
+    public const FLAGS = 'po-flags';
 
     /**
      * Annotation identifier for PO reference flag.
@@ -64,7 +65,7 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
      * @access public
      * @var string
      */
-    const REFERENCE = 'po-reference';
+    public const REFERENCE = 'po-reference';
 
     /**
      * Annotation identifier for the PO previous untranslated string (singular)
@@ -72,7 +73,7 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
      * @access public
      * @var string
      */
-    const PREVIOUS_MSGID = 'po-previous-msgid';
+    public const PREVIOUS_MSGID = 'po-previous-msgid';
 
     /**
      * Annotation identifier for the PO previous untranslated string (plural)
@@ -80,7 +81,7 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
      * @access public
      * @var string
      */
-    const PREVIOUS_MSGID_PLURAL = 'po-previous-msgid-plural';
+    public const PREVIOUS_MSGID_PLURAL = 'po-previous-msgid-plural';
 
     /**
      * Annotation identifier for the message context comment.
@@ -88,7 +89,7 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
      * @access public
      * @var string
      */
-    const PREVIOUS_MSGCTXT = 'po-previous-msgctxt';
+    public const PREVIOUS_MSGCTXT = 'po-previous-msgctxt';
 
     // --- OPERATIONS ---
 
@@ -103,14 +104,14 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
      */
     public function addFlag($flag)
     {
-        
+
         $currentAnnotations = $this->getAnnotations();
         if (!isset($currentAnnotations[self::FLAGS])) {
             $currentAnnotations[self::FLAGS] = $flag;
         } elseif (!(mb_strpos($currentAnnotations[self::FLAGS], $flag, 0, TAO_DEFAULT_ENCODING) !== false)) {
             $currentAnnotations[self::FLAGS] .= " ${flag}";
         }
-    
+
         $this->setAnnotations($currentAnnotations);
     }
 
@@ -125,14 +126,14 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
      */
     public function removeFlag($flag)
     {
-        
+
         $currentFlags = $this->getFlags();
         for ($i = 0; $i < count($currentFlags); $i++) {
             if ($currentFlags[$i] == $flag) {
                 break;
             }
         }
-        
+
         if ($i <= count($currentFlags)) {
             // The flag is found.
             unset($currentFlags[$i]);
@@ -152,14 +153,14 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
     {
         $returnValue = (bool) false;
 
-        
+
         foreach ($this->getFlags() as $f) {
             if ($f == $flag) {
                 $returnValue = true;
                 break;
             }
         }
-        
+
 
         return (bool) $returnValue;
     }
@@ -176,12 +177,12 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
     {
         $returnValue = [];
 
-        
+
         $currentAnnotations = $this->getAnnotations();
         if (isset($currentAnnotations[self::FLAGS])) {
             $returnValue = explode(" ", $currentAnnotations[self::FLAGS]);
         }
-        
+
 
         return (array) $returnValue;
     }
@@ -196,7 +197,7 @@ class tao_helpers_translation_POTranslationUnit extends tao_helpers_translation_
      */
     public function setFlags($flags)
     {
-        
+
         $currentAnnotations = $this->getAnnotations();
         $currentAnnotations[self::FLAGS] = implode(" ", $flags);
         $this->setAnnotations($currentAnnotations);

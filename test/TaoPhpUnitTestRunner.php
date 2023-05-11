@@ -46,7 +46,7 @@ abstract class TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements 
     use ServiceLocatorAwareTrait;
     use KeyValueMockTrait;
 
-    const SESSION_KEY = 'TAO_TEST_SESSION';
+    public const SESSION_KEY = 'TAO_TEST_SESSION';
     /**
      * @var boolean
      */

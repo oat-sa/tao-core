@@ -21,13 +21,13 @@
  */
 ?>
 <?php
+
 class tao_install_checks_NotNginx extends common_configuration_Component
 {
-    
     public function check()
     {
         $report = null;
-        
+
         if (isset($_SERVER["SERVER_SOFTWARE"])) {
             if (substr($_SERVER["SERVER_SOFTWARE"], 0, 5) == 'nginx') {
                 $report = new common_configuration_Report(

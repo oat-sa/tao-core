@@ -39,7 +39,7 @@ class tao_helpers_form_elements_xhtml_Htmlarea extends tao_helpers_form_elements
      * @access public
      * @var string
      */
-    const CSS_CLASS = 'html-area';
+    public const CSS_CLASS = 'html-area';
 
     /**
      * Short description of method render

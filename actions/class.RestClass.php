@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,7 +26,7 @@
  */
 class tao_actions_RestClass extends tao_actions_RestResource
 {
-    const CLASS_PARAMETER = 'classUri';
+    public const CLASS_PARAMETER = 'classUri';
 
     /**
      * Get all the classes that belong to a subclass.

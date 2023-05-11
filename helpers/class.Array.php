@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,7 +43,7 @@ class tao_helpers_Array
     public static function sortByField($input, $field, $descending = false)
     {
         $returnValue = [];
-        
+
         $sorted = [];
         foreach ($input as $key => $value) {
             $sorted[$key] = $value[$field];
@@ -60,7 +61,7 @@ class tao_helpers_Array
 
         return (array) $returnValue;
     }
-    
+
     /**
      * remove duplicate from array of objects implementing the __equal() function
      *
@@ -84,7 +85,7 @@ class tao_helpers_Array
         }
         return $array;
     }
-    
+
     /**
      * Test if ann array is associative or not
      *
@@ -97,7 +98,7 @@ class tao_helpers_Array
     {
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
-    
+
     /**
      * Does an array contains only a given value.
      *
@@ -135,30 +136,30 @@ class tao_helpers_Array
         if (!is_scalar($value)) {
             return false;
         }
-        
+
         if (empty($container)) {
             return false;
         }
-        
+
         $matchCount = 0;
-        
+
         foreach ($container as $key => $val) {
             if (in_array($key, $exceptAtIndex, true)) {
                 continue;
             }
-            
+
             $match = ($strict === false) ? $value == $val : $value === $val;
-            
+
             if (!$match) {
                 return false;
             } else {
                 $matchCount++;
             }
         }
-        
+
         return $matchCount !== 0;
     }
-    
+
     /**
      * Does a collection of arrays contain only a given value.
      *
@@ -184,20 +185,20 @@ class tao_helpers_Array
         } else {
             $exceptNContainers = intval($exceptNContainers);
         }
-        
+
         $validCount = 0;
         $rowCount = 0;
-        
+
         $expectedValidCount = count($containers) - intval($exceptNContainers);
-        
+
         foreach ($containers as $row) {
             if (!is_array($row)) {
                 return false;
             }
-            
+
             $valid = true;
             $exceptCount = 0;
-            
+
             for ($i = 0; $i < count($row); $i++) {
                 if (in_array($i, $exceptAtIndex, true)) {
                     $exceptCount++;
@@ -207,24 +208,24 @@ class tao_helpers_Array
                     break;
                 }
             }
-            
+
             if ($exceptCount !== 0 && $exceptCount === count($row)) {
                 $valid = false;
             }
-            
+
             if ($valid == true) {
                 $validContainers[] = $rowCount;
                 $validCount++;
             } else {
                 $invalidContainers[] = $rowCount;
             }
-            
+
             $rowCount++;
         }
-        
+
         return $validCount === $expectedValidCount;
     }
-    
+
     /**
      * Detect Row with Minimum of Value(s)
      *
@@ -243,18 +244,18 @@ class tao_helpers_Array
         if (!is_array($values)) {
             $values = [$values];
         }
-        
+
         $counts = [];
-        
+
         foreach ($arrays as $index => $arr) {
             $counts[$index] = 0;
-            
+
             if (!is_array($arr)) {
                 return false;
             }
-            
+
             $arrayCountValues = array_count_values($arr);
-            
+
             foreach ($values as $value) {
                 $keys = array_keys($arrayCountValues);
                 if (($search = array_search($value, $keys)) !== false) {
@@ -262,16 +263,16 @@ class tao_helpers_Array
                 }
             }
         }
-        
+
         if (count($counts) > 0) {
             $mins = array_keys($counts, min($counts));
-        
+
             return ($returnAll) ? $mins : $mins[0];
         } else {
             return false;
         }
     }
-    
+
     /**
      * Count the Amount of Consistent Columns in Matrix
      *
@@ -285,33 +286,33 @@ class tao_helpers_Array
     public static function countConsistentColumns(array $matrix, array $ignoreValues = [], $emptyIsConsistent = false)
     {
         $consistentCount = 0;
-        
+
         if (!self::isValidMatrix($matrix)) {
             return $consistentCount;
         }
-        
+
         for ($i = 0; $i < count($matrix[0]); $i++) {
             $column = array_column($matrix, $i);
             if (count($column) !== count($matrix)) {
                 // Malformed matrix.
                 return false;
             }
-            
+
             $column = array_unique($column);
-            
+
             foreach ($ignoreValues as $ignoreVal) {
                 if (($search = array_search($ignoreVal, $column, true)) !== false) {
                     unset($column[$search]);
                 }
             }
-            
+
             if (count($column) === 1) {
                 $consistentCount++;
             } elseif (count($column) === 0 && $emptyIsConsistent) {
                 $consistentCount++;
             }
         }
-        
+
         return $consistentCount;
     }
 

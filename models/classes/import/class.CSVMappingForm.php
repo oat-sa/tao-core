@@ -42,9 +42,9 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
      * Suffix to append to the default values of the properties
      * @var string
      */
-    const DEFAULT_VALUES_SUFFIX = '-taocsvdef';
-    
-    
+    public const DEFAULT_VALUES_SUFFIX = '-taocsvdef';
+
+
     /**
      * Short description of method initForm
      *
@@ -54,10 +54,10 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
      */
     public function initForm()
     {
-        
-        
+
+
         $this->form = tao_helpers_form_FormFactory::getForm('mapping');
-        
+
         $importElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
         $importElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-import"></span> ' . __('Import') . '</a>');
         $this->form->setActions([$importElt], 'bottom');
@@ -88,11 +88,11 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
         $columnsOptionsLiteral =  [];
         $columnsOptionsLiteral['csv_select'] = ' --- ' . __('Select') . ' --- ';
         $columnsOptionsLiteral['csv_null']  = ' --- ' . __("Don't set");
-        
+
         $columnsOptionsRanged = [];
         $columnsOptionsRanged['csv_select'] = ' --- ' . __('Select') . ' --- ';
         $columnsOptionsRanged['csv_null'] = ' --- ' . __('Use default value');
-        
+
         // We build the list of CSV columns that can be mapped to
         // the target class properties.
         if (
@@ -169,16 +169,16 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
         if (count($this->options['ranged_properties']) > 0) {
             $this->form->createGroup('ranged_property', __('Define the default values'), array_keys($ranged));
         }
-        
+
         $importFileEle = tao_helpers_form_FormFactory::getElement('importFile', 'Hidden');
         $this->form->addElement($importFileEle);
-        
+
         $optDelimiter = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIELD_DELIMITER, 'Hidden');
         $this->form->addElement($optDelimiter);
-        
+
         $optEncloser = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIELD_ENCLOSER, 'Hidden');
         $this->form->addElement($optEncloser);
-        
+
         $optMulti = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::MULTI_VALUES_DELIMITER, 'Hidden');
         $this->form->addElement($optMulti);
 

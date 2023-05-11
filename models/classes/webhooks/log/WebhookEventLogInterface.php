@@ -24,7 +24,7 @@ use oat\tao\model\webhooks\task\WebhookTaskContext;
 
 interface WebhookEventLogInterface
 {
-    const SERVICE_ID = 'tao/webhookEventLog';
+    public const SERVICE_ID = 'tao/webhookEventLog';
 
     /**
      * @param WebhookTaskContext $webhookTaskContext

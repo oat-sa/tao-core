@@ -258,7 +258,7 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
             if (isset($parameters[$paramName])) {
                 $actionParameters[$paramName] = $parameters[$paramName];
-            } elseif($paramTypeName === ServerRequest::class) {
+            } elseif ($paramTypeName === ServerRequest::class) {
                 $actionParameters[$paramName] = $request;
             } elseif (class_exists($paramTypeName) || interface_exists($paramTypeName)) {
                 $actionParameters[$paramName] = $this->getClassInstance($paramTypeName);
@@ -279,12 +279,12 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             return $container->get($serviceId);
         }
 
-        return $this->propagate(new $className);
+        return $this->propagate(new $className());
     }
 
     private function getControllerInstance(string $className): object
     {
-        return $this->getActionFinder()->find($className) ?? $this->propagate(new $className);
+        return $this->getActionFinder()->find($className) ?? $this->propagate(new $className());
     }
 
     private function getServiceId(string $className): string

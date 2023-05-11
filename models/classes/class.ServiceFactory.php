@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -54,9 +55,9 @@ class tao_models_classes_ServiceFactory
     {
         $returnValue = null;
 
-        
+
         $returnValue = tao_models_classes_Service::getServiceByName($serviceName);
-        
+
 
         return $returnValue;
     }

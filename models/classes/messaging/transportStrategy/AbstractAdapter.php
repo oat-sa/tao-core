@@ -37,7 +37,6 @@ use oat\tao\model\messaging\Message;
  */
 abstract class AbstractAdapter
 {
-
     /**
      * Short description of method send
      *
@@ -56,9 +55,9 @@ abstract class AbstractAdapter
      * @var array
      */
     protected $messages = [];
-    
+
     // --- OPERATIONS ---
-    
+
     /**
      * Short description of method getMessages
      *
@@ -69,9 +68,9 @@ abstract class AbstractAdapter
     public function getMessages()
     {
         $returnValue = [];
-        
+
         $returnValue = $this->messages;
-        
+
         return (array) $returnValue;
     }
 

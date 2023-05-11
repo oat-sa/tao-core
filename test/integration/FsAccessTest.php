@@ -47,8 +47,7 @@ use oat\generis\model\GenerisRdf;
  */
 class tao_test_FsAccessTest extends TaoPhpUnitTestRunner
 {
-
-    const TEST_USER_LOGIN = 'FsAccessTestUser';
+    public const TEST_USER_LOGIN = 'FsAccessTestUser';
 
     private $testUser;
     private $credentials = [];

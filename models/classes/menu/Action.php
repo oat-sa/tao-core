@@ -33,7 +33,7 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
 
-    const SERIAL_VERSION = 1392821334;
+    public const SERIAL_VERSION = 1392821334;
 
     /** @var array */
     private $data;
@@ -61,7 +61,7 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
             'context'    => (string) $node['context'],
             'reload'     => isset($node['reload']) ? true : false,
             'disabled'   => isset($node['disabled']) ? true : false,
-            'multiple'   => isset($node['multiple']) ? (trim(strtolower($node['multiple'])) == 'true')  : false,
+            'multiple'   => isset($node['multiple']) ? (trim(strtolower($node['multiple'])) == 'true') : false,
             'group'      => isset($node['group']) ? (string) $node['group'] : self::GROUP_DEFAULT,
             'extension'  => $extension,
             'controller' => $controller,

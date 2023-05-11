@@ -49,7 +49,7 @@ class InstallHelper extends \helpers_InstallHelper
             throw new \tao_install_utils_Exception("An error occured during the installation of extension '" . $e->getExtensionId() . "'.");
         }
     }
-    
+
     protected static function getInstaller($extension, $importLocalData)
     {
         $instance = new \tao_install_ExtensionInstaller($extension, $importLocalData);

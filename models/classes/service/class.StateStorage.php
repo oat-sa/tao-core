@@ -36,12 +36,12 @@ class tao_models_classes_service_StateStorage extends ConfigurableService implem
      * @var string name of former hardcoded persistence
      * @deprecated
      */
-    const PERSISTENCE_ID = 'serviceState';
-    
-    const KEY_NAMESPACE = 'tao:state:';
-    
-    const OPTION_PERSISTENCE = 'persistence';
-    
+    public const PERSISTENCE_ID = 'serviceState';
+
+    public const KEY_NAMESPACE = 'tao:state:';
+
+    public const OPTION_PERSISTENCE = 'persistence';
+
     /**
      * @deprecated
      */
@@ -49,14 +49,14 @@ class tao_models_classes_service_StateStorage extends ConfigurableService implem
     {
         return ServiceManager::getServiceManager()->getServiceManager()->get(StateStorage::SERVICE_ID);
     }
-    
+
     /**
      * Persistence to store service states to
      *
      * @var common_persistence_KeyValuePersistence
      */
     private $persistence;
-    
+
     /**
      * protected constructor to ensure singleton pattern
      */
@@ -67,7 +67,7 @@ class tao_models_classes_service_StateStorage extends ConfigurableService implem
         }
         return $this->persistence;
     }
-    
+
     /**
      * Store the state of the service call
      *
@@ -81,7 +81,7 @@ class tao_models_classes_service_StateStorage extends ConfigurableService implem
         $key = $this->getSerial($userId, $callId);
         return $this->getPersistence()->set($key, $data);
     }
-    
+
     /**
      * Retore the state of the service call
      * Returns null if no state is found
@@ -99,7 +99,7 @@ class tao_models_classes_service_StateStorage extends ConfigurableService implem
         }
         return $returnValue;
     }
-    
+
     /**
      * Whenever or not a state for this service call exists
      *
@@ -112,7 +112,7 @@ class tao_models_classes_service_StateStorage extends ConfigurableService implem
         $key = $this->getSerial($userId, $callId);
         return $this->getPersistence()->exists($key);
     }
-    
+
     /**
      * Remove the state for this service call
      *
@@ -125,7 +125,7 @@ class tao_models_classes_service_StateStorage extends ConfigurableService implem
         $key = $this->getSerial($userId, $callId);
         return $this->getPersistence()->del($key);
     }
-    
+
     /**
      * Generate a storage key using the provide user and serial
      *

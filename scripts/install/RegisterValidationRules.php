@@ -31,14 +31,14 @@ use oat\generis\model\OntologyAwareTrait;
 class RegisterValidationRules extends InstallAction
 {
     use OntologyAwareTrait;
-    
+
     public function __invoke($params)
     {
         ValidationRuleRegistry::getRegistry()->set('notEmpty', new \tao_helpers_form_validators_NotEmpty());
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'validator registered');
     }
-    
+
     protected function addValidator($propertyUri, $validationRuleId)
     {
         $labelProperty = $this->getProperty($propertyUri);

@@ -32,8 +32,7 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  */
 class InstallTest extends TaoPhpUnitTestRunner
 {
-    
-    const SAMPLE_LOCALES = '/samples/locales';
+    public const SAMPLE_LOCALES = '/samples/locales';
 
     /**
      * This test aims at testing the tao_install_utils_System class methods.

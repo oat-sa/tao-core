@@ -28,8 +28,8 @@ class RdsValidatorValueMapper extends ConfigurableService implements ImportValue
 {
     use OntologyAwareTrait;
 
-    const OPTION_CLASS = 'class';
-    const OPTION_PROPERTY = 'property';
+    public const OPTION_CLASS = 'class';
+    public const OPTION_PROPERTY = 'property';
 
     /** @var common_report_Report */
     protected $report;

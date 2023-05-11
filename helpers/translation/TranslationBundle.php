@@ -22,9 +22,9 @@
 
 namespace oat\tao\helpers\translation;
 
-use \common_exception_Error;
-use \common_exception_InvalidArgumentType;
-use \common_Logger;
+use common_exception_Error;
+use common_exception_InvalidArgumentType;
+use common_Logger;
 
 /**
  * This class enables you to generate a bundle of translations, for a language and extensions.
@@ -36,7 +36,6 @@ use \common_Logger;
  */
 class TranslationBundle
 {
-
     /**
      * The bundle langCode, formated as a locale: en-US, fr-FR, etc.
      * @var string
@@ -48,13 +47,13 @@ class TranslationBundle
      * @var common_ext_Extension[]
      */
     private $extensions;
-    
+
     /**
      * The TAO platform installation base path.
      * @var string
      */
     private $basePath;
-    
+
     /**
      * The TAO version in use.
      * @var string
@@ -113,7 +112,7 @@ class TranslationBundle
     public function generateTo($directory)
     {
         $translations = [];
-        
+
         foreach ($this->extensions as $extension) {
             $jsFilePath = $this->basePath . '/' . $extension . '/locales/' . $this->langCode . '/messages_po.js';
             if (file_exists($jsFilePath)) {
@@ -129,11 +128,11 @@ class TranslationBundle
             'date'   => time(),
             'translations' =>   $translations
         ];
-        
+
         if (!empty($this->taoVersion)) {
             $content['version'] = $this->taoVersion;
         }
-        
+
         if (is_dir($directory)) {
             if (!is_dir($directory . '/' . $this->langCode)) {
                 mkdir($directory . '/' . $this->langCode);

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,10 +31,9 @@
  */
 class tao_install_services_UnknownCustomCheckException extends Exception
 {
-    
     private $customCheckName;
     private $extensionName;
-    
+
     /**
      * Creates a new instance.
      */
@@ -43,7 +43,7 @@ class tao_install_services_UnknownCustomCheckException extends Exception
         $this->setCustomCheckName($customCheckName);
         $this->setExtensionName($extensionName);
     }
-    
+
     /**
      * Sets the Custom Check name that was requested but not found.
      * @param string $customCheckName A Custom Check name.
@@ -52,7 +52,7 @@ class tao_install_services_UnknownCustomCheckException extends Exception
     {
         $this->customCheckName = $customCheckName;
     }
-    
+
     /**
      * Gets the Custom Check name that was requested but not found.
      * @return string A Custom Check name.
@@ -61,7 +61,7 @@ class tao_install_services_UnknownCustomCheckException extends Exception
     {
         return $this->customCheckName;
     }
-    
+
     /**
      * Sets the Extension name where the Custom Check should have been found.
      * @param string $extensionName An Extension name.
@@ -70,7 +70,7 @@ class tao_install_services_UnknownCustomCheckException extends Exception
     {
         $this->extensionName = $extensionName;
     }
-    
+
     /**
      * Gets the Extension name where the Custom Check should have been found.
      * @return string An Extension name.

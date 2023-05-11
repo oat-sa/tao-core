@@ -9,10 +9,8 @@ use oat\tao\scripts\SyncModels;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 use Doctrine\Migrations\Exception\IrreversibleMigration;
 
-
 final class Version202201281535482234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'This migration will change Language labels in scope of AUT-1249';

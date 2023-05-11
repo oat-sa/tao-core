@@ -31,7 +31,7 @@ class tao_helpers_ServiceJavascripts
     public static function getServiceStorage($serviceCallId)
     {
         $serviceService = ServiceManager::getServiceManager()->get('tao/stateStorage');
-        
+
         $state = $serviceService->get(
             common_session_SessionManager::getSession()->getUserUri(),
             $serviceCallId
@@ -39,14 +39,14 @@ class tao_helpers_ServiceJavascripts
         $submitUrl = _url('submitState', 'ServiceModule', 'tao', ['serviceCallId' => $serviceCallId]);
         return 'new StateStorage(' . tao_helpers_Javascript::buildObject($state) . ', ' . tao_helpers_Javascript::buildObject($submitUrl) . ')';
     }
-    
+
     public static function getUserInfoService()
     {
         $preloaded = [];
         $requestUrl = _url('getUserPropertyValues', 'ServiceModule', 'tao');
         return 'new UserInfoService(' . tao_helpers_Javascript::buildObject($requestUrl) . ',' . tao_helpers_Javascript::buildObject($preloaded) . ')';
     }
-    
+
     public static function getServiceApi(tao_models_classes_service_ServiceCall $serviceCall, $serviceCallId, $customParams = [])
     {
         $inputParameters = tao_models_classes_service_ServiceCallHelper::getInputValues($serviceCall, $customParams);
@@ -59,7 +59,7 @@ class tao_helpers_ServiceJavascripts
             self::getUserInfoService() .
         ')';
     }
-    
+
     public static function getFinishedSniplet()
     {
         $taoExt = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');

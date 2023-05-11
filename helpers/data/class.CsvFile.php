@@ -32,11 +32,10 @@ use oat\oatbox\filesystem\File;
  */
 class tao_helpers_data_CsvFile
 {
-
-    const FIELD_DELIMITER = 'field_delimiter';
-    const FIELD_ENCLOSER = 'field_encloser';
-    const MULTI_VALUES_DELIMITER = 'multi_values_delimiter';
-    const FIRST_ROW_COLUMN_NAMES = 'first_row_column_names';
+    public const FIELD_DELIMITER = 'field_delimiter';
+    public const FIELD_ENCLOSER = 'field_encloser';
+    public const MULTI_VALUES_DELIMITER = 'multi_values_delimiter';
+    public const FIRST_ROW_COLUMN_NAMES = 'first_row_column_names';
     /**
          * Contains the CSV data as a simple 2-dimensional array. Keys are integer
          * the mapping done separatyely if column names are provided.
@@ -190,7 +189,7 @@ class tao_helpers_data_CsvFile
                     $multiField = [];
                     foreach (explode($multiValueSeparator, $fieldData) as $item) {
                         if (!empty($item)) {
-                                $multiField[] = $item;
+                            $multiField[] = $item;
                         }
                     }
                     $fieldData = $multiField;

@@ -747,6 +747,6 @@ class tao_helpers_File extends helpers_File
     public static function isDirEmpty($directory)
     {
         $path = self::concat([$directory, '*']);
-        return (count(glob($path, GLOB_NOSORT)) === 0 );
+        return (count(glob($path, GLOB_NOSORT)) === 0);
     }
 }

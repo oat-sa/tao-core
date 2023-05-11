@@ -48,7 +48,6 @@ use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFacto
  */
 class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 {
-
     /**
      * Initialize the form elements
      *

@@ -21,6 +21,7 @@
  */
 ?>
 <?php
+
 /**
  * Represents an exception occuring in a SQL parsing context.
  *
@@ -30,5 +31,4 @@
  */
 class tao_install_utils_SQLParsingException extends tao_install_utils_ParsingException
 {
-    
 }

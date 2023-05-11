@@ -28,7 +28,6 @@ use core_kernel_classes_Resource;
  */
 class ResourceLockedException extends \common_Exception
 {
-
     public function __construct(Lock $lock)
     {
         parent::__construct('Resource ' . $lock->getResource()->getUri() . ' locked');

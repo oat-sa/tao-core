@@ -51,12 +51,14 @@ class ElasticSearchBridgeTest extends TestCase
 
     public function testSearch(): void
     {
-        $query = new SearchQuery('user input',
+        $query = new SearchQuery(
+            'user input',
             'rootClass',
             'parentClass',
             1,
             10,
-            1);
+            1
+        );
         $query->setStructure('items');
 
         $resultSetMock = $this->createMock(ResultSet::class);

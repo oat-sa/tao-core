@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,7 +32,6 @@
  */
 class tao_models_classes_MissingRequestParameterException extends common_exception_MissingParameter
 {
-
     public function __construct($parameter)
     {
         parent::__construct($parameter);

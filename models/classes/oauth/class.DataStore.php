@@ -30,7 +30,6 @@ use oat\oatbox\service\ServiceManager;
  */
 class tao_models_classes_oauth_DataStore
 {
-
     /**
      * deprecated helper function to find the OauthConsumer RDF Resource
      *

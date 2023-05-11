@@ -27,12 +27,12 @@ use oat\tao\model\menu\MenuService;
 use oat\tao\model\TaoOntology;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use tao_models_classes_GenerisService;
-use \tao_models_classes_TaoService;
-use \tao_models_classes_UserService;
-use \core_kernel_classes_Class;
-use \common_ext_NamespaceManager;
-use \common_cache_FileCache;
-use \common_ext_ExtensionsManager;
+use tao_models_classes_TaoService;
+use tao_models_classes_UserService;
+use core_kernel_classes_Class;
+use common_ext_NamespaceManager;
+use common_cache_FileCache;
+use common_ext_ExtensionsManager;
 use Prophecy\Prophet;
 
 /**
@@ -44,7 +44,6 @@ use Prophecy\Prophet;
  */
 class ServiceTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * @var tao_models_classes_TaoService we share the service instance between the tests
      */

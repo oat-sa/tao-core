@@ -39,7 +39,7 @@ class tao_helpers_form_elements_xhtml_Label extends tao_helpers_form_elements_La
     public function render()
     {
         $returnValue = (string) '';
-        
+
         if (isset($this->attributes['class'])) {
             $classes = explode(' ', $this->attributes['class']);
             if (! isset($this->attributes['no-format'])) {
@@ -59,7 +59,7 @@ class tao_helpers_form_elements_xhtml_Label extends tao_helpers_form_elements_La
             }
         }
         unset($this->attributes['no-format']);
-        
+
         $returnValue .= "<span class='form_desc'>";
         if (! empty($this->description)) {
             $returnValue .= _dh($this->getDescription());
@@ -70,7 +70,7 @@ class tao_helpers_form_elements_xhtml_Label extends tao_helpers_form_elements_La
         $returnValue .= " >";
         $returnValue .= isset($this->attributes['htmlentities']) && ! $this->attributes['htmlentities'] ? $this->value : _dh($this->value);
         $returnValue .= "</span>";
-        
+
         return (string) $returnValue;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -47,14 +48,14 @@ class tao_helpers_translation_POFileWriter extends tao_helpers_translation_Trans
      */
     public function write()
     {
-        
+
         $buffer = '';
         $file = $this->getTranslationFile();
-        
+
         // Add PO Headers.
         $buffer .= 'msgid ""' . "\n";
         $buffer .= 'msgstr ""' . "\n";
-        
+
         // If the TranslationFile is a specific POFile instance, we add PO Headers
         // to the output.
         if (get_class($this->getTranslationFile()) == 'tao_helpers_translation_POFile') {
@@ -62,7 +63,7 @@ class tao_helpers_translation_POFileWriter extends tao_helpers_translation_Trans
                 $buffer .= '"' . $name . ': ' . $value . '\n"' . "\n";
             }
         }
-        
+
         // Write all Translation Units.
         $buffer .= "\n";
         foreach ($this->getTranslationFile()->getTranslationUnits() as $tu) {
@@ -83,7 +84,7 @@ class tao_helpers_translation_POFileWriter extends tao_helpers_translation_Trans
             $buffer .= "msgstr \"{$t}\"\n";
             $buffer .= "\n";
         }
-        
+
         return file_put_contents($this->getFilePath(), $buffer);
     }
 }

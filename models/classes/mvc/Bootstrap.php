@@ -77,7 +77,7 @@ class Bootstrap implements ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
 
-    const CONFIG_SESSION_HANDLER = 'session';
+    public const CONFIG_SESSION_HANDLER = 'session';
 
     /**
      * @var boolean if the context has been started
@@ -210,7 +210,7 @@ class Bootstrap implements ServiceManagerAwareInterface
         //the request is not an ajax request, redirect the user to the maintenance page
         if (! tao_helpers_Request::isAjax()) {
             require_once Template::getTemplate('error/maintenance.tpl', 'tao');
-            //else throw an exception, this exception will be send to the client properly
+        //else throw an exception, this exception will be send to the client properly
         } else {
             throw new MaintenanceException();
         }

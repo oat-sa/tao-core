@@ -35,7 +35,6 @@ use oat\tao\model\service\ApplicationService;
  */
 class tao_models_classes_TaoService extends tao_models_classes_GenerisService
 {
-
     /**
      * The key to use to store the default TAO Upload File Source Repository URI
      * the TAO meta-extension configuration.
@@ -43,7 +42,7 @@ class tao_models_classes_TaoService extends tao_models_classes_GenerisService
      * @access public
      * @var string
      */
-    const CONFIG_UPLOAD_FILESOURCE = 'defaultUploadFileSource';
+    public const CONFIG_UPLOAD_FILESOURCE = 'defaultUploadFileSource';
 
     /**
      * Set the default file source for TAO File Upload.
@@ -55,7 +54,7 @@ class tao_models_classes_TaoService extends tao_models_classes_GenerisService
      */
     public function setUploadFileSourceId($sourceId)
     {
-        
+
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $ext->setConfig(self::CONFIG_UPLOAD_FILESOURCE, $sourceId);
     }

@@ -39,7 +39,6 @@ use oat\generis\test\TestCase;
  */
 class TestingClass
 {
-
     /**
      * @requiredRights(key="id", permission="READ")
      * @requiredRights(key="uri", permission="WRITE")

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,7 +34,6 @@
  */
 class tao_install_services_CheckTAOForgeConnectionService extends tao_install_services_Service implements tao_install_services_CheckService
 {
-    
     /**
      * Creates a new instance of the service.
      * @param tao_install_services_Data $data The input data to be handled by the service.
@@ -43,7 +43,7 @@ class tao_install_services_CheckTAOForgeConnectionService extends tao_install_se
     {
         parent::__construct($data);
     }
-    
+
     /**
      * Executes the main logic of the service.
      * @return tao_install_services_Data The result of the service execution.
@@ -54,10 +54,10 @@ class tao_install_services_CheckTAOForgeConnectionService extends tao_install_se
         $report = $ext->check();
         $this->setResult(self::buildResult($this->getData(), $report, $ext));
     }
-    
+
     protected function checkData()
     {
-        
+
         // Check data integrity.
         $content = json_decode($this->getData()->getContent(), true);
         if (!isset($content['type']) || empty($content['type']) || $content['type'] !== 'CheckTAOForgeConnection') {
@@ -66,10 +66,10 @@ class tao_install_services_CheckTAOForgeConnectionService extends tao_install_se
         // TODO check URL format
         //...
     }
-    
+
     public static function buildComponent(tao_install_services_Data $data)
     {
-        
+
         $content = json_decode($data->getContent(), true);
         /*$extensionName = $content['value']['name'];*/
         if (isset($content['value']['optional'])) {
@@ -78,11 +78,11 @@ class tao_install_services_CheckTAOForgeConnectionService extends tao_install_se
             $optional = false;
         }
         echo 'buildResult optional: ' . $optional . "\r\n";
-        
+
         // false is NOT GOOD
         return false;
     }
-    
+
     public static function buildResult(
         tao_install_services_Data $data,
         common_configuration_Report $report,
@@ -91,18 +91,18 @@ class tao_install_services_CheckTAOForgeConnectionService extends tao_install_se
 
         $content = json_decode($data->getContent(), true);
         $id = $content['value']['id'];
-        
+
         $url = $content['value']['host'];
-        
+
         echo 'buildResult host: ' . $url . "\r\n";
-        
+
         $data = ['type' => 'TAOForgeConnectionReport',
                       'value' => ['status' => $report->getStatusAsString(),
                                        'message' => $report->getMessage(),
                                        'optional' => $component->isOptional(),
                                        'name' => $component->getName(),
                                        'id' => $id]];
-        
+
         return new tao_install_services_Data(json_encode($data));
     }
 }

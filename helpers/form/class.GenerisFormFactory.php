@@ -211,7 +211,7 @@ class tao_helpers_form_GenerisFormFactory
 
                 $allParentClasses = $parentClass->getParentClasses(true);
                 if (array_key_exists($topLevelClazz->getUri(), $allParentClasses)) {
-                     $parents[$parentClass->getUri()] = $parentClass;
+                    $parents[$parentClass->getUri()] = $parentClass;
                 }
 
                 $lastLevelParents[$parentClass->getUri()] = $parentClass;

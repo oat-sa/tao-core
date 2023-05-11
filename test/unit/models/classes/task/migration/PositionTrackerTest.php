@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -17,7 +19,6 @@
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  */
-
 
 namespace oat\tao\test\unit\models\classes\task\migration;
 
@@ -61,7 +62,7 @@ class PositionTrackerTest extends TestCase
         ));
     }
 
-    public function testGetLastPositionWhenStartDefined():void
+    public function testGetLastPositionWhenStartDefined(): void
     {
         $this->persistenceMock
             ->expects($this->once())

@@ -71,7 +71,7 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
                 $returnValue = tao_helpers_form_GenerisFormFactory::extractTreeData(parent::getOptions());
                 break;
         }
-        
+
         return $returnValue;
     }
 
@@ -95,9 +95,9 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
         $widgetTreeName = $this->name . '-TreeBox';
         $widgetValueName = $this->name . '-TreeValues';
         $returnValue = $this->renderLabel();
-        
+
         $returnValue .= "<div class='form-elt-container' style='min-height:50px; overflow-y:auto;'>";
-        
+
         $returnValue .= "<div id='{$widgetValueName}'>";
         $i = 0;
 
@@ -106,7 +106,7 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
         }
         $returnValue .= "</div>";
         $returnValue .= "<div id='{$widgetTreeName}' class='tree-widget'></div>";
-        
+
         $returnValue .= "<script type=\"text/javascript\">
 			$(function(){
 			 require(['require', 'jquery', 'generis.tree.select'], function(req, $) {
@@ -158,9 +158,9 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
 			});
 			</script>';
         $returnValue .= "</div><br />";
-        
+
         return (string) $returnValue;
-        
+
         return $returnValue;
     }
 

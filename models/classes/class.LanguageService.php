@@ -37,17 +37,17 @@ use oat\generis\model\kernel\persistence\file\FileIterator;
 class tao_models_classes_LanguageService extends tao_models_classes_GenerisService
 {
     // --- ASSOCIATIONS ---
-    const TRANSLATION_PREFIX = __CLASS__ . ':all';
+    public const TRANSLATION_PREFIX = __CLASS__ . ':all';
 
     // --- ATTRIBUTES ---
-    const CLASS_URI_LANGUAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#Languages';
-    const CLASS_URI_LANGUAGES_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages';
-    const PROPERTY_LANGUAGE_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages';
-    const PROPERTY_LANGUAGE_ORIENTATION = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation';
-    const INSTANCE_LANGUAGE_USAGE_GUI = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI';
-    const INSTANCE_LANGUAGE_USAGE_DATA = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData';
-    const INSTANCE_ORIENTATION_LTR = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight';
-    const INSTANCE_ORIENTATION_RTL = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft';
+    public const CLASS_URI_LANGUAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#Languages';
+    public const CLASS_URI_LANGUAGES_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguagesUsages';
+    public const PROPERTY_LANGUAGE_USAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages';
+    public const PROPERTY_LANGUAGE_ORIENTATION = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageOrientation';
+    public const INSTANCE_LANGUAGE_USAGE_GUI = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI';
+    public const INSTANCE_LANGUAGE_USAGE_DATA = 'http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData';
+    public const INSTANCE_ORIENTATION_LTR = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight';
+    public const INSTANCE_ORIENTATION_RTL = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft';
     // --- OPERATIONS ---
 
     /**
@@ -350,7 +350,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     private function getLanguageFiles()
     {
         $extManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
-        $localesPath = $extManager->getExtensionById('tao')->getDir().'locales';
+        $localesPath = $extManager->getExtensionById('tao')->getDir() . 'locales';
         if (!@is_dir($localesPath) || !@is_readable($localesPath)) {
             throw new tao_install_utils_Exception("Cannot read 'locales' directory in extenstion 'tao'.");
         }

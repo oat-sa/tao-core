@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,11 +59,11 @@ abstract class tao_models_classes_table_Column
     {
         $returnValue = null;
 
-        
+
         $type = $array['type'];
         unset($array['type']);
         $returnValue = $type::fromArray($array);
-        
+
 
         return $returnValue;
     }
@@ -77,7 +78,7 @@ abstract class tao_models_classes_table_Column
      */
     public function __construct($label)
     {
-        
+
         $this->label = $label;
     }
 
@@ -93,8 +94,8 @@ abstract class tao_models_classes_table_Column
     {
         $returnValue = null;
 
-        
-        
+
+
 
         return $returnValue;
     }
@@ -110,9 +111,9 @@ abstract class tao_models_classes_table_Column
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->label;
-        
+
 
         return (string) $returnValue;
     }
@@ -128,10 +129,10 @@ abstract class tao_models_classes_table_Column
     {
         $returnValue = [];
 
-        
+
         $returnValue['type'] = get_class($this);
         $returnValue['label'] = $this->label;
-        
+
 
         return (array) $returnValue;
     }

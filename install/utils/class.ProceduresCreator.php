@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * This program is free software; you can redistribute it and/or
@@ -29,7 +30,6 @@
  */
 class tao_install_utils_ProceduresCreator
 {
-    
     /**
      *
      * @var unknown
@@ -40,7 +40,7 @@ class tao_install_utils_ProceduresCreator
      * @var tao_install_utils_SimpleSQLParser
      */
     private $sqlParser;
-    
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -50,28 +50,27 @@ class tao_install_utils_ProceduresCreator
      */
     public function __construct($driver, $connection)
     {
-        
+
         $this->connection = $connection;
         switch ($driver) {
-            case 'pdo_mysql':{
+            case 'pdo_mysql':
                 $this->setSQLParser(new tao_install_utils_MysqlProceduresParser());
                 break;
-            }
-            case 'pdo_pgsql' : {
+
+            case 'pdo_pgsql':
                 $this->setSQLParser(new tao_install_utils_PostgresProceduresParser());
                 break;
-            }
-            case 'pdo_oci' : {
+
+            case 'pdo_oci':
                 $this->setSQLParser(new tao_install_utils_CustomProceduresParser());
                 break;
-            }
-            case 'pdo_sqlsrv' : {
+
+            case 'pdo_sqlsrv':
                 $this->setSQLParser(new tao_install_utils_CustomProceduresParser());
                 break;
-            }
-            default: {
+
+            default:
                 throw new tao_install_utils_SQLParsingException('Could not find Parser for driver ' . $driver);
-            }
         }
     }
     /**
@@ -83,7 +82,7 @@ class tao_install_utils_ProceduresCreator
     {
         return $this->sqlParser;
     }
-    
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -93,7 +92,7 @@ class tao_install_utils_ProceduresCreator
     {
         $this->sqlParser = $sqlParser;
     }
-    
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com

@@ -24,7 +24,6 @@ use oat\tao\model\user\TaoRoles;
 
 class tao_helpers_SysAdmin
 {
-    
     /**
      *
      * @author "Lionel Lecaque, <lionel@taotesting.com>"

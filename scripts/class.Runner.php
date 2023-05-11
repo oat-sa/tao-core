@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,7 +39,7 @@ abstract class tao_scripts_Runner
      * Runner related dependencies will be reached under this offset.
      * (use different indexes for every single child!!!)
      */
-    const CONTAINER_INDEX = 'taoScriptsRunner';
+    public const CONTAINER_INDEX = 'taoScriptsRunner';
 
     // --- ASSOCIATIONS ---
 
@@ -346,14 +347,14 @@ abstract class tao_scripts_Runner
         }
 
         $colorized = false;
-        isset($options['color']) ?  $color = $options['color'] : $color = 'grey';
+        isset($options['color']) ? $color = $options['color'] : $color = 'grey';
         $color = trim(tao_helpers_Cli::getFgColor($color));
         if (!empty($color) && substr(strtoupper(PHP_OS), 0, 3) != 'WIN') {
             $colorized = true;
 
             $returnValue .= "\033[{$color}m" ;
         }
-        isset($options['background']) ?  $bg = $options['background'] : $bg = '';
+        isset($options['background']) ? $bg = $options['background'] : $bg = '';
         $bg = trim(tao_helpers_Cli::getBgColor($bg));
         if (!empty($bg)) {
             $colorized = true;
@@ -388,7 +389,7 @@ abstract class tao_scripts_Runner
             $returnValue = $options['prefix'];
         }
 
-        isset($options['color']) ?  $color = $options['color'] : $color = 'grey';
+        isset($options['color']) ? $color = $options['color'] : $color = 'grey';
         if (!empty($color)) {
             $colorized = true;
             $returnValue .= '<div class="' . $color . '">';

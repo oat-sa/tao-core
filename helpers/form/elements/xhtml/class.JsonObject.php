@@ -37,7 +37,7 @@ class tao_helpers_form_elements_xhtml_JsonObject extends tao_helpers_form_elemen
     public function render()
     {
         $returnValue = $this->renderLabel();
-        
+
         if (empty($this->value) === true) {
             // @todo should be in a blue info box.
             $returnValue .= "No values to display.";
@@ -47,19 +47,19 @@ class tao_helpers_form_elements_xhtml_JsonObject extends tao_helpers_form_elemen
         } else {
             // Valid JSON to be displayed.
             $returnValue .= "<ul class=\"json-object-list\">";
-            
+
             foreach ($jsonObject as $jsonKey => $jsonValue) {
                 $returnValue .= "<li>";
-                
+
                 $returnValue .= "<div class=\"widget-jsonobject-key\">" . _dh($jsonKey) . ":</div>";
                 $returnValue .= "<div><input class=\"widget-jsonobject-value\" type=\"text\" disabled=\"disabled\" value=\"${jsonValue}\" /></</div>";
-                
+
                 $returnValue .= "</li>";
             }
-            
+
             $returnValue .= "</ul>\n";
         }
-        
+
         return $returnValue;
     }
 }

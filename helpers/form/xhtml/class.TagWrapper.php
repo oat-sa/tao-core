@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -55,7 +56,7 @@ class tao_helpers_form_xhtml_TagWrapper implements tao_helpers_form_Decorator
     {
         $returnValue = (string) '';
 
-        
+
         if (!empty($this->tag)) {
             $returnValue .= "<{$this->tag}";
             if (isset($this->attributes['cssClass'])) {
@@ -83,11 +84,11 @@ class tao_helpers_form_xhtml_TagWrapper implements tao_helpers_form_Decorator
     {
         $returnValue = (string) '';
 
-        
+
         if (!empty($this->tag)) {
             $returnValue .= "</{$this->tag}>";
         }
-        
+
 
         return (string) $returnValue;
     }
@@ -140,7 +141,7 @@ class tao_helpers_form_xhtml_TagWrapper implements tao_helpers_form_Decorator
      */
     public function __construct($options = [])
     {
-        
+
         if (isset($options['tag'])) {
             $this->tag = $options['tag'];
             unset($options['tag']);

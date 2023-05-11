@@ -48,7 +48,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      * @access public
      * @var string
      */
-    const DEF_INPUT_DIR = '.';
+    public const DEF_INPUT_DIR = '.';
 
     /**
      * Short description of attribute DEF_OUTPUT_DIR
@@ -56,7 +56,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      * @access public
      * @var string
      */
-    const DEF_OUTPUT_DIR = 'locales';
+    public const DEF_OUTPUT_DIR = 'locales';
 
     /**
      * Short description of attribute DEF_PO_FILENAME
@@ -64,7 +64,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      * @access public
      * @var string
      */
-    const DEF_PO_FILENAME = 'messages.po';
+    public const DEF_PO_FILENAME = 'messages.po';
 
     /**
      * Short description of attribute DEF_JS_FILENAME
@@ -72,7 +72,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      * @access public
      * @var string
      */
-    const DEF_JS_FILENAME = 'messages_po.js';
+    public const DEF_JS_FILENAME = 'messages_po.js';
 
     /**
      * Short description of attribute options
@@ -88,7 +88,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      * @access public
      * @var string
      */
-    const DEF_LANG_FILENAME = 'lang.rdf';
+    public const DEF_LANG_FILENAME = 'lang.rdf';
 
     private static $WHITE_LIST = [
         'actions',
@@ -540,11 +540,11 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                     $this->preparePOFile($translationFile, true);
 
                     foreach ($this->getOntologyFiles() as $f) {
-                            common_Logger::d('reading rdf ' . $f);
-                            $translationFile = new tao_helpers_translation_POFile();
-                            $translationFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
-                            $translationFile->setTargetLanguage($this->options['language']);
-                            $translationFile->setExtensionId($this->options['extension']);
+                        common_Logger::d('reading rdf ' . $f);
+                        $translationFile = new tao_helpers_translation_POFile();
+                        $translationFile->setSourceLanguage(tao_helpers_translation_Utils::getDefaultLanguage());
+                        $translationFile->setTargetLanguage($this->options['language']);
+                        $translationFile->setExtensionId($this->options['extension']);
 
                         $writer = new tao_helpers_translation_POFileWriter($dir . '/' . $this->getOntologyPOFileName($f), $translationFile);
                         $writer->write();
@@ -644,11 +644,11 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
 
         // We now deal with RDF models.
         foreach ($this->getOntologyFiles() as $f) {
-                // Loop on 'master' models.
-                $translationFile = $this->extractPoFileFromRDF($f, $translatableProperties);
+            // Loop on 'master' models.
+            $translationFile = $this->extractPoFileFromRDF($f, $translatableProperties);
 
-                // The slave RDF file is the translation of the ontology that we find in /extId/Locales/langCode.
-                $slavePOFilePath = $this->buildLanguagePath($this->options['extension'], $this->options['language']) . '/' . $this->getOntologyPOFileName($f);
+            // The slave RDF file is the translation of the ontology that we find in /extId/Locales/langCode.
+            $slavePOFilePath = $this->buildLanguagePath($this->options['extension'], $this->options['language']) . '/' . $this->getOntologyPOFileName($f);
             if (file_exists($slavePOFilePath)) {
                 // Read the existing RDF Translation file for this RDF model.
                 $poReader = new tao_helpers_translation_POFileReader($slavePOFilePath);
@@ -665,10 +665,10 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
                 tao_helpers_File::remove($slavePOFilePath);
             }
 
-                // Write Master PO file as the new Slave PO file.
-                $rdfWriter = new tao_helpers_translation_POFileWriter($slavePOFilePath, $translationFile);
-                $rdfWriter->write();
-                $this->outVerbose("Translation model {$this->getOntologyPOFileName($f)}  in '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "'.");
+            // Write Master PO file as the new Slave PO file.
+            $rdfWriter = new tao_helpers_translation_POFileWriter($slavePOFilePath, $translationFile);
+            $rdfWriter->write();
+            $this->outVerbose("Translation model {$this->getOntologyPOFileName($f)}  in '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "'.");
         }
 
         $this->outVerbose("Language '" . $this->options['language'] . "' updated for extension '" . $this->options['extension'] . "'.");
@@ -1443,7 +1443,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             }
             sort($extensions);
             print_r($extensions);
-            echo ( count($extensions) . ' extensions with translations: ' . $extensionsList . "\n");
+            echo(count($extensions) . ' extensions with translations: ' . $extensionsList . "\n");
         }
     }
 

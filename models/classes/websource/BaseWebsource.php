@@ -34,8 +34,8 @@ use tao_helpers_File;
  */
 abstract class BaseWebsource extends Configurable implements Websource
 {
-    const OPTION_ID = 'id';
-    const OPTION_FILESYSTEM_ID = 'fsUri';
+    public const OPTION_ID = 'id';
+    public const OPTION_FILESYSTEM_ID = 'fsUri';
     private const ALLOWED_SVGZ_MIMETYPES = ['text/plain', 'image/svg', 'application/x-gzip'];
 
     /**

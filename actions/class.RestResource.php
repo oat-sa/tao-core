@@ -36,8 +36,8 @@ class tao_actions_RestResource extends tao_actions_CommonModule
     use OntologyAwareTrait;
     use LoggerAwareTrait;
 
-    const CLASS_PARAMETER = 'classUri';
-    const RESOURCE_PARAMETER = 'uri';
+    public const CLASS_PARAMETER = 'classUri';
+    public const RESOURCE_PARAMETER = 'uri';
 
     /**
      * Create a resource for class found into http request parameters

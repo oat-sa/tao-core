@@ -34,29 +34,28 @@ use oat\tao\model\extension\ExtensionModel;
 
 class OntologyUpdater
 {
-    
     public static function syncModels()
     {
         $currentModel = ModelManager::getModel();
         $modelIds = array_diff($currentModel->getReadableModels(), ['1']);
-        
+
         $persistence = common_persistence_SqlPersistence::getPersistence('default');
-        
+
         $smoothIterator = new core_kernel_persistence_smoothsql_SmoothIterator($persistence, $modelIds);
-        
+
         $nominalModel = new AppendIterator();
         foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
             $nominalModel->append(new ExtensionModel($ext));
         }
         $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
         $nominalModel->append($langModel);
-        
+
         $diff = helpers_RdfDiff::create($smoothIterator, $nominalModel);
         self::logDiff($diff);
-        
+
         $diff->applyTo($currentModel);
     }
-    
+
     public static function correctModelId($rdfFile)
     {
         $modelFile = new FileModel(['file' => $rdfFile]);
@@ -66,7 +65,7 @@ class OntologyUpdater
             $modelRdf->add($triple);
         }
     }
-    
+
     protected static function logDiff(\helpers_RdfDiff $diff)
     {
         $folder = FILES_PATH . 'updates' . DIRECTORY_SEPARATOR;
@@ -79,7 +78,7 @@ class OntologyUpdater
         if (!mkdir($path, 0700, true)) {
             throw new \common_exception_Error('Unable to log update to ' . $path);
         }
-        
+
         FileModel::toFile($path . DIRECTORY_SEPARATOR . 'add.rdf', $diff->getTriplesToAdd());
         FileModel::toFile($path . DIRECTORY_SEPARATOR . 'remove.rdf', $diff->getTriplesToRemove());
     }

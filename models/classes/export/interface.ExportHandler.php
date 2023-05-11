@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,14 +32,13 @@
  */
 interface tao_models_classes_export_ExportHandler
 {
-
     /**
      * Returns a textual description of the export format
      *
      * @return string
      */
     public function getLabel();
-    
+
     /**
      * Returns a form in order to prepare the
      *
@@ -46,7 +46,7 @@ interface tao_models_classes_export_ExportHandler
      * @return tao_helpers_form_Form
      */
     public function getExportForm(core_kernel_classes_Resource $resource);
-    
+
     /**
      * Export the resources to a file stored in $destinations
      *

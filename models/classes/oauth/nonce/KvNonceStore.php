@@ -28,12 +28,12 @@ use oat\oatbox\service\ConfigurableService;
  */
 class KvNonceStore extends ConfigurableService implements NonceStore
 {
-    const OPTION_PERSISTENCE = 'persistence';
-    const OPTION_TTL = 'ttl';
-    
-    const DEFAULT_TTL = 1800;
-    
-    const PREFIX = 'nonce_';
+    public const OPTION_PERSISTENCE = 'persistence';
+    public const OPTION_TTL = 'ttl';
+
+    public const DEFAULT_TTL = 1800;
+
+    public const PREFIX = 'nonce_';
 
     public function isValid($id)
     {
@@ -47,7 +47,7 @@ class KvNonceStore extends ConfigurableService implements NonceStore
             return $this->getPersistence()->set(self::PREFIX . $id, 't', $ttl);
         }
     }
-    
+
     /**
      * @return \common_persistence_KeyValuePersistence
      */

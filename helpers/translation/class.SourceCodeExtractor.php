@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -60,7 +61,7 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
      */
     public function extract()
     {
-        
+
         $this->setTranslationUnits([]);
         foreach ($this->getPaths() as $dir) {
             // Directories should come with a trailing slash.
@@ -68,7 +69,7 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
             if ($d[0] !== '/') {
                 $dir = $dir . '/';
             }
-            
+
             $this->recursiveSearch($dir);
         }
     }
@@ -82,7 +83,7 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
      */
     private function recursiveSearch($directory)
     {
-        
+
         if (is_dir($directory)) {
             // We get the list of files and directories.
             if (($files = scandir($directory)) !== false) {
@@ -91,7 +92,7 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
                         // If it is a directory ...
                         if (is_dir($directory . $fd . "/")) {
                             $this->recursiveSearch($directory . $fd . "/");
-                            // If it is a file ...
+                        // If it is a file ...
                         } else {
                             // Retrieve from the file ...
                             $this->getTranslationsInFile($directory . $fd);
@@ -152,7 +153,7 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
      */
     private function getTranslationsInFile($filePath)
     {
-        
+
         // File extension ?
         $extOk = in_array(\Jig\Utils\FsUtils::getFileExtension($filePath), $this->getFileTypes());
 
@@ -168,16 +169,16 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
             foreach ($lines as $line) {
                 $strings = $this->getTranslationPhrases($line);
                 //preg_match_all("/__(\(| )+['\"](.*?)['\"](\))?/u", $line, $string);
-                
+
                 //lookup for __('to translate') or __ 'to translate'
                 //    preg_match_all("/__(\(| )+(('(.*?)')|(\"(.*?)\"))(\))?/u", $line, $string);
-            
+
                 foreach ($strings as $s) {
                     $tu = new tao_helpers_translation_TranslationUnit();
                     $tu->setSource(tao_helpers_translation_POUtils::sanitize($s));
                     $tus = $this->getTranslationUnits();
                     $found = false;
-                    
+
                     // We must add the string as a new TranslationUnit only
                     // if a similiar source does not exist.
                     foreach ($tus as $t) {
@@ -186,7 +187,7 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
                             break;
                         }
                     }
-                    
+
                     if (!$found) {
                         $tus[] = $tu;
                         $this->setTranslationUnits($tus);

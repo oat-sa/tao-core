@@ -27,7 +27,6 @@ namespace oat\tao\helpers\form\elements\xhtml;
  */
 trait XhtmlRenderingTrait
 {
-
     public function renderLabel()
     {
         $renderedLabel = '';

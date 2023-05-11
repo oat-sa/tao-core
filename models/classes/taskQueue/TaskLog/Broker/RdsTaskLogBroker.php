@@ -105,7 +105,6 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
                     strtotime($row[TaskLogBrokerInterface::COLUMN_UPDATED_AT])
                     - strtotime($row[TaskLogBrokerInterface::COLUMN_CREATED_AT]);
             }
-
         } catch (Exception $exception) {
             $this->logError('Searching for task logs failed with MSG: ' . $exception->getMessage());
         }

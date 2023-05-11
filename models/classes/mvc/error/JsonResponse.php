@@ -27,9 +27,8 @@ namespace oat\tao\model\mvc\error;
  */
 class JsonResponse extends ResponseAbstract
 {
-    
     protected $contentType = 'application/json';
-    
+
     public function send()
     {
 

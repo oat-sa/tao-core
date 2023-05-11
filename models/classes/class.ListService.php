@@ -95,8 +95,8 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
 
         foreach ($this->getLists() as $list) {
             if ($list->getUri() == $uri) {
-                 $returnValue = $list;
-                 break;
+                $returnValue = $list;
+                break;
             }
         }
 

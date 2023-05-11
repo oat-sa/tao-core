@@ -37,7 +37,7 @@ use oat\tao\model\resources\ResourceWatcher;
 class RegisterResourceEvents extends InstallAction
 {
     use OntologyAwareTrait;
-    
+
     public function __invoke($params)
     {
         /** @var EventManager $eventManager */

@@ -37,7 +37,6 @@ use oat\oatbox\filesystem\File;
  */
 class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
 {
-
     /**
      * Import a XML file as is into the ontology
      *

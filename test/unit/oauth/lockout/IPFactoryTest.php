@@ -21,12 +21,12 @@ class IPFactoryTest extends TestCase
     public function testCreateDefault()
     {
         $factory = new IPFactory();
-        $this->assertSame('127.0.0.1',$factory->create());
+        $this->assertSame('127.0.0.1', $factory->create());
     }
 
     public function testCreateFromConfig()
     {
         $factory = new IPFactory(['HTTP_X_FORWARDED_FOR']);
-        $this->assertSame('127.0.0.2',$factory->create());
+        $this->assertSame('127.0.0.2', $factory->create());
     }
 }

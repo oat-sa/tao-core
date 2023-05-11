@@ -190,4 +190,3 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
         );
     }
 }
-

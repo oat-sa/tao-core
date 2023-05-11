@@ -25,10 +25,9 @@ use oat\generis\test\TestCase;
 
 class AdaptersTest extends TestCase
 {
-
-    const CSV_FILE_USERS_HEADER_UNICODE = '/samples/csv/users1-header.csv';
-    const CSV_FILE_USERS_HEADER_UNICODE_WITH_MULTI_FIELD_VALUE = '/samples/csv/users1-header-multi-field-values.csv';
-    const CSV_FILE_USERS_NO_HEADER_UNICODE = '/samples/csv/users1-no-header.csv';
+    public const CSV_FILE_USERS_HEADER_UNICODE = '/samples/csv/users1-header.csv';
+    public const CSV_FILE_USERS_HEADER_UNICODE_WITH_MULTI_FIELD_VALUE = '/samples/csv/users1-header-multi-field-values.csv';
+    public const CSV_FILE_USERS_NO_HEADER_UNICODE = '/samples/csv/users1-no-header.csv';
 
     /**
      * @doesNotPerformAssertions

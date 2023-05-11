@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,12 +38,12 @@ class tao_helpers_form_validators_DateTime extends tao_helpers_form_Validator
     {
         $returnValue = (bool) false;
 
-        
+
         $value = trim($values);
-        
+
         try {
             $dateTime = new DateTime($value);
-            
+
             // if no date given no need to go further. To check if not empty, use the NotEmpty validator
             if (!empty($value) && !empty($this->getOption('comparator')) && $this->getOption('datetime2_ref') instanceof tao_helpers_form_FormElement) {
                 //try comparison:
@@ -50,47 +51,47 @@ class tao_helpers_form_validators_DateTime extends tao_helpers_form_Validator
                     $dateTime2 = new DateTime($this->getOption('datetime2_ref')->getRawValue());
                 } catch (Exception $e) {
                 }
-                
+
                 if ($dateTime2 instanceof DateTimeInterface) {
                     switch ($this->getOption('comparator')) {
                         case 'after':
                         case 'later':
                         case 'sup':
-                        case '>':{
+                        case '>':
                             if ($dateTime > $dateTime2) {
-                                    $returnValue = true;
+                                $returnValue = true;
                             } else {
                                 $this->setMessage(__('Invalid date range (must be after: %s)', $dateTime2->format('Y-m-d')));
                             }
                             break;
-                        }
-                        case '>=':{
+
+                        case '>=':
                             if ($dateTime >= $dateTime2) {
                                 $returnValue = true;
                             } else {
                                 $this->setMessage(__('Invalid date range (must be after or the same as: %s)', $dateTime2->format('Y-m-d')));
                             }
                             break;
-                        }
+
                         case 'before':
                         case 'earlier':
                         case 'inf':
-                        case '<':{
+                        case '<':
                             if ($dateTime < $dateTime2) {
                                 $returnValue = true;
                             } else {
                                 $this->setMessage(__('Invalid date range (must be before: %s)', $dateTime2->format('Y-m-d')));
                             }
                             break;
-                        }
-                        case '<=':{
+
+                        case '<=':
                             if ($dateTime <= $dateTime2) {
                                 $returnValue = true;
                             } else {
                                 $this->setMessage(__('Invalid date range (must be before or the same as: %s)', $dateTime2->format('Y-m-d')));
                             }
                             break;
-                        }
+
                         default:
                             throw new common_Exception('Usuported comparator in DateTime Validator: ' . $this->getOption('comparator'));
                     }
@@ -102,8 +103,8 @@ class tao_helpers_form_validators_DateTime extends tao_helpers_form_Validator
             $this->setMessage(__('The value of this field must be a valid date format, e.g. YYYY-MM-DD'));
             $returnValue = false;
         }
-        
-        
+
+
 
         return (bool) $returnValue;
     }

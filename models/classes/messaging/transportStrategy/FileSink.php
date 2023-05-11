@@ -37,7 +37,7 @@ use oat\oatbox\user\User;
  */
 class FileSink extends ConfigurableService implements Transport
 {
-    const CONFIG_FILEPATH = 'path';
+    public const CONFIG_FILEPATH = 'path';
 
     public function send(Message $message)
     {
@@ -46,7 +46,7 @@ class FileSink extends ConfigurableService implements Transport
         $written = file_put_contents($messageFile, $message->getBody());
         return $written !== false;
     }
-    
+
     /**
      * Get file path to save message
      * @param User $receiver

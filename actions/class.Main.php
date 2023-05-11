@@ -274,8 +274,8 @@ class tao_actions_Main extends tao_actions_CommonModule
 
 
         common_session_SessionManager::endSession();
-                /* @var $urlRouteService DefaultUrlService */
-                $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
+        /* @var $urlRouteService DefaultUrlService */
+        $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
 
         $this->redirect($urlRouteService->getRedirectUrl('logout'));
     }
@@ -456,7 +456,8 @@ class tao_actions_Main extends tao_actions_CommonModule
                     foreach ($section->getActions() as $action) {
                         $this->propagate($action);
                         $resolver = new ActionResolver($action->getUrl());
-                        if (!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction()) ||
+                        if (
+                            !FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction()) ||
                             $this->getServiceLocator()->get(ActionBlackList::SERVICE_ID)->isDisabled($action->getId())
                         ) {
                             $section->removeAction($action);
@@ -498,7 +499,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         if (empty($this->sectionVisibilityFilter)) {
             $this->sectionVisibilityFilter = $this->getServiceLocator()->get(SectionVisibilityFilter::SERVICE_ID);
         }
-        
+
         return $this->sectionVisibilityFilter;
     }
 }

@@ -65,7 +65,7 @@ class RdsLockoutStorage extends LockoutStorageAbstract
                 );
 
                 return;
-            }catch (UniqueConstraintViolationException $exception){
+            } catch (UniqueConstraintViolationException $exception) {
                 $addressInfo = $this->getAddressInfo($id);
             }
         }
@@ -123,7 +123,7 @@ class RdsLockoutStorage extends LockoutStorageAbstract
             $found = reset($found);
             if (time() > $found[self::FIELD_EXPIRE_AT]) {
                 $this->resetIp($ip);
-            }else{
+            } else {
                 $attempts = $found[self::FIELD_ATTEMPTS];
             }
         }

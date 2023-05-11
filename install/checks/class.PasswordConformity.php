@@ -23,7 +23,6 @@ use oat\generis\model\user\PasswordConstraintsService;
 
 class tao_install_checks_PasswordConformity extends common_configuration_Component
 {
-
     /**
      * @return common_configuration_Report
      */

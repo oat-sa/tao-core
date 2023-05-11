@@ -32,12 +32,11 @@ use oat\tao\model\upload\UploadService;
  */
 class tao_helpers_form_data_UploadFileDescription extends tao_helpers_form_data_FileDescription
 {
-
     /** Action form: add */
-    const FORM_ACTION_ADD = 'add';
+    public const FORM_ACTION_ADD = 'add';
 
     /** Action form: delete */
-    const FORM_ACTION_DELETE = 'delete';
+    public const FORM_ACTION_DELETE = 'delete';
 
     /**
      * The mime/type of the file e.g. text/plain.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -48,7 +49,7 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
      * @access protected
      * @var int
      */
-    const UPLOAD_MAX = 3000000;
+    public const UPLOAD_MAX = 3000000;
 
     // --- OPERATIONS ---
 
@@ -61,17 +62,17 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
      */
     public function initForm()
     {
-        
-        
+
+
         $this->form = tao_helpers_form_FormFactory::getForm('import');
-        
+
         $nextButton = true;
         if (isset($_POST['format'])) {
             if ($_POST['format'] != 'csv') {
                 $nextButton = false;
             }
         }
-        
+
         $submitElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
         if ($nextButton) {
             $submitElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-next"></span> ' . __('Next') . '</a>');
@@ -91,12 +92,12 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
      */
     public function initElements()
     {
-        
-        
+
+
         //create the element to select the import format
         $formatElt = tao_helpers_form_FormFactory::getElement('format', 'Radiobox');
         $formatElt->setDescription(__(' Please select the input data format to import '));
-        
+
         //mandatory field
         $formatElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         $formatElt->setOptions($this->formats);
@@ -112,14 +113,14 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
                 $formatElt->setValue($_POST['format']);
             }
         }
-        
+
         $this->form->addElement($formatElt);
         $this->form->createGroup('formats', __('Supported formats to import'), ['format']);
-        
+
         //load dynamically the method regarding the selected format
         if (!is_null($formatElt->getValue())) {
             $method = "init" . strtoupper($formatElt->getValue()) . "Elements";
-            
+
             if (method_exists($this, $method)) {
                 $this->$method();
             }
@@ -135,19 +136,19 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
      */
     protected function initCSVElements()
     {
-        
-        
+
+
         $adapter = new tao_helpers_data_GenerisAdapterCsv();
         $options = $adapter->getOptions();
-        
+
         //create import options form
         foreach ($options as $optName => $optValue) {
-            (is_bool($optValue))  ? $eltType = 'Checkbox' : $eltType = 'Textbox';
-            
+            (is_bool($optValue)) ? $eltType = 'Checkbox' : $eltType = 'Textbox';
+
             $optElt = tao_helpers_form_FormFactory::getElement($optName, $eltType);
             $optElt->setDescription(tao_helpers_Display::textCleaner($optName, ' '));
             $optElt->setValue(addslashes($optValue));
-            
+
             $optElt->addAttribute("size", ($optName == 'column_order') ? 40 : 6);
             if (is_null($optValue) || $optName == 'line_break') {
                 $optElt->addAttribute("disabled", "true");
@@ -165,12 +166,12 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
             $this->form->addElement($optElt);
         }
         $this->form->createGroup('options', __('CSV Options'), array_keys($options));
-        
+
 
         $descElt = tao_helpers_form_FormFactory::getElement('csv_desc', 'Label');
         $descElt->setValue(__("Please upload a CSV file formated as \"defined\" %min by %max the options above."));
         $this->form->addElement($descElt);
-        
+
         //create file upload form box
         $fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
         $fileElt->setDescription(__("Add the source file"));
@@ -183,10 +184,10 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
             tao_helpers_form_FormFactory::getValidator('FileMimeType', ['mimetype' => ['text/plain', 'text/csv', 'text/comma-separated-values', 'application/csv', 'application/csv-tab-delimited-table'], 'extension' => ['csv', 'txt']]),
             tao_helpers_form_FormFactory::getValidator('FileSize', ['max' => self::UPLOAD_MAX])
         ]);
-        
+
         $this->form->addElement($fileElt);
         $this->form->createGroup('file', __('Upload CSV File'), ['csv_desc', 'source']);
-        
+
         $csvSentElt = tao_helpers_form_FormFactory::getElement('import_sent_csv', 'Hidden');
         $csvSentElt->setValue(1);
         $this->form->addElement($csvSentElt);
@@ -201,12 +202,12 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
      */
     protected function initRDFElements()
     {
-        
-        
+
+
         $descElt = tao_helpers_form_FormFactory::getElement('rdf_desc', 'Label');
         $descElt->setValue(__("Please upload \t an RDF file.\n\n"));
         $this->form->addElement($descElt);
-        
+
         //create file upload form box
         $fileElt = tao_helpers_form_FormFactory::getElement('source', 'AsyncFile');
         $fileElt->setDescription(__("Add the source file"));
@@ -219,10 +220,10 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
             tao_helpers_form_FormFactory::getValidator('FileMimeType', ['mimetype' => ['text/xml', 'application/rdf+xml', 'application/xml'], 'extension' => ['rdf', 'rdfs']]),
             tao_helpers_form_FormFactory::getValidator('FileSize', ['max' => self::UPLOAD_MAX])
         ]);
-        
+
         $this->form->addElement($fileElt);
         $this->form->createGroup('file', __('Upload RDF File'), ['rdf_desc', 'source']);
-        
+
         $rdfSentElt = tao_helpers_form_FormFactory::getElement('import_sent_rdf', 'Hidden');
         $rdfSentElt->setValue(1);
         $this->form->addElement($rdfSentElt);

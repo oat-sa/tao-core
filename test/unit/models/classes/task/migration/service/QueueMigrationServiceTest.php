@@ -137,7 +137,7 @@ class QueueMigrationServiceTest extends TestCase
 
         $this->spawnMigrationConfigServiceMock
             ->method('spawn')
-            ->willReturn(new MigrationConfig(['start'=> 10], 2, 1, true));
+            ->willReturn(new MigrationConfig(['start' => 10], 2, 1, true));
 
         $config = new MigrationConfig(['start' => 0], 2, 1, true);
 

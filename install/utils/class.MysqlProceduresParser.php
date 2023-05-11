@@ -21,6 +21,7 @@
  */
 ?>
 <?php
+
 /**
  * This SQL Parser is able to deal with Stored Procedures and Functions
  * for mySQL server in a compliant SQL file. The following statements are supported.
@@ -37,7 +38,6 @@
  */
 class tao_install_utils_MysqlProceduresParser extends tao_install_utils_SQLParser
 {
-    
     /**
      * Parse a SQL file containing mySQL compliant Procedures or Functions.
      * @return void
@@ -47,7 +47,7 @@ class tao_install_utils_MysqlProceduresParser extends tao_install_utils_SQLParse
     {
         $this->setStatements([]);
         $file = $this->getFile();
-        
+
         if (!file_exists($file)) {
             throw new tao_install_utils_SQLParsingException("SQL file '${file}' does not exist.");
         } elseif (!is_readable($file)) {
@@ -55,7 +55,7 @@ class tao_install_utils_MysqlProceduresParser extends tao_install_utils_SQLParse
         } elseif (!preg_match("/\.sql$/", basename($file))) {
             throw new tao_install_utils_SQLParsingException("File '${file}' is not a valid SQL file. Extension '.sql' not found.");
         }
-        
+
         $content = @file_get_contents($file);
         if ($content !== false) {
             $matches = [];
@@ -63,7 +63,7 @@ class tao_install_utils_MysqlProceduresParser extends tao_install_utils_SQLParse
                                 'DROP\s+PROCEDURE\s+IF\s+EXISTS\s*\w+\s*;',
                                 'CREATE\s+PROCEDURE\s+\w+\s*\(.*\)\s*(?:(?:NOT\s+){0,1}DETERMINISTIC){0,1}\s*BEGIN\s+(?:.*\s*;\s*)*END\s*;',
                                 'CREATE\s+(DEFINER = \w+\s+)FUNCTION\s+\w+\s*\(.*\)\s*RETURNS\s+(?:.*)\s*(?:(?:NOT\s+){0,1}DETERMINISTIC){0,1}\s*(?:CONTAINS SQL\s+|NO SQL\s+|READS SQL DATA\s+|MODIFIES SQL DATA\s+|SQL SECURITY INVOKER\s+)*\s*BEGIN\s+(?:.*\s*;\s*)*END\s*;'];
-                            
+
             if (preg_match_all('/' . implode($patterns, '|') . '/i', $content, $matches)) {
                 foreach ($matches[0] as $match) {
                     $this->addStatement($match);

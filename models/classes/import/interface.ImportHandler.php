@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,14 +32,13 @@
  */
 interface tao_models_classes_import_ImportHandler
 {
-
     /**
      * Returns a textual description of the import format
      *
      * @return string
      */
     public function getLabel();
-    
+
     /**
      * Returns a form in order to prepare the import
      * if the import is from a file, the form should include the file element
@@ -46,7 +46,7 @@ interface tao_models_classes_import_ImportHandler
      * @return tao_helpers_form_Form
      */
     public function getForm();
-    
+
     /**
      * Starts the import based on the form
      *

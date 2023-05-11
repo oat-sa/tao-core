@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,7 +34,6 @@
  */
 class tao_install_services_CheckFileSystemComponentService extends tao_install_services_Service implements tao_install_services_CheckService
 {
-    
     /**
      * Creates a new instance of the service.
      * @param tao_install_services_Data $data The input data to be handled by the service.
@@ -43,19 +43,19 @@ class tao_install_services_CheckFileSystemComponentService extends tao_install_s
     {
         parent::__construct($data);
     }
-    
+
     /**
      * Executes the main logic of the service.
      * @return tao_install_services_Data The result of the service execution.
      */
     public function execute()
     {
-        
+
         $fsc = self::buildComponent($this->getData());
         $report = $fsc->check();
         $this->setResult(self::buildResult($this->getData(), $report, $fsc));
     }
-    
+
     protected function checkData()
     {
         $content = json_decode($this->getData()->getContent(), true);
@@ -73,7 +73,7 @@ class tao_install_services_CheckFileSystemComponentService extends tao_install_s
             throw new InvalidArgumentException("Missing data: 'location' must be provided.");
         }
     }
-    
+
     public static function buildComponent(tao_install_services_Data $data)
     {
         $content = json_decode($data->getContent(), true);
@@ -101,10 +101,10 @@ class tao_install_services_CheckFileSystemComponentService extends tao_install_s
         } else {
             $mustCheckIfEmpty = false;
         }
-        
+
         return common_configuration_ComponentFactory::buildFileSystemComponent($location, $rights, $optional, $recursive, $mustCheckIfEmpty);
     }
-    
+
     public static function buildResult(
         tao_install_services_Data $data,
         common_configuration_Report $report,
@@ -113,7 +113,7 @@ class tao_install_services_CheckFileSystemComponentService extends tao_install_s
         $content = json_decode($data->getContent(), true);
         $rights = $content['value']['rights'];
         $id = $content['value']['id'];
-        
+
         $data = ['type' => 'FileSystemComponentReport',
                       'value' => [
                            'status' => $report->getStatusAsString(),
@@ -130,7 +130,7 @@ class tao_install_services_CheckFileSystemComponentService extends tao_install_s
                            'location' => $component->getLocation()
                       ]
         ];
-        
+
         return new tao_install_services_Data(json_encode($data));
     }
 }

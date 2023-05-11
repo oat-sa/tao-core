@@ -33,9 +33,9 @@ use oat\tao\model\controllerMap\Factory;
  */
 class ControllerHelper
 {
-    const EXTENSION_PREFIX = 'controllerMap_e_';
-    const CONTROLLER_PREFIX = 'controllerMap_c_';
-    const ACTION_PREFIX = 'controllerMap_a_';
+    public const EXTENSION_PREFIX = 'controllerMap_e_';
+    public const CONTROLLER_PREFIX = 'controllerMap_c_';
+    public const ACTION_PREFIX = 'controllerMap_a_';
 
     /**
      * Returns al lthe controllers of an extension
@@ -57,7 +57,7 @@ class ControllerHelper
         }
         return $controllerClasses;
     }
-    
+
     /**
      * Get the list of actions for a controller
      *
@@ -71,7 +71,7 @@ class ControllerHelper
         } catch (\common_cache_NotFoundException $e) {
             $factory = new Factory();
             $desc =  $factory->getControllerDescription($controllerClassName);
-            
+
             $actions = [];
             foreach ($desc->getActions() as $action) {
                 $actions[] = $action->getName();
@@ -80,7 +80,7 @@ class ControllerHelper
         }
         return $actions;
     }
-    
+
     /**
      * Get the required rights for the execution of an action
      *

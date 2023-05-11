@@ -34,14 +34,13 @@ use oat\oatbox\user\User;
  */
 class Message
 {
-
     /**
      * Short description of attribute STATUS_WAITING
      *
      * @access public
      * @var int
      */
-    const STATUS_WAITING = 2;
+    public const STATUS_WAITING = 2;
 
     /**
      * Short description of attribute STATUS_SENT
@@ -49,7 +48,7 @@ class Message
      * @access public
      * @var int
      */
-    const STATUS_SENT = 3;
+    public const STATUS_SENT = 3;
 
     /**
      * Short description of attribute STATUS_ERROR
@@ -57,7 +56,7 @@ class Message
      * @access public
      * @var int
      */
-    const STATUS_ERROR = 4;
+    public const STATUS_ERROR = 4;
 
     /**
      * Short description of attribute from

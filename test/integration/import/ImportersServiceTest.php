@@ -35,7 +35,6 @@ use oat\oatbox\service\ServiceManager;
  */
 class ImportersServiceTest extends TaoPhpUnitTestRunner
 {
-
     public function testGetImporter()
     {
         $importersService = new ImportersService([

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -63,9 +64,9 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->subject;
-        
+
 
         return (string) $returnValue;
     }
@@ -81,9 +82,9 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->predicate;
-        
+
 
         return (string) $returnValue;
     }
@@ -98,7 +99,7 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
      */
     public function setSubject($subject)
     {
-        
+
         $this->subject = $subject;
         $this->addAnnotation('subject', $subject);
     }
@@ -113,7 +114,7 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
      */
     public function setPredicate($predicate)
     {
-        
+
         $this->predicate = $predicate;
         $this->addAnnotation('predicate', $predicate);
     }
@@ -131,9 +132,9 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (bool) false;
 
-        
+
         $returnValue = $this->getSubject() == $translationUnit->getSubject();
-        
+
 
         return (bool) $returnValue;
     }
@@ -151,9 +152,9 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (bool) false;
 
-        
+
         $returnValue = $this->getPredicate() == $translationUnit->getPredicate();
-        
+
 
         return (bool) $returnValue;
     }
@@ -173,11 +174,11 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (bool) false;
 
-        
+
         $returnValue = $this->hasSameTranslationUnitPredicate($translationUnit) &&
                        $this->hasSameTranslationUnitSubject($translationUnit) &&
                        $this->hasSameTranslationUnitTargetLanguage($translationUnit);
-        
+
 
         return (bool) $returnValue;
     }
@@ -192,7 +193,7 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
      */
     public function setSource($source)
     {
-        
+
         parent::setSource($source);
         $this->addAnnotation('source', $source)
         ;

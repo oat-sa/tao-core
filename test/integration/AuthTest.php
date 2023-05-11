@@ -34,7 +34,6 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  */
 class AuthTestCase extends TaoPhpUnitTestRunner
 {
-
     /**
      * @var tao_models_classes_UserService
      */

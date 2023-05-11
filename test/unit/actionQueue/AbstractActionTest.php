@@ -32,7 +32,6 @@ use oat\tao\model\actionQueue\ActionQueueException;
  */
 class AbstractActionTest extends TestCase
 {
-
     public function testGetId()
     {
         $action = new ConcreteAction();

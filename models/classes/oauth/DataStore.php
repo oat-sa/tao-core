@@ -43,12 +43,12 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
 {
     use OntologyAwareTrait;
 
-    const OPTION_NONCE_STORE = 'nonce';
+    public const OPTION_NONCE_STORE = 'nonce';
 
-    const CLASS_URI_OAUTH_CONSUMER = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer';
-    const PROPERTY_OAUTH_KEY = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey';
-    const PROPERTY_OAUTH_SECRET = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret';
-    const PROPERTY_OAUTH_CALLBACK = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl';
+    public const CLASS_URI_OAUTH_CONSUMER = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer';
+    public const PROPERTY_OAUTH_KEY = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey';
+    public const PROPERTY_OAUTH_SECRET = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret';
+    public const PROPERTY_OAUTH_CALLBACK = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl';
 
     /**
      * Helper function to find the OauthConsumer RDF Resource
@@ -111,7 +111,7 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
         }
         return new OAuthConsumer($consumer_key, $secret, $callbackUrl);
     }
-    
+
 
     /**
      * returns the OauthConsumer for the specified key
@@ -128,7 +128,7 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
         $consumer = $this->findOauthConsumerResource($consumer_key);
         $secret         = (string)$consumer->getUniquePropertyValue($this->getProperty(self::PROPERTY_OAUTH_SECRET));
         $callbackUrl    = null;
-        
+
         $returnValue = new OAuthConsumer($consumer_key, $secret, $callbackUrl);
 
         return $returnValue;
@@ -179,7 +179,7 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
      * @param  callback
      * @return mixed
      */
-    function new_request_token($consumer, $callback = null)
+    public function new_request_token($consumer, $callback = null)
     {
         \common_Logger::d(__CLASS__ . '::' . __FUNCTION__ . ' called');
         return null;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,7 +33,6 @@
  */
 abstract class tao_helpers_data_GenerisAdapter
 {
-
     /**
      * Short description of attribute options
      *
@@ -79,11 +79,11 @@ abstract class tao_helpers_data_GenerisAdapter
     {
         $returnValue = [];
 
-        
-        
+
+
         $returnValue = $this->options;
-        
-        
+
+
 
         return (array) $returnValue;
     }
@@ -98,7 +98,7 @@ abstract class tao_helpers_data_GenerisAdapter
      */
     public function setOptions($options = [])
     {
-        
+
         $this->options = $options;
     }
 
@@ -113,7 +113,7 @@ abstract class tao_helpers_data_GenerisAdapter
      */
     public function addOption($name, $value)
     {
-        
+
         $this->options[$name] = $value;
     }
 

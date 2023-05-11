@@ -52,7 +52,7 @@ class AclProxy
                 new FuncProxy(),
                 new DataAccessControl()
             ];
-            
+
             /*
             $taoExt = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
             self::$implementations = array();
@@ -67,7 +67,7 @@ class AclProxy
         }
         return self::$implementations;
     }
-    
+
     /**
      * Returns whenever or not a user has access to a specified link
      *

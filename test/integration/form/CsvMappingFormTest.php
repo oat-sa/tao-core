@@ -22,7 +22,7 @@ class CsvMappingFormTest extends GenerisPhpUnitTestRunner
             GenerisRdf::PROPERTY_USER_UILG => 'Interface Language',
             PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN => 'Password recovery token',
         ], tao_helpers_Uri::ENCODE_ARRAY_KEYS);
-        
+
         $data = [];
         $options = [
             'class_properties' => $properties,

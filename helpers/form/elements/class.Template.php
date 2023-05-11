@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -79,8 +80,8 @@ abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormE
      */
     public function setPath($path)
     {
-        
-        
+
+
         $this->path = $path;
     }
 
@@ -94,8 +95,8 @@ abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormE
      */
     public function setValues($values)
     {
-        
-        
+
+
         if (is_array($values)) {
             $this->values = $values;
         }
@@ -112,11 +113,11 @@ abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormE
     {
         $returnValue = null;
 
-        
-        
+
+
         $returnValue = $this->values;
-        
-        
+
+
 
         return $returnValue;
     }
@@ -132,16 +133,16 @@ abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormE
     {
         $returnValue = (string) '';
 
-        
-        
+
+
         //prevent to use empty prefix. By default the name is used!
         if (empty($this->prefix) && !empty($this->name)) {
             $this->prefix = $this->name . '_';
         }
-        
+
         $returnValue = $this->prefix;
-        
-        
+
+
 
         return (string) $returnValue;
     }
@@ -156,8 +157,8 @@ abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormE
      */
     public function setPrefix($prefix)
     {
-        
-        
+
+
         $this->prefix = $prefix;
     }
 
@@ -171,8 +172,8 @@ abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormE
      */
     public function setVariables($variables)
     {
-        
-        
+
+
         if (!is_array($variables)) {
             $variables = [$variables];
         }

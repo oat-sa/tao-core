@@ -33,8 +33,6 @@ use oat\generis\test\TestCase;
 
 class StreamRangeTest extends TestCase
 {
-
-
     /**
      * @dataProvider rangesProvider
      */

@@ -35,7 +35,6 @@ use oat\generis\model\data\ModelManager;
  */
 class ImportRdf implements Action
 {
-
     public function __invoke($params)
     {
         if (count($params) < 1) {
@@ -46,14 +45,14 @@ class ImportRdf implements Action
         if (!file_exists($filename) || !is_readable($filename)) {
             return new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Unable to open file %s', $filename));
         }
-        
+
         if (empty($params)) {
             $iterator = new FileIterator($filename);
         } else {
             $modelId = array_shift($params);
             $iterator = new FileIterator($filename, $modelId);
         }
-        
+
         $rdf = ModelManager::getModel()->getRdfInterface();
         $triples = 0;
         foreach ($iterator as $triple) {

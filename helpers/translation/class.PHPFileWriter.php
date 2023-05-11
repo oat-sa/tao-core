@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -45,7 +46,7 @@ class tao_helpers_translation_PHPFileWriter extends tao_helpers_translation_Tran
      */
     public function write()
     {
-        
+
         $tf = $this->getTranslationFile();
         $buffer = "<?php\n";
         foreach ($tf->getTranslationUnits() as $tu) {
@@ -59,7 +60,7 @@ class tao_helpers_translation_PHPFileWriter extends tao_helpers_translation_Tran
             }
         }
         $buffer .= "\n?>";
-        
+
         file_put_contents($this->getFilePath(), $buffer);
     }
 }

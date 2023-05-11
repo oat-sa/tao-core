@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,10 +29,9 @@
  */
 class tao_install_utils_Shield
 {
-    
     protected $extensions = [];
     protected $accessFiles = [];
-    
+
     public function __construct(array $extensions)
     {
         $this->extensions = $extensions;
@@ -45,7 +45,7 @@ class tao_install_utils_Shield
             }
         }
     }
-    
+
     public function disableRewritePattern(array $patterns)
     {
 
@@ -76,7 +76,7 @@ class tao_install_utils_Shield
             }
         }
     }
-    
+
     public function protectInstall()
     {
         foreach ($this->extensions as $extension) {
@@ -97,11 +97,11 @@ class tao_install_utils_Shield
             }
         }
     }
-        
+
     public function denyAccessTo($paths)
     {
-            
-            
+
+
         foreach ($this->extensions as $extension) {
             foreach ($paths as $path) {
                 if (!preg_match("/^\\" . DIRECTORY_SEPARATOR . "/", $path)) {
@@ -111,7 +111,7 @@ class tao_install_utils_Shield
                 if (file_exists($denied) && is_dir($denied)) {
                     $accessFile = $denied .  DIRECTORY_SEPARATOR . '.htaccess';
                     if (!is_writable($denied) || (file_exists($accessFile && !is_writable($accessFile)))) {
-                            throw new tao_install_utils_Exception("Unable to write .htaccess file into : ${denied}.");
+                        throw new tao_install_utils_Exception("Unable to write .htaccess file into : ${denied}.");
                     }
                     file_put_contents($accessFile, "<IfModule mod_rewrite.c>\n"
                                                 . "RewriteEngine On\n"

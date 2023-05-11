@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,7 +35,6 @@
  */
 class tao_install_services_CheckPHPConfigService extends tao_install_services_Service
 {
-    
     /**
      * Creates a new instance of the service.
      * @param tao_install_services_Data $data The input data to be handled by the service.
@@ -44,7 +44,7 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
     {
         parent::__construct($data);
     }
-    
+
     /**
      * Executes the main logic of the service.
      * @return tao_install_services_Data The result of the service execution.
@@ -54,14 +54,14 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
         // contains an array of 'component', associated input 'data'
         // and service 'class'.
         $componentToData = [];
-        
+
         $content = json_decode($this->getData()->getContent(), true);
         if (self::getRequestMethod() == 'get') {
             // We extract the checks to perform from the manifests
             // depending on the distribution.
             $content['value'] = tao_install_utils_ChecksHelper::getRawChecks($content['extensions']);
         }
-        
+
         // Deal with checks to be done.
         $collection = new common_configuration_ComponentCollection();
         foreach ($content['value'] as $config) {
@@ -70,17 +70,17 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
             $args = new tao_install_services_Data(json_encode($config));
             $component = $buildMethod->invoke(null, $args);
             $collection->addComponent($component);
-            
+
             if (!empty($config['value']['silent']) && is_bool($config['value']['silent'])) {
                 $collection->silent($component);
             }
-            
+
             $componentToData[] = ['component' => $component,
                                        'id' => $config['value']['id'],
                                        'data' => $args,
                                        'class' => $class];
         }
-        
+
         // Deal with the dependencies.
         foreach ($content['value'] as $config) {
             if (!empty($config['value']['dependsOn']) && is_array($config['value']['dependsOn'])) {
@@ -94,15 +94,15 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
                 }
             }
         }
-        
-        
+
+
         // Deal with results to be sent to the client.
         $resultValue = [];
         $reports = $collection->check();
         foreach ($reports as $r) {
             $component = $r->getComponent();
-            
-            
+
+
             // For the retrieved component, what was the associated data and class ?
             $associatedData = null;
             $class = null;
@@ -112,23 +112,23 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
                     $class = $ctd['class'];
                 }
             }
-            
+
             $buildMethod = $class->getMethod('buildResult');
             $serviceResult = $buildMethod->invoke(null, $associatedData, $r, $component);
             $resultValue[] = $serviceResult->getContent();
         }
-        
+
         // Sort by 'optional'.
         usort($resultValue, ['tao_install_services_CheckPHPConfigService' , 'sortReports']);
-        
-        
+
+
         $resultData = json_encode(['type' => 'ReportCollection',
             'value' => '{RETURN_VALUE}']);
-        
+
         $resultData = str_replace('"{RETURN_VALUE}"', '[' . implode(',', $resultValue) . ']', $resultData);
         $this->setResult(new tao_install_services_Data($resultData));
     }
-    
+
     /**
      * Report sorting function.
      * @param string $a JSON encoded report.
@@ -139,14 +139,14 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
     {
         $a = json_decode($a, true);
         $b = json_decode($b, true);
-        
+
         if ($a['value']['optional'] == $b['value']['optional']) {
             return 0;
         } else {
             return ($a['value']['optional'] < $b['value']['optional']) ? -1 : 1;
         }
     }
-    
+
     protected function checkData()
     {
         $content = json_decode($this->getData()->getContent(), true);
@@ -155,14 +155,14 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
         } elseif ($content['type'] !== 'CheckPHPConfig') {
             throw new InvalidArgumentException("Unexpected type: 'type' must be equal to 'CheckPHPConfig'.");
         }
-        
-        
+
+
         if (self::getRequestMethod() !== 'get') {
             if (!isset($content['value']) || empty($content['value']) || count($content['value']) == 0) {
                 throw new InvalidArgumentException("Missing data: 'value' must be provided as a not empty array.");
             } else {
                 $acceptedTypes = ['CheckPHPExtension', 'CheckPHPINIValue', 'CheckPHPRuntime', 'CheckPHPDatabaseDriver', 'CheckFileSystemComponent', 'CheckCustom'];
-                
+
                 foreach ($content['value'] as $config) {
                     if (!isset($config['type']) || empty($config['type']) || !in_array($config['type'], $acceptedTypes)) {
                         throw new InvalidArgumentException("Missing data: configuration 'type' must provided.");
@@ -175,7 +175,7 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
             }
         }
     }
-    
+
     /**
      * Returns a component stored in an array of array. The searched key is 'id'. If matched,
      * the component instance is returned. Otherwise null.
@@ -191,7 +191,7 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
                 return $ctd['component'];
             }
         }
-        
+
         return null;
     }
 }

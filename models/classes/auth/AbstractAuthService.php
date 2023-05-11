@@ -30,8 +30,8 @@ use oat\oatbox\service\ConfigurableService;
  */
 abstract class AbstractAuthService extends ConfigurableService
 {
-    const OPTION_TYPES = 'types';
-    const OPTION_DEFAULT_TYPE = 'type';
+    public const OPTION_TYPES = 'types';
+    public const OPTION_DEFAULT_TYPE = 'type';
 
     /**
      * Get all available type from config

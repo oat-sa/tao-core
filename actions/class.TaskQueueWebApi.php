@@ -97,18 +97,18 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
             );
 
             $this->setSuccessJsonResponse((new RedirectUrlEntityDecorator(
-                    new HasFileEntityDecorator(
-                        new CategoryEntityDecorator($entity, $taskLogService),
-                        $this->getFileSystemService(),
-                        $this->getFileReferenceSerializer()
-                    ),
-                    $taskLogService,
-                    common_session_SessionManager::getSession()->getUser()
-                ))->toArray());
+                new HasFileEntityDecorator(
+                    new CategoryEntityDecorator($entity, $taskLogService),
+                    $this->getFileSystemService(),
+                    $this->getFileReferenceSerializer()
+                ),
+                $taskLogService,
+                common_session_SessionManager::getSession()->getUser()
+            ))->toArray());
         } catch (Exception $e) {
             $this->setErrorJsonResponse(
                 $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
-                 $e->getCode()
+                $e->getCode()
             );
         }
     }
@@ -148,8 +148,8 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
                 'success' => (bool) $taskLogService->archiveCollection($taskLogService->search($filter))
             ]);
         } catch (Exception $e) {
-             $this->setErrorJsonResponse(
-                 $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
+            $this->setErrorJsonResponse(
+                $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
                 $e instanceof \common_exception_NotFound ? 404 : $e->getCode()
             );
         }
@@ -228,7 +228,7 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
         } catch (Exception $e) {
             $this->setErrorJsonResponse(
                 $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
-                 $e->getCode()
+                $e->getCode()
             );
         }
     }

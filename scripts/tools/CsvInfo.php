@@ -21,7 +21,7 @@
 
 namespace oat\tao\scripts\tools;
 
-use \common_report_Report as Report;
+use common_report_Report as Report;
 use oat\oatbox\action\Action;
 
 /**
@@ -48,7 +48,7 @@ class CsvInfo implements Action
             Report::TYPE_INFO,
             'Unknown'
         );
-        
+
         // -- Deal with parameters.
         if (!empty($params[0])) {
             $source = $params[0];
@@ -58,51 +58,51 @@ class CsvInfo implements Action
                 "'Source' parameter not provided."
             );
         }
-        
+
         $sourceFp = @fopen($source, 'r');
-        
+
         if ($sourceFp === false) {
             return new Report(
                 Report::TYPE_ERROR,
                 "Source file '${source}' could not be open."
             );
         }
-        
+
         $rowCount = 0;
         $columnCount = 0;
         $columnCountMismatch = false;
-        
+
         if ($sourceData = fgetcsv($sourceFp)) {
             // First row processing.
             $rowCount++;
             $columnCount = count($sourceData);
-            
+
             while ($sourceData = fgetcsv($sourceFp)) {
                 // Next rows processing.
                 $newColumnCount = count($sourceData);
-                
+
                 if ($newColumnCount !== $columnCount) {
                     // Column count mismatch.
                     $columnCountMismatch = true;
                 }
-                
+
                 $rowCount++;
             }
-            
+
             $report->add(
                 new Report(
                     Report::TYPE_INFO,
                     "The source file contains ${rowCount} rows."
                 )
             );
-            
+
             $report->add(
                 new Report(
                     Report::TYPE_INFO,
                     "The source file contains ${columnCount} columns (inferred from first row)."
                 )
             );
-            
+
             if (!$columnCountMismatch) {
                 $report->add(
                     new Report(
@@ -126,12 +126,12 @@ class CsvInfo implements Action
                 )
             );
         }
-        
+
         @fclose($sourceFp);
-        
+
         $report->setType(Report::TYPE_INFO);
         $report->setMessage('The script ended gracefully.');
-        
+
         return $report;
     }
 }

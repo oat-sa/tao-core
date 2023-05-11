@@ -55,7 +55,7 @@ class tao_models_classes_oauth_Service implements common_http_SignatureService
     {
         return $this->getService()->validate($request, $credentials);
     }
-    
+
     /**
      * @return OauthService
      */

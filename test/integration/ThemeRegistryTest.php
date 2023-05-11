@@ -32,7 +32,6 @@ use oat\tao\model\websource\WebsourceManager;
  */
 class ThemeRegistryTest extends GenerisPhpUnitTestRunner
 {
-
     public function tearDown(): void
     {
         parent::tearDown();

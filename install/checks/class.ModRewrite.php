@@ -21,16 +21,16 @@
  */
 ?>
 <?php
+
 class tao_install_checks_ModRewrite extends common_configuration_Component
 {
-    
     public function check()
     {
         $status = null;
         $message = '';
         $modRewrite = false;
         $report = null;
-        
+
         if (function_exists('apache_get_modules')) {
             $modules = apache_get_modules();
             if (in_array('mod_rewrite', $modules)) {
@@ -51,13 +51,13 @@ class tao_install_checks_ModRewrite extends common_configuration_Component
                 ((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? 'https' : 'http')
                 . "://" . $_SERVER['SERVER_NAME']
                 . (($_SERVER["SERVER_PORT"] != "80") ? ":" . $_SERVER["SERVER_PORT"] : '');
-            
+
             $request = $_SERVER["REQUEST_URI"];
             if (strpos($request, '?') !== false) {
                 $request = substr($request, 0, strpos($request, '?'));
             }
             $request = substr($request, 0, strrpos($request, '/'));
-                
+
             $url = $server . $request . '/checks/testRewrite/notworking';
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -86,7 +86,7 @@ class tao_install_checks_ModRewrite extends common_configuration_Component
                 $this
             );
         }
-        
+
         return $report;
     }
 }

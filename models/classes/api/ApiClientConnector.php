@@ -38,7 +38,7 @@ use GuzzleHttp\ClientInterface;
  */
 class ApiClientConnector extends Configurable implements ClientInterface
 {
-    const OPTION_BASE_URI = 'base_uri';
+    public const OPTION_BASE_URI = 'base_uri';
 
     /**
      * Send an HTTP request.

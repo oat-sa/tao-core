@@ -39,10 +39,10 @@ class tao_helpers_form_elements_xhtml_Authoring extends tao_helpers_form_element
      * @access protected
      * @var string
      */
-    const CSS_CLASS = 'authoringOpener';
-    
+    public const CSS_CLASS = 'authoringOpener';
+
     // --- OPERATIONS ---
-    
+
     /**
      * Short description of method render
      *
@@ -59,12 +59,12 @@ class tao_helpers_form_elements_xhtml_Authoring extends tao_helpers_form_element
         } else {
             $this->attributes['class'] = self::CSS_CLASS;
         }
-        
+
         $returnValue = $this->renderLabel();
         $returnValue .= "<button name='{$this->name}' type='button'";
         $returnValue .= $this->renderAttributes();
         $returnValue .= " >" . __('Author Item') . "</button>";
-        
+
         return (string) $returnValue;
     }
 }

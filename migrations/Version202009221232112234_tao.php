@@ -13,7 +13,6 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
  */
 final class Version202009221232112234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'Service that will allow hiding sections that contains enabled feature flags';

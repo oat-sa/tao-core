@@ -36,7 +36,6 @@ use oat\tao\model\accessControl\func\AclProxy;
  */
 class tao_install_ExtensionUninstaller extends common_ext_ExtensionUninstaller
 {
-    
     /**
      * Uninstall all access rules
      *

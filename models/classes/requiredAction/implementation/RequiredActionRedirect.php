@@ -23,7 +23,7 @@
 namespace oat\tao\model\requiredAction\implementation;
 
 use oat\tao\model\requiredAction\RequiredActionAbstract;
-use \Exception;
+use Exception;
 use oat\tao\model\requiredAction\RequiredActionRuleInterface;
 use oat\tao\model\routing\FlowController;
 

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,7 +33,6 @@
  */
 class tao_install_services_CheckCustomService extends tao_install_services_Service implements tao_install_services_CheckService
 {
-    
     /**
      * Creates a new instance of the service.
      * @param tao_install_services_Data $data The input data to be handled by the service.
@@ -42,7 +42,7 @@ class tao_install_services_CheckCustomService extends tao_install_services_Servi
     {
         parent::__construct($data);
     }
-    
+
     /**
      * Executes the main logic of the service.
      * @return tao_install_services_Data The result of the service execution.
@@ -53,7 +53,7 @@ class tao_install_services_CheckCustomService extends tao_install_services_Servi
         $name = $content['value']['name'];
         $extension = $content['value']['extension'];
         $check = self::buildComponent($this->getData());
-        
+
         if ($check !== null) {
             $report = $check->check();
             $this->setResult(self::buildResult($this->getData(), $report, $check));
@@ -61,7 +61,7 @@ class tao_install_services_CheckCustomService extends tao_install_services_Servi
             throw new tao_install_services_UnknownCustomCheckException($name, $extension);
         }
     }
-    
+
     protected function checkData()
     {
         $content = json_decode($this->getData()->getContent(), true);
@@ -84,26 +84,26 @@ class tao_install_services_CheckCustomService extends tao_install_services_Servi
             }
         }
     }
-    
+
     public static function buildComponent(tao_install_services_Data $data)
     {
         $content = json_decode($data->getContent(), true);
         $name = $content['value']['name'];
-        
+
         if (isset($content['value']['optional'])) {
             $optional = $content['value']['optional'];
         } else {
             $optional = false;
         }
         $extension = $content['value']['extension'];
-        
+
         try {
             return common_configuration_ComponentFactory::buildCustom($name, $extension, $optional);
         } catch (common_configuration_ComponentFactoryException $e) {
             return null;
         }
     }
-    
+
     public static function buildResult(
         tao_install_services_Data $data,
         common_configuration_Report $report,
@@ -111,7 +111,7 @@ class tao_install_services_CheckCustomService extends tao_install_services_Servi
     ) {
 
         $content = json_decode($data->getContent(), true);
-        
+
         $id = $content['value']['id'];
         $extension = $content['value']['extension'];
 
@@ -122,7 +122,7 @@ class tao_install_services_CheckCustomService extends tao_install_services_Servi
                                        'extension' => $extension,
                                        'optional' => $component->isOptional(),
                                        'id' => $id]];
-                                           
+
         return new tao_install_services_Data(json_encode($data));
     }
 }

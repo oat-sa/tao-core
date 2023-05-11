@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -96,7 +97,7 @@ class tao_helpers_grid_Column
      */
     public function __construct($id, $title, $options = [])
     {
-        
+
         $this->id = $id;
         $this->title = $title;
         $this->options = $options;
@@ -114,10 +115,10 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-        
+
         $this->type = $type;
         $returnValue = true;
-        
+
 
         return (bool) $returnValue;
     }
@@ -133,9 +134,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->type;
-        
+
 
         return (string) $returnValue;
     }
@@ -152,10 +153,10 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-        
+
         $this->title = $title;
         $returnValue = true;
-        
+
 
         return (bool) $returnValue;
     }
@@ -171,9 +172,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->title;
-        
+
 
         return (string) $returnValue;
     }
@@ -189,9 +190,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->id;
-        
+
 
         return (string) $returnValue;
     }
@@ -208,12 +209,12 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-        
+
         if (!is_null($adapter)) {
             $this->adapters[] = $adapter;
             $returnValue = true;
         }
-        
+
 
         return (bool) $returnValue;
     }
@@ -230,7 +231,7 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-        
+
         $adapterClass = empty($type) ? 'tao_helpers_grid_Cell_Adapter' : $type;
         foreach ($this->adapters as $adapter) {
             if ($adapter instanceof $adapterClass) {
@@ -238,8 +239,8 @@ class tao_helpers_grid_Column
                 break;
             }
         }
-        
-        
+
+
 
         return (bool) $returnValue;
     }
@@ -258,8 +259,8 @@ class tao_helpers_grid_Column
     {
         $returnValue = null;
 
-        
-        
+
+
         if ($this->hasAdapter()) {
             foreach ($this->adapters as $adapter) {
                 if ($adapter instanceof tao_helpers_grid_Cell_Adapter) {
@@ -268,7 +269,7 @@ class tao_helpers_grid_Column
             }
             $returnValue = $cellValue;
         }
-        
+
         if ($evaluateData) {
             //allow returning to type "string" or "Grid" only
             if ($returnValue instanceof tao_helpers_grid_Grid) {
@@ -281,8 +282,8 @@ class tao_helpers_grid_Column
                 $returnValue = (string) $returnValue;
             }
         }
-        
-        
+
+
 
         return $returnValue;
     }
@@ -299,14 +300,14 @@ class tao_helpers_grid_Column
     {
         $returnValue = null;
 
-        
+
         foreach ($this->adapters as $adapter) {
             if ($adapter instanceof $type) {
                 $returnValue = $adapter;
                 break;
             }
         }
-        
+
 
         return $returnValue;
     }
@@ -322,9 +323,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = [];
 
-        
+
         $returnValue = $this->options;
-        
+
 
         return (array) $returnValue;
     }
@@ -338,7 +339,7 @@ class tao_helpers_grid_Column
      */
     public function setOptions($options)
     {
-        
+
         $this->options = array_merge($this->options, $options);
     }
 
@@ -354,9 +355,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = null;
 
-        
+
         $returnValue = $this->options[$name];
-        
+
 
         return $returnValue;
     }
@@ -371,7 +372,7 @@ class tao_helpers_grid_Column
      */
     public function setOption($name, $value)
     {
-        
+
         $this->options[$name] = $value;
     }
 
@@ -387,8 +388,8 @@ class tao_helpers_grid_Column
     {
         $returnValue = (bool) false;
 
-        
-        
+
+
 
         return (bool) $returnValue;
     }
@@ -404,9 +405,9 @@ class tao_helpers_grid_Column
     {
         $returnValue = [];
 
-        
+
         $returnValue = $this->adapters;
-        
+
 
         return (array) $returnValue;
     }

@@ -21,6 +21,7 @@
  */
 ?>
 <?php
+
 /**
  * A simple XML parser that is able to parse SQL files with Simple statements.
  * Please note that complex statements like Procedure or Functions are not
@@ -32,7 +33,6 @@
  */
 class tao_install_utils_SimpleSQLParser extends tao_install_utils_SQLParser
 {
-    
     /**
      * Parses a SQL file containing simple statements.
      * @return void
@@ -41,7 +41,7 @@ class tao_install_utils_SimpleSQLParser extends tao_install_utils_SQLParser
     public function parse()
     {
         $this->setStatements([]);
-        
+
         //common file checks
         $file = $this->getFile();
         if (!file_exists($file)) {
@@ -51,21 +51,21 @@ class tao_install_utils_SimpleSQLParser extends tao_install_utils_SQLParser
         } elseif (!preg_match("/\.sql$/", basename($file))) {
             throw new tao_install_utils_SQLParsingException("File '${file}' is not a valid SQL file. Extension '.sql' not found.");
         }
-        
+
         if ($handler = fopen($file, "r")) {
             //parse file and get only usefull lines
             $ch = "";
             while (!feof($handler)) {
                 $line = utf8_decode(fgets($handler));
-        
+
                 if (isset($line[0]) && ($line[0] != '#') && ($line[0] != '-')) {
                     $ch = $ch . $line;
                 }
             }
-            
+
             //explode and execute
             $requests = explode(";", $ch);
-            
+
             try {
                 foreach ($requests as $index => $request) {
                     $requestTrim = trim($request);

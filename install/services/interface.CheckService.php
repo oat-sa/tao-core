@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,7 +37,7 @@ interface tao_install_services_CheckService
      * @return common_configuration_Component
      */
     public static function buildComponent(tao_install_services_Data $data);
-    
+
     /**
      * Build the tao_install_services_Data result corresponding to the check
      * performed by the service.

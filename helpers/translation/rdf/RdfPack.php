@@ -37,7 +37,6 @@ use oat\generis\model\kernel\persistence\file\FileModel;
  */
 class RdfPack implements \IteratorAggregate
 {
-
     /**
      * @var string
      */
@@ -67,7 +66,7 @@ class RdfPack implements \IteratorAggregate
         $this->langCode     = $langCode;
         $this->extension   = $extension;
     }
-    
+
     public function getIterator()
     {
         $iterator = new \AppendIterator();
@@ -83,10 +82,10 @@ class RdfPack implements \IteratorAggregate
         }
         return $iterator;
     }
-    
+
     protected function getTriplesFromFile($file, $modelId)
     {
-    
+
         $translationFileReader = new tao_helpers_translation_POFileReader($file);
         $translationFileReader->read();
         $translationFile = $translationFileReader->getTranslationFile();

@@ -32,7 +32,6 @@ use oat\generis\test\TestCase;
  */
 class DynamicModuleTest extends TestCase
 {
-
     /**
      * Data provider
      * @return array the data

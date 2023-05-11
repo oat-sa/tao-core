@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -60,12 +61,12 @@ class tao_helpers_Javascript
             // versions return null... If it fails, simply
             // reproduce a single failure scenario.
             $returnValue = @json_encode($var);
-            
+
             if ($returnValue === false) {
                 $returnValue = json_encode(null);
             }
         }
-        
+
         return $returnValue;
     }
 }

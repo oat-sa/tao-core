@@ -32,7 +32,7 @@ use oat\tao\model\service\ApplicationService;
  */
 class AssetServiceTest extends GenerisPhpUnitTestRunner
 {
-    const TEST_TAO_VERSION = 'TEST_TAO_VERSION';
+    public const TEST_TAO_VERSION = 'TEST_TAO_VERSION';
 
     /**
      * Test the method AssetService->getAsset

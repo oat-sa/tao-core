@@ -29,10 +29,10 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule impl
     use OntologyAwareTrait;
     use \tao_actions_RestTrait;
 
-    const CLASS_URI_PARAM = 'class-uri';
-    const CLASS_LABEL_PARAM = 'class-label';
-    const CLASS_COMMENT_PARAM = 'class-comment';
-    const PARENT_CLASS_URI_PARAM = 'parent-class-uri';
+    public const CLASS_URI_PARAM = 'class-uri';
+    public const CLASS_LABEL_PARAM = 'class-label';
+    public const CLASS_COMMENT_PARAM = 'class-comment';
+    public const PARENT_CLASS_URI_PARAM = 'parent-class-uri';
 
     /**
      * Check response encoding requested

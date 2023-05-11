@@ -30,7 +30,7 @@ use oat\generis\Helper\SystemHelper;
  */
 class tao_models_classes_import_CsvUploadForm extends tao_helpers_form_FormContainer
 {
-    const IS_OPTION_FIRST_COLUMN_ENABLE = 'enable_option_first_columns';
+    public const IS_OPTION_FIRST_COLUMN_ENABLE = 'enable_option_first_columns';
 
     // --- ASSOCIATIONS ---
 
@@ -54,7 +54,7 @@ class tao_models_classes_import_CsvUploadForm extends tao_helpers_form_FormConta
         $this->form->setActions([$submitElt], 'bottom');
         $this->form->setActions([], 'top');
     }
-    
+
     /**
      * overriden
      *
@@ -96,14 +96,14 @@ class tao_models_classes_import_CsvUploadForm extends tao_helpers_form_FormConta
                 ['max' => SystemHelper::getFileUploadLimit()]
             )
         ]);
-        
+
         $this->form->addElement($fileElt);
         $this->form->createGroup('file', __('Import Metadata from CSV file'), ['source']);
-        
+
         $csvSentElt = tao_helpers_form_FormFactory::getElement('import_sent_csv', 'Hidden');
         $csvSentElt->setValue(1);
         $this->form->addElement($csvSentElt);
-        
+
         // options
         $optDelimiter = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIELD_DELIMITER, 'Textbox');
         $optDelimiter->setDescription(__("Field delimiter"));
@@ -111,14 +111,14 @@ class tao_models_classes_import_CsvUploadForm extends tao_helpers_form_FormConta
         $optDelimiter->addAttribute("size", 6);
         $optDelimiter->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         $this->form->addElement($optDelimiter);
-        
+
         $optEncloser = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIELD_ENCLOSER, 'Textbox');
         $optEncloser->setDescription(__("Field encloser"));
         $optEncloser->setValue('"');
         $optEncloser->addAttribute("size", 6);
         $optEncloser->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         $this->form->addElement($optEncloser);
-        
+
         /*
         $optMulti = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::MULTI_VALUES_DELIMITER, 'Textbox');
         $optMulti->setDescription(__("Multiple values delimiter"));

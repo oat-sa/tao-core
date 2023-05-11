@@ -26,7 +26,6 @@ use oat\tao\model\metadata\exception\InconsistencyConfigException;
 
 class WebhookLogRepository extends AbstractWebhookLogRepository
 {
-
     /**
      * @throws InconsistencyConfigException
      */

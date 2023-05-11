@@ -41,8 +41,7 @@ use oat\tao\model\actionQueue\event\ActionQueueTrendEvent;
  */
 class InstantActionQueue extends ConfigurableService implements ActionQueue
 {
-
-    const QUEUE_TREND = 'queue_trend';
+    public const QUEUE_TREND = 'queue_trend';
 
     /**
      * @return EventManager

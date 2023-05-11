@@ -33,7 +33,6 @@ use oat\oatbox\service\ServiceManager;
  */
 class MediaService extends ConfigurableService
 {
-
     public const SERVICE_ID = 'tao/MediaService';
 
     public const OPTION_SOURCE = 'source';

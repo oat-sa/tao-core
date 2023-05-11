@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,7 +31,7 @@
  */
 class tao_scripts_TaoInstall extends tao_scripts_Runner
 {
-    const CONTAINER_INDEX = 'taoScriptsInstall';
+    public const CONTAINER_INDEX = 'taoScriptsInstall';
 
     // --- ASSOCIATIONS ---
 

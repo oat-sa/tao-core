@@ -35,7 +35,6 @@ include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
  */
 class HttpHelperTest extends TaoPhpUnitTestRunner
 {
-
     protected $string = '0123456789';
 
     public function setUp(): void

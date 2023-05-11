@@ -21,6 +21,7 @@
  */
 ?>
 <?php
+
 /**
  * Override the exception to type the install exceptions.
  * Used to display install errors and misconfiguration to the user.
@@ -31,7 +32,6 @@
  */
 class tao_install_utils_Exception extends common_Exception
 {
-    
     /**
      * @return string the exception message
      */

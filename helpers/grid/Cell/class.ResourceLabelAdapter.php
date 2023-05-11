@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -50,7 +51,7 @@ class tao_helpers_grid_Cell_ResourceLabelAdapter extends tao_helpers_grid_Cell_A
     {
         $returnValue = null;
 
-        
+
         if (!empty($data) && is_string($data) && common_Utils::isUri($data)) {
             $data = new core_kernel_classes_Resource($data);
         }
@@ -59,7 +60,7 @@ class tao_helpers_grid_Cell_ResourceLabelAdapter extends tao_helpers_grid_Cell_A
         } else {
             $returnValue = $data;//return the data, unaltered
         }
-        
+
 
         return $returnValue;
     }

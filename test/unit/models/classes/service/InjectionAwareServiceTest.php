@@ -267,4 +267,3 @@ EXPECTED;
         $this->assertEquals($expected, $instance->__toPhpCode());
     }
 }
-

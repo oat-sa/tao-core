@@ -39,7 +39,6 @@ use oat\tao\model\TaoOntology;
  */
 class TaoCe
 {
-
     /**
      * Check whether the current user has already been connected to the TAO backend.
      *

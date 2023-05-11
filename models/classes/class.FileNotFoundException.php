@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,7 +37,7 @@ class tao_models_classes_FileNotFoundException extends common_Exception
         $this->path = $path;
         parent::__construct('File ' . $path . ' not found');
     }
-    
+
     public function getFilePath()
     {
         return $this->path;

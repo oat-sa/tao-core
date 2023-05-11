@@ -30,14 +30,13 @@ use oat\generis\model\OntologyRdf;
  */
 class tao_helpers_I18n
 {
-
     /**
      * Short description of attribute AVAILABLE_LANGS_CACHEKEY
      *
      * @access private
      * @var string
      */
-    const AVAILABLE_LANGS_CACHEKEY = 'i18n_available_langs';
+    public const AVAILABLE_LANGS_CACHEKEY = 'i18n_available_langs';
 
     /**
      * Short description of attribute availableLangs

@@ -150,7 +150,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         /** @var LockoutInterface $lockoutService */
         $lockoutService = $this->getSubService(self::OPTION_LOCKOUT_SERVICE);
         try {
-            if(!$lockoutService->isAllowed()){
+            if (!$lockoutService->isAllowed()) {
                 throw new LockOutException('Blocked');
             }
             return $server->verify_request($oauthRequest);

@@ -31,7 +31,6 @@ use oat\oatbox\service\ServiceManager;
  */
 class TaoMediaResolver
 {
-
     /**
      * Resolve a taomedia url to a media asset
      *

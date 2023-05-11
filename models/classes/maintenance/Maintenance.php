@@ -33,9 +33,9 @@ use oat\tao\model\metadata\exception\InconsistencyConfigException;
  */
 class Maintenance extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/maintenance';
+    public const SERVICE_ID = 'tao/maintenance';
 
-    const OPTION_PERSISTENCE = 'persistence';
+    public const OPTION_PERSISTENCE = 'persistence';
 
     /**
      * Storage to store platform state

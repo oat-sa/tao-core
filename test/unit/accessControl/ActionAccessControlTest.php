@@ -178,7 +178,7 @@ class ActionAccessControlTest extends TestCase
 
     private function createUser(): TestUser
     {
-        return new class extends TestUser {
+        return new class () extends TestUser {
             private $roles;
 
             public function getRoles()

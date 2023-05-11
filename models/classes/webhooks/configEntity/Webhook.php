@@ -69,8 +69,7 @@ class Webhook implements WebhookInterface
         WebhookAuth $auth = null,
         bool $responseValidation = true,
         array $extraPayload = []
-    )
-    {
+    ) {
         $this->id = $id;
         $this->url = $url;
         $this->httpMethod = $httpMethod;

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,12 +31,11 @@
  */
 class tao_install_services_UnknownServiceException extends Exception
 {
-    
     /**
      * The requested Service name.
      */
     private $serviceName;
-    
+
     /**
      * Creates a new UnknownServiceException.
      * @param string $serviceName The name of the requested Service.
@@ -47,7 +47,7 @@ class tao_install_services_UnknownServiceException extends Exception
         } else {
             parent::__construct("Service '${serviceName} not found.");
         }
-        
+
         $this->setServiceName($serviceName);
     }
 
@@ -60,7 +60,7 @@ class tao_install_services_UnknownServiceException extends Exception
     {
         $this->serviceName = $serviceName;
     }
-    
+
     /**
      * Gets the requested Service name.
      * @return string A Service name.

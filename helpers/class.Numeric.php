@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,7 +31,6 @@
  */
 class tao_helpers_Numeric
 {
-
     /**
      *  Converts a string to a float, in order to support negative values.
      *

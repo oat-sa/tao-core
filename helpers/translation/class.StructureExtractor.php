@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,7 +33,6 @@
  */
 class tao_helpers_translation_StructureExtractor extends tao_helpers_translation_TranslationExtractor
 {
-
     /**
      * Extracts the translation units from a structures.xml file.
      * Translation Units can be retrieved after extraction by calling the getTranslationUnits
@@ -45,7 +45,7 @@ class tao_helpers_translation_StructureExtractor extends tao_helpers_translation
     public function extract()
     {
         $translationUnits = [];
-        
+
         foreach ($this->getPaths() as $file) {
             $xml = new \SimpleXMLElement($file, null, true);
             if ($xml instanceof SimpleXMLElement) {
@@ -60,7 +60,7 @@ class tao_helpers_translation_StructureExtractor extends tao_helpers_translation
                         $translationUnits[$nodeName] = $newTranslationUnit;
                     }
                 }
-                
+
                 // look up for "name" attributes of action elements.
                 $nodes = $xml->xpath("//action[@name]|//tree[@name]");
                 foreach ($nodes as $node) {
@@ -72,7 +72,7 @@ class tao_helpers_translation_StructureExtractor extends tao_helpers_translation
                         $translationUnits[$nodeName] = $newTranslationUnit;
                     }
                 }
-                
+
                 // look up for "description" elements.
                 $nodes = $xml->xpath("//description");
                 foreach ($nodes as $node) {
@@ -83,7 +83,7 @@ class tao_helpers_translation_StructureExtractor extends tao_helpers_translation
                         $translationUnits[(string)$node] = $newTranslationUnit;
                     }
                 }
-                
+
                 // look up for "action" elements inside a toolbar
                 $nodes = $xml->xpath("//toolbar/toolbaraction");
                 foreach ($nodes as $node) {
@@ -95,7 +95,7 @@ class tao_helpers_translation_StructureExtractor extends tao_helpers_translation
                         $translationUnits[$nodeValue] = $newTranslationUnit;
                     }
                 }
-                
+
                 // look up for the "title" attr of an "action" element inside a toolbar
                 $nodes = $xml->xpath("//toolbar/toolbaraction[@title]");
                 foreach ($nodes as $node) {
@@ -107,7 +107,7 @@ class tao_helpers_translation_StructureExtractor extends tao_helpers_translation
                         $translationUnits[$nodeTitle] = $newTranslationUnit;
                     }
                 }
-                
+
                 // look up for the "entrypoint" elements
                 $nodes = $xml->xpath("//entrypoint");
                 foreach ($nodes as $node) {
@@ -128,7 +128,7 @@ class tao_helpers_translation_StructureExtractor extends tao_helpers_translation
                 }
             }
         }
-        
+
         $this->setTranslationUnits(array_values($translationUnits));
     }
 }

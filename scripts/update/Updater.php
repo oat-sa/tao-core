@@ -162,7 +162,6 @@ use tao_models_classes_UserService;
  */
 class Updater extends \common_ext_ExtensionUpdater
 {
-
     /**
      *
      * @param $initialVersion
@@ -561,9 +560,9 @@ class Updater extends \common_ext_ExtensionUpdater
         $this->skip('12.2.2', '12.21.5');
 
         if ($this->isVersion('12.21.5')) {
-                $service = new GetTreeService();
-                $this->getServiceManager()->register(GetTreeService::SERVICE_ID, $service);
-                $this->setVersion('12.21.6');
+            $service = new GetTreeService();
+            $this->getServiceManager()->register(GetTreeService::SERVICE_ID, $service);
+            $this->setVersion('12.21.6');
         }
 
         $this->skip('12.21.6', '13.1.5');

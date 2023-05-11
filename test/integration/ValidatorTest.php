@@ -32,7 +32,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  */
 class ValidatorTest extends TaoPhpUnitTestRunner
 {
-
     public static function staticMirror($value)
     {
         return $value;
@@ -592,11 +591,10 @@ class ValidatorTest extends TaoPhpUnitTestRunner
 
 class kernel_class_Stub
 {
-
-    const TEST_PROPERTY_NAME          = 'testProperty';
-    const PROPERTY_EXISTS_FIRST_LEVEL = 'exists_first_level';
-    const PROPERTY_EXISTS_RECURSIVE   = 'exists_recursive';
-    const PROPERTY_NOT_EXISTS         = 'not_exists';
+    public const TEST_PROPERTY_NAME          = 'testProperty';
+    public const PROPERTY_EXISTS_FIRST_LEVEL = 'exists_first_level';
+    public const PROPERTY_EXISTS_RECURSIVE   = 'exists_recursive';
+    public const PROPERTY_NOT_EXISTS         = 'not_exists';
 
     public function searchInstances($propertyFilters = [], $options = [])
     {
@@ -605,16 +603,15 @@ class kernel_class_Stub
         $returnValue = [];
 
         switch ($propertyFilters[self::TEST_PROPERTY_NAME]) {
-            case self::PROPERTY_EXISTS_FIRST_LEVEL: {
+            case self::PROPERTY_EXISTS_FIRST_LEVEL:
                 $returnValue[] = 'some_found_value';
                 break;
-            }
-            case self::PROPERTY_EXISTS_RECURSIVE: {
+
+            case self::PROPERTY_EXISTS_RECURSIVE:
                 if ($recursive === true) {
                     $returnValue[] = 'some_found_value';
                 }
                 break;
-            }
         }
 
         return $returnValue;

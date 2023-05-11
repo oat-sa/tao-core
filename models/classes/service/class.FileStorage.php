@@ -37,10 +37,10 @@ use oat\tao\model\service\ServiceFileStorage;
  */
 class tao_models_classes_service_FileStorage extends ConfigurableService implements ServiceFileStorage
 {
-    const OPTION_PUBLIC_FS = 'public';
-    const OPTION_PRIVATE_FS = 'private';
-    const OPTION_ACCESS_PROVIDER = 'provider';
-    
+    public const OPTION_PUBLIC_FS = 'public';
+    public const OPTION_PRIVATE_FS = 'private';
+    public const OPTION_ACCESS_PROVIDER = 'provider';
+
     /**
      * @return tao_models_classes_service_FileStorage
      */
@@ -48,7 +48,7 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
     {
         return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
     }
-    
+
     private $accessProvider;
 
     /**
@@ -72,7 +72,7 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
         }
         return $this->accessProvider;
     }
-    
+
     /**
      * @param boolean $public
      * @return tao_models_classes_service_StorageDirectory
@@ -149,7 +149,7 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
             common_Logger::w('Missing directory ' . $directoryPath);
         }
     }
-    
+
     private function id2path($id)
     {
 
@@ -163,7 +163,7 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
                 $returnValue .= $encoded[$i];
             }
         }
-        
+
         return $returnValue . DIRECTORY_SEPARATOR;
     }
 

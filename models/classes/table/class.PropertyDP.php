@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -79,10 +80,10 @@ class tao_models_classes_table_PropertyDP implements tao_models_classes_table_Da
     {
         $returnValue = (string) '';
 
-        
+
         $result = $resource->getOnePropertyValue($column->getProperty());
         $returnValue = $result instanceof core_kernel_classes_Resource ? $result->getLabel() : (string)$result;
-        
+
 
         return (string) $returnValue;
     }
@@ -98,12 +99,12 @@ class tao_models_classes_table_PropertyDP implements tao_models_classes_table_Da
     {
         $returnValue = null;
 
-        
+
         if (is_null(self::$singleton)) {
             self::$singleton = new self();
         }
         $returnValue = self::$singleton;
-        
+
 
         return $returnValue;
     }

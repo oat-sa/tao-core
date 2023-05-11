@@ -309,7 +309,7 @@ trait GenerisServiceTrait
             try {
                 /** @var core_kernel_classes_Class $instance */
                 $status = $instance->editPropertyValues($this->getProperty(OntologyRdfs::RDFS_SUBCLASSOF), $destinationClass);
-                if ($status){
+                if ($status) {
                     $this->getEventManager()->trigger(new ClassMovedEvent($instance));
                 }
                 return $status;
@@ -386,7 +386,7 @@ trait GenerisServiceTrait
 
                 $allParentClasses = $parentClass->getParentClasses(true);
                 if (array_key_exists($topLevelClazz->getUri(), $allParentClasses)) {
-                     $parents[$parentClass->getUri()] = $parentClass;
+                    $parents[$parentClass->getUri()] = $parentClass;
                 }
                 $lastLevelParents[$parentClass->getUri()] = $parentClass;
             }

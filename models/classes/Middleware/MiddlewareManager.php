@@ -61,10 +61,12 @@ class MiddlewareManager extends ConfigurableService
 
         if ($middlewareId && $route) {
             $routed = $map[$route];
-            if (($key = array_search(
+            if (
+                ($key = array_search(
                     $middlewareId,
                     $routed
-                )) !== false) {
+                )) !== false
+            ) {
                 unset($routed[$key]);
                 $map[$route] = $routed;
             }

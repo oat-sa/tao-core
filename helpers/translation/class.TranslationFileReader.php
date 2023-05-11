@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -67,7 +68,7 @@ abstract class tao_helpers_translation_TranslationFileReader
      */
     public function __construct($filePath)
     {
-        
+
         $this->filePath = $filePath;
     }
 
@@ -94,13 +95,13 @@ abstract class tao_helpers_translation_TranslationFileReader
     {
         $returnValue = null;
 
-        
+
         if ($this->translationFile != null) {
             return $this->translationFile;
         } else {
             throw new tao_helpers_translation_TranslationException('No TranslationFile to retrieve.');
         }
-        
+
 
         return $returnValue;
     }
@@ -116,9 +117,9 @@ abstract class tao_helpers_translation_TranslationFileReader
     {
         $returnValue = (string) '';
 
-        
+
         return $this->filePath;
-        
+
 
         return (string) $returnValue;
     }
@@ -133,7 +134,7 @@ abstract class tao_helpers_translation_TranslationFileReader
      */
     public function setFilePath($filePath)
     {
-        
+
         $this->filePath = $filePath;
     }
 
@@ -147,7 +148,7 @@ abstract class tao_helpers_translation_TranslationFileReader
      */
     public function setTranslationFile(tao_helpers_translation_TranslationFile $translationFile)
     {
-        
+
         $this->translationFile = $translationFile;
     }
 } /* end of abstract class tao_helpers_translation_TranslationFileReader */

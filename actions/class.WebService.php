@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,7 +23,6 @@
 
 class tao_actions_WebService extends tao_actions_CommonModule
 {
-    
     public function index()
     {
         $url = urldecode($this->getRequestParameter('url'));

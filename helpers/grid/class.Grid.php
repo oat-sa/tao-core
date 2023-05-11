@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -79,9 +80,9 @@ class tao_helpers_grid_Grid
     {
         $returnValue = null;
 
-        
 
-        
+
+
 
         return $returnValue;
     }
@@ -96,7 +97,7 @@ class tao_helpers_grid_Grid
      */
     public function __construct($options = [])
     {
-        
+
         $this->options = $options;
     }
 
@@ -114,7 +115,7 @@ class tao_helpers_grid_Grid
     {
         $returnValue = null;
 
-        
+
         $replace = false;
         if (isset($options['replace'])) {
             $replace = $options['replace'];
@@ -127,7 +128,7 @@ class tao_helpers_grid_Grid
             //set order as well:
             $returnValue = true;
         }
-        
+
 
         return $returnValue;
     }
@@ -144,10 +145,10 @@ class tao_helpers_grid_Grid
     {
         $returnValue = (bool) false;
 
-        
+
         unset($this->columns[$id]);
         $returnValue = true;
-        
+
 
         return (bool) $returnValue;
     }
@@ -166,7 +167,7 @@ class tao_helpers_grid_Grid
     {
         $returnValue = (bool) false;
 
-        
+
         if (!$replace && isset($this->rows[$id])) {
             throw new common_Exception('the row with the id ' . $id . ' already exists');
         } else {
@@ -175,7 +176,7 @@ class tao_helpers_grid_Grid
 
             $returnValue = true;
         }
-        
+
 
         return (bool) $returnValue;
     }
@@ -192,10 +193,10 @@ class tao_helpers_grid_Grid
     {
         $returnValue = (bool) false;
 
-        
+
         unset($this->rows[$id]);
         $returnValue = true;
-        
+
 
         return (bool) $returnValue;
     }
@@ -215,7 +216,7 @@ class tao_helpers_grid_Grid
     {
         $returnValue = (bool) false;
 
-        
+
         //TODO: for creating row and column if not exists?
         if (isset($this->columns[$columnId])) {
             if (isset($this->rows[$rowId])) {
@@ -223,7 +224,7 @@ class tao_helpers_grid_Grid
                 $returnValue = true;
             }
         }
-        
+
 
         return (bool) $returnValue;
     }
@@ -241,7 +242,7 @@ class tao_helpers_grid_Grid
     {
         $returnValue = (bool) false;
 
-        
+
         if (is_string($columnIds)) {
             $columnIds = [$columnIds];
         }
@@ -254,7 +255,7 @@ class tao_helpers_grid_Grid
                 }
             }
         }
-        
+
 
         return (bool) $returnValue;
     }
@@ -270,7 +271,7 @@ class tao_helpers_grid_Grid
     {
         $returnValue = [];
 
-        
+
 
         //sort columns:
         $this->sortColumns();
@@ -299,7 +300,7 @@ class tao_helpers_grid_Grid
                 }
             }
         }
-        
+
 
         return (array) $returnValue;
     }
@@ -315,8 +316,8 @@ class tao_helpers_grid_Grid
     {
         $returnValue = (bool) false;
 
-        
-        
+
+
 
         return (bool) $returnValue;
     }
@@ -332,9 +333,9 @@ class tao_helpers_grid_Grid
     {
         $returnValue = [];
 
-        
+
         $returnValue = $this->columns;
-        
+
 
         return (array) $returnValue;
     }
@@ -351,11 +352,11 @@ class tao_helpers_grid_Grid
     {
         $returnValue = null;
 
-        
+
         if (isset($this->columns[$id]) && $this->columns[$id] instanceof tao_helpers_grid_Column) {
             $returnValue = $this->columns[$id];
         }
-        
+
 
         return $returnValue;
     }
@@ -372,7 +373,7 @@ class tao_helpers_grid_Grid
     {
         $returnValue = [];
 
-        
+
         foreach ($this->columns as $column) {
             if ($column instanceof tao_helpers_grid_Column) {
                 $returnValue[$column->getId()] = [
@@ -400,7 +401,7 @@ class tao_helpers_grid_Grid
             }
         }
 
-        
+
 
         return (array) $returnValue;
     }
@@ -415,7 +416,7 @@ class tao_helpers_grid_Grid
      */
     public function setData($data = [])
     {
-        
+
 
         //empty local data
         $this->rows = [];

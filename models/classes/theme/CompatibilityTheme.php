@@ -32,14 +32,13 @@ use oat\oatbox\Configurable;
  */
 class CompatibilityTheme extends DefaultTheme implements Theme
 {
-
     public function getLabel()
     {
         $all = $this->getOptions();
         $first = reset($all);
         return $first['name'];
     }
-    
+
     public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE)
     {
         if ($this->hasOption($context)) {
@@ -54,7 +53,7 @@ class CompatibilityTheme extends DefaultTheme implements Theme
             return parent::getTemplate($id, $context);
         }
     }
-    
+
     public function getStylesheet($context = Theme::CONTEXT_BACKOFFICE)
     {
         if ($this->hasOption($context)) {

@@ -33,7 +33,6 @@ use ZipArchive;
  */
 class FileHelperTest extends TaoPhpUnitTestRunner
 {
-
     /** @var int */
     protected $deep = 3;
 

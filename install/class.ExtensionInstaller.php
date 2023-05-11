@@ -44,11 +44,11 @@ use oat\tao\model\user\TaoRoles;
 class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
 {
     // --- ASSOCIATIONS ---
-    
+
     // --- ATTRIBUTES ---
-    
+
     // --- OPERATIONS ---
-    
+
     /**
      * Override the default model with the translated model
      *
@@ -59,7 +59,7 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
     {
         return new ExtensionModel($this->extension);
     }
-    
+
     /**
      * Will create the model of Modules and Actions (MVC) in the persistent
      *
@@ -86,7 +86,7 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
      */
     public function installManagementRole()
     {
-        
+
         // Try to get a Management Role described by the extension itself.
         // (this information comes actually from the Manifest of the extension)
         $roleUri = $this->extension->getManifest()->getManagementRoleUri();
@@ -100,14 +100,14 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
                 $role = $roleClass->createInstance($roleLabel, $roleLabel . ' Role', $role->getUri());
                 $roleService->includeRole($role, new core_kernel_classes_Resource(TaoRoles::BACK_OFFICE));
             }
-            
+
             // Take the Global Manager role and make it include
             // the Management role of the currently installed extension.
             if ($role->getUri() !== TaoRoles::GLOBAL_MANAGER) {
                 $globalManagerRole = new core_kernel_classes_Resource(TaoRoles::GLOBAL_MANAGER);
                 $roleService->includeRole($globalManagerRole, $role);
             }
-            
+
             common_Logger::d("Management Role " . $role->getUri() . " created for extension '" . $this->extension->getId() . "'.");
         } else {
             // There is no Management role described by the Extension Manifest.

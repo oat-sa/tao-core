@@ -148,18 +148,3 @@ class ExportedTableTest extends TestCase
         $this->assertEquals($rowField->getFormattedValue(), "'33333'");
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

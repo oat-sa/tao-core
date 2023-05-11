@@ -36,7 +36,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  */
 class ActionTest extends TaoPhpUnitTestRunner
 {
-    
     /**
      * Data Provider : xml and a mock action that the xml should produce
      * @return array the data
@@ -84,7 +83,7 @@ class ActionTest extends TaoPhpUnitTestRunner
             ]
         ];
     }
-    
+
     /**
      * Test the xml produce the same object than the one expected by the provider.
      *
@@ -96,7 +95,7 @@ class ActionTest extends TaoPhpUnitTestRunner
     public function testActions($xml, $extensionId, $expected)
     {
         $result = Action::fromSimpleXMLElement(new \SimpleXMLElement($xml), $extensionId);
-    
+
         $this->assertTrue($result instanceof Action);
         $this->assertEquals($expected, $result);
     }

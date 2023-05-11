@@ -21,7 +21,6 @@
 
 namespace oat\tao\model\oauth\lockout;
 
-
 use Exception;
 
 class LockOutException extends Exception

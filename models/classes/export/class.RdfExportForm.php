@@ -44,7 +44,7 @@ class tao_models_classes_export_RdfExportForm extends tao_helpers_form_FormConta
      */
     public function initForm()
     {
-        
+
 
         $this->form = new tao_helpers_form_xhtml_Form('export');
 
@@ -61,7 +61,7 @@ class tao_models_classes_export_RdfExportForm extends tao_helpers_form_FormConta
 
         $this->form->setActions([$exportElt], 'bottom');
     }
-    
+
     /**
      * overriden
      *
@@ -73,7 +73,7 @@ class tao_models_classes_export_RdfExportForm extends tao_helpers_form_FormConta
     {
 
         $fileName = '';
-        
+
         $instances = [];
         if (isset($this->data['instance'])) {
             $resource = $this->data['instance'];
@@ -82,13 +82,13 @@ class tao_models_classes_export_RdfExportForm extends tao_helpers_form_FormConta
         } else {
             throw new common_Exception('No class nor instance specified for export');
         }
-        
+
         $fileName = strtolower(tao_helpers_Display::textCleaner($resource->getLabel(), '*'));
-         
+
         $hiddenElt = tao_helpers_form_FormFactory::getElement('resource', 'Hidden');
         $hiddenElt->setValue($resource->getUri());
         $this->form->addElement($hiddenElt);
-         
+
 
         $nameElt = tao_helpers_form_FormFactory::getElement('filename', 'Textbox');
         $nameElt->setDescription(__('File name'));
@@ -96,9 +96,9 @@ class tao_models_classes_export_RdfExportForm extends tao_helpers_form_FormConta
         $nameElt->setValue($fileName);
         $nameElt->setUnit(".rdf");
         $this->form->addElement($nameElt);
-         
+
         $instances = tao_helpers_Uri::encodeArray($instances, tao_helpers_Uri::ENCODE_ARRAY_KEYS);
-         
+
         $this->form->createGroup('options', '<h3>' . __('Export Metadata as RDF/XML file') . '</h3>', ['filename']);
     }
 }

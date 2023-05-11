@@ -38,9 +38,9 @@ use ResolverException;
  */
 class RestSessionFactory extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/restSessionFactory';
+    public const SERVICE_ID = 'tao/restSessionFactory';
 
-    const OPTION_BUILDERS = 'builders';
+    public const OPTION_BUILDERS = 'builders';
 
     /**
      * Create a rest session based on builders.

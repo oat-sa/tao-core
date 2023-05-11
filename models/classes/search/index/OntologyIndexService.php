@@ -34,7 +34,6 @@ use oat\tao\model\TaoOntology;
  */
 class OntologyIndexService
 {
-   
     /**
      * Create a new index
      *
@@ -63,7 +62,7 @@ class OntologyIndexService
         $property->setPropertyValue(new \core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX), $resource);
         return new OntologyIndex($resource);
     }
-    
+
     /**
      * Get an index by its unique index id
      *
@@ -73,7 +72,7 @@ class OntologyIndexService
      */
     public static function getIndexById($identifier)
     {
-        
+
         $indexClass = new core_kernel_classes_Class(OntologyIndex::RDF_TYPE);
         $resources = $indexClass->searchInstances([
             OntologyIndex::PROPERTY_INDEX_IDENTIFIER  => $identifier
@@ -85,7 +84,7 @@ class OntologyIndexService
             ? new OntologyIndex(array_shift($resources))
             : null;
     }
-    
+
     /**
      * Get all indexes of a property
      *
@@ -96,14 +95,14 @@ class OntologyIndexService
     {
         $indexUris = $property->getPropertyValues(new \core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX));
         $indexes = [];
-        
+
         foreach ($indexUris as $indexUri) {
             $indexes[] = new OntologyIndex($indexUri);
         }
-        
+
         return $indexes;
     }
-    
+
     /**
      * Get the Search Indexes of a given $class.
      *
@@ -118,25 +117,25 @@ class OntologyIndexService
     public static function getIndexesByClass(\core_kernel_classes_Class $class, $recursive = true)
     {
         $returnedIndexes = [];
-        
+
         // Get properties to the root class hierarchy.
         $properties = $class->getProperties(true);
-        
+
         foreach ($properties as $prop) {
             $propUri = $prop->getUri();
             $indexes = self::getIndexes($prop);
-            
+
             if (count($indexes) > 0) {
                 if (isset($returnedIndexes[$propUri]) === false) {
                     $returnedIndexes[$propUri] = [];
                 }
-                
+
                 foreach ($indexes as $index) {
                     $returnedIndexes[$propUri][] = new OntologyIndex($index->getUri());
                 }
             }
         }
-        
+
         return $returnedIndexes;
     }
 }

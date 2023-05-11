@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -65,9 +66,9 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter extends tao_helpers_grid_Cel
      */
     public function __construct($options = [], $subgridClass = '')
     {
-        
+
         parent::__construct($options);
-        
+
         $this->initSubgridClass($subgridClass);
         //the class exists
         if (!class_exists($this->subgridClass)) {
@@ -96,7 +97,7 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter extends tao_helpers_grid_Cel
     {
         $returnValue = null;
 
-        
+
         if (isset($this->data[$rowId]) && is_a($this->data[$rowId], 'wfEngine_helpers_Monitoring_ActivityMonitoringGrid')) {
             $returnValue = $this->data[$rowId];
         } else {
@@ -106,7 +107,7 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter extends tao_helpers_grid_Cel
             $returnValue = $cloneSubGridCtn;
             $this->data[$rowId] = $cloneSubGridCtn;
         }
-        
+
 
         return $returnValue;
     }
@@ -144,9 +145,9 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter extends tao_helpers_grid_Cel
     {
         $returnValue = null;
 
-        
+
         $returnValue = $this->subGridContainer;
-        
+
 
         return $returnValue;
     }

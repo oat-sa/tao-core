@@ -48,16 +48,16 @@ class tao_actions_form_Search extends tao_actions_form_Instance
      */
     protected function initForm()
     {
-        
-        
+
+
         (isset($this->options['name'])) ? $name = $this->options['name'] : $name = '';
         if (empty($name)) {
             $name = 'form_' . (count(self::$forms) + 1);
         }
         unset($this->options['name']);
-            
+
         $this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
-        
+
         //search action in toolbar
         $searchElt = tao_helpers_form_FormFactory::getElement('search', 'Free');
         $searchElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-search"></span> ' . __('Search') . '</a>');
@@ -74,50 +74,50 @@ class tao_actions_form_Search extends tao_actions_form_Instance
      */
     protected function initElements()
     {
-        
-        
+
+
         $chainingElt = tao_helpers_form_FormFactory::getElement('chaining', 'Radiobox');
         $chainingElt->setDescription(__('Filtering mode'));
         $chainingElt->setOptions(['or' =>  __('Exclusive (OR)'), 'and' => __('Inclusive (AND)')]);
         $chainingElt->setValue('or');
         $this->form->addElement($chainingElt);
-        
+
         $recursiveElt = tao_helpers_form_FormFactory::getElement('recursive', 'Radiobox');
         $recursiveElt->setDescription(__('Recursive'));
         $recursiveElt->setOptions(['0' => __('Current class only'), '10' =>  __('Current class + Subclasses')]);
         $recursiveElt->setValue('current');
         $this->form->addElement($recursiveElt);
-        
+
         $langElt = tao_helpers_form_FormFactory::getElement('lang', 'Combobox');
         $langElt->setDescription(__('Language'));
-        
+
         $languages = array_merge(['  '], tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)));
         $langElt->setOptions($languages);
         $langElt->setValue(0);
         $this->form->addElement($langElt);
-        
+
         $this->form->createGroup('params', __('Options'), ['chaining', 'recursive', 'lang']);
-        
-        
+
+
         $filters = [];
-        
+
         $descElt = tao_helpers_form_FormFactory::getElement('desc', 'Label');
         $descElt->setValue(__('Use the * character to replace any string'));
         $this->form->addElement($descElt);
         $filters[] = 'desc';
-        
+
         $defaultProperties  = tao_helpers_form_GenerisFormFactory::getDefaultProperties();
         $classProperties    = tao_helpers_form_GenerisFormFactory::getClassProperties($this->clazz, $this->getTopClazz());
-        
+
         $properties = array_merge($defaultProperties, $classProperties);
-        
+
         (isset($this->options['recursive'])) ? $recursive = $this->options['recursive'] : $recursive = false;
         if ($recursive) {
             foreach ($this->clazz->getSubClasses(true) as $subClass) {
                 $properties = array_merge($subClass->getProperties(false), $properties);
             }
         }
-        
+
         foreach ($properties as $property) {
             $element = tao_helpers_form_GenerisFormFactory::elementMap($property);
             if (
@@ -137,7 +137,7 @@ class tao_actions_form_Search extends tao_actions_form_Instance
                     $newElement->setDescription($element->getDescription());
                     $element = $newElement;
                 }
-                
+
                 $this->form->addElement($element);
                 $filters[] = $element->getName();
             }

@@ -32,23 +32,23 @@ use core_kernel_classes_Resource;
  */
 class AccessRule
 {
-    const GRANT = 'grant';
-    const DENY = 'deny';
-    
+    public const GRANT = 'grant';
+    public const DENY = 'deny';
+
     private $grantDeny;
-    
+
     private $role;
-    
+
     private $mask;
-    
-    
+
+
     public function __construct($mode, $roleUri, $mask)
     {
         $this->grantDeny = $mode;
         $this->role = new core_kernel_classes_Resource($roleUri);
         $this->mask = $mask;
     }
-    
+
     /**
      * Those the role grant you access?
      * @return bool
@@ -57,7 +57,7 @@ class AccessRule
     {
         return $this->grantDeny == self::GRANT;
     }
-    
+
     /**
      * Gets the role this rule applies to
      * @return core_kernel_classes_Resource
@@ -66,7 +66,7 @@ class AccessRule
     {
         return $this->role;
     }
-    
+
     /**
      * Returns the filter of the rule
      * @return array

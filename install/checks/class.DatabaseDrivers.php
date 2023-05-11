@@ -21,12 +21,12 @@
  */
 ?>
 <?php
+
 class tao_install_checks_DatabaseDrivers extends common_configuration_Component
 {
-    
     public function check()
     {
-        
+
         // One of these drivers must be found.
         $drivers = [
             'pdo_mysql',
@@ -34,11 +34,11 @@ class tao_install_checks_DatabaseDrivers extends common_configuration_Component
             'pdo_sqlsrv',
             'pdo_oci',
         ];
-                         
+
         foreach ($drivers as $d) {
             $dbCheck = common_configuration_ComponentFactory::buildPHPDatabaseDriver($d);
             $dbReport = $dbCheck->check();
-            
+
             if ($dbReport->getStatus() == common_configuration_Report::VALID) {
                 return new common_configuration_Report(
                     $dbReport->getStatus(),
@@ -47,7 +47,7 @@ class tao_install_checks_DatabaseDrivers extends common_configuration_Component
                 );
             }
         }
-        
+
         return new common_configuration_Report(
             common_configuration_Report::INVALID,
             "No suitable database driver detected. Drivers supported by TAO are: "

@@ -55,7 +55,7 @@ abstract class tao_models_classes_Service
      * @var string
      */
 
-    const namePattern = 'tao%1$s_models_classes_%1$sService';
+    public const namePattern = 'tao%1$s_models_classes_%1$sService';
 
     // --- OPERATIONS ---
 
@@ -87,7 +87,7 @@ abstract class tao_models_classes_Service
     {
         $returnValue = null;
 
-        
+
         $className = (!class_exists($serviceName) || !preg_match("/^(tao|wf)/", $serviceName)) ? sprintf(self::namePattern, ucfirst(strtolower($serviceName))) : $serviceName;
 
         // does the class exist
@@ -112,7 +112,7 @@ abstract class tao_models_classes_Service
 
         //get the instance
         $returnValue = self::$instances[$className];
-        
+
 
         return $returnValue;
     }
@@ -129,14 +129,14 @@ abstract class tao_models_classes_Service
     {
         $returnValue = null;
 
-        
+
         $serviceName = get_called_class();
         if (!isset(self::$instances[$serviceName])) {
             self::$instances[$serviceName] = new $serviceName();
         }
 
         $returnValue = self::$instances[$serviceName];
-        
+
 
         return $returnValue;
     }

@@ -29,5 +29,4 @@ namespace oat\tao\model\controllerMap;
  */
 class ActionNotFoundException extends \common_Exception
 {
-    
 }

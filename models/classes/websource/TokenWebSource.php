@@ -35,11 +35,10 @@ use common_ext_ExtensionsManager;
  */
 class TokenWebSource extends BaseWebsource
 {
-   
-    const OPTION_SECRET = 'secret';
-    const OPTION_PATH = 'path';
-    const OPTION_TTL = 'ttl';
-    
+    public const OPTION_SECRET = 'secret';
+    public const OPTION_PATH = 'path';
+    public const OPTION_TTL = 'ttl';
+
     public static function spawnWebsource($fileSystemId, $path)
     {
         $provider = self::spawn($fileSystemId, [
@@ -63,7 +62,7 @@ class TokenWebSource extends BaseWebsource
         return $taoExtension->getConstant('BASE_URL') . 'getFile.php/' . $this->getId() . '/' . $token . '/' . $relUrl . '*/';
     }
     // helpers
-    
+
     /**
      * Generate a token for the resource
      * Same algorithm is implemented again in getFile.php

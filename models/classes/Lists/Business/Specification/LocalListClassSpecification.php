@@ -40,9 +40,9 @@ class LocalListClassSpecification implements ClassSpecificationInterface
     public function isSatisfiedBy(core_kernel_classes_Class $class): bool
     {
         return (
-                $this->listClassSpecification->isSatisfiedBy($class)
-                || $this->isBoolean($class)
-            ) && $this->isNotRemoteList($class);
+            $this->listClassSpecification->isSatisfiedBy($class)
+            || $this->isBoolean($class)
+        ) && $this->isNotRemoteList($class);
     }
 
     private function isBoolean(core_kernel_classes_Class $class): bool

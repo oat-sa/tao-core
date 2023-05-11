@@ -43,7 +43,7 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
         getTaskParameters as getDefaultTaskParameters;
     }
 
-    const OPTION_POSTFIX = '_O';
+    public const OPTION_POSTFIX = '_O';
 
     /**
      * (non-PHPdoc)

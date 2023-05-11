@@ -43,7 +43,7 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
     /**
      * This header is added to the response to inform the client a forward occurs
      */
-    const FORWARD_HEADER = 'X-Tao-Forward';
+    public const FORWARD_HEADER = 'X-Tao-Forward';
 
 
     /**
@@ -78,7 +78,7 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
 
         // load the responsible extension
         common_ext_ExtensionsManager::singleton()->getExtensionById($resolver->getExtensionId());
-   
+
         //update the context to the new route
         $context->setExtensionName($resolver->getExtensionId());
         $context->setModuleName($resolver->getControllerShortName());

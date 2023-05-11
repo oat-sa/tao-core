@@ -28,23 +28,22 @@ use tao_helpers_report_Rendering;
 
 class ReportRenderingHelperTest extends GenerisPhpUnitTestRunner
 {
-    
     public function testRenderSingle()
     {
-       
+
         $report = common_report_Report::createSuccess('Success!');
-        
+
         $expected = '<div class="feedback-success feedback-nesting-0 leaf tao-scope"><span class="icon-success leaf-icon"></span>Success!<p><button id="import-continue" class="btn-info"><span class="icon-right"></span>Continue</button></p></div>';
         $this->assertEquals($expected, tao_helpers_report_Rendering::render($report));
     }
-    
+
     public function testRenderNested()
     {
-        
+
         $report = common_report_Report::createSuccess('Success!');
         $report->add(common_report_Report::createSuccess('Another success!'));
         $report->add(common_report_Report::createFailure('Failure!'));
-        
+
         $expected  = '<div class="feedback-success feedback-nesting-0 hierarchical tao-scope">';
         $expected .=   '<span class="icon-success hierarchical-icon"></span>';
         $expected .=   'Success!';
@@ -60,7 +59,7 @@ class ReportRenderingHelperTest extends GenerisPhpUnitTestRunner
         $expected .=     '<button id="import-continue" class="btn-info"><span class="icon-right"></span>Continue</button>';
         $expected .=   '</p>';
         $expected .= '</div>';
-        
+
         $this->assertEquals($expected, tao_helpers_report_Rendering::render($report));
     }
 }

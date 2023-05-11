@@ -35,22 +35,18 @@ use oat\tao\test\integration\controllerMap\stubs\ValidNamespacedController;
 /* stubs for controller class name validation */
 class FakeStandaloneController
 {
-
 }
 
 abstract class FakeAbstractController extends Module
 {
-
 }
 
 class FakeValidController extends Module
 {
-
 }
 
 class FactoryTest extends TaoPhpUnitTestRunner
 {
-
     /** @var  Factory */
     protected $factory;
 

@@ -202,8 +202,7 @@ class tao_helpers_form_FormFactory
      */
     public static function getCommonActions($context = 'bottom', $save = true)
     {
-        if (!$save)
-        {
+        if (!$save) {
             return [tao_helpers_form_FormFactory::getElement('save', 'Free')];
         }
 

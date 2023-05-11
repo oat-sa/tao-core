@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,7 +32,7 @@ class tao_helpers_form_validators_Length extends tao_helpers_form_Validator
     public function setOptions(array $options)
     {
         parent::setOptions($options);
-        
+
         if ($this->hasOption('min') && $this->hasOption('max')) {
             $this->setMessage(sprintf(
                 '%s (%s, %s)',
@@ -68,9 +69,9 @@ class tao_helpers_form_validators_Length extends tao_helpers_form_Validator
     {
         $returnValue = (bool) false;
 
-        
+
         $returnValue = true;
-        
+
         $values = is_array($values) ? $values : [$values];
         foreach ($values as $value) {
             if ($this->hasOption('min') && mb_strlen($value) < $this->getOption('min')) {
@@ -86,7 +87,7 @@ class tao_helpers_form_validators_Length extends tao_helpers_form_Validator
                 break;
             }
         }
-        
+
 
         return (bool) $returnValue;
     }

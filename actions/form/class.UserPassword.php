@@ -41,9 +41,9 @@ class tao_actions_form_UserPassword extends tao_helpers_form_FormContainer
      */
     public function initForm()
     {
-        
+
         $this->form = tao_helpers_form_FormFactory::getForm('password');
-        
+
         $actions = tao_helpers_form_FormFactory::getCommonActions('top');
         $this->form->setActions($actions, 'top');
         $this->form->setActions($actions, 'bottom');
@@ -57,30 +57,30 @@ class tao_actions_form_UserPassword extends tao_helpers_form_FormContainer
      */
     public function initElements()
     {
-        
-                $pass1Element = tao_helpers_form_FormFactory::getElement('oldpassword', 'Hiddenbox');
-                $pass1Element->setDescription(__('Old Password'));
-                $pass1Element->addValidator(
-                    tao_helpers_form_FormFactory::getValidator('Callback', [
-                        'message'   => __('Passwords are not matching'),
-                        'object'    => tao_models_classes_UserService::singleton(),
-                        'method'    => 'isPasswordValid',
-                        'param'     => tao_models_classes_UserService::singleton()->getCurrentUser()
-                    ])
-                );
-                $this->form->addElement($pass1Element);
-                
-                $pass2Element = tao_helpers_form_FormFactory::getElement('newpassword', 'Hiddenbox');
-                $pass2Element->setDescription(__('New password'));
-                $pass2Element->addValidators(PasswordConstraintsService::singleton()->getValidators());
-                $pass2Element->setBreakOnFirstError(false);
-                $this->form->addElement($pass2Element);
-                
-                $pass3Element = tao_helpers_form_FormFactory::getElement('newpassword2', 'Hiddenbox');
-                $pass3Element->setDescription(__('Repeat new password'));
-                $pass3Element->addValidators([
-                    tao_helpers_form_FormFactory::getValidator('Password', ['password2_ref' => $pass2Element]),
-                ]);
-                $this->form->addElement($pass3Element);
+
+        $pass1Element = tao_helpers_form_FormFactory::getElement('oldpassword', 'Hiddenbox');
+        $pass1Element->setDescription(__('Old Password'));
+        $pass1Element->addValidator(
+            tao_helpers_form_FormFactory::getValidator('Callback', [
+                'message'   => __('Passwords are not matching'),
+                'object'    => tao_models_classes_UserService::singleton(),
+                'method'    => 'isPasswordValid',
+                'param'     => tao_models_classes_UserService::singleton()->getCurrentUser()
+            ])
+        );
+        $this->form->addElement($pass1Element);
+
+        $pass2Element = tao_helpers_form_FormFactory::getElement('newpassword', 'Hiddenbox');
+        $pass2Element->setDescription(__('New password'));
+        $pass2Element->addValidators(PasswordConstraintsService::singleton()->getValidators());
+        $pass2Element->setBreakOnFirstError(false);
+        $this->form->addElement($pass2Element);
+
+        $pass3Element = tao_helpers_form_FormFactory::getElement('newpassword2', 'Hiddenbox');
+        $pass3Element->setDescription(__('Repeat new password'));
+        $pass3Element->addValidators([
+            tao_helpers_form_FormFactory::getValidator('Password', ['password2_ref' => $pass2Element]),
+        ]);
+        $this->form->addElement($pass3Element);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -41,7 +42,7 @@ abstract class tao_helpers_form_elements_File extends tao_helpers_form_FormEleme
      * @access public
      * @var int
      */
-    const MAX_FILE_SIZE = 2000000;
+    public const MAX_FILE_SIZE = 2000000;
 
     // --- OPERATIONS ---
 } /* end of abstract class tao_helpers_form_elements_File */

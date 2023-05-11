@@ -21,6 +21,7 @@
  */
 ?>
 <?php
+
 /**
  * This class aims at providing utilities about the current installation from
  * the host system and its filesystem, including the tao platform directory.
@@ -32,7 +33,6 @@
  */
 class tao_install_utils_System
 {
-
     /**
      * Checks if system is installed in Debug mode.
      *
@@ -50,20 +50,20 @@ class tao_install_utils_System
      */
     public static function getInfos()
     {
-                
-                
+
+
         //subfolder shall be detected as /SUBFLODERS/tao/install/index.php so we remove the "/extension/module/action" part:
         $subfolder = $_SERVER['REQUEST_URI'];
         $subfolder = preg_replace('/\/(([^\/]*)\/){2}([^\/]*)$/', '', $subfolder);
         $subfolder = preg_replace('/^\//', '', $subfolder);
-        
+
         return [
             'folder'    => $subfolder,
             'host'      => $_SERVER['HTTP_HOST'],
             'https'     => ($_SERVER['SERVER_PORT'] == 443)
         ];
     }
-    
+
     /**
      * Check if TAO is already installed.
      *
@@ -116,7 +116,7 @@ class tao_install_utils_System
 
         return true;
     }
-    
+
     /**
      * Returns the availables locales (languages or cultures) of the tao platform
      * on the basis of a particular locale folder e.g.  the /locales folder of the tao
@@ -133,7 +133,7 @@ class tao_install_utils_System
     {
         $locales = @scandir($path);
         $returnValue = [];
-        
+
         if ($locales !== false) {
             foreach ($locales as $l) {
                 if ($l[0] !== '.') {
@@ -147,12 +147,12 @@ class tao_install_utils_System
                             $xpath->registerNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
                             $xpath->registerNamespace('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
                             $expectedUri = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang' . $l;
-                            
+
                             // Look for an rdf:value equals to the folder name.
                             $rdfValues = $xpath->query("//rdf:Description[@rdf:about='${expectedUri}']/rdf:value");
                             if ($rdfValues->length == 1 && $rdfValues->item(0)->nodeValue == $l) {
                                 $key = $l;
-                                
+
                                 $rdfsLabels = $xpath->query("//rdf:Description[@rdf:about='${expectedUri}']/rdfs:label[@xml:lang='en-US']");
                                 if ($rdfsLabels->length == 1) {
                                     $value = $rdfsLabels->item(0)->nodeValue;

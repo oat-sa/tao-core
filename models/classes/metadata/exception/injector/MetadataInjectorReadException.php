@@ -23,5 +23,4 @@ namespace oat\tao\model\metadata\exception\injector;
 
 class MetadataInjectorReadException extends \common_Exception
 {
-
 }

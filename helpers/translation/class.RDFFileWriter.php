@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -45,19 +46,19 @@ class tao_helpers_translation_RDFFileWriter extends tao_helpers_translation_Tran
      */
     public function write()
     {
-        
+
         $targetPath = $this->getFilePath();
         $file = $this->getTranslationFile();
         $semanticNamespaces = ['rdf' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
                                     'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#'];
-        
+
         $xmlNS = 'http://www.w3.org/XML/1998/namespace';
         $xmlnsNS = 'http://www.w3.org/2000/xmlns/';
-        
+
         try {
             $targetFile = new DOMDocument('1.0', 'UTF-8');
             $targetFile->formatOutput = true;
-            
+
             // Create the RDF root node and annotate if possible.
             $rdfNode = $targetFile->createElementNS($semanticNamespaces['rdf'], 'rdf:RDF');
             $targetFile->appendChild($rdfNode);
@@ -67,14 +68,14 @@ class tao_helpers_translation_RDFFileWriter extends tao_helpers_translation_Tran
                 $annotationsNode = $targetFile->createComment("\n    " . $annotationsString . "\n");
                 $targetFile->insertBefore($annotationsNode, $rdfNode);
             }
-            
+
             $rdfNode->setAttributeNS($xmlNS, 'xml:base', $file->getBase());
             $rdfNode->setAttributeNS($xmlnsNS, 'xmlns:rdfs', $semanticNamespaces['rdfs']);
-            
+
             $xPath = new DOMXPath($targetFile);
             $xPath->registerNamespace($semanticNamespaces['rdf'], 'rdf');
             $xPath->registerNamespace($semanticNamespaces['rdfs'], 'rdfs');
-            
+
             foreach ($file->getTranslationUnits() as $tu) {
                 // Look if the predicate is a semantic namespace.
                 $uri = explode('#', $tu->getPredicate());
@@ -86,13 +87,13 @@ class tao_helpers_translation_RDFFileWriter extends tao_helpers_translation_Tran
                         $tuNode->setAttributeNS($xmlNS, 'xml:lang', $tu->getTargetLanguage());
                         $cdataValue = (($tu->getTarget() == '') ? $tu->getSource() : $tu->getTarget());
                         $tuNodeValue = $targetFile->createCDATASection($cdataValue);
-                        
+
                         $tuNode->appendChild($tuNodeValue);
                         // Check if an rdf:Description exists for
                         // the target of the TranslationUnit.
                         $subject = $tu->getSubject();
                         $result = $xPath->query("//rdf:Description[@rdf:about='${subject}']");
-                
+
                         if ($result->length > 0) {
                             // Append to the existing rdf:Description.
                             $existingDescription = $result->item(0);
@@ -104,10 +105,10 @@ class tao_helpers_translation_RDFFileWriter extends tao_helpers_translation_Tran
                             $descriptionNode->appendChild($tuNode);
                             $rdfNode->appendChild($descriptionNode);
                         }
-                        
+
                         // Finally add annotations.
                         $annotations = $tu->getAnnotations();
-                        
+
                         if (count($annotations) > 0) {
                             $annotationString = "\n    " . tao_helpers_translation_RDFUtils::serializeAnnotations($annotations) . "\n    ";
                             $annotationNode = $targetFile->createComment($annotationString);

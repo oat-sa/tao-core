@@ -31,7 +31,6 @@ use oat\tao\model\state\StateStorage;
  */
 class tao_actions_ServiceModule extends tao_actions_CommonModule
 {
-
     /**
      * Returns the serviceCallId for the current service call
      *

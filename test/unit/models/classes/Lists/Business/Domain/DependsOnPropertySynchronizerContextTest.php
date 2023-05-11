@@ -191,7 +191,8 @@ class DependsOnPropertySynchronizerContextTest extends TestCase
 
     public function invalidValues(): array
     {
-        $class = new class () {};
+        $class = new class () {
+        };
 
         return [
             'Properties' => [

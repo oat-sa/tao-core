@@ -17,6 +17,7 @@
  *
  *  Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
 namespace oat\tao\model\mvc\error;
 
 /**
@@ -26,8 +27,7 @@ namespace oat\tao\model\mvc\error;
  */
 class NonAcceptable extends ResponseAbstract
 {
-    
-     protected $contentType = 'text/plain';
+    protected $contentType = 'text/plain';
 
 
     public function setHttpCode($code)
@@ -35,7 +35,7 @@ class NonAcceptable extends ResponseAbstract
         $this->httpCode = 406;
         return $this;
     }
-    
+
     public function send()
     {
         return;

@@ -42,7 +42,6 @@ use oat\tao\model\search\tokenizer\Tokenizer;
  */
 class SearchTest extends GenerisPhpUnitTestRunner
 {
-
     private $class;
 
     private $property;

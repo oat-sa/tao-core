@@ -19,7 +19,7 @@
  *
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace oat\tao\scripts\install;
 
@@ -35,7 +35,7 @@ use oat\tao\model\migrations\MigrationsService;
 class RegisterEvents extends InstallAction
 {
     use OntologyAwareTrait;
-    
+
     public function __invoke($params)
     {
         /** @var EventManager $eventManager */

@@ -43,7 +43,6 @@ class BlCl
 
 class RouteAnnotationExample
 {
-
     protected function protectedAction()
     {
     }
@@ -57,7 +56,6 @@ class RouteAnnotationExample
 
 class ControllerServiceTest extends TestCase
 {
-
     /**
      * @var ControllerService
      */

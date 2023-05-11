@@ -17,7 +17,6 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
  */
 final class Version202007151553102234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'Re-register Value Collection services';
@@ -26,8 +25,7 @@ final class Version202007151553102234_tao extends AbstractMigration
     public function up(Schema $schema): void
     {
         (new RegisterValueCollectionServices())
-            ->setServiceLocator($this->getServiceManager())
-        ();
+            ->setServiceLocator($this->getServiceManager())();
     }
 
     public function down(Schema $schema): void

@@ -38,13 +38,13 @@ use oat\generis\model\OntologyAwareTrait;
  */
 class tao_actions_Import extends tao_actions_CommonModule
 {
+    use TaskLogActionTrait;
+    use OntologyAwareTrait;
+
     /**
      * @var tao_models_classes_import_ImportHandler[]
      */
     private $availableHandlers = [];
-
-    use TaskLogActionTrait;
-    use OntologyAwareTrait;
 
     /**
      * @return EventManager

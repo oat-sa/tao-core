@@ -32,7 +32,6 @@ use oat\generis\Helper\SystemHelper;
  */
 class tao_helpers_Environment
 {
-
     /**
      * Returns the maximum size for fileuploads in bytes.
      *

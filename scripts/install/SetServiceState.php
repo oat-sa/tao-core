@@ -35,12 +35,12 @@ class SetServiceState extends InstallAction
     /**
      * The default persistence name.
      */
-    const DEFAULT_PERSISTENCE_NAME = 'serviceState';
+    public const DEFAULT_PERSISTENCE_NAME = 'serviceState';
 
     /**
      * The default persistence driver.
      */
-    const DEFAULT_PERSISTENCE_DRIVER = 'phpfile';
+    public const DEFAULT_PERSISTENCE_DRIVER = 'phpfile';
 
     /**
      * Sets the ServiceState persistence.

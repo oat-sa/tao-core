@@ -40,9 +40,9 @@ use oat\oatbox\user\User;
  */
 class MailAdapter extends ConfigurableService implements Transport
 {
-    const CONFIG_SMTP_CONFIG = 'SMTPConfig';
+    public const CONFIG_SMTP_CONFIG = 'SMTPConfig';
 
-    const CONFIG_DEFAULT_SENDER = 'defaultSender';
+    public const CONFIG_DEFAULT_SENDER = 'defaultSender';
 
     /**
      * Initialize PHPMailer

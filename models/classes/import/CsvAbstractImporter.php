@@ -32,7 +32,6 @@ use oat\generis\model\GenerisRdf;
  */
 abstract class CsvAbstractImporter
 {
-
     protected $validators = [];
 
 

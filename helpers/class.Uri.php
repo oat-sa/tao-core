@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -50,7 +51,7 @@ class tao_helpers_Uri
      * @access public
      * @var int
      */
-    const ENCODE_ARRAY_KEYS = 1;
+    public const ENCODE_ARRAY_KEYS = 1;
 
     /**
      * Short description of attribute ENCODE_ARRAY_VALUES
@@ -58,7 +59,7 @@ class tao_helpers_Uri
      * @access public
      * @var int
      */
-    const ENCODE_ARRAY_VALUES = 2;
+    public const ENCODE_ARRAY_VALUES = 2;
 
     /**
      * Short description of attribute ENCODE_ARRAY_ALL
@@ -66,7 +67,7 @@ class tao_helpers_Uri
      * @access public
      * @var int
      */
-    const ENCODE_ARRAY_ALL = 3;
+    public const ENCODE_ARRAY_ALL = 3;
 
     /**
      * get the project base url

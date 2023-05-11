@@ -32,7 +32,7 @@ use oat\generis\model\OntologyRdfs;
  */
 class CsvBasicImporter extends CsvAbstractImporter
 {
-    const OPTION_POSTFIX = '_O';
+    public const OPTION_POSTFIX = '_O';
 
     public function import($class, $options)
     {
@@ -71,7 +71,7 @@ class CsvBasicImporter extends CsvAbstractImporter
                     || ($index = array_search(substr(strtolower($property->getUri()), strpos($property->getUri(), '#') + 1), $modifiedHeader)) !== false
                 ) {
                     $map[$property->getUri()] = $index;
-                    //look for label or uri with eventually one error
+                //look for label or uri with eventually one error
                 } else {
                     $maximumError = 1;
                     $closest = null;

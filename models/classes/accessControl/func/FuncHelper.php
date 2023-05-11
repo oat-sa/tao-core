@@ -30,7 +30,6 @@ use oat\oatbox\service\ServiceManager;
  */
 class FuncHelper
 {
-
     /**
      * Get the controller className from extension and controller shortname
      * @param string $extension

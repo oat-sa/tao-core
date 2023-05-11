@@ -21,6 +21,7 @@
  */
 ?>
 <?php
+
 /**
  * This SQL Parser is able to deal with Functions
  * for PostgresSQL in a compliant SQL file.
@@ -31,7 +32,6 @@
  */
 class tao_install_utils_PostgresProceduresParser extends tao_install_utils_SQLParser
 {
-    
     /**
      * Parse a SQL file containing mySQL compliant Procedures or Functions.
      * @return void
@@ -41,7 +41,7 @@ class tao_install_utils_PostgresProceduresParser extends tao_install_utils_SQLPa
     {
         $this->setStatements([]);
         $file = $this->getFile();
-        
+
         if (!file_exists($file)) {
             throw new tao_install_utils_SQLParsingException("SQL file '${file}' does not exist.");
         } elseif (!is_readable($file)) {
@@ -49,12 +49,12 @@ class tao_install_utils_PostgresProceduresParser extends tao_install_utils_SQLPa
         } elseif (!preg_match("/\.sql$/", basename($file))) {
             throw new tao_install_utils_SQLParsingException("File '${file}' is not a valid SQL file. Extension '.sql' not found.");
         }
-        
+
         $content = @file_get_contents($file);
         if ($content !== false) {
             $matches = [];
             $patterns = ['CREATE\s*(?:OR\s+REPLACE){0,1}\s*FUNCTION\s+(?:.*\s)*?END\s*.*\s*;(?:\s*.*?\s*LANGUAGE\s+.*\s*;)*'];
-                            
+
             if (preg_match_all('/' . implode($patterns, '|') . '/i', $content, $matches)) {
                 foreach ($matches[0] as $match) {
                     $this->addStatement($match);

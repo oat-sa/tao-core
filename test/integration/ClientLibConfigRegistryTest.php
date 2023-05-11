@@ -30,7 +30,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  */
 class ClientLibConfigRegistryTest extends TaoPhpUnitTestRunner
 {
-
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com

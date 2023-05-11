@@ -16,7 +16,6 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
  */
 final class Version202110191543092234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'This migration will add ur-IN locale to RTL map';

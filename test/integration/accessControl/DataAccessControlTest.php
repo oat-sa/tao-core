@@ -13,7 +13,7 @@ use oat\generis\test\MockObject;
 
 class DataAccessControlTest extends GenerisPhpUnitTestRunner
 {
-    const SAMPLE_ITEMS_LABEL = 'SampleTestItem_';
+    public const SAMPLE_ITEMS_LABEL = 'SampleTestItem_';
 
     /**
      * @var \tao_models_classes_UserService

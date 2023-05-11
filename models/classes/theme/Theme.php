@@ -23,9 +23,9 @@ namespace oat\tao\model\theme;
 
 interface Theme
 {
-    const CONTEXT_BACKOFFICE = 'backOffice';
-    
-    const CONTEXT_FRONTOFFICE = 'frontOffice';
+    public const CONTEXT_BACKOFFICE = 'backOffice';
+
+    public const CONTEXT_FRONTOFFICE = 'frontOffice';
 
     /**
      * Returns the theme's unique identifier.
@@ -50,7 +50,7 @@ interface Theme
      * @return string filepath
      */
     public function getTemplate($id, $context = self::CONTEXT_BACKOFFICE);
-    
+
     /**
      * Returns the url to the StyleSheet for the indicated context
      *

@@ -27,8 +27,7 @@ use Prophecy\Argument;
 
 class CsvImportTest extends TaoPhpUnitTestRunner
 {
-
-    const CSV_FILE_USERS_HEADER_UNICODE = '/../samples/csv/users1-header.csv';
+    public const CSV_FILE_USERS_HEADER_UNICODE = '/../samples/csv/users1-header.csv';
 
     public function testImport()
     {
@@ -179,10 +178,10 @@ class CsvImportTest extends TaoPhpUnitTestRunner
         $file = $this->getTempFileToUpload('csv/users1-header-rules-validator.csv');
 
         $importer = new CsvBasicImporter();
-        
+
         $class = $this->prophesize('\core_kernel_classes_Class');
         $resource = $this->prophesize('\core_kernel_classes_Resource');
-        
+
         $class->createInstanceWithProperties([
             "label" => ["Correct row"],
             "firstName" => ["Jérôme"],
@@ -225,7 +224,7 @@ class CsvImportTest extends TaoPhpUnitTestRunner
                 tao_helpers_form_FormFactory::getValidator('Url'),
             ]
         ]);
-        
+
         $report = $importer->import($class->reveal(), [
             'file' => $file,
             'map' => [
@@ -238,12 +237,12 @@ class CsvImportTest extends TaoPhpUnitTestRunner
                 'UserUIlg'  => "6",
             ],
         ]);
-        
+
         $this->assertInstanceOf('common_report_Report', $report);
         $this->assertEquals(common_report_Report::TYPE_WARNING, $report->getType());
 
         $this->assertCount(6, $report->getErrors());
-        
+
         //cause import has errors
         $this->assertFalse($file->exists());
     }

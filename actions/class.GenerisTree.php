@@ -37,7 +37,7 @@ class tao_actions_GenerisTree extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
 
-    const DEFAULT_LIMIT = 10;
+    public const DEFAULT_LIMIT = 10;
 
     public function getData()
     {

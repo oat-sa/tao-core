@@ -52,7 +52,7 @@ class tao_models_classes_import_RdfImportForm extends tao_helpers_form_FormConta
         $this->form->setActions([$submitElt], 'bottom');
         $this->form->setActions([], 'top');
     }
-    
+
     /**
      * overriden
      *
@@ -74,10 +74,10 @@ class tao_models_classes_import_RdfImportForm extends tao_helpers_form_FormConta
             tao_helpers_form_FormFactory::getValidator('FileMimeType', ['mimetype' => ['text/xml', 'application/rdf+xml', 'application/xml'], 'extension' => ['rdf', 'rdfs']]),
             tao_helpers_form_FormFactory::getValidator('FileSize', ['max' => SystemHelper::getFileUploadLimit()])
         ]);
-        
+
         $this->form->addElement($fileElt);
         $this->form->createGroup('file', __('Import Metadata from RDF file'), ['source']);
-        
+
         $rdfSentElt = tao_helpers_form_FormFactory::getElement('import_sent_rdf', 'Hidden');
         $rdfSentElt->setValue(1);
         $this->form->addElement($rdfSentElt);

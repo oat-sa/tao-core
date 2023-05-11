@@ -58,22 +58,21 @@ use ReflectionClass;
  */
 class TranslationTest extends GenerisPhpUnitTestRunner
 {
-
-    const RAW_PO = '/samples/sample_raw.po';
-    const RAW_PO_WITH_CONTEXT = '/samples/sample_raw_with_context.po';
-    const ESCAPING_PO = '/samples/sample_escaping.po';
-    const SORTING_PO = '/samples/sample_sort.po';
-    const ANNOTATIONS_PO = '/samples/sample_annotations.po';
-    const TEMP_PO = 'tao.test.translation.writing';
-    const TEMP_RDF = 'tao.test.translation.writing';
-    const TAO_MANIFEST = '/samples/structures/tao';
-    const GROUPS_MANIFEST = '/samples/structures/groups';
-    const ITEMS_MANIFEST = '/samples/structures/items';
-    const FAKE_ACTIONS = '/samples/fakeSourceCode/actions/';
-    const FAKE_VIEWS = '/samples/fakeSourceCode/views/';
-    const FAKE_RDF_LANG_DESC = '/samples/rdf/tao_messages_DE.rdf';
-    const FAKE_RDF_TRANSLATION_MODEL = '/samples/locales/en-YO/tao.rdf';
-    const FAKE_RDF_TRANSLATION_MODEL_ANNOTATIONS = '/samples/rdf/translation_model_with_annotations.rdf';
+    public const RAW_PO = '/samples/sample_raw.po';
+    public const RAW_PO_WITH_CONTEXT = '/samples/sample_raw_with_context.po';
+    public const ESCAPING_PO = '/samples/sample_escaping.po';
+    public const SORTING_PO = '/samples/sample_sort.po';
+    public const ANNOTATIONS_PO = '/samples/sample_annotations.po';
+    public const TEMP_PO = 'tao.test.translation.writing';
+    public const TEMP_RDF = 'tao.test.translation.writing';
+    public const TAO_MANIFEST = '/samples/structures/tao';
+    public const GROUPS_MANIFEST = '/samples/structures/groups';
+    public const ITEMS_MANIFEST = '/samples/structures/items';
+    public const FAKE_ACTIONS = '/samples/fakeSourceCode/actions/';
+    public const FAKE_VIEWS = '/samples/fakeSourceCode/views/';
+    public const FAKE_RDF_LANG_DESC = '/samples/rdf/tao_messages_DE.rdf';
+    public const FAKE_RDF_TRANSLATION_MODEL = '/samples/locales/en-YO/tao.rdf';
+    public const FAKE_RDF_TRANSLATION_MODEL_ANNOTATIONS = '/samples/rdf/translation_model_with_annotations.rdf';
 
     /**
      * Test of the different classes composing the Translation Model.

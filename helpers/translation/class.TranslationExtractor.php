@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -66,7 +67,7 @@ abstract class tao_helpers_translation_TranslationExtractor
      */
     public function __construct($paths)
     {
-        
+
         $this->setPaths($paths);
     }
 
@@ -92,7 +93,7 @@ abstract class tao_helpers_translation_TranslationExtractor
      */
     public function setPaths($paths)
     {
-        
+
         $this->paths = $paths;
     }
 
@@ -107,9 +108,9 @@ abstract class tao_helpers_translation_TranslationExtractor
     {
         $returnValue = [];
 
-        
+
         $returnValue = $this->paths;
-        
+
 
         return (array) $returnValue;
     }
@@ -126,9 +127,9 @@ abstract class tao_helpers_translation_TranslationExtractor
     {
         $returnValue = [];
 
-        
+
         $returnValue = $this->translationUnits;
-        
+
 
         return (array) $returnValue;
     }
@@ -144,7 +145,7 @@ abstract class tao_helpers_translation_TranslationExtractor
      */
     protected function setTranslationUnits($translationUnits)
     {
-        
+
         $this->translationUnits = $translationUnits;
     }
 } /* end of abstract class tao_helpers_translation_TranslationExtractor */

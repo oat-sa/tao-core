@@ -11,8 +11,8 @@ use oat\generis\model\OntologyRdfs;
 
 class GetTreeRequest
 {
-    const DEFAULT_LIMIT = 10;
-    const DEFAULT_ORDERDIR = 'asc';
+    public const DEFAULT_LIMIT = 10;
+    public const DEFAULT_ORDERDIR = 'asc';
 
     /** @var  core_kernel_classes_Class */
     protected $class;

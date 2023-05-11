@@ -38,7 +38,7 @@ class Model extends AbstractModel
     public function render()
     {
         $returnValue = $this->renderLabel();
-        
+
         $i = 0;
         $returnValue .= '<div class="form_radlst">';
         foreach ($this->getOptions() as $optionId => $optionLabel) {
@@ -51,7 +51,7 @@ class Model extends AbstractModel
             $i++;
         }
         $returnValue .= "</div>";
-        
+
         return (string) $returnValue;
     }
 }

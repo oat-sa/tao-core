@@ -28,6 +28,7 @@
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
+
 namespace oat\tao\model;
 
 use core_kernel_classes_Class;

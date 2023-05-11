@@ -22,7 +22,7 @@
  *
  */
 
-use \oat\tao\model\GenerisServiceTrait;
+use oat\tao\model\GenerisServiceTrait;
 
 /**
  * The Service class is an abstraction of each service instance.

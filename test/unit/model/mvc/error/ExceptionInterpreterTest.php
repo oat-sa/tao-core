@@ -36,7 +36,6 @@ use tao_models_classes_UserException;
  */
 class ExceptionInterpreterTest extends TestCase
 {
-
     public function interpretErrorProvider()
     {
         $action = 'test';

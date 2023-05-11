@@ -144,8 +144,7 @@ class tao_actions_Export extends tao_actions_CommonModule
         tao_models_classes_export_ExportHandler $exporter,
         core_kernel_classes_Resource $selectedResource,
         array $formData
-    ): tao_actions_form_Export
-    {
+    ): tao_actions_form_Export {
         return new tao_actions_form_Export($handlers, $exporter->getExportForm($selectedResource), $formData);
     }
 

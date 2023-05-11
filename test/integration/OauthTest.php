@@ -32,7 +32,6 @@ use oat\tao\model\oauth\DataStore;
  */
 class OauthTest extends TaoPhpUnitTestRunner
 {
-
     /**
      * @var core_kernel_classes_Resource
      */

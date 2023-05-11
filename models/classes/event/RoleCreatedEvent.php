@@ -23,5 +23,4 @@ namespace oat\tao\model\event;
 
 class RoleCreatedEvent extends AbstractRoleEvent
 {
-
 }

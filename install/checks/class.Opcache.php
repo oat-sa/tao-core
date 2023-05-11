@@ -20,7 +20,6 @@
  */
 class tao_install_checks_Opcache extends common_configuration_Component
 {
-
     /**
      * @return common_configuration_Report
      */

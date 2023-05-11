@@ -29,7 +29,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  */
 class UriHelperTest extends TaoPhpUnitTestRunner
 {
-
     public function uriDataProvider()
     {
         return [

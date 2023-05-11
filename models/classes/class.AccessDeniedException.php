@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -55,7 +56,7 @@ class tao_models_classes_AccessDeniedException extends tao_models_classes_UserEx
         $this->request = new Request();
         parent::__construct('Access to ' . $ext . '::' . $module . '::' . $action . ' denied for user \'' . $userUri . '\'');
     }
-    
+
     /**
      * @return Request
      */
@@ -63,12 +64,12 @@ class tao_models_classes_AccessDeniedException extends tao_models_classes_UserEx
     {
         return $this->request;
     }
-    
+
     public function getSeverity()
     {
         return common_Logger::INFO_LEVEL;
     }
-    
+
     public function getUserMessage()
     {
         return __('Access denied. Please renew your authentication!');

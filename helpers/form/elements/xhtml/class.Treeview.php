@@ -34,7 +34,7 @@ class tao_helpers_form_elements_xhtml_Treeview extends tao_helpers_form_elements
 {
     use XhtmlRenderingTrait;
 
-    const NO_TREEVIEW_INTERACTION_IDENTIFIER = 'x-tao-no-treeview-interaction';
+    public const NO_TREEVIEW_INTERACTION_IDENTIFIER = 'x-tao-no-treeview-interaction';
 
     /**
      * Short description of method feed
@@ -52,13 +52,13 @@ class tao_helpers_form_elements_xhtml_Treeview extends tao_helpers_form_elements
                 $foundIndexes[] = $key;
             }
         }
-        
+
         if ((count($foundIndexes) > 0 && $_POST[$foundIndexes[0]] !== self::NO_TREEVIEW_INTERACTION_IDENTIFIER) || count($foundIndexes) === 0) {
             $this->setValues([]);
         } elseif ((count($foundIndexes) > 0 && $_POST[$foundIndexes[0]] === self::NO_TREEVIEW_INTERACTION_IDENTIFIER)) {
             array_shift($foundIndexes);
         }
-        
+
         foreach ($foundIndexes as $index) {
             $this->addValue(tao_helpers_Uri::decode($_POST[$index]));
         }
@@ -83,7 +83,7 @@ class tao_helpers_form_elements_xhtml_Treeview extends tao_helpers_form_elements
                 $returnValue = tao_helpers_form_GenerisFormFactory::extractTreeData(parent::getOptions());
                 break;
         }
-        
+
         return (array) $returnValue;
     }
 
@@ -111,16 +111,16 @@ class tao_helpers_form_elements_xhtml_Treeview extends tao_helpers_form_elements
     {
         $widgetTreeName = $this->name . '-TreeBox';
         $widgetValueName = $this->name . '-TreeValues';
-        
+
         $returnValue = $this->renderLabel();
-        
+
         $returnValue .= "<div class='form-elt-container' style='min-height:50px; overflow-y:auto;'>";
         $returnValue .= "<div id='{$widgetValueName}'>";
         $returnValue .= '<input type="hidden" value="' . self::NO_TREEVIEW_INTERACTION_IDENTIFIER . '" name="' . $this->name . '_0"/>';
         $returnValue .= "</div>";
-        
+
         $returnValue .= "<div id='{$widgetTreeName}'></div>";
-        
+
         // initialize the AsyncFileUpload Js component
         $returnValue .= '
 <script type="text/javascript">
@@ -177,7 +177,7 @@ class tao_helpers_form_elements_xhtml_Treeview extends tao_helpers_form_elements
 			});
 			</script>';
         $returnValue .= "</div><br />";
-        
+
         return (string) $returnValue;
     }
 

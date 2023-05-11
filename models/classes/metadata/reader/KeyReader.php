@@ -35,7 +35,7 @@ class KeyReader implements Reader
     /**
      * Source key label to find into $dataSource array
      */
-    const KEY_SOURCE = 'key';
+    public const KEY_SOURCE = 'key';
 
     protected $key;
 

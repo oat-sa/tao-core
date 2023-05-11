@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +28,6 @@
  */
 class tao_actions_Log extends \tao_actions_CommonModule
 {
-
     /**
      * Log the message sent from client side
      */

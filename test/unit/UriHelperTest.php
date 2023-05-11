@@ -30,7 +30,6 @@ use oat\generis\test\TestCase;
 
 class UriHelperTest extends TestCase
 {
-
     public function setUp(): void
     {
         parent::setUp();

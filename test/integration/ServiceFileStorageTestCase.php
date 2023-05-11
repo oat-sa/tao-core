@@ -25,7 +25,6 @@ use oat\generis\test\TestCase;
 
 class ServiceFileStorageTestCase extends TestCase
 {
-
     public function testFileStorage()
     {
         $storage = tao_models_classes_service_FileStorage::singleton();

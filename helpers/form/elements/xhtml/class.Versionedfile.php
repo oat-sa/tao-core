@@ -40,8 +40,8 @@ class tao_helpers_form_elements_xhtml_Versionedfile extends tao_helpers_form_ele
      * @access protected
      * @var string
      */
-    const CSS_CLASS = 'editVersionedFile';
-    
+    public const CSS_CLASS = 'editVersionedFile';
+
     /**
      * Short description of method render
      *
@@ -51,7 +51,7 @@ class tao_helpers_form_elements_xhtml_Versionedfile extends tao_helpers_form_ele
      */
     public function render()
     {
-        
+
         if (array_key_exists('class', $this->attributes)) {
             if (strstr($this->attributes['class'], self::CSS_CLASS) !== false) {
                 $this->attributes['class'] .= ' ' . self::CSS_CLASS;
@@ -59,14 +59,14 @@ class tao_helpers_form_elements_xhtml_Versionedfile extends tao_helpers_form_ele
         } else {
             $this->attributes['class'] = self::CSS_CLASS;
         }
-        
+
         $returnValue = $this->renderLabel();
-        
+
         $returnValue .= "<input type='button' for='{$this->name}' value='" . __('Manage Versioned File') . "' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= " />";
         $returnValue .= "<span for='{$this->name}' " . $this->renderAttributes() . "></span>";
-        
+
         return (string) $returnValue;
     }
 }

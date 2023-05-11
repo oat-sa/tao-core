@@ -36,7 +36,6 @@ use oat\oatbox\filesystem\File;
  */
 class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 {
-
     /**
      * Short description of attribute loadedFile
      *

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -57,9 +58,9 @@ class tao_models_classes_table_PropertyColumn extends tao_models_classes_table_C
     {
         $returnValue = null;
 
-        
+
         $returnValue = new static(new core_kernel_classes_Property($array['prop']));
-        
+
 
         return $returnValue;
     }
@@ -74,7 +75,7 @@ class tao_models_classes_table_PropertyColumn extends tao_models_classes_table_C
      */
     public function __construct(core_kernel_classes_Property $property)
     {
-        
+
         $this->property = $property;
         parent::__construct($property->getLabel());
     }
@@ -90,9 +91,9 @@ class tao_models_classes_table_PropertyColumn extends tao_models_classes_table_C
     {
         $returnValue = null;
 
-        
+
         $returnValue = $this->property;
-        
+
 
         return $returnValue;
     }
@@ -108,9 +109,9 @@ class tao_models_classes_table_PropertyColumn extends tao_models_classes_table_C
     {
         $returnValue = null;
 
-        
+
         $returnValue = tao_models_classes_table_PropertyDP::singleton();
-        
+
 
         return $returnValue;
     }
@@ -126,10 +127,10 @@ class tao_models_classes_table_PropertyColumn extends tao_models_classes_table_C
     {
         $returnValue = [];
 
-        
+
         $returnValue = parent::toArray();
         $returnValue['prop'] = $this->property->getUri();
-        
+
 
         return (array) $returnValue;
     }

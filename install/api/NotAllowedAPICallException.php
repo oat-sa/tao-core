@@ -27,5 +27,4 @@ use Exception;
  */
 class NotAllowedAPICallException extends Exception
 {
-
 }

@@ -37,11 +37,10 @@ use oat\tao\model\accessControl\ActionAccessControl;
 use oat\tao\model\accessControl\Context as AclContext;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
-
-use function GuzzleHttp\Psr7\stream_for;
-
 use oat\tao\model\security\xsrf\TokenService;
 use Zend\ServiceManager\ServiceLocatorInterface;
+
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Top level controller
@@ -202,8 +201,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         $this->setData('message', $description);
         $this->setData('returnLink', $returnLink);
         if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) == parse_url(ROOT_URL, PHP_URL_HOST)) {
-            $this->setData('returnUrl', htmlentities($_SERVER['HTTP_REFERER'],ENT_QUOTES));
-        }else{
+            $this->setData('returnUrl', htmlentities($_SERVER['HTTP_REFERER'], ENT_QUOTES));
+        } else {
             $this->setData('returnUrl', false);
         }
         if ($httpStatus !== null && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))) {

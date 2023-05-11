@@ -81,7 +81,7 @@ abstract class tao_helpers_form_Validator extends Configurable implements Valida
     {
         $this->message = $message;
     }
-    
+
     /**
      * @return string
      */

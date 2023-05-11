@@ -31,7 +31,6 @@ use common_exception_InconsistentData;
  **/
 class OntoLockData extends SimpleLock
 {
-    
     /**
      *
      * @param string $json
@@ -59,7 +58,7 @@ class OntoLockData extends SimpleLock
     {
         return new core_kernel_classes_Resource($this->getOwnerId());
     }
-    
+
     /**
      * @author "Patrick Plichart, <patrick@taotesting.com>"
      * @return string

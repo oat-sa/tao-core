@@ -28,10 +28,10 @@ use oat\tao\model\entryPoint\Entrypoint as InterfaceEntrypoint;
 
 class Entrypoint implements InterfaceEntrypoint, PhpSerializable
 {
-    const SERIAL_VERSION = 1392821334;
-    
+    public const SERIAL_VERSION = 1392821334;
+
     private $data = [];
-    
+
     public static function fromSimpleXMLElement(\SimpleXMLElement $node)
     {
         $replaced = [];
@@ -59,27 +59,27 @@ class Entrypoint implements InterfaceEntrypoint, PhpSerializable
     {
         $this->data = $data;
     }
-    
+
     public function getId()
     {
         return $this->data['id'];
     }
-    
+
     public function getTitle()
     {
         return $this->data['title'];
     }
-    
+
     public function getLabel()
     {
         return $this->data['label'];
     }
-    
+
     public function getDescription()
     {
         return $this->data['desc'];
     }
-    
+
     public function getUrl()
     {
         return _url($this->getAction(), $this->getController(), $this->getExtensionId());
@@ -104,13 +104,13 @@ class Entrypoint implements InterfaceEntrypoint, PhpSerializable
     {
         return $this->data['replace'];
     }
-    
+
     public function hasAccess()
     {
         list($ext, $mod, $act) = explode('/', trim($this->data['url'], '/'));
         return tao_models_classes_accessControl_AclProxy::hasAccess($act, $mod, $ext);
     }
-    
+
     public function __toPhpCode()
     {
         return "new " . __CLASS__ . "("

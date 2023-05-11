@@ -26,8 +26,8 @@ use oat\oatbox\PhpSerializable;
 
 class Tree implements PhpSerializable
 {
-    const SERIAL_VERSION = 1392821334;
-    
+    public const SERIAL_VERSION = 1392821334;
+
     private $data = [];
 
     /**
@@ -44,22 +44,22 @@ class Tree implements PhpSerializable
         }
         return new static($data);
     }
-    
+
     public function __construct($data, $version = self::SERIAL_VERSION)
     {
         $this->data = $data;
     }
-    
+
     public function get($attribute)
     {
         return isset($this->data[$attribute]) ? $this->data[$attribute] : null;
     }
- 
+
     public function getAttributes()
     {
         return array_keys($this->data);
     }
-    
+
     public function getActions()
     {
         $actions = [];
@@ -70,12 +70,12 @@ class Tree implements PhpSerializable
         }
         return $actions;
     }
-   
+
     public function getName()
     {
         return $this->data['name'];
     }
-    
+
     public function __toPhpCode()
     {
         return "new " . __CLASS__ . "("

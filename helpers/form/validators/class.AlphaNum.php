@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +30,6 @@
  */
 class tao_helpers_form_validators_AlphaNum extends tao_helpers_form_validators_Regex
 {
-
     /**
      * (non-PHPdoc)
      * @see tao_helpers_form_validators_Regex::setOptions()
@@ -39,7 +39,7 @@ class tao_helpers_form_validators_AlphaNum extends tao_helpers_form_validators_R
         $options['format'] = isset($options['allow_punctuation'])
            ? "/^[a-zA-Z0-9_\-]*$/"
            : "/^[a-zA-Z0-9]*$/";
-        
+
         parent::setOptions($options);
     }
 }

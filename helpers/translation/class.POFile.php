@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -55,7 +56,7 @@ class tao_helpers_translation_POFile extends tao_helpers_translation_TaoTranslat
      */
     public function addHeader($name, $value)
     {
-        
+
         $this->headers[$name] = $value;
     }
 
@@ -69,7 +70,7 @@ class tao_helpers_translation_POFile extends tao_helpers_translation_TaoTranslat
      */
     public function removeHeader($name)
     {
-        
+
         unset($this->headers[$name]);
     }
 
@@ -84,9 +85,9 @@ class tao_helpers_translation_POFile extends tao_helpers_translation_TaoTranslat
     {
         $returnValue = [];
 
-        
+
         $returnValue = $this->headers;
-        
+
 
         return (array) $returnValue;
     }
@@ -104,13 +105,13 @@ class tao_helpers_translation_POFile extends tao_helpers_translation_TaoTranslat
     {
         $returnValue = [];
 
-        
+
         foreach ($this->getTranslationUnits() as $tu) {
             if ($tu->hasFlag($flag)) {
                 $returnValue[] = $tu;
             }
         }
-        
+
 
         return (array) $returnValue;
     }
@@ -128,7 +129,7 @@ class tao_helpers_translation_POFile extends tao_helpers_translation_TaoTranslat
     {
         $returnValue = [];
 
-        
+
         foreach ($this->getTranslationUnits() as $tu) {
             $matching = true;
             foreach ($flags as $f) {
@@ -137,7 +138,7 @@ class tao_helpers_translation_POFile extends tao_helpers_translation_TaoTranslat
                     break;
                 }
             }
-            
+
             if ($matching == true) {
                 $returnValue[] = $tu;
             } else {
@@ -145,7 +146,7 @@ class tao_helpers_translation_POFile extends tao_helpers_translation_TaoTranslat
                 $matching = true;
             }
         }
-        
+
 
         return (array) $returnValue;
     }

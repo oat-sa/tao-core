@@ -29,7 +29,7 @@ use oat\generis\test\TestCase;
 
 class ServiceCallTest extends TestCase
 {
-    const SERVICE_DEFINITION = 'SERVICE_DEFINITION_URI';
+    public const SERVICE_DEFINITION = 'SERVICE_DEFINITION_URI';
     /**
          * @var tao_models_classes_service_ServiceCall;
          */

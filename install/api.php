@@ -228,7 +228,7 @@ header('Content-Type:text/html; charset=UTF-8');
 // clear sessions.
 session_start();
 session_destroy();
- 
+
 // initialize what we need.
 require_once('init.php');
 
@@ -254,7 +254,7 @@ try {
     if ($_SERVER['REQUEST_METHOD'] == 'GET' && $_GET['type'] == 'Sync') {
         $data = new tao_install_services_Data(['type' => 'Sync']);
         $service = new tao_install_services_SyncService($data);
-        
+
         // Execute service.
         $service->execute();
         $result = $service->getResult();
@@ -264,7 +264,7 @@ try {
         echo $result->getContent();
         die();
     }
-    
+
     $service = null;
     $data = null;
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -273,7 +273,7 @@ try {
         $rawInput = file_get_contents('php://input');
         $input = @json_decode($rawInput, true);
     }
-    
+
     if ($input == null) {
         throw new tao_install_api_MalformedRequestBodyException("Unable to parse request body as valid JSON.");
     } elseif (!isset($input['type']) || empty($input['type'])) {
@@ -284,7 +284,7 @@ try {
                 case 'CheckPHPConfig':
                     $service = getService(json_encode($input), $input['type']);
                     break;
-                
+
                 default:
                     // Unknown service.
                     throw new tao_install_services_UnknownServiceException($input['type']);
@@ -311,14 +311,14 @@ try {
                 case 'CheckCustom':
                     $service = getService($rawInput, $input['type']);
                     break;
-                
+
                 default:
                     // Unknown service.
                     throw new tao_install_services_UnknownServiceException($input['type']);
                     break;
             }
         }
-    
+
         // Execute service.
         $service->execute();
         $result = $service->getResult();

@@ -36,6 +36,7 @@ use oat\generis\model\GenerisRdf;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\service\ApplicationService;
 use oat\oatbox\service\ServiceNotFoundException;
+
 /**
  *
  *
@@ -54,7 +55,7 @@ class tao_install_Installator
     /**
      * Installator related dependencies will be reached under this offset.
      */
-    const CONTAINER_INDEX = 'taoInstallInstallator';
+    public const CONTAINER_INDEX = 'taoInstallInstallator';
 
     protected $options = [];
 
@@ -338,11 +339,11 @@ class tao_install_Installator
                 // 11.0 Protect TAO dist
                 $shield = new tao_install_utils_Shield(array_keys($extensions));
                 $shield->disableRewritePattern(["!/test/", "!/doc/"]);
-                                $shield->denyAccessTo([
-                                    'views/sass',
-                                    'views/js/test',
-                                    'views/build'
-                                ]);
+                $shield->denyAccessTo([
+                    'views/sass',
+                    'views/js/test',
+                    'views/build'
+                ]);
                 $shield->protectInstall();
             }
 
@@ -564,7 +565,7 @@ class tao_install_Installator
      */
     protected function getGenerisConfig()
     {
-         return $this->getConfigPath() . 'generis.conf.php';
+        return $this->getConfigPath() . 'generis.conf.php';
     }
 
     /**

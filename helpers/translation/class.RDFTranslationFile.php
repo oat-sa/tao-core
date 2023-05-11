@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -62,7 +63,7 @@ class tao_helpers_translation_RDFTranslationFile extends tao_helpers_translation
      */
     public function addTranslationUnit(tao_helpers_translation_TranslationUnit $translationUnit)
     {
-        
+
         // We override the default behaviour because for RDFTranslationFiles, TranslationUnits are
         // unique by concatening the following attributes:
         // - RDFTranslationUnit::subject
@@ -74,15 +75,15 @@ class tao_helpers_translation_RDFTranslationFile extends tao_helpers_translation
                 $tu->hasSameTranslationUnitPredicate($translationUnit) &&
                 $tu->hasSameTranslationUnitTargetLanguage($translationUnit)
             ) {
-                    // This TU already exists. We change its target if the new one
-                    // has one.
+                // This TU already exists. We change its target if the new one
+                // has one.
                 if ($translationUnit->getTarget() != $translationUnit->getSource()) {
                     $tu->setTarget($translationUnit->getTarget());
                 }
-                    return;
+                return;
             }
         }
-        
+
         // If we are executing this, we can add the TranslationUnit to this TranslationFile.
         $translationUnit->setSourceLanguage($this->getSourceLanguage());
         $translationUnit->setTargetLanguage($this->getTargetLanguage());
@@ -103,7 +104,7 @@ class tao_helpers_translation_RDFTranslationFile extends tao_helpers_translation
      */
     public function setNamespaces($namespaces)
     {
-        
+
         $this->namespaces = $namespaces;
     }
 
@@ -119,14 +120,14 @@ class tao_helpers_translation_RDFTranslationFile extends tao_helpers_translation
      */
     public function addNamespace($namespace)
     {
-        
+
         foreach ($this->getNamespaces() as $ns) {
             if ($ns['prefix'] == $namespace['prefix']) {
                 // This namespace is already registered.
                 return;
             }
         }
-        
+
         array_push($this->namespaces, $namespace);
     }
 
@@ -143,7 +144,7 @@ class tao_helpers_translation_RDFTranslationFile extends tao_helpers_translation
      */
     public function removeNamespace($namespace)
     {
-        
+
         foreach ($this->getNamespaces() as $ns) {
             if ($ns['prefix'] == $namespace['prefix']) {
                 unset($ns);
@@ -163,9 +164,9 @@ class tao_helpers_translation_RDFTranslationFile extends tao_helpers_translation
     {
         $returnValue = [];
 
-        
+
         $returnValue = $this->namespaces;
-        
+
 
         return (array) $returnValue;
     }
@@ -180,7 +181,7 @@ class tao_helpers_translation_RDFTranslationFile extends tao_helpers_translation
      */
     public function setBase($base)
     {
-        
+
         $this->base = $base;
     }
 
@@ -195,9 +196,9 @@ class tao_helpers_translation_RDFTranslationFile extends tao_helpers_translation
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->base;
-        
+
 
         return (string) $returnValue;
     }

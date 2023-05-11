@@ -122,10 +122,10 @@ class UserHelper
         if (empty($firstName) && $defaultToLabel) {
             $firstName = self::getUserLabel($user);
         }
-        
+
         return $firstName;
     }
-    
+
     /**
      * Gets the user's last name
      * @param User $user
@@ -139,7 +139,7 @@ class UserHelper
         if (empty($lastName) && $defaultToLabel) {
             $lastName = self::getUserLabel($user);
         }
-        
+
         return $lastName;
     }
 
@@ -153,9 +153,9 @@ class UserHelper
     {
         $firstName = self::getUserStringProp($user, GenerisRdf::PROPERTY_USER_FIRSTNAME);
         $lastName = self::getUserStringProp($user, GenerisRdf::PROPERTY_USER_LASTNAME);
-        
+
         $userName = trim($firstName . ' ' . $lastName);
-        
+
         if (empty($userName) && $defaultToLabel) {
             $userName = self::getUserLabel($user);
         }

@@ -35,9 +35,9 @@ use oat\oatbox\service\ConfigurableService;
  */
 class StateMigration extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/migrationState';
+    public const SERVICE_ID = 'tao/migrationState';
 
-    const OPTION_FILESYSTEM = 'fileSystem';
+    public const OPTION_FILESYSTEM = 'fileSystem';
 
     /**
      * @var FileSystem

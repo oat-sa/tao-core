@@ -36,8 +36,7 @@ class QueueMigrationService extends ConfigurableService
         ResultFilter $filter,
         SpawnMigrationConfigServiceInterface $spawnService,
         common_report_Report $report
-    ): ?MigrationConfig
-    {
+    ): ?MigrationConfig {
         $results = $resultSearcher->search($filter);
 
         foreach ($results as $unit) {

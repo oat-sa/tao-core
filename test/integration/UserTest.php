@@ -42,7 +42,6 @@ use ReflectionClass;
  */
 class UserTest extends TestCase
 {
-
     /**
      * @var tao_models_classes_UserService
      */

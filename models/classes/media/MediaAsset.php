@@ -30,7 +30,7 @@ class MediaAsset
      * @var MediaBrowser
      */
     protected $mediaSource = null;
-    
+
     /**
      * @var string
      */
@@ -47,7 +47,7 @@ class MediaAsset
         $this->mediaSource = $mediaSource;
         $this->mediaId = $mediaId;
     }
-    
+
     /**
      * Returns the source of the asset
      *
@@ -57,7 +57,7 @@ class MediaAsset
     {
         return $this->mediaSource;
     }
-    
+
     /**
      * Gets the identifier to be used in the context of
      * the assets mediasource

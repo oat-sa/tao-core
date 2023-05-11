@@ -32,23 +32,23 @@ use oat\tao\helpers\dateFormatter\DateFormatterInterface;
  */
 class tao_helpers_Date
 {
-    const CONFIG_KEY = 'dateService';
+    public const CONFIG_KEY = 'dateService';
 
-    const FORMAT_LONG = 0;
+    public const FORMAT_LONG = 0;
 
-    const FORMAT_VERBOSE = 1;
+    public const FORMAT_VERBOSE = 1;
 
-    const FORMAT_DATEPICKER = 2;
+    public const FORMAT_DATEPICKER = 2;
 
-    const FORMAT_ISO8601 = 3;
+    public const FORMAT_ISO8601 = 3;
 
-    const FORMAT_LONG_MICROSECONDS = 4;
+    public const FORMAT_LONG_MICROSECONDS = 4;
 
-    const FORMAT_INTERVAL_LONG = 100;
+    public const FORMAT_INTERVAL_LONG = 100;
 
-    const FORMAT_INTERVAL_SHORT = 101;
+    public const FORMAT_INTERVAL_SHORT = 101;
 
-    const FORMAT_FALLBACK = -1;
+    public const FORMAT_FALLBACK = -1;
 
     private static $service;
 
@@ -119,7 +119,7 @@ class tao_helpers_Date
             common_Logger::w('Unknown interval format ' . get_class($interval) . ' for ' . __FUNCTION__);
             return '';
         }
-        
+
         $formatStrings = self::getNonNullIntervalFormats($intervalObj);
         if (empty($formatStrings)) {
             $returnValue = __("less than a minute");
@@ -188,10 +188,10 @@ class tao_helpers_Date
      * @param unknown $microtime
      * @return number
      */
-    static function getTimeStamp($microtime, $microseconds = false)
+    public static function getTimeStamp($microtime, $microseconds = false)
     {
         $parts = array_reverse(explode(" ", $microtime));
-        
+
         if ($microseconds && isset($parts[1])) {
             $round = sprintf('%0.6f', $parts[1]);
             if ($round === '1.000000') {
@@ -207,7 +207,7 @@ class tao_helpers_Date
         return $timestamp;
     }
 
-    static function getTimeStampWithMicroseconds(DateTime $dt)
+    public static function getTimeStampWithMicroseconds(DateTime $dt)
     {
         return join('.', [$dt->getTimestamp(), $dt->format('u')]);
     }

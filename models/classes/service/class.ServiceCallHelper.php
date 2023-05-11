@@ -29,13 +29,13 @@ use oat\tao\model\WfEngineOntology;
  */
 class tao_models_classes_service_ServiceCallHelper
 {
-    const CACHE_PREFIX_URL = 'tao_service_url_';
-    
-    const CACHE_PREFIX_PARAM_NAME = 'tao_service_param_';
-    
+    public const CACHE_PREFIX_URL = 'tao_service_url_';
+
+    public const CACHE_PREFIX_PARAM_NAME = 'tao_service_param_';
+
     public static function getBaseUrl($serviceDefinitionId)
     {
-        
+
         try {
             $url = common_cache_FileCache::singleton()->get(self::CACHE_PREFIX_URL . urlencode($serviceDefinitionId));
         } catch (common_cache_NotFoundException $e) {
@@ -59,7 +59,7 @@ class tao_models_classes_service_ServiceCallHelper
         }
         return $url;
     }
-    
+
     public static function getInputValues(tao_models_classes_service_ServiceCall $serviceCall, $callParameters)
     {
         $returnValue = [];
@@ -83,7 +83,7 @@ class tao_models_classes_service_ServiceCallHelper
         }
         return $returnValue;
     }
-    
+
     protected static function getParamName(core_kernel_classes_Resource $paramDefinition)
     {
         try {

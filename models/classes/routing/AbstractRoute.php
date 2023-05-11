@@ -39,21 +39,21 @@ abstract class AbstractRoute implements Route
      * @var common_ext_Extension
      */
     private $extension;
-    
+
     /**
      * Id of the route
      *
      * @var string
      */
     private $id;
-    
+
     /**
      * Data the route requires to resolve
      *
      * @var mixed
      */
     private $config;
-    
+
     /**
      *
      * @param common_ext_Extension $extension
@@ -66,7 +66,7 @@ abstract class AbstractRoute implements Route
         $this->id = $routeId;
         $this->config = $routeConfig;
     }
-    
+
     /**
      *
      * @return common_ext_Extension
@@ -75,7 +75,7 @@ abstract class AbstractRoute implements Route
     {
         return $this->extension;
     }
-    
+
     /**
      *
      * @return mixed
@@ -84,7 +84,7 @@ abstract class AbstractRoute implements Route
     {
         return $this->config;
     }
-    
+
     /**
      *
      * @return string

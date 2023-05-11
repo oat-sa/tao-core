@@ -40,7 +40,6 @@ use oat\tao\model\TaoOntology;
  */
 class tao_helpers_translation_RDFUtils
 {
-
     /**
      * Unserialize an RDFTranslationUnit annotation and returns an associative
      * where keys are annotation names, and values are the annotation values.
@@ -100,7 +99,7 @@ class tao_helpers_translation_RDFUtils
         if ($glue == '') {
             $glue = "\n    ";
         }
-        
+
         $a = [];
         foreach ($annotations as $n => $v) {
             $v = str_replace("\\", "\\\\", $v);
@@ -132,31 +131,31 @@ class tao_helpers_translation_RDFUtils
         $xmlNs = 'http://www.w3.org/XML/1998/namespace';
         $xmlnsNs = 'http://www.w3.org/2000/xmlns/';
         $base = 'http://www.tao.lu/Ontologies/TAO.rdf#';
-        
+
         $doc = new DomDocument('1.0', 'UTF-8');
         $doc->formatOutput = true;
-        
+
         $rdfNode = $doc->createElementNS($rdfNs, 'rdf:RDF');
         $rdfNode->setAttributeNS($xmlNs, 'xml:base', $base);
         $doc->appendChild($rdfNode);
-        
+
         $descriptionNode = $doc->createElementNS($rdfNs, 'rdf:Description');
         $descriptionNode->setAttributeNS($rdfNs, 'rdf:about', $languagePrefix . $code);
         $rdfNode->appendChild($descriptionNode);
-        
+
         $typeNode = $doc->createElementNS($rdfNs, 'rdf:type');
         $typeNode->setAttributeNS($rdfNs, 'rdf:resource', $languageType);
         $descriptionNode->appendChild($typeNode);
-        
+
         $labelNode = $doc->createElementNS($rdfsNs, 'rdfs:label');
         $labelNode->setAttributeNS($xmlNs, 'xml:lang', DEFAULT_LANG);
         $labelNode->appendChild($doc->createCDATASection($label));
         $descriptionNode->appendChild($labelNode);
-        
+
         $valueNode = $doc->createElementNS($rdfNs, 'rdf:value');
         $valueNode->appendChild($doc->createCDATASection($code));
         $descriptionNode->appendChild($valueNode);
-        
+
         $guiUsageNode = $doc->createElementNS($base, 'tao:LanguageUsages');
         $guiUsageNode->setAttributeNs($rdfNs, 'rdf:resource', tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI);
         $descriptionNode->appendChild($guiUsageNode);
@@ -164,11 +163,11 @@ class tao_helpers_translation_RDFUtils
         $dataUsageNode = $doc->createElementNS($base, 'tao:LanguageUsages');
         $dataUsageNode->setAttributeNs($rdfNs, 'rdf:resource', tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
         $descriptionNode->appendChild($dataUsageNode);
-        
+
         $dataUsageNode = $doc->createElementNS($base, 'tao:LanguageOrientation');
         $dataUsageNode->setAttributeNs($rdfNs, 'rdf:resource', tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR);
         $descriptionNode->appendChild($dataUsageNode);
-        
+
         $returnValue = $doc;
 
         return $returnValue;

@@ -131,7 +131,7 @@ abstract class AbstractModuleService extends ConfigurableService
             $module->setActive(false);
             return $this->registry->register($module);
         }
-        
+
         return false;
     }
 

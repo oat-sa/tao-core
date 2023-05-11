@@ -39,9 +39,9 @@ use oat\tao\model\metadata\writer\ontologyWriter\OntologyWriter;
  */
 class OntologyMetadataInjector extends ConfigurableService implements Injector
 {
-    const CONFIG_SOURCE = 'source';
+    public const CONFIG_SOURCE = 'source';
 
-    const CONFIG_DESTINATION = 'destination';
+    public const CONFIG_DESTINATION = 'destination';
 
     /**
      * Components to read value from $dataSource

@@ -36,10 +36,9 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class tao_helpers_Http
 {
+    public const BYTES_BY_CYCLE =  5242880; //1024 * 1024 * 5
 
-    const BYTES_BY_CYCLE =  5242880; //1024 * 1024 * 5
-
-    static $headers;
+    public static $headers;
 
     /**
      * @author "Patrick Plichart, <patrick@taotesting.com>"
@@ -50,7 +49,7 @@ class tao_helpers_Http
         // seems apache-php is absorbing the header
         if (isset($_SERVER['PHP_AUTH_DIGEST'])) {
             $digest = $_SERVER['PHP_AUTH_DIGEST'];
-            // most other servers
+        // most other servers
         } elseif (isset($_SERVER['HTTP_AUTHENTICATION'])) {
             if (strpos(strtolower($_SERVER['HTTP_AUTHENTICATION']), 'digest') === 0) {
                 $digest = substr($_SERVER['HTTP_AUTHORIZATION'], 7);
@@ -206,7 +205,7 @@ class tao_helpers_Http
             // check if there is a different quality
             if (strpos($a, ';q=')) {
                 // divide "mime/type;q=X" into two parts: "mime/type" i "X"
-                list ($a, $q) = explode(';q=', $a);
+                list($a, $q) = explode(';q=', $a);
             }
             // mime-type $a is accepted with the quality $q
             // WARNING: $q == 0 means, that mime-type isn’t supported!

@@ -48,23 +48,23 @@ class tao_actions_form_Search extends tao_actions_form_Instance
      */
     protected function initForm()
     {
-        
-        
+
+
         (isset($this->options['name'])) ? $name = $this->options['name'] : $name = '';
         if (empty($name)) {
             $name = 'form_' . (count(self::$forms) + 1);
         }
         unset($this->options['name']);
-            
+
         $this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
-        
+
         //search action in toolbar
         $searchElt = tao_helpers_form_FormFactory::getElement('search', 'Free');
         $searchElt->setValue('<button type="button" class="form-submitter btn-success small"><span class="icon-find"></span>' . __('Search') . '</button>');
         $this->form->setActions([$searchElt], 'top');
         $this->form->setActions([$searchElt], 'bottom');
     }
-    
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -85,13 +85,13 @@ class tao_actions_form_Search extends tao_actions_form_Instance
     protected function initElements()
     {
 
-        
+
         $chainingElt = tao_helpers_form_FormFactory::getElement('chaining', 'Radiobox');
         $chainingElt->setDescription(__('Filtering mode'));
         $chainingElt->setOptions(['or' =>  __('Exclusive (OR)'), 'and' => __('Inclusive (AND)')]);
         $chainingElt->setValue('or');
         $this->form->addElement($chainingElt);
-        
+
         $recursiveElt = tao_helpers_form_FormFactory::getElement('recursive', 'Checkbox');
         $recursiveElt->setDescription(__('Scope'));
         $recursiveElt->setOptions(['0' =>  __('Search sub-classes')]);
@@ -100,33 +100,33 @@ class tao_actions_form_Search extends tao_actions_form_Instance
         $searchClassUriElt = tao_helpers_form_FormFactory::getElement("clazzUri", "Hidden");
         $searchClassUriElt->setValue(tao_helpers_Uri::encode($this->clazz->getUri()));
         $this->form->addElement($searchClassUriElt);
-        
+
         $langElt = tao_helpers_form_FormFactory::getElement('lang', 'Combobox');
         $langElt->setDescription(__('Language'));
-        
+
         $languages = array_merge(['-- any --'], tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)));
         $langElt->setOptions($languages);
         $langElt->setValue(0);
         $this->form->addElement($langElt);
-        
+
         $this->form->createGroup('params', __('<del>Options</del>'), ['chaining', 'recursive', 'lang']);
-        
+
 
         $filters = [];
 
         $defaultProperties  = tao_helpers_form_GenerisFormFactory::getDefaultProperties();
         $classProperties    = $this->getClassProperties();
 
-        
+
         $properties = array_merge($defaultProperties, $classProperties);
-        
+
         (isset($this->options['recursive'])) ? $recursive = $this->options['recursive'] : $recursive = false;
         if ($recursive) {
             foreach ($this->clazz->getSubClasses(true) as $subClass) {
                 $properties = array_merge($subClass->getProperties(false), $properties);
             }
         }
-        
+
         foreach ($properties as $property) {
             $element = tao_helpers_form_GenerisFormFactory::elementMap($property);
             if (
@@ -146,7 +146,7 @@ class tao_actions_form_Search extends tao_actions_form_Instance
                     $newElement->setDescription($element->getDescription());
                     $element = $newElement;
                 }
-                
+
                 $this->form->addElement($element);
                 $filters[] = $element->getName();
             }

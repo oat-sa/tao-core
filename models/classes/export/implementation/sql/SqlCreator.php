@@ -40,7 +40,7 @@ class SqlCreator
     /**
      * @return string
      */
-    public function getExportSql() : string
+    public function getExportSql(): string
     {
         $sqlCreateTable = $this->getCreateTableSql();
         $sqlInsert = $this->getInsertSql();
@@ -59,7 +59,8 @@ class SqlCreator
             $columnsCreatingStringArray[] = $column->getColumnCreatingString();
         }
 
-        return sprintf("CREATE TABLE IF NOT EXISTS %s (%s\t%s%s);",
+        return sprintf(
+            "CREATE TABLE IF NOT EXISTS %s (%s\t%s%s);",
             $this->table->getTableName(),
             PHP_EOL,
             implode("," . PHP_EOL . "\t", $columnsCreatingStringArray),
@@ -70,17 +71,15 @@ class SqlCreator
     /**
      * @return string
      */
-    private function getInsertSql() : string
+    private function getInsertSql(): string
     {
         $columnNamesArray = [];
-        foreach ($this->table->getColumns() as $column)
-        {
+        foreach ($this->table->getColumns() as $column) {
             $columnNamesArray[] = $column->getFormattedName();
         }
 
         $fieldInsertArray = [];
         foreach ($this->table->getRows() as $row) {
-
             $rowValuesArray = [];
 
             /**@var $field ExportedField */
@@ -95,7 +94,8 @@ class SqlCreator
         $columnNamesString = implode("," . PHP_EOL . "\t   ", $columnNamesArray);
         $fieldInsertString = implode("," . PHP_EOL . "\t", $fieldInsertArray);
 
-        return sprintf("INSERT INTO %s (%s\t   %s%s) VALUES %s;",
+        return sprintf(
+            "INSERT INTO %s (%s\t   %s%s) VALUES %s;",
             $this->table->getTableName(),
             PHP_EOL,
             $columnNamesString,

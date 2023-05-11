@@ -38,7 +38,7 @@ class PropertyWriter extends ConfigurableService implements OntologyWriter
 {
     use OntologyAwareTrait;
 
-    const PROPERTY_KEY = 'propertyUri';
+    public const PROPERTY_KEY = 'propertyUri';
 
     /**
      * PropertyWriter constructor.

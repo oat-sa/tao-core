@@ -21,6 +21,7 @@
  */
 ?>
 <?php
+
 /**
  * A specific install exception that must be thrown when an installation
  * parameter value is malformed (wrong data type, format, does not fit with
@@ -32,7 +33,6 @@
  */
 class tao_install_utils_MalformedParameterException extends common_Exception
 {
-    
     /**
      * @return string the exception message
      */

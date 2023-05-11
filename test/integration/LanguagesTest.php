@@ -33,7 +33,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  */
 class LanguagesTestCase extends TaoPhpUnitTestRunner
 {
-    
     /**
      * Test the existence of language definition resources in the knowledge base
      * regarding what we found in the tao/locales directory.
@@ -51,16 +50,16 @@ class LanguagesTestCase extends TaoPhpUnitTestRunner
                 $localePath = $taoLocalesDir . '/' . $l;
                 if ($l[0] !== '.' && is_dir($localePath) && is_readable($localePath)) {
                     $langPath = $localePath . '/lang.rdf';
-                    
+
                     if (file_exists($langPath)) {
                         $lgResource = new core_kernel_classes_Resource($expectedUriPrefix . $l);
                         $this->assertTrue($lgResource->exists(), '$lgResource Resource does not exist (' . $expectedUriPrefix . $l . ').');
-                        
+
                         // Check for this language in Ontology.
                         $kbLangs = $lgResource->getPropertyValues(new core_kernel_classes_Property(OntologyRdf::RDF_VALUE));
                         if (is_array($kbLangs)) {
                             $this->assertEquals(count($kbLangs), 1, "Number of languages retrieved for language '${l}' is '" . count($kbLangs) . "'.");
-                            
+
                             // Check if the language has the correct URI.
                             if ($kbLangs[0] instanceof core_kernel_classes_Resource) {
                                 $this->assertTrue($kbLangs[0]->getUri() == $expectedUriPrefix . $l, "Malformed URI scheme for language resource '${l}'.");
@@ -73,7 +72,7 @@ class LanguagesTestCase extends TaoPhpUnitTestRunner
             }
         }
     }
-    
+
     /**
      * Test the language usages property. The usages property defines
      * in which context a language can take place e.g. GUI, data, ...
@@ -90,15 +89,15 @@ class LanguagesTestCase extends TaoPhpUnitTestRunner
         $usagePropertyRange = $lgUsageProperty->getRange();
         $this->assertIsA($usagePropertyRange, 'core_kernel_classes_Class');
         $this->assertEquals($usagePropertyRange->getUri(), tao_models_classes_LanguageService::CLASS_URI_LANGUAGES_USAGES);
-        
+
         $instancePrefix = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang';
         $targetLanguageCode = DEFAULT_LANG;
         $valueProperty = new core_kernel_classes_Property(OntologyRdf::RDF_VALUE);
-        
+
         $defaultLanguage = new core_kernel_classes_Resource($instancePrefix . $targetLanguageCode);
         $this->assertIsA($defaultLanguage, 'core_kernel_classes_Resource');
         $this->assertTrue(in_array(DEFAULT_LANG, $defaultLanguage->getPropertyValues($valueProperty)));
-        
+
         $usages = $defaultLanguage->getPropertyValues($lgUsageProperty);
         $this->assertTrue(count($usages) >= 2);
         $this->assertTrue(in_array(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI, $usages));

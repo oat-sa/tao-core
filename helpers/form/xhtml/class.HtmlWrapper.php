@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -63,8 +64,8 @@ class tao_helpers_form_xhtml_HtmlWrapper implements tao_helpers_form_Decorator
     {
         $returnValue = (string) '';
 
-        
-        
+
+
 
         return (string) $returnValue;
     }
@@ -80,8 +81,8 @@ class tao_helpers_form_xhtml_HtmlWrapper implements tao_helpers_form_Decorator
     {
         $returnValue = (string) '';
 
-        
-        
+
+
 
         return (string) $returnValue;
     }
@@ -98,8 +99,8 @@ class tao_helpers_form_xhtml_HtmlWrapper implements tao_helpers_form_Decorator
     {
         $returnValue = (string) '';
 
-        
-        
+
+
 
         return (string) $returnValue;
     }
@@ -117,8 +118,8 @@ class tao_helpers_form_xhtml_HtmlWrapper implements tao_helpers_form_Decorator
     {
         $returnValue = (bool) false;
 
-        
-        
+
+
 
         return (bool) $returnValue;
     }

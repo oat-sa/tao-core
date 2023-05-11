@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +30,6 @@
  */
 class tao_helpers_form_data_StoredFileDescription extends tao_helpers_form_data_FileDescription
 {
-
     /**
      * Initialise stored file description
      *

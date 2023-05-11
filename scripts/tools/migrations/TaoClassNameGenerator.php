@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -51,7 +52,7 @@ class TaoClassNameGenerator extends ClassNameGenerator
      * @param string $namespace
      * @return string
      */
-    public function generateClassName(string $namespace) : string
+    public function generateClassName(string $namespace): string
     {
         return $namespace . '\\Version' . $this->generateVersionNumber();
     }
@@ -59,12 +60,12 @@ class TaoClassNameGenerator extends ClassNameGenerator
     /**
      * @return string
      */
-    private function generateVersionNumber() : string
+    private function generateVersionNumber(): string
     {
         $now = new DateTimeImmutable('now', new DateTimeZone('UTC'));
         $version = $now->format(self::VERSION_FORMAT);
         $intHash = (string) crc32($this->extension->getId());
-        $intHash = substr($intHash,0,4);
-        return $version.$intHash.'_'.$this->extension->getId();
+        $intHash = substr($intHash, 0, 4);
+        return $version . $intHash . '_' . $this->extension->getId();
     }
 }

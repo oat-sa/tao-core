@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -56,8 +57,8 @@ abstract class tao_helpers_translation_TaoTranslationFile extends tao_helpers_tr
     {
         $returnValue = (string) '';
 
-        
-        
+
+
 
         return (string) $returnValue;
     }
