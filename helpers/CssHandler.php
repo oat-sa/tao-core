@@ -97,9 +97,7 @@ class CssHandler
                         }
                         $css .= ($compressed) ? '}' : "\n}\n";
                     }
-                }
-                // regular selectors
-                else {
+                } else { // regular selectors
                     $css .= $break . $key2 . ':' . $value2 . ';';
                 }
             }

@@ -48,4 +48,4 @@ abstract class tao_helpers_form_elements_Password extends tao_helpers_form_FormE
             tao_helpers_form_FormFactory::getValidator('Length', ['min' => 3])
         ]);
     }
-} /* end of abstract class tao_helpers_form_elements_Password */
+}

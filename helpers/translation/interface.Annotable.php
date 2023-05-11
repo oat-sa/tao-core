@@ -84,4 +84,4 @@ interface tao_helpers_translation_Annotable
      * @return array
      */
     public function getAnnotation($name);
-} /* end of interface tao_helpers_translation_Annotable */
+}

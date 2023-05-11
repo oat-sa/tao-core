@@ -185,9 +185,7 @@ class Bootstrap implements ServiceManagerAwareInterface
             //the app is ready, process mvc
             if ($this->isReady()) {
                 $this->mvc();
-            }
-            //the app is not ready, put platform on maintenance
-            else {
+            } else { //the app is not ready, put platform on maintenance
                 $this->displayMaintenancePage();
             }
         } catch (Exception $e) {

@@ -70,4 +70,4 @@ interface tao_helpers_form_Decorator
      * @return boolean
      */
     public function setOption($key, $value);
-} /* end of interface tao_helpers_form_Decorator */
+}

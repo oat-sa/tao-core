@@ -107,4 +107,4 @@ abstract class tao_helpers_grid_Cell_Adapter
 
         return (array) $returnValue;
     }
-} /* end of abstract class tao_helpers_grid_Cell_Adapter */
+}

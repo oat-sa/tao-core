@@ -2,7 +2,9 @@
 
 namespace oat\tao\test\integration;
 
+// phpcs:disable PSR1.Files.SideEffects
 require_once dirname(__FILE__) . '/../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 abstract class RestTestCase extends RestTestRunner
 {

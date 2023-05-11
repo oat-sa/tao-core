@@ -59,4 +59,4 @@ abstract class tao_helpers_form_elements_Combobox extends tao_helpers_form_eleme
     {
         $this->emptyOption = $display;
     }
-} /* end of abstract class tao_helpers_form_elements_Combobox */
+}

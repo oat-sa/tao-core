@@ -146,4 +146,4 @@ abstract class tao_models_classes_table_Column
      * @return tao_models_classes_table_DataProvider
      */
     abstract public function getDataProvider();
-} /* end of abstract class tao_models_classes_table_Column */
+}

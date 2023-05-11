@@ -120,6 +120,8 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
      * @author Joel Bout, <joel@taotesting.com>
      * @param  consumer_key
      * @return OAuthConsumer
+     *
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function lookup_consumer($consumer_key)
     {
@@ -133,6 +135,7 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
 
         return $returnValue;
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     /**
      * Should verify if the token exists and return it
@@ -144,12 +147,15 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
      * @param  token_type
      * @param  token
      * @return mixed
+     *
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function lookup_token($consumer, $token_type, $token)
     {
         \common_Logger::d(__CLASS__ . '::' . __FUNCTION__ . ' called for token ' . $token . ' of type ' . $token_type);
         return new OAuthToken($consumer, "");
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     /**
      * Should verify if a nonce has already been used
@@ -162,12 +168,15 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
      * @param string $nonce
      * @param string $timestamp
      * @return mixed
+     *
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function lookup_nonce($consumer, $token, $nonce, $timestamp)
     {
         $store = $this->getSubService(self::OPTION_NONCE_STORE);
         return $store->isValid($timestamp . '_' . $consumer->key . '_' . $nonce) ? null : true;
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     /**
      * Should create a new request token
@@ -178,12 +187,15 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
      * @param  consumer
      * @param  callback
      * @return mixed
+     *
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function new_request_token($consumer, $callback = null)
     {
         \common_Logger::d(__CLASS__ . '::' . __FUNCTION__ . ' called');
         return null;
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     /**
      * Should create a new access token
@@ -194,10 +206,13 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
      * @param  token
      * @param  consumer
      * @return mixed
+     *
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function new_access_token($token, $consumer, $verifier = null)
     {
         \common_Logger::d(__CLASS__ . '::' . __FUNCTION__ . ' called');
         return null;
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 }

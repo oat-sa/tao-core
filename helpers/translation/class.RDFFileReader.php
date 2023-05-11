@@ -159,4 +159,4 @@ class tao_helpers_translation_RDFFileReader extends tao_helpers_translation_Tran
             throw new tao_helpers_translation_TranslationException("The file '${inputFile}' does not exist.");
         }
     }
-} /* end of clas*/
+}

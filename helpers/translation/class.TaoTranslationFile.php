@@ -74,4 +74,4 @@ abstract class tao_helpers_translation_TaoTranslationFile extends tao_helpers_tr
     public function setExtensionId($extensionId)
     {
     }
-} /* end of abstract class tao_helpers_translation_TaoTranslationFile */
+}

@@ -66,4 +66,4 @@ interface tao_models_classes_ServiceCacheInterface
      * @return boolean
      */
     public function clearCache($methodName = '', $args = []);
-} /* end of interface tao_models_classes_ServiceCacheInterface */
+}

@@ -242,9 +242,7 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
                 $this->form->setGroups(array_merge($this->form->getGroups(), $propForm->getGroups()));
 
                 unset($propForm);
-            }
-            // read only properties
-            else {
+            } else { // read only properties
                 $roElement = tao_helpers_form_FormFactory::getElement('roProperty' . $i, 'Free');
                 $roElement->setValue(__('Cannot be edited'));
                 $this->form->addElement($roElement);

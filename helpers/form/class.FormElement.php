@@ -28,8 +28,10 @@ use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\validators\PreliminaryValidationInterface;
 
 // Defining aliases for old style class names for backward compatibility
+// phpcs:disable PSR1.Files.SideEffects
 class_alias(SearchTextBox::class, \tao_helpers_form_elements_xhtml_Searchtextbox::class);
 class_alias(SearchDropdown::class, \tao_helpers_form_elements_xhtml_Searchdropdown::class);
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Represents a form. It provides the default behavior for form management and

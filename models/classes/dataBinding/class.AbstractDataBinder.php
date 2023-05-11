@@ -56,4 +56,4 @@ abstract class tao_models_classes_dataBinding_AbstractDataBinder
      * @return mixed
      */
     abstract public function bind($data);
-} /* end of abstract class tao_models_classes_dataBinding_AbstractDataBinder */
+}

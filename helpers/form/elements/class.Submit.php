@@ -37,4 +37,4 @@ abstract class tao_helpers_form_elements_Submit extends tao_helpers_form_FormEle
     // --- ATTRIBUTES ---
 
     // --- OPERATIONS ---
-} /* end of abstract class tao_helpers_form_elements_Submit */
+}

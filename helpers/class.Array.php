@@ -67,6 +67,8 @@ class tao_helpers_Array
      *
      * @param array $array
      * @return array $array
+     *
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public static function array_unique($array)
     {
@@ -85,6 +87,7 @@ class tao_helpers_Array
         }
         return $array;
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName,PEAR.Functions.ValidDefaultValue
 
     /**
      * Test if ann array is associative or not

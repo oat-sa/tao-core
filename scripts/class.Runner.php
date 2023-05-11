@@ -159,18 +159,14 @@ abstract class tao_scripts_Runner
                     if (count($sequence) >= 2) {
                         $this->parameters[$sequence[0]] = $sequence[1];
                     }
-                }
-                // command -(-)arg1 value1 value2
-                elseif (preg_match("/^[\-]{1,2}\w+$/", $arg)) {
+                } elseif (preg_match("/^[\-]{1,2}\w+$/", $arg)) { // command -(-)arg1 value1 value2
                     $key = preg_replace("/^[\-]{1,}/", '', $arg);
                     $this->parameters[$key] = '';
                     while (isset($this->argv[$i + 1]) && substr(trim($this->argv[$i + 1]), 0, 1) != '-') {
                         $this->parameters[$key] .= trim($this->argv[++$i]) . ' ';
                     }
                     $this->parameters[$key] = substr($this->parameters[$key], 0, -1);
-                }
-                // command value1 value2
-                else {
+                } else { // command value1 value2
                     $this->parameters[$i] = $arg;
                 }
             }
@@ -513,4 +509,4 @@ abstract class tao_scripts_Runner
             $this->out($message, $options);
         }
     }
-} /* end of abstract class tao_scripts_Runner */
+}

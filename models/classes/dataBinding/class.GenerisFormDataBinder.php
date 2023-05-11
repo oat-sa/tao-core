@@ -105,10 +105,8 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
         // If form has delete action, remove file
         if ($desc->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_DELETE) {
             $this->removeFile($property);
-        }
-
         // If form has add action, remove file & replace by new
-        elseif ($desc->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_ADD) {
+        } elseif ($desc->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_ADD) {
             $name = $desc->getName();
             $size = $desc->getSize();
 

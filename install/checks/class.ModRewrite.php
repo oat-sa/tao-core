@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,8 +20,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
-?>
-<?php
 
 class tao_install_checks_ModRewrite extends common_configuration_Component
 {
@@ -36,17 +35,14 @@ class tao_install_checks_ModRewrite extends common_configuration_Component
             if (in_array('mod_rewrite', $modules)) {
                 $modRewrite = true;
             }
-        }
         // TAO Main .htaccess file sets the HTTP_MOD_REWRITE.
-        elseif ((getenv('HTTP_MOD_REWRITE') == 'On' ? true : false) == true) {
+        } elseif ((getenv('HTTP_MOD_REWRITE') == 'On' ? true : false) == true) {
             $modRewrite = true;
-        }
         // apache does weird things to environement variables
-        elseif ((getenv('REDIRECT_HTTP_MOD_REWRITE') == 'On' ? true : false) == true) {
+        } elseif ((getenv('REDIRECT_HTTP_MOD_REWRITE') == 'On' ? true : false) == true) {
             $modRewrite = true;
-        }
         // else test the behaviour
-        elseif (php_sapi_name() != 'cli' && function_exists("curl_init")) {
+        } elseif (php_sapi_name() != 'cli' && function_exists("curl_init")) {
             $server =
                 ((isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") ? 'https' : 'http')
                 . "://" . $_SERVER['SERVER_NAME']

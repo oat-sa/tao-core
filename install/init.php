@@ -21,6 +21,8 @@
  *               2013-     (update and modification) Open Assessment Technologies SA;
  */
 
+// phpcs:disable PSR1.Files.SideEffects
+
 use oat\tao\model\mvc\DotEnvReader;
 
 $root = realpath(__DIR__ . '/../../') . DIRECTORY_SEPARATOR;

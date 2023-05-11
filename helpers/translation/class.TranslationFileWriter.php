@@ -149,4 +149,4 @@ abstract class tao_helpers_translation_TranslationFileWriter
 
         return $returnValue;
     }
-} /* end of abstract class tao_helpers_translation_TranslationFileWriter */
+}

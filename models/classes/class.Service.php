@@ -1,7 +1,5 @@
 <?php
 
-use oat\oatbox\service\ServiceManager;
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,6 +20,8 @@ use oat\oatbox\service\ServiceManager;
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
+
+use oat\oatbox\service\ServiceManager;
 
 /**
  * Service is the base class of all services, and implements the singleton
@@ -53,9 +53,11 @@ abstract class tao_models_classes_Service
      *
      * @access private
      * @var string
+     *
+     * phpcs:disable Generic.NamingConventions.UpperCaseConstantName
      */
-
     public const namePattern = 'tao%1$s_models_classes_%1$sService';
+    // phpcs:enable Generic.NamingConventions.UpperCaseConstantName
 
     // --- OPERATIONS ---
 

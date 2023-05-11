@@ -158,4 +158,4 @@ abstract class tao_actions_form_Generis extends tao_helpers_form_FormContainer
 
         return $returnValue;
     }
-} /* end of abstract class tao_actions_form_Generis */
+}

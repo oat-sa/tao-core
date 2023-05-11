@@ -45,4 +45,4 @@ abstract class tao_helpers_form_elements_File extends tao_helpers_form_FormEleme
     public const MAX_FILE_SIZE = 2000000;
 
     // --- OPERATIONS ---
-} /* end of abstract class tao_helpers_form_elements_File */
+}

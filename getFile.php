@@ -1,7 +1,5 @@
 <?php
 
-use oat\tao\model\websource\WebsourceManager;
-
 /**
  *
  * This program is free software; you can redistribute it and/or
@@ -22,6 +20,8 @@ use oat\tao\model\websource\WebsourceManager;
  *
  *
  */
+
+use oat\tao\model\websource\WebsourceManager;
 
 require_once '../vendor/autoload.php';
 

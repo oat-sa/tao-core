@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,8 +20,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
-?>
-<?php
 
 /**
  * This file contains the TAO Install REST API.
@@ -219,6 +218,8 @@
  *            "optional": false,
  *            "name": "db_connection"}}
  */
+
+// phpcs:disable PSR1.Files.SideEffects
 
 use oat\tao\install\api\NotAllowedAPICallException;
 

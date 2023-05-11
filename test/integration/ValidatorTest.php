@@ -626,7 +626,8 @@ class kernel_property_Stub extends core_kernel_classes_Property
     }
 }
 
-//Global function
+// Global function
+// phpcs:disable PSR1.Files.SideEffects
 function ValidatorTestCaseGlobalInstanceOf($values)
 {
     $return = true;
@@ -636,8 +637,10 @@ function ValidatorTestCaseGlobalInstanceOf($values)
         }
     }
     return $return;
-};
+}
+
 function ValidatorTestCaseGlobalMirror($values)
 {
     return $values;
-};
+}
+// phpcs:enable PSR1.Files.SideEffects

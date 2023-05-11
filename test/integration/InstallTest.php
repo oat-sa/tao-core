@@ -22,7 +22,9 @@
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 
+// phpcs:disable PSR1.Files.SideEffects
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  *

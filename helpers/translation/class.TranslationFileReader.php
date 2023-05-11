@@ -151,4 +151,4 @@ abstract class tao_helpers_translation_TranslationFileReader
 
         $this->translationFile = $translationFile;
     }
-} /* end of abstract class tao_helpers_translation_TranslationFileReader */
+}

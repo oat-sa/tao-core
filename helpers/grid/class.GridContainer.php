@@ -245,4 +245,4 @@ abstract class tao_helpers_grid_GridContainer
 
         $this->grid = clone $this->grid;
     }
-} /* end of abstract class tao_helpers_grid_GridContainer */
+}

@@ -382,6 +382,7 @@ class tao_helpers_File extends helpers_File
         return self::md5_dir($path1) == self::md5_dir($path2);
     }
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public static function md5_dir($path)
     {
         if (is_file($path)) {
@@ -403,6 +404,7 @@ class tao_helpers_File extends helpers_File
         }
         return $md5;
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     /**
      * Create a zip of a directory or file

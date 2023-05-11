@@ -148,4 +148,4 @@ abstract class tao_helpers_translation_TranslationExtractor
 
         $this->translationUnits = $translationUnits;
     }
-} /* end of abstract class tao_helpers_translation_TranslationExtractor */
+}

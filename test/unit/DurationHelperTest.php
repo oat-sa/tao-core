@@ -18,7 +18,6 @@
  * Copyright (c) 2013-2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-use oat\tao\helpers\DateIntervalMS;
 
 /**
  * PHPUnit test of the {@link tao_helpers_Duration} helper
@@ -27,6 +26,7 @@ use oat\tao\helpers\DateIntervalMS;
  */
 
 use oat\generis\test\TestCase;
+use oat\tao\helpers\DateIntervalMS;
 
 class DurationHelperTest extends TestCase
 {

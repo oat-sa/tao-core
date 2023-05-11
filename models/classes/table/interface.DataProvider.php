@@ -54,4 +54,4 @@ interface tao_models_classes_table_DataProvider
      * @return string
      */
     public function getValue(core_kernel_classes_Resource $resource, tao_models_classes_table_Column $column);
-} /* end of interface tao_models_classes_table_DataProvider */
+}
