@@ -151,7 +151,7 @@ class ClassMoverTest extends TestCase
         $this->eventManager
             ->expects($this->once())
             ->method('trigger')
-            ->with(ClassMovedEvent::class);
+            ->with(new ClassMovedEvent($fromClass));
 
         if ($issetPermissionCopier) {
             $this->sut->withPermissionCopier($this->permissionCopier);
