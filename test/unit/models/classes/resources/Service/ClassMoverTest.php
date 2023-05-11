@@ -148,10 +148,18 @@ class ClassMoverTest extends TestCase
             ->with($subclassOfProperty, $toClass)
             ->willReturn(true);
 
+        $classMovedEvent = $this->createMock(ClassMovedEvent::class);
+        $classMovedEvent
+            ->method('getName')
+            ->willReturn(ClassMovedEvent::class);
+        $classMovedEvent
+            ->method('getClass')
+            ->willReturn($fromClass);
+
         $this->eventManager
             ->expects($this->once())
             ->method('trigger')
-            ->with(ClassMovedEvent::class);
+            ->with(new ClassMovedEvent($fromClass));
 
         if ($issetPermissionCopier) {
             $this->sut->withPermissionCopier($this->permissionCopier);
