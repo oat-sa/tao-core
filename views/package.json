@@ -13,10 +13,10 @@
     },
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
-        "@oat-sa/tao-core-libs": "git+https://github.com/oat-sa/tao-core-libs-fe.git#feature/ADF-1417/upgrade-to-node18",
-        "@oat-sa/tao-core-sdk": "git+https://github.com/oat-sa/tao-core-sdk-fe.git#feature/ADF-1417/upgrade-to-node18",
+        "@oat-sa/tao-core-libs": "^0.5.3",
+        "@oat-sa/tao-core-sdk": "^2.0.1",
         "@oat-sa/tao-core-shared-libs": "1.5.2",
-        "@oat-sa/tao-core-ui": "git+https://github.com/oat-sa/tao-core-ui-fe.git#feature/ADF-1417/upgrade-to-node18",
+        "@oat-sa/tao-core-ui": "^2.0.0",
         "codemirror": "^5.54.0",
         "dompurify": "^2.4.0",
         "gamp": "0.2.1",
@@ -33,7 +33,7 @@
         "url-polyfill": "1.1.12"
     },
     "devDependencies": {
-        "@oat-sa/e2e-runner": "https://github.com/oat-sa/e2e-runner.git#feature/ADF-1417/upgrade-to-node18",
+        "@oat-sa/e2e-runner": "^1.5.2",
         "cypress-downloadfile": "^1.2.3",
         "fs": "0.0.1-security"
     }
