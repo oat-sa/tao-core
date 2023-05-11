@@ -6,7 +6,7 @@
     // some variations of flex children
     $flexCols: full, half, third, quarter;
     @for $i from 1 through length($flexCols) {
-        $width: calc((100 / ($i)) * 1%);
+        $width: (100 / ($i)) * 1%;
         $flexCol: #{nth($flexCols, $i)};
         .flex-container-#{$flexCol} {
             @include simple-flex-box($width);
