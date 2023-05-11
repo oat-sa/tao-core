@@ -15,44 +15,36 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks\configEntity;
+declare(strict_types=1);
 
-interface WebhookInterface
+namespace oat\tao\model\auth;
+
+use DomainException;
+
+class AuthUriClassMapper
 {
+    private const MAP = [
+        BasicType::class => BasicAuth::CLASS_BASIC_AUTH,
+        BasicAuthType::class => BasicAuthType::CLASS_BASIC_AUTH
+    ];
+
     /**
+     * @param object|string $class
+     *
+     * @throws DomainException
      * @return string
      */
-    public function getId();
+    public function getUriByClass($class): string
+    {
+        $className = is_object($class) ? get_class($class) : $class;
 
-    /**
-     * @return string
-     */
-    public function getUrl();
+        if (!isset(self::MAP[$className])) {
+            throw new DomainException(sprintf('Class %s is not defined', $className));
+        }
 
-    /**
-     * @return string
-     */
-    public function getHttpMethod();
-
-    /**
-     * @return WebhookAuthInterface|null
-     */
-    public function getAuth();
-
-    /**
-     * @return int
-     */
-    public function getMaxRetries();
-
-    /**
-     * @return bool
-     */
-    public function getResponseValidationEnable();
-
-    public function getExtraPayload(): array;
-
-    public function toArray(): array;
+        return self::MAP[$className];
+    }
 }

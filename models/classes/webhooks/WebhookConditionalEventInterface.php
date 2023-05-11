@@ -15,40 +15,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\webhooks;
 
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
 
-/**
- * Represents webhooks config entries storage. We will add 'set' methods here if we are going to implement
- * dynamic configuration for webhooks (admin web panel)
- */
-interface WebhookRegistryInterface
+interface WebhookConditionalEventInterface
 {
-    /**
-     * @deprecated use DI instead
-     */
-    public const SERVICE_ID = 'tao/webhookRegistry';
-
-    /**
-     * @param string $id
-     * @return WebhookInterface|null
-     */
-    public function getWebhookConfig($id);
-
-    /**
-     * @param string $eventName
-     * @return string[]
-     */
-    public function getWebhookConfigIds($eventName);
-
-    /**
-     * @return WebhookInterface[]
-     */
-    public function getWebhooks(): array;
-
-    public function addWebhook(WebhookInterface $webhook, array $events = []): void;
+    public function isSatisfiedBy(WebhookInterface $webhook): bool;
 }
