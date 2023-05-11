@@ -15,44 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA
  */
 
-namespace oat\tao\model\webhooks\configEntity;
+declare(strict_types=1);
 
-interface WebhookInterface
+/**
+ * Widget to render authentication
+ *
+ * @access public
+ */
+// phpcs:ignore PSR1.Classes.ClassDeclaration.MissingNamespace, Squiz.Classes.ValidClassName.NotCamelCaps
+class tao_helpers_form_elements_AuthWidget extends tao_helpers_form_elements_xhtml_Textbox
 {
-    /**
-     * @return string
-     */
-    public function getId();
-
-    /**
-     * @return string
-     */
-    public function getUrl();
-
-    /**
-     * @return string
-     */
-    public function getHttpMethod();
-
-    /**
-     * @return WebhookAuthInterface|null
-     */
-    public function getAuth();
-
-    /**
-     * @return int
-     */
-    public function getMaxRetries();
-
-    /**
-     * @return bool
-     */
-    public function getResponseValidationEnable();
-
-    public function getExtraPayload(): array;
-
-    public function toArray(): array;
+    public const WIDGET_ID = 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AuthIdentity';
 }
