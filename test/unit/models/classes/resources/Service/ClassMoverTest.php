@@ -148,6 +148,14 @@ class ClassMoverTest extends TestCase
             ->with($subclassOfProperty, $toClass)
             ->willReturn(true);
 
+        $classMovedEvent = $this->createMock(ClassMovedEvent::class);
+        $classMovedEvent
+            ->method('getName')
+            ->willReturn(ClassMovedEvent::class);
+        $classMovedEvent
+            ->method('getClass')
+            ->willReturn($fromClass);
+
         $this->eventManager
             ->expects($this->once())
             ->method('trigger')
