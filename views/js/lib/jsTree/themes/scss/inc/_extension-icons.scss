@@ -22,6 +22,6 @@ $extensionIcons: (
 
 @each $extensionClass, $extensionIcon in $extensionIcons {
     #{'.taotree.taotree-' + $extensionClass} .node-instance ins:before {
-        @extend #{'.' + $extensionIcon + ':before'};
+        @extend #{'%' + $extensionIcon + '-before'};
     }
 }
