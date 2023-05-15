@@ -59,5 +59,12 @@ define(function(){
                 'index' : 'controller/security/cspHeaderForm'
             }
         },
+        'WebHooks' : {
+            'css': 'auth-selector',
+            'actions' : {
+                'addInstanceForm': 'controller/WebHooks/edit',
+                'editInstance': 'controller/WebHooks/edit'
+            }
+        }
     };
 });

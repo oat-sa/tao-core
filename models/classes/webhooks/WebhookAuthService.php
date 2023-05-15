@@ -15,44 +15,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks\configEntity;
+declare(strict_types=1);
 
-interface WebhookInterface
+namespace oat\tao\model\webhooks;
+
+use oat\tao\model\auth\AbstractAuthService;
+use oat\tao\model\auth\BasicAuth;
+
+class WebhookAuthService extends AbstractAuthService
 {
-    /**
-     * @return string
-     */
-    public function getId();
-
-    /**
-     * @return string
-     */
-    public function getUrl();
-
-    /**
-     * @return string
-     */
-    public function getHttpMethod();
-
-    /**
-     * @return WebhookAuthInterface|null
-     */
-    public function getAuth();
-
-    /**
-     * @return int
-     */
-    public function getMaxRetries();
-
-    /**
-     * @return bool
-     */
-    public function getResponseValidationEnable();
-
-    public function getExtraPayload(): array;
-
-    public function toArray(): array;
+    public function __construct(BasicAuth $type)
+    {
+        parent::__construct([
+            'type' => $type,
+            'types' => [$type]
+        ]);
+    }
 }

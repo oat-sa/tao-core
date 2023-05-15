@@ -30,6 +30,9 @@ use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\routing\ApiRoute;
 use oat\tao\model\routing\LegacyRoute;
 use oat\tao\model\user\TaoRoles;
+use oat\tao\model\user\UserSettingsServiceProvider;
+use oat\tao\model\LanguageServiceProvider;
+use oat\tao\model\webhooks\WebhookServiceProvider;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -96,6 +99,7 @@ return [
             __DIR__ . '/models/ontology/widgetdefinitions.rdf',
             __DIR__ . '/models/ontology/requiredaction.rdf',
             __DIR__ . '/models/ontology/auth/basicauth.rdf',
+            __DIR__ . '/models/ontology/webhook.rdf',
             __DIR__ . '/models/ontology/userlocks.rdf'
         ],
         'checks' => [
@@ -229,6 +233,7 @@ return [
         [AccessRule::GRANT, TaoRoles::PROPERTY_MANAGER, 'tao_actions_PropertiesAuthoring'],
         [AccessRule::GRANT, TaoRoles::SYSTEM_ADMINISTRATOR, Users::class],
         [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, Users::class],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'WebHooks']],
     ],
     'routes' => [
         '/tao/api'  => ['class' => ApiRoute::class],
@@ -271,5 +276,6 @@ return [
     ],
     'containerServiceProviders' => [
         ListsServiceProvider::class,
+        WebhookServiceProvider::class,
     ],
 ];

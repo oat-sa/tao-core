@@ -15,44 +15,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
  */
 
-namespace oat\tao\model\webhooks\configEntity;
+declare(strict_types=1);
 
-interface WebhookInterface
+namespace oat\tao\model\webhooks;
+
+class WebhookRegistryFactory
 {
-    /**
-     * @return string
-     */
-    public function getId();
+    private WebhookRdfRegistry $rdfRegistry;
+    private WebhookFileRegistry $fileRegistry;
 
-    /**
-     * @return string
-     */
-    public function getUrl();
+    public function __construct(
+        WebhookRdfRegistry $rdfRegistry,
+        WebhookFileRegistry $fileRegistry
+    ) {
+        $this->rdfRegistry = $rdfRegistry;
+        $this->fileRegistry = $fileRegistry;
+    }
 
-    /**
-     * @return string
-     */
-    public function getHttpMethod();
-
-    /**
-     * @return WebhookAuthInterface|null
-     */
-    public function getAuth();
-
-    /**
-     * @return int
-     */
-    public function getMaxRetries();
-
-    /**
-     * @return bool
-     */
-    public function getResponseValidationEnable();
-
-    public function getExtraPayload(): array;
-
-    public function toArray(): array;
+    public function create(?string $registryType = 'file')
+    {
+        return $registryType === null || $registryType === 'file'
+            ? $this->fileRegistry
+            : $this->rdfRegistry;
+    }
 }
