@@ -1,9 +1,1 @@
-{
-	"version": 3,
-	"file": "auth-selector.css",
-	"sources": [
-		"../scss/auth-selector.scss"
-	],
-	"names": [],
-	"mappings": "AAAA,AACE,2BADyB,CACzB,uBAAuB,AAAC,CACtB,aAAa,CAAE,IAAI,CAIpB,AANH,AAGI,2BAHuB,CACzB,uBAAuB,CAErB,sBAAsB,AAAC,CACrB,KAAK,CAAE,KAAK,CACb,AALL,AAOE,2BAPyB,CAOzB,0BAA0B,AAAC,CACzB,aAAa,CAAE,IAAI,CAOpB,AAfH,AASI,2BATuB,CAOzB,0BAA0B,CAExB,gBAAgB,AAAC,CACf,aAAa,CAAE,IAAI,CACpB,AAXL,AAYI,2BAZuB,CAOzB,0BAA0B,CAKxB,iBAAiB,AAAC,CAChB,KAAK,CAAE,KAAK,CACb"
-}
+{"version":3,"sourceRoot":"","sources":["file:///Users/oat/Projects/terre/tao-community/tao/views/scss/auth-selector.scss"],"names":[],"mappings":"AACE,oDACE,mBACA,2EACE,YAGJ,uDACE,mBACA,wEACE,mBAEF,yEACE","file":"auth-selector.css"}
