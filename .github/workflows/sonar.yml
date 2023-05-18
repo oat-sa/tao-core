@@ -1,12 +1,12 @@
 name: Sonar_Analysis
 on:
-  push:
-    branches:
-      - master # or the name of your main branch
-      - develop
-      - main
-      - sonarqube-integration
-
+  pull_request: 
+    branches: 
+      - '**'
+  push: 
+    branch: 
+      - 'main'
+      - 'sonarqube-integration'
   workflow_dispatch:
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
     name: Sonar_Analysis
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - uses: sonarsource/sonarqube-scan-action@master
