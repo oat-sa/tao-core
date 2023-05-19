@@ -381,7 +381,7 @@ define([
             if (!section) {
 
                 //TODO use templates
-                $sectionPanel = $(`<div id="panel-${data.id}" class="clear"></div>`);
+                $sectionPanel = $(`<div id="panel-${data.id}" class="clear context-structure-${context.shownStructure}"></div>`);
                 if(data.contentBlock === true){
                     $sectionPanel.append('<section class="content-container"><ul class="plain action-bar content-action-bar horizontal-action-bar"></ul><div class="content-block"></div></section>');
                 }
