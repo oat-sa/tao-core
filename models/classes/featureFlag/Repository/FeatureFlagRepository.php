@@ -92,6 +92,9 @@ class FeatureFlagRepository implements FeatureFlagRepositoryInterface
         if (!array_key_exists(FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED, $output)) {
             $output[FeatureFlagCheckerInterface::FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED] = false;
         }
+        
+        $sourceDialogEnabledInEnv = filter_var($_ENV['FEATURE_FLAG_CKEDITOR_SOURCEDIALOG'] ?? false, FILTER_VALIDATE_BOOLEAN) ?? false;
+        $output[FeatureFlagCheckerInterface::FEATURE_FLAG_CKEDITOR_SOURCEDIALOG] = $sourceDialogEnabledInEnv;
 
         return $output;
     }
