@@ -1,5 +1,4 @@
-tao-core
-========
+# tao-core
 
 [![codecov](https://codecov.io/gh/oat-sa/tao-core/branch/master/graph/badge.svg?token=uPVdj0JrEn)](https://codecov.io/gh/oat-sa/tao-core)
 
@@ -22,12 +21,13 @@ Webhooks allow you to send a request to remote server based on triggered event
 use command `\oat\tao\scripts\tools\RegisterEventWebhook` to register events that are implementing `\oat\tao\model\webhooks\configEntity\WebhookInterface` interface.
 
 i.e:
+
 ```
-$ php index.php 'oat\tao\scripts\tools\RegisterEventWebhook' 
+$ php index.php 'oat\tao\scripts\tools\RegisterEventWebhook'
     \ -u "https://example.com"
     \ -m "POST"
     \ -e "<<Class FQN>>"
-``` 
+```
 
 # Check ACL Permissions
 
@@ -45,16 +45,22 @@ $permissionChecker->hasGrantAccess('resourceId');
 **Important**: It takes into consideration the current user in the session, if no user is provided.
 
 # Roles Access (rules and action permissions)
+
 ## Description
+
 Script allow you to apply (add)/revoke (remove) list of rules and/or permissions to a specific roles and actions.
 
 ## How to use it
+
 Execute the following command to apply (add) new rules/permissions:
+
 ```
 $ php index.php 'oat\tao\scripts\tools\accessControl\SetRolesAccess' \
 --config [config.json|json_string]
 ```
+
 If you want to revoke (remove) them, add `--revoke` flag:
+
 ```
 $ php index.php 'oat\tao\scripts\tools\accessControl\SetRolesAccess' \
 --revoke \
@@ -62,25 +68,26 @@ $ php index.php 'oat\tao\scripts\tools\accessControl\SetRolesAccess' \
 ```
 
 ### Config example
+
 ```json
 {
-    "rules": {
-        "role": [
-            {
-                "ext": "extensionIdentifier",
-                "mod": "actionControllerName",
-                "act": "actionMethodName"
-            }
-        ]
-    },
-    "permissions": {
-        "controller": {
-            "action": {
-                "rule1": "READ",
-                "rule2": "WRITE"
-            }
-        }
+  "rules": {
+    "role": [
+      {
+        "ext": "extensionIdentifier",
+        "mod": "actionControllerName",
+        "act": "actionMethodName"
+      }
+    ]
+  },
+  "permissions": {
+    "controller": {
+      "action": {
+        "rule1": "READ",
+        "rule2": "WRITE"
+      }
     }
+  }
 }
 ```
 
@@ -89,10 +96,11 @@ $ php index.php 'oat\tao\scripts\tools\accessControl\SetRolesAccess' \
 Here you can find the environment variables including feature flags
 
 | Variable                               | Description                                  | Default value |
-|----------------------------------------|----------------------------------------------|---------------|
+| -------------------------------------- | -------------------------------------------- | ------------- |
 | FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED  | Enable Remote Lists Dependency feature       | -             |
 | FEATURE_FLAG_ADVANCED_SEARCH_DISABLED  | Disable advanced search feature, if set to 1 | -             |
 | FEATURE_FLAG_STATISTIC_METADATA_IMPORT | Enable statistics metadata import            | -             |
+| FEATURE_FLAG_CKEDITOR_SOURCEDIALOG     | Enable source editing for ckeditor           | false         |
 | GOOGLE_APPLICATION_CREDENTIALS         | Path to GCP credentials path                 | -             |
 | DATA_STORE_STATISTIC_PUB_SUB_TOPIC     | Topic name for statistic metadata Pub/Sub    | -             |
 
