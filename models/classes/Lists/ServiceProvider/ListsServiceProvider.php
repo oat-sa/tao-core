@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021-2022 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2023 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -26,6 +26,8 @@ use oat\generis\model\data\Ontology;
 use oat\generis\persistence\PersistenceManager;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
+use oat\tao\model\Lists\Business\Service\ValueCollectionService;
+use oat\tao\model\Lists\Business\Specification\ReadonlyListSpecification;
 use oat\tao\model\Lists\Business\Validation\PropertyListValidator;
 use oat\tao\model\Lists\Business\Validation\PropertyTypeValidator;
 use oat\tao\model\Lists\DataAccess\Repository\DependencyRepository;
@@ -42,6 +44,9 @@ use oat\tao\model\Lists\Business\Specification\EditableListClassSpecification;
 use oat\tao\model\Lists\Business\Specification\SecondaryPropertySpecification;
 use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
 use oat\tao\model\Lists\DataAccess\Repository\ParentPropertyListCachedRepository;
+use oat\tao\model\Lists\DataAccess\Repository\RdfValueCollectionRepository;
+use oat\tao\model\Lists\DataAccess\Repository\RdsValueCollectionRepository;
+use oat\tao\model\Lists\DataAccess\Repository\ReadonlyRdfValueCollectionProxyRepository;
 use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFactory;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -156,13 +161,37 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
             ->public();
 
         $services
+            ->set(ReadonlyListSpecification::class, ReadonlyListSpecification::class)
+            ->public();
+
+
+        $services
             ->set(EditableListClassSpecification::class, EditableListClassSpecification::class)
             ->public()
             ->args(
                 [
                     service(ListClassSpecification::class),
                     service(LanguageClassSpecification::class),
+                    service(ReadonlyListSpecification::class),
                 ]
             );
+
+        $services
+            ->set(ReadonlyRdfValueCollectionProxyRepository::class, ReadonlyRdfValueCollectionProxyRepository::class)
+            ->public()
+            ->args(
+                [
+                    service(RdfValueCollectionRepository::SERVICE_ID),
+                ]
+            );
+
+        $services
+            ->set(ValueCollectionService::SERVICE_ID, ValueCollectionService::class)
+            ->public()
+            ->args([
+                service(RdsValueCollectionRepository::SERVICE_ID),
+                service(RdfValueCollectionRepository::SERVICE_ID),
+                service(ReadonlyRdfValueCollectionProxyRepository::class),
+            ]);
     }
 }
