@@ -33,10 +33,12 @@ final class CollectionType
 
     private const TYPE_DEFAULT = '';
     private const TYPE_REMOTE  = 'http://www.tao.lu/Ontologies/TAO.rdf#ListRemote';
+    private const TYPE_READONLY  = 'http://www.tao.lu/Ontologies/TAO.rdf#ReadonlyList';
 
     private const TYPES = [
         self::TYPE_DEFAULT,
         self::TYPE_REMOTE,
+        self::TYPE_READONLY
     ];
 
     /** @var string */
@@ -55,6 +57,11 @@ final class CollectionType
     public static function remote(): self
     {
         return new self(self::TYPE_REMOTE);
+    }
+
+    public static function readonly():self
+    {
+        return new self(self::TYPE_READONLY);
     }
 
     public static function fromValue(string $value): self

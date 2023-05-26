@@ -32,6 +32,7 @@ interface TaoOntology
     public const CLASS_URI_DELIVERY = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#Delivery';
     public const CLASS_URI_ASSEMBLED_DELIVERY = 'http://www.tao.lu/Ontologies/TAODelivery.rdf#AssembledDelivery';
     public const CLASS_URI_LIST = 'http://www.tao.lu/Ontologies/TAO.rdf#List';
+    public const CLASS_URI_READONLY_LIST = 'http://www.tao.lu/Ontologies/TAO.rdf#ReadonlyList';
     public const CLASS_URI_PROCESS_EXECUTIONS = 'http://www.tao.lu/middleware/taoqual.rdf#i119010455660544';
     public const CLASS_URI_MANAGEMENT_ROLE = 'http://www.tao.lu/Ontologies/TAO.rdf#ManagementRole';
     public const CLASS_URI_WORKER_ROLE = 'http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole';
