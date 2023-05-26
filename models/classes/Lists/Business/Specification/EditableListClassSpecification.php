@@ -23,27 +23,28 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Specification;
 
 use core_kernel_classes_Class;
-use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
 use oat\tao\model\Specification\ClassSpecificationInterface;
 
 class EditableListClassSpecification implements ClassSpecificationInterface
 {
-    /** @var ClassSpecificationInterface */
-    private $listClassSpecification;
-    /** @var ClassSpecificationInterface */
-    private $languageClassSpecification;
+    private ClassSpecificationInterface $listClassSpecification;
+    private ClassSpecificationInterface $languageClassSpecification;
+    private ClassSpecificationInterface $readonlyListSpecification;
 
     public function __construct(
         ClassSpecificationInterface $listClassSpecification,
-        ClassSpecificationInterface $languageClassSpecification
+        ClassSpecificationInterface $languageClassSpecification,
+        ClassSpecificationInterface  $readonlyListSpecification
     ) {
         $this->listClassSpecification = $listClassSpecification;
         $this->languageClassSpecification = $languageClassSpecification;
+        $this->readonlyListSpecification = $readonlyListSpecification;
     }
 
     public function isSatisfiedBy(core_kernel_classes_Class $class): bool
     {
         return $this->listClassSpecification->isSatisfiedBy($class)
+            && !$this->readonlyListSpecification->isSatisfiedBy($class)
             && !$this->languageClassSpecification->isSatisfiedBy($class);
     }
 }

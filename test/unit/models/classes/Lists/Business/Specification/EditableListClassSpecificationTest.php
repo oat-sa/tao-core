@@ -41,16 +41,21 @@ class EditableListClassSpecificationTest extends TestCase
 
     /** @var core_kernel_classes_Class|MockObject */
     private $class;
+    /** @var ClassSpecificationInterface|MockObject */
+    private $readonlyListClassSpecification;
 
     protected function setUp(): void
     {
         $this->listClassSpecification = $this->createMock(ClassSpecificationInterface::class);
         $this->languageClassSpecification = $this->createMock(ClassSpecificationInterface::class);
+        $this->readonlyListClassSpecification = $this->createMock(ClassSpecificationInterface::class);
 
         $this->class = $this->createMock(core_kernel_classes_Class::class);
 
         $this->sut = new EditableListClassSpecification(
-            $this->listClassSpecification, $this->languageClassSpecification
+            $this->listClassSpecification,
+            $this->languageClassSpecification,
+            $this->readonlyListClassSpecification
         );
     }
 
@@ -61,6 +66,10 @@ class EditableListClassSpecificationTest extends TestCase
             ->willReturn(true);
 
         $this->languageClassSpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(false);
+
+        $this->readonlyListClassSpecification
             ->method('isSatisfiedBy')
             ->willReturn(false);
 
@@ -77,10 +86,14 @@ class EditableListClassSpecificationTest extends TestCase
             ->method('isSatisfiedBy')
             ->willReturn(false);
 
+        $this->readonlyListClassSpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(false);
+
         $this->assertFalse($this->sut->isSatisfiedBy($this->class));
     }
 
-    public function testIsSatisfiedByWithNotLanguageListClass(): void
+    public function testIsSatisfiedByWithReadonlyListClass(): void
     {
         $this->listClassSpecification
             ->method('isSatisfiedBy')
@@ -88,7 +101,12 @@ class EditableListClassSpecificationTest extends TestCase
 
         $this->languageClassSpecification
             ->method('isSatisfiedBy')
+            ->willReturn(false);
+
+        $this->readonlyListClassSpecification
+            ->method('isSatisfiedBy')
             ->willReturn(true);
+
 
         $this->assertFalse($this->sut->isSatisfiedBy($this->class));
     }
