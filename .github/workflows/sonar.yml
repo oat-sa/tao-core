@@ -7,6 +7,9 @@ on:
     branch: 
       - 'main'
       - 'sonarqube-integration'
+      - 'master'
+      - 'develop'
+
   workflow_dispatch:
 
 jobs:
