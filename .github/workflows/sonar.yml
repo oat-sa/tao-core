@@ -6,9 +6,7 @@ on:
   push: 
     branch: 
       - 'main'
-      - 'sonarqube-integration'
       - 'master'
-      - 'develop'
 
   workflow_dispatch:
 
