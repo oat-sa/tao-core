@@ -1,0 +1,21 @@
+name: PHP Mess Detector
+
+on: push
+
+jobs:
+  phpmd:
+    name: PHP Mess Detector
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP environment
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          tools: phpmd
+
+      - name: PHP Mess Detector
+        run: phpmd . github .github/phpmd-ruleset.xml --exclude 'vendor/*'
