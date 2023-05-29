@@ -56,6 +56,7 @@ use oat\tao\model\search\ServiceProvider\SearchServiceProvider;
 use oat\tao\model\StatisticalMetadata\StatisticalMetadataServiceProvider;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\user\UserSettingsServiceProvider;
+use oat\tao\model\webhooks\WebhookServiceProvider;
 use oat\tao\scripts\install\AddArchiveService;
 use oat\tao\scripts\install\AddLogFs;
 use oat\tao\scripts\install\AddTmpFsHandlers;
@@ -120,6 +121,7 @@ return [
             __DIR__ . '/models/ontology/widgetdefinitions.rdf',
             __DIR__ . '/models/ontology/requiredaction.rdf',
             __DIR__ . '/models/ontology/auth/basicauth.rdf',
+            __DIR__ . '/models/ontology/webhook.rdf',
             __DIR__ . '/models/ontology/userlocks.rdf',
         ],
         'checks' => [
@@ -335,6 +337,7 @@ return [
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Users']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'WebService']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Security']],
+        [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'WebHooks']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'ClassMetadata']],
         [AccessRule::GRANT, TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'get']],
         [AccessRule::GRANT, TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'getStatus']],
@@ -403,6 +406,7 @@ return [
         FeatureVisibilityServiceProvider::class,
         CopierServiceProvider::class,
         SearchServiceProvider::class,
+        WebhookServiceProvider::class,
         ConfigurationMarkersProvider::class,
         ClientConfigServiceProvider::class,
         HelperServiceProvider::class,

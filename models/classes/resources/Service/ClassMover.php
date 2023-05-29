@@ -84,7 +84,7 @@ class ClassMover implements ResourceTransferInterface
         $status = $from->editPropertyValues($this->ontology->getProperty(OntologyRdfs::RDFS_SUBCLASSOF), $to);
 
         if ($status) {
-            $this->eventManager->trigger(ClassMovedEvent::class);
+            $this->eventManager->trigger(new ClassMovedEvent($from));
 
             if (isset($this->permissionCopier) && $command->useDestinationAcl()) {
                 $this->changePermissions($to, $from);

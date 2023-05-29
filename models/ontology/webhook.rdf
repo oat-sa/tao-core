@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<rdf:RDF
+	xml:base="http://www.tao.lu/Ontologies/TAO.rdf#"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:widget="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#"
+    xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#"
+    xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
+>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WebHook">
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[WebHook]]></rdfs:label>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WebHookUrl">
+      <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+      <rdfs:label xml:lang="en-US"><![CDATA[WebHook URL]]></rdfs:label>
+      <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#WebHook"/>
+      <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+      <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
+      <generis:validationRule><![CDATA[notEmpty]]></generis:validationRule>
+      <tao:TAOGUIOrder><![CDATA[50]]></tao:TAOGUIOrder>
+    </rdf:Description>
+
+    <!-- HTTP method definition -->
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#HTTPMethodList">
+        <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[HTTP Method List]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[HTTP Method List]]></rdfs:comment>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#HTTPMethodPOST">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#HTTPMethodList"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[POST]]></rdfs:label>
+        <tao:BrowsersList><![CDATA[POST]]></tao:BrowsersList>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#HTTPMethodGET">
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#HTTPMethodList"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[GET]]></rdfs:label>
+        <tao:BrowsersList><![CDATA[GET]]></tao:BrowsersList>
+    </rdf:Description>
+    <!-- end of method definition -->
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WebHookMethod">
+        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[HTTP Method]]></rdfs:label>
+        <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#WebHook"/>
+        <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#HTTPMethodList"/>
+        <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox"/>
+        <generis:validationRule><![CDATA[notEmpty]]></generis:validationRule>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WebHookRetry">
+        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[WebHook retry]]></rdfs:label>
+        <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#WebHook"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+        <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
+      <tao:TAOGUIOrder><![CDATA[70]]></tao:TAOGUIOrder>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WebHookResponseValidation">
+        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Response validation]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Response validation]]></rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#WebHook"/>
+        <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#CheckBox"/>
+        <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#CheckMode"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#CheckMode">
+        <rdfs:label xml:lang="en-US"><![CDATA[Check Enable]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Check Enable]]></rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#ComplyEnabled">
+        <rdfs:label xml:lang="en-US"><![CDATA[Enable]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Enable]]></rdfs:comment>
+        <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#CheckMode"/>
+    </rdf:Description>
+
+    <!-- AUTH -->
+      <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WebHookAuthType">
+        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Auth type]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Type of the authenticator]]></rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#WebHook"/>
+        <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#AuthType"/>
+      </rdf:Description>
+
+      <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#AuthType">
+        <rdfs:label xml:lang="en-US"><![CDATA[Authentication Type]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[the type of the authorizations]]></rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+      </rdf:Description>
+
+      <!-- Model Widget -->
+      <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AuthenticationIdentity">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetClass"/>
+        <widget:identifier><![CDATA[auth2]]></widget:identifier>
+        <rdfs:label xml:lang="en-US"><![CDATA[Authentication]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Identity for authentication]]></rdfs:comment>
+        <widget:rangeConstraint rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#rangeConstraint-Resource"/>
+      </rdf:Description>
+
+      <rdf:Description rdf:about="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AuthenticationIdentityXhtmlRenderer">
+        <rdf:type rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#WidgetRenderer"/>
+        <widget:renderedWidget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AuthenticationIdentity"/>
+      	<widget:renderMode><![CDATA[xhtml]]></widget:renderMode>
+      	<widget:implementation><![CDATA[tao_helpers_form_elements_AuthWidget]]></widget:implementation>
+      </rdf:Description>
+
+      <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#WebhookEvent">
+        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Event class]]></rdfs:label>
+        <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#WebHook"/>
+      </rdf:Description>
+</rdf:RDF>

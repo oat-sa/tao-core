@@ -74,10 +74,10 @@ $entryArrowHeight: 150;
 
         &:before, &:after {
             content: '';
-            height: ($entryArrowHeight / 4) * 1px;
+            height: calc(($entryArrowHeight / 4) * 1px);
             border: solid transparent;
-            border-top-width: (($entryArrowHeight / 4) / 2) * 1px;
-            border-bottom-width: (($entryArrowHeight / 4) / 2) * 1px;
+            border-top-width: calc((($entryArrowHeight / 4) / 2) * 1px);
+            border-bottom-width: calc((($entryArrowHeight / 4) / 2) * 1px);
             position: absolute;
             left: -1px;
             top: 54px;
@@ -124,17 +124,17 @@ $entryArrowHeight: 150;
         }
         &:before {
             border-left-color:$uiGeneralContentBorder;
-            width: $entryArrowWidthBefore * 1px;
-            border-right-width: ($entryArrowWidthBefore / 2) * 1px;
-            border-left-width: ($entryArrowWidthBefore / 2) * 1px;
+            width: calc($entryArrowWidthBefore * 1px);
+            border-right-width: calc(($entryArrowWidthBefore / 2) * 1px);
+            border-left-width: calc(($entryArrowWidthBefore / 2) * 1px);
             left: 0px;
         }
 
         &:after {
             border-left-color:white;
-            width: $entryArrowWidthAfter * 1px;
-            border-right-width: ($entryArrowWidthAfter / 2) * 1px;
-            border-left-width: ($entryArrowWidthAfter / 2) * 1px;
+            width: calc($entryArrowWidthAfter * 1px);
+            border-right-width: calc(($entryArrowWidthAfter / 2) * 1px);
+            border-left-width: calc(($entryArrowWidthAfter / 2) * 1px);
         }
     }
 }

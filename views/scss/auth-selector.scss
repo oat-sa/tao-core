@@ -1,0 +1,17 @@
+.wh-auth-selector-component {
+  .wh-auth-type-container {
+    margin-bottom: 10px;
+    .wh-auth-type-selector {
+      float: right;
+    }
+  }
+  .wh-authenticator-settings {
+    margin-bottom: 10px;
+    .login-container {
+      margin-bottom: 10px;
+    }
+    .credential-field {
+      float: right;
+    }
+  }
+}
