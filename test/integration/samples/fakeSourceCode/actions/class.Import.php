@@ -28,7 +28,6 @@
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
-
  */
 class tao_actions_form_Import extends tao_helpers_form_FormContainer
 {
@@ -38,8 +37,6 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
     protected $formats = ['csv' => 'CSV', 'rdf' => 'RDF'];
 
     /**
-     * Short description of attribute UPLOAD_MAX
-     *
      * @var int
      */
     public const UPLOAD_MAX = 3000000;
