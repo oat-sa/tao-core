@@ -1,4 +1,4 @@
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -13,9 +13,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 //load the AMD config
@@ -83,7 +86,7 @@ require(['config'], function() {
                         $('#deployment').css('visibility', 'hidden');
                         // Redirection to the main TAO main (login) screen.
                         var msg = '<b>' + data.value.message + '</b><br><br>';
-                        
+
                         if (data.value.log.ext && data.value.log.ext.length) {
                             msg += 'Installed extensions: <ul>';
                             $.each(data.value.log.ext, function (key, val) {
@@ -91,7 +94,7 @@ require(['config'], function() {
                             });
                             msg += '</ul>';
                         }
-                        
+
                         if (data.value.log.w && data.value.log.w.length) {
                             msg += '<br><br>Warnings occured during installation: <ul>';
                             $.each(data.value.log.w, function (key, val) {
@@ -99,10 +102,10 @@ require(['config'], function() {
                             });
                             msg += '</ul>';
                         }
-                        
+
                         displayPopup({
-                            msg : msg, 
-                            title : 'Installation complete', 
+                            msg : msg,
+                            title : 'Installation complete',
                             type : 'help',
                             onClose : function () {
                                 install.redirect('/');
@@ -113,7 +116,7 @@ require(['config'], function() {
                         $('#submitForm').removeClass('disabled')
                             .addClass('enabled')
                             .attr('disabled', false);
-                    
+
                         displayTaoError(data.value.message);
                     }
                 });
