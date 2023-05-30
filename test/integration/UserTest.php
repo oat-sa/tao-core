@@ -90,9 +90,15 @@ class UserTest extends TestCase
      */
     public function setUp(): void
     {
+        $strategy = core_kernel_users_Service::getPasswordHash();
+
         $this->userService = tao_models_classes_UserService::singleton();
-        $this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD]);
-        $this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_PASSWORD]);
+        $this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD] = $strategy->encrypt(
+            $this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD]
+        );
+        $this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_PASSWORD] = $strategy->encrypt(
+            $this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_PASSWORD]
+        );
     }
 
     /**
@@ -140,14 +146,19 @@ class UserTest extends TestCase
     public function testAddUtf8User()
     {
         $this->assertTrue($this->userService->loginAvailable($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_LOGIN]));
+
         $tmclass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
+
         $this->testUserUtf8 = $tmclass->createInstance();
         $this->assertNotNull($this->testUserUtf8);
         $this->assertTrue($this->testUserUtf8->exists());
+
         $result = $this->userService->bindProperties($this->testUserUtf8, $this->testUserUtf8Data);
         $this->assertNotNull($result);
         $this->assertNotEquals($result, false);
-        $this->assertFalse($this->userService->loginAvailable($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_LOGIN]));
+        $this->assertFalse(
+            $this->userService->loginAvailable($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_LOGIN])
+        );
 
         //check inserted data
         $this->testUserUtf8 = $this->getUserByLogin($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_LOGIN]);
