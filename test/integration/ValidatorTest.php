@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -30,7 +30,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  *
  * @author Joel Bout, <taosupport@tudor.lu>
  * @package tao
-
  */
 class ValidatorTest extends TaoPhpUnitTestRunner
 {
@@ -53,7 +52,6 @@ class ValidatorTest extends TaoPhpUnitTestRunner
      */
     public function testAlphaNum()
     {
-
         //@todo  fix "\n" in validator and add to test
 
         // test getValidator
@@ -113,7 +111,6 @@ class ValidatorTest extends TaoPhpUnitTestRunner
 
     public function testCallback()
     {
-
         // global function
         // wrong parameters
         $callback = new tao_helpers_form_validators_Callback([
@@ -161,13 +158,21 @@ class ValidatorTest extends TaoPhpUnitTestRunner
 
     public function testDateTime()
     {
-
-        //@todo:  doublecheck empty string and null treatment
+        //@todo: doublecheck empty string and null treatment
 
         $dateTime = new tao_helpers_form_validators_DateTime();
         $this->exec(
             $dateTime,
-            ['April 17, 1790', '2008-07-01T22:35:17.03+08:00', '10/Oct/2000:13:55:36 -700', 'today', '04:08', 'a week ago', 'yesterday', 'tomorrow'],
+            [
+                'April 17, 1790',
+                '2008-07-01T22:35:17.03+08:00',
+                '10/Oct/2000:13:55:36 -700',
+                'today',
+                '04:08',
+                'a week ago',
+                'yesterday',
+                'tomorrow'
+            ],
             ['abc'],
             'simple Datetimes'
         );
@@ -245,7 +250,6 @@ class ValidatorTest extends TaoPhpUnitTestRunner
 
     public function testFileSize()
     {
-
         $smallfile = [
             'name'     => 'testname',
             'tmp_name' => '/tmp/doesnotexists',
@@ -357,7 +361,10 @@ class ValidatorTest extends TaoPhpUnitTestRunner
 
         $utf8 = 'ää';
         $umls = iconv("UTF-8", mb_internal_encoding(), $utf8);
-        $this->assertFalse($minlenght->evaluate($umls), 'Error during length validation of special characters \'' . $utf8 . '\' using encoding ' . mb_internal_encoding());
+        $this->assertFalse(
+            $minlenght->evaluate($umls),
+            "Error during length validation of special characters '{$utf8}' using encoding " . mb_internal_encoding()
+        );
     }
 
     /**
@@ -365,7 +372,6 @@ class ValidatorTest extends TaoPhpUnitTestRunner
      */
     public function testNotEmpty($value, $expected)
     {
-
         $validator = tao_helpers_form_FormFactory::getValidator('NotEmpty');
         $this->assertEquals($expected, $validator->evaluate($value));
     }
@@ -451,7 +457,10 @@ class ValidatorTest extends TaoPhpUnitTestRunner
     {
         $this->expectException(common_Exception::class);
         $this->expectExceptionMessage('Please set the reference of the second password element');
-        $validator = tao_helpers_form_FormFactory::getValidator('Password', ['password2_ref' => 'invalid_form_element']);
+        $validator = tao_helpers_form_FormFactory::getValidator(
+            'Password',
+            ['password2_ref' => 'invalid_form_element']
+        );
         $validator->evaluate('something');
     }
 
