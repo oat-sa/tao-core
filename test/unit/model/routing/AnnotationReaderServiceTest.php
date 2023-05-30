@@ -68,7 +68,9 @@ class AnnotationReaderServiceTest extends TestCase
 
         $cacheService = $this->prophesize(\common_cache_Cache::class);
         $cacheService->has(Argument::type('string'))->willReturn(false);
-        $cacheService->get(Argument::type('string'))->willThrow(new \common_cache_NotFoundException('PhpUnit exception'));
+        $cacheService
+            ->get(Argument::type('string'))
+            ->willThrow(new \common_cache_NotFoundException('PhpUnit exception'));
         $cacheService->put(Argument::any(), Argument::any())->willReturn(true);
 
         /** @var ServiceLocatorInterface $serviceLocator */

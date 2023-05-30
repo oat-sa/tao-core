@@ -83,7 +83,8 @@ class ResultSetMapperTest extends TestCase
     /**
      * @dataProvider getScenariosData
      */
-    public function testGetPromiseModelResults(array $expectedResult, string $mappedField, bool $elasticSearchEnabled): void
+    public function testGetPromiseModelResults(
+        array $expectedResult, string $mappedField, bool $elasticSearchEnabled): void
     {
         $this->advancedSearchChecker
             ->expects($this->once())

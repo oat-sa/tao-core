@@ -126,7 +126,8 @@ class UpdateDataAccessControlInIndexTest extends TestCase
 
         $this->logger->expects($this->once())
             ->method('info')
-            ->with('Data Access Control were being updated by oat\tao\model\search\tasks\UpdateDataAccessControlInIndex');
+            ->with(
+                'Data Access Control were being updated by oat\tao\model\search\tasks\UpdateDataAccessControlInIndex');
 
         $this->indexUpdater->expects($this->once())->method('updatePropertyValue')
             ->with($documentUri, [''], 'read_access', []);
@@ -162,7 +163,8 @@ class UpdateDataAccessControlInIndexTest extends TestCase
 
         $this->logger->expects($this->once())
             ->method('info')
-            ->with('Data Access Control were being updated by oat\tao\model\search\tasks\UpdateDataAccessControlInIndex');
+            ->with(
+                'Data Access Control were being updated by oat\tao\model\search\tasks\UpdateDataAccessControlInIndex');
 
         $this->indexUpdater->expects($this->once())->method('updatePropertyValue')
             ->with($documentUri, ['https://tao.docker.localhost/ontologies/tao.rdf#Item'], 'read_access', []);

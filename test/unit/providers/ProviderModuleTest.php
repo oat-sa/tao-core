@@ -166,7 +166,8 @@ class ProviderModuleTest extends TestCase
      */
     public function testJsonSerialize()
     {
-        $expected = '{"id":"bar","module":"bar\/bar","bundle":"providers\/bundle.min","position":null,"name":"Bar","description":"The best bar ever","category":"dummy","active":false,"tags":["dummy","goofy"]}';
+        $expected = '{"id":"bar","module":"bar\/bar","bundle":"providers\/bundle.min","position":null,"name":"Bar",'
+            . '"description":"The best bar ever","category":"dummy","active":false,"tags":["dummy","goofy"]}';
 
         $ProviderModule = new ProviderModule('bar', 'bar/bar', 'dummy', [
             'name' => 'Bar',

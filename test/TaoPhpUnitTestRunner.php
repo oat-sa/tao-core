@@ -166,7 +166,8 @@ abstract class TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements 
             }
             $fileSystemService->setOption(FileSystemService::OPTION_ADAPTERS, $adapters);
             $fileSystemService->setOption(FileSystemService::OPTION_FILE_PATH, $tmpDir);
-            $fileSystemService->setOption(FileSystemService::OPTION_DIRECTORIES, [$this->tempFileSystemId => $this->tempFileSystemId]);
+            $fileSystemService->setOption(
+                FileSystemService::OPTION_DIRECTORIES, [$this->tempFileSystemId => $this->tempFileSystemId]);
 
 
             $fileSystemService->setServiceLocator($this->getServiceManagerProphecy([
