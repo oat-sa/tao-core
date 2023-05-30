@@ -38,11 +38,10 @@ use common_ext_ExtensionsManager;
 use Prophecy\Prophet;
 
 /**
- * This class enable you to test the models managment of the tao extension
+ * This class enable you to test the models management of the tao extension
  *
  * @author Bertrand Chevrier, <taosupport@tudor.lu>
  * @package tao
-
  */
 class ServiceTest extends TaoPhpUnitTestRunner
 {
@@ -61,18 +60,13 @@ class ServiceTest extends TaoPhpUnitTestRunner
         $this->taoService = tao_models_classes_TaoService::singleton();
     }
 
-
-
     /**
-     * Test the service factory: dynamical instantiation and single instance serving
+     * Test the service factory: Dynamical instantiation and single instance serving.
      * @see tao_models_classes_ServiceFactory::get
      */
     public function testServiceFactory()
     {
-
-
-
-        //test factory instantiation
+        // Test factory instantiation
 
         $this->assertIsA($this->taoService, 'tao_models_classes_TaoService');
 
@@ -82,10 +76,9 @@ class ServiceTest extends TaoPhpUnitTestRunner
         $taoService2 = tao_models_classes_TaoService::singleton();
         $this->assertIsA($taoService2, 'tao_models_classes_TaoService');
 
-        //test factory singleton
+        // Test factory singleton
         $this->assertSame($this->taoService, $taoService2);
     }
-
 
     /**
      * Test the taoService methods, the extensions loading
@@ -93,10 +86,10 @@ class ServiceTest extends TaoPhpUnitTestRunner
      */
     public function testTaoServiceExtention()
     {
-
         foreach (MenuService::getAllPerspectives() as $perspective) {
             $this->assertTrue(strlen($perspective->getExtension()) > 0);
             $this->assertTrue(strlen($perspective->getId()) > 0);
+
             /** @var \oat\tao\model\menu\Section $section */
             foreach ($perspective->getChildren() as $section) {
                 $this->assertTrue(strlen($section->getName()) > 0);
@@ -108,14 +101,15 @@ class ServiceTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     * Test the Service methods from the abtract Service class,
-     * but using the tao_models_classes_TaoService as a common child to access the methods of the abtract class
+     * Test the Service methods from the abtract Service class, but using the
+     * tao_models_classes_TaoService as a common child to access the methods of
+     * the abstract class
+     *
      * @see tao_models_classes_Service
      */
     public function testAbstractService()
     {
-
-        //we create a temp object for the needs of the test
+        // We create a temp object for the needs of the test
         $generisResourceClass = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE);
         $testModelClass = $generisResourceClass->createSubClass('aModel', 'test model');
         $this->assertIsA($testModelClass, 'core_kernel_classes_Class');
@@ -123,7 +117,7 @@ class ServiceTest extends TaoPhpUnitTestRunner
         $testProperty = $testModelClass->createProperty('aKey', 'test property');
         $this->assertIsA($testProperty, 'core_kernel_classes_Property');
 
-        //get the diff between the class and the subclass
+        // Get the diff between the class and the subclass
         $diffs = $this->taoService->getPropertyDiff($testModelClass, $generisResourceClass);
         $this->assertisarray($diffs);
         $diffProperty = $diffs[0];
@@ -131,11 +125,11 @@ class ServiceTest extends TaoPhpUnitTestRunner
         $this->assertIsA($diffProperty, 'core_kernel_classes_Property');
         $this->assertEquals($testProperty->getUri(), $diffProperty->getUri());
 
-        //test the createInstance method
+        // Test the createInstance method
         $testInstance = $this->taoService->createInstance($testModelClass, 'anInstance');
         $this->assertIsA($testInstance, 'core_kernel_classes_Resource');
 
-        //test the bindProperties method
+        // Test the bindProperties method
         $testInstance = $this->taoService->bindProperties(
             $testInstance,
             [
@@ -145,12 +139,14 @@ class ServiceTest extends TaoPhpUnitTestRunner
         $this->assertIsA($testInstance, 'core_kernel_classes_Resource');
         $this->assertEquals($testInstance->getUniquePropertyValue($testProperty)->literal, 'aValue');
 
-
-        //clone instance
+        //Clone instance
         $clonedInstance = $this->taoService->cloneInstance($testInstance, $testModelClass);
         $this->assertIsA($clonedInstance, 'core_kernel_classes_Resource');
         $this->assertNotEquals($clonedInstance->getUri(), $testInstance->getUri());
-        $this->assertEquals($testInstance->getUniquePropertyValue($testProperty), $clonedInstance->getUniquePropertyValue($testProperty));
+        $this->assertEquals(
+            $testInstance->getUniquePropertyValue($testProperty),
+            $clonedInstance->getUniquePropertyValue($testProperty)
+        );
 
         //get the properties between 2 classes
         $itemClass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_ITEM);
@@ -164,7 +160,10 @@ class ServiceTest extends TaoPhpUnitTestRunner
         }
         $foundProp = $this->taoService->getClazzProperties($testClass);
         $this->assertisarray($foundProp);
-        $this->assertTrue(count($foundProp) >= 3, 'the class item or one of is subclasses has less then three properties');
+        $this->assertTrue(
+            count($foundProp) >= 3,
+            'the class item or one of is subclasses has less then three properties'
+        );
 
         //delete the item class in case it has been created if it was not in the model
         $localNamspace = common_ext_NamespaceManager::singleton()->getLocalNamespace();
@@ -180,12 +179,10 @@ class ServiceTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testSetUploadFileSource()
     {
-
         //backup previous config
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $previous = $ext->getConfig(tao_models_classes_TaoService::CONFIG_UPLOAD_FILESOURCE);
@@ -200,7 +197,6 @@ class ServiceTest extends TaoPhpUnitTestRunner
     }
 
     /**
-     *
      * @author Lionel Lecaque, lionel@taotesting.com
      */
     public function testFileCacheService()
@@ -244,7 +240,11 @@ class ServiceTest extends TaoPhpUnitTestRunner
         $this->assertEquals($e->getUri(), $fromCache->getUri());
         $fc->remove('testcase4');
 
-        $badstring = 'abc\'abc\'\'abc"abc""abc\\abc\\\\abc' . "abc\n\nabc\l\nabc\l\nabc" . '_NULL_é_NUL_' . chr(0) . '_';
+        $badstring =
+            'abc\'abc\'\'abc"abc""abc\\abc\\\\abc'
+            . "abc\n\nabc\l\nabc\l\nabc"
+            . '_NULL_é_NUL_' . chr(0) . '_';
+
         $fc->put($badstring, 'testcase5');
         $fromCache = $fc->get('testcase5');
         $this->assertEquals($fromCache, $badstring);

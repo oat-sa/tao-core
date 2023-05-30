@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\test\integration\import;
@@ -44,7 +43,10 @@ class ImportersServiceTest extends TaoPhpUnitTestRunner
         ]);
 
         $importersService->setServiceLocator(ServiceManager::getServiceManager());
-        $this->assertInstanceOf('\oat\tao\test\integration\import\samples\FakeImporter', $importersService->getImporter('testImporter'));
+        $this->assertInstanceOf(
+            '\oat\tao\test\integration\import\samples\FakeImporter',
+            $importersService->getImporter('testImporter')
+        );
     }
 
     public function testGetImporterException()

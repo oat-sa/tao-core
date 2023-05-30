@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\integration;
@@ -27,7 +26,6 @@ use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\websource\WebsourceManager;
 
 /**
- *
  * @author Lionel Lecaque, lionel@taotesting.com
  */
 class ThemeRegistryTest extends GenerisPhpUnitTestRunner
@@ -43,7 +41,12 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
     public function testsetDefaultTheme()
     {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Bluea', 'path', ['itemsTest']);
+        ThemeRegistry::getRegistry()->registerTheme(
+            'lightBlueOnDarkBlue',
+            'Light Blue on Dark Bluea',
+            'path',
+            ['itemsTest']
+        );
         ThemeRegistry::getRegistry()->setDefaultTheme('itemsTest', 'lightBlueOnDarkBlue');
 
         $map = ThemeRegistry::getRegistry()->getMap();
@@ -70,7 +73,12 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
     public function testRegister()
     {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
+        ThemeRegistry::getRegistry()->registerTheme(
+            'blackOnLightMagenta',
+            'Black on Light Magenta',
+            'blackOnLightMagenta',
+            ['itemsTest']
+        );
 
         $map = ThemeRegistry::getRegistry()->getMap();
         $this->assertFalse(empty($map));
@@ -89,7 +97,12 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
         $this->assertEquals('Black on Light Magenta', $available['name']);
 
         ThemeRegistry::getRegistry()->createTarget('testsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', ['itemsTest', 'testsTest']);
+        ThemeRegistry::getRegistry()->registerTheme(
+            'lightBlueOnDarkBlue',
+            'Light Blue on Dark Blue',
+            'lightBlueOnDarkBlue',
+            ['itemsTest', 'testsTest']
+        );
 
         $map = ThemeRegistry::getRegistry()->getMap();
 
@@ -113,7 +126,13 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
             ]));
         }
 
-        ThemeRegistry::getRegistry()->registerTheme('superAccess', 'super accessibility theme', '', ['itemsTest'], ['tplA' => 'taoAccess/theme/A.tpl']);
+        ThemeRegistry::getRegistry()->registerTheme(
+            'superAccess',
+            'super accessibility theme',
+            '',
+            ['itemsTest'],
+            ['tplA' => 'taoAccess/theme/A.tpl']
+        );
         $map = ThemeRegistry::getRegistry()->getMap();
         $this->assertEquals(3, count($map['itemsTest']['available']));
         $superAccessTheme = $map['itemsTest']['available'][2];
@@ -125,10 +144,21 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
 
     public function testGetTemplate()
     {
-
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('superAccess', 'super accessibility theme', '', ['itemsTest'], ['tplA' => 'taoAccess/theme/A.tpl']);
-        ThemeRegistry::getRegistry()->registerTheme('superAccessNoTpl', 'super accessibility theme without tpl', '', ['itemsTest']);
+        ThemeRegistry::getRegistry()->registerTheme(
+            'superAccess',
+            'super accessibility theme',
+            '',
+            ['itemsTest'],
+            ['tplA' => 'taoAccess/theme/A.tpl']
+        );
+        ThemeRegistry::getRegistry()->registerTheme(
+            'superAccessNoTpl',
+            'super accessibility theme without tpl',
+            '',
+            ['itemsTest']
+        );
+
         $this->assertNotEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccess', 'tplA'));
         $this->assertEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccess', 'tplB'));
         $this->assertEmpty(ThemeRegistry::getRegistry()->getTemplate('itemsTest', 'superAccessNoTpl', 'tplA'));
@@ -138,8 +168,18 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
     {
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
         ThemeRegistry::getRegistry()->createTarget('testsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
-        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', ['itemsTest', 'testsTest']);
+        ThemeRegistry::getRegistry()->registerTheme(
+            'blackOnLightMagenta',
+            'Black on Light Magenta',
+            'blackOnLightMagenta',
+            ['itemsTest']
+        );
+        ThemeRegistry::getRegistry()->registerTheme(
+            'lightBlueOnDarkBlue',
+            'Light Blue on Dark Blue',
+            'lightBlueOnDarkBlue',
+            ['itemsTest', 'testsTest']
+        );
 
         ThemeRegistry::getRegistry()->unregisterTheme('blackOnLightMagenta');
 
@@ -147,6 +187,7 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
 
         $this->assertArrayHasKey('itemsTest', $map);
         $this->assertEquals(1, count($map['itemsTest']['available'])); //only one theme left
+
         $theme = current($map['itemsTest']['available']);
         $this->assertEquals($theme['id'], 'lightBlueOnDarkBlue');//and this theme is not the deleted one
 
@@ -165,7 +206,13 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
     {
         $this->expectException(common_Exception::class);
         $this->expectExceptionMessage('Target itemsTest does not exist');
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
+
+        ThemeRegistry::getRegistry()->registerTheme(
+            'blackOnLightMagenta',
+            'Black on Light Magenta',
+            'blackOnLightMagenta',
+            ['itemsTest']
+        );
     }
 
     public function testRegisterThemeInvalidId()
@@ -173,7 +220,12 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
         $this->expectException(common_Exception::class);
         $this->expectExceptionMessage('Invalid id');
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('?*invalid theme-id*?', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
+        ThemeRegistry::getRegistry()->registerTheme(
+            '?*invalid theme-id*?',
+            'Black on Light Magenta',
+            'blackOnLightMagenta',
+            ['itemsTest']
+        );
     }
 
     public function testRegisterThemeDuplicate()
@@ -181,17 +233,30 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
         $this->expectException(common_Exception::class);
         $this->expectExceptionMessage('already exists for target');
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
+        ThemeRegistry::getRegistry()->registerTheme(
+            'blackOnLightMagenta',
+            'Black on Light Magenta',
+            'blackOnLightMagenta',
+            ['itemsTest']
+        );
+        ThemeRegistry::getRegistry()->registerTheme(
+            'blackOnLightMagenta',
+            'Black on Light Magenta',
+            'blackOnLightMagenta',
+            ['itemsTest']
+        );
     }
-
 
     public function testRegisterThemeNoTargets()
     {
         $this->expectException(common_Exception::class);
         $this->expectExceptionMessage('No targets were provided');
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta');
+        ThemeRegistry::getRegistry()->registerTheme(
+            'blackOnLightMagenta',
+            'Black on Light Magenta',
+            'blackOnLightMagenta'
+        );
     }
 
     public function testSetDefaultThemeNoTarget()
@@ -199,8 +264,18 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
         $this->expectException(common_Exception::class);
         $this->expectExceptionMessage('Target testsTest does not exist');
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
-        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', ['itemsTest']);
+        ThemeRegistry::getRegistry()->registerTheme(
+            'blackOnLightMagenta',
+            'Black on Light Magenta',
+            'blackOnLightMagenta',
+            ['itemsTest']
+        );
+        ThemeRegistry::getRegistry()->registerTheme(
+            'lightBlueOnDarkBlue',
+            'Light Blue on Dark Blue',
+            'lightBlueOnDarkBlue',
+            ['itemsTest']
+        );
 
         ThemeRegistry::getRegistry()->setDefaultTheme('testsTest', 'blackOnLightMagenta');
     }
@@ -211,8 +286,18 @@ class ThemeRegistryTest extends GenerisPhpUnitTestRunner
         $this->expectExceptionMessage('Theme blackOnLightMagenta not found for target testsTest');
         ThemeRegistry::getRegistry()->createTarget('itemsTest', 'base');
         ThemeRegistry::getRegistry()->createTarget('testsTest', 'base');
-        ThemeRegistry::getRegistry()->registerTheme('blackOnLightMagenta', 'Black on Light Magenta', 'blackOnLightMagenta', ['itemsTest']);
-        ThemeRegistry::getRegistry()->registerTheme('lightBlueOnDarkBlue', 'Light Blue on Dark Blue', 'lightBlueOnDarkBlue', ['itemsTest', 'testsTest']);
+        ThemeRegistry::getRegistry()->registerTheme(
+            'blackOnLightMagenta',
+            'Black on Light Magenta',
+            'blackOnLightMagenta',
+            ['itemsTest']
+        );
+        ThemeRegistry::getRegistry()->registerTheme(
+            'lightBlueOnDarkBlue',
+            'Light Blue on Dark Blue',
+            'lightBlueOnDarkBlue',
+            ['itemsTest', 'testsTest']
+        );
 
         ThemeRegistry::getRegistry()->setDefaultTheme('testsTest', 'blackOnLightMagenta');
     }
