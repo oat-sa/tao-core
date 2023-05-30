@@ -112,7 +112,11 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
     {
         $public = $id[strlen($id) - 1] == '+';
         $path = $this->id2path($id);
-        return $this->getServiceLocator()->get(FileSystemService::SERVICE_ID)->getFileSystem($this->getFsId($public))->deleteDir($path);
+        return $this
+            ->getServiceLocator()
+            ->get(FileSystemService::SERVICE_ID)
+            ->getFileSystem($this->getFsId($public))
+            ->deleteDir($path);
     }
 
     /**

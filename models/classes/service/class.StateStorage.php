@@ -63,7 +63,9 @@ class tao_models_classes_service_StateStorage extends ConfigurableService implem
     protected function getPersistence()
     {
         if (is_null($this->persistence)) {
-            $this->persistence = common_persistence_KeyValuePersistence::getPersistence($this->getOption(self::OPTION_PERSISTENCE));
+            $this->persistence = common_persistence_KeyValuePersistence::getPersistence(
+                $this->getOption(self::OPTION_PERSISTENCE)
+            );
         }
         return $this->persistence;
     }

@@ -54,7 +54,11 @@ interface WebhookEventLogInterface
      * @param string $responseBody
      * @param string|null $actualAcknowledgement
      */
-    public function storeInvalidAcknowledgementLog(WebhookTaskContext $webhookTaskContext, $responseBody, $actualAcknowledgement = null);
+    public function storeInvalidAcknowledgementLog(
+        WebhookTaskContext $webhookTaskContext,
+        $responseBody,
+        $actualAcknowledgement = null
+    );
 
     /**
      * @param WebhookTaskContext $webhookTaskContext

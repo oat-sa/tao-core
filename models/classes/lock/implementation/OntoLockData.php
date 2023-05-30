@@ -46,7 +46,9 @@ class OntoLockData extends SimpleLock
             $epoch = $array['epoch'];
             return new self($resource, $ownerId, $epoch);
         } else {
-            throw new common_exception_InconsistentData('LockData should contain a resource, owner and epoch, one data is missing');
+            throw new common_exception_InconsistentData(
+                'LockData should contain a resource, owner and epoch, one data is missing'
+            );
         }
     }
 

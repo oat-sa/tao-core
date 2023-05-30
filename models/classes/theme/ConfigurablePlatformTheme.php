@@ -120,7 +120,8 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      * ];
      *
      * If this contains anything you don't like, just add that key to your $config array to override the default.
-     * The same applies if something is missing that you would like to have - for these cases generic getter is available.
+     * The same applies if something is missing that you would like to have - for these cases generic getter is
+     * available.
      *
      * // Full blown custom configuration example
      * $options = [

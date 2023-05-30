@@ -100,7 +100,8 @@ FACTORY;
 
             if (!$class->hasProperty($parameterName)) {
                 $message = sprintf(
-                    'Cannot find property "%s" in class %s. Please name properties exactly like constructor parameters, or overload %s',
+                    'Cannot find property "%s" in class %s. Please name properties exactly like constructor '
+                        . 'parameters, or overload %s',
                     $parameterName,
                     static::class,
                     __METHOD__

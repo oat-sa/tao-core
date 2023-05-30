@@ -67,7 +67,9 @@ class StateMigration extends ConfigurableService
 
         $state = $stateStorage->get($userId, $callId);
 
-        return (!is_null($state)) ? $this->getFileSystem()->write($this->generateSerial($userId, $callId), $state) : false;
+        return (!is_null($state))
+            ? $this->getFileSystem()->write($this->generateSerial($userId, $callId), $state)
+            : false;
     }
 
     public function restore($userId, $callId)

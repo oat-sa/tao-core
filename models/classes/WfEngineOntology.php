@@ -17,6 +17,7 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  *
+ * phpcs:disable Generic.Files.LineLength
  */
 
 namespace oat\tao\model;

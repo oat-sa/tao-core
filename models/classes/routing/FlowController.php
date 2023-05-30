@@ -89,10 +89,18 @@ class FlowController extends ClearFwFlowController implements ServiceManagerAwar
         }
 
         //add a custom header so the client knows where the route ends
-        header(self::FORWARD_HEADER . ': ' . $resolver->getExtensionId() . '/' .  $resolver->getControllerShortName() . '/' . $resolver->getMethodName());
+        header(
+            self::FORWARD_HEADER . ': ' . $resolver->getExtensionId() . '/'
+                .  $resolver->getControllerShortName() . '/' . $resolver->getMethodName()
+        );
 
         //execite the new action
-        $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $params);
+        $enforcer = new ActionEnforcer(
+            $resolver->getExtensionId(),
+            $resolver->getControllerClass(),
+            $resolver->getMethodName(),
+            $params
+        );
         $this->propagate($enforcer);
         $enforcer->execute();
 

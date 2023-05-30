@@ -51,15 +51,20 @@ class tao_models_classes_export_RdfExportForm extends tao_helpers_form_FormConta
         $this->form = new tao_helpers_form_xhtml_Form('export');
 
         $this->form->setDecorators([
-            'element'           => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
-            'group'             => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
-            'error'             => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all']),
-            'actions-bottom'    => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar']),
-            //'actions-top'     => new tao_helpers_form_xhtml_TagWrapper(array('tag' => 'div', 'cssClass' => 'form-toolbar'))
+            'element' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
+            'group' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
+            'error' => new tao_helpers_form_xhtml_TagWrapper([
+                'tag' => 'div',
+                'cssClass' => 'form-error ui-state-error ui-corner-all'
+            ]),
+            'actions-bottom' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar']),
         ]);
 
         $exportElt = tao_helpers_form_FormFactory::getElement('export', 'Free');
-        $exportElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-export"></span> ' . __('Export') . '</a>');
+        $exportElt->setValue(
+            '<a href="#" class="form-submitter btn-success small"><span class="icon-export"></span> '
+                . __('Export') . '</a>'
+        );
 
         $this->form->setActions([$exportElt], 'bottom');
     }

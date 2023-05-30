@@ -51,7 +51,8 @@ class tao_models_classes_ServiceFactory
      * @access public
      * @author Joel Bout, <joel.bout@tudor.lu>
      * @deprecated
-     * @param  string serviceName The name of the service you want to retrieve. You can set the complete class name, the interface name or only the ressource name managed by the service.
+     * @param string $serviceName The name of the service you want to retrieve. You can set the complete class name,
+     *                            the interface name or only the ressource name managed by the service.
      * @return tao_models_classes_GenerisService
      */
     public static function get($serviceName)

@@ -56,7 +56,10 @@ class ExportedField
      */
     public function getFormattedValue(): string
     {
-        if (is_null($this->value) || ($this->value === '' && $this->getColumn()->getType() !== ExportedColumn::TYPE_VARCHAR)) {
+        if (
+            is_null($this->value)
+            || ($this->value === '' && $this->getColumn()->getType() !== ExportedColumn::TYPE_VARCHAR)
+        ) {
             return 'null';
         }
 

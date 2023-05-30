@@ -30,8 +30,9 @@ use oat\oatbox\service\ConfigurableService;
 /**
  * Implements a non locking Lock
  *
- * @note It would be preferably static but we may want to have the polymorphism on lock but it would be prevented by explicit class method static calls.
- * Also if you nevertheless call it statically you may want to avoid the late static binding for the getLockProperty
+ * @note It would be preferably static, but we may want to have the polymorphism on lock, but it would be prevented by
+ *       explicit class method static calls. Also if you nevertheless call it statically you may want to avoid the late
+ *       static binding for the getLockProperty
  */
 class NoLock extends ConfigurableService implements LockSystem
 {

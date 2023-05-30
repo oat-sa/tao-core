@@ -34,8 +34,9 @@ use oat\tao\model\TaoOntology;
 /**
  * Implements Lock using a basic property in the ontology storing the lock data
  *
- * @note It would be preferably static but we may want to have the polymorphism on lock but it would be prevented by explicit class method static calls.
- * Also if you nevertheless call it statically you may want to avoid the late static binding for the getLockProperty
+ * @note It would be preferably static but we may want to have the polymorphism on lock, but it would be prevented by
+ *       explicit class method static calls. Also if you nevertheless call it statically you may want to avoid the late
+ *       static binding for the getLockProperty
  */
 class OntoLock extends ConfigurableService implements LockSystem
 {

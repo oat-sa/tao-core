@@ -140,6 +140,9 @@ class DefaultUrlService extends ConfigurableService
             $redirectAdapter = new $redirectAdapterClass();
             return $redirectAdapter->resolve($redirectParams['options']);
         }
-        throw new \common_exception_Error('invalid redirect resolver class ' . $redirectAdapterClass . '. it must implements ' . RedirectResolveInterface::class);
+        throw new \common_exception_Error(
+            'invalid redirect resolver class ' . $redirectAdapterClass . '. it must implements '
+                . RedirectResolveInterface::class
+        );
     }
 }

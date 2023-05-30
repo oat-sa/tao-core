@@ -77,7 +77,7 @@ class DatatableRequest implements DatatableRequestInterface
      */
     public function getPage()
     {
-        $page = isset($this->requestParams[self::PARAM_PAGE]) ? $this->requestParams[self::PARAM_PAGE] : self::DEFAULT_PAGE;
+        $page = $this->requestParams[self::PARAM_PAGE] ?? self::DEFAULT_PAGE;
         return (int)$page;
     }
 

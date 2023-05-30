@@ -70,11 +70,23 @@ class RdsNotificationService extends AbstractSqlNotificationService
         $queueTable->addOption('engine', 'MyISAM');
         $queueTable->addColumn(self::NOTIFICATION_FIELD_ID, 'integer', ['notnull' => true, 'autoincrement' => true]);
         $queueTable->addColumn(self::NOTIFICATION_FIELD_RECIPIENT, 'string', ['notnull' => true, 'length' => 255]);
-        $queueTable->addColumn(self::NOTIFICATION_FIELD_STATUS, 'integer', ['default' => 0, 'notnull' => false, 'length' => 255]);
+        $queueTable->addColumn(
+            self::NOTIFICATION_FIELD_STATUS,
+            'integer',
+            ['default' => 0, 'notnull' => false, 'length' => 255]
+        );
         $queueTable->addColumn(self::NOTIFICATION_FIELD_TITLE, 'string', ['length' => 255]);
         $queueTable->addColumn(self::NOTIFICATION_FIELD_MESSAGE, 'text', ['default' => null]);
-        $queueTable->addColumn(self::NOTIFICATION_FIELD_SENDER, 'string', ['default' => null, 'notnull' => false, 'length' => 255]);
-        $queueTable->addColumn(self::NOTIFICATION_FIELD_SENDER_NAME, 'string', ['default' => null, 'notnull' => false, 'length' => 255]);
+        $queueTable->addColumn(
+            self::NOTIFICATION_FIELD_SENDER,
+            'string',
+            ['default' => null, 'notnull' => false, 'length' => 255]
+        );
+        $queueTable->addColumn(
+            self::NOTIFICATION_FIELD_SENDER_NAME,
+            'string',
+            ['default' => null, 'notnull' => false, 'length' => 255]
+        );
         $queueTable->addColumn(self::NOTIFICATION_FIELD_CREATION, 'datetime', ['notnull' => true]);
         $queueTable->addColumn(self::NOTIFICATION_FIELD_UPDATED, 'datetime', ['notnull' => true]);
         $queueTable->setPrimaryKey([self::NOTIFICATION_FIELD_ID]);

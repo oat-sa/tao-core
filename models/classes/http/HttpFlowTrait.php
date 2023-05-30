@@ -134,7 +134,8 @@ trait HttpFlowTrait
             $request,
             $this->response->withHeader(
                 'X-Tao-Forward',
-                $resolver->getExtensionId() . '/' .  $resolver->getControllerShortName() . '/' . $resolver->getMethodName()
+                $resolver->getExtensionId() . '/' .  $resolver->getControllerShortName() . '/'
+                    . $resolver->getMethodName()
             )
         );
 

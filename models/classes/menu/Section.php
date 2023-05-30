@@ -82,7 +82,9 @@ class Section extends MenuElement implements PhpSerializable
             $actions[] = Action::fromSimpleXMLElement($actionNode, $structureExtensionId);
         }
 
-        $includeClassActions = isset($node->actions) && isset($node->actions['allowClassActions']) && $node->actions['allowClassActions'] == 'true';
+        $includeClassActions = isset($node->actions)
+            && isset($node->actions['allowClassActions'])
+            && $node->actions['allowClassActions'] == 'true';
 
         if ($includeClassActions) {
             foreach ($trees as $tree) {

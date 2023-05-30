@@ -41,8 +41,10 @@ use oat\oatbox\service\ServiceManager;
 use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\tao\model\upload\UploadService;
 
+// phpcs:disable Generic.Files.LineLength
 class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_classes_dataBinding_GenerisInstanceDataBinder
 {
+    // phpcs:enable Generic.Files.LineLength
     /**
      * Simply bind data from a Generis Instance Form to a specific generis class
      *
@@ -58,7 +60,8 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
      *
      * @access public
      * @author Jerome Bogaerts <jerome@taotesting.com>
-     * @param  array data An array of values where keys are Property URIs and values are either scalar, vector or object values.
+     * @param array $data An array of values where keys are Property URIs and values are either scalar, vector or object
+     *                    values.
      * @return mixed
      */
     public function bind($data)

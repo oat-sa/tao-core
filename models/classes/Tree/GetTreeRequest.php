@@ -53,8 +53,17 @@ class GetTreeRequest
      * @param array $filtersOptions
      * @param \core_kernel_classes_Property[] $filters Properties to filter tree resources
      */
-    public function __construct($class, $limit, $offset, $showInstance, $hideNode, array $openNodes, array $resourceUrisToShow = [], $filtersOptions = [], array $filters = [])
-    {
+    public function __construct(
+        $class,
+        $limit,
+        $offset,
+        $showInstance,
+        $hideNode,
+        array $openNodes,
+        array $resourceUrisToShow = [],
+        $filtersOptions = [],
+        array $filters = []
+    ) {
         $this->class = $class;
         $this->limit = $limit;
         $this->offset = $offset;

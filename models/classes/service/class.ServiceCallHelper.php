@@ -40,7 +40,9 @@ class tao_models_classes_service_ServiceCallHelper
             $url = common_cache_FileCache::singleton()->get(self::CACHE_PREFIX_URL . urlencode($serviceDefinitionId));
         } catch (common_cache_NotFoundException $e) {
             $serviceDefinition = new core_kernel_classes_Resource($serviceDefinitionId);
-            $serviceDefinitionUrl = $serviceDefinition->getOnePropertyValue(new core_kernel_classes_Property(WfEngineOntology::PROPERTY_SUPPORT_SERVICES_URL));
+            $serviceDefinitionUrl = $serviceDefinition->getOnePropertyValue(
+                new core_kernel_classes_Property(WfEngineOntology::PROPERTY_SUPPORT_SERVICES_URL)
+            );
 
             $serviceUrl = ($serviceDefinitionUrl instanceof core_kernel_classes_Resource) ?
                 // hack nescessary since fully qualified urls are considered to be resources
@@ -70,7 +72,9 @@ class tao_models_classes_service_ServiceCallHelper
                     $returnValue[$paramKey] = $param->getValue();
                     break;
                 case 'tao_models_classes_service_VariableParameter':
-                    $variableCode = (string)$param->getVariable()->getUniquePropertyValue(new core_kernel_classes_Property(PROPERTY_PROCESSVARIABLES_CODE));
+                    $variableCode = (string)$param->getVariable()->getUniquePropertyValue(
+                        new core_kernel_classes_Property(PROPERTY_PROCESSVARIABLES_CODE)
+                    );
                     if (isset($callParameters[$variableCode])) {
                         $returnValue[$paramKey] = $callParameters[$variableCode];
                     } else {
@@ -87,10 +91,19 @@ class tao_models_classes_service_ServiceCallHelper
     protected static function getParamName(core_kernel_classes_Resource $paramDefinition)
     {
         try {
-            $paramKey = common_cache_FileCache::singleton()->get(self::CACHE_PREFIX_PARAM_NAME . urlencode($paramDefinition->getUri()));
+            $paramKey = common_cache_FileCache::singleton()->get(
+                self::CACHE_PREFIX_PARAM_NAME . urlencode($paramDefinition->getUri())
+            );
         } catch (common_cache_NotFoundException $e) {
-            $paramKey = common_Utils::fullTrim($paramDefinition->getUniquePropertyValue(new core_kernel_classes_Property(WfEngineOntology::PROPERTY_FORMAL_PARAMETER_NAME)));
-            common_cache_FileCache::singleton()->put($paramKey, self::CACHE_PREFIX_PARAM_NAME . urlencode($paramDefinition->getUri()));
+            $paramKey = common_Utils::fullTrim(
+                $paramDefinition->getUniquePropertyValue(
+                    new core_kernel_classes_Property(WfEngineOntology::PROPERTY_FORMAL_PARAMETER_NAME)
+                )
+            );
+            common_cache_FileCache::singleton()->put(
+                $paramKey,
+                self::CACHE_PREFIX_PARAM_NAME . urlencode($paramDefinition->getUri())
+            );
         }
         return $paramKey;
     }

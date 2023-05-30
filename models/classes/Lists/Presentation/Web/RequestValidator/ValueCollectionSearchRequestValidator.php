@@ -123,7 +123,9 @@ class ValueCollectionSearchRequestValidator extends InjectionAwareService
     {
         $queryParameters = $request->getQueryParams();
 
-        foreach ($queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE] ?? [] as $key => $excluded) {
+        foreach (
+            $queryParameters[ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE] ?? [] as $key => $excluded
+        ) {
             if (!is_string($excluded)) {
                 throw $this->createBadTypeException(
                     ValueCollectionSearchRequestHandler::QUERY_PARAMETER_EXCLUDE . "[$key]",

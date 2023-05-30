@@ -106,9 +106,13 @@ trait GenerisServiceTrait
         }
 
         $options = [
-            'lang'              => $this->getServiceLocator()->get(SessionService::SERVICE_ID)->getCurrentSession()->getDataLanguage(),
-            'like'              => false,
-            'recursive'         => false
+            'lang' => $this
+                ->getServiceLocator()
+                ->get(SessionService::SERVICE_ID)
+                ->getCurrentSession()
+                ->getDataLanguage(),
+            'like' => false,
+            'recursive' => false
         ];
 
         do {
@@ -308,7 +312,10 @@ trait GenerisServiceTrait
         if ($instance->isClass()) {
             try {
                 /** @var core_kernel_classes_Class $instance */
-                $status = $instance->editPropertyValues($this->getProperty(OntologyRdfs::RDFS_SUBCLASSOF), $destinationClass);
+                $status = $instance->editPropertyValues(
+                    $this->getProperty(OntologyRdfs::RDFS_SUBCLASSOF),
+                    $destinationClass
+                );
                 if ($status) {
                     $this->getEventManager()->trigger(new ClassMovedEvent($instance));
                 }
@@ -346,8 +353,10 @@ trait GenerisServiceTrait
      * @param  core_kernel_classes_Class $topLevelClazz
      * @return array
      */
-    public function getClazzProperties(core_kernel_classes_Class $clazz, core_kernel_classes_Class $topLevelClazz = null)
-    {
+    public function getClazzProperties(
+        core_kernel_classes_Class $clazz,
+        core_kernel_classes_Class $topLevelClazz = null
+    ) {
         $returnValue = [];
         if (is_null($topLevelClazz)) {
             $topLevelClazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OBJECT);
@@ -538,7 +547,15 @@ trait GenerisServiceTrait
                 $openNodes[] = $clazz->getUri();
             }
 
-            $factory = new GenerisTreeFactory($instances, $openNodes, $limit, $offset, $browse, $this->getDefaultFilters(), $searchOptions);
+            $factory = new GenerisTreeFactory(
+                $instances,
+                $openNodes,
+                $limit,
+                $offset,
+                $browse,
+                $this->getDefaultFilters(),
+                $searchOptions
+            );
             $tree = $factory->buildTree($clazz);
             $returnValue = $chunk
                 ? (isset($tree['children']) ? $tree['children'] : [])

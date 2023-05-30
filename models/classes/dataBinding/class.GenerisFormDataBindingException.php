@@ -31,10 +31,12 @@
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
-
+ *
+ * phpcs:disable Generic.Files.LineLength
  */
 class tao_models_classes_dataBinding_GenerisFormDataBindingException extends tao_models_classes_dataBinding_DataBindingException
 {
+    // phpcs:enable Generic.Files.LineLength
     // --- ASSOCIATIONS ---
 
 

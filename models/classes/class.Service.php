@@ -93,7 +93,9 @@ abstract class tao_models_classes_Service
         $returnValue = null;
 
 
-        $className = (!class_exists($serviceName) || !preg_match("/^(tao|wf)/", $serviceName)) ? sprintf(self::namePattern, ucfirst(strtolower($serviceName))) : $serviceName;
+        $className = (!class_exists($serviceName) || !preg_match("/^(tao|wf)/", $serviceName))
+            ? sprintf(self::namePattern, ucfirst(strtolower($serviceName)))
+            : $serviceName;
 
         // does the class exist
         if (!class_exists($className)) {
@@ -103,11 +105,15 @@ abstract class tao_models_classes_Service
         $class = new ReflectionClass($className);
         // is it concrete
         if ($class->isAbstract()) {
-            throw new common_exception_Error('Tried to init abstract class ' . $className . ' for param \'' . $serviceName . '\'');
+            throw new common_exception_Error(
+                'Tried to init abstract class ' . $className . ' for param \'' . $serviceName . '\''
+            );
         }
         // does it extend Service
         if (!$class->isSubclassOf('tao_models_classes_Service')) {
-            throw new common_exception_Error("$className must referr to a class extending the tao_models_classes_Service");
+            throw new common_exception_Error(
+                "$className must referr to a class extending the tao_models_classes_Service"
+            );
         }
 
         //create the instance only once

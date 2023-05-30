@@ -294,7 +294,10 @@ class Bootstrap implements ServiceManagerAwareInterface
 
     private function configureSessionHandler()
     {
-        $sessionHandler = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::CONFIG_SESSION_HANDLER);
+        $sessionHandler = common_ext_ExtensionsManager::singleton()
+            ->getExtensionById('tao')
+            ->getConfig(self::CONFIG_SESSION_HANDLER);
+
         if ($sessionHandler !== false) {
             session_set_save_handler(
                 [$sessionHandler, 'open'],

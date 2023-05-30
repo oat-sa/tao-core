@@ -105,7 +105,11 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
     {
         $controllerClass = $this->getControllerClass();
         if (!class_exists($controllerClass)) {
-            throw new ActionEnforcingException('Controller "' . $controllerClass . '" could not be loaded.', $controllerClass, $this->getAction());
+            throw new ActionEnforcingException(
+                'Controller "' . $controllerClass . '" could not be loaded.',
+                $controllerClass,
+                $this->getAction()
+            );
         }
 
         $controller = $this->getControllerInstance($controllerClass);
@@ -155,10 +159,20 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
                 $func->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters()) &&
                 !$data->hasAccess($user, $this->getControllerClass(), $this->getAction(), $this->getParameters())
             ) {
-                throw new PermissionException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
+                throw new PermissionException(
+                    $user->getIdentifier(),
+                    $this->getAction(),
+                    $this->getControllerClass(),
+                    $this->getExtensionId()
+                );
             }
 
-            throw new tao_models_classes_AccessDeniedException($user->getIdentifier(), $this->getAction(), $this->getControllerClass(), $this->getExtensionId());
+            throw new tao_models_classes_AccessDeniedException(
+                $user->getIdentifier(),
+                $this->getAction(),
+                $this->getControllerClass(),
+                $this->getExtensionId()
+            );
         }
     }
 
@@ -182,7 +196,8 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
         try {
             $this->verifyAuthorization();
         } catch (PermissionException $pe) {
-            //forward the action (yes it's an awful hack, but far better than adding a step in Bootstrap's dispatch error).
+            // forward the action (yes it's an awful hack, but far better than adding a step in Bootstrap's dispatch
+            // error).
             Context::getInstance()->setExtensionName('tao');
             $this->action       = 'denied';
             $this->controllerClass   = 'tao_actions_Permission';
@@ -231,7 +246,10 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
 
         // Action method is invoked, passing request parameters as method parameters.
         $user = common_session_SessionManager::getSession()->getUser();
-        $this->logDebug('Invoking ' . get_class($controller) . '::' . $action . ' by ' . $user->getIdentifier(), ['GENERIS', 'CLEARRFW']);
+        $this->logDebug(
+            'Invoking ' . get_class($controller) . '::' . $action . ' by ' . $user->getIdentifier(),
+            ['GENERIS', 'CLEARRFW']
+        );
 
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
         $eventManager->trigger(new BeforeAction());
@@ -263,7 +281,9 @@ class ActionEnforcer implements IExecutable, ServiceManagerAwareInterface, TaoLo
             } elseif (class_exists($paramTypeName) || interface_exists($paramTypeName)) {
                 $actionParameters[$paramName] = $this->getClassInstance($paramTypeName);
             } elseif (!$param->isDefaultValueAvailable()) {
-                $this->logWarning('Missing parameter ' . $paramName . ' for ' . $this->getControllerClass() . '@' . $action);
+                $this->logWarning(
+                    'Missing parameter ' . $paramName . ' for ' . $this->getControllerClass() . '@' . $action
+                );
             }
         }
 

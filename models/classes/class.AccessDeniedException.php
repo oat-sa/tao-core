@@ -32,7 +32,9 @@
  * @package tao
 
  */
-class tao_models_classes_AccessDeniedException extends tao_models_classes_UserException implements common_exception_UserReadableException, common_log_SeverityLevel
+class tao_models_classes_AccessDeniedException extends tao_models_classes_UserException implements
+    common_exception_UserReadableException,
+    common_log_SeverityLevel
 {
     // --- ASSOCIATIONS ---
 
@@ -57,7 +59,9 @@ class tao_models_classes_AccessDeniedException extends tao_models_classes_UserEx
     public function __construct($userUri, $action, $module, $ext)
     {
         $this->request = new Request();
-        parent::__construct('Access to ' . $ext . '::' . $module . '::' . $action . ' denied for user \'' . $userUri . '\'');
+        parent::__construct(
+            'Access to ' . $ext . '::' . $module . '::' . $action . ' denied for user \'' . $userUri . '\''
+        );
     }
 
     /**

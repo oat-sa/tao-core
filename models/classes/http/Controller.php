@@ -110,8 +110,14 @@ abstract class Controller
      * @param null $httpOnly
      * @return bool
      */
-    protected function setCookie($name, $value = null, $expire = null, $domainPath = null, $https = null, $httpOnly = null)
-    {
+    protected function setCookie(
+        $name,
+        $value = null,
+        $expire = null,
+        $domainPath = null,
+        $https = null,
+        $httpOnly = null
+    ) {
         return setcookie($name, $value, $expire, $domainPath, $https, $httpOnly);
     }
 
