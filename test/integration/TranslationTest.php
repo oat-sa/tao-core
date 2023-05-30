@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -20,7 +20,6 @@
  *               2009-2012 (update and modification) Public Research Centre Henri Tudor
  *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\integration;
@@ -81,7 +80,6 @@ class TranslationTest extends GenerisPhpUnitTestRunner
      */
     public function testTranslationModel()
     {
-
         // en-US (American English) to en-YA (Yoda English) translation units.
         $tu1 = new tao_helpers_translation_TranslationUnit();
         $tu1->setSource('May the force be with you.');
@@ -149,38 +147,66 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $this->assertEquals('Han Solo is a great pilot.', $tu3->getTarget());
         // Test Annotable implementation for translationUnit & translationFile.
         $tf = new tao_helpers_translation_TranslationFile();
-        $this->assertTrue(is_array($tf->getAnnotations()), "Annotations for a newly instantiated translation file should be an array.");
+        $this->assertTrue(
+            is_array($tf->getAnnotations()),
+            "Annotations for a newly instantiated translation file should be an array."
+        );
         $this->assertTrue(count($tf->getAnnotations()) == 2);
         $tf->addAnnotation('context', 'Unit Testing');
         $tf->addAnnotation('author', 'Jane Doe');
         $this->assertTrue($tf->getAnnotation('context') == ['name' => 'context', 'value' => 'Unit Testing']);
         $this->assertTrue($tf->getAnnotation('author') == ['name' => 'author', 'value' => 'Jane Doe']);
-        $this->assertEquals($tf->getAnnotations(), ['sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
-            'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
-            'context' => 'Unit Testing',
-            'author' => 'Jane Doe']);
+        $this->assertEquals(
+            $tf->getAnnotations(),
+            [
+                'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                'context' => 'Unit Testing',
+                'author' => 'Jane Doe'
+            ]
+        );
         $tf->removeAnnotation('author');
         $this->assertTrue($tf->getAnnotation('author') == null);
-        $this->assertEquals($tf->getAnnotations(), ['sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
-            'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
-            'context' => 'Unit Testing']);
+        $this->assertEquals(
+            $tf->getAnnotations(),
+            [
+                'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                'context' => 'Unit Testing'
+            ]
+        );
 
         $tu = new tao_helpers_translation_TranslationUnit('test', 'test');
-        $this->assertTrue(is_array($tu->getAnnotations()), "Annotations for a newly instantiated translation unit should be an array.");
+        $this->assertTrue(
+            is_array($tu->getAnnotations()),
+            "Annotations for a newly instantiated translation unit should be an array."
+        );
         $this->assertTrue(count($tu->getAnnotations()) == 2);
+
         $tu->addAnnotation('context', 'Unit Testing');
         $tu->addAnnotation('author', 'Jane Doe');
         $this->assertTrue($tu->getAnnotation('context') == ['name' => 'context', 'value' => 'Unit Testing']);
         $this->assertTrue($tu->getAnnotation('author') == ['name' => 'author', 'value' => 'Jane Doe']);
-        $this->assertEquals($tu->getAnnotations(), ['sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
-            'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
-            'context' => 'Unit Testing',
-            'author' => 'Jane Doe']);
+        $this->assertEquals(
+            $tu->getAnnotations(),
+            [
+                'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                'context' => 'Unit Testing',
+                'author' => 'Jane Doe'
+            ]
+        );
+
         $tu->removeAnnotation('author');
         $this->assertTrue($tu->getAnnotation('author') == null);
-        $this->assertEquals($tu->getAnnotations(), ['sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
-            'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
-            'context' => 'Unit Testing']);
+        $this->assertEquals(
+            $tu->getAnnotations(),
+            [
+                'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                'context' => 'Unit Testing'
+            ]
+        );
 
         // Test utils.
         $this->assertEquals(tao_helpers_translation_Utils::getDefaultLanguage(), 'en-US');
@@ -216,14 +242,39 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $tus = $tf->getTranslationUnits();
 
         $this->assertEquals(4, count($tus));
-        $this->assertEquals('The blackboard of Lena is full of "Shakespeare" quotes.', $tus[0]->getSource());
-        $this->assertEquals('L\'ardoise de Léna est pleine de citations de "Shakespeare".', $tus[0]->getTarget());
-        $this->assertEquals('Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N', $tus[1]->getSource());
-        $this->assertEquals('Ce téxtê cÖntîEn$ de drÔlés dE çÄrÂctÈres @ cAµ$£ dé l\'I18N', $tus[1]->getTarget());
-        $this->assertEquals('This translation will be a very long text', $tus[2]->getSource());
-        $this->assertEquals('C\'est en effet un texte très très long car j\'aime parler. Grâce à ce test, je vais pouvoir vérifier si les msgstr multilignes sont correctement interpretés par ', $tus[2]->getTarget());
-        $this->assertEquals('And this one will contain escaping characters', $tus[3]->getSource());
-        $this->assertEquals("Alors je vais passer une ligne \net aussi faire des tabulations \t car c'est très cool.", $tus[3]->getTarget());
+        $this->assertEquals(
+            'The blackboard of Lena is full of "Shakespeare" quotes.',
+            $tus[0]->getSource()
+        );
+        $this->assertEquals(
+            'L\'ardoise de Léna est pleine de citations de "Shakespeare".',
+            $tus[0]->getTarget()
+        );
+        $this->assertEquals(
+            'Thïs téxt cöntàin$ wéîRd chárâctêrS beçÁuse öf I18N',
+            $tus[1]->getSource()
+        );
+        $this->assertEquals(
+            'Ce téxtê cÖntîEn$ de drÔlés dE çÄrÂctÈres @ cAµ$£ dé l\'I18N',
+            $tus[1]->getTarget()
+        );
+        $this->assertEquals(
+            'This translation will be a very long text',
+            $tus[2]->getSource()
+        );
+        $this->assertEquals(
+            'C\'est en effet un texte très très long car j\'aime parler. ' .
+            'Grâce à ce test, je vais pouvoir vérifier si les msgstr multilignes sont correctement interpretés par ',
+            $tus[2]->getTarget()
+        );
+        $this->assertEquals(
+            'And this one will contain escaping characters',
+            $tus[3]->getSource()
+        );
+        $this->assertEquals(
+            "Alors je vais passer une ligne \net aussi faire des tabulations \t car c'est très cool.",
+            $tus[3]->getTarget()
+        );
 
 
         //test ability to read context of po messages
@@ -232,7 +283,8 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $tf = $po->getTranslationFile();
         $tus = $tf->getTranslationUnits();
 
-        // Test default values of TranslationFile. PO files can contain language information (feature used by POEdit, at least )
+        // Test default values of TranslationFile.
+        // PO files can contain language information (feature used by POEdit, at least )
         $this->assertEquals(tao_helpers_translation_Utils::getDefaultLanguage(), $tf->getSourceLanguage());
         $this->assertEquals('de-DE', $tf->getTargetLanguage());
 
@@ -241,7 +293,6 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $this->assertEquals('comment', $tus[1]->getContext());
         $this->assertEquals('', $tus[3]->getContext());
     }
-
 
     public function testPOTranslationSorting()
     {
@@ -282,7 +333,7 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $tf1 = $pr->getTranslationFile();
 
         // We serialize the TranslationFile and read it again to check equivalence.
-        $filePath = tempnam('/tmp', self::TEMP_PO); // Will try in the correct folder automatically for Win32 c.f. PHP website.
+        $filePath = tempnam('/tmp', self::TEMP_PO);
         $pw = new tao_helpers_translation_POFileWriter($filePath, $tf1);
         $pw->write();
 
@@ -364,8 +415,10 @@ class TranslationTest extends GenerisPhpUnitTestRunner
 
     public function testMultipleManfiestExtraction()
     {
-        $taoStructurePaths = [dirname(__FILE__) . self::GROUPS_MANIFEST . '/structures.xml',
-            dirname(__FILE__) . self::ITEMS_MANIFEST . '/structures.xml'];
+        $taoStructurePaths = [
+            dirname(__FILE__) . self::GROUPS_MANIFEST . '/structures.xml',
+            dirname(__FILE__) . self::ITEMS_MANIFEST . '/structures.xml'
+        ];
 
         $extractor = new tao_helpers_translation_StructureExtractor($taoStructurePaths);
         $extractor->extract();
@@ -390,16 +443,22 @@ class TranslationTest extends GenerisPhpUnitTestRunner
 
         // Complete test.
         $extensions = ['php', 'tpl', 'js'];
-        $sourceCodePaths = [dirname(__FILE__) . self::FAKE_ACTIONS,
-            dirname(__FILE__) . self::FAKE_VIEWS];
+        $sourceCodePaths = [
+            dirname(__FILE__) . self::FAKE_ACTIONS,
+            dirname(__FILE__) . self::FAKE_VIEWS
+        ];
         $extractor->setFileTypes($extensions);
         $extractor->setPaths($sourceCodePaths);
         $extractor->extract();
         $tus = $extractor->getTranslationUnits();
+
         $this->assertEquals(count($tus), 60);
         $this->assertEquals('Import', $tus[1]->getSource());
         $this->assertEquals(' Please select the input data format to import ', $tus[2]->getSource());
-        $this->assertEquals('Please upload a CSV file formated as "defined" %min by %max the options above.', $tus[5]->getSource());
+        $this->assertEquals(
+            'Please upload a CSV file formated as "defined" %min by %max the options above.',
+            $tus[5]->getSource()
+        );
         $this->assertEquals("Please upload \t an RDF file.\n\n", $tus[8]->getsource());
     }
 
@@ -444,15 +503,42 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $reader->read();
         $tus = $reader->getTranslationFile()->getTranslationUnits();
 
-        $this->assertTrue(is_array($tus), "Translation units provided by the RDFFileReader must be as an array.");
+        $this->assertTrue(
+            is_array($tus),
+            "Translation units provided by the RDFFileReader must be as an array."
+        );
 
-        $this->assertEquals($tus[0]->getTarget(), "Object TAO", "Unexpected target for RDFTranslationUnit.");
-        $this->assertEquals($tus[0]->getSubject(), "http://www.tao.lu/Ontologies/TAO.rdf#TAOObject", "Unexpected subject for RDFTranslationUnit.");
-        $this->assertEquals($tus[0]->getPredicate(), "http://www.w3.org/2000/01/rdf-schema#label", "Unexpected predicate for RDFTranslationUnit.");
+        $this->assertEquals(
+            $tus[0]->getTarget(),
+            "Object TAO",
+            "Unexpected target for RDFTranslationUnit."
+        );
+        $this->assertEquals(
+            $tus[0]->getSubject(),
+            "http://www.tao.lu/Ontologies/TAO.rdf#TAOObject",
+            "Unexpected subject for RDFTranslationUnit."
+        );
+        $this->assertEquals(
+            $tus[0]->getPredicate(),
+            "http://www.w3.org/2000/01/rdf-schema#label",
+            "Unexpected predicate for RDFTranslationUnit."
+        );
 
-        $this->assertEquals($tus[1]->getTarget(), "Related to e-testing any resource", "Unexpected target for RDFTranslationUnit.");
-        $this->assertEquals($tus[1]->getSubject(), "http://www.tao.lu/Ontologies/TAO.rdf#TAOObject", "Unexpected subject for RDFTranslationUnit.");
-        $this->assertEquals($tus[1]->getPredicate(), "http://www.w3.org/2000/01/rdf-schema#comment", "Unexpected predicate for RDFTranslationUnit.");
+        $this->assertEquals(
+            $tus[1]->getTarget(),
+            "Related to e-testing any resource",
+            "Unexpected target for RDFTranslationUnit."
+        );
+        $this->assertEquals(
+            $tus[1]->getSubject(),
+            "http://www.tao.lu/Ontologies/TAO.rdf#TAOObject",
+            "Unexpected subject for RDFTranslationUnit."
+        );
+        $this->assertEquals(
+            $tus[1]->getPredicate(),
+            "http://www.w3.org/2000/01/rdf-schema#comment",
+            "Unexpected predicate for RDFTranslationUnit."
+        );
     }
 
     public function testRDFTranslationWriting()
@@ -493,7 +579,12 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $this->assertTrue($result->length == 1);
 
         // Check for the Language rdf:type.
-        $result = $xPath->query("//rdf:Description/rdf:type[@rdf:resource='" . tao_models_classes_LanguageService::CLASS_URI_LANGUAGES . "']");
+        $result = $xPath->query(
+            sprintf(
+                "//rdf:Description/rdf:type[@rdf:resource='%s']",
+                tao_models_classes_LanguageService::CLASS_URI_LANGUAGES
+            )
+        );
         $this->assertTrue($result->length == 1);
 
         // Check for the Language rdfs:label.
@@ -513,7 +604,7 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         unlink($savePath);
     }
 
-    /*
+    /**
      * This test aims at testing RDF Translation Model Annotations.
      */
     public function testRDFAnnotations()
@@ -537,52 +628,93 @@ class TranslationTest extends GenerisPhpUnitTestRunner
             $this->assertEquals($annotations, []);
 
             // 2. Other tests.
-            $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment\n@fake FUBAR");
-            $this->assertEquals($annotations, ["predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"]);
+            $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations(
+                "@predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment\n@fake FUBAR"
+            );
+            $this->assertEquals(
+                $annotations,
+                ["predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"]
+            );
 
             $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source This is a source test.");
-            $this->assertEquals($annotations, ["source" => "This is a source test."]);
+            $this->assertEquals(
+                $annotations,
+                ["source" => "This is a source test."]
+            );
 
-            $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source This is a source test.\n@sourceLanguage en-US");
-            $this->assertEquals($annotations, ["source" => "This is a source test.",
-                "sourceLanguage" => "en-US"]);
+            $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations(
+                "@source This is a source test.\n@sourceLanguage en-US"
+            );
+            $this->assertEquals(
+                $annotations,
+                ["source" => "This is a source test.", "sourceLanguage" => "en-US"]
+            );
 
-            $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source بعض النصوص في اللغة العربية");
+            $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations(
+                "@source بعض النصوص في اللغة العربية"
+            );
             $this->assertEquals($annotations, ["source" => "بعض النصوص في اللغة العربية"]);
 
             // 3. Test escaping.
-            $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations("@source lorem \\-\\- ipsum \\\\ dolomet.\n@sourceLanguage fr-CA");
-            $this->assertEquals($annotations, ["source" => "lorem -- ipsum \\ dolomet.",
-                "sourceLanguage" => "fr-CA"]);
+            $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations(
+                "@source lorem \\-\\- ipsum \\\\ dolomet.\n@sourceLanguage fr-CA"
+            );
+            $this->assertEquals(
+                $annotations,
+                ["source" => "lorem -- ipsum \\ dolomet.", "sourceLanguage" => "fr-CA"]
+            );
 
-            $annotations = tao_helpers_translation_RDFUtils::serializeAnnotations(["source" => "lorem -- ipsum \\ \n dolomet.",
-                "sourceLanguage" => "fr-CA"]);
+            $annotations = tao_helpers_translation_RDFUtils::serializeAnnotations(
+                ["source" => "lorem -- ipsum \\ \n dolomet.", "sourceLanguage" => "fr-CA"]
+            );
             $this->assertEquals($annotations, "@source lorem \\-\\- ipsum \\\\ \n dolomet.\n    @sourceLanguage fr-CA");
 
             // - Test serialization from array.
-            $annotations = tao_helpers_translation_RDFUtils::serializeAnnotations(["source" => "This is a source test.",
-                "sourceLanguage" => "en-US",
-                "targetLanguage" => "fr-CA",
-                "predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"]);
-            $this->assertEquals($annotations, "@source This is a source test.\n    @sourceLanguage en-US\n    @targetLanguage fr-CA\n    @predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment");
+            $annotations = tao_helpers_translation_RDFUtils::serializeAnnotations([
+                    "source" => "This is a source test.",
+                    "sourceLanguage" => "en-US",
+                    "targetLanguage" => "fr-CA",
+                    "predicate" => "http://www.tao.lu/Ontologies/tao.rdf#aFragment"
+                ]);
+
+            $this->assertEquals( // phpcs:disable Generic.Files.LineLength
+                $annotations,
+                "@source This is a source test.\n    @sourceLanguage en-US\n    @targetLanguage fr-CA\n    @predicate http://www.tao.lu/Ontologies/tao.rdf#aFragment"
+            ); //phpcs:enable
 
 
             // - Test Annotations parsing while reading with RDFFileWriter.
-            $reader = new tao_helpers_translation_RDFFileReader(dirname(__FILE__) . self::FAKE_RDF_TRANSLATION_MODEL_ANNOTATIONS);
+            $reader = new tao_helpers_translation_RDFFileReader(
+                dirname(__FILE__) . self::FAKE_RDF_TRANSLATION_MODEL_ANNOTATIONS
+            );
             $reader->read();
+
             $tf = $reader->getTranslationFile();
-            $this->assertEquals($tf->getAnnotations(), ['sourceLanguage' => 'EN',
-                'targetLanguage' => 'es']);
+            $this->assertEquals(
+                $tf->getAnnotations(),
+                ['sourceLanguage' => 'EN', 'targetLanguage' => 'es']
+            );
+
             $tus = $tf->getTranslationUnits();
             $this->assertEquals($tus[0]->getSourceLanguage(), 'EN');
             $this->assertEquals($tus[0]->getTargetLanguage(), 'es');
             $this->assertEquals($tus[0]->getSource(), 'TAO Object');
             $this->assertEquals($tus[0]->getTarget(), 'TAO objeto');
-            $this->assertEquals($tus[0]->getAnnotation('sourceLanguage'), ['name' => 'sourceLanguage', 'value' => 'EN']);
-            $this->assertEquals($tus[0]->getAnnotation('targetLanguage'), ['name' => 'targetLanguage', 'value' => 'es']);
-            $this->assertEquals($tus[10]->getTarget(), 'Función de usuario de flujo de trabajo: el papel asignado por defecto a todos los usuarios backend, no eliminable');
+            $this->assertEquals(
+                $tus[0]->getAnnotation('sourceLanguage'),
+                ['name' => 'sourceLanguage', 'value' => 'EN']
+            );
+            $this->assertEquals(
+                $tus[0]->getAnnotation('targetLanguage'),
+                ['name' => 'targetLanguage', 'value' => 'es']
+            );
+            $this->assertEquals(
+                $tus[10]->getTarget(),
+                'Función de usuario de flujo de trabajo: '
+                . 'el papel asignado por defecto a todos los usuarios backend, no eliminable'
+            );
         } catch (tao_helpers_translation_TranslationException $e) {
-            $this->assertFalse(true, "No TranslationException should be thrown in testRDFAnnotations test.");
+            $this->fail('No TranslationException should be thrown in testRDFAnnotations test.');
         }
     }
 
@@ -591,8 +723,13 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $string  = "# This is a comment.\n";
         $string .= "#, flag1 composed-flag flag2";
         $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
-        $this->assertEquals($annotations, [tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is a comment.',
-            tao_helpers_translation_POTranslationUnit::FLAGS => 'flag1 composed-flag flag2']);
+        $this->assertEquals(
+            $annotations,
+            [
+                tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is a comment.',
+                tao_helpers_translation_POTranslationUnit::FLAGS => 'flag1 composed-flag flag2'
+            ]
+        );
 
         $string  = "# The first line of my comment continues...\n";
         $string .= "# At the second line.\n";
@@ -601,20 +738,33 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $string .= "#|  msgid previous-untranslated-string-singular\n";
         $string .= "#| msgid_plural previous-untranslated-string-plural\n";
         $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
-        $this->assertEquals($annotations, [tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "The first line of my comment continues...\nAt the second line.",
-            tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS => "Please do not touch this!",
-            tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGCTXT => "A previous testing context.",
-            tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID => "previous-untranslated-string-singular",
-            tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID_PLURAL => "previous-untranslated-string-plural"]);
+        $this->assertEquals(
+            $annotations,
+            [
+                tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS =>
+                    "The first line of my comment continues...\nAt the second line.",
+                tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS => "Please do not touch this!",
+                tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGCTXT => "A previous testing context.",
+                tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID => "previous-untranslated-string-singular",
+                tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID_PLURAL =>
+                    "previous-untranslated-string-plural"
+            ]
+        );
 
         $string  = "# هذا تعليق\n";
         $string .= "# مع خطوط متعددة في الداخل.\n";
         $string .= "#. لا تغير من فضلك!\n";
         $string .= "#| msgctxt السابقة السياق.";
         $annotations = tao_helpers_translation_POUtils::unserializeAnnotations($string);
-        $this->assertEquals($annotations, [tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "هذا تعليق\nمع خطوط متعددة في الداخل.",
-            tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS => "لا تغير من فضلك!",
-            tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGCTXT => "السابقة السياق."]);
+        $this->assertEquals(
+            $annotations,
+            [
+                tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS =>
+                    "هذا تعليق\nمع خطوط متعددة في الداخل.",
+                tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS => "لا تغير من فضلك!",
+                tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGCTXT => "السابقة السياق."
+            ]
+        );
 
         $string  = "^ This should not w#ork but the next...\n";
         $string .= "#, flag-read";
@@ -630,32 +780,56 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $tf = $reader->getTranslationFile();
         $tus = $tf->getTranslationUnits();
         $this->assertEquals(count($tus), 6);
-        $this->assertEquals($tus[0]->getAnnotations(), [tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is a comment',
-            'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
-            'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()]);
-        $this->assertEquals($tus[1]->getAnnotations(), [tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is another comment',
-            tao_helpers_translation_POTranslationUnit::FLAGS => 'flag1 composed-flag flag2 tao-public',
-            'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
-            'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()]);
-        $this->assertEquals($tus[2]->getAnnotations(), [tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "This is a multiline...\ncomment.",
-            'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
-            'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()]);
-        $this->assertEquals($tus[3]->getAnnotations(), ['sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
-            'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()]);
+        $this->assertEquals(
+            $tus[0]->getAnnotations(),
+            [
+                tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is a comment',
+                'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()
+            ]
+        );
+        $this->assertEquals(
+            $tus[1]->getAnnotations(),
+            [
+                tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'This is another comment',
+                tao_helpers_translation_POTranslationUnit::FLAGS => 'flag1 composed-flag flag2 tao-public',
+                'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()
+            ]
+        );
+        $this->assertEquals(
+            $tus[2]->getAnnotations(),
+            [
+                tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "This is a multiline...\ncomment.",
+                'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()
+            ]
+        );
+        $this->assertEquals(
+            $tus[3]->getAnnotations(),
+            [
+                'sourceLanguage' => tao_helpers_translation_Utils::getDefaultLanguage(),
+                'targetLanguage' => tao_helpers_translation_Utils::getDefaultLanguage()
+            ]
+        );
 
         // Test flag related interface on POTranslationUnit & POTranslationFile.
         $this->assertTrue($tus[5]->hasFlag('flag4'));
         $this->assertEquals($tus[5]->getFlags(), ['flag4']);
+
         $tus[5]->addFlag('new-flag');
         $this->assertTrue($tus[5]->hasFlag('new-flag'));
         $this->assertEquals($tus[5]->getFlags(), ['flag4', 'new-flag']);
+
         $tus[5]->addFlag('new-flag');
         $this->assertEquals($tus[5]->getFlags(), ['flag4', 'new-flag']);
+
         $tus[5]->addFlag('flag5');
         $this->assertEquals(
             $tus[5]->getAnnotation(tao_helpers_translation_POTranslationUnit::FLAGS),
             ['name' => tao_helpers_translation_POTranslationUnit::FLAGS, 'value' => 'flag4 new-flag flag5']
         );
+
         $tus[5]->removeFlag('new-flag');
         $this->assertEquals($tus[5]->getFlags(), ['flag4', 'flag5']);
 
@@ -686,8 +860,8 @@ class TranslationTest extends GenerisPhpUnitTestRunner
         $reader->read();
         $tf2 = $reader->getTranslationFile();
 
-        $this->assertEquals($tf1->count(), 6);
-        $this->assertEquals($tf2->count(), 6);
+        $this->assertEquals(6, $tf1->count());
+        $this->assertEquals(6, $tf2->count());
 
         $tus1 = $tf1->getTranslationUnits();
         $tus2 = $tf2->getTranslationUnits();
@@ -705,36 +879,48 @@ class TranslationTest extends GenerisPhpUnitTestRunner
     public function testPOAnnotationsWriting()
     {
         // Test flag utilities.
-        $comment = '';
-        $this->assertEquals(tao_helpers_translation_POUtils::addFlag($comment, 'tao-public'), 'tao-public');
-
-        $comment = 'no-error test-flag';
-        $this->assertEquals(tao_helpers_translation_POUtils::addFlag($comment, 'tao-public'), 'no-error test-flag tao-public');
-
-        $comment = 'foo bar code';
-        $this->assertEquals(tao_helpers_translation_POUtils::addFlag($comment, 'bar '), 'foo bar code');
-
+        $this->assertEquals(
+            tao_helpers_translation_POUtils::addFlag('', 'tao-public'),
+            'tao-public'
+        );
+        $this->assertEquals(
+            tao_helpers_translation_POUtils::addFlag('no-error test-flag', 'tao-public'),
+            'no-error test-flag tao-public'
+        );
+        $this->assertEquals(
+            tao_helpers_translation_POUtils::addFlag('foo bar code', 'bar '),
+            'foo bar code'
+        );
 
         // Test PO comments serialization.
-        $annotations = [tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'A single line translator comment.'];
-        $comment = '# A single line translator comment.';
-        $this->assertEquals(tao_helpers_translation_POUtils::serializeAnnotations($annotations), $comment);
+        $annotations = [
+            tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => 'A single line translator comment.'
+        ];
+        $this->assertEquals(
+            tao_helpers_translation_POUtils::serializeAnnotations($annotations),
+            '# A single line translator comment.'
+        );
 
-        $annotations = [tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS => "A multi line translator comment...\nWith a second line.",
+        $annotations = [
+            tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS =>
+                "A multi line translator comment...\nWith a second line.",
             tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS => "An extracted comment.",
-            tao_helpers_translation_POTranslationUnit::FLAGS => "tao-public foo-bar-code php-format"];
-        $comment = "# A multi line translator comment...\n# With a second line.\n#. An extracted comment.\n#, tao-public foo-bar-code php-format";
-        $this->assertEquals(tao_helpers_translation_POUtils::serializeAnnotations($annotations), $comment);
+            tao_helpers_translation_POTranslationUnit::FLAGS => "tao-public foo-bar-code php-format"
+        ];
+
+        $this->assertEquals(
+            tao_helpers_translation_POUtils::serializeAnnotations($annotations),
+            "# A multi line translator comment...\n# With a second line.\n"
+            . "#. An extracted comment.\n#, tao-public foo-bar-code php-format"
+        );
 
         $annotations = [tao_helpers_translation_POTranslationUnit::FLAGS => "tao-public"];
         $comment = "#, tao-public";
         $this->assertEquals(tao_helpers_translation_POUtils::serializeAnnotations($annotations), $comment);
     }
 
-
     public function testParsingSource()
     {
-
         $class = new ReflectionClass('tao_helpers_translation_SourceCodeExtractor');
         $method = $class->getMethod('getTranslationPhrases');
         $method->setAccessible(true);
@@ -747,23 +933,26 @@ class TranslationTest extends GenerisPhpUnitTestRunner
             [ 'Maximum choices reached' ],
             $method->invokeArgs($translator, [ '__(\'Maximum choices reached\'),' ])
         );
-
-
         $this->assertEquals(
             [ 'Maximum choices reached' ],
             $method->invokeArgs($translator, [ '__("Maximum choices reached"),' ])
         );
-
         $this->assertEquals(
             [ "Item \\'%s\\' has no mode" ],
             $method->invokeArgs($translator, [ "__('Item \\'%s\\' has no mode')," ])
         );
 
         $this->assertEquals(
-            [ 'Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button "Add file(s)".' ],
+            [
+                'Please select a media file (video or audio) from the resource manager.' .
+                ' You can add files from your computer with the button "Add file(s)".'
+            ],
             $method->invokeArgs(
                 $translator,
-                [ "title : __('Please select a media file (video or audio) from the resource manager. You can add files from your computer with the button \"Add file(s)\".')," ]
+                [
+                    "title : __('Please select a media file (video or audio) from the resource manager." .
+                    " You can add files from your computer with the button \"Add file(s)\".'),"
+                ]
             )
         );
 
@@ -771,7 +960,10 @@ class TranslationTest extends GenerisPhpUnitTestRunner
             [ 'You must select exactly %d choice', 'You must select exactly %d choices' ],
             $method->invokeArgs(
                 $translator,
-                [ "msg = (max <= 1) ? __('You must select exactly %d choice', max) : __('You must select exactly %d choices', max);" ]
+                [
+                    "msg = (max <= 1) ? __('You must select exactly %d choice', max)" .
+                    " : __('You must select exactly %d choices', max);"
+                ]
             )
         );
     }
