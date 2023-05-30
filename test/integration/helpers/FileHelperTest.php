@@ -31,7 +31,6 @@ use ZipArchive;
 /**
  * @author Cédric Alfonsi, <taosupport@tudor.lu>
  * @package tao
-
  */
 class FileHelperTest extends TaoPhpUnitTestRunner
 {
@@ -87,9 +86,18 @@ class FileHelperTest extends TaoPhpUnitTestRunner
 
     public function testScanDir()
     {
-        $this->assertEquals(count(tao_helpers_File::scanDir($this->envPath, ['recursive' => true])), 23);
-        $this->assertEquals(count(tao_helpers_File::scanDir($this->envPath, ['only' => tao_helpers_File::$DIR, 'recursive' => true])), 3);
-        $this->assertEquals(count(tao_helpers_File::scanDir($this->envPath, ['only' => tao_helpers_File::$FILE, 'recursive' => true])), 20);
+        $this->assertCount(
+            23,
+            tao_helpers_File::scanDir($this->envPath, ['recursive' => true])
+        );
+        $this->assertCount(
+            3,
+            tao_helpers_File::scanDir($this->envPath, ['only' => tao_helpers_File::$DIR, 'recursive' => true])
+        );
+        $this->assertCount(
+            20,
+            tao_helpers_File::scanDir($this->envPath, ['only' => tao_helpers_File::$FILE, 'recursive' => true])
+        );
     }
 
     public function testTempDir()
@@ -126,7 +134,9 @@ class FileHelperTest extends TaoPhpUnitTestRunner
         $this->assertTrue(is_dir($testfolder));
 
         $zip = new ZipArchive();
-        $this->assertTrue($zip->open(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR . 'fileHelper.zip'));
+        $this->assertTrue(
+            $zip->open(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR . 'fileHelper.zip')
+        );
         $this->assertTrue($zip->extractTo($testfolder));
         $zip->close();
 
@@ -215,7 +225,12 @@ class FileHelperTest extends TaoPhpUnitTestRunner
         $zipArchive->open($archivePath, ZipArchive::CREATE);
         $zipArchive->addFromString('path/to/data/text.txt', 'some text');
         $zipArchive->addFromString('path/to/log.log', 'some logs');
-        $this->assertEquals(['path/to/data/text.txt', 'path/to/log.log'], tao_helpers_File::getAllZipNames($zipArchive));
+
+        $this->assertEquals(
+            ['path/to/data/text.txt', 'path/to/log.log'],
+            tao_helpers_File::getAllZipNames($zipArchive)
+        );
+
         $zipArchive->close();
     }
 
