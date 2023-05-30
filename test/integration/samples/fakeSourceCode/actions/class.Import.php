@@ -32,15 +32,7 @@
  */
 class tao_actions_form_Import extends tao_helpers_form_FormContainer
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
     /**
-     * Short description of attribute formats
-     *
-     * @access protected
      * @var array
      */
     protected $formats = ['csv' => 'CSV', 'rdf' => 'RDF'];
@@ -48,24 +40,16 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
     /**
      * Short description of attribute UPLOAD_MAX
      *
-     * @access protected
      * @var int
      */
     public const UPLOAD_MAX = 3000000;
 
-    // --- OPERATIONS ---
-
     /**
-     * Short description of method initForm
-     *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return mixed
      */
     public function initForm()
     {
-
-
         $this->form = tao_helpers_form_FormFactory::getForm('import');
 
         $nextButton = true;
@@ -77,30 +61,32 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
 
         $submitElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
         if ($nextButton) {
-            $submitElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-next"></span> ' . __('Next') . '</a>');
+            $submitElt->setValue(
+                '<a href="#" class="form-submitter btn-success small"><span class="icon-next"></span> '
+                . __('Next') . '</a>'
+            );
         } else {
-            $submitElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-import"></span> ' . __('Import') . '</a>');
+            $submitElt->setValue(
+                '<a href="#" class="form-submitter btn-success small"><span class="icon-import"></span> '
+                . __('Import') . '</a>'
+            );
         }
+
         $this->form->setActions([$submitElt], 'bottom');
         $this->form->setActions([], 'top');
     }
 
     /**
-     * Short description of method initElements
-     *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return mixed
      */
     public function initElements()
     {
-
-
-        //create the element to select the import format
+        // create the element to select the import format
         $formatElt = tao_helpers_form_FormFactory::getElement('format', 'Radiobox');
         $formatElt->setDescription(__(' Please select the input data format to import '));
 
-        //mandatory field
+        // mandatory field
         $formatElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         $formatElt->setOptions($this->formats);
 
@@ -130,16 +116,11 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
     }
 
     /**
-     * Short description of method initCSVElements
-     *
-     * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return mixed
      */
     protected function initCSVElements()
     {
-
-
         $adapter = new tao_helpers_data_GenerisAdapterCsv();
         $options = $adapter->getOptions();
 
@@ -167,8 +148,8 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
             }
             $this->form->addElement($optElt);
         }
-        $this->form->createGroup('options', __('CSV Options'), array_keys($options));
 
+        $this->form->createGroup('options', __('CSV Options'), array_keys($options));
 
         $descElt = tao_helpers_form_FormFactory::getElement('csv_desc', 'Label');
         $descElt->setValue(__("Please upload a CSV file formated as \"defined\" %min by %max the options above."));
@@ -183,8 +164,23 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
             $fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty', ['message' => '']));
         }
         $fileElt->addValidators([
-            tao_helpers_form_FormFactory::getValidator('FileMimeType', ['mimetype' => ['text/plain', 'text/csv', 'text/comma-separated-values', 'application/csv', 'application/csv-tab-delimited-table'], 'extension' => ['csv', 'txt']]),
-            tao_helpers_form_FormFactory::getValidator('FileSize', ['max' => self::UPLOAD_MAX])
+            tao_helpers_form_FormFactory::getValidator(
+                'FileMimeType',
+                [
+                    'mimetype' => [
+                        'text/plain',
+                        'text/csv',
+                        'text/comma-separated-values',
+                        'application/csv',
+                        'application/csv-tab-delimited-table'
+                    ],
+                    'extension' => ['csv', 'txt']
+                ]
+            ),
+            tao_helpers_form_FormFactory::getValidator(
+                'FileSize',
+                ['max' => self::UPLOAD_MAX]
+            )
         ]);
 
         $this->form->addElement($fileElt);
@@ -196,16 +192,12 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
     }
 
     /**
-     * Short description of method initRDFElements
-     *
      * @access protected
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return mixed
      */
     protected function initRDFElements()
     {
-
-
         $descElt = tao_helpers_form_FormFactory::getElement('rdf_desc', 'Label');
         $descElt->setValue(__("Please upload \t an RDF file.\n\n"));
         $this->form->addElement($descElt);
@@ -218,8 +210,19 @@ class tao_actions_form_Import extends tao_helpers_form_FormContainer
         } else {
             $fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty', ['message' => '']));
         }
+
         $fileElt->addValidators([
-            tao_helpers_form_FormFactory::getValidator('FileMimeType', ['mimetype' => ['text/xml', 'application/rdf+xml', 'application/xml'], 'extension' => ['rdf', 'rdfs']]),
+            tao_helpers_form_FormFactory::getValidator(
+                'FileMimeType',
+                [
+                    'mimetype' => [
+                        'text/xml',
+                        'application/rdf+xml',
+                        'application/xml'
+                    ],
+                    'extension' => ['rdf', 'rdfs']
+                ]
+            ),
             tao_helpers_form_FormFactory::getValidator('FileSize', ['max' => self::UPLOAD_MAX])
         ]);
 

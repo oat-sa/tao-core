@@ -34,19 +34,13 @@ use oat\tao\model\TaoOntology;
  */
 class tao_actions_form_Search extends tao_actions_form_Instance
 {
-    // --- ASSOCIATIONS ---
-
-
-    // --- ATTRIBUTES ---
-
-    // --- OPERATIONS ---
-
     /**
      * Initialize the form
      *
      * @access protected
-     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return mixed
+     * @throws common_Exception
+     * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      */
     protected function initForm()
     {
@@ -62,7 +56,10 @@ class tao_actions_form_Search extends tao_actions_form_Instance
 
         //search action in toolbar
         $searchElt = tao_helpers_form_FormFactory::getElement('search', 'Free');
-        $searchElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-search"></span> ' . __('Search') . '</a>');
+        $searchElt->setValue(
+            '<a href="#" class="form-submitter btn-success small"><span class="icon-search"></span> '
+            . __('Search') . '</a>'
+        );
         $this->form->setActions([$searchElt], 'top');
         $this->form->setActions([$searchElt], 'bottom');
     }
@@ -93,7 +90,12 @@ class tao_actions_form_Search extends tao_actions_form_Instance
         $langElt = tao_helpers_form_FormFactory::getElement('lang', 'Combobox');
         $langElt->setDescription(__('Language'));
 
-        $languages = array_merge(['  '], tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)));
+        $languages = array_merge(
+            ['  '],
+            tao_helpers_I18n::getAvailableLangsByUsage(
+                new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)
+            )
+        );
         $langElt->setOptions($languages);
         $langElt->setValue(0);
         $this->form->addElement($langElt);
@@ -108,12 +110,15 @@ class tao_actions_form_Search extends tao_actions_form_Instance
         $this->form->addElement($descElt);
         $filters[] = 'desc';
 
-        $defaultProperties  = tao_helpers_form_GenerisFormFactory::getDefaultProperties();
-        $classProperties    = tao_helpers_form_GenerisFormFactory::getClassProperties($this->clazz, $this->getTopClazz());
+        $defaultProperties = tao_helpers_form_GenerisFormFactory::getDefaultProperties();
+        $classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties(
+            $this->clazz,
+            $this->getTopClazz()
+        );
 
         $properties = array_merge($defaultProperties, $classProperties);
 
-        (isset($this->options['recursive'])) ? $recursive = $this->options['recursive'] : $recursive = false;
+        $recursive = (isset($this->options['recursive']) ? $this->options['recursive'] : false);
         if ($recursive) {
             foreach ($this->clazz->getSubClasses(true) as $subClass) {
                 $properties = array_merge($subClass->getProperties(false), $properties);

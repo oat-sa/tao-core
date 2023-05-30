@@ -71,7 +71,13 @@ class RdsUserImportServiceTest extends TestCase
             ->getMockForAbstractClass();
 
         $resource = $this->getMockBuilder(core_kernel_classes_Resource::class)
-            ->setMethods(['getUri', 'searchInstances', 'createInstanceWithProperties', 'removePropertyValues', 'editPropertyValues'])
+            ->setMethods([
+                'getUri',
+                'searchInstances',
+                'createInstanceWithProperties',
+                'removePropertyValues',
+                'editPropertyValues'
+            ])
             ->disableOriginalConstructor()
             ->getMock();
         $resource
@@ -135,11 +141,13 @@ class RdsUserImportServiceTest extends TestCase
                         'results' => [],
                         'properties' => [
                             'http://www.w3.org/2000/01/rdf-schema#label' => 'user1',
-                            'http://www.tao.lu/Ontologies/generis.rdf#userUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
+                            'http://www.tao.lu/Ontologies/generis.rdf#userUILg' =>
+                                'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
                             'http://www.tao.lu/Ontologies/generis.rdf#login' => 'user1',
                             'http://www.tao.lu/Ontologies/generis.rdf#userRoles' => ['role1'],
                             'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
-                            'http://www.tao.lu/Ontologies/generis.rdf#userDefLg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
+                            'http://www.tao.lu/Ontologies/generis.rdf#userDefLg' =>
+                                'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
                             'http://www.tao.lu/Ontologies/generis.rdf#userFirstName' => 'user first name1',
                             'http://www.tao.lu/Ontologies/generis.rdf#userLastName' => 'user last name1',
                             'http://www.tao.lu/Ontologies/generis.rdf#userMail' => 'user@mail.com1',],
@@ -148,11 +156,13 @@ class RdsUserImportServiceTest extends TestCase
                         'results' => [ 'one'],
                         'properties' => [
                             'http://www.w3.org/2000/01/rdf-schema#label' => 'user2',
-                            'http://www.tao.lu/Ontologies/generis.rdf#userUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
+                            'http://www.tao.lu/Ontologies/generis.rdf#userUILg' =>
+                                'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
                             'http://www.tao.lu/Ontologies/generis.rdf#login' => 'user2',
                             'http://www.tao.lu/Ontologies/generis.rdf#userRoles' => ['role1'],
                             'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
-                            'http://www.tao.lu/Ontologies/generis.rdf#userDefLg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
+                            'http://www.tao.lu/Ontologies/generis.rdf#userDefLg' =>
+                                'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
                             'http://www.tao.lu/Ontologies/generis.rdf#userFirstName' => 'user first name2',
                             'http://www.tao.lu/Ontologies/generis.rdf#userLastName' => 'user last name2',
                             'http://www.tao.lu/Ontologies/generis.rdf#userMail' => 'user@mail.com2',
