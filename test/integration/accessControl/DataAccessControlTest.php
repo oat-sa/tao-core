@@ -3,6 +3,7 @@
 namespace oat\tao\test\integration\accessControl;
 
 use common_session_SessionManager;
+use core_kernel_classes_Resource;
 use core_kernel_users_Service;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\GenerisRdf;
@@ -276,7 +277,7 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
      * Search database for user by his login
      *
      * @param $login
-     * @return \core_kernel_classes_Resource|mixed
+     * @return core_kernel_classes_Resource|mixed
      */
     private function getUserByLogin($login)
     {
@@ -304,7 +305,7 @@ class DataAccessControlTest extends GenerisPhpUnitTestRunner
      * Search database for items by label
      *
      * @param $label
-     * @return \core_kernel_classes_Resource[]
+     * @return core_kernel_classes_Resource[]
      */
     private function getItemByLabel($label)
     {
@@ -363,7 +364,7 @@ class FreeAccessTestPermissionProvider implements PermissionInterface
         return [];
     }
 
-    public function onResourceCreated(\core_kernel_classes_Resource $resource)
+    public function onResourceCreated(core_kernel_classes_Resource $resource)
     {
         // TODO: Implement onResourceCreated() method.
     }
@@ -403,7 +404,7 @@ class DACTestPermissionProvider implements PermissionInterface
         ];
     }
 
-    public function onResourceCreated(\core_kernel_classes_Resource $resource)
+    public function onResourceCreated(core_kernel_classes_Resource $resource)
     {
         // TODO: Implement onResourceCreated() method.
     }
@@ -433,7 +434,7 @@ class NoAccessTestPermissionProvider implements PermissionInterface
         ];
     }
 
-    public function onResourceCreated(\core_kernel_classes_Resource $resource)
+    public function onResourceCreated(core_kernel_classes_Resource $resource)
     {
         // TODO: Implement onResourceCreated() method.
     }
