@@ -20,7 +20,6 @@
  * @author Konstantin Sasim <sasim@1pt.com>
  * @license GPLv2
  * @package tao
- *
  */
 
 use oat\tao\model\controllerMap\ActionNotFoundException;
@@ -210,9 +209,18 @@ class FactoryTest extends TaoPhpUnitTestRunner
     {
         $methodName = 'isControllerClassNameValid';
 
-        $this->assertFalse($this->invokeProtectedMethod($this->factory, $methodName, ['FakeStandaloneController']), 'has valid descendant');
-        $this->assertFalse($this->invokeProtectedMethod($this->factory, $methodName, ['FakeAbstractController']), 'is not abstract');
-        $this->assertTrue($this->invokeProtectedMethod($this->factory, $methodName, ['FakeValidController']), 'is valid');
+        $this->assertFalse(
+            $this->invokeProtectedMethod($this->factory, $methodName, ['FakeStandaloneController']),
+            'has valid descendant'
+        );
+        $this->assertFalse(
+            $this->invokeProtectedMethod($this->factory, $methodName, ['FakeAbstractController']),
+            'is not abstract'
+        );
+        $this->assertTrue(
+            $this->invokeProtectedMethod($this->factory, $methodName, ['FakeValidController']),
+            'is valid'
+        );
     }
 
     /**

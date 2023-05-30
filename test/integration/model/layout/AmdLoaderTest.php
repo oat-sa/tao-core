@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\test\integration\model\layout;
@@ -38,7 +37,6 @@ class LayoutTest extends TaoPhpUnitTestRunner
      */
     public function testAmdLoader($configUrl, $requireJsUrl, $bootstrapUrl, $bundle, $controller, $params, $result)
     {
-
         $loader = new AmdLoader($configUrl, $requireJsUrl, $bootstrapUrl);
         if ($bundle) {
             $this->assertEquals($loader->getBundleLoader($bundle, $controller, $params), $result);
@@ -53,14 +51,47 @@ class LayoutTest extends TaoPhpUnitTestRunner
     public function amdLoaderProvider()
     {
         return [
-            ['tao/Config/config', 'lib/require.js', 'loader/bootstrap', 'loader/main.min.js', 'controller/main', null,
-             '<script id="amd-loader" data-config="tao/Config/config" src="loader/main.min.js" data-controller="controller/main"></script>'],
-            ['tao/Config/config', 'lib/require.js', 'loader/bootstrap', false, 'controller/main', null,
-             '<script id="amd-loader" data-config="tao/Config/config" src="lib/require.js" data-main="loader/bootstrap" data-controller="controller/main"></script>'],
-            ['tao/Config/config', 'lib/require.js', 'loader/bootstrap', 'loader/login.min.js', 'controller/login', [ 'foo' => 'bar'],
-             '<script id="amd-loader" data-config="tao/Config/config" src="loader/login.min.js" data-controller="controller/login" data-params="{&quot;foo&quot;:&quot;bar&quot;}"></script>'],
-            ['tao/Config/config', 'lib/require.js', 'loader/bootstrap', false, 'controller/login', [ 'foo' => 'bar'],
-             '<script id="amd-loader" data-config="tao/Config/config" src="lib/require.js" data-main="loader/bootstrap" data-controller="controller/login" data-params="{&quot;foo&quot;:&quot;bar&quot;}"></script>'],
+            [
+                'tao/Config/config',
+                'lib/require.js',
+                'loader/bootstrap',
+                'loader/main.min.js',
+                'controller/main',
+                null,
+                '<script id="amd-loader" data-config="tao/Config/config" src="loader/main.min.js" '
+                . 'data-controller="controller/main"></script>'
+            ],
+            [
+                'tao/Config/config',
+                'lib/require.js',
+                'loader/bootstrap',
+                false,
+                'controller/main',
+                null,
+                '<script id="amd-loader" data-config="tao/Config/config" src="lib/require.js" '
+                . 'data-main="loader/bootstrap" data-controller="controller/main"></script>'
+            ],
+            [
+                'tao/Config/config',
+                'lib/require.js',
+                'loader/bootstrap',
+                'loader/login.min.js',
+                'controller/login',
+                ['foo' => 'bar'],
+                '<script id="amd-loader" data-config="tao/Config/config" src="loader/login.min.js" '
+                . 'data-controller="controller/login" data-params="{&quot;foo&quot;:&quot;bar&quot;}"></script>'
+            ],
+            [
+                'tao/Config/config',
+                'lib/require.js',
+                'loader/bootstrap',
+                false,
+                'controller/login',
+                ['foo' => 'bar'],
+                '<script id="amd-loader" data-config="tao/Config/config" src="lib/require.js" '
+                . 'data-main="loader/bootstrap" data-controller="controller/login" '
+                . 'data-params="{&quot;foo&quot;:&quot;bar&quot;}"></script>'
+            ],
         ];
     }
 }
