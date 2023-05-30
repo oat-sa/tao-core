@@ -116,7 +116,10 @@ class RdfValueCollectionRepositoryTest extends TestCase
     public function testFindAll(ValueCollectionSearchRequest $searchRequest): void
     {
         $result = new ValueCollection(
-            self::COLLECTION_URI, new Value(1, '1', 'Element 1'), new Value(2, '2', 'Element 2'));
+            self::COLLECTION_URI,
+            new Value(1, '1', 'Element 1'),
+            new Value(2, '2', 'Element 2')
+        );
 
         $this->expectQuery($searchRequest, $result);
 
