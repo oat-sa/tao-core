@@ -85,7 +85,9 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
                     try {
                         $dataRead = $injector->read($dataSource);
                         $injector->write($resource, $dataRead, $dryrun);
-                        $injectorReport = \common_report_Report::createSuccess('Injector "' . $name . '" successfully ran.');
+                        $injectorReport = \common_report_Report::createSuccess(
+                            'Injector "' . $name . '" successfully ran.'
+                        );
                     } catch (MetadataInjectorReadException $e) {
                         $injectorReport = \common_report_Report::createFailure(
                             'Injector "' . $name . '" failed to run at read: ' . $e->getMessage()

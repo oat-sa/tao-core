@@ -55,7 +55,10 @@ class SqlCreatorTest extends TestCase
     protected function setUp(): void
     {
         $this->exportedTable = new ExportedTable(
-            $this->rowsFixture, $this->typeMappingFixture, $this->tableNameFixture);
+            $this->rowsFixture,
+            $this->typeMappingFixture,
+            $this->tableNameFixture
+        );
     }
 
     public function testGetTableName()

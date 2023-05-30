@@ -60,7 +60,9 @@ class QueueMigrationService extends ConfigurableService
             }
         }
 
-        $report->add(common_report_Report::createSuccess('To repeat this process to other units please provide -rp flag'));
+        $report->add(
+            common_report_Report::createSuccess('To repeat this process to other units please provide -rp flag')
+        );
 
         return null;
     }

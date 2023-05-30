@@ -78,7 +78,10 @@ class RdfLockoutStorage implements LockoutStorage
      */
     public function setLockedStatus($login, $by)
     {
-        $this->getUser($login)->editPropertyValues($this->getProperty(self::PROPERTY_USER_ACCOUNT_STATUS), self::PROPERTY_USER_STATUS_LOCKED);
+        $this->getUser($login)->editPropertyValues(
+            $this->getProperty(self::PROPERTY_USER_ACCOUNT_STATUS),
+            self::PROPERTY_USER_STATUS_LOCKED
+        );
         $this->getUser($login)->editPropertyValues($this->getProperty(self::PROPERTY_USER_LOCKED_BY), $by);
     }
 
@@ -100,7 +103,11 @@ class RdfLockoutStorage implements LockoutStorage
      */
     public function getFailures($login)
     {
-        return (intval((string)$this->getUser($login)->getOnePropertyValue($this->getProperty(self::PROPERTY_USER_LOGON_FAILURES))));
+        return intval(
+            (string)$this->getUser($login)->getOnePropertyValue(
+                $this->getProperty(self::PROPERTY_USER_LOGON_FAILURES)
+            )
+        );
     }
 
     /**
@@ -130,7 +137,9 @@ class RdfLockoutStorage implements LockoutStorage
      */
     public function getLastFailureTime($login)
     {
-        return $this->getUser($login)->getOnePropertyValue($this->getProperty(self::PROPERTY_USER_LAST_LOGON_FAILURE_TIME));
+        return $this->getUser($login)->getOnePropertyValue(
+            $this->getProperty(self::PROPERTY_USER_LAST_LOGON_FAILURE_TIME)
+        );
     }
 
     /**

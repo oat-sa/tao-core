@@ -65,7 +65,12 @@ class UpdateExtensions extends \common_ext_UpdateExtensions
         // regenerate locales
         $files = \tao_models_classes_LanguageService::singleton()->generateAll();
         if (count($files) > 0) {
-            $report->add(new Report(Report::TYPE_SUCCESS, __('Successfully updated %s client translation bundles', count($files))));
+            $report->add(
+                new Report(
+                    Report::TYPE_SUCCESS,
+                    __('Successfully updated %s client translation bundles', count($files))
+                )
+            );
         } else {
             $report->add(new Report(Report::TYPE_ERROR, __('No client translation bundles updated')));
         }

@@ -166,7 +166,8 @@ class PluginModuleTest extends TestCase
      */
     public function testJsonSerialize()
     {
-        $expected = '{"id":"bar","module":"bar\/bar","bundle":"plugins\/bundle.min","position":12,"name":"Bar","description":"The best bar ever","category":"dummy","active":false,"tags":["dummy","goofy"]}';
+        $expected = '{"id":"bar","module":"bar\/bar","bundle":"plugins\/bundle.min","position":12,"name":"Bar",'
+            . '"description":"The best bar ever","category":"dummy","active":false,"tags":["dummy","goofy"]}';
 
         $PluginModule = new PluginModule('bar', 'bar/bar', 'dummy', [
             'name' => 'Bar',

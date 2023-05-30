@@ -112,7 +112,8 @@ interface UserLocks
      *   boolean        array.locked - returns true if user is locked else false
      *   boolean        array.auto - returns true if user auto locked (locked by himself) else false
      *   string         array.status - human readable string with actual account status
-     *   DateInterval   array.remaining - returns valid period of time that left before user will be unlocked, may be null if not applicable
+     *   DateInterval   array.remaining - returns valid period of time that left before user will be unlocked, may be
+     *                                    null if not applicable
      *   boolean        array.lockable - returns true if user can be locked else false
      * @throws \core_kernel_users_Exception
      */

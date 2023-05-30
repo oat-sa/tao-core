@@ -62,6 +62,8 @@ class tao_models_classes_HttpDigestAuthAdapter implements common_user_auth_Adapt
         $trialPassword = 'admin';
         $A1 = md5($trialLogin . ':' . $this::realm . ':' . $trialPassword);
         $A2 = md5($_SERVER['REQUEST_METHOD'] . ':' . $data['uri']);
-        $valid_response = md5($A1 . ':' . $data['nonce'] . ':' . $data['nc'] . ':' . $data['cnonce'] . ':' . $data['qop'] . ':' . $A2);
+        $valid_response = md5(
+            $A1 . ':' . $data['nonce'] . ':' . $data['nc'] . ':' . $data['cnonce'] . ':' . $data['qop'] . ':' . $A2
+        );
     }
 }

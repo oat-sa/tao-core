@@ -37,8 +37,12 @@ class GenerisIndexUpdater extends ConfigurableService implements IndexUpdaterInt
         return;
     }
 
-    public function updatePropertyValue(string $typeOrId, array $parentClasses, string $propertyName, array $value): void
-    {
+    public function updatePropertyValue(
+        string $typeOrId,
+        array $parentClasses,
+        string $propertyName,
+        array $value
+    ): void {
         return;
     }
 

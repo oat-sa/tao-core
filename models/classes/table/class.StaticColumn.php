@@ -32,7 +32,8 @@
  * @package tao
 
  */
-class tao_models_classes_table_StaticColumn extends tao_models_classes_table_Column implements tao_models_classes_table_DataProvider
+class tao_models_classes_table_StaticColumn extends tao_models_classes_table_Column implements
+    tao_models_classes_table_DataProvider
 {
     // --- ASSOCIATIONS ---
 

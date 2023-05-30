@@ -48,7 +48,12 @@ interface IndexUpdaterInterface
      * @param string $propertyName
      * @param array $value
      */
-    public function updatePropertyValue(string $typeOrId, array $parentClasses, string $propertyName, array $value): void;
+    public function updatePropertyValue(
+        string $typeOrId,
+        array $parentClasses,
+        string $propertyName,
+        array $value
+    ): void;
 
     /**
      * @param string $class

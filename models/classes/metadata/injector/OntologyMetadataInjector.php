@@ -118,7 +118,8 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
                 \common_Logger::d('Error on injector "' . __CLASS__ . '" with reader "' . $name . '" : ' . $error);
             }
             throw new MetadataInjectorReadException(
-                'Injector "' . __CLASS__ . '" cannot read all required values from readers: ' . implode(', ', array_keys($errors))
+                'Injector "' . __CLASS__ . '" cannot read all required values from readers: '
+                    . implode(', ', array_keys($errors))
             );
         }
 

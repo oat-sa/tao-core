@@ -64,7 +64,9 @@ class ArrayHelperTest extends TestCase
     public function testContainsOnlyValue($value, array $container, $strict, $exceptAtIndex, $expectedValue)
     {
         $this->assertSame(
-            $expectedValue, \tao_helpers_Array::containsOnlyValue($value, $container, $strict, $exceptAtIndex));
+            $expectedValue,
+            \tao_helpers_Array::containsOnlyValue($value, $container, $strict, $exceptAtIndex)
+        );
     }
 
     public function containsOnlyValueProvider()
@@ -90,13 +92,27 @@ class ArrayHelperTest extends TestCase
      * @dataProvider arrayContainsOnlyValueProvider
      */
     public function testArraysContainOnlyValue(
-        array $containers, $value, $exceptNContainers, array $exceptAtIndex, $expectedInvalidContainers, $expectedValidContainers, $expected)
-    {
+        array $containers,
+        $value,
+        $exceptNContainers,
+        array $exceptAtIndex,
+        $expectedInvalidContainers,
+        $expectedValidContainers,
+        $expected
+    ) {
         $invalidContainers = [];
         $validContainers = [];
         $this->assertSame(
-            $expected, \tao_helpers_Array::arraysContainOnlyValue(
-                $containers, $value, $exceptNContainers, $exceptAtIndex, $invalidContainers, $validContainers));
+            $expected,
+            \tao_helpers_Array::arraysContainOnlyValue(
+                $containers,
+                $value,
+                $exceptNContainers,
+                $exceptAtIndex,
+                $invalidContainers,
+                $validContainers
+            )
+        );
         $this->assertEquals($expectedInvalidContainers, $invalidContainers);
         $this->assertEquals($expectedValidContainers, $validContainers);
     }
@@ -1033,10 +1049,15 @@ class ArrayHelperTest extends TestCase
      * @dataProvider countConsistentColumnsProvider
      */
     public function testCountConsistentColumns(
-        array $matrix, array $ignoreValues, $expected, $emptyIsConsistent = false)
-    {
+        array $matrix,
+        array $ignoreValues,
+        $expected,
+        $emptyIsConsistent = false
+    ) {
         $this->assertSame(
-            $expected, \tao_helpers_Array::countConsistentColumns($matrix, $ignoreValues, $emptyIsConsistent));
+            $expected,
+            \tao_helpers_Array::countConsistentColumns($matrix, $ignoreValues, $emptyIsConsistent)
+        );
     }
 
     public function countConsistentColumnsProvider()

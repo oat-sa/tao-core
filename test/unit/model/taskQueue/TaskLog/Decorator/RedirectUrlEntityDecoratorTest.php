@@ -111,7 +111,11 @@ class RedirectUrlEntityDecoratorTest extends TestCase
             $this->getFixtureEntityData(),
             [
                 'redirectUrl' => _url(
-                    'redirectTaskToInstance', 'Redirector', 'taoBackOffice', ['taskId' => $entity->getId()])
+                    'redirectTaskToInstance',
+                    'Redirector',
+                    'taoBackOffice',
+                    ['taskId' => $entity->getId()]
+                )
             ]
         );
 

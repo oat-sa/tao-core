@@ -76,7 +76,9 @@ class ExceptionInterpreterTest extends TestCase
         $this->assertSame($expectedHttpStatus, $this->getInaccessibleProperty($exceptionInterpreter, 'returnHttpCode'));
         $this->assertSame($expectedTrace, $exceptionInterpreter->getTrace());
         $this->assertSame(
-            $expectedResponseClassName, $this->getInaccessibleProperty($exceptionInterpreter, 'responseClassName'));
+            $expectedResponseClassName,
+            $this->getInaccessibleProperty($exceptionInterpreter, 'responseClassName')
+        );
     }
 
     /**

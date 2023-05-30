@@ -168,7 +168,13 @@ abstract class AbstractModuleService extends ConfigurableService
             if (is_array($categoryModules)) {
                 $count += $this->registerModules($categoryModules);
             } else {
-                throw new \common_exception_InvalidArgumentType(self::class, __FUNCTION__, 0, 'array', $categoryModules);
+                throw new \common_exception_InvalidArgumentType(
+                    self::class,
+                    __FUNCTION__,
+                    0,
+                    'array',
+                    $categoryModules
+                );
             }
         }
         return $count;

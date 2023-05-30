@@ -44,8 +44,13 @@ class OntologyIndexService
      * @param unknown $isDefaultSearchable
      * @return OntologyIndex
      */
-    public static function createIndex(\core_kernel_classes_Property $property, $identifier, \core_kernel_classes_Resource $tokenizer, $isFuzzyMatching, $isDefaultSearchable)
-    {
+    public static function createIndex(
+        \core_kernel_classes_Property $property,
+        $identifier,
+        \core_kernel_classes_Resource $tokenizer,
+        $isFuzzyMatching,
+        $isDefaultSearchable
+    ) {
         $class = new \core_kernel_classes_Class(OntologyIndex::RDF_TYPE);
         $existingIndex = self::getIndexById($identifier);
         if (!is_null($existingIndex)) {
@@ -56,8 +61,12 @@ class OntologyIndexService
             OntologyRdfs::RDFS_LABEL => $identifier,
             OntologyIndex::PROPERTY_INDEX_IDENTIFIER => $identifier,
             OntologyIndex::PROPERTY_INDEX_TOKENIZER => $tokenizer,
-            OntologyIndex::PROPERTY_INDEX_FUZZY_MATCHING => $isFuzzyMatching ? GenerisRdf::GENERIS_TRUE : GenerisRdf::GENERIS_FALSE,
-            OntologyIndex::PROPERTY_DEFAULT_SEARCH => $isDefaultSearchable ? GenerisRdf::GENERIS_TRUE : GenerisRdf::GENERIS_FALSE
+            OntologyIndex::PROPERTY_INDEX_FUZZY_MATCHING => $isFuzzyMatching
+                ? GenerisRdf::GENERIS_TRUE
+                : GenerisRdf::GENERIS_FALSE,
+            OntologyIndex::PROPERTY_DEFAULT_SEARCH => $isDefaultSearchable
+                ? GenerisRdf::GENERIS_TRUE
+                : GenerisRdf::GENERIS_FALSE
         ]);
         $property->setPropertyValue(new \core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX), $resource);
         return new OntologyIndex($resource);
@@ -111,7 +120,8 @@ class OntologyIndexService
      * corresponding to Search Index definitions.
      *
      * @param \core_kernel_classes_Class $class
-     * @param boolean $recursive Whether or not to look for Search Indexes that belong to sub-classes of $class. Default is true.
+     * @param boolean $recursive Whether or not to look for Search Indexes that belong to sub-classes of $class.
+     *                           Default is true.
      * @return OntologyIndex[] An array of Search Index to $class.
      */
     public static function getIndexesByClass(\core_kernel_classes_Class $class, $recursive = true)

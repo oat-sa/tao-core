@@ -27,5 +27,7 @@ use oat\tao\model\search\SearchSettings;
 
 interface SearchSettingsServiceInterface
 {
-    public function getSettingsByClassMetadataSearchRequest(ClassMetadataSearchRequest $classMetadataSearchRequest): SearchSettings;
+    public function getSettingsByClassMetadataSearchRequest(
+        ClassMetadataSearchRequest $classMetadataSearchRequest
+    ): SearchSettings;
 }

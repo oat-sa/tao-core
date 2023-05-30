@@ -17,11 +17,11 @@
  *
  * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
  *                         (under the project TAO & TAO2);
- *             2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
- *                         (under the project TAO-TRANSFER);\n *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
  *                         (under the project TAO-SUSTAIN & TAO-DEV);
- *             2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\tao\model\oauth;
@@ -66,7 +66,10 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
         $returnValue = null;
 
         $class = $this->getClass(self::CLASS_URI_OAUTH_CONSUMER);
-        $instances = $class->searchInstances([self::PROPERTY_OAUTH_KEY => $consumer_key], ['like' => false, 'recursive' => true]);
+        $instances = $class->searchInstances(
+            [self::PROPERTY_OAUTH_KEY => $consumer_key],
+            ['like' => false, 'recursive' => true]
+        );
         if (count($instances) == 0) {
             $oauthService = $this->getServiceLocator()->get(OauthService::SERVICE_ID);
             /** @var LockoutInterface $lockoutService */
@@ -100,7 +103,9 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
             self::PROPERTY_OAUTH_CALLBACK
         ]);
         if (empty($values[self::PROPERTY_OAUTH_KEY]) || empty($values[self::PROPERTY_OAUTH_SECRET])) {
-            throw new \tao_models_classes_oauth_Exception('Incomplete oauth consumer definition for ' . $credentials->getUri());
+            throw new \tao_models_classes_oauth_Exception(
+                'Incomplete oauth consumer definition for ' . $credentials->getUri()
+            );
         }
         $consumer_key = (string)current($values[self::PROPERTY_OAUTH_KEY]);
         $secret = (string)current($values[self::PROPERTY_OAUTH_SECRET]);

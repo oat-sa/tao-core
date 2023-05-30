@@ -96,6 +96,7 @@ class FlyTokenWebSource extends TokenWebSource
         $relUrl = implode('/', $path);
         $token = $this->generateToken($relUrl);
         $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        return $taoExtension->getConstant('BASE_URL') . 'getFileFlysystem.php/' . $this->getId() . '/' . $token . '/' . $relUrl . '*/';
+        return $taoExtension->getConstant('BASE_URL') . 'getFileFlysystem.php/' . $this->getId() . '/' . $token
+            . '/' . $relUrl . '*/';
     }
 }

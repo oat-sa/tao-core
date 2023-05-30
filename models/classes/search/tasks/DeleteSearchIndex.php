@@ -54,7 +54,10 @@ class DeleteSearchIndex implements Action, ServiceLocatorAwareInterface, TaskAwa
             throw new \common_exception_MissingParameter();
         }
         $resourceId = array_shift($params);
-        $report = new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Deleting search index for %s', $resourceId));
+        $report = new \common_report_Report(
+            \common_report_Report::TYPE_SUCCESS,
+            __('Deleting search index for %s', $resourceId)
+        );
         $subReport = $this->deleteIndex($resourceId);
         $report->add($subReport);
         return $report;
@@ -67,9 +70,15 @@ class DeleteSearchIndex implements Action, ServiceLocatorAwareInterface, TaskAwa
     {
         try {
             $this->getServiceLocator()->get(Search::SERVICE_ID)->remove($resourceId);
-            $report = new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Index has been deleted for %s', $resourceId));
+            $report = new \common_report_Report(
+                \common_report_Report::TYPE_SUCCESS,
+                __('Index has been deleted for %s', $resourceId)
+            );
         } catch (\Exception $e) {
-            $report = new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Failed to delete index for %s', $resourceId));
+            $report = new \common_report_Report(
+                \common_report_Report::TYPE_ERROR,
+                __('Failed to delete index for %s', $resourceId)
+            );
         }
         return $report;
     }

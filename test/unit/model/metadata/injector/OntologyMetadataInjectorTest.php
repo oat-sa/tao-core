@@ -219,7 +219,14 @@ class OntologyMetadataInjectorTest extends TestCase
         $dryrun = 'dryrunFixture';
 
         $writerMock = $this->getMockForAbstractClass(
-            OntologyWriter::class, [], '', false, true, true, ['validate', 'write', 'format']);
+            OntologyWriter::class,
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['validate', 'write', 'format']
+        );
         $writerMock->expects($this->once())
             ->method('format')
             ->with($this->equalTo($data))
@@ -257,7 +264,14 @@ class OntologyMetadataInjectorTest extends TestCase
         $dryrun = 'dryrunFixture';
 
         $writerMock = $this->getMockForAbstractClass(
-            \stdClass::class, [], '', false, true, true, ['validate', 'format']);
+            \stdClass::class,
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['validate', 'format']
+        );
 
         $writerMock->expects($this->once())
             ->method('format')
@@ -287,7 +301,14 @@ class OntologyMetadataInjectorTest extends TestCase
         $dryrun = 'dryrunFixture';
 
         $writerMock = $this->getMockForAbstractClass(
-            \stdClass::class, [], '', false, true, true, ['validate', 'format']);
+            \stdClass::class,
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['validate', 'format']
+        );
 
         $writerMock->expects($this->once())
             ->method('format')
@@ -317,7 +338,14 @@ class OntologyMetadataInjectorTest extends TestCase
         $dryrun = 'dryrunFixture';
 
         $writerMock = $this->getMockForAbstractClass(
-            OntologyWriter::class, [], '', false, true, true, ['validate', 'format', 'write']);
+            OntologyWriter::class,
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['validate', 'format', 'write']
+        );
 
         $writerMock->expects($this->once())
             ->method('format')

@@ -279,7 +279,8 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
         $extensions = helpers_ExtensionHelper::sortByDependencies($extensions);
         $translations = [];
         foreach ($extensions as $extension) {
-            $file = $extension->getDir() . 'locales' . DIRECTORY_SEPARATOR . $langCode . DIRECTORY_SEPARATOR . 'messages.po';
+            $file = $extension->getDir() . 'locales' . DIRECTORY_SEPARATOR . $langCode . DIRECTORY_SEPARATOR
+                . 'messages.po';
             $new = l10n::getPoFile($file);
             if (is_array($new)) {
                 $translations = array_merge($translations, $new);

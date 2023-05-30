@@ -249,7 +249,10 @@ class tao_models_classes_ListService extends tao_models_classes_GenerisService
                 $label = __('Element') . ' ' . $level;
             }
             $returnValue = $this->createInstance($listClass, $label);
-            $this->bindProperties($returnValue, [TaoOntology::PROPERTY_LIST_LEVEL => count($this->getListElements($listClass, false))]);
+            $this->bindProperties(
+                $returnValue,
+                [TaoOntology::PROPERTY_LIST_LEVEL => count($this->getListElements($listClass, false))]
+            );
         }
 
         return $returnValue;

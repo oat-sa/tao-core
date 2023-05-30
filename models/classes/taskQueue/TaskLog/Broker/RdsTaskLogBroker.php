@@ -128,7 +128,11 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
             $table = $toSchema->createTable($this->getTableName());
             $table->addOption('engine', 'InnoDB');
             $table->addColumn(self::COLUMN_ID, 'string', ["notnull" => true, "length" => 255]);
-            $table->addColumn(self::COLUMN_PARENT_ID, 'string', ["notnull" => false, "length" => 255, "default" => null]);
+            $table->addColumn(
+                self::COLUMN_PARENT_ID,
+                'string',
+                ["notnull" => false, "length" => 255, "default" => null]
+            );
             $table->addColumn(self::COLUMN_TASK_NAME, 'string', ["notnull" => true, "length" => 255]);
             $table->addColumn(self::COLUMN_PARAMETERS, 'text', ["notnull" => false, "default" => null]);
             $table->addColumn(self::COLUMN_LABEL, 'string', ["notnull" => false, "length" => 255]);
@@ -139,7 +143,10 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
             $table->addColumn(self::COLUMN_CREATED_AT, 'datetime', ['notnull' => true]);
             $table->addColumn(self::COLUMN_UPDATED_AT, 'datetime', ['notnull' => false]);
             $table->setPrimaryKey([self::COLUMN_ID]);
-            $table->addIndex([self::COLUMN_TASK_NAME, self::COLUMN_OWNER], $this->getTableName() . 'IDX_task_name_owner');
+            $table->addIndex(
+                [self::COLUMN_TASK_NAME, self::COLUMN_OWNER],
+                $this->getTableName() . 'IDX_task_name_owner'
+            );
             $table->addIndex([self::COLUMN_STATUS], $this->getTableName() . 'IDX_status');
             $table->addIndex([self::COLUMN_CREATED_AT], $this->getTableName() . 'IDX_created_at');
 
@@ -158,12 +165,16 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
         $this->getPersistence()->insert($this->getTableName(), [
             self::COLUMN_ID   => (string) $task->getId(),
             self::COLUMN_PARENT_ID  => $task->getParentId() ? (string) $task->getParentId() : null,
-            self::COLUMN_TASK_NAME => $task instanceof CallbackTaskInterface && is_object($task->getCallable()) ? get_class($task->getCallable()) : get_class($task),
+            self::COLUMN_TASK_NAME => $task instanceof CallbackTaskInterface && is_object($task->getCallable())
+                ? get_class($task->getCallable())
+                : get_class($task),
             self::COLUMN_PARAMETERS => json_encode($task->getParameters()),
             self::COLUMN_LABEL => (string) $label,
             self::COLUMN_STATUS => $status,
             self::COLUMN_OWNER => (string) $task->getOwner(),
-            self::COLUMN_CREATED_AT => $task->getCreatedAt()->format($this->getPersistence()->getPlatForm()->getDateTimeFormatString()),
+            self::COLUMN_CREATED_AT => $task->getCreatedAt()->format(
+                $this->getPersistence()->getPlatForm()->getDateTimeFormatString()
+            ),
             self::COLUMN_UPDATED_AT => $this->getPersistence()->getPlatForm()->getNowExpression(),
             self::COLUMN_MASTER_STATUS => $task->isMasterStatus(),
         ], $this->getTypes());
@@ -244,9 +255,18 @@ class RdsTaskLogBroker extends AbstractTaskLogBroker
             ->from($this->getTableName());
 
         $qb->select(
-            $this->buildCounterStatusSql(TasksLogsStats::IN_PROGRESS_TASKS, CategorizedStatus::getMappedStatuses(CategorizedStatus::STATUS_IN_PROGRESS)) . ', ' .
-            $this->buildCounterStatusSql(TasksLogsStats::COMPLETED_TASKS, CategorizedStatus::getMappedStatuses(CategorizedStatus::STATUS_COMPLETED)) . ', ' .
-            $this->buildCounterStatusSql(TasksLogsStats::FAILED_TASKS, CategorizedStatus::getMappedStatuses(CategorizedStatus::STATUS_FAILED))
+            $this->buildCounterStatusSql(
+                TasksLogsStats::IN_PROGRESS_TASKS,
+                CategorizedStatus::getMappedStatuses(CategorizedStatus::STATUS_IN_PROGRESS)
+            ) . ', '
+                . $this->buildCounterStatusSql(
+                    TasksLogsStats::COMPLETED_TASKS,
+                    CategorizedStatus::getMappedStatuses(CategorizedStatus::STATUS_COMPLETED)
+                ) . ', '
+                . $this->buildCounterStatusSql(
+                    TasksLogsStats::FAILED_TASKS,
+                    CategorizedStatus::getMappedStatuses(CategorizedStatus::STATUS_FAILED)
+                )
         );
 
         $filter->applyFilters($qb);

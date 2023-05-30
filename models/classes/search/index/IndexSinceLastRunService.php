@@ -107,6 +107,9 @@ class IndexSinceLastRunService extends IndexService
             throw new \InvalidArgumentException('Persistence for ' . self::SERVICE_ID . ' is not configured');
         }
         $persistenceId = $this->getOption(self::OPTION_LASTRUN_STORE);
-        return $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById($persistenceId);
+        return $this
+            ->getServiceLocator()
+            ->get(\common_persistence_Manager::SERVICE_ID)
+            ->getPersistenceById($persistenceId);
     }
 }

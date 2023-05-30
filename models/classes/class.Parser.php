@@ -140,7 +140,9 @@ class tao_models_classes_Parser
             } elseif (is_file($source)) {
                 $sourceType = self::SOURCE_FILE;
             } else {
-                $uploadFile = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($source);
+                $uploadFile = ServiceManager::getServiceManager()
+                    ->get(UploadService::SERVICE_ID)
+                    ->universalizeUpload($source);
                 if ($uploadFile instanceof \oat\oatbox\filesystem\File) {
                     $sourceType = self::SOURCE_FLYFILE;
                     $source = $uploadFile;
@@ -149,7 +151,11 @@ class tao_models_classes_Parser
         }
 
         if ($sourceType === false) {
-            throw new common_exception_Error("Denied content in the source parameter! " . get_class($this) . " accepts either XML content, a URL to an XML Content or the path to a file but got " . substr($source, 0, 500));
+            throw new common_exception_Error(
+                "Denied content in the source parameter! " . get_class($this)
+                    . " accepts either XML content, a URL to an XML Content or the path to a file but got "
+                    . substr($source, 0, 500)
+            );
         }
 
         $this->sourceType = $sourceType;
@@ -336,7 +342,10 @@ class tao_models_classes_Parser
                             throw new Exception("Unable to read file {$this->source}.");
                         }
                         if (!preg_match("/\.{$this->fileExtension}$/", basename($this->source))) {
-                            throw new Exception("Wrong file extension in " . basename($this->source) . ", {$this->fileExtension} extension is expected");
+                            throw new Exception(
+                                "Wrong file extension in " . basename($this->source)
+                                    . ", {$this->fileExtension} extension is expected"
+                            );
                         }
                         if (!tao_helpers_File::securityCheck($this->source)) {
                             throw new Exception("{$this->source} seems to contain some security issues");
@@ -355,7 +364,9 @@ class tao_models_classes_Parser
                         break;
                     case self::SOURCE_FLYFILE:
                         if (! $this->source->exists()) {
-                            throw new Exception('Source file does not exists ("' . $this->source->getBasename() . '").');
+                            throw new Exception(
+                                'Source file does not exists ("' . $this->source->getBasename() . '").'
+                            );
                         }
                         if (! $this->content = $this->source->read()) {
                             throw new Exception('Unable to read file ("' . $this->source->getBasename() . '").');

@@ -40,6 +40,11 @@ class ActionWebSource extends BaseWebsource
 
     public function getAccessUrl($relativePath)
     {
-        return _url('accessFile/' . base64_encode($this->getId() . ' ' . trim($relativePath, DIRECTORY_SEPARATOR)) . '/', 'File', 'tao');
+        return _url(
+            'accessFile/' . base64_encode($this->getId() . ' '
+                . trim($relativePath, DIRECTORY_SEPARATOR)) . '/',
+            'File',
+            'tao'
+        );
     }
 }

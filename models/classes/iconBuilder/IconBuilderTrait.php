@@ -29,7 +29,8 @@ trait IconBuilderTrait
      * The doc for $options is the applicable for all other functions.
      *
      * @param string $iconName name of the icon to display
-     * @param array  $options (optional) hashtable with HTML attributes, also allows to set element="almostAnyHtmlElement"
+     * @param array  $options (optional) hashtable with HTML attributes, also allows to set
+     *                        element="almostAnyHtmlElement"
      *
      * @return string HTML element with icon
      */

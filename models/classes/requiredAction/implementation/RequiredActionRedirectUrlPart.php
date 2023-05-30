@@ -86,7 +86,8 @@ class RequiredActionRedirectUrlPart extends RequiredActionAbstract
             $currentUrl = \common_http_Request::currentRequest()->getUrl();
 
             $transformedUrl = $this->getTransformedUrl($params);
-            $url = $transformedUrl . (parse_url($transformedUrl, PHP_URL_QUERY) ? '&' : '?') . 'return_url=' . urlencode($currentUrl);
+            $url = $transformedUrl . (parse_url($transformedUrl, PHP_URL_QUERY) ? '&' : '?') . 'return_url='
+                . urlencode($currentUrl);
 
             $flowController = new FlowController();
             $flowController->redirect($url);

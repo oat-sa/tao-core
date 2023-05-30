@@ -121,7 +121,8 @@ class TimeRule implements RequiredActionRuleInterface
     /**
      * Check if it is time to perform an action.
      * If `$this->lastExecution` is null (action has never been executed)
-     * or since the last execution took time more than specified interval (`$this->interval`) then action must be performed.
+     * or since the last execution took time more than specified interval (`$this->interval`) then action must be
+     * performed.
      * @return bool
      */
     protected function checkTime()
@@ -155,7 +156,9 @@ class TimeRule implements RequiredActionRuleInterface
 
             if ($resource !== null) {
                 /** @var \core_kernel_classes_Resource $resource */
-                $time = (string) $resource->getOnePropertyValue(new \core_kernel_classes_Property(self::PROPERTY_EXECUTION_TIME));
+                $time = (string) $resource->getOnePropertyValue(
+                    new \core_kernel_classes_Property(self::PROPERTY_EXECUTION_TIME)
+                );
                 if (!empty($time)) {
                     $this->executionTime = new DateTime('@' . $time);
                 }

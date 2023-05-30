@@ -41,7 +41,12 @@ class ActionClearAbandonedPositions extends AbstractAction
         foreach ($actions as $actionClass => $actionConfig) {
             $action = new $actionClass();
             $removed = $actionQueueService->clearAbandonedPositions($action);
-            $report->add(new Report(Report::TYPE_SUCCESS, __('Action %s - removed %s positions', $action->getId(), $removed)));
+            $report->add(
+                new Report(
+                    Report::TYPE_SUCCESS,
+                    __('Action %s - removed %s positions', $action->getId(), $removed)
+                )
+            );
         }
         return $report;
     }
