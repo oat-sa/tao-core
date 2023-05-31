@@ -31,6 +31,8 @@
  * @deprecated
  */
 
+// phpcs:disable Generic.Files.LineLength
+
 $todefine = [
     'TAO_OBJECT_CLASS'                  => 'http://www.tao.lu/Ontologies/TAO.rdf#TAOObject',
     'TAO_GROUP_CLASS'                   => 'http://www.tao.lu/Ontologies/TAOGroup.rdf#Group',

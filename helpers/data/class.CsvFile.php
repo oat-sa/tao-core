@@ -240,8 +240,10 @@ class tao_helpers_data_CsvFile
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  int index The row index. First = 0.
-     * @param  boolean associative Says that if the keys of the array must be the column names or not. If $associative is set to true but there are no column names in the CSV file, an IllegalArgumentException is thrown.
+     * @param int $index The row index. First = 0.
+     * @param boolean $associative Says that if the keys of the array must be the column names or not. If $associative
+     *                             is set to true but there are no column names in the CSV file, an
+     *                             IllegalArgumentException is thrown.
      * @return array
      */
     public function getRow($index, $associative = false)

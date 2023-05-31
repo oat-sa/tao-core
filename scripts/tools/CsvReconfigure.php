@@ -48,8 +48,8 @@ use oat\oatbox\action\Action;
  *
  * Reconfigure output CSV with delimiter character = ";", enclosure character = '"', escape character = "\".
  *
- * sudo -u www-data php index.php "oat\tao\scripts\tools\CsvReconfigure" /some/path/original.csv /some/path/reconfigured.csv \; \" \\
- *
+ * sudo -u www-data php index.php "oat\tao\scripts\tools\CsvReconfigure" /some/path/original.csv
+ *      /some/path/reconfigured.csv \; \" \\
  */
 class CsvReconfigure implements Action
 {
@@ -109,14 +109,16 @@ class CsvReconfigure implements Action
         $report->add(
             new Report(
                 Report::TYPE_INFO,
-                "output delimiter: '${outputDelimiter}', output enclosure: '${outputEnclosure}', output escape character: '${outputEscapeChar}'"
+                "output delimiter: '${outputDelimiter}', output enclosure: '${outputEnclosure}', output escape "
+                    . "character: '${outputEscapeChar}'"
             )
         );
 
         $report->add(
             new Report(
                 Report::TYPE_INFO,
-                "input delimiter: '${inputDelimiter}', input enclosure: '${inputEnclosure}', input escape character: '${inputEscapeChar}'"
+                "input delimiter: '${inputDelimiter}', input enclosure: '${inputEnclosure}', input escape "
+                    . "character: '${inputEscapeChar}'"
             )
         );
 

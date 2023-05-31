@@ -237,7 +237,9 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
                         $this->outVerbose("No foreign classes were compiled.");
                     } else {
                         foreach ($hardenedClasses as $uri => $count) {
-                            $this->outVerbose("Foreign class '${uri} successfully hardified: ${count} instance(s) compiled.'");
+                            $this->outVerbose(
+                                "Foreign class '${uri} successfully hardified: ${count} instance(s) compiled.'"
+                            );
                         }
                     }
                 }
@@ -263,54 +265,67 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
     {
         if (count($inputFormat) == 0) {
             // Autoconfigure the script.
-            $inputFormat = ['min' => 4,
+            $inputFormat = [
+                'min' => 4,
                 'parameters' => [
-                    ['name' => 'verbose',
-                          'type' => 'boolean',
-                          'shortcut' => 'v',
-                          'description' => 'Verbose mode (default = false)'
+                    [
+                        'name' => 'verbose',
+                        'type' => 'boolean',
+                        'shortcut' => 'v',
+                        'description' => 'Verbose mode (default = false)'
                     ],
-                    ['name' => 'user',
-                          'type' => 'string',
-                          'shortcut' => 'u',
-                          'description' => 'Generis user (must be a TAO Manager)'
+                    [
+                        'name' => 'user',
+                        'type' => 'string',
+                        'shortcut' => 'u',
+                        'description' => 'Generis user (must be a TAO Manager)'
                     ],
-                    ['name' => 'password',
-                          'type' => 'string',
-                          'shortcut' => 'p',
-                          'description' => 'Generis password'
+                    [
+                        'name' => 'password',
+                        'type' => 'string',
+                        'shortcut' => 'p',
+                        'description' => 'Generis password'
                     ],
-                    ['name' => 'action',
-                          'type' => 'string',
-                          'shortcut' => 'a',
-                          'description' => 'Action to perform'
+                    [
+                        'name' => 'action',
+                        'type' => 'string',
+                        'shortcut' => 'a',
+                        'description' => 'Action to perform'
                     ],
-                    ['name' => 'class',
-                          'type' => 'string',
-                          'shortcut' => 'c',
-                          'description' => 'Class to hardify/unhardify'
+                    [
+                        'name' => 'class',
+                        'type' => 'string',
+                        'shortcut' => 'c',
+                        'description' => 'Class to hardify/unhardify'
                     ],
-                    ['name' => 'additionalProperties',
-                          'type' => 'string',
-                          'shortcut' => 'aP',
-                          'description' => 'Additional properties to be compiled with the class, separated by commas (",").'
+                    [
+                        'name' => 'additionalProperties',
+                        'type' => 'string',
+                        'shortcut' => 'aP',
+                        'description' => 'Additional properties to be compiled with the class, separated by '
+                            . 'commas (",").'
                     ],
-                    ['name' => 'createForeigns',
-                          'type' => 'boolean',
-                          'shortcut' => 'cF',
-                          'description' => 'Create foreign classes (default = false).'
+                    [
+                        'name' => 'createForeigns',
+                        'type' => 'boolean',
+                        'shortcut' => 'cF',
+                        'description' => 'Create foreign classes (default = false).'
                     ],
-                    ['name' => 'topClass',
-                          'type' => 'string',
-                          'shortcut' => 'tC',
-                          'description' => 'The class where to stop in the class hierarchy hardification (default = rdfs:Resource).'
+                    [
+                        'name' => 'topClass',
+                        'type' => 'string',
+                        'shortcut' => 'tC',
+                        'description' => 'The class where to stop in the class hierarchy hardification '
+                            . '(default = rdfs:Resource).'
                     ],
-                    ['name' => 'recursive',
-                          'type' => 'boolean',
-                          'shortcut' => 'r',
-                          'description' => 'Hardify subclasses of the class to hardify or not (default = false).'
+                    [
+                        'name' => 'recursive',
+                        'type' => 'boolean',
+                        'shortcut' => 'r',
+                        'description' => 'Hardify subclasses of the class to hardify or not (default = false).'
                     ],
-                    ]];
+                ]
+            ];
         }
 
         parent::__construct($inputFormat, $options);
@@ -358,7 +373,9 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
                         $this->options['additionalProperties'] = $additionalProperties;
 
                         if ($this->options['topClass'] == null) {
-                            $this->options['topClass'] = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE);
+                            $this->options['topClass'] = new core_kernel_classes_Class(
+                                GenerisRdf::CLASS_GENERIS_RESOURCE
+                            );
                         } else {
                             $topClassUri = trim($this->options['topClass']);
                             if (true == common_Utils::isUri($topClassUri)) {

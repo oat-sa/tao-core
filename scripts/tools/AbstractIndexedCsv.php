@@ -473,7 +473,8 @@ abstract class AbstractIndexedCsv implements Action
             if ($sourceData !== false && !isset($sourceData[$indexColumn])) {
                 return new Report(
                     Report::TYPE_ERROR,
-                    $indexColumn . " is not a valid offset for the source. It should be one of : " . implode(', ', array_keys($sourceData))
+                    $indexColumn . " is not a valid offset for the source. It should be one of : "
+                        . implode(', ', array_keys($sourceData))
                 );
             }
 

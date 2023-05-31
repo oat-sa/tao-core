@@ -57,19 +57,25 @@ class CleanClass extends AbstractAction
         if ($this->class->equals($this->service->getRootClass())) {
             foreach ($this->service->getRootClass()->getSubClasses() as $subClass) {
                 if (!$this->service->deleteClass($subClass)) {
-                    return common_report_Report::createFailure('Error occured during deletion of class : ' . $subClass->getUri());
+                    return common_report_Report::createFailure(
+                        'Error occured during deletion of class : ' . $subClass->getUri()
+                    );
                 }
             }
 
             $instances = $this->class->getInstances();
             foreach ($instances as $instance) {
                 if (!$this->service->deleteResource($instance)) {
-                    return common_report_Report::createFailure('Error occured during deletion of resource : ' . $instance->getUri());
+                    return common_report_Report::createFailure(
+                        'Error occured during deletion of resource : ' . $instance->getUri()
+                    );
                 }
             }
         } else {
             if (!$this->service->deleteClass($this->class)) {
-                return common_report_Report::createFailure('Error occured during deletion of class : ' . $this->class->getUri());
+                return common_report_Report::createFailure(
+                    'Error occured during deletion of class : ' . $this->class->getUri()
+                );
             }
         }
 
@@ -89,10 +95,16 @@ class CleanClass extends AbstractAction
             if (is_a($serviceName, OntologyClassService::class, true)) {
                 $this->service = call_user_func([$serviceName, 'singleton'], []);
             } else {
-                return new common_report_Report(common_report_Report::TYPE_ERROR, __('USAGE: please provide a valid service name as first parameter'));
+                return new common_report_Report(
+                    common_report_Report::TYPE_ERROR,
+                    __('USAGE: please provide a valid service name as first parameter')
+                );
             }
         } else {
-            return new common_report_Report(common_report_Report::TYPE_ERROR, __('USAGE: please provide the service name as first parameter'));
+            return new common_report_Report(
+                common_report_Report::TYPE_ERROR,
+                __('USAGE: please provide the service name as first parameter')
+            );
         }
 
         if (isset($params[1])) {
@@ -103,10 +115,16 @@ class CleanClass extends AbstractAction
             try {
                 $extensionManager->getExtensionById($extensionId);
             } catch (ManifestNotFoundException $e) {
-                return new common_report_Report(common_report_Report::TYPE_ERROR, __('USAGE: please provide a valid extension id as second parameter'));
+                return new common_report_Report(
+                    common_report_Report::TYPE_ERROR,
+                    __('USAGE: please provide a valid extension id as second parameter')
+                );
             }
         } else {
-            return new common_report_Report(common_report_Report::TYPE_ERROR, __('USAGE: please provide a valid extension id as second parameter'));
+            return new common_report_Report(
+                common_report_Report::TYPE_ERROR,
+                __('USAGE: please provide a valid extension id as second parameter')
+            );
         }
 
         $class_uri = null;

@@ -30,7 +30,8 @@ use oat\tao\model\accessControl\func\AccessRule;
 use oat\tao\model\accessControl\ActionAccessControl;
 
 /**
- * @example php index.php 'oat\tao\scripts\tools\accessControl\SetRolesAccess' [[ --revoke ]] --config [config.json|json_string]
+ * @example php index.php 'oat\tao\scripts\tools\accessControl\SetRolesAccess' [[ --revoke ]]
+ *          --config [config.json|json_string]
  */
 class SetRolesAccess extends ScriptAction
 {

@@ -131,7 +131,8 @@ class MergeCsv implements Action
 
         return new Report(
             Report::TYPE_SUCCESS,
-            array_sum($writtenCounts) . ' (' . $writtenCounts[0] . ' + ' . $writtenCounts[1] . ") lines written in file '" . realpath($destination) . "'."
+            array_sum($writtenCounts) . ' (' . $writtenCounts[0] . ' + ' . $writtenCounts[1]
+                . ") lines written in file '" . realpath($destination) . "'."
         );
     }
 }

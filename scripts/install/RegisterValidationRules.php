@@ -42,6 +42,9 @@ class RegisterValidationRules extends InstallAction
     protected function addValidator($propertyUri, $validationRuleId)
     {
         $labelProperty = $this->getProperty($propertyUri);
-        return $labelProperty->setPropertyValue($this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE), $validationRuleId);
+        return $labelProperty->setPropertyValue(
+            $this->getProperty(ValidationRuleRegistry::PROPERTY_VALIDATION_RULE),
+            $validationRuleId
+        );
     }
 }

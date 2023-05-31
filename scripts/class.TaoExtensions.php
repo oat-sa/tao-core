@@ -255,7 +255,10 @@ class tao_scripts_TaoExtensions extends tao_scripts_Runner
                 }
 
                 $currentConfig->save($ext);
-                $this->outVerbose("Configuration parameter '${configParam}' successfully updated to " . (($configValue == true) ? 1 : 0) . " for extension '${extensionId}'.");
+                $this->outVerbose(
+                    "Configuration parameter '${configParam}' successfully updated to "
+                        . (($configValue == true) ? 1 : 0) . " for extension '${extensionId}'."
+                );
             }
         } catch (common_ext_ExtensionException $e) {
             $this->error("The extension '${extensionId}' does not exist or has no manifest.", true);
@@ -278,48 +281,60 @@ class tao_scripts_TaoExtensions extends tao_scripts_Runner
 
         if (count($inputFormat) == 0) {
             // Autoconfigure the script.
-            $inputFormat = ['min' => 3,
-                                 'parameters' => [
-                                                        ['name' => 'verbose',
-                                                              'type' => 'boolean',
-                                                              'shortcut' => 'v',
-                                                              'description' => 'Verbose mode'
-                                                              ],
-                                                        ['name' => 'user',
-                                                              'type' => 'string',
-                                                              'shortcut' => 'u',
-                                                              'description' => 'Generis user (must be a TAO Manager)'
-                                                              ],
-                                                        ['name' => 'password',
-                                                              'type' => 'string',
-                                                              'shortcut' => 'p',
-                                                              'description' => 'Generis password'
-                                                             ],
-                                                        ['name' => 'action',
-                                                              'type' => 'string',
-                                                              'shortcut' => 'a',
-                                                              'description' => 'Action to perform'
-                                                             ],
-                                                        ['name' => 'configParameter',
-                                                              'type' => 'string',
-                                                              'shortcut' => 'cP',
-                                                              'description' => "Configuration parameter (loaded|loadAtStartup|ghost) to change when the 'setConfig' action is called"
-                                                             ],
-                                                        ['name' => 'configValue',
-                                                              'type' => 'boolean',
-                                                              'shortcut' => 'cV',
-                                                              'description' => "Configuration value to set when the 'setConfig' action is called"
-                                                             ],
-                                                        ['name' => 'extension',
-                                                              'type' => 'string',
-                                                              'shortcut' => 'e',
-                                                              'description' => "Extension ID that determines the TAO extension to focus on"],
-                                                        ['name' => 'data',
-                                                              'type' => 'boolean',
-                                                              'shortcut' => 'd',
-                                                              'description' => "States if local data must be imported or not at installation time"]
-                                                       ]
-                                ];
+            $inputFormat = [
+                'min' => 3,
+                'parameters' => [
+                    [
+                        'name' => 'verbose',
+                        'type' => 'boolean',
+                        'shortcut' => 'v',
+                        'description' => 'Verbose mode'
+                    ],
+                    [
+                        'name' => 'user',
+                        'type' => 'string',
+                        'shortcut' => 'u',
+                        'description' => 'Generis user (must be a TAO Manager)'
+                    ],
+                    [
+                        'name' => 'password',
+                        'type' => 'string',
+                        'shortcut' => 'p',
+                        'description' => 'Generis password'
+                    ],
+                    [
+                        'name' => 'action',
+                        'type' => 'string',
+                        'shortcut' => 'a',
+                        'description' => 'Action to perform'
+                    ],
+                    [
+                        'name' => 'configParameter',
+                        'type' => 'string',
+                        'shortcut' => 'cP',
+                        'description' => "Configuration parameter (loaded|loadAtStartup|ghost) to change when the "
+                            . "'setConfig' action is called"
+                    ],
+                    [
+                        'name' => 'configValue',
+                        'type' => 'boolean',
+                        'shortcut' => 'cV',
+                        'description' => "Configuration value to set when the 'setConfig' action is called"
+                    ],
+                    [
+                        'name' => 'extension',
+                        'type' => 'string',
+                        'shortcut' => 'e',
+                        'description' => "Extension ID that determines the TAO extension to focus on"
+                    ],
+                    [
+                        'name' => 'data',
+                        'type' => 'boolean',
+                        'shortcut' => 'd',
+                        'description' => "States if local data must be imported or not at installation time"
+                    ]
+                ]
+            ];
         }
 
         parent::__construct($inputFormat, $options);
@@ -345,7 +360,11 @@ class tao_scripts_TaoExtensions extends tao_scripts_Runner
         if ($this->options['configParameter'] == null) {
             $this->error("Please provide the 'configParam' parameter.", true);
         } elseif (!in_array($this->options['configParameter'], $availableParameters)) {
-            $this->error("Please provide a valid 'configParam' parameter value (" . implode("|", $availableParameters) . ").", true);
+            $this->error(
+                "Please provide a valid 'configParam' parameter value ("
+                    . implode("|", $availableParameters) . ").",
+                true
+            );
         } elseif ($this->options['configValue'] === null) {
             $this->error("Please provide the 'configValue' parameter.", true);
         } elseif ($this->options['extension'] == null) {
@@ -478,7 +497,11 @@ class tao_scripts_TaoExtensions extends tao_scripts_Runner
             } catch (common_ext_AlreadyInstalledException $e) {
                 $this->error("Extension '" . $e->getExtensionId() . "' is already installed.", true);
             } catch (common_ext_MissingExtensionException $e) {
-                $this->error("Extension '" . $extensionId . " is dependant on extension '" . $e->getExtensionId() . "' but is missing. Install '" . $e->getExtensionId() . "' first.", true);
+                $this->error(
+                    "Extension '" . $extensionId . " is dependant on extension '" . $e->getExtensionId()
+                        . "' but is missing. Install '" . $e->getExtensionId() . "' first.",
+                    true
+                );
             }
         } catch (common_ext_ExtensionException $e) {
             $this->error("An unexpected error occured: " . $e->getMessage(), true);

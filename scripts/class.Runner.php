@@ -122,7 +122,10 @@ abstract class tao_scripts_Runner
 
         $this->postRun();
 
-        $this->out('Execution of Script ' . (isset($this->argv[0]) ? $this->argv[0] : __CLASS__) . ' completed', $options);
+        $this->out(
+            'Execution of Script ' . (isset($this->argv[0]) ? $this->argv[0] : __CLASS__) . ' completed',
+            $options
+        );
     }
 
     /**
@@ -200,7 +203,11 @@ abstract class tao_scripts_Runner
             }
         }
 
-        if (isset($this->inputFormat['required']) && is_array($this->inputFormat['required']) && count($this->inputFormat['required'])) {
+        if (
+            isset($this->inputFormat['required'])
+            && is_array($this->inputFormat['required'])
+            && count($this->inputFormat['required'])
+        ) {
             $requireds = [];
             if (!is_array($this->inputFormat['required'][0])) {
                 $requireds = [$this->inputFormat['required']];
@@ -273,14 +280,21 @@ abstract class tao_scripts_Runner
                             }
                             break;
                         case 'boolean':
-                            if (!is_bool($input) && strtolower($input) != 'true' && strtolower($input) != 'false' && !empty($input)) {
+                            if (
+                                !is_bool($input)
+                                && strtolower($input) != 'true'
+                                && strtolower($input) != 'false'
+                                && !empty($input)
+                            ) {
                                 $this->err("$input is not a valid " . $parameter['type']);
                                 $returnValue = false;
                             } else {
                                 if (is_bool($input)) {
                                     $this->parameters[$parameter['name']] = $input = settype($input, 'boolean');
                                 } elseif (!empty($input)) {
-                                    $this->parameters[$parameter['name']] = ((strtolower($input) == 'true') ? true : false);
+                                    $this->parameters[$parameter['name']] = (strtolower($input) == 'true')
+                                        ? true
+                                        : false;
                                 } else {
                                     $this->parameters[$parameter['name']] = true;
                                 }
@@ -415,7 +429,9 @@ abstract class tao_scripts_Runner
     public function out($message, $options = [])
     {
 
-        $returnValue =  $this->isCli ? $this->renderCliOutput($message, $options) : $this->renderHtmlOutput($message, $options);
+        $returnValue =  $this->isCli
+            ? $this->renderCliOutput($message, $options)
+            : $this->renderHtmlOutput($message, $options);
         if ($this->logOny) {
             //do nothing
         } else {

@@ -38,6 +38,9 @@ class AddArchiveService extends InstallAction
         $fsm->createFileSystem('stateBackup');
         $this->registerService(FileSystemService::SERVICE_ID, $fsm);
 
-        $this->registerService(StateMigration::SERVICE_ID, new StateMigration([StateMigration::OPTION_FILESYSTEM => 'stateBackup']));
+        $this->registerService(
+            StateMigration::SERVICE_ID,
+            new StateMigration([StateMigration::OPTION_FILESYSTEM => 'stateBackup'])
+        );
     }
 }

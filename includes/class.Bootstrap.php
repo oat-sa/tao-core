@@ -59,7 +59,8 @@ class Bootstrap extends MvcBootstrap
 {
     public function __construct($extName)
     {
-        $configFile = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'generis.conf.php';
+        $configFile = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR
+            . 'generis.conf.php';
         parent::__construct($configFile);
 
         // load extension constants

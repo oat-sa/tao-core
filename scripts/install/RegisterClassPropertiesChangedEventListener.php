@@ -38,8 +38,14 @@ class RegisterClassPropertiesChangedEventListener extends InstallAction
      */
     public function __invoke($params): common_report_Report
     {
-        $this->getServiceManager()->register(ClassPropertiesChangedListener::SERVICE_ID, new ClassPropertiesChangedListener());
+        $this->getServiceManager()->register(
+            ClassPropertiesChangedListener::SERVICE_ID,
+            new ClassPropertiesChangedListener()
+        );
 
-        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'ClassPropertiesChangedListener is registered');
+        return new common_report_Report(
+            common_report_Report::TYPE_SUCCESS,
+            'ClassPropertiesChangedListener is registered'
+        );
     }
 }

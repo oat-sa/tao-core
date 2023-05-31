@@ -55,7 +55,8 @@ class tao_scripts_TaoInstall extends tao_scripts_Runner
      */
     public function preRun()
     {
-        $root_path = realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..') . DIRECTORY_SEPARATOR;
+        $root_path = realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..')
+            . DIRECTORY_SEPARATOR;
 
         $this->options =  [
             'db_driver' => 'mysql',
@@ -89,16 +90,21 @@ class tao_scripts_TaoInstall extends tao_scripts_Runner
         $this->options = array_merge($this->options, $this->parameters);
 
         // Feature #1789: default db_name is module_name if not specified.
-        $this->options['db_name'] = (empty($this->options['db_name']) ? $this->options['module_name'] : $this->options['db_name']);
+        $this->options['db_name'] = (empty($this->options['db_name'])
+            ? $this->options['module_name']
+            : $this->options['db_name']);
 
         // If no instance_name given, it takes the value of module_name.
-        $this->options['instance_name'] = (empty($this->options['instance_name']) ? $this->options['module_name'] : $this->options['instance_name']);
+        $this->options['instance_name'] = (empty($this->options['instance_name'])
+            ? $this->options['module_name']
+            : $this->options['instance_name']);
 
         // user password treatment
         $this->options["user_pass1"] = $this->options['user_pass'];
         // module namespace generation
         if (empty($this->options["module_namespace"])) {
-            $this->options['module_namespace'] = 'http://' . $this->options['module_host'] . '/' . $this->options['module_name'] . '.rdf';
+            $this->options['module_namespace'] = 'http://' . $this->options['module_host'] . '/'
+                . $this->options['module_name'] . '.rdf';
         }
 
         if (empty($this->options['module_url'])) {

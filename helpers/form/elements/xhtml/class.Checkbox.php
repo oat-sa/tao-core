@@ -101,7 +101,8 @@ class tao_helpers_form_elements_xhtml_Checkbox extends tao_helpers_form_elements
                 $readOnlyReason = $readOnlyOptions[$optionId];
                 if (!empty($readOnlyReason)) {
                     $returnValue .= '<span class="tooltip-trigger icon-warning" data-tooltip="~ .tooltip-content" '
-                        . 'data-tooltip-theme="info"></span><div class="tooltip-content">' . _dh($readOnlyReason) . '</div>';
+                        . 'data-tooltip-theme="info"></span><div class="tooltip-content">' . _dh($readOnlyReason)
+                        . '</div>';
                 }
             }
             $returnValue .= '</div></div>';

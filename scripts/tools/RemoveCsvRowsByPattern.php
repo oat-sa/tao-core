@@ -36,7 +36,8 @@ use oat\oatbox\action\Action;
  * Parameter 2: The either absolute or relative path to the destination CSV file.
  * Parameter 3: The numeric index of the CSV column on which the PCRE pattern will operate (see Parameter 4).
  * Parameter 4: A PCRE pattern.
- * Parameter 5: A numeric (0|1) value describing whether or not the source CSV file contains a first row containing column names.
+ * Parameter 5: A numeric (0|1) value describing whether or not the source CSV file contains a first row containing
+ *              column names.
  */
 class RemoveCsvRowsByPattern implements Action
 {
@@ -147,7 +148,8 @@ class RemoveCsvRowsByPattern implements Action
 
         return new Report(
             Report::TYPE_SUCCESS,
-            $writtenCount . " lines written in file '" . realpath($destination) . "'. ${matchCount} lines were ignored because they were matching the provided pattern."
+            $writtenCount . " lines written in file '" . realpath($destination)
+                . "'. ${matchCount} lines were ignored because they were matching the provided pattern."
         );
     }
 }

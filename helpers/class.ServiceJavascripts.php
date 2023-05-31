@@ -56,13 +56,13 @@ class tao_helpers_ServiceJavascripts
     ) {
         $inputParameters = tao_models_classes_service_ServiceCallHelper::getInputValues($serviceCall, $customParams);
         $inputParameters['standalone'] = true;
-        return 'new ServiceApi(' .
-            tao_helpers_Javascript::buildObject(tao_models_classes_service_ServiceCallHelper::getBaseUrl($serviceCall->getServiceDefinitionId())) . ',' .
-            tao_helpers_Javascript::buildObject($inputParameters) . ',' .
-            tao_helpers_Javascript::buildObject($serviceCallId) . ',' .
-            self::getServiceStorage($serviceCallId) . ',' .
-            self::getUserInfoService() .
-        ')';
+        return 'new ServiceApi('
+            . tao_helpers_Javascript::buildObject(
+                tao_models_classes_service_ServiceCallHelper::getBaseUrl($serviceCall->getServiceDefinitionId())
+            )
+            . ',' . tao_helpers_Javascript::buildObject($inputParameters)
+            . ',' . tao_helpers_Javascript::buildObject($serviceCallId)
+            . ',' . self::getServiceStorage($serviceCallId) . ',' . ')';
     }
 
     public static function getFinishedSniplet()

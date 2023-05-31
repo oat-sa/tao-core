@@ -32,8 +32,14 @@ class RegisterDataAccessControlChangedListener extends InstallAction
 {
     public function __invoke($params): common_report_Report
     {
-        $this->getServiceManager()->register(DataAccessControlChangedListener::SERVICE_ID, new DataAccessControlChangedListener());
+        $this->getServiceManager()->register(
+            DataAccessControlChangedListener::SERVICE_ID,
+            new DataAccessControlChangedListener()
+        );
 
-        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'ClassPropertyRemovedListener is registered');
+        return new common_report_Report(
+            common_report_Report::TYPE_SUCCESS,
+            'ClassPropertyRemovedListener is registered'
+        );
     }
 }
