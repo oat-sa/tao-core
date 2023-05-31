@@ -155,7 +155,10 @@ class Factory
         if (!class_exists($controllerClassName)) {
             common_Logger::w($controllerClassName . ' not found');
             $returnValue = false;
-        } elseif (!is_subclass_of($controllerClassName, 'Module') && !is_subclass_of($controllerClassName, Controller::class)) {
+        } elseif (
+            !is_subclass_of($controllerClassName, 'Module')
+            && !is_subclass_of($controllerClassName, Controller::class)
+        ) {
             common_Logger::w($controllerClassName . ' is not a valid Controller.');
             $returnValue = false;
         } else {

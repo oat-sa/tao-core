@@ -68,8 +68,7 @@ class SqlExporter extends AbstractFileExporter implements PsrResponseExporter
      */
     public function getFileExportResponse(
         ResponseInterface $originResponse = null
-    )
-    {
+    ) {
         if ($originResponse === null) {
             $originResponse = new Response();
         }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +28,6 @@
  */
 class tao_actions_Log extends \tao_actions_CommonModule
 {
-
     /**
      * Log the message sent from client side
      */
@@ -37,7 +37,11 @@ class tao_actions_Log extends \tao_actions_CommonModule
         if ($this->hasRequestParameter('messages')) {
             $messages = json_decode($this->getRawParameter('messages'), true);
             foreach ($messages as $message) {
-                \common_Logger::singleton()->log($this->getLevel($message['level']), json_encode($message), ['frontend']);
+                \common_Logger::singleton()->log(
+                    $this->getLevel($message['level']),
+                    json_encode($message),
+                    ['frontend']
+                );
             }
         }
         $this->returnJson($result);

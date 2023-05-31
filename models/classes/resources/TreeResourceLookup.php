@@ -32,7 +32,7 @@ use oat\tao\helpers\TreeHelper;
  */
 class TreeResourceLookup extends ConfigurableService implements ResourceLookup
 {
-    const SERVICE_ID = 'tao/TreeResourceLookup';
+    public const SERVICE_ID = 'tao/TreeResourceLookup';
 
     /**
      * Retrieve Resources in their hierarchy, for the given parameters as format them as tree.
@@ -44,8 +44,13 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
      * @param int                        $limit           for paging
      * @return array the resources
      */
-    public function getResources(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
-    {
+    public function getResources(
+        \core_kernel_classes_Class $rootClass,
+        array $selectedUris = [],
+        array $propertyFilters = [],
+        $offset = 0,
+        $limit = 30
+    ) {
         $openNodes = [];
         if (count($selectedUris) > 0) {
             $openNodes = TreeHelper::getNodesToOpen($selectedUris, $rootClass);
@@ -59,9 +64,14 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
         return $this->formatTreeData([$treeData]);
     }
 
-    public function getClasses(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
-    {
-         $openNodes = [];
+    public function getClasses(
+        \core_kernel_classes_Class $rootClass,
+        array $selectedUris = [],
+        array $propertyFilters = [],
+        $offset = 0,
+        $limit = 30
+    ) {
+        $openNodes = [];
         if (count($selectedUris) > 0) {
             $openNodes = TreeHelper::getNodesToOpen($selectedUris, $rootClass);
         }

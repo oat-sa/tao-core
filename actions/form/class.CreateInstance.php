@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -85,7 +87,8 @@ class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
 
         //add create action in toolbar
         $action = tao_helpers_form_FormFactory::getElement('save', 'Free');
-        $value =  '<a href="#" class="form-submitter btn-success small"><span class="icon-save"></span> ' . __('Create') . '</a>';
+        $value =  '<a href="#" class="form-submitter btn-success small"><span class="icon-save"></span> '
+            . __('Create') . '</a>';
 
         $action->setValue($value);
 
@@ -107,8 +110,14 @@ class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
         //get the list of properties to set in the form
         $defaultProperties  = tao_helpers_form_GenerisFormFactory::getDefaultProperties();
         $editedProperties = $defaultProperties;
-        $excludedProperties = (isset($this->options[self::EXCLUDED_PROPERTIES]) && is_array($this->options[self::EXCLUDED_PROPERTIES])) ? $this->options[self::EXCLUDED_PROPERTIES] : [];
-        $additionalProperties = (isset($this->options['additionalProperties']) && is_array($this->options['additionalProperties'])) ? $this->options['additionalProperties'] : [];
+        $excludedProperties = (isset($this->options[self::EXCLUDED_PROPERTIES])
+            && is_array($this->options[self::EXCLUDED_PROPERTIES]))
+                ? $this->options[self::EXCLUDED_PROPERTIES]
+                : [];
+        $additionalProperties = (isset($this->options['additionalProperties'])
+            && is_array($this->options['additionalProperties']))
+                ? $this->options['additionalProperties']
+                : [];
         $finalElements = [];
 
         $classProperties = [];
@@ -163,7 +172,10 @@ class tao_actions_form_CreateInstance extends tao_helpers_form_FormContainer
 
                     // insert the element at the right place.
                     $i = 0;
-                    while ($i < count($finalElements) && ($position >= $finalElements[$i][1] && $finalElements[$i][1] !== null)) {
+                    while (
+                        $i < count($finalElements)
+                        && ($position >= $finalElements[$i][1] && $finalElements[$i][1] !== null)
+                    ) {
                         $i++;
                     }
 

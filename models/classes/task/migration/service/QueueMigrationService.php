@@ -36,8 +36,7 @@ class QueueMigrationService extends ConfigurableService
         ResultFilter $filter,
         SpawnMigrationConfigServiceInterface $spawnService,
         common_report_Report $report
-    ): ?MigrationConfig
-    {
+    ): ?MigrationConfig {
         $results = $resultSearcher->search($filter);
 
         foreach ($results as $unit) {
@@ -61,7 +60,9 @@ class QueueMigrationService extends ConfigurableService
             }
         }
 
-        $report->add(common_report_Report::createSuccess('To repeat this process to other units please provide -rp flag'));
+        $report->add(
+            common_report_Report::createSuccess('To repeat this process to other units please provide -rp flag')
+        );
 
         return null;
     }

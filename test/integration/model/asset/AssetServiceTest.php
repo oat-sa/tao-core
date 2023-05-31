@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\test\integration\model\asset;
@@ -32,7 +31,7 @@ use oat\tao\model\service\ApplicationService;
  */
 class AssetServiceTest extends GenerisPhpUnitTestRunner
 {
-    const TEST_TAO_VERSION = 'TEST_TAO_VERSION';
+    public const TEST_TAO_VERSION = 'TEST_TAO_VERSION';
 
     /**
      * Test the method AssetService->getAsset
@@ -69,13 +68,54 @@ class AssetServiceTest extends GenerisPhpUnitTestRunner
     public function getAssetProvider()
     {
         return [
-            ['https://test.taotesting.com', '7654321', 'css/tao-main-style.css', 'tao', 'https://test.taotesting.com/tao/views/css/tao-main-style.css?buster=7654321'],
-            ['https://test.taotesting.com/', 'AF034B', 'js/lib/require.js', 'tao', 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'],
-            ['https://test.taotesting.com/', 'AF034B', 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'],
-            ['https://test.taotesting.com/', 'éHo?/©', 'js/core/eventifier.js', 'tao', 'https://test.taotesting.com/tao/views/js/core/eventifier.js?buster=%C3%A9Ho%3F%2F%C2%A9'],
-            ['https://test.taotesting.com', null, 'tao/views/js/lib/require.js', null, 'https://test.taotesting.com/tao/views/js/lib/require.js?buster=' . urlencode(self::TEST_TAO_VERSION)],
-            ['https://test.taotesting.com', false, 'css/tao-main-style.css', 'tao', 'https://test.taotesting.com/tao/views/css/tao-main-style.css'],
-            ['https://test.taotesting.com', '7654321', 'js/path/to/library/', 'tao', 'https://test.taotesting.com/tao/views/js/path/to/library/']
+            [
+                'https://test.taotesting.com',
+                '7654321',
+                'css/tao-main-style.css',
+                'tao',
+                'https://test.taotesting.com/tao/views/css/tao-main-style.css?buster=7654321'
+            ],
+            [
+                'https://test.taotesting.com/',
+                'AF034B',
+                'js/lib/require.js',
+                'tao',
+                'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'
+            ],
+            [
+                'https://test.taotesting.com/',
+                'AF034B',
+                'tao/views/js/lib/require.js',
+                null,
+                'https://test.taotesting.com/tao/views/js/lib/require.js?buster=AF034B'
+            ],
+            [
+                'https://test.taotesting.com/',
+                'éHo?/©',
+                'js/core/eventifier.js',
+                'tao',
+                'https://test.taotesting.com/tao/views/js/core/eventifier.js?buster=%C3%A9Ho%3F%2F%C2%A9'
+            ],
+            [
+                'https://test.taotesting.com',
+                null,
+                'tao/views/js/lib/require.js',
+                null,
+                'https://test.taotesting.com/tao/views/js/lib/require.js?buster=' . urlencode(self::TEST_TAO_VERSION)
+            ],
+            [
+                'https://test.taotesting.com',
+                false,
+                'css/tao-main-style.css',
+                'tao',
+                'https://test.taotesting.com/tao/views/css/tao-main-style.css'
+            ],
+            [
+                'https://test.taotesting.com',
+                '7654321', 'js/path/to/library/',
+                'tao',
+                'https://test.taotesting.com/tao/views/js/path/to/library/'
+            ],
         ];
     }
 }

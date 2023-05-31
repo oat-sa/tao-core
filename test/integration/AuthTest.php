@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,26 +15,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  */
 
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\test\TaoPhpUnitTestRunner;
 
+// phpcs:disable PSR1.Files.SideEffects
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  *
  * @author Bertrand Chevrier, <taosupport@tudor.lu>
  * @package tao
-
  */
 class AuthTestCase extends TaoPhpUnitTestRunner
 {
-
     /**
      * @var tao_models_classes_UserService
      */
@@ -63,16 +64,14 @@ class AuthTestCase extends TaoPhpUnitTestRunner
      */
     private $clearPassword = '';
 
-
-    /**
-     * tests initialization
-     */
     public function setUp(): void
     {
         TaoPhpUnitTestRunner::initTest();
 
         $this->clearPassword = $this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD];
-        $this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD]);
+        $this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt(
+            $this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD]
+        );
 
         $this->userService = tao_models_classes_UserService::singleton();
 
@@ -90,9 +89,11 @@ class AuthTestCase extends TaoPhpUnitTestRunner
         if (!is_null($this->userService)) {
             $this->userService->removeUser($this->testUser);
         }
+
         if (tao_models_classes_UserService::singleton()->isASessionOpened()) {
             tao_models_classes_UserService::singleton()->logout();
         }
+
         if (isset($_SESSION)) {
             //session not started in testsuite
             //session_destroy();
@@ -119,27 +120,31 @@ class AuthTestCase extends TaoPhpUnitTestRunner
             tao_models_classes_UserService::singleton()->logout();
         }
 
-        //no other user session
+        // No other user session
         $this->assertFalse(tao_models_classes_UserService::singleton()->isASessionOpened());
 
-        //check user login
-        $this->assertTrue($this->userService->loginUser($this->testUserData[GenerisRdf::PROPERTY_USER_LOGIN], $this->clearPassword));
+        // Check user login
+        $this->assertTrue(
+            $this->userService->loginUser(
+                $this->testUserData[GenerisRdf::PROPERTY_USER_LOGIN],
+                $this->clearPassword
+            )
+        );
 
-        //check session
+        // Check session
         $this->assertTrue(tao_models_classes_UserService::singleton()->isASessionOpened());
 
-
         $currentUser =  $this->userService->getCurrentUser();
-        $this->assertIsA($currentUser, 'core_kernel_classes_Resource');
-        foreach ($this->testUserData as $prop => $value) {
-            try {
-                $property = new core_kernel_classes_Property($prop);
+        $this->assertInstanceOf(core_kernel_classes_Resource::class, $currentUser);
+
+        try {
+            foreach ($this->testUserData as $prop => $value) {
                 $v = $currentUser->getUniquePropertyValue(new core_kernel_classes_Property($prop));
-                $v = ($v instanceof core_kernel_classes_Resource) ? $v->getUri() : $v->literal;
+                $v = ($v instanceof core_kernel_classes_Resource ? $v->getUri() : $v->literal);
                 $this->assertEquals($value, $v);
-            } catch (common_Exception $ce) {
-                $this->fail($ce);
             }
+        } catch (common_Exception $ce) {
+            $this->fail($ce);
         }
     }
 }

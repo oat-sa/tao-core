@@ -78,7 +78,7 @@ class TokenStoreSession extends Configurable implements TokenStore
 
     public function clear(): void
     {
-        foreach($this->getSession()->getAttributeNames() as $key) {
+        foreach ($this->getSession()->getAttributeNames() as $key) {
             if (strpos($key, self::TOKEN_NAMESPACE) === 0) {
                 $this->getSession()->removeAttribute($key);
             }

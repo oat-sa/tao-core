@@ -33,7 +33,7 @@ use common_session_Session;
  */
 interface SessionSubstitutionService
 {
-    const SERVICE_ID = 'tao/SessionSubstitution';
+    public const SERVICE_ID = 'tao/SessionSubstitution';
 
     /**
      * @param User $user

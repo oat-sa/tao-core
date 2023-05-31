@@ -31,13 +31,13 @@ use oat\tao\model\messaging\transportStrategy\MailAdapter;
  */
 class MessagingService extends \tao_models_classes_Service
 {
-    const CONFIG_KEY = 'messaging';
-    
+    public const CONFIG_KEY = 'messaging';
+
     /**
      * @var Transport
      */
     private $transport = null;
-    
+
     /**
      * Get the current transport implementation
      *
@@ -55,7 +55,7 @@ class MessagingService extends \tao_models_classes_Service
         }
         return $this->transport;
     }
-    
+
     /**
      * Set the transport implementation to use
      *
@@ -67,7 +67,7 @@ class MessagingService extends \tao_models_classes_Service
         $tao = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $tao->setConfig(self::CONFIG_KEY, $this->transport);
     }
-    
+
     /**
      * Send a message (destination is part of the message)
      *
@@ -82,7 +82,7 @@ class MessagingService extends \tao_models_classes_Service
         }
         return $this->getTransport()->send($message);
     }
-    
+
     /**
      * Test if messaging is available
      *

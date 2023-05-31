@@ -1,4 +1,5 @@
 <?php
+
 /**
 * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -27,14 +28,16 @@
  */
 class tao_actions_Permission extends tao_actions_CommonModule
 {
-
     /**
      * Access to resource id denied
      */
     public function denied()
     {
         $accepts = explode(',', $this->getRequest()->getHeader('Accept'));
-        if (array_search('application/json', $accepts) !== false ||  array_search('text/javascript', $accepts) !== false) {
+        if (
+            array_search('application/json', $accepts) !== false
+            ||  array_search('text/javascript', $accepts) !== false
+        ) {
             $this->returnJson([ 'error' =>  __("You do not have the required rights to edit this resource.")]);
             return;
         }

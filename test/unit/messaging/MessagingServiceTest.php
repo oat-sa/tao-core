@@ -51,20 +51,20 @@ class MessagingServiceTest extends TestCase
         $transportProphecy = $this->prophesize('oat\tao\model\messaging\Transport');
         $transportProphecy->send($message)->willReturn(true);
         $transportProphecy->send($message)->should(new CallTimesPrediction(1));
-        
+
         $messagingService = $this->getMessagingService($transportProphecy->reveal());
-        
+
         $result = $messagingService->send($message);
-        
+
         $transportProphecy->checkProphecyMethodsPredictions();
         $this->assertTrue($result);
     }
-    
+
     public function testIsAvailable()
     {
         $transportMock = $this->getMockBuilder('oat\tao\model\messaging\Transport');
         $messagingService = $this->getMessagingService($transportMock);
-        
+
         $this->assertTrue($messagingService->isAvailable());
     }
 }

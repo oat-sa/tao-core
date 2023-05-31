@@ -2,11 +2,12 @@
 
 namespace oat\tao\test\integration;
 
+// phpcs:disable PSR1.Files.SideEffects
 require_once dirname(__FILE__) . '/../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 abstract class RestTestCase extends RestTestRunner
 {
-
     abstract public function serviceProvider();
 
     /**
@@ -87,7 +88,7 @@ abstract class RestTestCase extends RestTestRunner
 
         // should return a 200
         $http_status = $this->curl($url, CURLOPT_HTTPGET, CURLINFO_HTTP_CODE);
-                        $this->assertEquals($http_status, "200");
+        $this->assertEquals($http_status, "200");
     }
 
     /**

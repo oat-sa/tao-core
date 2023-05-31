@@ -205,7 +205,8 @@ class RdsNotificationServiceTest extends TestCase
     {
         $statementMock = $this->createMock(Statement::class);
         $this->persistanceMock->expects($this->once())->method('query')->with(
-            'SELECT id , recipient , status , sender_id , sender_name , title , message , created_at , updated_at FROM notifications WHERE recipient = ? ORDER BY created_at DESC LIMIT 20',
+            'SELECT id , recipient , status , sender_id , sender_name , title , message , created_at , '
+                . 'updated_at FROM notifications WHERE recipient = ? ORDER BY created_at DESC LIMIT 20',
             [self::EXAMPLE_USER_ID]
         )->willReturn($statementMock);
 
@@ -245,7 +246,8 @@ class RdsNotificationServiceTest extends TestCase
     {
         $statementMock = $this->createMock(Statement::class);
         $this->persistanceMock->expects($this->once())->method('query')->with(
-            'SELECT id , recipient , status , sender_id , sender_name , title , message , created_at , updated_at FROM notifications WHERE id = ? ',
+            'SELECT id , recipient , status , sender_id , sender_name , title , message , created_at , '
+                . 'updated_at FROM notifications WHERE id = ? ',
             [self::EXAMPLE_USER_ID]
         )->willReturn($statementMock);
 

@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -47,12 +49,14 @@ class tao_helpers_form_elements_xhtml_Radiobox extends tao_helpers_form_elements
         $i = 0;
         $returnValue .= '<div class="form_radlst">';
         foreach ($this->options as $optionId => $optionLabel) {
-            $returnValue .= "<input type='radio' name='{$this->name}' id='{$this->name}_{$i}' value='{$optionId}' data-testid='{$this->getDescription()}' ";
+            $returnValue .= "<input type='radio' name='{$this->name}' id='{$this->name}_{$i}' value='{$optionId}' "
+                . "data-testid='{$this->getDescription()}' ";
             $returnValue .= $this->renderAttributes();
             if ($this->value == $optionId) {
                 $returnValue .= " checked='checked' ";
             }
-            $returnValue .= " /><label class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel) . "</label><br />";
+            $returnValue .= " /><label class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel)
+                . "</label><br />";
             $i++;
         }
         $returnValue .= "</div>";

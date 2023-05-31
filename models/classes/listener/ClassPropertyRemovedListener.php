@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,7 +31,7 @@ use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
 class ClassPropertyRemovedListener extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/ClassPropertyRemovedListener';
+    public const SERVICE_ID = 'tao/ClassPropertyRemovedListener';
 
     public function handleEvent(ClassPropertyRemovedEvent $event): void
     {

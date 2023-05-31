@@ -26,12 +26,11 @@ use oat\oatbox\PhpSerializable;
 
 class Perspective extends MenuElement implements PhpSerializable
 {
+    public const GROUP_DEFAULT = 'main';
 
-    const GROUP_DEFAULT = 'main';
+    public const GROUP_SETTINGS = 'settings';
 
-    const GROUP_SETTINGS = 'settings';
-
-    const GROUP_INVISIBLE = 'invisible';
+    public const GROUP_INVISIBLE = 'invisible';
 
     private $data = [];
 
@@ -75,15 +74,19 @@ class Perspective extends MenuElement implements PhpSerializable
     public static function fromLegacyToolbarAction(\SimpleXMLElement $node, $structureExtensionId)
     {
         $data = [
-            'id'          => (string)$node['id'],
-            'extension'   => $structureExtensionId,
-            'name'        => (string)$node['title'],
-            'level'       => (int)$node['level'],
+            'id' => (string)$node['id'],
+            'extension' => $structureExtensionId,
+            'name' => (string)$node['title'],
+            'level' => (int)$node['level'],
             'description' => empty($text) ? null : $text,
-            'binding'     => isset($node['binding']) ? (string)$node['binding'] :  (isset($node['js']) ? (string)$node['js'] : null),
-            'structure'   => isset($node['structure']) ? (string)$node['structure'] : null,
-            'group'       => self::GROUP_SETTINGS,
-            'icon'        => isset($node['icon']) ? Icon::fromArray(['id' => (string)$node['icon']], $structureExtensionId) : null
+            'binding' => isset($node['binding'])
+                ? (string)$node['binding']
+                : (isset($node['js']) ? (string)$node['js'] : null),
+            'structure' => isset($node['structure']) ? (string)$node['structure'] : null,
+            'group' => self::GROUP_SETTINGS,
+            'icon' => isset($node['icon'])
+                ? Icon::fromArray(['id' => (string)$node['icon']], $structureExtensionId)
+                : null
         ];
         $children = [];
         if (isset($node['structure'])) {

@@ -31,11 +31,11 @@ use ReflectionMethod;
 
 class AnnotationReaderService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/AnnotationReaderService';
+    public const SERVICE_ID = 'tao/AnnotationReaderService';
 
-    const KEY_PREFIX = 'routeAnnotation_';
-    const PROP_RIGHTS = 'required_rights';
-    const PROP_SECURITY = 'security';
+    public const KEY_PREFIX = 'routeAnnotation_';
+    public const PROP_RIGHTS = 'required_rights';
+    public const PROP_SECURITY = 'security';
 
     /**
      * @var \common_cache_Cache

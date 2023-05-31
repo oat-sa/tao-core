@@ -113,7 +113,6 @@ class MetadataAliasesExtractorTest extends TestCase
 
                     return [];
                 }
-
             );
 
         // Check that $this->metadataHeadersExtractor->expects() is called 2 times instead of 4

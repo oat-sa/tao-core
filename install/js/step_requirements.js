@@ -1,22 +1,25 @@
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
+ *
  */
 //load the AMD config
 require(['config'], function(){
@@ -26,37 +29,37 @@ require(['config'], function(){
     var mandatoryCount = 0;
     var optionalCount = 0;
     var install = window.install;
-    
+
 
         // Binding to API.
         install.onNextable = function(){
-            
+
             $('#submitForm').removeClass('disabled')
                             .addClass('enabled')
                             .attr('disabled', false);
         }
-        
+
         install.onUnnextable = function(){
             $('#submitForm').removeClass('enabled')
                             .addClass('disabled')
                             .attr('disabled', true);
         }
-        
+
         // Binding to DOM.
         // What happens if you click 'Reload test'.
         $('#redoForm').bind('click', function(event){
             checkConfig();
         });
-        
+
         // What happens if you click on 'Proceed next step'.
         $('form').bind('submit', function(event){
             if (install.isNextable()){
-                install.setTemplate('step_server_setup');	
+                install.setTemplate('step_server_setup');
             }
-            
+
             return false;
         });
-        
+
         // Feed install API help store.
         initHelp();
 
@@ -78,27 +81,27 @@ require(['config'], function(){
                 install.addData('available_languages', data.value.availableLanguages);
                 install.addData('available_timezones', data.value.availableTimezones);
                             install.addData('available_timezone_labels', data.value.availableTimezoneLabels);
-                
+
                 // Empty existing reports.
                 var $list = $('#forms_check_content ul');
                 $list.empty();
                 install.clearRegisteredElements();
-                
+
                 // set a spinner up.
-                
+
                 var $target = $('<li id="loadingCheck"><label>Checking configuration. Please wait...</label></li>');
                 $('#forms_check_content ul').prepend($target);
                 var spinner = new Spinner(getSpinnerOptions('small')).spin($target[0]);
-                
+
                 setTimeout(function(){ // Fake a small processing time... -> 500ms
                     install.checkConfiguration(null, function(status, data){
                         if (status == 200){
                             var $list = $('#forms_check_content ul');
-                            
+
                             // Stop spinner.
                             spinner.stop();
                             $list.empty();
-            
+
                             // Append new reports.
                             for (report in data.value){
                                 var r = data.value[report];
@@ -107,11 +110,11 @@ require(['config'], function(){
                                     var kind = (optional == true) ? 'optional' : 'mandatory';
                                     var message;
                                     mandatoryCount += (r.value.optional == true) ? 0 : 1;
-                                    
+
                                     switch (r.type){
                                         case 'PHPExtensionReport':
                                             var name = r.value.name;
-                                            
+
                                             if (optional == true){
                                                 message = "PHP Extension '" + name + "' is not loaded on your web server but is optional to run TAO.";
                                                                                     optionalCount++;
@@ -121,12 +124,12 @@ require(['config'], function(){
                                                                                     //mandatoryCount++;
                                             }
                                     break;
-                                        
+
                                         case 'PHPINIValueReport':
                                             var expectedValue = r.value.expectedValue;
                                             var value = r.value.value;
                                             var name = r.value.name;
-                                            
+
                                             if (optional == true){
                                                 message = "PHP INI value '" + name + "' on your web server has not the expected value but is optional. Current value is '" + value + "' but should be '" + expectedValue + "'.";
                                                                                     optionalCount++;
@@ -136,43 +139,43 @@ require(['config'], function(){
                                                                                     //mandatoryCount++;
                                             }
                                         break;
-                                        
+
                                         case 'FileSystemComponentReport':
                                             var location = r.value.location;
                                             var recursive = r.value.recursive;
-                                            
+
                                             var expectedRightsMessage = install.getExpectedRightsAsString(r.value.expectedRights);
                                             var currentRightsMessage = install.getCurrentRightsAsString(r);
                                             var nature = (r.value.isFile == true) ? 'file' : 'directory';
                                             var recursiveMessage = (!r.value.isFile && recursive) ? ' (and all nested files) ' : '';
-                                            
+
                                             message = "The " + nature + recursiveMessage + " located at '" + location + "' on your web server should be " + expectedRightsMessage + " but is currently " + currentRightsMessage + ' only.';
                                         break;
-                                        
+
                                         default:
                                             message = r.value.message;
                                                                             //mandatoryCount++;
-                                                                            
+
                                         break;
                                     }
-                                    
-                                                            
+
+
                                     addReport(r.value.id, message, kind);
                                 }
                             }
-                                            
+
                                             displayLegend();
-                            
+
                             if (mandatoryCount === 0){
                                 addReport('ready', 'Your web server meets TAO requirements.', 'ok', false, true);
                                                     $('li.tao-ok label').append('<img src="images/valide.png" />');
                             }
-                            
+
                             install.stateChange();
                         }
                     });
                 }, 500);
-                
+
             }
             else {
                 // We cannot exchange data with the server side.
@@ -248,7 +251,7 @@ require(['config'], function(){
                                                                         var nature = (r.value.isFile == true) ? 'file' : 'directory';
 
                                                                         message = "The " + nature + " located at '" + location + "' on your web server should be " + expectedRightsMessage + " but is currently " + currentRightsMessage + ' only.';
-                                                                        
+
                                                                         //mandatoryCount++;
                                                                 break;
 
@@ -293,7 +296,7 @@ require(['config'], function(){
         $label = $('<label/>').text(message);
         $input[0].isValid = function(){ return $(this).hasClass('tao-optional') || $(this).hasClass('tao-ok'); };
         $input.append($label);
-        
+
         if (!noHelp){
             $help = $('<div title="learn more on this topic" class="icons ui-state-default ui-corner-all"></div>');
             $icon = $('<a id="hlp_' + name + '" class="ui-icon ui-icon-help"></a>');
@@ -303,11 +306,11 @@ require(['config'], function(){
             $help.append($icon);
             $input.append($help);
         }
-        
+
         install.register($input[0]);
-        
+
         if (prepend == false){
-            $list.append($input);	
+            $list.append($input);
         }
         else{
             $list.prepend($input);
@@ -315,7 +318,7 @@ require(['config'], function(){
     }
 
     function displayLegend(){
-        
+
         $('#formComment').empty();
             if (mandatoryCount > 0) {
                 $('#formComment').append('<p id="explMandatory">Mandatory component</p>');

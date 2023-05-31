@@ -15,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2016 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2016 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -38,8 +41,10 @@ use oat\oatbox\service\ServiceManager;
 use oat\generis\model\fileReference\FileReferenceSerializer;
 use oat\tao\model\upload\UploadService;
 
+// phpcs:disable Generic.Files.LineLength
 class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_classes_dataBinding_GenerisInstanceDataBinder
 {
+    // phpcs:enable Generic.Files.LineLength
     /**
      * Simply bind data from a Generis Instance Form to a specific generis class
      *
@@ -55,7 +60,8 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
      *
      * @access public
      * @author Jerome Bogaerts <jerome@taotesting.com>
-     * @param  array data An array of values where keys are Property URIs and values are either scalar, vector or object values.
+     * @param array $data An array of values where keys are Property URIs and values are either scalar, vector or object
+     *                    values.
      * @return mixed
      */
     public function bind($data)
@@ -105,10 +111,8 @@ class tao_models_classes_dataBinding_GenerisFormDataBinder extends tao_models_cl
         // If form has delete action, remove file
         if ($desc->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_DELETE) {
             $this->removeFile($property);
-        }
-
         // If form has add action, remove file & replace by new
-        elseif ($desc->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_ADD) {
+        } elseif ($desc->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_ADD) {
             $name = $desc->getName();
             $size = $desc->getSize();
 

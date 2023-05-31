@@ -33,9 +33,9 @@ use oat\oatbox\filesystem\FileSystemService;
 class UpdateLogger extends ConfigurableService implements LoggerInterface
 {
     use LoggerTrait;
-    
-    const SERVICE_ID = 'tao/updatelog';
-    const OPTION_FILESYSTEM = 'filesystem';
+
+    public const SERVICE_ID = 'tao/updatelog';
+    public const OPTION_FILESYSTEM = 'filesystem';
 
     /**
      * @param mixed $level
@@ -46,7 +46,7 @@ class UpdateLogger extends ConfigurableService implements LoggerInterface
     {
         $service = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
         $filesystem = $service->getFileSystem($this->getOption(self::OPTION_FILESYSTEM));
-        
+
         $updateId = uniqid('update_' . time() . '_', true);
         $filesystem->write($updateId . '.log', $message);
     }

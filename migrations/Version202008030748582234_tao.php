@@ -13,7 +13,6 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
  */
 final class Version202008030748582234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'Set new option `validateTokens` to `true`. This option can disable validation tokens on FE side.';

@@ -13,7 +13,6 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
  */
 final class Version202011301939462234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'Register ResultSetMapper';

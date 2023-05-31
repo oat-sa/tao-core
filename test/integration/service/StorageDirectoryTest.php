@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\integration\service;
@@ -27,6 +26,7 @@ use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
 use oat\generis\test\TestCase;
+use tao_models_classes_service_StorageDirectory;
 
 class StorageDirectoryTest extends TestCase
 {
@@ -36,7 +36,7 @@ class StorageDirectoryTest extends TestCase
     protected $pathFixture;
     protected $accessProvider;
 
-    /** @var  \tao_models_classes_service_StorageDirectory */
+    /** @var  tao_models_classes_service_StorageDirectory */
     protected $instance;
 
     public function setUp(): void
@@ -49,7 +49,12 @@ class StorageDirectoryTest extends TestCase
         $this->pathFixture = 'fixture';
         $this->accessProvider = $this->getAccessProvider($this->pathFixture);
 
-        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystemTmpId, $this->pathFixture, $this->accessProvider);
+        $this->instance = new tao_models_classes_service_StorageDirectory(
+            $this->idFixture,
+            $this->fileSystemTmpId,
+            $this->pathFixture,
+            $this->accessProvider
+        );
         $this->instance->setServiceLocator(ServiceManager::getServiceManager());
     }
 
@@ -103,7 +108,12 @@ class StorageDirectoryTest extends TestCase
 
     public function testIsNotPublic()
     {
-        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystem, $this->pathFixture, null);
+        $this->instance = new tao_models_classes_service_StorageDirectory(
+            $this->idFixture,
+            $this->fileSystem,
+            $this->pathFixture,
+            null
+        );
         $this->instance->setServiceLocator(ServiceManager::getServiceManager());
 
         $this->assertFalse($this->instance->isPublic());
@@ -243,7 +253,6 @@ class StorageDirectoryTest extends TestCase
         fclose($resource);
         $streamFixture->close();
     }
-
 
     public function testGetPath()
     {

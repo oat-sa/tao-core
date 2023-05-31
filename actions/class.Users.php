@@ -15,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2018 (update and modification) Open Assessment Technologies SA;
  *
  */
@@ -154,11 +157,19 @@ class tao_actions_Users extends tao_actions_CommonModule
 
             $id = tao_helpers_Uri::encode($user->getUri());
             $login = (string)current($propValues[GenerisRdf::PROPERTY_USER_LOGIN]);
-            $firstName = empty($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]);
-            $lastName = empty($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]) ? '' : (string)current($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]);
-            $uiRes = empty($propValues[GenerisRdf::PROPERTY_USER_UILG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_UILG]);
+            $firstName = empty($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME])
+                ? ''
+                : (string)current($propValues[GenerisRdf::PROPERTY_USER_FIRSTNAME]);
+            $lastName = empty($propValues[GenerisRdf::PROPERTY_USER_LASTNAME])
+                ? ''
+                : (string)current($propValues[GenerisRdf::PROPERTY_USER_LASTNAME]);
+            $uiRes = empty($propValues[GenerisRdf::PROPERTY_USER_UILG])
+                ? null
+                : current($propValues[GenerisRdf::PROPERTY_USER_UILG]);
             if ($userLangService->isDataLanguageEnabled()) {
-                $dataRes = empty($propValues[GenerisRdf::PROPERTY_USER_DEFLG]) ? null : current($propValues[GenerisRdf::PROPERTY_USER_DEFLG]);
+                $dataRes = empty($propValues[GenerisRdf::PROPERTY_USER_DEFLG])
+                    ? null
+                    : current($propValues[GenerisRdf::PROPERTY_USER_DEFLG]);
                 $response->data[$index]['dataLg'] = is_null($dataRes) ? '' : $dataRes->getLabel();
             }
 
@@ -379,7 +390,10 @@ class tao_actions_Users extends tao_actions_CommonModule
             $oldRoles = $userService->getUserRoles($user);
             $allowedRoles = $userService->getPermittedRoles($userService->getCurrentUser(), $oldRoles, false);
             $staticRoles = array_diff($oldRoles, $allowedRoles);
-            $values[GenerisRdf::PROPERTY_USER_ROLES] = array_merge($values[GenerisRdf::PROPERTY_USER_ROLES], $staticRoles);
+            $values[GenerisRdf::PROPERTY_USER_ROLES] = array_merge(
+                $values[GenerisRdf::PROPERTY_USER_ROLES],
+                $staticRoles
+            );
 
             if ($userService->triggerUpdatedEvent($user, $values, $hashForKey)) {
                 $this->setData('message', __('User saved'));
@@ -406,9 +420,15 @@ class tao_actions_Users extends tao_actions_CommonModule
         $user = UserHelper::getUser($this->getUserResource());
 
         if ($this->getUserLocksService()->unlockUser($user)) {
-            $this->returnJson(['success' => true, 'message' => __('User %s successfully unlocked', UserHelper::getUserLogin(UserHelper::getUser($user)))]);
+            $this->returnJson([
+                'success' => true,
+                'message' => __('User %s successfully unlocked', UserHelper::getUserLogin(UserHelper::getUser($user)))
+            ]);
         } else {
-            $this->returnJson(['success' => false, 'message' => __('User %s can not be unlocked', UserHelper::getUserLogin(UserHelper::getUser($user)))]);
+            $this->returnJson([
+                'success' => false,
+                'message' => __('User %s can not be unlocked', UserHelper::getUserLogin(UserHelper::getUser($user)))
+            ]);
         }
     }
 
@@ -428,9 +448,15 @@ class tao_actions_Users extends tao_actions_CommonModule
         $user = UserHelper::getUser($this->getUserResource());
 
         if ($this->getUserLocksService()->lockUser($user)) {
-            $this->returnJson(['success' => true, 'message' => __('User %s successfully locked', UserHelper::getUserLogin(UserHelper::getUser($user)))]);
+            $this->returnJson([
+                'success' => true,
+                'message' => __('User %s successfully locked', UserHelper::getUserLogin(UserHelper::getUser($user)))
+            ]);
         } else {
-            $this->returnJson(['success' => false, 'message' => __('User %s can not be locked', UserHelper::getUserLogin(UserHelper::getUser($user)))]);
+            $this->returnJson([
+                'success' => false,
+                'message' => __('User %s can not be locked', UserHelper::getUserLogin(UserHelper::getUser($user)))
+            ]);
         }
     }
 

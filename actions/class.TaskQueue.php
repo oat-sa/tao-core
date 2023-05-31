@@ -35,9 +35,9 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
 {
     use TaskQueueActionTrait;
 
-    const TASK_ID_PARAM = 'id';
-    const PARAMETER_LIMIT = 'limit';
-    const PARAMETER_OFFSET = 'offset';
+    public const TASK_ID_PARAM = 'id';
+    public const PARAMETER_LIMIT = 'limit';
+    public const PARAMETER_OFFSET = 'offset';
 
     /**
      * Get task data by identifier

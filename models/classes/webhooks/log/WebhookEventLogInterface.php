@@ -24,7 +24,7 @@ use oat\tao\model\webhooks\task\WebhookTaskContext;
 
 interface WebhookEventLogInterface
 {
-    const SERVICE_ID = 'tao/webhookEventLog';
+    public const SERVICE_ID = 'tao/webhookEventLog';
 
     /**
      * @param WebhookTaskContext $webhookTaskContext
@@ -54,7 +54,11 @@ interface WebhookEventLogInterface
      * @param string $responseBody
      * @param string|null $actualAcknowledgement
      */
-    public function storeInvalidAcknowledgementLog(WebhookTaskContext $webhookTaskContext, $responseBody, $actualAcknowledgement = null);
+    public function storeInvalidAcknowledgementLog(
+        WebhookTaskContext $webhookTaskContext,
+        $responseBody,
+        $actualAcknowledgement = null
+    );
 
     /**
      * @param WebhookTaskContext $webhookTaskContext

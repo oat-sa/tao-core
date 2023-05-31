@@ -37,7 +37,7 @@ class SetServiceFileStorage extends \common_ext_action_InstallAction
     {
         $publicDataPath = FILES_PATH . 'tao' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR;
         $privateDataPath = FILES_PATH . 'tao' . DIRECTORY_SEPARATOR . 'private' . DIRECTORY_SEPARATOR;
-        
+
         if (file_exists($publicDataPath)) {
             \helpers_File::emptyDirectory($publicDataPath);
         }

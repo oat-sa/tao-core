@@ -42,7 +42,8 @@ class Validators extends AbstractValidators
         $i = 0;
         $returnValue .= '<div class="form_radlst form_checklst">';
         foreach ($this->getOptions() as $optionId => $optionLabel) {
-            $returnValue .= "<input type='checkbox' value='{$optionId}' name='{$this->name}[]' id='{$this->name}_{$i}' ";
+            $returnValue .= "<input type='checkbox' value='{$optionId}' name='{$this->name}[]' "
+                . "id='{$this->name}_{$i}' ";
             $returnValue .= $this->renderAttributes();
 
             if (in_array($optionId, $this->values, true)) {

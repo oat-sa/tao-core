@@ -29,7 +29,7 @@ use oat\generis\test\TestCase;
 
 class ServiceCallTest extends TestCase
 {
-    const SERVICE_DEFINITION = 'SERVICE_DEFINITION_URI';
+    public const SERVICE_DEFINITION = 'SERVICE_DEFINITION_URI';
     /**
          * @var tao_models_classes_service_ServiceCall;
          */
@@ -64,7 +64,11 @@ class ServiceCallTest extends TestCase
         $result = $this->object->serializeToString();
         $this->assertEquals($expectedResult, $result, 'Serialized ServiceCall JSON string must be as expected.');
         $resultJsonEncode = json_encode($this->object);
-        $this->assertEquals($expectedResult, $resultJsonEncode, 'ServiceCall serialized by using json_encode() must be as expected.');
+        $this->assertEquals(
+            $expectedResult,
+            $resultJsonEncode,
+            'ServiceCall serialized by using json_encode() must be as expected.'
+        );
     }
 
     public function testFromJson()
@@ -87,7 +91,11 @@ class ServiceCallTest extends TestCase
             ],
         ];
         $result = tao_models_classes_service_ServiceCall::fromJson($serviceCallData);
-        $this->assertInstanceOf(tao_models_classes_service_ServiceCall::class, $result, 'ServiceCall object created from array must be an instance of tao_models_classes_service_ServiceCall class.');
+        $this->assertInstanceOf(
+            tao_models_classes_service_ServiceCall::class,
+            $result,
+            'ServiceCall object created from array must be an instance of tao_models_classes_service_ServiceCall class.'
+        );
     }
 
     public function testFromStringInvalidJsonThrowsException()
@@ -99,9 +107,15 @@ class ServiceCallTest extends TestCase
 
     public function testFromString()
     {
-        $serviceCallJson = '{"service":"SERVICE_DEFINITION_URI","in":[{"const":"constValue","def":"defValue"},{"proc":"procValue","def":"defValue"}],"out":{"proc":"procValue","def":"defValue"}}';
+        $serviceCallJson = '{"service":"SERVICE_DEFINITION_URI","in":[{"const":"constValue","def":"defValue"},'
+            . '{"proc":"procValue","def":"defValue"}],"out":{"proc":"procValue","def":"defValue"}}';
         $result = tao_models_classes_service_ServiceCall::fromString($serviceCallJson);
-        $this->assertInstanceOf(tao_models_classes_service_ServiceCall::class, $result, 'ServiceCall object created from JSON string must be an instance of tao_models_classes_service_ServiceCall class.');
+        $this->assertInstanceOf(
+            tao_models_classes_service_ServiceCall::class,
+            $result,
+            'ServiceCall object created from JSON string must be an instance of '
+                . 'tao_models_classes_service_ServiceCall class.'
+        );
     }
 
     public function testJsonSerialize()

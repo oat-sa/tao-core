@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -65,9 +68,9 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter extends tao_helpers_grid_Cel
      */
     public function __construct($options = [], $subgridClass = '')
     {
-        
+
         parent::__construct($options);
-        
+
         $this->initSubgridClass($subgridClass);
         //the class exists
         if (!class_exists($this->subgridClass)) {
@@ -75,7 +78,10 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter extends tao_helpers_grid_Cel
         }
         $this->subGridContainer = new $this->subgridClass([]);
         //the instance is an instance of the good class
-        if (is_a($this->subGridContainer, $this->subgridClass) && is_a($this->subGridContainer, 'tao_helpers_grid_GridContainer')) {
+        if (
+            is_a($this->subGridContainer, $this->subgridClass)
+            && is_a($this->subGridContainer, 'tao_helpers_grid_GridContainer')
+        ) {
             $returnValue = $this->subGridContainer->getGrid()->getColumnsModel();
         } else {
             throw new common_Exception('invalid subgrid class : ' . $this->subgridClass);
@@ -96,8 +102,11 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter extends tao_helpers_grid_Cel
     {
         $returnValue = null;
 
-        
-        if (isset($this->data[$rowId]) && is_a($this->data[$rowId], 'wfEngine_helpers_Monitoring_ActivityMonitoringGrid')) {
+
+        if (
+            isset($this->data[$rowId])
+            && is_a($this->data[$rowId], 'wfEngine_helpers_Monitoring_ActivityMonitoringGrid')
+        ) {
             $returnValue = $this->data[$rowId];
         } else {
             $subgridData = $this->getSubgridRows($rowId);
@@ -106,7 +115,7 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter extends tao_helpers_grid_Cel
             $returnValue = $cloneSubGridCtn;
             $this->data[$rowId] = $cloneSubGridCtn;
         }
-        
+
 
         return $returnValue;
     }
@@ -144,10 +153,10 @@ abstract class tao_helpers_grid_Cell_SubgridAdapter extends tao_helpers_grid_Cel
     {
         $returnValue = null;
 
-        
+
         $returnValue = $this->subGridContainer;
-        
+
 
         return $returnValue;
     }
-} /* end of abstract class tao_helpers_grid_Cell_SubgridAdapter */
+}

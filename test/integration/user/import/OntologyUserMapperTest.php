@@ -94,13 +94,19 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
             ->setMethods(['getPasswordHashService', 'getLanguageService'])
             ->getMock();
 
-        $passwordHashService = $this->getMockBuilder(helpers_PasswordHash::class)->disableOriginalConstructor()->getMock();
+        $passwordHashService = $this->getMockBuilder(helpers_PasswordHash::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $passwordHashService->method('encrypt')->willReturn('encrypted_password');
 
-        $langResource = $this->getMockBuilder(core_kernel_classes_Resource::class)->disableOriginalConstructor()->getMock();
+        $langResource = $this->getMockBuilder(core_kernel_classes_Resource::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $langResource->method('getUri')->willReturn('http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN');
 
-        $languageService = $this->getMockBuilder(tao_models_classes_LanguageService::class)->disableOriginalConstructor()->getMock();
+        $languageService = $this->getMockBuilder(tao_models_classes_LanguageService::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $languageService->method('getLanguageByCode')->willReturn($langResource);
 
         $mapper->method('getPasswordHashService')
@@ -145,11 +151,13 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
                 ],
                 'result' => [
                     'http://www.w3.org/2000/01/rdf-schema#label' => 'user label',
-                    'http://www.tao.lu/Ontologies/generis.rdf#userUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userUILg' =>
+                        'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
                     'http://www.tao.lu/Ontologies/generis.rdf#login' => 'userlogin',
                     'http://www.tao.lu/Ontologies/generis.rdf#userRoles' => ['role1'],
                     'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
-                    'http://www.tao.lu/Ontologies/generis.rdf#userDefLg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userDefLg' =>
+                        'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
                     'http://www.tao.lu/Ontologies/generis.rdf#userFirstName' => 'user first',
                     'http://www.tao.lu/Ontologies/generis.rdf#userLastName' => 'user last',
                     'http://www.tao.lu/Ontologies/generis.rdf#userMail' => 'user@email.com',

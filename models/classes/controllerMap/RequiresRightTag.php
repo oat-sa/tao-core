@@ -73,7 +73,7 @@ class RequiresRightTag extends BaseTag
         string $name = '',
         ?DescriptionFactory $descriptionFactory = null,
         ?TypeContext $context = null
-    ) : self {
+    ): self {
         Assert::stringNotEmpty($name);
         Assert::notNull($descriptionFactory);
 
@@ -91,7 +91,7 @@ class RequiresRightTag extends BaseTag
         return $self;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->description ? $this->description->render() : '';
     }

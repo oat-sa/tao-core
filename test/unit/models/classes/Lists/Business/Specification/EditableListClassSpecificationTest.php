@@ -50,7 +50,8 @@ class EditableListClassSpecificationTest extends TestCase
         $this->class = $this->createMock(core_kernel_classes_Class::class);
 
         $this->sut = new EditableListClassSpecification(
-            $this->listClassSpecification, $this->languageClassSpecification
+            $this->listClassSpecification,
+            $this->languageClassSpecification
         );
     }
 

@@ -33,9 +33,8 @@ namespace oat\tao\model\websource;
  */
 class DirectWebSource extends BaseWebsource
 {
-   
-    const OPTION_URL = 'accessUrl';
-    
+    public const OPTION_URL = 'accessUrl';
+
     public static function spawnWebsource($fileSystemId, $accessUrl)
     {
         $provider = self::spawn($fileSystemId, [
@@ -43,7 +42,7 @@ class DirectWebSource extends BaseWebsource
         ]);
         return $provider;
     }
-    
+
     public function getAccessUrl($relativePath)
     {
         $path = [];

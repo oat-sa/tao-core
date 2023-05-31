@@ -26,8 +26,8 @@ use oat\oatbox\service\ConfigurableService;
 
 abstract class abstractMetrics extends ConfigurableService
 {
-    const OPTION_PERSISTENCE = 'persistence';
-    const OPTION_TTL = 'ttl';
+    public const OPTION_PERSISTENCE = 'persistence';
+    public const OPTION_TTL = 'ttl';
 
     /**
      * @return \common_persistence_KeyValuePersistence

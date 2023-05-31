@@ -7,7 +7,6 @@ use oat\generis\test\TestCase;
 
 class TreeWrapperTest extends TestCase
 {
-
     public function testGetDefaultChildren()
     {
         $treeWrapper = new TreeWrapper(['bla']);

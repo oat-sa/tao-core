@@ -28,9 +28,8 @@ use oat\tao\model\lock\implementation\NoLock;
  */
 class LockManager
 {
-    
-    const CONFIG_ID = 'lock';
-    
+    public const CONFIG_ID = 'lock';
+
     private static $implementation = null;
 
     /**

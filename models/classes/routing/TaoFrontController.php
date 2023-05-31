@@ -96,7 +96,12 @@ class TaoFrontController implements ServiceManagerAwareInterface
             } else {
                 $parameters = $request->getParsedBody();
             }
-            $enforcer = new ActionEnforcer($resolver->getExtensionId(), $resolver->getControllerClass(), $resolver->getMethodName(), $parameters);
+            $enforcer = new ActionEnforcer(
+                $resolver->getExtensionId(),
+                $resolver->getControllerClass(),
+                $resolver->getMethodName(),
+                $parameters
+            );
             $this->propagate($enforcer);
             $enforcer($request, $response);
         } catch (InterruptedActionException $iE) {

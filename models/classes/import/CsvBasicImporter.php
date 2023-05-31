@@ -32,7 +32,7 @@ use oat\generis\model\OntologyRdfs;
  */
 class CsvBasicImporter extends CsvAbstractImporter
 {
-    const OPTION_POSTFIX = '_O';
+    public const OPTION_POSTFIX = '_O';
 
     public function import($class, $options)
     {
@@ -50,7 +50,7 @@ class CsvBasicImporter extends CsvAbstractImporter
         $properties = $this->getClassProperties($class);
         $csv_data = new \tao_helpers_data_CsvFile($options);
         $csv_data->load($file);
-        $firstRowAsColumnNames = (isset($options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES])) ? $options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES] : false;
+        $firstRowAsColumnNames = $options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES] ?? false;
         $headers = $this->getColumnMapping($csv_data, $firstRowAsColumnNames);
         $modifiedHeader = $headers;
         array_walk($modifiedHeader, function (&$value) {
@@ -67,17 +67,30 @@ class CsvBasicImporter extends CsvAbstractImporter
                 //look for label (lower case without spaces)
                 //look for uri (without namespace)
                 if (
-                    ($index = array_search(str_replace(' ', '', strtolower($property->getLabel())), $modifiedHeader)) !== false
-                    || ($index = array_search(substr(strtolower($property->getUri()), strpos($property->getUri(), '#') + 1), $modifiedHeader)) !== false
+                    (
+                        $index = array_search(
+                            str_replace(' ', '', strtolower($property->getLabel())),
+                            $modifiedHeader
+                        )
+                    ) !== false
+                    || (
+                        $index = array_search(
+                            substr(strtolower($property->getUri()), strpos($property->getUri(), '#') + 1),
+                            $modifiedHeader
+                        )
+                    ) !== false
                 ) {
                     $map[$property->getUri()] = $index;
-                    //look for label or uri with eventually one error
+                //look for label or uri with eventually one error
                 } else {
                     $maximumError = 1;
                     $closest = null;
                     foreach ($modifiedHeader as $index => $header) {
                         $levLabel = levenshtein(strtolower($property->getLabel()), $header);
-                        $levUri = levenshtein(substr(strtolower($property->getUri()), strpos($property->getUri(), '#') + 1), $header);
+                        $levUri = levenshtein(
+                            substr(strtolower($property->getUri()), strpos($property->getUri(), '#') + 1),
+                            $header
+                        );
 
                         if ($levLabel <= $maximumError || $levUri <= $maximumError) {
                             $closest  = $index;

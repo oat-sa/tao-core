@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -38,7 +42,7 @@ abstract class tao_scripts_Runner
      * Runner related dependencies will be reached under this offset.
      * (use different indexes for every single child!!!)
      */
-    const CONTAINER_INDEX = 'taoScriptsRunner';
+    public const CONTAINER_INDEX = 'taoScriptsRunner';
 
     // --- ASSOCIATIONS ---
 
@@ -118,7 +122,10 @@ abstract class tao_scripts_Runner
 
         $this->postRun();
 
-        $this->out('Execution of Script ' . (isset($this->argv[0]) ? $this->argv[0] : __CLASS__) . ' completed', $options);
+        $this->out(
+            'Execution of Script ' . (isset($this->argv[0]) ? $this->argv[0] : __CLASS__) . ' completed',
+            $options
+        );
     }
 
     /**
@@ -158,18 +165,14 @@ abstract class tao_scripts_Runner
                     if (count($sequence) >= 2) {
                         $this->parameters[$sequence[0]] = $sequence[1];
                     }
-                }
-                // command -(-)arg1 value1 value2
-                elseif (preg_match("/^[\-]{1,2}\w+$/", $arg)) {
+                } elseif (preg_match("/^[\-]{1,2}\w+$/", $arg)) { // command -(-)arg1 value1 value2
                     $key = preg_replace("/^[\-]{1,}/", '', $arg);
                     $this->parameters[$key] = '';
                     while (isset($this->argv[$i + 1]) && substr(trim($this->argv[$i + 1]), 0, 1) != '-') {
                         $this->parameters[$key] .= trim($this->argv[++$i]) . ' ';
                     }
                     $this->parameters[$key] = substr($this->parameters[$key], 0, -1);
-                }
-                // command value1 value2
-                else {
+                } else { // command value1 value2
                     $this->parameters[$i] = $arg;
                 }
             }
@@ -200,7 +203,11 @@ abstract class tao_scripts_Runner
             }
         }
 
-        if (isset($this->inputFormat['required']) && is_array($this->inputFormat['required']) && count($this->inputFormat['required'])) {
+        if (
+            isset($this->inputFormat['required'])
+            && is_array($this->inputFormat['required'])
+            && count($this->inputFormat['required'])
+        ) {
             $requireds = [];
             if (!is_array($this->inputFormat['required'][0])) {
                 $requireds = [$this->inputFormat['required']];
@@ -273,14 +280,21 @@ abstract class tao_scripts_Runner
                             }
                             break;
                         case 'boolean':
-                            if (!is_bool($input) && strtolower($input) != 'true' && strtolower($input) != 'false' && !empty($input)) {
+                            if (
+                                !is_bool($input)
+                                && strtolower($input) != 'true'
+                                && strtolower($input) != 'false'
+                                && !empty($input)
+                            ) {
                                 $this->err("$input is not a valid " . $parameter['type']);
                                 $returnValue = false;
                             } else {
                                 if (is_bool($input)) {
                                     $this->parameters[$parameter['name']] = $input = settype($input, 'boolean');
                                 } elseif (!empty($input)) {
-                                    $this->parameters[$parameter['name']] = ((strtolower($input) == 'true') ? true : false);
+                                    $this->parameters[$parameter['name']] = (strtolower($input) == 'true')
+                                        ? true
+                                        : false;
                                 } else {
                                     $this->parameters[$parameter['name']] = true;
                                 }
@@ -346,14 +360,14 @@ abstract class tao_scripts_Runner
         }
 
         $colorized = false;
-        isset($options['color']) ?  $color = $options['color'] : $color = 'grey';
+        isset($options['color']) ? $color = $options['color'] : $color = 'grey';
         $color = trim(tao_helpers_Cli::getFgColor($color));
         if (!empty($color) && substr(strtoupper(PHP_OS), 0, 3) != 'WIN') {
             $colorized = true;
 
             $returnValue .= "\033[{$color}m" ;
         }
-        isset($options['background']) ?  $bg = $options['background'] : $bg = '';
+        isset($options['background']) ? $bg = $options['background'] : $bg = '';
         $bg = trim(tao_helpers_Cli::getBgColor($bg));
         if (!empty($bg)) {
             $colorized = true;
@@ -388,7 +402,7 @@ abstract class tao_scripts_Runner
             $returnValue = $options['prefix'];
         }
 
-        isset($options['color']) ?  $color = $options['color'] : $color = 'grey';
+        isset($options['color']) ? $color = $options['color'] : $color = 'grey';
         if (!empty($color)) {
             $colorized = true;
             $returnValue .= '<div class="' . $color . '">';
@@ -415,7 +429,9 @@ abstract class tao_scripts_Runner
     public function out($message, $options = [])
     {
 
-        $returnValue =  $this->isCli ? $this->renderCliOutput($message, $options) : $this->renderHtmlOutput($message, $options);
+        $returnValue =  $this->isCli
+            ? $this->renderCliOutput($message, $options)
+            : $this->renderHtmlOutput($message, $options);
         if ($this->logOny) {
             //do nothing
         } else {
@@ -512,4 +528,4 @@ abstract class tao_scripts_Runner
             $this->out($message, $options);
         }
     }
-} /* end of abstract class tao_scripts_Runner */
+}

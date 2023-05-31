@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,7 +29,6 @@
  */
 class tao_models_classes_CompilationFailedException extends common_Exception
 {
-    
     /**
      * Create a new CompilationFailedException object.
      *

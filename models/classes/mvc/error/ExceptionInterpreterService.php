@@ -33,9 +33,9 @@ use oat\oatbox\service\ConfigurableService;
  */
 class ExceptionInterpreterService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/ExceptionInterpreterService';
+    public const SERVICE_ID = 'tao/ExceptionInterpreterService';
 
-    const OPTION_INTERPRETERS = 'interpreters';
+    public const OPTION_INTERPRETERS = 'interpreters';
 
     /**
      * @param \Exception $e

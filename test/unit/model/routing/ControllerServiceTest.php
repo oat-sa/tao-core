@@ -43,7 +43,6 @@ class BlCl
 
 class RouteAnnotationExample
 {
-
     protected function protectedAction()
     {
     }
@@ -57,7 +56,6 @@ class RouteAnnotationExample
 
 class ControllerServiceTest extends TestCase
 {
-
     /**
      * @var ControllerService
      */
@@ -117,7 +115,9 @@ class ControllerServiceTest extends TestCase
     public function testGetNonPublicAction()
     {
         $this->expectException(RouterException::class);
-        $this->expectExceptionMessage('The method "protectedAction" is not public in the class "oat\test\model\RouteAnnotationExample"');
+        $this->expectExceptionMessage(
+            'The method "protectedAction" is not public in the class "oat\test\model\RouteAnnotationExample"'
+        );
         $this->service->getAction(RouteAnnotationExample::class, 'protectedAction');
     }
 

@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2020 (update and modification) Open Assessment Technologies SA;
  *
  */
@@ -77,7 +79,7 @@ class Bootstrap implements ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
 
-    const CONFIG_SESSION_HANDLER = 'session';
+    public const CONFIG_SESSION_HANDLER = 'session';
 
     /**
      * @var boolean if the context has been started
@@ -185,9 +187,7 @@ class Bootstrap implements ServiceManagerAwareInterface
             //the app is ready, process mvc
             if ($this->isReady()) {
                 $this->mvc();
-            }
-            //the app is not ready, put platform on maintenance
-            else {
+            } else { //the app is not ready, put platform on maintenance
                 $this->displayMaintenancePage();
             }
         } catch (Exception $e) {
@@ -210,7 +210,7 @@ class Bootstrap implements ServiceManagerAwareInterface
         //the request is not an ajax request, redirect the user to the maintenance page
         if (! tao_helpers_Request::isAjax()) {
             require_once Template::getTemplate('error/maintenance.tpl', 'tao');
-            //else throw an exception, this exception will be send to the client properly
+        //else throw an exception, this exception will be send to the client properly
         } else {
             throw new MaintenanceException();
         }
@@ -294,7 +294,10 @@ class Bootstrap implements ServiceManagerAwareInterface
 
     private function configureSessionHandler()
     {
-        $sessionHandler = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig(self::CONFIG_SESSION_HANDLER);
+        $sessionHandler = common_ext_ExtensionsManager::singleton()
+            ->getExtensionById('tao')
+            ->getConfig(self::CONFIG_SESSION_HANDLER);
+
         if ($sessionHandler !== false) {
             session_set_save_handler(
                 [$sessionHandler, 'open'],

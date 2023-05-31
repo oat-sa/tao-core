@@ -33,7 +33,6 @@ use oat\tao\model\upload\UploadService;
  */
 class AddTmpFsHandlers extends InstallAction
 {
-
     /**
      * @param $params
      * @throws \common_Exception

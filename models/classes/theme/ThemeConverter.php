@@ -23,7 +23,7 @@ namespace oat\tao\model\theme;
 
 use oat\oatbox\Configurable;
 use /** @noinspection PhpDeprecationInspection */
-    oat\tao\model\theme\DefaultTheme;
+oat\tao\model\theme\DefaultTheme;
 use oat\tao\model\theme\ConfigurablePlatformTheme;
 use oat\tao\helpers\Template;
 
@@ -36,7 +36,6 @@ use oat\tao\helpers\Template;
  */
 class ThemeConverter
 {
-
     /**
      * Build an instance of ConfigurablePlatformTheme from a legacy theme
      *

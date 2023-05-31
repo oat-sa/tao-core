@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,8 +30,8 @@ use oat\oatbox\service\ServiceManagerAwareInterface;
 use oat\oatbox\service\ServiceManagerAwareTrait;
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\log\TaoLoggerAwareInterface;
-use \common_report_Report as Report;
-use \helpers_Report as ReportHelper;
+use common_report_Report as Report;
+use helpers_Report as ReportHelper;
 
 /**
  * Class AbstractMigration
@@ -39,9 +40,7 @@ use \helpers_Report as ReportHelper;
  *
  * @package oat\tao\scripts\tools\migrations
  */
-abstract class AbstractMigration
-    extends DoctrineAbstractMigration
-    implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
+abstract class AbstractMigration extends DoctrineAbstractMigration implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
 {
     use ServiceManagerAwareTrait;
     use LoggerAwareTrait;

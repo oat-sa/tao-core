@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -32,7 +36,6 @@
  */
 class tao_install_services_InstallService extends tao_install_services_Service
 {
-    
     /**
      * Creates a new instance of the service.
      * @param tao_install_services_Data $data The input data to be handled by the service.
@@ -42,7 +45,7 @@ class tao_install_services_InstallService extends tao_install_services_Service
     {
         parent::__construct($data);
     }
-    
+
     /**
      * Executes the main logic of the service.
      * @return tao_install_services_Data The result of the service execution.
@@ -50,7 +53,7 @@ class tao_install_services_InstallService extends tao_install_services_Service
     public function execute()
     {
         $content = json_decode($this->getData()->getContent(), true);
-        
+
         //instantiate the installator
         try {
             set_error_handler([get_class($this), 'onError']);
@@ -66,7 +69,7 @@ class tao_install_services_InstallService extends tao_install_services_Service
             );
 
             $installer = new tao_install_Installator($container);
-            
+
             // For the moment, we force English as default language.
             $content['value']['module_lang'] = 'en-US';
             // fallback until ui is ready
@@ -74,11 +77,11 @@ class tao_install_services_InstallService extends tao_install_services_Service
                 $content['value']['file_path'] =  TAO_INSTALL_PATH . 'data' . DIRECTORY_SEPARATOR;
             }
             $installer->install($content['value']);
-            
+
             $installationLog = $installer->getLog();
             $message = (isset($installationLog['e']) || isset($installationLog['f']) || isset($installationLog['w'])) ?
                 'Installation complete (warnings occurred)' : 'Installation successful.';
-            
+
             $report = [
                 'type' => 'InstallReport',
                 'value' => [
@@ -88,7 +91,7 @@ class tao_install_services_InstallService extends tao_install_services_Service
                 ]
             ];
             $this->setResult(new tao_install_services_Data(json_encode($report)));
-            
+
             restore_error_handler();
         } catch (Exception $e) {
             $report = [
@@ -100,11 +103,11 @@ class tao_install_services_InstallService extends tao_install_services_Service
                 ]
             ];
             $this->setResult(new tao_install_services_Data(json_encode($report)));
-            
+
             restore_error_handler();
         }
     }
-    
+
     public static function onError($errno, $errstr, $errfile, $errline)
     {
         common_Logger::w($errfile . ':' . $errline . ' - ' . $errstr);
@@ -116,7 +119,7 @@ class tao_install_services_InstallService extends tao_install_services_Service
                 return true;
         }
     }
-    
+
     protected function checkData()
     {
         $content = json_decode($this->getData()->getContent(), true);
@@ -144,7 +147,10 @@ class tao_install_services_InstallService extends tao_install_services_Service
             throw new InvalidArgumentException("Missing data: 'module_lang' must be provided.");
         } elseif (!isset($content['value']['module_mode']) || empty($content['value']['module_mode'])) {
             throw new InvalidArgumentException("Missing data: 'module_mode' must be provided.");
-        } elseif (!isset($content['value']['import_local']) || ($content['value']['import_local'] !== false && $content['value']['import_local'] !== true)) {
+        } elseif (
+            !isset($content['value']['import_local'])
+            || ($content['value']['import_local'] !== false && $content['value']['import_local'] !== true)
+        ) {
             throw new InvalidArgumentException("Missing data: 'import_local' must be provided.");
         } elseif (!isset($content['value']['user_login']) || empty($content['value']['user_login'])) {
             throw new InvalidArgumentException("Missing data: 'user_login' must be provided.");

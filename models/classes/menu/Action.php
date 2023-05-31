@@ -33,7 +33,7 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
 {
     use ServiceManagerAwareTrait;
 
-    const SERIAL_VERSION = 1392821334;
+    public const SERIAL_VERSION = 1392821334;
 
     /** @var array */
     private $data;
@@ -54,18 +54,20 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
             list($extension, $controller, $action) = explode('/', trim($url, '/'));
         }
         $data = [
-            'name'       => (string) $node['name'],
-            'id'         => (string) $node['id'],
-            'url'        => $url,
-            'binding'    => isset($node['binding']) ? (string) $node['binding'] : (isset($node['js']) ? (string) $node['js'] : 'load'),
-            'context'    => (string) $node['context'],
-            'reload'     => isset($node['reload']) ? true : false,
-            'disabled'   => isset($node['disabled']) ? true : false,
-            'multiple'   => isset($node['multiple']) ? (trim(strtolower($node['multiple'])) == 'true')  : false,
-            'group'      => isset($node['group']) ? (string) $node['group'] : self::GROUP_DEFAULT,
-            'extension'  => $extension,
+            'name' => (string) $node['name'],
+            'id' => (string) $node['id'],
+            'url' => $url,
+            'binding' => isset($node['binding'])
+                ? (string) $node['binding']
+                : (isset($node['js']) ? (string) $node['js'] : 'load'),
+            'context' => (string) $node['context'],
+            'reload' => isset($node['reload']) ? true : false,
+            'disabled' => isset($node['disabled']) ? true : false,
+            'multiple' => isset($node['multiple']) ? (trim(strtolower($node['multiple'])) == 'true') : false,
+            'group' => isset($node['group']) ? (string) $node['group'] : self::GROUP_DEFAULT,
+            'extension' => $extension,
             'controller' => $controller,
-            'action'     => $action
+            'action' => $action
         ];
 
         if (isset($node->icon)) {
@@ -187,7 +189,13 @@ class Action implements PhpSerializable, iAction, ServiceManagerAwareInterface
         } elseif (file_exists(ROOT_PATH . 'tao/views/img/actions/' . $name . '.png')) {
             return Icon::fromArray(['src' => $src], 'tao');
         } else {
-            return Icon::fromArray(['src' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAAAnRSTlMA/1uRIrUAAAAKSURBVHjaY/gPAAEBAQAcsIyZAAAAAElFTkSuQmCC'], 'tao');
+            return Icon::fromArray(
+                [
+                    'src' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAAAnRSTlMA/1uRIrUAAAA'
+                        . 'KSURBVHjaY/gPAAEBAQAcsIyZAAAAAElFTkSuQmCC'
+                ],
+                'tao'
+            );
         }
     }
 

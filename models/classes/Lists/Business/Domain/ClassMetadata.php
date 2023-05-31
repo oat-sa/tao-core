@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -43,7 +44,7 @@ class ClassMetadata implements JsonSerializable
         return $this->class;
     }
 
-        public function setClass(string $class): ClassMetadata
+    public function setClass(string $class): ClassMetadata
     {
         $this->class = $class;
 

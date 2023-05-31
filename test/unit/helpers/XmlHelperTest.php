@@ -94,7 +94,8 @@ class XmlHelperTest extends TestCase
                 [
                     'exception' => [
                         'class' => common_exception_Error::class,
-                        'message' => "error parsing attribute name [1]\nattributes construct error [1]\nCouldn't find end of Start Tag aasdf line 1 [1]\nExtra content at the end of the document [1]"
+                        'message' => "error parsing attribute name [1]\nattributes construct error [1]\nCouldn't find "
+                            . "end of Start Tag aasdf line 1 [1]\nExtra content at the end of the document [1]"
                     ]
                 ]
             ]

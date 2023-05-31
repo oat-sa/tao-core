@@ -37,12 +37,12 @@ use oat\oatbox\service\ServiceManager;
  */
 class AclProxy implements AccessControl
 {
-    const SERVICE_ID = 'tao/FuncAccessControl';
-    
-    const CONFIG_KEY_IMPLEMENTATION = 'FuncAccessControl';
-    
-    const FALLBACK_IMPLEMENTATION_CLASS = 'oat\tao\model\accessControl\func\implementation\NoAccess';
-    
+    public const SERVICE_ID = 'tao/FuncAccessControl';
+
+    public const CONFIG_KEY_IMPLEMENTATION = 'FuncAccessControl';
+
+    public const FALLBACK_IMPLEMENTATION_CLASS = 'oat\tao\model\accessControl\func\implementation\NoAccess';
+
     /**
      * @return FuncAccessControl
      */
@@ -50,7 +50,7 @@ class AclProxy implements AccessControl
     {
         return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
     }
-    
+
     /**
      * Change the implementation of the access control permanently
      *
@@ -61,7 +61,7 @@ class AclProxy implements AccessControl
     {
         ServiceManager::getServiceManager()->register(self::SERVICE_ID, $implementation);
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\accessControl\AccessControl::hasAccess()
@@ -70,7 +70,7 @@ class AclProxy implements AccessControl
     {
         return self::accessPossible($user, $controller, $action);
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\accessControl\func\FuncAccessControl::accessPossible()
@@ -79,7 +79,7 @@ class AclProxy implements AccessControl
     {
         return self::getImplementation()->accessPossible($user, $controller, $action);
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\accessControl\func\FuncAccessControl::applyRule()
@@ -88,7 +88,7 @@ class AclProxy implements AccessControl
     {
         self::getImplementation()->applyRule($rule);
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\tao\model\accessControl\func\FuncAccessControl::revokeRule()

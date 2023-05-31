@@ -25,7 +25,7 @@ namespace oat\tao\model\settings;
  */
 interface SettingsStorageInterface
 {
-    const SERVICE_ID = 'tao/settingsStorage';
+    public const SERVICE_ID = 'tao/settingsStorage';
 
     /**
      * Store the given setting

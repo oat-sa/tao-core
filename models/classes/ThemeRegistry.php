@@ -31,8 +31,7 @@ use oat\tao\model\websource\WebsourceManager;
 
 class ThemeRegistry extends AbstractRegistry
 {
-
-    const WEBSOURCE = 'websource_';
+    public const WEBSOURCE = 'websource_';
 
     /**
      *
@@ -270,7 +269,7 @@ class ThemeRegistry extends AbstractRegistry
     {
         $websource = WebsourceManager::singleton()->getWebsource($this->get(ThemeRegistry::WEBSOURCE));
         if (strpos($path, ThemeRegistry::WEBSOURCE) === 0) {
-                return $websource->getAccessUrl(substr($path, strlen(ThemeRegistry::WEBSOURCE)));
+            return $websource->getAccessUrl(substr($path, strlen(ThemeRegistry::WEBSOURCE)));
         } else {
             $assetService = $this->getServiceManager()->get(AssetService::SERVICE_ID);
             return $assetService->getAsset($path);

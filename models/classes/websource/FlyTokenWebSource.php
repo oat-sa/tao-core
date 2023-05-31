@@ -30,7 +30,7 @@ use common_ext_ExtensionsManager;
  */
 class FlyTokenWebSource extends TokenWebSource
 {
-    const ENTRY_POINT = '/getFileFlysystem.php/';
+    public const ENTRY_POINT = '/getFileFlysystem.php/';
 
     /**
      * @param $fileSystem
@@ -51,13 +51,13 @@ class FlyTokenWebSource extends TokenWebSource
         $url = parse_url($url)['path']; //remove query part from url.
         $rel = substr($url, strpos($url, self::ENTRY_POINT) + strlen(self::ENTRY_POINT));
         $parts = explode('/', $rel, 4);
-        list ($webSourceId, $timestamp, $token, $subPath) = $parts;
+        list($webSourceId, $timestamp, $token, $subPath) = $parts;
 
         $parts = explode('*/', $subPath, 2);
         if (count($parts) < 2) {
             throw new \tao_models_classes_FileNotFoundException('`' . $subPath . '` - (wrong number of path parts)');
         }
-        list ($subPath, $file) = $parts;
+        list($subPath, $file) = $parts;
 
         $secret = $this->getOption('secret');
         $ttl = $this->getOption('ttl');
@@ -96,6 +96,7 @@ class FlyTokenWebSource extends TokenWebSource
         $relUrl = implode('/', $path);
         $token = $this->generateToken($relUrl);
         $taoExtension = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        return $taoExtension->getConstant('BASE_URL') . 'getFileFlysystem.php/' . $this->getId() . '/' . $token . '/' . $relUrl . '*/';
+        return $taoExtension->getConstant('BASE_URL') . 'getFileFlysystem.php/' . $this->getId() . '/' . $token
+            . '/' . $relUrl . '*/';
     }
 }

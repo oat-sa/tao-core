@@ -28,5 +28,4 @@ namespace oat\tao\helpers;
  */
 class FileUploadException extends \common_exception_Error
 {
-   
 }

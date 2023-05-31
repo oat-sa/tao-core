@@ -15,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -89,17 +92,17 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
             $this->outVerbose("Connected to TAO API.");
             switch ($this->options['action']) {
                 case 'hardify':
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             $this->setCurrentAction($this->options['action']);
+                    $this->setCurrentAction($this->options['action']);
                     $this->actionHardify();
 
                     break;
                 case 'unhardify':
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             $this->setCurrentAction($this->options['action']);
+                    $this->setCurrentAction($this->options['action']);
                     $this->actionUnhardify();
 
                     break;
             }
-            
+
             $this->disconnect();
         } else {
             $this->error("Could not connect to TAO API. Please check your user name and password.", true);
@@ -146,15 +149,15 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
                 } else {
                     switch ($this->options['action']) {
                         case 'hardify':
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              $this->checkHardifyInput();
+                            $this->checkHardifyInput();
 
                             break;
                         case 'unhardify':
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              $this->checkUnhardifyInput();
+                            $this->checkUnhardifyInput();
 
                             break;
                         default:
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              $this->error("Please provide a valid 'action' parameter.", true);
+                            $this->error("Please provide a valid 'action' parameter.", true);
 
                             break;
                     }
@@ -197,7 +200,7 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
      */
     public function actionHardify()
     {
-        
+
         // Retrieve parameter values.
         $class = $this->options['class'];
         $topClass = $this->options['topClass'];
@@ -209,7 +212,7 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
         if (!empty($this->options['additionalProperties'])) {
             $additionalProperties = $this->options['additionalProperties'];
         }
-        
+
         $optionsHardify = ['recursive'             => $recursive,
                                 'append'                => true,
                                 'createForeigns'        => $createForeigns,
@@ -221,20 +224,22 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
             $this->outVerbose("Hardifying class '${classUri}'...");
             $switcher = new core_kernel_persistence_Switcher($blackList);
             $switcher->hardify($class, $optionsHardify);
-           
+
             $hardenedClasses = $switcher->getHardenedClasses();
             if (array_key_exists($classUri, $hardenedClasses)) {
                 $count = $hardenedClasses[$classUri];
                 $this->outVerbose("Class '${classUri}' successfully hardified: ${count} instance(s) compiled.");
-               
+
                 if (true == $optionsHardify['createForeigns']) {
                     unset($hardenedClasses[$classUri]);
-                  
+
                     if (true == empty($hardenedClasses)) {
                         $this->outVerbose("No foreign classes were compiled.");
                     } else {
                         foreach ($hardenedClasses as $uri => $count) {
-                            $this->outVerbose("Foreign class '${uri} successfully hardified: ${count} instance(s) compiled.'");
+                            $this->outVerbose(
+                                "Foreign class '${uri} successfully hardified: ${count} instance(s) compiled.'"
+                            );
                         }
                     }
                 }
@@ -260,54 +265,67 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
     {
         if (count($inputFormat) == 0) {
             // Autoconfigure the script.
-            $inputFormat = ['min' => 4,
+            $inputFormat = [
+                'min' => 4,
                 'parameters' => [
-                    ['name' => 'verbose',
-                          'type' => 'boolean',
-                          'shortcut' => 'v',
-                          'description' => 'Verbose mode (default = false)'
+                    [
+                        'name' => 'verbose',
+                        'type' => 'boolean',
+                        'shortcut' => 'v',
+                        'description' => 'Verbose mode (default = false)'
                     ],
-                    ['name' => 'user',
-                          'type' => 'string',
-                          'shortcut' => 'u',
-                          'description' => 'Generis user (must be a TAO Manager)'
+                    [
+                        'name' => 'user',
+                        'type' => 'string',
+                        'shortcut' => 'u',
+                        'description' => 'Generis user (must be a TAO Manager)'
                     ],
-                    ['name' => 'password',
-                          'type' => 'string',
-                          'shortcut' => 'p',
-                          'description' => 'Generis password'
+                    [
+                        'name' => 'password',
+                        'type' => 'string',
+                        'shortcut' => 'p',
+                        'description' => 'Generis password'
                     ],
-                    ['name' => 'action',
-                          'type' => 'string',
-                          'shortcut' => 'a',
-                          'description' => 'Action to perform'
+                    [
+                        'name' => 'action',
+                        'type' => 'string',
+                        'shortcut' => 'a',
+                        'description' => 'Action to perform'
                     ],
-                    ['name' => 'class',
-                          'type' => 'string',
-                          'shortcut' => 'c',
-                          'description' => 'Class to hardify/unhardify'
+                    [
+                        'name' => 'class',
+                        'type' => 'string',
+                        'shortcut' => 'c',
+                        'description' => 'Class to hardify/unhardify'
                     ],
-                    ['name' => 'additionalProperties',
-                          'type' => 'string',
-                          'shortcut' => 'aP',
-                          'description' => 'Additional properties to be compiled with the class, separated by commas (",").'
+                    [
+                        'name' => 'additionalProperties',
+                        'type' => 'string',
+                        'shortcut' => 'aP',
+                        'description' => 'Additional properties to be compiled with the class, separated by '
+                            . 'commas (",").'
                     ],
-                    ['name' => 'createForeigns',
-                          'type' => 'boolean',
-                          'shortcut' => 'cF',
-                          'description' => 'Create foreign classes (default = false).'
+                    [
+                        'name' => 'createForeigns',
+                        'type' => 'boolean',
+                        'shortcut' => 'cF',
+                        'description' => 'Create foreign classes (default = false).'
                     ],
-                    ['name' => 'topClass',
-                          'type' => 'string',
-                          'shortcut' => 'tC',
-                          'description' => 'The class where to stop in the class hierarchy hardification (default = rdfs:Resource).'
+                    [
+                        'name' => 'topClass',
+                        'type' => 'string',
+                        'shortcut' => 'tC',
+                        'description' => 'The class where to stop in the class hierarchy hardification '
+                            . '(default = rdfs:Resource).'
                     ],
-                    ['name' => 'recursive',
-                          'type' => 'boolean',
-                          'shortcut' => 'r',
-                          'description' => 'Hardify subclasses of the class to hardify or not (default = false).'
+                    [
+                        'name' => 'recursive',
+                        'type' => 'boolean',
+                        'shortcut' => 'r',
+                        'description' => 'Hardify subclasses of the class to hardify or not (default = false).'
                     ],
-                    ]];
+                ]
+            ];
         }
 
         parent::__construct($inputFormat, $options);
@@ -336,7 +354,7 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
                 // We are OK with the class to Hardify
                 $class = new core_kernel_classes_Class($classUri);
                 $this->options['class'] = $class;
-               
+
                 if (!empty($this->options['additionalProperties'])) {
                     $additionalProperties = explode(',', $this->options['additionalProperties']);
                     if (empty($additionalProperties)) {
@@ -345,23 +363,25 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
                         foreach ($additionalProperties as $k => $aP) {
                             $uri = trim($aP);
                             if (true == common_Utils::isUri($uri)) {
-                                            // store clean uri.
+                                // store clean uri.
                                 $additionalProperties[$k] = new core_kernel_classes_Property($uri);
                             } else {
-                                    $this->error("'${uri}' is not a valid URI in 'additionalProperties'.", true);
+                                $this->error("'${uri}' is not a valid URI in 'additionalProperties'.", true);
                             }
                         }
-                       
+
                         $this->options['additionalProperties'] = $additionalProperties;
-                       
+
                         if ($this->options['topClass'] == null) {
-                            $this->options['topClass'] = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_RESOURCE);
+                            $this->options['topClass'] = new core_kernel_classes_Class(
+                                GenerisRdf::CLASS_GENERIS_RESOURCE
+                            );
                         } else {
                             $topClassUri = trim($this->options['topClass']);
                             if (true == common_Utils::isUri($topClassUri)) {
-                                        $this->options['topClass'] = new core_kernel_classes_Class($topClassUri);
+                                $this->options['topClass'] = new core_kernel_classes_Class($topClassUri);
                             } else {
-                                    $this->error("'${topClassUri}' is not a valid URI in 'topClass'.", true);
+                                $this->error("'${topClassUri}' is not a valid URI in 'topClass'.", true);
                             }
                         }
                     }
@@ -413,7 +433,7 @@ class tao_scripts_TaoHardify extends tao_scripts_Runner
         if ($stopExec == true) {
             $this->disconnect();
         }
-        
+
         $this->err($message, $stopExec);
     }
 

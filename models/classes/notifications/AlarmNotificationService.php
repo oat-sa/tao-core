@@ -42,7 +42,9 @@ class AlarmNotificationService extends AbstractNotificationService
     {
         $reportMessages = $event->getReport()->filterChildrenByTypes([Report::TYPE_ERROR]);
 
-        if (count($reportMessages) === 0) return;
+        if (count($reportMessages) === 0) {
+            return;
+        }
 
         $message = '';
         /**@var $dispatchReport Report */

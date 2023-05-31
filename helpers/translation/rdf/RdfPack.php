@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
@@ -37,7 +39,6 @@ use oat\generis\model\kernel\persistence\file\FileModel;
  */
 class RdfPack implements \IteratorAggregate
 {
-
     /**
      * @var string
      */
@@ -67,7 +68,7 @@ class RdfPack implements \IteratorAggregate
         $this->langCode     = $langCode;
         $this->extension   = $extension;
     }
-    
+
     public function getIterator()
     {
         $iterator = new \AppendIterator();
@@ -75,7 +76,8 @@ class RdfPack implements \IteratorAggregate
         if ($this->langCode != 'en-US') {
             foreach ($this->extension->getManifest()->getInstallModelFiles() as $rdfpath) {
                 $modelId = FileModel::getModelIdFromXml($rdfpath);
-                $candidate = $this->extension->getDir() . 'locales' . DIRECTORY_SEPARATOR . $this->langCode . DIRECTORY_SEPARATOR . basename($rdfpath) . '.po';
+                $candidate = $this->extension->getDir() . 'locales' . DIRECTORY_SEPARATOR . $this->langCode
+                    . DIRECTORY_SEPARATOR . basename($rdfpath) . '.po';
                 if (file_exists($candidate)) {
                     $iterator->append($this->getTriplesFromFile($candidate, $modelId));
                 }
@@ -83,10 +85,10 @@ class RdfPack implements \IteratorAggregate
         }
         return $iterator;
     }
-    
+
     protected function getTriplesFromFile($file, $modelId)
     {
-    
+
         $translationFileReader = new tao_helpers_translation_POFileReader($file);
         $translationFileReader->read();
         $translationFile = $translationFileReader->getTranslationFile();
@@ -95,7 +97,11 @@ class RdfPack implements \IteratorAggregate
         foreach ($translationFile->getTranslationUnits() as $tu) {
             $annotations = $tu->getAnnotations();
             $about = isset($annotations['po-translator-comments']) ? $annotations['po-translator-comments'] : null;
-            if ($about && common_Utils::isUri($about) && in_array($tu->getContext(), [OntologyRdfs::RDFS_LABEL, OntologyRdfs::RDFS_COMMENT])) {
+            if (
+                $about
+                && common_Utils::isUri($about)
+                && in_array($tu->getContext(), [OntologyRdfs::RDFS_LABEL, OntologyRdfs::RDFS_COMMENT])
+            ) {
                 $triple = new \core_kernel_classes_Triple();
                 $triple->subject = $about;
                 $triple->predicate = $tu->getContext();

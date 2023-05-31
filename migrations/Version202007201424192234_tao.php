@@ -14,7 +14,6 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
  */
 final class Version202007201424192234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'Update Ontology models';

@@ -27,7 +27,7 @@ namespace oat\tao\model\routing;
  */
 class ApiRoute extends AbstractApiRoute
 {
-    const REST_CONTROLLER_PREFIX = 'oat\\tao\\controller\\api\\';
+    public const REST_CONTROLLER_PREFIX = 'oat\\tao\\controller\\api\\';
 
     /**
      * Get controller namespace prefix

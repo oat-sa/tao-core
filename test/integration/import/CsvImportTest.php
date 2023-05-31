@@ -27,8 +27,7 @@ use Prophecy\Argument;
 
 class CsvImportTest extends TaoPhpUnitTestRunner
 {
-
-    const CSV_FILE_USERS_HEADER_UNICODE = '/../samples/csv/users1-header.csv';
+    public const CSV_FILE_USERS_HEADER_UNICODE = '/../samples/csv/users1-header.csv';
 
     public function testImport()
     {
@@ -38,8 +37,8 @@ class CsvImportTest extends TaoPhpUnitTestRunner
 
         $file = $this->getTempFileToUpload('csv/users1-header.csv');
 
-        $resource = $this->prophesize('\core_kernel_classes_Resource');
-        $class = $this->prophesize('\core_kernel_classes_Class');
+        $resource = $this->prophesize(core_kernel_classes_Resource::class);
+        $class = $this->prophesize(core_kernel_classes_Class::class);
         $class->createInstanceWithProperties($staticMap)->willReturn($resource->reveal());
 
         $options = ['file' => $file, 'map' => $map, 'staticMap' => $staticMap];
@@ -75,12 +74,19 @@ class CsvImportTest extends TaoPhpUnitTestRunner
         $property4->getUri()->willReturn('http://tao.unit/test.rdf#email');
         $property4->getLabel()->willReturn('labelproperty4');
 
-        $properties = [$labelProperty, $property1->reveal(), $property2->reveal(), $property3->reveal(), $property4->reveal()];
+        $properties = [
+            $labelProperty,
+            $property1->reveal(),
+            $property2->reveal(),
+            $property3->reveal(),
+            $property4->reveal()
+        ];
+
         $class = $this->prophesize('\core_kernel_classes_Class');
         $class->getProperties(false)->willReturn($properties);
         $class->getUri()->willReturn(GenerisRdf::CLASS_GENERIS_RESOURCE);
 
-        //copy file because it should be removed
+        // Copy file because it should be removed
         $path = dirname(__FILE__) . self::CSV_FILE_USERS_HEADER_UNICODE;
 
         $options[\tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES] = true;
@@ -179,10 +185,10 @@ class CsvImportTest extends TaoPhpUnitTestRunner
         $file = $this->getTempFileToUpload('csv/users1-header-rules-validator.csv');
 
         $importer = new CsvBasicImporter();
-        
+
         $class = $this->prophesize('\core_kernel_classes_Class');
         $resource = $this->prophesize('\core_kernel_classes_Resource');
-        
+
         $class->createInstanceWithProperties([
             "label" => ["Correct row"],
             "firstName" => ["Jérôme"],
@@ -225,7 +231,7 @@ class CsvImportTest extends TaoPhpUnitTestRunner
                 tao_helpers_form_FormFactory::getValidator('Url'),
             ]
         ]);
-        
+
         $report = $importer->import($class->reveal(), [
             'file' => $file,
             'map' => [
@@ -238,12 +244,12 @@ class CsvImportTest extends TaoPhpUnitTestRunner
                 'UserUIlg'  => "6",
             ],
         ]);
-        
+
         $this->assertInstanceOf('common_report_Report', $report);
         $this->assertEquals(common_report_Report::TYPE_WARNING, $report->getType());
 
         $this->assertCount(6, $report->getErrors());
-        
+
         //cause import has errors
         $this->assertFalse($file->exists());
     }

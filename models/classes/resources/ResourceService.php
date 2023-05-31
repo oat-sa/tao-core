@@ -161,8 +161,7 @@ class ResourceService extends ConfigurableService
         $search = '',
         $offset = 0,
         $limit = 30
-    ): array
-    {
+    ): array {
         $propertyFilters = $this->getPropertyFilters($search);
 
         $result = [];

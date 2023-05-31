@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -99,14 +101,20 @@ class tao_helpers_form_GenerisFormFactory
             $widgetResource = new core_kernel_classes_Resource(GenerisAsyncFile::WIDGET_ID);
         }
 
-        $element = tao_helpers_form_FormFactory::getElementByWidget(tao_helpers_Uri::encode($property->getUri()), $widgetResource);
+        $element = tao_helpers_form_FormFactory::getElementByWidget(
+            tao_helpers_Uri::encode($property->getUri()),
+            $widgetResource
+        );
 
         if (null === $element) {
             return null;
         }
 
         if ($element->getWidget() !== $widgetResource->getUri()) {
-            common_Logger::w('Widget definition differs from implementation: ' . $element->getWidget() . ' != ' . $widgetResource->getUri());
+            common_Logger::w(
+                'Widget definition differs from implementation: ' . $element->getWidget() . ' != '
+                    . $widgetResource->getUri()
+            );
             return null;
         }
 
@@ -125,16 +133,28 @@ class tao_helpers_form_GenerisFormFactory
 
                 if ($element instanceof TreeAware) {
                     $sortedOptions = $element->rangeToTree(
-                        $property->getUri() === OntologyRdfs::RDFS_RANGE ? new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE) : $range
+                        $property->getUri() === OntologyRdfs::RDFS_RANGE
+                            ? new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE)
+                            : $range
                     );
                 } else {
                     foreach ($range->getInstances(true) as $rangeInstance) {
-                        $level = $rangeInstance->getOnePropertyValue(new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL));
+                        $level = $rangeInstance->getOnePropertyValue(
+                            new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL)
+                        );
                         if (is_null($level)) {
-                            $options[tao_helpers_Uri::encode($rangeInstance->getUri())] = [tao_helpers_Uri::encode($rangeInstance->getUri()), $rangeInstance->getLabel()];
+                            $options[tao_helpers_Uri::encode($rangeInstance->getUri())] = [
+                                tao_helpers_Uri::encode($rangeInstance->getUri()),
+                                $rangeInstance->getLabel()
+                            ];
                         } else {
-                            $level = ($level instanceof core_kernel_classes_Resource) ? $level->getUri() : (string)$level;
-                            $options[$level] = [tao_helpers_Uri::encode($rangeInstance->getUri()), $rangeInstance->getLabel()];
+                            $level = ($level instanceof core_kernel_classes_Resource)
+                                ? $level->getUri()
+                                : (string)$level;
+                            $options[$level] = [
+                                tao_helpers_Uri::encode($rangeInstance->getUri()),
+                                $rangeInstance->getLabel()
+                            ];
                         }
                     }
                     ksort($options);
@@ -211,7 +231,7 @@ class tao_helpers_form_GenerisFormFactory
 
                 $allParentClasses = $parentClass->getParentClasses(true);
                 if (array_key_exists($topLevelClazz->getUri(), $allParentClasses)) {
-                     $parents[$parentClass->getUri()] = $parentClass;
+                    $parents[$parentClass->getUri()] = $parentClass;
                 }
 
                 $lastLevelParents[$parentClass->getUri()] = $parentClass;

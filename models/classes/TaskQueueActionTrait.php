@@ -29,7 +29,6 @@ use oat\oatbox\task\Task;
  */
 trait TaskQueueActionTrait
 {
-
     /**
      * @var Task[]
      */

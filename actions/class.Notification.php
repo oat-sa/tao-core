@@ -25,7 +25,6 @@ use oat\tao\model\notification\exception\NotListedNotification;
 
 class tao_actions_Notification extends \tao_actions_CommonModule
 {
-
     public function getCount()
     {
         $user = $this->getUserService()->getCurrentUser();

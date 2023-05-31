@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -49,11 +51,11 @@ class tao_actions_form_Translate extends tao_actions_form_Instance
      */
     protected function initForm()
     {
-        
-        
+
+
         parent::initForm();
         $this->form->setName('translate_' . $this->form->getName());
-        
+
         $actions = tao_helpers_form_FormFactory::getCommonActions('top');
         $this->form->setActions($actions, 'top');
         $this->form->setActions($actions, 'bottom');
@@ -68,29 +70,34 @@ class tao_actions_form_Translate extends tao_actions_form_Instance
      */
     protected function initElements()
     {
-        
-        
+
+
         parent::initElements();
-        
+
         $elements = $this->form->getElements();
         $this->form->setElements([]);
-        
-        
+
+
         $currentLangElt = tao_helpers_form_FormFactory::getElement('current_lang', 'Textbox');
         $currentLangElt->setDescription(__('Current language'));
         $currentLangElt->setAttributes(['readonly' => 'true']);
-        $currentLangElt->setValue(\common_session_SessionManager::getSession()->getDataLanguage()); //API lang /data lang
+        // API lang /data lang
+        $currentLangElt->setValue(\common_session_SessionManager::getSession()->getDataLanguage());
         $this->form->addElement($currentLangElt);
-        
+
         $dataLangElement = tao_helpers_form_FormFactory::getElement('translate_lang', 'Combobox');
         $dataLangElement->setDescription(__('Translate to'));
-        $dataLangElement->setOptions(tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)));
+        $dataLangElement->setOptions(
+            tao_helpers_I18n::getAvailableLangsByUsage(
+                new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)
+            )
+        );
         $dataLangElement->setEmptyOption(__('Select a language'));
         $dataLangElement->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         $this->form->addElement($dataLangElement);
-        
+
         $this->form->createGroup('translation_info', __('Translation parameters'), ['current_lang', 'translate_lang']);
-        
+
         $dataGroup = [];
         foreach ($elements as $element) {
             if (
@@ -101,20 +108,21 @@ class tao_actions_form_Translate extends tao_actions_form_Instance
             } else {
                 $propertyUri = tao_helpers_Uri::decode($element->getName());
                 $property = new core_kernel_classes_Property($propertyUri);
-                
+
                 //translate only language dependent properties or Labels
                 //supported widget are: Textbox, TextArea, HtmlArea
                 //@todo support other widgets
                 if (
-                    ( $property->isLgDependent() &&
-                      ($element instanceof tao_helpers_form_elements_Textbox ||
+                    ($property->isLgDependent() &&
+                      (
+                          $element instanceof tao_helpers_form_elements_Textbox ||
                        $element instanceof tao_helpers_form_elements_TextArea ||
                        $element instanceof tao_helpers_form_elements_HtmlArea
-                      ) ) ||
+                      )) ||
                     $propertyUri == OntologyRdfs::RDFS_LABEL
                 ) {
                     $translatedElt = clone $element;
-                    
+
                     $viewElt = tao_helpers_form_FormFactory::getElement('view_' . $element->getName(), 'Label');
                     $viewElt->setDescription($element->getDescription());
                     $viewElt->setValue($element->getValue());
@@ -122,24 +130,24 @@ class tao_actions_form_Translate extends tao_actions_form_Instance
                     if ($element instanceof tao_helpers_form_elements_HtmlArea) {
                         $viewElt->setAttribute('htmlentities', false);
                     }
-                    
+
                     $this->form->addElement($viewElt);
-                    
+
                     $dataGroup[] = $viewElt->getName();
-                    
+
                     $translatedElt->setDescription(' ');
                     $translatedElt->setValue('');
                     if ($propertyUri == OntologyRdfs::RDFS_LABEL) {
                         $translatedElt->setForcedValid();
                     }
-                
+
                     $this->form->addElement($translatedElt);
-                    
+
                     $dataGroup[] = $translatedElt->getName();
                 }
             }
         }
-        
+
         $this->form->createGroup('translation_form', __('Translate'), $dataGroup);
     }
 }

@@ -34,7 +34,6 @@ use oat\tao\model\TaoOntology;
  */
 class OntologyIndexService
 {
-   
     /**
      * Create a new index
      *
@@ -45,8 +44,13 @@ class OntologyIndexService
      * @param unknown $isDefaultSearchable
      * @return OntologyIndex
      */
-    public static function createIndex(\core_kernel_classes_Property $property, $identifier, \core_kernel_classes_Resource $tokenizer, $isFuzzyMatching, $isDefaultSearchable)
-    {
+    public static function createIndex(
+        \core_kernel_classes_Property $property,
+        $identifier,
+        \core_kernel_classes_Resource $tokenizer,
+        $isFuzzyMatching,
+        $isDefaultSearchable
+    ) {
         $class = new \core_kernel_classes_Class(OntologyIndex::RDF_TYPE);
         $existingIndex = self::getIndexById($identifier);
         if (!is_null($existingIndex)) {
@@ -57,13 +61,17 @@ class OntologyIndexService
             OntologyRdfs::RDFS_LABEL => $identifier,
             OntologyIndex::PROPERTY_INDEX_IDENTIFIER => $identifier,
             OntologyIndex::PROPERTY_INDEX_TOKENIZER => $tokenizer,
-            OntologyIndex::PROPERTY_INDEX_FUZZY_MATCHING => $isFuzzyMatching ? GenerisRdf::GENERIS_TRUE : GenerisRdf::GENERIS_FALSE,
-            OntologyIndex::PROPERTY_DEFAULT_SEARCH => $isDefaultSearchable ? GenerisRdf::GENERIS_TRUE : GenerisRdf::GENERIS_FALSE
+            OntologyIndex::PROPERTY_INDEX_FUZZY_MATCHING => $isFuzzyMatching
+                ? GenerisRdf::GENERIS_TRUE
+                : GenerisRdf::GENERIS_FALSE,
+            OntologyIndex::PROPERTY_DEFAULT_SEARCH => $isDefaultSearchable
+                ? GenerisRdf::GENERIS_TRUE
+                : GenerisRdf::GENERIS_FALSE
         ]);
         $property->setPropertyValue(new \core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX), $resource);
         return new OntologyIndex($resource);
     }
-    
+
     /**
      * Get an index by its unique index id
      *
@@ -73,7 +81,7 @@ class OntologyIndexService
      */
     public static function getIndexById($identifier)
     {
-        
+
         $indexClass = new core_kernel_classes_Class(OntologyIndex::RDF_TYPE);
         $resources = $indexClass->searchInstances([
             OntologyIndex::PROPERTY_INDEX_IDENTIFIER  => $identifier
@@ -85,7 +93,7 @@ class OntologyIndexService
             ? new OntologyIndex(array_shift($resources))
             : null;
     }
-    
+
     /**
      * Get all indexes of a property
      *
@@ -96,14 +104,14 @@ class OntologyIndexService
     {
         $indexUris = $property->getPropertyValues(new \core_kernel_classes_Property(OntologyIndex::PROPERTY_INDEX));
         $indexes = [];
-        
+
         foreach ($indexUris as $indexUri) {
             $indexes[] = new OntologyIndex($indexUri);
         }
-        
+
         return $indexes;
     }
-    
+
     /**
      * Get the Search Indexes of a given $class.
      *
@@ -112,31 +120,32 @@ class OntologyIndexService
      * corresponding to Search Index definitions.
      *
      * @param \core_kernel_classes_Class $class
-     * @param boolean $recursive Whether or not to look for Search Indexes that belong to sub-classes of $class. Default is true.
+     * @param boolean $recursive Whether or not to look for Search Indexes that belong to sub-classes of $class.
+     *                           Default is true.
      * @return OntologyIndex[] An array of Search Index to $class.
      */
     public static function getIndexesByClass(\core_kernel_classes_Class $class, $recursive = true)
     {
         $returnedIndexes = [];
-        
+
         // Get properties to the root class hierarchy.
         $properties = $class->getProperties(true);
-        
+
         foreach ($properties as $prop) {
             $propUri = $prop->getUri();
             $indexes = self::getIndexes($prop);
-            
+
             if (count($indexes) > 0) {
                 if (isset($returnedIndexes[$propUri]) === false) {
                     $returnedIndexes[$propUri] = [];
                 }
-                
+
                 foreach ($indexes as $index) {
                     $returnedIndexes[$propUri][] = new OntologyIndex($index->getUri());
                 }
             }
         }
-        
+
         return $returnedIndexes;
     }
 }

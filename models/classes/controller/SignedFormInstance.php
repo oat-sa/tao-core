@@ -11,7 +11,7 @@ use tao_helpers_form_FormFactory;
 
 class SignedFormInstance extends tao_actions_form_Instance
 {
-    const SIGNATURE_ELEMENT_NAME = 'signature';
+    public const SIGNATURE_ELEMENT_NAME = 'signature';
 
     /**
      * @return mixed|void

@@ -20,10 +20,10 @@
  *
  */
 
-use \oat\tao\model\websource\Websource;
-use \League\Flysystem\Filesystem;
-use \League\Flysystem\Adapter\Local;
-use \oat\oatbox\filesystem\Directory;
+use oat\tao\model\websource\Websource;
+use League\Flysystem\Filesystem;
+use League\Flysystem\Adapter\Local;
+use oat\oatbox\filesystem\Directory;
 use Psr\Http\Message\StreamInterface;
 
 /**

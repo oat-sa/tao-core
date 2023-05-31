@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -63,9 +66,9 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->subject;
-        
+
 
         return (string) $returnValue;
     }
@@ -81,9 +84,9 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $this->predicate;
-        
+
 
         return (string) $returnValue;
     }
@@ -98,7 +101,7 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
      */
     public function setSubject($subject)
     {
-        
+
         $this->subject = $subject;
         $this->addAnnotation('subject', $subject);
     }
@@ -113,7 +116,7 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
      */
     public function setPredicate($predicate)
     {
-        
+
         $this->predicate = $predicate;
         $this->addAnnotation('predicate', $predicate);
     }
@@ -131,9 +134,9 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (bool) false;
 
-        
+
         $returnValue = $this->getSubject() == $translationUnit->getSubject();
-        
+
 
         return (bool) $returnValue;
     }
@@ -151,9 +154,9 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (bool) false;
 
-        
+
         $returnValue = $this->getPredicate() == $translationUnit->getPredicate();
-        
+
 
         return (bool) $returnValue;
     }
@@ -173,11 +176,11 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
     {
         $returnValue = (bool) false;
 
-        
+
         $returnValue = $this->hasSameTranslationUnitPredicate($translationUnit) &&
                        $this->hasSameTranslationUnitSubject($translationUnit) &&
                        $this->hasSameTranslationUnitTargetLanguage($translationUnit);
-        
+
 
         return (bool) $returnValue;
     }
@@ -192,7 +195,7 @@ class tao_helpers_translation_RDFTranslationUnit extends tao_helpers_translation
      */
     public function setSource($source)
     {
-        
+
         parent::setSource($source);
         $this->addAnnotation('source', $source)
         ;

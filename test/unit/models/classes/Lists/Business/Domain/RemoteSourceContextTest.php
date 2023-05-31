@@ -186,7 +186,8 @@ class RemoteSourceContextTest extends TestCase
 
     public function invalidValues(): array
     {
-        $class = new class () {};
+        $class = new class () {
+        };
         $invalidValuesForStringParameters = [
             $class,
             [],

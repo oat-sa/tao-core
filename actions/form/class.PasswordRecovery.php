@@ -58,7 +58,7 @@ class tao_actions_form_PasswordRecovery extends tao_helpers_form_FormContainer
         $mailElement->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         $mailElement->addValidator(tao_helpers_form_FormFactory::getValidator('Email'));
         $mailElement->setAttributes(['autofocus' => 'autofocus']);
-        
+
         $this->form->addElement($mailElement);
     }
 }

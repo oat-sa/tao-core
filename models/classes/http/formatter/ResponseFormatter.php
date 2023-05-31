@@ -25,6 +25,7 @@ use JsonSerializable;
 use oat\oatbox\service\ConfigurableService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+
 use function GuzzleHttp\Psr7\stream_for;
 
 class ResponseFormatter extends ConfigurableService

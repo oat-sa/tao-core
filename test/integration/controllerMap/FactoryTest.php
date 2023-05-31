@@ -20,7 +20,6 @@
  * @author Konstantin Sasim <sasim@1pt.com>
  * @license GPLv2
  * @package tao
- *
  */
 
 use oat\tao\model\controllerMap\ActionNotFoundException;
@@ -35,22 +34,18 @@ use oat\tao\test\integration\controllerMap\stubs\ValidNamespacedController;
 /* stubs for controller class name validation */
 class FakeStandaloneController
 {
-
 }
 
 abstract class FakeAbstractController extends Module
 {
-
 }
 
 class FakeValidController extends Module
 {
-
 }
 
 class FactoryTest extends TaoPhpUnitTestRunner
 {
-
     /** @var  Factory */
     protected $factory;
 
@@ -214,9 +209,18 @@ class FactoryTest extends TaoPhpUnitTestRunner
     {
         $methodName = 'isControllerClassNameValid';
 
-        $this->assertFalse($this->invokeProtectedMethod($this->factory, $methodName, ['FakeStandaloneController']), 'has valid descendant');
-        $this->assertFalse($this->invokeProtectedMethod($this->factory, $methodName, ['FakeAbstractController']), 'is not abstract');
-        $this->assertTrue($this->invokeProtectedMethod($this->factory, $methodName, ['FakeValidController']), 'is valid');
+        $this->assertFalse(
+            $this->invokeProtectedMethod($this->factory, $methodName, ['FakeStandaloneController']),
+            'has valid descendant'
+        );
+        $this->assertFalse(
+            $this->invokeProtectedMethod($this->factory, $methodName, ['FakeAbstractController']),
+            'is not abstract'
+        );
+        $this->assertTrue(
+            $this->invokeProtectedMethod($this->factory, $methodName, ['FakeValidController']),
+            'is valid'
+        );
     }
 
     /**

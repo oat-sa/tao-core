@@ -33,8 +33,8 @@ use oat\tao\model\settings\SettingsStorageInterface;
  */
 class SettingsStorage extends ConfigurableService implements SettingsStorageInterface
 {
-    const OPTION_PERSISTENCE = 'persistence';
-    const OPTION_KEY_NAMESPACE = 'key_namespace';
+    public const OPTION_PERSISTENCE = 'persistence';
+    public const OPTION_KEY_NAMESPACE = 'key_namespace';
 
     /**
      * @var common_persistence_KeyValuePersistence

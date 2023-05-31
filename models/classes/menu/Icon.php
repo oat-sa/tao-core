@@ -27,8 +27,8 @@ use tao_models_classes_accessControl_AclProxy;
 
 class Icon implements PhpSerializable
 {
-    const SERIAL_VERSION = 1392821334;
-    
+    public const SERIAL_VERSION = 1392821334;
+
     protected $data;
 
     /**
@@ -38,7 +38,7 @@ class Icon implements PhpSerializable
      */
     public static function fromSimpleXMLElement(\SimpleXMLElement $node, $structureExtensionId)
     {
-        
+
         return new static([
             'id' =>  !empty($node['id']) ? (string)$node['id'] : null,
             'src' => !empty($node['src']) ? (string)$node['src'] : null,
@@ -61,7 +61,7 @@ class Icon implements PhpSerializable
     }
 
 
-    
+
     public static function createLegacyItem($iconId, $src = null)
     {
         return new static([
@@ -69,17 +69,17 @@ class Icon implements PhpSerializable
             'src' => isset($src) ? (string)$src : null
         ]);
     }
-    
+
     public function __construct($data, $version = self::SERIAL_VERSION)
     {
         $this->data = $data;
     }
-    
+
     public function getId()
     {
         return $this->data['id'];
     }
-    
+
     public function getSource()
     {
         return $this->data['src'];
@@ -89,7 +89,7 @@ class Icon implements PhpSerializable
     {
         return $this->data['ext'];
     }
-    
+
     public function __toPhpCode()
     {
         return "new " . __CLASS__ . "("

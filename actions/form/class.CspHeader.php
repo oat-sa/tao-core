@@ -60,10 +60,13 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
         $this->form = new tao_helpers_form_xhtml_Form('cspHeader');
 
         $this->form->setDecorators([
-            'element'           => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
-            'group'             => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
-            'error'             => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-error ui-state-error ui-corner-all hidden']),
-            'actions-bottom'    => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar'])
+            'element' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
+            'group' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
+            'error' => new tao_helpers_form_xhtml_TagWrapper([
+                'tag' => 'div',
+                'cssClass' => 'form-error ui-state-error ui-corner-all hidden'
+            ]),
+            'actions-bottom' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar'])
         ]);
     }
 
@@ -123,7 +126,10 @@ class tao_actions_form_CspHeader extends tao_helpers_form_FormContainer
     {
         $postData = $this->getPostData();
 
-        if (isset($postData[self::SOURCE_RADIO_NAME]) && array_key_exists($postData[self::SOURCE_RADIO_NAME], $this->getSourceOptions())) {
+        if (
+            isset($postData[self::SOURCE_RADIO_NAME])
+            && array_key_exists($postData[self::SOURCE_RADIO_NAME], $this->getSourceOptions())
+        ) {
             $this->settings->findContentSecurityPolicy()->setValue($postData[self::SOURCE_RADIO_NAME]);
         }
 

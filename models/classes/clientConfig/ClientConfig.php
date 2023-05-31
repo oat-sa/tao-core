@@ -29,7 +29,6 @@ use oat\oatbox\PhpSerializable;
  */
 interface ClientConfig extends PhpSerializable
 {
-
     /**
      * Returns either a JsonSerializable object or an associative array
      * hat will be json encoded and passed to the client as is

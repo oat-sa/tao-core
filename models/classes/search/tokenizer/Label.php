@@ -30,7 +30,6 @@ namespace oat\tao\model\search\tokenizer;
  */
 class Label implements Tokenizer
 {
-   
     public function getStrings($values)
     {
         $strings = [];

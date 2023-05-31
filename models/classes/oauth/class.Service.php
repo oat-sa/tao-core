@@ -15,8 +15,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2013 (original work) (update and modification) Open Assessment Technologies SA
+ *                    (under the project TAO-PRODUCT);
  */
 
 use oat\oatbox\service\ServiceManager;
@@ -38,8 +38,11 @@ class tao_models_classes_oauth_Service implements common_http_SignatureService
      * @author Joel Bout, <joel@taotesting.com>
      * @param $authorizationHeader Move the signature parameters into the Authorization header of the request
      */
-    public function sign(common_http_Request $request, common_http_Credentials $credentials, $authorizationHeader = false)
-    {
+    public function sign(
+        common_http_Request $request,
+        common_http_Credentials $credentials,
+        $authorizationHeader = false
+    ) {
         return $this->getService()->sign($request, $credentials, $authorizationHeader);
     }
 
@@ -55,7 +58,7 @@ class tao_models_classes_oauth_Service implements common_http_SignatureService
     {
         return $this->getService()->validate($request, $credentials);
     }
-    
+
     /**
      * @return OauthService
      */

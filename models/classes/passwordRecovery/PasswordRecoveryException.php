@@ -21,7 +21,7 @@
 
 namespace oat\tao\model\passwordRecovery;
 
-use \Exception;
+use Exception;
 
 /**
  * PasswordRecoveryException represents an exception that is caused by password recovery operations.
@@ -30,7 +30,6 @@ use \Exception;
  */
 class PasswordRecoveryException extends Exception
 {
-
     public function __construct($message, $code = 0, Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);

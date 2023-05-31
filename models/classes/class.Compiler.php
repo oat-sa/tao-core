@@ -37,7 +37,7 @@ abstract class tao_models_classes_Compiler implements \Zend\ServiceManager\Servi
      * @var core_kernel_classes_Resource
      */
     private $resource;
-    
+
     /**
      * @var tao_models_classes_service_FileStorage
      */
@@ -48,7 +48,7 @@ abstract class tao_models_classes_Compiler implements \Zend\ServiceManager\Servi
      * @var mixed
      */
     private $context;
-    
+
     /**
      * @param core_kernel_classes_Resource $resource
      * @param ServiceFileStorage $storage
@@ -58,7 +58,7 @@ abstract class tao_models_classes_Compiler implements \Zend\ServiceManager\Servi
         $this->resource = $resource;
         $this->compilationStorage = $storage;
     }
-    
+
     /**
      * Returns the storage to be used during compilation
      *
@@ -68,7 +68,7 @@ abstract class tao_models_classes_Compiler implements \Zend\ServiceManager\Servi
     {
         return $this->compilationStorage;
     }
-    
+
     /**
      * @return core_kernel_classes_Resource
      */
@@ -76,7 +76,7 @@ abstract class tao_models_classes_Compiler implements \Zend\ServiceManager\Servi
     {
         return $this->resource;
     }
-    
+
     /**
      * Returns a directory that is accessible to the client
      *
@@ -86,7 +86,7 @@ abstract class tao_models_classes_Compiler implements \Zend\ServiceManager\Servi
     {
         return $this->compilationStorage->spawnDirectory(true);
     }
-    
+
     /**
      * Returns a directory that is not accessible to the client
      *
@@ -110,7 +110,7 @@ abstract class tao_models_classes_Compiler implements \Zend\ServiceManager\Servi
             $userMessage
         );
     }
-    
+
     /**
      * Determin the compiler of the resource
      *
@@ -119,7 +119,7 @@ abstract class tao_models_classes_Compiler implements \Zend\ServiceManager\Servi
      * @return string the name of the compiler class
      */
     abstract protected function getSubCompilerClass(core_kernel_classes_Resource $resource);
-    
+
     /**
      * Compile a subelement of the current resource
      *
@@ -164,7 +164,7 @@ abstract class tao_models_classes_Compiler implements \Zend\ServiceManager\Servi
         $this->context = $context;
         return $this;
     }
-    
+
     /**
      * Compile the resource into a runnable service
      * and returns a report that if successful contains the service call

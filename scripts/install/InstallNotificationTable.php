@@ -35,7 +35,6 @@ use oat\generis\persistence\PersistenceManager;
  */
 class InstallNotificationTable extends InstallAction
 {
-
     public function __invoke($params)
     {
         $notificationService = $this->getServiceLocator()->get(NotificationServiceInterface::SERVICE_ID);

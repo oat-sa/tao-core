@@ -35,14 +35,13 @@ use oat\tao\model\messaging\Message;
  */
 class PasswordRecoveryService extends \tao_models_classes_Service
 {
+    public const PROPERTY_PASSWORD_RECOVERY_TOKEN = 'http://www.tao.lu/Ontologies/generis.rdf#passwordRecoveryToken';
 
-    const PROPERTY_PASSWORD_RECOVERY_TOKEN = 'http://www.tao.lu/Ontologies/generis.rdf#passwordRecoveryToken';
-    
     /**
      * @var MessagingService
      */
     private $messagingSerivce;
-    
+
     /**
      * Send email message with password recovery instructions.
      *
@@ -63,17 +62,17 @@ class PasswordRecoveryService extends \tao_models_classes_Service
             'user_name' => (string) $user->getOnePropertyValue($userNameProperty),
             'link' => $this->getPasswordRecoveryLink($user)
         ];
-        
+
         $message = new Message();
         $message->setTo($generisUser);
         $message->setBody($this->getMailContent($messageData));
         $message->setTitle(__("Your TAO Password"));
-        
+
         $result = $messagingService->send($message);
-        
+
         return $result;
     }
-    
+
     /**
      * Get user by property value
      * @param string $property uri
@@ -90,10 +89,10 @@ class PasswordRecoveryService extends \tao_models_classes_Service
             ['like' => false, 'recursive' => true]
         );
         $user = empty($users) ? null : current($users);
-        
+
         return $user;
     }
-    
+
     /**
      * Get user mail value
      * @param core_kernel_classes_Resource $user
@@ -108,7 +107,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
         }
         return $result;
     }
-    
+
     /**
      * Change user pasword
      * @param core_kernel_classes_Resource $user
@@ -119,7 +118,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
         \tao_models_classes_UserService::singleton()->setPassword($user, $newPassword);
         $this->deleteToken($user);
     }
-    
+
     /**
      * Delete password recovery token.
      *
@@ -131,7 +130,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
         $tokenProperty = new \core_kernel_classes_Property(self::PROPERTY_PASSWORD_RECOVERY_TOKEN);
         return $user->removePropertyValues($tokenProperty);
     }
-    
+
     /**
      * Get messaging service
      *
@@ -144,7 +143,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
         }
         return $this->messagingSerivce;
     }
-    
+
     /**
      * Function generates password recovery email message content
      * May be used in the following way:
@@ -193,7 +192,7 @@ class PasswordRecoveryService extends \tao_models_classes_Service
     private function generateRecoveryToken(\core_kernel_classes_Resource $user)
     {
         $this->deleteToken($user);
-        
+
         $token = md5(uniqid(mt_rand(), true));
         $tokenProperty = new \core_kernel_classes_Property(self::PROPERTY_PASSWORD_RECOVERY_TOKEN);
         $user->setPropertyValue($tokenProperty, $token);

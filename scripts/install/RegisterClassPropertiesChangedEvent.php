@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,9 +34,15 @@ class RegisterClassPropertiesChangedEvent extends InstallAction
     {
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-        $eventManager->attach(ClassPropertiesChangedEvent::class, [ClassPropertiesChangedListener::SERVICE_ID, 'handleEvent']);
+        $eventManager->attach(
+            ClassPropertiesChangedEvent::class,
+            [ClassPropertiesChangedListener::SERVICE_ID, 'handleEvent']
+        );
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
-        return new common_report_Report(common_report_Report::TYPE_SUCCESS, 'ClassPropertiesChangedEvent listener registered');
+        return new common_report_Report(
+            common_report_Report::TYPE_SUCCESS,
+            'ClassPropertiesChangedEvent listener registered'
+        );
     }
 }

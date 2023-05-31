@@ -52,8 +52,8 @@ class tao_actions_ClassMetadata extends tao_actions_CommonModule
     ): void {
         $this->setSuccessJsonResponse(
             new ClassInformation(
-                $classMetadataSearcher->findAll($classMetadataSearchRequestHandler->handle($request))
-                ,[
+                $classMetadataSearcher->findAll($classMetadataSearchRequestHandler->handle($request)),
+                [
                     GetClassMetadataValuesService::DATA_TYPE_LIST => 'uri',
                     GetClassMetadataValuesService::DATA_TYPE_TEXT => 'label'
                 ]

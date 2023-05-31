@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -39,10 +41,10 @@ class tao_helpers_form_elements_xhtml_Authoring extends tao_helpers_form_element
      * @access protected
      * @var string
      */
-    const CSS_CLASS = 'authoringOpener';
-    
+    public const CSS_CLASS = 'authoringOpener';
+
     // --- OPERATIONS ---
-    
+
     /**
      * Short description of method render
      *
@@ -59,12 +61,12 @@ class tao_helpers_form_elements_xhtml_Authoring extends tao_helpers_form_element
         } else {
             $this->attributes['class'] = self::CSS_CLASS;
         }
-        
+
         $returnValue = $this->renderLabel();
         $returnValue .= "<button name='{$this->name}' type='button'";
         $returnValue .= $this->renderAttributes();
         $returnValue .= " >" . __('Author Item') . "</button>";
-        
+
         return (string) $returnValue;
     }
 }

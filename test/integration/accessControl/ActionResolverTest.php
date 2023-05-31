@@ -20,7 +20,6 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @license GPLv2
  * @package tao
- *
  */
 
 use oat\tao\model\accessControl\ActionResolver;
@@ -64,7 +63,9 @@ class ActionResolverTest extends GenerisPhpUnitTestRunner
     }
 
     /**
-     * Provides data for {@link self::testByControllerName} : extension, shortname and expacted controller class and action.
+     * Provides data for {@link self::testByControllerName}: extension, shortname and
+     * exacted controller class and action.
+     *
      * @todo add a row with a namespaced controller
      * @return array[] the data
      */

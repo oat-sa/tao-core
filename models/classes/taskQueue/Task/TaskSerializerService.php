@@ -30,10 +30,10 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class TaskSerializerService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/TaskSerializer';
-
     use LoggerAwareTrait;
     use ServiceLocatorAwareTrait;
+
+    public const SERVICE_ID = 'tao/TaskSerializer';
 
     /**
      * @param string $taskJSON
