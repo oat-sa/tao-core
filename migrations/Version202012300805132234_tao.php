@@ -13,7 +13,6 @@ use oat\tao\model\service\ApplicationService;
  */
 final class Version202012300805132234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'Set ApplicationService::OPTION_INSTALLATION_FINISHED';

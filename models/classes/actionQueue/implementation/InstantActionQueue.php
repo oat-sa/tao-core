@@ -41,8 +41,7 @@ use oat\tao\model\actionQueue\event\ActionQueueTrendEvent;
  */
 class InstantActionQueue extends ConfigurableService implements ActionQueue
 {
-
-    const QUEUE_TREND = 'queue_trend';
+    public const QUEUE_TREND = 'queue_trend';
 
     /**
      * @return EventManager
@@ -169,7 +168,9 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
         if (array_key_exists($user->getIdentifier(), $positions)) {
             // now we sure that this user has been queued
             unset($positions[$user->getIdentifier()]);
-            $this->getEventManager()->trigger(new InstantActionOnQueueEvent($key, $user, $positions, 'dequeue', $action));
+            $this->getEventManager()->trigger(
+                new InstantActionOnQueueEvent($key, $user, $positions, 'dequeue', $action)
+            );
             $this->getPersistence()->set($key, json_encode($positions));
 
             if ($this->getTrend($action) <= 0) {
@@ -186,7 +187,10 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     protected function getPersistence()
     {
         $persistenceId = $this->getOption(self::OPTION_PERSISTENCE);
-        return $this->getServiceManager()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById($persistenceId);
+        return $this
+            ->getServiceManager()
+            ->get(\common_persistence_Manager::SERVICE_ID)
+            ->getPersistenceById($persistenceId);
     }
 
     /**
@@ -219,7 +223,9 @@ class InstantActionQueue extends ConfigurableService implements ActionQueue
     {
         $actions = $this->getOption(self::OPTION_ACTIONS);
         if (!isset($actions[$action->getId()])) {
-            throw new ActionQueueException(__('Action `%s` is not configured in the action queue service', $action->getId()));
+            throw new ActionQueueException(
+                __('Action `%s` is not configured in the action queue service', $action->getId())
+            );
         }
         return $actions[$action->getId()];
     }

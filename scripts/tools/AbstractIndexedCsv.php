@@ -22,7 +22,7 @@
 namespace oat\tao\scripts\tools;
 
 use oat\oatbox\action\Action;
-use \common_report_Report as Report;
+use common_report_Report as Report;
 
 /**
  * Abstract Indexed CSV Script.
@@ -44,7 +44,7 @@ abstract class AbstractIndexedCsv implements Action
     private $destinationFp;
     private $index;
     private $params;
-    
+
     /**
      * Script Invokation.
      *
@@ -58,7 +58,7 @@ abstract class AbstractIndexedCsv implements Action
         $this->setHeaders([]);
         $this->setFirstRowColumnNames(false);
         $this->setIndexColumn(0);
-        
+
         // -- Deal with parameters.
         if (!empty($params[0])) {
             $this->setSource($params[0]);
@@ -68,7 +68,7 @@ abstract class AbstractIndexedCsv implements Action
                 "'Source' parameter not provided."
             );
         }
-        
+
         if (!empty($params[1])) {
             $this->setDestination($params[1]);
         } else {
@@ -77,7 +77,7 @@ abstract class AbstractIndexedCsv implements Action
                 "'Destination' parameter not provided."
             );
         }
-        
+
         if (isset($params[2])) {
             $this->setIndexColumn(intval($params[2]));
         } else {
@@ -86,7 +86,7 @@ abstract class AbstractIndexedCsv implements Action
                 "'Index Column' parameter not provided."
             );
         }
-        
+
         if (isset($params[3])) {
             $this->setFirstRowColumnNames(boolval($params[3]));
         } else {
@@ -95,43 +95,43 @@ abstract class AbstractIndexedCsv implements Action
                 "'First Row Column Names' parameter not provided."
             );
         }
-        
+
         // -- Initial report.
         $report = new Report(
             Report::TYPE_INFO,
             "Unknown status."
         );
-        
+
         $report->add($this->beforeProcess());
-        
+
         if ($report->contains(Report::TYPE_ERROR)) {
             $report->setType(Report::TYPE_ERROR);
             $report->setMessage("The script terminated with errors.");
-            
+
             return $report;
         }
-        
+
         // -- Deal with headers.
         if ($this->isFirstRowColumnNames()) {
             $headers = fgetcsv($this->getSourceFp());
-            
+
             // Might return NULL or FALSE.
             if (empty($headers)) {
                 $headers = [];
             }
-            
+
             $this->setHeaders($headers);
             fputcsv($this->getDestinationFp(), $headers);
         }
-        
+
         // -- Deal with reports.
         $report->add($this->index());
-        
+
         // Clean rewind before processing.
         rewind($this->getSourceFp());
         $report->add($this->process());
         $report->add($this->afterProcess());
-        
+
         if ($report->contains(Report::TYPE_ERROR)) {
             $report->setType(Report::TYPE_ERROR);
             $report->setMessage("The script terminated with errors.");
@@ -142,10 +142,10 @@ abstract class AbstractIndexedCsv implements Action
             $report->setType(Report::TYPE_SUCCESS);
             $report->setMessage("The script terminated gracefully!");
         }
-        
+
         return $report;
     }
-    
+
     /**
      * Set the file header.
      *
@@ -157,7 +157,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         $this->headers = $headers;
     }
-    
+
     /**
      * Get the file header.
      *
@@ -169,7 +169,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         return $this->headers;
     }
-    
+
     /**
      * Set the index column.
      *
@@ -181,7 +181,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         $this->indexColumn = $indexColumn;
     }
-    
+
     /**
      * Get the index column.
      *
@@ -193,7 +193,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         return $this->indexColumn;
     }
-    
+
     /**
      * Set the path of the file to be read.
      *
@@ -205,7 +205,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         $this->source = $source;
     }
-    
+
     /**
      * Get the path of the file to be read.
      *
@@ -217,7 +217,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         return $this->source;
     }
-    
+
     /**
      * Set the path of the destination file.
      *
@@ -229,7 +229,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         $this->destination = $destination;
     }
-    
+
     /**
      * Get the path of the destination file.
      *
@@ -241,7 +241,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         return $this->destination;
     }
-    
+
     /**
      * Set the file handle of the source file.
      *
@@ -253,7 +253,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         $this->sourceFp = $sourceFp;
     }
-    
+
     /**
      * Get the file handle of the source file.
      *
@@ -265,7 +265,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         return $this->sourceFp;
     }
-    
+
     /**
      * Set the file handle of the destination file.
      *
@@ -277,7 +277,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         $this->destinationFp = $destinationFp;
     }
-    
+
     /**
      * Get the file handle of the destination file.
      *
@@ -289,7 +289,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         return $this->destinationFp;
     }
-    
+
     /**
      * Set the Index.
      *
@@ -303,7 +303,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         $this->index = $index;
     }
-    
+
     /**
      * Get the Index.
      *
@@ -317,7 +317,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         return $this->index;
     }
-    
+
     /**
      * Set whether or not the first row contains the column names.
      *
@@ -330,7 +330,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         $this->firstRowColumnNames = $firstRowColumnNames;
     }
-    
+
     /**
      * Whether or not the first row contains the column names.
      *
@@ -343,7 +343,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         return $this->firstRowColumnNames;
     }
-    
+
     /**
      * Set the parameters.
      *
@@ -355,7 +355,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         $this->params = $params;
     }
-    
+
     /**
      * Get the parameters.
      *
@@ -367,7 +367,7 @@ abstract class AbstractIndexedCsv implements Action
     {
         return $this->params;
     }
-    
+
     /**
      * Behaviour to be triggered at the beginning of the script.
      *
@@ -383,7 +383,7 @@ abstract class AbstractIndexedCsv implements Action
         // -- Deal with file handling.
         $sourceFp = @fopen($this->getSource(), 'r');
         $destinationFp = @fopen($this->getDestination(), 'w');
-        
+
         if ($sourceFp === false) {
             return new Report(
                 Report::TYPE_ERROR,
@@ -392,7 +392,7 @@ abstract class AbstractIndexedCsv implements Action
         } else {
             $this->setSourceFp($sourceFp);
         }
-        
+
         if ($destinationFp === false) {
             return new Report(
                 Report::TYPE_ERROR,
@@ -406,7 +406,7 @@ abstract class AbstractIndexedCsv implements Action
             );
         }
     }
-    
+
     /**
      * Behaviour to be triggered at the end of the script.
      *
@@ -421,13 +421,13 @@ abstract class AbstractIndexedCsv implements Action
     {
         @fclose($this->getSourceFp());
         @fclose($this->getDestinationFp());
-        
+
         return new Report(
             Report::TYPE_INFO,
             "Source and Destination files closed."
         );
     }
-    
+
     /**
      * Indexing method.
      *
@@ -440,51 +440,52 @@ abstract class AbstractIndexedCsv implements Action
         $index = [];
         $scanCount = $this->fillIndex($index, $this->getSourceFp());
         $this->setIndex($index);
-        
+
         return new Report(
             Report::TYPE_INFO,
             $scanCount . " rows scanned for indexing. " . count($index) . " unique values indexed."
         );
     }
-    
+
     protected function fillIndex(&$index, $sourceFp)
     {
         $indexColumn = $this->getIndexColumn();
         $scanCount = 0;
-        
+
         rewind($sourceFp);
-        
+
         if ($this->isFirstRowColumnNames()) {
             // Ignore first line in indexing.
             fgetcsv($sourceFp);
         }
-        
+
         while (!feof($sourceFp)) {
             $position = ftell($sourceFp);
             $sourceData = fgetcsv($sourceFp);
-            
+
             if (empty($sourceData)) {
                 // End of file reached.
                 break;
             }
-            
+
             $scanCount++;
-            
+
             if ($sourceData !== false && !isset($sourceData[$indexColumn])) {
                 return new Report(
                     Report::TYPE_ERROR,
-                    $indexColumn . " is not a valid offset for the source. It should be one of : " . implode(', ', array_keys($sourceData))
+                    $indexColumn . " is not a valid offset for the source. It should be one of : "
+                        . implode(', ', array_keys($sourceData))
                 );
             }
-            
+
             $index[$sourceData[$indexColumn]][] = $position;
         }
-        
+
         ksort($index);
-        
+
         return $scanCount;
     }
-    
+
     /**
      * Script processing logic.
      *

@@ -244,8 +244,12 @@ class TaskLogTest extends TestCase
      * @param bool $taskRunning
      * @return MockObject|TaskLogInterface
      */
-    protected function getTaskLogMock($notFound = false, $shouldArchive = true, $taskRunning = false, $shouldCancel = true)
-    {
+    protected function getTaskLogMock(
+        $notFound = false,
+        $shouldArchive = true,
+        $taskRunning = false,
+        $shouldCancel = true
+    ) {
         $taskLogMock = $this->getMockBuilder(TaskLog::class)->disableOriginalConstructor()->getMock();
         $collectionMock = $this->getMockBuilder(TaskLogCollection::class)->disableOriginalConstructor()->getMock();
         $entity = $this->getMockBuilder(TaskLogEntity::class)->disableOriginalConstructor()->getMock();

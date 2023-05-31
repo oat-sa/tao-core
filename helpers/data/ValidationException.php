@@ -40,14 +40,14 @@ class ValidationException extends \Exception implements \common_exception_UserRe
      * @var mixed
      */
     private $value;
-    
+
     /**
      * Message that is save to display to user
      *
      * @var string
      */
     private $userMessage;
-    
+
     /**
      *
      * @param \core_kernel_classes_Property $property
@@ -61,7 +61,7 @@ class ValidationException extends \Exception implements \common_exception_UserRe
         $this->value = $value;
         $this->userMessage = $userMessage;
     }
-    
+
     /**
      * Returns the property the value should be assigned to
      *
@@ -71,7 +71,7 @@ class ValidationException extends \Exception implements \common_exception_UserRe
     {
         return $this->property;
     }
-    
+
     /**
      * Returns the value that failed validation
      *
@@ -81,7 +81,7 @@ class ValidationException extends \Exception implements \common_exception_UserRe
     {
         return $this->value;
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see common_exception_UserReadableException::getUserMessage()

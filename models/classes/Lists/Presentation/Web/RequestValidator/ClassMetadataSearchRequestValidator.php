@@ -79,7 +79,7 @@ class ClassMetadataSearchRequestValidator extends InjectionAwareService
         $queryParameters = $request->getQueryParams();
 
         if (!isset($queryParameters[ClassMetadataSearchRequestHandler::QUERY_MAX_LIST_SIZE])) {
-           return;
+            return;
         }
 
         $maxListSize = $queryParameters[ClassMetadataSearchRequestHandler::QUERY_MAX_LIST_SIZE];
@@ -93,6 +93,5 @@ class ClassMetadataSearchRequestValidator extends InjectionAwareService
                 )
             );
         }
-
     }
 }

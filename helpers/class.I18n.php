@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2022 (update and modification) Open Assessment Technologies SA;
  *
  */
@@ -30,14 +32,13 @@ use oat\generis\model\OntologyRdf;
  */
 class tao_helpers_I18n
 {
-
     /**
      * Short description of attribute AVAILABLE_LANGS_CACHEKEY
      *
      * @access private
      * @var string
      */
-    const AVAILABLE_LANGS_CACHEKEY = 'i18n_available_langs';
+    public const AVAILABLE_LANGS_CACHEKEY = 'i18n_available_langs';
 
     /**
      * Short description of attribute availableLangs
@@ -100,7 +101,9 @@ class tao_helpers_I18n
     {
         $orientation = null;
         $langs = self::getAvailableLangs();
-        $orientation = isset($langs[$code]) ? $langs[$code][tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION] : null;
+        $orientation = isset($langs[$code])
+            ? $langs[$code][tao_models_classes_LanguageService::PROPERTY_LANGUAGE_ORIENTATION]
+            : null;
         return $orientation == tao_models_classes_LanguageService::INSTANCE_ORIENTATION_RTL;
     }
 
@@ -109,7 +112,9 @@ class tao_helpers_I18n
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param boolean langName If set to true, an associative array where keys are language codes and values are language labels. If set to false (default), a simple array of language codes is returned.
+     * @param boolean $langName If set to true, an associative array where keys are language codes and values are
+     *                          language labels. If set to false (default), a simple array of language codes is
+     *                          returned.
      * @return array
      * @throws common_exception_InconsistentData
      */
@@ -172,7 +177,8 @@ class tao_helpers_I18n
      * * Data Language ('http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData')
      *
      * @author Jérôme Bogaerts <jerome@taotesting.com>
-     * @param core_kernel_classes_Resource $usage Resource usage An instance of tao:LanguagesUsages from the knowledge base.
+     * @param core_kernel_classes_Resource $usage Resource usage An instance of tao:LanguagesUsages from the knowledge
+     *                                            base.
      * @return array An associative array of core_kernel_classes_Resource objects index by language code.
      */
     public static function getAvailableLangsByUsage(core_kernel_classes_Resource $usage)

@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -32,23 +34,23 @@ use oat\tao\helpers\dateFormatter\DateFormatterInterface;
  */
 class tao_helpers_Date
 {
-    const CONFIG_KEY = 'dateService';
+    public const CONFIG_KEY = 'dateService';
 
-    const FORMAT_LONG = 0;
+    public const FORMAT_LONG = 0;
 
-    const FORMAT_VERBOSE = 1;
+    public const FORMAT_VERBOSE = 1;
 
-    const FORMAT_DATEPICKER = 2;
+    public const FORMAT_DATEPICKER = 2;
 
-    const FORMAT_ISO8601 = 3;
+    public const FORMAT_ISO8601 = 3;
 
-    const FORMAT_LONG_MICROSECONDS = 4;
+    public const FORMAT_LONG_MICROSECONDS = 4;
 
-    const FORMAT_INTERVAL_LONG = 100;
+    public const FORMAT_INTERVAL_LONG = 100;
 
-    const FORMAT_INTERVAL_SHORT = 101;
+    public const FORMAT_INTERVAL_SHORT = 101;
 
-    const FORMAT_FALLBACK = -1;
+    public const FORMAT_FALLBACK = -1;
 
     private static $service;
 
@@ -119,7 +121,7 @@ class tao_helpers_Date
             common_Logger::w('Unknown interval format ' . get_class($interval) . ' for ' . __FUNCTION__);
             return '';
         }
-        
+
         $formatStrings = self::getNonNullIntervalFormats($intervalObj);
         if (empty($formatStrings)) {
             $returnValue = __("less than a minute");
@@ -150,7 +152,8 @@ class tao_helpers_Date
     {
         $string = '';
         while (! empty($formatStrings)) {
-            $string .= $interval->format(array_shift($formatStrings)) . (count($formatStrings) == 0 ? '' : (count($formatStrings) == 1 ? __(' and ') : ' '));
+            $string .= $interval->format(array_shift($formatStrings))
+                . (count($formatStrings) == 0 ? '' : (count($formatStrings) == 1 ? __(' and ') : ' '));
         }
         return $string;
     }
@@ -188,10 +191,10 @@ class tao_helpers_Date
      * @param unknown $microtime
      * @return number
      */
-    static function getTimeStamp($microtime, $microseconds = false)
+    public static function getTimeStamp($microtime, $microseconds = false)
     {
         $parts = array_reverse(explode(" ", $microtime));
-        
+
         if ($microseconds && isset($parts[1])) {
             $round = sprintf('%0.6f', $parts[1]);
             if ($round === '1.000000') {
@@ -207,13 +210,14 @@ class tao_helpers_Date
         return $timestamp;
     }
 
-    static function getTimeStampWithMicroseconds(DateTime $dt)
+    public static function getTimeStampWithMicroseconds(DateTime $dt)
     {
         return join('.', [$dt->getTimestamp(), $dt->format('u')]);
     }
 
     /**
-     * Get array of DateTime objects build from $date (or current time if not given) $amount times back with given interval
+     * Get array of DateTime objects build from $date (or current time if not given) $amount times back with given
+     * interval
      * Example:
      * $timeKeys = $service->getTimeKeys(new \DateInterval('PT1H'), new \DateTime('now'), 24);
      *
@@ -262,7 +266,9 @@ class tao_helpers_Date
         if ($interval->format('%d') > 0) {
             $date->setTime(0, 0, 0);
             $date->setDate($date->format('Y'), $date->format('m'), $date->format('d') + 1);
-            $amount = $amount === null ? cal_days_in_month(CAL_GREGORIAN, $date->format('m'), $date->format('Y')) : $amount;
+            $amount = $amount === null
+                ? cal_days_in_month(CAL_GREGORIAN, $date->format('m'), $date->format('Y'))
+                : $amount;
         }
         if ($interval->format('%m') > 0) {
             $date->setTime(0, 0, 0);

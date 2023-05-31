@@ -25,7 +25,6 @@ use Exception;
 
 class RestExceptionHandler
 {
-
     /**
      * Set response header according exception type
      * @param Exception $exception

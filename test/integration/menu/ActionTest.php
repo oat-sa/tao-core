@@ -28,6 +28,7 @@ namespace oat\tao\menu\test;
 use oat\tao\model\menu\Action;
 use oat\tao\model\menu\Icon;
 use oat\tao\test\TaoPhpUnitTestRunner;
+use SimpleXMLElement;
 
 /**
  * Unit test the  oat\tao\model\menu\Action
@@ -36,7 +37,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  */
 class ActionTest extends TaoPhpUnitTestRunner
 {
-    
     /**
      * Data Provider : xml and a mock action that the xml should produce
      * @return array the data
@@ -44,9 +44,10 @@ class ActionTest extends TaoPhpUnitTestRunner
     public function actionsProvider()
     {
         return [
-            ['<action id="search" name="search" url="/tao/Roles/search" context="*" group="content">
-                        <icon id="search" src="images/icon.svg"/>
-                    </action>',
+            [
+                '<action id="search" name="search" url="/tao/Roles/search" context="*" group="content">
+                    <icon id="search" src="images/icon.svg"/>
+                 </action>',
                 'tao',
                   new Action([
                         'id'      => 'search',
@@ -64,27 +65,29 @@ class ActionTest extends TaoPhpUnitTestRunner
                         'multiple' => false
                   ])
             ],
-            ['<action id="delete" name="delete" js="removeNode" url="/tao/Roles/delete" context="resource" disabled="true"/>',
+            [
+                '<action id="delete" name="delete" js="removeNode" url="/tao/Roles/delete"
+                         context="resource" disabled="true"/>',
                 'tao',
-                  new Action([
-                        'id'      => 'delete',
-                        'name'      => 'delete',
-                        'url'       => '/tao/Roles/delete',
-                        'context'   => 'resource',
-                        'group'     => 'tree',
-                        'binding'   => 'removeNode',
-                        'reload'    => false,
-                        'disabled'    => true,
-                        'icon'      => new Icon(['id' => null, 'src' => 'actions/delete.png', 'ext' => 'tao']),
-                        'extension' => 'tao',
-                        'controller' => 'Roles',
-                        'action' => 'delete',
-                        'multiple' => false
-                  ])
+                new Action([
+                    'id'      => 'delete',
+                    'name'      => 'delete',
+                    'url'       => '/tao/Roles/delete',
+                    'context'   => 'resource',
+                    'group'     => 'tree',
+                    'binding'   => 'removeNode',
+                    'reload'    => false,
+                    'disabled'    => true,
+                    'icon'      => new Icon(['id' => null, 'src' => 'actions/delete.png', 'ext' => 'tao']),
+                    'extension' => 'tao',
+                    'controller' => 'Roles',
+                    'action' => 'delete',
+                    'multiple' => false
+                ])
             ]
         ];
     }
-    
+
     /**
      * Test the xml produce the same object than the one expected by the provider.
      *
@@ -95,8 +98,8 @@ class ActionTest extends TaoPhpUnitTestRunner
      */
     public function testActions($xml, $extensionId, $expected)
     {
-        $result = Action::fromSimpleXMLElement(new \SimpleXMLElement($xml), $extensionId);
-    
+        $result = Action::fromSimpleXMLElement(new SimpleXMLElement($xml), $extensionId);
+
         $this->assertTrue($result instanceof Action);
         $this->assertEquals($expected, $result);
     }

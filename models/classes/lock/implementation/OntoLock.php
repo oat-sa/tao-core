@@ -21,7 +21,7 @@
 
 namespace oat\tao\model\lock\implementation;
 
-use \oat\tao\model\lock\LockSystem;
+use oat\tao\model\lock\LockSystem;
 use core_kernel_classes_Resource;
 use core_kernel_classes_Property;
 use common_Exception;
@@ -34,8 +34,9 @@ use oat\tao\model\TaoOntology;
 /**
  * Implements Lock using a basic property in the ontology storing the lock data
  *
- * @note It would be preferably static but we may want to have the polymorphism on lock but it would be prevented by explicit class method static calls.
- * Also if you nevertheless call it statically you may want to avoid the late static binding for the getLockProperty
+ * @note It would be preferably static but we may want to have the polymorphism on lock, but it would be prevented by
+ *       explicit class method static calls. Also if you nevertheless call it statically you may want to avoid the late
+ *       static binding for the getLockProperty
  */
 class OntoLock extends ConfigurableService implements LockSystem
 {
@@ -62,7 +63,7 @@ class OntoLock extends ConfigurableService implements LockSystem
             throw new ResourceLockedException($lock);
         }
     }
-    
+
     /**
      * return true is the resource is locked, else otherwise
      * @return boolean
@@ -76,7 +77,7 @@ class OntoLock extends ConfigurableService implements LockSystem
         }
         return false;
     }
-    
+
     /**
      * release the lock if owned by @user
      *
@@ -102,16 +103,16 @@ class OntoLock extends ConfigurableService implements LockSystem
             }
         }
     }
-    
+
     /**
      *  release the lock
      * @param core_kernel_classes_Resource $resource
      */
     public function forceReleaseLock(core_kernel_classes_Resource $resource)
     {
-         return $resource->removePropertyValues($this->getLockProperty());
+        return $resource->removePropertyValues($this->getLockProperty());
     }
-    
+
     /**
      * Return lock details
      * @param core_kernel_classes_Resource $resource

@@ -25,7 +25,6 @@ use oat\oatbox\event\Event;
 
 class MetadataModified implements Event
 {
-
     /**
      *
      * Resource that have been modified/created

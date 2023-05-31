@@ -69,7 +69,8 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
                 'prefix' => 'c',
                 'longPrefix' => 'class',
                 'flag' => false,
-                'description' => 'The class of resources. If empty, the script will consider the first class to be indexed.',
+                'description' => 'The class of resources. If empty, the script will consider the first class to be '
+                    . 'indexed.',
                 'defaultValue' => ""
             ],
             'lock' => [
@@ -190,4 +191,3 @@ class IndexPopulator extends ScriptAction implements ServiceLocatorAwareInterfac
         );
     }
 }
-

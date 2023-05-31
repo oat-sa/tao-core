@@ -2,10 +2,12 @@
 
 namespace oat\tao\test\integration;
 
+use core_kernel_users_Service;
 use oat\generis\model\GenerisRdf;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\user\TaoRoles;
+use tao_models_classes_LanguageService;
 
 abstract class RestTestRunner extends GenerisPhpUnitTestRunner
 {
@@ -19,12 +21,13 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
 
     protected function getUserData()
     {
+        $uiLanguage = tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG);
         return [
             GenerisRdf::PROPERTY_USER_LOGIN => 'tjdoe',
             GenerisRdf::PROPERTY_USER_LASTNAME => 'Doe',
             GenerisRdf::PROPERTY_USER_FIRSTNAME => 'John',
             GenerisRdf::PROPERTY_USER_MAIL => 'jdoe@tao.lu',
-            GenerisRdf::PROPERTY_USER_UILG => \tao_models_classes_LanguageService::singleton()->getLanguageByCode(DEFAULT_LANG)->getUri(),
+            GenerisRdf::PROPERTY_USER_UILG => $uiLanguage->getUri(),
             GenerisRdf::PROPERTY_USER_PASSWORD => 'test' . rand(),
             GenerisRdf::PROPERTY_USER_ROLES => [
                 TaoRoles::GLOBAL_MANAGER
@@ -42,7 +45,11 @@ abstract class RestTestRunner extends GenerisPhpUnitTestRunner
         // creates a user using remote script from joel
         $userdata = $this->getUserData();
         $password = $userdata[GenerisRdf::PROPERTY_USER_PASSWORD];
-        $userdata[GenerisRdf::PROPERTY_USER_PASSWORD] = \core_kernel_users_Service::getPasswordHash()->encrypt($userdata[GenerisRdf::PROPERTY_USER_PASSWORD]);
+
+        $userdata[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt(
+            $userdata[GenerisRdf::PROPERTY_USER_PASSWORD]
+        );
+
         $tmclass = new \core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
         $user = $tmclass->createInstanceWithProperties($userdata);
         \common_Logger::i('Created user ' . $user->getUri());

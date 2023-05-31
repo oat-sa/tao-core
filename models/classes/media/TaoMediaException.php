@@ -26,5 +26,4 @@ namespace oat\tao\model\media;
  */
 class TaoMediaException extends \common_Exception
 {
-
 }

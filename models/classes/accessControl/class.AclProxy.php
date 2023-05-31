@@ -55,7 +55,7 @@ class tao_models_classes_accessControl_AclProxy
         }
         return AclProxy::hasAccess($user, $className, $action, $parameters);
     }
-    
+
     /**
      * Does not respect params
      *

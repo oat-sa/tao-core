@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -53,7 +55,7 @@ class tao_helpers_translation_POUtils
     {
         $returnValue = (string) '';
 
-        
+
         if ($reverse) {
             $smap = ['"', "\n", "\t", "\r"];
             $rmap = ['\\"', '\\n"' . "\n" . '"', '\\t', '\\r'];
@@ -63,7 +65,7 @@ class tao_helpers_translation_POUtils
             $rmap = ['', "\n", "\r", "\t", '"'];
             $returnValue = (string) preg_replace($smap, $rmap, $string);
         }
-        
+
 
         return (string) $returnValue;
     }
@@ -80,10 +82,10 @@ class tao_helpers_translation_POUtils
     {
         $returnValue = [];
 
-        
+
         $matches = [];
         $encoding = self::getApplicationHelper()->getDefaultEncoding();
-        
+
         if (preg_match_all('/(#[\.\:,\|]{0,1}\s+(?:[^\\n]*))/', $annotations, $matches) !== false) {
             if (isset($matches[1]) && count($matches[1]) > 0) {
                 foreach ($matches[1] as $match) {
@@ -91,7 +93,7 @@ class tao_helpers_translation_POUtils
                     $matchLen = mb_strlen($match, $encoding);
                     $annotationId = null;
                     $annotationValue = null;
-                    
+
                     switch (mb_substr($match, 1, 1, $encoding)) {
                         case "\t":
                         case ' ':
@@ -99,22 +101,22 @@ class tao_helpers_translation_POUtils
                             $annotationId = tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS;
                             $annotationValue = mb_substr($match, 2, $matchLen - 2, $encoding);
                             break;
-                        
+
                         case '.':
                             $annotationId = tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS;
                             $annotationValue = mb_substr($match, 3, $matchLen - 3, $encoding);
                             break;
-                        
+
                         case ':':
                             $annotationId = tao_helpers_translation_POTranslationUnit::REFERENCE;
                             $annotationValue = mb_substr($match, 3, $matchLen - 3, $encoding);
                             break;
-                        
+
                         case ',':
                             $annotationId = tao_helpers_translation_POTranslationUnit::FLAGS;
                             $annotationValue = mb_substr($match, 3, $matchLen - 3, $encoding);
                             break;
-                        
+
                         case '|':
                             if (($pos = mb_strpos($match, 'msgid_plural', 0, $encoding)) !== false) {
                                 $pos += mb_strlen('msgid_plural', $encoding) + 1;
@@ -131,7 +133,7 @@ class tao_helpers_translation_POUtils
                             }
                             break;
                     }
-                    
+
                     if ($annotationId != null && $annotationValue != null) {
                         if (!isset($returnValue[$annotationId])) {
                             $returnValue[$annotationId] = $annotationValue;
@@ -142,9 +144,11 @@ class tao_helpers_translation_POUtils
                 }
             }
         } else {
-            throw new tao_helpers_translation_TranslationException("An error occured while unserializing annotations '${annotations}'.");
+            throw new tao_helpers_translation_TranslationException(
+                "An error occured while unserializing annotations '${annotations}'."
+            );
         }
-        
+
 
         return (array) $returnValue;
     }
@@ -154,44 +158,45 @@ class tao_helpers_translation_POUtils
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array annotations An array of annotations where keys are annotation identifiers and values are annotation values.
+     * @param array $annotations An array of annotations where keys are annotation identifiers and values are annotation
+     *                           values.
      * @return string
      */
     public static function serializeAnnotations($annotations)
     {
         $returnValue = (string) '';
 
-        
+
         // Buffer will contain each line of the serialized PO comment block.
         $buffer = [];
-        
+
         foreach ($annotations as $name => $value) {
             $prefix = null;
-            
+
             switch ($name) {
                 case tao_helpers_translation_POTranslationUnit::TRANSLATOR_COMMENTS:
                     $prefix = '#';
                     break;
-                
+
                 case tao_helpers_translation_POTranslationUnit::EXTRACTED_COMMENTS:
                     $prefix = '#.';
                     break;
-                
+
                 case tao_helpers_translation_POTranslationUnit::REFERENCE:
                     $prefix = '#:';
                     break;
-                
+
                 case tao_helpers_translation_POTranslationUnit::FLAGS:
                     $prefix = '#,';
                     break;
-                
+
                 case tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID:
                 case tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGID_PLURAL:
                 case tao_helpers_translation_POTranslationUnit::PREVIOUS_MSGCTXT:
                     $prefix = '#|';
                     break;
             }
-            
+
             if ($prefix !== null) {
                 // We have a PO compliant annotation that we have to serialize.
                 foreach (explode("\n", $value) as $v) {
@@ -202,7 +207,7 @@ class tao_helpers_translation_POUtils
 
         // Glue the annotation lines in a single PO comment block.
         $returnValue = implode("\n", $buffer);
-        
+
 
         return (string) $returnValue;
     }
@@ -220,14 +225,14 @@ class tao_helpers_translation_POUtils
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $comment;
         $flag = trim($flag);
         $encoding = self::getApplicationHelper()->getDefaultEncoding();
         if (mb_strpos($returnValue, $flag, 0, $encoding) === false) {
             $returnValue .= ((mb_strlen($returnValue, $encoding) > 0) ? " ${flag}" : $flag);
         }
-        
+
 
         return (string) $returnValue;
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,11 +33,11 @@ use RuntimeException;
 
 class ClassPropertiesChangedListener extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/ClassPropertiesChangedListener';
+    public const SERVICE_ID = 'tao/ClassPropertiesChangedListener';
 
     public function handleEvent(ClassPropertiesChangedEvent $event): void
     {
-        if ( !$this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
+        if (!$this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
             return;
         }
 

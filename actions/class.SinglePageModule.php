@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +30,7 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
     /**
      * This header is added to the response to inform the client a forward occurs
      */
-    const FORWARD_HEADER = 'X-Tao-Forward';
+    public const FORWARD_HEADER = 'X-Tao-Forward';
 
     /**
      * A list of parameters to provide to the client controller

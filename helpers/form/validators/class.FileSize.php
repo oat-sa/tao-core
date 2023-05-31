@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -40,7 +43,11 @@ class tao_helpers_form_validators_FileSize extends tao_helpers_form_Validator
         parent::setOptions($options);
 
         if ($this->hasOption('min') && $this->hasOption('max')) {
-            $this->setMessage(__('Invalid file size (minimum %1$s bytes, maximum %2$s bytes)', $this->getOption('min'), $this->getOption('max')));
+            $this->setMessage(
+                // phpcs:disable Generic.Files.LineLength
+                __('Invalid file size (minimum %1$s bytes, maximum %2$s bytes)', $this->getOption('min'), $this->getOption('max'))
+                // phpcs:enable Generic.Files.LineLength
+            );
         } elseif ($this->hasOption('max')) {
             $this->setMessage(__('The uploaded file is too large (maximum %s bytes)', $this->getOption('max')));
             $this->setOption('min', 0);
@@ -62,8 +69,8 @@ class tao_helpers_form_validators_FileSize extends tao_helpers_form_Validator
     {
         $returnValue = (bool) false;
 
-        
-        
+
+
         if (is_array($values)) {
             if (isset($values['size'])) {
                 if ($values['size'] >= $this->getOption('min') && $values['size'] <= $this->getOption('max')) {
@@ -75,8 +82,8 @@ class tao_helpers_form_validators_FileSize extends tao_helpers_form_Validator
         } else {
             $returnValue = true;
         }
-        
-        
+
+
 
         return (bool) $returnValue;
     }

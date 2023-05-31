@@ -17,9 +17,12 @@ use oat\generis\persistence\PersistenceManager;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -34,9 +37,9 @@ use oat\generis\persistence\PersistenceManager;
  * @package tao
 
  */
-class tao_install_services_CheckDatabaseConnectionService extends tao_install_services_Service implements tao_install_services_CheckService
+class tao_install_services_CheckDatabaseConnectionService extends tao_install_services_Service implements
+    tao_install_services_CheckService
 {
-    
     /**
      * Creates a new instance of the service.
      * @param tao_install_services_Data $data The input data to be handled by the service.
@@ -46,7 +49,7 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
     {
         parent::__construct($data);
     }
-    
+
     /**
      * Executes the main logic of the service.
      * @return tao_install_services_Data The result of the service execution.
@@ -67,7 +70,7 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
         // Do not call PHP internal error handler !
         return true;
     }
-    
+
     protected function checkData()
     {
         $content = json_decode($this->getData()->getContent(), true);
@@ -89,7 +92,7 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
             throw new InvalidArgumentException("Missing data: 'database' must be provided.");
         }
     }
-    
+
     public static function buildComponent(tao_install_services_Data $data)
     {
         $content = json_decode($data->getContent(), true);
@@ -99,13 +102,13 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
         } else {
             $optional = false;
         }
-        
+
         // Try such a driver. Because the provided driver name should
         // comply with a PHP Extension name (e.g. mysql, pgsql), we test its
         // existence.
         return common_configuration_ComponentFactory::buildPHPDatabaseDriver($driver, $optional);
     }
-    
+
     public static function buildResult(
         tao_install_services_Data $data,
         common_configuration_Report $report,
@@ -126,7 +129,7 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
                 set_error_handler(['tao_install_services_CheckDatabaseConnectionService', 'onError']);
                 //$dbCreatorClassName = tao_install_utils_DbCreator::getClassNameForDriver($driver);
                 //$dbCreator = new $dbCreatorClassName($host, $user, $password, $driver);
-                
+
                 $installParams = [
                     'db_driver' => $driver,
                     'db_host' => $host,
@@ -136,7 +139,10 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
                 ];
                 $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
                 $persistenceManager = new PersistenceManager();
-                $persistenceManager->registerPersistence('default', $dbalConfigCreator->createDbalConfig($installParams));
+                $persistenceManager->registerPersistence(
+                    'default',
+                    $dbalConfigCreator->createDbalConfig($installParams)
+                );
                 $persistence = $persistenceManager->getPersistenceById('default');
                 // If we are here, we are connected.
                 if ($overwrite == false && !empty($persistence->getSchemaManager()->getTables())) {
@@ -146,10 +152,11 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
                     $message = "Database connection successfully established with '${host}' using driver '${driver}'.";
                     $status = 'valid';
                 }
-                
+
                 restore_error_handler();
             } catch (Exception $e) {
-                $message = "Unable to connect to database '${database}' at '${host}' using driver '${driver}': " . $e->getMessage();
+                $message = "Unable to connect to database '${database}' at '${host}' using driver '${driver}': "
+                    . $e->getMessage();
                 $status = 'invalid-noconnection';
                 restore_error_handler();
             }
@@ -158,8 +165,8 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
             $status = 'invalid-nodriver';
             $message = "Database driver '${driver}' is not available.";
         }
-        
-        
+
+
         $value = ['status' => $status,
                        'message' => $message,
                        'optional' => $component->isOptional(),

@@ -17,6 +17,7 @@
  *
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
  */
+
 declare(strict_types=1);
 
 namespace oat\tao\scripts\tools\e2e;
@@ -31,7 +32,6 @@ use stdClass;
 
 class PrepareEnvironment extends ScriptAction
 {
-
     public function getConfigPath(string $configEnv = ''): string
     {
         return sprintf('%s/tao/views/cypress/envs/env%s.json', ROOT_PATH, $configEnv);
@@ -83,7 +83,7 @@ class PrepareEnvironment extends ScriptAction
 
         $this->buildConfigFoundation($this->getConfigPath());
         foreach ($actions as $action) {
-            $action = $this->propagate(new $action);
+            $action = $this->propagate(new $action());
             $report->add(($action)([]));
         }
         return $report;

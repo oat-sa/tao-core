@@ -21,7 +21,7 @@
 
 namespace oat\tao\scripts\tools;
 
-use \common_report_Report as Report;
+use common_report_Report as Report;
 
 /**
  * Script to remove duplicate rows from an indexed CSV file.
@@ -47,7 +47,7 @@ class RemoveCsvDuplicates extends AbstractIndexedCsv
         $sourceFp = $this->getSourceFp();
         $destinationFp = $this->getDestinationFp();
         $index = $this->getIndex();
-        
+
         $writtenCount = 0;
         foreach ($index as $identifier => $positions) {
             if (count($positions) === 1) {
@@ -59,7 +59,7 @@ class RemoveCsvDuplicates extends AbstractIndexedCsv
                 $writtenCount++;
             }
         }
-        
+
         return new Report(
             Report::TYPE_INFO,
             "${writtenCount} records written in file '" . realpath($this->getDestination()) . "'."

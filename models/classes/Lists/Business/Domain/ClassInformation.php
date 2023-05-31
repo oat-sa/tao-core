@@ -45,5 +45,4 @@ class ClassInformation implements JsonSerializable
             'criteriaMapping' => $this->criteriaMapping,
         ];
     }
-
 }

@@ -29,10 +29,10 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule impl
     use OntologyAwareTrait;
     use \tao_actions_RestTrait;
 
-    const CLASS_URI_PARAM = 'class-uri';
-    const CLASS_LABEL_PARAM = 'class-label';
-    const CLASS_COMMENT_PARAM = 'class-comment';
-    const PARENT_CLASS_URI_PARAM = 'parent-class-uri';
+    public const CLASS_URI_PARAM = 'class-uri';
+    public const CLASS_LABEL_PARAM = 'class-label';
+    public const CLASS_COMMENT_PARAM = 'class-comment';
+    public const PARENT_CLASS_URI_PARAM = 'parent-class-uri';
 
     /**
      * Check response encoding requested
@@ -85,11 +85,15 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule impl
         $class = null;
         if ($this->hasRequestParameter(self::CLASS_URI_PARAM) && $this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
             throw new \common_exception_RestApi(
-                self::CLASS_URI_PARAM . ' and ' . self::CLASS_LABEL_PARAM . ' parameters do not supposed to be used simultaneously.'
+                self::CLASS_URI_PARAM . ' and ' . self::CLASS_LABEL_PARAM
+                    . ' parameters do not supposed to be used simultaneously.'
             );
         }
 
-        if (!$this->hasRequestParameter(self::CLASS_URI_PARAM) && !$this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
+        if (
+            !$this->hasRequestParameter(self::CLASS_URI_PARAM)
+            && !$this->hasRequestParameter(self::CLASS_LABEL_PARAM)
+        ) {
             $class = $rootClass;
         }
 

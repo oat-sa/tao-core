@@ -36,45 +36,44 @@ use oat\tao\helpers\Template;
  */
 class ConfigurablePlatformTheme extends Configurable implements Theme
 {
-
     /** Theme extension id key */
-    const EXTENSION_ID = 'extensionId';
+    public const EXTENSION_ID = 'extensionId';
 
     /** Theme label key */
-    const LABEL = 'label';
+    public const LABEL = 'label';
 
     /** Theme id key */
-    const ID = 'id';
+    public const ID = 'id';
 
     /** Theme stylesheet key */
-    const STYLESHEET = 'stylesheet';
+    public const STYLESHEET = 'stylesheet';
 
     /** Theme logo url key */
-    const LOGO_URL = 'logoUrl';
+    public const LOGO_URL = 'logoUrl';
 
     /** Theme logo link key */
-    const LINK = 'link';
+    public const LINK = 'link';
 
     /** Theme logo title key */
-    const MESSAGE = 'message';
+    public const MESSAGE = 'message';
 
     /** Theme templates key */
-    const TEMPLATES = 'templates';
+    public const TEMPLATES = 'templates';
 
     /** Use the default path for logo, stylesheet, templates etc. */
-    const DEFAULT_PATH = 'useDefaultThemePath';
+    public const DEFAULT_PATH = 'useDefaultThemePath';
 
     /** Path to themes */
-    const DEFAULT_THEME_PATH = 'themes/platform';
+    public const DEFAULT_THEME_PATH = 'themes/platform';
 
     /** Logo Name */
-    const DEFAULT_LOGO_NAME = 'logo.png';
+    public const DEFAULT_LOGO_NAME = 'logo.png';
 
     /** Stylesheet Name */
-    const DEFAULT_STYLESHEET_NAME = 'theme.css';
+    public const DEFAULT_STYLESHEET_NAME = 'theme.css';
 
     /** Theme operated by key */
-    const OPERATED_BY = 'operatedBy';
+    public const OPERATED_BY = 'operatedBy';
 
     /**
      * Default theme path
@@ -121,7 +120,8 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      * ];
      *
      * If this contains anything you don't like, just add that key to your $config array to override the default.
-     * The same applies if something is missing that you would like to have - for these cases generic getter is available.
+     * The same applies if something is missing that you would like to have - for these cases generic getter is
+     * available.
      *
      * // Full blown custom configuration example
      * $options = [
@@ -331,7 +331,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     public function getOperatedBy()
     {
         $operatedBy = $this->getOption(static::OPERATED_BY);
-        $operatedBy['name']  = empty($operatedBy['name'])  ? '' : $operatedBy['name'];
+        $operatedBy['name']  = empty($operatedBy['name']) ? '' : $operatedBy['name'];
         $operatedBy['email'] = empty($operatedBy['email']) ? '' : $operatedBy['email'];
         return $operatedBy;
     }
@@ -384,7 +384,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     {
         return $this->customTexts;
     }
-    
+
     /**
      * This is now just an alias to keep backward compatibility
      *

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -88,13 +91,15 @@ abstract class tao_helpers_grid_GridContainer
      */
     public function __construct($data = [], $options = [])
     {
-        
-        
+
+
         $this->data = $data;
         $this->options = $options;
-        $this->excludedProperties = (is_array($this->options) && isset($this->options['excludedProperties'])) ? $this->options['excludedProperties'] : [];
+        $this->excludedProperties = (is_array($this->options) && isset($this->options['excludedProperties']))
+            ? $this->options['excludedProperties']
+            : [];
         $this->grid = new tao_helpers_grid_Grid($options);
-        
+
         //init columns ...
         $this->initGrid();
         $this->initColumns();
@@ -110,7 +115,7 @@ abstract class tao_helpers_grid_GridContainer
      */
     public function __destruct()
     {
-        
+
         if (!is_null($this->grid)) {
             //remove the refs of the contained grid
         }
@@ -127,9 +132,9 @@ abstract class tao_helpers_grid_GridContainer
     {
         $returnValue = null;
 
-        
+
         $returnValue = $this->grid;
-        
+
 
         return $returnValue;
     }
@@ -145,12 +150,12 @@ abstract class tao_helpers_grid_GridContainer
     {
         $returnValue = (bool) false;
 
-        
-        
+
+
         //set data if data given
         $returnValue = $this->grid->setData($this->data);
-        
-        
+
+
 
         return (bool) $returnValue;
     }
@@ -176,9 +181,9 @@ abstract class tao_helpers_grid_GridContainer
     {
         $returnValue = [];
 
-        
+
         $returnValue = $this->grid->toArray();
-        
+
 
         return (array) $returnValue;
     }
@@ -194,8 +199,8 @@ abstract class tao_helpers_grid_GridContainer
     {
         $returnValue = (bool) false;
 
-        
-        
+
+
         $columns = $this->grid->getColumns();
         if (isset($options['columns'])) {
             foreach ($options['columns'] as $columnId => $columnOptions) {
@@ -227,7 +232,7 @@ abstract class tao_helpers_grid_GridContainer
                 }
             }
         }
-        
+
 
         return (bool) $returnValue;
     }
@@ -241,7 +246,7 @@ abstract class tao_helpers_grid_GridContainer
      */
     public function __clone()
     {
-        
+
         $this->grid = clone $this->grid;
     }
-} /* end of abstract class tao_helpers_grid_GridContainer */
+}

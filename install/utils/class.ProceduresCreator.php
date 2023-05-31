@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * This program is free software; you can redistribute it and/or
@@ -15,9 +16,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -29,7 +33,6 @@
  */
 class tao_install_utils_ProceduresCreator
 {
-    
     /**
      *
      * @var unknown
@@ -40,7 +43,7 @@ class tao_install_utils_ProceduresCreator
      * @var tao_install_utils_SimpleSQLParser
      */
     private $sqlParser;
-    
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -50,28 +53,27 @@ class tao_install_utils_ProceduresCreator
      */
     public function __construct($driver, $connection)
     {
-        
+
         $this->connection = $connection;
         switch ($driver) {
-            case 'pdo_mysql':{
+            case 'pdo_mysql':
                 $this->setSQLParser(new tao_install_utils_MysqlProceduresParser());
                 break;
-            }
-            case 'pdo_pgsql' : {
+
+            case 'pdo_pgsql':
                 $this->setSQLParser(new tao_install_utils_PostgresProceduresParser());
                 break;
-            }
-            case 'pdo_oci' : {
+
+            case 'pdo_oci':
                 $this->setSQLParser(new tao_install_utils_CustomProceduresParser());
                 break;
-            }
-            case 'pdo_sqlsrv' : {
+
+            case 'pdo_sqlsrv':
                 $this->setSQLParser(new tao_install_utils_CustomProceduresParser());
                 break;
-            }
-            default: {
+
+            default:
                 throw new tao_install_utils_SQLParsingException('Could not find Parser for driver ' . $driver);
-            }
         }
     }
     /**
@@ -83,7 +85,7 @@ class tao_install_utils_ProceduresCreator
     {
         return $this->sqlParser;
     }
-    
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com
@@ -93,7 +95,7 @@ class tao_install_utils_ProceduresCreator
     {
         $this->sqlParser = $sqlParser;
     }
-    
+
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com

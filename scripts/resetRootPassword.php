@@ -33,6 +33,9 @@ $password = readline("Enter new password for user '" . $login . "': ");
 $success = false;
 if (!empty($password)) {
     $hash = core_kernel_users_Service::getPasswordHash();
-    $success = $user->editPropertyValues(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_PASSWORD), $hash->encrypt($password));
+    $success = $user->editPropertyValues(
+        new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_PASSWORD),
+        $hash->encrypt($password)
+    );
 }
 die($success ? 0 : 1);

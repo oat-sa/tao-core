@@ -87,7 +87,11 @@ class TaskLogFilterTest extends TestCase
         $this->assertEquals(55, $this->filter->getOffset(), 'Offset should be 55');
 
         $this->filter->setSortBy(TaskLogBrokerInterface::COLUMN_CREATED_AT);
-        $this->assertEquals(TaskLogBrokerInterface::COLUMN_CREATED_AT, $this->filter->getSortBy(), 'Sort by should be ' . TaskLogBrokerInterface::COLUMN_CREATED_AT);
+        $this->assertEquals(
+            TaskLogBrokerInterface::COLUMN_CREATED_AT,
+            $this->filter->getSortBy(),
+            'Sort by should be ' . TaskLogBrokerInterface::COLUMN_CREATED_AT
+        );
 
         $this->filter->setSortOrder('DESC');
         $this->assertEquals('DESC', $this->filter->getSortOrder(), 'Sort order should be DESC');

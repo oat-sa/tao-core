@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,8 +15,11 @@ declare(strict_types=1);
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT)
+ * Copyright (c) 2020 (original work) (update and modification) Open Assessment Technologies SA
+ *                    (under the project TAO-PRODUCT)
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\oauth\lockout\storage;
 
@@ -38,7 +39,11 @@ class RdsLockoutSchema extends ConfigurableService
     public function createLockoutsTable(Table $table)
     {
         $table->addColumn(RdsLockoutStorage::FIELD_ID, 'bigint', ['notnull' => false]);
-        $table->addColumn(RdsLockoutStorage::FIELD_ADDRESS, 'string', ['notnull' => false, 'length' => '15']); // pattern 000.000.000.000
+        $table->addColumn(
+            RdsLockoutStorage::FIELD_ADDRESS,
+            'string',
+            ['notnull' => false, 'length' => '15']
+        ); // pattern 000.000.000.000
         $table->addColumn(RdsLockoutStorage::FIELD_ATTEMPTS, 'integer', ['notnull' => false, 'default' => 0]);
         $table->addColumn(RdsLockoutStorage::FIELD_EXPIRE_AT, 'integer', ['notnull' => false]);
 

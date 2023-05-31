@@ -15,8 +15,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2013 (original work) (update and modification) Open Assessment Technologies SA
+ *                    (under the project TAO-PRODUCT);
  */
 
 namespace oat\tao\model\oauth;
@@ -63,7 +63,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      *
      * @param common_http_Request     $request
      * @param common_http_Credentials $credentials
-     * @param                         $authorizationHeader boolean Move the signature parameters into the Authorization header of the request
+     * @param boolean $authorizationHeader Move the signature parameters into the Authorization header of the request
      *
      * @return common_http_Request
      * @throws InvalidService
@@ -71,8 +71,11 @@ class OauthService extends ConfigurableService implements \common_http_Signature
      * @throws tao_models_classes_oauth_Exception
      * @author Joel Bout, <joel@taotesting.com>
      */
-    public function sign(common_http_Request $request, common_http_Credentials $credentials, $authorizationHeader = false)
-    {
+    public function sign(
+        common_http_Request $request,
+        common_http_Credentials $credentials,
+        $authorizationHeader = false
+    ) {
 
         if (!$credentials instanceof \tao_models_classes_oauth_Credentials) {
             throw new tao_models_classes_oauth_Exception('Invalid credentals: ' . gettype($credentials));
@@ -150,7 +153,7 @@ class OauthService extends ConfigurableService implements \common_http_Signature
         /** @var LockoutInterface $lockoutService */
         $lockoutService = $this->getSubService(self::OPTION_LOCKOUT_SERVICE);
         try {
-            if(!$lockoutService->isAllowed()){
+            if (!$lockoutService->isAllowed()) {
                 throw new LockOutException('Blocked');
             }
             return $server->verify_request($oauthRequest);
@@ -237,7 +240,8 @@ class OauthService extends ConfigurableService implements \common_http_Signature
     }
 
     /**
-     * As per the OAuth body hashing specification, all of the OAuth parameters must be sent as part of the Authorization header.
+     * As per the OAuth body hashing specification, all of the OAuth parameters must be sent as part of the
+     * Authorization header.
      *  In particular, OAuth parameters from the request URL and POST body will be ignored.
      * Return the Authorization header
      */

@@ -69,7 +69,8 @@ class SetUpOAuthLockoutService extends ScriptAction
                 'longPrefix'  => self::OPT_LOCK,
                 'cast'        => 'string',
                 'default'     => self::SERVICE_NOLOCK,
-                'description' => 'Default NoLockout implementation, otherwise it will require defining storage as well. [IpLockout|NoLockout]',
+                'description' => 'Default NoLockout implementation, otherwise it will require defining storage as '
+                    . 'well. [IpLockout|NoLockout]',
             ],
             self::OPT_STORAGE   => [
                 'prefix'      => 's',
@@ -153,10 +154,14 @@ class SetUpOAuthLockoutService extends ScriptAction
         $options[IPLockout::OPTION_IP_FACTORY] = new IPFactory();
         switch ($this->getOption(self::OPT_STORAGE)) {
             case self::STORAGE_KV:
-                $options[IPLockout::OPTION_LOCKOUT_STORAGE] = new KvLockoutStorage([KvLockoutStorage::OPTION_PERSISTENCE => 'default_kv']);
+                $options[IPLockout::OPTION_LOCKOUT_STORAGE] = new KvLockoutStorage([
+                    KvLockoutStorage::OPTION_PERSISTENCE => 'default_kv'
+                ]);
                 break;
             case self::STORAGE_RDS:
-                $options[IPLockout::OPTION_LOCKOUT_STORAGE] = new RdsLockoutStorage([RdsLockoutStorage::OPTION_PERSISTENCE => 'default']);
+                $options[IPLockout::OPTION_LOCKOUT_STORAGE] = new RdsLockoutStorage([
+                    RdsLockoutStorage::OPTION_PERSISTENCE => 'default'
+                ]);
                 $this->runMigration = true;
                 break;
             default:

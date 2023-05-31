@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -84,7 +86,7 @@ abstract class tao_helpers_form_data_FileDescription
      */
     public function __construct($name, $size)
     {
-        
+
         $this->name = $name;
         $this->size = $size;
     }
@@ -135,7 +137,7 @@ abstract class tao_helpers_form_data_FileDescription
         }
         return $this->file;
     }
-    
+
     public function getFileSerial()
     {
         return $this->fileSerial;
@@ -153,7 +155,7 @@ abstract class tao_helpers_form_data_FileDescription
     {
         $this->fileSerial = $serial;
     }
-    
+
     public function getServiceLocator()
     {
         return ServiceManager::getServiceManager();

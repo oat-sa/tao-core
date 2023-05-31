@@ -102,7 +102,7 @@ class OntologyMapper extends ConfigurableService implements ImportMapperInterfac
      */
     protected function buildMandatoryProperties(array $data, array $schema)
     {
-        $mandatoryFields = isset($schema[static::OPTION_SCHEMA_MANDATORY]) ? $schema[static::OPTION_SCHEMA_MANDATORY] : [];
+        $mandatoryFields = $schema[static::OPTION_SCHEMA_MANDATORY] ?? [];
 
         foreach ($mandatoryFields as $key => $propertyKey) {
             if (!isset($data[$key])) {

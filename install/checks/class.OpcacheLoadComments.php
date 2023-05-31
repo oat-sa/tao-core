@@ -20,14 +20,17 @@
  */
 class tao_install_checks_OpcacheLoadComments extends common_configuration_Component
 {
-
     /**
      * @return common_configuration_Report
      */
     public function check()
     {
         if (version_compare(phpversion(), '7.0.0', '>=')) {
-            return new common_configuration_Report(common_configuration_Report::VALID, 'opcache.load_comments is not a configurable option any more for php > 7', $this);
+            return new common_configuration_Report(
+                common_configuration_Report::VALID,
+                'opcache.load_comments is not a configurable option any more for php > 7',
+                $this
+            );
         }
 
         $iniSettingCheck = new common_configuration_PHPINIValue('1', 'opcache.load_comments');

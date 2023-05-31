@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
  *
@@ -71,7 +73,7 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
                 $returnValue = tao_helpers_form_GenerisFormFactory::extractTreeData(parent::getOptions());
                 break;
         }
-        
+
         return $returnValue;
     }
 
@@ -95,18 +97,19 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
         $widgetTreeName = $this->name . '-TreeBox';
         $widgetValueName = $this->name . '-TreeValues';
         $returnValue = $this->renderLabel();
-        
+
         $returnValue .= "<div class='form-elt-container' style='min-height:50px; overflow-y:auto;'>";
-        
+
         $returnValue .= "<div id='{$widgetValueName}'>";
         $i = 0;
 
         foreach ($this->values as $value) {
-            $returnValue .=  '<input type=\'hidden\' name=\'' . $this->name . '_' . $i++ . '\' value=\'' . $value . '\' />';
+            $returnValue .=  '<input type=\'hidden\' name=\'' . $this->name . '_' . $i++ . '\' value=\'' . $value
+                . '\' />';
         }
         $returnValue .= "</div>";
         $returnValue .= "<div id='{$widgetTreeName}' class='tree-widget'></div>";
-        
+
         $returnValue .= "<script type=\"text/javascript\">
 			$(function(){
 			 require(['require', 'jquery', 'generis.tree.select'], function(req, $) {
@@ -139,7 +142,8 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
 	    					var valueContainer = $("div[id=\'' . $widgetValueName . '\']");
 	    					valueContainer.empty();
 	    					$.each($.tree.plugins.checkbox.get_checked(TREE_OBJ), function(i, myNODE){
-	    						valueContainer.append("<input type=\'hidden\' name=\'' . $this->name . '_"+i+"\' value=\'"+$(myNODE).attr("id")+"\' />");
+	    						valueContainer.append("<input type=\'hidden\' name=\'' . $this->name
+            . '_"+i+"\' value=\'"+$(myNODE).attr("id")+"\' />");
 							});
 	    				}
     				},
@@ -158,9 +162,9 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
 			});
 			</script>';
         $returnValue .= "</div><br />";
-        
+
         return (string) $returnValue;
-        
+
         return $returnValue;
     }
 

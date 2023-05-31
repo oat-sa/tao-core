@@ -38,8 +38,7 @@ use oat\oatbox\service\ServiceManager;
  */
 class WebsourceManager extends ConfigurableService
 {
-   
-    const CONFIG_PREFIX = 'websource_';
+    public const CONFIG_PREFIX = 'websource_';
 
     /**
      * @return ConfigurableService
@@ -49,9 +48,9 @@ class WebsourceManager extends ConfigurableService
     {
         return ServiceManager::getServiceManager()->get(WebsourceManager::class);
     }
-    
+
     private $websources = [];
-    
+
     public function getWebsource($key)
     {
         if (!isset($this->websources[$key])) {
@@ -66,7 +65,7 @@ class WebsourceManager extends ConfigurableService
         }
         return $this->websources[$key];
     }
-    
+
     public function addWebsource($websource)
     {
         $key = $websource->getId();
@@ -81,7 +80,7 @@ class WebsourceManager extends ConfigurableService
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $ext->setConfig(self::CONFIG_PREFIX . $key, $conf);
     }
-    
+
     public function removeWebsource($websource)
     {
         if (!isset($this->websources[$websource->getId()])) {

@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2021 (original work) Open Assessment Technologies SA
  */
 
@@ -28,8 +30,10 @@ use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
 use oat\tao\helpers\form\validators\PreliminaryValidationInterface;
 
 // Defining aliases for old style class names for backward compatibility
+// phpcs:disable PSR1.Files.SideEffects
 class_alias(SearchTextBox::class, \tao_helpers_form_elements_xhtml_Searchtextbox::class);
 class_alias(SearchDropdown::class, \tao_helpers_form_elements_xhtml_Searchdropdown::class);
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Represents a form. It provides the default behavior for form management and

@@ -30,7 +30,7 @@ use oat\tao\model\taskQueue\Task\TaskInterface;
  */
 class InMemoryQueueBroker extends AbstractQueueBroker implements SyncQueueBrokerInterface
 {
-    public const ID ='memory';
+    public const ID = 'memory';
 
     /**
      * @var \SplQueue

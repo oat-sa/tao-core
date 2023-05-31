@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,8 +15,11 @@ declare(strict_types=1);
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT)
+ * Copyright (c) 2020 (original work) (update and modification) Open Assessment Technologies SA
+ *                    (under the project TAO-PRODUCT)
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\oauth\lockout\storage;
 
@@ -65,7 +66,7 @@ class RdsLockoutStorage extends LockoutStorageAbstract
                 );
 
                 return;
-            }catch (UniqueConstraintViolationException $exception){
+            } catch (UniqueConstraintViolationException $exception) {
                 $addressInfo = $this->getAddressInfo($id);
             }
         }
@@ -123,7 +124,7 @@ class RdsLockoutStorage extends LockoutStorageAbstract
             $found = reset($found);
             if (time() > $found[self::FIELD_EXPIRE_AT]) {
                 $this->resetIp($ip);
-            }else{
+            } else {
                 $attempts = $found[self::FIELD_ATTEMPTS];
             }
         }

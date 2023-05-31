@@ -15,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2012-2018 (update and modification) Open Assessment Technologies SA;
  *
  */
@@ -180,7 +183,10 @@ class tao_actions_Main extends tao_actions_CommonModule
                                 $diffInSeconds = $endTime->getTimestamp() - $reference->getTimestamp();
 
                                 $humanDiff = $diffInSeconds > 60
-                                    ? tao_helpers_Date::displayInterval($statusDetails['remaining'], tao_helpers_Date::FORMAT_INTERVAL_LONG)
+                                    ? tao_helpers_Date::displayInterval(
+                                        $statusDetails['remaining'],
+                                        tao_helpers_Date::FORMAT_INTERVAL_LONG
+                                    )
                                     : $diffInSeconds . ' ' . ($diffInSeconds === 1 ? __('second') : __('seconds'));
 
                                 $msg .= __('Please try in %s.', $humanDiff);
@@ -198,7 +204,10 @@ class tao_actions_Main extends tao_actions_CommonModule
 
                             $this->logInfo("Successful login of user '" . $form->getValue('login') . "'.");
 
-                            if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
+                            if (
+                                $this->hasRequestParameter('redirect')
+                                && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])
+                            ) {
                                 $this->redirect($_REQUEST['redirect']);
                             } else {
                                 $this->forward('entry');
@@ -211,15 +220,22 @@ class tao_actions_Main extends tao_actions_CommonModule
                             $msg = __('Invalid login or password. Please try again.');
 
                             if ($userLocksService->getOption(UserLocks::OPTION_USE_HARD_LOCKOUT)) {
-                                $remainingAttempts = $userLocksService->getLockoutRemainingAttempts($form->getValue('login'));
+                                $remainingAttempts = $userLocksService->getLockoutRemainingAttempts(
+                                    $form->getValue('login')
+                                );
                                 if ($remainingAttempts !== false) {
                                     if ($remainingAttempts === 0) {
+                                        // phpcs:disable Generic.Files.LineLength
                                         $msg = __('Invalid login or password. Your account has been locked, please contact your administrator.');
+                                    // phpcs:enable Generic.Files.LineLength
                                     } else {
-                                        $msg = $msg . ' ' .
-                                            ($remainingAttempts === 1
+                                        $msg .= ' ' . (
+                                            $remainingAttempts === 1
+                                                // phpcs:disable Generic.Files.LineLength
                                                 ? __('Last attempt before your account is locked.')
-                                                : __('%d attempts left before your account is locked.', $remainingAttempts));
+                                                : __('%d attempts left before your account is locked.', $remainingAttempts)
+                                            // phpcs:enable Generic.Files.LineLength
+                                        );
                                     }
                                 }
                             }
@@ -274,8 +290,8 @@ class tao_actions_Main extends tao_actions_CommonModule
 
 
         common_session_SessionManager::endSession();
-                /* @var $urlRouteService DefaultUrlService */
-                $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
+        /* @var $urlRouteService DefaultUrlService */
+        $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
 
         $this->redirect($urlRouteService->getRedirectUrl('logout'));
     }
@@ -456,7 +472,8 @@ class tao_actions_Main extends tao_actions_CommonModule
                     foreach ($section->getActions() as $action) {
                         $this->propagate($action);
                         $resolver = new ActionResolver($action->getUrl());
-                        if (!FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction()) ||
+                        if (
+                            !FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction()) ||
                             $this->getServiceLocator()->get(ActionBlackList::SERVICE_ID)->isDisabled($action->getId())
                         ) {
                             $section->removeAction($action);
@@ -498,7 +515,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         if (empty($this->sectionVisibilityFilter)) {
             $this->sectionVisibilityFilter = $this->getServiceLocator()->get(SectionVisibilityFilter::SERVICE_ID);
         }
-        
+
         return $this->sectionVisibilityFilter;
     }
 }

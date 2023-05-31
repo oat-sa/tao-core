@@ -12,7 +12,6 @@ use oat\tao\scripts\update\OntologyUpdater;
 
 final class Version202110130633112234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'Adds new Japanese locales ';

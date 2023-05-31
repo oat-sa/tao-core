@@ -29,7 +29,6 @@ namespace oat\tao\model\notification\exception;
  */
 class NotListedNotification extends \common_exception_ClientException
 {
-
     public function __construct()
     {
         $message = __('notifications drivers aren\'t persistent. use a persistent database storage driver');

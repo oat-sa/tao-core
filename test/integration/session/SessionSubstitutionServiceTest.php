@@ -30,16 +30,13 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  * Test of `\oat\tao\model\session\SessionSubstitutionService`
  *
  * @author Aleh Hutnikau <hutnikau@1pt.com>
- * @package generis\test
  */
 class SessionSubstitutionServiceTest extends TaoPhpUnitTestRunner
 {
-
     private $testUserUri = 'http://sample/first.rdf#tessionSubstitutionServiceTestUser';
 
     public function setUp(): void
     {
-        parent::setUp();
         common_session_SessionManager::startSession(new \common_test_TestUserSession());
     }
 
@@ -91,12 +88,21 @@ class SessionSubstitutionServiceTest extends TaoPhpUnitTestRunner
 
         $service->substituteSession($newUser);
         $this->assertTrue($service->isSubstituted());
-        $this->assertEquals(common_session_SessionManager::getSession()->getUser()->getIdentifier(), $this->testUserUri);
+        $this->assertEquals(
+            common_session_SessionManager::getSession()->getUser()->getIdentifier(),
+            $this->testUserUri
+        );
 
         $service->revert();
 
         $this->assertFalse($service->isSubstituted());
-        $this->assertNotEquals(common_session_SessionManager::getSession()->getUser()->getIdentifier(), $this->testUserUri);
-        $this->assertEquals($initialSession->getUser()->getIdentifier(), common_session_SessionManager::getSession()->getUser()->getIdentifier());
+        $this->assertNotEquals(
+            common_session_SessionManager::getSession()->getUser()->getIdentifier(),
+            $this->testUserUri
+        );
+        $this->assertEquals(
+            $initialSession->getUser()->getIdentifier(),
+            common_session_SessionManager::getSession()->getUser()->getIdentifier()
+        );
     }
 }

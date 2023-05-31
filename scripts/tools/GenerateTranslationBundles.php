@@ -56,16 +56,16 @@ foreach (array_filter(glob("${path}/*"), 'is_dir') as $dir) {
         // This is an extension.
         $extensionId = basename($dir);
         $extensions[] = $extensionId;
-        
+
         if (is_readable("${dir}/locales") && is_dir("${dir}/locales")) {
             // We have a locales directory. Let's retrieve locales we don't know yet.
             foreach (array_filter(glob("${dir}/locales/*"), 'is_dir') as $localeDir) {
                 $locale = basename($localeDir);
                 $newLocale = !in_array($locale, $locales);
-                
+
                 if ($newLocale) {
                     $locales[] = $locale;
-                    
+
                     if ($verbose) {
                         fwrite(STDOUT, "Locale '${locale}' found.\n");
                     }
@@ -82,12 +82,12 @@ $count = 0;
 foreach ($locales as $locale) {
     $translationBundle = new oat\tao\helpers\translation\TranslationBundle($locale, $extensions, $path);
     $bundleFile = $translationBundle->generateTo("${path}/tao/views/locales");
-    
+
     if ($bundleFile !== false) {
         if ($verbose) {
             fwrite(STDOUT, "Translation Bundle for locale '${locale}' written to '${bundleFile}'.\n");
         }
-        
+
         $count++;
     } else {
         fwrite(STDERR, "Translation Bundle for locale '${locale}' could not be created.\n");

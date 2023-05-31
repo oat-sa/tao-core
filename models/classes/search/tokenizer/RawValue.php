@@ -30,9 +30,8 @@ namespace oat\tao\model\search\tokenizer;
  */
 class RawValue implements Tokenizer
 {
-   
-    const URI = 'http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer';
-    
+    public const URI = 'http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer';
+
     public function getStrings($values)
     {
         return $values;

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2022 (update and modification) Open Assessment Technologies SA;
  *
  */
@@ -28,11 +30,9 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  *
  * @author Joel Bout, <taosupport@tudor.lu>
  * @package tao
-
  */
 class ValidatorTest extends TaoPhpUnitTestRunner
 {
-
     public static function staticMirror($value)
     {
         return $value;
@@ -52,7 +52,6 @@ class ValidatorTest extends TaoPhpUnitTestRunner
      */
     public function testAlphaNum()
     {
-
         //@todo  fix "\n" in validator and add to test
 
         // test getValidator
@@ -112,7 +111,6 @@ class ValidatorTest extends TaoPhpUnitTestRunner
 
     public function testCallback()
     {
-
         // global function
         // wrong parameters
         $callback = new tao_helpers_form_validators_Callback([
@@ -160,13 +158,21 @@ class ValidatorTest extends TaoPhpUnitTestRunner
 
     public function testDateTime()
     {
-
-        //@todo:  doublecheck empty string and null treatment
+        //@todo: doublecheck empty string and null treatment
 
         $dateTime = new tao_helpers_form_validators_DateTime();
         $this->exec(
             $dateTime,
-            ['April 17, 1790', '2008-07-01T22:35:17.03+08:00', '10/Oct/2000:13:55:36 -700', 'today', '04:08', 'a week ago', 'yesterday', 'tomorrow'],
+            [
+                'April 17, 1790',
+                '2008-07-01T22:35:17.03+08:00',
+                '10/Oct/2000:13:55:36 -700',
+                'today',
+                '04:08',
+                'a week ago',
+                'yesterday',
+                'tomorrow'
+            ],
             ['abc'],
             'simple Datetimes'
         );
@@ -244,7 +250,6 @@ class ValidatorTest extends TaoPhpUnitTestRunner
 
     public function testFileSize()
     {
-
         $smallfile = [
             'name'     => 'testname',
             'tmp_name' => '/tmp/doesnotexists',
@@ -356,7 +361,10 @@ class ValidatorTest extends TaoPhpUnitTestRunner
 
         $utf8 = 'ää';
         $umls = iconv("UTF-8", mb_internal_encoding(), $utf8);
-        $this->assertFalse($minlenght->evaluate($umls), 'Error during length validation of special characters \'' . $utf8 . '\' using encoding ' . mb_internal_encoding());
+        $this->assertFalse(
+            $minlenght->evaluate($umls),
+            "Error during length validation of special characters '{$utf8}' using encoding " . mb_internal_encoding()
+        );
     }
 
     /**
@@ -364,7 +372,6 @@ class ValidatorTest extends TaoPhpUnitTestRunner
      */
     public function testNotEmpty($value, $expected)
     {
-
         $validator = tao_helpers_form_FormFactory::getValidator('NotEmpty');
         $this->assertEquals($expected, $validator->evaluate($value));
     }
@@ -450,7 +457,10 @@ class ValidatorTest extends TaoPhpUnitTestRunner
     {
         $this->expectException(common_Exception::class);
         $this->expectExceptionMessage('Please set the reference of the second password element');
-        $validator = tao_helpers_form_FormFactory::getValidator('Password', ['password2_ref' => 'invalid_form_element']);
+        $validator = tao_helpers_form_FormFactory::getValidator(
+            'Password',
+            ['password2_ref' => 'invalid_form_element']
+        );
         $validator->evaluate('something');
     }
 
@@ -592,11 +602,10 @@ class ValidatorTest extends TaoPhpUnitTestRunner
 
 class kernel_class_Stub
 {
-
-    const TEST_PROPERTY_NAME          = 'testProperty';
-    const PROPERTY_EXISTS_FIRST_LEVEL = 'exists_first_level';
-    const PROPERTY_EXISTS_RECURSIVE   = 'exists_recursive';
-    const PROPERTY_NOT_EXISTS         = 'not_exists';
+    public const TEST_PROPERTY_NAME          = 'testProperty';
+    public const PROPERTY_EXISTS_FIRST_LEVEL = 'exists_first_level';
+    public const PROPERTY_EXISTS_RECURSIVE   = 'exists_recursive';
+    public const PROPERTY_NOT_EXISTS         = 'not_exists';
 
     public function searchInstances($propertyFilters = [], $options = [])
     {
@@ -605,16 +614,15 @@ class kernel_class_Stub
         $returnValue = [];
 
         switch ($propertyFilters[self::TEST_PROPERTY_NAME]) {
-            case self::PROPERTY_EXISTS_FIRST_LEVEL: {
+            case self::PROPERTY_EXISTS_FIRST_LEVEL:
                 $returnValue[] = 'some_found_value';
                 break;
-            }
-            case self::PROPERTY_EXISTS_RECURSIVE: {
+
+            case self::PROPERTY_EXISTS_RECURSIVE:
                 if ($recursive === true) {
                     $returnValue[] = 'some_found_value';
                 }
                 break;
-            }
         }
 
         return $returnValue;
@@ -629,7 +637,8 @@ class kernel_property_Stub extends core_kernel_classes_Property
     }
 }
 
-//Global function
+// Global function
+// phpcs:disable PSR1.Files.SideEffects
 function ValidatorTestCaseGlobalInstanceOf($values)
 {
     $return = true;
@@ -639,8 +648,10 @@ function ValidatorTestCaseGlobalInstanceOf($values)
         }
     }
     return $return;
-};
+}
+
 function ValidatorTestCaseGlobalMirror($values)
 {
     return $values;
-};
+}
+// phpcs:enable PSR1.Files.SideEffects

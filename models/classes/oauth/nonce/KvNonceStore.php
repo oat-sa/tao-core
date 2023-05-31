@@ -15,8 +15,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2013 (original work) (update and modification) Open Assessment Technologies SA
+ *                    (under the project TAO-PRODUCT);
  */
 
 namespace oat\tao\model\oauth\nonce;
@@ -28,12 +28,12 @@ use oat\oatbox\service\ConfigurableService;
  */
 class KvNonceStore extends ConfigurableService implements NonceStore
 {
-    const OPTION_PERSISTENCE = 'persistence';
-    const OPTION_TTL = 'ttl';
-    
-    const DEFAULT_TTL = 1800;
-    
-    const PREFIX = 'nonce_';
+    public const OPTION_PERSISTENCE = 'persistence';
+    public const OPTION_TTL = 'ttl';
+
+    public const DEFAULT_TTL = 1800;
+
+    public const PREFIX = 'nonce_';
 
     public function isValid($id)
     {
@@ -47,7 +47,7 @@ class KvNonceStore extends ConfigurableService implements NonceStore
             return $this->getPersistence()->set(self::PREFIX . $id, 't', $ttl);
         }
     }
-    
+
     /**
      * @return \common_persistence_KeyValuePersistence
      */

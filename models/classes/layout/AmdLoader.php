@@ -26,11 +26,10 @@ namespace oat\tao\model\layout;
  */
 class AmdLoader
 {
-
     /**
      * Will be the tag id
      */
-    const LOADER_ID = 'amd-loader';
+    public const LOADER_ID = 'amd-loader';
 
     /**
      * The configuration URL (data-config)

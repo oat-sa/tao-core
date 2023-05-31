@@ -97,18 +97,18 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
             );
 
             $this->setSuccessJsonResponse((new RedirectUrlEntityDecorator(
-                    new HasFileEntityDecorator(
-                        new CategoryEntityDecorator($entity, $taskLogService),
-                        $this->getFileSystemService(),
-                        $this->getFileReferenceSerializer()
-                    ),
-                    $taskLogService,
-                    common_session_SessionManager::getSession()->getUser()
-                ))->toArray());
+                new HasFileEntityDecorator(
+                    new CategoryEntityDecorator($entity, $taskLogService),
+                    $this->getFileSystemService(),
+                    $this->getFileReferenceSerializer()
+                ),
+                $taskLogService,
+                common_session_SessionManager::getSession()->getUser()
+            ))->toArray());
         } catch (Exception $e) {
             $this->setErrorJsonResponse(
                 $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
-                 $e->getCode()
+                $e->getCode()
             );
         }
     }
@@ -142,14 +142,16 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
 
             $filter = $taskIds === static::ALL
                 ? (new TaskLogFilter())->availableForArchived($this->getSessionUserUri())
-                : (new TaskLogFilter())->addAvailableFilters($this->getSessionUserUri())->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
+                : (new TaskLogFilter())
+                    ->addAvailableFilters($this->getSessionUserUri())
+                    ->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
 
             return $this->returnJson([
                 'success' => (bool) $taskLogService->archiveCollection($taskLogService->search($filter))
             ]);
         } catch (Exception $e) {
-             $this->setErrorJsonResponse(
-                 $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
+            $this->setErrorJsonResponse(
+                $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
                 $e instanceof \common_exception_NotFound ? 404 : $e->getCode()
             );
         }
@@ -170,7 +172,9 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
 
             $filter = $taskIds === static::ALL
                 ? (new TaskLogFilter())->availableForCancelled($this->getSessionUserUri())
-                : (new TaskLogFilter())->addAvailableFilters($this->getSessionUserUri())->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
+                : (new TaskLogFilter())
+                    ->addAvailableFilters($this->getSessionUserUri())
+                    ->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
 
             return $this->returnJson([
                 'success' => (bool) $taskLogService->cancelCollection($taskLogService->search($filter))
@@ -228,7 +232,7 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
         } catch (Exception $e) {
             $this->setErrorJsonResponse(
                 $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
-                 $e->getCode()
+                $e->getCode()
             );
         }
     }

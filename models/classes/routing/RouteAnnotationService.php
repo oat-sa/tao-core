@@ -30,11 +30,11 @@ use oat\oatbox\log\logger\extender\ContextExtenderInterface;
 
 class RouteAnnotationService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/routeAnnotation';
+    public const SERVICE_ID = 'tao/routeAnnotation';
 
-    const SECURITY_HIDE = 'hide';
-    const SECURITY_ALLOW = 'allow';
-    const SECURITY_DENY = 'deny';
+    public const SECURITY_HIDE = 'hide';
+    public const SECURITY_ALLOW = 'allow';
+    public const SECURITY_DENY = 'deny';
 
     /**
      * @param string $className
@@ -79,7 +79,7 @@ class RouteAnnotationService extends ConfigurableService
                         case self::SECURITY_ALLOW:
                             // do not change state (it will be allowed by default but closed by hidden & deny)
                             break;
-                        // any unsupported actions return false
+                            // any unsupported actions return false
                         default:
                             $access = false;
                     }

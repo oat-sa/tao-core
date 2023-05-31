@@ -39,9 +39,9 @@ use oat\tao\model\metadata\writer\ontologyWriter\OntologyWriter;
  */
 class OntologyMetadataInjector extends ConfigurableService implements Injector
 {
-    const CONFIG_SOURCE = 'source';
+    public const CONFIG_SOURCE = 'source';
 
-    const CONFIG_DESTINATION = 'destination';
+    public const CONFIG_DESTINATION = 'destination';
 
     /**
      * Components to read value from $dataSource
@@ -118,7 +118,8 @@ class OntologyMetadataInjector extends ConfigurableService implements Injector
                 \common_Logger::d('Error on injector "' . __CLASS__ . '" with reader "' . $name . '" : ' . $error);
             }
             throw new MetadataInjectorReadException(
-                'Injector "' . __CLASS__ . '" cannot read all required values from readers: ' . implode(', ', array_keys($errors))
+                'Injector "' . __CLASS__ . '" cannot read all required values from readers: '
+                    . implode(', ', array_keys($errors))
             );
         }
 

@@ -26,9 +26,9 @@ use Psr\Http\Message\StreamInterface;
 
 class JsonWebhookResponseFactory extends ConfigurableService implements WebhookResponseFactoryInterface
 {
-    const ACCEPTED_CONTENT_TYPE = 'application/json';
+    public const ACCEPTED_CONTENT_TYPE = 'application/json';
 
-    const SUPPORTED_STATUSES = [
+    public const SUPPORTED_STATUSES = [
         WebhookResponse::STATUS_ACCEPTED,
         WebhookResponse::STATUS_IGNORED,
         WebhookResponse::STATUS_ERROR

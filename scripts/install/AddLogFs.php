@@ -35,7 +35,7 @@ class AddLogFs extends \common_ext_action_InstallAction
         $fsm = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
         $fsm->createFileSystem('log', 'tao' . DIRECTORY_SEPARATOR . 'log');
         $this->registerService(FileSystemService::SERVICE_ID, $fsm);
-        
+
         $this->registerService(UpdateLogger::SERVICE_ID, new UpdateLogger([UpdateLogger::OPTION_FILESYSTEM => 'log']));
     }
 }

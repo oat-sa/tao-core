@@ -32,13 +32,13 @@ use oat\oatbox\service\ServiceManager;
  */
 class EntryPointService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/entrypoint';
-    
-    const OPTION_ENTRYPOINTS = 'existing';
-    
-    const OPTION_PRELOGIN = 'prelogin';
-    
-    const OPTION_POSTLOGIN = 'postlogin';
+    public const SERVICE_ID = 'tao/entrypoint';
+
+    public const OPTION_ENTRYPOINTS = 'existing';
+
+    public const OPTION_PRELOGIN = 'prelogin';
+
+    public const OPTION_POSTLOGIN = 'postlogin';
 
     /**
      * Replace the entrypoint with the id provided
@@ -52,7 +52,7 @@ class EntryPointService extends ConfigurableService
         $entryPoints[$id] = $e;
         $this->setOption(self::OPTION_ENTRYPOINTS, $entryPoints);
     }
-    
+
     /**
      * Activate an existing entry point for a specific target
      *
@@ -77,7 +77,7 @@ class EntryPointService extends ConfigurableService
 
         return $success;
     }
-    
+
     /**
      * Dectivate an existing entry point for a specific target
      *
@@ -103,8 +103,8 @@ class EntryPointService extends ConfigurableService
         }
         return $success;
     }
-    
-    
+
+
     /**
      * Add an Entrypoint and activate it if a target is specified
      *
@@ -189,7 +189,7 @@ class EntryPointService extends ConfigurableService
     {
         return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
     }
-    
+
     /**
      * Legacy function for backward compatibilitiy
      *

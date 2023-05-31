@@ -14,10 +14,14 @@
  *    'required_actions' => [
  *        new RequiredAction(
  *            'codeOfConduct', //unique action name
- *            [ //list of rules to check whether action must be performed by user
- *                new TimeRule(), //check (by action name) when this action was executed by current user last time (or check an interval if an action is recurring).
+ *            // list of rules to check whether action must be performed by user
+ *            [
+ *                // check (by action name) when this action was executed by current user last time (or check an
+ *                // interval if an action is recurring).
+ *                new TimeRule(),
  *                new CookieRule(), //check whether user has certain cookie.
- *                new CallbackRule('helperClass::shouldUserExecuteIt'), //execute callback to check if user should execute it.
+ *                // execute callback to check if user should execute it.
+ *                new CallbackRule('helperClass::shouldUserExecuteIt'),
  *            ]
  *        ),
  *       //another actions ...

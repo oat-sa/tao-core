@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013- (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
@@ -29,11 +31,9 @@ use ZipArchive;
 /**
  * @author Cédric Alfonsi, <taosupport@tudor.lu>
  * @package tao
-
  */
 class FileHelperTest extends TaoPhpUnitTestRunner
 {
-
     /** @var int */
     protected $deep = 3;
 
@@ -86,9 +86,18 @@ class FileHelperTest extends TaoPhpUnitTestRunner
 
     public function testScanDir()
     {
-        $this->assertEquals(count(tao_helpers_File::scanDir($this->envPath, ['recursive' => true])), 23);
-        $this->assertEquals(count(tao_helpers_File::scanDir($this->envPath, ['only' => tao_helpers_File::$DIR, 'recursive' => true])), 3);
-        $this->assertEquals(count(tao_helpers_File::scanDir($this->envPath, ['only' => tao_helpers_File::$FILE, 'recursive' => true])), 20);
+        $this->assertCount(
+            23,
+            tao_helpers_File::scanDir($this->envPath, ['recursive' => true])
+        );
+        $this->assertCount(
+            3,
+            tao_helpers_File::scanDir($this->envPath, ['only' => tao_helpers_File::$DIR, 'recursive' => true])
+        );
+        $this->assertCount(
+            20,
+            tao_helpers_File::scanDir($this->envPath, ['only' => tao_helpers_File::$FILE, 'recursive' => true])
+        );
     }
 
     public function testTempDir()
@@ -125,7 +134,9 @@ class FileHelperTest extends TaoPhpUnitTestRunner
         $this->assertTrue(is_dir($testfolder));
 
         $zip = new ZipArchive();
-        $this->assertTrue($zip->open(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR . 'fileHelper.zip'));
+        $this->assertTrue(
+            $zip->open(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR . 'fileHelper.zip')
+        );
         $this->assertTrue($zip->extractTo($testfolder));
         $zip->close();
 
@@ -214,7 +225,12 @@ class FileHelperTest extends TaoPhpUnitTestRunner
         $zipArchive->open($archivePath, ZipArchive::CREATE);
         $zipArchive->addFromString('path/to/data/text.txt', 'some text');
         $zipArchive->addFromString('path/to/log.log', 'some logs');
-        $this->assertEquals(['path/to/data/text.txt', 'path/to/log.log'], tao_helpers_File::getAllZipNames($zipArchive));
+
+        $this->assertEquals(
+            ['path/to/data/text.txt', 'path/to/log.log'],
+            tao_helpers_File::getAllZipNames($zipArchive)
+        );
+
         $zipArchive->close();
     }
 

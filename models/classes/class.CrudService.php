@@ -149,7 +149,7 @@ abstract class tao_models_classes_CrudService extends tao_models_classes_Service
     public function create($label = "", $type = null, $propertiesValues = [])
     {
         $type = (isset($type)) ? $this->getClass($type) : $this->getRootClass();
-        
+
         $resource = $this->getClassService()->createInstance($type, $label);
         $resource->setPropertiesValues($propertiesValues);
         return $resource;

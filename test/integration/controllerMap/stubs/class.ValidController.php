@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,7 +26,6 @@
 
 class tao_test_integration_controllerMap_stubs_ValidController extends Module
 {
-
     /**
      * Valid non-namespaced stub controller action
      *

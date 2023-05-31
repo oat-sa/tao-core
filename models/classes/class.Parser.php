@@ -15,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 use oat\oatbox\service\ServiceManager;
@@ -41,7 +44,7 @@ class tao_models_classes_Parser
      * @var string
      */
     protected $content = null;
-    
+
     /**
      * Short description of attribute source
      *
@@ -89,7 +92,7 @@ class tao_models_classes_Parser
      * @var int
      */
 
-    const SOURCE_FILE = 1;
+    public const SOURCE_FILE = 1;
 
     /**
      * Short description of attribute SOURCE_URL
@@ -97,7 +100,7 @@ class tao_models_classes_Parser
      * @access public
      * @var int
      */
-    const SOURCE_URL = 2;
+    public const SOURCE_URL = 2;
 
     /**
      * Short description of attribute SOURCE_STRING
@@ -105,12 +108,12 @@ class tao_models_classes_Parser
      * @access public
      * @var int
      */
-    const SOURCE_STRING = 3;
+    public const SOURCE_STRING = 3;
 
     /**
      * Current file is \oat\oatbox\filesystem\File object
      */
-    const SOURCE_FLYFILE = 4;
+    public const SOURCE_FLYFILE = 4;
 
     /**
      * Short description of method __construct
@@ -137,7 +140,9 @@ class tao_models_classes_Parser
             } elseif (is_file($source)) {
                 $sourceType = self::SOURCE_FILE;
             } else {
-                $uploadFile = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($source);
+                $uploadFile = ServiceManager::getServiceManager()
+                    ->get(UploadService::SERVICE_ID)
+                    ->universalizeUpload($source);
                 if ($uploadFile instanceof \oat\oatbox\filesystem\File) {
                     $sourceType = self::SOURCE_FLYFILE;
                     $source = $uploadFile;
@@ -146,7 +151,11 @@ class tao_models_classes_Parser
         }
 
         if ($sourceType === false) {
-            throw new common_exception_Error("Denied content in the source parameter! " . get_class($this) . " accepts either XML content, a URL to an XML Content or the path to a file but got " . substr($source, 0, 500));
+            throw new common_exception_Error(
+                "Denied content in the source parameter! " . get_class($this)
+                    . " accepts either XML content, a URL to an XML Content or the path to a file but got "
+                    . substr($source, 0, 500)
+            );
         }
 
         $this->sourceType = $sourceType;
@@ -156,7 +165,7 @@ class tao_models_classes_Parser
             $this->fileExtension = $options['extension'];
         }
     }
-    
+
     public function getSource()
     {
         return $this->source;
@@ -175,7 +184,7 @@ class tao_models_classes_Parser
         //You know sometimes you think you have enough time, but it is not always true ...
         //(timeout in hudson with the generis-hard test suite)
         helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::MEDIUM);
-        
+
         $content = $this->getContent();
         if (!empty($content)) {
             try {
@@ -184,7 +193,7 @@ class tao_models_classes_Parser
                 $dom = new DomDocument();
                 $dom->formatOutput = true;
                 $dom->preserveWhiteSpace = false;
-                
+
                 $this->valid = $dom->loadXML($content);
 
                 if ($this->valid && !empty($schema)) {
@@ -199,12 +208,12 @@ class tao_models_classes_Parser
                 $this->addError($de);
             }
         }
-        
-        
+
+
         helpers_TimeOutHelper::reset();
         return (bool) $this->valid;
     }
-    
+
     /**
      * Excecute parser validation and stops at the first valid one, and returns the identified schema
      *
@@ -225,7 +234,7 @@ class tao_models_classes_Parser
 
         return $returnValue;
     }
-    
+
     /**
      * Short description of method isValid
      *
@@ -310,7 +319,7 @@ class tao_models_classes_Parser
             ];
         }
     }
-    
+
     /**
      * Get XML content.
      *
@@ -333,7 +342,10 @@ class tao_models_classes_Parser
                             throw new Exception("Unable to read file {$this->source}.");
                         }
                         if (!preg_match("/\.{$this->fileExtension}$/", basename($this->source))) {
-                            throw new Exception("Wrong file extension in " . basename($this->source) . ", {$this->fileExtension} extension is expected");
+                            throw new Exception(
+                                "Wrong file extension in " . basename($this->source)
+                                    . ", {$this->fileExtension} extension is expected"
+                            );
                         }
                         if (!tao_helpers_File::securityCheck($this->source)) {
                             throw new Exception("{$this->source} seems to contain some security issues");
@@ -352,7 +364,9 @@ class tao_models_classes_Parser
                         break;
                     case self::SOURCE_FLYFILE:
                         if (! $this->source->exists()) {
-                            throw new Exception('Source file does not exists ("' . $this->source->getBasename() . '").');
+                            throw new Exception(
+                                'Source file does not exists ("' . $this->source->getBasename() . '").'
+                            );
                         }
                         if (! $this->content = $this->source->read()) {
                             throw new Exception('Unable to read file ("' . $this->source->getBasename() . '").');
@@ -363,10 +377,10 @@ class tao_models_classes_Parser
                 $this->addError($e);
             }
         }
-        
+
         return $this->content;
     }
-    
+
     /**
      * Short description of method addErrors
      *

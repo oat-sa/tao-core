@@ -32,8 +32,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class NamespaceRoute extends AbstractRoute
 {
-    const OPTION_NAMESPACE = 'namespace';
-    
+    public const OPTION_NAMESPACE = 'namespace';
+
     public function resolve(ServerRequestInterface $request)
     {
         $relativeUrl = \tao_helpers_Request::getRelativeUrl($request->getRequestTarget());

@@ -25,7 +25,6 @@ use oat\tao\model\notification\Notification;
 
 class NotificationTest extends TestCase
 {
-
     private const USER_ID = 'user_id';
     private const TITLE = 'title';
     private const MESSAGE = 'long message';

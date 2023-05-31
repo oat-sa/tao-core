@@ -55,6 +55,8 @@ class InvalidSourcePathException extends common_Exception implements common_exce
      */
     public function getUserMessage()
     {
+        // phpcs:disable Generic.Files.LineLength
         return __('Invalid path of a source "%s". Path must point to the existed file inside the package.', $this->sourcePath);
+        // phpcs:enable Generic.Files.LineLength
     }
 }

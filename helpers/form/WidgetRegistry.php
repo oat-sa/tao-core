@@ -41,14 +41,14 @@ use oat\generis\model\WidgetRdf;
  */
 class WidgetRegistry
 {
-    const CACHE_KEY = 'tao_widget_data';
+    public const CACHE_KEY = 'tao_widget_data';
 
     /**
      * Cache of widget informations
      * @var array
      */
     private static $widgetCache = null;
-    
+
     public static function getWidgetDefinitionById($id)
     {
         $widgets = self::getWidgetDefinitions();
@@ -61,7 +61,7 @@ class WidgetRegistry
         // common_Logger::w('Widget with id "'.strtolower($id).'" not found');
         return null;
     }
-    
+
     public static function getWidgetDefinition(\core_kernel_classes_Resource $widget)
     {
         $widgets = self::getWidgetDefinitions();
@@ -72,7 +72,7 @@ class WidgetRegistry
             return null;
         }
     }
-    
+
     protected static function getWidgetDefinitions()
     {
         if (is_null(self::$widgetCache)) {
@@ -106,7 +106,10 @@ class WidgetRegistry
                     $props = $renderer->getPropertiesValues([
                         WidgetRdf::PROPERTY_WIDGET_RENDERER_MODE, WidgetRdf::PROPERTY_WIDGET_RENDERER_IMPLEMENTATION
                     ]);
-                    if (count($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_MODE]) == 1 && count($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_IMPLEMENTATION])) {
+                    if (
+                        count($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_MODE]) == 1
+                        && count($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_IMPLEMENTATION])
+                    ) {
                         $mode = (string)reset($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_MODE]);
                         $class = (string)reset($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_IMPLEMENTATION]);
                         $rendererClasses[$mode] = $class;

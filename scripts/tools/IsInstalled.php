@@ -46,7 +46,7 @@ $isInstalled = \tao_install_utils_System::isTAOInstalled($path);
 $exitCode = ($isInstalled) ? 0 : 128;
 
 if (isset($options['v'])) {
-    echo (($isInstalled) ? "TAO is installed.\n" : "TAO is NOT installed.\n");
+    echo(($isInstalled) ? "TAO is installed.\n" : "TAO is NOT installed.\n");
 }
 
 exit($exitCode);

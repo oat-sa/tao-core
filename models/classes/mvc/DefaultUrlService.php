@@ -17,6 +17,7 @@
  *
  *  Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
 namespace oat\tao\model\mvc;
 
 use oat\oatbox\service\ConfigurableService;
@@ -24,7 +25,7 @@ use oat\tao\model\mvc\DefaultUrlModule\RedirectResolveInterface;
 
 class DefaultUrlService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/urlroute';
+    public const SERVICE_ID = 'tao/urlroute';
 
     /**
      *
@@ -139,6 +140,9 @@ class DefaultUrlService extends ConfigurableService
             $redirectAdapter = new $redirectAdapterClass();
             return $redirectAdapter->resolve($redirectParams['options']);
         }
-        throw new \common_exception_Error('invalid redirect resolver class ' . $redirectAdapterClass . '. it must implements ' . RedirectResolveInterface::class);
+        throw new \common_exception_Error(
+            'invalid redirect resolver class ' . $redirectAdapterClass . '. it must implements '
+                . RedirectResolveInterface::class
+        );
     }
 }

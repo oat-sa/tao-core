@@ -153,8 +153,11 @@ class TaskLogFilter
     /**
      * Add a basic filter to query only rows belonging to a given user and not having status ARCHIVED or CANCELLED.
      */
-    public function addAvailableFilters(string $userId, bool $archivedAllowed = false, bool $cancelledAvailable = false): self
-    {
+    public function addAvailableFilters(
+        string $userId,
+        bool $archivedAllowed = false,
+        bool $cancelledAvailable = false
+    ): self {
         if (!$archivedAllowed) {
             $this->neq(TaskLogBrokerInterface::COLUMN_STATUS, TaskLogInterface::STATUS_ARCHIVED);
         }
@@ -176,7 +179,10 @@ class TaskLogFilter
 
     public function availableForArchived(string $userId): self
     {
-        $this->in(TaskLogBrokerInterface::COLUMN_STATUS, [TaskLogInterface::STATUS_FAILED, TaskLogInterface::STATUS_COMPLETED]);
+        $this->in(
+            TaskLogBrokerInterface::COLUMN_STATUS,
+            [TaskLogInterface::STATUS_FAILED, TaskLogInterface::STATUS_COMPLETED]
+        );
 
         if ($userId !== TaskLogInterface::SUPER_USER) {
             $this->eq(TaskLogBrokerInterface::COLUMN_OWNER, $userId);
@@ -202,7 +208,11 @@ class TaskLogFilter
             $withParentheses = is_array($filter['value']) ? true : false;
             $type = is_array($filter['value']) ? Connection::PARAM_STR_ARRAY : null;
 
-            $qb->andWhere($filter['column'] . ' ' . $filter['operator'] . ' ' . ($withParentheses ? '(' : '') . $filter['columnSqlTranslate'] . ($withParentheses ? ')' : ''))
+            $qb
+                ->andWhere(
+                    $filter['column'] . ' ' . $filter['operator'] . ' ' . ($withParentheses ? '(' : '')
+                        . $filter['columnSqlTranslate'] . ($withParentheses ? ')' : '')
+                )
                 ->setParameter($filter['columnSqlTranslate'], $filter['value'], $type);
         }
 

@@ -28,7 +28,6 @@ use oat\tao\test\TaoPhpUnitTestRunner;
  */
 class ServiceCallTest extends TaoPhpUnitTestRunner
 {
-
     public function setUp(): void
     {
         parent::setUp();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +28,6 @@
  */
 class tao_helpers_report_Rendering
 {
-    
     /**
      * Render a common_report_Report object into an HTML string output.
      *
@@ -36,27 +36,27 @@ class tao_helpers_report_Rendering
      */
     public static function render(common_report_Report $report)
     {
-        
+
         $stack = new SplStack();
         $renderingStack = new SplStack();
         $traversed = [];
-        
+
         $stack->push($report);
         $nesting = 0;
-        
+
         while ($stack->count() > 0) {
             $current = $stack->pop();
-            
+
             if (in_array($current, $traversed, true) === false && $current->hasChildren() === true) {
                 $nesting++;
                 // -- Hierarchical report, 1st pass (descending).
-                
+
                 // Repush report for a 2ndpass.
                 $stack->push($current);
-                
+
                 // Tag as already traversed.
                 $traversed[] = $current;
-                
+
                 // Push the children for a 1st pass.
                 foreach ($current as $child) {
                     $stack->push($child);
@@ -64,64 +64,71 @@ class tao_helpers_report_Rendering
             } elseif (in_array($current, $traversed, true) === true && $current->hasChildren() === true) {
                 $nesting--;
                 // -- Hierachical report, 2nd pass (ascending).
-                
+
                 // Get the nested renderings of the current report.
                 $children = [];
                 foreach ($current as $child) {
                     $children[] = $renderingStack->pop();
                 }
-                
+
                 $renderingStack->push(self::renderReport($current, $children, $nesting));
             } else {
                 // -- Leaf report, 1st & single pass.
                 $renderingStack->push(self::renderReport($current, [], $nesting, true));
             }
         }
-        
+
         return $renderingStack->pop();
     }
-    
+
     /**
      * Contains the logic to render a report and its children.
      *
      * @param common_report_Report $report A report to be rendered.
-     * @param array $childRenderedReports An array of strings containing the separate rendering of $report's child reports.
+     * @param array $childRenderedReports An array of strings containing the separate rendering of $report's child
+     *                                    reports.
      * @param integer $nesting The current nesting level (root = 0).
      * @return string The HTML output of $report.
      */
-    private static function renderReport(common_report_Report $report, array $childRenderedReports = [], $nesting = 0, $leaf = false)
-    {
-        
+    private static function renderReport(
+        common_report_Report $report,
+        array $childRenderedReports = [],
+        $nesting = 0,
+        $leaf = false
+    ) {
+
         switch ($report->getType()) {
             case common_report_Report::TYPE_SUCCESS:
                 $typeClass = 'success';
                 break;
-            
+
             case common_report_Report::TYPE_WARNING:
                 $typeClass = 'warning';
                 break;
-            
+
             case common_report_Report::TYPE_ERROR:
                 $typeClass = 'error';
                 break;
-            
+
             default:
                 $typeClass = 'info';
                 break;
         }
-        
-        $openingTag = '<div class="feedback-' . $typeClass . ' feedback-nesting-' . $nesting . ' ' . (($leaf === true) ? 'leaf' : 'hierarchical') . ' tao-scope">';
+
+        $openingTag = '<div class="feedback-' . $typeClass . ' feedback-nesting-' . $nesting . ' '
+            . (($leaf === true) ? 'leaf' : 'hierarchical') . ' tao-scope">';
         $leafIcon = ($leaf === true) ? ' leaf-icon' : ' hierarchical-icon';
         $icon = '<span class="icon-' . $typeClass . $leafIcon . '"></span>';
         $message = nl2br(_dh($report->__toString()));
         $endingTag = '</div>';
-        $okButton = '<p><button id="import-continue" class="btn-info"><span class="icon-right"></span>' . __("Continue") . '</button></p>';
-        
+        $okButton = '<p><button id="import-continue" class="btn-info"><span class="icon-right"></span>'
+            . __("Continue") . '</button></p>';
+
         // Put all the children renderings together.
         $content = implode('', $childRenderedReports);
         return $openingTag . $icon . $message . $content . (($nesting != 0) ? '' : $okButton) . $endingTag;
     }
-    
+
     /**
      * Contains the logic to render a report and its children to the command line
      *

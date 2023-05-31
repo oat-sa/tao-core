@@ -31,7 +31,6 @@ use oat\oatbox\service\ServiceManager;
  */
 class XsrfTokenValidator extends \tao_helpers_form_Validator
 {
-
     /**
      * Validate an active XSRF token.
      *

@@ -28,27 +28,26 @@ use oat\oatbox\Configurable;
 
 class PasswordReset extends Configurable implements Entrypoint
 {
-
     public function getId()
     {
         return 'passwordreset';
     }
-    
+
     public function getTitle()
     {
         return __("Unable to access your account?");
     }
-    
+
     public function getLabel()
     {
         return __('Password reset');
     }
-    
+
     public function getDescription()
     {
         return __('Request a password reset via Email.');
     }
-    
+
     public function getUrl()
     {
         return _url('index', 'PasswordRecovery', 'tao');

@@ -184,7 +184,10 @@ class AbstractTaskTest extends TestCase
 
     public function testToStringWorks()
     {
-        $this->assertEquals('TASK ' . get_class($this->abstractTaskMock) . ' [' . $this->fakeId . ']', (string) $this->abstractTaskMock);
+        $this->assertEquals(
+            'TASK ' . get_class($this->abstractTaskMock) . ' [' . $this->fakeId . ']',
+            (string) $this->abstractTaskMock
+        );
     }
 
     public function testOwnerShouldBeGeneratedInConstructor()

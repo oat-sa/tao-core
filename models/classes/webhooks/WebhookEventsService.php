@@ -36,7 +36,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
      * Option value is array of ['eventName' => true, ... ] of supported events
      * Such array structure is needed to perform quick search by key
      */
-    const OPTION_SUPPORTED_EVENTS = 'supportedEvents';
+    public const OPTION_SUPPORTED_EVENTS = 'supportedEvents';
 
     /**
      * @inheritDoc

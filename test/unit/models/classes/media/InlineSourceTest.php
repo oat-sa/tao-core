@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,7 +20,6 @@
 
 declare(strict_types=1);
 
-
 namespace oat\tao\test\unit\models\classes\media;
 
 use oat\generis\test\GenerisTestCase;
@@ -38,58 +38,74 @@ class InlineSourceTest extends GenerisTestCase
         $this->sut = new InlineSource();
     }
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testGetFileStream_WhenInlineAssetUrlIsCorrect_ThenStreamIsReturned()
     {
         $stream = $this->sut->getFileStream($this->inlineAssetDataUrlFixture());
         $this->assertInstanceOf(StreamInterface::class, $stream);
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     /**
      * @dataProvider invalidUrlProvider
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function testGetFileStream_WhenInlineAssetUrlIsInvalid_ThenExceptionThrown($url)
     {
         $this->expectException(RuntimeException::class);
         $stream = $this->sut->getFileStream($url);
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testDownload_WhenDataUrlProvided_ThenContentsAreReturned()
     {
         $contents = $this->sut->download($this->inlineAssetDataUrlFixture());
 
         $this->assertEquals(base64_decode($this->base64EncodedImageFixture()), $contents);
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testGetBaseName_WhenFileExtensionCanNotBeDetermined_ThenExceptionIsThrown()
     {
         $this->expectException(RuntimeException::class);
         $urlWithFakeMimeType = "data://text/invalid;base64,dGVzdA==";
         $this->sut->getBaseName($urlWithFakeMimeType);
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testGetBaseName_WhenDataUrlIsProvided_ThenFilenameWithAHashIsReturned()
     {
         $name = $this->sut->getBaseName($this->inlineAssetDataUrlFixture());
         $this->assertEquals('inline-media-b9f1078dff938f6a9ffbbf12f994b577.bmp', $name);
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testGetFileInfo_WhenInvoked_ThenExceptionThrown()
     {
         $this->expectException(\common_Exception::class);
         $this->sut->getFileInfo('');
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testGetDirectories_WhenInvoked_ThenExceptionThrown()
     {
         $this->expectException(\common_Exception::class);
         $this->sut->getDirectories($this->createMock(DirectorySearchQuery::class));
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testGetDirectory_WhenInvoked_ThenExceptionThrown()
     {
         $this->expectException(\common_Exception::class);
         $this->sut->getDirectory();
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     private function inlineAssetDataUrlFixture()
     {
@@ -98,7 +114,8 @@ class InlineSourceTest extends GenerisTestCase
 
     private function base64EncodedImageFixture()
     {
-        return 'Qk1yAAAAAAAAAD4AAAAoAAAADgAAAA0AAAABAAEAAAAAADQAAADEDgAAxA4AAAIAAAACAAAA////AAAAAAAAAAAAAAAOAAAApgAHwLQAHGD0ADAw5gBgGLYAAgAAAAAAAAAQIAAAAAAAAAACAAAAAwq3';
+        return 'Qk1yAAAAAAAAAD4AAAAoAAAADgAAAA0AAAABAAEAAAAAADQAAADEDgAAxA4AAAIAAAACAAAA////AAAAAAAAAAAAAAAOAAAApgAHwLQ'
+            . 'AHGD0ADAw5gBgGLYAAgAAAAAAAAAQIAAAAAAAAAACAAAAAwq3';
     }
 
     public function invalidUrlProvider(): array

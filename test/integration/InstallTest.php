@@ -15,14 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
 use oat\tao\test\TaoPhpUnitTestRunner;
 
+// phpcs:disable PSR1.Files.SideEffects
 include_once dirname(__FILE__) . '/../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  *
@@ -32,8 +36,7 @@ include_once dirname(__FILE__) . '/../../includes/raw_start.php';
  */
 class InstallTest extends TaoPhpUnitTestRunner
 {
-    
-    const SAMPLE_LOCALES = '/samples/locales';
+    public const SAMPLE_LOCALES = '/samples/locales';
 
     /**
      * This test aims at testing the tao_install_utils_System class methods.

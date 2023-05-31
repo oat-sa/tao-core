@@ -38,7 +38,6 @@ use oat\tao\model\lock\implementation\OntoLock;
  */
 class OntoLockTest extends TaoPhpUnitTestRunner
 {
-
     protected $tempResource = null;
 
     protected $ontoLock = null;

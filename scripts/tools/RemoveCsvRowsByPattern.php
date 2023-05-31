@@ -21,7 +21,7 @@
 
 namespace oat\tao\scripts\tools;
 
-use \common_report_Report as Report;
+use common_report_Report as Report;
 use oat\oatbox\action\Action;
 
 /**
@@ -36,14 +36,15 @@ use oat\oatbox\action\Action;
  * Parameter 2: The either absolute or relative path to the destination CSV file.
  * Parameter 3: The numeric index of the CSV column on which the PCRE pattern will operate (see Parameter 4).
  * Parameter 4: A PCRE pattern.
- * Parameter 5: A numeric (0|1) value describing whether or not the source CSV file contains a first row containing column names.
+ * Parameter 5: A numeric (0|1) value describing whether or not the source CSV file contains a first row containing
+ *              column names.
  */
 class RemoveCsvRowsByPattern implements Action
 {
     public function __invoke($params)
     {
         // -- Deal with parameters.
-        
+
         if (!empty($params[0])) {
             $source = $params[0];
         } else {
@@ -52,7 +53,7 @@ class RemoveCsvRowsByPattern implements Action
                 "'Source' parameter not provided."
             );
         }
-        
+
         if (!empty($params[1])) {
             $destination = $params[1];
         } else {
@@ -61,7 +62,7 @@ class RemoveCsvRowsByPattern implements Action
                 "'Destination' parameter not provided."
             );
         }
-        
+
         if (isset($params[2])) {
             $columnIndex = intval($params[2]);
         } else {
@@ -70,7 +71,7 @@ class RemoveCsvRowsByPattern implements Action
                 "'Column Index' parameter not provided."
             );
         }
-        
+
         if (isset($params[3])) {
             $pattern = $params[3];
         } else {
@@ -79,43 +80,43 @@ class RemoveCsvRowsByPattern implements Action
                 "'PCRE Pattern' parameter not provided."
             );
         }
-        
+
         $withHeader = false;
-        
+
         if (isset($params[4])) {
             $withHeader = boolval($params[4]);
         }
-        
+
         // -- Deal with file handling.
         $sourceFp = @fopen($source, 'r');
         $destinationFp = @fopen($destination, 'w');
-        
+
         if ($sourceFp === false) {
             return new Report(
                 Report::TYPE_ERROR,
                 "Source file '" . $source . "' could not be open."
             );
         }
-        
+
         if ($destinationFp === false) {
             return new Report(
                 Report::TYPE_ERROR,
                 "Destination file '" . $destination . "' could not be open."
             );
         }
-        
+
         // -- Deal with headers.
-        
+
         if ($withHeader) {
             // Consume file header and include it in destination.
             $header = fgetcsv($sourceFp);
             fputcsv($destinationFp, $header);
         }
-        
+
         $writtenCount = 0;
         $rowCount = 0;
         $matchCount = 0;
-        
+
         while ($sourceData = fgetcsv($sourceFp)) {
             if (!isset($sourceData[$columnIndex])) {
                 return new Report(
@@ -123,7 +124,7 @@ class RemoveCsvRowsByPattern implements Action
                     "No data found at row ${rowCount}, index ${$columnIndex}"
                 );
             }
-            
+
             if (($match = preg_match($pattern, $sourceData[$columnIndex])) !== false) {
                 if ($match === 0) {
                     // No match, the record is not excluded from destination file.
@@ -138,16 +139,17 @@ class RemoveCsvRowsByPattern implements Action
                     "A PCRE engine error occured while processing pattern '${pattern}'."
                 );
             }
-            
+
             $rowCount++;
         }
-        
+
         @fclose($sourceFp);
         @fclose($destinationFp);
-        
+
         return new Report(
             Report::TYPE_SUCCESS,
-            $writtenCount . " lines written in file '" . realpath($destination) . "'. ${matchCount} lines were ignored because they were matching the provided pattern."
+            $writtenCount . " lines written in file '" . realpath($destination)
+                . "'. ${matchCount} lines were ignored because they were matching the provided pattern."
         );
     }
 }

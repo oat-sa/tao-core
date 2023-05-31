@@ -30,20 +30,19 @@ use Prophecy\Prediction\CallTimesPrediction;
  */
 class FileSinkTest extends TaoPhpUnitTestRunner
 {
-
     public function testSend()
     {
         $testfolder = tao_helpers_File::createTempDir();
-        
+
         $expectedFilePath = $testfolder . 'testidentifier' . DIRECTORY_SEPARATOR . 'message.html';
         $this->assertFileNotExists($expectedFilePath);
-        
+
         $userMock = $this->prophesize('oat\oatbox\user\User');
         $userMock->getIdentifier()->willReturn('testidentifier');
         $userMock->getIdentifier()->should(new CallTimesPrediction(1));
         ;
-        
-        
+
+
         $messageMock = $this->prophesize('oat\tao\model\messaging\Message');
         $messageMock->getTo()->willReturn($userMock->reveal());
         $messageMock->getTo()->should(new CallTimesPrediction(1));
@@ -51,20 +50,20 @@ class FileSinkTest extends TaoPhpUnitTestRunner
         $messageMock->getBody()->willReturn('testBody');
         $messageMock->getBody()->should(new CallTimesPrediction(1));
         ;
-        
+
         $transporter = new FileSink([FileSink::CONFIG_FILEPATH => $testfolder]);
         $result = $transporter->send($messageMock->reveal());
-        
+
         $this->assertTrue($result);
         $this->assertFileExists($expectedFilePath);
-        
+
         $messageContent = file_get_contents($expectedFilePath);
-        
+
         $this->assertEquals('testBody', $messageContent);
-        
+
         $userMock->checkProphecyMethodsPredictions();
         $messageMock->checkProphecyMethodsPredictions();
-        
+
         tao_helpers_File::delTree($testfolder);
         $this->assertFalse(is_dir($testfolder));
     }

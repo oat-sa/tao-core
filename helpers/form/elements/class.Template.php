@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -79,8 +82,8 @@ abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormE
      */
     public function setPath($path)
     {
-        
-        
+
+
         $this->path = $path;
     }
 
@@ -94,8 +97,8 @@ abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormE
      */
     public function setValues($values)
     {
-        
-        
+
+
         if (is_array($values)) {
             $this->values = $values;
         }
@@ -112,11 +115,11 @@ abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormE
     {
         $returnValue = null;
 
-        
-        
+
+
         $returnValue = $this->values;
-        
-        
+
+
 
         return $returnValue;
     }
@@ -132,16 +135,16 @@ abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormE
     {
         $returnValue = (string) '';
 
-        
-        
+
+
         //prevent to use empty prefix. By default the name is used!
         if (empty($this->prefix) && !empty($this->name)) {
             $this->prefix = $this->name . '_';
         }
-        
+
         $returnValue = $this->prefix;
-        
-        
+
+
 
         return (string) $returnValue;
     }
@@ -156,8 +159,8 @@ abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormE
      */
     public function setPrefix($prefix)
     {
-        
-        
+
+
         $this->prefix = $prefix;
     }
 
@@ -171,8 +174,8 @@ abstract class tao_helpers_form_elements_Template extends tao_helpers_form_FormE
      */
     public function setVariables($variables)
     {
-        
-        
+
+
         if (!is_array($variables)) {
             $variables = [$variables];
         }

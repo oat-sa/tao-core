@@ -36,7 +36,7 @@ class tao_models_classes_HttpBasicAuthAdapter implements common_user_auth_Adapte
      * @var common_http_Request
      */
     private $request;
-    
+
     /**
      * Creates an Authentication adapter from an OAuth Request
      *

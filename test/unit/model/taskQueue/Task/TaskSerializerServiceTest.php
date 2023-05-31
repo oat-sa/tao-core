@@ -41,7 +41,10 @@ class TaskSerializerServiceTest extends TestCase
                 ActionService::SERVICE_ID => $this->mockActionService()
             ])
         );
-        $taskJson = '{"taskFqcn":"oat\\\\tao\\\\model\\\\taskQueue\\\\Task\\\\CallbackTask","metadata":{"__id__":"http://www.taotesting.com/ontologies/tao.rdf#i15402228521886108","__created_at__":"2018-10-22T15:40:52+00:00","__owner__":"","__master_status__":0,"__label__":"ExportByHandler","__callable__":"oat\\\\tao\\\\model\\\\task\\\\ExportByHandler"},"parameters":[]}';
+        $taskJson = '{"taskFqcn":"oat\\\\tao\\\\model\\\\taskQueue\\\\Task\\\\CallbackTask","metadata":{"__id__":'
+            . '"http://www.taotesting.com/ontologies/tao.rdf#i15402228521886108","__created_at__":'
+            . '"2018-10-22T15:40:52+00:00","__owner__":"","__master_status__":0,"__label__":"ExportByHandler",'
+            . '"__callable__":"oat\\\\tao\\\\model\\\\task\\\\ExportByHandler"},"parameters":[]}';
 
         $this->assertInstanceOf(TaskInterface::class, $service->deserialize($taskJson, []));
         $this->assertInstanceOf(CallbackTask::class, $service->deserialize($taskJson, []));

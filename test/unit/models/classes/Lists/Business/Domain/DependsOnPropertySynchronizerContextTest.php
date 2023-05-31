@@ -121,7 +121,8 @@ class DependsOnPropertySynchronizerContextTest extends TestCase
                     $exception->getMessage(),
                     [
                         'Context parameter properties is not valid. It should be an array.',
-                        'Context parameter properties is not valid. Values must be an instance of core_kernel_classes_Property.',
+                        'Context parameter properties is not valid. Values must be an instance of '
+                            . 'core_kernel_classes_Property.',
                     ]
                 );
                 ++$numberOfExceptions;
@@ -147,7 +148,8 @@ class DependsOnPropertySynchronizerContextTest extends TestCase
                     $exception->getMessage(),
                     [
                         'Context parameter properties is not valid. It should be an array.',
-                        'Context parameter properties is not valid. Values must be an instance of core_kernel_classes_Property.',
+                        'Context parameter properties is not valid. Values must be an instance of '
+                            . 'core_kernel_classes_Property.',
                     ]
                 );
                 ++$numberOfExceptions;
@@ -191,7 +193,8 @@ class DependsOnPropertySynchronizerContextTest extends TestCase
 
     public function invalidValues(): array
     {
-        $class = new class () {};
+        $class = new class () {
+        };
 
         return [
             'Properties' => [

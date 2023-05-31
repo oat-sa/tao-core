@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +17,8 @@ declare(strict_types=1);
  *
  * Copyright (c) 2021 (original work) Open Assessment Technologies SA
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\Middleware;
 
@@ -56,7 +57,7 @@ class OpenAPISchemaValidateRequestMiddleware extends ConfigurableService impleme
                 ]
             ]
         );
-        
+
         $this->setOption(self::OPTION_SCHEMA_MAP, $map);
 
         return $this;
@@ -75,7 +76,7 @@ class OpenAPISchemaValidateRequestMiddleware extends ConfigurableService impleme
         if ($path && $route) {
             $routed = $map[$route];
             $key = array_search($path, $routed);
-            
+
             if ($key !== false) {
                 unset($routed[$key]);
                 $map[$route] = $routed;

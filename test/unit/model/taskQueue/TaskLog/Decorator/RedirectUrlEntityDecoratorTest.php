@@ -39,6 +39,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
 
     /**
      * @dataProvider taskLogStatusProvider
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function testDecorator_NotUsed_excludedTaskLogStatus($taskStatus)
     {
@@ -51,6 +52,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
 
         $this->assertEquals($this->getFixtureEntityData(), $decorator->toArray());
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     public function taskLogStatusProvider()
     {
@@ -64,6 +66,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
 
     /**
      * @dataProvider entityTaskLogStatusProvider
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function testDecorator_NotUsed_excludedTaskEntityStatus($status)
     {
@@ -80,6 +83,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
 
         $this->assertEquals($this->getFixtureEntityData($status), $redirectUrlEntityDecoratorMock->toArray());
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     public function entityTaskLogStatusProvider()
     {
@@ -89,6 +93,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
         ];
     }
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testDecorator_Used()
     {
         $entity = $this->getFixtureEntity();
@@ -105,12 +110,18 @@ class RedirectUrlEntityDecoratorTest extends TestCase
         $expectedData = array_merge(
             $this->getFixtureEntityData(),
             [
-                'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', ['taskId' => $entity->getId()])
+                'redirectUrl' => _url(
+                    'redirectTaskToInstance',
+                    'Redirector',
+                    'taoBackOffice',
+                    ['taskId' => $entity->getId()]
+                )
             ]
         );
 
         $this->assertEquals($expectedData, $redirectUrlEntityDecoratorMock->toArray());
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     protected function getFixtureEntity($status = TaskLogInterface::STATUS_COMPLETED)
     {

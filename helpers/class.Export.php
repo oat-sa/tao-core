@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,7 +29,6 @@
  */
 class tao_helpers_Export
 {
-
     /**
      * get the path to save and retrieve the exported files regarding the current extension
      * @return string the path
@@ -41,12 +41,12 @@ class tao_helpers_Export
         }
         return $path;
     }
-    
+
     public static function getRelativPath($file)
     {
         return ltrim(substr($file, strlen(self::getExportPath())), DIRECTORY_SEPARATOR);
     }
-    
+
     public static function getExportFile($filename = null)
     {
         if (is_null($filename)) {
@@ -59,19 +59,19 @@ class tao_helpers_Export
 
     public static function outputFile($relPath, $filename = null)
     {
-        
+
         $fullpath = self::getExportPath() . DIRECTORY_SEPARATOR . $relPath;
         if (tao_helpers_File::securityCheck($fullpath, true) && file_exists($fullpath)) {
             Context::getInstance()->getResponse()->setContentHeader(tao_helpers_File::getMimeType($fullpath));
             $fileName = empty($filename) ? basename($fullpath) : $filename;
             header('Content-Disposition: attachment; fileName="' . $fileName . '"');
             header("Content-Length: " . filesize($fullpath));
-            
+
             //Clean all levels of output buffering
             while (ob_get_level() > 0) {
                 ob_end_clean();
             }
-            
+
             flush();
             $fp = fopen($fullpath, "r");
             if ($fp !== false) {

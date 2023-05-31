@@ -44,11 +44,11 @@ class ThemeService extends ThemeServiceAbstract
     {
         $themes  = $this->getAllThemes();
         $themeId = $theme->getId();
-        
+
         if ($protectAlreadyExistingThemes) {
             $themeId = $this->getUniqueId($theme);
         }
-        
+
         $themes[$themeId] = [
             static::THEME_CLASS_OFFSET   => get_class($theme),
             static::THEME_OPTIONS_OFFSET => ($theme instanceof Configurable) ? $theme->getOptions() : []

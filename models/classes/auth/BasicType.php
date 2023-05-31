@@ -40,7 +40,10 @@ class BasicType extends AbstractAuthType
      */
     public function call(RequestInterface $request, array $clientOptions = [])
     {
-        return $this->getClient($clientOptions)->send($request, ['auth' => array_values($this->getCredentials()), 'verify' => false]);
+        return $this->getClient($clientOptions)->send(
+            $request,
+            ['auth' => array_values($this->getCredentials()), 'verify' => false]
+        );
     }
 
     /**

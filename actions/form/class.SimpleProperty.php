@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -48,7 +50,6 @@ use oat\tao\model\Lists\Presentation\Web\Factory\DependsOnPropertyFormFieldFacto
  */
 class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
 {
-
     /**
      * Initialize the form elements
      *
@@ -158,7 +159,8 @@ class tao_actions_form_SimpleProperty extends tao_actions_form_AbstractProperty
         if (!is_null($property->getRange())) {
             $addIndexElt = tao_helpers_form_FormFactory::getElement("index_{$index}_add", 'Free');
             $addIndexElt->setValue(
-                "<a href='#' class='btn-info index-adder small index'><span class='icon-add'></span> " . __('Add index') . "</a><div class='clearfix'></div>"
+                "<a href='#' class='btn-info index-adder small index'><span class='icon-add'></span> "
+                    . __('Add index') . "</a><div class='clearfix'></div>"
             );
             $this->form->addElement($addIndexElt);
             $elementNames[] = $addIndexElt;

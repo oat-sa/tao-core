@@ -51,8 +51,7 @@ trait HttpJsonResponseTrait
         int $errorCode = 0,
         array $data = [],
         int $statusCode = 400
-    ): void
-    {
+    ): void {
         $this->response = $this->getResponseFormatter()
             ->withJsonHeader()
             ->withStatusCode($statusCode)

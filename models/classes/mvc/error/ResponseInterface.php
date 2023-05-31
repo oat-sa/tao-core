@@ -17,6 +17,7 @@
  *
  *  Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
 namespace oat\tao\model\mvc\error;
 
 /**
@@ -26,19 +27,18 @@ namespace oat\tao\model\mvc\error;
  */
 interface ResponseInterface
 {
-
     /**
      * set up http response code
      * @param integer $code
      * @return $this
      */
     public function setHttpCode($code);
-    
+
     /**
      * use to send error message
      */
     public function send();
-    
+
     /**
      * write error into log system
      */

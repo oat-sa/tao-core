@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -28,7 +32,8 @@
  * @package tao
 
  */
-class tao_models_classes_table_StaticColumn extends tao_models_classes_table_Column implements tao_models_classes_table_DataProvider
+class tao_models_classes_table_StaticColumn extends tao_models_classes_table_Column implements
+    tao_models_classes_table_DataProvider
 {
     // --- ASSOCIATIONS ---
 
@@ -56,7 +61,7 @@ class tao_models_classes_table_StaticColumn extends tao_models_classes_table_Col
      */
     public function prepare($resources, $columns)
     {
-        
+
         // nothing to do
     }
 
@@ -73,9 +78,9 @@ class tao_models_classes_table_StaticColumn extends tao_models_classes_table_Col
     {
         $returnValue = (string) '';
 
-        
+
         $returnValue = $column->value;
-        
+
 
         return (string) $returnValue;
     }
@@ -92,9 +97,9 @@ class tao_models_classes_table_StaticColumn extends tao_models_classes_table_Col
     {
         $returnValue = null;
 
-        
+
         $returnValue = new self($array['label'], $array['val']);
-        
+
 
         return $returnValue;
     }
@@ -110,7 +115,7 @@ class tao_models_classes_table_StaticColumn extends tao_models_classes_table_Col
      */
     public function __construct($label, $value)
     {
-        
+
         parent::__construct($label);
         $this->value = $value;
     }
@@ -126,10 +131,10 @@ class tao_models_classes_table_StaticColumn extends tao_models_classes_table_Col
     {
         $returnValue = [];
 
-        
+
         $returnValue = parent::toArray();
         $returnValue['val'] = $this->value;
-        
+
 
         return (array) $returnValue;
     }
@@ -145,9 +150,9 @@ class tao_models_classes_table_StaticColumn extends tao_models_classes_table_Col
     {
         $returnValue = null;
 
-        
+
         $returnValue = $this;
-        
+
 
         return $returnValue;
     }

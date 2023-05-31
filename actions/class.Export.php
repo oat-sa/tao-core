@@ -15,10 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the
  * project TAO & TAO2);
- *   2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *   2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ *   2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *   2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *   2013-2018 (update and modification) Open Assessment Technologies SA;
  */
 
@@ -144,8 +147,7 @@ class tao_actions_Export extends tao_actions_CommonModule
         tao_models_classes_export_ExportHandler $exporter,
         core_kernel_classes_Resource $selectedResource,
         array $formData
-    ): tao_actions_form_Export
-    {
+    ): tao_actions_form_Export {
         return new tao_actions_form_Export($handlers, $exporter->getExportForm($selectedResource), $formData);
     }
 

@@ -1,7 +1,5 @@
 <?php
 
-use oat\tao\model\websource\WebsourceManager;
-
 /**
  *
  * This program is free software; you can redistribute it and/or
@@ -23,6 +21,8 @@ use oat\tao\model\websource\WebsourceManager;
  *
  */
 
+use oat\tao\model\websource\WebsourceManager;
+
 require_once '../vendor/autoload.php';
 
 $rel = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], '/getFile.php/') + strlen('/getFile.php/'));
@@ -32,14 +32,14 @@ if (count($parts) < 3) {
     die();
 }
 
-list ($ap, $timestamp, $token, $subPath) = $parts;
+list($ap, $timestamp, $token, $subPath) = $parts;
 $parts = explode('*/', $subPath, 2);
 // TODO add security check on url
 if (count($parts) < 2) {
     header('HTTP/1.0 403 Forbidden');
     die();
 }
-list ($subPath, $file) = $parts;
+list($subPath, $file) = $parts;
 
 $bootStrap = new oat\tao\model\mvc\Bootstrap('../config/generis.conf.php');
 $config = common_ext_ExtensionsManager::singleton()->getExtensionById('tao')->getConfig('websource_' . $ap);
