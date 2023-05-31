@@ -111,7 +111,9 @@ class tao_install_ExtensionInstaller extends common_ext_ExtensionInstaller
                 $roleService->includeRole($globalManagerRole, $role);
             }
 
-            common_Logger::d("Management Role " . $role->getUri() . " created for extension '" . $this->extension->getId() . "'.");
+            common_Logger::d(
+                "Management Role " . $role->getUri() . " created for extension '" . $this->extension->getId() . "'."
+            );
         } else {
             // There is no Management role described by the Extension Manifest.
             common_Logger::i("No management role for extension '" . $this->extension->getId() . "'.");

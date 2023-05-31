@@ -98,12 +98,18 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
         $classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz());
         $propertyCandidates = array_merge($propertyCandidates, $classProperties);
 
-        $additionalProperties = (isset($this->options['additionalProperties']) && is_array($this->options['additionalProperties'])) ? $this->options['additionalProperties'] : [];
+        $additionalProperties = (isset($this->options['additionalProperties'])
+            && is_array($this->options['additionalProperties']))
+                ? $this->options['additionalProperties']
+                : [];
         if (!empty($additionalProperties)) {
             $propertyCandidates = array_merge($propertyCandidates, $additionalProperties);
         }
 
-        $excludedProperties = (isset($this->options[self::EXCLUDED_PROPERTIES]) && is_array($this->options[self::EXCLUDED_PROPERTIES])) ? $this->options[self::EXCLUDED_PROPERTIES] : [];
+        $excludedProperties = (isset($this->options[self::EXCLUDED_PROPERTIES])
+            && is_array($this->options[self::EXCLUDED_PROPERTIES]))
+                ? $this->options[self::EXCLUDED_PROPERTIES]
+                : [];
         $editedProperties = [];
         foreach ($propertyCandidates as $property) {
             if (!isset($editedProperties[$property->getUri()]) && !in_array($property->getUri(), $excludedProperties)) {
@@ -169,7 +175,10 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
 
                     // insert the element at the right place.
                     $i = 0;
-                    while ($i < count($finalElements) && ($position >= $finalElements[$i][1] && $finalElements[$i][1] !== null)) {
+                    while (
+                        $i < count($finalElements)
+                        && ($position >= $finalElements[$i][1] && $finalElements[$i][1] !== null)
+                    ) {
                         $i++;
                     }
 

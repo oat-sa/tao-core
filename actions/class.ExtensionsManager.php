@@ -61,13 +61,19 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
     {
         if ($this->isDebugMode() === true) {
             $isProduction = false;
-            $this->setData('availableExtArray', $this->sortExtensionList($this->getExtensionManager()->getAvailableExtensions()));
+            $this->setData(
+                'availableExtArray',
+                $this->sortExtensionList($this->getExtensionManager()->getAvailableExtensions())
+            );
         } else {
             $isProduction = true;
         }
 
         $this->setData('isProduction', $isProduction);
-        $this->setData('installedExtArray', $this->sortExtensionList($this->getExtensionManager()->getInstalledExtensions()));
+        $this->setData(
+            'installedExtArray',
+            $this->sortExtensionList($this->getExtensionManager()->getInstalledExtensions())
+        );
         $this->setView('extensionManager/view.tpl');
     }
 

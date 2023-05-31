@@ -258,7 +258,9 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
 
         $cleaned = [];
         foreach ($variables as $key => $value) {
-            $cleaned[$key] = (is_object($value) && $value instanceof core_kernel_classes_Resource) ? $value->getUri() : $value;
+            $cleaned[$key] = (is_object($value) && $value instanceof core_kernel_classes_Resource)
+                ? $value->getUri()
+                : $value;
         }
         return $variableService->save($cleaned);
     }

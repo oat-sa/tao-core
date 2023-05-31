@@ -84,7 +84,10 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
 
         $password = null;
         foreach ($this->formProperties as $key => $property) {
-            if ($property['uri'] == GenerisRdf::PROPERTY_USER_PASSWORD && !empty($this->formProperties[$key]['formValue'])) {
+            if (
+                $property['uri'] == GenerisRdf::PROPERTY_USER_PASSWORD
+                && !empty($this->formProperties[$key]['formValue'])
+            ) {
                 $password = $this->formProperties[$key]['formValue'];
                 break;
             }
@@ -166,7 +169,10 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         /** @var ValidatorInterface $validator */
         foreach (PasswordConstraintsService::singleton()->getValidators() as $validator) {
             if (!$validator->evaluate($password)) {
-                throw new common_exception_ValidationFailed(GenerisRdf::PROPERTY_USER_PASSWORD, $validator->getMessage());
+                throw new common_exception_ValidationFailed(
+                    GenerisRdf::PROPERTY_USER_PASSWORD,
+                    $validator->getMessage()
+                );
             }
         }
     }
@@ -183,13 +189,18 @@ class tao_actions_form_RestUserForm extends tao_actions_form_RestForm implements
         if ($this->changePassword) {
             $password = null;
             foreach ($this->formProperties as $key => $property) {
-                if ($property['uri'] == GenerisRdf::PROPERTY_USER_PASSWORD && isset($this->formProperties[$key]['formValue'])) {
+                if (
+                    $property['uri'] == GenerisRdf::PROPERTY_USER_PASSWORD
+                    && isset($this->formProperties[$key]['formValue'])
+                ) {
                     $password = $this->formProperties[$key]['formValue'];
                     break;
                 }
             }
 
-            $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($password);
+            $values[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt(
+                $password
+            );
         }
 
         return $values;

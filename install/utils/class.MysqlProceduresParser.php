@@ -55,16 +55,23 @@ class tao_install_utils_MysqlProceduresParser extends tao_install_utils_SQLParse
         } elseif (!is_readable($file)) {
             throw new tao_install_utils_SQLParsingException("SQL file '${file}' is not readable.");
         } elseif (!preg_match("/\.sql$/", basename($file))) {
-            throw new tao_install_utils_SQLParsingException("File '${file}' is not a valid SQL file. Extension '.sql' not found.");
+            throw new tao_install_utils_SQLParsingException(
+                "File '${file}' is not a valid SQL file. Extension '.sql' not found."
+            );
         }
 
         $content = @file_get_contents($file);
         if ($content !== false) {
             $matches = [];
-            $patterns = [  'DROP\s+FUNCTION\s+IF\s+EXISTS\s*\w+\s*;',
-                                'DROP\s+PROCEDURE\s+IF\s+EXISTS\s*\w+\s*;',
-                                'CREATE\s+PROCEDURE\s+\w+\s*\(.*\)\s*(?:(?:NOT\s+){0,1}DETERMINISTIC){0,1}\s*BEGIN\s+(?:.*\s*;\s*)*END\s*;',
-                                'CREATE\s+(DEFINER = \w+\s+)FUNCTION\s+\w+\s*\(.*\)\s*RETURNS\s+(?:.*)\s*(?:(?:NOT\s+){0,1}DETERMINISTIC){0,1}\s*(?:CONTAINS SQL\s+|NO SQL\s+|READS SQL DATA\s+|MODIFIES SQL DATA\s+|SQL SECURITY INVOKER\s+)*\s*BEGIN\s+(?:.*\s*;\s*)*END\s*;'];
+            $patterns = [
+                'DROP\s+FUNCTION\s+IF\s+EXISTS\s*\w+\s*;',
+                'DROP\s+PROCEDURE\s+IF\s+EXISTS\s*\w+\s*;',
+                'CREATE\s+PROCEDURE\s+\w+\s*\(.*\)\s*(?:(?:NOT\s+){0,1}DETERMINISTIC){0,1}\s*BEGIN\s+(?:.*\s*;\s*)*END'
+                    . '\s*;',
+                'CREATE\s+(DEFINER = \w+\s+)FUNCTION\s+\w+\s*\(.*\)\s*RETURNS\s+(?:.*)\s*(?:(?:NOT\s+){0,1}'
+                    . 'DETERMINISTIC){0,1}\s*(?:CONTAINS SQL\s+|NO SQL\s+|READS SQL DATA\s+|MODIFIES SQL DATA\s+|SQL '
+                    . 'SECURITY INVOKER\s+)*\s*BEGIN\s+(?:.*\s*;\s*)*END\s*;'
+            ];
 
             if (preg_match_all('/' . implode($patterns, '|') . '/i', $content, $matches)) {
                 foreach ($matches[0] as $match) {
@@ -72,7 +79,9 @@ class tao_install_utils_MysqlProceduresParser extends tao_install_utils_SQLParse
                 }
             }
         } else {
-            throw new tao_install_utils_SQLParsingException("SQL file '${file}' cannot be read. An unknown error occured while reading it.");
+            throw new tao_install_utils_SQLParsingException(
+                "SQL file '${file}' cannot be read. An unknown error occured while reading it."
+            );
         }
     }
 }

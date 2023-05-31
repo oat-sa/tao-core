@@ -34,7 +34,8 @@
   * @package tao
 
  */
-class tao_install_services_CheckCustomService extends tao_install_services_Service implements tao_install_services_CheckService
+class tao_install_services_CheckCustomService extends tao_install_services_Service implements
+    tao_install_services_CheckService
 {
     /**
      * Creates a new instance of the service.
@@ -72,7 +73,12 @@ class tao_install_services_CheckCustomService extends tao_install_services_Servi
             throw new InvalidArgumentException("Missing data: 'type' must be provided.");
         } elseif ($content['type'] !== 'CheckCustom') {
             throw new InvalidArgumentException("Unexpected type: 'type' must be equal to 'CheckCustom'.");
-        } elseif (!isset($content['value']) || empty($content['value']) || !is_array($content['value']) || count($content['value']) == 0) {
+        } elseif (
+            !isset($content['value'])
+            || empty($content['value'])
+            || !is_array($content['value'])
+            || count($content['value']) == 0
+        ) {
             throw new InvalidArgumentException("Missing data: 'value' must be provided as a not empty array.");
         } elseif (!isset($content['value']['id']) || empty($content['value']['id'])) {
             throw new InvalidArgumentException("Missing data: 'id' must be provided.");
@@ -82,7 +88,11 @@ class tao_install_services_CheckCustomService extends tao_install_services_Servi
             throw new InvalidArgumentException("Missing data: 'extension' must be provided");
         } elseif (isset($content['value']['parameters'])) {
             // If parameters are given to the custom check...
-            if (empty($content['value']['parameters']) || !is_array($content['value']['parameters']) || count($content['value']['parameters']) == 0) {
+            if (
+                empty($content['value']['parameters'])
+                || !is_array($content['value']['parameters'])
+                || count($content['value']['parameters']) == 0
+            ) {
                 throw new InvalidArgumentException("Missing data: 'parameters' must be provided as a not empty array.");
             }
         }

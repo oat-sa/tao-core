@@ -36,7 +36,8 @@
  * @package tao
 
  */
-class tao_install_services_CheckPHPINIValueService extends tao_install_services_Service implements tao_install_services_CheckService
+class tao_install_services_CheckPHPINIValueService extends tao_install_services_Service implements
+    tao_install_services_CheckService
 {
     /**
      * Creates a new instance of the service.

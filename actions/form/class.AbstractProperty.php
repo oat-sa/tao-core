@@ -38,8 +38,12 @@ abstract class tao_actions_form_AbstractProperty extends tao_helpers_form_FormCo
      */
     protected $index;
 
-    public function __construct(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $instance = null, $options = [], $data = [])
-    {
+    public function __construct(
+        core_kernel_classes_Class $clazz,
+        core_kernel_classes_Resource $instance = null,
+        $options = [],
+        $data = []
+    ) {
         $this->property = $this->getProperty($instance);
         return parent::__construct($data, $options);
     }
@@ -110,7 +114,8 @@ abstract class tao_actions_form_AbstractProperty extends tao_helpers_form_FormCo
                 . '<span class="property-heading-toolbar">'
                 . $setupIndexIcon
                 . '<span class="icon-edit"></span>'
-                . '<span class="icon-bin property-deleter" data-uri=\'' . tao_helpers_Display::encodeAttrValue($property->getUri()) . '\'></span>'
+                . '<span class="icon-bin property-deleter" data-uri=\''
+                . tao_helpers_Display::encodeAttrValue($property->getUri()) . '\'></span>'
                 . '</span>';
         }
         return $groupTitle;

@@ -85,11 +85,15 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule impl
         $class = null;
         if ($this->hasRequestParameter(self::CLASS_URI_PARAM) && $this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
             throw new \common_exception_RestApi(
-                self::CLASS_URI_PARAM . ' and ' . self::CLASS_LABEL_PARAM . ' parameters do not supposed to be used simultaneously.'
+                self::CLASS_URI_PARAM . ' and ' . self::CLASS_LABEL_PARAM
+                    . ' parameters do not supposed to be used simultaneously.'
             );
         }
 
-        if (!$this->hasRequestParameter(self::CLASS_URI_PARAM) && !$this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
+        if (
+            !$this->hasRequestParameter(self::CLASS_URI_PARAM)
+            && !$this->hasRequestParameter(self::CLASS_LABEL_PARAM)
+        ) {
             $class = $rootClass;
         }
 

@@ -49,7 +49,10 @@ class tao_models_classes_import_RdfImportForm extends tao_helpers_form_FormConta
     {
         $this->form = new tao_helpers_form_xhtml_Form('export');
         $submitElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
-        $submitElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-import"></span> ' . __('Import') . '</a>');
+        $submitElt->setValue(
+            '<a href="#" class="form-submitter btn-success small"><span class="icon-import"></span> '
+                . __('Import') . '</a>'
+        );
 
         $this->form->setActions([$submitElt], 'bottom');
         $this->form->setActions([], 'top');
@@ -73,7 +76,10 @@ class tao_models_classes_import_RdfImportForm extends tao_helpers_form_FormConta
             $fileElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty', ['message' => '']));
         }
         $fileElt->addValidators([
-            tao_helpers_form_FormFactory::getValidator('FileMimeType', ['mimetype' => ['text/xml', 'application/rdf+xml', 'application/xml'], 'extension' => ['rdf', 'rdfs']]),
+            tao_helpers_form_FormFactory::getValidator(
+                'FileMimeType',
+                ['mimetype' => ['text/xml', 'application/rdf+xml', 'application/xml'], 'extension' => ['rdf', 'rdfs']]
+            ),
             tao_helpers_form_FormFactory::getValidator('FileSize', ['max' => SystemHelper::getFileUploadLimit()])
         ]);
 

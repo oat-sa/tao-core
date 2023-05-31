@@ -107,7 +107,8 @@ class TranslationBundle
     }
 
     /**
-     * Generates the bundle to the given directory. It will create a json file, named with the langCode: {$directory}/{$langCode}.json
+     * Generates the bundle to the given directory. It will create a json file, named with the langCode:
+     * {$directory}/{$langCode}.json
      * @param string $directory the path
      * @return string|false the path of the generated bundle or false
      */

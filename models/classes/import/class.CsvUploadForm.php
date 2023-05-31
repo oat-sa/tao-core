@@ -51,7 +51,10 @@ class tao_models_classes_import_CsvUploadForm extends tao_helpers_form_FormConta
     {
         $this->form = new tao_helpers_form_xhtml_Form('export');
         $submitElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
-        $submitElt->setValue("<input type='button' class='btn-success small form-refresher' value='" . __('Next') . "' />");
+        $submitElt->setValue(
+            "<input type='button' class='btn-success small form-refresher' value='"
+              . __('Next') . "' />"
+        );
 
         $this->form->setActions([$submitElt], 'bottom');
         $this->form->setActions([], 'top');
@@ -121,15 +124,6 @@ class tao_models_classes_import_CsvUploadForm extends tao_helpers_form_FormConta
         $optEncloser->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
         $this->form->addElement($optEncloser);
 
-        /*
-        $optMulti = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::MULTI_VALUES_DELIMITER, 'Textbox');
-        $optMulti->setDescription(__("Multiple values delimiter"));
-        $optMulti->setValue('|');
-        $optMulti->addAttribute("size", 6);
-        $optMulti->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-        $this->form->addElement($optMulti);
-        */
-
         if (isset($this->options[static::IS_OPTION_FIRST_COLUMN_ENABLE])) {
             if ($this->options[static::IS_OPTION_FIRST_COLUMN_ENABLE] === true) {
                 $optFirstColumn = $this->addFirstColumnElement();
@@ -155,7 +149,10 @@ class tao_models_classes_import_CsvUploadForm extends tao_helpers_form_FormConta
      */
     protected function addFirstColumnElement()
     {
-        $optFirstColumn = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES, 'Checkbox');
+        $optFirstColumn = tao_helpers_form_FormFactory::getElement(
+            tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES,
+            'Checkbox'
+        );
         $optFirstColumn->setDescription(__("First row column names"));
         $optFirstColumn->setOptions([tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES => '']);
         $optFirstColumn->setValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES);

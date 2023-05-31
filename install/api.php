@@ -60,9 +60,22 @@
  *           {"type": "CheckPHPExtension", "value": {"name": "curle", "optional": false}}]}
  *
  * will return:
- * {"type": "ReportCollection",
- *  "value": {"type": "PHPExtensionReport", "value": {"status": "valid", "message": "PHP Extension 'gd' is loaded.", "optional": false, "name": "gd"}},
- *           {"type": "PHPExtensionReport", "value": {"status": "unknown", "message": "PHP Extension 'curle' could not be found.", "optional": false, "name": "curle"}}}
+ * {
+ *     "type": "ReportCollection",
+ *     "value": {
+ *         "type": "PHPExtensionReport",
+ *         "value": {"status": "valid", "message": "PHP Extension 'gd' is loaded.", "optional": false, "name": "gd"}
+ *     },
+ *     {
+ *         "type": "PHPExtensionReport",
+ *         "value": {
+ *             "status": "unknown",
+ *             "message": "PHP Extension 'curle' could not be found.",
+ *             "optional": false,
+ *             "name": "curle"
+ *         }
+ *     }
+ * }
  *
  *
  * CheckPHPExtension (POST)
@@ -141,8 +154,10 @@
  *
  * + The value->status will be 'valid' if the PHP Runtime version is between value->min and value->max, 'invalid' in any
  * other case.
- * + The value->min attribute is not mandatory if the value->max attribute is set. In this case, there is no minimal version.
- * + The value->max attribute is not mandatory if the value->min attribute is set. In this case, theire is no maximal version.
+ * + The value->min attribute is not mandatory if the value->max attribute is set. In this case, there is no minimal
+ *   version.
+ * + The value->max attribute is not mandatory if the value->min attribute is set. In this case, theire is no maximal
+ *   version.
  *
  *
  * CheckFileSystemComponent (POST)
@@ -175,7 +190,8 @@
  *
  * + The value->status attribute will be 'valid' if the file/directory exists and the expected rights are correct.
  * + The value->status attribute will be 'invalid' if the file/directory exists but the expected rights are incorrect.
- * + The value->status attribute will be 'unknown' if the file/directory does not exist or is not accessible with the rights
+ * + The value->status attribute will be 'unknown' if the file/directory does not exist or is not accessible with the
+ *   rights
  * of the hosts has.
  *
  *
@@ -340,7 +356,8 @@ try {
     header("HTTP/1.0 400 Bad Request");
     header("Content-Type:text; charset=UTF-8");
     echo "Request body could not be parsed as valid JSON.\n";
-    echo "Is your JSON data correctly formatted? You can check it on http://www.jslint.com, the JavaScript Quality Tool.\n";
+    echo "Is your JSON data correctly formatted? You can check it on http://www.jslint.com, the JavaScript"
+        . " Quality Tool.\n";
     echo "Make also sure your request body is UTF-8 encoded.";
 } catch (tao_install_api_InvalidAPICallException $e) {
     header("HTTP/1.0 400 Bad Request");

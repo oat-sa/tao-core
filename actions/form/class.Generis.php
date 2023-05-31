@@ -83,8 +83,11 @@ abstract class tao_actions_form_Generis extends tao_helpers_form_FormContainer
      * @param  array options
      * @return mixed
      */
-    public function __construct(core_kernel_classes_Class $clazz, core_kernel_classes_Resource $instance = null, $options = [])
-    {
+    public function __construct(
+        core_kernel_classes_Class $clazz,
+        core_kernel_classes_Resource $instance = null,
+        $options = []
+    ) {
 
 
         $this->clazz    = $clazz;

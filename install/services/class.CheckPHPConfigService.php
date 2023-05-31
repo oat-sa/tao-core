@@ -164,10 +164,21 @@ class tao_install_services_CheckPHPConfigService extends tao_install_services_Se
             if (!isset($content['value']) || empty($content['value']) || count($content['value']) == 0) {
                 throw new InvalidArgumentException("Missing data: 'value' must be provided as a not empty array.");
             } else {
-                $acceptedTypes = ['CheckPHPExtension', 'CheckPHPINIValue', 'CheckPHPRuntime', 'CheckPHPDatabaseDriver', 'CheckFileSystemComponent', 'CheckCustom'];
+                $acceptedTypes = [
+                    'CheckPHPExtension',
+                    'CheckPHPINIValue',
+                    'CheckPHPRuntime',
+                    'CheckPHPDatabaseDriver',
+                    'CheckFileSystemComponent',
+                    'CheckCustom'
+                ];
 
                 foreach ($content['value'] as $config) {
-                    if (!isset($config['type']) || empty($config['type']) || !in_array($config['type'], $acceptedTypes)) {
+                    if (
+                        !isset($config['type'])
+                        || empty($config['type'])
+                        || !in_array($config['type'], $acceptedTypes)
+                    ) {
                         throw new InvalidArgumentException("Missing data: configuration 'type' must provided.");
                     } else {
                         $className = 'tao_install_services_' . $config['type'] . 'Service';

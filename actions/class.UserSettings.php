@@ -58,7 +58,10 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
         if ($this->isDemoMode()) {
             $this->setData('myForm', __('Unable to change passwords in demo mode'));
         } else {
-            $passwordFormContainer = new tao_actions_form_UserPassword([], [FormContainer::CSRF_PROTECTION_OPTION => true]);
+            $passwordFormContainer = new tao_actions_form_UserPassword(
+                [],
+                [FormContainer::CSRF_PROTECTION_OPTION => true]
+            );
             $passwordForm = $passwordFormContainer->getForm();
 
             if ($passwordForm->isSubmited() && $passwordForm->isValid()) {

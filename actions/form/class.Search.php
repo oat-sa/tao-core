@@ -62,7 +62,10 @@ class tao_actions_form_Search extends tao_actions_form_Instance
 
         //search action in toolbar
         $searchElt = tao_helpers_form_FormFactory::getElement('search', 'Free');
-        $searchElt->setValue('<button type="button" class="form-submitter btn-success small"><span class="icon-find"></span>' . __('Search') . '</button>');
+        $searchElt->setValue(
+            '<button type="button" class="form-submitter btn-success small"><span class="icon-find"></span>'
+                . __('Search') . '</button>'
+        );
         $this->form->setActions([$searchElt], 'top');
         $this->form->setActions([$searchElt], 'bottom');
     }
@@ -106,7 +109,12 @@ class tao_actions_form_Search extends tao_actions_form_Instance
         $langElt = tao_helpers_form_FormFactory::getElement('lang', 'Combobox');
         $langElt->setDescription(__('Language'));
 
-        $languages = array_merge(['-- any --'], tao_helpers_I18n::getAvailableLangsByUsage(new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)));
+        $languages = array_merge(
+            ['-- any --'],
+            tao_helpers_I18n::getAvailableLangsByUsage(
+                new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA)
+            )
+        );
         $langElt->setOptions($languages);
         $langElt->setValue(0);
         $this->form->addElement($langElt);

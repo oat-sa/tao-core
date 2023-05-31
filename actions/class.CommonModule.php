@@ -54,7 +54,9 @@ use function GuzzleHttp\Psr7\stream_for;
  * @package tao
  *
  */
-abstract class tao_actions_CommonModule extends LegacyController implements ServiceManagerAwareInterface, CommonModuleInterface
+abstract class tao_actions_CommonModule extends LegacyController implements
+    ServiceManagerAwareInterface,
+    CommonModuleInterface
 {
     use ServiceManagerAwareTrait {
         getServiceManager as protected getOriginalServiceManager;

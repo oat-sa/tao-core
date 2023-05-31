@@ -72,7 +72,9 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                 $this->returnFailure($e);
             }
         } else {
-            $this->returnFailure(new common_exception_MethodNotAllowed(__METHOD__ . ' only accepts GET or POST method'));
+            $this->returnFailure(
+                new common_exception_MethodNotAllowed(__METHOD__ . ' only accepts GET or POST method')
+            );
         }
     }
 
@@ -147,9 +149,23 @@ class tao_actions_RestResource extends tao_actions_CommonModule
 
                 $class = $this->getClassParameter();
                 if ($this->hasRequestParameter('classOnly')) {
-                    $resources = $this->getResourceService()->getClasses($class, $format, $selectedUris, $search, $offset, $limit);
+                    $resources = $this->getResourceService()->getClasses(
+                        $class,
+                        $format,
+                        $selectedUris,
+                        $search,
+                        $offset,
+                        $limit
+                    );
                 } else {
-                    $resources = $this->getResourceService()->getResources($class, $format, $selectedUris, $search, $offset, $limit);
+                    $resources = $this->getResourceService()->getResources(
+                        $class,
+                        $format,
+                        $selectedUris,
+                        $search,
+                        $offset,
+                        $limit
+                    );
                 }
 
                 $user = \common_Session_SessionManager::getSession()->getUser();

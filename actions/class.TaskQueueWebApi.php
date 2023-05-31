@@ -142,7 +142,9 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
 
             $filter = $taskIds === static::ALL
                 ? (new TaskLogFilter())->availableForArchived($this->getSessionUserUri())
-                : (new TaskLogFilter())->addAvailableFilters($this->getSessionUserUri())->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
+                : (new TaskLogFilter())
+                    ->addAvailableFilters($this->getSessionUserUri())
+                    ->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
 
             return $this->returnJson([
                 'success' => (bool) $taskLogService->archiveCollection($taskLogService->search($filter))
@@ -170,7 +172,9 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
 
             $filter = $taskIds === static::ALL
                 ? (new TaskLogFilter())->availableForCancelled($this->getSessionUserUri())
-                : (new TaskLogFilter())->addAvailableFilters($this->getSessionUserUri())->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
+                : (new TaskLogFilter())
+                    ->addAvailableFilters($this->getSessionUserUri())
+                    ->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
 
             return $this->returnJson([
                 'success' => (bool) $taskLogService->cancelCollection($taskLogService->search($filter))

@@ -54,7 +54,8 @@ class tao_install_utils_System
     {
 
 
-        //subfolder shall be detected as /SUBFLODERS/tao/install/index.php so we remove the "/extension/module/action" part:
+        // subfolder shall be detected as /SUBFLODERS/tao/install/index.php so we remove the "/extension/module/action"
+        // part:
         $subfolder = $_SERVER['REQUEST_URI'];
         $subfolder = preg_replace('/\/(([^\/]*)\/){2}([^\/]*)$/', '', $subfolder);
         $subfolder = preg_replace('/^\//', '', $subfolder);
@@ -110,7 +111,11 @@ class tao_install_utils_System
             } else {
                 $manifest = include_once($manifestPath);
 
-                if ((!isset($ext["installed"])) || (!isset($manifest["version"])) || ($ext["installed"] !== $manifest["version"])) {
+                if (
+                    (!isset($ext["installed"]))
+                    || (!isset($manifest["version"]))
+                    || ($ext["installed"] !== $manifest["version"])
+                ) {
                     return false;
                 }
             }
@@ -155,7 +160,9 @@ class tao_install_utils_System
                             if ($rdfValues->length == 1 && $rdfValues->item(0)->nodeValue == $l) {
                                 $key = $l;
 
-                                $rdfsLabels = $xpath->query("//rdf:Description[@rdf:about='${expectedUri}']/rdfs:label[@xml:lang='en-US']");
+                                $rdfsLabels = $xpath->query(
+                                    "//rdf:Description[@rdf:about='${expectedUri}']/rdfs:label[@xml:lang='en-US']"
+                                );
                                 if ($rdfsLabels->length == 1) {
                                     $value = $rdfsLabels->item(0)->nodeValue;
                                     $returnValue[$l] = $value;

@@ -98,8 +98,16 @@ class GenerisTreeFactory
      * @param array $optionsFilter
      * @param array $extraProperties
      */
-    public function __construct($showResources, array $openNodes = [], $limit = 10, $offset = 0, array $resourceUrisToShow = [], array $propertyFilter = [], array $optionsFilter = [], array $extraProperties = [])
-    {
+    public function __construct(
+        $showResources,
+        array $openNodes = [],
+        $limit = 10,
+        $offset = 0,
+        array $resourceUrisToShow = [],
+        array $propertyFilter = [],
+        array $optionsFilter = [],
+        array $extraProperties = []
+    ) {
         $this->limit          = (int) $limit;
         $this->offset         = (int) $offset;
         $this->openNodes      = $openNodes;

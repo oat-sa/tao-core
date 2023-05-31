@@ -210,7 +210,7 @@ class tao_install_Installator
                 $this->getGenerisConfig()
             );
 
-            $session_name = (isset($installData['session_name'])) ? $installData['session_name'] : self::generateSessionName();
+            $session_name = $installData['session_name'] ?? self::generateSessionName();
             $generisConfigWriter->createConfig();
             $constants = [
                 'LOCAL_NAMESPACE'           => $installData['module_namespace'],
@@ -224,11 +224,14 @@ class tao_install_Installator
                 'TIME_ZONE'                 => $installData['timezone']
             ];
 
-            $constants['DEFAULT_ANONYMOUS_INTERFACE_LANG'] = (isset($installData['anonymous_lang'])) ? $installData['anonymous_lang'] : $installData['module_lang'];
-
+            $constants['DEFAULT_ANONYMOUS_INTERFACE_LANG'] = $installData['anonymous_lang']
+                ?? $installData['module_lang'];
 
             $generisConfigWriter->writeConstants($constants);
-            $this->log('d', 'The following constants were written in generis config:' . PHP_EOL . var_export($constants, true));
+            $this->log(
+                'd',
+                'The following constants were written in generis config:' . PHP_EOL . var_export($constants, true)
+            );
 
             /*
              * 4b - Prepare the file/cache folder (FILES_PATH) not yet defined)
@@ -315,7 +318,11 @@ class tao_install_Installator
             $userpwd = core_kernel_users_Service::getPasswordHash()->encrypt($installData['user_pass1']);
             $userLang = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang' . $installData['module_lang'];
 
-            $superUser = $userClass->createInstance('Super User', 'super user created during the TAO installation', $userid);
+            $superUser = $userClass->createInstance(
+                'Super User',
+                'super user created during the TAO installation',
+                $userid
+            );
             $superUser->setPropertiesValues([
                 GenerisRdf::PROPERTY_USER_ROLES => [
                     TaoRoles::GLOBAL_MANAGER,
@@ -410,7 +417,13 @@ class tao_install_Installator
              */
 
             $this->log('e', 'Error Occurs : ' . $err . PHP_EOL . $exception->getTraceAsString());
-            throw new tao_install_utils_Exception("Error in mysql system variable 'thread_stack':<br>It is required to change its value in my.ini as following<br>'192K' on 32bit windows<br>'256K' on 64bit windows.<br><br>Note that such configuration changes will only take effect after server restart.<br><br>", 0, $exception);
+            throw new tao_install_utils_Exception(
+                "Error in mysql system variable 'thread_stack':<br>It is required to change its value in "
+                    . "my.ini as following<br>'192K' on 32bit windows<br>'256K' on 64bit windows.<br><br>Note that "
+                    . "such configuration changes will only take effect after server restart.<br><br>",
+                0,
+                $exception
+            );
         }
 
         if (!$returnValue) {
@@ -460,7 +473,8 @@ class tao_install_Installator
             $msg = "Malformed install parameter 'instance_name'. It must be a string.";
             throw new tao_install_utils_MalformedParameterException($msg);
         } elseif (1 === preg_match('/\s/u', $installData['instance_name'])) {
-            $msg = "Malformed install parameter 'instance_name'. It cannot contain spacing characters (tab, backspace).";
+            $msg = "Malformed install parameter 'instance_name'. It cannot contain spacing characters "
+                . "(tab, backspace).";
             throw new tao_install_utils_MalformedParameterException($msg);
         }
     }
@@ -546,7 +560,9 @@ class tao_install_Installator
             call_user_func('common_Logger::' . $logLevel, $message, $tags);
         }
         if (is_array($message)) {
-            $this->log[$logLevel] = (isset($this->log[$logLevel])) ? array_merge($this->log[$logLevel], $message) : $message;
+            $this->log[$logLevel] = (isset($this->log[$logLevel]))
+                ? array_merge($this->log[$logLevel], $message)
+                : $message;
         } else {
             $this->log[$logLevel][] = $message;
         }

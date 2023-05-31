@@ -61,7 +61,10 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
         $this->form = tao_helpers_form_FormFactory::getForm('mapping');
 
         $importElt = tao_helpers_form_FormFactory::getElement('import', 'Free');
-        $importElt->setValue('<a href="#" class="form-submitter btn-success small"><span class="icon-import"></span> ' . __('Import') . '</a>');
+        $importElt->setValue(
+            '<a href="#" class="form-submitter btn-success small"><span class="icon-import"></span> '
+                . __('Import') . '</a>'
+        );
         $this->form->setActions([$importElt], 'bottom');
         $this->form->setActions([], 'top');
     }
@@ -102,14 +105,17 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
             && $this->options[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]
         ) {
             foreach ($this->options['csv_column'] as $i => $column) {
-                $columnsOptions[$i . tao_models_classes_import_CsvImporter::OPTION_POSTFIX] = __('Column') . ' ' . ($i + 1) . ' : ' . $column;
-                $columnsOptionsLabels[$i . tao_models_classes_import_CsvImporter::OPTION_POSTFIX] = $this->prepareString($column);
+                $columnsOptions[$i . tao_models_classes_import_CsvImporter::OPTION_POSTFIX] = __('Column') . ' '
+                    . ($i + 1) . ' : ' . $column;
+                $columnsOptionsLabels[$i . tao_models_classes_import_CsvImporter::OPTION_POSTFIX] = $this
+                    ->prepareString($column);
             }
         } else {
             // We do not know column so we display more neutral information
             // about columns to the end user.
             for ($i = 0; $i < count($this->options['csv_column']); $i++) {
-                $columnsOptions[$i . tao_models_classes_import_CsvImporter::OPTION_POSTFIX] = __('Column') . ' ' . ($i + 1);
+                $columnsOptions[$i . tao_models_classes_import_CsvImporter::OPTION_POSTFIX] = __('Column') . ' '
+                    . ($i + 1);
             }
         }
 
@@ -151,7 +157,11 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
             $this->form->addElement($propElt);
         }
         if (count($this->options['class_properties']) > 0) {
-            $this->form->createGroup('property_mapping', __('Map the properties to the CSV columns'), array_keys($this->options['class_properties']));
+            $this->form->createGroup(
+                'property_mapping',
+                __('Map the properties to the CSV columns'),
+                array_keys($this->options['class_properties'])
+            );
         }
         $ranged = [];
         foreach ($this->options['ranged_properties'] as $propertyUri => $propertyLabel) {
@@ -181,16 +191,25 @@ class tao_models_classes_import_CSVMappingForm extends tao_helpers_form_FormCont
         $optEncloser = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIELD_ENCLOSER, 'Hidden');
         $this->form->addElement($optEncloser);
 
-        $optMulti = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::MULTI_VALUES_DELIMITER, 'Hidden');
+        $optMulti = tao_helpers_form_FormFactory::getElement(
+            tao_helpers_data_CsvFile::MULTI_VALUES_DELIMITER,
+            'Hidden'
+        );
         $this->form->addElement($optMulti);
 
         if (isset($this->options[tao_models_classes_import_CsvUploadForm::IS_OPTION_FIRST_COLUMN_ENABLE])) {
             if ($this->options[tao_models_classes_import_CsvUploadForm::IS_OPTION_FIRST_COLUMN_ENABLE] === true) {
-                $optFirstColumn = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES, 'Hidden');
+                $optFirstColumn = tao_helpers_form_FormFactory::getElement(
+                    tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES,
+                    'Hidden'
+                );
                 $this->form->addElement($optFirstColumn);
             }
         } else {
-            $optFirstColumn = tao_helpers_form_FormFactory::getElement(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES, 'Hidden');
+            $optFirstColumn = tao_helpers_form_FormFactory::getElement(
+                tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES,
+                'Hidden'
+            );
             $this->form->addElement($optFirstColumn);
         }
     }

@@ -102,6 +102,9 @@ class tao_actions_ServiceModule extends tao_actions_CommonModule
      */
     protected function getDirectory($id)
     {
-        return $this->getServiceLocator()->get(tao_models_classes_service_FileStorage::SERVICE_ID)->getDirectoryById($id);
+        return $this
+            ->getServiceLocator()
+            ->get(tao_models_classes_service_FileStorage::SERVICE_ID)
+            ->getDirectoryById($id);
     }
 }

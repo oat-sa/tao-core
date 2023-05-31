@@ -85,7 +85,9 @@ class tao_actions_form_Users extends SignedFormInstance
             $options['mode'] = 'add';
         }
 
-        $userLangService = \oat\oatbox\service\ServiceManager::getServiceManager()->get(UserLanguageServiceInterface::class);
+        $userLangService = \oat\oatbox\service\ServiceManager::getServiceManager()->get(
+            UserLanguageServiceInterface::class
+        );
         if (!$userLangService->isDataLanguageEnabled()) {
             $options['excludedProperties'][] = UserRdf::PROPERTY_DEFLG;
         }
@@ -143,11 +145,15 @@ class tao_actions_form_Users extends SignedFormInstance
 
         //set default lang to the languages fields
         $langService = tao_models_classes_LanguageService::singleton();
-        $userLangService = \oat\oatbox\service\ServiceManager::getServiceManager()->get(UserLanguageServiceInterface::class);
+        $userLangService = \oat\oatbox\service\ServiceManager::getServiceManager()->get(
+            UserLanguageServiceInterface::class
+        );
         if ($userLangService->isDataLanguageEnabled()) {
             $dataLangElt = $this->form->getElement(tao_helpers_Uri::encode(UserRdf::PROPERTY_DEFLG));
             $dataLangElt->addValidator(tao_helpers_form_FormFactory::getValidator('NotEmpty'));
-            $dataUsage = new core_kernel_classes_Resource(tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
+            $dataUsage = new core_kernel_classes_Resource(
+                tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA
+            );
             $dataOptions = [];
             foreach ($langService->getAvailableLanguagesByUsage($dataUsage) as $lang) {
                 $dataOptions[tao_helpers_Uri::encode($lang->getUri())] = $lang->getLabel();

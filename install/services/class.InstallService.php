@@ -147,7 +147,10 @@ class tao_install_services_InstallService extends tao_install_services_Service
             throw new InvalidArgumentException("Missing data: 'module_lang' must be provided.");
         } elseif (!isset($content['value']['module_mode']) || empty($content['value']['module_mode'])) {
             throw new InvalidArgumentException("Missing data: 'module_mode' must be provided.");
-        } elseif (!isset($content['value']['import_local']) || ($content['value']['import_local'] !== false && $content['value']['import_local'] !== true)) {
+        } elseif (
+            !isset($content['value']['import_local'])
+            || ($content['value']['import_local'] !== false && $content['value']['import_local'] !== true)
+        ) {
             throw new InvalidArgumentException("Missing data: 'import_local' must be provided.");
         } elseif (!isset($content['value']['user_login']) || empty($content['value']['user_login'])) {
             throw new InvalidArgumentException("Missing data: 'user_login' must be provided.");

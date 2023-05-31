@@ -70,13 +70,19 @@ class tao_install_utils_ConfigWriter
 
         //common checks
         if (!is_writable(dirname($this->file))) {
-            throw new tao_install_utils_Exception('Unable to create configuration file. Please set write permission to : ' . dirname($this->file));
+            throw new tao_install_utils_Exception(
+                'Unable to create configuration file. Please set write permission to : ' . dirname($this->file)
+            );
         }
         if (file_exists($this->file) && !is_writable($this->file)) {
-            throw new tao_install_utils_Exception('Unable to create the configuration file. Please set the write permissions to : ' . $this->file);
+            throw new tao_install_utils_Exception(
+                'Unable to create the configuration file. Please set the write permissions to : ' . $this->file
+            );
         }
         if (!is_readable($this->sample)) {
-            throw new tao_install_utils_Exception('Unable to read the sample configuration. Please set the read permissions to : ' . $this->sample);
+            throw new tao_install_utils_Exception(
+                'Unable to read the sample configuration. Please set the read permissions to : ' . $this->sample
+            );
         }
 
         if (!copy($this->sample, $this->file)) {
@@ -97,7 +103,9 @@ class tao_install_utils_ConfigWriter
             throw new tao_install_utils_Exception("Unable to write constants: $this->file don't exists!");
         }
         if (!is_readable($this->file) || !is_writable($this->file)) {
-            throw new tao_install_utils_Exception("Unable to write constants: $this->file must have read and write permissions!");
+            throw new tao_install_utils_Exception(
+                "Unable to write constants: $this->file must have read and write permissions!"
+            );
         }
 
         $content = file_get_contents($this->file);
@@ -105,7 +113,11 @@ class tao_install_utils_ConfigWriter
             foreach ($constants as $name => $val) {
                 if (is_string($val)) {
                     $val = addslashes((string)$val);
-                    $content = preg_replace('/(\'' . $name . '\')(.*?)$/ms', '$1,\'' . addslashes($val) . '\');', $content);
+                    $content = preg_replace(
+                        '/(\'' . $name . '\')(.*?)$/ms',
+                        '$1,\'' . addslashes($val) . '\');',
+                        $content
+                    );
                 } elseif (is_bool($val)) {
                     ($val === true) ? $val = 'true' : $val = 'false';
                     $content = preg_replace('/(\'' . $name . '\')(.*?)$/ms', '$1, ' . $val . ');', $content);

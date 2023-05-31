@@ -183,7 +183,10 @@ class tao_actions_Main extends tao_actions_CommonModule
                                 $diffInSeconds = $endTime->getTimestamp() - $reference->getTimestamp();
 
                                 $humanDiff = $diffInSeconds > 60
-                                    ? tao_helpers_Date::displayInterval($statusDetails['remaining'], tao_helpers_Date::FORMAT_INTERVAL_LONG)
+                                    ? tao_helpers_Date::displayInterval(
+                                        $statusDetails['remaining'],
+                                        tao_helpers_Date::FORMAT_INTERVAL_LONG
+                                    )
                                     : $diffInSeconds . ' ' . ($diffInSeconds === 1 ? __('second') : __('seconds'));
 
                                 $msg .= __('Please try in %s.', $humanDiff);
@@ -201,7 +204,10 @@ class tao_actions_Main extends tao_actions_CommonModule
 
                             $this->logInfo("Successful login of user '" . $form->getValue('login') . "'.");
 
-                            if ($this->hasRequestParameter('redirect') && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])) {
+                            if (
+                                $this->hasRequestParameter('redirect')
+                                && tao_models_classes_accessControl_AclProxy::hasAccessUrl($_REQUEST['redirect'])
+                            ) {
                                 $this->redirect($_REQUEST['redirect']);
                             } else {
                                 $this->forward('entry');
@@ -214,15 +220,22 @@ class tao_actions_Main extends tao_actions_CommonModule
                             $msg = __('Invalid login or password. Please try again.');
 
                             if ($userLocksService->getOption(UserLocks::OPTION_USE_HARD_LOCKOUT)) {
-                                $remainingAttempts = $userLocksService->getLockoutRemainingAttempts($form->getValue('login'));
+                                $remainingAttempts = $userLocksService->getLockoutRemainingAttempts(
+                                    $form->getValue('login')
+                                );
                                 if ($remainingAttempts !== false) {
                                     if ($remainingAttempts === 0) {
+                                        // phpcs:disable Generic.Files.LineLength
                                         $msg = __('Invalid login or password. Your account has been locked, please contact your administrator.');
+                                        // phpcs:enable Generic.Files.LineLength
                                     } else {
-                                        $msg = $msg . ' ' .
-                                            ($remainingAttempts === 1
+                                        $msg .= ' ' . (
+                                            $remainingAttempts === 1
+                                                // phpcs:disable Generic.Files.LineLength
                                                 ? __('Last attempt before your account is locked.')
-                                                : __('%d attempts left before your account is locked.', $remainingAttempts));
+                                                : __('%d attempts left before your account is locked.', $remainingAttempts)
+                                                // phpcs:enable Generic.Files.LineLength
+                                        );
                                     }
                                 }
                             }

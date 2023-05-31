@@ -35,7 +35,8 @@
  * @package tao
 
  */
-class tao_install_services_CheckFileSystemComponentService extends tao_install_services_Service implements tao_install_services_CheckService
+class tao_install_services_CheckFileSystemComponentService extends tao_install_services_Service implements
+    tao_install_services_CheckService
 {
     /**
      * Creates a new instance of the service.
@@ -105,7 +106,13 @@ class tao_install_services_CheckFileSystemComponentService extends tao_install_s
             $mustCheckIfEmpty = false;
         }
 
-        return common_configuration_ComponentFactory::buildFileSystemComponent($location, $rights, $optional, $recursive, $mustCheckIfEmpty);
+        return common_configuration_ComponentFactory::buildFileSystemComponent(
+            $location,
+            $rights,
+            $optional,
+            $recursive,
+            $mustCheckIfEmpty
+        );
     }
 
     public static function buildResult(

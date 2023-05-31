@@ -34,7 +34,8 @@ class tao_install_checks_NotNginx extends common_configuration_Component
             if (substr($_SERVER["SERVER_SOFTWARE"], 0, 5) == 'nginx') {
                 $report = new common_configuration_Report(
                     common_configuration_Report::INVALID,
-                    'Nginx is not officially supported. Please visit http://forge.taotesting.com/projects/tao/wiki/Nginx for details.',
+                    'Nginx is not officially supported. Please visit '
+                        . 'http://forge.taotesting.com/projects/tao/wiki/Nginx for details.',
                     $this
                 );
             } else {

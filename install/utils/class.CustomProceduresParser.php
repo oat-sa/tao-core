@@ -50,7 +50,9 @@ class tao_install_utils_CustomProceduresParser extends tao_install_utils_SQLPars
         } elseif (!is_readable($file)) {
             throw new tao_install_utils_SQLParsingException("SQL file '${file}' is not readable.");
         } elseif (!preg_match("/\.sql$/", basename($file))) {
-            throw new tao_install_utils_SQLParsingException("File '${file}' is not a valid SQL file. Extension '.sql' not found.");
+            throw new tao_install_utils_SQLParsingException(
+                "File '${file}' is not a valid SQL file. Extension '.sql' not found."
+            );
         }
 
         $content = @file_get_contents($file);
@@ -63,7 +65,9 @@ class tao_install_utils_CustomProceduresParser extends tao_install_utils_SQLPars
                 $this->addStatement($f);
             }
         } else {
-            throw new tao_install_utils_SQLParsingException("SQL file '${file}' cannot be read. An unknown error occured while reading it.");
+            throw new tao_install_utils_SQLParsingException(
+                "SQL file '${file}' cannot be read. An unknown error occured while reading it."
+            );
         }
     }
 }

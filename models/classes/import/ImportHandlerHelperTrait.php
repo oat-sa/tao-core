@@ -71,7 +71,8 @@ trait ImportHandlerHelperTrait
     public function getTaskParameters(tao_helpers_form_Form $importForm)
     {
         // key "importFile" used in CSV import
-        $file = $this->getUploadService()->getUploadedFlyFile($importForm->getValue('importFile') ?: $importForm->getValue('source')['uploaded_file']);
+        $file = $this->getUploadService()->getUploadedFlyFile($importForm->getValue('importFile')
+            ?: $importForm->getValue('source')['uploaded_file']);
 
         return [
             'uploaded_file' => $file->getPrefix(), // because of Async, we need the full path of the uploaded file

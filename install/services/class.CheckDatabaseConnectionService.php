@@ -37,7 +37,8 @@ use oat\generis\persistence\PersistenceManager;
  * @package tao
 
  */
-class tao_install_services_CheckDatabaseConnectionService extends tao_install_services_Service implements tao_install_services_CheckService
+class tao_install_services_CheckDatabaseConnectionService extends tao_install_services_Service implements
+    tao_install_services_CheckService
 {
     /**
      * Creates a new instance of the service.
@@ -138,7 +139,10 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
                 ];
                 $dbalConfigCreator = new tao_install_utils_DbalConfigCreator();
                 $persistenceManager = new PersistenceManager();
-                $persistenceManager->registerPersistence('default', $dbalConfigCreator->createDbalConfig($installParams));
+                $persistenceManager->registerPersistence(
+                    'default',
+                    $dbalConfigCreator->createDbalConfig($installParams)
+                );
                 $persistence = $persistenceManager->getPersistenceById('default');
                 // If we are here, we are connected.
                 if ($overwrite == false && !empty($persistence->getSchemaManager()->getTables())) {
@@ -151,7 +155,8 @@ class tao_install_services_CheckDatabaseConnectionService extends tao_install_se
 
                 restore_error_handler();
             } catch (Exception $e) {
-                $message = "Unable to connect to database '${database}' at '${host}' using driver '${driver}': " . $e->getMessage();
+                $message = "Unable to connect to database '${database}' at '${host}' using driver '${driver}': "
+                    . $e->getMessage();
                 $status = 'invalid-noconnection';
                 restore_error_handler();
             }

@@ -42,7 +42,10 @@ class tao_install_utils_Shield
             $file = ROOT_PATH . $extension . '/.htaccess';
             if (file_exists($file)) {
                 if (!is_readable($file)) {
-                    throw new tao_install_utils_Exception("Unable to read .htaccess file of extension '" . $extension . " while Production Mode activation'.");
+                    throw new tao_install_utils_Exception(
+                        "Unable to read .htaccess file of extension '" . $extension
+                            . " while Production Mode activation'."
+                    );
                 }
                 $this->accessFiles[] = $file;
             }
@@ -85,18 +88,24 @@ class tao_install_utils_Shield
         foreach ($this->extensions as $extension) {
             $installDir = ROOT_PATH . $extension . '/install/';
             if (file_exists($installDir) && is_dir($installDir)) {
-                if (!is_writable($installDir) || (file_exists($installDir . '.htaccess' && !is_writable($installDir . '.htaccess')))) {
+                if (
+                    !is_writable($installDir)
+                    || (file_exists($installDir . '.htaccess' && !is_writable($installDir . '.htaccess')))
+                ) {
                     throw new tao_install_utils_Exception("Unable to write .htaccess file into : ${installDir}.");
                 }
-                file_put_contents($installDir . '.htaccess', "Options +FollowSymLinks\n"
-                                                           . "<IfModule mod_rewrite.c>\n"
-                                                           . "RewriteEngine On\n"
-                                                           . "RewriteCond %{REQUEST_URI} !/css/ [NC]\n"
-                                                           . "RewriteCond %{REQUEST_URI} !/js/ [NC]\n"
-                                                           . "RewriteCond %{REQUEST_URI} !/images/ [NC]\n"
-                                                           . "RewriteCond %{REQUEST_URI} !/production.html [NC]\n"
-                                                           . "RewriteRule ^.*$ " . ROOT_URL . "tao/install/production.html\n"
-                                                           . "</IfModule>");
+                file_put_contents(
+                    $installDir . '.htaccess',
+                    "Options +FollowSymLinks\n"
+                        . "<IfModule mod_rewrite.c>\n"
+                        . "RewriteEngine On\n"
+                        . "RewriteCond %{REQUEST_URI} !/css/ [NC]\n"
+                        . "RewriteCond %{REQUEST_URI} !/js/ [NC]\n"
+                        . "RewriteCond %{REQUEST_URI} !/images/ [NC]\n"
+                        . "RewriteCond %{REQUEST_URI} !/production.html [NC]\n"
+                        . "RewriteRule ^.*$ " . ROOT_URL . "tao/install/production.html\n"
+                        . "</IfModule>"
+                );
             }
         }
     }

@@ -161,7 +161,12 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
 
         if ($extOk) {
             foreach ($this->getBannedFileType() as $bannedExt) {
-                $extOk &= substr_compare($filePath, $bannedExt, strlen($filePath) - strlen($bannedExt), strlen($bannedExt)) !== 0;
+                $extOk &= substr_compare(
+                    $filePath,
+                    $bannedExt,
+                    strlen($filePath) - strlen($bannedExt),
+                    strlen($bannedExt)
+                ) !== 0;
             }
         }
 
@@ -226,7 +231,8 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
         $patternMatch1 = [];
         $patternMatch2 = [];
 
-        preg_match_all("/__\\(([\\\"'])(?:(?=(\\\\?))\\2.)*?\\1/u", $line, $patternMatch1); //for php and JS helper function
+        // for php and JS helper function
+        preg_match_all("/__\\(([\\\"'])(?:(?=(\\\\?))\\2.)*?\\1/u", $line, $patternMatch1);
         preg_match_all("/\{\{__ ['\"](.*?)['\"]\}\}/u", $line, $patternMatch2); //used for parsing templates
 
         if (! empty($patternMatch1[0])) {
