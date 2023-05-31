@@ -68,7 +68,8 @@ class tao_helpers_form_elements_xhtml_Calendar extends tao_helpers_form_elements
             $this->attributes['size'] = 20;
         }
 
-        $returnValue .= "<div class='form-elt-container'><input class='datepicker-input' type='text' name='{$this->name}' id='$elementId' ";
+        $returnValue .= "<div class='form-elt-container'><input class='datepicker-input' type='text' "
+            . "name='{$this->name}' id='$elementId' ";
         $returnValue .= $this->renderAttributes();
 
         if (! empty($this->value)) {

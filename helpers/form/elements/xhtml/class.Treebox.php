@@ -104,7 +104,8 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
         $i = 0;
 
         foreach ($this->values as $value) {
-            $returnValue .=  '<input type=\'hidden\' name=\'' . $this->name . '_' . $i++ . '\' value=\'' . $value . '\' />';
+            $returnValue .=  '<input type=\'hidden\' name=\'' . $this->name . '_' . $i++ . '\' value=\'' . $value
+                . '\' />';
         }
         $returnValue .= "</div>";
         $returnValue .= "<div id='{$widgetTreeName}' class='tree-widget'></div>";
@@ -141,7 +142,8 @@ class tao_helpers_form_elements_xhtml_Treebox extends tao_helpers_form_elements_
 	    					var valueContainer = $("div[id=\'' . $widgetValueName . '\']");
 	    					valueContainer.empty();
 	    					$.each($.tree.plugins.checkbox.get_checked(TREE_OBJ), function(i, myNODE){
-	    						valueContainer.append("<input type=\'hidden\' name=\'' . $this->name . '_"+i+"\' value=\'"+$(myNODE).attr("id")+"\' />");
+	    						valueContainer.append("<input type=\'hidden\' name=\'' . $this->name
+            . '_"+i+"\' value=\'"+$(myNODE).attr("id")+"\' />");
 							});
 	    				}
     				},

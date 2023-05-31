@@ -47,7 +47,8 @@ class Model extends AbstractModel
             if ($this->value == $optionId) {
                 $returnValue .= " checked='checked' ";
             }
-            $returnValue .= " /><label class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel) . "</label><br />";
+            $returnValue .= " /><label class='elt_desc' for='{$this->name}_{$i}'>" . _dh($optionLabel)
+                . "</label><br />";
             $i++;
         }
         $returnValue .= "</div>";

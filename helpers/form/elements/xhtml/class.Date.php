@@ -40,7 +40,8 @@ class tao_helpers_form_elements_xhtml_Date extends tao_helpers_form_elements_Dat
         if ($hasUnit) {
             $this->addClass('has-unit');
         }
-        $returnValue .= "<input type='date' name='{$this->name}' id='{$this->name}' data-testid='{$this->getDescription()}' ";
+        $returnValue .= "<input type='date' name='{$this->name}' id='{$this->name}' "
+            . "data-testid='{$this->getDescription()}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value="' . _dh($this->value) . '" />';
 

@@ -49,7 +49,8 @@ class tao_helpers_form_elements_xhtml_Textbox extends tao_helpers_form_elements_
         if ($hasUnit) {
             $this->addClass('has-unit');
         }
-        $returnValue .= "<input type='text' name='{$this->name}' id='{$this->name}' data-testid='{$this->getDescription()}' ";
+        $returnValue .= "<input type='text' name='{$this->name}' id='{$this->name}' "
+            . "data-testid='{$this->getDescription()}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value="' . _dh($this->value) . '" />';
 

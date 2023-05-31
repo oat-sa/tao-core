@@ -85,7 +85,10 @@ class tao_helpers_form_FormFactory
                 'element' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
                 'group' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
                 'error' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-error']),
-                'actions-bottom' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar'])
+                'actions-bottom' => new tao_helpers_form_xhtml_TagWrapper([
+                    'tag' => 'div',
+                    'cssClass' => 'form-toolbar'
+                ])
             ]);
 
             $myForm->setActions(self::getCommonActions());

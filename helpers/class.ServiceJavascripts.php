@@ -37,18 +37,23 @@ class tao_helpers_ServiceJavascripts
             $serviceCallId
         );
         $submitUrl = _url('submitState', 'ServiceModule', 'tao', ['serviceCallId' => $serviceCallId]);
-        return 'new StateStorage(' . tao_helpers_Javascript::buildObject($state) . ', ' . tao_helpers_Javascript::buildObject($submitUrl) . ')';
+        return 'new StateStorage(' . tao_helpers_Javascript::buildObject($state) . ', '
+            . tao_helpers_Javascript::buildObject($submitUrl) . ')';
     }
 
     public static function getUserInfoService()
     {
         $preloaded = [];
         $requestUrl = _url('getUserPropertyValues', 'ServiceModule', 'tao');
-        return 'new UserInfoService(' . tao_helpers_Javascript::buildObject($requestUrl) . ',' . tao_helpers_Javascript::buildObject($preloaded) . ')';
+        return 'new UserInfoService(' . tao_helpers_Javascript::buildObject($requestUrl) . ','
+            . tao_helpers_Javascript::buildObject($preloaded) . ')';
     }
 
-    public static function getServiceApi(tao_models_classes_service_ServiceCall $serviceCall, $serviceCallId, $customParams = [])
-    {
+    public static function getServiceApi(
+        tao_models_classes_service_ServiceCall $serviceCall,
+        $serviceCallId,
+        $customParams = []
+    ) {
         $inputParameters = tao_models_classes_service_ServiceCallHelper::getInputValues($serviceCall, $customParams);
         $inputParameters['standalone'] = true;
         return 'new ServiceApi(' .
@@ -63,7 +68,8 @@ class tao_helpers_ServiceJavascripts
     public static function getFinishedSniplet()
     {
         $taoExt = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-        $tpl = $taoExt->getConstant('DIR_VIEWS') . 'templates' . DIRECTORY_SEPARATOR . 'snippet' . DIRECTORY_SEPARATOR . 'finishService.tpl';
+        $tpl = $taoExt->getConstant('DIR_VIEWS') . 'templates' . DIRECTORY_SEPARATOR . 'snippet'
+            . DIRECTORY_SEPARATOR . 'finishService.tpl';
         $renderer = new Renderer($tpl);
         return $renderer->render();
     }

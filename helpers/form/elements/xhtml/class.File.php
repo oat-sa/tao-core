@@ -74,8 +74,10 @@ class tao_helpers_form_elements_xhtml_File extends tao_helpers_form_elements_Fil
         }
 
         $returnValue = $this->renderLabel();
-        $returnValue .= "<input type='hidden' name='MAX_FILE_SIZE' value='" . tao_helpers_form_elements_File::MAX_FILE_SIZE . "' />";
-        $returnValue .= "<input type='file' name='{$this->name}' id='{$this->name}' data-testid='{$this->getDescription()}' ";
+        $returnValue .= "<input type='hidden' name='MAX_FILE_SIZE' value='"
+            . tao_helpers_form_elements_File::MAX_FILE_SIZE . "' />";
+        $returnValue .= "<input type='file' name='{$this->name}' id='{$this->name}' "
+            . "data-testid='{$this->getDescription()}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= " value='{$this->value}'  />";
 

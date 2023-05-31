@@ -119,16 +119,22 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
 											var error = [],
 												files = files.filter(_.isObject),// due to Chrome drag\'n\'drop issue
 												givenLength = files.length,
-												filters = "' . implode(',', $mimetypes) . '".split(",").filter(function(e){return e.length});
+												filters = "' . implode(',', $mimetypes) . '"
+												    .split(",")
+												    .filter(function(e){return e.length});
 
 												if (filters.length){
 
 													files = _.filter(files, function(file){
-														return !file.type || _.contains(filters, file.type.replace(/[\'"]+/g, \'\'));//IE9 doesnt detect type, so lets rely on server validation
+													    // IE9 doesnt detect type, so lets rely on server validation
+														return !file.type
+														    || _.contains(filters, file.type.replace(/[\'"]+/g, \'\'));
 													});
 
 													if(files.length !== givenLength){
-														error.push("' . __("Unauthorized files have been removed") . '");
+														error.push(
+														    "' . __("Unauthorized files have been removed") . '"
+                                                        );
 													}
 
 												}

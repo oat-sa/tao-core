@@ -80,9 +80,15 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
         $returnValue = $this->renderLabel();
         $returnValue .= "<div id='${widgetContainerId}' class='form-elt-container file-uploader'>";
 
-        if ($this->value instanceof tao_helpers_form_data_UploadFileDescription && $this->value->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_DELETE) {
+        if (
+            $this->value instanceof tao_helpers_form_data_UploadFileDescription
+            && $this->value->getAction() == tao_helpers_form_data_UploadFileDescription::FORM_ACTION_DELETE
+        ) {
             // File deleted, nothing to render
-        } elseif ($this->value instanceof tao_helpers_form_data_FileDescription && ($file = $this->value->getFile()) != null) {
+        } elseif (
+            $this->value instanceof tao_helpers_form_data_FileDescription
+            && ($file = $this->value->getFile()) != null
+        ) {
             // A file is stored or has just been uploaded.
             $shownFileName = $this->value->getName();
             $shownFileSize = $this->value->getSize();
@@ -94,8 +100,10 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
             $downloadButtonId = $this->buildDownloadButtonId();
             $iFrameId = $this->buildIframeId();
             $returnValue .= "<span class=\"widget_AsyncFile_fileinfo\">${shownFileTxt}</span>";
-            $returnValue .= "<button id=\"${downloadButtonId}\" type=\"button\" class=\"download btn-neutral small icon-download\" title=\"${downloadButtonTitle}\">";
-            $returnValue .= "<button id=\"${deleteButtonId}\" type=\"button\" class=\"delete btn-error small icon-bin\" title=\"${deleteButtonTitle}\"/>";
+            $returnValue .= "<button id=\"${downloadButtonId}\" type=\"button\" "
+                . "class=\"download btn-neutral small icon-download\" title=\"${downloadButtonTitle}\">";
+            $returnValue .= "<button id=\"${deleteButtonId}\" type=\"button\" "
+                . "class=\"delete btn-error small icon-bin\" title=\"${deleteButtonTitle}\"/>";
             $returnValue .= "<iframe style=\"display:none\" id=\"${iFrameId}\" frameborder=\"0\"/>";
 
             // Inject behaviour of the Delete/Download buttons component in response.
@@ -210,7 +218,8 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
 							fileSelect  : function(files, done){
 											var error = [],
 												givenLength = files.length,
-												filters = "' . implode(',', $mimetypes) . '".split(",").filter(function(e){return e.length});
+												filters = "' . implode(',', $mimetypes)
+            . '".split(",").filter(function(e){return e.length});
 
 												if (filters.length){
 
@@ -219,7 +228,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
 													});
 
 													if(files.length !== givenLength){
-														error.push("' . __("Unauthorized files have been removed") . '");
+														error.push(
+														    "' . __("Unauthorized files have been removed") . '"
+                                                        );
 													}
 
 												}
@@ -247,7 +258,9 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
 					 	    var $container = $(e.target);
                             var $form = $container.parents("form");
                             var $fileHandling = $form.find("[name=\'file_handling\']");
-							$container.append($("<input type=\'hidden\' name=\'' . $this->getName() . '\'/>").val(result.data));
+							$container.append(
+							    $("<input type=\'hidden\' name=\'' . $this->getName() . '\'/>").val(result.data)
+							);
 						}
 					 })
 			});';
@@ -353,8 +366,8 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
 
         $returnValue .= '$(document).ready(function() {';
         $returnValue .= '	$("#' . $downloadButtonId . '").click(function() {';
-        $returnValue .= '		$("#' . $iFrameId . '").attr("src", ' . json_encode(_url('downloadFile', 'File', 'tao', [
-            'id' => $serial])) . ')';
+        $returnValue .= '		$("#' . $iFrameId . '").attr("src", '
+            . json_encode(_url('downloadFile', 'File', 'tao', ['id' => $serial])) . ')';
         $returnValue .= '	});';
         $returnValue .= '});';
 

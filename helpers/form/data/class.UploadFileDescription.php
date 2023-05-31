@@ -84,7 +84,9 @@ class tao_helpers_form_data_UploadFileDescription extends tao_helpers_form_data_
         parent::__construct($name, $size);
         $this->type = $type;
         if ($tmpPath) {
-            $this->tmpPath = ServiceManager::getServiceManager()->get(UploadService::SERVICE_ID)->universalizeUpload($tmpPath);
+            $this->tmpPath = ServiceManager::getServiceManager()
+                ->get(UploadService::SERVICE_ID)
+                ->universalizeUpload($tmpPath);
         }
         $this->action = is_null($action) ? self::FORM_ACTION_ADD : $action;
     }

@@ -39,7 +39,8 @@ interface tao_helpers_translation_Annotable
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array annotations An associative array of annotations where keys are the annotation names and values are annotation values.
+     * @param array $annotations An associative array of annotations where keys are the annotation names and values are
+     *                           annotation values.
      * @return void
      */
     public function setAnnotations($annotations);

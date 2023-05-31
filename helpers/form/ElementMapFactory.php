@@ -147,7 +147,9 @@ class ElementMapFactory extends ConfigurableService
                         $values = $this->getListValues($property, $range, $parentProperty);
 
                         if ($this->getLanguageClassSpecification()->isSatisfiedBy($range)) {
-                            $values = $this->getLanguageListElementSortService()->getSortedListCollectionValues($values);
+                            $values = $this->getLanguageListElementSortService()->getSortedListCollectionValues(
+                                $values
+                            );
                         }
 
                         foreach ($values as $value) {

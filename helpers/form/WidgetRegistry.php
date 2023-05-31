@@ -106,7 +106,10 @@ class WidgetRegistry
                     $props = $renderer->getPropertiesValues([
                         WidgetRdf::PROPERTY_WIDGET_RENDERER_MODE, WidgetRdf::PROPERTY_WIDGET_RENDERER_IMPLEMENTATION
                     ]);
-                    if (count($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_MODE]) == 1 && count($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_IMPLEMENTATION])) {
+                    if (
+                        count($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_MODE]) == 1
+                        && count($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_IMPLEMENTATION])
+                    ) {
                         $mode = (string)reset($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_MODE]);
                         $class = (string)reset($props[WidgetRdf::PROPERTY_WIDGET_RENDERER_IMPLEMENTATION]);
                         $rendererClasses[$mode] = $class;

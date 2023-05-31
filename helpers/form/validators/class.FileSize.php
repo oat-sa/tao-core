@@ -43,7 +43,11 @@ class tao_helpers_form_validators_FileSize extends tao_helpers_form_Validator
         parent::setOptions($options);
 
         if ($this->hasOption('min') && $this->hasOption('max')) {
-            $this->setMessage(__('Invalid file size (minimum %1$s bytes, maximum %2$s bytes)', $this->getOption('min'), $this->getOption('max')));
+            $this->setMessage(
+                // phpcs:disable Generic.Files.LineLength
+                __('Invalid file size (minimum %1$s bytes, maximum %2$s bytes)', $this->getOption('min'), $this->getOption('max'))
+                // phpcs:enable Generic.Files.LineLength
+            );
         } elseif ($this->hasOption('max')) {
             $this->setMessage(__('The uploaded file is too large (maximum %s bytes)', $this->getOption('max')));
             $this->setOption('min', 0);

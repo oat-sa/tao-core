@@ -77,7 +77,9 @@ class tao_helpers_translation_RDFUtils
                 }
             }
         } else {
-            throw new tao_helpers_translation_TranslationException("A fatal error occured while parsing annotations '${annotations}.'");
+            throw new tao_helpers_translation_TranslationException(
+                "A fatal error occured while parsing annotations '${annotations}.'"
+            );
         }
 
         return (array) $returnValue;
@@ -89,8 +91,9 @@ class tao_helpers_translation_RDFUtils
      *
      * @access public
      * @author Jerome Bogaerts <jerome@taotesting.com>
-     * @param  array annotations An associative array that represents a collection of annotations, where keys are the annotation names and values the annotation values.
-     * @param  string glue Indicates what is the glue between serialized annotations.
+     * @param array $annotations An associative array that represents a collection of annotations, where keys are the
+     *                           annotation names and values the annotation values.
+     * @param string $glue Indicates what is the glue between serialized annotations.
      * @return string
      */
     public static function serializeAnnotations($annotations, $glue = '')
@@ -159,15 +162,27 @@ class tao_helpers_translation_RDFUtils
         $descriptionNode->appendChild($valueNode);
 
         $guiUsageNode = $doc->createElementNS($base, 'tao:LanguageUsages');
-        $guiUsageNode->setAttributeNs($rdfNs, 'rdf:resource', tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI);
+        $guiUsageNode->setAttributeNs(
+            $rdfNs,
+            'rdf:resource',
+            tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_GUI
+        );
         $descriptionNode->appendChild($guiUsageNode);
 
         $dataUsageNode = $doc->createElementNS($base, 'tao:LanguageUsages');
-        $dataUsageNode->setAttributeNs($rdfNs, 'rdf:resource', tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA);
+        $dataUsageNode->setAttributeNs(
+            $rdfNs,
+            'rdf:resource',
+            tao_models_classes_LanguageService::INSTANCE_LANGUAGE_USAGE_DATA
+        );
         $descriptionNode->appendChild($dataUsageNode);
 
         $dataUsageNode = $doc->createElementNS($base, 'tao:LanguageOrientation');
-        $dataUsageNode->setAttributeNs($rdfNs, 'rdf:resource', tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR);
+        $dataUsageNode->setAttributeNs(
+            $rdfNs,
+            'rdf:resource',
+            tao_models_classes_LanguageService::INSTANCE_ORIENTATION_LTR
+        );
         $descriptionNode->appendChild($dataUsageNode);
 
         $returnValue = $doc;

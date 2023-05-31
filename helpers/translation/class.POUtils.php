@@ -144,7 +144,9 @@ class tao_helpers_translation_POUtils
                 }
             }
         } else {
-            throw new tao_helpers_translation_TranslationException("An error occured while unserializing annotations '${annotations}'.");
+            throw new tao_helpers_translation_TranslationException(
+                "An error occured while unserializing annotations '${annotations}'."
+            );
         }
 
 
@@ -156,7 +158,8 @@ class tao_helpers_translation_POUtils
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  array annotations An array of annotations where keys are annotation identifiers and values are annotation values.
+     * @param array $annotations An array of annotations where keys are annotation identifiers and values are annotation
+     *                           values.
      * @return string
      */
     public static function serializeAnnotations($annotations)

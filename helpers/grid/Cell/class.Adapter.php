@@ -89,7 +89,9 @@ abstract class tao_helpers_grid_Cell_Adapter
     {
 
         $this->options = $options;
-        $this->excludedProperties = (is_array($this->options) && isset($this->options['excludedProperties'])) ? $this->options['excludedProperties'] : [];
+        $this->excludedProperties = (is_array($this->options) && isset($this->options['excludedProperties']))
+            ? $this->options['excludedProperties']
+            : [];
     }
 
     /**

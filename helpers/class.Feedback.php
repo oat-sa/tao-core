@@ -43,7 +43,9 @@ class tao_helpers_Feedback
         'modal'        => false
         ];
         $settings = array_merge($defaults, $settings);
-        $closer = $settings['closer'] ? sprintf('<span class="icon-close close-trigger" title="%s"></span>', __('Remove Message')) : '';
+        $closer = $settings['closer']
+            ? sprintf('<span class="icon-close close-trigger" title="%s"></span>', __('Remove Message'))
+            : '';
         if (is_string($settings['icon'])) {
             $icon = sprintf('<span class="%s"></span>', $settings['icon']);
         } elseif ($settings['icon'] === true) {

@@ -76,7 +76,8 @@ class RdfPack implements \IteratorAggregate
         if ($this->langCode != 'en-US') {
             foreach ($this->extension->getManifest()->getInstallModelFiles() as $rdfpath) {
                 $modelId = FileModel::getModelIdFromXml($rdfpath);
-                $candidate = $this->extension->getDir() . 'locales' . DIRECTORY_SEPARATOR . $this->langCode . DIRECTORY_SEPARATOR . basename($rdfpath) . '.po';
+                $candidate = $this->extension->getDir() . 'locales' . DIRECTORY_SEPARATOR . $this->langCode
+                    . DIRECTORY_SEPARATOR . basename($rdfpath) . '.po';
                 if (file_exists($candidate)) {
                     $iterator->append($this->getTriplesFromFile($candidate, $modelId));
                 }
@@ -96,7 +97,11 @@ class RdfPack implements \IteratorAggregate
         foreach ($translationFile->getTranslationUnits() as $tu) {
             $annotations = $tu->getAnnotations();
             $about = isset($annotations['po-translator-comments']) ? $annotations['po-translator-comments'] : null;
-            if ($about && common_Utils::isUri($about) && in_array($tu->getContext(), [OntologyRdfs::RDFS_LABEL, OntologyRdfs::RDFS_COMMENT])) {
+            if (
+                $about
+                && common_Utils::isUri($about)
+                && in_array($tu->getContext(), [OntologyRdfs::RDFS_LABEL, OntologyRdfs::RDFS_COMMENT])
+            ) {
                 $triple = new \core_kernel_classes_Triple();
                 $triple->subject = $about;
                 $triple->predicate = $tu->getContext();

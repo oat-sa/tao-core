@@ -70,7 +70,9 @@ class tao_helpers_form_elements_xhtml_Label extends tao_helpers_form_elements_La
         $returnValue .= "<span ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= " >";
-        $returnValue .= isset($this->attributes['htmlentities']) && ! $this->attributes['htmlentities'] ? $this->value : _dh($this->value);
+        $returnValue .= isset($this->attributes['htmlentities']) && ! $this->attributes['htmlentities']
+            ? $this->value
+            : _dh($this->value);
         $returnValue .= "</span>";
 
         return (string) $returnValue;

@@ -47,7 +47,11 @@ class tao_helpers_form_validators_DateTime extends tao_helpers_form_Validator
             $dateTime = new DateTime($value);
 
             // if no date given no need to go further. To check if not empty, use the NotEmpty validator
-            if (!empty($value) && !empty($this->getOption('comparator')) && $this->getOption('datetime2_ref') instanceof tao_helpers_form_FormElement) {
+            if (
+                !empty($value)
+                && !empty($this->getOption('comparator'))
+                && $this->getOption('datetime2_ref') instanceof tao_helpers_form_FormElement
+            ) {
                 //try comparison:
                 try {
                     $dateTime2 = new DateTime($this->getOption('datetime2_ref')->getRawValue());
@@ -63,7 +67,9 @@ class tao_helpers_form_validators_DateTime extends tao_helpers_form_Validator
                             if ($dateTime > $dateTime2) {
                                 $returnValue = true;
                             } else {
-                                $this->setMessage(__('Invalid date range (must be after: %s)', $dateTime2->format('Y-m-d')));
+                                $this->setMessage(
+                                    __('Invalid date range (must be after: %s)', $dateTime2->format('Y-m-d'))
+                                );
                             }
                             break;
 
@@ -71,7 +77,11 @@ class tao_helpers_form_validators_DateTime extends tao_helpers_form_Validator
                             if ($dateTime >= $dateTime2) {
                                 $returnValue = true;
                             } else {
-                                $this->setMessage(__('Invalid date range (must be after or the same as: %s)', $dateTime2->format('Y-m-d')));
+                                $this->setMessage(
+                                    // phpcs:disable Generic.Files.LineLength
+                                    __('Invalid date range (must be after or the same as: %s)', $dateTime2->format('Y-m-d'))
+                                    // phpcs:enable Generic.Files.LineLength
+                                );
                             }
                             break;
 
@@ -82,7 +92,9 @@ class tao_helpers_form_validators_DateTime extends tao_helpers_form_Validator
                             if ($dateTime < $dateTime2) {
                                 $returnValue = true;
                             } else {
-                                $this->setMessage(__('Invalid date range (must be before: %s)', $dateTime2->format('Y-m-d')));
+                                $this->setMessage(
+                                    __('Invalid date range (must be before: %s)', $dateTime2->format('Y-m-d'))
+                                );
                             }
                             break;
 
@@ -90,12 +102,18 @@ class tao_helpers_form_validators_DateTime extends tao_helpers_form_Validator
                             if ($dateTime <= $dateTime2) {
                                 $returnValue = true;
                             } else {
-                                $this->setMessage(__('Invalid date range (must be before or the same as: %s)', $dateTime2->format('Y-m-d')));
+                                $this->setMessage(
+                                    // phpcs:disable Generic.Files.LineLength
+                                    __('Invalid date range (must be before or the same as: %s)', $dateTime2->format('Y-m-d'))
+                                    // phpcs:enable Generic.Files.LineLength
+                                );
                             }
                             break;
 
                         default:
-                            throw new common_Exception('Usuported comparator in DateTime Validator: ' . $this->getOption('comparator'));
+                            throw new common_Exception(
+                                'Usuported comparator in DateTime Validator: ' . $this->getOption('comparator')
+                            );
                     }
                 }
             } else {

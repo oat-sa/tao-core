@@ -102,7 +102,10 @@ class tao_helpers_translation_RDFFileWriter extends tao_helpers_translation_Tran
                             $existingDescription->appendChild($tuNode);
                         } else {
                             // Append to a new rdf:Description node.
-                            $descriptionNode = $targetFile->createElementNS($semanticNamespaces['rdf'], 'rdf:Description');
+                            $descriptionNode = $targetFile->createElementNS(
+                                $semanticNamespaces['rdf'],
+                                'rdf:Description'
+                            );
                             $descriptionNode->setAttributeNS($semanticNamespaces['rdf'], 'rdf:about', $subject);
                             $descriptionNode->appendChild($tuNode);
                             $rdfNode->appendChild($descriptionNode);
@@ -112,7 +115,8 @@ class tao_helpers_translation_RDFFileWriter extends tao_helpers_translation_Tran
                         $annotations = $tu->getAnnotations();
 
                         if (count($annotations) > 0) {
-                            $annotationString = "\n    " . tao_helpers_translation_RDFUtils::serializeAnnotations($annotations) . "\n    ";
+                            $annotationString = "\n    "
+                                . tao_helpers_translation_RDFUtils::serializeAnnotations($annotations) . "\n    ";
                             $annotationNode = $targetFile->createComment($annotationString);
                             $tuNode->parentNode->insertBefore($annotationNode, $tuNode);
                         }
@@ -122,7 +126,9 @@ class tao_helpers_translation_RDFFileWriter extends tao_helpers_translation_Tran
 
             $targetFile->save($targetPath);
         } catch (DOMException $e) {
-            throw new tao_helpers_translation_TranslationException("An error occured while writing the RDF File at '${targetPath}'.");
+            throw new tao_helpers_translation_TranslationException(
+                "An error occured while writing the RDF File at '${targetPath}'."
+            );
         }
     }
 }

@@ -251,7 +251,9 @@ class tao_helpers_grid_Grid
         if (is_array($columnIds)) {
             foreach ($columnIds as $colId) {
                 if (!isset($this->columns[$colId]) || !$this->columns[$colId] instanceof tao_helpers_grid_Column) {
-                    throw new common_Exception('cannot set the column\'s adapter : the column with the id ' . $colId . ' does not exist');
+                    throw new common_Exception(
+                        'cannot set the column\'s adapter : the column with the id ' . $colId . ' does not exist'
+                    );
                 } else {
                     $returnValue = $this->columns[$colId]->setAdapter($adapter);
                 }
@@ -398,7 +400,10 @@ class tao_helpers_grid_Grid
                             break;
                         }
                     }
-                    $returnValue[$column->getId()]['subgrids'] = $subGridAdapter->getGridContainer()->getGrid()->getColumnsModel();
+                    $returnValue[$column->getId()]['subgrids'] = $subGridAdapter
+                        ->getGridContainer()
+                        ->getGrid()
+                        ->getColumnsModel();
                 }
             }
         }

@@ -54,7 +54,8 @@ class tao_helpers_form_elements_xhtml_JsonObject extends tao_helpers_form_elemen
                 $returnValue .= "<li>";
 
                 $returnValue .= "<div class=\"widget-jsonobject-key\">" . _dh($jsonKey) . ":</div>";
-                $returnValue .= "<div><input class=\"widget-jsonobject-value\" type=\"text\" disabled=\"disabled\" value=\"${jsonValue}\" /></</div>";
+                $returnValue .= "<div><input class=\"widget-jsonobject-value\" type=\"text\" disabled=\"disabled\" "
+                    . "value=\"${jsonValue}\" /></</div>";
 
                 $returnValue .= "</li>";
             }

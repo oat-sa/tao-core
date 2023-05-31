@@ -94,7 +94,11 @@ HTML;
         };
         
         var autoHide = function(event) {
-            if (!event.target.isSameNode(input) && !event.target.isSameNode(iconHide) && !event.target.isSameNode(toggle)) {
+            if (
+                !event.target.isSameNode(input)
+                && !event.target.isSameNode(iconHide)
+                && !event.target.isSameNode(toggle)
+            ) {
                 hide();
             }
         };

@@ -46,14 +46,17 @@ class TaoCe
      */
     public static function isFirstTimeInTao()
     {
-        $firstTime = common_session_SessionManager::getSession()->getUserPropertyValues(TaoOntology::PROPERTY_USER_FIRST_TIME);
+        $firstTime = common_session_SessionManager::getSession()->getUserPropertyValues(
+            TaoOntology::PROPERTY_USER_FIRST_TIME
+        );
 
         //for compatibility purpose we assume previous users are veterans
         return in_array(GenerisRdf::GENERIS_TRUE, $firstTime);
     }
 
     /**
-     * The user knows TAO, he's now a veteran, the TaoOntology::PROPERTY_USER_FIRST_TIME property can be false (except if $notYet is true).
+     * The user knows TAO, he's now a veteran, the TaoOntology::PROPERTY_USER_FIRST_TIME property can be false
+     * (except if $notYet is true).
      *
      * @param core_kernel_classes_Resource $user a user or the current user if null/not set
      * @param boolean $notYet our veteran want to be still considered as a noob...
@@ -84,7 +87,9 @@ class TaoCe
      */
     public static function getLastVisitedUrl()
     {
-        $urls = common_session_SessionManager::getSession()->getUserPropertyValues(TaoOntology::PROPERTY_USER_LAST_EXTENSION);
+        $urls = common_session_SessionManager::getSession()->getUserPropertyValues(
+            TaoOntology::PROPERTY_USER_LAST_EXTENSION
+        );
         if (!empty($urls)) {
             $lastUrl = current($urls);
             return ROOT_URL . $lastUrl;
@@ -115,7 +120,10 @@ class TaoCe
 
                 //clean up what's stored
                 $url = str_replace(ROOT_URL, '', $url);
-                $success = $user->editPropertyValues(new core_kernel_classes_Property(TaoOntology::PROPERTY_USER_LAST_EXTENSION), $url);
+                $success = $user->editPropertyValues(
+                    new core_kernel_classes_Property(TaoOntology::PROPERTY_USER_LAST_EXTENSION),
+                    $url
+                );
             } // else we fail;
         }
         return $success;

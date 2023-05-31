@@ -152,7 +152,8 @@ class tao_helpers_Date
     {
         $string = '';
         while (! empty($formatStrings)) {
-            $string .= $interval->format(array_shift($formatStrings)) . (count($formatStrings) == 0 ? '' : (count($formatStrings) == 1 ? __(' and ') : ' '));
+            $string .= $interval->format(array_shift($formatStrings))
+                . (count($formatStrings) == 0 ? '' : (count($formatStrings) == 1 ? __(' and ') : ' '));
         }
         return $string;
     }
@@ -215,7 +216,8 @@ class tao_helpers_Date
     }
 
     /**
-     * Get array of DateTime objects build from $date (or current time if not given) $amount times back with given interval
+     * Get array of DateTime objects build from $date (or current time if not given) $amount times back with given
+     * interval
      * Example:
      * $timeKeys = $service->getTimeKeys(new \DateInterval('PT1H'), new \DateTime('now'), 24);
      *
@@ -264,7 +266,9 @@ class tao_helpers_Date
         if ($interval->format('%d') > 0) {
             $date->setTime(0, 0, 0);
             $date->setDate($date->format('Y'), $date->format('m'), $date->format('d') + 1);
-            $amount = $amount === null ? cal_days_in_month(CAL_GREGORIAN, $date->format('m'), $date->format('Y')) : $amount;
+            $amount = $amount === null
+                ? cal_days_in_month(CAL_GREGORIAN, $date->format('m'), $date->format('Y'))
+                : $amount;
         }
         if ($interval->format('%m') > 0) {
             $date->setTime(0, 0, 0);

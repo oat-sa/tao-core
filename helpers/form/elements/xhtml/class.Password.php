@@ -61,15 +61,18 @@ class tao_helpers_form_elements_xhtml_Password extends tao_helpers_form_elements
 
         // custom label rendering
         if (! isset($this->attributes['noLabel'])) {
-            $returnValue .= "<label class='form_desc' for='{$this->name}'>" . _dh($this->getDescription()) . (strlen($this->value) == 0 ? '' : ' (change)') . "</label>";
+            $returnValue .= "<label class='form_desc' for='{$this->name}'>" . _dh($this->getDescription())
+                . (strlen($this->value) == 0 ? '' : ' (change)') . "</label>";
         } else {
             unset($this->attributes['noLabel']);
         }
-        $returnValue .= "<input type='password' name='{$this->name}[]' id='{$this->name}' data-testid='{$this->getDescription()}' ";
+        $returnValue .= "<input type='password' name='{$this->name}[]' id='{$this->name}' "
+            . "data-testid='{$this->getDescription()}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value=""  /><br /><br />';
         $returnValue .= "<label class='form_desc'></label>";
-        $returnValue .= "<input type='password' name='{$this->name}[]' id='{$this->name}' data-testid='{$this->getDescription()}' ";
+        $returnValue .= "<input type='password' name='{$this->name}[]' id='{$this->name}' "
+            . "data-testid='{$this->getDescription()}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value=""  />';
 

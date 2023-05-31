@@ -95,7 +95,9 @@ abstract class tao_helpers_grid_GridContainer
 
         $this->data = $data;
         $this->options = $options;
-        $this->excludedProperties = (is_array($this->options) && isset($this->options['excludedProperties'])) ? $this->options['excludedProperties'] : [];
+        $this->excludedProperties = (is_array($this->options) && isset($this->options['excludedProperties']))
+            ? $this->options['excludedProperties']
+            : [];
         $this->grid = new tao_helpers_grid_Grid($options);
 
         //init columns ...

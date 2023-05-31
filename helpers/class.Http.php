@@ -232,7 +232,8 @@ class tao_helpers_Http
     }
 
     /**
-     * Sends file content to the client(browser or video/audio player in the browser), it serves images, video/audio files and any other type of file.<br />
+     * Sends file content to the client(browser or video/audio player in the browser), it serves images, video/audio
+     * files and any other type of file.<br />
      * If the client asks for partial contents, then partial contents are served, if not, the whole file is send.<br />
      * Works well with big files, without eating up memory.
      * @author "Martin for OAT <code@taotesting.com>"
@@ -257,8 +258,8 @@ class tao_helpers_Http
                         header('Content-Encoding: gzip');
                     }
 
-                    // session must be closed because, for example, video files might take a while to be sent to the client
-                    //  and we need the client to be able to make other calls to the server during that time
+                    // session must be closed because, for example, video files might take a while to be sent to the
+                    // client and we need the client to be able to make other calls to the server during that time
                     session_write_close();
 
                     $http416RequestRangeNotSatisfiable = 'HTTP/1.1 416 Requested Range Not Satisfiable';
@@ -306,16 +307,20 @@ class tao_helpers_Http
                                 } else {
                                     header($http206PartialContent);
                                     header("Content-Length: " . ($length));
-                                    header('Content-Range: bytes ' . $offset . '-' . ($offset + $length - 1) . '/' . $filesize);
+                                    header(
+                                        'Content-Range: bytes ' . $offset . '-' . ($offset + $length - 1) . '/'
+                                            . $filesize
+                                    );
                                     // send 500KB per cycle
                                     $bytesPerCycle = (1024 * 1024) * 0.5;
                                     $currentPosition = $offset;
                                     if (ob_get_level() > 0) {
                                         ob_end_flush();
                                     }
-                                    // because the client might ask for the whole file, we split the serving into little pieces
-                                    // this is also good in case someone with bad intentions tries to get the whole file many times
-                                    //  and eat up the server memory, we are not loading the whole file into the memory.
+                                    // because the client might ask for the whole file, we split the serving into little
+                                    // pieces this is also good in case someone with bad intentions tries to get the
+                                    // whole file many times and eat up the server memory, we are not loading the whole
+                                    // file into the memory.
                                     while (!feof($fp)) {
                                         if (($currentPosition + $bytesPerCycle) <= $endPosition) {
                                             $data = fread($fp, $bytesPerCycle);
@@ -374,7 +379,10 @@ class tao_helpers_Http
                     $contentLength += (($range->getLastPos() - $range->getFirstPos()) + 1);
                 }
                 //@todo Content-Range for multiple ranges?
-                header('Content-Range: bytes ' . $ranges[0]->getFirstPos() . '-' . $ranges[0]->getLastPos() . '/' . $stream->getSize());
+                header(
+                    'Content-Range: bytes ' . $ranges[0]->getFirstPos() . '-' . $ranges[0]->getLastPos()
+                        . '/' . $stream->getSize()
+                );
             } else {
                 $contentLength = $stream->getSize();
                 header('HTTP/1.1 200 OK');

@@ -54,7 +54,8 @@ class tao_helpers_translation_Utils
 
     /**
      * Get the availables locales for the current installation (from installed extensions).
-     * @return string[] the list of all locales supported by the app (even though a locale is used in only one extension).
+     * @return string[] the list of all locales supported by the app (even though a locale is used in only one
+     *                  extension).
      */
     public static function getAvailableLanguages()
     {

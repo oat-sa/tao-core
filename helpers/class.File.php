@@ -31,6 +31,7 @@
  */
 
 use oat\oatbox\filesystem\File;
+use Psr\Http\Message\StreamInterface;
 
 class tao_helpers_File extends helpers_File
 {
@@ -99,8 +100,9 @@ class tao_helpers_File extends helpers_File
      * can be a directory that contains data.
      *
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @param  string $path The path to the file you want to remove.
-     * @param  boolean $recursive (optional, default is false) Remove file content recursively (only if the path points to a directory).
+     * @param string $path The path to the file you want to remove.
+     * @param boolean $recursive (optional, default is false) Remove file content recursively (only if the path points
+     *                           to a directory).
      * @return boolean Return true if the file is correctly removed, false otherwise.
      */
     public static function remove($path, $recursive = false)
@@ -168,7 +170,8 @@ class tao_helpers_File extends helpers_File
      * Retrieve mime-types that are recognized by the TAO platform.
      *
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @return array An associative array of mime-types where keys are the extension related to the mime-type. Values of the array are mime-types.
+     * @return array An associative array of mime-types where keys are the extension related to the mime-type. Values
+     *               of the array are mime-types.
      */
     public static function getMimeTypeList()
     {
@@ -251,7 +254,8 @@ class tao_helpers_File extends helpers_File
      *
      * @author Lionel Lecaque, <lionel@taotesting.com>
      * @param  string $mimeType A mime-type which is recognized by the platform.
-     * @return string The extension usually associated to the mime-type. If it could not be retrieved, an empty string is returned.
+     * @return string The extension usually associated to the mime-type. If it could not be retrieved, an empty string
+     *                is returned.
      */
     public static function getExtention($mimeType)
     {
@@ -292,8 +296,9 @@ class tao_helpers_File extends helpers_File
      * different methods are used regarding the configuration of the server.
      *
      * @author Lionel Lecaque, <lionel@taotesting.com>
-     * @param  string $path
-     * @param  boolean $ext If set to true, the extension of the file will be used to retrieve the mime-type. If now extension can be found, 'text/plain' is returned by the method.
+     * @param string $path
+     * @param boolean $ext If set to true, the extension of the file will be used to retrieve the mime-type. If now
+     *                     extension can be found, 'text/plain' is returned by the method.
      * @return string The associated mime-type.
      */
     public static function getMimeType($path, $ext = false)
@@ -429,14 +434,16 @@ class tao_helpers_File extends helpers_File
     }
 
     /**
-     * Add files or folders (and their content) to the Zip Archive that will contain all the files to the current export session.
-     * For instance, if you want to copy the file 'taoItems/data/i123/item.xml' as 'myitem.xml' to your archive call addFile('path_to_item_location/item.xml', 'myitem.xml').
+     * Add files or folders (and their content) to the Zip Archive that will contain all the files to the current export
+     * session.
+     * For instance, if you want to copy the file 'taoItems/data/i123/item.xml' as 'myitem.xml' to your archive call
+     * addFile('path_to_item_location/item.xml', 'myitem.xml').
      * As a result, you will get a file entry in the final ZIP archive at '/i123/myitem.xml'.
      *
      * @param ZipArchive $zipArchive the archive to add to
-     * @param string     $src        | StreamInterface The path to the source file or folder to copy into the ZIP Archive.
-     * @param            $dest
-     * @param bool       $withEmptyDir
+     * @param string|StreamInterface $src The path to the source file or folder to copy into the ZIP Archive.
+     * @param $dest
+     * @param bool $withEmptyDir
      * @return integer The amount of files that were transfered from TAO to the ZIP archive within the method call.
      */
     public static function addFilesToZip(ZipArchive $zipArchive, $src, $dest, $withEmptyDir = false)
@@ -555,7 +562,10 @@ class tao_helpers_File extends helpers_File
         $i = 0;
         $renameCount = 0;
 
-        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i, ZipArchive::FL_UNCHANGED))) {
+        while (
+            ($entryName = $zipArchive->getNameIndex($i))
+            || ($statIndex = $zipArchive->statIndex($i, ZipArchive::FL_UNCHANGED))
+        ) {
             if ($entryName) {
                 $newEntryName = str_replace($oldname, $newname, $entryName);
                 if ($zipArchive->renameIndex($i, $newEntryName)) {
@@ -612,7 +622,10 @@ class tao_helpers_File extends helpers_File
         $i = 0;
         $exclusionCount = 0;
 
-        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i, ZipArchive::FL_UNCHANGED))) {
+        while (
+            ($entryName = $zipArchive->getNameIndex($i))
+            || ($statIndex = $zipArchive->statIndex($i, ZipArchive::FL_UNCHANGED))
+        ) {
             if ($entryName) {
                 // Not previously removed index.
                 if (preg_match($pattern, $entryName) === 1 && $zipArchive->deleteIndex($i)) {
@@ -640,7 +653,10 @@ class tao_helpers_File extends helpers_File
         $i = 0;
         $entries = [];
 
-        while (($entryName = $zipArchive->getNameIndex($i)) || ($statIndex = $zipArchive->statIndex($i, ZipArchive::FL_UNCHANGED))) {
+        while (
+            ($entryName = $zipArchive->getNameIndex($i))
+            || ($statIndex = $zipArchive->statIndex($i, ZipArchive::FL_UNCHANGED))
+        ) {
             if ($entryName) {
                 $entries[] = $entryName;
             }

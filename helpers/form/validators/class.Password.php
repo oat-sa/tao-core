@@ -64,7 +64,9 @@ class tao_helpers_form_validators_Password extends tao_helpers_form_Validator
                 $returnValue = true;
             }
         } else {
-            throw new common_Exception("Please set the reference of the second password element or provide array of 2 elements");
+            throw new common_Exception(
+                "Please set the reference of the second password element or provide array of 2 elements"
+            );
         }
 
 

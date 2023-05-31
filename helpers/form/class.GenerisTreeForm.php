@@ -67,8 +67,10 @@ class tao_helpers_form_GenerisTreeForm extends Renderer
      * @param core_kernel_classes_Property $property
      * @return tao_helpers_form_GenerisTreeForm
      */
-    public static function buildReverseTree(core_kernel_classes_Resource $resource, core_kernel_classes_Property $property)
-    {
+    public static function buildReverseTree(
+        core_kernel_classes_Resource $resource,
+        core_kernel_classes_Property $property
+    ) {
         $tree = new self($resource, $property);
 
         $domainCollection = $property->getDomain();

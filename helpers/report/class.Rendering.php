@@ -85,12 +85,17 @@ class tao_helpers_report_Rendering
      * Contains the logic to render a report and its children.
      *
      * @param common_report_Report $report A report to be rendered.
-     * @param array $childRenderedReports An array of strings containing the separate rendering of $report's child reports.
+     * @param array $childRenderedReports An array of strings containing the separate rendering of $report's child
+     *                                    reports.
      * @param integer $nesting The current nesting level (root = 0).
      * @return string The HTML output of $report.
      */
-    private static function renderReport(common_report_Report $report, array $childRenderedReports = [], $nesting = 0, $leaf = false)
-    {
+    private static function renderReport(
+        common_report_Report $report,
+        array $childRenderedReports = [],
+        $nesting = 0,
+        $leaf = false
+    ) {
 
         switch ($report->getType()) {
             case common_report_Report::TYPE_SUCCESS:
@@ -110,12 +115,14 @@ class tao_helpers_report_Rendering
                 break;
         }
 
-        $openingTag = '<div class="feedback-' . $typeClass . ' feedback-nesting-' . $nesting . ' ' . (($leaf === true) ? 'leaf' : 'hierarchical') . ' tao-scope">';
+        $openingTag = '<div class="feedback-' . $typeClass . ' feedback-nesting-' . $nesting . ' '
+            . (($leaf === true) ? 'leaf' : 'hierarchical') . ' tao-scope">';
         $leafIcon = ($leaf === true) ? ' leaf-icon' : ' hierarchical-icon';
         $icon = '<span class="icon-' . $typeClass . $leafIcon . '"></span>';
         $message = nl2br(_dh($report->__toString()));
         $endingTag = '</div>';
-        $okButton = '<p><button id="import-continue" class="btn-info"><span class="icon-right"></span>' . __("Continue") . '</button></p>';
+        $okButton = '<p><button id="import-continue" class="btn-info"><span class="icon-right"></span>'
+            . __("Continue") . '</button></p>';
 
         // Put all the children renderings together.
         $content = implode('', $childRenderedReports);

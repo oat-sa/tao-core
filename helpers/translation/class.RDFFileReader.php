@@ -77,7 +77,9 @@ class tao_helpers_translation_RDFFileReader extends tao_helpers_translation_Tran
                             $sibling = $rootNodes->item(0)->previousSibling;
                             while ($sibling !== null) {
                                 if ($sibling instanceof DOMNode && $sibling->nodeType == XML_COMMENT_NODE) {
-                                    $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations($sibling->data);
+                                    $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations(
+                                        $sibling->data
+                                    );
                                     $translationFile->setAnnotations($annotations);
 
                                     if (isset($annotations['sourceLanguage'])) {
@@ -123,9 +125,15 @@ class tao_helpers_translation_RDFFileReader extends tao_helpers_translation_Tran
                                                 // Try to get annotations.
                                                 $sibling = $property->previousSibling;
                                                 while ($sibling !== null) {
-                                                    if ($sibling instanceof DOMNode && $sibling->nodeType == XML_COMMENT_NODE) {
+                                                    if (
+                                                        $sibling instanceof DOMNode
+                                                        && $sibling->nodeType == XML_COMMENT_NODE
+                                                    ) {
                                                         // We should have the annotations we are looking for.
-                                                        $annotations = tao_helpers_translation_RDFUtils::unserializeAnnotations($sibling->data);
+                                                        $annotations =
+                                                            tao_helpers_translation_RDFUtils::unserializeAnnotations(
+                                                                $sibling->data
+                                                            );
                                                         $tu->setAnnotations($annotations);
 
                                                         // Set the found sources and sourcelanguages if found.
@@ -146,13 +154,17 @@ class tao_helpers_translation_RDFFileReader extends tao_helpers_translation_Tran
 
                             $this->getTranslationFile()->addTranslationUnits($translationUnits);
                         } else {
-                            throw new tao_helpers_translation_TranslationException("'${inputFile}' has no rdf:RDF root node or more than one rdf:RDF root node.");
+                            throw new tao_helpers_translation_TranslationException(
+                                "'${inputFile}' has no rdf:RDF root node or more than one rdf:RDF root node."
+                            );
                         }
                     } catch (DOMException $e) {
                         throw new tao_helpers_translation_TranslationException("'${inputFile}' cannot be parsed.");
                     }
                 } else {
-                    throw new tao_helpers_translation_TranslationException("'${inputFile}' cannot be read. Check your system permissions.");
+                    throw new tao_helpers_translation_TranslationException(
+                        "'${inputFile}' cannot be read. Check your system permissions."
+                    );
                 }
             } else {
                 throw new tao_helpers_translation_TranslationException("'${inputFile}' is not a file.");

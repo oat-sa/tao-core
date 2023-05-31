@@ -76,7 +76,10 @@ class tao_helpers_form_validators_Unique extends tao_helpers_form_Validator
     {
         $domain = $this->getProperty()->getDomain();
         foreach ($domain as $class) {
-            $resources = $class->searchInstances([$this->getProperty()->getUri() => $values], ['recursive' => true, 'like' => false]);
+            $resources = $class->searchInstances(
+                [$this->getProperty()->getUri() => $values],
+                ['recursive' => true, 'like' => false]
+            );
             if (count($resources) > 0) {
                 return false;
             }

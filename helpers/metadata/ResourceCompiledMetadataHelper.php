@@ -69,7 +69,9 @@ class ResourceCompiledMetadataHelper
     public function unserialize($data)
     {
         if (!is_string($data)) {
-            throw new \common_exception_InconsistentData('The encoded resource metadata should be provided as a string');
+            throw new \common_exception_InconsistentData(
+                'The encoded resource metadata should be provided as a string'
+            );
         }
 
         $metaData = json_decode($data, true);

@@ -82,7 +82,11 @@ class tao_helpers_form_validators_FileMimeType extends tao_helpers_form_Validato
                 if (in_array($mimeType, $this->getOption('mimetype'))) {
                     $returnValue = true;
                 } else {
-                    $this->setMessage(__('%1$s expected but %2$s detected', implode(', ', $this->getOption('mimetype')), $mimeType));
+                    $this->setMessage(
+                        // phpcs:disable Generic.Files.LineLength
+                        __('%1$s expected but %2$s detected', implode(', ', $this->getOption('mimetype')), $mimeType)
+                        // phpcs:enable Generic.Files.LineLength
+                    );
                 }
             } else {
                 common_Logger::i('mimetype empty');

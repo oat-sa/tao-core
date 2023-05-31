@@ -227,14 +227,14 @@ class tao_actions_Main extends tao_actions_CommonModule
                                     if ($remainingAttempts === 0) {
                                         // phpcs:disable Generic.Files.LineLength
                                         $msg = __('Invalid login or password. Your account has been locked, please contact your administrator.');
-                                        // phpcs:enable Generic.Files.LineLength
+                                    // phpcs:enable Generic.Files.LineLength
                                     } else {
                                         $msg .= ' ' . (
                                             $remainingAttempts === 1
                                                 // phpcs:disable Generic.Files.LineLength
                                                 ? __('Last attempt before your account is locked.')
                                                 : __('%d attempts left before your account is locked.', $remainingAttempts)
-                                                // phpcs:enable Generic.Files.LineLength
+                                            // phpcs:enable Generic.Files.LineLength
                                         );
                                     }
                                 }

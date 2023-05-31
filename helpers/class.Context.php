@@ -51,7 +51,9 @@ class tao_helpers_Context
     public static function load($mode)
     {
         if (!is_string($mode)) {
-            throw new InvalidArgumentException('Try to load an irregular mode in the context. The mode must be a string, ' . gettype($mode) . ' given.');
+            throw new InvalidArgumentException(
+                'Try to load an irregular mode in the context. The mode must be a string, ' . gettype($mode) . ' given.'
+            );
         } elseif (empty($mode)) {
             throw new InvalidArgumentException('Cannot load an empty mode in the context.');
         }
@@ -74,7 +76,9 @@ class tao_helpers_Context
         $returnValue = (bool) false;
 
         if (!is_string($mode)) {
-            throw new InvalidArgumentException('Try to check an irregular mode. The mode must be a string, ' . gettype($mode) . ' given.');
+            throw new InvalidArgumentException(
+                'Try to check an irregular mode. The mode must be a string, ' . gettype($mode) . ' given.'
+            );
         } elseif (empty($mode)) {
             throw new InvalidArgumentException('Cannot check an empty mode.');
         }
@@ -105,7 +109,10 @@ class tao_helpers_Context
     {
 
         if (!is_string($mode)) {
-            throw new InvalidArgumentException('Try to unload an irregular mode in the context. The mode must be a string, ' . gettype($mode) . ' given.');
+            throw new InvalidArgumentException(
+                'Try to unload an irregular mode in the context. The mode must be a string, ' . gettype($mode)
+                    . ' given.'
+            );
         } elseif (empty($mode)) {
             throw new InvalidArgumentException('Cannot unload an empty mode in the context.');
         }
