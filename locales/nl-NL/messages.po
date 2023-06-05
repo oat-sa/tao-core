@@ -1,25 +1,33 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2022.11\n"
-"PO-Revision-Date: 2022-11-24T12:55:53\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-06-05 10:46\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nl-NL\n"
+"Language: nl\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: nl-NL\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-GB\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: nl\n"
+"X-Crowdin-File: /[oat-sa.tao-core] master/locales/en-GB/messages.po\n"
+"X-Crowdin-File-ID: 399\n"
+"Language-Team: Dutch\n"
 
 msgid ""
 msgstr ""
-
-msgid " AND "
-msgstr " en "
+""
 
 msgid " and "
+msgstr " en "
+
+msgid " AND "
 msgstr " en "
 
 msgid " has been deleted successfully"
@@ -79,9 +87,6 @@ msgstr "%s van de klasse opgeslagen"
 msgid "%s classes"
 msgstr "%s klassen"
 
-msgid "%s completed"
-msgstr ""
-
 msgid "%s Confirmation"
 msgstr "%s Bevestiging"
 
@@ -128,7 +133,7 @@ msgid "7-zip archive"
 msgstr ""
 
 msgid "<del>Filters</del>"
-msgstr "<del>Filters</del>"
+msgstr ""
 
 msgid "<del>Options</del>"
 msgstr "<del>Opties</del>"
@@ -164,13 +169,13 @@ msgid "About"
 msgstr ""
 
 msgid "abs"
-msgstr "abs"
+msgstr ""
 
 msgid "Absolute value"
 msgstr "Absolute waarde"
 
 msgid "AC"
-msgstr "AC"
+msgstr ""
 
 msgid "Access Denied"
 msgstr "Toegang geweigerd"
@@ -179,7 +184,7 @@ msgid "Access denied. Please renew your authentication!"
 msgstr "Toegang geweigerd. Gelieve uw verificatie opnieuw in te voeren!"
 
 msgid "Account status"
-msgstr "Account status"
+msgstr ""
 
 msgid "Action"
 msgstr "Handeling"
@@ -217,9 +222,6 @@ msgstr ""
 
 msgid "Add file(s)"
 msgstr "Voeg bestand(en) toe"
-
-msgid "Add index"
-msgstr ""
 
 msgid "Add property"
 msgstr "Voeg eigenschap toe"
@@ -322,9 +324,6 @@ msgstr "Weet u zeker dat u de bron met deze versie wilt verwijderen?\n"
 msgid "Are you sure you want to delete it?"
 msgstr "Weet u zeker dat u het wilt verwijderen?"
 
-msgid "Are you sure you wish to delete it"
-msgstr ""
-
 msgid "Argument check failed: %s"
 msgstr ""
 
@@ -404,9 +403,6 @@ msgstr ""
 msgid "Browse folders:"
 msgstr "Blader mappen door:"
 
-msgid "Browse resources"
-msgstr ""
-
 msgid "Browse..."
 msgstr "Bladeren…"
 
@@ -428,11 +424,11 @@ msgstr "Rekenmachine"
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "cancel"
-msgstr "afbreken"
-
 msgid "Cancel"
 msgstr "Afbreken"
+
+msgid "cancel"
+msgstr "afbreken"
 
 msgid "cancel the action"
 msgstr "breek de actie af"
@@ -475,9 +471,6 @@ msgid "Check-in"
 msgstr "Inchecken"
 
 msgid "choices:"
-msgstr ""
-
-msgid "Choose a type for your property first"
 msgstr ""
 
 msgid "Choose a value..."
@@ -530,9 +523,6 @@ msgstr "Wis de opgeslagen variabelen"
 
 msgid "Click to reload."
 msgstr "Klik om opnieuw te laden."
-
-msgid "Click to start"
-msgstr ""
 
 msgid "Close"
 msgstr "Sluiten"
@@ -595,10 +585,10 @@ msgid "Copy to clipboard"
 msgstr "Naar klembord kopiëren"
 
 msgid "cos"
-msgstr "cos"
+msgstr ""
 
 msgid "cosh"
-msgstr "cosh"
+msgstr ""
 
 msgid "Cosine"
 msgstr "Cosinus"
@@ -622,7 +612,7 @@ msgid "CSP Header settings were saved successfully!"
 msgstr ""
 
 msgid "CSV"
-msgstr "CSV"
+msgstr ""
 
 msgid "CSV file"
 msgstr ""
@@ -638,9 +628,6 @@ msgstr "Huidige taal"
 
 msgid "Current playback position"
 msgstr "Huidige afspeelpositie"
-
-msgid "currently has a dependency established with "
-msgstr ""
 
 msgid "Data imported"
 msgstr "Data geïmporteerd"
@@ -712,16 +699,7 @@ msgstr "Verwijder de term aan de rechterkant van de cursor"
 msgid "Deleting search index for %s"
 msgstr "Verwijderen van de zoekindex voor %s"
 
-msgid "Deleting this property will also remove the dependency"
-msgstr ""
-
 msgid "Demo Sandbox"
-msgstr "Demo Sandbox"
-
-msgid "Dependency URI Path"
-msgstr ""
-
-msgid "Depends on property"
 msgstr ""
 
 msgid "Did you mean %s?"
@@ -760,9 +738,6 @@ msgstr "Cijfer 9"
 msgid "Disabled %s"
 msgstr "Uitgeschakeld %s"
 
-msgid "Do you want to override \"%s\"?"
-msgstr ""
-
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
 msgstr "Wilt u de volgende extensie(s) instaleren:\n"
@@ -781,7 +756,7 @@ msgid "Dot"
 msgstr "Punt"
 
 msgid "Download"
-msgstr "Download"
+msgstr ""
 
 msgid "Download this file"
 msgstr "Download dit bestand"
@@ -809,7 +784,7 @@ msgid "Edit Instance"
 msgstr "Pas instantie aan"
 
 msgid "Element"
-msgstr "Element"
+msgstr ""
 
 msgid "Element deleted."
 msgstr "Element verwijderd"
@@ -830,7 +805,7 @@ msgid "Enhanced metafile"
 msgstr ""
 
 msgid "Enter"
-msgstr "Enter"
+msgstr ""
 
 msgid "Error"
 msgstr "Fout"
@@ -857,7 +832,7 @@ msgid "Examples:"
 msgstr ""
 
 msgid "Exclusive (OR)"
-msgstr "Exclusive (OR)"
+msgstr ""
 
 msgid "Execute"
 msgstr "Uitvoeren"
@@ -906,9 +881,6 @@ msgstr "Factoriële"
 msgid "Failed"
 msgstr "Mislukt"
 
-msgid "Failed to copy class."
-msgstr ""
-
 msgid "Failed to delete index for %s"
 msgstr "Geen index voor %s geschrapt"
 
@@ -946,7 +918,7 @@ msgid "files selected"
 msgstr "geselecteerde bestanden"
 
 msgid "Filter"
-msgstr "Filter"
+msgstr ""
 
 msgid "Filter by value"
 msgstr "Filter op waarde"
@@ -1081,7 +1053,7 @@ msgid "Implications failed:"
 msgstr ""
 
 msgid "Import"
-msgstr "Import"
+msgstr ""
 
 msgid "Import "
 msgstr "Importeer"
@@ -1101,10 +1073,6 @@ msgstr "Importeer Metadata vanuit een CSV bestand"
 msgid "Import Metadata from RDF file"
 msgstr "Importeer Metadata vanuit een RDF bestand"
 
-#, tao-public
-msgid "Import statistical analysis metadata"
-msgstr ""
-
 msgid "Import succeeded."
 msgstr "De import is geslaagd."
 
@@ -1116,9 +1084,6 @@ msgstr "Ingevoerde %d resources"
 
 msgid "Imported resource \"%s"
 msgstr "Geïmporteerde resource \"%s"
-
-msgid "Imported successfully finished!"
-msgstr ""
 
 msgid "impossible to update task status"
 msgstr "Onmogelijk om de taakstatus bij te werken"
@@ -1222,19 +1187,10 @@ msgstr "Onjuiste login of wachtwoord. Probeer het opnieuw."
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
 msgstr "Ongeldige login of wachtwoord. Uw account is vergrendeld, neem contact op met uw beheerder."
 
-msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
-msgstr ""
-
 msgid "invalid regular expression"
 msgstr "Onjuiste reguliere expressie."
 
-msgid "Invalid value"
-msgstr ""
-
 msgid "Invalid values:"
-msgstr ""
-
-msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
 msgstr ""
 
 msgid "items per page"
@@ -1247,7 +1203,7 @@ msgid "JPEG image"
 msgstr ""
 
 msgid "Label"
-msgstr "Label"
+msgstr ""
 
 msgid "Label Path"
 msgstr ""
@@ -1275,9 +1231,6 @@ msgstr "Minder dan een minuut"
 
 msgid "List"
 msgstr "Lijst"
-
-msgid "List \"%s\" has duplicated values."
-msgstr ""
 
 msgid "List - Multiple choice - Check box"
 msgstr "Lijst - Meerkeuze - Selectievakje"
@@ -1345,9 +1298,6 @@ msgstr "Afmelden"
 msgid "M4A audio"
 msgstr ""
 
-msgid "Mail"
-msgstr "E-mail"
-
 msgid "Main Menu"
 msgstr ""
 
@@ -1369,9 +1319,6 @@ msgstr ""
 msgid "Manage class schema"
 msgstr "Beheer klasse-schema"
 
-msgid "manage columns"
-msgstr ""
-
 msgid "Manage data list"
 msgstr "Beheer data lijst"
 
@@ -1391,9 +1338,6 @@ msgstr "Beheer bestand met versie"
 
 msgid "Map the properties to the CSV columns"
 msgstr "Combineer de eigenschappen met de overeenkomende CSV kolommen"
-
-msgid "maximum %s"
-msgstr ""
 
 msgid "Maximum selection reached"
 msgstr "Maximale selectie bereikt"
@@ -1447,9 +1391,6 @@ msgid "MIME encapsulation of aggregate HTML documents"
 msgstr ""
 
 msgid "Mind mapping software application (free mind open source)"
-msgstr ""
-
-msgid "minimum %s"
 msgstr ""
 
 msgid "minutes"
@@ -1509,21 +1450,6 @@ msgstr "Scheidingsteken tussen meerdere waarden"
 
 msgid "Multiply the value by 10^x"
 msgstr ""
-
-msgid "Must include at least one letter"
-msgstr "Moet minstens één letter bevatten"
-
-msgid "Must include at least one number"
-msgstr "Moet minstens één cijfer bevatten"
-
-msgid "Must include at least one special letter"
-msgstr "Moet minstens één speciaal teken bevatten"
-
-msgid "Must include lower case letters"
-msgstr "Moet kleine letters bevatten"
-
-msgid "Must include upper case letters"
-msgstr "Moet hoofdletters bevatten"
 
 msgid "Mute"
 msgstr ""
@@ -1593,9 +1519,6 @@ msgstr ""
 msgid "Node duplication has failed"
 msgstr ""
 
-msgid "none"
-msgstr ""
-
 msgid "Not enough arguments following: %s"
 msgstr ""
 
@@ -1604,9 +1527,6 @@ msgstr ""
 
 msgid "Not started"
 msgstr "Niet gestart"
-
-msgid "NotEmpty"
-msgstr ""
 
 msgid "Nothing imported"
 msgstr "Niets geïmporteerd"
@@ -1621,7 +1541,7 @@ msgstr "Niets om te laten zien!"
 msgid "Notifications"
 msgstr "Notificaties"
 
-msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
 
 msgid "Nth root"
@@ -1646,10 +1566,10 @@ msgid "Ogg Vorbis video"
 msgstr ""
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "Ok"
-msgstr "Ok"
+msgstr ""
 
 msgid "Old Password"
 msgstr "Oud wachtwoord"
@@ -1774,15 +1694,6 @@ msgstr "Geef a.u.b. een reden"
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "Meld eventuele bugs, ideeën, opmerkingen of feedback op het TAO-forum."
 
-msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
-
-msgid "Please set 'min' and/or 'max' options!"
-msgstr ""
-
-msgid "Please try in %s."
-msgstr ""
-
 msgid "Please wait"
 msgstr "Wacht a.u.b."
 
@@ -1863,7 +1774,7 @@ msgid "RAR archive"
 msgstr ""
 
 msgid "RDF"
-msgstr "RDF"
+msgstr ""
 
 msgid "RealMedia file"
 msgstr ""
@@ -1902,9 +1813,6 @@ msgid "Remove"
 msgstr "Verwijderen"
 
 msgid "Remove criteria"
-msgstr ""
-
-msgid "remove index"
 msgstr ""
 
 msgid "Remove Message"
@@ -2159,9 +2067,6 @@ msgstr ""
 msgid "Square root"
 msgstr "Vierkantswortel"
 
-msgid "Start"
-msgstr ""
-
 msgid "Start of document reached. Continuing from the end."
 msgstr "Begin van het document bereikt. Vervolg van het einde."
 
@@ -2303,14 +2208,8 @@ msgstr "De actie wordt niet toegepast op "
 msgid "The action will not be applied to the following"
 msgstr "De actie is niet van toepassing op"
 
-msgid "The class has been copied."
-msgstr ""
-
 msgid "The column "
 msgstr "De kolom "
-
-msgid "The field \"List\" is disabled because the property is part of a dependency"
-msgstr ""
 
 msgid "The following criteria are not applicable to the selected class and have been removed from the search"
 msgstr ""
@@ -2329,9 +2228,6 @@ msgstr "De blokkade is opgeheven"
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
 msgstr "De eigenschappen van de source-klasse worden vervangen door die van de bestemmingsklasse. Dit kan resulteren in een verlies van metadata. Ga je toch door?"
-
-msgid "The selected value(s) must be compatible with the primary property."
-msgstr ""
 
 msgid "The server has sent an empty response"
 msgstr "De server heeft een leeg antwoord gestuurd"
@@ -2421,7 +2317,7 @@ msgid "Toggle the date time picker"
 msgstr ""
 
 msgid "Tokenizer"
-msgstr "Tokenizer"
+msgstr ""
 
 msgid "Too many non-option arguments: got %s, maximum of %s"
 msgstr ""
@@ -2450,9 +2346,6 @@ msgstr "Vertaling opgeslagen"
 msgid "Transport Layer Security"
 msgstr ""
 
-msgid "Tree - Multiple node choice"
-msgstr ""
-
 msgid "Tree - Multiple node choice "
 msgstr "Boom - Meervoudige knooppunten keuze "
 
@@ -2466,7 +2359,7 @@ msgid "trunc"
 msgstr ""
 
 msgid "Type"
-msgstr "Type"
+msgstr ""
 
 msgid "Type your search"
 msgstr "Typ uw zoekopdracht in"
@@ -2485,9 +2378,6 @@ msgstr "Kan %s niet verwijderen"
 
 msgid "Unable to delete the selected resource"
 msgstr "Kan de geselecteerde bron niet verwijderen"
-
-msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
-msgstr ""
 
 msgid "Unable to delete the selected resources"
 msgstr "Niet in staat om de geselecteerde resources te wissen"
@@ -2516,9 +2406,6 @@ msgstr "niet in staat om te zoeken binnen de notificatie."
 msgid "Unable to send the password reset request"
 msgstr "Kan wachtwoord reset aanvraag niet versturen"
 
-msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
-msgstr ""
-
 msgid "Unable to update the asset service"
 msgstr "Niet in staat om de asset service te updaten"
 
@@ -2534,13 +2421,10 @@ msgstr "Unaire operator +"
 msgid "Unary operator -"
 msgstr "Unaire operator -"
 
-msgid "Unauthorized files have been removed"
-msgstr ""
-
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Alles uitvinken"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Alles uitvinken"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2729,9 +2613,6 @@ msgid "Windows Media file (metafile)"
 msgstr ""
 
 msgid "Windows Media video"
-msgstr ""
-
-msgid "with"
 msgstr ""
 
 msgid "Wrap image left"
