@@ -1,14 +1,21 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint157\n"
-"PO-Revision-Date: 2021-06-18T08:54:38\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-06-07 08:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nl-BE\n"
+"Language: nl_BE\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: nl-BE\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-GB\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: nl-BE\n"
+"X-Crowdin-File: /develop/locales/en-GB/tao.rdf.po\n"
+"X-Crowdin-File-ID: 473\n"
+"Language-Team: Dutch, Belgium\n"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -208,7 +215,7 @@ msgstr "The beheerders rol klasse"
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Back Office"
-msgstr "Back Office"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -230,7 +237,7 @@ msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Service"
 msgstr "Dienst"
 
-# dienst isdirect translation. maybe change if i see the context
+# http://www.tao.lu/Ontologies/TAO.rdf#ServiceRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Service Role"
 msgstr "De dienst rol"
@@ -315,12 +322,12 @@ msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Operational Administrator role"
 msgstr ""
 
-# At least if this is the one taking an exam and not a system tester
+# http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Test Taker"
 msgstr "Test kandidaat"
 
-# at least if this is exam candaidate and not a system tester
+# http://www.tao.lu/Ontologies/TAO.rdf#DeliveryRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "The Test Taker Role"
 msgstr "De kandidaat rol"
@@ -404,14 +411,4 @@ msgstr ""
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Object to represent assessment contents"
 msgstr ""
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "TAO Object"
-msgstr "TAO object"
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Any resource related to etesting"
-msgstr "Elke bron gerelateerd aan e-testing"
 
