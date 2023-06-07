@@ -1,20 +1,20 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-3x\n"
-"PO-Revision-Date: 2023-04-21 15:46\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-06-07 08:13\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: pt-BR\n"
+"Language: pt\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: pt-BR\n"
+"targetLanguage: en-GB\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-3x\n"
-"X-Crowdin-Project-ID: 582145\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: pt-BR\n"
-"X-Crowdin-File: /tao/locales/en-US/tao.rdf.po\n"
-"X-Crowdin-File-ID: 1363\n"
+"X-Crowdin-File: /develop/locales/en-GB/tao.rdf.po\n"
+"X-Crowdin-File-ID: 473\n"
 "Language-Team: Portuguese, Brazilian\n"
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
@@ -225,7 +225,7 @@ msgstr "O Papel de Administração"
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "Front Office"
-msgstr "Front Office"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#FrontOfficeRole
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
@@ -411,44 +411,4 @@ msgstr "avaliarObjeto"
 msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
 msgid "Object to represent assessment contents"
 msgstr "Objeto para representar o conteúdo da avaliação"
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "TAO Object"
-msgstr "TAO Object"
-
-# http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Any resource related to etesting"
-msgstr "Qualquer recurso relacionado ao escaneamento"
-
-# http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Worker"
-msgstr "Trabalhador"
-
-# http://www.tao.lu/Ontologies/TAO.rdf#WorkerRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The Worker Role Class"
-msgstr "A classe Função dos Trabalhadores"
-
-# http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "Workflow Participant"
-msgstr "Workflow Participant"
-
-# http://www.tao.lu/Ontologies/TAO.rdf#WorkflowRole
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "The Workflow Participant Role"
-msgstr "Função de Participante do Workflow"
-
-# http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
-msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
-msgid "WfUser"
-msgstr "WfUser"
-
-# http://www.tao.lu/Ontologies/TAO.rdf#WorkflowUser
-msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
-msgid "Workflow User: sub class to group the workflow user, not deletable"
-msgstr "Usuário do workflow: sub classe para agrupar o usuário do fluxo de trabalho, não deletável"
 
