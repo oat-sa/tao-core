@@ -407,7 +407,7 @@ class tao_actions_Main extends tao_actions_CommonModule
          * @var  Perspective $perspective
          */
         foreach (MenuService::getPerspectivesByGroup($groupId) as $i => $perspective) {
-            if (!$this->sectionVisibilityFilter->isVisible($perspective->getId())) {
+            if (!$this->getSectionVisibilityFilter()->isVisible($perspective->getId())) {
                 $this->logDebug(
                     sprintf(
                         "Perspective %s has been ignored base on Section Visibility Filter",
