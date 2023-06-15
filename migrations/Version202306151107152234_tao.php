@@ -60,7 +60,7 @@ final class Version202306151107152234_tao extends AbstractMigration
     {
         $this->addReport(
             Report::createInfo(
-                'Unregistering Logout Action Resolver'
+                'Unregistering Portal Logout Action Resolver'
             )
         );
 
