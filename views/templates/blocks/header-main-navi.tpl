@@ -82,6 +82,10 @@ $userLabel    = get_data('userLabel');
                                         <?= Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'logout-menu-settings', ['logout' => get_data('logout')]); ?>
                                     <?php endif; ?>
                                 </ul>
+                            <?php elseif ($entry->getId() === 'users'): ?>
+                                <ul class="plain menu-dropdown">
+                                        <?= Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'logout-menu-settings', ['logout' => get_data('logout')]); ?>
+                                </ul>
                             <?php endif; ?>
                         </li>
 
