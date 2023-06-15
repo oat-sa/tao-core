@@ -157,6 +157,9 @@ class ConfigurableTheme extends Configurable implements Theme
             case 'login':
                 $template = Template::getTemplate('blocks/login.tpl', 'tao');
                 break;
+            case 'logout':
+                $template = Template::getTemplate('blocks/logout-button.tpl', 'tao');
+                break;
             default:
                 \common_Logger::d('Unknown template ' . $id);
                 $template = null;
@@ -175,7 +178,7 @@ class ConfigurableTheme extends Configurable implements Theme
         if ($this->hasOption(static::THEME_DATA) && is_array($this->getOption(static::THEME_DATA))) {
             return $this->getOption(static::THEME_DATA);
         }
-        
+
         return [];
     }
 
@@ -190,7 +193,7 @@ class ConfigurableTheme extends Configurable implements Theme
         if ($this->hasOption(static::THEME_CSS)) {
             return $this->getOption(static::THEME_CSS);
         }
-        
+
         return Template::css('tao-3.css', 'tao');
     }
 
@@ -206,7 +209,7 @@ class ConfigurableTheme extends Configurable implements Theme
         if (isset($data[static::THEME_DATA_LOGO_URL])) {
             return $data[static::THEME_DATA_LOGO_URL];
         }
-        
+
         return Template::img('tao-logo.png', 'tao');
     }
 
@@ -223,7 +226,7 @@ class ConfigurableTheme extends Configurable implements Theme
         if (isset($data[static::THEME_DATA_LINK])) {
             return $data[static::THEME_DATA_LINK];
         }
-        
+
         return 'http://taotesting.com';
     }
 
@@ -240,7 +243,7 @@ class ConfigurableTheme extends Configurable implements Theme
         if (isset($data[static::THEME_DATA_MESSAGE])) {
             return $data[static::THEME_DATA_MESSAGE];
         }
-        
+
         return '';
     }
 

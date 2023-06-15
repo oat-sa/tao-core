@@ -59,6 +59,15 @@ $footerHeight: 34;
     background: $darkBar;
     color: $darkBarTxt;
 
+    .portal-back {
+        padding: 18px 10px 11px;
+        span {
+            &.icon-untab {
+                font-size: 2em;
+            }
+        }
+    }
+
     a {
         color: $darkBarTxt;
         &:hover {
