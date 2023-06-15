@@ -105,6 +105,7 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
             $this->setData('logout', $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
             $this->setData('userLabel', $this->getSession()->getUserLabel());
+            $this->setData('portalUrl', $_ENV['PORTAL_URL'] ?? '');
             $this->setData('settings-menu', $naviElements);
             $this->setData('current-section', $this->getRequestParameter('section'));
             $this->setData('content-template', ['blocks/entry-points.tpl', 'tao']);
@@ -359,6 +360,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('user_lang', $this->getSession()->getDataLanguage());
         $this->setData('userLabel', DisplayHelper::htmlEscape($this->getSession()->getUserLabel()));
+        $this->setData('portalUrl', $_ENV['PORTAL_URL'] ?? '');
         // re-added to highlight selected extension in menu
         $this->setData('shownExtension', $extension);
         $this->setData('shownStructure', $structure);
@@ -498,7 +500,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         if (empty($this->sectionVisibilityFilter)) {
             $this->sectionVisibilityFilter = $this->getServiceLocator()->get(SectionVisibilityFilter::SERVICE_ID);
         }
-        
+
         return $this->sectionVisibilityFilter;
     }
 }
