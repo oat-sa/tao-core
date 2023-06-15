@@ -22,6 +22,8 @@
 namespace oat\tao\model\theme;
 
 use oat\oatbox\Configurable;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
 /**
  *
@@ -34,8 +36,11 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function getCurrentThemeId()
     {
-        //TODO added feature flag here
-        return 'portal';
+        if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_ENABLE_PORTAL_LAYOUT')) {
+            return 'portal';
+        }
+
+        return $this->getOption(static::OPTION_CURRENT);
     }
 
     /**
@@ -113,5 +118,10 @@ class ThemeService extends ThemeServiceAbstract
         $this->setOption(static::OPTION_AVAILABLE, $availableThemes);
 
         return true;
+    }
+
+    public function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
     }
 }

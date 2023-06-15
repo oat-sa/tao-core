@@ -35,8 +35,13 @@ class TaoPortalResolver implements RedirectResolveInterface
      * @param array $options
      * @return string
      */
-    public function resolve(array $options)
+    public function resolve(array $options): string
     {
-        return 'https://portal.docker.localhost/logout';
+        return $_ENV['PORTAL_LOGOUT_URL'] ?? _url(
+            $options['action'],
+            $options['controller'],
+            $options['ext'],
+            $options['params'] ?? []
+        );
     }
 }
