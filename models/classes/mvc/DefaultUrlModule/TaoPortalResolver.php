@@ -37,11 +37,15 @@ class TaoPortalResolver implements RedirectResolveInterface
      */
     public function resolve(array $options): string
     {
-        return $_ENV['PORTAL_LOGOUT_URL'] ?? _url(
-            $options['action'],
-            $options['controller'],
-            $options['ext'],
-            $options['params'] ?? []
-        );
+        if (isset($_ENV['PORTAL_LOGOUT_URL'])) {
+            return $_ENV['PORTAL_LOGOUT_URL'];
+        }
+
+        $redirectAdapterClass = $options['class'] ?? '';
+        if ($redirectAdapterClass !== null) {
+            return (new $redirectAdapterClass())->resolve($options['options'] ?? []);
+        }
+
+        return '';
     }
 }
