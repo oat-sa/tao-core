@@ -18,7 +18,7 @@
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace oat\tao\model\migrations;
 

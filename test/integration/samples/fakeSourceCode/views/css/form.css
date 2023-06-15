@@ -1,21 +1,23 @@
-/*  
+/*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
+ *
  */
 /* Form layout and theme */
 div#form-title{
@@ -38,7 +40,7 @@ div.xhtml_form div{
 	border: dashed 1px #FDD5DF;
 }
 div.xhtml_form div div div{
-	border:none;	
+	border:none;
 }
 
 /* Form label */
@@ -87,7 +89,7 @@ div.xhtml_form div .form-elt-container{
 }
 div.xhtml_form div .file-uploader{
 	z-index:10000;
-	
+
 }
 div.xhtml_form div span.checker-container{
 	margin-left:28%;
@@ -116,7 +118,7 @@ div.xhtml_form div.form-group div div{
 }
 
 div.xhtml_form div.form-group div div div{
-	border:none;	
+	border:none;
 }
 
 /* Form error message */
@@ -143,7 +145,7 @@ div#form-container table{
 div#form-container table td,
 div#form-container table th{
 	border: solid 1px #CCC;
-} 
+}
 div#form-container table th{
 	padding:5px;
 }
@@ -177,24 +179,24 @@ div.xhtml_form div.form-toolbar:hover{
 }
 
 div.xhtml_form div.form-toolbar a img{
-	vertical-align:text-bottom;	
+	vertical-align:text-bottom;
 }
 div.xhtml_form div.form-toolbar a{
 	text-decoration:none;
 	padding: 3px 6px 3px 6px;
-	margin-right:5px; 
-	margin-left:0px; 
+	margin-right:5px;
+	margin-left:0px;
 	border: solid 1px #ccc;
 	border-bottom-color:#aaa;
 	border-right-color:#aaa;
 }
 div.xhtml_form div.form-toolbar a:hover{
-	color:#D00239;	
+	color:#D00239;
 }
 
 div#form-container div.xhtml_form div table.form-elt-container{
 	margin:5px 0 5px 30%;
 	padding:5px;
-	width:70%;	
+	width:70%;
 	vertical-align: middle;
 }

@@ -36,7 +36,7 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
      * Option value is array of ['eventName' => true, ... ] of supported events
      * Such array structure is needed to perform quick search by key
      */
-    const OPTION_SUPPORTED_EVENTS = 'supportedEvents';
+    public const OPTION_SUPPORTED_EVENTS = 'supportedEvents';
 
     /**
      * @inheritDoc
@@ -151,8 +151,15 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
 
         foreach ($webhookConfigIds as $webhookConfigId) {
             if (($webhookConfig = $this->getWebhookRegistry()->getWebhookConfig($webhookConfigId)) === null) {
-                throw new WebhookConfigMissingException(sprintf('Webhook config for id %s not found', $webhookConfigId));
+                throw new WebhookConfigMissingException(
+                    sprintf('Webhook config for id %s not found', $webhookConfigId)
+                );
             }
+
+            if (($event instanceof WebhookConditionalEventInterface) && !$event->isSatisfiedBy($webhookConfig)) {
+                continue;
+            }
+
             $result[] = new WebhookTaskParams([
                 WebhookTaskParams::EVENT_NAME => $event->getWebhookEventName(),
                 WebhookTaskParams::EVENT_ID => $eventId,
@@ -212,13 +219,10 @@ class WebhookEventsService extends ConfigurableService implements WebhookEventsS
         return [self::SERVICE_ID, 'handleEvent'];
     }
 
-    /**
-     * @return WebhookRegistryInterface
-     */
-    private function getWebhookRegistry()
+    private function getWebhookRegistry(): WebhookRegistryInterface
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->getServiceLocator()->get(WebhookRegistryInterface::SERVICE_ID);
+        return $this->getServiceLocator()->getContainer()->get(WebhookRegistryInterface::class);
     }
 
     /**

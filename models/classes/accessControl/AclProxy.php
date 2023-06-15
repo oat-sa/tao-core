@@ -52,22 +52,10 @@ class AclProxy
                 new FuncProxy(),
                 new DataAccessControl()
             ];
-            
-            /*
-            $taoExt = \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
-            self::$implementations = array();
-            foreach ($taoExt->getConfig('accessControl') as $acClass) {
-                if (class_exists($acClass) && in_array('oat\tao\model\accessControl\AccessControl', class_implements($acClass))) {
-                    self::$implementations[] = new $acClass();
-                } else {
-                    throw new \common_exception_Error('Unsupported class '.$acClass);
-                }
-            }
-            */
         }
         return self::$implementations;
     }
-    
+
     /**
      * Returns whenever or not a user has access to a specified link
      *

@@ -48,7 +48,7 @@ $isUpToDate = \tao_install_utils_System::isTAOUpToDate($path);
 $exitCode = ($isUpToDate) ? 0 : 128;
 
 if (isset($options['v'])) {
-    echo (($isUpToDate) ? "TAO is up to date.\n" : "TAO is NOT up to date.\n");
+    echo(($isUpToDate) ? "TAO is up to date.\n" : "TAO is NOT up to date.\n");
 }
 
 exit($exitCode);

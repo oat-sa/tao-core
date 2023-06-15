@@ -22,7 +22,7 @@
 namespace oat\tao\model\session\restSessionFactory\builder;
 
 use oat\tao\model\session\restSessionFactory\SessionBuilder;
-use \oat\oatbox\user\LoginFailedException;
+use oat\oatbox\user\LoginFailedException;
 
 class HttpBasicAuthBuilder implements SessionBuilder
 {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -57,9 +61,9 @@ class tao_models_classes_table_PropertyColumn extends tao_models_classes_table_C
     {
         $returnValue = null;
 
-        
+
         $returnValue = new static(new core_kernel_classes_Property($array['prop']));
-        
+
 
         return $returnValue;
     }
@@ -74,7 +78,7 @@ class tao_models_classes_table_PropertyColumn extends tao_models_classes_table_C
      */
     public function __construct(core_kernel_classes_Property $property)
     {
-        
+
         $this->property = $property;
         parent::__construct($property->getLabel());
     }
@@ -90,9 +94,9 @@ class tao_models_classes_table_PropertyColumn extends tao_models_classes_table_C
     {
         $returnValue = null;
 
-        
+
         $returnValue = $this->property;
-        
+
 
         return $returnValue;
     }
@@ -108,9 +112,9 @@ class tao_models_classes_table_PropertyColumn extends tao_models_classes_table_C
     {
         $returnValue = null;
 
-        
+
         $returnValue = tao_models_classes_table_PropertyDP::singleton();
-        
+
 
         return $returnValue;
     }
@@ -126,10 +130,10 @@ class tao_models_classes_table_PropertyColumn extends tao_models_classes_table_C
     {
         $returnValue = [];
 
-        
+
         $returnValue = parent::toArray();
         $returnValue['prop'] = $this->property->getUri();
-        
+
 
         return (array) $returnValue;
     }

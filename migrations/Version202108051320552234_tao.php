@@ -9,12 +9,12 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
 use oat\tao\scripts\install\SetImageAligmentConfig;
 use oat\tao\model\ClientLibConfigRegistry;
 use common_report_Report as Report;
+
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
 final class Version202108051320552234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'Set Image Aligment disabled in Authoring';
@@ -24,8 +24,9 @@ final class Version202108051320552234_tao extends AbstractMigration
     {
         $this->addReport(
             $this->propagate(
-                new SetImageAligmentConfig())(
-                    ['mediaAlignment' => false]
+                new SetImageAligmentConfig()
+            )(
+                ['mediaAlignment' => false]
             )
         );
     }

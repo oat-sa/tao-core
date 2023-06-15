@@ -13,7 +13,6 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
  */
 final class Version202109101332292234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return '';
@@ -21,11 +20,14 @@ final class Version202109101332292234_tao extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->getServiceManager()->register(NamespaceHelper::SERVICE_ID, new NamespaceHelper([
-                    'namespaces' => [
-                        LOCAL_NAMESPACE
+        $this->getServiceManager()->register(
+            NamespaceHelper::SERVICE_ID,
+            new NamespaceHelper(
+                [
+                        'namespaces' => [
+                            LOCAL_NAMESPACE
+                        ]
                     ]
-                ]
             )
         );
     }
@@ -33,6 +35,5 @@ final class Version202109101332292234_tao extends AbstractMigration
     public function down(Schema $schema): void
     {
         $this->getServiceManager()->unregister(NamespaceHelper::SERVICE_ID);
-
     }
 }

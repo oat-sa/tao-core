@@ -19,9 +19,9 @@
  *
  */
 
-use \oat\generis\model\OntologyAwareTrait;
-use \oat\tao\helpers\form\ValidationRuleRegistry;
-use \oat\oatbox\validator\ValidatorInterface;
+use oat\generis\model\OntologyAwareTrait;
+use oat\tao\helpers\form\ValidationRuleRegistry;
+use oat\oatbox\validator\ValidatorInterface;
 use oat\tao\model\TaoOntology;
 
 /**
@@ -34,8 +34,8 @@ class tao_actions_form_RestForm
 {
     use OntologyAwareTrait;
 
-    const PROPERTIES = 'properties';
-    const RANGES = 'ranges';
+    public const PROPERTIES = 'properties';
+    public const RANGES = 'ranges';
 
     /** @var core_kernel_classes_Class|null The class where the resource is */
     protected $class = null;
@@ -127,7 +127,7 @@ class tao_actions_form_RestForm
             // Existing values
             if (
                 $this->doesExist()
-                && !is_null($value = $this->getFieldValue($property, isset($propertyData['range']) ? $propertyData['range'] : null))
+                && !is_null($value = $this->getFieldValue($property, $propertyData['range'] ?? null))
             ) {
                 $propertyData['value'] = $value;
             }
@@ -140,7 +140,10 @@ class tao_actions_form_RestForm
                 $i = 0;
                 while (
                     $i < count($this->formProperties)
-                    && (isset($this->formProperties[$i]['position']) && $position >= $this->formProperties[$i]['position'])
+                    && (
+                        isset($this->formProperties[$i]['position'])
+                        && $position >= $this->formProperties[$i]['position']
+                    )
                 ) {
                     $i++;
                 }

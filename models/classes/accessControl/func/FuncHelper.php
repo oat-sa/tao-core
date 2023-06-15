@@ -30,7 +30,6 @@ use oat\oatbox\service\ServiceManager;
  */
 class FuncHelper
 {
-
     /**
      * Get the controller className from extension and controller shortname
      * @param string $extension
@@ -45,7 +44,8 @@ class FuncHelper
     }
 
     /**
-     * Helps you to get the name of the class for a given URL. The controller class name is used in privileges definition.
+     * Helps you to get the name of the class for a given URL. The controller class name is used in privileges
+     * definition.
      * @param string $url
      * @throws \ResolverException
      * @return string the className
@@ -59,7 +59,9 @@ class FuncHelper
                 $route->setServiceLocator(ServiceManager::getServiceManager());
                 $class = $route->getControllerClass();
             } catch (\ResolverException $re) {
-                throw new common_exception_Error('The url "' . $url . '" could not be mapped to a controller : ' . $re->getMessage());
+                throw new common_exception_Error(
+                    'The url "' . $url . '" could not be mapped to a controller : ' . $re->getMessage()
+                );
             }
         }
         if (is_null($class)) {

@@ -25,7 +25,7 @@ use oat\oatbox\service\ConfigurableService;
 
 class JsonValidator extends ConfigurableService
 {
-    const FILE_PATH = __DIR__ . '/webhookResponseSchema.json';
+    public const FILE_PATH = __DIR__ . '/webhookResponseSchema.json';
 
     /**
      * @param mixed $data

@@ -15,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2019 (update and modification) Open Assessment Technologies SA;
  */
 
@@ -37,11 +40,10 @@ use oat\tao\model\accessControl\ActionAccessControl;
 use oat\tao\model\accessControl\Context as AclContext;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\oatbox\log\LoggerAwareTrait;
-
-use function GuzzleHttp\Psr7\stream_for;
-
 use oat\tao\model\security\xsrf\TokenService;
 use Zend\ServiceManager\ServiceLocatorInterface;
+
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Top level controller
@@ -52,7 +54,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @package tao
  *
  */
-abstract class tao_actions_CommonModule extends LegacyController implements ServiceManagerAwareInterface, CommonModuleInterface
+abstract class tao_actions_CommonModule extends LegacyController implements
+    ServiceManagerAwareInterface,
+    CommonModuleInterface
 {
     use ServiceManagerAwareTrait {
         getServiceManager as protected getOriginalServiceManager;
@@ -202,8 +206,8 @@ abstract class tao_actions_CommonModule extends LegacyController implements Serv
         $this->setData('message', $description);
         $this->setData('returnLink', $returnLink);
         if (parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST) == parse_url(ROOT_URL, PHP_URL_HOST)) {
-            $this->setData('returnUrl', htmlentities($_SERVER['HTTP_REFERER'],ENT_QUOTES));
-        }else{
+            $this->setData('returnUrl', htmlentities($_SERVER['HTTP_REFERER'], ENT_QUOTES));
+        } else {
             $this->setData('returnUrl', false);
         }
         if ($httpStatus !== null && file_exists(Template::getTemplate("error/error${httpStatus}.tpl"))) {

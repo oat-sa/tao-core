@@ -236,7 +236,7 @@ class tao_install_Setup implements Action
 
         foreach ($parameters['configuration'] as $extension => $configs) {
             foreach ($configs as $key => $config) {
-                if (isset($config['type']) && $config['type'] === 'configurableService') {
+                if (is_array($config) && isset($config['type']) && $config['type'] === 'configurableService') {
                     $className = $config['class'];
                     $params = $config['options'];
                     if (is_a($className, ConfigurableService::class, true)) {
@@ -269,7 +269,7 @@ class tao_install_Setup implements Action
             $extensionManager = $serviceManager->get(common_ext_ExtensionsManager::SERVICE_ID);
             foreach ($parameters['configuration'] as $ext => $configs) {
                 foreach ($configs as $key => $config) {
-                    if (! (isset($config['type']) && $config['type'] === 'configurableService')) {
+                    if (! (is_array($config) && isset($config['type']) && $config['type'] === 'configurableService')) {
                         if (! is_null($extensionManager->getInstalledVersion($ext))) {
                             $extension = $extensionManager->getExtensionById($ext);
                             if (

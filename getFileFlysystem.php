@@ -30,7 +30,7 @@ use oat\tao\model\mvc\Bootstrap;
 $url = $_SERVER['REQUEST_URI'];
 $rel = substr($url, strpos($url, FlyTokenWebSource::ENTRY_POINT) + strlen(FlyTokenWebSource::ENTRY_POINT));
 $parts = explode('/', $rel, 2);
-list ($webSourceId) = $parts;
+list($webSourceId) = $parts;
 $webSourceId = preg_replace('/[^a-zA-Z0-9]*/', '', $webSourceId);
 
 $root = dirname(__DIR__);

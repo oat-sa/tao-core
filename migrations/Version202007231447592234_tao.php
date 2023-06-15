@@ -18,10 +18,8 @@ use oat\tao\model\search\strategy\GenerisIndexUpdater;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 use oat\oatbox\event\EventManager;
 
-
 final class Version202007231447592234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'Register advanced search related Events/Listeners';

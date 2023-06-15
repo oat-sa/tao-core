@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
@@ -37,7 +39,6 @@ use oat\tao\model\messaging\Message;
  */
 abstract class AbstractAdapter
 {
-
     /**
      * Short description of method send
      *
@@ -56,9 +57,9 @@ abstract class AbstractAdapter
      * @var array
      */
     protected $messages = [];
-    
+
     // --- OPERATIONS ---
-    
+
     /**
      * Short description of method getMessages
      *
@@ -69,9 +70,9 @@ abstract class AbstractAdapter
     public function getMessages()
     {
         $returnValue = [];
-        
+
         $returnValue = $this->messages;
-        
+
         return (array) $returnValue;
     }
 

@@ -21,7 +21,7 @@
 
 namespace oat\tao\scripts\tools;
 
-use \common_report_Report as Report;
+use common_report_Report as Report;
 
 /**
  * Script to extract duplicate rows from an indexed CSV file.
@@ -43,7 +43,7 @@ class ExtractCsvDuplicates extends AbstractIndexedCsv
         $sourceFp = $this->getSourceFp();
         $destinationFp = $this->getDestinationFp();
         $index = $this->getIndex();
-        
+
         // Extract duplicates in a separate file.
         $duplicateCount = 0;
         foreach ($index as $identifier => $positions) {
@@ -58,7 +58,7 @@ class ExtractCsvDuplicates extends AbstractIndexedCsv
                 }
             }
         }
-        
+
         return new Report(
             Report::TYPE_INFO,
             "${duplicateCount} duplicate records extracted in file '" . realpath($this->getDestination()) . "'."

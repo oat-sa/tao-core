@@ -42,13 +42,15 @@ class E2eConfigDriver
 
         $content = json_decode(json_encode($config), true) ?? [];
 
-        if (false === file_put_contents(
+        if (
+            false === file_put_contents(
                 $this->configPath,
                 json_encode(
                     array_merge($content, $originalConfig),
                     JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
                 )
-            )) {
+            )
+        ) {
             throw new RuntimeException('Impossible to create e2e env configuration file');
         }
     }

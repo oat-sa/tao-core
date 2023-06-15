@@ -144,7 +144,8 @@ class InjectionAwareServiceTest extends TestCase
         );
 
         $this->assertEquals(
-            "new oat\\tao\\model\\service\\HostInjectionAwareService(new oat\\tao\\model\\service\\PureInjectionAwareService('a'))",
+            "new oat\\tao\\model\\service\\HostInjectionAwareService("
+                . "new oat\\tao\\model\\service\\PureInjectionAwareService('a'))",
             $instance->__toPhpCode()
         );
     }
@@ -165,6 +166,7 @@ class InjectionAwareServiceTest extends TestCase
             new PureConfigurableService()
         );
 
+        // phpcs:disable Generic.Files.LineLength
         $expected = <<<'EXPECTED'
 new class implements \oat\oatbox\service\ServiceFactoryInterface {
     public function __invoke(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
@@ -173,6 +175,7 @@ new class implements \oat\oatbox\service\ServiceFactoryInterface {
     }
 }
 EXPECTED;
+        // phpcs:enable Generic.Files.LineLength
 
         $this->assertEquals($expected, $instance->__toPhpCode());
     }
@@ -184,6 +187,7 @@ EXPECTED;
             new PureInjectionAwareService('a')
         );
 
+        // phpcs:disable Generic.Files.LineLength
         $expected = <<<'EXPECTED'
 new class implements \oat\oatbox\service\ServiceFactoryInterface {
     public function __invoke(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
@@ -193,6 +197,7 @@ new oat\tao\model\service\PureInjectionAwareService('a'));
     }
 }
 EXPECTED;
+        // phpcs:enable Generic.Files.LineLength
 
         $this->assertEquals($expected, $instance->__toPhpCode());
     }
@@ -229,6 +234,7 @@ EXPECTED;
             )
         );
 
+        // phpcs:disable Generic.Files.LineLength
         $expected = <<<'EXPECTED'
 new class implements \oat\oatbox\service\ServiceFactoryInterface {
     public function __invoke(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
@@ -241,6 +247,8 @@ new class implements \oat\oatbox\service\ServiceFactoryInterface {
     }
 }
 EXPECTED;
+        // phpcs:enable Generic.Files.LineLength
+
         $this->assertEquals($expected, $instance->__toPhpCode());
     }
 
@@ -267,4 +275,3 @@ EXPECTED;
         $this->assertEquals($expected, $instance->__toPhpCode());
     }
 }
-

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -28,7 +31,6 @@
  */
 class tao_helpers_form_validators_IndexIdentifier extends tao_helpers_form_Validator
 {
-
     /**
      * evalute the identifier
      *
@@ -46,7 +48,9 @@ class tao_helpers_form_validators_IndexIdentifier extends tao_helpers_form_Valid
             if (!$this->hasOption('message')) {
                 $message = empty($values)
                     ? __('The index identifier should not be empty')
+                    // phpcs:disable Generic.Files.LineLength
                     : __('"%s" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only', $values)
+                    // phpcs:enable Generic.Files.LineLength
                 ;
                 $this->setMessage($message);
             }

@@ -15,10 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *             2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);\n *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *             2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2013 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\tao\model\oauth;
@@ -43,12 +46,12 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
 {
     use OntologyAwareTrait;
 
-    const OPTION_NONCE_STORE = 'nonce';
+    public const OPTION_NONCE_STORE = 'nonce';
 
-    const CLASS_URI_OAUTH_CONSUMER = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer';
-    const PROPERTY_OAUTH_KEY = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey';
-    const PROPERTY_OAUTH_SECRET = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret';
-    const PROPERTY_OAUTH_CALLBACK = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl';
+    public const CLASS_URI_OAUTH_CONSUMER = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer';
+    public const PROPERTY_OAUTH_KEY = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthKey';
+    public const PROPERTY_OAUTH_SECRET = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret';
+    public const PROPERTY_OAUTH_CALLBACK = 'http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl';
 
     /**
      * Helper function to find the OauthConsumer RDF Resource
@@ -63,7 +66,10 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
         $returnValue = null;
 
         $class = $this->getClass(self::CLASS_URI_OAUTH_CONSUMER);
-        $instances = $class->searchInstances([self::PROPERTY_OAUTH_KEY => $consumer_key], ['like' => false, 'recursive' => true]);
+        $instances = $class->searchInstances(
+            [self::PROPERTY_OAUTH_KEY => $consumer_key],
+            ['like' => false, 'recursive' => true]
+        );
         if (count($instances) == 0) {
             $oauthService = $this->getServiceLocator()->get(OauthService::SERVICE_ID);
             /** @var LockoutInterface $lockoutService */
@@ -97,7 +103,9 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
             self::PROPERTY_OAUTH_CALLBACK
         ]);
         if (empty($values[self::PROPERTY_OAUTH_KEY]) || empty($values[self::PROPERTY_OAUTH_SECRET])) {
-            throw new \tao_models_classes_oauth_Exception('Incomplete oauth consumer definition for ' . $credentials->getUri());
+            throw new \tao_models_classes_oauth_Exception(
+                'Incomplete oauth consumer definition for ' . $credentials->getUri()
+            );
         }
         $consumer_key = (string)current($values[self::PROPERTY_OAUTH_KEY]);
         $secret = (string)current($values[self::PROPERTY_OAUTH_SECRET]);
@@ -111,7 +119,7 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
         }
         return new OAuthConsumer($consumer_key, $secret, $callbackUrl);
     }
-    
+
 
     /**
      * returns the OauthConsumer for the specified key
@@ -120,6 +128,8 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
      * @author Joel Bout, <joel@taotesting.com>
      * @param  consumer_key
      * @return OAuthConsumer
+     *
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function lookup_consumer($consumer_key)
     {
@@ -128,11 +138,12 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
         $consumer = $this->findOauthConsumerResource($consumer_key);
         $secret         = (string)$consumer->getUniquePropertyValue($this->getProperty(self::PROPERTY_OAUTH_SECRET));
         $callbackUrl    = null;
-        
+
         $returnValue = new OAuthConsumer($consumer_key, $secret, $callbackUrl);
 
         return $returnValue;
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     /**
      * Should verify if the token exists and return it
@@ -144,12 +155,15 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
      * @param  token_type
      * @param  token
      * @return mixed
+     *
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function lookup_token($consumer, $token_type, $token)
     {
         \common_Logger::d(__CLASS__ . '::' . __FUNCTION__ . ' called for token ' . $token . ' of type ' . $token_type);
         return new OAuthToken($consumer, "");
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     /**
      * Should verify if a nonce has already been used
@@ -162,12 +176,15 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
      * @param string $nonce
      * @param string $timestamp
      * @return mixed
+     *
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function lookup_nonce($consumer, $token, $nonce, $timestamp)
     {
         $store = $this->getSubService(self::OPTION_NONCE_STORE);
         return $store->isValid($timestamp . '_' . $consumer->key . '_' . $nonce) ? null : true;
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     /**
      * Should create a new request token
@@ -178,12 +195,15 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
      * @param  consumer
      * @param  callback
      * @return mixed
+     *
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
-    function new_request_token($consumer, $callback = null)
+    public function new_request_token($consumer, $callback = null)
     {
         \common_Logger::d(__CLASS__ . '::' . __FUNCTION__ . ' called');
         return null;
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     /**
      * Should create a new access token
@@ -194,10 +214,13 @@ class DataStore extends ConfigurableService implements ImsOauthDataStoreInterfac
      * @param  token
      * @param  consumer
      * @return mixed
+     *
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function new_access_token($token, $consumer, $verifier = null)
     {
         \common_Logger::d(__CLASS__ . '::' . __FUNCTION__ . ' called');
         return null;
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 }

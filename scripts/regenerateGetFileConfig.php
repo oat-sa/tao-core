@@ -45,7 +45,7 @@ if ($taoExtension->hasConfig(tao_models_classes_fsAccess_Manager::CONFIG_KEY)) {
                 exit(1);
             }
         }
-        
+
         $configData[$provider->getId()] = [
             'secret' => $config['secret'],
             'folder' => $provider->getFileSystem()->getPath()

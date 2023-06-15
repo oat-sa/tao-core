@@ -22,7 +22,7 @@
 
 namespace oat\tao\model\lock\implementation;
 
-use \oat\tao\model\lock\LockSystem;
+use oat\tao\model\lock\LockSystem;
 use core_kernel_classes_Resource;
 use common_exception_InconsistentData;
 use oat\oatbox\service\ConfigurableService;
@@ -30,12 +30,12 @@ use oat\oatbox\service\ConfigurableService;
 /**
  * Implements a non locking Lock
  *
- * @note It would be preferably static but we may want to have the polymorphism on lock but it would be prevented by explicit class method static calls.
- * Also if you nevertheless call it statically you may want to avoid the late static binding for the getLockProperty
+ * @note It would be preferably static, but we may want to have the polymorphism on lock, but it would be prevented by
+ *       explicit class method static calls. Also if you nevertheless call it statically you may want to avoid the late
+ *       static binding for the getLockProperty
  */
 class NoLock extends ConfigurableService implements LockSystem
 {
-
     /**
      * Do nothing
      * @param core_kernel_classes_Resource $resource
@@ -45,7 +45,7 @@ class NoLock extends ConfigurableService implements LockSystem
     {
         // do nothing
     }
-    
+
     /**
      * always returns false
      * @return boolean
@@ -54,7 +54,7 @@ class NoLock extends ConfigurableService implements LockSystem
     {
         return false;
     }
-    
+
     /**
      * does nothing
      *
@@ -64,7 +64,7 @@ class NoLock extends ConfigurableService implements LockSystem
     public function releaseLock(core_kernel_classes_Resource $resource, $ownerId)
     {
     }
-    
+
     /**
      * does nothing
      *
@@ -73,7 +73,7 @@ class NoLock extends ConfigurableService implements LockSystem
     public function forceReleaseLock(core_kernel_classes_Resource $resource)
     {
     }
-    
+
     /**
      * Throws an exception as no lock can exist
      *

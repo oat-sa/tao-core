@@ -33,11 +33,11 @@ use oat\generis\model\OntologyAwareTrait;
 class ValidationRuleRegistry extends AbstractRegistry
 {
     use OntologyAwareTrait;
-    
-    const REGISTRY_ID = 'validationRules';
-    
-    const PROPERTY_VALIDATION_RULE = 'http://www.tao.lu/Ontologies/generis.rdf#validationRule';
-    
+
+    public const REGISTRY_ID = 'validationRules';
+
+    public const PROPERTY_VALIDATION_RULE = 'http://www.tao.lu/Ontologies/generis.rdf#validationRule';
+
     /**
      * (non-PHPdoc)
      * @see \oat\oatbox\AbstractRegistry::getExtension()
@@ -46,7 +46,7 @@ class ValidationRuleRegistry extends AbstractRegistry
     {
         return \common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see \oat\oatbox\AbstractRegistry::getConfigId()
@@ -55,7 +55,7 @@ class ValidationRuleRegistry extends AbstractRegistry
     {
         return self::REGISTRY_ID;
     }
-    
+
     public function getValidators(\core_kernel_classes_Property $property)
     {
         $validationProp = $this->getProperty(self::PROPERTY_VALIDATION_RULE);

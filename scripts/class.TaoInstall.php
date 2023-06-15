@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2017 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
@@ -30,7 +34,7 @@
  */
 class tao_scripts_TaoInstall extends tao_scripts_Runner
 {
-    const CONTAINER_INDEX = 'taoScriptsInstall';
+    public const CONTAINER_INDEX = 'taoScriptsInstall';
 
     // --- ASSOCIATIONS ---
 
@@ -51,7 +55,8 @@ class tao_scripts_TaoInstall extends tao_scripts_Runner
      */
     public function preRun()
     {
-        $root_path = realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..') . DIRECTORY_SEPARATOR;
+        $root_path = realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..')
+            . DIRECTORY_SEPARATOR;
 
         $this->options =  [
             'db_driver' => 'mysql',
@@ -85,16 +90,21 @@ class tao_scripts_TaoInstall extends tao_scripts_Runner
         $this->options = array_merge($this->options, $this->parameters);
 
         // Feature #1789: default db_name is module_name if not specified.
-        $this->options['db_name'] = (empty($this->options['db_name']) ? $this->options['module_name'] : $this->options['db_name']);
+        $this->options['db_name'] = (empty($this->options['db_name'])
+            ? $this->options['module_name']
+            : $this->options['db_name']);
 
         // If no instance_name given, it takes the value of module_name.
-        $this->options['instance_name'] = (empty($this->options['instance_name']) ? $this->options['module_name'] : $this->options['instance_name']);
+        $this->options['instance_name'] = (empty($this->options['instance_name'])
+            ? $this->options['module_name']
+            : $this->options['instance_name']);
 
         // user password treatment
         $this->options["user_pass1"] = $this->options['user_pass'];
         // module namespace generation
         if (empty($this->options["module_namespace"])) {
-            $this->options['module_namespace'] = 'http://' . $this->options['module_host'] . '/' . $this->options['module_name'] . '.rdf';
+            $this->options['module_namespace'] = 'http://' . $this->options['module_host'] . '/'
+                . $this->options['module_name'] . '.rdf';
         }
 
         if (empty($this->options['module_url'])) {

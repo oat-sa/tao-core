@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -33,7 +35,6 @@ use oat\tao\model\upload\UploadService;
  */
 class tao_helpers_form_validators_FileMimeType extends tao_helpers_form_Validator
 {
-
     protected function getDefaultMessage()
     {
         return __('Invalid file type!');
@@ -81,7 +82,11 @@ class tao_helpers_form_validators_FileMimeType extends tao_helpers_form_Validato
                 if (in_array($mimeType, $this->getOption('mimetype'))) {
                     $returnValue = true;
                 } else {
-                    $this->setMessage(__('%1$s expected but %2$s detected', implode(', ', $this->getOption('mimetype')), $mimeType));
+                    $this->setMessage(
+                        // phpcs:disable Generic.Files.LineLength
+                        __('%1$s expected but %2$s detected', implode(', ', $this->getOption('mimetype')), $mimeType)
+                        // phpcs:enable Generic.Files.LineLength
+                    );
                 }
             } else {
                 common_Logger::i('mimetype empty');

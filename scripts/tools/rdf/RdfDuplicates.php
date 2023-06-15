@@ -67,7 +67,8 @@ class RdfDuplicates extends AbstractAction
         $report = Report::createInfo('Duplication searching');
 
         $sql = 'SELECT COUNT(*) FROM statements s JOIN statements s1 ON s.subject=s1.subject AND s.id!=s1.id
-                  AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language AND s.modelid=s1.modelid';
+            AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language
+            AND s.modelid=s1.modelid';
         $stmt = $this->getPersistence()->query($sql);
         $total = $stmt->fetchAll()[0]['count'];
         if (!$total) {
@@ -75,8 +76,9 @@ class RdfDuplicates extends AbstractAction
         } else {
             if (isset($params[0]) && $params[0] == '--fix') {
                 do {
-                    $sql = 'SELECT s.id AS source FROM statements s JOIN statements s1 ON s.subject=s1.subject AND s.id!=s1.id
-                      AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language AND s.modelid=s1.modelid LIMIT 1';
+                    $sql = 'SELECT s.id AS source FROM statements s JOIN statements s1 ON s.subject=s1.subject
+                        AND s.id!=s1.id AND s.predicate=s1.predicate AND s.object=s1.object
+                        AND s.l_language=s1.l_language AND s.modelid=s1.modelid LIMIT 1';
                     $stmt = $this->getPersistence()->query($sql);
                     $res = $stmt->fetchAll();
                     $id = 0;
@@ -84,8 +86,9 @@ class RdfDuplicates extends AbstractAction
                         $id = $res[0]['source'];
                     }
                     if ($id) {
-                        $sql = 'SELECT s1.id FROM statements s JOIN statements s1 ON s.subject=s1.subject AND s.id!=s1.id
-                            AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language AND s.modelid=s1.modelid
+                        $sql = 'SELECT s1.id FROM statements s JOIN statements s1 ON s.subject=s1.subject
+                            AND s.id!=s1.id AND s.predicate=s1.predicate AND s.object=s1.object
+                            AND s.l_language=s1.l_language AND s.modelid=s1.modelid
                           WHERE s.id=?';
                         $stmt = $this->getPersistence()->query($sql, [$id]);
                         $duplicates = array_column($stmt->fetchAll(), 'id');

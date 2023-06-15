@@ -1,2 +1,3 @@
-  - source: /locales/en-US/*.po
+files:
+  - source: /locales/en-GB/messages.po
     translation: /locales/%locale%/%original_file_name%

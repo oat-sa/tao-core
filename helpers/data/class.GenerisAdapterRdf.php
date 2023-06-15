@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2017 (update and modification) Open Assessment Technologies SA
  *
  */
@@ -37,7 +39,6 @@ use oat\oatbox\filesystem\File;
  */
 class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
 {
-
     /**
      * Import a XML file as is into the ontology
      *
@@ -138,7 +139,10 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
         foreach ($resource->getRdfTriples() as $triple) {
             $language = !empty($triple->lg) ? $triple->lg : null;
             if (common_Utils::isUri($triple->object)) {
-                if ($triple->predicate !== OntologyRdf::RDF_TYPE && strpos($triple->object, LOCAL_NAMESPACE) !== false) {
+                if (
+                    $triple->predicate !== OntologyRdf::RDF_TYPE
+                    && strpos($triple->object, LOCAL_NAMESPACE) !== false
+                ) {
                     continue;
                 }
                 $graph->add($triple->subject, $triple->predicate, $triple->object);

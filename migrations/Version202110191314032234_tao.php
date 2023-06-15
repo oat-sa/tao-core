@@ -16,7 +16,6 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
  */
 final class Version202110191314032234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'This migration will add he-IL locale to RTL map';

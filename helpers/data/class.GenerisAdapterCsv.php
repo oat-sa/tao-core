@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2018 (update and modification) Open Assessment Technologies SA
  */
 
@@ -36,7 +38,6 @@ use oat\oatbox\filesystem\File;
  */
 class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
 {
-
     /**
      * Short description of attribute loadedFile
      *
@@ -145,14 +146,20 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         }
 
         if (@preg_match('//u', $file->read()) === false) {
-            return new \common_report_Report(\common_report_Report::TYPE_ERROR, __("The imported file is not properly UTF-8 encoded."));
+            return new \common_report_Report(
+                \common_report_Report::TYPE_ERROR,
+                __("The imported file is not properly UTF-8 encoded.")
+            );
         }
 
         $csvData = $this->load($file);
 
         $createdResources = 0;
         $toImport = $csvData->count();
-        $report = new common_report_Report(common_report_Report::TYPE_ERROR, __('Data not imported. All records are invalid.'));
+        $report = new common_report_Report(
+            common_report_Report::TYPE_ERROR,
+            __('Data not imported. All records are invalid.')
+        );
 
         for ($rowIterator = 0; $rowIterator < $csvData->count(); $rowIterator++) {
             helpers_TimeOutHelper::setTimeOutLimit(helpers_TimeOutHelper::SHORT);
@@ -176,7 +183,11 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
                         // process value
                         if (isset($csvRow[$csvColumn]) && !is_null($csvRow[$csvColumn])) {
                             $property = new core_kernel_classes_Property($propUri);
-                            $evaluatedData[$propUri] = $this->evaluateValues($csvColumn, $property, $csvRow[$csvColumn]);
+                            $evaluatedData[$propUri] = $this->evaluateValues(
+                                $csvColumn,
+                                $property,
+                                $csvRow[$csvColumn]
+                            );
                         }
                     }
                 }
@@ -189,11 +200,18 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
                     $callback($resource);
                 }
 
-                $report->add(new common_report_Report(common_report_Report::TYPE_SUCCESS, __('Imported resource "%s"', $resource->getLabel()), $resource));
+                $report->add(
+                    new common_report_Report(
+                        common_report_Report::TYPE_SUCCESS,
+                        __('Imported resource "%s"', $resource->getLabel()),
+                        $resource
+                    )
+                );
                 $createdResources++;
             } catch (ValidationException $valExc) {
                 $failure = common_report_Report::createFailure(
-                    __('Row %s', $rowIterator + 1) . ' ' . $valExc->getProperty()->getLabel() . ': ' . $valExc->getUserMessage() . ' "' . $valExc->getValue() . '"'
+                    __('Row %s', $rowIterator + 1) . ' ' . $valExc->getProperty()->getLabel() . ': '
+                        . $valExc->getUserMessage() . ' "' . $valExc->getValue() . '"'
                 );
                 $report->add($failure);
             }
@@ -304,13 +322,18 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
      * @param  string $value
      * @return mixed
      */
-    public function attachResource(core_kernel_classes_Property $targetProperty, core_kernel_classes_Resource $targetResource, $value)
-    {
+    public function attachResource(
+        core_kernel_classes_Property $targetProperty,
+        core_kernel_classes_Resource $targetResource,
+        $value
+    ) {
         // We have to check if the resource identified by value exists in the Ontology.
         $resource = new core_kernel_classes_Resource($value);
         if ($resource->exists()) {
             // Is the range correct ?
-            $targetPropertyRanges = $targetProperty->getPropertyValuesCollection(new core_kernel_classes_Property(OntologyRdfs::RDFS_RANGE));
+            $targetPropertyRanges = $targetProperty->getPropertyValuesCollection(
+                new core_kernel_classes_Property(OntologyRdfs::RDFS_RANGE)
+            );
             $rangeCompliance = false;
 
             // If $targetPropertyRange->count = 0, we consider that the resouce
@@ -348,13 +371,22 @@ class tao_helpers_data_GenerisAdapterCsv extends tao_helpers_data_GenerisAdapter
         /**  @var tao_helpers_form_Validator $validator */
         $validators = $this->getValidator($propUri);
         foreach ((array)$validators as $validator) {
-            $validator->setOptions(array_merge(['resourceClass' => $destination, 'property' => $propUri], $validator->getOptions()));
+            $validator->setOptions(
+                array_merge(
+                    ['resourceClass' => $destination, 'property' => $propUri],
+                    $validator->getOptions()
+                )
+            );
             $value = isset($csvRow[$csvColumn]) ? $csvRow[$csvColumn] : null;
             if ($value === null) {
                 $value = isset($evaluatedData[$propUri]) ? $evaluatedData[$propUri] : null;
             }
             if (!$validator->evaluate($value)) {
-                throw new ValidationException(new core_kernel_classes_Property($propUri), $value, $validator->getMessage());
+                throw new ValidationException(
+                    new core_kernel_classes_Property($propUri),
+                    $value,
+                    $validator->getMessage()
+                );
             }
         }
         return true;

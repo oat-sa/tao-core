@@ -60,7 +60,6 @@ class ModuleRegistry extends AbstractModuleRegistry
  */
 class ModuleService extends AbstractModuleService
 {
-
 }
 
 /**

@@ -22,30 +22,27 @@ declare(strict_types=1);
 
 namespace oat\tao\model\webhooks;
 
+use Laminas\ServiceManager\ServiceLocatorAwareInterface;
+use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\webhooks\configEntity\Webhook;
 
-class WebhookRegistryManager extends ConfigurableService implements WebhookRegistryManagerInterface
+class WebhookRegistryManager extends ConfigurableService implements
+    WebhookRegistryManagerInterface,
+    ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     public function addWebhookConfig(Webhook $webhook, string $event): void
     {
-        $webhooks = $this->getWebhookFileRegistry()->getOption('webhooks');
-        $events = $this->getWebhookFileRegistry()->getOption('events');
+        $webhookRegistry = $this->getWebhookRegistry();
 
-        $webhooks[$webhook->getId()] = $webhook->toArray();
-        $events[$event] = [$webhook->getId()];
-
-        $this->getWebhookFileRegistry()->setOption('webhooks', $webhooks);
-        $this->getWebhookFileRegistry()->setOption('events', $events);
-
-        $this->getServiceManager()->register(
-            WebhookFileRegistry::SERVICE_ID,
-            $this->getWebhookFileRegistry()
-        );
+        $webhookRegistry->addWebhook($webhook, [$event]);
     }
 
-    private function getWebhookFileRegistry(): WebhookFileRegistry
+    private function getWebhookRegistry(): WebhookRegistryInterface
     {
-        return $this->getServiceLocator()->get(WebhookFileRegistry::class);
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getServiceLocator()->getContainer()->get(WebhookRegistryInterface::class);
     }
 }

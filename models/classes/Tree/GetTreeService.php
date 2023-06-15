@@ -9,7 +9,7 @@ use tao_helpers_Request;
 
 class GetTreeService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/GetTree';
+    public const SERVICE_ID = 'tao/GetTree';
 
     /**
      * @param GetTreeRequest $request

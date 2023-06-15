@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -19,6 +18,8 @@ declare(strict_types=1);
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\notifications;
 

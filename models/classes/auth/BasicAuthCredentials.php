@@ -27,8 +27,8 @@ namespace oat\tao\model\auth;
  */
 class BasicAuthCredentials extends AbstractCredentials
 {
-    const LOGIN = 'login';
-    const PASSWORD = 'password';
+    public const LOGIN = 'login';
+    public const PASSWORD = 'password';
 
     /**
      * @return array

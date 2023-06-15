@@ -50,7 +50,14 @@ class tao_actions_Lock extends tao_actions_CommonModule
             $this->hasRequestParameter('topclass-label') ? $this->getRequestParameter('topclass-label') : __('Resource')
         );
 
-        if (AclProxy::hasAccess($this->getSession()->getUser(), __CLASS__, 'forceRelease', ['uri' => $resource->getUri()])) {
+        if (
+            AclProxy::hasAccess(
+                $this->getSession()->getUser(),
+                __CLASS__,
+                'forceRelease',
+                ['uri' => $resource->getUri()]
+            )
+        ) {
             $this->setData('id', $resource->getUri());
             $this->setData('forceRelease', true);
         }

@@ -129,7 +129,9 @@ class tao_actions_Breadcrumbs extends \tao_actions_CommonModule implements Bread
         if ($service instanceof Breadcrumbs) {
             return $service->breadcrumbs($route, $parsedRoute);
         } else {
-            throw new common_exception_NoImplementation('Class ' . get_class($service) . ' does not implement the Breadcrumbs interface!');
+            throw new common_exception_NoImplementation(
+                'Class ' . get_class($service) . ' does not implement the Breadcrumbs interface!'
+            );
         }
     }
 

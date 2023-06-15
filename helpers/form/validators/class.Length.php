@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -31,7 +34,7 @@ class tao_helpers_form_validators_Length extends tao_helpers_form_Validator
     public function setOptions(array $options)
     {
         parent::setOptions($options);
-        
+
         if ($this->hasOption('min') && $this->hasOption('max')) {
             $this->setMessage(sprintf(
                 '%s (%s, %s)',
@@ -68,9 +71,9 @@ class tao_helpers_form_validators_Length extends tao_helpers_form_Validator
     {
         $returnValue = (bool) false;
 
-        
+
         $returnValue = true;
-        
+
         $values = is_array($values) ? $values : [$values];
         foreach ($values as $value) {
             if ($this->hasOption('min') && mb_strlen($value) < $this->getOption('min')) {
@@ -86,7 +89,7 @@ class tao_helpers_form_validators_Length extends tao_helpers_form_Validator
                 break;
             }
         }
-        
+
 
         return (bool) $returnValue;
     }

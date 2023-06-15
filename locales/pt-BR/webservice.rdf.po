@@ -1,0 +1,39 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tao-3x\n"
+"PO-Revision-Date: 2023-04-21 15:46\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: pt-BR\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: pt-BR\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-3x\n"
+"X-Crowdin-Project-ID: 582145\n"
+"X-Crowdin-Language: pt-BR\n"
+"X-Crowdin-File: /tao/locales/en-US/webservice.rdf.po\n"
+"X-Crowdin-File-ID: 1359\n"
+"Language-Team: Portuguese, Brazilian\n"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#WebServiceUrl
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Web Service Url"
+msgstr "Url de Serviço Web"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#WebServiceUrl
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Web Service Url"
+msgstr "Url de Serviço Web"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ServiceWebService
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Web Service"
+msgstr "Serviço Web"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ServiceWebService
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Embed a generic web service accessible via url in an iframe"
+msgstr "Incorporar um serviço web genérico acessível através da Url em um iframe"
+

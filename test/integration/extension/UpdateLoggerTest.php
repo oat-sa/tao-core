@@ -33,7 +33,7 @@ class UpdateLoggerTest extends TaoPhpUnitTestRunner
         $tmpDir = $this->getTempDirectory();
         $logger = new UpdateLogger([UpdateLogger::OPTION_FILESYSTEM => $tmpDir->getFileSystemId()]);
         $logger->setServiceLocator($tmpDir->getServiceLocator());
-        
+
         $files = [];
         foreach ($tmpDir->getIterator(Directory::ITERATOR_FILE) as $file) {
             $files[] = $file;
@@ -47,7 +47,7 @@ class UpdateLoggerTest extends TaoPhpUnitTestRunner
         }
         $this->assertCount(2, $files);
         $file = reset($files);
-        
+
         $content = $file->read();
         $this->assertFalse(strpos($content, 'WeirdString'));
         $this->assertNotFalse(strpos($content, 'SampleError'));

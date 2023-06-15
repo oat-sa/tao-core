@@ -27,8 +27,12 @@ use oat\tao\model\mvc\Bootstrap as MvcBootstrap;
  *  1. Load and initialize the API and so the database
  *  2. Initialize the autoloaders
  *  3. Initialize the extension manager
+ *
+ * phpcs:disable PSR1.Files.SideEffects
  */
 require_once __DIR__ . '/../../vendor/autoload.php';
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The Bootstrap Class enables you to drive the application flow for a given extenstion.
  * A bootstrap instance initialize the context and starts all the services:
@@ -53,12 +57,12 @@ require_once __DIR__ . '/../../vendor/autoload.php';
  */
 class Bootstrap extends MvcBootstrap
 {
-    
     public function __construct($extName)
     {
-        $configFile = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'generis.conf.php';
+        $configFile = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR
+            . 'generis.conf.php';
         parent::__construct($configFile);
-        
+
         // load extension constants
         common_ext_ExtensionsManager::singleton()->getExtensionById($extName);
     }

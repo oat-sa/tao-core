@@ -17,6 +17,7 @@
  *
  * Copyright (c) 2022  (original work) Open Assessment Technologies SA;
  */
+
 declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\metadata\compiler;

@@ -53,23 +53,23 @@ use oat\tao\helpers\Template;
 class ConfigurableTheme extends Configurable implements Theme
 {
     /** Theme id offset in the options. */
-    const THEME_ID    = 'id';
+    public const THEME_ID    = 'id';
 
     /** Theme label offset in the options. */
-    const THEME_LABEL = 'label';
+    public const THEME_LABEL = 'label';
 
     /** Theme data offset in the options. */
-    const THEME_DATA  = 'data';
+    public const THEME_DATA  = 'data';
 
     /** Theme css offset in the options. */
-    const THEME_CSS   = 'stylesheet';
+    public const THEME_CSS   = 'stylesheet';
 
     /** Theme data logo url offset in the options under the data offset. */
-    const THEME_DATA_LOGO_URL = 'logo-url';
+    public const THEME_DATA_LOGO_URL = 'logo-url';
     /** Theme data logo link offset in the options under the data offset. */
-    const THEME_DATA_LINK     = 'link';
+    public const THEME_DATA_LINK     = 'link';
     /** Theme data logo title offset in the options under the data offset. */
-    const THEME_DATA_MESSAGE  = 'message';
+    public const THEME_DATA_MESSAGE  = 'message';
 
     /**
      * Defined custom texts

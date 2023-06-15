@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -17,6 +17,8 @@
  *
  * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\service;
 
@@ -98,7 +100,8 @@ FACTORY;
 
             if (!$class->hasProperty($parameterName)) {
                 $message = sprintf(
-                    'Cannot find property "%s" in class %s. Please name properties exactly like constructor parameters, or overload %s',
+                    'Cannot find property "%s" in class %s. Please name properties exactly like constructor '
+                        . 'parameters, or overload %s',
                     $parameterName,
                     static::class,
                     __METHOD__

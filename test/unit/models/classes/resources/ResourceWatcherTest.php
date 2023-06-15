@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -95,6 +96,7 @@ class ResourceWatcherTest extends TestCase
         $this->sut->setServiceLocator($serviceLocator);
     }
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testCatchCreatedResourceEvent_mustCreateIndexTaskInCaseResourceIsSupportedByIndex(): void
     {
         $classUri = 'https://tao.docker.localhost/ontologies/tao.rdf#Item';
@@ -120,7 +122,9 @@ class ResourceWatcherTest extends TestCase
             new ResourceCreated($this->resource)
         );
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName,Generic.Files.LineLength
     public function testCatchCreatedResourceEvent_mustCreateIndexTaskInCaseResourceIsSupportedByIndexWhenRootClassBelongsToParent(): void
     {
         $classUri = 'https://tao.docker.localhost/ontologies/tao.rdf#Item';
@@ -180,7 +184,9 @@ class ResourceWatcherTest extends TestCase
             new ResourceCreated($this->resource)
         );
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName,Generic.Files.LineLength
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testCatchCreatedResourceEvent_mustNotCreateIndexTaskInCaseResourceIsNotSupported(): void
     {
         $classUri = 'https://tao.docker.localhost/ontologies/tao.rdf#Item';
@@ -216,7 +222,9 @@ class ResourceWatcherTest extends TestCase
             new ResourceCreated($this->resource)
         );
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testCatchUpdatedResourceEvent_mustCreateIndexTaskInCaseResourceIsSupportedByIndex(): void
     {
         $classUri = 'https://tao.docker.localhost/ontologies/tao.rdf#Item';
@@ -244,7 +252,9 @@ class ResourceWatcherTest extends TestCase
             new ResourceUpdated($this->resource)
         );
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testCatchUpdatedResourceEvent_mustNotCreateIndexTask(): void
     {
         $advancedSearchEnabled = false;
@@ -269,7 +279,9 @@ class ResourceWatcherTest extends TestCase
             new ResourceUpdated($this->resource)
         );
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testCatchUpdatedResourceEvent_mustCreateIndexTaskInCaseClassIsSupportedByIndex(): void
     {
         $resourceUri = 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec';
@@ -296,6 +308,7 @@ class ResourceWatcherTest extends TestCase
             new ResourceUpdated($this->resource)
         );
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     public function testCatchDeletedResourceEventSuccess(): void
     {
@@ -318,7 +331,8 @@ class ResourceWatcherTest extends TestCase
         $this->logger->expects($this->once())
             ->method('error')
             ->with(
-                'Error delete index document for https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec with message '
+                'Error delete index document for '
+                    . 'https://tao.docker.localhost/ontologies/tao.rdf#i5ef45f413088c8e7901a84708e84ec with message '
             );
 
         $this->sut->catchDeletedResourceEvent(

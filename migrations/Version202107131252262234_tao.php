@@ -10,7 +10,6 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
 
 final class Version202107131252262234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'Register ActionBlackList';

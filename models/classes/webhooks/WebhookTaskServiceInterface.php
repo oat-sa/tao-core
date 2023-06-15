@@ -27,7 +27,7 @@ use oat\tao\model\webhooks\task\WebhookTaskParams;
  */
 interface WebhookTaskServiceInterface
 {
-    const SERVICE_ID = 'tao/webhookTaskService';
+    public const SERVICE_ID = 'tao/webhookTaskService';
 
     /**
      * Should be called in updater/install script for specific env to

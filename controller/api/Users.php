@@ -257,7 +257,12 @@ class Users extends tao_actions_CommonRestModule
     protected function validateParameters(array $parameters)
     {
         if (empty($parameters[UserRdf::PROPERTY_LOGIN])) {
-            throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Should not be empty", $this->reverseSearchAlias(UserRdf::PROPERTY_LOGIN)));
+            throw new common_exception_ValidationFailed(
+                null,
+                // phpcs:disable Generic.Files.LineLength
+                __("Validation for field '%s' has failed. Should not be empty", $this->reverseSearchAlias(UserRdf::PROPERTY_LOGIN))
+                // phpcs:enable Generic.Files.LineLength
+            );
         }
     }
 
@@ -272,7 +277,10 @@ class Users extends tao_actions_CommonRestModule
         $roles = $parameters[UserRdf::PROPERTY_ROLES];
 
         if (!is_array($roles)) {
-            throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. List of values expected", 'roles'));
+            throw new common_exception_ValidationFailed(
+                null,
+                __("Validation for field '%s' has failed. List of values expected", 'roles')
+            );
         }
 
         if (!count($roles)) {
@@ -283,10 +291,20 @@ class Users extends tao_actions_CommonRestModule
 
         foreach ($roles as $role) {
             if (!common_Utils::isUri($role)) {
-                throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Valid URI expected. Given: %s", 'roles', $role));
+                throw new common_exception_ValidationFailed(
+                    null,
+                    // phpcs:disable Generic.Files.LineLength
+                    __("Validation for field '%s' has failed. Valid URI expected. Given: %s", 'roles', $role)
+                    // phpcs:enable Generic.Files.LineLength
+                );
             }
             if (!array_key_exists($role, $roleService->getAllRoles())) {
-                throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Valid role expected. Given: %s", 'roles', $role));
+                throw new common_exception_ValidationFailed(
+                    null,
+                    // phpcs:disable Generic.Files.LineLength
+                    __("Validation for field '%s' has failed. Valid role expected. Given: %s", 'roles', $role)
+                    // phpcs:enable Generic.Files.LineLength
+                );
             }
         }
 
@@ -300,7 +318,10 @@ class Users extends tao_actions_CommonRestModule
      */
     protected function processLanguages(array $parameters)
     {
-        $uriProperties = array_intersect_key($this->getParametersAliases(), array_flip(['userLanguage', 'defaultLanguage']));
+        $uriProperties = array_intersect_key(
+            $this->getParametersAliases(),
+            array_flip(['userLanguage', 'defaultLanguage'])
+        );
 
         foreach ($parameters as $key => $value) {
             if (!in_array($key, $uriProperties, true)) {
@@ -308,11 +329,21 @@ class Users extends tao_actions_CommonRestModule
             }
 
             if (!common_Utils::isUri($value)) {
-                throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Valid URI expected", array_search($key, $uriProperties, true)));
+                throw new common_exception_ValidationFailed(
+                    null,
+                    // phpcs:disable Generic.Files.LineLength
+                    __("Validation for field '%s' has failed. Valid URI expected", array_search($key, $uriProperties, true))
+                    // phpcs:enable Generic.Files.LineLength
+                );
             }
 
             if (!tao_models_classes_LanguageService::getExistingLanguageUri($value)) {
-                throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Language does not exist in the system", array_search($key, $uriProperties, true)));
+                throw new common_exception_ValidationFailed(
+                    null,
+                    // phpcs:disable Generic.Files.LineLength
+                    __("Validation for field '%s' has failed. Language does not exist in the system", array_search($key, $uriProperties, true))
+                    // phpcs:enable Generic.Files.LineLength
+                );
             }
         }
     }

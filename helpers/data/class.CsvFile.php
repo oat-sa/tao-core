@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2012-2018 (update and modification) Open Assessment Technologies SA;
  *
  */
@@ -32,11 +34,10 @@ use oat\oatbox\filesystem\File;
  */
 class tao_helpers_data_CsvFile
 {
-
-    const FIELD_DELIMITER = 'field_delimiter';
-    const FIELD_ENCLOSER = 'field_encloser';
-    const MULTI_VALUES_DELIMITER = 'multi_values_delimiter';
-    const FIRST_ROW_COLUMN_NAMES = 'first_row_column_names';
+    public const FIELD_DELIMITER = 'field_delimiter';
+    public const FIELD_ENCLOSER = 'field_encloser';
+    public const MULTI_VALUES_DELIMITER = 'multi_values_delimiter';
+    public const FIRST_ROW_COLUMN_NAMES = 'first_row_column_names';
     /**
          * Contains the CSV data as a simple 2-dimensional array. Keys are integer
          * the mapping done separatyely if column names are provided.
@@ -190,7 +191,7 @@ class tao_helpers_data_CsvFile
                     $multiField = [];
                     foreach (explode($multiValueSeparator, $fieldData) as $item) {
                         if (!empty($item)) {
-                                $multiField[] = $item;
+                            $multiField[] = $item;
                         }
                     }
                     $fieldData = $multiField;
@@ -239,8 +240,10 @@ class tao_helpers_data_CsvFile
      *
      * @access public
      * @author Jerome Bogaerts, <jerome.bogaerts@tudor.lu>
-     * @param  int index The row index. First = 0.
-     * @param  boolean associative Says that if the keys of the array must be the column names or not. If $associative is set to true but there are no column names in the CSV file, an IllegalArgumentException is thrown.
+     * @param int $index The row index. First = 0.
+     * @param boolean $associative Says that if the keys of the array must be the column names or not. If $associative
+     *                             is set to true but there are no column names in the CSV file, an
+     *                             IllegalArgumentException is thrown.
      * @return array
      */
     public function getRow($index, $associative = false)

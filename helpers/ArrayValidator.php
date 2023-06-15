@@ -22,12 +22,12 @@ namespace oat\tao\helpers;
 
 class ArrayValidator
 {
-    const STR = 'string';
-    const INT = 'integer';
-    const FLOAT = 'float';
-    const BOOL = 'boolean';
-    const ARR = 'array';
-    const OBJ = 'object';
+    public const STR = 'string';
+    public const INT = 'integer';
+    public const FLOAT = 'float';
+    public const BOOL = 'boolean';
+    public const ARR = 'array';
+    public const OBJ = 'object';
 
     private static $typeCheckFunctions = [
         self::STR => 'is_string',

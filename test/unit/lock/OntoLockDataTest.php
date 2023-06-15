@@ -27,7 +27,6 @@ use oat\generis\test\TestCase;
 
 class OntoLockDataTest extends TestCase
 {
-
     /**
      *
      * @author Lionel Lecaque, lionel@taotesting.com

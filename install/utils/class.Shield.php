@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -28,10 +32,9 @@
  */
 class tao_install_utils_Shield
 {
-    
     protected $extensions = [];
     protected $accessFiles = [];
-    
+
     public function __construct(array $extensions)
     {
         $this->extensions = $extensions;
@@ -39,13 +42,16 @@ class tao_install_utils_Shield
             $file = ROOT_PATH . $extension . '/.htaccess';
             if (file_exists($file)) {
                 if (!is_readable($file)) {
-                    throw new tao_install_utils_Exception("Unable to read .htaccess file of extension '" . $extension . " while Production Mode activation'.");
+                    throw new tao_install_utils_Exception(
+                        "Unable to read .htaccess file of extension '" . $extension
+                            . " while Production Mode activation'."
+                    );
                 }
                 $this->accessFiles[] = $file;
             }
         }
     }
-    
+
     public function disableRewritePattern(array $patterns)
     {
 
@@ -76,32 +82,38 @@ class tao_install_utils_Shield
             }
         }
     }
-    
+
     public function protectInstall()
     {
         foreach ($this->extensions as $extension) {
             $installDir = ROOT_PATH . $extension . '/install/';
             if (file_exists($installDir) && is_dir($installDir)) {
-                if (!is_writable($installDir) || (file_exists($installDir . '.htaccess' && !is_writable($installDir . '.htaccess')))) {
+                if (
+                    !is_writable($installDir)
+                    || (file_exists($installDir . '.htaccess' && !is_writable($installDir . '.htaccess')))
+                ) {
                     throw new tao_install_utils_Exception("Unable to write .htaccess file into : ${installDir}.");
                 }
-                file_put_contents($installDir . '.htaccess', "Options +FollowSymLinks\n"
-                                                           . "<IfModule mod_rewrite.c>\n"
-                                                           . "RewriteEngine On\n"
-                                                           . "RewriteCond %{REQUEST_URI} !/css/ [NC]\n"
-                                                           . "RewriteCond %{REQUEST_URI} !/js/ [NC]\n"
-                                                           . "RewriteCond %{REQUEST_URI} !/images/ [NC]\n"
-                                                           . "RewriteCond %{REQUEST_URI} !/production.html [NC]\n"
-                                                           . "RewriteRule ^.*$ " . ROOT_URL . "tao/install/production.html\n"
-                                                           . "</IfModule>");
+                file_put_contents(
+                    $installDir . '.htaccess',
+                    "Options +FollowSymLinks\n"
+                        . "<IfModule mod_rewrite.c>\n"
+                        . "RewriteEngine On\n"
+                        . "RewriteCond %{REQUEST_URI} !/css/ [NC]\n"
+                        . "RewriteCond %{REQUEST_URI} !/js/ [NC]\n"
+                        . "RewriteCond %{REQUEST_URI} !/images/ [NC]\n"
+                        . "RewriteCond %{REQUEST_URI} !/production.html [NC]\n"
+                        . "RewriteRule ^.*$ " . ROOT_URL . "tao/install/production.html\n"
+                        . "</IfModule>"
+                );
             }
         }
     }
-        
+
     public function denyAccessTo($paths)
     {
-            
-            
+
+
         foreach ($this->extensions as $extension) {
             foreach ($paths as $path) {
                 if (!preg_match("/^\\" . DIRECTORY_SEPARATOR . "/", $path)) {
@@ -111,7 +123,7 @@ class tao_install_utils_Shield
                 if (file_exists($denied) && is_dir($denied)) {
                     $accessFile = $denied .  DIRECTORY_SEPARATOR . '.htaccess';
                     if (!is_writable($denied) || (file_exists($accessFile && !is_writable($accessFile)))) {
-                            throw new tao_install_utils_Exception("Unable to write .htaccess file into : ${denied}.");
+                        throw new tao_install_utils_Exception("Unable to write .htaccess file into : ${denied}.");
                     }
                     file_put_contents($accessFile, "<IfModule mod_rewrite.c>\n"
                                                 . "RewriteEngine On\n"

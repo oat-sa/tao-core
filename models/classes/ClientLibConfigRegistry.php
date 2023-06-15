@@ -22,7 +22,7 @@
 namespace oat\tao\model;
 
 use oat\oatbox\AbstractRegistry;
-use \common_ext_ExtensionsManager;
+use common_ext_ExtensionsManager;
 
 /**
  *
@@ -32,7 +32,6 @@ use \common_ext_ExtensionsManager;
  */
 class ClientLibConfigRegistry extends AbstractRegistry
 {
-
     /**
      * @see \oat\oatbox\AbstractRegistry::getConfigId()
      */

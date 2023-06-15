@@ -33,7 +33,7 @@ use oat\tao\model\resources\ResourceWatcher;
 class RegisterResourceWatcherService extends InstallAction
 {
     use OntologyAwareTrait;
-    
+
     public function __invoke($params)
     {
         $resourceWatcher = new ResourceWatcher([ResourceWatcher::OPTION_THRESHOLD => 1]);

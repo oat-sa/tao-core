@@ -21,7 +21,7 @@
 
 namespace oat\tao\scripts\tools;
 
-use \common_report_Report as Report;
+use common_report_Report as Report;
 use oat\oatbox\action\Action;
 
 /**
@@ -48,8 +48,8 @@ use oat\oatbox\action\Action;
  *
  * Reconfigure output CSV with delimiter character = ";", enclosure character = '"', escape character = "\".
  *
- * sudo -u www-data php index.php "oat\tao\scripts\tools\CsvReconfigure" /some/path/original.csv /some/path/reconfigured.csv \; \" \\
- *
+ * sudo -u www-data php index.php "oat\tao\scripts\tools\CsvReconfigure" /some/path/original.csv
+ *      /some/path/reconfigured.csv \; \" \\
  */
 class CsvReconfigure implements Action
 {
@@ -60,7 +60,7 @@ class CsvReconfigure implements Action
             Report::TYPE_INFO,
             'Unknown'
         );
-        
+
         // -- Deal with parameters.
         if (!empty($params[0])) {
             $source = $params[0];
@@ -70,7 +70,7 @@ class CsvReconfigure implements Action
                 "'Source' parameter not provided."
             );
         }
-        
+
         if (!empty($params[1])) {
             $destination = $params[1];
         } else {
@@ -79,7 +79,7 @@ class CsvReconfigure implements Action
                 "'Destination' parameter not provided."
             );
         }
-        
+
         // Defaults.
         $outputDelimiter = isset($params[2]) ? $params[2] : ',';
         $outputEnclosure = isset($params[3]) ? $params[3] : '"';
@@ -87,52 +87,54 @@ class CsvReconfigure implements Action
         $inputDelimiter = isset($params[5]) ? $params[5] : ',';
         $inputEnclosure = isset($params[6]) ? $params[6] : '"';
         $inputEscapeChar = isset($params[7]) ? $params[7] : "\\";
-        
+
         // -- Deal with file handling.
         $sourceFp = @fopen($source, 'r');
         $destinationFp = @fopen($destination, 'w');
-        
+
         if ($sourceFp === false) {
             return new Report(
                 Report::TYPE_ERROR,
                 "Source file '" . $source . "' could not be open."
             );
         }
-        
+
         if ($destinationFp === false) {
             return new Report(
                 Report::TYPE_ERROR,
                 "Destination file '" . $destination . "' could not be open."
             );
         }
-        
+
         $report->add(
             new Report(
                 Report::TYPE_INFO,
-                "output delimiter: '${outputDelimiter}', output enclosure: '${outputEnclosure}', output escape character: '${outputEscapeChar}'"
+                "output delimiter: '${outputDelimiter}', output enclosure: '${outputEnclosure}', output escape "
+                    . "character: '${outputEscapeChar}'"
             )
         );
-        
+
         $report->add(
             new Report(
                 Report::TYPE_INFO,
-                "input delimiter: '${inputDelimiter}', input enclosure: '${inputEnclosure}', input escape character: '${inputEscapeChar}'"
+                "input delimiter: '${inputDelimiter}', input enclosure: '${inputEnclosure}', input escape "
+                    . "character: '${inputEscapeChar}'"
             )
         );
-        
+
         $rowCount = 0;
         while ($sourceData = fgetcsv($sourceFp, 0, $inputDelimiter, $inputEnclosure, $inputEscapeChar)) {
             fputcsv($destinationFp, $sourceData, $outputDelimiter, $outputEnclosure, $outputEscapeChar);
-            
+
             $rowCount++;
         }
-        
+
         @fclose($sourceFp);
         @fclose($destinationFp);
-        
+
         $report->setType(Report::TYPE_SUCCESS);
         $report->setMessage($rowCount . " lines written in file '" . realpath($destination) . "'.");
-        
+
         return $report;
     }
 }

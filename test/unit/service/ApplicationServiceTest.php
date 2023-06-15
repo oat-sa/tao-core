@@ -83,7 +83,9 @@ class ApplicationServiceTest extends TestCase
         $this->expectException(ServiceNotFoundException::class);
 
         $serviceLocatorProphecy = $this->prophesize(ServiceLocatorInterface::class);
-        $serviceLocatorProphecy->get(common_ext_ExtensionsManager::SERVICE_ID)->willThrow(ServiceNotFoundException::class);
+        $serviceLocatorProphecy
+            ->get(common_ext_ExtensionsManager::SERVICE_ID)
+            ->willThrow(ServiceNotFoundException::class);
         $serviceLocatorMock = $serviceLocatorProphecy->reveal();
 
         $this->instance->setServiceLocator($serviceLocatorMock);

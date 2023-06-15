@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,7 +33,6 @@ use oat\oatbox\extension\Manifest;
  */
 class tao_install_utils_ChecksHelper
 {
-
     /**
      * Get the ComponentCollection corresponding to the distribution. It
      * the configuration checks to perform for all extensions involved in the
@@ -61,7 +61,7 @@ class tao_install_utils_ChecksHelper
                 $returnValue->silent($comp);
             }
         }
-    
+
         // Deal with the dependencies.
         foreach ($checkArray as $config) {
             if (!empty($config['value']['dependsOn']) && is_array($config['value']['dependsOn'])) {
@@ -73,14 +73,14 @@ class tao_install_utils_ChecksHelper
                 }
             }
         }
-    
+
         return $returnValue;
     }
-    
+
     public static function getRawChecks($extensionIds)
     {
         $checks = [];
-        
+
         // resolve dependencies
         $toCheck = [];
         while (!empty($extensionIds)) {
@@ -90,12 +90,12 @@ class tao_install_utils_ChecksHelper
             $extensionIds = array_unique(array_merge($extensionIds, array_diff($dependencyIds, $toCheck)));
             $toCheck[] = $ext;
         }
-        
+
         // We extract the checks to perform from the manifests
         // depending on the distribution.
         $checkArray = []; // merge of all arrays describing checks in the manifests.
         $componentArray = []; // array of Component instances. array keys are the IDs.
-        
+
         foreach ($toCheck as $ext) {
             $manifestPath = dirname(__FILE__) . '/../../../' . $ext . '/manifest.php';
             $checks = array_merge($checks, Manifest::extractChecks($manifestPath));

@@ -117,7 +117,14 @@ class DateIntervalMS extends \DateInterval
     public function __construct($interval_spec)
     {
         if (!preg_match(static::$interval_spec_regex, $interval_spec, $parts)) {
-            throw new \UnexpectedValueException(sprintf("%s::%s: Unknown or bad format (%s)", get_called_class(), '__construct', $interval_spec));
+            throw new \UnexpectedValueException(
+                sprintf(
+                    "%s::%s: Unknown or bad format (%s)",
+                    get_called_class(),
+                    '__construct',
+                    $interval_spec
+                )
+            );
         }
 
         if (isset($parts['s'])) {

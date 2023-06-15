@@ -16,7 +16,6 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
 
 final class Version202106010921112234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return '';

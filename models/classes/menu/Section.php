@@ -28,12 +28,11 @@ use oat\taoBackOffice\model\menuStructure\Action as iAction;
 
 class Section extends MenuElement implements PhpSerializable
 {
+    public const SERIAL_VERSION = 1392821334;
 
-    const SERIAL_VERSION = 1392821334;
-    
-    const POLICY_MERGE = 'merge';
-    
-    const POLICY_OVERRIDE = 'override';
+    public const POLICY_MERGE = 'merge';
+
+    public const POLICY_OVERRIDE = 'override';
 
     private $data = [];
 
@@ -82,9 +81,11 @@ class Section extends MenuElement implements PhpSerializable
         foreach ($node->xpath("actions/action") as $actionNode) {
             $actions[] = Action::fromSimpleXMLElement($actionNode, $structureExtensionId);
         }
-        
-        $includeClassActions = isset($node->actions) && isset($node->actions['allowClassActions']) && $node->actions['allowClassActions'] == 'true';
-        
+
+        $includeClassActions = isset($node->actions)
+            && isset($node->actions['allowClassActions'])
+            && $node->actions['allowClassActions'] == 'true';
+
         if ($includeClassActions) {
             foreach ($trees as $tree) {
                 $rootNodeUri = $tree->get('rootNode');
@@ -146,7 +147,7 @@ class Section extends MenuElement implements PhpSerializable
     {
         return $this->data['policy'];
     }
-  
+
     /**
      * Get the JavaScript binding to run instead of loading the URL
      *
@@ -156,7 +157,7 @@ class Section extends MenuElement implements PhpSerializable
     {
         return $this->data['binding'];
     }
- 
+
     /**
      * Is the section disabled ?
      *
@@ -287,7 +288,7 @@ class Section extends MenuElement implements PhpSerializable
             foreach ($this->trees as $index => $tree) {
                 $needMigration = false;
                 $treeAttributes = $tree->getAttributes();
-            
+
                 //check if this attribute needs a migration
                 foreach ($treeAttributes as $attr) {
                     if (array_key_exists($attr, $mapping)) {
@@ -304,7 +305,7 @@ class Section extends MenuElement implements PhpSerializable
                         if (array_key_exists($attr, $mapping)) {
                             $url = $tree->get($attr);
                             $actionName = false;
-    
+
                             //try to find an action with the same url
                             foreach ($this->actions as $action) {
                                 if ($action->getRelativeUrl() == $url) {
@@ -319,19 +320,19 @@ class Section extends MenuElement implements PhpSerializable
                                 $newData[$mapping[$attr]['attr']] = $mapping[$attr]['action']['id'];
                                 $actionData = $mapping[$attr]['action'];
                                 $actionData['url'] = $url;
-                                
+
                                 list($extension, $controller, $action) = explode('/', trim($url, '/'));
                                 $actionData['extension'] = $extension;
                                 $actionData['controller'] = $controller;
                                 $actionData['action'] = $action;
-                                
+
                                 $this->actions[] = new Action($actionData);
                             }
                         } else {
                             $newData[$attr] = $tree->get($attr);
                         }
                     }
-    
+
                     //the tree is replaced
                     $this->trees[$index] = new Tree($newData);
                 }

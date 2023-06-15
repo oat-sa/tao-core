@@ -27,14 +27,14 @@ use ArrayObject;
  */
 class WebhookTaskParams extends ArrayObject
 {
-    const EVENT_NAME = 'eventName';
-    const EVENT_ID = 'eventId';
-    const TRIGGERED_TIMESTAMP = 'triggeredTimestamp';
-    const EVENT_DATA = 'eventData';
-    const WEBHOOK_CONFIG_ID = 'webhookConfigId';
-    const RETRY_MAX = 'retryMax';
-    const RETRY_COUNT = 'retryCount';
-    const RESPONSE_VALIDATION = 'responseValidation';
+    public const EVENT_NAME = 'eventName';
+    public const EVENT_ID = 'eventId';
+    public const TRIGGERED_TIMESTAMP = 'triggeredTimestamp';
+    public const EVENT_DATA = 'eventData';
+    public const WEBHOOK_CONFIG_ID = 'webhookConfigId';
+    public const RETRY_MAX = 'retryMax';
+    public const RETRY_COUNT = 'retryCount';
+    public const RESPONSE_VALIDATION = 'responseValidation';
 
     /**
      * @return string

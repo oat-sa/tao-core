@@ -58,13 +58,21 @@ class AddSearchIndexFromResource implements Action, ServiceLocatorAwareInterface
         /** @var IndexService $indexService */
         $indexService = $this->getServiceLocator()->get(IndexService::SERVICE_ID);
 
-        $report = new \common_report_Report(\common_report_Report::TYPE_SUCCESS, __('Adding search index for %s', $resource->getUri()));
+        $report = new \common_report_Report(
+            \common_report_Report::TYPE_SUCCESS,
+            __('Adding search index for %s', $resource->getUri())
+        );
 
         try {
             $document = $indexService->createDocumentFromResource($resource);
             $this->getServiceLocator()->get(Search::SERVICE_ID)->index($document);
         } catch (\Exception $e) {
-            $report->add(new \common_report_Report(\common_report_Report::TYPE_ERROR, __('Error adding search index for %s with message %s', $resource->getUri(), $e->getMessage())));
+            $report->add(
+                new \common_report_Report(
+                    \common_report_Report::TYPE_ERROR,
+                    __('Error adding search index for %s with message %s', $resource->getUri(), $e->getMessage())
+                )
+            );
         }
 
         return $report;

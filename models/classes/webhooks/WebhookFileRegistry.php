@@ -23,6 +23,7 @@ namespace oat\tao\model\webhooks;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
+use oat\tao\model\webhooks\configEntity\WebhookInterface;
 use oat\tao\model\webhooks\task\WebhookTaskParams;
 
 /**
@@ -42,8 +43,8 @@ use oat\tao\model\webhooks\task\WebhookTaskParams;
  */
 class WebhookFileRegistry extends ConfigurableService implements WebhookRegistryInterface
 {
-    const OPTION_WEBHOOKS = 'webhooks';
-    const OPTION_EVENTS = 'events';
+    public const OPTION_WEBHOOKS = 'webhooks';
+    public const OPTION_EVENTS = 'events';
 
     /**
      * @param string $id
@@ -83,5 +84,40 @@ class WebhookFileRegistry extends ConfigurableService implements WebhookRegistry
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getServiceLocator()->get(WebhookEntryFactory::class);
+    }
+
+    public function getWebhooks(): array
+    {
+        $config = $this->getOption(self::OPTION_WEBHOOKS);
+        if (!is_array($config)) {
+            return [];
+        }
+
+        $entityFactory = $this->getWebhookEntryFactory();
+        $result = [];
+        foreach ($config as $value) {
+            $result[] = $entityFactory->createEntryFromArray($value);
+        }
+
+        return $result;
+    }
+
+    public function addWebhook(WebhookInterface $webhook, array $events = []): void
+    {
+        $configWebhooks = $this->getOption(self::OPTION_WEBHOOKS, []);
+
+        $configWebhooks[$webhook->getId()] = $webhook->toArray();
+
+        $this->setOption(self::OPTION_WEBHOOKS, $configWebhooks);
+
+        if (!empty($events)) {
+            $configEvents = $this->getOption(self::OPTION_EVENTS, []);
+            foreach ($events as $event) {
+                $configEvents[$event] = $webhook->getId();
+                $this->setOption(self::OPTION_EVENTS, $configEvents);
+            }
+        }
+
+        $this->registerService(WebhookRegistryInterface::SERVICE_ID, $this);
     }
 }

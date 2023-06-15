@@ -26,7 +26,6 @@ namespace oat\tao\model\mvc\error;
  */
 class RedirectResponse extends ResponseAbstract
 {
-    
     protected $rendererClassList =
             [
                 'html' => 'LoginResponse',

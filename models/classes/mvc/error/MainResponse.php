@@ -27,8 +27,6 @@ namespace oat\tao\model\mvc\error;
  */
 class MainResponse extends ResponseAbstract
 {
-    
-    
     /**
      * not implemented
      */

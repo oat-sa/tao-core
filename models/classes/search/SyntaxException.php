@@ -29,11 +29,10 @@ namespace oat\tao\model\search;
  */
 class SyntaxException extends \common_Exception implements \common_exception_UserReadableException
 {
-   
     private $query;
-    
+
     private $error;
-    
+
     /**
      *
      * @param unknown $queryString
@@ -45,7 +44,7 @@ class SyntaxException extends \common_Exception implements \common_exception_Use
         $this->error = $userError;
         parent::__construct('Error in query "' . $queryString . '": ' . $userError);
     }
-    
+
     /**
      * (non-PHPdoc)
      * @see common_exception_UserReadableException::getUserMessage()

@@ -22,7 +22,7 @@
 namespace oat\tao\test\unit\helpers;
 
 use oat\generis\test\TestCase;
-use \tao_helpers_Numeric;
+use tao_helpers_Numeric;
 
 /**
  * Test the class tao_helpers_Numeric
@@ -31,7 +31,6 @@ use \tao_helpers_Numeric;
  */
 class NumericTest extends TestCase
 {
-
     /**
      * Test the method tao_helpers_Numeric::parseFloat
      *

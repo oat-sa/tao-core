@@ -18,7 +18,6 @@
  * Copyright (c) 2013-2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
-use oat\tao\helpers\DateIntervalMS;
 
 /**
  * PHPUnit test of the {@link tao_helpers_Duration} helper
@@ -27,10 +26,10 @@ use oat\tao\helpers\DateIntervalMS;
  */
 
 use oat\generis\test\TestCase;
+use oat\tao\helpers\DateIntervalMS;
 
 class DurationHelperTest extends TestCase
 {
-    
     /**
      * Data provider for the testTimetoDuration method
      * @return array[] the parameters
@@ -45,7 +44,7 @@ class DurationHelperTest extends TestCase
             [null, 'PT0S']
         ];
     }
-    
+
     /**
      * Test {@link tao_helpers_Duration::timetoDuration}
      * @dataProvider timetoDurationProvider
@@ -57,8 +56,8 @@ class DurationHelperTest extends TestCase
         $result = tao_helpers_Duration::timetoDuration($time);
         $this->assertEquals($expected, $result);
     }
-    
-    
+
+
     /**
      * Data provider for the testIntervalToTime method
      * @return array[] the parameters
@@ -71,7 +70,7 @@ class DurationHelperTest extends TestCase
             [new DateIntervalMS('PT1H34M28.012345S'), '01:34:28.012345'],
         ];
     }
-    
+
     /**
      * Test {@link tao_helpers_Duration::intervalToTime}
      * @dataProvider intervalToTimeProvider
@@ -83,8 +82,8 @@ class DurationHelperTest extends TestCase
         $result = tao_helpers_Duration::intervalToTime($interval);
         $this->assertEquals($expected, $result);
     }
-        
-    
+
+
     /**
      * Data provider for the testDurationToTime method
      * @return array[] the parameters
@@ -99,7 +98,7 @@ class DurationHelperTest extends TestCase
             [null, null]
         ];
     }
-    
+
     /**
      * Test {@link tao_helpers_Duration::durationToTime}
      * @dataProvider durationToTimeProvider

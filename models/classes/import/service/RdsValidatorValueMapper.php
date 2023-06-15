@@ -28,8 +28,8 @@ class RdsValidatorValueMapper extends ConfigurableService implements ImportValue
 {
     use OntologyAwareTrait;
 
-    const OPTION_CLASS = 'class';
-    const OPTION_PROPERTY = 'property';
+    public const OPTION_CLASS = 'class';
+    public const OPTION_PROPERTY = 'property';
 
     /** @var common_report_Report */
     protected $report;
@@ -52,16 +52,24 @@ class RdsValidatorValueMapper extends ConfigurableService implements ImportValue
             );
         }
         if (count($results) === 0) {
-            throw new RdsResourceNotFoundException('No resource found for class: ' . $this->getOption(static::OPTION_CLASS) . ' value: ' . $value);
+            throw new RdsResourceNotFoundException(
+                'No resource found for class: ' . $this->getOption(static::OPTION_CLASS)
+                    . ' value: ' . $value
+            );
         }
 
         if (count($results) > 1) {
-            throw new RdsResourceNotFoundException('Multiple values has been found for class: ' . $this->getOption(static::OPTION_CLASS) . ' value :' . $value);
+            throw new RdsResourceNotFoundException(
+                'Multiple values has been found for class: ' . $this->getOption(static::OPTION_CLASS)
+                    . ' value :' . $value
+            );
         }
 
         $resource = reset($results);
         if (!$resource->isInstanceOf($class)) {
-            throw new RdsResourceNotFoundException('Resource is not a class: ' . $this->getOption(static::OPTION_CLASS));
+            throw new RdsResourceNotFoundException(
+                'Resource is not a class: ' . $this->getOption(static::OPTION_CLASS)
+            );
         }
 
         $this->report = common_report_Report::createSuccess('Resource mapped with success: ' . $class . ':' . $value);

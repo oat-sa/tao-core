@@ -17,7 +17,7 @@
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
  */
- 
+
 namespace oat\tao\model;
 
 use oat\oatbox\service\ConfigurableService;
@@ -30,8 +30,8 @@ use oat\oatbox\service\ConfigurableService;
  */
 class OperatedByService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/operatedby';
-    
+    public const SERVICE_ID = 'tao/operatedby';
+
     /**
      * TAO OperatedBy Service Constructor
      *
@@ -43,7 +43,7 @@ class OperatedByService extends ConfigurableService
     {
         parent::__construct($options);
     }
-    
+
     /**
      * Get Organization Name
      *
@@ -56,7 +56,7 @@ class OperatedByService extends ConfigurableService
         $name = $this->getOption('operatedByName');
         return (empty($name) ? '' : $name);
     }
-    
+
     /**
      * Set Organization Name
      *
@@ -68,7 +68,7 @@ class OperatedByService extends ConfigurableService
     {
         $this->setOption('operatedByName', $name);
     }
-    
+
     /**
      * Get Organization Email
      *
@@ -82,7 +82,7 @@ class OperatedByService extends ConfigurableService
         $email = $this->getOption('operatedByEmail');
         return (empty($email) ? '' : $email);
     }
-    
+
     /**
      * Set the Organization Email
      *

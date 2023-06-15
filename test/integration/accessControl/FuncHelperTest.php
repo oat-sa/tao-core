@@ -33,7 +33,6 @@ use oat\generis\test\GenerisPhpUnitTestRunner;
  */
 class ActionTest extends GenerisPhpUnitTestRunner
 {
-
     /**
      * Test {@link FuncHelper::getClassNameByUrl}}
      */

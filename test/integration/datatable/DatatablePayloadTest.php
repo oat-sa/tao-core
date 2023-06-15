@@ -107,6 +107,7 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
         $resultProphecy->count()->willReturn(1)->shouldBeCalledTimes(1);
         $resultProphecy->total()->willReturn(2)->shouldBeCalledTimes(1);
         $resultProphecy->getArrayCopy()->willReturn([])->shouldBeCalledTimes(1);
+
         $result = $resultProphecy->reveal();
 
         $gatewayProphecy = $this->prophesize('\oat\search\TaoSearchGateWay');
@@ -116,7 +117,9 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
         $service = $this->prophesize('\oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService');
         $service->query()->willReturn($queryBuilderMock)->shouldBeCalledTimes(1);
         $service->getGateway()->willReturn($gatewayMock)->shouldBeCalledTimes(1);
-        $service->searchType($queryBuilderMock, Argument::type('string'), true)->shouldBeCalledTimes(1)->willReturn($queryMock);
+        $service->searchType($queryBuilderMock, Argument::type('string'), true)
+            ->shouldBeCalledTimes(1)
+            ->willReturn($queryMock);
 
         return $service->reveal();
     }

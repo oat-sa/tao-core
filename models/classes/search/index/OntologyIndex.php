@@ -47,7 +47,12 @@ class OntologyIndex extends \core_kernel_classes_Resource
     private function getOneCached($propertyUri)
     {
         if (is_null($this->cached)) {
-            $props = [static::PROPERTY_INDEX_IDENTIFIER, static::PROPERTY_INDEX_TOKENIZER, static::PROPERTY_INDEX_FUZZY_MATCHING, static::PROPERTY_DEFAULT_SEARCH];
+            $props = [
+                static::PROPERTY_INDEX_IDENTIFIER,
+                static::PROPERTY_INDEX_TOKENIZER,
+                static::PROPERTY_INDEX_FUZZY_MATCHING,
+                static::PROPERTY_DEFAULT_SEARCH
+            ];
             $this->cached = $this->getPropertiesValues($props);
         }
         return empty($this->cached[$propertyUri]) ? null : reset($this->cached[$propertyUri]);
@@ -69,9 +74,13 @@ class OntologyIndex extends \core_kernel_classes_Resource
         }
 
         $tokenizer = $this->getOneCached(static::PROPERTY_INDEX_TOKENIZER);
-        $implClass = (string)$tokenizer->getUniquePropertyValue($this->getProperty("http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass"));
+        $implClass = (string) $tokenizer->getUniquePropertyValue(
+            $this->getProperty("http://www.tao.lu/Ontologies/TAO.rdf#TokenizerClass")
+        );
         if (!class_exists($implClass)) {
-            throw new \common_exception_Error('Tokenizer class "' . $implClass . '" not found for ' . $tokenizer->getUri());
+            throw new \common_exception_Error(
+                'Tokenizer class "' . $implClass . '" not found for ' . $tokenizer->getUri()
+            );
         }
         return new $implClass();
     }

@@ -32,7 +32,6 @@ use oat\generis\model\GenerisRdf;
  */
 abstract class CsvAbstractImporter
 {
-
     protected $validators = [];
 
 
@@ -102,10 +101,14 @@ abstract class CsvAbstractImporter
             return [];
         }
 
-        // 'class properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel') describing properties belonging to the target class.
-        // 'ranged properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel')  describing properties belonging to the target class and that have a range.
-        // 'csv_column' contains an array(int:columnIndex => 'str:columnLabel') that will be used to create the selection of possible CSV column to map in views.
-        // 'csv_column' might have NULL values for 'str:columnLabel' meaning that there was no header row with column names in the CSV file.
+        // 'class properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel') describing
+        //                    properties belonging to the target class.
+        // 'ranged properties' contains an associative array(str:'propertyUri' => 'str:propertyLabel') describing
+        //                     properties belonging to the target class and that have a range.
+        // 'csv_column' contains an array(int:columnIndex => 'str:columnLabel') that will be used to create the
+        //              selection of possible CSV column to map in views.
+        // 'csv_column' might have NULL values for 'str:columnLabel' meaning that there was no header row with column
+        //              names in the CSV file.
 
         // Format the column mapping option for the form.
         if ($firstRowAsColumnName && null != $csv_data->getColumnMapping()) {

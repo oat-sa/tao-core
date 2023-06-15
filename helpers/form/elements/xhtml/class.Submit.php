@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -32,7 +34,7 @@ use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 class tao_helpers_form_elements_xhtml_Submit extends tao_helpers_form_elements_Submit
 {
     use XhtmlRenderingTrait;
-    
+
     /**
      * Short description of method render
      *
@@ -43,14 +45,14 @@ class tao_helpers_form_elements_xhtml_Submit extends tao_helpers_form_elements_S
     public function render()
     {
         $returnValue = (string) '';
-        
+
         if (is_null($this->value) || empty($this->value)) {
             $this->value = __('Save');
         }
         $returnValue = "<input type='submit' id='{$this->name}' name='{$this->name}' ";
         $returnValue .= $this->renderAttributes();
         $returnValue .= ' value="' . _dh($this->value) . '"  />';
-        
+
         return (string) $returnValue;
     }
 }

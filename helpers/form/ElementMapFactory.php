@@ -68,8 +68,8 @@ class ElementMapFactory extends ConfigurableService
 
     public function create(
         core_kernel_classes_Property $property,
-        string $language = DEFAULT_LANG)
-    : ?tao_helpers_form_FormElement {
+        string $language = DEFAULT_LANG
+    ): ?tao_helpers_form_FormElement {
 
         // Create the element from the right widget
         $property->feed();
@@ -146,9 +146,10 @@ class ElementMapFactory extends ConfigurableService
                     if ($this->isList($range)) {
                         $values = $this->getListValues($property, $range, $parentProperty);
 
-                        if ($this->getLanguageClassSpecification()->isSatisfiedBy($range))
-                        {
-                            $values = $this->getLanguageListElementSortService()->getSortedListCollectionValues($values);
+                        if ($this->getLanguageClassSpecification()->isSatisfiedBy($range)) {
+                            $values = $this->getLanguageListElementSortService()->getSortedListCollectionValues(
+                                $values
+                            );
                         }
 
                         foreach ($values as $value) {

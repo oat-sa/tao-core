@@ -84,7 +84,9 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             if ($myForm->isValid()) {
                 if ($class instanceof core_kernel_classes_Resource) {
                     $this->setData("selectNode", tao_helpers_Uri::encode($class->getUri()));
-                    $properties = $this->hasRequestParameter('properties') ? $this->getRequestParameter('properties') : [];
+                    $properties = $this->hasRequestParameter('properties')
+                        ? $this->getRequestParameter('properties')
+                        : [];
                     $this->getEventManager()->trigger(new ClassFormUpdatedEvent($class, $properties));
                 }
                 $this->setData('message', __('%s Class saved', $class->getLabel()));
@@ -221,7 +223,10 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
             if ($i !== 0) {
                 $indexIdentifier = $indexIdentifierBackup . '_' . $i;
             }
-            $resources = $indexClass->searchInstances([OntologyIndex::PROPERTY_INDEX_IDENTIFIER => $indexIdentifier], ['like' => false]);
+            $resources = $indexClass->searchInstances(
+                [OntologyIndex::PROPERTY_INDEX_IDENTIFIER => $indexIdentifier],
+                ['like' => false]
+            );
             $count = count($resources);
             $i++;
         } while ($count !== 0);
@@ -237,7 +242,10 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $property->setPropertyValue($this->getProperty(OntologyIndex::PROPERTY_INDEX), $indexProperty);
 
         //generate form
-        $indexFormContainer = new tao_actions_form_IndexProperty(new OntologyIndex($indexProperty), $propertyIndex . $index);
+        $indexFormContainer = new tao_actions_form_IndexProperty(
+            new OntologyIndex($indexProperty),
+            $propertyIndex . $index
+        );
         $myForm = $indexFormContainer->getForm();
         $form = trim(preg_replace('/\s+/', ' ', $myForm->renderElements()));
         $this->returnJson(['form' => $form]);
@@ -355,7 +363,11 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 && array_key_exists($element->getName(), $elementRangeArray)
             ) {
                 if (strpos($element->getName(), 'depends-on-property') !== false) {
-                    $options = $this->getDependsOnPropertyOptions($element, $elementRangeArray, $dependsOnPropertyRepository);
+                    $options = $this->getDependsOnPropertyOptions(
+                        $element,
+                        $elementRangeArray,
+                        $dependsOnPropertyRepository
+                    );
                     $element->setOptions($options);
                 }
 
@@ -457,7 +469,9 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
         $validator = new tao_helpers_form_validators_IndexIdentifier();
 
         // if the identifier is valid
-        $values[OntologyIndex::PROPERTY_INDEX_IDENTIFIER] = strtolower($values[OntologyIndex::PROPERTY_INDEX_IDENTIFIER]);
+        $values[OntologyIndex::PROPERTY_INDEX_IDENTIFIER] = strtolower(
+            $values[OntologyIndex::PROPERTY_INDEX_IDENTIFIER]
+        );
         if (!$validator->evaluate($values[OntologyIndex::PROPERTY_INDEX_IDENTIFIER])) {
             throw new Exception($validator->getMessage());
         }

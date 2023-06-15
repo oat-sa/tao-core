@@ -32,7 +32,6 @@ use oat\tao\scripts\tools\migrations\AbstractMigration;
 
 final class Version202201200829462234_tao extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return 'Generate configuration for password constraints service.';

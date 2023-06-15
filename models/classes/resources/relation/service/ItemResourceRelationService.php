@@ -30,10 +30,10 @@ use oat\tao\model\resources\relation\exception\NestedClassLimitExceededException
 
 class ItemResourceRelationService extends ConfigurableService implements ResourceRelationServiceInterface
 {
+    use OntologyAwareTrait;
+
     public const SERVICE_ID = 'tao/ItemResourceRelationService';
     public const OPTION_NESTED_CLASS_LIMIT = 'nestedClassLimit';
-
-    use OntologyAwareTrait;
 
     public function findRelations(FindAllQuery $query): ResourceRelationCollection
     {

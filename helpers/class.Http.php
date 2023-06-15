@@ -15,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
@@ -36,10 +38,9 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class tao_helpers_Http
 {
+    public const BYTES_BY_CYCLE =  5242880; //1024 * 1024 * 5
 
-    const BYTES_BY_CYCLE =  5242880; //1024 * 1024 * 5
-
-    static $headers;
+    public static $headers;
 
     /**
      * @author "Patrick Plichart, <patrick@taotesting.com>"
@@ -50,7 +51,7 @@ class tao_helpers_Http
         // seems apache-php is absorbing the header
         if (isset($_SERVER['PHP_AUTH_DIGEST'])) {
             $digest = $_SERVER['PHP_AUTH_DIGEST'];
-            // most other servers
+        // most other servers
         } elseif (isset($_SERVER['HTTP_AUTHENTICATION'])) {
             if (strpos(strtolower($_SERVER['HTTP_AUTHENTICATION']), 'digest') === 0) {
                 $digest = substr($_SERVER['HTTP_AUTHORIZATION'], 7);
@@ -206,7 +207,7 @@ class tao_helpers_Http
             // check if there is a different quality
             if (strpos($a, ';q=')) {
                 // divide "mime/type;q=X" into two parts: "mime/type" i "X"
-                list ($a, $q) = explode(';q=', $a);
+                list($a, $q) = explode(';q=', $a);
             }
             // mime-type $a is accepted with the quality $q
             // WARNING: $q == 0 means, that mime-type isn’t supported!
@@ -231,7 +232,8 @@ class tao_helpers_Http
     }
 
     /**
-     * Sends file content to the client(browser or video/audio player in the browser), it serves images, video/audio files and any other type of file.<br />
+     * Sends file content to the client(browser or video/audio player in the browser), it serves images, video/audio
+     * files and any other type of file.<br />
      * If the client asks for partial contents, then partial contents are served, if not, the whole file is send.<br />
      * Works well with big files, without eating up memory.
      * @author "Martin for OAT <code@taotesting.com>"
@@ -256,8 +258,8 @@ class tao_helpers_Http
                         header('Content-Encoding: gzip');
                     }
 
-                    // session must be closed because, for example, video files might take a while to be sent to the client
-                    //  and we need the client to be able to make other calls to the server during that time
+                    // session must be closed because, for example, video files might take a while to be sent to the
+                    // client and we need the client to be able to make other calls to the server during that time
                     session_write_close();
 
                     $http416RequestRangeNotSatisfiable = 'HTTP/1.1 416 Requested Range Not Satisfiable';
@@ -305,16 +307,20 @@ class tao_helpers_Http
                                 } else {
                                     header($http206PartialContent);
                                     header("Content-Length: " . ($length));
-                                    header('Content-Range: bytes ' . $offset . '-' . ($offset + $length - 1) . '/' . $filesize);
+                                    header(
+                                        'Content-Range: bytes ' . $offset . '-' . ($offset + $length - 1) . '/'
+                                            . $filesize
+                                    );
                                     // send 500KB per cycle
                                     $bytesPerCycle = (1024 * 1024) * 0.5;
                                     $currentPosition = $offset;
                                     if (ob_get_level() > 0) {
                                         ob_end_flush();
                                     }
-                                    // because the client might ask for the whole file, we split the serving into little pieces
-                                    // this is also good in case someone with bad intentions tries to get the whole file many times
-                                    //  and eat up the server memory, we are not loading the whole file into the memory.
+                                    // because the client might ask for the whole file, we split the serving into little
+                                    // pieces this is also good in case someone with bad intentions tries to get the
+                                    // whole file many times and eat up the server memory, we are not loading the whole
+                                    // file into the memory.
                                     while (!feof($fp)) {
                                         if (($currentPosition + $bytesPerCycle) <= $endPosition) {
                                             $data = fread($fp, $bytesPerCycle);
@@ -373,7 +379,10 @@ class tao_helpers_Http
                     $contentLength += (($range->getLastPos() - $range->getFirstPos()) + 1);
                 }
                 //@todo Content-Range for multiple ranges?
-                header('Content-Range: bytes ' . $ranges[0]->getFirstPos() . '-' . $ranges[0]->getLastPos() . '/' . $stream->getSize());
+                header(
+                    'Content-Range: bytes ' . $ranges[0]->getFirstPos() . '-' . $ranges[0]->getLastPos()
+                        . '/' . $stream->getSize()
+                );
             } else {
                 $contentLength = $stream->getSize();
                 header('HTTP/1.1 200 OK');

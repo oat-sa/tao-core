@@ -28,12 +28,12 @@ namespace oat\tao\model\datatable;
  */
 interface DatatableRequest
 {
-    const PARAM_ROWS = 'rows';
-    const PARAM_PAGE = 'page';
-    const PARAM_SORT_BY = 'sortby';
-    const PARAM_SORT_ORDER = 'sortorder';
-    const PARAM_SORT_TYPE = 'sorttype';
-    const PARAM_FILTERS = 'filtercolumns';
+    public const PARAM_ROWS = 'rows';
+    public const PARAM_PAGE = 'page';
+    public const PARAM_SORT_BY = 'sortby';
+    public const PARAM_SORT_ORDER = 'sortorder';
+    public const PARAM_SORT_TYPE = 'sorttype';
+    public const PARAM_FILTERS = 'filtercolumns';
 
     /**
      * Get amount of records per page

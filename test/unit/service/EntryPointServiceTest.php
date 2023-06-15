@@ -36,7 +36,8 @@ class EntryPointServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->service = require __DIR__ . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR . 'entrypoint.conf.php';
+        $this->service = require __DIR__ . DIRECTORY_SEPARATOR . 'samples' . DIRECTORY_SEPARATOR
+            . 'entrypoint.conf.php';
     }
 
     /**
@@ -50,7 +51,10 @@ class EntryPointServiceTest extends TestCase
         $json = json_encode($options);
 
         self::assertEquals(
-            '{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{},"proctoringDelivery":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","testingLocationList","proctoringDelivery"],"prelogin":["guestaccess","proctoringDelivery"],"new_tag":["proctoringDelivery"]}',
+            '{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{},"proctoringDelivery":{}},'
+                . '"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam",'
+                . '"testingLocationList","proctoringDelivery"],"prelogin":["guestaccess","proctoringDelivery"],'
+                . '"new_tag":["proctoringDelivery"]}',
             $json
         );
 
@@ -60,7 +64,9 @@ class EntryPointServiceTest extends TestCase
         $json = json_encode($options);
 
         self::assertEquals(
-            '{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{}},"postlogin":["deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam","testingLocationList"],"prelogin":["guestaccess"],"new_tag":[]}',
+            '{"existing":{"passwordreset":{},"deliveryServer":{},"guestaccess":{}},"postlogin":['
+                . '"deliveryServer","backoffice","proctoring","childOrganization","scoreReport","exam",'
+                . '"testingLocationList"],"prelogin":["guestaccess"],"new_tag":[]}',
             $json
         );
     }

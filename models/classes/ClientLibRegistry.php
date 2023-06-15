@@ -22,8 +22,8 @@
 namespace oat\tao\model;
 
 use oat\oatbox\AbstractRegistry;
-use \common_ext_ExtensionsManager;
-use \common_Logger;
+use common_ext_ExtensionsManager;
+use common_Logger;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\asset\AssetService;
 
@@ -35,7 +35,6 @@ use oat\tao\model\asset\AssetService;
  */
 class ClientLibRegistry extends AbstractRegistry
 {
-
     /**
      * @see \oat\oatbox\AbstractRegistry::getConfigId()
      */
@@ -74,8 +73,8 @@ class ClientLibRegistry extends AbstractRegistry
         }
         return $extensionsAliases;
     }
-    
-    
+
+
     /**
      * Register a new path for given alias, trigger a warning if path already register
      *
@@ -92,11 +91,11 @@ class ClientLibRegistry extends AbstractRegistry
         if (self::getRegistry()->isRegistered($id)) {
             common_Logger::w('Lib already registered');
         }
-        
+
         if (substr($fullPath, 0, strlen('../../../')) == '../../../') {
             $fullPath = ROOT_URL . substr($fullPath, strlen('../../../'));
         }
-        
+
         $found = false;
         foreach (\common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
             if (strpos($fullPath, $assetService->getJsBaseWww($ext->getId())) === 0) {

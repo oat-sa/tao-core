@@ -28,7 +28,6 @@ use oat\tao\model\asset\AssetService;
 
 class Template
 {
-
     /**
      * Expects a relative url to the image as path
      * if extension name is omitted the current extension is used
@@ -45,7 +44,7 @@ class Template
 
         return self::getAssetService()->getAsset('img/' . $path, $extensionId);
     }
-    
+
     /**
      * Expects a relative url to the css as path
      * if extension name is omitted the current extension is used
@@ -61,7 +60,7 @@ class Template
         }
         return self::getAssetService()->getAsset('css/' . $path, $extensionId);
     }
-    
+
     /**
      * Expects a relative url to the java script as path
      * if extension name is omitted the current extension is used
@@ -77,7 +76,7 @@ class Template
         }
         return self::getAssetService()->getAsset('js/' . $path, $extensionId);
     }
-    
+
     /**
      * Expects a relative url to the template that is to be included as path
      * if extension name is omitted the current extension is used

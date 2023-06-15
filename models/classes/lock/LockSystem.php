@@ -30,8 +30,7 @@ use core_kernel_classes_Resource;
  */
 interface LockSystem
 {
-    
-    const SERVICE_ID = 'tao/lock';
+    public const SERVICE_ID = 'tao/lock';
 
     /**
      * set a lock on @resource with owner @user, succeeds also if there is a lock already exists but with the same owner
@@ -41,13 +40,13 @@ interface LockSystem
      * @param core_kernel_classes_Resource $user
      */
     public function setLock(core_kernel_classes_Resource $resource, $ownerId);
-    
+
     /**
      * return true is the resource is locked, else otherwise
      * @return boolean
      */
     public function isLocked(core_kernel_classes_Resource $resource);
-    
+
     /**
      *  release the lock if owned by @user
      * @param core_kernel_classes_Resource $resource
@@ -55,14 +54,14 @@ interface LockSystem
      * @throw common_Exception no lock to release
      */
     public function releaseLock(core_kernel_classes_Resource $resource, $ownerId);
-    
+
     /**
       *  release the lock
       * @param core_kernel_classes_Resource $resource
       * @throw common_Exception no lock to release
       */
     public function forceReleaseLock(core_kernel_classes_Resource $resource);
-    
+
     /**
      * Return lock details or null if no lock found
      *

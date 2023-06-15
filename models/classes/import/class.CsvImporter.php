@@ -36,14 +36,17 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implements tao_models_classes_import_ImportHandler, ServiceLocatorAwareInterface, TaskParameterProviderInterface
+class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implements
+    tao_models_classes_import_ImportHandler,
+    ServiceLocatorAwareInterface,
+    TaskParameterProviderInterface
 {
     use EventManagerAwareTrait;
     use ImportHandlerHelperTrait {
         getTaskParameters as getDefaultTaskParameters;
     }
 
-    const OPTION_POSTFIX = '_O';
+    public const OPTION_POSTFIX = '_O';
 
     /**
      * (non-PHPdoc)
@@ -125,13 +128,19 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
         $csv_data->load($file);
 
         $values = $sourceForm->getValues();
-        $values[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES] = !empty($values[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]);
+        $values[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES] = !empty(
+            $values[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]
+        );
         $values['importFile'] = $serial;
         $myFormContainer = new tao_models_classes_import_CSVMappingForm($values, [
             'class_properties' => $properties,
             'ranged_properties' => $rangedProperties,
-            'csv_column' => $this->getColumnMapping($csv_data, $sourceForm->getValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES)),
-            tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES => $sourceForm->getValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES),
+            'csv_column' => $this->getColumnMapping($csv_data, $sourceForm->getValue(
+                tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES
+            )),
+            tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES => $sourceForm->getValue(
+                tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES
+            ),
         ]);
 
         return $myFormContainer;
@@ -160,7 +169,9 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
         // semantics are the same.
 
         // for backward compatibility
-        $map = $form instanceof \tao_helpers_form_Form ? $form->getValues('property_mapping') : $form['property_mapping'];
+        $map = $form instanceof \tao_helpers_form_Form
+            ? $form->getValues('property_mapping')
+            : $form['property_mapping'];
         $newMap = [];
 
         foreach ($map as $k => $m) {
@@ -177,7 +188,9 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
         $staticMap = [];
 
         // for backward compatibility
-        $rangedProperties = $form instanceof \tao_helpers_form_Form ? $form->getValues('ranged_property') : $form['ranged_property'];
+        $rangedProperties = $form instanceof \tao_helpers_form_Form
+            ? $form->getValues('ranged_property')
+            : $form['ranged_property'];
 
         foreach ($rangedProperties as $propUri => $value) {
             if (strpos($propUri, tao_models_classes_import_CSVMappingForm::DEFAULT_VALUES_SUFFIX) !== false) {

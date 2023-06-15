@@ -113,6 +113,14 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
      */
     protected function getCredentials()
     {
+        $essentialKeys = [BasicAuthCredentials::LOGIN, BasicAuthCredentials::PASSWORD];
+        if (array_diff($essentialKeys, array_keys($this->credentials)) === []) {
+            return [
+                $this->credentials[BasicAuthCredentials::LOGIN],
+                $this->credentials[BasicAuthCredentials::PASSWORD]
+            ];
+        }
+
         $credentials = $this->loadCredentials();
         return [
             $credentials[self::PROPERTY_LOGIN],

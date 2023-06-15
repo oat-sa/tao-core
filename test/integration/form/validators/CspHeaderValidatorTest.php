@@ -31,7 +31,10 @@ class CspHeaderValidatorTest extends GenerisPhpUnitTestRunner
 
         $validator = new CspHeaderValidator(['sourceElement' => $sourceElement]);
         $this->assertFalse($validator->evaluate($this->getMockValues()), 'Values contain invalid domains/directives');
-        $this->assertSame("The following domains are invalid:\n- edgecase.c\n- wrong value\n- thisIsAlsoInvalid\n", $validator->getMessage());
+        $this->assertSame(
+            "The following domains are invalid:\n- edgecase.c\n- wrong value\n- thisIsAlsoInvalid\n",
+            $validator->getMessage()
+        );
 
         $validator = new CspHeaderValidator(['sourceElement' => $sourceElement]);
         $this->assertTrue($validator->evaluate($this->getMockValues('valid')), 'Given values are valid');

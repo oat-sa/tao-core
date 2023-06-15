@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This program is free software; you can redistribute it and/or
@@ -18,6 +18,8 @@
  * Copyright (c) 2015 – 2020 (original work) Open Assessment Technologies SA;
  *
  */
+
+declare(strict_types=1);
 
 namespace oat\tao\model\security;
 

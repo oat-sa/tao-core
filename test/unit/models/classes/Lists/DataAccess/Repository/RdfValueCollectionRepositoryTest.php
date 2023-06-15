@@ -115,7 +115,11 @@ class RdfValueCollectionRepositoryTest extends TestCase
      */
     public function testFindAll(ValueCollectionSearchRequest $searchRequest): void
     {
-        $result = new ValueCollection(self::COLLECTION_URI, new Value(1, '1', 'Element 1'), new Value(2, '2', 'Element 2'));
+        $result = new ValueCollection(
+            self::COLLECTION_URI,
+            new Value(1, '1', 'Element 1'),
+            new Value(2, '2', 'Element 2')
+        );
 
         $this->expectQuery($searchRequest, $result);
 
@@ -222,7 +226,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
         ?string $valueCollectionUri,
         array $queryParams
     ): void {
-        $hasValueCollectionUri =!empty($valueCollectionUri);
+        $hasValueCollectionUri = !empty($valueCollectionUri);
 
         $searchRequest = $this->createMock(ValueCollectionSearchRequest::class);
         $searchRequest
@@ -407,10 +411,10 @@ class RdfValueCollectionRepositoryTest extends TestCase
 
     private function createCountQuery(bool $withValueCollection): string
     {
-        return 'SELECT count(element.id) AS c FROM statements element '.
-            'INNER JOIN statements collection ON collection.subject = element.subject '.
-            'WHERE (element.predicate = :label_uri) AND '.
-            '(collection.predicate = :type_uri)'.
+        return 'SELECT count(element.id) AS c FROM statements element ' .
+            'INNER JOIN statements collection ON collection.subject = element.subject ' .
+            'WHERE (element.predicate = :label_uri) AND ' .
+            '(collection.predicate = :type_uri)' .
             ($withValueCollection ? ' AND (collection.object = :collection_uri)' : '');
     }
 
@@ -454,7 +458,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
             return null;
         }
 
-        $this->queryParameters['subject'] = '%'. $searchRequest->getSubject() . '%';
+        $this->queryParameters['subject'] = '%' . $searchRequest->getSubject() . '%';
 
         $this->conditions[] = 'AND (LOWER(element.object) LIKE :subject)';
 

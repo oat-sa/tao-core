@@ -34,8 +34,8 @@ use Traversable;
  */
 class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
 {
-    const FILE_NAME = 'export.csv';
-    const CSV_CONTENT_TYPE = 'text/csv; charset=UTF-8';
+    public const FILE_NAME = 'export.csv';
+    public const CSV_CONTENT_TYPE = 'text/csv; charset=UTF-8';
 
     /**
      * @var string value of `Content-Type` header
@@ -61,7 +61,7 @@ class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
         $data = $this->data;
 
         if (!is_array($data) && !$data instanceof Traversable) {
-             throw new \common_exception_InvalidArgumentType('Entity you trying to export is not Traversable');
+            throw new \common_exception_InvalidArgumentType('Entity you trying to export is not Traversable');
         }
 
         if ($columnNames && $data) {

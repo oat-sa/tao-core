@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2014 (update and modification) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
@@ -60,7 +63,7 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
      */
     public function extract()
     {
-        
+
         $this->setTranslationUnits([]);
         foreach ($this->getPaths() as $dir) {
             // Directories should come with a trailing slash.
@@ -68,7 +71,7 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
             if ($d[0] !== '/') {
                 $dir = $dir . '/';
             }
-            
+
             $this->recursiveSearch($dir);
         }
     }
@@ -82,7 +85,7 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
      */
     private function recursiveSearch($directory)
     {
-        
+
         if (is_dir($directory)) {
             // We get the list of files and directories.
             if (($files = scandir($directory)) !== false) {
@@ -91,7 +94,7 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
                         // If it is a directory ...
                         if (is_dir($directory . $fd . "/")) {
                             $this->recursiveSearch($directory . $fd . "/");
-                            // If it is a file ...
+                        // If it is a file ...
                         } else {
                             // Retrieve from the file ...
                             $this->getTranslationsInFile($directory . $fd);
@@ -152,13 +155,18 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
      */
     private function getTranslationsInFile($filePath)
     {
-        
+
         // File extension ?
         $extOk = in_array(\Jig\Utils\FsUtils::getFileExtension($filePath), $this->getFileTypes());
 
         if ($extOk) {
             foreach ($this->getBannedFileType() as $bannedExt) {
-                $extOk &= substr_compare($filePath, $bannedExt, strlen($filePath) - strlen($bannedExt), strlen($bannedExt)) !== 0;
+                $extOk &= substr_compare(
+                    $filePath,
+                    $bannedExt,
+                    strlen($filePath) - strlen($bannedExt),
+                    strlen($bannedExt)
+                ) !== 0;
             }
         }
 
@@ -168,16 +176,16 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
             foreach ($lines as $line) {
                 $strings = $this->getTranslationPhrases($line);
                 //preg_match_all("/__(\(| )+['\"](.*?)['\"](\))?/u", $line, $string);
-                
+
                 //lookup for __('to translate') or __ 'to translate'
                 //    preg_match_all("/__(\(| )+(('(.*?)')|(\"(.*?)\"))(\))?/u", $line, $string);
-            
+
                 foreach ($strings as $s) {
                     $tu = new tao_helpers_translation_TranslationUnit();
                     $tu->setSource(tao_helpers_translation_POUtils::sanitize($s));
                     $tus = $this->getTranslationUnits();
                     $found = false;
-                    
+
                     // We must add the string as a new TranslationUnit only
                     // if a similiar source does not exist.
                     foreach ($tus as $t) {
@@ -186,7 +194,7 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
                             break;
                         }
                     }
-                    
+
                     if (!$found) {
                         $tus[] = $tu;
                         $this->setTranslationUnits($tus);
@@ -223,7 +231,8 @@ class tao_helpers_translation_SourceCodeExtractor extends tao_helpers_translatio
         $patternMatch1 = [];
         $patternMatch2 = [];
 
-        preg_match_all("/__\\(([\\\"'])(?:(?=(\\\\?))\\2.)*?\\1/u", $line, $patternMatch1); //for php and JS helper function
+        // for php and JS helper function
+        preg_match_all("/__\\(([\\\"'])(?:(?=(\\\\?))\\2.)*?\\1/u", $line, $patternMatch1);
         preg_match_all("/\{\{__ ['\"](.*?)['\"]\}\}/u", $line, $patternMatch2); //used for parsing templates
 
         if (! empty($patternMatch1[0])) {
