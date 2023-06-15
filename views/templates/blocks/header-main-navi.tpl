@@ -78,7 +78,9 @@ $userLabel    = get_data('userLabel');
                                             </li>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
-                                    <?= Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'logout-menu-settings', ['logout' => get_data('logout')]); ?>
+                                    <?php if ($entry->getId() === 'users'): ?>
+                                        <?= Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'logout-menu-settings', ['logout' => get_data('logout')]); ?>
+                                    <?php endif; ?>
                                 </ul>
                             <?php endif; ?>
                         </li>
