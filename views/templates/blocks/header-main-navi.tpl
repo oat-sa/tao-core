@@ -78,11 +78,11 @@ $userLabel    = get_data('userLabel');
                                             </li>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
-                                    <?php if ($entry->getId() === 'users'): ?>
+                                    <?php if ($entry->getId() === 'user_settings'): ?>
                                         <?= Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'logout-menu-settings', ['logout' => get_data('logout')]); ?>
                                     <?php endif; ?>
                                 </ul>
-                            <?php elseif ($entry->getId() === 'users'): ?>
+                            <?php elseif ($entry->getId() === 'user_settings'): ?>
                                 <ul class="plain menu-dropdown">
                                         <?= Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'logout-menu-settings', ['logout' => get_data('logout')]); ?>
                                 </ul>
