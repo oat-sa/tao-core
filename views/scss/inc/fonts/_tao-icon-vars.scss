@@ -13,6 +13,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-back-button { content: "\e91e"; }
 @mixin icon-japan-incorrect { content: "\e91b"; }
 @mixin icon-japan-correct { content: "\e91c"; }
 @mixin icon-japan-partial { content: "\e91d"; }
