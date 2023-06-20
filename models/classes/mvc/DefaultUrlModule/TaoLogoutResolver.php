@@ -16,8 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
- *
- *
  */
 
 declare(strict_types=1);
@@ -26,11 +24,6 @@ namespace oat\tao\model\mvc\DefaultUrlModule;
 
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-/**
- * Class taoActionResolver
- * return an internal TAO URI from action params
- * @package oat\tao\model\mvc\DefaultUrlModule
- */
 class TaoLogoutResolver implements RedirectResolveInterface
 {
     use ServiceLocatorAwareTrait;
