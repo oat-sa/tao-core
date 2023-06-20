@@ -20,7 +20,7 @@ final class Version202306151107152234_tao extends AbstractMigration
 
     public function getDescription(): string
     {
-        return '';
+        return 'Registering Portal Theme';
     }
 
     public function up(Schema $schema): void
