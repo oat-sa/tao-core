@@ -74,7 +74,7 @@ use oat\tao\scripts\install\RegisterClassPropertyRemovedListener;
 use oat\tao\scripts\install\RegisterDataAccessControlChangedEvent;
 use oat\tao\scripts\install\RegisterDataAccessControlChangedListener;
 use oat\tao\scripts\install\RegisterEvents;
-use oat\tao\scripts\install\RegisterPortalLogoutActionResolver;
+use oat\tao\scripts\install\RegisterTaoLogoutActionResolver;
 use oat\tao\scripts\install\RegisterPortalTheme;
 use oat\tao\scripts\install\RegisterResourceEvents;
 use oat\tao\scripts\install\RegisterResourceRelationService;
@@ -279,7 +279,7 @@ return [
             RegisterRtlLocales::class,
             RegisterSearchServices::class,
             EnableFuriganaRubyPlugin::class,
-            RegisterPortalLogoutActionResolver::class,
+            RegisterTaoLogoutActionResolver::class,
             RegisterPortalTheme::class,
         ],
     ],

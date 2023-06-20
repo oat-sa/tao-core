@@ -26,10 +26,8 @@ namespace oat\tao\scripts\install;
 use oat\oatbox\extension\InstallAction;
 use oat\tao\model\mvc\DefaultUrlModule\TaoLogoutResolver;
 use oat\tao\model\mvc\DefaultUrlService;
-use oat\tao\model\search\SearchProxy;
-use oat\tao\model\search\strategy\GenerisSearch;
 
-class RegisterPortalLogoutActionResolver extends InstallAction
+class RegisterTaoLogoutActionResolver extends InstallAction
 {
     public function __invoke($params = [])
     {
