@@ -28,10 +28,6 @@ class TaoLogoutResolver implements RedirectResolveInterface
 {
     use ServiceLocatorAwareTrait;
 
-    /**
-     * @param array $options
-     * @return string
-     */
     public function resolve(array $options): string
     {
         if (isset($_ENV['REDIRECT_AFTER_LOGOUT_URL'])) {
