@@ -40,8 +40,7 @@ final class Version202306151107152234_tao extends AbstractMigration
             )
         );
 
-        $registerAction = $this->propagate(new RegisterPortalTheme());
-        $registerAction();
+        $this->runAction(new RegisterPortalTheme());
     }
 
     public function unregisterPortalTheme(): void
