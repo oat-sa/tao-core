@@ -9,7 +9,6 @@ use oat\oatbox\reporting\Report;
 use oat\tao\model\theme\PortalTheme;
 use oat\tao\model\theme\ThemeService;
 use oat\tao\scripts\install\RegisterPortalTheme;
-use oat\tao\scripts\install\RegisterTaoLogoutActionResolver;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 
 /**

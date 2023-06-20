@@ -6,7 +6,6 @@ namespace oat\tao\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use oat\oatbox\reporting\Report;
-use oat\tao\model\mvc\DefaultUrlModule\TaoLogoutResolver;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\scripts\install\RegisterTaoLogoutActionResolver;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
