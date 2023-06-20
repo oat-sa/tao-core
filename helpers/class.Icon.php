@@ -25,10 +25,10 @@ use oat\tao\model\iconBuilder\IconBuilderTrait;
  *
  * PLEASE, DO NOT EDIT THIS CLASS. IT GENERATED AUTOMATICALLY
  *
- * @access        public
- * @author        Dieter Raber, <dieter@taotesting.com>
- * @date          2023-06-16 10:17:15
- * @package       tao
+ * @access      public
+ * @author      Dieter Raber, <dieter@taotesting.com>
+ * @date        2023-06-16 10:17:15
+ * @package     tao
  */
 class tao_helpers_Icon
 {
