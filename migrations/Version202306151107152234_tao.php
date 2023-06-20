@@ -6,8 +6,6 @@ namespace oat\tao\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use oat\oatbox\reporting\Report;
-use oat\tao\model\mvc\DefaultUrlModule\TaoLogoutResolver;
-use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\theme\PortalTheme;
 use oat\tao\model\theme\ThemeService;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
@@ -25,56 +23,12 @@ final class Version202306151107152234_tao extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->registerLogoutActionResolver();
         $this->registerPortalTheme();
     }
 
     public function down(Schema $schema): void
     {
-        $this->unregisterLogoutActionResolver();
         $this->unregisterPortalTheme();
-    }
-
-    public function registerLogoutActionResolver(): void
-    {
-        $this->addReport(
-            Report::createInfo(
-                'Registering Portal Logout Action Resolver'
-            )
-        );
-
-        $service = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
-        $options = $service->getOptions();
-
-        $logoutOptions = $options['logout'];
-        $logoutRedirect = $logoutOptions['redirect'] ?? [];
-        $logoutOptions['redirect']['class'] = TaoLogoutResolver::class;
-        $logoutOptions['redirect']['options'] = $logoutRedirect;
-
-        $service->setOption('logout', $logoutOptions);
-
-        $this->getServiceLocator()->register(DefaultUrlService::SERVICE_ID, $service);
-    }
-
-    public function unregisterLogoutActionResolver(): void
-    {
-        $this->addReport(
-            Report::createInfo(
-                'Unregistering Portal Logout Action Resolver'
-            )
-        );
-
-        $service = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
-        $options = $service->getOptions();
-
-        $logoutOptions = $options['logout'];
-        $logoutRedirect = $logoutOptions['redirect'] ?? [];
-        $logoutOptions['redirect']['class'] = $logoutRedirect['options']['class'];
-        $logoutOptions['redirect']['options'] = $logoutRedirect['options']['options'];
-
-        $service->setOption('logout', $logoutOptions);
-
-        $this->getServiceLocator()->register(DefaultUrlService::SERVICE_ID, $service);
     }
 
     public function registerPortalTheme(): void
