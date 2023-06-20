@@ -8,6 +8,8 @@ use Doctrine\DBAL\Schema\Schema;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\theme\PortalTheme;
 use oat\tao\model\theme\ThemeService;
+use oat\tao\scripts\install\RegisterPortalTheme;
+use oat\tao\scripts\install\RegisterTaoLogoutActionResolver;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 
 /**
@@ -39,13 +41,8 @@ final class Version202306151107152234_tao extends AbstractMigration
             )
         );
 
-        $service = $this->getServiceLocator()->get(ThemeService::SERVICE_ID);
-        $option = $service->getOption('available');
-        $option[PortalTheme::THEME_ID] = new PortalTheme();
-
-        $service->setOption('available', $option);
-
-        $this->getServiceLocator()->register(ThemeService::SERVICE_ID, $service);
+        $registerAction = $this->propagate(new RegisterPortalTheme());
+        $registerAction();
     }
 
     public function unregisterPortalTheme(): void

@@ -36,6 +36,12 @@ final class Version202306200857162234_tao extends AbstractMigration
 
     public function registerLogoutActionResolver(): void
     {
+        $this->addReport(
+            Report::createInfo(
+                'Registering Tao Logout Action Resolver'
+            )
+        );
+
         $registerAction = $this->propagate(new RegisterTaoLogoutActionResolver());
         $registerAction();
     }
