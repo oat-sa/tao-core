@@ -24,10 +24,6 @@ declare(strict_types=1);
 namespace oat\tao\scripts\install;
 
 use oat\oatbox\extension\InstallAction;
-use oat\tao\model\mvc\DefaultUrlModule\TaoPortalResolver;
-use oat\tao\model\mvc\DefaultUrlService;
-use oat\tao\model\search\SearchProxy;
-use oat\tao\model\search\strategy\GenerisSearch;
 use oat\tao\model\theme\PortalTheme;
 use oat\tao\model\theme\ThemeService;
 

@@ -27,7 +27,7 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  * return an internal TAO URI from action params
  * @package oat\tao\model\mvc\DefaultUrlModule
  */
-class TaoPortalResolver implements RedirectResolveInterface
+class TaoLogoutResolver implements RedirectResolveInterface
 {
     use ServiceLocatorAwareTrait;
 
@@ -37,8 +37,8 @@ class TaoPortalResolver implements RedirectResolveInterface
      */
     public function resolve(array $options): string
     {
-        if (isset($_ENV['PORTAL_LOGOUT_URL'])) {
-            return $_ENV['PORTAL_LOGOUT_URL'];
+        if (isset($_ENV['REDIRECT_AFTER_LOGOUT_URL'])) {
+            return $_ENV['REDIRECT_AFTER_LOGOUT_URL'];
         }
 
         $redirectAdapterClass = $options['class'] ?? '';

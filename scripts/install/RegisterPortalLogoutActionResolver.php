@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace oat\tao\scripts\install;
 
 use oat\oatbox\extension\InstallAction;
-use oat\tao\model\mvc\DefaultUrlModule\TaoPortalResolver;
+use oat\tao\model\mvc\DefaultUrlModule\TaoLogoutResolver;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\search\SearchProxy;
 use oat\tao\model\search\strategy\GenerisSearch;
@@ -38,7 +38,7 @@ class RegisterPortalLogoutActionResolver extends InstallAction
 
         $logoutOptions = $options['logout'];
         $logoutRedirect = $logoutOptions['redirect'] ?? [];
-        $logoutOptions['redirect']['class'] = TaoPortalResolver::class;
+        $logoutOptions['redirect']['class'] = TaoLogoutResolver::class;
         $logoutOptions['redirect']['options'] = $logoutRedirect;
 
         $service->setOption('logout', $logoutOptions);

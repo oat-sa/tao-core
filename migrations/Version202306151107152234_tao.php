@@ -6,7 +6,7 @@ namespace oat\tao\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use oat\oatbox\reporting\Report;
-use oat\tao\model\mvc\DefaultUrlModule\TaoPortalResolver;
+use oat\tao\model\mvc\DefaultUrlModule\TaoLogoutResolver;
 use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\theme\PortalTheme;
 use oat\tao\model\theme\ThemeService;
@@ -48,7 +48,7 @@ final class Version202306151107152234_tao extends AbstractMigration
 
         $logoutOptions = $options['logout'];
         $logoutRedirect = $logoutOptions['redirect'] ?? [];
-        $logoutOptions['redirect']['class'] = TaoPortalResolver::class;
+        $logoutOptions['redirect']['class'] = TaoLogoutResolver::class;
         $logoutOptions['redirect']['options'] = $logoutRedirect;
 
         $service->setOption('logout', $logoutOptions);
