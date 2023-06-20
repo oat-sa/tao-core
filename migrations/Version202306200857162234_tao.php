@@ -8,6 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\mvc\DefaultUrlModule\TaoLogoutResolver;
 use oat\tao\model\mvc\DefaultUrlService;
+use oat\tao\scripts\install\RegisterTaoLogoutActionResolver;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 
 /**
@@ -35,23 +36,8 @@ final class Version202306200857162234_tao extends AbstractMigration
 
     public function registerLogoutActionResolver(): void
     {
-        $this->addReport(
-            Report::createInfo(
-                'Registering Tao Logout Action Resolver'
-            )
-        );
-
-        $service = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
-        $options = $service->getOptions();
-
-        $logoutOptions = $options['logout'];
-        $logoutRedirect = $logoutOptions['redirect'] ?? [];
-        $logoutOptions['redirect']['class'] = TaoLogoutResolver::class;
-        $logoutOptions['redirect']['options'] = $logoutRedirect;
-
-        $service->setOption('logout', $logoutOptions);
-
-        $this->getServiceLocator()->register(DefaultUrlService::SERVICE_ID, $service);
+        $registerAction = $this->propagate(new RegisterTaoLogoutActionResolver());
+        $registerAction();
     }
 
     public function unregisterLogoutActionResolver(): void
