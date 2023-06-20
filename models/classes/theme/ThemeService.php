@@ -36,7 +36,7 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function getCurrentThemeId()
     {
-        if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_ENABLE_PORTAL_LAYOUT')) {
+        if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_TAO_AS_A_TOOL')) {
             return PortalTheme::THEME_ID;
         }
 
