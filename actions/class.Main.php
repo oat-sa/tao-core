@@ -401,7 +401,22 @@ class tao_actions_Main extends tao_actions_CommonModule
     private function getNavigationElementsByGroup($groupId)
     {
         $entries = [];
+
+        /**
+         * @var int $i
+         * @var  Perspective $perspective
+         */
         foreach (MenuService::getPerspectivesByGroup($groupId) as $i => $perspective) {
+            if (!$this->getSectionVisibilityFilter()->isVisible($perspective->getId())) {
+                $this->logDebug(
+                    sprintf(
+                        "Perspective %s has been ignored base on Section Visibility Filter",
+                        $perspective->getId()
+                    )
+                );
+                continue;
+            }
+
             $binding = $perspective->getBinding();
             $children = $this->getMenuElementChildren($perspective);
 
