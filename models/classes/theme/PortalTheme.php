@@ -30,9 +30,11 @@ use oat\tao\helpers\Template;
  */
 class PortalTheme extends ConfigurableTheme
 {
+    public const THEME_ID = 'portal';
+
     public function getId()
     {
-        return 'portal';
+        return self::THEME_ID;
     }
 
     /**

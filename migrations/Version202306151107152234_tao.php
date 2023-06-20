@@ -87,7 +87,7 @@ final class Version202306151107152234_tao extends AbstractMigration
 
         $service = $this->getServiceLocator()->get(ThemeService::SERVICE_ID);
         $option = $service->getOption('available');
-        $option['portal'] = new PortalTheme();
+        $option[PortalTheme::THEME_ID] = new PortalTheme();
 
         $service->setOption('available', $option);
 
@@ -104,7 +104,7 @@ final class Version202306151107152234_tao extends AbstractMigration
 
         $service = $this->getServiceLocator()->get(ThemeService::SERVICE_ID);
         $option = $service->getOption('available');
-        unset($option['portal']);
+        unset($option[PortalTheme::THEME_ID]);
 
         $service->setOption('available', $option);
 

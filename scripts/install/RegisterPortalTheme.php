@@ -33,7 +33,7 @@ class RegisterPortalTheme extends InstallAction
     {
         $service = $this->getServiceLocator()->get(ThemeService::SERVICE_ID);
         $option = $service->getOption('available');
-        $option['portal'] = new PortalTheme();
+        $option[PortalTheme::THEME_ID] = new PortalTheme();
 
         $service->setOption('available', $option);
 
