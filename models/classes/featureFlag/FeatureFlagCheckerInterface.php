@@ -29,5 +29,7 @@ interface FeatureFlagCheckerInterface
     public const FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED = 'FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED';
     public const FEATURE_FLAG_STATISTIC_METADATA_IMPORT = 'FEATURE_FLAG_STATISTIC_METADATA_IMPORT';
 
+    public const FEATURE_FLAG_TAO_AS_A_TOOL = 'FEATURE_FLAG_TAO_AS_A_TOOL';
+
     public function isEnabled(string $feature): bool;
 }

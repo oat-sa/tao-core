@@ -22,6 +22,8 @@ namespace oat\tao\model\theme;
 
 use common_exception_InconsistentData;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
 abstract class ThemeServiceAbstract extends ConfigurableService implements ThemeServiceInterface
 {
@@ -38,6 +40,18 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
         }
 
         return $this->getThemeById($themeId);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCurrentThemeId()
+    {
+        if ($this->getFeatureFlagChecker()->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_TAO_AS_A_TOOL)) {
+            return PortalTheme::THEME_ID;
+        }
+
+        return '';
     }
 
     /**
@@ -209,5 +223,10 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
         }
 
         return [];
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
     }
 }

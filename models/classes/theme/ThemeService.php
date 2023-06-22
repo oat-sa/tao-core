@@ -36,7 +36,9 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function getCurrentThemeId()
     {
-        if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_TAO_AS_A_TOOL')) {
+        $id = parent::getCurrentThemeId();
+
+        if (!empty($id)) {
             return PortalTheme::THEME_ID;
         }
 
@@ -118,10 +120,5 @@ class ThemeService extends ThemeServiceAbstract
         $this->setOption(static::OPTION_AVAILABLE, $availableThemes);
 
         return true;
-    }
-
-    public function getFeatureFlagChecker(): FeatureFlagCheckerInterface
-    {
-        return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
     }
 }
