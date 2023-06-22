@@ -39,7 +39,7 @@ class ThemeService extends ThemeServiceAbstract
         $id = parent::getCurrentThemeId();
 
         if (!empty($id)) {
-            return PortalTheme::THEME_ID;
+            return $id;
         }
 
         return $this->getOption(static::OPTION_CURRENT);
