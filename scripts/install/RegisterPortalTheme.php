@@ -26,18 +26,16 @@ namespace oat\tao\scripts\install;
 
 use oat\oatbox\extension\InstallAction;
 use oat\tao\model\theme\PortalTheme;
-use oat\tao\model\theme\ThemeService;
+use oat\tao\model\theme\ThemeServiceInterface;
 
 class RegisterPortalTheme extends InstallAction
 {
     public function __invoke($params = [])
     {
-        $service = $this->getServiceLocator()->get(ThemeService::SERVICE_ID);
-        $option = $service->getOption('available');
-        $option[PortalTheme::THEME_ID] = new PortalTheme();
+        /** @var ThemeServiceInterface $service */
+        $service = $this->getServiceLocator()->get(ThemeServiceInterface::SERVICE_ID);
+        $service->addTheme(new PortalTheme(), false);
 
-        $service->setOption('available', $option);
-
-        $this->getServiceLocator()->register(ThemeService::SERVICE_ID, $service);
+        $this->getServiceLocator()->register(ThemeServiceInterface::SERVICE_ID, $service);
     }
 }
