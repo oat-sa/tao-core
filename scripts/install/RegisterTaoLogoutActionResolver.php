@@ -37,6 +37,8 @@ class RegisterTaoLogoutActionResolver extends InstallAction
 
         $logoutOptions = $options['logout'];
         $logoutRedirect = $logoutOptions['redirect'] ?? [];
+
+        $logoutOptions['redirect'] = [];
         $logoutOptions['redirect']['class'] = TaoLogoutResolver::class;
         $logoutOptions['redirect']['options'] = $logoutRedirect;
 
