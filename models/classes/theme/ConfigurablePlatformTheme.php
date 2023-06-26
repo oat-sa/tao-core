@@ -79,7 +79,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
 
     public const PORTAL_TEMPLATE_STRATEGY = 'portal';
 
-    public const DEFAULT_TEMPLATE_STRATEGY= 'default';
+    public const DEFAULT_TEMPLATE_STRATEGY = 'default';
 
     /**
      * Default theme path
@@ -199,8 +199,10 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE)
     {
-        if ($this->hasOption(self::TEMPLATE_STRATEGY)
-            && $this->getOption(self::TEMPLATE_STRATEGY) == self::PORTAL_TEMPLATE_STRATEGY) {
+        if (
+            $this->hasOption(self::TEMPLATE_STRATEGY)
+            && $this->getOption(self::TEMPLATE_STRATEGY) == self::PORTAL_TEMPLATE_STRATEGY
+        ) {
             return $this->getPortalTemplates($id);
         }
 
