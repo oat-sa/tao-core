@@ -75,6 +75,12 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     /** Theme operated by key */
     public const OPERATED_BY = 'operatedBy';
 
+    public const TEMPLATE_STRATEGY = 'templateStrategy';
+
+    public const PORTAL_TEMPLATE_STRATEGY = 'portal';
+
+    public const DEFAULT_TEMPLATE_STRATEGY= 'default';
+
     /**
      * Default theme path
      *
@@ -193,25 +199,27 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE)
     {
-        $templates = $this->getOption(static::TEMPLATES);
-
-        if (is_null($templates) || empty($templates[$id])) {
-            $path = strpos($id, '.tpl') !== false ? $id : 'blocks/' . $id . '.tpl';
-            $templatePath = Template::getTemplate($path, 'tao');
-            return file_exists($templatePath) ? $templatePath : null;
+        if ($this->hasOption(self::TEMPLATE_STRATEGY)
+            && $this->getOption(self::TEMPLATE_STRATEGY) == self::PORTAL_TEMPLATE_STRATEGY) {
+            return $this->getPortalTemplates($id);
         }
 
-        if ($templates[$id] === static::DEFAULT_PATH) {
-            return Template::getTemplate(
-                $this->defaultThemePath . '/' . $id . '.tpl',
-                $this->getOption(static::EXTENSION_ID)
-            );
-        }
-
-        // otherwise it will be assumed the template is already configured
-        return $templates[$id];
+        return $this->getDefaultemplates($id);
     }
 
+    public function getPortalTemplates($id)
+    {
+        switch ($id) {
+            case 'header-logo':
+                return Template::getTemplate('blocks/portal/back-button.tpl', 'tao');
+            case 'logout-menu-settings':
+                return Template::getTemplate('blocks/portal/logout-menu-settings.tpl', 'tao');
+            case 'logout':
+                return null;
+        }
+
+        return $this->getDefaultemplates($id);
+    }
 
     /**
      * This method is here to handle custom options
@@ -440,5 +448,26 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         $this->setOptions($options);
 
         return true;
+    }
+
+    private function getDefaultemplates(string $id): ?string
+    {
+        $templates = $this->getOption(static::TEMPLATES);
+
+        if (is_null($templates) || empty($templates[$id])) {
+            $path = strpos($id, '.tpl') !== false ? $id : 'blocks/' . $id . '.tpl';
+            $templatePath = Template::getTemplate($path, 'tao');
+            return file_exists($templatePath) ? $templatePath : null;
+        }
+
+        if ($templates[$id] === static::DEFAULT_PATH) {
+            return Template::getTemplate(
+                $this->defaultThemePath . '/' . $id . '.tpl',
+                $this->getOption(static::EXTENSION_ID)
+            );
+        }
+
+        // otherwise it will be assumed the template is already configured
+        return $templates[$id];
     }
 }
