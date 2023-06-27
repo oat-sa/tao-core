@@ -28,9 +28,6 @@ use InvalidArgumentException;
 trait PortalTemplateFinderTrait
 {
     /**
-     * @param string $id
-     * @return string|null
-     *
      * @thorws InvalidArgumentException
      */
     public function findTemplateByIdOrFail(string $id): ?string
