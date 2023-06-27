@@ -24,37 +24,19 @@ namespace oat\tao\model\theme;
 
 use oat\tao\helpers\Template;
 
-class PortalTheme extends ConfigurableTheme
+trait PortalTemplateFinderTrait
 {
-    use PortalTemplateFinderTrait;
-
-    public const THEME_ID = 'portal';
-
-    public function getId()
+    public function findTemplateById($id): ?string
     {
-        return self::THEME_ID;
-    }
+        switch ($id) {
+            case 'header-logo':
+                return Template::getTemplate('blocks/portal/back-button.tpl', 'tao');
+            case 'logout-menu-settings':
+                return Template::getTemplate('blocks/portal/logout-menu-settings.tpl', 'tao');
+            case 'logout':
+                return '';
+        }
 
-    /**
-     * (non-PHPdoc)
-     * @see \oat\tao\model\theme\Theme::getLabel()
-     */
-    public function getLabel()
-    {
-        return __('Tao Default Theme');
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see \oat\tao\model\theme\Theme::getStylesheet()
-     */
-    public function getStylesheet($context = Theme::CONTEXT_BACKOFFICE)
-    {
-        return Template::css('tao-3.css', 'tao');
-    }
-
-    public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE): ?string
-    {
-        return $this->findTemplateById($id) ?? parent::getTemplate($id, $context);
+        return null;
     }
 }

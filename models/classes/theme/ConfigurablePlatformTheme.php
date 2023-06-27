@@ -36,6 +36,8 @@ use oat\tao\helpers\Template;
  */
 class ConfigurablePlatformTheme extends Configurable implements Theme
 {
+    use PortalTemplateFinderTrait;
+
     /** Theme extension id key */
     public const EXTENSION_ID = 'extensionId';
 
@@ -203,24 +205,15 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
             $this->hasOption(self::TEMPLATE_STRATEGY)
             && $this->getOption(self::TEMPLATE_STRATEGY) == self::PORTAL_TEMPLATE_STRATEGY
         ) {
-            return $this->getPortalTemplates($id);
+            return $this->getPortalTemplate($id);
         }
 
-        return $this->getDefaultemplates($id);
+        return $this->getDefaultemplate($id);
     }
 
-    public function getPortalTemplates($id)
+    private function getPortalTemplate($id): ?string
     {
-        switch ($id) {
-            case 'header-logo':
-                return Template::getTemplate('blocks/portal/back-button.tpl', 'tao');
-            case 'logout-menu-settings':
-                return Template::getTemplate('blocks/portal/logout-menu-settings.tpl', 'tao');
-            case 'logout':
-                return null;
-        }
-
-        return $this->getDefaultemplates($id);
+        return $this->findTemplateById($id) ?? $this->getDefaultemplate($id);
     }
 
     /**
@@ -294,6 +287,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
 
         return '';
     }
+
     /**
      * Get the message of current theme
      * Message is used in the header as title of the logo
@@ -341,7 +335,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     public function getOperatedBy()
     {
         $operatedBy = $this->getOption(static::OPERATED_BY);
-        $operatedBy['name']  = empty($operatedBy['name']) ? '' : $operatedBy['name'];
+        $operatedBy['name'] = empty($operatedBy['name']) ? '' : $operatedBy['name'];
         $operatedBy['email'] = empty($operatedBy['email']) ? '' : $operatedBy['email'];
         return $operatedBy;
     }
@@ -354,7 +348,6 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     protected function setDefaultThemePath($label)
     {
-
         $this->defaultThemePath = static::DEFAULT_THEME_PATH . '/' . StringUtils::removeSpecChars($label);
     }
 
@@ -423,12 +416,12 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         }
         $options = array_merge(
             [
-            static::STYLESHEET   => Template::css('tao-3.css', 'tao'),
-            static::LOGO_URL     => Template::img('tao-logo.png', 'tao'),
-            static::LABEL        => $options[static::LABEL],
-            static::EXTENSION_ID => $options[static::EXTENSION_ID],
-            static::ID           => $options[static::EXTENSION_ID]
-                                    . StringUtils::camelize(StringUtils::removeSpecChars($options[static::LABEL]), true)
+                static::STYLESHEET => Template::css('tao-3.css', 'tao'),
+                static::LOGO_URL => Template::img('tao-logo.png', 'tao'),
+                static::LABEL => $options[static::LABEL],
+                static::EXTENSION_ID => $options[static::EXTENSION_ID],
+                static::ID => $options[static::EXTENSION_ID]
+                    . StringUtils::camelize(StringUtils::removeSpecChars($options[static::LABEL]), true)
             ],
             $options
         );
@@ -452,7 +445,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         return true;
     }
 
-    private function getDefaultemplates(string $id): ?string
+    private function getDefaultemplate(string $id): ?string
     {
         $templates = $this->getOption(static::TEMPLATES);
 

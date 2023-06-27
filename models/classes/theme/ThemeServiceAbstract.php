@@ -45,18 +45,6 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
     /**
      * @inheritdoc
      */
-    public function getCurrentThemeId()
-    {
-        if ($this->getFeatureFlagChecker()->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_TAO_AS_A_TOOL)) {
-            return PortalTheme::THEME_ID;
-        }
-
-        return '';
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function setTheme(Theme $theme, $protectAlreadyExistingThemes = true)
     {
         $this->addTheme($theme, $protectAlreadyExistingThemes);
@@ -225,8 +213,11 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
         return [];
     }
 
-    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    protected function isTaoAsToolEnabled(): bool
     {
-        return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
+        return $this->getServiceManager()
+            ->getContainer()
+            ->get(FeatureFlagChecker::class)
+            ->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_TAO_AS_A_TOOL);
     }
 }

@@ -22,8 +22,6 @@
 namespace oat\tao\model\theme;
 
 use oat\oatbox\Configurable;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
 /**
  *
@@ -36,10 +34,8 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function getCurrentThemeId()
     {
-        $id = parent::getCurrentThemeId();
-
-        if (!empty($id)) {
-            return $id;
+        if ($this->isTaoAsToolEnabled()) {
+            return PortalTheme::THEME_ID;
         }
 
         return $this->getOption(static::OPTION_CURRENT);
