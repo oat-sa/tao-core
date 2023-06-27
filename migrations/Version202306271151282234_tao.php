@@ -58,7 +58,12 @@ final class Version202306200857162234_tao extends AbstractMigration
         $logoutOptions = $options['logout'];
         $logoutRedirect = $logoutOptions['redirect'] ?? [];
         $logoutOptions['redirect']['class'] = $logoutRedirect['options']['class'];
-        $logoutOptions['redirect']['options'] = $logoutRedirect['options']['options'];
+
+        if (isset($logoutRedirect['options']['url'])) {
+            $logoutOptions['redirect'] = $logoutRedirect['options']['url'];
+        } else {
+            $logoutOptions['redirect']['options'] = $logoutRedirect['options']['options'];
+        }
 
         $service->setOption('logout', $logoutOptions);
 

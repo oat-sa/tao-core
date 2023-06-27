@@ -22,23 +22,34 @@ declare(strict_types=1);
 
 namespace oat\tao\model\mvc\DefaultUrlModule;
 
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use oat\tao\model\mvc\DefaultUrlService;
+use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 
 class TaoLogoutResolver implements RedirectResolveInterface
 {
     use ServiceLocatorAwareTrait;
 
+    const REDIRECT_AFTER_LOGOUT_URL = 'REDIRECT_AFTER_LOGOUT_URL';
+
     public function resolve(array $options): string
     {
-        if (isset($_ENV['REDIRECT_AFTER_LOGOUT_URL'])) {
-            return $_ENV['REDIRECT_AFTER_LOGOUT_URL'];
+        if (isset($_ENV[self::REDIRECT_AFTER_LOGOUT_URL])) {
+            return $_ENV[self::REDIRECT_AFTER_LOGOUT_URL];
         }
 
-        $redirectAdapterClass = $options['class'] ?? '';
-        if ($redirectAdapterClass !== null) {
-            return (new $redirectAdapterClass())->resolve($options['options'] ?? []);
+        if (isset($options['url'])) {
+            return $this->getDefaultUrlService()->createRedirect($options['url']);
+        }
+
+        if (isset($options['class'])) {
+            return $this->getDefaultUrlService()->createRedirect($options);
         }
 
         return '';
+    }
+
+    private function getDefaultUrlService(): DefaultUrlService
+    {
+        return $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
     }
 }

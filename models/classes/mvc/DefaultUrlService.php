@@ -20,6 +20,7 @@
 
 namespace oat\tao\model\mvc;
 
+use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\mvc\DefaultUrlModule\RedirectResolveInterface;
 
@@ -115,11 +116,7 @@ class DefaultUrlService extends ConfigurableService
         if ($this->hasOption($name)) {
             $options = $this->getOption($name);
             if (array_key_exists('redirect', $options)) {
-                if (is_string($options['redirect']) && filter_var($options['redirect'], FILTER_VALIDATE_URL)) {
-                    \common_Logger::w('deprecated usage or redirect');
-                    return $options['redirect'];
-                }
-                return $this->resolveRedirect($options['redirect']);
+                return $this->createRedirect($options['redirect']);
             }
         }
         return '';
@@ -138,11 +135,29 @@ class DefaultUrlService extends ConfigurableService
              * @var RedirectResolveInterface $redirectAdapter
              */
             $redirectAdapter = new $redirectAdapterClass();
+            if ($redirectAdapter instanceof ServiceLocatorAwareInterface) {
+                $redirectAdapter->setServiceLocator($this->getServiceManager());
+            }
+
             return $redirectAdapter->resolve($redirectParams['options']);
         }
         throw new \common_exception_Error(
             'invalid redirect resolver class ' . $redirectAdapterClass . '. it must implements '
                 . RedirectResolveInterface::class
         );
+    }
+
+    /**
+     * @param string|array $redirect
+     * @return string
+     * @throws \common_exception_Error
+     */
+    public function createRedirect($redirect): string
+    {
+        if (is_string($redirect) && filter_var($redirect, FILTER_VALIDATE_URL)) {
+            \common_Logger::w('deprecated usage or redirect');
+            return $redirect;
+        }
+        return $this->resolveRedirect($redirect);
     }
 }
