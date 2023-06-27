@@ -29,7 +29,7 @@ class TaoLogoutResolver implements RedirectResolveInterface
 {
     use ServiceLocatorAwareTrait;
 
-    const REDIRECT_AFTER_LOGOUT_URL = 'REDIRECT_AFTER_LOGOUT_URL';
+    public const REDIRECT_AFTER_LOGOUT_URL = 'REDIRECT_AFTER_LOGOUT_URL';
 
     public function resolve(array $options): string
     {
