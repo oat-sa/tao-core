@@ -23,10 +23,17 @@ declare(strict_types=1);
 namespace oat\tao\model\theme;
 
 use oat\tao\helpers\Template;
+use InvalidArgumentException;
 
 trait PortalTemplateFinderTrait
 {
-    public function findTemplateById($id): ?string
+    /**
+     * @param string $id
+     * @return string|null
+     *
+     * @thorws InvalidArgumentException
+     */
+    public function findTemplateByIdOrFail(string $id): ?string
     {
         switch ($id) {
             case 'header-logo':
@@ -34,9 +41,9 @@ trait PortalTemplateFinderTrait
             case 'logout-menu-settings':
                 return Template::getTemplate('blocks/portal/logout-menu-settings.tpl', 'tao');
             case 'logout':
-                return '';
+                return null;
         }
 
-        return null;
+        throw new InvalidArgumentException('Template Not Found');
     }
 }

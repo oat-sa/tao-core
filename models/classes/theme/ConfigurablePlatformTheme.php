@@ -21,6 +21,7 @@
 
 namespace oat\tao\model\theme;
 
+use InvalidArgumentException;
 use Jig\Utils\StringUtils;
 use oat\oatbox\Configurable;
 use oat\tao\helpers\Template;
@@ -213,7 +214,11 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
 
     private function getPortalTemplate($id): ?string
     {
-        return $this->findTemplateById($id) ?? $this->getDefaultemplate($id);
+        try {
+            return $this->findTemplateByIdOrFail($id);
+        } catch (InvalidArgumentException $exception) {
+            return $this->getDefaultemplate($id);
+        }
     }
 
     /**

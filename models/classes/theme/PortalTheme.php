@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\theme;
 
+use InvalidArgumentException;
 use oat\tao\helpers\Template;
 
 class PortalTheme extends ConfigurableTheme
@@ -55,6 +56,10 @@ class PortalTheme extends ConfigurableTheme
 
     public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE): ?string
     {
-        return $this->findTemplateById($id) ?? parent::getTemplate($id, $context);
+        try {
+            return $this->findTemplateByIdOrFail($id);
+        } catch (InvalidArgumentException $exception) {
+            return parent::getTemplate($id, $context);
+        }
     }
 }
