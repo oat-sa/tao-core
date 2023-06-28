@@ -27,12 +27,16 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\cache\SimpleCache;
 use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\featureFlag\Listener\FeatureFlagCacheWarmupListener;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepository;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
+/**
+ * @codeCoverageIgnore
+ */
 class FeatureFlagServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
@@ -66,6 +70,15 @@ class FeatureFlagServiceProvider implements ContainerServiceProviderInterface
                 [
                     service(Ontology::SERVICE_ID),
                     service(SimpleCache::SERVICE_ID),
+                ]
+            );
+
+        $services
+            ->set(FeatureFlagCacheWarmupListener::class, FeatureFlagCacheWarmupListener::class)
+            ->public()
+            ->args(
+                [
+                    service(FeatureFlagRepositoryInterface::class)
                 ]
             );
     }
