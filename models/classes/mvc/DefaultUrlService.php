@@ -188,7 +188,7 @@ class DefaultUrlService extends ConfigurableService
     private function getRedirectByEnvVar(string $name): ?string
     {
         $redirectUrl = null;
-        if (in_array($name, self::REDIRECTS_WITH_ENV_VAR_SUPPORT)) {
+        if (array_key_exists($name, self::REDIRECTS_WITH_ENV_VAR_SUPPORT)) {
             $redirectUrl = $_ENV[self::REDIRECTS_WITH_ENV_VAR_SUPPORT[$name]] ?? null;
         }
         return $redirectUrl;
