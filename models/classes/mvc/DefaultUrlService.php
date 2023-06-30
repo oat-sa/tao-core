@@ -27,6 +27,13 @@ use oat\tao\model\mvc\DefaultUrlModule\RedirectResolveInterface;
 class DefaultUrlService extends ConfigurableService
 {
     public const SERVICE_ID = 'tao/urlroute';
+    private const ENV_TAO_LOGIN_URL = 'TAO_LOGIN_URL';
+
+    private const ENV_REDIRECT_AFTER_LOGOUT_URL = 'REDIRECT_AFTER_LOGOUT_URL';
+
+    const REDIRECTS_WITH_ENV_VAR_SUPPORT = [
+        'logout' => self::ENV_REDIRECT_AFTER_LOGOUT_URL,
+    ];
 
     /**
      *
@@ -50,6 +57,10 @@ class DefaultUrlService extends ConfigurableService
      */
     public function getLoginUrl(array $params = [])
     {
+        if (isset($_ENV[self::ENV_TAO_LOGIN_URL])) {
+            return $_ENV[self::ENV_TAO_LOGIN_URL];
+        }
+
         return $this->getUrl('login', $params);
     }
 
@@ -80,7 +91,7 @@ class DefaultUrlService extends ConfigurableService
      */
     public function getRoute($name)
     {
-        if (! $this->hasOption($name)) {
+        if (!$this->hasOption($name)) {
             throw new \common_Exception('Route ' . $name . ' not found into UrlService config');
         }
         return $this->getOption($name);
@@ -114,6 +125,11 @@ class DefaultUrlService extends ConfigurableService
     public function getRedirectUrl($name)
     {
         if ($this->hasOption($name)) {
+            $redirectViaEnvVar = $this->getRedirectByEnvVar($name);
+
+            if ($redirectViaEnvVar !== null) {
+                return $redirectViaEnvVar;
+            }
             $options = $this->getOption($name);
             if (array_key_exists('redirect', $options)) {
                 return $this->createRedirect($options['redirect']);
@@ -143,7 +159,7 @@ class DefaultUrlService extends ConfigurableService
         }
         throw new \common_exception_Error(
             'invalid redirect resolver class ' . $redirectAdapterClass . '. it must implements '
-                . RedirectResolveInterface::class
+            . RedirectResolveInterface::class
         );
     }
 
@@ -159,5 +175,14 @@ class DefaultUrlService extends ConfigurableService
             return $redirect;
         }
         return $this->resolveRedirect($redirect);
+    }
+
+    private function getRedirectByEnvVar(string $name): ?string
+    {
+        $redirectUrl = null;
+        if (in_array($name, self::REDIRECTS_WITH_ENV_VAR_SUPPORT)) {
+            $redirectUrl = $_ENV[self::REDIRECTS_WITH_ENV_VAR_SUPPORT[$name]] ?? null;
+        }
+        return $redirectUrl;
     }
 }

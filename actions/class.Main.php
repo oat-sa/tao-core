@@ -27,6 +27,7 @@
 
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\event\EventManager;
+use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\user\LoginService;
 use oat\tao\helpers\TaoCe;
 use oat\tao\model\accessControl\ActionResolver;
@@ -36,7 +37,6 @@ use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\event\LogoutSucceedEvent;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
 use oat\tao\model\menu\SectionVisibilityFilter;
@@ -45,7 +45,6 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\user\UserLocks;
-use oat\oatbox\log\LoggerAwareTrait;
 use tao_helpers_Display as DisplayHelper;
 
 /**
@@ -57,6 +56,8 @@ use tao_helpers_Display as DisplayHelper;
 class tao_actions_Main extends tao_actions_CommonModule
 {
     use LoggerAwareTrait;
+
+    private const ENV_PORTAL_URL = 'PORTAL_URL';
 
     /** @var SectionVisibilityFilterInterface */
     private $sectionVisibilityFilter;
@@ -108,7 +109,7 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
             $this->setData('logout', $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
             $this->setData('userLabel', $this->getSession()->getUserLabel());
-            $this->setData('portalUrl', $_ENV['PORTAL_URL'] ?? '');
+            $this->setData('portalUrl', $_ENV[self::ENV_PORTAL_URL] ?? '');
             $this->setData('settings-menu', $naviElements);
             $this->setData('current-section', $this->getRequestParameter('section'));
             $this->setData('content-template', ['blocks/entry-points.tpl', 'tao']);
@@ -376,7 +377,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('user_lang', $this->getSession()->getDataLanguage());
         $this->setData('userLabel', DisplayHelper::htmlEscape($this->getSession()->getUserLabel()));
-        $this->setData('portalUrl', $_ENV['PORTAL_URL'] ?? '');
+        $this->setData('portalUrl', $_ENV[self::ENV_PORTAL_URL] ?? '');
         // re-added to highlight selected extension in menu
         $this->setData('shownExtension', $extension);
         $this->setData('shownStructure', $structure);
