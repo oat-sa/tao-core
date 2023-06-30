@@ -17,31 +17,24 @@
  *
  * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
  *
- *
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\scripts\install;
+namespace oat\tao\model\menu\Listener;
 
-use oat\oatbox\extension\InstallAction;
-use oat\tao\model\mvc\DefaultUrlModule\TaoLogoutResolver;
-use oat\tao\model\mvc\DefaultUrlService;
+use oat\generis\model\data\event\CacheWarmupEvent;
+use oat\oatbox\reporting\Report;
+use oat\tao\model\menu\MenuService;
 
-class RegisterTaoLogoutActionResolver extends InstallAction
+/**
+ * @codeCoverageIgnore Ignore because it uses static method which can't be easily tested
+ */
+class MenuCacheWarmupListener
 {
-    public function __invoke($params = [])
+    public function handleEvent(CacheWarmupEvent $event): void
     {
-        $service = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
-        $options = $service->getOptions();
-
-        $logoutOptions = $options['logout'];
-        $logoutRedirect = $logoutOptions['redirect'] ?? [];
-        $logoutOptions['redirect']['class'] = TaoLogoutResolver::class;
-        $logoutOptions['redirect']['options'] = $logoutRedirect;
-
-        $service->setOption('logout', $logoutOptions);
-
-        $this->getServiceLocator()->register(DefaultUrlService::SERVICE_ID, $service);
+        MenuService::readStructure();
+        $event->addReport(Report::createInfo('Generated menu cache.'));
     }
 }

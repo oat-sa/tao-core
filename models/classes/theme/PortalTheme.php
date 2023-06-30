@@ -22,10 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\theme;
 
+use InvalidArgumentException;
 use oat\tao\helpers\Template;
 
 class PortalTheme extends ConfigurableTheme
 {
+    use PortalTemplateFinderTrait;
+
     public const THEME_ID = 'portal';
 
     public function getId()
@@ -51,16 +54,12 @@ class PortalTheme extends ConfigurableTheme
         return Template::css('tao-3.css', 'tao');
     }
 
-    public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE)
+    public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE): ?string
     {
-        switch ($id) {
-            case 'header-logo':
-                return Template::getTemplate('blocks/portal/back-button.tpl', 'tao');
-            case 'logout-menu-settings':
-                return Template::getTemplate('blocks/portal/logout-menu-settings.tpl', 'tao');
-            case 'logout':
-                return null;
+        try {
+            return $this->findTemplateByIdOrFail($id);
+        } catch (InvalidArgumentException $exception) {
+            return parent::getTemplate($id, $context);
         }
-        return parent::getTemplate($id, $context);
     }
 }

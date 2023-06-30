@@ -15,21 +15,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2023 (original work) Open Assessment Technologies SA;
+ *
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\featureFlag;
+namespace oat\tao\model\featureFlag\Listener;
 
-interface FeatureFlagCheckerInterface
+use oat\generis\model\data\event\CacheWarmupEvent;
+use oat\oatbox\reporting\Report;
+use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
+
+class FeatureFlagCacheWarmupListener
 {
-    public const FEATURE_FLAG_ADVANCED_SEARCH_DISABLED = 'FEATURE_FLAG_ADVANCED_SEARCH_DISABLED';
-    public const FEATURE_FLAG_TABULAR_IMPORT = 'FEATURE_FLAG_TABULAR_IMPORT_ENABLED';
-    public const FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED = 'FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED';
-    public const FEATURE_FLAG_STATISTIC_METADATA_IMPORT = 'FEATURE_FLAG_STATISTIC_METADATA_IMPORT';
+    private FeatureFlagRepositoryInterface $featureFlagRepo;
 
-    public const FEATURE_FLAG_TAO_AS_A_TOOL = 'FEATURE_FLAG_TAO_AS_A_TOOL';
+    public function __construct(
+        FeatureFlagRepositoryInterface $featureFlagRepo
+    ) {
+        $this->featureFlagRepo = $featureFlagRepo;
+    }
 
-    public function isEnabled(string $feature): bool;
+    public function handleEvent(CacheWarmupEvent $event): void
+    {
+        $this->featureFlagRepo->list();
+        $event->addReport(Report::createInfo('Generated feature flags cache.'));
+    }
 }

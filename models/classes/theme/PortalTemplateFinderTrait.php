@@ -20,25 +20,27 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\mvc\DefaultUrlModule;
+namespace oat\tao\model\theme;
 
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use oat\tao\helpers\Template;
+use InvalidArgumentException;
 
-class TaoLogoutResolver implements RedirectResolveInterface
+trait PortalTemplateFinderTrait
 {
-    use ServiceLocatorAwareTrait;
-
-    public function resolve(array $options): string
+    /**
+     * @thorws InvalidArgumentException
+     */
+    public function findTemplateByIdOrFail(string $id): ?string
     {
-        if (isset($_ENV['REDIRECT_AFTER_LOGOUT_URL'])) {
-            return $_ENV['REDIRECT_AFTER_LOGOUT_URL'];
+        switch ($id) {
+            case 'header-logo':
+                return Template::getTemplate('blocks/portal/back-button.tpl', 'tao');
+            case 'logout-menu-settings':
+                return Template::getTemplate('blocks/portal/logout-menu-settings.tpl', 'tao');
+            case 'logout':
+                return null;
         }
 
-        $redirectAdapterClass = $options['class'] ?? '';
-        if ($redirectAdapterClass !== null) {
-            return (new $redirectAdapterClass())->resolve($options['options'] ?? []);
-        }
-
-        return '';
+        throw new InvalidArgumentException('Template Not Found');
     }
 }

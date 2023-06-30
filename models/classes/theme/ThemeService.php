@@ -22,8 +22,6 @@
 namespace oat\tao\model\theme;
 
 use oat\oatbox\Configurable;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
 /**
  *
@@ -36,7 +34,7 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function getCurrentThemeId()
     {
-        if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_TAO_AS_A_TOOL')) {
+        if ($this->isTaoAsToolEnabled()) {
             return PortalTheme::THEME_ID;
         }
 
@@ -118,10 +116,5 @@ class ThemeService extends ThemeServiceAbstract
         $this->setOption(static::OPTION_AVAILABLE, $availableThemes);
 
         return true;
-    }
-
-    public function getFeatureFlagChecker(): FeatureFlagCheckerInterface
-    {
-        return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
     }
 }

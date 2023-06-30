@@ -7,14 +7,14 @@ namespace oat\tao\migrations;
 use Doctrine\DBAL\Schema\Schema;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\theme\PortalTheme;
-use oat\tao\model\theme\ThemeService;
+use oat\tao\model\theme\ThemeServiceInterface;
 use oat\tao\scripts\install\RegisterPortalTheme;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version202306151107152234_tao extends AbstractMigration
+final class Version202306231832362234_tao extends AbstractMigration
 {
 
     public function getDescription(): string
@@ -51,12 +51,10 @@ final class Version202306151107152234_tao extends AbstractMigration
             )
         );
 
-        $service = $this->getServiceLocator()->get(ThemeService::SERVICE_ID);
-        $option = $service->getOption('available');
-        unset($option[PortalTheme::THEME_ID]);
+        /** @var ThemeServiceInterface $service */
+        $service = $this->getServiceLocator()->get(ThemeServiceInterface::SERVICE_ID);
+        $service->removeThemeById(PortalTheme::THEME_ID);
 
-        $service->setOption('available', $option);
-
-        $this->getServiceLocator()->register(ThemeService::SERVICE_ID, $service);
+        $this->getServiceLocator()->register(ThemeServiceInterface::SERVICE_ID, $service);
     }
 }

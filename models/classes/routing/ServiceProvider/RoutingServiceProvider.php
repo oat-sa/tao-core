@@ -25,12 +25,17 @@ namespace oat\tao\model\routing\ServiceProvider;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\routing\AnnotationReaderService;
+use oat\tao\model\routing\Listener\AnnotationCacheWarmupListener;
 use oat\tao\model\routing\ResolverFactory;
 use oat\tao\model\routing\Service\ActionFinder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
+/**
+ * @codeCoverageIgnore
+ */
 class RoutingServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
@@ -51,6 +56,16 @@ class RoutingServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(ServiceManager::class),
+                ]
+            );
+
+        $services
+            ->set(AnnotationCacheWarmupListener::class, AnnotationCacheWarmupListener::class)
+            ->public()
+            ->args(
+                [
+                    service(AnnotationReaderService::class),
+                    service(\common_ext_ExtensionsManager::SERVICE_ID)
                 ]
             );
     }
