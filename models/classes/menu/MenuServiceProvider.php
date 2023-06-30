@@ -25,8 +25,12 @@ declare(strict_types=1);
 namespace oat\tao\model\menu;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\menu\Listener\MenuCacheWarmupListener;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
+/**
+ * @codeCoverageIgnore
+ */
 class MenuServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
@@ -34,5 +38,8 @@ class MenuServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services->set(MenuService::class, MenuService::class);
+        $services
+            ->set(MenuCacheWarmupListener::class, MenuCacheWarmupListener::class)
+            ->public();
     }
 }

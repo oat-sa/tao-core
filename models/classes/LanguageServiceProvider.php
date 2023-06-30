@@ -26,6 +26,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\Language\Repository\LanguageRepository;
+use oat\tao\model\Language\Listener\LanguageCacheWarmupListener;
 use Symfony\Component\DependencyInjection\Loader\Configurator\Traits\FactoryTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_models_classes_LanguageService;
@@ -36,6 +37,9 @@ use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
+/**
+ * @codeCoverageIgnore
+ */
 class LanguageServiceProvider implements ContainerServiceProviderInterface
 {
     use FactoryTrait;
@@ -65,6 +69,15 @@ class LanguageServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(Ontology::SERVICE_ID),
+                    service(tao_models_classes_LanguageService::class),
+                ]
+            );
+
+        $services
+            ->set(LanguageCacheWarmupListener::class, LanguageCacheWarmupListener::class)
+            ->public()
+            ->args(
+                [
                     service(tao_models_classes_LanguageService::class),
                 ]
             );
