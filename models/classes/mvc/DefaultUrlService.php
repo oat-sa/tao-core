@@ -20,8 +20,12 @@
 
 namespace oat\tao\model\mvc;
 
+use common_Exception;
+use common_exception_Error;
+use common_Logger;
 use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\tao\model\mvc\DefaultUrlModule\RedirectResolveInterface;
 
 class DefaultUrlService extends ConfigurableService
@@ -31,7 +35,7 @@ class DefaultUrlService extends ConfigurableService
 
     private const ENV_REDIRECT_AFTER_LOGOUT_URL = 'REDIRECT_AFTER_LOGOUT_URL';
 
-    const REDIRECTS_WITH_ENV_VAR_SUPPORT = [
+    private const REDIRECTS_WITH_ENV_VAR_SUPPORT = [
         'logout' => self::ENV_REDIRECT_AFTER_LOGOUT_URL,
     ];
 
@@ -87,12 +91,12 @@ class DefaultUrlService extends ConfigurableService
      *
      * @param $name
      * @return mixed
-     * @throws \common_Exception
+     * @throws common_Exception
      */
     public function getRoute($name)
     {
         if (!$this->hasOption($name)) {
-            throw new \common_Exception('Route ' . $name . ' not found into UrlService config');
+            throw new common_Exception('Route ' . $name . ' not found into UrlService config');
         }
         return $this->getOption($name);
     }
@@ -121,6 +125,8 @@ class DefaultUrlService extends ConfigurableService
     /**
      * @param string $name
      * @return string
+     * @throws InvalidServiceManagerException
+     * @throws common_exception_Error
      */
     public function getRedirectUrl($name)
     {
@@ -141,7 +147,8 @@ class DefaultUrlService extends ConfigurableService
     /**
      * @param array $redirectParams
      * @return string
-     * @throws \common_exception_Error
+     * @throws common_exception_Error
+     * @throws InvalidServiceManagerException
      */
     protected function resolveRedirect(array $redirectParams)
     {
@@ -157,7 +164,7 @@ class DefaultUrlService extends ConfigurableService
 
             return $redirectAdapter->resolve($redirectParams['options']);
         }
-        throw new \common_exception_Error(
+        throw new common_exception_Error(
             'invalid redirect resolver class ' . $redirectAdapterClass . '. it must implements '
             . RedirectResolveInterface::class
         );
@@ -166,12 +173,13 @@ class DefaultUrlService extends ConfigurableService
     /**
      * @param string|array $redirect
      * @return string
-     * @throws \common_exception_Error
+     * @throws common_exception_Error
+     * @throws InvalidServiceManagerException
      */
-    public function createRedirect($redirect): string
+    public function createRedirect($redirect)
     {
         if (is_string($redirect) && filter_var($redirect, FILTER_VALIDATE_URL)) {
-            \common_Logger::w('deprecated usage or redirect');
+            common_Logger::w('deprecated usage or redirect');
             return $redirect;
         }
         return $this->resolveRedirect($redirect);
