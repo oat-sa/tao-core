@@ -37,6 +37,8 @@ use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\event\LogoutSucceedEvent;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
 use oat\tao\model\menu\SectionVisibilityFilter;
@@ -347,6 +349,11 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
         }
 
+            $this->setData(
+                'taoAsATool',
+                $this->getFeatureFlagChecker()->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_TAO_AS_A_TOOL)
+            );
+
         $perspectiveTypes = [Perspective::GROUP_DEFAULT, 'settings', 'persistent'];
         foreach ($perspectiveTypes as $perspectiveType) {
             $this->setData($perspectiveType . '-menu', $this->getNavigationElementsByGroup($perspectiveType));
@@ -535,5 +542,10 @@ class tao_actions_Main extends tao_actions_CommonModule
         }
 
         return $this->sectionVisibilityFilter;
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagChecker
+    {
+        return $this->getPsrContainer()->get(FeatureFlagChecker::class);
     }
 }

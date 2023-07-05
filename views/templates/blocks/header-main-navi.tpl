@@ -6,6 +6,7 @@ $mainMenu     = get_data('main-menu');
 $settingsMenu = get_data('settings-menu');
 $persistentMenu = get_data('persistent-menu');
 $userLabel    = get_data('userLabel');
+$taoAsATool   = get_data('taoAsATool');
 ?>
 <nav>
     <ul class="plain clearfix lft main-menu">
@@ -69,7 +70,7 @@ $userLabel    = get_data('userLabel');
                                 <?php endif; ?>
 
                             </a>
-                            <?php if (count($item['children']) > 1): ?>
+                            <?php if (count($item['children']) > 1 || $taoAsATool): ?>
                                 <ul class="plain menu-dropdown">
                                     <?php foreach ($item['children'] as $child): ?>
                                         <?php if(!$child->getDisabled()) : ?>
