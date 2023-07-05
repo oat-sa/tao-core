@@ -41,13 +41,13 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
         $sections = $this->getOption(self::OPTION_FEATURE_FLAG_SECTIONS, []);
         $sectionToHide = $this->getOption(self::OPTION_FEATURE_FLAG_SECTIONS_TO_HIDE, []);
 
-        foreach ($sectionToHide[$section] as $featureFlag) {
+        foreach ($sectionToHide[$section] ?? [] as $featureFlag) {
             if ($this->getFeatureFlagChecker()->isEnabled($featureFlag)) {
                 return false;
             }
         }
 
-        foreach ($sections[$section] as $featureFlag) {
+        foreach ($sections[$section] ?? [] as $featureFlag) {
             if (!$this->getFeatureFlagChecker()->isEnabled($featureFlag)) {
                 return false;
             }
