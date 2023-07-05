@@ -31,6 +31,7 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
 {
     public const SERVICE_ID = 'tao/SectionVisibilityFilter';
     public const OPTION_FEATURE_FLAG_SECTIONS = 'featureFlagSections';
+    public const OPTION_FEATURE_FLAG_SECTIONS_TO_HIDE = 'featureFlagSectionsToHide';
 
     /**
      * @throws LogicException
@@ -38,9 +39,12 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
     public function isVisible(string $section): bool
     {
         $sections = $this->getOption(self::OPTION_FEATURE_FLAG_SECTIONS);
+        $sectionToHide = $this->getOption(self::OPTION_FEATURE_FLAG_SECTIONS_TO_HIDE);
 
-        if (empty($sections[$section])) {
-            return true;
+        foreach ($sectionToHide[$section] as $featureFlag) {
+            if ($this->getFeatureFlagChecker()->isEnabled($featureFlag)) {
+                return false;
+            }
         }
 
         foreach ($sections[$section] as $featureFlag) {
@@ -51,7 +55,6 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
 
         return true;
     }
-
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getServiceLocator()->get(FeatureFlagChecker::class);
