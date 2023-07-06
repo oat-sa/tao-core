@@ -74,11 +74,17 @@ return new oat\tao\model\menu\SectionVisibilityFilter(array(
         'sectionName' => [
             'FEATURE_FLAG_01'
         ]
+    ],
+    'featureFlagSectionsToHide' => [
+        'sectionNameToHide' => [
+            'FEATURE_FLAG_02'
+        ]
     ]
 ));
 ``` 
 
 This configuration will display `sectionName` when `FEATURE_FLAG_01` is enabled.
+This configuration will hide `sectionNameToHide` when `FEATURE_FLAG_02` is enabled.
 
 ### Override configs on execution time
 
