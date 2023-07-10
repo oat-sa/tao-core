@@ -1,4 +1,5 @@
 /* Do not edit */[class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+%icon-back-button-before, .icon-back-button:before { @include icon-back-button; }
 %icon-japan-incorrect-before, .icon-japan-incorrect:before { @include icon-japan-incorrect; }
 %icon-japan-correct-before, .icon-japan-correct:before { @include icon-japan-correct; }
 %icon-japan-partial-before, .icon-japan-partial:before { @include icon-japan-partial; }
