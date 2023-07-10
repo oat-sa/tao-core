@@ -20,12 +20,24 @@
 
 namespace oat\tao\model\mvc;
 
+use common_Exception;
+use common_exception_Error;
+use common_Logger;
+use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\tao\model\mvc\DefaultUrlModule\RedirectResolveInterface;
 
 class DefaultUrlService extends ConfigurableService
 {
     public const SERVICE_ID = 'tao/urlroute';
+    private const ENV_TAO_LOGIN_URL = 'TAO_LOGIN_URL';
+
+    private const ENV_REDIRECT_AFTER_LOGOUT_URL = 'REDIRECT_AFTER_LOGOUT_URL';
+
+    private const REDIRECTS_WITH_ENV_VAR_SUPPORT = [
+        'logout' => self::ENV_REDIRECT_AFTER_LOGOUT_URL,
+    ];
 
     /**
      *
@@ -49,6 +61,10 @@ class DefaultUrlService extends ConfigurableService
      */
     public function getLoginUrl(array $params = [])
     {
+        if (isset($_ENV[self::ENV_TAO_LOGIN_URL])) {
+            return $_ENV[self::ENV_TAO_LOGIN_URL];
+        }
+
         return $this->getUrl('login', $params);
     }
 
@@ -75,12 +91,12 @@ class DefaultUrlService extends ConfigurableService
      *
      * @param $name
      * @return mixed
-     * @throws \common_Exception
+     * @throws common_Exception
      */
     public function getRoute($name)
     {
-        if (! $this->hasOption($name)) {
-            throw new \common_Exception('Route ' . $name . ' not found into UrlService config');
+        if (!$this->hasOption($name)) {
+            throw new common_Exception('Route ' . $name . ' not found into UrlService config');
         }
         return $this->getOption($name);
     }
@@ -109,17 +125,20 @@ class DefaultUrlService extends ConfigurableService
     /**
      * @param string $name
      * @return string
+     * @throws InvalidServiceManagerException
+     * @throws common_exception_Error
      */
     public function getRedirectUrl($name)
     {
         if ($this->hasOption($name)) {
+            $redirectViaEnvVar = $this->getRedirectByEnvVar($name);
+
+            if ($redirectViaEnvVar !== null) {
+                return $redirectViaEnvVar;
+            }
             $options = $this->getOption($name);
             if (array_key_exists('redirect', $options)) {
-                if (is_string($options['redirect']) && filter_var($options['redirect'], FILTER_VALIDATE_URL)) {
-                    \common_Logger::w('deprecated usage or redirect');
-                    return $options['redirect'];
-                }
-                return $this->resolveRedirect($options['redirect']);
+                return $this->createRedirect($options['redirect']);
             }
         }
         return '';
@@ -128,7 +147,8 @@ class DefaultUrlService extends ConfigurableService
     /**
      * @param array $redirectParams
      * @return string
-     * @throws \common_exception_Error
+     * @throws common_exception_Error
+     * @throws InvalidServiceManagerException
      */
     protected function resolveRedirect(array $redirectParams)
     {
@@ -138,11 +158,39 @@ class DefaultUrlService extends ConfigurableService
              * @var RedirectResolveInterface $redirectAdapter
              */
             $redirectAdapter = new $redirectAdapterClass();
+            if ($redirectAdapter instanceof ServiceLocatorAwareInterface) {
+                $redirectAdapter->setServiceLocator($this->getServiceManager());
+            }
+
             return $redirectAdapter->resolve($redirectParams['options']);
         }
-        throw new \common_exception_Error(
+        throw new common_exception_Error(
             'invalid redirect resolver class ' . $redirectAdapterClass . '. it must implements '
-                . RedirectResolveInterface::class
+            . RedirectResolveInterface::class
         );
+    }
+
+    /**
+     * @param string|array $redirect
+     * @return string
+     * @throws common_exception_Error
+     * @throws InvalidServiceManagerException
+     */
+    public function createRedirect($redirect)
+    {
+        if (is_string($redirect) && filter_var($redirect, FILTER_VALIDATE_URL)) {
+            common_Logger::w('deprecated usage or redirect');
+            return $redirect;
+        }
+        return $this->resolveRedirect($redirect);
+    }
+
+    private function getRedirectByEnvVar(string $name): ?string
+    {
+        $redirectUrl = null;
+        if (array_key_exists($name, self::REDIRECTS_WITH_ENV_VAR_SUPPORT)) {
+            $redirectUrl = $_ENV[self::REDIRECTS_WITH_ENV_VAR_SUPPORT[$name]] ?? null;
+        }
+        return $redirectUrl;
     }
 }

@@ -22,6 +22,8 @@ namespace oat\tao\model\theme;
 
 use common_exception_InconsistentData;
 use oat\oatbox\service\ConfigurableService;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
 abstract class ThemeServiceAbstract extends ConfigurableService implements ThemeServiceInterface
 {
@@ -209,5 +211,13 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
         }
 
         return [];
+    }
+
+    protected function isTaoAsToolEnabled(): bool
+    {
+        return $this->getServiceManager()
+            ->getContainer()
+            ->get(FeatureFlagChecker::class)
+            ->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_TAO_AS_A_TOOL);
     }
 }

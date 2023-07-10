@@ -21,6 +21,7 @@
 
 namespace oat\tao\model\theme;
 
+use InvalidArgumentException;
 use Jig\Utils\StringUtils;
 use oat\oatbox\Configurable;
 use oat\tao\helpers\Template;
@@ -36,6 +37,8 @@ use oat\tao\helpers\Template;
  */
 class ConfigurablePlatformTheme extends Configurable implements Theme
 {
+    use PortalTemplateFinderTrait;
+
     /** Theme extension id key */
     public const EXTENSION_ID = 'extensionId';
 
@@ -74,6 +77,12 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
 
     /** Theme operated by key */
     public const OPERATED_BY = 'operatedBy';
+
+    public const TEMPLATE_STRATEGY = 'templateStrategy';
+
+    public const PORTAL_TEMPLATE_STRATEGY = 'portal';
+
+    public const DEFAULT_TEMPLATE_STRATEGY = 'default';
 
     /**
      * Default theme path
@@ -193,25 +202,24 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     public function getTemplate($id, $context = Theme::CONTEXT_BACKOFFICE)
     {
-        $templates = $this->getOption(static::TEMPLATES);
-
-        if (is_null($templates) || empty($templates[$id])) {
-            $path = strpos($id, '.tpl') !== false ? $id : 'blocks/' . $id . '.tpl';
-            $templatePath = Template::getTemplate($path, 'tao');
-            return file_exists($templatePath) ? $templatePath : null;
+        if (
+            $this->hasOption(self::TEMPLATE_STRATEGY)
+            && $this->getOption(self::TEMPLATE_STRATEGY) == self::PORTAL_TEMPLATE_STRATEGY
+        ) {
+            return $this->getPortalTemplate($id);
         }
 
-        if ($templates[$id] === static::DEFAULT_PATH) {
-            return Template::getTemplate(
-                $this->defaultThemePath . '/' . $id . '.tpl',
-                $this->getOption(static::EXTENSION_ID)
-            );
-        }
-
-        // otherwise it will be assumed the template is already configured
-        return $templates[$id];
+        return $this->getDefaultemplate($id);
     }
 
+    private function getPortalTemplate($id): ?string
+    {
+        try {
+            return $this->findTemplateByIdOrFail($id);
+        } catch (InvalidArgumentException $exception) {
+            return $this->getDefaultemplate($id);
+        }
+    }
 
     /**
      * This method is here to handle custom options
@@ -284,6 +292,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
 
         return '';
     }
+
     /**
      * Get the message of current theme
      * Message is used in the header as title of the logo
@@ -331,7 +340,7 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
     public function getOperatedBy()
     {
         $operatedBy = $this->getOption(static::OPERATED_BY);
-        $operatedBy['name']  = empty($operatedBy['name']) ? '' : $operatedBy['name'];
+        $operatedBy['name'] = empty($operatedBy['name']) ? '' : $operatedBy['name'];
         $operatedBy['email'] = empty($operatedBy['email']) ? '' : $operatedBy['email'];
         return $operatedBy;
     }
@@ -344,7 +353,6 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
      */
     protected function setDefaultThemePath($label)
     {
-
         $this->defaultThemePath = static::DEFAULT_THEME_PATH . '/' . StringUtils::removeSpecChars($label);
     }
 
@@ -413,12 +421,12 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         }
         $options = array_merge(
             [
-            static::STYLESHEET   => Template::css('tao-3.css', 'tao'),
-            static::LOGO_URL     => Template::img('tao-logo.png', 'tao'),
-            static::LABEL        => $options[static::LABEL],
-            static::EXTENSION_ID => $options[static::EXTENSION_ID],
-            static::ID           => $options[static::EXTENSION_ID]
-                                    . StringUtils::camelize(StringUtils::removeSpecChars($options[static::LABEL]), true)
+                static::STYLESHEET => Template::css('tao-3.css', 'tao'),
+                static::LOGO_URL => Template::img('tao-logo.png', 'tao'),
+                static::LABEL => $options[static::LABEL],
+                static::EXTENSION_ID => $options[static::EXTENSION_ID],
+                static::ID => $options[static::EXTENSION_ID]
+                    . StringUtils::camelize(StringUtils::removeSpecChars($options[static::LABEL]), true)
             ],
             $options
         );
@@ -440,5 +448,26 @@ class ConfigurablePlatformTheme extends Configurable implements Theme
         $this->setOptions($options);
 
         return true;
+    }
+
+    private function getDefaultemplate(string $id): ?string
+    {
+        $templates = $this->getOption(static::TEMPLATES);
+
+        if (is_null($templates) || empty($templates[$id])) {
+            $path = strpos($id, '.tpl') !== false ? $id : 'blocks/' . $id . '.tpl';
+            $templatePath = Template::getTemplate($path, 'tao');
+            return file_exists($templatePath) ? $templatePath : null;
+        }
+
+        if ($templates[$id] === static::DEFAULT_PATH) {
+            return Template::getTemplate(
+                $this->defaultThemePath . '/' . $id . '.tpl',
+                $this->getOption(static::EXTENSION_ID)
+            );
+        }
+
+        // otherwise it will be assumed the template is already configured
+        return $templates[$id];
     }
 }

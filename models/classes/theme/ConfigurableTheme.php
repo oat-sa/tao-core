@@ -157,6 +157,9 @@ class ConfigurableTheme extends Configurable implements Theme
             case 'login':
                 $template = Template::getTemplate('blocks/login.tpl', 'tao');
                 break;
+            case 'logout':
+                $template = Template::getTemplate('blocks/logout.tpl', 'tao');
+                break;
             default:
                 \common_Logger::d('Unknown template ' . $id);
                 $template = null;

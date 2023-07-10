@@ -1,9 +1,12 @@
 <?php
 use oat\tao\helpers\Layout;
+use oat\tao\model\theme\Theme;
+
 $mainMenu     = get_data('main-menu');
 $settingsMenu = get_data('settings-menu');
 $persistentMenu = get_data('persistent-menu');
 $userLabel    = get_data('userLabel');
+$taoAsATool   = get_data('taoAsATool');
 ?>
 <nav>
     <ul class="plain clearfix lft main-menu">
@@ -67,7 +70,7 @@ $userLabel    = get_data('userLabel');
                                 <?php endif; ?>
 
                             </a>
-                            <?php if (count($item['children']) > 1): ?>
+                            <?php if (count($item['children']) > 1 || $taoAsATool): ?>
                                 <ul class="plain menu-dropdown">
                                     <?php foreach ($item['children'] as $child): ?>
                                         <?php if(!$child->getDisabled()) : ?>
@@ -76,6 +79,13 @@ $userLabel    = get_data('userLabel');
                                             </li>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
+                                    <?php if ($entry->getId() === 'user_settings'): ?>
+                                        <?= Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'logout-menu-settings', ['logout' => get_data('logout')]); ?>
+                                    <?php endif; ?>
+                                </ul>
+                            <?php elseif ($entry->getId() === 'user_settings'): ?>
+                                <ul class="plain menu-dropdown">
+                                        <?= Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'logout-menu-settings', ['logout' => get_data('logout')]); ?>
                                 </ul>
                             <?php endif; ?>
                         </li>
@@ -100,12 +110,7 @@ $userLabel    = get_data('userLabel');
                         </a>
                     </li>
                 <?php endif; ?>
-                <li data-env="user" class="li-logout<?php if(!empty($userLabel) && print ' sep-before')?>">
-                    <a id="logout" href="<?= get_data('logout') ?>" title="<?= __('Log Out') ?>">
-                        <span class="icon-logout glyph"></span>
-                        <span class="text hidden logout-text"><?= __("Logout"); ?></span>
-                    </a>
-                </li>
+                <?= Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'logout', ['userLabel' => $userLabel, 'logout' => get_data('logout')]); ?>
             </ul>
         </div>
 
