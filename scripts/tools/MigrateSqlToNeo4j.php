@@ -27,23 +27,32 @@ use EasyRdf\Format;
 use EasyRdf\Graph;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
+use oat\tao\model\TaoOntology;
 
 /**
- * php -dmemory_limit=1G index.php 'oat\tao\scripts\tools\MigrateSqlToNeo4j' -u -i -s 10000 -n 10000
+ * php -dmemory_limit=1G index.php 'oat\tao\scripts\tools\MigrateSqlToNeo4j' -u -i -s 10000 -n 10000 -vvv
  */
 class MigrateSqlToNeo4j extends ScriptAction
 {
     private const DEFAULT_CHUNK_SIZE = 10000;
+
+    protected function showTime()
+    {
+        return true;
+    }
+
 
     public function initNeo4j(bool $isCreateConstraint, bool $isInitGraphConfig)
     {
         $neo4j = $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById('neo4j');
 
         if ($isCreateConstraint) {
+            $this->logNotice('Creating unique constraint for Resource URI.');
             $neo4j->run('CREATE CONSTRAINT n10s_unique_uri FOR (r:Resource) REQUIRE r.uri IS UNIQUE;');
         }
 
         if ($isInitGraphConfig) {
+            $this->logNotice('Init graph settings with proper options.');
             $neo4j->run(<<<CYPHER
 CALL n10s.graphconfig.init({handleMultival:"ARRAY", handleVocabUris:"KEEP", handleRDFTypes:"NODES", keepLangTag:true});
 CYPHER
@@ -82,6 +91,9 @@ CYPHER
             $triplesProcessed++;
             if ($triplesProcessed >= $chunkSize) {
                 $triplesChunk = $graph->serialise($format);
+
+                $this->logDebug(sprintf('%d triple(s) transformed.', $triplesProcessed));
+
                 $graph = new Graph();
                 $triplesProcessed = 0;
 
@@ -89,6 +101,7 @@ CYPHER
             }
         }
 
+        $this->logDebug(sprintf('%d triple(s) transformed.', $triplesProcessed));
         yield $graph->serialise($format);
     }
 
@@ -98,22 +111,52 @@ CYPHER
             ->get(\common_persistence_Manager::SERVICE_ID)
             ->getPersistenceById('default');
 
-        /** @var \Doctrine\DBAL\ForwardCompatibility\Result $idResult */
-        $idResult = $sql->query(
-            'SELECT MAX(id) as id FROM "statements" GROUP BY subject, predicate, object, l_language'
-        );
-        $idList = $idResult->fetchFirstColumn();
+        $updatedByPropertyUri = TaoOntology::PROPERTY_UPDATED_BY;
 
-        $idList = array_chunk($idList, $chunkSize);
-        foreach ($idList as $idChunk) {
-            /** @var \Doctrine\DBAL\ForwardCompatibility\Result $result */
-            $result = $sql->query(sprintf(
-                'SELECT "subject", "predicate", "object", "l_language" FROM "statements" WHERE id IN(%s)',
-                implode(',', $idChunk)
-            ));
+        $dataProviderList = [
+            'physical_triples' => [
+                'id_query' => 'SELECT MAX(id) as id FROM "statements" GROUP BY subject, predicate, object, l_language;',
+                'data_query' => 'SELECT subject, predicate, object, l_language FROM statements WHERE id IN(%s);',
+            ],
+            'virtual_author_triples' => [
+                'id_query' => <<<'SQL'
+                    SELECT MAX(s1.id) as id
+                    FROM statements AS s1
+                    INNER JOIN (SELECT subject, MAX(epoch) as epoch
+                                FROM statements
+                                WHERE author <> ''
+                                GROUP BY subject) as s2
+                        ON (s1.subject = s2.subject AND s1.epoch = s2.epoch)
+                    GROUP BY s1.subject;
+SQL,
+                'data_query' => <<<SQL
+                    SELECT
+                        subject,
+                        '${updatedByPropertyUri}' as predicate,
+                        author AS object,
+                        '' as l_language
+                    FROM statements
+                    WHERE id IN(%s);
+SQL,
+            ],
+        ];
 
-            while ($r = $result->fetchAssociative()) {
-                yield $r;
+        foreach ($dataProviderList as $dataProviderName => $dataProvider) {
+            $this->logNotice(sprintf('Extracting data using "%s" provider.', $dataProviderName));
+
+            /** @var \Doctrine\DBAL\ForwardCompatibility\Result $idResult */
+            $idResult = $sql->query($dataProvider['id_query']);
+            $idList = $idResult->fetchFirstColumn();
+
+            $this->logInfo(sprintf('Extracted %d row(s) of data.', count($idList)));
+            $idList = array_chunk($idList, $chunkSize);
+            foreach ($idList as $idChunk) {
+                /** @var \Doctrine\DBAL\ForwardCompatibility\Result $result */
+                $result = $sql->query(sprintf($dataProvider['data_query'], implode(',', $idChunk)));
+
+                while ($r = $result->fetchAssociative()) {
+                    yield $r;
+                }
             }
         }
     }
@@ -143,6 +186,8 @@ CYPHER
                 )
             );
         }
+
+        $this->logInfo('Chunk of triples successfully loaded.');
     }
 
     public function escapeTriple(string $nTriple): string
@@ -223,8 +268,12 @@ CYPHER
 
         try {
             $sqlTripleList = $this->extractDataFromSqlStorage($sqlChunkSize);
-            $format = Format::getFormat('ntriples');
-            $nTripleList = $this->transformSqlToRdf($sqlTripleList, $format, $neo4jChunkSize);
+
+            $nTripleList = $this->transformSqlToRdf(
+                $sqlTripleList,
+                Format::getFormat('ntriples'),
+                $neo4jChunkSize
+            );
 
             $neo4j = $this->initNeo4j($isCreateConstraint, $isInitGraphConfig);
             foreach ($nTripleList as $nTriple) {
