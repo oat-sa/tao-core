@@ -102,6 +102,7 @@ Here you can find the environment variables including feature flags
 | FEATURE_FLAG_STATISTIC_METADATA_IMPORT | Enable statistics metadata import                                                                                                    | -             |
 | FEATURE_FLAG_CKEDITOR_SOURCEDIALOG     | Enable source editing for ckeditor                                                                                                   | false         |
 | FEATURE_FLAG_TAO_AS_A_TOOL             | Enable the theme Portal used with Portal app                                                                                         | -             |
+| FEATURE_FLAG_XML_EDITOR_ENABLED        | Enable test xml edition                                                                                                              | -             |
 | FEATURE_FLAG_PASSWORD_CHANGE_DISABLED  | Hide change password section                                                                                                         | -             |
 | GOOGLE_APPLICATION_CREDENTIALS         | Path to GCP credentials path                                                                                                         | -             |
 | DATA_STORE_STATISTIC_PUB_SUB_TOPIC     | Topic name for statistic metadata Pub/Sub                                                                                            | -             |
