@@ -39,6 +39,7 @@ interface TaoOntology
     public const CLASS_URI_TREE = 'http://www.tao.lu/Ontologies/TAO.rdf#Tree';
 
     public const PROPERTY_UPDATED_AT = 'http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt';
+    public const PROPERTY_UPDATED_BY = 'http://www.tao.lu/Ontologies/TAO.rdf#UpdatedBy';
     public const PROPERTY_LIST_LEVEL = 'http://www.tao.lu/Ontologies/TAO.rdf#level';
     public const PROPERTY_USER_FIRST_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#FirstTimeInTao';
     public const PROPERTY_USER_LAST_EXTENSION = 'http://www.tao.lu/Ontologies/TAO.rdf#LastExtensionUsed';

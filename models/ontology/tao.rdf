@@ -84,6 +84,13 @@
       <rdfs:comment xml:lang="en-US"><![CDATA[Last updated date]]></rdfs:comment>
     </rdf:Description>
 
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#UpdatedBy">
+      <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+      <rdfs:label xml:lang="en-US"><![CDATA[Author]]></rdfs:label>
+      <rdfs:comment xml:lang="en-US"><![CDATA[User who authored the change]]></rdfs:comment>
+      <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
+    </rdf:Description>
+
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#level">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:label xml:lang="en-US"><![CDATA[level]]></rdfs:label>
