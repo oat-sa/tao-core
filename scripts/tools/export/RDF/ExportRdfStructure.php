@@ -40,6 +40,8 @@ class ExportRdfStructure extends ScriptAction
 {
     use OntologyAwareTrait;
 
+    private const CLASS_WILDCARD = 'all';
+
     protected function provideOptions(): array
     {
         return [
@@ -67,7 +69,12 @@ class ExportRdfStructure extends ScriptAction
     {
         $path = $this->getOption('output-file-path');
         $parentClassUri = $this->getOption('class-uri');
-        $class = $this->getClass($parentClassUri);
+
+        if ($parentClassUri === self::CLASS_WILDCARD) {
+            $class = null;
+        } else {
+            $class = $this->getClass($parentClassUri);
+        }
 
         try {
             $rdf = $this->getCustomizedGenerisAdapterRdf()
