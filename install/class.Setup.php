@@ -155,9 +155,9 @@ class tao_install_Setup implements Action
 
         $global = $parameters['configuration']['global'];
         $markers = new ConfigurationMarkers(
-                            new SerializableSecretDtoFactory(),
-                            $this->getLogger()
-                        );
+            new SerializableSecretDtoFactory(),
+            $this->getLogger()
+        );
         $global = $markers->replaceMarkersByString($global);
 
         $options['module_namespace'] = $global['namespace'];
@@ -210,9 +210,9 @@ class tao_install_Setup implements Action
         ];
 
         $markers = new ConfigurationMarkers(
-                            new SerializableSecretDtoFactory(),
-                            $this->getLogger()
-                        );
+            new SerializableSecretDtoFactory(),
+            $this->getLogger()
+        );
         $global = $markers->replaceMarkers($global);
 
         if (isset($global['installation_config_path'])) {
