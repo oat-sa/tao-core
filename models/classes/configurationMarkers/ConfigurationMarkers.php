@@ -59,6 +59,18 @@ class ConfigurationMarkers
         return $configurationWithMarkers;
     }
 
+    public function replaceMarkersByString(array $configurationWithMarkers): array
+    {
+        $this->report = Report::createInfo('Starting ConfigurationMarkers.');
+        if (empty($configurationWithMarkers)) {
+            throw new InvalidArgumentException('Empty configuration.');
+        }
+
+        array_walk_recursive($configurationWithMarkers, 'self::walkReplaceMarkersByString');
+
+        return $configurationWithMarkers;
+    }
+
     public function removeIndexesWithoutMarkers(array $configurationWithMarkers): array
     {
         if (empty($configurationWithMarkers)) {
@@ -95,6 +107,28 @@ class ConfigurationMarkers
         $item = $this->serializableFactory->create($matches[1]);
     }
 
+    private function walkReplaceMarkersByString(&$item): void
+    {
+        if (is_string($item) === false) {
+            return;
+        }
+        $matches = $this->findAllMatches($item);
+        if (empty($matches)) {
+            return;
+        }
+
+        foreach ($matches as $match) {
+            $isSecretDefined = $this->envVars[$match[1]] ?? false;
+            $this->printMatchNotification((bool)$isSecretDefined, $match[1]);
+            if (!$isSecretDefined) {
+                //remove not found markers from config array as reference
+                $item = '';
+                return;
+            }
+            $item = str_replace($match[0], $isSecretDefined, $item);
+        }
+    }
+
     private function unsetRecursive(&$item): bool
     {
         foreach ($item as $key => &$value) {
@@ -120,6 +154,14 @@ class ConfigurationMarkers
     {
         $matches = [];
         preg_match(self::MARKER_PATTERN, $item, $matches);
+
+        return $matches;
+    }
+
+    private function findAllMatches(string $item): array
+    {
+        $matches = [];
+        preg_match_all(self::MARKER_PATTERN, $item, $matches, PREG_SET_ORDER);
 
         return $matches;
     }

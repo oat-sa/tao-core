@@ -154,6 +154,12 @@ class tao_install_Setup implements Action
         }
 
         $global = $parameters['configuration']['global'];
+        $markers = new ConfigurationMarkers(
+                            new SerializableSecretDtoFactory(),
+                            $this->getLogger()
+                        );
+        $global = $markers->replaceMarkersByString($global);
+
         $options['module_namespace'] = $global['namespace'];
         $options['instance_name'] = $global['instance_name'];
         $options['module_url'] = $global['url'];
@@ -202,6 +208,12 @@ class tao_install_Setup implements Action
             'root_path'     => $options['root_path'],
             'install_path'  => $options['root_path'] . 'tao/install/',
         ];
+
+        $markers = new ConfigurationMarkers(
+                            new SerializableSecretDtoFactory(),
+                            $this->getLogger()
+                        );
+        $global = $markers->replaceMarkers($global);
 
         if (isset($global['installation_config_path'])) {
             $installOptions['installation_config_path'] = $global['installation_config_path'];
