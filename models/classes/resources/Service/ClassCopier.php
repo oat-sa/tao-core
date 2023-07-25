@@ -81,7 +81,8 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
     {
         $class = $this->ontology->getClass($command->getFrom());
         $destinationClass = $this->ontology->getClass($command->getTo());
-        $newClass = $this->doCopy($class, $destinationClass, $command->keepOriginalAcl());
+        $copyIdentifier = $this->generateCopyIdentifier($class->getUri(), $destinationClass->getUri());
+        $newClass = $this->doCopy($class, $destinationClass, $copyIdentifier, $command->keepOriginalAcl());
 
         return new ResourceTransferResult($newClass->getUri());
     }
@@ -90,15 +91,21 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
         core_kernel_classes_Class $class,
         core_kernel_classes_Class $destinationClass
     ): core_kernel_classes_Class {
-        return $this->doCopy($class, $destinationClass);
+        $copyIdentifier = $this->generateCopyIdentifier($class->getUri(), $destinationClass->getUri());
+        return $this->doCopy($class, $destinationClass, $copyIdentifier);
     }
 
     private function doCopy(
         core_kernel_classes_Class $class,
         core_kernel_classes_Class $destinationClass,
+        string $copyIdentifier,
         bool $keepOriginalPermission = true
     ): core_kernel_classes_Class {
-        if (in_array($class->getUri(), $this->copiedClasses, true)) {
+        // Prevent infinite recursion
+        if (
+            isset($this->copiedClasses[$copyIdentifier])
+            && in_array($class->getUri(), $this->copiedClasses[$copyIdentifier], true)
+        ) {
             return $class;
         }
 
@@ -107,7 +114,7 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
         $newClass = $destinationClass->createSubClass($class->getLabel());
         $newClassUri = $newClass->getUri();
 
-        $this->copiedClasses[] = $newClassUri;
+        $this->copiedClasses[$copyIdentifier][] = $newClassUri;
 
         $this->classMetadataCopier->copy($class, $newClass);
 
@@ -134,7 +141,7 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
         }
 
         foreach ($class->getSubClasses() as $subClass) {
-            $this->doCopy($subClass, $newClass, $keepOriginalPermission);
+            $this->doCopy($subClass, $newClass, $copyIdentifier, $keepOriginalPermission);
         }
 
         $this->classMetadataMapper->remove($newClass->getProperties());
@@ -168,5 +175,16 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
         }
 
         $this->assertionCompleted = true;
+    }
+
+    /**
+     * Generates a unique identifier for a copy operation.
+     * @param string $from
+     * @param string $to
+     * @return string
+     */
+    private function generateCopyIdentifier(string $from, string $to): string
+    {
+        return hash('sha256', $from . '-' . $to);
     }
 }
