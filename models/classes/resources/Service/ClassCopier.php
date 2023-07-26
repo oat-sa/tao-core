@@ -97,7 +97,7 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
         core_kernel_classes_Class $class,
         core_kernel_classes_Class $destinationClass,
         bool $keepOriginalPermission = true,
-        string $copyIdentifier = '',
+        string $copyIdentifier = ''
     ): core_kernel_classes_Class {
         // Generate a unique identifier for the copy operation
         if (!$copyIdentifier) {
