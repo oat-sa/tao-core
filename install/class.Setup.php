@@ -158,7 +158,12 @@ class tao_install_Setup implements Action
             new SerializableSecretDtoFactory(),
             $this->getLogger()
         );
-        $global = $markers->replaceMarkersByString($global);
+        $global = $markers->replaceMarkers($global);
+        foreach ($global as $globalKey => $globalValue) {
+            if(method_exists($globalValue, '__toPhpCode')){
+                $global[$globalKey] = $globalValue->__toPhpCode();
+            }
+        }
 
         $options['module_namespace'] = $global['namespace'];
         $options['instance_name'] = $global['instance_name'];

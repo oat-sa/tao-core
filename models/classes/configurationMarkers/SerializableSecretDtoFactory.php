@@ -25,14 +25,21 @@ namespace oat\tao\model\configurationMarkers;
 
 use InvalidArgumentException;
 use oat\tao\model\configurationMarkers\Secrets\SerializableSecretDto;
+use oat\tao\model\configurationMarkers\Secrets\SerializableSecretDtoExtended;
 
 class SerializableSecretDtoFactory
 {
-    public function create(string $index): SerializableSecretDto
+    public function create(array $indexes, string $originalString = '')
     {
-        if (strlen($index) < 1) {
+        if (count($indexes) < 1) {
             throw new InvalidArgumentException('Empty index.');
         }
-        return new SerializableSecretDto($index);
+        if (count($indexes) === 1) {
+            if (strlen($indexes[0]) < 1) {
+                throw new InvalidArgumentException('Empty index.');
+            }
+            return new SerializableSecretDto($indexes[0]);
+        }
+        return new SerializableSecretDtoExtended($indexes, $originalString);
     }
 }

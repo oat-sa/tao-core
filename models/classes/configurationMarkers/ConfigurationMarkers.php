@@ -59,18 +59,6 @@ class ConfigurationMarkers
         return $configurationWithMarkers;
     }
 
-    public function replaceMarkersByString(array $configurationWithMarkers): array
-    {
-        $this->report = Report::createInfo('Starting ConfigurationMarkers.');
-        if (empty($configurationWithMarkers)) {
-            throw new InvalidArgumentException('Empty configuration.');
-        }
-
-        array_walk_recursive($configurationWithMarkers, 'self::walkReplaceMarkersByString');
-
-        return $configurationWithMarkers;
-    }
-
     public function removeIndexesWithoutMarkers(array $configurationWithMarkers): array
     {
         if (empty($configurationWithMarkers)) {
@@ -92,30 +80,12 @@ class ConfigurationMarkers
         if (is_string($item) === false) {
             return;
         }
-        $matches = $this->findMatches($item);
-        if (empty($matches)) {
-            return;
-        }
-
-        $isSecretDefined = $this->envVars[$matches[1]] ?? false;
-        $this->printMatchNotification((bool) $isSecretDefined, $matches[1]);
-        if (!$isSecretDefined) {
-            //remove not found markers from config array as reference
-            $item = '';
-            return;
-        }
-        $item = $this->serializableFactory->create($matches[1]);
-    }
-
-    private function walkReplaceMarkersByString(&$item): void
-    {
-        if (is_string($item) === false) {
-            return;
-        }
         $matches = $this->findAllMatches($item);
         if (empty($matches)) {
             return;
         }
+        $indexes = [];
+        var_dump($item);
 
         foreach ($matches as $match) {
             $isSecretDefined = $this->envVars[$match[1]] ?? false;
@@ -125,8 +95,9 @@ class ConfigurationMarkers
                 $item = '';
                 return;
             }
-            $item = str_replace($match[0], $isSecretDefined, $item);
+            array_push($indexes, $match[1]);
         }
+        $item = $this->serializableFactory->create($indexes, $item);
     }
 
     private function unsetRecursive(&$item): bool
