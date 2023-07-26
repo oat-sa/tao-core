@@ -81,8 +81,7 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
     {
         $class = $this->ontology->getClass($command->getFrom());
         $destinationClass = $this->ontology->getClass($command->getTo());
-        $copyIdentifier = $this->generateCopyIdentifier($class->getUri(), $destinationClass->getUri());
-        $newClass = $this->doCopy($class, $destinationClass, $copyIdentifier, $command->keepOriginalAcl());
+        $newClass = $this->doCopy($class, $destinationClass, $command->keepOriginalAcl());
 
         return new ResourceTransferResult($newClass->getUri());
     }
@@ -91,16 +90,19 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
         core_kernel_classes_Class $class,
         core_kernel_classes_Class $destinationClass
     ): core_kernel_classes_Class {
-        $copyIdentifier = $this->generateCopyIdentifier($class->getUri(), $destinationClass->getUri());
-        return $this->doCopy($class, $destinationClass, $copyIdentifier);
+        return $this->doCopy($class, $destinationClass);
     }
 
     private function doCopy(
         core_kernel_classes_Class $class,
         core_kernel_classes_Class $destinationClass,
-        string $copyIdentifier,
-        bool $keepOriginalPermission = true
+        bool $keepOriginalPermission = true,
+        string $copyIdentifier = '',
     ): core_kernel_classes_Class {
+        // Generate a unique identifier for the copy operation
+        if (!$copyIdentifier) {
+            $copyIdentifier = $this->generateCopyIdentifier($class->getUri(), $destinationClass->getUri());
+        }
         // Prevent infinite recursion
         if (
             isset($this->copiedClasses[$copyIdentifier])
@@ -141,7 +143,7 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
         }
 
         foreach ($class->getSubClasses() as $subClass) {
-            $this->doCopy($subClass, $newClass, $copyIdentifier, $keepOriginalPermission);
+            $this->doCopy($subClass, $newClass, $keepOriginalPermission, $copyIdentifier);
         }
 
         $this->classMetadataMapper->remove($newClass->getProperties());
