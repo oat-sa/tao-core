@@ -142,6 +142,7 @@ class CopierServiceProvider implements ContainerServiceProviderInterface
 
         $services
             ->set(ResourceTransferProxy::class, ResourceTransferProxy::class)
+            ->share(false)
             ->public()
             ->args(
                 [
