@@ -48,7 +48,7 @@ class SerializableSecretDtoExtended
      */
     private function toPhpCode(string $marker): string
     {
-        return '$_ENV[\'' . $marker . '\']';
+        return "{\$_ENV['$marker']}";
     }
 
     private function markersReorganisationToString(array $markers)
@@ -63,6 +63,7 @@ class SerializableSecretDtoExtended
     {
         return $_ENV[$marker] ?? '';
     }
+
 
     /**
      * @return string

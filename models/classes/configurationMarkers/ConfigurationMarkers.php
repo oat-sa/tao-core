@@ -85,7 +85,6 @@ class ConfigurationMarkers
             return;
         }
         $indexes = [];
-        var_dump($item);
 
         foreach ($matches as $match) {
             $isSecretDefined = $this->envVars[$match[1]] ?? false;
@@ -97,7 +96,11 @@ class ConfigurationMarkers
             }
             array_push($indexes, $match[1]);
         }
-        $item = $this->serializableFactory->create($indexes, $item);
+        if(strlen(preg_replace(self::MARKER_PATTERN, '', $item)) > 0) {
+            $item = $this->serializableFactory->create($indexes, $item, true);
+        } else {
+            $item = $this->serializableFactory->create($indexes, $item);
+        }
     }
 
     private function unsetRecursive(&$item): bool

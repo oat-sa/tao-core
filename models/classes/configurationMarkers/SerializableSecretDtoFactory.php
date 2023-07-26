@@ -29,7 +29,7 @@ use oat\tao\model\configurationMarkers\Secrets\SerializableSecretDtoExtended;
 
 class SerializableSecretDtoFactory
 {
-    public function create(array $indexes, string $originalString = '')
+    public function create(array $indexes, string $originalString = '', bool $requiredConcantination = false)
     {
         if (count($indexes) < 1) {
             throw new InvalidArgumentException('Empty index.');
@@ -37,6 +37,9 @@ class SerializableSecretDtoFactory
         if (count($indexes) === 1) {
             if (strlen($indexes[0]) < 1) {
                 throw new InvalidArgumentException('Empty index.');
+            }
+            if ($requiredConcantination) {
+               return new SerializableSecretDtoExtended($indexes, $originalString);
             }
             return new SerializableSecretDto($indexes[0]);
         }
