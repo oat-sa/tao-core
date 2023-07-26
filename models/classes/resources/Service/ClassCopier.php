@@ -180,7 +180,7 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
     }
 
     /**
-     * Generates a unique identifier for a copy operation.
+     * Generates a unique identifier for a copy operation
      */
     private function generateCopyIdentifier(string $from, string $to): string
     {
