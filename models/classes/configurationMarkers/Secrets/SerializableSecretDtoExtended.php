@@ -48,7 +48,7 @@ class SerializableSecretDtoExtended
      */
     private function toPhpCode(string $marker): string
     {
-        return "{\$_ENV['$marker']}";
+        return "\$_ENV['$marker']";
     }
 
     private function markersReorganisationToString(array $markers)
@@ -73,6 +73,15 @@ class SerializableSecretDtoExtended
         return vsprintf(
             preg_replace(self::MARKER_PATTERN, '%s', $this->originalString),
             $this->markersReorganisationToPhp($this->envIndexes)
+        );
+    }
+
+    public function __toPhpSprintfCode(): string
+    {
+        return '"' .
+            preg_replace(self::MARKER_PATTERN, '%s', $this->originalString)
+            . '", ' .
+            implode(', ', $this->markersReorganisationToPhp($this->envIndexes)
         );
     }
 
