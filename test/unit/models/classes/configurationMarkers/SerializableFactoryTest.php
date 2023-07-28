@@ -30,11 +30,12 @@ use PHPUnit\Framework\TestCase;
 class SerializableFactoryTest extends TestCase
 {
     private const TEST_INDEX = 'TEST_INDEX';
+    private array $matches = [self::TEST_INDEX];
 
     public function testFactory(): void
     {
         $factory = new SerializableSecretDtoFactory();
-        $object = $factory->create(self::TEST_INDEX);
+        $object = $factory->create($this->matches);
         self::assertInstanceOf(SerializableSecretDto::class, $object);
         self::assertInstanceOf(PhpSerializable::class, $object);
         self::assertSame(self::TEST_INDEX, $object->getEnvIndex());
