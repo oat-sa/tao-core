@@ -124,7 +124,8 @@ class tao_install_utils_ConfigWriter
                 } elseif (is_numeric($val)) {
                     $content = preg_replace('/(\'' . $name . '\')(.*?)$/ms', '$1, ' . $val . ');', $content);
                 } elseif ((method_exists($val, '__toPhpCode'))) {
-                    $content = preg_replace('/(\'' . $name . '\')(.*?)$/ms', '$1, ' . $val->__toPhpCode() . ');', $content);
+                    $content = preg_replace('/(\'' . $name . '\')(.*?)$/ms', '$1, '
+                        . $val->__toPhpCode() . ');', $content);
                 }
             }
             file_put_contents($this->file, $content);
