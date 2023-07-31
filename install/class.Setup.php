@@ -154,6 +154,13 @@ class tao_install_Setup implements Action
         }
 
         $global = $parameters['configuration']['global'];
+
+        $markers = new ConfigurationMarkers(
+            new SerializableSecretDtoFactory(),
+            $this->getLogger()
+        );
+
+        $global = $markers->replaceMarkers($global);
         $options['module_namespace'] = $global['namespace'];
         $options['instance_name'] = $global['instance_name'];
         $options['module_url'] = $global['url'];
@@ -228,10 +235,6 @@ class tao_install_Setup implements Action
         }
 
         //@TODO use $serviceManager->getContainer(ConfigurationMarkers::class) after refactoring taoSetup to use full DI
-        $markers = new ConfigurationMarkers(
-            new SerializableSecretDtoFactory(),
-            $this->getLogger()
-        );
         $parameters = $markers->replaceMarkers($parameters);
 
         foreach ($parameters['configuration'] as $extension => $configs) {
