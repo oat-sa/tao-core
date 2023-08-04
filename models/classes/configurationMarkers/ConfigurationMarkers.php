@@ -36,6 +36,7 @@ class ConfigurationMarkers
     private SerializableSecretDtoFactory $serializableFactory;
     private Report $report;
     private array $envVars;
+    private array $matchedVars = [];
 
     public function __construct(
         SerializableSecretDtoFactory $serializableFactory,
@@ -126,6 +127,10 @@ class ConfigurationMarkers
 
     private function printMatchNotification(bool $isSecretDefined, string $secretName): void
     {
+        if(in_array($secretName, $this->matchedVars)) {
+            return;
+        }
+        array_push($this->matchedVars, $secretName);
         $message = sprintf('Found seed file marker: %s', $secretName);
         if ($isSecretDefined) {
             $message .= ' and its Secrets Storage value.';

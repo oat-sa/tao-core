@@ -126,6 +126,7 @@ class tao_install_utils_ConfigWriter
                 } elseif (is_numeric($val)) {
                     $content = preg_replace('/(\'' . $name . '\')(.*?)$/ms', '$1, ' . $val . ');', $content);
                 } elseif ($val instanceof SerializableSecretDto) {
+                    // Operating with .env values
                     $content = preg_replace('/(\'' . $name . '\')(.*?)$/ms', '$1, '
                         . $val->__toPhpCode() . ');', $content);
                 }
