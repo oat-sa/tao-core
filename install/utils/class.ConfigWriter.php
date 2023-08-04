@@ -24,6 +24,8 @@
  *
  */
 
+use oat\tao\model\configurationMarkers\Secrets\SerializableSecretDto;
+
 /**
  * The ConfigWriter class enables you to create config file from samples
  * and to write the constants inside.
@@ -123,7 +125,7 @@ class tao_install_utils_ConfigWriter
                     $content = preg_replace('/(\'' . $name . '\')(.*?)$/ms', '$1, ' . $val . ');', $content);
                 } elseif (is_numeric($val)) {
                     $content = preg_replace('/(\'' . $name . '\')(.*?)$/ms', '$1, ' . $val . ');', $content);
-                } elseif ((method_exists($val, '__toPhpCode'))) {
+                } elseif ($val instanceof SerializableSecretDto) {
                     $content = preg_replace('/(\'' . $name . '\')(.*?)$/ms', '$1, '
                         . $val->__toPhpCode() . ');', $content);
                 }

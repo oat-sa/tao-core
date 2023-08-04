@@ -155,10 +155,7 @@ class tao_install_Setup implements Action
 
         $global = $parameters['configuration']['global'];
 
-        $markers = new ConfigurationMarkers(
-            new SerializableSecretDtoFactory(),
-            $this->getLogger()
-        );
+        $markers = self::getConfigurationMarkers();
 
         $global = $markers->replaceMarkers($global);
         $options['module_namespace'] = $global['namespace'];
@@ -454,5 +451,13 @@ class tao_install_Setup implements Action
                 '\\Doctrine\\DBAL\\Connections\\MasterSlaveConnection',
                 true
             );
+    }
+
+    private function getConfigurationMarkers(): ConfigurationMarkers
+    {
+        return new ConfigurationMarkers(
+            new SerializableSecretDtoFactory(),
+            $this->getLogger()
+        );
     }
 }
