@@ -48,6 +48,54 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
     private const PARAMETER_OFFSET = 'offset';
     private const ALL = 'all';
 
+    public function index()
+    {
+        $this->defaultData();
+
+        //$this->setData('user-data-lang-enabled', $userLangService->isDataLanguageEnabled());
+        $this->setView('taskQueue/index.tpl');
+    }
+
+    public function search(): void
+    {
+        $this->checkIfIsXmlHttpRequest();
+
+        $limit = (int) ($this->getRequestParameter(self::PARAMETER_LIMIT) ?? 50);
+        $offset = (int) ($this->getRequestParameter(self::PARAMETER_OFFSET) ?? 0);
+
+        $filter = new TaskLogFilter();
+        $filter->setLimit($limit);
+        $filter->setOffset($offset);
+//        $filter->addAvailableFilters($this->getSessionUserUri());
+//        $filter->in(TaskLogBrokerInterface::COLUMN_STATUS, []);
+//        $filter->like(TaskLogBrokerInterface::COLUMN_TASK_NAME, []);
+//        $filter->like(TaskLogBrokerInterface::COLUMN_ID, []);
+//        $filter->like(TaskLogBrokerInterface::COLUMN_PARAMETERS, []);
+//        $filter->like(TaskLogBrokerInterface::COLUMN_OWNER, []);
+//        $filter->gte(TaskLogBrokerInterface::COLUMN_CREATED_AT, []);
+        //@FIXME
+
+        $entities = $this->getTaskLogService()->search($filter);
+        $response = new stdClass();
+        $response->data = [];
+        $response->page = 1; //@TODO Create pagination when we have resources
+        $response->total = count($entities);
+        $response->records = $response->total;
+        $response->readonly = false;
+
+        foreach ($entities as $entity) {
+            $response->data[] = [
+                'id' => $entity->getId(),
+                'name' => $entity->getTaskName(),
+                'parameters' => $entity->getParameters(),
+                'report' => $entity->getReport()->jsonSerialize(),
+                'status' => $entity->getStatus(),
+            ];
+        }
+
+        $this->returnJson($response, 200);
+    }
+
     /**
      * @throws common_exception_NotImplemented
      * @throws Exception

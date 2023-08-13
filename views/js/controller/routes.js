@@ -59,6 +59,11 @@ define(function(){
                 'index' : 'controller/security/cspHeaderForm'
             }
         },
+        'TaskQueue' : {
+            'actions' : {
+                'index' : 'controller/taskQueue/index'
+            }
+        },
         'WebHooks' : {
             'css': 'auth-selector',
             'actions' : {
