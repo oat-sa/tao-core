@@ -25,6 +25,10 @@ namespace oat\tao\scripts\tools;
 
 use EasyRdf\Format;
 use EasyRdf\Graph;
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\OntologyRdf;
+use oat\generis\model\OntologyRdfs;
+use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\TaoOntology;
@@ -35,6 +39,27 @@ use oat\tao\model\TaoOntology;
 class MigrateSqlToNeo4j extends ScriptAction
 {
     private const DEFAULT_CHUNK_SIZE = 10000;
+    private ?\common_persistence_SqlPersistence $sqlAdapter = null;
+
+    /**
+     * @return \common_persistence_SqlPersistence
+     */
+    public function getSqlAdapter(): \common_persistence_SqlPersistence
+    {
+        if (!$this->sqlAdapter) {
+            $sql = $this->getServiceLocator()
+                ->get(PersistenceManager::SERVICE_ID)
+                ->getPersistenceById('default');
+
+            if (!$sql instanceof \common_persistence_SqlPersistence) {
+                throw new \RuntimeException('Migration only supports SQL-based RDBMS as a source. '
+                    . 'Please set your default persistence accordingly.');
+            }
+
+            $this->sqlAdapter = $sql;
+        }
+        return $this->sqlAdapter;
+    }
 
     protected function showTime()
     {
@@ -44,7 +69,7 @@ class MigrateSqlToNeo4j extends ScriptAction
 
     public function initNeo4j(bool $isCreateConstraint, bool $isInitGraphConfig)
     {
-        $neo4j = $this->getServiceLocator()->get(\common_persistence_Manager::SERVICE_ID)->getPersistenceById('neo4j');
+        $neo4j = $this->getServiceLocator()->get(PersistenceManager::SERVICE_ID)->getPersistenceById('neo4j');
 
         if ($isCreateConstraint) {
             $this->logNotice('Creating unique constraint for Resource URI.');
@@ -53,13 +78,62 @@ class MigrateSqlToNeo4j extends ScriptAction
 
         if ($isInitGraphConfig) {
             $this->logNotice('Init graph settings with proper options.');
+
+            $multiValuePropertyList = $this->getMultiValuePropertyList();
+            if (!empty($multiValuePropertyList)) {
+                $multiValueSetting = sprintf('"%s"', implode('","', $multiValuePropertyList));
+            } else {
+                $multiValueSetting = '';
+            }
+
+            $this->logInfo(sprintf('Following multi-value properties found: %s', $multiValueSetting));
             $neo4j->run(<<<CYPHER
-CALL n10s.graphconfig.init({handleMultival:"ARRAY", handleVocabUris:"KEEP", handleRDFTypes:"NODES", keepLangTag:true});
+CALL n10s.graphconfig.init({
+    handleMultival:"ARRAY",
+    multivalPropList:[${multiValueSetting}],
+    keepLangTag:true,
+    handleVocabUris:"KEEP", 
+    handleRDFTypes:"NODES"
+});
 CYPHER
             );
         }
 
         return $neo4j;
+    }
+
+    public function getMultiValuePropertyList(): array
+    {
+        $sql = $this->getSqlAdapter();
+
+        $typePropertyUri = OntologyRdf::RDF_TYPE;
+        $rangePropertyUri = OntologyRdfs::RDFS_RANGE;
+        $multiplePropertyUri = GenerisRdf::PROPERTY_MULTIPLE;
+        $languageDependentPropertyUri = GenerisRdf::PROPERTY_IS_LG_DEPENDENT;
+
+        $propertyObjectUri = OntologyRdf::RDF_PROPERTY;
+        $literalObjectUri = OntologyRdfs::RDFS_LITERAL;
+        $trueObjectUri = GenerisRdf::GENERIS_TRUE;
+
+        /** @var \Doctrine\DBAL\ForwardCompatibility\Result $result */
+        $result = $sql->query(<<<SQL
+SELECT s1.subject
+FROM statements as s1
+         LEFT JOIN statements as s2
+                   ON (s1.subject = s2.subject
+                       AND s2.predicate IN ('${multiplePropertyUri}',
+                                            '${languageDependentPropertyUri}')
+                       AND s2.object = '${trueObjectUri}')
+         LEFT JOIN statements as s3
+                   ON (s1.subject = s3.subject AND s3.predicate = '${rangePropertyUri}' AND
+                       s3.object != '${literalObjectUri}')
+WHERE s2.id IS NOT NULL
+  AND s3.id is NULL
+  AND s1.predicate = '${typePropertyUri}'
+  AND s1.object = '${propertyObjectUri}';
+SQL);
+
+        return $result->fetchFirstColumn();
     }
 
     /**
@@ -107,9 +181,7 @@ CYPHER
 
     public function extractDataFromSqlStorage(int $chunkSize): \Generator
     {
-        $sql = $this->getServiceLocator()
-            ->get(\common_persistence_Manager::SERVICE_ID)
-            ->getPersistenceById('default');
+        $sql = $this->getSqlAdapter();
 
         $updatedByPropertyUri = TaoOntology::PROPERTY_UPDATED_BY;
 
@@ -162,17 +234,18 @@ SQL,
     }
 
     /**
-     * @param $nTriple
      * @param $neo4j
+     * @param string $nTriple
+     * @param int $neo4jChunkSize
      *
      * @return void
      */
-    public function loadNTripleToNeo4j($neo4j, string $nTriple): void
+    public function loadNTripleToNeo4j($neo4j, string $nTriple, int $neo4jChunkSize): void
     {
         $nTriple = $this->escapeTriple($nTriple);
 
         $result = $neo4j->run(<<<CYPHER
-CALL n10s.rdf.import.inline('${nTriple}',"N-Triples") YIELD terminationStatus, extraInfo
+CALL n10s.rdf.import.inline('${nTriple}',"N-Triples",{commitSize:${neo4jChunkSize}}) YIELD terminationStatus, extraInfo
 RETURN terminationStatus, extraInfo
 CYPHER
         );
@@ -196,6 +269,8 @@ CYPHER
             '\\\\' => '\\\\\\\\', //Escape double slash
             '\"' => '\\\\"', // Escaped slash in escaped double quote
             '\n' => '\\\\n', // Escaped slash in EOL
+            '\r' => '\\\\r', // Escaped slash in carriage return
+            '\t' => '\\\\t', // Escaped slash in horizontal tab
             "'" => "\'", //Escape single quote
         ];
 
@@ -277,7 +352,7 @@ CYPHER
 
             $neo4j = $this->initNeo4j($isCreateConstraint, $isInitGraphConfig);
             foreach ($nTripleList as $nTriple) {
-                $this->loadNTripleToNeo4j($neo4j, $nTriple);
+                $this->loadNTripleToNeo4j($neo4j, $nTriple, $neo4jChunkSize);
             }
         } catch (\Throwable $e) {
             return Report::createError($e->getMessage());
