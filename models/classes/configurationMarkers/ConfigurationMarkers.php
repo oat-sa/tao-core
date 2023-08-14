@@ -127,7 +127,7 @@ class ConfigurationMarkers
 
     private function printMatchNotification(bool $isSecretDefined, string $secretName): void
     {
-        if(in_array($secretName, $this->matchedVars)) {
+        if (in_array($secretName, $this->matchedVars)) {
             return;
         }
         array_push($this->matchedVars, $secretName);
