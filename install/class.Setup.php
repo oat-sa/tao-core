@@ -155,7 +155,7 @@ class tao_install_Setup implements Action
 
         $global = $parameters['configuration']['global'];
 
-        $markers = self::getConfigurationMarkers();
+        $markers = $this->getConfigurationMarkers();
 
         $global = $markers->replaceMarkers($global);
         $options['module_namespace'] = $global['namespace'];
