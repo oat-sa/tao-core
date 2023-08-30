@@ -88,6 +88,11 @@ interface QueueInterface extends QueuerInterface, LoggerAwareInterface, PhpSeria
     public function getNumberOfTasksToReceive();
 
     /**
+     * Check if the internal queue contains any tasks.
+     */
+    public function hasPreFetchedMessages(): bool;
+
+    /**
      * Set new broker.
      *
      * @param QueueBrokerInterface $broker

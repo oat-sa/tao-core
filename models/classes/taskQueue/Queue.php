@@ -228,6 +228,14 @@ class Queue implements QueueInterface, TaskLogAwareInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function hasPreFetchedMessages(): bool
+    {
+        return $this->getBroker()->hasPreFetchedMessages();
+    }
+
+    /**
      * @param TaskInterface $task
      *
      * @return bool
