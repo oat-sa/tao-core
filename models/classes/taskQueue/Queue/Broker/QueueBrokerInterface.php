@@ -74,4 +74,9 @@ interface QueueBrokerInterface extends \Countable, LoggerAwareInterface
      * @return int
      */
     public function getNumberOfTasksToReceive();
+
+    /**
+     * Check if the internal queue contains any tasks.
+     */
+    public function hasPreFetchedMessages(): bool;
 }
