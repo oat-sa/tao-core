@@ -140,10 +140,12 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
             } catch (\Error $e) {
                 $this->logCritical(
                     sprintf(
-                        'Executing task %s [%] failed with MSG: %s',
+                        'Executing task %s [%s] failed with MSG: %s. [%s] Trace: %s',
                         $this->formatTaskLabel($task),
                         $task->getId(),
-                        $e->getMessage()
+                        $e->getMessage(),
+                        get_class($e),
+                        $e->getTraceAsString()
                     ),
                     $this->getLogContext()
                 );
@@ -152,10 +154,12 @@ abstract class AbstractWorker implements WorkerInterface, ServiceManagerAwareInt
             } catch (\Exception $e) {
                 $this->logError(
                     sprintf(
-                        'Executing task %s [%s] failed with MSG: %s',
+                        'Executing task %s [%s] failed with MSG: %s. [%s] Trace: %s',
                         $this->formatTaskLabel($task),
                         $task->getId(),
-                        $e->getMessage()
+                        $e->getMessage(),
+                        get_class($e),
+                        $e->getTraceAsString()
                     ),
                     $this->getLogContext()
                 );
