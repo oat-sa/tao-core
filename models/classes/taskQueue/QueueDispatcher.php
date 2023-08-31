@@ -411,6 +411,14 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
     }
 
     /**
+     * @inheritdoc
+     */
+    public function hasPreFetchedMessages(): bool
+    {
+        return true;
+    }
+
+    /**
      * @return TaskLogInterface
      */
     protected function getTaskLog()
