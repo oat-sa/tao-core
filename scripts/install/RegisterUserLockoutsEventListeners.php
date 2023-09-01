@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA
  *
  */
+
 namespace oat\tao\scripts\install;
 
 use common_report_Report as Report;

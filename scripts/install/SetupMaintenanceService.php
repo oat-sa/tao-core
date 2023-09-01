@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,7 +37,7 @@ class SetupMaintenanceService extends InstallAction
         try {
             \common_persistence_Manager::getPersistence($maintenancePersistence);
         } catch (\common_Exception $e) {
-            \common_persistence_Manager::addPersistence($maintenancePersistence,  array('driver' => 'phpfile'));
+            \common_persistence_Manager::addPersistence($maintenancePersistence, ['driver' => 'phpfile']);
         }
 
         $service = new Maintenance();
@@ -46,12 +47,13 @@ class SetupMaintenanceService extends InstallAction
         if (defined('SYS_READY')) {
             if (SYS_READY === false) {
                 $this->getServiceManager()->get(Maintenance::SERVICE_ID)->disablePlatform();
-                return \common_report_Report::createSuccess(__('Maintenance service was installed. Platform is disabled.'));
+                return \common_report_Report::createSuccess(
+                    __('Maintenance service was installed. Platform is disabled.')
+                );
             }
         }
 
         $this->getServiceManager()->get(Maintenance::SERVICE_ID)->enablePlatform();
         return \common_report_Report::createSuccess(__('Maintenance service was installed. Platform is enabled.'));
     }
-
 }

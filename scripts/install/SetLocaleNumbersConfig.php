@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -46,7 +47,8 @@ class SetLocaleNumbersConfig extends InstallAction
         $ext->setConfig(DateHelper::CONFIG_KEY, new EuropeanFormatter());
 
         ClientLibConfigRegistry::getRegistry()->register(
-            'util/locale', [
+            'util/locale',
+            [
                 'decimalSeparator' => '.',
                 'thousandsSeparator' => '',
             ]

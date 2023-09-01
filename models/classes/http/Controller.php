@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,6 +21,7 @@
 
 namespace oat\tao\model\http;
 
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -30,14 +32,28 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @package oat\tao\model\http
  * @author Moyon Camille
+ *
+ * @deprecated Controllers shall be decoupled, using composition and Middlewares, not inheritance.
+ *             They can be used with DI services (including PSR Request and Response) which will be autowired.
+ *             More information here:
+ *               - https://github.com/oat-sa/generis/tree/master/core/DependencyInjection
+ *               - https://github.com/oat-sa/tao-core/tree/master/models/classes/routing
  */
 abstract class Controller
 {
     use HttpRequestHelperTrait;
     use HttpFlowTrait;
 
+    /** @var ServerRequestInterface */
     protected $request;
+
+    /** @var ResponseInterface */
     protected $response;
+
+    public function getPsrContainer(): ContainerInterface
+    {
+        return $this->getServiceLocator()->getContainer();
+    }
 
     /**
      * Set Psr7 http request
@@ -94,8 +110,14 @@ abstract class Controller
      * @param null $httpOnly
      * @return bool
      */
-    protected function setCookie($name, $value = null, $expire = null, $domainPath = null, $https = null, $httpOnly = null)
-    {
+    protected function setCookie(
+        $name,
+        $value = null,
+        $expire = null,
+        $domainPath = null,
+        $https = null,
+        $httpOnly = null
+    ) {
         return setcookie($name, $value, $expire, $domainPath, $https, $httpOnly);
     }
 

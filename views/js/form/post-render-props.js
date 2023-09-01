@@ -19,65 +19,90 @@
 define([
     'jquery',
     'i18n',
-    'ui/feedback'
-], function ($, __, feedback) {
+    'context',
+    'ui/feedback',
+    './depends-on-property',
+    './secondary-property'
+], function (
+    $,
+    __,
+    context,
+    feedback,
+    dependsOn,
+    secondaryProps
+) {
     'use strict';
+
+    function _createCopyToClipboardHandler($field) {
+        var
+            successFeedback = $field.data('copy-success-feedback')
+                || __('Resource Identifier has been copied to the clipboard'),
+            failureFeedback = $field.data('copy-failure-feedback')
+                || __('Resource Identifier could not be copied to the clipboard');
+
+        return function () {
+            var success;
+            try {
+                $field.select();
+                success = document.execCommand('copy');
+                $field.blur();
+                if (success) {
+                    feedback().success(successFeedback);
+                } else {
+                    feedback().error(failureFeedback);
+                }
+            } catch (err) {
+                feedback().error(__('Your browser does not support copying to the clipboard'));
+            }
+        }
+    }
+
+    function _cloneField($field) {
+        return $field.clone()
+            // To make MS browsers happy, value needs to be removed and re-added
+            .val('')
+            .attr({readonly: true, type: 'text'});
+    }
 
     /**
      * Add a field with URI of an item etc and a button to copy it to the clipboard
      * @param $container
      * @private
      */
-    function _idToClipboard($container) {
-        // Note: isInstanceForm will not work with jquery|querySelector
-        var isInstanceForm = document.getElementById('tao.forms.instance'),
-            $idField = $container.find('#id'),
-            value = $idField.val(),
-            $copyField,
-            $label = $('<span>', {class: 'form_desc', text: __('Resource Identifier')}),
-            $button = $('<span>', {class: 'icon-clipboard clipboard-command', title: __('Copy to clipboard')})
-                .on('click', function () {
-                    var success;
-                    try {
-                        $copyField.select();
-                        success = document.execCommand('copy');
-                        $copyField.blur();
-                        if (success) {
-                            feedback().success(__('Resource Identifier has been copied to the clipboard'));
-                        } else {
-                            feedback().error(__('Resource Identifier could not be copied to the clipboard'));
-                        }
-                    } catch (err) {
-                        feedback().error(__('Your browser does not support copying to the clipboard'));
-                    }
-                }),
-            $fieldBox = $('<span>', {class: 'uri-container'});
-
-        // if the field has already been added
-        if ($('.uri-container').length) {
+    function _initializeCopyToClipboard($container) {
+        // Early return in case:
+        // 1. isInstanceForm that will not work with jquery|querySelector
+        // 2. The field has already been added
+        if (!document.getElementById('tao.forms.instance') || $('.uri-container').length) {
             return;
         }
 
-        if (!isInstanceForm || !$idField.length) {
-            return;
-        }
+        $container.find('#id, .copy-to-clipboard').each(function () {
+            var $field = $(this),
+                $fieldCopy = _cloneField($field),
+                $button = $('<span>', {class: 'icon-clipboard clipboard-command', title: __('Copy to clipboard')}),
+                $label = $('<span>', {class: 'form_desc', text: __('Resource Identifier')}),
+                $fieldBox = $('<span>', {class: 'uri-container'}),
+                value = $field.val();
 
-        $copyField = $idField.clone()
-        // To make MS browsers happy, value needs to be removed and re-added
-            .val('')
-            .attr({readonly: true, type: 'text'});
-        $idField.remove();
-        $fieldBox.append([$copyField, $button]);
+            if ($field.attr('id') === 'id') {
+                $field.remove();
+                $field = $fieldCopy;
 
-        $container.find('div')
-            .first()
-            .after($('<div>')
-                .append([$label, $fieldBox]));
-        $fieldBox.height($copyField.outerHeight());
+                $fieldBox.append([$field, $button]);
 
-        $copyField.addClass('final')
-        // re-add value
-            .val(value);
+                $container.find('div')
+                    .first()
+                    .after($('<div>').append([$label, $fieldBox]));
+                $fieldBox.height($field.outerHeight());
+            } else {
+                $fieldBox.height($field.outerHeight());
+                $field.wrap($fieldBox).parent().append($button);
+            }
+
+            $button.on('click', _createCopyToClipboardHandler($field));
+            $field.addClass('final').val(value);
+        });
     }
 
 
@@ -285,13 +310,16 @@ define([
             return;
         }
 
-        _idToClipboard($container);
+        _initializeCopyToClipboard($container);
 
         // case no or empty argument -> find all properties not upgraded yet
         if (!$properties || !$properties.length) {
             $properties = $container.children('div[id*="property_"]').not('.property-block');
         }
         if (!$properties.length) {
+            if ($container.children('[name="tao.forms.instance"]').length) {
+                secondaryProps.init($container);
+            }
             return;
         }
         _wrapPropsInContainer($properties);
@@ -321,6 +349,9 @@ define([
     function _hideProperties($container) {
         $('.property', $container).each(function () {
             var $currentTarget = $(this);
+            if ($currentTarget.val() === 'notEmpty' && !context.featureFlags.FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED) {
+                $currentTarget.hide();
+            }
             while (!_.isEqual($currentTarget.parent()[0], $container[0])) {
                 $currentTarget = $currentTarget.parent();
             }
@@ -334,6 +365,12 @@ define([
             var $currentTarget = $(this);
             while (!_.isEqual($currentTarget.parent()[0], $container[0])) {
                 $currentTarget = $currentTarget.parent();
+            }
+            if ($(this).hasClass('property-depends-on')) {
+                if ($(this)[0].length > 1) {
+                    dependsOn.toggle($(this), $currentTarget, $container);
+                }
+                return;
             }
             $currentTarget.show();
         });
@@ -352,6 +389,7 @@ define([
             elt.css('display', 'none');
             elt.find('select').prop('disabled', "disabled");
         }
+
         _toggleModeBtn('enabled');
     }
 
@@ -382,7 +420,7 @@ define([
     }
 
     /**
-     * Checks and updates property labels 
+     * Checks and updates property labels
      * @param {Object} $properties - properties object
      */
     function _checkRegularPropertyLabels($properties) {

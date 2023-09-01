@@ -1,4 +1,5 @@
 <?php
+
 namespace oat\tao\test\integration\routing\samples;
 
 /**

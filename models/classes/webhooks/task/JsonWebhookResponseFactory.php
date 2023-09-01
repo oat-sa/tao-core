@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,9 +26,9 @@ use Psr\Http\Message\StreamInterface;
 
 class JsonWebhookResponseFactory extends ConfigurableService implements WebhookResponseFactoryInterface
 {
-    const ACCEPTED_CONTENT_TYPE = 'application/json';
+    public const ACCEPTED_CONTENT_TYPE = 'application/json';
 
-    const SUPPORTED_STATUSES = [
+    public const SUPPORTED_STATUSES = [
         WebhookResponse::STATUS_ACCEPTED,
         WebhookResponse::STATUS_IGNORED,
         WebhookResponse::STATUS_ERROR
@@ -44,12 +45,10 @@ class JsonWebhookResponseFactory extends ConfigurableService implements WebhookR
             $body = $this->decodeBody($response->getBody());
             $this->getJsonValidator()->validate($body);
             return $this->prepareResponse($body);
-        }
-        catch (InvalidJsonException $exception) {
+        } catch (InvalidJsonException $exception) {
             $errors = implode(', ', $exception->getValidationErrors());
             return new WebhookResponse([], $exception->getMessage() . ': ' . $errors);
-        }
-        catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             return new WebhookResponse([], $exception->getMessage());
         }
     }

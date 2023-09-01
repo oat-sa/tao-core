@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,7 +59,8 @@ class WeightStrategy implements SelectorStrategyInterface, LoggerAwareInterface
     /**
      * Picks randomly a queue based on weight.
      *
-     * For example, an array like ['A'=>5, 'B'=>45, 'C'=>50] means that "A" has a 5% chance of being selected, "B" 45%, and "C" 50%.
+     * For example, an array like ['A'=>5, 'B'=>45, 'C'=>50] means that "A" has a 5% chance of being selected, "B" 45%,
+     * and "C" 50%.
      * The values are simply relative to each other. If one value weight was 2, and the other weight of 1,
      * the value with the weight of 2 has about a 66% chance of being selected.
      *
@@ -66,7 +68,7 @@ class WeightStrategy implements SelectorStrategyInterface, LoggerAwareInterface
      */
     private function pickQueueByWeight(array $queues)
     {
-        $weights = array_map(function(QueueInterface $queue) {
+        $weights = array_map(function (QueueInterface $queue) {
             return $queue->getWeight();
         }, $queues);
 

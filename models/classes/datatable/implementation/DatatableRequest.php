@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\model\datatable\implementation;
 
 use oat\tao\model\datatable\DatatableRequest as DatatableRequestInterface;
@@ -30,13 +32,12 @@ use GuzzleHttp\Psr7\ServerRequest;
  */
 class DatatableRequest implements DatatableRequestInterface
 {
-
-    const DEFAULT_ROWS = 25;
-    const DEFAULT_PAGE = 1;
-    const DEFAULT_SORT_BY = null;
-    const DEFAULT_SORT_ORDER = 'asc';
-    const DEFAULT_SORT_TYPE = 'string';
-    const DEFAULT_FILTERS = [];
+    public const DEFAULT_ROWS = 25;
+    public const DEFAULT_PAGE = 1;
+    public const DEFAULT_SORT_BY = null;
+    public const DEFAULT_SORT_ORDER = 'asc';
+    public const DEFAULT_SORT_TYPE = 'string';
+    public const DEFAULT_FILTERS = [];
 
     /**
      * @var array
@@ -67,7 +68,7 @@ class DatatableRequest implements DatatableRequestInterface
             ? $this->requestParams[self::PARAM_ROWS]
             : self::DEFAULT_ROWS;
 
-        return (integer)$rows;
+        return (int)$rows;
     }
 
     /**
@@ -76,8 +77,8 @@ class DatatableRequest implements DatatableRequestInterface
      */
     public function getPage()
     {
-        $page = isset($this->requestParams[self::PARAM_PAGE]) ? $this->requestParams[self::PARAM_PAGE] : self::DEFAULT_PAGE;
-        return (integer)$page;
+        $page = $this->requestParams[self::PARAM_PAGE] ?? self::DEFAULT_PAGE;
+        return (int)$page;
     }
 
     /**
@@ -116,9 +117,9 @@ class DatatableRequest implements DatatableRequestInterface
     {
         $sortType = isset($this->requestParams[self::PARAM_SORT_TYPE]) ?
             $this->requestParams[self::PARAM_SORT_TYPE] : self::DEFAULT_SORT_TYPE;
-        $sortType= mb_strtolower($sortType);
+        $sortType = mb_strtolower($sortType);
 
-        if(!in_array($sortType, ['string', 'numeric'])) {
+        if (!in_array($sortType, ['string', 'numeric'])) {
             $sortType = self::DEFAULT_SORT_TYPE;
         }
 

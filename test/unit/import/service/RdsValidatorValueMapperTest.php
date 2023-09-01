@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,10 +17,12 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
 namespace oat\tao\test\unit\import\service;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
+use oat\tao\model\import\service\RdsResourceNotFoundException;
 use oat\tao\model\import\service\RdsValidatorValueMapper;
 use oat\generis\test\TestCase;
 use oat\generis\test\MockObject;
@@ -33,29 +36,23 @@ class RdsValidatorValueMapperTest extends TestCase
         $this->assertInstanceOf(core_kernel_classes_Resource::class, $service->map('someValue'));
     }
 
-    /**
-     * @expectedException  \oat\tao\model\import\service\RdsResourceNotFoundException
-     */
     public function testMapNoResourceFound()
     {
+        $this->expectException(RdsResourceNotFoundException::class);
         $service = $this->getService('someClass', null, []);
         $service->map('someValue');
     }
 
-    /**
-     * @expectedException  \oat\tao\model\import\service\RdsResourceNotFoundException
-     */
     public function testMapMultipleResourceFound()
     {
+        $this->expectException(RdsResourceNotFoundException::class);
         $service = $this->getService('someClass', null, [$this->mockResource(true), $this->mockResource(true)]);
         $service->map('someValue');
     }
 
-    /**
-     * @expectedException  \oat\tao\model\import\service\RdsResourceNotFoundException
-     */
     public function testMapMultipleResourceNotAsClass()
     {
+        $this->expectException(RdsResourceNotFoundException::class);
         $service = $this->getService(null, $this->mockResource(false), []);
         $service->map('someValue');
     }
@@ -85,8 +82,8 @@ class RdsValidatorValueMapperTest extends TestCase
 
         $service
             ->method('getOption')
-            ->willReturnCallback(function ($param) use ($retProperty){
-                if ($param === RdsValidatorValueMapper::OPTION_PROPERTY){
+            ->willReturnCallback(function ($param) use ($retProperty) {
+                if ($param === RdsValidatorValueMapper::OPTION_PROPERTY) {
                     return $retProperty;
                 }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,7 +20,6 @@
  *
  */
 
-
 namespace oat\tao\test\unit\model\mvc\error;
 
 use oat\generis\test\TestCase;
@@ -34,7 +34,6 @@ use oat\tao\model\mvc\error\ExceptionInterpretor;
  */
 class ExceptionInterpreterServiceTest extends TestCase
 {
-
     public function testGetExceptionInterpreter()
     {
         $service = new ExceptionInterpreterService([
@@ -80,16 +79,34 @@ class ExceptionInterpreterServiceTest extends TestCase
 /**
  * Exceptions hierarchy
  */
-class AEx extends \Exception {}
-class BEx extends AEx {}
-class CEx extends BEx {}
-class DEx extends CEx {}
-class EEx extends \Exception {}
+class AEx extends \Exception
+{
+}
+class BEx extends AEx
+{
+}
+class CEx extends BEx
+{
+}
+class DEx extends CEx
+{
+}
+class EEx extends \Exception
+{
+}
 
 /**
  * Exception interpreters hierarchy
  */
-class AExInt extends ExceptionInterpretor {}
-class BExInt extends ExceptionInterpretor {}
-class CExInt extends ExceptionInterpretor {}
-class DExInt extends ExceptionInterpretor {}
+class AExInt extends ExceptionInterpretor
+{
+}
+class BExInt extends ExceptionInterpretor
+{
+}
+class CExInt extends ExceptionInterpretor
+{
+}
+class DExInt extends ExceptionInterpretor
+{
+}

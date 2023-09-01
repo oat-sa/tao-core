@@ -22,26 +22,29 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
-define(['jquery', 'lodash', 'i18n', 'util/url', 'ui/dialog/alert'],
-    function ($, _, __, url, alert) {
-        'use strict';
+define(['jquery', 'lodash', 'i18n', 'util/url', 'ui/dialog/alert'], function (
+    $,
+    _,
+    __,
+    url,
+    alert
+) {
+    'use strict';
 
-        var defaults = {
-            message: __('You have been logged out. Please login again'),
-            redirectUrl: url.route('logout', 'Main', 'tao')
-        };
+    var defaults = {
+        message: __('You have been logged out. Please login again'),
+        redirectUrl: url.route('logout', 'Main', 'tao')
+    };
 
-        /**
-         * @param {Object} options
-         * @param {String} [options.message] - Message to be displayed before redirect
-         * @param {String} [options.redirectUrl] - Target URI
-         */
-        return function logoutEvent(options) {
-            options = _.defaults(options || {}, defaults);
-            alert(options.message, function () {
-                window.location = options.redirectUrl;
-            });
-        };
-    });
-
-
+    /**
+     * @param {Object} options
+     * @param {String} [options.message] - Message to be displayed before redirect
+     * @param {String} [options.redirectUrl] - Target URI
+     */
+    return function logoutEvent(options) {
+        options = _.defaults(options || {}, defaults);
+        alert(options.message, function () {
+            window.location = options.redirectUrl;
+        });
+    };
+});

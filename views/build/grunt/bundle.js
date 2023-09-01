@@ -22,51 +22,63 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     'use strict';
 
-    const root        = grunt.option('root');
-    const workDir     = grunt.option('output');
+    const root = grunt.option('root');
+    const workDir = grunt.option('output');
 
     grunt.config.merge({
-        bundle : {
+        bundle: {
             //options that apply for all extensions
             options: {
-                rootExtension        : 'tao',
-                rootPath             : root,
-                getExtensionPath     : extension => `${root}/${extension}/views/js`,
-                getExtensionCssPath  : extension => `${root}/${extension}/views/css`,
-                amd                  : require('../config/requirejs.build.json'),
-                workDir              : workDir,
-                outputDir            : 'loader'
+                rootExtension: 'tao',
+                rootPath: root,
+                getExtensionPath: extension => `${root}/${extension}/views/js`,
+                getExtensionCssPath: extension => `${root}/${extension}/views/css`,
+                amd: require('../config/requirejs.build.json'),
+                workDir: workDir,
+                outputDir: 'loader'
             },
-            tao : {
-                options : {
-                    extension : 'tao',
-                    bundles : [{
-                        name   : 'vendor',
-                        vendor : true
-                    }, {
-                        name      : 'login',
-                        bootstrap : true,
-                        babel     : true,
-                        entryPoint: 'controller/login'
-                    }, {
-                        name      : 'tao',
-                        bootstrap : true,
-                        default   : true,
-                        babel     : true,
-                        include   : [
-                            'layout/**/*',
-                            'form/**/*',
-                            'lock',
-                            'report',
-                            'users',
-                            'serviceApi/**/*',
-                            'generis.tree',
-                            'generis.tree.select'
-                        ]
-                    }]
+            tao: {
+                options: {
+                    extension: 'tao',
+                    bundles: [
+                        {
+                            name: 'vendor',
+                            vendor: true
+                        },
+                        {
+                            name: 'vendor.es5',
+                            vendor: true,
+                            babel: true,
+                            targets: {
+                                ie: '11'
+                            }
+                        },
+                        {
+                            name: 'login',
+                            bootstrap: true,
+                            babel: true,
+                            entryPoint: 'controller/login'
+                        },
+                        {
+                            name: 'tao',
+                            bootstrap: true,
+                            default: true,
+                            babel: true,
+                            include: [
+                                'layout/**/*',
+                                'form/**/*',
+                                'lock',
+                                'report',
+                                'users',
+                                'serviceApi/**/*',
+                                'generis.tree',
+                                'generis.tree.select'
+                            ]
+                        }
+                    ]
                 }
             }
         }

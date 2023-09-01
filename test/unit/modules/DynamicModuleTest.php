@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,6 +17,7 @@
  *
  * Copyright (c) 2016-2017 (original work) Open Assessment Technologies SA;
  */
+
 namespace oat\tao\test\unit\modules;
 
 use common_exception_InconsistentData;
@@ -28,9 +30,8 @@ use oat\generis\test\TestCase;
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
-class DynamicModuleTestModuleTest extends TestCase
+class DynamicModuleTest extends TestCase
 {
-
     /**
      * Data provider
      * @return array the data
@@ -75,60 +76,46 @@ class DynamicModuleTestModuleTest extends TestCase
         ];
     }
 
-    /**
-     * @expectedException common_exception_InconsistentData
-     */
     public function testConstructBadId()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         new DynamicModule(12, 'foo', 'bar');
     }
 
 
-    /**
-     * @expectedException common_exception_InconsistentData
-     */
     public function testConstructEmptyId()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         new DynamicModule('', 'foo', 'bar');
     }
 
-    /**
-     * @expectedException common_exception_InconsistentData
-     */
     public function testConstructBadModule()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         new DynamicModule('foo', true, 'bar');
     }
 
-    /**
-     * @expectedException common_exception_InconsistentData
-     */
     public function testConstructiEmptyModule()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         new DynamicModule('foo', '', 'bar');
     }
 
-    /**
-     * @expectedException common_exception_InconsistentData
-     */
     public function testConstructBadCategory()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         new DynamicModule('foo', 'bar', []);
     }
 
-    /**
-     * @expectedException common_exception_InconsistentData
-     */
     public function testConstructNoCategory()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         new DynamicModule('foo', 'bar', null);
     }
 
-    /**
-     * @expectedException common_exception_InconsistentData
-     */
     public function testFromArrayNoRequiredData()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         DynamicModule::fromArray([]);
     }
 
@@ -179,7 +166,8 @@ class DynamicModuleTestModuleTest extends TestCase
      */
     public function testJsonSerialize()
     {
-        $expected = '{"id":"bar","module":"bar\/bar","bundle":"modules\/bundle.min","position":12,"name":"Bar","description":"The best bar ever","category":"dummy","active":false,"tags":["dummy","goofy"]}';
+        $expected = '{"id":"bar","module":"bar\/bar","bundle":"modules\/bundle.min","position":12,"name":"Bar",'
+            . '"description":"The best bar ever","category":"dummy","active":false,"tags":["dummy","goofy"]}';
 
         $DynamicModule = new DynamicModule('bar', 'bar/bar', 'dummy', [
             'name' => 'Bar',

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -66,7 +67,9 @@ trait FilesystemAwareTrait
         $file = $this->getQueueStorage()->getFile($newFileName);
         $stream = fopen($localFilePath, 'r');
         $file->put($stream);
-        fclose($stream);
+        if (is_resource($stream)) {
+            fclose($stream);
+        }
 
         // delete the local file
         @unlink($localFilePath);
@@ -127,7 +130,7 @@ trait FilesystemAwareTrait
             $file = $this->getQueueStorage()
                 ->getFile($filename);
 
-            if($file->exists()) {
+            if ($file->exists()) {
                 $file->delete();
             }
         }

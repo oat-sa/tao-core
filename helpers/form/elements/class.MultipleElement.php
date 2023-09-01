@@ -1,23 +1,28 @@
 <?php
-/**  
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
+ *
  */
+
+declare(strict_types=1);
 
 /**
  * Short description of class tao_helpers_form_elements_MultipleElement
@@ -26,33 +31,34 @@
  * @access public
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  * @package tao
- 
  */
-abstract class tao_helpers_form_elements_MultipleElement
-    extends tao_helpers_form_FormElement
+abstract class tao_helpers_form_elements_MultipleElement extends tao_helpers_form_FormElement
 {
-    // --- ASSOCIATIONS ---
+    /** @var array  */
+    protected $options = [];
 
+    /** @var array */
+    protected $values = [];
 
-    // --- ATTRIBUTES ---
+    /** @var array */
+    private $disabledValues = [];
 
-    /**
-     * Short description of attribute options
-     *
-     * @access protected
-     * @var array
-     */
-    protected $options = array();
+    /** @var array */
+    private $optionAttributes = [];
 
-    /**
-     * Short description of attribute values
-     *
-     * @access protected
-     * @var array
-     */
-    protected $values = array();
+    public function addOptionAttribute(string $optionValue, string $attribute, string $attributeValue): void
+    {
+        if (empty($this->optionAttributes[$optionValue])) {
+            $this->optionAttributes[$optionValue] = [];
+        }
 
-    // --- OPERATIONS ---
+        $this->optionAttributes[$optionValue][$attribute] = $attributeValue;
+    }
+
+    public function getOptionAttributes(string $optionValue): array
+    {
+        return $this->optionAttributes[$optionValue] ?? [];
+    }
 
     /**
      * Short description of method setOptions
@@ -60,13 +66,11 @@ abstract class tao_helpers_form_elements_MultipleElement
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array options
-     * @return mixed
+     * @return void
      */
-    public function setOptions($options)
+    public function setOptions(array $options): void
     {
-        
-		$this->options = $options;
-        
+        $this->options = $options;
     }
 
     /**
@@ -78,13 +82,7 @@ abstract class tao_helpers_form_elements_MultipleElement
      */
     public function getOptions()
     {
-        $returnValue = array();
-
-        
-		$returnValue = $this->options;
-        
-
-        return (array) $returnValue;
+        return (array)$this->options;
     }
 
     /**
@@ -92,14 +90,12 @@ abstract class tao_helpers_form_elements_MultipleElement
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string value
-     * @return mixed
+     * @param  string $value
+     * @return void
      */
     public function setValue($value)
     {
-        
-		$this->value = tao_helpers_Uri::encode($value);
-        
+        $this->value = tao_helpers_Uri::encode((string)$value);
     }
 
     /**
@@ -107,14 +103,12 @@ abstract class tao_helpers_form_elements_MultipleElement
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string value
-     * @return mixed
+     * @param  string $value
+     * @return void
      */
-    public function addValue($value)
+    public function addValue(string $value): void
     {
-        
-		$this->values[] = tao_helpers_Uri::encode($value);
-        
+        $this->values[] = tao_helpers_Uri::encode($value);
     }
 
     /**
@@ -124,15 +118,9 @@ abstract class tao_helpers_form_elements_MultipleElement
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
-    public function getValues()
+    public function getValues(): array
     {
-        $returnValue = array();
-
-        
-		$returnValue = $this->values;
-        
-
-        return (array) $returnValue;
+        return (array)$this->values;
     }
 
     /**
@@ -143,15 +131,18 @@ abstract class tao_helpers_form_elements_MultipleElement
      * @param  array values
      * @return mixed
      */
-    public function setValues($values)
+    public function setValues(array $values)
     {
-        
-		
-		$this->values = $values;
-		
-        
+        $this->values = $values;
     }
 
-} /* end of abstract class tao_helpers_form_elements_MultipleElement */
+    public function getDisabledValues(): array
+    {
+        return $this->disabledValues;
+    }
 
-?>
+    public function setDisabledValues(array $disabledValues): void
+    {
+        $this->disabledValues = $disabledValues;
+    }
+}

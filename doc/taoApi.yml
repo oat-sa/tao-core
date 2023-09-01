@@ -1,0 +1,130 @@
+openapi: 3.0.1
+info:
+  title: TAO Core Internal API
+  description: 'TAO Core Internal API'
+  version: v1
+
+paths:
+  /tao/Languages/index:
+    get:
+      summary: Get a list of available languages in the TAO platform
+      responses:
+        200:
+          $ref: '#/components/responses/LanguagesResponse'
+        400:
+          $ref: '#/components/responses/BadRequestResponse'
+        500:
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /tao/ResourceRelations:
+    get:
+      summary: Get the resource relations
+      parameters:
+        - in: query
+          name: sourceId
+          required: false
+          schema:
+            type: string
+          description: The sourceId of the relation. In case of RDF id, this parameter must be urlencoded.
+        - in: query
+          name: classId
+          required: false
+          schema:
+            type: string
+          description: The classId will deterimine to make recursive search in order to find media that is .
+        - in: query
+          name: type
+          required: false
+          schema:
+            type: string
+          description: The type of resource to find relations with
+      responses:
+        200:
+          $ref: '#/components/responses/ResourceRelationsResponse'
+        400:
+          $ref: '#/components/responses/BadRequestResponse'
+        500:
+          $ref: '#/components/responses/InternalServerErrorResponse'
+components:
+  schemas:
+    ResourceRelationResource:
+      description: 'A resource related to another resources'
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'http://www.tao.lu/tao.rdf#i5e89a2063326711164b1a816b433b1ec'
+        type:
+          type: string
+          enum:
+            - item
+            - media
+            - sharedStimulus
+        data:
+          description: specific payload according to type
+          type: array
+          items:
+            type: object
+          example:
+            - label: 'My Item'
+      required:
+        - classId
+    ResourceRelations:
+      description: 'A relationship between two resources'
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            relations:
+              type: array
+              items:
+                $ref: '#/components/schemas/ResourceRelationResource'
+    Languages:
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          example:
+            en-US: English
+            fr-FR: French
+            de-DE: German
+    ErrorResponse:
+      properties:
+        success:
+          type: boolean
+          example: false
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+  responses:
+    ResourceRelationsResponse:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResourceRelations'
+    LanguagesResponse:
+      description: The list of languages
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Languages'
+    BadRequestResponse:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalServerErrorResponse:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -54,7 +55,9 @@ class ListPropertyWriter extends PropertyWriter
         $list = $this->getListService()->getListElements($listClass);
 
         if (empty($list)) {
-            throw new InconsistencyConfigException('List "' . $listClass->getUri() . '" does not contain element or not correctly configured.');
+            throw new InconsistencyConfigException(
+                'List "' . $listClass->getUri() . '" does not contain element or not correctly configured.'
+            );
         }
 
         /** @var \core_kernel_classes_Resource $element */
@@ -64,7 +67,6 @@ class ListPropertyWriter extends PropertyWriter
                 $element->getOnePropertyValue($this->getProperty(OntologyRdf::RDF_VALUE))->literal
             ];
         }
-
     }
 
     /**

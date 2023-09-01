@@ -13,10 +13,9 @@ use oat\tao\model\auth\BasicType;
  */
 class BasicTypeTest extends TestCase
 {
-
     public function testBasicType()
     {
-        $authType = new TestBasicAuthType;
+        $authType = new TestBasicAuthType();
         $credentials = [
             'login' => 'testLogin',
             'password' => 'testPassword'
@@ -31,7 +30,7 @@ class BasicTypeTest extends TestCase
         $clientMock
             ->expects($this->once())
             ->method('send')
-            ->with($requestMock, ['auth'=> ['testLogin', 'testPassword'], 'verify' => false]);
+            ->with($requestMock, ['auth' => ['testLogin', 'testPassword'], 'verify' => false]);
 
         $authType->setClient($clientMock);
 
@@ -40,7 +39,7 @@ class BasicTypeTest extends TestCase
 
     public function testFailedValidationBasicType()
     {
-        $authType = new TestBasicAuthType;
+        $authType = new TestBasicAuthType();
         $credentials = [
             'loginFaild' => 'testLogin',
             'password' => 'testPassword'

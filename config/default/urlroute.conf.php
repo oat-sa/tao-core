@@ -1,14 +1,14 @@
 <?php
 
 return new \oat\tao\model\mvc\DefaultUrlService(
-            [
-                'default' => 
+    [
+                'default' =>
                 [
                     'ext'        => 'tao',
                     'controller' => 'Main',
                     'action'     => 'index',
                 ],
-                'login' => 
+                'login' =>
                 [
                     'ext'        => 'tao',
                     'controller' => 'Main',
@@ -30,5 +30,4 @@ return new \oat\tao\model\mvc\DefaultUrlService(
                         ],
                 ]
             ]
-        );
-
+);

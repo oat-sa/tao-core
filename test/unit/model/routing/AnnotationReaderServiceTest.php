@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,17 +37,21 @@ use oat\generis\test\TestCase;
  * @requiredRights(key="id", permission="READ")
  * @security("allow")
  */
-class TestingClass {
-
+class TestingClass
+{
     /**
      * @requiredRights(key="id", permission="READ")
      * @requiredRights(key="uri", permission="WRITE")
      * @security("hide")
      * @security("allow")
      */
-    public function someAction() {}
+    public function someAction()
+    {
+    }
 
-    public function anotherAction() {}
+    public function anotherAction()
+    {
+    }
 }
 
 
@@ -57,13 +62,15 @@ class AnnotationReaderServiceTest extends TestCase
      */
     private $service;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->service = new AnnotationReaderService();
 
         $cacheService = $this->prophesize(\common_cache_Cache::class);
         $cacheService->has(Argument::type('string'))->willReturn(false);
-        $cacheService->get(Argument::type('string'))->willThrow(new \common_cache_NotFoundException('PhpUnit exception'));
+        $cacheService
+            ->get(Argument::type('string'))
+            ->willThrow(new \common_cache_NotFoundException('PhpUnit exception'));
         $cacheService->put(Argument::any(), Argument::any())->willReturn(true);
 
         /** @var ServiceLocatorInterface $serviceLocator */

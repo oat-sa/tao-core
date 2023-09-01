@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,7 +32,6 @@ use oat\generis\test\TestCase;
  */
 class ProviderModuleTest extends TestCase
 {
-
     /**
      * Data provider
      * @return array the data
@@ -56,7 +56,7 @@ class ProviderModuleTest extends TestCase
                 'description' => 'The best foo ever',
                 'active' => true,
                 'tags' => ['required']
-            ]
+                ]
             ], [
                 [
                     'id' => '12',
@@ -76,60 +76,46 @@ class ProviderModuleTest extends TestCase
         ];
     }
 
-    /**
-     * @expectedException common_exception_InconsistentData
-     */
     public function testConstructBadId()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         new ProviderModule(12, 'foo', 'bar');
     }
 
 
-    /**
-     * @expectedException common_exception_InconsistentData
-     */
     public function testConstructEmptyId()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         new ProviderModule('', 'foo', 'bar');
     }
 
-    /**
-     * @expectedException common_exception_InconsistentData
-     */
     public function testConstructBadModule()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         new ProviderModule('foo', true, 'bar');
     }
 
-    /**
-     * @expectedException common_exception_InconsistentData
-     */
     public function testConstructiEmptyModule()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         new ProviderModule('foo', '', 'bar');
     }
 
-    /**
-     * @expectedException common_exception_InconsistentData
-     */
     public function testConstructBadCategory()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         new ProviderModule('foo', 'bar', []);
     }
 
-    /**
-     * @expectedException common_exception_InconsistentData
-     */
     public function testConstructNoCategory()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         new ProviderModule('foo', 'bar', null);
     }
 
-    /**
-     * @expectedException common_exception_InconsistentData
-     */
     public function testFromArrayNoRequiredData()
     {
+        $this->expectException(common_exception_InconsistentData::class);
         ProviderModule::fromArray([]);
     }
 
@@ -180,7 +166,8 @@ class ProviderModuleTest extends TestCase
      */
     public function testJsonSerialize()
     {
-        $expected = '{"id":"bar","module":"bar\/bar","bundle":"providers\/bundle.min","position":null,"name":"Bar","description":"The best bar ever","category":"dummy","active":false,"tags":["dummy","goofy"]}';
+        $expected = '{"id":"bar","module":"bar\/bar","bundle":"providers\/bundle.min","position":null,"name":"Bar",'
+            . '"description":"The best bar ever","category":"dummy","active":false,"tags":["dummy","goofy"]}';
 
         $ProviderModule = new ProviderModule('bar', 'bar/bar', 'dummy', [
             'name' => 'Bar',

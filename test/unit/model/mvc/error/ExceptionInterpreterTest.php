@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -35,7 +36,6 @@ use tao_models_classes_UserException;
  */
 class ExceptionInterpreterTest extends TestCase
 {
-
     public function interpretErrorProvider()
     {
         $action = 'test';
@@ -47,7 +47,12 @@ class ExceptionInterpreterTest extends TestCase
                 [new ResolverException('test message'), 403, 'test message', 'RedirectResponse'],
                 [new tao_models_classes_UserException('test message'), 403, 'test message', 'MainResponse'],
                 [new ActionEnforcingException('test message', $module, $action), 404, 'test message', 'MainResponse'],
-                [new tao_models_classes_FileNotFoundException('test message'), 404, 'File test message not found', 'MainResponse'],
+                [
+                    new tao_models_classes_FileNotFoundException('test message'),
+                    404,
+                    'File test message not found',
+                    'MainResponse'
+                ],
                 [new LoginFailedException([new Exception('test message')]), 500, '', 'MainResponse'],
             ];
     }
@@ -70,7 +75,10 @@ class ExceptionInterpreterTest extends TestCase
         $this->assertSame($exceptionInterpreter, $this->invokeProtectedMethod($exceptionInterpreter, 'interpretError'));
         $this->assertSame($expectedHttpStatus, $this->getInaccessibleProperty($exceptionInterpreter, 'returnHttpCode'));
         $this->assertSame($expectedTrace, $exceptionInterpreter->getTrace());
-        $this->assertSame($expectedResponseClassName, $this->getInaccessibleProperty($exceptionInterpreter, 'responseClassName'));
+        $this->assertSame(
+            $expectedResponseClassName,
+            $this->getInaccessibleProperty($exceptionInterpreter, 'responseClassName')
+        );
     }
 
     /**
@@ -82,7 +90,6 @@ class ExceptionInterpreterTest extends TestCase
         $exception = new Exception();
         $this->assertSame($ExceptionInterpretor, $ExceptionInterpretor->setException($exception));
         $this->assertSame($exception, $this->getInaccessibleProperty($ExceptionInterpretor, 'exception'));
-
     }
 
     public function testGetHttpCode()
@@ -149,7 +156,7 @@ class ExceptionInterpreterTest extends TestCase
      * @return mixed Method return
      * @throws \ReflectionException if the class or method does not exist.
      */
-    public function invokeProtectedMethod($object, $methodName, array $parameters = array())
+    public function invokeProtectedMethod($object, $methodName, array $parameters = [])
     {
         $reflection = new \ReflectionClass(get_class($object));
         $method = $reflection->getMethod($methodName);

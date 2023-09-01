@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,11 +16,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\integration\model\taskQueue;
 
+use common_exception_Error;
+use InvalidArgumentException;
 use oat\generis\test\TestCase;
 use oat\oatbox\mutex\LockService;
 use oat\tao\model\taskQueue\Task\TaskSerializerService;
@@ -38,53 +40,45 @@ use oat\generis\test\MockObject;
 
 class QueueDispatcherTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage  Queues needs to be set
-     */
     public function testDispatcherWhenQueuesAreEmptyThenThrowException()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Queues needs to be set');
         new QueueDispatcher([]);
     }
 
-    /**
-     * @expectedException \common_exception_Error
-     * @expectedExceptionMessage  Task Log service needs to be set.
-     */
     public function testDispatcherNoTaskLogThenThrowException()
     {
+        $this->expectException(common_exception_Error::class);
+        $this->expectExceptionMessage('Task Log service needs to be set.');
         new QueueDispatcher([
-            QueueDispatcher::OPTION_QUEUES =>[
+            QueueDispatcher::OPTION_QUEUES => [
                 new Queue('queueA', new InMemoryQueueBroker())
             ]
         ]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectExceptionMessageRegExp  /There are duplicated Queue names/
-     */
     public function testDispatcherWhenDuplicatedQueuesAreSetThenThrowException()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('/There are duplicated Queue names/');
         new QueueDispatcher([
-            QueueDispatcher::OPTION_QUEUES =>[
+            QueueDispatcher::OPTION_QUEUES => [
                 new Queue('queueA', new InMemoryQueueBroker()),
                 new Queue('queueA', new InMemoryQueueBroker())
             ]
         ]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectExceptionMessageRegExp  There are duplicated Queue names/
-     */
     public function testDispatcherWhenNotRegisteredQueueIsUsedForTaskThenThrowException()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('There are duplicated Queue names/');
         new QueueDispatcher([
             QueueDispatcher::OPTION_QUEUES => [
                 new Queue('queueA', new InMemoryQueueBroker()),
@@ -110,7 +104,7 @@ class QueueDispatcherTest extends TestCase
             ->method('enqueue')
             ->willReturn($this->returnValue(true));
 
-        $this->assertInstanceOf(CallbackTaskInterface::class, $queueMock->createTask($taskMock, []) );
+        $this->assertInstanceOf(CallbackTaskInterface::class, $queueMock->createTask($taskMock, []));
     }
 
     public function testCreateTaskWhenUsingStaticClassMethodCallShouldReturnCallbackTask()
@@ -125,7 +119,10 @@ class QueueDispatcherTest extends TestCase
             ->method('enqueue')
             ->willReturn($this->returnValue(true));
 
-        $this->assertInstanceOf(CallbackTaskInterface::class, $queueMock->createTask([CallableFixture::class, 'exampleStatic'], []) );
+        $this->assertInstanceOf(
+            CallbackTaskInterface::class,
+            $queueMock->createTask([CallableFixture::class, 'exampleStatic'], [])
+        );
     }
 
     public function testOneTimeWorkerHasServiceLocator()
@@ -161,6 +158,5 @@ class QueueDispatcherTest extends TestCase
         $dispatcher->setServiceLocator($serviceManager);
 
         $this->assertTrue($dispatcher->enqueue($taskMock));
-
     }
 }

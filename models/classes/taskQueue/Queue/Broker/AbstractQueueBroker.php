@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,17 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
 namespace oat\tao\model\taskQueue\Queue\Broker;
 
-use oat\oatbox\PhpSerializable;
-use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\action\ActionService;
 use oat\oatbox\action\ResolutionException;
 use oat\oatbox\log\LoggerAwareTrait;
+use oat\oatbox\PhpSerializable;
+use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\taskQueue\QueueDispatcher;
 use oat\tao\model\taskQueue\Task\CallbackTaskInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
@@ -55,7 +56,8 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
 
     public function __toPhpCode()
     {
-        return 'new '. get_called_class() .'('. \common_Utils::toHumanReadablePhpString($this->numberOfTasksToReceive) .')';
+        return 'new ' . get_called_class() . '('
+            . \common_Utils::toHumanReadablePhpString($this->numberOfTasksToReceive) . ')';
     }
 
     /**
@@ -91,13 +93,21 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
     }
 
     /**
+     * @inheritdoc
+     */
+    public function hasPreFetchedMessages(): bool
+    {
+        return $this->preFetchedQueue->count();
+    }
+
+    /**
      * Pop a task from the internal queue.
      *
      * @return TaskInterface|null
      */
     private function popPreFetchedMessage()
     {
-        if ($this->preFetchedQueue->count()) {
+        if ($this->hasPreFetchedMessages()) {
             return $this->preFetchedQueue->dequeue();
         }
 
@@ -130,11 +140,8 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
         $taskSerializer = $this->getServiceLocator()->get(TaskSerializerService::SERVICE_ID);
 
         try {
-
             return $taskSerializer->deserialize($taskJSON);
-
         } catch (\Exception $e) {
-
             $this->doDelete($idForDeletion, $logContext);
 
             return null;
@@ -159,7 +166,8 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
      */
     protected function assertValidJson($basicData)
     {
-        if ( ($basicData !== null
+        if (
+            ($basicData !== null
             && json_last_error() === JSON_ERROR_NONE
             && isset($basicData[TaskInterface::JSON_TASK_CLASS_NAME_KEY])) === false
         ) {
@@ -183,10 +191,9 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
 
             $task->setCallable($callable);
         } catch (ResolutionException $e) {
-
             $this->logError('Callable/Action class ' . $task->getCallable() . ' does not exist', $logContext);
 
-            throw new \Exception;
+            throw new \Exception();
         }
     }
 
@@ -231,5 +238,10 @@ abstract class AbstractQueueBroker implements QueueBrokerInterface, PhpSerializa
     public function getNumberOfTasksToReceive()
     {
         return abs((int) $this->numberOfTasksToReceive);
+    }
+
+    public function getBrokerId(): string
+    {
+        return static::ID;
     }
 }

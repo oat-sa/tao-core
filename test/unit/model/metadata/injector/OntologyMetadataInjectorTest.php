@@ -14,7 +14,7 @@ use oat\tao\model\metadata\writer\ontologyWriter\OntologyWriter;
 
 class OntologyMetadataInjectorTest extends TestCase
 {
-    protected function getOntologyMetadataInjectorMock($methods=[])
+    protected function getOntologyMetadataInjectorMock($methods = [])
     {
         return $this->getMockForAbstractClass(OntologyMetadataInjector::class, [], '', false, true, true, $methods);
     }
@@ -71,8 +71,8 @@ class OntologyMetadataInjectorTest extends TestCase
         $ontologyInjector->expects($this->exactly(2))
             ->method('getOption')
             ->withConsecutive(
-                $this->stringContains('source'),
-                $this->stringContains('destination')
+                [$this->stringContains('source')],
+                [$this->stringContains('destination')]
             )
             ->willReturnOnConsecutiveCalls(
                 $sourceFixture,
@@ -147,9 +147,9 @@ class OntologyMetadataInjectorTest extends TestCase
     public function testSetReaders()
     {
         $readersFixture = [
-            'reader1' => array('key' =>'polop1'),
-            'reader2' => array('key' =>'polop2'),
-            'reader3' => array('key' =>'polop3'),
+            'reader1' => ['key' => 'polop1'],
+            'reader2' => ['key' => 'polop2'],
+            'reader3' => ['key' => 'polop3'],
         ];
 
         $ontologyInjector = $this->getOntologyMetadataInjectorMock();
@@ -184,9 +184,9 @@ class OntologyMetadataInjectorTest extends TestCase
         $ontologyInjector->expects($this->exactly(3))
             ->method('buildService')
             ->withConsecutive(
-                $this->stringContains('polop1'),
-                $this->stringContains('polop2'),
-                $this->stringContains('polop3')
+                [$this->stringContains('polop1')],
+                [$this->stringContains('polop2')],
+                [$this->stringContains('polop3')]
             )
             ->willReturnOnConsecutiveCalls(
                 'writerFixture1',
@@ -218,7 +218,15 @@ class OntologyMetadataInjectorTest extends TestCase
         $data = ['dataFixture'];
         $dryrun = 'dryrunFixture';
 
-        $writerMock = $this->getMockForAbstractClass(OntologyWriter::class, [], '', false, true, true, ['validate', 'write', 'format']);
+        $writerMock = $this->getMockForAbstractClass(
+            OntologyWriter::class,
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['validate', 'write', 'format']
+        );
         $writerMock->expects($this->once())
             ->method('format')
             ->with($this->equalTo($data))
@@ -243,7 +251,7 @@ class OntologyMetadataInjectorTest extends TestCase
         } catch (MetadataInjectorWriteException $e) {
             $this->fail('Exception during test injector write with message : ' . $e->getMessage());
         }
-        
+
         $this->assertTrue(true);
     }
 
@@ -255,7 +263,15 @@ class OntologyMetadataInjectorTest extends TestCase
         $data = ['dataFixture'];
         $dryrun = 'dryrunFixture';
 
-        $writerMock = $this->getMockForAbstractClass(\stdClass::class, [], '', false, true, true, ['validate', 'format']);
+        $writerMock = $this->getMockForAbstractClass(
+            \stdClass::class,
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['validate', 'format']
+        );
 
         $writerMock->expects($this->once())
             ->method('format')
@@ -284,7 +300,15 @@ class OntologyMetadataInjectorTest extends TestCase
         $data = ['dataFixture'];
         $dryrun = 'dryrunFixture';
 
-        $writerMock = $this->getMockForAbstractClass(\stdClass::class, [], '', false, true, true, ['validate', 'format']);
+        $writerMock = $this->getMockForAbstractClass(
+            \stdClass::class,
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['validate', 'format']
+        );
 
         $writerMock->expects($this->once())
             ->method('format')
@@ -313,7 +337,15 @@ class OntologyMetadataInjectorTest extends TestCase
         $data = ['dataFixture'];
         $dryrun = 'dryrunFixture';
 
-        $writerMock = $this->getMockForAbstractClass(OntologyWriter::class, [], '', false, true, true, ['validate', 'format', 'write']);
+        $writerMock = $this->getMockForAbstractClass(
+            OntologyWriter::class,
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['validate', 'format', 'write']
+        );
 
         $writerMock->expects($this->once())
             ->method('format')
@@ -337,5 +369,4 @@ class OntologyMetadataInjectorTest extends TestCase
         $this->expectException(MetadataInjectorWriteException::class);
         $ontologyInjector->write($resource, $data, $dryrun);
     }
-
 }

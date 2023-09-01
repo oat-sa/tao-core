@@ -14,15 +14,16 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     || $releaseMsgData['is-sandbox']);
 ?>
 <!doctype html>
-<html class="no-js<?php if (!$hasVersionWarning): ?> no-version-warning<?php endif;?>">
+<html class="no-js<?php if (!$hasVersionWarning): ?> no-version-warning<?php endif;?>" lang="<?= tao_helpers_I18n::getLangCode() ?>">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="google" content="notranslate" />
-    <title><?= Layout::getTitle() ?></title>
 
-    <link rel="shortcut icon" href="<?= Template::img('favicon.ico', 'tao') ?>"/>
+    <?= Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'head') ?>
+
+    <title><?= Layout::getTitle() ?></title>
 
     <?= tao_helpers_Scriptloader::render() ?>
 

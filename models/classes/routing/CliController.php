@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,7 +59,10 @@ class CliController implements ServiceManagerAwareInterface
             $report = call_user_func($action, $params);
             if (empty($report)) {
                 $shortName = (new \ReflectionClass($action))->getName();
-                $report = new \common_report_Report(\common_report_Report::TYPE_INFO, "Action '${shortName}' ended gracefully with no report returned.");
+                $report = new \common_report_Report(
+                    \common_report_Report::TYPE_INFO,
+                    "Action '${shortName}' ended gracefully with no report returned."
+                );
             }
         } catch (\Exception $e) {
             $report = new Report(Report::TYPE_ERROR, __('An exception occured while running "%s"', $actionIdentifier));
@@ -67,13 +71,12 @@ class CliController implements ServiceManagerAwareInterface
             $previous = $e->getPrevious();
 
             // Get the full stack trace of the exception
-            while($previous){
-                $message .= PHP_EOL . "caused by : " . PHP_EOL .$previous->getMessage();
+            while ($previous) {
+                $message .= PHP_EOL . "caused by : " . PHP_EOL . $previous->getMessage();
                 $previous = $previous->getPrevious();
             }
 
             $report->add(new Report(Report::TYPE_ERROR, $message));
-
         }
 
         return $report;

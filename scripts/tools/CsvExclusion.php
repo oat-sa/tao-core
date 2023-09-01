@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,41 +21,41 @@
 
 namespace oat\tao\scripts\tools;
 
-use \common_report_Report as Report;
+use common_report_Report as Report;
 
 /**
- * 
+ *
  */
 class CsvExclusion extends AbstractIndexedCsv
 {
     private $source2;
     private $source2Fp;
-    
+
     protected function setSource2($source2)
     {
         $this->source2 = $source2;
     }
-    
+
     protected function getSource2()
     {
         return $this->source2;
     }
-    
+
     protected function setSource2Fp($source2Fp)
     {
         $this->source2Fp = $source2Fp;
     }
-    
+
     protected function getSource2Fp()
     {
         return $this->source2Fp;
     }
-    
+
     protected function beforeProcess()
     {
         $report = parent::beforeProcess();
         $params = $this->getParams();
-        
+
         if (!empty($params[4])) {
             $this->setSource2($params[4]);
         } else {
@@ -64,12 +65,12 @@ class CsvExclusion extends AbstractIndexedCsv
                     "'Second Source' parameter not provided."
                 )
             );
-            
+
             return $report;
         }
-        
+
         $source2Fp = @fopen($this->getSource2(), 'r');
-        
+
         if ($source2Fp === false) {
             $report->add(
                 new Report(
@@ -77,18 +78,18 @@ class CsvExclusion extends AbstractIndexedCsv
                     "Second source file '" . $this->getSource2() . "' could not be open."
                 )
             );
-            
+
             return $report;
         }
-        
+
         $this->setSource2Fp($source2Fp);
-        
+
         return $report;
     }
-    
+
     /**
-     * 
-     * 
+     *
+     *
      * @see \oat\tao\scripts\tools\AbstractIndexedCsv
      */
     protected function process()
@@ -99,13 +100,13 @@ class CsvExclusion extends AbstractIndexedCsv
         $index1 = $this->getIndex();
         $index2 = [];
         $this->fillIndex($index2, $source2Fp);
-        
+
         rewind($sourceFp);
         rewind($source2Fp);
-        
+
         $removedCount = 0;
         $writtenCount = 0;
-        
+
         foreach ($index1 as $identifier => $positions) {
             foreach ($positions as $pos) {
                 if (!isset($index2[$identifier])) {
@@ -120,10 +121,11 @@ class CsvExclusion extends AbstractIndexedCsv
                 }
             }
         }
-        
+
         return new Report(
             Report::TYPE_INFO,
-            "${writtenCount} record(s) written in file '" . realpath($this->getDestination()) . "'. ${removedCount} record(s) were excluded."
+            "${writtenCount} record(s) written in file '" . realpath($this->getDestination())
+                . "'. ${removedCount} record(s) were excluded."
         );
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,31 +38,30 @@ class UserCsvImporterFactoryTest extends TestCase
 
         $factory->expects($this->any())
             ->method('getOption')
-            ->will($this->returnCallback(function ($prop){
-                switch ($prop){
+            ->will($this->returnCallback(function ($prop) {
+                switch ($prop) {
                     case 'mappers':
-                        return array(
-                            'test-taker' => array(
+                        return [
+                            'test-taker' => [
                                 'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class)
-                            ),
-                            'proctor' => array(
+                            ],
+                            'proctor' => [
                                 'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class)
-                            ),
-                            'test-center-admin' => array(
+                            ],
+                            'test-center-admin' => [
                                 'importer' => $this->getMockForAbstractClass(ImportServiceInterface::class)
-                            )
-                        );
+                            ]
+                        ];
                         break;
-                    case'default-schema':
-
-                        return array(
-                            'mandatory' => array(
+                    case 'default-schema':
+                        return [
+                            'mandatory' => [
                                 'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
-                            ),
-                            'optional' => array(
+                            ],
+                            'optional' => [
                                 'default language' => 'http://www.tao.lu/Ontologies/generis.rdf#userDefLg',
-                            )
-                        );
+                            ]
+                        ];
                         break;
                 }
             }));

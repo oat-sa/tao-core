@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,12 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
 namespace oat\tao\model\taskQueue;
 
+use Datetime;
 use common_report_Report as Report;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\FileSystemService;
@@ -110,7 +112,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
 
             $this->getBroker()->add($task, $status, $label);
         } catch (\Exception $e) {
-            $this->logError('Adding result for task '. $task->getId() .' failed with MSG: '. $e->getMessage());
+            $this->logError('Adding result for task ' . $task->getId() . ' failed with MSG: ' . $e->getMessage());
         }
 
         return $this;
@@ -130,7 +132,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
 
             return $this->getBroker()->updateStatus($taskId, $newStatus, $prevStatus);
         } catch (\Exception $e) {
-            $this->logError('Setting the status for task '. $taskId .' failed with MSG: '. $e->getMessage());
+            $this->logError('Setting the status for task ' . $taskId . ' failed with MSG: ' . $e->getMessage());
         }
 
         return 0;
@@ -144,7 +146,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
         try {
             return $this->getBroker()->getStatus($taskId);
         } catch (\Exception $e) {
-            $this->logError('Getting status for task '. $taskId .' failed with MSG: '. $e->getMessage());
+            $this->logError('Getting status for task ' . $taskId . ' failed with MSG: ' . $e->getMessage());
         }
 
         return self::STATUS_UNKNOWN;
@@ -162,7 +164,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
                 throw new \RuntimeException("Report is not saved.");
             }
         } catch (\Exception $e) {
-            $this->logError('Setting report for item '. $taskId .' failed with MSG: '. $e->getMessage());
+            $this->logError('Setting report for item ' . $taskId . ' failed with MSG: ' . $e->getMessage());
         }
 
         return $this;
@@ -176,7 +178,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
         try {
             return $this->getBroker()->getReport($taskId);
         } catch (\Exception $e) {
-            $this->logError('Getting report for task '. $taskId .' failed with MSG: '. $e->getMessage());
+            $this->logError('Getting report for task ' . $taskId . ' failed with MSG: ' . $e->getMessage());
         }
 
         return null;
@@ -217,7 +219,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
                 }
             }
         } catch (\Exception $e) {
-            $this->logError('Updating parent task "'. $parentTaskId .'"" failed with MSG: '. $e->getMessage());
+            $this->logError('Updating parent task "' . $parentTaskId . '"" failed with MSG: ' . $e->getMessage());
         }
 
         return $this;
@@ -229,6 +231,14 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
     public function search(TaskLogFilter $filter)
     {
         return $this->getBroker()->search($filter);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTaskExecutionTimesByDateRange(DateTime $from, DateTime $to): array
+    {
+        return $this->getBroker()->getTaskExecutionTimesByDateRange($from, $to);
     }
 
     /**
@@ -250,7 +260,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
         $collection = $this->search($filter);
 
         if ($collection->isEmpty()) {
-            throw new \common_exception_NotFound('Task log for task "'. $taskId .'" not found');
+            throw new \common_exception_NotFound('Task log for task "' . $taskId . '" not found');
         }
 
         return $collection->first();
@@ -268,7 +278,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
         $collection = $this->search($filter);
 
         if ($collection->isEmpty()) {
-            throw new \common_exception_NotFound('Task log for task "'. $taskId .'" not found');
+            throw new \common_exception_NotFound('Task log for task "' . $taskId . '" not found');
         }
 
         return $collection->first();
@@ -280,6 +290,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
     public function findAvailableByUser($userId, $limit = null, $offset = null)
     {
         $filter = (new TaskLogFilter())
+            ->withIgnoredTasks($this->getOption(self::OPTION_TASK_IGNORE_LIST, []))
             ->addAvailableFilters($userId)
             ->setLimit(is_null($limit) ? self::DEFAULT_LIMIT : $limit)
             ->setOffset(is_null($offset) ? 0 : $offset);
@@ -346,11 +357,11 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
 
         /** @var EntityInterface $entity */
         foreach ($collection as $entity) {
-            try{
+            try {
                 $this->checkIfCanArchive($entity, $forceArchive);
                 $tasksAbleToArchive[] = $entity;
-            }catch (\Exception $exception) {
-                $this->logDebug('Task Log: ' . $entity->getId(). ' cannot be archived.');
+            } catch (\Exception $exception) {
+                $this->logDebug('Task Log: ' . $entity->getId() . ' cannot be archived.');
             }
         }
 
@@ -380,11 +391,11 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
 
         /** @var EntityInterface $entity */
         foreach ($collection as $entity) {
-            try{
+            try {
                 $this->checkIfCanCancel($entity, $forceCancel);
                 $cancellableTasks[] = $entity;
-            }catch (\Exception $exception) {
-                $this->logDebug('Task Log: ' . $entity->getId(). ' cannot be cancelled.');
+            } catch (\Exception $exception) {
+                $this->logDebug('Task Log: ' . $entity->getId() . ' cannot be cancelled.');
             }
         }
 
@@ -411,7 +422,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
         }
 
         if (!in_array($category, $this->getTaskCategories())) {
-            throw new \InvalidArgumentException('Category "'. $category .'" is not a valid category.');
+            throw new \InvalidArgumentException('Category "' . $category . '" is not a valid category.');
         }
 
         $associations = (array) $this->getOption(self::OPTION_TASK_TO_CATEGORY_ASSOCIATIONS);
@@ -455,9 +466,11 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
             self::CATEGORY_CREATE,
             self::CATEGORY_UPDATE,
             self::CATEGORY_DELETE,
+            self::CATEGORY_COPY,
             self::CATEGORY_IMPORT,
             self::CATEGORY_EXPORT,
             self::CATEGORY_DELIVERY_COMPILATION,
+            self::CATEGORY_UNRELATED_RESOURCE,
         ];
     }
 
@@ -478,7 +491,7 @@ class TaskLog extends ConfigurableService implements TaskLogInterface
         ];
 
         if (!in_array($status, $statuses)) {
-            throw new \InvalidArgumentException('Status "'. $status .'"" is not a valid task queue status.');
+            throw new \InvalidArgumentException('Status "' . $status . '"" is not a valid task queue status.');
         }
     }
 

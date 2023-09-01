@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -93,4 +94,6 @@ interface QueueInterface extends QueuerInterface, LoggerAwareInterface, PhpSeria
      * @return QueueInterface
      */
     public function setBroker(QueueBrokerInterface $broker);
+
+    public function getBroker(): QueueBrokerInterface;
 }

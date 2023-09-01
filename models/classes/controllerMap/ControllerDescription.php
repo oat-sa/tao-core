@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,14 +15,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  */
 
 namespace oat\tao\model\controllerMap;
 
 use oat\tao\model\http\Controller;
+use oat\tao\model\routing\Contract\ActionInterface;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -32,7 +32,7 @@ use ReflectionMethod;
  */
 class ControllerDescription
 {
-    private static $BLACK_LIST = array('forward', 'redirect', 'forwardUrl', 'setView');
+    private static $BLACK_LIST = ['forward', 'redirect', 'forwardUrl', 'setView'];
     /**
      * Reflection of the controller
      *
@@ -45,7 +45,8 @@ class ControllerDescription
      *
      * @param ReflectionClass $controllerClass
      */
-    public function __construct(ReflectionClass $controllerClass) {
+    public function __construct(ReflectionClass $controllerClass)
+    {
         $this->class = $controllerClass;
     }
 
@@ -54,7 +55,8 @@ class ControllerDescription
      *
      * @return string
      */
-    public function getClassName() {
+    public function getClassName()
+    {
         return $this->class->getName();
     }
 
@@ -63,18 +65,24 @@ class ControllerDescription
      *
      * @return array
      */
-    public function getActions() {
-        $actions = array();
+    public function getActions()
+    {
+        $actions = [];
+
         foreach ($this->class->getMethods(ReflectionMethod::IS_PUBLIC) as $m) {
             if ($m->isConstructor() || $m->isDestructor() || in_array($m->name, self::$BLACK_LIST)) {
                 continue;
             }
 
-            if (is_subclass_of($m->class, 'Module') || is_subclass_of($m->class, Controller::class)) {
+            if (
+                is_subclass_of($m->class, 'Module') ||
+                is_subclass_of($m->class, Controller::class) ||
+                $this->class->implementsInterface(ActionInterface::class)
+            ) {
                 $actions[] = new ActionDescription($m);
             }
         }
+
         return $actions;
     }
-
 }

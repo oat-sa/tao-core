@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,7 +24,7 @@ use Psr\Http\Message\ResponseInterface;
 
 interface WebhookResponseFactoryInterface
 {
-    const SERVICE_ID = 'tao/webhookResponseFactory';
+    public const SERVICE_ID = 'tao/webhookResponseFactory';
 
     /**
      * @param ResponseInterface $response

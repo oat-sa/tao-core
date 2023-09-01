@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,15 +26,15 @@ use oat\oatbox\PhpSerializable;
 
 class MenuElement
 {
-    const SERIAL_VERSION = 1392821334;
-    
+    public const SERIAL_VERSION = 1392821334;
+
     protected $id;
-    
+
     public function __construct($id, $version = self::SERIAL_VERSION)
     {
         $this->id = $id;
     }
-    
+
     public function getId()
     {
         return $this->id;

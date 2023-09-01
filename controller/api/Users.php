@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,13 +30,13 @@ use common_exception_ValidationFailed;
 use common_Utils;
 use core_kernel_classes_Resource;
 use core_kernel_users_Exception;
-use oat\generis\model\OntologyRdfs;
 use oat\generis\model\user\UserRdf;
 use oat\oatbox\service\ServiceManager;
 use tao_actions_CommonRestModule;
 use tao_models_classes_LanguageService;
 use tao_models_classes_RoleService;
 use tao_models_classes_UserService;
+use oat\generis\Helper\UserHashForEncryption;
 
 /**
  * @OA\Post(
@@ -143,13 +144,14 @@ class Users extends tao_actions_CommonRestModule
     /**
      * @return array
      */
-    protected function getParametersAliases(){
+    protected function getParametersAliases()
+    {
         return array_merge(parent::getParametersAliases(), [
             'login' => UserRdf::PROPERTY_LOGIN,
             'password' => UserRdf::PROPERTY_PASSWORD,
             'userLanguage' => UserRdf::PROPERTY_UILG,
             'defaultLanguage' => UserRdf::PROPERTY_DEFLG,
-            'firstName'=> UserRdf::PROPERTY_FIRSTNAME,
+            'firstName' => UserRdf::PROPERTY_FIRSTNAME,
             'lastName' => UserRdf::PROPERTY_LASTNAME,
             'mail' => UserRdf::PROPERTY_MAIL,
             'roles' => UserRdf::PROPERTY_ROLES
@@ -161,7 +163,8 @@ class Users extends tao_actions_CommonRestModule
      * @return void
      * @throws \common_exception_NotImplemented
      */
-    public function get($uri = null) {
+    public function get($uri = null)
+    {
         $this->returnFailure(new common_exception_RestApi('Not implemented'));
     }
 
@@ -170,7 +173,8 @@ class Users extends tao_actions_CommonRestModule
      * @return void
      * @throws \common_exception_NotImplemented
      */
-    public function put($uri) {
+    public function put($uri)
+    {
         $this->returnFailure(new common_exception_RestApi('Not implemented'));
     }
 
@@ -179,7 +183,8 @@ class Users extends tao_actions_CommonRestModule
      * @return void
      * @throws \common_exception_NotImplemented
      */
-    public function delete($uri = null) {
+    public function delete($uri = null)
+    {
         $this->returnFailure(new common_exception_RestApi('Not implemented'));
     }
 
@@ -198,29 +203,35 @@ class Users extends tao_actions_CommonRestModule
         }
 
         try {
-
             $parameters = $this->getParameters();
             $this->validateParameters($parameters);
 
             $roles = $this->processRoles($parameters);
             $login = $parameters[UserRdf::PROPERTY_LOGIN];
-            $password = $parameters[UserRdf::PROPERTY_PASSWORD];
+            $plainPassword = $parameters[UserRdf::PROPERTY_PASSWORD];
+            unset($parameters[UserRdf::PROPERTY_PASSWORD]);
 
             $guarded = array_intersect_key($this->getParametersAliases(), array_flip($this->getGuardedProperties()));
-            $parameters = array_filter($parameters, function ($key) use ($guarded) {
+            $parameters = array_filter($parameters, static function ($key) use ($guarded) {
                 return !in_array($key, $guarded, true);
             }, ARRAY_FILTER_USE_KEY);
 
             $this->processLanguages($parameters);
 
             /** @var core_kernel_classes_Resource $user */
-            $user = $userService->addUser($login, $password, $this->getResource(array_shift($roles)));
+            $user = $userService->addUser($login, $plainPassword, $this->getResource(array_shift($roles)));
 
             foreach ($roles as $role) {
                 $userService->attachRole($user, $this->getResource($role));
             }
 
             $userService->attachProperties($user, $parameters);
+
+            $userService->triggerUpdatedEvent(
+                $user,
+                [UserRdf::PROPERTY_PASSWORD => $user->getProperty(UserRdf::PROPERTY_PASSWORD)],
+                UserHashForEncryption::hash($plainPassword)
+            );
 
             $this->returnSuccess([
                 'success' => true,
@@ -246,7 +257,12 @@ class Users extends tao_actions_CommonRestModule
     protected function validateParameters(array $parameters)
     {
         if (empty($parameters[UserRdf::PROPERTY_LOGIN])) {
-            throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Should not be empty", $this->reverseSearchAlias(UserRdf::PROPERTY_LOGIN)));
+            throw new common_exception_ValidationFailed(
+                null,
+                // phpcs:disable Generic.Files.LineLength
+                __("Validation for field '%s' has failed. Should not be empty", $this->reverseSearchAlias(UserRdf::PROPERTY_LOGIN))
+                // phpcs:enable Generic.Files.LineLength
+            );
         }
     }
 
@@ -261,7 +277,10 @@ class Users extends tao_actions_CommonRestModule
         $roles = $parameters[UserRdf::PROPERTY_ROLES];
 
         if (!is_array($roles)) {
-            throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. List of values expected", 'roles'));
+            throw new common_exception_ValidationFailed(
+                null,
+                __("Validation for field '%s' has failed. List of values expected", 'roles')
+            );
         }
 
         if (!count($roles)) {
@@ -272,10 +291,20 @@ class Users extends tao_actions_CommonRestModule
 
         foreach ($roles as $role) {
             if (!common_Utils::isUri($role)) {
-                throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Valid URI expected. Given: %s", 'roles', $role));
+                throw new common_exception_ValidationFailed(
+                    null,
+                    // phpcs:disable Generic.Files.LineLength
+                    __("Validation for field '%s' has failed. Valid URI expected. Given: %s", 'roles', $role)
+                    // phpcs:enable Generic.Files.LineLength
+                );
             }
             if (!array_key_exists($role, $roleService->getAllRoles())) {
-                throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Valid role expected. Given: %s", 'roles', $role));
+                throw new common_exception_ValidationFailed(
+                    null,
+                    // phpcs:disable Generic.Files.LineLength
+                    __("Validation for field '%s' has failed. Valid role expected. Given: %s", 'roles', $role)
+                    // phpcs:enable Generic.Files.LineLength
+                );
             }
         }
 
@@ -289,7 +318,10 @@ class Users extends tao_actions_CommonRestModule
      */
     protected function processLanguages(array $parameters)
     {
-        $uriProperties = array_intersect_key($this->getParametersAliases(), array_flip(['userLanguage', 'defaultLanguage']));
+        $uriProperties = array_intersect_key(
+            $this->getParametersAliases(),
+            array_flip(['userLanguage', 'defaultLanguage'])
+        );
 
         foreach ($parameters as $key => $value) {
             if (!in_array($key, $uriProperties, true)) {
@@ -297,11 +329,21 @@ class Users extends tao_actions_CommonRestModule
             }
 
             if (!common_Utils::isUri($value)) {
-                throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Valid URI expected", array_search($key, $uriProperties, true)));
+                throw new common_exception_ValidationFailed(
+                    null,
+                    // phpcs:disable Generic.Files.LineLength
+                    __("Validation for field '%s' has failed. Valid URI expected", array_search($key, $uriProperties, true))
+                    // phpcs:enable Generic.Files.LineLength
+                );
             }
 
             if (!tao_models_classes_LanguageService::getExistingLanguageUri($value)) {
-                throw new common_exception_ValidationFailed(null, __("Validation for field '%s' has failed. Language does not exist in the system", array_search($key, $uriProperties, true)));
+                throw new common_exception_ValidationFailed(
+                    null,
+                    // phpcs:disable Generic.Files.LineLength
+                    __("Validation for field '%s' has failed. Language does not exist in the system", array_search($key, $uriProperties, true))
+                    // phpcs:enable Generic.Files.LineLength
+                );
             }
         }
     }

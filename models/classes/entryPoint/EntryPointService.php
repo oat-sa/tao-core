@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,30 +18,31 @@
  * Copyright (c) 2014 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\model\entryPoint;
 
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\ServiceManager;
 
 /**
- * 
+ *
  * Registry to store client library paths that will be provide to requireJs
  *
  * @author Lionel Lecaque, lionel@taotesting.com
  */
 class EntryPointService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/entrypoint';
-    
-    const OPTION_ENTRYPOINTS = 'existing';
-    
-    const OPTION_PRELOGIN = 'prelogin';
-    
-    const OPTION_POSTLOGIN = 'postlogin';
+    public const SERVICE_ID = 'tao/entrypoint';
+
+    public const OPTION_ENTRYPOINTS = 'existing';
+
+    public const OPTION_PRELOGIN = 'prelogin';
+
+    public const OPTION_POSTLOGIN = 'postlogin';
 
     /**
      * Replace the entrypoint with the id provided
-     * 
+     *
      * @param string $id
      * @param Entrypoint $e
      */
@@ -50,10 +52,10 @@ class EntryPointService extends ConfigurableService
         $entryPoints[$id] = $e;
         $this->setOption(self::OPTION_ENTRYPOINTS, $entryPoints);
     }
-    
+
     /**
      * Activate an existing entry point for a specific target
-     * 
+     *
      * @param string $entryId
      * @param string $target
      * @throws \common_exception_InconsistentData
@@ -64,9 +66,9 @@ class EntryPointService extends ConfigurableService
         $success = false;
         $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
         if (!isset($entryPoints[$entryId])) {
-            throw new \common_exception_InconsistentData('Unknown entrypoint '.$entryId);
+            throw new \common_exception_InconsistentData('Unknown entrypoint ' . $entryId);
         }
-        $actives = $this->hasOption($target) ? $this->getOption($target) : array();
+        $actives = $this->hasOption($target) ? $this->getOption($target) : [];
         if (!in_array($entryId, $actives)) {
             $actives[] = $entryId;
             $this->setOption($target, $actives);
@@ -75,7 +77,7 @@ class EntryPointService extends ConfigurableService
 
         return $success;
     }
-    
+
     /**
      * Dectivate an existing entry point for a specific target
      *
@@ -89,23 +91,23 @@ class EntryPointService extends ConfigurableService
         $success = false;
         $entryPoints = $this->getOption(self::OPTION_ENTRYPOINTS);
         if (!isset($entryPoints[$entryId])) {
-            throw new \common_exception_InconsistentData('Unknown entrypoint '.$entryId);
+            throw new \common_exception_InconsistentData('Unknown entrypoint ' . $entryId);
         }
-        $actives = $this->hasOption($target) ? $this->getOption($target) : array();
+        $actives = $this->hasOption($target) ? $this->getOption($target) : [];
         if (in_array($entryId, $actives)) {
-            $actives = array_diff($actives, array($entryId));
+            $actives = array_diff($actives, [$entryId]);
             $this->setOption($target, $actives);
             $success = true;
         } else {
-            \common_Logger::w('Tried to desactivate inactive entry point '.$entryId);
+            \common_Logger::w('Tried to desactivate inactive entry point ' . $entryId);
         }
         return $success;
     }
-    
-    
+
+
     /**
      * Add an Entrypoint and activate it if a target is specified
-     * 
+     *
      * @param Entrypoint $e
      * @param string $target
      */
@@ -157,20 +159,20 @@ class EntryPointService extends ConfigurableService
 
     /**
      * Get all entrypoints for a designated target
-     * 
+     *
      * @param string $target
      * @return Entrypoint[]
      */
     public function getEntryPoints($target = self::OPTION_POSTLOGIN)
     {
-        $ids = $this->hasOption($target) ? $this->getOption($target) : array();
+        $ids = $this->hasOption($target) ? $this->getOption($target) : [];
         $existing = $this->getOption(self::OPTION_ENTRYPOINTS);
 
         if ($target === self::OPTION_ENTRYPOINTS) {
             return $existing;
         }
 
-        $entryPoints = array();
+        $entryPoints = [];
         foreach ($ids as $id) {
             $entryPoints[$id] = $existing[$id];
         }
@@ -179,7 +181,7 @@ class EntryPointService extends ConfigurableService
 
     /**
      * Legacy function for backward compatibilitiy
-     * 
+     *
      * @return EntryPointService
      * @deprecated
      */
@@ -187,10 +189,10 @@ class EntryPointService extends ConfigurableService
     {
         return ServiceManager::getServiceManager()->get(self::SERVICE_ID);
     }
-    
+
     /**
      * Legacy function for backward compatibilitiy
-     * 
+     *
      * @param Entrypoint $e
      * @param string $target
      * @deprecated

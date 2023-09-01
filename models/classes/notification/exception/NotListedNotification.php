@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,10 +21,14 @@
 
 namespace oat\tao\model\notification\exception;
 
-
+/**
+ * Class NotListedNotification
+ *
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ *
+ */
 class NotListedNotification extends \common_exception_ClientException
 {
-
     public function __construct()
     {
         $message = __('notifications drivers aren\'t persistent. use a persistent database storage driver');
@@ -35,5 +40,4 @@ class NotListedNotification extends \common_exception_ClientException
     {
         return __('unable to search into notification.');
     }
-
 }

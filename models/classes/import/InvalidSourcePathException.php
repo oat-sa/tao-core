@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -43,7 +44,6 @@ class InvalidSourcePathException extends common_Exception implements common_exce
         $message = sprintf('The path to the source file "%s" is outside the base path "%s"', $sourcePath, $basePath);
 
         parent::__construct($message, 0, $previous);
-
     }
 
     /**
@@ -55,9 +55,8 @@ class InvalidSourcePathException extends common_Exception implements common_exce
      */
     public function getUserMessage()
     {
-        return __(
-            'Invalid path of a source "%s". Path must point to the existed file inside the package.',
-            $this->sourcePath
-        );
+        // phpcs:disable Generic.Files.LineLength
+        return __('Invalid path of a source "%s". Path must point to the existed file inside the package.', $this->sourcePath);
+        // phpcs:enable Generic.Files.LineLength
     }
 }

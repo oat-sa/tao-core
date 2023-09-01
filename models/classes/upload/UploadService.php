@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,7 +21,7 @@
 
 namespace oat\tao\model\upload;
 
-
+use common_exception_Error;
 use oat\generis\model\fileReference\UrlFileSerializer;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\filesystem\Directory;
@@ -30,12 +31,13 @@ use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\event\FileUploadedEvent;
 use oat\tao\model\event\UploadLocalCopyCreatedEvent;
 use tao_helpers_File;
+use tao_helpers_form_Form;
 
 class UploadService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/upload';
+    public const SERVICE_ID = 'tao/upload';
 
-    static public $tmpFilesystemId = 'sharedTmp';
+    public static $tmpFilesystemId = 'sharedTmp';
     private $uriSerializer;
 
 
@@ -74,6 +76,33 @@ class UploadService extends ConfigurableService
         $returnValue['data'] = json_encode($data);
 
         return $returnValue;
+    }
+
+    /**
+     * Helps to get the uploaded file data during upload or during processing of the import task.
+     *
+     * @param array|tao_helpers_form_Form $form
+     * @return File|string
+     * @throws common_exception_Error
+     */
+    public function fetchUploadedFile($form)
+    {
+        if (is_array($form) && isset($form['uploaded_file'])) {
+            return $this->getUploadDir()->getFile($form['uploaded_file']);
+        }
+
+        if ($form instanceof tao_helpers_form_Form) {
+            $fileInfo = $form->getValue('source');
+
+            /** @var string $file */
+            $file = $form->getValue('importFile') ?: $fileInfo['uploaded_file'];
+
+            if ($file) {
+                return $file;
+            }
+        }
+
+        throw new common_exception_Error('No source file for import');
     }
 
     /**
@@ -164,8 +193,7 @@ class UploadService extends ConfigurableService
             }
 
             $path .= $fakeFile->getBasename();
-        }
-        else {
+        } else {
             $path .= $serial;
         }
 
@@ -189,8 +217,10 @@ class UploadService extends ConfigurableService
         if (($resource = fopen($tmpName, 'wb')) !== false) {
             stream_copy_to_stream($file->readStream(), $resource);
             fclose($resource);
-            $this->getServiceLocator()->get(EventManager::CONFIG_ID)->trigger(new UploadLocalCopyCreatedEvent($file,
-                $tmpName));
+            $this->getServiceLocator()->get(EventManager::CONFIG_ID)->trigger(new UploadLocalCopyCreatedEvent(
+                $file,
+                $tmpName
+            ));
             return $tmpName;
         }
         throw new \common_Exception('Impossible to make local file copy at ' . $tmpName);
@@ -199,27 +229,26 @@ class UploadService extends ConfigurableService
     /**
      * @param FileUploadedEvent $event
      */
-    public static function listenUploadEvent(FileUploadedEvent $event)
+    public function listenUploadEvent(FileUploadedEvent $event)
     {
-        $storage = TempFlyStorageAssociation::getStorage();
+        $storage = new TempFlyStorageAssociation($this->getServiceLocator());
         $storage->setUpload($event->getFile());
     }
 
     /**
      * @param UploadLocalCopyCreatedEvent $event
      */
-    public static function listenLocalCopyEvent(UploadLocalCopyCreatedEvent $event)
+    public function listenLocalCopyEvent(UploadLocalCopyCreatedEvent $event)
     {
-        $storage = TempFlyStorageAssociation::getStorage();
+        $storage = new TempFlyStorageAssociation($this->getServiceLocator());
         $storage->addLocalCopies($event->getFile(), $event->getTmpPath());
     }
 
     public function remove($file)
     {
-        $storage = TempFlyStorageAssociation::getStorage();
+        $storage = new TempFlyStorageAssociation($this->getServiceLocator());
 
         if ($file instanceof File) {
-
             $storedLocalTmps = $storage->getLocalCopies($file);
             foreach ((array)$storedLocalTmps as $tmp) {
                 tao_helpers_File::remove($tmp);
@@ -264,5 +293,4 @@ class UploadService extends ConfigurableService
 
         return false;
     }
-
 }

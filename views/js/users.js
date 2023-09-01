@@ -1,5 +1,5 @@
 define(['jquery', 'i18n', 'context'], function($, __, context){
-    
+
     /**
      * Enable you to check if the login contained in the field identified by id is unique
      * An ajax request is sent to the url with the login and a JSON response <code>{"available": "true"}</code>
@@ -16,7 +16,7 @@ define(['jquery', 'i18n', 'context'], function($, __, context){
                 // trim value
                 var trimmedValue = elt.val().replace(/^\s+/g,'').replace(/\s+$/g,'');
                 var value = elt.val();
-
+                $('input#http_2_www_0_tao_0_lu_1_Ontologies_1_generis_0_rdf_3_login ~ div.form-error').remove();
                 if(trimmedValue === ''){
                     $('span.login-info').remove();
                 } else{
@@ -35,7 +35,7 @@ define(['jquery', 'i18n', 'context'], function($, __, context){
             });
         }
     }
-    
+
     return {
         checkLogin : checkLogin
     };

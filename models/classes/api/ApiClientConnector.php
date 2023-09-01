@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,7 +38,7 @@ use GuzzleHttp\ClientInterface;
  */
 class ApiClientConnector extends Configurable implements ClientInterface
 {
-    const OPTION_BASE_URI = 'base_uri';
+    public const OPTION_BASE_URI = 'base_uri';
 
     /**
      * Send an HTTP request.
@@ -149,5 +150,4 @@ class ApiClientConnector extends Configurable implements ClientInterface
         }
         return $options;
     }
-
 }

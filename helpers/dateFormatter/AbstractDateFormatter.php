@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,7 +32,7 @@ use tao_helpers_Date as DateHelper;
  */
 class AbstractDateFormatter extends Configurable implements DateFormatterInterface
 {
-    const REPLACEMENTS = [
+    public const REPLACEMENTS = [
         'A' => 'A',      // for the sake of escaping below
         'a' => 'a',      // for the sake of escaping below
         'B' => '',       // Swatch internet time (.beats), no equivalent

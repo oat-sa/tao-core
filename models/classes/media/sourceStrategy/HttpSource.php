@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,15 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2015-2020 (original work) Open Assessment Technologies SA;
  *
  */
+
 namespace oat\tao\model\media\sourceStrategy;
 
+use common_Exception;
 use common_Logger;
 use GuzzleHttp\Client;
 use helpers_TimeOutHelper;
 use oat\tao\model\media\MediaBrowser;
+use oat\tao\model\media\mediaSource\DirectorySearchQuery;
 
 /**
  * This media source gives access to files not part of the Tao platform
@@ -37,7 +41,7 @@ class HttpSource implements MediaBrowser
      */
     public function getFileInfo($link)
     {
-        throw new \common_Exception(__FUNCTION__ . ' not implemented');
+        throw new common_Exception(__FUNCTION__ . ' not implemented');
     }
 
     /**
@@ -60,9 +64,8 @@ class HttpSource implements MediaBrowser
 
         //if there is an http auth on the local domain, it's mandatory to auth with curl
         if (USE_HTTP_AUTH) {
-
             $addAuth = false;
-            $domains = array('localhost', '127.0.0.1', ROOT_URL);
+            $domains = ['localhost', '127.0.0.1', ROOT_URL];
 
             foreach ($domains as $domain) {
                 if (preg_match("/" . preg_quote($domain, '/') . "/", $url)) {
@@ -96,7 +99,7 @@ class HttpSource implements MediaBrowser
 
         $content = @get_headers($url, 1);
 
-        if($content === false){
+        if ($content === false) {
             throw new \tao_models_classes_FileNotFoundException($url);
         }
 
@@ -113,12 +116,19 @@ class HttpSource implements MediaBrowser
     }
 
     /**
-     * (non-PHPdoc)
-     * @see \oat\tao\model\media\MediaBrowser::getDirectory()
+     * @throws common_Exception
      */
-    public function getDirectory($parentLink = '/', $acceptableMime = array(), $depth = 1)
+    public function getDirectories(DirectorySearchQuery $params): array
     {
-        throw new \common_Exception('Unable to browse the internet');
+        return $this->getDirectory();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getDirectory($parentLink = '/', $acceptableMime = [], $depth = 1)
+    {
+        throw new common_Exception('Unable to browse the internet');
     }
 
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA
  *
  */
+
 namespace oat\tao\model\event;
 
 use JsonSerializable;
@@ -24,7 +26,6 @@ use oat\oatbox\event\Event;
 
 abstract class AbstractRoleEvent implements Event, JsonSerializable
 {
-
     /** @var  string */
     protected $roleUri;
 
@@ -46,14 +47,7 @@ abstract class AbstractRoleEvent implements Event, JsonSerializable
         return get_class($this);
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'roleUri' => $this->roleUri

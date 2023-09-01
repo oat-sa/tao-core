@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -44,18 +45,18 @@ class HasFileEntityDecorator extends TaskLogEntityDecorator
      */
     private $fileReferenceSerializer;
 
-    public function __construct(EntityInterface $entity, FileSystemService $fileSystemService, FileReferenceSerializer $fileReferenceSerializer)
-    {
+    public function __construct(
+        EntityInterface $entity,
+        FileSystemService $fileSystemService,
+        FileReferenceSerializer $fileReferenceSerializer
+    ) {
         parent::__construct($entity);
 
         $this->fileSystemService = $fileSystemService;
         $this->fileReferenceSerializer = $fileReferenceSerializer;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }

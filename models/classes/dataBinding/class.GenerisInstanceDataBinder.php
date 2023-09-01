@@ -1,52 +1,59 @@
 <?php
-/**  
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2022 (update and modification) Open Assessment Technologies SA;
  */
 
 use oat\generis\model\OntologyRdf;
+use oat\tao\model\dataBinding\AbstractDataBinder;
+use oat\tao\model\dataBinding\GenerisInstanceDataBindingException;
+use oat\tao\model\event\MetadataModified;
+use oat\oatbox\event\EventManager;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 
 /**
- * A data binder focusing on binding a source of data to a generis instance
+ * A data binder focusing on binding a source of data to a Generis instance
  *
  * @access public
  * @author Jerome Bogaerts, <jerome@taotesting.com>
  * @package tao
- 
+
  */
-class tao_models_classes_dataBinding_GenerisInstanceDataBinder
-    extends tao_models_classes_dataBinding_AbstractDataBinder
+class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_models_classes_dataBinding_AbstractDataBinder
 {
-    // --- ASSOCIATIONS ---
+    /** @var core_kernel_classes_Resource */
+    private $targetInstance;
 
+    /** @var EventManager */
+    private $eventManager;
 
-    // --- ATTRIBUTES ---
+    /** @var ServiceManager */
+    private $serviceManager;
 
-    /**
-     * A target Resource.
-     *
-     * @access private
-     * @var Resource
-     */
-    private $targetInstance = null;
-
-    // --- OPERATIONS ---
+    /** @var bool */
+    private $forceModification = false;
 
     /**
      * Creates a new instance of binder.
@@ -56,11 +63,24 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
      * @param  Resource targetInstance The
      * @return mixed
      */
-    public function __construct( core_kernel_classes_Resource $targetInstance)
+    public function __construct(core_kernel_classes_Resource $targetInstance)
     {
-        
         $this->targetInstance = $targetInstance;
-        
+    }
+
+    public function withServiceManager(ServiceManager $serviceManager): void
+    {
+        $this->serviceManager = $serviceManager;
+    }
+
+    public function withEventManager(EventManager $eventManager): void
+    {
+        $this->eventManager = $eventManager;
+    }
+
+    public function forceModification(): void
+    {
+        $this->forceModification = true;
     }
 
     /**
@@ -72,20 +92,14 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
      */
     protected function getTargetInstance()
     {
-        $returnValue = null;
-
-        
-        $returnValue = $this->targetInstance;
-        
-
-        return $returnValue;
+        return $this->targetInstance;
     }
 
     /**
      * Simply bind data from the source to a specific generis class instance.
      *
      * The array of the data to be bound must contain keys that are property
-     * The repspective values can be either scalar or vector (array) values or
+     * The respective values can be either scalar or vector (array) values or
      * values.
      *
      * - If the element of the $data array is scalar, it is simply bound using
@@ -95,87 +109,121 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder
      * @access public
      * @author Jerome Bogaerts, <jerome@taotesting.com>
      * @param  array data An array of values where keys are Property URIs and values are either scalar or vector values.
+     * @throws tao_models_classes_dataBinding_GenerisInstanceDataBindingException
      * @return mixed
      */
     public function bind($data)
     {
-        $returnValue = null;
-
         try {
-	        $instance = $this->getTargetInstance();
-			$eventManager = \oat\oatbox\service\ServiceManager::getServiceManager()->get(\oat\oatbox\event\EventManager::CONFIG_ID);
-	        foreach($data as $propertyUri => $propertyValue){
-
-                if($propertyUri == OntologyRdf::RDF_TYPE){
-                    foreach($instance->getTypes() as $type){
+            $instance = $this->getTargetInstance();
+            $eventManager = $this->getEventManager();
+            foreach ($data as $propertyUri => $propertyValue) {
+                if ($propertyUri == OntologyRdf::RDF_TYPE) {
+                    foreach ($instance->getTypes() as $type) {
                         $instance->removeType($type);
                     }
-                    if(!is_array($propertyValue)){
-                        $types = array($propertyValue) ;
-                    }
-                    foreach($types as $type){
+
+                    $types = is_array($propertyValue) ? $propertyValue : [$propertyValue];
+
+                    foreach ($types as $type) {
                         $instance->setType(new core_kernel_classes_Class($type));
                     }
                     continue;
                 }
 
-                $prop = new core_kernel_classes_Property( $propertyUri );
-                $values = $instance->getPropertyValuesCollection($prop);
-                if($values->count() > 0){
-                    if(is_array($propertyValue)){
-                        $instance->removePropertyValues($prop);
-                        foreach($propertyValue as $aPropertyValue){
-                            $instance->setPropertyValue(
-                                $prop,
-                                $aPropertyValue
-                            );
-                        }
+                $prop = new core_kernel_classes_Property($propertyUri);
 
-                    }
-                    else if (is_string($propertyValue)){
-                        $instance->editPropertyValues(
-                            $prop,
-                            $propertyValue
-                        );
-                        if(strlen(trim($propertyValue))==0){
-                            //if the property value is an empty space(the default value in a select input field), delete the corresponding triplet (and not all property values)
-                            $instance->removePropertyValues($prop, array('pattern' => ''));
-                        }
-                    }
+                if ($this->isBlockedForModification($prop)) {
+                    continue;
                 }
-                else{
 
-                    if(is_array($propertyValue)){
-
-                        foreach($propertyValue as $aPropertyValue){
+                $values = $instance->getPropertyValuesCollection($prop);
+                if ($values->count() > 0) {
+                    if (is_array($propertyValue)) {
+                        $instance->removePropertyValues($prop);
+                        foreach ($propertyValue as $aPropertyValue) {
                             $instance->setPropertyValue(
                                 $prop,
                                 $aPropertyValue
                             );
                         }
+                    } elseif (is_string($propertyValue)) {
+                        if ($this->isEmptyValue($propertyValue)) {
+                            $instance->removePropertyValues($prop);
+                        } else {
+                            $instance->editPropertyValues(
+                                $prop,
+                                $propertyValue
+                            );
+                        }
                     }
-                    else if (is_string($propertyValue) && strlen(trim($propertyValue)) !== 0 ){
+                } else {
+                    if (is_array($propertyValue)) {
+                        foreach ($propertyValue as $aPropertyValue) {
+                            $instance->setPropertyValue(
+                                $prop,
+                                $aPropertyValue
+                            );
+                        }
+                    } elseif (is_string($propertyValue) && !$this->isEmptyValue($propertyValue)) {
                         $instance->setPropertyValue(
                             $prop,
                             $propertyValue
                         );
                     }
                 }
-                $eventManager->trigger(new \oat\tao\model\event\MetadataModified($instance, $propertyUri, $propertyValue));
-	        }
-	        
-	        $returnValue = $instance;
-        }
-        catch (common_Exception $e){
-        	$msg = "An error occured while binding property values to instance '': " . $e->getMessage();
-        	$instanceUri = $instance->getUri();
-        	throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException($msg);
-        }
-        
 
-        return $returnValue;
+                $eventManager->trigger(
+                    new MetadataModified($instance, $propertyUri, $propertyValue)
+                );
+            }
+
+            return $instance;
+        } catch (common_Exception $e) {
+            $msg = "An error occured while binding property values to instance '': " . $e->getMessage();
+            $instanceUri = $instance->getUri();
+            throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException($msg);
+        }
     }
 
-}
+    private function isBlockedForModification(core_kernel_classes_Property $property): bool
+    {
+        if ($this->forceModification) {
+            return false;
+        }
 
-?>
+        if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_STATISTIC_METADATA_IMPORT')) {
+            return $property->isStatistical();
+        }
+
+        return false;
+    }
+
+    private function isEmptyValue(string $value): bool
+    {
+        return strlen(trim($value)) === 0;
+    }
+
+    private function getEventManager(): EventManager
+    {
+        if (!isset($this->eventManager)) {
+            $this->eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+        }
+
+        return $this->eventManager;
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceManager()->get(FeatureFlagChecker::class);
+    }
+
+    private function getServiceManager(): ServiceManager
+    {
+        if (!isset($this->serviceManager)) {
+            $this->serviceManager = ServiceManager::getServiceManager();
+        }
+
+        return $this->serviceManager;
+    }
+}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -54,12 +55,15 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
             } else {
                 $this->logInfo("Unsuccessful recovery password. Entered e-mail address: {$mail}.");
                 $this->setData('header', __('An email has been sent'));
-                $this->setData('info', __('A message with further instructions has been sent to your email address: %s', $mail));
-                $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
+                $this->setData(
+                    'info',
+                    __('A message with further instructions has been sent to your email address: %s', $mail)
+                );
+                $this->setData('content-template', ['passwordRecovery/password-recovery-info.tpl', 'tao']);
             }
         } else {
             $this->setData('form', $form->render());
-            $this->setData('content-template', array('passwordRecovery/index.tpl', 'tao'));
+            $this->setData('content-template', ['passwordRecovery/index.tpl', 'tao']);
         }
 
         $this->setView('layout.tpl', 'tao');
@@ -79,22 +83,31 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
 
         $form = $formContainer->getForm();
 
-        $form->setValues(array('token'=>$token));
+        $form->setValues(['token' => $token]);
 
-        $user = $this->getPasswordRecovery()->getUser(PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN, $token);
+        $user = $this->getPasswordRecovery()->getUser(
+            PasswordRecoveryService::PROPERTY_PASSWORD_RECOVERY_TOKEN,
+            $token
+        );
+
         if ($user === null) {
             $this->logInfo("Password recovery token not found. Token value: {$token}");
             $this->setData('header', __('User not found'));
-            $this->setData('error', __('This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link'));
-            $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
+            $this->setData(
+                'error',
+                // phpcs:disable Generic.Files.LineLength
+                __('This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link')
+                // phpcs:enable Generic.Files.LineLength
+            );
+            $this->setData('content-template', ['passwordRecovery/password-recovery-info.tpl', 'tao']);
         } elseif ($form->isSubmited() && $form->isValid()) {
             $this->getPasswordRecovery()->setPassword($user, $form->getValue('newpassword'));
             $this->logInfo("User {$user->getUri()} has changed the password.");
             $this->setData('info', __('Password successfully changed'));
-            $this->setData('content-template', array('passwordRecovery/password-recovery-info.tpl', 'tao'));
+            $this->setData('content-template', ['passwordRecovery/password-recovery-info.tpl', 'tao']);
         } else {
             $this->setData('form', $form->render());
-            $this->setData('content-template', array('passwordRecovery/password-reset.tpl', 'tao'));
+            $this->setData('content-template', ['passwordRecovery/password-reset.tpl', 'tao']);
         }
 
         $this->setView('layout.tpl', 'tao');
@@ -119,7 +132,10 @@ class tao_actions_PasswordRecovery extends tao_actions_CommonModule
         if ($messageSent) {
             $mail = $this->getPasswordRecovery()->getUserMail($user);
             $this->setData('header', __('An email has been sent'));
-            $this->setData('info', __('A message with further instructions has been sent to your email address: %s', $mail));
+            $this->setData(
+                'info',
+                __('A message with further instructions has been sent to your email address: %s', $mail)
+            );
         } else {
             $this->setData('error', __('Unable to send the password reset request'));
         }

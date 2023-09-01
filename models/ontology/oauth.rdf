@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
-<rdf:RDF 
-	xml:base="http://www.tao.lu/Ontologies/TAO.rdf#" 
-	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
-	xmlns:widget="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#" 
+<rdf:RDF
+	xml:base="http://www.tao.lu/Ontologies/TAO.rdf#"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:widget="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#"
+    xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#"
 >
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
@@ -17,6 +18,7 @@
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
     <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
+    <tao:TAOGUIOrder><![CDATA[10]]></tao:TAOGUIOrder>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#OauthSecret">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
@@ -25,6 +27,7 @@
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
     <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
+    <tao:TAOGUIOrder><![CDATA[20]]></tao:TAOGUIOrder>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#OauthCallbackUrl">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
@@ -33,6 +36,7 @@
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#OauthConsumer"/>
     <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
     <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
+    <tao:TAOGUIOrder><![CDATA[30]]></tao:TAOGUIOrder>
   </rdf:Description>
-  
+
  </rdf:RDF>

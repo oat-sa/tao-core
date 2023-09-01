@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,9 +33,9 @@ use oat\tao\model\metadata\exception\InconsistencyConfigException;
  */
 class Maintenance extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/maintenance';
+    public const SERVICE_ID = 'tao/maintenance';
 
-    const OPTION_PERSISTENCE = 'persistence';
+    public const OPTION_PERSISTENCE = 'persistence';
 
     /**
      * Storage to store platform state
@@ -85,7 +86,7 @@ class Maintenance extends ConfigurableService
         } catch (\common_exception_NotFound $e) {
             $this->enablePlatform();
             return new MaintenanceState(
-                array(MaintenanceState::STATUS => MaintenanceState::LIVE_MODE)
+                [MaintenanceState::STATUS => MaintenanceState::LIVE_MODE]
             );
         }
     }
@@ -97,9 +98,9 @@ class Maintenance extends ConfigurableService
      */
     protected function setPlatformState($status)
     {
-        $state = new MaintenanceState(array(
+        $state = new MaintenanceState([
             MaintenanceState::STATUS => $status
-        ));
+        ]);
 
         $this->getStorage()->setPlatformState($state);
     }

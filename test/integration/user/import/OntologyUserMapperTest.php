@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,6 +21,7 @@
 namespace oat\tao\test\integration\user\import;
 
 use core_kernel_classes_Resource;
+use Exception;
 use helpers_PasswordHash;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\tao\model\import\service\MandatoryFieldException;
@@ -33,7 +35,7 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
      * @param $schema
      * @param $data
      * @param $expected
-     * @throws \Exception
+     * @throws Exception
      */
     public function testMapUserWithSuccess($schema, $data, $expected)
     {
@@ -55,7 +57,7 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
      *
      * @dataProvider provideInsufficientDataExample
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function testMapMandatoryShouldFail($schema, $data, $expected)
     {
@@ -72,12 +74,11 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
      * @param $expected
      *
      * @dataProvider provideEmptyFieldDataExample
-     * @expectedException \oat\tao\model\import\service\MandatoryFieldException
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     public function testMapMandatoryNotEmptyShouldFail($schema, $data, $expected)
     {
+        $this->expectException(MandatoryFieldException::class);
         $mapper = $this->getMapper();
         $mapper->setOption(OntologyUserMapper::OPTION_SCHEMA, $schema);
 
@@ -93,13 +94,19 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
             ->setMethods(['getPasswordHashService', 'getLanguageService'])
             ->getMock();
 
-        $passwordHashService = $this->getMockBuilder(helpers_PasswordHash::class)->disableOriginalConstructor()->getMock();
+        $passwordHashService = $this->getMockBuilder(helpers_PasswordHash::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $passwordHashService->method('encrypt')->willReturn('encrypted_password');
 
-        $langResource = $this->getMockBuilder(core_kernel_classes_Resource::class)->disableOriginalConstructor()->getMock();
+        $langResource = $this->getMockBuilder(core_kernel_classes_Resource::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $langResource->method('getUri')->willReturn('http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN');
 
-        $languageService = $this->getMockBuilder(tao_models_classes_LanguageService::class)->disableOriginalConstructor()->getMock();
+        $languageService = $this->getMockBuilder(tao_models_classes_LanguageService::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $languageService->method('getLanguageByCode')->willReturn($langResource);
 
         $mapper->method('getPasswordHashService')
@@ -118,19 +125,19 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
         return [
             [
                 'schema' => [
-                    'mandatory' => array(
+                    'mandatory' => [
                         'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
                         'interface language' => 'http://www.tao.lu/Ontologies/generis.rdf#userUILg',
                         'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
                         'roles' => 'http://www.tao.lu/Ontologies/generis.rdf#userRoles',
                         'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password'
-                    ),
-                    'optional' => array(
+                    ],
+                    'optional' => [
                         'interface language' => 'http://www.tao.lu/Ontologies/generis.rdf#userDefLg',
                         'first name' => 'http://www.tao.lu/Ontologies/generis.rdf#userFirstName',
                         'last name' => 'http://www.tao.lu/Ontologies/generis.rdf#userLastName',
                         'mail' => 'http://www.tao.lu/Ontologies/generis.rdf#userMail'
-                    )
+                    ]
                 ],
                 'data' => [
                     'label' => 'user label',
@@ -144,11 +151,13 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
                 ],
                 'result' => [
                     'http://www.w3.org/2000/01/rdf-schema#label' => 'user label',
-                    'http://www.tao.lu/Ontologies/generis.rdf#userUILg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userUILg' =>
+                        'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
                     'http://www.tao.lu/Ontologies/generis.rdf#login' => 'userlogin',
                     'http://www.tao.lu/Ontologies/generis.rdf#userRoles' => ['role1'],
                     'http://www.tao.lu/Ontologies/generis.rdf#password' => 'encrypted_password',
-                    'http://www.tao.lu/Ontologies/generis.rdf#userDefLg' => 'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
+                    'http://www.tao.lu/Ontologies/generis.rdf#userDefLg' =>
+                        'http://www.tao.lu/Ontologies/TAO.rdf#Langda-EN',
                     'http://www.tao.lu/Ontologies/generis.rdf#userFirstName' => 'user first',
                     'http://www.tao.lu/Ontologies/generis.rdf#userLastName' => 'user last',
                     'http://www.tao.lu/Ontologies/generis.rdf#userMail' => 'user@email.com',
@@ -163,11 +172,11 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
         return [
             [
                 'schema' => [
-                    'mandatory' => array(
+                    'mandatory' => [
                         'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
                         'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
                         'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password',
-                    )
+                    ]
                 ],
                 'data' => [
                     'login' => 'userlogin',
@@ -185,11 +194,11 @@ class OntologyUserMapperTest extends GenerisPhpUnitTestRunner
         return [
             [
                 'schema' => [
-                    'mandatory' => array(
+                    'mandatory' => [
                         'label' => 'http://www.w3.org/2000/01/rdf-schema#label',
                         'login' => 'http://www.tao.lu/Ontologies/generis.rdf#login',
                         'password' => 'http://www.tao.lu/Ontologies/generis.rdf#password',
-                    )
+                    ]
                 ],
                 'data' => [
                     'login' => 'userlogin',

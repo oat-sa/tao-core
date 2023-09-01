@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +40,6 @@ use common_persistence_InMemoryKvDriver;
  */
 class InstantActionTest extends TaoPhpUnitTestRunner
 {
-
     public function testPerform()
     {
         // @TODO: Use mocked persistence and persistence manager and fix test.
@@ -60,7 +60,7 @@ class InstantActionTest extends TaoPhpUnitTestRunner
         $action->activeActions = 9;
         $this->assertTrue($actionQueue->perform($action, $user));
     }
-    
+
     public function testGetPosition()
     {
         // @TODO: Use mocked persistence and persistence manager and fix test.
@@ -92,7 +92,7 @@ class InstantActionTest extends TaoPhpUnitTestRunner
         $actionQueue->perform($action, $user_2);
         $this->assertEquals(0, $actionQueue->getPosition($action));
     }
-    
+
     public function testClearAbandonedPositions()
     {
         // @TODO: Use mocked persistence and persistence manager and fix test.
@@ -123,7 +123,7 @@ class InstantActionTest extends TaoPhpUnitTestRunner
     {
         // @TODO: Use mocked persistence and persistence manager and fix test.
         $this->markTestSkipped();
-        
+
         $this->expectException(ActionQueueException::class);
 
         $actionQueue = $this->getInstance();
@@ -160,7 +160,6 @@ class InstantActionTest extends TaoPhpUnitTestRunner
         $result->setServiceManager($serviceManager);
         return $result;
     }
-
 }
 
 class GetmypidAction extends AbstractQueuedAction

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,8 +24,8 @@ namespace oat\tao\model\requiredAction\implementation;
 
 use oat\tao\model\requiredAction\RequiredActionRuleInterface;
 use oat\tao\model\requiredAction\RequiredActionInterface;
-use \DateTime;
-use \DateInterval;
+use DateTime;
+use DateInterval;
 use oat\oatbox\user\User;
 
 /**
@@ -33,10 +34,10 @@ use oat\oatbox\user\User;
  */
 class TimeRule implements RequiredActionRuleInterface
 {
-    const CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule';
-    const PROPERTY_NAME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName';
-    const PROPERTY_EXECUTION_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime';
-    const PROPERTY_SUBJECT = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject';
+    public const CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionTimeRule';
+    public const PROPERTY_NAME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionName';
+    public const PROPERTY_EXECUTION_TIME = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionExecutionTime';
+    public const PROPERTY_SUBJECT = 'http://www.tao.lu/Ontologies/TAO.rdf#RequiredActionSubject';
 
     /**
      * @var string|DateTime
@@ -92,11 +93,11 @@ class TimeRule implements RequiredActionRuleInterface
         $resource = $this->getActionExecution();
         if ($resource === null) {
             $requiredActionClass = new \core_kernel_classes_Class(self::CLASS_URI);
-            $resource = $requiredActionClass->createInstanceWithProperties(array(
+            $resource = $requiredActionClass->createInstanceWithProperties([
                 self::PROPERTY_SUBJECT => $this->getUser()->getIdentifier(),
                 self::PROPERTY_NAME => $this->requiredAction->getName(),
                 self::PROPERTY_EXECUTION_TIME => time(),
-            ));
+            ]);
         }
         $timeProperty = (new \core_kernel_classes_Property(self::PROPERTY_EXECUTION_TIME));
         $resource->editPropertyValues($timeProperty, time());
@@ -120,7 +121,8 @@ class TimeRule implements RequiredActionRuleInterface
     /**
      * Check if it is time to perform an action.
      * If `$this->lastExecution` is null (action has never been executed)
-     * or since the last execution took time more than specified interval (`$this->interval`) then action must be performed.
+     * or since the last execution took time more than specified interval (`$this->interval`) then action must be
+     * performed.
      * @return bool
      */
     protected function checkTime()
@@ -133,7 +135,7 @@ class TimeRule implements RequiredActionRuleInterface
 
         if ($lastExecution === null && !$anonymous) {
             $result = true;
-        } elseif($lastExecution !== null && $interval !== null && !$anonymous) {
+        } elseif ($lastExecution !== null && $interval !== null && !$anonymous) {
             $mustBeExecutedAt = clone($lastExecution);
             $mustBeExecutedAt->add($interval);
             $now = new DateTime('now');
@@ -154,7 +156,9 @@ class TimeRule implements RequiredActionRuleInterface
 
             if ($resource !== null) {
                 /** @var \core_kernel_classes_Resource $resource */
-                $time = (string) $resource->getOnePropertyValue(new \core_kernel_classes_Property(self::PROPERTY_EXECUTION_TIME));
+                $time = (string) $resource->getOnePropertyValue(
+                    new \core_kernel_classes_Property(self::PROPERTY_EXECUTION_TIME)
+                );
                 if (!empty($time)) {
                     $this->executionTime = new DateTime('@' . $time);
                 }

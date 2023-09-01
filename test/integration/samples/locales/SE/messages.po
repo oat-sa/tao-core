@@ -878,7 +878,7 @@ msgstr ""
 msgid "The uploaded file is too large"
 msgstr "Den upladdade filen är för stor"
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
 msgstr ""
 
 msgid "The value of this field must be an integer"

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,7 +24,7 @@ namespace oat\tao\model\actionQueue\tools;
 
 use oat\oatbox\extension\AbstractAction;
 use oat\tao\model\actionQueue\ActionQueue;
-use \common_report_Report as Report;
+use common_report_Report as Report;
 
 /**
  * Class ActionClearAbandonedPositions
@@ -31,7 +32,6 @@ use \common_report_Report as Report;
  */
 class ActionClearAbandonedPositions extends AbstractAction
 {
-
     public function __invoke($params)
     {
         $report = new Report(Report::TYPE_INFO, __('Collecting of abandoned actions in the action queue ...'));
@@ -41,7 +41,12 @@ class ActionClearAbandonedPositions extends AbstractAction
         foreach ($actions as $actionClass => $actionConfig) {
             $action = new $actionClass();
             $removed = $actionQueueService->clearAbandonedPositions($action);
-            $report->add(new Report(Report::TYPE_SUCCESS, __('Action %s - removed %s positions', $action->getId(), $removed)));
+            $report->add(
+                new Report(
+                    Report::TYPE_SUCCESS,
+                    __('Action %s - removed %s positions', $action->getId(), $removed)
+                )
+            );
         }
         return $report;
     }

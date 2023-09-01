@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,11 +16,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA;
- *
  */
 
 namespace oat\tao\test\integration\import;
 
+use oat\tao\model\import\ImporterNotFound;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\tao\model\import\ImportersService;
 use oat\tao\test\integration\import\samples\FakeImporter;
@@ -33,7 +34,6 @@ use oat\oatbox\service\ServiceManager;
  */
 class ImportersServiceTest extends TaoPhpUnitTestRunner
 {
-
     public function testGetImporter()
     {
         $importersService = new ImportersService([
@@ -43,14 +43,15 @@ class ImportersServiceTest extends TaoPhpUnitTestRunner
         ]);
 
         $importersService->setServiceLocator(ServiceManager::getServiceManager());
-        $this->assertInstanceOf('\oat\tao\test\integration\import\samples\FakeImporter', $importersService->getImporter('testImporter'));
+        $this->assertInstanceOf(
+            '\oat\tao\test\integration\import\samples\FakeImporter',
+            $importersService->getImporter('testImporter')
+        );
     }
 
-    /**
-     * @expectedException \oat\tao\model\import\ImporterNotFound
-     */
     public function testGetImporterException()
     {
+        $this->expectException(ImporterNotFound::class);
         $importersService = new ImportersService([]);
         $importersService->setServiceLocator(ServiceManager::getServiceManager());
         $importersService->getImporter('testImporter');

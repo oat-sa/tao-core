@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,7 +19,12 @@
  *
  */
 
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace, Squiz.Classes.ValidClassName.NotCamelCaps
+use oat\oatbox\log\logger\AdvancedLogger;
+use oat\oatbox\log\logger\extender\ContextExtenderInterface;
 use oat\tao\helpers\RestExceptionHandler;
+use oat\tao\model\http\Controller;
+use Psr\Log\LoggerInterface;
 
 trait tao_actions_RestTrait
 {
@@ -42,7 +48,7 @@ trait tao_actions_RestTrait
      * @var array
      * @deprecated since 4.3.0
      */
-    protected $acceptedMimeTypes = array("application/json", "text/xml", "application/xml", "application/rdf+xml");
+    protected $acceptedMimeTypes = ["application/json", "text/xml", "application/xml", "application/rdf+xml"];
 
     /**
      * @var NULL|string
@@ -93,17 +99,19 @@ trait tao_actions_RestTrait
      * @param $withMessage
      * @throws common_exception_NotImplemented
      */
-    protected function returnFailure(Exception $exception, $withMessage=true)
+    protected function returnFailure(Exception $exception, $withMessage = true)
     {
         $handler = new RestExceptionHandler();
         $handler->sendHeader($exception);
 
-        $data = array();
+        $this->logException($exception);
+
+        $data = [];
         if ($withMessage) {
-            $data['success']	=  false;
-            $data['errorCode']	=  $exception->getCode();
-            $data['errorMsg']	=  $this->getErrorMessage($exception);
-            $data['version']	= TAO_VERSION;
+            $data['success']    =  false;
+            $data['errorCode']  =  $exception->getCode();
+            $data['errorMsg']   =  $this->getErrorMessage($exception);
+            $data['version']    = TAO_VERSION;
         }
 
         echo $this->encode($data);
@@ -135,14 +143,16 @@ trait tao_actions_RestTrait
      *
      * @param array $rawData
      * @param bool $withMessage
+     * @deprecated use \oat\tao\model\http\HttpJsonResponseTrait::setSuccessJsonResponse, be mindful that this
+     * trait doesn't return the version attribute like the method bellow.
      * @throws common_exception_NotImplemented
      */
-    protected function returnSuccess($rawData = array(), $withMessage=true)
+    protected function returnSuccess($rawData = [], $withMessage = true)
     {
-        $data = array();
+        $data = [];
         if ($withMessage) {
             $data['success'] = true;
-            $data['data'] 	 = $rawData;
+            $data['data']    = $rawData;
             $data['version'] = TAO_VERSION;
         } else {
             $data = $rawData;
@@ -161,7 +171,7 @@ trait tao_actions_RestTrait
      */
     protected function encode($data)
     {
-        switch ($this->responseEncoding){
+        switch ($this->responseEncoding) {
             case "application/rdf+xml":
                 throw new common_exception_NotImplemented();
                 break;
@@ -185,6 +195,28 @@ trait tao_actions_RestTrait
         if (DEBUG_MODE) {
             $defaultMessage = $exception->getMessage();
         }
-        return ($exception instanceof common_exception_UserReadableException) ? $exception->getUserMessage() :  $defaultMessage;
+        return ($exception instanceof common_exception_UserReadableException) ? $exception->getUserMessage(
+        ) : $defaultMessage;
+    }
+
+    private function logException(Throwable $exception): void
+    {
+        $logger = $this->getAdvancedLogger();
+
+        if ($logger) {
+            $logger->error(
+                $exception->getMessage(),
+                [
+                    ContextExtenderInterface::CONTEXT_EXCEPTION => $exception
+                ]
+            );
+        }
+    }
+
+    private function getAdvancedLogger(): ?LoggerInterface
+    {
+        return $this instanceof Controller
+            ? $this->getPsrContainer()->get(AdvancedLogger::class)
+            : null;
     }
 }

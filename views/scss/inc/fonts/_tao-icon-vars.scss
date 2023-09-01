@@ -1,7 +1,7 @@
 /* Do not edit */@mixin tao-icon-setup {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'tao' !important;
-  speak: none;
+  speak: never;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -13,6 +13,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-back-button { content: "\e91e"; }
+@mixin icon-japan-incorrect { content: "\e91b"; }
+@mixin icon-japan-correct { content: "\e91c"; }
+@mixin icon-japan-partial { content: "\e91d"; }
+@mixin icon-score-partial { content: "\e91a"; }
+@mixin icon-furigana { content: "\e919"; }
+@mixin icon-add-subsection { content: "\e918"; }
+@mixin icon-info-bare { content: "\e923"; }
+@mixin icon-bookmark-outline { content: "\e922"; }
+@mixin icon-bookmark { content: "\e921"; }
+@mixin icon-indicator { content: "\e920"; }
+@mixin icon-wrap-inline { content: "\e915"; }
+@mixin icon-wrap-left { content: "\e916"; }
+@mixin icon-wrap-right { content: "\e917"; }
+@mixin icon-offline { content: "\e913"; }
+@mixin icon-online { content: "\e914"; }
 @mixin icon-tab { content: "\e90d"; }
 @mixin icon-untab { content: "\e90e"; }
 @mixin icon-multi-select { content: "\e90b"; }

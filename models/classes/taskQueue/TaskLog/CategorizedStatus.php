@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,17 +26,17 @@ use oat\tao\model\taskQueue\TaskLogInterface;
 
 class CategorizedStatus
 {
-    const STATUS_CREATED = 'created';
-    const STATUS_IN_PROGRESS = 'in_progress';
-    const STATUS_COMPLETED = 'completed';
-    const STATUS_FAILED = 'failed';
-    const STATUS_ARCHIVED = 'archived';
-    const STATUS_CANCELLED = 'cancelled';
+    public const STATUS_CREATED = 'created';
+    public const STATUS_IN_PROGRESS = 'in_progress';
+    public const STATUS_COMPLETED = 'completed';
+    public const STATUS_FAILED = 'failed';
+    public const STATUS_ARCHIVED = 'archived';
+    public const STATUS_CANCELLED = 'cancelled';
 
     /** @var  string */
     private $status;
 
-    public static $categorizeMapping = array(
+    public static $categorizeMapping = [
         self::STATUS_CREATED => [
             TaskLogInterface::STATUS_ENQUEUED
         ],
@@ -57,7 +58,7 @@ class CategorizedStatus
         self::STATUS_CANCELLED    => [
             TaskLogInterface::STATUS_CANCELLED,
         ],
-    );
+    ];
 
     /**
      * @param $status
@@ -169,7 +170,7 @@ class CategorizedStatus
      */
     public function isInProgress()
     {
-       return $this->equals(self::inProgress());
+        return $this->equals(self::inProgress());
     }
 
     /**
@@ -211,7 +212,7 @@ class CategorizedStatus
      */
     public function equals(CategorizedStatus $logStatus)
     {
-       return $this->status === $logStatus->status;
+        return $this->status === $logStatus->status;
     }
 
     /**

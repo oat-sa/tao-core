@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 use oat\tao\model\GenerisTreeFactory;
@@ -106,8 +110,8 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         if ($this->hasRequestParameter('classUri')) {
             $clazz = $this->getCurrentClass();
             if (!is_null($clazz)) {
-                $this->setVariables(array($this->getDataKind().'ClassUri' => $clazz->getUri()));
-                $message = $clazz->getLabel().' '.__('class selected');
+                $this->setVariables([$this->getDataKind() . 'ClassUri' => $clazz->getUri()]);
+                $message = $clazz->getLabel() . ' ' . __('class selected');
             }
         }
 
@@ -115,7 +119,7 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         if ($this->hasRequestParameter('uri')) {
             $instance = $this->getCurrentInstance();
             if (!is_null($instance)) {
-                $this->setVariables(array($this->getDataKind().'Uri' => $instance->getUri()));
+                $this->setVariables([$this->getDataKind() . 'Uri' => $instance->getUri()]);
                 $message = __('%s %s selected', $instance->getLabel(), $this->getDataKind());
             }
         }
@@ -139,15 +143,14 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         // @todo call the correct service
         $instance = $this->getClassService()->createInstance($clazz);
         if (!is_null($instance) && $instance instanceof core_kernel_classes_Resource) {
-
             //init variable service:
-            $this->setVariables(array($this->getDataKind().'Uri' => $instance->getUri()));
+            $this->setVariables([$this->getDataKind() . 'Uri' => $instance->getUri()]);
 
-            $params = array(
-                'uri'		=> tao_helpers_Uri::encode($instance->getUri()),
-                'classUri'	=> tao_helpers_Uri::encode($clazz->getUri()),
+            $params = [
+                'uri'       => tao_helpers_Uri::encode($instance->getUri()),
+                'classUri'  => tao_helpers_Uri::encode($clazz->getUri()),
                 'standalone' => $this->isStandAlone()
-            );
+            ];
             $this->redirect(_url('sasEditInstance', null, null, $params));
         }
     }
@@ -240,7 +243,7 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
         $limit = $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : 0;
         $offset = $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
 
-        $factory = new GenerisTreeFactory($showInstances, array($clazz->getUri()), $limit, $offset);
+        $factory = new GenerisTreeFactory($showInstances, [$clazz->getUri()], $limit, $offset);
         $tree = $factory->buildTree($clazz);
 
         $returnValue = $hideNode ? ($tree['children']) : $tree;
@@ -253,9 +256,11 @@ abstract class tao_actions_SaSModule extends tao_actions_RdfController
 
         $variableService = wfEngine_models_classes_VariableService::singleton();
 
-        $cleaned = array();
+        $cleaned = [];
         foreach ($variables as $key => $value) {
-            $cleaned[$key] = (is_object($value) && $value instanceof core_kernel_classes_Resource) ? $value->getUri() : $value;
+            $cleaned[$key] = (is_object($value) && $value instanceof core_kernel_classes_Resource)
+                ? $value->getUri()
+                : $value;
         }
         return $variableService->save($cleaned);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,7 +29,7 @@ namespace oat\tao\model\auth;
  */
 interface BasicAuth
 {
-    const CLASS_BASIC_AUTH = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthConsumer';
-    const PROPERTY_LOGIN = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthLogin';
-    const PROPERTY_PASSWORD = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthPassword';
+    public const CLASS_BASIC_AUTH = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthConsumer';
+    public const PROPERTY_LOGIN = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthLogin';
+    public const PROPERTY_PASSWORD = 'http://www.tao.lu/Ontologies/TAO.rdf#BasicAuthPassword';
 }

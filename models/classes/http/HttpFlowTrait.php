@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,6 +29,7 @@ use oat\tao\model\routing\ActionEnforcer;
 use oat\tao\model\routing\Resolver;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use oat\oatbox\extension\exception\ManifestNotFoundException;
 
 /**
  * Trait HttpFlowTrait
@@ -77,7 +79,7 @@ trait HttpFlowTrait
      * @throws \ResolverException
      * @throws \common_exception_InconsistentData
      * @throws \common_exception_InvalidArgumentType
-     * @throws \common_ext_ManifestNotFoundException
+     * @throws ManifestNotFoundException
      */
     public function forwardUrl($url)
     {
@@ -89,10 +91,10 @@ trait HttpFlowTrait
         }
 
         switch ($this->getPsrRequest()->getMethod()) {
-            case 'GET' :
+            case 'GET':
                 $params = $this->getPsrRequest()->getQueryParams();
                 break;
-            case 'POST' :
+            case 'POST':
                 $params = $this->getPsrRequest()->getParsedBody();
                 break;
             default:
@@ -132,7 +134,8 @@ trait HttpFlowTrait
             $request,
             $this->response->withHeader(
                 'X-Tao-Forward',
-                $resolver->getExtensionId() . '/' .  $resolver->getControllerShortName() . '/' . $resolver->getMethodName()
+                $resolver->getExtensionId() . '/' .  $resolver->getControllerShortName() . '/'
+                    . $resolver->getMethodName()
             )
         );
 
@@ -154,7 +157,7 @@ trait HttpFlowTrait
      * @throws \ActionEnforcingException
      * @throws \common_exception_Error
      */
-    public function forward($action, $controller = null, $extension = null, $params = array())
+    public function forward($action, $controller = null, $extension = null, $params = [])
     {
         //as we use a route resolver, it's easier to rebuild the URL to resolve it
         $this->forwardUrl(\tao_helpers_Uri::url($action, $controller, $extension, $params));

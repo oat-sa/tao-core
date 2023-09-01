@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,7 +25,6 @@ namespace oat\tao\scripts\tools\rdf;
 use common_report_Report as Report;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\extension\AbstractAction;
-
 
 /**
  * Counts all duplicates of the rdf properties
@@ -67,17 +67,18 @@ class RdfDuplicates extends AbstractAction
         $report = Report::createInfo('Duplication searching');
 
         $sql = 'SELECT COUNT(*) FROM statements s JOIN statements s1 ON s.subject=s1.subject AND s.id!=s1.id
-                  AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language AND s.modelid=s1.modelid';
+            AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language
+            AND s.modelid=s1.modelid';
         $stmt = $this->getPersistence()->query($sql);
         $total = $stmt->fetchAll()[0]['count'];
         if (!$total) {
             $report->add(Report::createSuccess('Duplicates not found. Everything is fine!'));
         } else {
-
             if (isset($params[0]) && $params[0] == '--fix') {
                 do {
-                    $sql = 'SELECT s.id AS source FROM statements s JOIN statements s1 ON s.subject=s1.subject AND s.id!=s1.id
-                      AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language AND s.modelid=s1.modelid LIMIT 1';
+                    $sql = 'SELECT s.id AS source FROM statements s JOIN statements s1 ON s.subject=s1.subject
+                        AND s.id!=s1.id AND s.predicate=s1.predicate AND s.object=s1.object
+                        AND s.l_language=s1.l_language AND s.modelid=s1.modelid LIMIT 1';
                     $stmt = $this->getPersistence()->query($sql);
                     $res = $stmt->fetchAll();
                     $id = 0;
@@ -85,8 +86,9 @@ class RdfDuplicates extends AbstractAction
                         $id = $res[0]['source'];
                     }
                     if ($id) {
-                        $sql = 'SELECT s1.id FROM statements s JOIN statements s1 ON s.subject=s1.subject AND s.id!=s1.id
-                            AND s.predicate=s1.predicate AND s.object=s1.object AND s.l_language=s1.l_language AND s.modelid=s1.modelid
+                        $sql = 'SELECT s1.id FROM statements s JOIN statements s1 ON s.subject=s1.subject
+                            AND s.id!=s1.id AND s.predicate=s1.predicate AND s.object=s1.object
+                            AND s.l_language=s1.l_language AND s.modelid=s1.modelid
                           WHERE s.id=?';
                         $stmt = $this->getPersistence()->query($sql, [$id]);
                         $duplicates = array_column($stmt->fetchAll(), 'id');
@@ -97,14 +99,13 @@ class RdfDuplicates extends AbstractAction
                             $fixed++;
                         }
                     }
-
                 } while ($id);
             }
 
             if (!$fixed) {
                 $report->add(Report::createInfo(sprintf('%s duplicates were found', $total)));
                 $report->add(Report::createInfo('Use --fix parameter to delete duplicates'));
-           } else {
+            } else {
                 $report->add(Report::createSuccess(sprintf('fixed %s, deleted %s', $total, $fixed)));
             }
         }

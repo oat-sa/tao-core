@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,8 +28,7 @@ namespace oat\tao\helpers\form\validators;
  */
 class CspHeaderValidator extends \tao_helpers_form_Validator
 {
-
-    const DIRECTIVES = [
+    public const DIRECTIVES = [
         'self',
         'none',
         '*'

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,7 +29,6 @@ namespace oat\tao\model\auth;
  */
 abstract class AbstractCredentials
 {
-
     /** @var array  */
     protected $properties;
 
@@ -44,21 +44,18 @@ abstract class AbstractCredentials
      */
     public function __construct($properties = [])
     {
-        $this->validate($properties);
         $this->properties = $properties;
+        $this->validate($properties);
     }
 
     /**
-     * @param $properties
      * @throws \common_exception_ValidationFailed
      */
-    protected function validate($properties)
+    protected function validate()
     {
-        $validatedProperties = array_keys($this->getProperties());
-        foreach ($properties as $key => $value) {
-            if (!in_array($key, $validatedProperties, false)) {
-                throw new \common_exception_ValidationFailed($key);
-            }
+        $extraProperties = array_diff_key($this->properties, $this->getProperties());
+        if ($extraProperties) {
+            throw new \common_exception_ValidationFailed(reset($extraProperties));
         }
     }
 }

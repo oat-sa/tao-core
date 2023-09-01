@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,11 +22,13 @@ namespace oat\tao\model\webhooks\configEntity;
 
 class Webhook implements WebhookInterface
 {
-    const ID = 'id';
-    const URL = 'url';
-    const HTTP_METHOD = 'httpMethod';
-    const AUTH = 'auth';
-    const RETRY_MAX = 'retryMax';
+    public const ID = 'id';
+    public const URL = 'url';
+    public const HTTP_METHOD = 'httpMethod';
+    public const AUTH = 'auth';
+    public const RETRY_MAX = 'retryMax';
+    public const RESPONSE_VALIDATION = 'responseValidation';
+    public const EXTRA_PAYLOAD = 'extraPayload';
 
     /**
      * @var string
@@ -52,20 +55,28 @@ class Webhook implements WebhookInterface
      */
     private $retryMax;
 
-    /**
-     * @param string $id
-     * @param string $url
-     * @param string $httpMethod
-     * @param int $retryMax
-     * @param WebhookAuth|null $auth
-     */
-    public function __construct($id, $url, $httpMethod, $retryMax, WebhookAuth $auth = null)
-    {
+    /** @var bool */
+    private $responseValidation;
+
+    /** @var array */
+    private $extraPayload;
+
+    public function __construct(
+        string $id,
+        string $url,
+        string $httpMethod,
+        int $retryMax,
+        WebhookAuth $auth = null,
+        bool $responseValidation = true,
+        array $extraPayload = []
+    ) {
         $this->id = $id;
         $this->url = $url;
         $this->httpMethod = $httpMethod;
         $this->auth = $auth;
         $this->retryMax = $retryMax;
+        $this->responseValidation = $responseValidation;
+        $this->extraPayload = $extraPayload;
     }
 
     /**
@@ -100,15 +111,22 @@ class Webhook implements WebhookInterface
         return $this->auth;
     }
 
+    public function getExtraPayload(): array
+    {
+        return $this->extraPayload;
+    }
+
     /**
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             self::ID => $this->getId(),
             self::URL => $this->getUrl(),
             self::HTTP_METHOD => $this->getHttpMethod(),
+            self::RETRY_MAX => $this->getMaxRetries(),
+            self::RESPONSE_VALIDATION => $this->getResponseValidationEnable(),
             self::AUTH => $this->getAuth() !== null
                 ? $this->getAuth()->toArray()
                 : null
@@ -121,5 +139,10 @@ class Webhook implements WebhookInterface
     public function getMaxRetries()
     {
         return $this->retryMax;
+    }
+
+    public function getResponseValidationEnable()
+    {
+        return $this->responseValidation;
     }
 }

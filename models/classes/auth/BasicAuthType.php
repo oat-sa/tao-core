@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,7 +19,9 @@
  *
  * @author Alexander Zagovorichev <olexander.zagovorychev@1pt.com>
  */
+
 namespace oat\tao\model\auth;
+
 use GuzzleHttp\Client;
 use oat\tao\helpers\Template;
 use Psr\Http\Message\RequestInterface;
@@ -110,11 +113,18 @@ class BasicAuthType extends AbstractAuthType implements BasicAuth
      */
     protected function getCredentials()
     {
+        $essentialKeys = [BasicAuthCredentials::LOGIN, BasicAuthCredentials::PASSWORD];
+        if (array_diff($essentialKeys, array_keys($this->credentials)) === []) {
+            return [
+                $this->credentials[BasicAuthCredentials::LOGIN],
+                $this->credentials[BasicAuthCredentials::PASSWORD]
+            ];
+        }
+
         $credentials = $this->loadCredentials();
         return [
             $credentials[self::PROPERTY_LOGIN],
             $credentials[self::PROPERTY_PASSWORD],
         ];
     }
-
 }

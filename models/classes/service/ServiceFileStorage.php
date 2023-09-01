@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,8 +23,8 @@ namespace oat\tao\model\service;
 
 interface ServiceFileStorage
 {
-    const SERVICE_ID = 'tao/ServiceFileStorage';
-    
+    public const SERVICE_ID = 'tao/ServiceFileStorage';
+
     /**
      * @param boolean $public
      * @return \tao_models_classes_service_StorageDirectory

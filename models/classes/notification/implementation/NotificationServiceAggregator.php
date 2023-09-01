@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,31 +21,48 @@
 
 namespace oat\tao\model\notification\implementation;
 
-
+use oat\generis\persistence\sql\SchemaCollection;
+use oat\generis\persistence\sql\SchemaProviderInterface;
+use oat\oatbox\service\exception\InvalidService;
+use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\tao\model\notification\AbstractNotificationService;
 use oat\tao\model\notification\exception\NotListedNotification;
-use oat\tao\model\notification\NotificationInterface;
+use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationServiceInterface;
 
-class NotificationServiceAggregator extends AbstractNotificationService
+/**
+ * Class NotificationServiceAggregator
+ *
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ */
+class NotificationServiceAggregator extends AbstractNotificationService implements SchemaProviderInterface
 {
+    public const OPTION_RDS_NOTIFICATION_SERVICE = 'rds';
 
-
-    public function getSubServices()  {
+    /**
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
+     */
+    public function getSubServices(): array
+    {
         $subServices = $this->getOptions();
-        $services    = [];
-        foreach ($subServices as $name => $subService ) {
-            $services[] = $this->getSubService($name , NotificationServiceInterface::class);
+        $services = [];
+        foreach ($subServices as $name => $subService) {
+            $services[] = $this->getSubService($name, NotificationServiceInterface::class);
         }
         return $services;
     }
 
-    public function sendNotification(NotificationInterface $notification)
+    /**
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
+     */
+    public function sendNotification(Notification $notification): Notification
     {
         $subServices = $this->getSubServices();
 
         /**
-         * @var NotificationServiceInterface  $service
+         * @var NotificationServiceInterface $service
          */
         foreach ($subServices as $service) {
             $service->sendNotification($notification);
@@ -53,34 +71,43 @@ class NotificationServiceAggregator extends AbstractNotificationService
         return $notification;
     }
 
-    public function getNotifications( $userId)
+    /**
+     * @return Notification[]
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
+     * @throws NotListedNotification
+     */
+    public function getNotifications(string $userId): array
     {
         $subServices = $this->getSubServices();
 
         /**
-         * @var NotificationServiceInterface  $service
+         * @var NotificationServiceInterface $service
          */
         foreach ($subServices as $service) {
-            if(($list = $service->getNotifications($userId)) !== false) {
+            if (($list = $service->getNotifications($userId)) !== false) {
                 return $list;
             }
         }
 
         throw new NotListedNotification();
-
-
     }
 
-    public function getNotification($id)
+    /**
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
+     * @throws NotListedNotification
+     */
+    public function getNotification(string $id): Notification
     {
 
         $subServices = $this->getSubServices();
 
         /**
-         * @var NotificationServiceInterface  $service
+         * @var NotificationServiceInterface $service
          */
         foreach ($subServices as $service) {
-            if(($notification = $service->getNotification($id)) !== false) {
+            if (($notification = $service->getNotification($id)) !== false) {
                 return $notification;
             }
         }
@@ -88,15 +115,20 @@ class NotificationServiceAggregator extends AbstractNotificationService
         throw new NotListedNotification();
     }
 
-    public function changeStatus(NotificationInterface $notification)
+    /**
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
+     * @throws NotListedNotification
+     */
+    public function changeStatus(Notification $notification): bool
     {
         $subServices = $this->getSubServices();
 
         /**
-         * @var NotificationServiceInterface  $service
+         * @var NotificationServiceInterface $service
          */
         foreach ($subServices as $service) {
-            if(($newNotification = $service->changeStatus($notification)) !== false) {
+            if (($newNotification = $service->changeStatus($notification)) !== false) {
                 return $newNotification;
             }
         }
@@ -104,15 +136,20 @@ class NotificationServiceAggregator extends AbstractNotificationService
         throw new NotListedNotification();
     }
 
-    public function notificationCount( $userId)
+    /**
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
+     * @throws NotListedNotification
+     */
+    public function notificationCount(string $userId): array
     {
         $subServices = $this->getSubServices();
 
         /**
-         * @var NotificationServiceInterface  $service
+         * @var NotificationServiceInterface $service
          */
         foreach ($subServices as $service) {
-            if(($newNotification = $service->notificationCount($userId)) !== false) {
+            if (($newNotification = $service->notificationCount($userId)) !== false) {
                 return $newNotification;
             }
         }
@@ -120,15 +157,19 @@ class NotificationServiceAggregator extends AbstractNotificationService
         throw new NotListedNotification();
     }
 
-    public function getVisibility()
+    /**
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
+     */
+    public function getVisibility(): bool
     {
         $subServices = $this->getSubServices();
 
         /**
-         * @var NotificationServiceInterface  $service
+         * @var NotificationServiceInterface $service
          */
         foreach ($subServices as $service) {
-            if($service->getVisibility()) {
+            if ($service->getVisibility()) {
                 return true;
             }
         }
@@ -136,4 +177,17 @@ class NotificationServiceAggregator extends AbstractNotificationService
         return false;
     }
 
+    /**
+     * @throws InvalidService
+     * @throws InvalidServiceManagerException
+     */
+    public function provideSchema(SchemaCollection $schemaCollection): void
+    {
+        $subServices = $this->getSubServices();
+        foreach ($subServices as $service) {
+            if ($service instanceof SchemaProviderInterface) {
+                $service->provideSchema($schemaCollection);
+            }
+        }
+    }
 }

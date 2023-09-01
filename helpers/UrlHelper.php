@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +30,8 @@ use tao_helpers_Uri;
  */
 class UrlHelper extends ConfigurableService
 {
-    public function buildUrl($action = null, $module = null, $extension = null, $params = array()){
+    public function buildUrl($action = null, $module = null, $extension = null, $params = [])
+    {
         return tao_helpers_Uri::url($action, $module, $extension, $params);
     }
 }

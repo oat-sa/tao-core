@@ -22,7 +22,7 @@
  *
  * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
  */
-define([
+ define([
     'module',
     'jquery',
     'lodash',
@@ -31,13 +31,14 @@ define([
     'context',
     'form/property',
     'form/post-render-props',
+    'form/depends-on-property',
     'util/encode',
     'ckeditor',
     'ui/ckeditor/ckConfigurator',
     'ui/datetime/picker',
-    'ui/dialog',
-    'tpl!form/tpl/list_tree_dialog',
-    'lib/jsTree/plugins/jquery.tree.contextmenu',
+    'ui/dialog/confirm',
+    'core/request',
+    'util/url',
 ], function (
     module,
     $,
@@ -47,12 +48,14 @@ define([
     context,
     property,
     postRenderProps,
+    dependsOn,
     encode,
     ckeditor,
     ckConfigurator,
     dateTimePicker,
-    dialog,
-    dialogTpl
+    confirmDialog,
+    request,
+    urlUtil,
 ) {
     'use strict';
 
@@ -77,32 +80,52 @@ define([
         init: function init() {
             var self = this;
 
+            $('body').off('change', 'input[value=notEmpty]').on('change', 'input[value=notEmpty]', function(event) {
+                let primaryPropertyUri = $(event.target).closest('[id^="property_"]').attr('id').replace('property_', '');
+                const secondaryProperties = $(`option[value=${primaryPropertyUri}][selected='selected']`).closest('[id^="property_"]');
+                let secondaryPropertiesCheckbox = secondaryProperties.find('[value=notEmpty]');
+
+                secondaryPropertiesCheckbox.each((i, notEmptyCheckbox) => {
+                    if (event.target.checked) {
+                        notEmptyCheckbox.disabled = false;
+                    } else {
+                        notEmptyCheckbox.disabled = true;
+                        notEmptyCheckbox.checked = false;
+                    }
+                })
+            });
+
             this.counter = 0;
             this.initGenerisFormPattern = new RegExp(['add', 'edit', 'mode', 'PropertiesAuthoring'].join('|'), 'i');
             this.initTranslationFormPattern = /translate/;
             this.htmlEditors = {};
 
             $(document).ajaxComplete(function (event, request, settings) {
-                var testedUrl;
-
                 //initialize regarding the requested action
                 //async request waiting for html or not defined
-                if (settings.dataType === 'html' || !settings.dataType) {
-                    if (settings.url.indexOf('?') !== -1) {
-                        testedUrl = settings.url.substr(0, settings.url.indexOf('?'));
-                    }
-                    else {
-                        testedUrl = settings.url;
-                    }
+                if (settings.dataType !== 'html' && settings.dataType) {
+                    return;
+                }
 
+                const testedUrl = settings.url.indexOf('?') === -1
+                    ? settings.url
+                    : settings.url.substr(0, settings.url.indexOf('?'));
+                const authoringRequestSuffix = 'authoring';
+
+                /**
+                 * Prevent manage-schema form initialization when the targeted url is related to authoring
+                 * associated action is "launchEditor"
+                */
+                if (testedUrl.indexOf(authoringRequestSuffix, testedUrl.length - authoringRequestSuffix.length) === -1) {
                     self.initRendering();
-                    self.initElements();
-                    if (self.initGenerisFormPattern.test(testedUrl)) {
-                        self.initOntoForms();
-                    }
-                    if (self.initTranslationFormPattern.test(testedUrl)) {
-                        self.initTranslationForm();
-                    }
+                }
+
+                self.initElements();
+                if (self.initGenerisFormPattern.test(testedUrl)) {
+                    self.initOntoForms();
+                }
+                if (self.initTranslationFormPattern.test(testedUrl)) {
+                    self.initTranslationForm();
                 }
             });
             this.initRendering();
@@ -173,6 +196,7 @@ define([
 
             $('.form-submitter').off('click').on('click', function (e) {
                 e.preventDefault();
+                $(this).addClass('current-submitter');
                 $(e.target).closest('.xhtml_form form').trigger('submit');
             });
 
@@ -328,6 +352,13 @@ define([
             //map the wysiwyg editor to the html-area fields
             $('.html-area').each(function () {
                 var propertyUri = this.id;
+
+                // destroy previously created editors
+                if (ckeditor.instances[propertyUri]) {
+                    ckeditor.instances[propertyUri].destroy(this);
+                    delete self.htmlEditors[propertyUri];
+                }
+
                 var editor = ckeditor.replace(this);
                 editor.config = ckConfigurator.getConfig(editor, 'htmlField', {resize_enabled : false });
                 self.htmlEditors[propertyUri] = editor;
@@ -441,16 +472,112 @@ define([
                 return false;
             });
 
+            function buildClassPropertiesAuthoringURL(action) {
+                const shownExtensions = context.shownExtension;
+
+                let extension = 'tao';
+                let controller = 'PropertiesAuthoring';
+
+                if (shownExtensions === 'taoItems') {
+                    extension = shownExtensions;
+                    controller = 'Items';
+                }
+
+                return helpers._url(action, controller, extension);
+            }
+
+            /**
+             * Validate if property has a dependency
+             */
+            async function checkForDependency(propertyUri, $groupNode) {
+                if (!context.featureFlags.FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED) {
+                    return [];
+                }
+
+                const typeSelectVal = $groupNode.find('select[id$="type"]').val();
+                const listSelectVal = $groupNode.find('select[id$="range"] option:selected').data('remote-list');
+
+                if (!dependsOn.getSupportedTypes().includes(typeSelectVal) || !listSelectVal) {
+                    return [];
+                }
+
+                try {
+                    const url = urlUtil.route('getDependentProperties', 'PropertyValues', 'tao', { propertyUri })
+                    const response = await request({ url, method: 'GET', dataType: 'json'})
+                    if (response.success && response.data) { return response.data; }
+                    else { throw response; }
+                } catch (err) {
+                    console.error(err);
+                    return null;
+                }
+            }
+
+            function regularConfirmantion() {
+                return window.confirm(__('Please confirm property deletion!'));
+            }
+
+            async function getPropertyRemovalConfirmation($groupNode, uri) {
+                const dependencies = await checkForDependency(uri, $groupNode);
+                const dependsOnValue = $($groupNode).find('select[id$="_depends-on-property"]').val() || ' ';
+
+                return new Promise((resolve, reject) => {
+                    if (!dependencies.length && dependsOnValue === ' ') {
+                        return regularConfirmantion() ? resolve() : reject();
+                    }
+
+                    const name = $groupNode.find('.property-heading-label')[0].innerText;
+                    let dependantPropName;
+
+                    if (!dependencies.length) {
+                        dependantPropName = $($groupNode).find('select[id$="_depends-on-property"] option:selected').text();
+                    } else {
+                        dependantPropName = dependencies.reduce((prev, next, index) => {
+                            const delimiter = index === dependencies.length - 1 ? '' : ', '
+                            return prev + `${next.label}${delimiter}`;
+                        }, '');
+                    }
+
+                    const message = `<b>${name}</b>
+                        ${__('currently has a dependency established with ')}
+                        <b>${dependantPropName}</b>.
+                        ${__('Deleting this property will also remove the dependency')}.
+                        <br><br> ${__('Are you sure you wish to delete it')}?`
+
+                    confirmDialog(
+                        message,
+                        resolve,
+                        reject,
+                        {
+                            buttons: {
+                                labels: {
+                                    ok:__('Delete'),
+                                    cancel: __('Cancel')
+                                }
+                            }
+                        }
+                    );
+                })
+            }
+
             /**
              * remove a form group, ie. a property
              */
-            function removePropertyGroup() {
-                if (window.confirm(__('Please confirm property deletion!'))) {
-                    var $groupNode = $(this).closest(".form-group");
-                    property.remove($(this).data("uri"), $("#id").val(), helpers._url('removeClassProperty', 'PropertiesAuthoring', 'tao'),function(){
+            async function removePropertyGroup() {
+                const $groupNode = $(this).closest(".form-group");
+
+                try {
+                    await getPropertyRemovalConfirmation($groupNode, $(this).data("uri"));
+                } catch (err) { return; }
+
+                property.remove(
+                    $(this).data("uri"),
+                    $("#id").val(),
+                    buildClassPropertiesAuthoringURL('removeClassProperty'),
+                    function() {
                         $groupNode.remove();
-                    });
-                }
+                        $("[id$='-class-schema']").click();
+                    }
+                );
             }
 
             //property delete button
@@ -459,7 +586,8 @@ define([
             //property add button
             $(".property-adder").off('click').on('click', function (e) {
                 e.preventDefault();
-                property.add($("#id").val(), helpers._url('addClassProperty', 'PropertiesAuthoring', 'tao'));
+
+                property.add($("#id").val(), buildClassPropertiesAuthoringURL('addClassProperty'));
             });
 
             $(".index-adder").off('click').on('click', function (e) {
@@ -543,287 +671,222 @@ define([
             /**
              * display or not the list regarding the property type
              */
-            function showPropertyList() {
+            function showPropertyList(e, isInit) {
                 var $this = $(this);
                 var $elt = $this.parent("div").next("div");
                 var propertiesTypes = ['list','tree'];
-
                 var re = new RegExp(propertiesTypes.join('$|').concat('$'));
+
                 if (re.test($this.val())) {
                     if ($elt.css('display') === 'none') {
                         $elt.show();
-                        $elt.find('select').removeAttr('disabled');
+                        const propertyListSelect = $elt.find('select');
 
+                        if (propertyListSelect.attr('data-disabled-message')) {
+                            propertyListSelect.after(
+                                `<div class="form_disabled_message">${propertyListSelect.attr('data-disabled-message')}</div>`
+                            );
+                        } else {
+                            propertyListSelect.removeAttr('disabled');
+                        }
                     }
                 }
+
                 else if ($elt.css('display') !== 'none') {
                     $elt.css('display', 'none');
                     $elt.find('select').prop('disabled', false);
-                    $elt.find('select option[value=" "]').prop('selected',true);
+                    $elt.find('select option[value=" "]').attr('selected', 'selected').trigger('change');
                 }
 
                 $.each(propertiesTypes, function (i, rangedPropertyName) {
                     var re = new RegExp(rangedPropertyName + '$');
                     if (re.test($this.val())) {
-                        $elt.find('select').html($elt.closest('.property-edit-container').find('.' + rangedPropertyName + '-template').html());
+                        const $propValuesSelect = $elt.find('select');
+                        const propValue = $propValuesSelect.val();
+                        $propValuesSelect.html($elt.closest('.property-edit-container').find('.' + rangedPropertyName + '-template').html());
+                        const $selectedInTemplate = $propValuesSelect.find('option[selected]');
+
+                        if (!propValue || !propValue.trim()) {
+                            if (!isInit && $selectedInTemplate.length) {
+                                $propValuesSelect.find('option[value=" "]').attr('selected', 'selected');
+                            }
+
+                            return true;
+                        }
+
+                        if ($(`option[value="${propValue}"]`, $propValuesSelect).length) {
+                            $propValuesSelect.val(propValue);
+                        }
+
                         return true;
                     }
                 });
             }
 
+
+            function clearPropertyListValues() {
+                $(this).parent("div").parent("div").children("ul.form-elt-list").remove();
+            }
+
             /**
-             * by selecting a list, the values are displayed or the list editor opens
+             * by selecting a list, the values are displayed
              */
             function showPropertyListValues() {
-                var $this = $(this);
-                var elt = $this.parent("div");
-                var rangeId;
-                var dialogData;
-                var classUri;
+                const $this = $(this);
+                const elt = $this.parent('div');
+                let classUri;
 
-                /**
-                 * Creates the jsTree list manager and attaches behaviours
-                 * @param {String} treeId
-                 * @returns {jQuery}
-                 */
-                function createListsTree(treeId) {
-                    var url = context.root_url + 'taoBackOffice/Lists/';
-                    var dataUrl = url + 'getListsData';
-                    var renameUrl = url + 'rename';
-                    var createUrl = url + 'create';
-                    var removeListUrl = url + 'removeList';
-                    var removeListEltUrl = url + 'removeListElement';
+                //load the instances and display them (the list items)
+                $(elt).parent('div').children('ul.form-elt-list').remove();
+                classUri = $this.val();
 
-                    return $(`#${treeId}`).tree({
+                if (classUri && classUri.trim()) {
+                    $this.parent('div').children('div.form-error').remove();
+
+                    $.ajax({
+                        url: context.root_url + 'taoBackOffice/Lists/getListElements',
+                        type: 'GET',
                         data: {
-                            type: "json",
-                            async: true,
-                            opts: {
-                                method: "POST",
-                                url: dataUrl
-                            }
+                            listUri: classUri,
                         },
-                        types: {
-                            "default": {
-                                renameable: true,
-                                deletable: true,
-                                creatable: true,
-                                draggable: false
-                            }
-                        },
-                        ui: {
-                            theme_name: "custom"
-                        },
-                        callback: {
-                            onrename: function (NODE, TREE_OBJ) {
-                                var data = {
-                                    uri: $(NODE).prop('id'),
-                                    newName: TREE_OBJ.get_text(NODE)
-                                };
-                                if ($(NODE).hasClass('node-instance')) {
-                                    data.classUri = $(TREE_OBJ.parent(NODE)).prop('id');
+                        success: function (response) {
+                            let html = '<ul class="form-elt-list">',
+                                property;
+
+                            for (property in response.data.elements) {
+                                if (!Object.prototype.hasOwnProperty.call(response.data.elements, property)) {
+                                    continue;
                                 }
 
-                                $.ajax({
-                                    url: renameUrl,
-                                    type: 'POST',
-                                    data: data,
-                                    dataType: 'json',
-                                    success: function(response){
-                                        if (!response.renamed) {
-                                            TREE_OBJ.rename(NODE, response.oldName);
-                                        }
-                                    }
-                                });
-
-                            },
-                            ondestroy: function (TREE_OBJ) {
-                                var $rangeElm = $("#" + rangeId);
-
-                                //empty and build again the list drop down on tree destroying
-                                $rangeElm.find('option').each(function () {
-                                    var $option = $(this);
-                                    if ($option.val() !== "" && $option.val() !== "new") {
-                                        $option.remove();
-                                    }
-                                });
-                                $("#" + treeId + " .node-root .node-class").each(function () {
-                                    $rangeElm.find("option[value='new']").before("<option value='" + $(this).prop('id') + "'>" + $(this).children("a:first").text() + "</option>");
-                                });
-                                $rangeElm.parent("div").children("ul.form-elt-list").remove();
-                                $rangeElm.val('');
+                                html += `<li>${encode.html(response.data.elements[property].label)}</li>`;
                             }
-                        },
-                        plugins: {
-                            //tree right click menu
-                            contextmenu: {
-                                items: {
 
-                                    //create a new list or a list item
-                                    create: {
-                                        label: __("Create"),
-                                        icon: context.taobase_www + "img/add.png",
-                                        visible: function (NODE, TREE_OBJ) {
-                                            if ($(NODE).hasClass('node-instance')) {
-                                                return false;
-                                            }
-                                            return TREE_OBJ.check("creatable", NODE);
-                                        },
-                                        action: function (NODE, TREE_OBJ) {
-                                            var cssClass;
-                                            if ($(NODE).hasClass('node-class')) {
-                                                cssClass = 'node-instance';
-                                                $.ajax({
-                                                    url: createUrl,
-                                                    type: "POST",
-                                                    data: {classUri: $(NODE).prop('id'), type: 'instance'},
-                                                    dataType: 'json',
-                                                    success: function (response) {
-                                                        if (response.uri) {
-                                                            TREE_OBJ.select_branch(TREE_OBJ.create({
-                                                                data: response.label,
-                                                                attributes: {
-                                                                    id: response.uri,
-                                                                    'class': cssClass
-                                                                }
-                                                            }, TREE_OBJ.get_node(NODE[0])));
-                                                        }
-                                                    }
-                                                });
-                                            }
-                                            if ($(NODE).hasClass('node-root')) {
-                                                //create list
-                                                $.ajax({
-                                                    url: createUrl,
-                                                    type: "POST",
-                                                    data: {classUri: 'root', type: 'class'},
-                                                    dataType: 'json',
-                                                    success: function (response) {
-                                                        if (response.uri) {
-                                                            TREE_OBJ.select_branch(
-                                                                TREE_OBJ.create({
-                                                                    data: response.label,
-                                                                    attributes: {
-                                                                        id: response.uri,
-                                                                        'class': 'node-class'
-                                                                    }
-                                                                }, TREE_OBJ.get_node(NODE[0])));
-                                                        }
-                                                    }
-                                                });
-                                            }
-                                            return false;
-                                        }
-                                    },
-
-                                    //rename a node
-                                    rename: {
-                                        label: __("Rename"),
-                                        icon: context.taobase_www + "img/rename.png",
-                                        visible: function (NODE, TREE_OBJ) {
-                                            if ($(NODE).hasClass('node-root')) {
-                                                return false;
-                                            }
-                                            return TREE_OBJ.check("renameable", NODE);
-                                        }
-                                    },
-
-                                    //remove a node
-                                    remove: {
-                                        label: __("Remove"),
-                                        icon: context.taobase_www + "img/delete.png",
-                                        visible: function (NODE, TREE_OBJ) {
-                                            if ($(NODE).hasClass('node-root')) {
-                                                return false;
-                                            }
-                                            return TREE_OBJ.check("deletable", NODE);
-                                        },
-                                        action: function (NODE, TREE_OBJ) {
-                                            var removeUrl;
-                                            if ($(NODE).hasClass('node-root')) {
-                                                return false;
-                                            }
-                                            if ($(NODE).hasClass('node-class')) {
-                                                removeUrl = removeListUrl;
-                                            }
-                                            if ($(NODE).hasClass('node-instance')) {
-                                                removeUrl = removeListEltUrl;
-                                            }
-                                            //remove list
-                                            $.ajax({
-                                                url: removeUrl,
-                                                type: "POST",
-                                                data: {uri: $(NODE).prop('id')},
-                                                dataType: 'json',
-                                                success: function (response) {
-                                                    if (response.deleted) {
-                                                        TREE_OBJ.remove(NODE);
-                                                    }
-                                                }
-                                            });
-                                            return false;
-                                        }
-                                    }
-                                }
+                            if (response.data.totalCount > response.data.elements.length) {
+                                html += `<li>...</li>`;
                             }
+
+                            html += '</ul>';
+                            $(elt).after(html);
                         }
                     });
                 }
+            }
 
-                if ($this.val() === 'new') {
-                    //Open the list editor: a tree in a dialog popup
-                    rangeId = $this.prop('id');
-                    dialogData = {
-                        dialogId: rangeId.replace('_range', '_dialog'),
-                        treeId: rangeId.replace('_range', '_tree'),
-                        hintLabel: __('Right click the tree to manage your lists')
-                    };
-
-                    dialog({
-                        heading: __('Manage data list'),
-                        content: dialogTpl(dialogData),
-                        width: 400,
-                        buttons: [{
-                            id: 'save',
-                            type: 'info',
-                            label: __('Save'),
-                            close: true
-                        }],
-                        autoRender: true,
-                        autoDestroy: true
-                    })
-                    .on('destroyed.modal', function() {
-                        $.tree.reference("#" + dialogData.treeId).destroy();
-                    });
-
-                    createListsTree(dialogData.treeId);
+            function showDependsOnProperty() {
+                if (!context.featureFlags.FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED) {
+                    return;
                 }
-                else {
-                    //load the instances and display them (the list items)
-                    $(elt).parent("div").children("ul.form-elt-list").remove();
-                    classUri = $this.val();
-                    if (classUri !== '' && classUri !== ' ') {
-                        $this.parent("div").children("div.form-error").remove();
-                        $.ajax({
-                            url: context.root_url + 'taoBackOffice/Lists/getListElements',
-                            type: "POST",
-                            data: {listUri: classUri},
-                            dataType: 'json',
-                            success: function (response) {
-                                var html = "<ul class='form-elt-list'>",
-                                    property;
-                                for (property in response) {
-                                    if(!response.hasOwnProperty(property)) {
-                                        continue;
-                                    }
-                                    html += '<li>' + encode.html(response[property]) + '</li>';
+
+                const $this = $(this);
+                const classUri = $(document.getElementById('classUri')).val();
+                let propertyUriToSend;
+                const listUri = $this.val();
+                const dependsId = $(this)[0].id.match(/\d+_/)[0];
+                const $dependsOnSelect = $(document.getElementById(`${dependsId}depends-on-property`));
+                const $typeSelect = $(document.getElementById(`${dependsId}type`));
+                const $listSelect = $(`#${dependsId}range option:selected`);
+
+                propertyUriToSend = $this.parent().parent().parent()[0].id;
+                propertyUriToSend = propertyUriToSend.replace('property_', '');
+
+                if (!$listSelect.data('remote-list')) {
+                    return;
+                }
+
+                $.ajax({
+                    url: context.root_url + 'tao/PropertyValues/getDependOnPropertyList',
+                    type: "GET",
+                    data: {
+                        class_uri: classUri,
+                        list_uri: listUri,
+                        property_uri: propertyUriToSend,
+                        type: $typeSelect.val()
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (
+                            response
+                            && response.data
+                            && response.data.length !== 0
+                            && dependsOn.getSupportedTypes().includes($typeSelect.val())
+                        ) {
+                            const backendValues = response.data.reduce(
+                                (accumulator, currentValue) => {
+                                    accumulator.push(currentValue.uriEncoded);
+                                    return accumulator;
+                                },
+                                []
+                            );
+                            const currentValues = Object
+                                .values($dependsOnSelect[0].options)
+                                .map(entry => entry.value)
+                                .filter(entry => entry !== ' ');
+                            let haveSameData = false;
+                            currentValues.map(entry => {
+                                if (!backendValues.includes(entry)) {
+                                    haveSameData = true;
                                 }
-                                html += '</ul>';
-                                $(elt).parent("div").append(html);
+                                return;
+                            });
+                            if ($dependsOnSelect[0].length <= 1 || haveSameData) {
+                                let html = `<option value=" "> --- ${__('none')} --- </option>`;
+                                for (const propertyData in response.data) {
+                                    html += `<option value="${response.data[propertyData].uri}">${response.data[propertyData].label}</option>`;
+                                }
+                                $dependsOnSelect.empty().append(html);
                             }
-                        });
+
+                            $dependsOnSelect.off('change');
+                            $dependsOnSelect.on('change', onDependsOnPropertyChange);
+                            dependsOn.toggle($dependsOnSelect, $dependsOnSelect.parent(), $this.closest('.property-edit-container'));
+                        } else {
+                            $dependsOnSelect.parent().hide();
+                        }
                     }
+                });
+            }
+
+            /**
+             * Filter the list of options available on the "depends on" select
+             * based on the properties that already have a dependency declared
+             */
+            function filterDependsOnProperty() {
+                const $changedProperty = $(this);
+                let primaryPropertyUri = $(this).closest('[id^="property_"]').attr('id').replace('property_', '');
+
+                $(`option[value=${primaryPropertyUri}]`).each((i, option) => {
+                    option.disabled = !!$changedProperty.val().trim();
+
+                    if (option.selected && option.disabled) {
+                        option.parentElement.value = ' ';
+                    }
+                });
+            }
+
+            function onTypeChange(e, flag) {
+                showPropertyList.bind(this)(e, flag === 'initial');
+
+                const fieldIndex = $(this)[0].id.match(/\d+_/)[0];
+                const rangeSelect = $(document.getElementById(`${fieldIndex}range`));
+
+                showDependsOnProperty.bind(rangeSelect)(e);
+            }
+
+            function onListValuesChange(e) {
+                clearPropertyListValues.bind(this)(e);
+                if (!$(this).val() || !$(this).val().trim()) {
+                    $(this).find('option[value=" "]').attr('selected', 'selected');
                 }
+                showPropertyListValues.bind(this)(e);
+                showDependsOnProperty.bind(this)(e);
+            }
+
+            /**
+             * On change of depends on property, the values are filtered
+             * @param {event} e
+             */
+            function onDependsOnPropertyChange(e) {
+                filterDependsOnProperty.bind(this)(e);
             }
 
             //bind functions to the drop down:
@@ -836,26 +899,11 @@ define([
             var $propertyType = $(".property-type"),
                 $propertyListValues = $(".property-listvalues");
 
-            $propertyType.on('change', showPropertyList).trigger('change');
+            $propertyType.on('change', onTypeChange).trigger('change', 'initial');
 
             //display the values of the selected list
             $propertyListValues.off('change');
-            $propertyListValues.on('change', showPropertyListValues).trigger('change');
-
-            //show the "green plus" button to manage the lists
-            $propertyListValues.each(function () {
-                var listControl;
-                var listField = $(this);
-                if (listField.parent().find('img').length === 0) {
-                    listControl = $("<img title='manage lists' class='manage-lists' style='cursor:pointer;' />");
-                    listControl.prop('src', context.taobase_www + "img/add.png");
-                    listControl.click(function () {
-                        listField.val('new');
-                        listField.change();
-                    });
-                    listControl.insertAfter(listField);
-                }
-            });
+            $propertyListValues.on('change', onListValuesChange).trigger('change');
 
             $propertyListValues.each(function () {
                 var elt = $(this).parent("div");
@@ -929,6 +977,24 @@ define([
                         });
 
                         serialize = typeof serialize !== 'undefined' ? serialize : myForm.serializeArray();
+
+                        $('.current-submitter', myForm).each(function () {
+                            $(this).removeClass('current-submitter');
+                            if (Array.isArray(serialize)) {
+                                serialize.push({name: this.name, value: this.value});
+                            } else {
+                                serialize[this.name] = this.value;
+                            }
+                        });
+
+                        $('[data-depends-on-property][disabled]', myForm).each(function () {
+                            if (Array.isArray(serialize)) {
+                                serialize.push({name: this.name, value: this.value});
+                            } else {
+                                serialize[this.name] = this.value;
+                            }
+                        });
+
                         $container.load(myForm.prop('action'), serialize);
                     }
                 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,26 +15,46 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- *               2013-2018 (update and modification) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
+ *               2013-2022 (update and modification) Open Assessment Technologies SA.
  */
 
-use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\user\User;
+use oat\oatbox\event\EventManager;
 use oat\generis\model\OntologyRdfs;
-use oat\oatbox\service\ServiceManager;
-use oat\tao\model\accessControl\data\DataAccessControl;
-use oat\tao\model\controller\SignedFormInstance;
 use oat\tao\model\lock\LockManager;
-use oat\tao\model\menu\ActionService;
 use oat\tao\model\menu\MenuService;
+use oat\tao\model\menu\ActionService;
+use oat\tao\model\resources\Command\ResourceTransferCommand;
+use oat\tao\model\resources\Contract\ResourceTransferInterface;
+use oat\tao\model\resources\Service\ResourceTransferProxy;
+use oat\tao\model\task\CopyClassTask;
+use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\search\tasks\IndexTrait;
+use oat\tao\model\event\ResourceMovedEvent;
 use oat\tao\model\resources\ResourceService;
 use oat\tao\model\security\SecurityException;
 use oat\tao\model\security\SignatureGenerator;
 use oat\tao\model\security\SignatureValidator;
+use oat\tao\model\taskQueue\TaskLogActionTrait;
+use oat\tao\model\controller\SignedFormInstance;
+use oat\tao\model\resources\Service\ClassDeleter;
+use oat\tao\model\accessControl\PermissionChecker;
 use tao_helpers_form_FormContainer as FormContainer;
+use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\generis\model\resource\Service\ResourceDeleter;
+use oat\tao\model\ClassProperty\RemoveClassPropertyService;
+use oat\tao\model\resources\Contract\ClassDeleterInterface;
+use oat\tao\model\ClassProperty\AddClassPropertyFormFactory;
+use oat\tao\model\resources\Exception\ClassDeletionException;
+use oat\generis\model\resource\Contract\ResourceDeleterInterface;
+use oat\tao\model\metadata\exception\InconsistencyConfigException;
+use oat\tao\model\resources\Exception\PartialClassDeletionException;
 
 /**
  * The TaoModule is an abstract controller,
@@ -42,12 +63,14 @@ use tao_helpers_form_FormContainer as FormContainer;
  *
  * @author CRP Henri Tudor - TAO Team - {@link http://www.tao.lu}
  * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
- * @package tao
-
+ *
+ * phpcs:disable Squiz.Classes.ValidClassName
  */
 abstract class tao_actions_RdfController extends tao_actions_CommonModule
 {
     use OntologyAwareTrait;
+    use TaskLogActionTrait;
+    use IndexTrait;
 
     /** @var SignatureValidator */
     protected $signatureValidator;
@@ -73,7 +96,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     protected function getClassService()
     {
         if (is_null($this->service)) {
-            throw new common_exception_Error('No service defined for '.get_called_class());
+            throw new common_exception_Error('No service defined for ' . get_called_class());
         }
         return $this->service;
     }
@@ -132,15 +155,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      *
      * @return boolean
      */
-    protected function isLocked($resource, $view = null){
+    protected function isLocked($resource, $view = null)
+    {
 
         $lock = LockManager::getImplementation()->getLockData($resource);
         if (!is_null($lock) && $lock->getOwnerId() != $this->getSession()->getUser()->getIdentifier()) {
             //if (LockManager::getImplementation()->isLocked($resource)) {
-            $params = array(
+            $params = [
                 'id' => $resource->getUri(),
                 'topclass-label' => $this->getRootClass()->getLabel()
-            );
+            ];
             if (!is_null($view)) {
                 $params['view'] = $view;
                 $params['ext'] = Context::getInstance()->getExtensionName();
@@ -158,20 +182,18 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     protected function getCurrentClass()
     {
         $classUri = tao_helpers_Uri::decode($this->getRequestParameter('classUri'));
-        if(is_null($classUri) || empty($classUri)){
-
+        if (is_null($classUri) || empty($classUri)) {
             $class = null;
             $resource = $this->getCurrentInstance();
-            foreach($resource->getTypes() as $type){
+            foreach ($resource->getTypes() as $type) {
                 $class = $type;
                 break;
             }
-            if(is_null($class)){
+            if (is_null($class)) {
                 throw new Exception("No valid class uri found");
             }
             $returnValue = $class;
-        }
-        else{
+        } else {
             if (!common_Utils::isUri($classUri)) {
                 throw new tao_models_classes_MissingRequestParameterException('classUri - expected to be valid URI');
             }
@@ -221,14 +243,18 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      *
      * @deprecated
      */
-    protected function editClass(core_kernel_classes_Class $class, core_kernel_classes_Resource $resource, core_kernel_classes_Class $topclass = null)
-    {
+    protected function editClass(
+        core_kernel_classes_Class $class,
+        core_kernel_classes_Resource $resource,
+        core_kernel_classes_Class $topclass = null
+    ) {
         return $this->getClassForm($class, $resource, $topclass);
     }
 
-    protected function getClassForm($class, $resource, $topclass  = null)
+    protected function getClassForm($class, $resource, $topclass = null)
     {
         $controller = new tao_actions_PropertiesAuthoring();
+        $controller->setServiceLocator($this->getServiceLocator());
         return $controller->getClassForm($class);
     }
 
@@ -250,7 +276,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      *
      * The possible request parameters are the following:
      *
-     * * uniqueNode: A URI indicating the returned hiearchy will be a single class, with a single children corresponding to the URI.
+     * * uniqueNode: A URI indicating the returned hierarchy will be a single class, with a single children
+     *               corresponding to the URI.
      * * browse:
      * * hideInstances:
      * * chunk:
@@ -304,11 +331,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
 
         if ($this->hasRequestParameter("selected")) {
-            $options['browse'] = array($this->getRequestParameter("selected"));
+            $options['browse'] = [$this->getRequestParameter("selected")];
         }
 
         if ($this->hasRequestParameter('hideInstances')) {
-            if((bool) $this->getRequestParameter('hideInstances')) {
+            if ((bool) $this->getRequestParameter('hideInstances')) {
                 $options['instances'] = false;
             }
         }
@@ -383,10 +410,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     private function computePermissions($actions, $user, $node)
     {
         if (isset($node['attributes']['data-uri'])) {
-            if($node['type'] == 'class'){
-                $params = array('classUri' => $node['attributes']['data-uri']);
+            if ($node['type'] == 'class') {
+                $params = ['classUri' => $node['attributes']['data-uri']];
             } else {
-                $params = array();
+                $params = [];
                 foreach ($node['attributes'] as $key => $value) {
                     if (substr($key, 0, strlen('data-')) == 'data-') {
                         $params[substr($key, strlen('data-'))] = $value;
@@ -398,7 +425,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $node['permissions'] = $this->getActionService()->computePermissions($actions, $user, $params);
         }
         if (isset($node['children'])) {
-            foreach($node['children'] as $index => $child){
+            foreach ($node['children'] as $index => $child) {
                 $node['children'][$index] = $this->computePermissions($actions, $user, $child);
             }
         }
@@ -411,28 +438,29 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     public function editClassLabel()
     {
         $class = $this->getCurrentClass();
+        $signature = $this->createFormSignature();
 
-        /** @var SignatureGenerator $signatureGenerator */
-        $signatureGenerator = ServiceManager::getServiceManager()->get(SignatureGenerator::class);
-
-        $signature = $signatureGenerator->generate(
-            tao_helpers_Uri::encode($this->getRequestParameter('classUri'))
-        );
+        $classUri = $class->getUri();
+        $hasWriteAccess = $this->hasWriteAccess($classUri) && $this->hasWriteAccessToAction(__FUNCTION__);
 
         $editClassLabelForm = new tao_actions_form_EditClassLabel(
             $class,
             $this->getRequestParameters(),
             $signature,
-            [FormContainer::CSRF_PROTECTION_OPTION => true]
+            [FormContainer::CSRF_PROTECTION_OPTION => true, FormContainer::IS_DISABLED => !$hasWriteAccess]
         );
 
         $myForm = $editClassLabelForm->getForm();
 
         if ($myForm->isSubmited() && $myForm->isValid()) {
-            $class->setLabel($myForm->getValue(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL)));
+            if ($hasWriteAccess) {
+                $class->setLabel($myForm->getValue(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL)));
+                $this->setData('message', __('%s Class saved', $class->getLabel()));
+            } else {
+                $this->setData('errorMessage', __('You do not have the required rights to edit this resource.'));
+            }
 
-            $this->setData('selectNode', tao_helpers_Uri::encode($class->getUri()));
-            $this->setData('message', __('%s Class saved', $class->getLabel()));
+            $this->setData('selectNode', tao_helpers_Uri::encode($classUri));
             $this->setData('reload', true);
         }
 
@@ -443,10 +471,12 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
     /**
      * Add an instance of the selected class
+     *
      * @requiresRight id WRITE
+     * @requiresRight classUri WRITE
      *
      * @throws SecurityException
-     * @throws \oat\tao\model\metadata\exception\InconsistencyConfigException
+     * @throws InconsistencyConfigException
      * @throws common_exception_BadRequest
      * @throws common_exception_Error
      */
@@ -493,12 +523,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     /**
      * Add a subclass to the currently selected class
      * @requiresRight id WRITE
+     * @requiresRight classUri WRITE
+     *
      * @throws Exception
      * @throws common_exception_BadRequest
      */
     public function addSubClass()
     {
-        if(!$this->isXmlHttpRequest()){
+        if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
 
@@ -541,7 +573,15 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
 
         $class = $this->getCurrentClass();
-        $formContainer = new tao_actions_form_CreateInstance([$class], [FormContainer::CSRF_PROTECTION_OPTION => true]);
+        $formContainer = new tao_actions_form_CreateInstance(
+            [$class],
+            [
+                 FormContainer::CSRF_PROTECTION_OPTION => true,
+                 FormContainer::ADDITIONAL_VALIDATORS => $this->getExtraValidationRules(),
+                 tao_actions_form_CreateInstance::EXCLUDED_PROPERTIES => $this->getExcludedProperties(),
+            ]
+        );
+
         $addInstanceForm = $formContainer->getForm();
 
         if ($addInstanceForm->isSubmited() && $addInstanceForm->isValid()) {
@@ -580,7 +620,15 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     {
         $class = $this->getCurrentClass();
         $instance = $this->getCurrentInstance();
-        $myFormContainer = new SignedFormInstance($class, $instance, [FormContainer::CSRF_PROTECTION_OPTION => true]);
+        $myFormContainer = new SignedFormInstance(
+            $class,
+            $instance,
+            [
+                FormContainer::CSRF_PROTECTION_OPTION => true,
+                FormContainer::ADDITIONAL_VALIDATORS => $this->getExtraValidationRules(),
+                tao_actions_form_Instance::EXCLUDED_PROPERTIES => $this->getExcludedProperties()
+            ]
+        );
 
         $myForm = $myFormContainer->getForm();
         if ($myForm->isSubmited() && $myForm->isValid()) {
@@ -676,34 +724,139 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $destinationClass = $this->getClass($this->getRequestParameter('destinationClassUri'));
 
             if ($this->hasWriteAccess($destinationClass->getUri())) {
-                $copy = $this->getClassService()->cloneInstance($instance, $destinationClass);
+                try {
+                    $result = $this->getResourceTransfer()->transfer(
+                        new ResourceTransferCommand(
+                            $instance->getUri(),
+                            $destinationClass->getUri(),
+                            $this->getRequestParameter('aclMode'),
+                            ResourceTransferCommand::TRANSFER_MODE_COPY
+                        )
+                    );
 
-                if(!is_null($copy)){
-                    return $this->returnJson([
-                        'success'  => true,
-                        'data' => [
-                            'label' => $copy->getLabel(),
-                            'uri'   => $copy->getUri()
+                    $copy = $this->getResource($result->getDestination());
+
+                    return $this->returnJson(
+                        [
+                            'success'  => true,
+                            'data' => [
+                                'label' => $copy->getLabel(),
+                                'uri'   => $copy->getUri(),
+                            ]
                         ]
-                    ]);
+                    );
+                } catch (Throwable $exception) {
+                    $this->logError(
+                        sprintf(
+                            'Error copying instance %s to %s: %s',
+                            $instance->getUri(),
+                            $destinationClass->getUri(),
+                            $exception->getMessage() . ' - ' . $exception->getTraceAsString()
+                        )
+                    );
+
+                    return $this->returnJson(
+                        [
+                            'success'  => false,
+                            'errorCode' => 204,
+                            'errorMessage' =>  __("Unable to copy the resource")
+                        ],
+                        204
+                    );
                 }
-                return $this->returnJson([
-                    'success'  => false,
-                    'errorCode' => 204,
-                    'errorMessage' =>  __("Unable to copy the resource")
-                ], 204);
             }
-            return $this->returnJson([
-                'success'  => false,
-                'errorCode' => 401,
-                'errorMessage' =>  __("Permission denied to write in the selected class")
-            ], 401);
+
+            return $this->returnJson(
+                [
+                    'success'  => false,
+                    'errorCode' => 401,
+                    'errorMessage' =>  __("Permission denied to write in the selected class")
+                ],
+                401
+            );
         }
-        return $this->returnJson([
-            'success' => false,
-            'errorCode' => 412,
-            'errorMessage' => __('Missing Parameters')
-        ], 412);
+
+        return $this->returnJson(
+            [
+                'success' => false,
+                'errorCode' => 412,
+                'errorMessage' => __('Missing Parameters')
+            ],
+            412
+        );
+    }
+
+    /**
+     * @requiresRight classUri READ
+     */
+    public function copyClass(): void
+    {
+        $parsedBody = $this->getPsrRequest()->getParsedBody();
+
+        if (empty($parsedBody['classUri']) || empty($parsedBody['uri'])) {
+            $this->returnJson(
+                [
+                    'success' => false,
+                    'errorCode' => 412,
+                    'errorMessage' => __('Missing Parameters'),
+                ],
+                412
+            );
+
+            return;
+        }
+
+        $this->validateInstanceRoot($parsedBody['uri']);
+        $this->signatureValidator->checkSignature($parsedBody['signature'] ?? null, $parsedBody['uri']);
+
+        $currentClass = $this->getClass($parsedBody['uri']);
+        $destinationClass = $this->getClass($parsedBody['classUri']);
+
+        if (!$this->hasWriteAccess($destinationClass->getUri())) {
+            $this->returnJson(
+                [
+                    'success' => false,
+                    'errorCode' => 401,
+                    'errorMessage' =>  __('Permission denied to write in the selected class'),
+                ],
+                401
+            );
+
+            return;
+        }
+
+        try {
+            $task = $this->getQueueDispatcher()->createTask(
+                new CopyClassTask(),
+                [
+                    CopyClassTask::PARAM_CLASS_URI => $currentClass->getUri(),
+                    CopyClassTask::PARAM_DESTINATION_CLASS_URI => $destinationClass->getUri(),
+                    CopyClassTask::PARAM_ACL_MODE => $parsedBody['aclMode'] ?? null,
+                ],
+                __(
+                    'Copying class "%s" to "%s"',
+                    $currentClass->getLabel(),
+                    $destinationClass->getLabel()
+                )
+            );
+
+            $this->returnTaskJson($task);
+        } catch (Throwable $exception) {
+            $this->logError(
+                sprintf(
+                    'Error copying class %s to %s: %s',
+                    $currentClass->getUri(),
+                    $destinationClass->getUri(),
+                    $exception->getMessage() . ' - ' . $exception->getTraceAsString()
+                )
+            );
+            $this->returnJson(
+                [
+                    'success' => false,
+                    'errorMessage' => __('Failed to copy class.'),
+                ]
+            );
+        }
     }
 
     /**
@@ -714,48 +867,86 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function moveInstance()
     {
-        $response = array();
-        if($this->hasRequestParameter('destinationClassUri') && $this->hasRequestParameter('uri')){
-
-            $id = $this->getRequestParameter('uri');
-            try {
-                $this->validateCsrf();
-            } catch (common_exception_Unauthorized $e) {
-                $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
-                return;
-            }
-
-            $this->validateInstanceRoot($id);
-
-            $this->signatureValidator->checkSignature($this->getRequestParameter('signature'), $id);
-
-            $instance = $this->getResource($id);
-            $types = $instance->getTypes();
-            $class = reset($types);
-            $destinationUri = tao_helpers_Uri::decode($this->getRequestParameter('destinationClassUri'));
-
-            if(!empty($destinationUri) && $destinationUri != $class->getUri()){
-                $destinationClass = $this->getClass($destinationUri);
-
-                $confirmed = $this->getRequestParameter('confirmed');
-                if(empty($confirmed) || $confirmed == 'false' || $confirmed ===  false){
-
-                    $diff = $this->getClassService()->getPropertyDiff($class, $destinationClass);
-                    if(count($diff) > 0){
-                        return $this->returnJson(array(
-                            'status'        => 'diff',
-                            'data'          => $diff
-                        ));
-                    }
-                }
-
-                $status = $this->getClassService()->changeClass($instance, $destinationClass);
-                $response = array('status'      => $status);
-            }
+        if (!$this->hasRequestParameter('destinationClassUri') || !$this->hasRequestParameter('uri')) {
+            return $this->returnJson([]);
         }
-        $this->returnJson($response);
-    }
 
+        try {
+            $this->validateCsrf();
+        } catch (common_exception_Unauthorized $e) {
+            $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+
+            return;
+        }
+
+        $id = $this->getRequestParameter('uri');
+        $this->validateInstanceRoot($id);
+
+        $this->signatureValidator->checkSignature($this->getRequestParameter('signature'), $id);
+
+        $instance = $this->getResource($id);
+        $types = $instance->getTypes();
+        $class = reset($types);
+        $destinationUri = tao_helpers_Uri::decode($this->getRequestParameter('destinationClassUri'));
+        $this->validateDestinationClass($destinationUri, $class->getUri());
+        $destinationClass = $this->getClass($destinationUri);
+        $confirmed = $this->getRequestParameter('confirmed');
+
+        try {
+            if (!filter_var($confirmed, FILTER_VALIDATE_BOOLEAN)) {
+                $diff = $this->getClassService()->getPropertyDiff($class, $destinationClass);
+
+                if (!empty($diff)) {
+                    return $this->returnJson(
+                        [
+                            'status' => 'diff',
+                            'data' => $diff,
+                        ]
+                    );
+                }
+            }
+
+            $result = $this->getResourceTransfer()->transfer(
+                new ResourceTransferCommand(
+                    $instance->getUri(),
+                    $destinationUri,
+                    $this->getRequestParameter('aclMode'),
+                    ResourceTransferCommand::TRANSFER_MODE_MOVE
+                )
+            );
+
+            return $this->returnJson(
+                [
+                    'status' => true,
+                    'data' => [
+                        $result->getDestination() => [
+                            'success' => true,
+                            'message' => sprintf(
+                                'Instance "%s" has been successfully moved to "%s"',
+                                $result->getDestination(),
+                                $destinationUri
+                            ),
+                        ],
+                    ],
+                ]
+            );
+        } catch (Throwable $exception) {
+            $this->logError(
+                sprintf(
+                    'Error moving instance %s to %s: %s',
+                    $instance->getUri(),
+                    $destinationClass->getUri(),
+                    $exception->getMessage() . ' - ' . $exception->getTraceAsString()
+                )
+            );
+
+            return $this->returnJson(
+                [
+                    'status' => false,
+                ]
+            );
+        }
+    }
 
     /**
      * Move a single resource to another class
@@ -774,25 +965,58 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             $data = $this->getRequestParameter('uri');
             $id = $data['id'];
+            $destinationClassUri = $this->getRequestParameter('destinationClassUri');
 
             try {
                 $this->validateCsrf();
             } catch (common_exception_Unauthorized $e) {
-                $this->response = $this->getPsrResponse()->withStatus(403, __('Unable to process your request'));
+                $this->response = $this->getPsrResponse()->withStatus(
+                    403,
+                    __('Unable to process your request')
+                );
+
                 return;
             }
 
             $this->validateUri($id);
             $this->validateInstanceRoot($id);
-
             $this->signatureValidator->checkSignature($data['signature'], $id);
-
-            $ids = [$id];
-
             $this->validateMoveRequest();
-            $response = $this->moveAllInstances($ids);
-            $this->returnJson($response);
-        } catch (\InvalidArgumentException $e) {
+
+            $result = $this->getResourceTransfer()->transfer(
+                new ResourceTransferCommand(
+                    $id,
+                    $destinationClassUri,
+                    $this->getRequestParameter('aclMode'),
+                    ResourceTransferCommand::TRANSFER_MODE_MOVE
+                )
+            );
+
+            return $this->returnJson(
+                [
+                    'success' => true,
+                    'data' => [
+                        $result->getDestination() => [
+                            'success' => true,
+                            'message' => sprintf(
+                                'Resource "%s" has been successfully moved to "%s"',
+                                $id,
+                                $destinationClassUri
+                            )
+                        ],
+                    ],
+                ]
+            );
+        } catch (InvalidArgumentException $exception) {
+            $this->logError(
+                sprintf(
+                    'Error moving instance %s to %s: %s',
+                    $id ?? '',
+                    $destinationClassUri ?? '',
+                    $exception->getMessage() . ' - ' . $exception->getTraceAsString()
+                )
+            );
+
             $this->returnJsonError($e->getMessage());
         }
     }
@@ -830,7 +1054,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             $response = $this->moveAllInstances($ids);
             $this->returnJson($response);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $this->returnJsonError($e->getMessage());
         }
     }
@@ -847,7 +1071,9 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $instance = $this->getCurrentInstance();
 
         $formContainer = new tao_actions_form_Translate(
-            $this->getCurrentClass(), $instance, [FormContainer::CSRF_PROTECTION_OPTION => true]
+            $this->getCurrentClass(),
+            $instance,
+            [FormContainer::CSRF_PROTECTION_OPTION => true]
         );
         $myForm = $formContainer->getForm();
 
@@ -914,17 +1140,18 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     public function getTranslatedData()
     {
-        if(!$this->isXmlHttpRequest()){
+        if (!$this->isXmlHttpRequest()) {
             throw new common_exception_BadRequest('wrong request mode');
         }
-        $data = array();
-        if($this->hasRequestParameter('lang')){
+        $data = [];
+        if ($this->hasRequestParameter('lang')) {
             $data = tao_helpers_Uri::encodeArray(
                 $this->getClassService()->getTranslatedProperties(
                     $this->getCurrentInstance(),
                     $this->getRequestParameter('lang')
                 ),
-                tao_helpers_Uri::ENCODE_ARRAY_KEYS);
+                tao_helpers_Uri::ENCODE_ARRAY_KEYS
+            );
         }
         $this->returnJson($data);
     }
@@ -935,6 +1162,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      *
      * @throws common_exception_BadRequest
      * @throws common_exception_MissingParameter
+     *
+     * @requiresRight id WRITE
      */
     public function delete()
     {
@@ -943,9 +1172,27 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         }
 
         if ($this->hasRequestParameter('uri')) {
-            return $this->forward('deleteResource', null, null, (array('id' => tao_helpers_Uri::decode($this->getRequestParameter('uri')))));
+            $this->forward(
+                'deleteResource',
+                null,
+                null,
+                (
+                    [
+                        'id' => tao_helpers_Uri::decode($this->getRequestParameter('uri'))
+                    ]
+                )
+            );
         } elseif ($this->hasRequestParameter('classUri')) {
-            return $this->forward('deleteClass', null, null, (array('id' => tao_helpers_Uri::decode($this->getRequestParameter('classUri')))));
+            $this->forward(
+                'deleteClass',
+                null,
+                null,
+                (
+                    [
+                        'id' => tao_helpers_Uri::decode($this->getRequestParameter('classUri'))
+                    ]
+                )
+            );
         } else {
             throw new common_exception_MissingParameter();
         }
@@ -982,11 +1229,20 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         );
 
         $resource = $this->getResource($this->getRequestParameter('id'));
-        $deleted = $this->getClassService()->deleteResource($resource);
+
+        try {
+            $this->getResourceDeleter()->delete($resource);
+            $deleted = true;
+            $message = __('Successfully deleted %s', $resource->getLabel());
+        } catch (ResourceDeletionException $exception) {
+            $deleted = false;
+            $message = $exception->getUserMessage();
+        }
+
         return $this->returnJson([
             'success' => $deleted,
-            'message' => __('Successfully deleted %s', $resource->getLabel()),
-            'deleted' => $deleted
+            'message' => $message,
+            'deleted' => $deleted,
         ]);
     }
 
@@ -1021,19 +1277,25 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         );
 
         $class = $this->getClass($id);
-        if ($this->getRootClass()->equals($class)) {
-            $success = false;
-            $msg = __('You cannot delete the root node');
-        } else {
-            $label = $class->getLabel();
-            $success = $this->getClassService()->deleteClass($class);
-            $msg = $success ? __('%s has been deleted', $label) : __('Unable to delete %s', $label);
+        $label = $class->getLabel();
+        $classDeleter = $this->getClassDeleter();
+
+        try {
+            $classDeleter->delete($class);
+            $success = true;
+            $deleted = true;
+            $message = __('%s has been deleted', $label);
+        } catch (PartialClassDeletionException | ClassDeletionException $exception) {
+            $success = $exception instanceof PartialClassDeletionException;
+            $deleted = false;
+
+            $message = $exception->getUserMessage();
         }
 
         $this->returnJson([
             'success' => $success,
-            'message' => $msg,
-            'deleted' => $success
+            'message' => $message,
+            'deleted' => $deleted,
         ]);
     }
 
@@ -1080,7 +1342,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                 if ($this->hasWriteAccess($id)) {
                     $resource = new \core_kernel_classes_Resource($id);
                     if ($resource->isClass()) {
-                        $class = new \core_kernel_classes_Class($id);
+                        $class = new core_kernel_classes_Class($id);
                         $deletedResourceLabel = $class->getLabel();
                         $deleted = $this->getClassService()->deleteClass($class);
                     } else {
@@ -1101,6 +1363,47 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     }
 
     /**
+     * Copy of \tao_actions_PropertiesAuthoring::addClassProperty to split access between extensions
+     *
+     * @requiresRight id WRITE
+     */
+    public function addClassProperty(AddClassPropertyFormFactory $addClassPropertyFormFactory): void
+    {
+        if (!$this->isXmlHttpRequest()) {
+            throw new common_exception_BadRequest('wrong request mode');
+        }
+
+        $myForm = $addClassPropertyFormFactory->add(
+            $this->getPsrRequest(),
+            $this->hasWriteAccessToAction(__FUNCTION__)
+        );
+
+        $this->setData('data', $myForm->renderElements());
+        $this->setView('blank.tpl', 'tao');
+    }
+
+    /**
+     * Copy of \tao_actions_PropertiesAuthoring::removeClassProperty to split access between extensions
+     *
+     * @requiresRight classUri WRITE
+     * @throws common_Exception
+     */
+    public function removeClassProperty(RemoveClassPropertyService $removeClassPropertyService): void
+    {
+        if (!$this->isXmlHttpRequest()) {
+            throw new common_exception_BadRequest('wrong request mode');
+        }
+
+        $success = $removeClassPropertyService->remove($this->getPsrRequest());
+
+        if ($success) {
+            $this->returnJson(['success' => true]);
+        } else {
+            $this->returnError(__('Unable to remove the property.'));
+        }
+    }
+
+    /**
      * Test whenever the current user has "WRITE" access to the specified id
      *
      * @param string $resourceId
@@ -1108,8 +1411,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      */
     protected function hasWriteAccess($resourceId)
     {
-        $user = $this->getSession()->getUser();
-        return (new DataAccessControl())->hasPrivileges($user, array($resourceId => 'WRITE'));
+        /** @var PermissionChecker $permissionChecker */
+        $permissionChecker = $this->getServiceLocator()->get(PermissionChecker::class);
+
+        return $permissionChecker->hasWriteAccess($resourceId);
     }
 
     /**
@@ -1129,7 +1434,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             throw new InvalidArgumentException('Destination class must be specified');
         }
 
-        $destinationClass = new \core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
+        $destinationClass = new core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
         if (!$destinationClass->isClass()) {
             throw new InvalidArgumentException('Destination class must be a valid class');
         }
@@ -1160,13 +1465,18 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             throw new InvalidArgumentException(sprintf('Root class "%s" cannot be moved', $rootClass->getUri()));
         }
 
-        $destinationClass = new \core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
+        $destinationClass = new core_kernel_classes_Class($this->getRequestParameter('destinationClassUri'));
 
         if (!$destinationClass->isSubClassOf($rootClass) && $destinationClass->getUri() != $rootClass->getUri()) {
-            throw new InvalidArgumentException(sprintf('Instance "%s" cannot be moved to another root class', $destinationClass->getUri()));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Instance "%s" cannot be moved to another root class',
+                    $destinationClass->getUri()
+                )
+            );
         }
 
-        list($statuses, $instances, $classes) = $this->getInstancesList($ids);
+        [$statuses, $instances, $classes] = $this->getInstancesList($ids);
         $movableInstances = $this->getInstancesToMove($classes, $instances, $statuses);
 
         $statuses = $this->move($destinationClass, $movableInstances, $statuses);
@@ -1231,7 +1541,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                     if ($class->getUri() != $instance->getUri() && $instance->isSubClassOf($class)) {
                         $statuses[$instance->getUri()] = [
                             'success' => false,
-                            'message' => sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri()),
+                            'message' => sprintf(
+                                'Instance "%s" cannot be moved to class to move "%s"',
+                                $instance->getUri(),
+                                $class->getUri()
+                            ),
                         ];
                         $isValid = false;
                         break;
@@ -1241,7 +1555,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                     if ($instance->isInstanceOf($class)) {
                         $statuses[$instance->getUri()] = [
                             'success' => false,
-                            'message' => sprintf('Instance "%s" cannot be moved to class to move "%s"', $instance->getUri(), $class->getUri()),
+                            'message' => sprintf(
+                                'Instance "%s" cannot be moved to class to move "%s"',
+                                $instance->getUri(),
+                                $class->getUri()
+                            ),
                         ];
                         $isValid = false;
                         break;
@@ -1265,8 +1583,11 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      *
      * @return array $statuses updated list of statuses
      */
-    private function move(\core_kernel_classes_Class $destinationClass, array $movableInstances = [], array $statuses = [])
-    {
+    private function move(
+        core_kernel_classes_Class $destinationClass,
+        array $movableInstances = [],
+        array $statuses = []
+    ) {
         /** @var core_kernel_classes_Resource $movableInstance */
         foreach ($movableInstances as $movableInstance) {
             $statuses[$movableInstance->getUri()] = [
@@ -1274,10 +1595,17 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             ];
             if ($success === true) {
                 $statuses[$movableInstance->getUri()]['message'] = sprintf(
-                    'Instance "%s" has been successfully moved to "%s"', $movableInstance->getUri(), $destinationClass->getUri()
+                    'Instance "%s" has been successfully moved to "%s"',
+                    $movableInstance->getUri(),
+                    $destinationClass->getUri()
                 );
+
+                $this->getEventManager()->trigger(new ResourceMovedEvent($movableInstance, $destinationClass));
             } else {
-                $statuses[$movableInstance->getUri()]['message'] = sprintf('An error has occurred while persisting instance "%s"', $movableInstance->getUri());
+                $statuses[$movableInstance->getUri()]['message'] = sprintf(
+                    'An error has occurred while persisting instance "%s"',
+                    $movableInstance->getUri()
+                );
             }
         }
 
@@ -1300,6 +1628,16 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         $this->returnJson($response, 406);
     }
 
+    protected function getExtraValidationRules(): array
+    {
+        return [];
+    }
+
+    protected function getExcludedProperties(): array
+    {
+        return [];
+    }
+
     /**
      * @return ActionService
      */
@@ -1315,5 +1653,62 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     protected function getResourceService()
     {
         return $this->getServiceLocator()->get(ResourceService::SERVICE_ID);
+    }
+
+    /**
+     * @return SignatureGenerator
+     */
+    private function getSignatureGenerator()
+    {
+        return $this->getServiceLocator()->get(SignatureGenerator::SERVICE_ID);
+    }
+
+    /**
+     * @return string
+     *
+     * @throws InconsistencyConfigException
+     */
+    private function createFormSignature()
+    {
+        return $this->getSignatureGenerator()->generate(
+            tao_helpers_Uri::encode($this->getRequestParameter('classUri'))
+        );
+    }
+
+    /**
+     * @param $destinationUri
+     * @param $currentClassUri
+     */
+    private function validateDestinationClass($destinationUri, $currentClassUri)
+    {
+        $destinationClass = $this->getClass($destinationUri);
+        if (empty($destinationUri) || $destinationUri === $currentClassUri || !$destinationClass->exists()) {
+            throw new InvalidArgumentException('Wrong destination class uri');
+        }
+    }
+
+    private function getEventManager(): EventManager
+    {
+        return $this->getServiceLocator()->get(EventManager::SERVICE_ID);
+    }
+
+    private function getClassDeleter(): ClassDeleterInterface
+    {
+        return $this->getPsrContainer()->get(ClassDeleter::class);
+    }
+
+    private function getResourceDeleter(): ResourceDeleterInterface
+    {
+        return $this->getPsrContainer()->get(ResourceDeleter::class);
+    }
+
+    private function getQueueDispatcher(): QueueDispatcherInterface
+    {
+        return $this->getPsrContainer()->get(QueueDispatcherInterface::SERVICE_ID);
+    }
+
+    private function getResourceTransfer(): ResourceTransferInterface
+    {
+        return $this->getPsrContainer()->get(ResourceTransferProxy::class);
     }
 }

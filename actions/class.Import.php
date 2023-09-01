@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,9 +15,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg (under the project TAO & TAO2);
- *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2002-2008 (original work) Public Research Centre Henri Tudor & University of Luxembourg
+ *                         (under the project TAO & TAO2);
+ *               2008-2010 (update and modification) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *               2013-2018 (update and modification) Open Assessment Technologies SA;
  */
 
@@ -37,13 +41,13 @@ use oat\generis\model\OntologyAwareTrait;
  */
 class tao_actions_Import extends tao_actions_CommonModule
 {
+    use TaskLogActionTrait;
+    use OntologyAwareTrait;
+
     /**
      * @var tao_models_classes_import_ImportHandler[]
      */
     private $availableHandlers = [];
-
-    use TaskLogActionTrait;
-    use OntologyAwareTrait;
 
     /**
      * @return EventManager
@@ -57,6 +61,7 @@ class tao_actions_Import extends tao_actions_CommonModule
      * initialize the classUri and execute the upload action
      *
      * @requiresRight id WRITE
+     * @requiresRight classUri WRITE
      */
     public function index()
     {
@@ -71,19 +76,15 @@ class tao_actions_Import extends tao_actions_CommonModule
         );
         $importForm = $formContainer->getForm();
 
-        if ($importForm->isSubmited() && $importForm->isValid()) {
+        if ($importForm->isSubmited()) {
             /** @var QueueDispatcher $queueDispatcher */
             $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcher::SERVICE_ID);
 
             $task = $queueDispatcher->createTask(
-                new ImportByHandler(),
-                [
-                    ImportByHandler::PARAM_IMPORT_HANDLER => get_class($importer),
-                    ImportByHandler::PARAM_FORM_VALUES => $importer instanceof TaskParameterProviderInterface ? $importer->getTaskParameters($importForm) : [],
-                    ImportByHandler::PARAM_PARENT_CLASS => $this->getCurrentClass()->getUri(),
-                    ImportByHandler::PARAM_OWNER => \common_session_SessionManager::getSession()->getUser()->getIdentifier(),
-                ],
-                __('Import a %s into "%s"', $importer->getLabel(), $this->getCurrentClass()->getLabel()));
+                $this->getImportByHandler(),
+                $this->createTaskData($importer, $importForm),
+                __('Import a %s into "%s"', $importer->getLabel(), $this->getCurrentClass()->getLabel())
+            );
 
             return $this->returnTaskJson($task);
         }
@@ -94,8 +95,13 @@ class tao_actions_Import extends tao_actions_CommonModule
         $this->setData('import_action', $context->getActionName());
 
         $this->setData('myForm', $importForm->render());
-        $this->setData('formTitle', __('Import '));
+        $this->setData('formTitle', $this->getFormTitle());
         $this->setView('form/import.tpl', 'tao');
+    }
+
+    protected function getFormTitle(): string
+    {
+        return __('Import');
     }
 
     /**
@@ -140,6 +146,11 @@ class tao_actions_Import extends tao_actions_CommonModule
         return $this->availableHandlers;
     }
 
+    protected function getImportByHandler(): ImportByHandler
+    {
+        return new ImportByHandler();
+    }
+
     /**
      * Helper to get the selected class, needs to be passed as hidden field in the form
      */
@@ -151,5 +162,39 @@ class tao_actions_Import extends tao_actions_CommonModule
     protected function getValidators()
     {
         return [];
+    }
+
+    protected function getImportHandlerServiceIdMap(): array
+    {
+        return [];
+    }
+
+    private function createTaskData($importer, $importForm): array
+    {
+        $data = [
+            ImportByHandler::PARAM_PARENT_CLASS => $this->getCurrentClass()->getUri(),
+            ImportByHandler::PARAM_OWNER => common_session_SessionManager::getSession()->getUser()->getIdentifier(),
+            ImportByHandler::PARAM_FORM_VALUES => $this->getTaskParams($importer, $importForm),
+        ];
+
+        $map = $this->getImportHandlerServiceIdMap();
+        $importerClass = get_class($importer);
+
+        if (isset($map[$importerClass])) {
+            $data[ImportByHandler::PARAM_IMPORT_HANDLER_SERVICE_ID] = $map[$importerClass];
+
+            return $data;
+        }
+
+        $data[ImportByHandler::PARAM_IMPORT_HANDLER] = $importerClass;
+
+        return $data;
+    }
+
+    private function getTaskParams($importer, $importForm): array
+    {
+        return $importer instanceof TaskParameterProviderInterface
+            ? $importer->getTaskParameters($importForm)
+            : [];
     }
 }

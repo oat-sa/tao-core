@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,12 +36,17 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implements tao_models_classes_import_ImportHandler, ServiceLocatorAwareInterface, TaskParameterProviderInterface
+class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implements
+    tao_models_classes_import_ImportHandler,
+    ServiceLocatorAwareInterface,
+    TaskParameterProviderInterface
 {
     use EventManagerAwareTrait;
-    use ImportHandlerHelperTrait { getTaskParameters as getDefaultTaskParameters; }
+    use ImportHandlerHelperTrait {
+        getTaskParameters as getDefaultTaskParameters;
+    }
 
-    const OPTION_POSTFIX = '_O';
+    public const OPTION_POSTFIX = '_O';
 
     /**
      * (non-PHPdoc)
@@ -98,38 +104,44 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
         $uploadService = $this->getServiceManager()->get(UploadService::SERVICE_ID);
         $file = $uploadService->getUploadedFlyFile($serial);
 
-        $properties = array(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL) => __('Label'));
-		$rangedProperties = array();
+        $properties = [tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL) => __('Label')];
+        $rangedProperties = [];
 
-		$classUri = \tao_helpers_Uri::decode($_POST['classUri']);
-		$class = new core_kernel_classes_Class($classUri);
-		$classProperties = $this->getClassProperties($class);
+        $classUri = \tao_helpers_Uri::decode($_POST['classUri']);
+        $class = new core_kernel_classes_Class($classUri);
+        $classProperties = $this->getClassProperties($class);
 
-		foreach($classProperties as $property){
-			if(!in_array($property->getUri(), $this->getExludedProperties())){
-				//@todo manage the properties with range
-				$range = $property->getRange();
-				$properties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
+        foreach ($classProperties as $property) {
+            if (!in_array($property->getUri(), $this->getExludedProperties())) {
+                //@todo manage the properties with range
+                $range = $property->getRange();
+                $properties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
 
-				if($range instanceof core_kernel_classes_Resource && $range->getUri() != OntologyRdfs::RDFS_LITERAL){
-					$rangedProperties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
-				}
-			}
-		}
+                if ($range instanceof core_kernel_classes_Resource && $range->getUri() != OntologyRdfs::RDFS_LITERAL) {
+                    $rangedProperties[tao_helpers_Uri::encode($property->getUri())] = $property->getLabel();
+                }
+            }
+        }
 
         //load the csv data from the file (uploaded in the upload form) to get the columns
         $csv_data = new tao_helpers_data_CsvFile($sourceForm->getValues());
         $csv_data->load($file);
 
         $values = $sourceForm->getValues();
-        $values[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES] = !empty($values[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]);
+        $values[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES] = !empty(
+            $values[tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES]
+        );
         $values['importFile'] = $serial;
-        $myFormContainer = new tao_models_classes_import_CSVMappingForm($values, array(
+        $myFormContainer = new tao_models_classes_import_CSVMappingForm($values, [
             'class_properties' => $properties,
             'ranged_properties' => $rangedProperties,
-            'csv_column' => $this->getColumnMapping($csv_data, $sourceForm->getValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES)),
-            tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES => $sourceForm->getValue(tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES),
-        ));
+            'csv_column' => $this->getColumnMapping($csv_data, $sourceForm->getValue(
+                tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES
+            )),
+            tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES => $sourceForm->getValue(
+                tao_helpers_data_CsvFile::FIRST_ROW_COLUMN_NAMES
+            ),
+        ]);
 
         return $myFormContainer;
     }
@@ -157,8 +169,10 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
         // semantics are the same.
 
         // for backward compatibility
-        $map = $form instanceof \tao_helpers_form_Form ? $form->getValues('property_mapping') : $form['property_mapping'];
-        $newMap = array();
+        $map = $form instanceof \tao_helpers_form_Form
+            ? $form->getValues('property_mapping')
+            : $form['property_mapping'];
+        $newMap = [];
 
         foreach ($map as $k => $m) {
             if ($m !== 'csv_select') {
@@ -171,10 +185,12 @@ class tao_models_classes_import_CsvImporter extends CsvAbstractImporter implemen
         }
         $options['map'] = $newMap;
 
-        $staticMap = array();
+        $staticMap = [];
 
         // for backward compatibility
-        $rangedProperties = $form instanceof \tao_helpers_form_Form ? $form->getValues('ranged_property') : $form['ranged_property'];
+        $rangedProperties = $form instanceof \tao_helpers_form_Form
+            ? $form->getValues('ranged_property')
+            : $form['ranged_property'];
 
         foreach ($rangedProperties as $propUri => $value) {
             if (strpos($propUri, tao_models_classes_import_CSVMappingForm::DEFAULT_VALUES_SUFFIX) !== false) {

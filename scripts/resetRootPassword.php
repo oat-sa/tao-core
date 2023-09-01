@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
 * modify it under the terms of the GNU General Public License
@@ -22,16 +23,19 @@
 use oat\generis\model\GenerisRdf;
 use oat\tao\model\TaoOntology;
 
-require_once dirname(__FILE__) .'/../includes/raw_start.php';
+require_once dirname(__FILE__) . '/../includes/raw_start.php';
 
-$user = new core_kernel_classes_Resource(LOCAL_NAMESPACE.TaoOntology::DEFAULT_USER_URI_SUFFIX);
+$user = new core_kernel_classes_Resource(LOCAL_NAMESPACE . TaoOntology::DEFAULT_USER_URI_SUFFIX);
 $login = $user->getUniquePropertyValue(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_LOGIN));
 
-$password = readline("Enter new password for user '".$login."': ");
+$password = readline("Enter new password for user '" . $login . "': ");
 
 $success = false;
 if (!empty($password)) {
     $hash = core_kernel_users_Service::getPasswordHash();
-    $success = $user->editPropertyValues(new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_PASSWORD), $hash->encrypt($password));
+    $success = $user->editPropertyValues(
+        new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_PASSWORD),
+        $hash->encrypt($password)
+    );
 }
 die($success ? 0 : 1);

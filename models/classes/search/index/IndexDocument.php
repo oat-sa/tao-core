@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,7 +17,12 @@
  *
  * Copyright (c) 2018 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
+
 namespace oat\tao\model\search\index;
+
+use Iterator;
 
 /**
  * Class IndexDocument
@@ -33,18 +39,28 @@ class IndexDocument
     /** @var array */
     protected $indexesProperties;
 
+    /** @var Iterator|null */
+    private $dynamicProperties;
+
+    /** @var Iterator|null */
+    private $accessProperties;
+
     /**
      * IndexDocument constructor.
      * @param string $id
      * @param array $body
      * @param array $indexesProperties
+     * @param Iterator|null $dynamicProperties
+     * @param Iterator|null $accessProperties
      * @throws \common_Exception
      */
     public function __construct(
-        $id,
-        $body,
-        $indexesProperties = []
-    ){
+        string $id,
+        array $body,
+        array $indexesProperties = [],
+        Iterator $dynamicProperties = null,
+        Iterator $accessProperties = null
+    ) {
         $this->id = $id;
 
         if (!isset($body['type'])) {
@@ -52,13 +68,12 @@ class IndexDocument
         }
         $this->body = $body;
         $this->indexesProperties = $indexesProperties;
-
+        $this->dynamicProperties = $dynamicProperties;
+        $this->accessProperties = $accessProperties;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+
+    public function getId(): string
     {
         return $this->id;
     }
@@ -71,7 +86,7 @@ class IndexDocument
      * $body[$field'] = $value;
      * @return array
      */
-    public function getBody()
+    public function getBody(): array
     {
         return $this->body;
     }
@@ -81,9 +96,18 @@ class IndexDocument
      *
      * @return array
      */
-    public function getIndexProperties()
+    public function getIndexProperties(): array
     {
         return $this->indexesProperties;
     }
 
+    public function getDynamicProperties(): ?Iterator
+    {
+        return $this->dynamicProperties;
+    }
+
+    public function getAccessProperties(): ?Iterator
+    {
+        return $this->accessProperties;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\model\resources;
 
 use oat\oatbox\service\ConfigurableService;
@@ -30,7 +32,7 @@ use oat\tao\helpers\TreeHelper;
  */
 class TreeResourceLookup extends ConfigurableService implements ResourceLookup
 {
-    const SERVICE_ID = 'tao/TreeResourceLookup';
+    public const SERVICE_ID = 'tao/TreeResourceLookup';
 
     /**
      * Retrieve Resources in their hierarchy, for the given parameters as format them as tree.
@@ -42,10 +44,15 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
      * @param int                        $limit           for paging
      * @return array the resources
      */
-    public function getResources(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
-    {
+    public function getResources(
+        \core_kernel_classes_Class $rootClass,
+        array $selectedUris = [],
+        array $propertyFilters = [],
+        $offset = 0,
+        $limit = 30
+    ) {
         $openNodes = [];
-        if(count($selectedUris) > 0){
+        if (count($selectedUris) > 0) {
             $openNodes = TreeHelper::getNodesToOpen($selectedUris, $rootClass);
         }
         if (!in_array($rootClass->getUri(), $openNodes)) {
@@ -57,10 +64,15 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
         return $this->formatTreeData([$treeData]);
     }
 
-    public function getClasses(\core_kernel_classes_Class $rootClass, array $selectedUris = [], array $propertyFilters = [], $offset = 0, $limit = 30)
-    {
-         $openNodes = [];
-        if(count($selectedUris) > 0){
+    public function getClasses(
+        \core_kernel_classes_Class $rootClass,
+        array $selectedUris = [],
+        array $propertyFilters = [],
+        $offset = 0,
+        $limit = 30
+    ) {
+        $openNodes = [];
+        if (count($selectedUris) > 0) {
             $openNodes = TreeHelper::getNodesToOpen($selectedUris, $rootClass);
         }
         if (!in_array($rootClass->getUri(), $openNodes)) {
@@ -80,7 +92,7 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
      */
     private function formatTreeData(array $treeData)
     {
-        return array_map(function($data){
+        return array_map(function ($data) {
 
             $formated = [
                 'label'    => $data['data'],
@@ -91,7 +103,7 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
                 'state'    => isset($data['state']) ? $data['state'] : false,
                 'count'    => isset($data['count']) ? $data['count'] : 0
             ];
-            if(isset($data['children'])){
+            if (isset($data['children'])) {
                 $formated['children'] = $this->formatTreeData($data['children']);
             }
             return $formated;

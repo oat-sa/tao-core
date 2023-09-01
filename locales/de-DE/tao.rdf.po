@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint107\n"
-"PO-Revision-Date: 2019-12-20T10:44:15\n"
+"Project-Id-Version: TAO 2022.11\n"
+"PO-Revision-Date: 2022-12-02T14:02:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -9,6 +9,36 @@ msgstr ""
 "targetLanguage: de-DE\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+# http://www.w3.org/2000/01/rdf-schema#label
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Label"
+msgstr ""
+
+# http://www.w3.org/2000/01/rdf-schema#label
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "A human-readable name for the subject."
+msgstr ""
+
+# http://www.tao.lu/Ontologies/generis.rdf#alias
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Alias"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/generis.rdf#alias
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Alias to be used when publishing a remote delivery"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Is language dependent?"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "is_language_dependent"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#TAOObject
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
@@ -34,6 +64,66 @@ msgstr "Beliebige mit E-Testing assoziierte Systemressource"
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
 msgid "List"
 msgstr "Liste"
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Remote list source"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListSource
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Remote list source"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Remote list source uri path"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemUriPath
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Remote list source uri path"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Remote list source label path"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListItemLabelPath
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Remote list source label path"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ListType
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "List type"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ListType
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "List type"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ListRemote
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Remote list type"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#ListRemote
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Remote list type"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListDependencyItemUriPath
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Remote list dependency source uri path"
+msgstr ""
+
+# http://www.tao.lu/Ontologies/TAO.rdf#RemoteListDependencyItemUriPath
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Remote list dependency source uri path"
+msgstr ""
 
 # http://www.tao.lu/Ontologies/TAO.rdf#UpdatedAt
 msgctxt "http://www.w3.org/2000/01/rdf-schema#label"

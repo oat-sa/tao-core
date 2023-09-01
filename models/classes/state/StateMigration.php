@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,19 +33,18 @@ use oat\oatbox\service\ConfigurableService;
  * @author Antoine Robin Bout, <antoine@taotesting.com>
  * @package tao
  */
-class StateMigration
-    extends ConfigurableService
+class StateMigration extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/migrationState';
+    public const SERVICE_ID = 'tao/migrationState';
 
-    const OPTION_FILESYSTEM = 'fileSystem';
+    public const OPTION_FILESYSTEM = 'fileSystem';
 
     /**
      * @var FileSystem
      */
     private $fileSystem = null;
 
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         if (!isset($options[self::OPTION_FILESYSTEM])) {
             throw new InvalidService(__("missing config %s for the service %s", self::OPTION_FILESYSTEM, self::class));
@@ -67,7 +67,9 @@ class StateMigration
 
         $state = $stateStorage->get($userId, $callId);
 
-        return (!is_null($state)) ? $this->getFileSystem()->write($this->generateSerial($userId, $callId), $state) : false;
+        return (!is_null($state))
+            ? $this->getFileSystem()->write($this->generateSerial($userId, $callId), $state)
+            : false;
     }
 
     public function restore($userId, $callId)
@@ -79,7 +81,6 @@ class StateMigration
         $stateStorage = $this->getServiceManager()->get(StateStorage::SERVICE_ID);
 
         return $stateStorage->set($userId, $callId, $state);
-
     }
 
     public function removeState($userId, $callId)
@@ -88,7 +89,6 @@ class StateMigration
         $stateStorage = $this->getServiceManager()->get(StateStorage::SERVICE_ID);
 
         $stateStorage->del($userId, $callId);
-
     }
 
     public function removeBackup($userId, $callId)
@@ -112,10 +112,8 @@ class StateMigration
             /** @var FileSystemService $fileSystemService */
             $fileSystemService = $this->getServiceManager()->get(FileSystemService::SERVICE_ID);
             $this->fileSystem = $fileSystemService->getFileSystem($this->getOption(self::OPTION_FILESYSTEM));
-
         }
 
         return $this->fileSystem;
     }
-
 }

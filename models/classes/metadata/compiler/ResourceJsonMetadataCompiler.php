@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +30,7 @@ use oat\tao\model\export\JsonLdExport;
  */
 class ResourceJsonMetadataCompiler extends ConfigurableService implements ResourceMetadataCompilerInterface
 {
-    const SERVICE_ID = 'tao/ResourceJsonMetadataCompiler';
+    public const SERVICE_ID = 'tao/ResourceJsonMetadataCompiler';
 
     /**
      * @param core_kernel_classes_Resource $resource

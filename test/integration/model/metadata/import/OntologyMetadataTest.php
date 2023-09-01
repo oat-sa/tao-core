@@ -10,7 +10,6 @@ use oat\tao\model\metadata\injector\Injector;
 
 class OntologyMetadataTest extends TestCase
 {
-
     public function testImport()
     {
         try {
@@ -42,7 +41,6 @@ class OntologyMetadataTest extends TestCase
         } catch (\Exception $e) {
             $this->fail('Import method fail with message: ' . $e->getMessage());
         }
-
     }
 
     protected function getResourceMockery()
@@ -63,7 +61,7 @@ class OntologyMetadataTest extends TestCase
 
         $injector->expects($this->any())
             ->method('read')
-            ->willReturn(['label'=>'labelFixture']);
+            ->willReturn(['label' => 'labelFixture']);
 
         $injector->expects($this->any())
             ->method('write')
@@ -109,7 +107,7 @@ class OntologyMetadataTest extends TestCase
 
         $mock->expects($this->exactly(1))
             ->method('getOptions')
-            ->will($this->returnValue(array('1' => 'one', '2' => 'two')));
+            ->will($this->returnValue(['1' => 'one', '2' => 'two']));
 
         $mock->expects($this->exactly(2))
             ->method('getSubService')
@@ -124,9 +122,9 @@ class OntologyMetadataTest extends TestCase
 
     public function testGetInjectorWithoutValidInterface()
     {
-        $importer = new MockeryTest_MetadataOntologyImport(array(
+        $importer = new MockeryTest_MetadataOntologyImport([
             'injectorWithInvalidInterface' => [],
-        ));
+        ]);
 
         $importer->setServiceManager(ServiceManager::getServiceManager());
 
@@ -139,11 +137,11 @@ class OntologyMetadataTest extends TestCase
 
     public function testGetInjectorNotFound()
     {
-        $importer = new MockeryTest_MetadataOntologyImport(array(
+        $importer = new MockeryTest_MetadataOntologyImport([
             'injectorNotFound' => [
                 'class' => Injector::class
             ],
-        ));
+        ]);
 
         $importer->setServiceManager(ServiceManager::getServiceManager());
 
@@ -173,5 +171,8 @@ class OntologyMetadataTest extends TestCase
  */
 class MockeryTest_MetadataOntologyImport extends OntologyMetadataImporter
 {
-    public function getInjectors() { return parent::getInjectors(); }
+    public function getInjectors()
+    {
+        return parent::getInjectors();
+    }
 }

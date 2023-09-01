@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -28,7 +29,6 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  */
 class TaoActionResolver implements RedirectResolveInterface
 {
-
     use ServiceLocatorAwareTrait;
 
     /**
@@ -38,9 +38,7 @@ class TaoActionResolver implements RedirectResolveInterface
     public function resolve(array $options)
     {
         $params = (isset($options['params'])) ? $options['params'] : [];
-        
+
         return _url($options['action'], $options['controller'], $options['ext'], $params);
     }
-
-
 }

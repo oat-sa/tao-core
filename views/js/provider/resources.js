@@ -21,34 +21,34 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define([
-    'lodash',
-    'i18n',
-    'util/url',
-    'core/promise',
-    'core/dataProvider/request',
-    'layout/permissions'
-], function (_, __, urlUtil, Promise, request, permissionsManager) {
+define(['lodash', 'i18n', 'util/url', 'core/promise', 'core/dataProvider/request', 'layout/permissions'], function (
+    _,
+    __,
+    urlUtil,
+    Promise,
+    request,
+    permissionsManager
+) {
     'use strict';
 
     /**
      * Per function requests configuration.
      */
     var defaultConfig = {
-        getClasses : {
-            url : urlUtil.route('getAll', 'RestClass', 'tao')
+        getClasses: {
+            url: urlUtil.route('getAll', 'RestClass', 'tao')
         },
-        getResources : {
-            url : urlUtil.route('getAll', 'RestResource', 'tao')
+        getResources: {
+            url: urlUtil.route('getAll', 'RestResource', 'tao')
         },
-        getClassProperties : {
-            url : urlUtil.route('create', 'RestResource', 'tao')
+        getClassProperties: {
+            url: urlUtil.route('create', 'RestResource', 'tao')
         },
-        copyTo : {
+        copyTo: {
             //unset because it belongs to sub controllers, see /taoItems/Items/copyInstance,
             //so it needs to be defined
         },
-        moveTo : {
+        moveTo: {
             //unset because it belongs to sub controllers, see /taoItems/Items/moveResource,
             //so it needs to be defined
         }
@@ -59,10 +59,10 @@ define([
      * @param {Object[]} nodes
      * @returns {Object[]} the nodes augmented of the "accessMode=<partial|denied|allowed>" property
      */
-    var computeNodeAccessMode = function computeNodeAccessMode(nodes){
-        return _.map(nodes, function(node){
+    var computeNodeAccessMode = function computeNodeAccessMode(nodes) {
+        return _.map(nodes, function (node) {
             node.accessMode = permissionsManager.getResourceAccessMode(node.uri);
-            if(_.isArray(node.children)){
+            if (_.isArray(node.children)) {
                 node.children = computeNodeAccessMode(node.children);
             }
             return node;
@@ -78,7 +78,7 @@ define([
      */
     function applyClassSignatures(resources, signature) {
         if (_.isArray(resources)) {
-            _.forEach(resources, function(resource) {
+            _.forEach(resources, function (resource) {
                 applyClassSignatures(resource, signature);
             });
         } else if (resources) {
@@ -87,6 +87,9 @@ define([
             }
             if (resources.children) {
                 applyClassSignatures(resources.children, resources.signature || signature);
+            }
+            if (resources.nodes) {
+                applyClassSignatures(resources.nodes, resources.nodes.classSignature);
             }
         }
         return resources;
@@ -98,22 +101,20 @@ define([
      * @param {Object} [config] - to override the default config
      * @returns {resourceProvider} the new provider
      */
-    return function resourceProviderFactory(config){
-
+    return function resourceProviderFactory(config) {
         config = _.defaults(config || {}, defaultConfig);
 
         /**
          * @typedef {resourceProvider}
          */
         return {
-
             /**
              * Get the list of classes and sub classes
              * @param {String} classUri - the root class URI
              * @returns {Promise} that resolves with the classes
              */
-            getClasses: function getClasses(classUri){
-                return request(config.getClasses.url, { classUri : classUri });
+            getClasses: function getClasses(classUri) {
+                return request(config.getClasses.url, { classUri: classUri });
             },
 
             /**
@@ -122,45 +123,47 @@ define([
              * @param {Boolean} [computePermissions=false] - do we compute the resource's permissions?
              * @returns {Promise} that resolves with the classes
              */
-            getResources : function getResources(params, computePermissions){
-                return request(config.getResources.url, params).then(function(results){
-                    var resources;
-                    var currentRights;
+            getResources: function getResources(params, computePermissions) {
+                return request(config.getResources.url, params)
+                    .then(function (results) {
+                        var resources;
+                        var currentRights;
 
-                    if(results && results.resources){
-                        resources = results.resources;
-                    } else {
-                        resources = results;
-                    }
-
-                    //each time we retrieve resources,
-                    //the list of their permission can come along them
-                    //in that case, we update the main permission manager
-                    //and compute the permission mode for each received resource
-                    //by filling the property "accessMode"
-                    if(computePermissions && results.permissions){
-                        currentRights = permissionsManager.getRights();
-
-                        if(results.permissions.supportedRights &&
-                            results.permissions.supportedRights.length &&
-                            currentRights.length === 0) {
-
-                            permissionsManager.setSupportedRights(results.permissions.supportedRights);
-
-                        }
-                        if(results.permissions.data){
-                            permissionsManager.addPermissions(results.permissions.data);
-                        }
-
-                        //compute the mode for each resource
-                        if(resources.nodes){
-                            resources.nodes = computeNodeAccessMode(resources.nodes);
+                        if (results && results.resources) {
+                            resources = results.resources;
                         } else {
-                            resources = computeNodeAccessMode(resources);
+                            resources = results;
                         }
-                    }
-                    return resources;
-                }).then(applyClassSignatures);
+
+                        //each time we retrieve resources,
+                        //the list of their permission can come along them
+                        //in that case, we update the main permission manager
+                        //and compute the permission mode for each received resource
+                        //by filling the property "accessMode"
+                        if (computePermissions && results.permissions) {
+                            currentRights = permissionsManager.getRights();
+
+                            if (
+                                results.permissions.supportedRights &&
+                                results.permissions.supportedRights.length &&
+                                currentRights.length === 0
+                            ) {
+                                permissionsManager.setSupportedRights(results.permissions.supportedRights);
+                            }
+                            if (results.permissions.data) {
+                                permissionsManager.addPermissions(results.permissions.data);
+                            }
+
+                            //compute the mode for each resource
+                            if (resources.nodes) {
+                                resources.nodes = computeNodeAccessMode(resources.nodes);
+                            } else {
+                                resources = computeNodeAccessMode(resources);
+                            }
+                        }
+                        return resources;
+                    })
+                    .then(applyClassSignatures);
             },
 
             /**
@@ -169,7 +172,7 @@ define([
              * @returns {Promise} that resolves with the classes
              */
             getClassProperties: function getClassProperties(classUri) {
-                return request(config.getClassProperties.url, { classUri : classUri });
+                return request(config.getClassProperties.url, { classUri: classUri });
             },
 
             /**
@@ -177,35 +180,46 @@ define([
              * @param {String} uri - the resource to copy
              * @param {String} destinationClassUri - the destination class
              * @param {String} signature - the signature for the uri
+             * @param {String} aclMode - the ACL policy to follow with the new resource
              * @returns {Promise<Object>} resolves with the data of the new resource
              */
-            copyTo : function copyTo(uri, destinationClassUri, signature) {
-                if(_.isEmpty(config.copyTo.url)){
+            copyTo: function copyTo(uri, destinationClassUri, signature, aclMode) {
+                if (_.isEmpty(config.copyTo.url)) {
                     return Promise.reject('Please define the action URL');
                 }
-                if(_.isEmpty(uri)){
+                if (_.isEmpty(uri)) {
                     return Promise.reject('The URI of the resource to copy must be defined');
                 }
-                if(_.isEmpty(destinationClassUri)){
+                if (_.isEmpty(destinationClassUri)) {
                     return Promise.reject('The URI of the destination class must be defined');
                 }
                 // dataProvider request must be tokenised in this case (noToken=false)
-                return request(config.copyTo.url, {
-                    uri : uri,
-                    destinationClassUri : destinationClassUri,
-                    signature: signature
-                }, 'POST', null, true, false);
+                return request(
+                    config.copyTo.url,
+                    {
+                        uri,
+                        destinationClassUri,
+                        signature,
+                        aclMode
+                    },
+                    'POST',
+                    null,
+                    true,
+                    false
+                );
             },
 
             /**
              * Move resources into another class
              * @param {String|String[]} ids - the resources to move
              * @param {String} destinationClassUri - the destination class
+             * @param {String} aclMode - the ACL policy to follow with the moved resource
              * @returns {Promise<Object>} resolves with the data of the new resource
              */
-            moveTo: function moveTo(ids, destinationClassUri) {
+            moveTo: function moveTo(ids, destinationClassUri, aclMode) {
                 var params = {
-                    destinationClassUri: destinationClassUri
+                    destinationClassUri,
+                    aclMode
                 };
 
                 if (!ids) {

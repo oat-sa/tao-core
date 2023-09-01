@@ -1,2 +1,7 @@
 <?php
-return new \oat\tao\model\service\ApplicationService();
+
+use oat\tao\model\service\ApplicationService;
+
+return new ApplicationService([
+    ApplicationService::OPTION_INSTALLATION_FINISHED => false
+]);

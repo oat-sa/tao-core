@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -80,7 +81,7 @@ abstract class AbstractFileExporter implements Exporter
 
         return $response
             ->withHeader('Content-Type', $this->contentType)
-            ->withHeader('Content-Disposition', 'attachment; fileName="' . $fileName .'"')
+            ->withHeader('Content-Disposition', 'attachment; fileName="' . $fileName . '"')
             ->withHeader('Content-Length', strlen($data))
             ->withBody(\GuzzleHttp\Psr7\stream_for($data));
     }
@@ -100,7 +101,8 @@ abstract class AbstractFileExporter implements Exporter
     /**
      * @deprecated
      */
-    private function flushOutputBuffer() {
+    private function flushOutputBuffer()
+    {
         while (ob_get_level() > 0) {
             ob_end_flush();
         }
@@ -110,7 +112,8 @@ abstract class AbstractFileExporter implements Exporter
      * @deprecated
      * @param ResponseInterface $response
      */
-    private function emitHeaders(ResponseInterface $response) {
+    private function emitHeaders(ResponseInterface $response)
+    {
         foreach ($response->getHeaders() as $name => $values) {
             foreach ($values as $value) {
                 header("$name: $value");
@@ -122,7 +125,8 @@ abstract class AbstractFileExporter implements Exporter
      * @deprecated
      * @param ResponseInterface $response
      */
-    private function emitBody(ResponseInterface $response) {
+    private function emitBody(ResponseInterface $response)
+    {
         $stream = $response->getBody();
         if ($stream->isSeekable()) {
             $stream->rewind();

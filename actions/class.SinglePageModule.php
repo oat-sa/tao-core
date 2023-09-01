@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +30,7 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
     /**
      * This header is added to the response to inform the client a forward occurs
      */
-    const FORWARD_HEADER = 'X-Tao-Forward';
+    public const FORWARD_HEADER = 'X-Tao-Forward';
 
     /**
      * A list of parameters to provide to the client controller
@@ -41,7 +42,8 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
      * Sets the route to be used by the client controller
      * @param string $route
      */
-    protected function setClientRoute($route) {
+    protected function setClientRoute($route)
+    {
         header(self::FORWARD_HEADER . ': ' . $route);
         $this->setClientParam('forwardTo', $route);
     }
@@ -79,7 +81,7 @@ abstract class tao_actions_SinglePageModule extends \tao_actions_CommonModule
      * @param String [$extension] - Defines the extension that should contain the template
      * @throws \common_exception_Error
      */
-    protected function composeView($scope = '', $data = array(), $template = '', $extension = '')
+    protected function composeView($scope = '', $data = [], $template = '', $extension = '')
     {
         if (!is_array($data)) {
             $data = [];

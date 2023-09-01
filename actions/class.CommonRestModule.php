@@ -1,8 +1,5 @@
 <?php
 
-use oat\generis\model\OntologyRdf;
-use oat\generis\model\OntologyRdfs;
-
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,49 +19,53 @@ use oat\generis\model\OntologyRdfs;
  *
  */
 
+use oat\generis\model\OntologyRdf;
+use oat\generis\model\OntologyRdfs;
+
 /**
  * Class tao_actions_CommonRestModule
+ *
  * @OA\Info(title="TAO Rest API", version="1.0")
  */
 abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 {
+    /** @var tao_models_classes_CrudService */
+    protected $service;
+
     /**
      * Entry point of API
      * If uri parameters is provided, it must be a valid uri
      * Depending on HTTP method, request is routed to crud function
+     *
+     * @throws common_exception_NotImplemented
      */
     public function index()
     {
         try {
-            $uri = null;
-            if ($this->hasRequestParameter("uri")) {
-                $uri = $this->getRequestParameter("uri");
-                if (!common_Utils::isUri($uri)) {
-                    throw new common_exception_InvalidArgumentType();
-                }
-            }
+            $uri = $this->getUriFromRequest();
+            $request = $this->getPsrRequest();
 
-            switch ($this->getRequestMethod()) {
-                case "GET":
+            switch ($request->getMethod()) {
+                case 'GET':
                     $response = $this->get($uri);
                     break;
-                case "PUT":
+                case 'PUT':
                     $response = $this->put($uri);
                     break;
-                case "POST":
+                case 'POST':
                     $response = $this->post();
                     break;
-                case "DELETE":
+                case 'DELETE':
                     $response = $this->delete($uri);
                     break;
                 default:
-                    throw new common_exception_BadRequest($this->getRequestURI());
+                    throw new common_exception_BadRequest($request->getUri()->getPath());
             }
 
             $this->returnSuccess($response);
-
         } catch (Exception $e) {
-            if ($e instanceof \common_exception_ValidationFailed &&
+            if (
+                $e instanceof \common_exception_ValidationFailed &&
                 $alias = $this->reverseSearchAlias($e->getField())
             ) {
                 $e = new \common_exception_ValidationFailed($alias, null, $e->getCode());
@@ -77,14 +78,16 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     /**
      * Return crud service
      *
-     * @return tao_models_classes_CrudService
      * @throws common_Exception
+     *
+     * @return tao_models_classes_CrudService
      */
     protected function getCrudService()
     {
         if (!$this->service) {
             throw new common_Exception('Crud service is not set.');
         }
+
         return $this->service;
     }
 
@@ -93,17 +96,24 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * - get() if uri is not null
      * - getAll() if uri is null
      *
-     * @param null $uri
-     * @return mixed
+     * @param string|null $uri
+     *
+     * @throws common_Exception
+     * @throws common_Exception_NoContent
      * @throws common_exception_InvalidArgumentType
      * @throws common_exception_PreConditionFailure
+     *
+     * @return object|stdClass
      */
-    protected function get($uri=null)
+    protected function get($uri = null)
     {
-        if (!is_null($uri)) {
-            if (!($this->getCrudService()->isInScope($uri))) {
-                throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
+        if ($uri !== null) {
+            if ($this->getCrudService()->isInScope($uri) === false) {
+                throw new common_exception_PreConditionFailure(
+                    'The URI must be a valid resource under the root Class'
+                );
             }
+
             return $this->getCrudService()->get($uri);
         } else {
             return $this->getCrudService()->getAll();
@@ -113,21 +123,24 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     /**
      * Method to wrap deleting to service if uri is not null
      *
-     * @param null $uri
-     * @return mixed
+     * @param string|null $uri
+     *
+     * @throws common_Exception
      * @throws common_exception_BadRequest
      * @throws common_exception_InvalidArgumentType
+     * @throws common_exception_NoContent
      * @throws common_exception_PreConditionFailure
      */
-    protected function delete($uri=null)
+    protected function delete($uri = null)
     {
-        if (is_null($uri)) {
-            //$data = $this->service->deleteAll();
+        if ($uri === null) {
             throw new common_exception_BadRequest('Delete method requires an uri parameter');
+        } elseif ($this->getCrudService()->isInScope($uri) === false) {
+            throw new common_exception_PreConditionFailure(
+                'The URI must be a valid resource under the root Class'
+            );
         }
-        if (!($this->getCrudService()->isInScope($uri))) {
-            throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
-        }
+
         return $this->getCrudService()->delete($uri);
     }
 
@@ -163,18 +176,16 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      *     )
      * )
      *
-     * @return mixed
      * @throws common_Exception
      * @throws common_exception_RestApi
+     *
+     * @return mixed
      */
     protected function post()
     {
-        $parameters = $this->getParameters();
         try {
-            return $this->getCrudService()->createFromArray($parameters);
-        }
-        /** @noinspection PhpRedundantCatchClauseInspection */
-        catch (common_exception_PreConditionFailure $e) {
+            return $this->getCrudService()->createFromArray($this->getParameters());
+        } catch (common_exception_PreConditionFailure $e) {
             throw new common_exception_RestApi($e->getMessage());
         }
     }
@@ -182,57 +193,86 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
     /**
      * Method to wrap to updating to service if uri is not null
      *
-     * @param $uri
-     * @return mixed
+     * @param string|null $uri
+     *
      * @throws common_Exception
      * @throws common_exception_BadRequest
      * @throws common_exception_InvalidArgumentType
      * @throws common_exception_NoContent
      * @throws common_exception_PreConditionFailure
      * @throws common_exception_RestApi
+     *
+     * @return mixed
      */
     protected function put($uri)
     {
-        if (is_null($uri)) {
+        if ($uri === null) {
             throw new common_exception_BadRequest('Update method requires an uri parameter');
+        } elseif ($this->getCrudService()->isInScope($uri) === false) {
+            throw new common_exception_PreConditionFailure(
+                'The URI must be a valid resource under the root Class'
+            );
         }
-        if (!($this->getCrudService()->isInScope($uri))) {
-            throw new common_exception_PreConditionFailure("The URI must be a valid resource under the root Class");
-        }
-        $parameters = $this->getParameters();
+
         try {
-            return $this->getCrudService()->update($uri, $parameters);
+            return $this->getCrudService()->update($uri, $this->getParameters());
         } catch (common_exception_PreConditionFailure $e) {
             throw new common_exception_RestApi($e->getMessage());
         }
     }
 
+    private function getPostData(): array
+    {
+        if (!is_array($parameters = $this->getPsrRequest()->getParsedBody())) {
+            $parameters = [];
+        }
+
+        return $parameters;
+    }
+
+    private function getBodyData(): array
+    {
+        $data = $this->getPsrRequest()->getBody()->getContents();
+        if ($data && $this->hasHeader('Accept') && current($this->getHeader('Accept')) === 'application/json') {
+            $data = @json_decode($data, true);
+        }
+
+        return is_array($data) ? $data : [];
+    }
+
+    private function getRequestData(): array
+    {
+        return array_merge($this->getPostData(), $this->getBodyData());
+    }
+
     /**
      * Returns all parameters that are URIs or Aliased with values
      *
-     * @return array
      * @throws \common_exception_RestApi If a mandatory parameter is not found
+     *
+     * @return array
      */
     protected function getParameters()
     {
         $effectiveParameters = [];
         $missedAliases = [];
 
+        $parameters = $this->getRequestData();
+
         foreach ($this->getParametersAliases() as $checkParameterShort => $checkParameterUri) {
-            if ($this->hasRequestParameter($checkParameterUri)) {
-                $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterUri);
-            }
-            else if ($this->hasRequestParameter($checkParameterShort)) {
-                $effectiveParameters[$checkParameterUri] = $this->getRequestParameter($checkParameterShort);
-            }
-            else if ($this->isRequiredParameter($checkParameterShort)) {
+            if (array_key_exists($checkParameterUri, $parameters)) {
+                $effectiveParameters[$checkParameterUri] = $parameters[$checkParameterUri];
+            } elseif (array_key_exists($checkParameterShort, $parameters)) {
+                $effectiveParameters[$checkParameterUri] = $parameters[$checkParameterShort];
+            } elseif ($this->isRequiredParameter($checkParameterShort)) {
                 $missedAliases[] = $checkParameterShort;
             }
         }
 
-        if (count($missedAliases) > 0) {
+        if (!empty($missedAliases)) {
             throw new \common_exception_RestApi(
-                'Missed required parameters: ' . implode(', ', $missedAliases));
+                'Missed required parameters: ' . implode(', ', $missedAliases)
+            );
         }
 
         return $effectiveParameters;
@@ -240,16 +280,16 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
 
     /**
      * Return required parameters by method
-     * Shold return an array with key as HTTP method and value as array of parameters
+     * Should return an array with key as HTTP method and value as array of parameters
      *
      * @return array
      */
     protected function getParametersRequirements()
     {
-        return array(
-            'put' => array ('uri'),
-            'delete' => array('uri'),
-        );
+        return [
+            'put' => ['uri'],
+            'delete' => ['uri'],
+        ];
     }
 
     /**
@@ -263,15 +303,17 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
         return [
             'label' => OntologyRdfs::RDFS_LABEL,
             'comment' => OntologyRdfs::RDFS_COMMENT,
-            'type' => OntologyRdf::RDF_TYPE
+            'type' => OntologyRdf::RDF_TYPE,
         ];
     }
 
     /**
      * @param string $paramName
-     * @return string|false
+     *
+     * @return false|int|string
      */
-    protected function reverseSearchAlias($paramName) {
+    protected function reverseSearchAlias($paramName)
+    {
         return array_search($paramName, $this->getParametersAliases(), true);
     }
 
@@ -280,33 +322,56 @@ abstract class tao_actions_CommonRestModule extends tao_actions_RestController
      * - getParametersRequirements array
      * - HTTP method
      *
-     * @param $parameter, The alias name or uri of a parameter
+     * @param string $parameter The alias name or uri of a parameter
+     *
      * @return bool
      */
     protected function isRequiredParameter($parameter)
     {
-        $method = $this->getRequestMethod();
-        $requirements = $this->getParametersRequirements();
-
-        $requirements = array_change_key_case($requirements, CASE_LOWER);
-        $method = strtolower($method);
+        $requirements = array_change_key_case($this->getParametersRequirements(), CASE_LOWER);
+        $method = strtolower($this->getPsrRequest()->getMethod());
 
         if (!isset($requirements[$method])) {
             return false;
-        }
-
-        if (in_array($parameter,$requirements[$method])) {
+        } elseif (in_array($parameter, $requirements[$method], true)) {
             return true;
         }
 
         $isRequired = false;
 
-        //The requirements may have been declared using URIs, look up for the URI
+        // The requirements may have been declared using URIs, look up for the URI
         $aliases = $this->getParametersAliases();
+
         if (isset($aliases[$parameter])) {
-            $isRequired = in_array($aliases[$parameter],$requirements[$method]);
+            $isRequired = in_array($aliases[$parameter], $requirements[$method], true);
         }
+
         return $isRequired;
     }
 
+    /**
+     * @throws common_exception_InvalidArgumentType
+     *
+     * @return string|null
+     */
+    protected function getUriFromRequest()
+    {
+        $uri = null;
+
+        $request = $this->getPsrRequest();
+        $parsedBody = $request->getParsedBody();
+        $queryParams = $request->getQueryParams();
+
+        if (is_array($parsedBody) && array_key_exists('uri', $parsedBody)) {
+            $uri = $parsedBody['uri'];
+        } elseif (array_key_exists('uri', $queryParams)) {
+            $uri = $queryParams['uri'];
+        }
+
+        if ($uri !== null && common_Utils::isUri($uri) === false) {
+            throw new common_exception_InvalidArgumentType();
+        }
+
+        return $uri;
+    }
 }

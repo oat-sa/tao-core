@@ -1,22 +1,25 @@
 <?php
-/**  
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
+ *
  */
 
 use oat\generis\Helper\SystemHelper;
@@ -41,15 +44,15 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
      */
     public function feed()
     {
-        common_Logger::t('Evaluating AsyncFile ' . $this->getName(), array(
-            'TAO'));
+        common_Logger::t('Evaluating AsyncFile ' . $this->getName(), [
+            'TAO']);
         if (isset($_POST[$this->name])) {
             $struct = json_decode($_POST[$this->name], true);
             if ($struct !== false) {
                 $this->setValue($struct);
             } else {
-                common_Logger::w('Could not unserialise AsyncFile field ' . $this->getName(), array(
-                    'TAO'));
+                common_Logger::w('Could not unserialise AsyncFile field ' . $this->getName(), [
+                    'TAO']);
             }
         }
     }
@@ -64,16 +67,16 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
     public function render()
     {
         $widgetName = 'Uploader_' . md5($this->name);
-        
+
         $returnValue = $this->renderLabel();
         $returnValue .= "<input type='hidden' name='{$this->name}' id='{$this->name}' value='' />";
         $returnValue .= "<div id='{$widgetName}_container' class='form-elt-container file-uploader'>";
-        
+
         // get the upload max size
         $fileSize = SystemHelper::getFileUploadLimit();
-        
-        $mimetypes = array();
-        
+
+        $mimetypes = [];
+
         // add a client validation
         foreach ($this->validators as $validator) {
             // get the valid file extensions
@@ -94,7 +97,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
                 }
             }
         }
-        
+
         // default value for 'auto' is 'true':
         $auto = 'true';
         if (isset($this->attributes['auto'])) {
@@ -103,10 +106,10 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
             }
             unset($this->attributes['auto']);
         }
-        
+
         // initialize the Uploader Js component
         $returnValue .= '<script type="text/javascript">
-				require([\'jquery\',  \'ui/feedback\', \'ui/uploader\'], function($, feedback){
+				require([\'jquery\', \'i18n\', \'ui/feedback\', \'ui/uploader\'], function($, __, feedback){
 					 $("#' . $widgetName . '_container").uploader({
 							 uploadUrl: "' . ROOT_URL . 'tao/File/upload",
 							autoUpload: "' . $auto . '"  ,
@@ -116,16 +119,22 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
 											var error = [],
 												files = files.filter(_.isObject),// due to Chrome drag\'n\'drop issue
 												givenLength = files.length,
-												filters = "' . implode(',', $mimetypes) . '".split(",").filter(function(e){return e.length});
+												filters = "' . implode(',', $mimetypes) . '"
+												    .split(",")
+												    .filter(function(e){return e.length});
 
 												if (filters.length){
 
 													files = _.filter(files, function(file){
-														return !file.type || _.contains(filters, file.type.replace(/[\'"]+/g, \'\'));//IE9 doesnt detect type, so lets rely on server validation
+													    // IE9 doesnt detect type, so lets rely on server validation
+														return !file.type
+														    || _.contains(filters, file.type.replace(/[\'"]+/g, \'\'));
 													});
 
 													if(files.length !== givenLength){
-														error.push( "Unauthorized files have been removed");
+														error.push(
+														    "' . __("Unauthorized files have been removed") . '"
+                                                        );
 													}
 
 												}
@@ -156,7 +165,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
 			});
 			</script>';
         $returnValue .= "</div>";
-        
+
         return (string) $returnValue;
     }
 

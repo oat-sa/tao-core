@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -45,4 +46,13 @@ interface WebhookInterface
      * @return int
      */
     public function getMaxRetries();
+
+    /**
+     * @return bool
+     */
+    public function getResponseValidationEnable();
+
+    public function getExtraPayload(): array;
+
+    public function toArray(): array;
 }

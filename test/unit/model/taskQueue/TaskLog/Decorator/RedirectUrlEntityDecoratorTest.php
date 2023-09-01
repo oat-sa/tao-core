@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,12 +15,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017-2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
 namespace oat\tao\test\unit\model\taskQueue\TaskLog\Decorator;
 
+use DateTime;
+use DateTimeZone;
 use oat\oatbox\user\AnonymousUser;
 use oat\tao\model\taskQueue\TaskLog;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
@@ -36,6 +39,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
 
     /**
      * @dataProvider taskLogStatusProvider
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function testDecorator_NotUsed_excludedTaskLogStatus($taskStatus)
     {
@@ -48,18 +52,21 @@ class RedirectUrlEntityDecoratorTest extends TestCase
 
         $this->assertEquals($this->getFixtureEntityData(), $decorator->toArray());
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     public function taskLogStatusProvider()
     {
         return [
             [TaskLogInterface::CATEGORY_DELETE],
             [TaskLogInterface::CATEGORY_EXPORT],
-            [TaskLogInterface::CATEGORY_UNKNOWN]
+            [TaskLogInterface::CATEGORY_UNKNOWN],
+            [TaskLogInterface::CATEGORY_UNRELATED_RESOURCE],
         ];
     }
 
     /**
      * @dataProvider entityTaskLogStatusProvider
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function testDecorator_NotUsed_excludedTaskEntityStatus($status)
     {
@@ -76,6 +83,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
 
         $this->assertEquals($this->getFixtureEntityData($status), $redirectUrlEntityDecoratorMock->toArray());
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     public function entityTaskLogStatusProvider()
     {
@@ -85,6 +93,7 @@ class RedirectUrlEntityDecoratorTest extends TestCase
         ];
     }
 
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName
     public function testDecorator_Used()
     {
         $entity = $this->getFixtureEntity();
@@ -101,17 +110,23 @@ class RedirectUrlEntityDecoratorTest extends TestCase
         $expectedData = array_merge(
             $this->getFixtureEntityData(),
             [
-                'redirectUrl' => _url('redirectTaskToInstance', 'Redirector', 'taoBackOffice', ['taskId' => $entity->getId()])
+                'redirectUrl' => _url(
+                    'redirectTaskToInstance',
+                    'Redirector',
+                    'taoBackOffice',
+                    ['taskId' => $entity->getId()]
+                )
             ]
         );
 
         $this->assertEquals($expectedData, $redirectUrlEntityDecoratorMock->toArray());
     }
+    // phpcs:enable PSR1.Methods.CamelCapsMethodName
 
     protected function getFixtureEntity($status = TaskLogInterface::STATUS_COMPLETED)
     {
-        $this->createdAt = new \DateTime('2017-11-16 14:11:42', new \DateTimeZone('UTC'));
-        $this->updatedAt = new \DateTime('2017-11-16 17:12:30', new \DateTimeZone('UTC'));
+        $this->createdAt = new DateTime('2017-11-16 14:11:42', new DateTimeZone('UTC'));
+        $this->updatedAt = new DateTime('2017-11-16 17:12:30', new DateTimeZone('UTC'));
 
         return TaskLogEntity::createFromArray([
             'id' => 'rdf#i1508337970199318643',
@@ -126,11 +141,11 @@ class RedirectUrlEntityDecoratorTest extends TestCase
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => NULL,
+                'data' => null,
                 'children' => []
             ],
             'master_status' => true
-        ]);
+        ], DateTime::RFC3339);
     }
 
     protected function getFixtureEntityData($status = TaskLogInterface::STATUS_COMPLETED)
@@ -143,18 +158,13 @@ class RedirectUrlEntityDecoratorTest extends TestCase
             'taskLabel' => 'Task label',
             'status' => (string) $status,
             'statusLabel' => $status->getLabel(),
-            'createdAt' => $this->createdAt->getTimestamp(),
-            'createdAtElapsed' => (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp() - $this->createdAt->getTimestamp(),
-            'updatedAt' => $this->updatedAt->getTimestamp(),
-            'updatedAtElapsed' => (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp() - $this->updatedAt->getTimestamp(),
             'report' => [
                 'type' => 'info',
                 'message' => 'Running task http://www.taoinstance.dev/ontologies/tao.rdf#i1508337970199318643',
-                'data' => NULL,
+                'data' => null,
                 'children' => []
             ],
             'masterStatus' => true
         ];
     }
-
 }

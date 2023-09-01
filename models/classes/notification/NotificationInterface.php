@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,41 +19,79 @@
  *
  */
 
-
 namespace oat\tao\model\notification;
 
-
+/**
+ * Interface NotificationInterface
+ *
+ * @deprecated This class is used by client only. It will be moved to client specific extension
+ */
 interface NotificationInterface
 {
+    public const DEFAULT_STATUS  = 0;
 
-    const DEFAULT_STATUS  = 0;
+    public const CREATED_STATUS  = 0;
+    public const SENDING_STATUS  = 1;
+    public const SENDED_STATUS   = 2;
+    public const READ_STATUS     = 3;
+    public const ARCHIVED_STATUS = 4;
 
-    const CREATED_STATUS  = 0;
-    const SENDING_STATUS  = 1;
-    const SENDED_STATUS   = 2;
-    const READ_STATUS     = 3;
-    const ARCHIVED_STATUS = 4;
+    /**
+     * @return int
+     */
+    public function getStatus(): int;
 
-    public function getStatus();
+    /**
+     * @return string
+     */
+    public function getRecipient(): string;
 
-    public function getRecipient();
+    /**
+     * @return string
+     */
+    public function getSenderId(): string;
 
-    public function getSenderId();
+    /**
+     * @return string
+     */
+    public function getSenderName(): string;
 
-    public function getSenderName();
+    /**
+     * @return string
+     */
+    public function getMessage(): string;
 
-    public function getMessage();
+    /**
+     * @return int
+     */
+    public function getCreatedAt(): string;
 
-    public function getCreatedAt();
+    /**
+     * @return int
+     */
+    public function getUpdatedAt(): string;
 
-    public function getUpdatedAt();
+    /**
+     * @return string
+     */
+    public function getId(): string;
 
-    public function getId();
+    /**
+     * @param int $status
+     *
+     * @return NotificationInterface
+     */
+    public function setStatus($status): self;
 
-    public function setStatus($status);
+    /**
+     * @param string $id
+     *
+     * @return NotificationInterface
+     */
+    public function setId($id): self;
 
-    public function setId($id);
-
-    public function getTitle();
-
+    /**
+     * @return string
+     */
+    public function getTitle(): string;
 }

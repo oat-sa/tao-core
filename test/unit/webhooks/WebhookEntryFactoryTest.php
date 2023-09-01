@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,20 +26,33 @@ use oat\tao\model\webhooks\configEntity\WebhookInterface;
 
 class WebhookEntryFactoryTest extends TestCase
 {
+    /** @var WebhookEntryFactory */
+    private $subject;
+
+    public function setUp(): void
+    {
+        $this->subject = new WebhookEntryFactory();
+    }
+
     public function testCreateEntryFromArray()
     {
-        $factory = new WebhookEntryFactory();
-        $webhook = $factory->createEntryFromArray([
+        $extraPayload = [
+            'extra' => 'data'
+        ];
+
+        $webhook = $this->subject->createEntryFromArray([
             'id' => 'wh1',
             'url' => 'http://url.com',
             'httpMethod' => 'POST',
             'retryMax' => 5,
+            'responseValidation' => true,
             'auth' => [
                 'authClass' => 'SomeClass',
                 'credentials' => [
                     'p1' => 'v1'
                 ]
-            ]
+            ],
+            'extraPayload' => $extraPayload
         ]);
 
         $this->assertInstanceOf(WebhookInterface::class, $webhook);
@@ -49,16 +63,18 @@ class WebhookEntryFactoryTest extends TestCase
         $this->assertEquals(5, $webhook->getMaxRetries());
         $this->assertEquals('SomeClass', $webhook->getAuth()->getAuthClass());
         $this->assertEquals(['p1' => 'v1'], $webhook->getAuth()->getCredentials());
+        $this->assertEquals(true, $webhook->getResponseValidationEnable());
+        $this->assertEquals($extraPayload, $webhook->getExtraPayload());
     }
 
     public function testCreateEntryFromArrayWithoutAuth()
     {
-        $factory = new WebhookEntryFactory();
-        $webhook = $factory->createEntryFromArray([
+        $webhook = $this->subject->createEntryFromArray([
             'id' => 'wh1',
             'url' => 'http://url.com',
             'httpMethod' => 'POST',
-            'retryMax' => 5
+            'retryMax' => 5,
+            'responseValidation' => true
         ]);
 
         $this->assertInstanceOf(WebhookInterface::class, $webhook);
@@ -66,15 +82,15 @@ class WebhookEntryFactoryTest extends TestCase
         $this->assertEquals('wh1', $webhook->getId());
         $this->assertEquals('http://url.com', $webhook->getUrl());
         $this->assertEquals('POST', $webhook->getHttpMethod());
+        $this->assertEquals(true, $webhook->getResponseValidationEnable());
         $this->assertNull($webhook->getAuth());
     }
 
     public function testInvalidConfig()
     {
-        $factory = new WebhookEntryFactory();
         $this->expectException(\InvalidArgumentException::class);
         try {
-            $factory->createEntryFromArray([
+            $this->subject->createEntryFromArray([
                 'id' => 'wh1',
                 'httpMethod' => 123,
                 'retryMax' => 5,
@@ -85,20 +101,20 @@ class WebhookEntryFactoryTest extends TestCase
                     ]
                 ]
             ]);
-        }
-        catch (\InvalidArgumentException $exception) {
-            $this->assertContains('httpMethod', $exception->getMessage());
-            $this->assertContains('url', $exception->getMessage());
+        } catch (\InvalidArgumentException $exception) {
+            $this->assertStringContainsString('httpMethod', $exception->getMessage());
+            $this->assertStringContainsString('url', $exception->getMessage());
+
             throw $exception;
         }
     }
 
     public function testInvalidAuthConfig()
     {
-        $factory = new WebhookEntryFactory();
         $this->expectException(\InvalidArgumentException::class);
+
         try {
-            $factory->createEntryFromArray([
+            $this->subject->createEntryFromArray([
                 'id' => 'wh1',
                 'url' => 'http://url.com',
                 'httpMethod' => 'POST',
@@ -109,9 +125,9 @@ class WebhookEntryFactoryTest extends TestCase
                     ]
                 ]
             ]);
-        }
-        catch (\InvalidArgumentException $exception) {
-            $this->assertContains('authClass', $exception->getMessage());
+        } catch (\InvalidArgumentException $exception) {
+            $this->assertStringContainsString('authClass', $exception->getMessage());
+
             throw $exception;
         }
     }

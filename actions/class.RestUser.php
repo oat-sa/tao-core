@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -95,6 +96,4 @@ class tao_actions_RestUser extends tao_actions_RestResource
 
         throw new InvalidArgumentException('Only user classes are allowed as classUri.');
     }
-
-
 }

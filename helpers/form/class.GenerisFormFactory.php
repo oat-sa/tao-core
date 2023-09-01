@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -24,9 +27,22 @@ use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\model\WidgetRdf;
 use oat\tao\helpers\form\elements\TreeAware;
+use oat\tao\helpers\form\elements\xhtml\SearchDropdown;
+use oat\tao\helpers\form\elements\xhtml\SearchTextBox;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\TaoOntology;
-use oat\tao\model\WidgetDefinitions;
+use tao_helpers_form_elements_AsyncFile as AsyncFile;
+use tao_helpers_form_elements_Authoring as Authoring;
+use tao_helpers_form_elements_Calendar as Calendar;
+use tao_helpers_form_elements_Checkbox as Checkbox;
+use tao_helpers_form_elements_Combobox as ComboBox;
+use tao_helpers_form_elements_GenerisAsyncFile as GenerisAsyncFile;
+use tao_helpers_form_elements_Hiddenbox as HiddenBox;
+use tao_helpers_form_elements_Htmlarea as HtmlArea;
+use tao_helpers_form_elements_Radiobox as RadioBox;
+use tao_helpers_form_elements_Textarea as TextArea;
+use tao_helpers_form_elements_Textbox as TextBox;
+use tao_helpers_form_elements_Treebox as TreeBox;
 
 /**
  * The GenerisFormFactory enables you to create Forms using rdf data and the
@@ -55,93 +71,113 @@ class tao_helpers_form_GenerisFormFactory
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  core_kernel_classes_Property $property
+     *
+     * @param core_kernel_classes_Property $property
+     *
      * @return tao_helpers_form_FormElement
+     *
+     * @throws common_Exception
+     * @throws common_exception_Error
+     * @throws core_kernel_persistence_Exception
      */
-    public static function elementMap( core_kernel_classes_Property $property)
+    public static function elementMap(core_kernel_classes_Property $property): ?tao_helpers_form_FormElement
     {
-        $returnValue = null;
-
-		//create the element from the right widget
+        //create the element from the right widget
         $property->feed();
 
         $widgetResource = $property->getWidget();
-		if (is_null($widgetResource)) {
-			return null;
-		}
 
-		//authoring widget is not used in standalone mode
-		if ($widgetResource->getUri() === 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Authoring'
-		    && tao_helpers_Context::check('STANDALONE_MODE')) {
-			return null;
-		}
+        //authoring widget is not used in standalone mode
+        if (
+            null === $widgetResource
+            || $widgetResource->getUri() === Authoring::WIDGET_ID
+            && tao_helpers_Context::check('STANDALONE_MODE')
+        ) {
+            return null;
+        }
 
-		// horrible hack to fix file widget
-		if ($widgetResource->getUri() === 'http://www.tao.lu/datatypes/WidgetDefinitions.rdf#AsyncFile') {
-		    $widgetResource = new core_kernel_classes_Resource('http://www.tao.lu/datatypes/WidgetDefinitions.rdf#GenerisAsyncFile');
-		}
+        // horrible hack to fix file widget
+        if ($widgetResource->getUri() === AsyncFile::WIDGET_ID) {
+            $widgetResource = new core_kernel_classes_Resource(GenerisAsyncFile::WIDGET_ID);
+        }
 
-		$element = tao_helpers_form_FormFactory::getElementByWidget(tao_helpers_Uri::encode($property->getUri()), $widgetResource);
+        $element = tao_helpers_form_FormFactory::getElementByWidget(
+            tao_helpers_Uri::encode($property->getUri()),
+            $widgetResource
+        );
 
-		if(!is_null($element)){
-		    if($element->getWidget() !== $widgetResource->getUri()){
-                common_Logger::w('Widget definition differs from implementation: '.$element->getWidget().' != '.$widgetResource->getUri());
-		        return null;
-			}
+        if (null === $element) {
+            return null;
+        }
 
-			//use the property label as element description
-			$propDesc = (strlen(trim($property->getLabel())) > 0) ? $property->getLabel() : str_replace(LOCAL_NAMESPACE, '', $property->getUri());
-			$element->setDescription($propDesc);
+        if ($element->getWidget() !== $widgetResource->getUri()) {
+            common_Logger::w(
+                'Widget definition differs from implementation: ' . $element->getWidget() . ' != '
+                    . $widgetResource->getUri()
+            );
+            return null;
+        }
 
-			//multi elements use the property range as options
-			if(method_exists($element, 'setOptions')){
-				$range = $property->getRange();
+        //use the property label as element description
+        $propDesc = trim($property->getLabel()) !== ''
+            ? $property->getLabel()
+            : str_replace(LOCAL_NAMESPACE, '', $property->getUri());
+        $element->setDescription($propDesc);
 
-				if($range !== null){
-					$options = array();
+        //multi elements use the property range as options
+        if (method_exists($element, 'setOptions')) {
+            $range = $property->getRange();
 
-					if($element instanceof TreeAware){
-                        $sortedOptions = $element->rangeToTree(
-							$property->getUri() === OntologyRdfs::RDFS_RANGE ? new core_kernel_classes_Class( OntologyRdfs::RDFS_RESOURCE ) : $range
-						);
-					}
-					else{
-						/** @var core_kernel_classes_Resource $rangeInstance */
-                        foreach ($range->getInstances(true) as $rangeInstance) {
-                            $level = $rangeInstance->getOnePropertyValue(new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL));
-                            if (is_null($level)) {
-                                $options[tao_helpers_Uri::encode($rangeInstance->getUri())] = array(tao_helpers_Uri::encode($rangeInstance->getUri()), $rangeInstance->getLabel());
-                            } else {
-                                $level = ($level instanceof core_kernel_classes_Resource) ? $level->getUri() : (string)$level;
-                                $options[$level] = array(tao_helpers_Uri::encode($rangeInstance->getUri()), $rangeInstance->getLabel());
-                            }
+            if ($range !== null) {
+                $options = [];
+
+                if ($element instanceof TreeAware) {
+                    $sortedOptions = $element->rangeToTree(
+                        $property->getUri() === OntologyRdfs::RDFS_RANGE
+                            ? new core_kernel_classes_Class(OntologyRdfs::RDFS_RESOURCE)
+                            : $range
+                    );
+                } else {
+                    foreach ($range->getInstances(true) as $rangeInstance) {
+                        $level = $rangeInstance->getOnePropertyValue(
+                            new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL)
+                        );
+                        if (is_null($level)) {
+                            $options[tao_helpers_Uri::encode($rangeInstance->getUri())] = [
+                                tao_helpers_Uri::encode($rangeInstance->getUri()),
+                                $rangeInstance->getLabel()
+                            ];
+                        } else {
+                            $level = ($level instanceof core_kernel_classes_Resource)
+                                ? $level->getUri()
+                                : (string)$level;
+                            $options[$level] = [
+                                tao_helpers_Uri::encode($rangeInstance->getUri()),
+                                $rangeInstance->getLabel()
+                            ];
                         }
-                        ksort($options);
-                        $sortedOptions = array();
-                        foreach ($options as $id => $values) {
-                            $sortedOptions[$values[0]] = $values[1];
-                        }
-						//set the default value to an empty space
-						if(method_exists($element, 'setEmptyOption')){
-							$element->setEmptyOption(' ');
-						}
-					}
+                    }
+                    ksort($options);
+                    $sortedOptions = [];
+                    foreach ($options as $id => $values) {
+                        $sortedOptions[$values[0]] = $values[1];
+                    }
+                    //set the default value to an empty space
+                    if (method_exists($element, 'setEmptyOption')) {
+                        $element->setEmptyOption(' ');
+                    }
+                }
 
-					//complete the options listing
-					$element->setOptions($sortedOptions);
-				}
-			}
+                //complete the options listing
+                $element->setOptions($sortedOptions);
+            }
+        }
 
-			foreach (ValidationRuleRegistry::getRegistry()->getValidators($property) as $validator) {
-			    $element->addValidator($validator);
-			}
+        foreach (ValidationRuleRegistry::getRegistry()->getValidators($property) as $validator) {
+            $element->addValidator($validator);
+        }
 
-			$returnValue = $element;
-		}
-
-
-
-        return $returnValue;
+        return $element;
     }
 
     /**
@@ -155,68 +191,60 @@ class tao_helpers_form_GenerisFormFactory
      * @param  core_kernel_classes_Class $topLevelClazz
      * @return array
      */
-    public static function getClassProperties( core_kernel_classes_Class $clazz,  core_kernel_classes_Class $topLevelClazz = null)
-    {
-        $returnValue = array();
+    public static function getClassProperties(
+        core_kernel_classes_Class $clazz,
+        core_kernel_classes_Class $topLevelClazz = null
+    ): array {
+        if (null === $topLevelClazz) {
+            $topLevelClazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OBJECT);
+        }
 
+        if ($clazz->getUri() === $topLevelClazz->getUri()) {
+            return $clazz->getProperties(false);
+        }
 
+        //determine the parent path
+        $parents = [];
+        $top = false;
+        do {
+            if (!isset($lastLevelParents)) {
+                $parentClasses = $clazz->getParentClasses(false);
+            } else {
+                $parentClasses = [];
+                foreach ($lastLevelParents as $parent) {
+                    $parentClasses = array_merge($parentClasses, $parent->getParentClasses(false));
+                }
+            }
+            if (empty($parentClasses)) {
+                break;
+            }
+            $lastLevelParents = [];
+            foreach ($parentClasses as $parentClass) {
+                if ($parentClass->getUri() === OntologyRdfs::RDFS_CLASS) {
+                    continue;
+                }
+                if ($parentClass->getUri() === $topLevelClazz->getUri()) {
+                    $parents[$parentClass->getUri()] = $parentClass;
+                    $top = true;
+                    break;
+                }
 
+                $allParentClasses = $parentClass->getParentClasses(true);
+                if (array_key_exists($topLevelClazz->getUri(), $allParentClasses)) {
+                    $parents[$parentClass->getUri()] = $parentClass;
+                }
 
-        if(is_null($topLevelClazz)){
-			$topLevelClazz = new core_kernel_classes_Class(TaoOntology::CLASS_URI_OBJECT );
-		}
+                $lastLevelParents[$parentClass->getUri()] = $parentClass;
+            }
+        } while (!$top);
 
+        $propertyChunks = [[]];
+        foreach ($parents as $parent) {
+            $propertyChunks[] = $parent->getProperties(false);
+        }
+        $propertyChunks[] = $clazz->getProperties(false);
 
-		if($clazz->getUri() == $topLevelClazz->getUri()){
-			$returnValue = $clazz->getProperties(false);
-			return (array) $returnValue;
-		}
-
-		//determine the parent path
-		$parents = array();
-		$top = false;
-		do{
-			if(!isset($lastLevelParents)){
-				$parentClasses = $clazz->getParentClasses(false);
-			}
-			else{
-				$parentClasses = array();
-				foreach($lastLevelParents as $parent){
-					$parentClasses = array_merge($parentClasses, $parent->getParentClasses(false));
-				}
-			}
-			if(count($parentClasses) == 0){
-				break;
-			}
-			$lastLevelParents = array();
-			foreach($parentClasses as $parentClass){
-				if($parentClass->getUri() == OntologyRdfs::RDFS_CLASS){
-					continue;
-				}
-				if($parentClass->getUri() == $topLevelClazz->getUri() ) {
-					$parents[$parentClass->getUri()] = $parentClass;
-					$top = true;
-					break;
-				}
-
-
-				$allParentClasses = $parentClass->getParentClasses(true);
-				if(array_key_exists($topLevelClazz->getUri(), $allParentClasses)){
-					 $parents[$parentClass->getUri()] = $parentClass;
-				}
-
-				$lastLevelParents[$parentClass->getUri()] = $parentClass;
-			}
-		}while(!$top);
-
-		foreach($parents as $parent){
-			$returnValue = array_merge($returnValue, $parent->getProperties(false));
-    	}
-    	$returnValue = array_merge($returnValue, $clazz->getProperties(false));
-
-
-
-        return (array) $returnValue;
+        return array_merge(...$propertyChunks);
     }
 
     /**
@@ -226,19 +254,11 @@ class tao_helpers_form_GenerisFormFactory
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @return array
      */
-    public static function getDefaultProperties()
+    public static function getDefaultProperties(): array
     {
-        $returnValue = array();
-
-
-
-		 $returnValue = array(
-			new core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL)
-		);
-
-
-
-        return (array) $returnValue;
+        return [
+            new core_kernel_classes_Property(OntologyRdfs::RDFS_LABEL)
+        ];
     }
 
     /**
@@ -249,115 +269,126 @@ class tao_helpers_form_GenerisFormFactory
      * @param  string mode
      * @return array
      */
-    public static function getPropertyProperties($mode = 'simple')
+    public static function getPropertyProperties($mode = 'simple'): array
     {
-        $returnValue = array();
+        $returnValue = [];
 
-
-
-		switch($mode){
-			case 'simple':
-				$defaultUris = array(GenerisRdf::PROPERTY_IS_LG_DEPENDENT);
-				break;
-			case 'advanced':
-			default:
-				$defaultUris = array(
+        switch ($mode) {
+            case 'simple':
+                $defaultUris = [GenerisRdf::PROPERTY_IS_LG_DEPENDENT];
+                break;
+            case 'advanced':
+            default:
+                $defaultUris = [
                     OntologyRdfs::RDFS_LABEL,
                     WidgetRdf::PROPERTY_WIDGET,
                     OntologyRdfs::RDFS_RANGE,
-					GenerisRdf::PROPERTY_IS_LG_DEPENDENT
-				);
-				break;
-		}
-		$resourceClass = new core_kernel_classes_Class(OntologyRdf::RDF_PROPERTY);
-		foreach($resourceClass->getProperties() as $property){
-			if(in_array($property->getUri(), $defaultUris)){
-				array_push($returnValue, $property);
-			}
-		}
+                    GenerisRdf::PROPERTY_IS_LG_DEPENDENT
+                ];
+                break;
+        }
+        $resourceClass = new core_kernel_classes_Class(OntologyRdf::RDF_PROPERTY);
+        foreach ($resourceClass->getProperties() as $property) {
+            if (in_array($property->getUri(), $defaultUris, true)) {
+                $returnValue[] = $property;
+            }
+        }
 
+        return $returnValue;
+    }
 
-
-        return (array) $returnValue;
+    public static function getWidgetUriById(string $id): ?string
+    {
+        return self::getPropertyMap()[$id]['widget'] ?? null;
     }
 
     /**
      * Return the map between the Property properties: range, widget, etc. to
      * shortcuts for the simplePropertyEditor
      *
-     * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @return array
      */
-    public static function getPropertyMap()
+    public static function getPropertyMap(): array
     {
-
-		$returnValue = array(
-			'text' => array(
-				'title' 	=> __('Text - Short - Field'),
-				'widget'	=> WidgetDefinitions::PROPERTY_TEXTBOX,
-				'range'		=> OntologyRdfs::RDFS_LITERAL,
-			    'multiple'  => GenerisRdf::GENERIS_FALSE
-			),
-			'longtext' => array(
-				'title' 	=> __('Text - Long - Box'),
-				'widget'	=> WidgetDefinitions::PROPERTY_TEXTAREA,
-				'range'		=> OntologyRdfs::RDFS_LITERAL,
-			    'multiple'  => GenerisRdf::GENERIS_FALSE
-			),
-			'html' => array(
-				'title' 	=> __('Text - Long - HTML editor'),
-				'widget'	=> WidgetDefinitions::PROPERTY_HTMLAREA,
-				'range'		=> OntologyRdfs::RDFS_LITERAL,
-			    'multiple'  => GenerisRdf::GENERIS_FALSE
-			),
-			'list' => array(
-				'title' 	=> __('List - Single choice - Radio button'),
-				'widget'	=> WidgetDefinitions::PROPERTY_RADIOBOX,
-				'range'		=> OntologyRdfs::RDFS_RESOURCE,
-			    'multiple'  => GenerisRdf::GENERIS_FALSE
-			),
-
-			'multiplenodetree' => array(
-				'title' 	=> __('Tree - Multiple node choice '),
-				'widget'	=> WidgetDefinitions::PROPERTY_TREEBOX,
-				'range'		=> OntologyRdfs::RDFS_RESOURCE,
-				'multiple'  => GenerisRdf::GENERIS_TRUE
-			),
-
-			'longlist' => array(
-				'title' 	=> __('List - Single choice - Drop down'),
-				'widget'	=> WidgetDefinitions::PROPERTY_COMBOBOX,
-				'range'		=> OntologyRdfs::RDFS_RESOURCE,
-			    'multiple'  => GenerisRdf::GENERIS_FALSE
-			),
-			'multilist' => array(
-				'title' 	=> __('List - Multiple choice - Check box'),
-				'widget'	=> WidgetDefinitions::PROPERTY_CHECKBOX,
-				'range'		=> OntologyRdfs::RDFS_RESOURCE,
-			    'multiple'  => GenerisRdf::GENERIS_TRUE
-			),
-			'calendar' => array(
-				'title' 	=> __('Calendar'),
-				'widget'	=> WidgetDefinitions::PROPERTY_CALENDAR,
-				'range'		=> OntologyRdfs::RDFS_LITERAL,
-			    'multiple'  => GenerisRdf::GENERIS_FALSE
-			),
-			'password' => array(
-				'title' 	=> __('Password'),
-				'widget'	=> WidgetDefinitions::PROPERTY_HIDDENBOX,
-				'range'		=> OntologyRdfs::RDFS_LITERAL,
-			    'multiple'  => GenerisRdf::GENERIS_FALSE
-			),
-			'file' => array(
-				'title' 	=> __('File'),
-				'widget'	=> WidgetDefinitions::PROPERTY_FILE,
-				'range'		=> GenerisRdf::CLASS_GENERIS_FILE,
-			    'multiple'  => GenerisRdf::GENERIS_FALSE
-			)
-		);
-
-        return $returnValue;
+        return [
+            'text' => [
+                'title' => __('Text - Short - Field'),
+                'widget' => TextBox::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_LITERAL,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
+            ],
+            'longtext' => [
+                'title' => __('Text - Long - Box'),
+                'widget' => TextArea::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_LITERAL,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
+            ],
+            'html' => [
+                'title' => __('Text - Long - HTML editor'),
+                'widget' => HtmlArea::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_LITERAL,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
+            ],
+            'list' => [
+                'title' => __('List - Single choice - Radio button'),
+                'widget' => RadioBox::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_RESOURCE,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
+                'depends-on-property' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
+            ],
+            'multiplenodetree' => [
+                'title' => __('Tree - Multiple node choice'),
+                'widget' => TreeBox::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_RESOURCE,
+                'multiple' => GenerisRdf::GENERIS_TRUE,
+            ],
+            'longlist' => [
+                'title' => __('List - Single choice - Drop down'),
+                'widget' => ComboBox::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_RESOURCE,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
+                'depends-on-property' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
+            ],
+            'multilist' => [
+                'title' => __('List - Multiple choice - Check box'),
+                'widget' => Checkbox::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_RESOURCE,
+                'multiple' => GenerisRdf::GENERIS_TRUE,
+                'depends-on-property' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
+            ],
+            'multisearchlist' => [
+                'title' => __('List - Multiple choice - Search input'),
+                'widget' => SearchTextBox::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_RESOURCE,
+                'multiple' => GenerisRdf::GENERIS_TRUE,
+                'depends-on-property' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
+            ],
+            'singlesearchlist' => [
+                'title' => __('List - Single choice - Search input'),
+                'widget' => SearchDropdown::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_RESOURCE,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
+                'depends-on-property' => GenerisRdf::PROPERTY_DEPENDS_ON_PROPERTY,
+            ],
+            'calendar' => [
+                'title' => __('Calendar'),
+                'widget' => Calendar::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_LITERAL,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
+            ],
+            'password' => [
+                'title' => __('Password'),
+                'widget' => HiddenBox::WIDGET_ID,
+                'range' => OntologyRdfs::RDFS_LITERAL,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
+            ],
+            'file' => [
+                'title' => __('File'),
+                'widget' => AsyncFile::WIDGET_ID,
+                'range' => GenerisRdf::CLASS_GENERIS_FILE,
+                'multiple' => GenerisRdf::GENERIS_FALSE,
+            ],
+        ];
     }
 
 
@@ -367,29 +398,22 @@ class tao_helpers_form_GenerisFormFactory
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
      * @param  array $data
-     * @param  boolean $recursive
      * @return array
      */
-    public static function extractTreeData($data, $recursive = false)
+    public static function extractTreeData($data): array
     {
-        $returnValue = array();
+        $returnValue = [];
 
-
-
-
-        if(isset($data['data'])){
-        	$data = array($data);
+        if (isset($data['data'])) {
+            $data = [$data];
         }
-        foreach($data as $node){
-        	$returnValue[$node['attributes']['id']] = $node['data'];
-        	if(isset($node['children'])){
-        		$returnValue = array_merge($returnValue, self::extractTreeData($node['children'], true));
-        	}
+        foreach ($data as $node) {
+            $returnValue[$node['attributes']['id']] = $node['data'];
+            if (isset($node['children'])) {
+                $returnValue = array_merge($returnValue, self::extractTreeData($node['children']));
+            }
         }
 
-
-
-        return (array) $returnValue;
+        return $returnValue;
     }
-
 }

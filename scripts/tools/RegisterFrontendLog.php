@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,7 +31,6 @@ use oat\oatbox\extension\AbstractAction;
  */
 class RegisterFrontendLog extends AbstractAction
 {
-
     /**
      * @param array $params
      * @return Report

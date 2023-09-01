@@ -7,7 +7,7 @@
 >
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Langpt-PT">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[Portuguese]]></rdfs:label>
+    <rdfs:label xml:lang="en-US"><![CDATA[Portuguese (Portugal)]]></rdfs:label>
     <rdf:value><![CDATA[pt-PT]]></rdf:value>
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageGUI"/>
     <tao:LanguageUsages rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsageData"/>

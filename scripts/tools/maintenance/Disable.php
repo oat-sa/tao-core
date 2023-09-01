@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,11 +43,17 @@ class Disable implements Action, ServiceLocatorAwareInterface
             $state = $this->getMaintenanceService()->getPlatformState();
             if (! $this->getMaintenanceService()->isPlatformReady()) {
                 return \common_report_Report::createSuccess(
+                    // phpcs:disable Generic.Files.LineLength
                     __('TAO platform is already on maintenance mode since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
+                    // phpcs:enable Generic.Files.LineLength
                 );
             }
 
-            $report = \common_report_Report::createSuccess(__('TAO platform is now under maintenance. It was in maintenance since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT)));
+            $report = \common_report_Report::createSuccess(
+                // phpcs:disable Generic.Files.LineLength
+                __('TAO platform is now under maintenance. It was in maintenance since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
+                // phpcs:enable Generic.Files.LineLength
+            );
             $this->getMaintenanceService()->disablePlatform();
             return $report;
         } catch (\common_Exception $e) {

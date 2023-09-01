@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * This program is free software; you can redistribute it and/or
@@ -15,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2013 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2013-2020 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 namespace oat\tao\model\websource;
@@ -26,32 +27,28 @@ use oat\oatbox\Configurable;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
 use Psr\Http\Message\StreamInterface;
+use tao_helpers_File;
 
 /**
- * This is the base class of the Access Providers
- *
- * @access public
  * @author Joel Bout, <joel@taotesting.com>
- * @package tao
-
- * @license GPLv2  http://www.opensource.org/licenses/gpl-2.0.php
  */
 abstract class BaseWebsource extends Configurable implements Websource
 {
-    const OPTION_ID = 'id';
-    const OPTION_FILESYSTEM_ID = 'fsUri';
+    public const OPTION_ID = 'id';
+    public const OPTION_FILESYSTEM_ID = 'fsUri';
+    private const ALLOWED_SVGZ_MIMETYPES = ['text/plain', 'image/svg', 'application/x-gzip'];
 
-	/**
-	 * Filesystem that is being made available
-	 */
-	protected $fileSystem = null;
+    /**
+     * Filesystem that is being made available
+     */
+    protected $fileSystem = null;
 
-	/**
-	 * Identifier of the Access Provider
-	 *
-	 * @var string
-	 */
-	private $id;
+    /**
+     * Identifier of the Access Provider
+     *
+     * @var string
+     */
+    private $id;
 
     /**
      * Used to instantiate new AccessProviders
@@ -60,23 +57,25 @@ abstract class BaseWebsource extends Configurable implements Websource
      * @return BaseWebsource
      * @throws \common_Exception
      */
-    protected static function spawn($fileSystemId, $customConfig = array()) {
-	    $customConfig[self::OPTION_FILESYSTEM_ID] = $fileSystemId;
-	    $customConfig[self::OPTION_ID] = uniqid();
-	    $webSource = new static($customConfig);
-	    WebsourceManager::singleton()->addWebsource($webSource);
+    protected static function spawn($fileSystemId, $customConfig = [])
+    {
+        $customConfig[self::OPTION_FILESYSTEM_ID] = $fileSystemId;
+        $customConfig[self::OPTION_ID] = uniqid();
+        $webSource = new static($customConfig);
+        WebsourceManager::singleton()->addWebsource($webSource);
 
-	    return $webSource;
-	}
+        return $webSource;
+    }
 
-	/**
-	 * Return the identifer of the AccessProvider
-	 *
-	 * @return string
-	 */
-	public function getId() {
-	    return $this->getOption(self::OPTION_ID);
-	}
+    /**
+     * Return the identifer of the AccessProvider
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->getOption(self::OPTION_ID);
+    }
 
     /**
      * @return null|\oat\oatbox\filesystem\FileSystem
@@ -108,10 +107,10 @@ abstract class BaseWebsource extends Configurable implements Websource
         $fs = $this->getFileSystem();
         try {
             $resource = $fs->readStream($filePath);
-        } catch(FileNotFoundException $e) {
+        } catch (FileNotFoundException $e) {
             throw new \tao_models_classes_FileNotFoundException($filePath);
         }
-        return new Stream($resource, array('size' => $fs->getSize($filePath)));
+        return new Stream($resource, ['size' => $fs->getSize($filePath)]);
     }
 
     /**
@@ -130,20 +129,25 @@ abstract class BaseWebsource extends Configurable implements Websource
             //manage bugs in finfo
             switch ($pathParts['extension']) {
                 case 'js':
-                    if ($mimeType === 'text/plain' || $mimeType === 'text/x-asm' || $mimeType === 'text/x-c') {
+                    if (
+                        in_array($mimeType, ['text/plain', 'text/html', 'text/x-asm', 'text/x-c', 'text/x-java'], true)
+                    ) {
                         return 'text/javascript';
                     }
                     break;
                 case 'css':
-                    //for css files mime type can be 'text/plain' due to bug in finfo (see more: https://bugs.php.net/bug.php?id=53035)
+                    // for css files mime type can be 'text/plain' due to bug in finfo
+                    // (see more: https://bugs.php.net/bug.php?id=53035)
                     if ($mimeType === 'text/plain' || $mimeType === 'text/x-asm') {
                         return 'text/css';
                     }
                     break;
                 case 'svg':
-                    //when there are more than one image in svg file - finfo recognizes it as `image/svg`, while it should be `image/svg+xml` or at least `text/plain` for a previous hack to work
-                    if ($mimeType === 'text/plain' || $mimeType === 'image/svg') {
-                        return 'image/svg+xml';
+                case 'svgz':
+                    // when there are more than one image in svg file - finfo recognizes it as `image/svg`, while it
+                    // should be `image/svg+xml` or at least `text/plain` for a previous hack to work
+                    if (in_array($mimeType, self::ALLOWED_SVGZ_MIMETYPES, true)) {
+                        return tao_helpers_File::MIME_SVG;
                     }
                     break;
                 case 'mp3':

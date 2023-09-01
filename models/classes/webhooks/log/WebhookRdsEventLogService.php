@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -75,8 +76,11 @@ class WebhookRdsEventLogService extends ConfigurableService implements WebhookEv
      * @inheritDoc
      * @throws \Exception
      */
-    public function storeInvalidAcknowledgementLog(WebhookTaskContext $webhookTaskContext, $responseBody, $actualAcknowledgement = null)
-    {
+    public function storeInvalidAcknowledgementLog(
+        WebhookTaskContext $webhookTaskContext,
+        $responseBody,
+        $actualAcknowledgement = null
+    ) {
         $record = $this->applyContext($webhookTaskContext)
             ->setHttpStatusCode(StatusCode::HTTP_OK)
             ->setResponseBody($responseBody)

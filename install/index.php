@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,11 +19,12 @@
  *
  *
  */
+
 require_once '../../vendor/autoload.php';
 
-if(tao_install_utils_System::isTAOInstalled()){
-    $bootStrap = new oat\tao\model\mvc\Bootstrap(__DIR__.'/../../config/generis.conf.php');
-    if(!DEBUG_MODE){
+if (tao_install_utils_System::isTAOInstalled()) {
+    $bootStrap = new oat\tao\model\mvc\Bootstrap(__DIR__ . '/../../config/generis.conf.php');
+    if (!DEBUG_MODE) {
         header("location:production.html");
         die();
     }

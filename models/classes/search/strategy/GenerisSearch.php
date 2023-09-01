@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,23 +15,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
- *
- *
+ * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
  */
+
+declare(strict_types=1);
+
 namespace oat\tao\model\search\strategy;
 
-use core_kernel_classes_Class;
 use oat\generis\model\OntologyRdfs;
-use oat\tao\model\search\Search;
 use oat\tao\model\search\ResultSet;
 use oat\oatbox\service\ConfigurableService;
 use oat\generis\model\OntologyAwareTrait;
+use oat\tao\model\search\Search;
+use Traversable;
 
 /**
  * Simple Search implementation that ignores the indexes
- * and searches over the labels 
- * 
+ * and searches over the labels
+ *
  * @author Joel Bout <joel@taotesting.com>
  */
 class GenerisSearch extends ConfigurableService implements Search
@@ -38,92 +40,91 @@ class GenerisSearch extends ConfigurableService implements Search
     use OntologyAwareTrait;
 
     /**
-     * (non-PHPdoc)
-     * @see \oat\tao\model\search\Search::query()
+     * @inheritDoc
      */
-    public function query($queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC') {
+    public function query($queryString, $type, $start = 0, $count = 10, $order = 'id', $dir = 'DESC')
+    {
         $rootClass = $this->getClass($type);
-        $results = $rootClass->searchInstances([
-            OntologyRdfs::RDFS_LABEL => $queryString
-        ], array(
-            'recursive' => true,
-            'like'      => true,
-            'offset'    => $start,
-            'limit'     => $count,
-        ));
-        $ids = array();
+        $results = $rootClass->searchInstances(
+            [
+                OntologyRdfs::RDFS_LABEL => $queryString
+            ],
+            [
+                'recursive' => true,
+                'like' => true,
+                'offset' => $start,
+                'limit' => $count,
+            ]
+        );
+
+        $ids = [];
+
         foreach ($results as $resource) {
-            $ids[] = $resource->getUri();
+            $ids[] = [
+                'id' => $resource->getUri(),
+                'label' => $resource->getLabel()
+            ];
         }
 
         return new ResultSet($ids, $this->getTotalCount($queryString, $rootClass));
     }
 
     /**
-     * (non-PHPdoc)
-     * @see \oat\tao\model\search\Search::flush()
+     * @inheritDoc
      */
-    public function flush() {
+    public function flush()
+    {
         // no flushing required
     }
 
     /**
-     * (non-PHPdoc)
-     * @see \oat\tao\model\search\Search::addIndexes()
+     * @inheritDoc
      */
-    public function addIndexes(\Traversable $IndexIterator) {
-        // no indexation required
+    public function addIndexes(Traversable $IndexIterator)
+    {
         return 0;
     }
 
     /**
-     * Return total count of corresponded instances
-     *
-     * @param string $queryString
-     * @param core_kernel_classes_Class $rootClass
-     *
-     * @return array
+     * @inheritDoc
      */
-    private function getTotalCount( $queryString, $rootClass = null )
+    private function getTotalCount($queryString, $rootClass = null)
     {
         return $rootClass->countInstances(
-            array(
+            [
                 OntologyRdfs::RDFS_LABEL => $queryString
-            ),
-            array(
+            ],
+            [
                 'recursive' => true,
-                'like'      => true,
-            )
+                'like' => true,
+            ]
         );
     }
-    
+
     /**
-     * (non-PHPdoc)
-     * @see \oat\tao\model\search\Search::index()
+     * @inheritDoc
      */
     public function index($document = [])
     {
-        // nothing to do
         $i = 0;
-        foreach ($document as $resuource) {
+
+        foreach ($document as $resource) {
             $i++;
         }
+
         return $i;
     }
-    
+
     /**
-     * (non-PHPdoc)
-     * @see \oat\tao\model\search\Search::remove()
+     * @inheritDoc
      */
     public function remove($resourceId)
     {
-        // nothing to do
         return true;
     }
-    
+
     /**
-     * (non-PHPdoc)
-     * @see \oat\tao\model\search\Search::supportCustomIndex()
+     * @inheritDoc
      */
     public function supportCustomIndex()
     {

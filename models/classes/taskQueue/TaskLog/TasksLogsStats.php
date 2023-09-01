@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,9 +25,9 @@ use JsonSerializable;
 
 class TasksLogsStats implements JsonSerializable
 {
-    const COMPLETED_TASKS = 'completedtasks';
-    const FAILED_TASKS = 'failedtasks';
-    const IN_PROGRESS_TASKS = 'inprogresstasks';
+    public const COMPLETED_TASKS = 'completedtasks';
+    public const FAILED_TASKS = 'failedtasks';
+    public const IN_PROGRESS_TASKS = 'inprogresstasks';
 
     /** @var  int */
     private $numberOfTasksCompleted;
@@ -56,7 +57,11 @@ class TasksLogsStats implements JsonSerializable
      */
     public static function buildFromArray(array $rawData)
     {
-        return new self($rawData[static::COMPLETED_TASKS], $rawData[static::FAILED_TASKS], $rawData[static::IN_PROGRESS_TASKS]);
+        return new self(
+            $rawData[static::COMPLETED_TASKS],
+            $rawData[static::FAILED_TASKS],
+            $rawData[static::IN_PROGRESS_TASKS]
+        );
     }
 
     /**
@@ -83,10 +88,7 @@ class TasksLogsStats implements JsonSerializable
         return $this->numberOfTasksInProgress;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'numberOfTasksCompleted' => $this->numberOfTasksCompleted,

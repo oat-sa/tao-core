@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -82,7 +85,10 @@ class tao_helpers_form_FormFactory
                 'element' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div']),
                 'group' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-group']),
                 'error' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-error']),
-                'actions-bottom' => new tao_helpers_form_xhtml_TagWrapper(['tag' => 'div', 'cssClass' => 'form-toolbar'])
+                'actions-bottom' => new tao_helpers_form_xhtml_TagWrapper([
+                    'tag' => 'div',
+                    'cssClass' => 'form-toolbar'
+                ])
             ]);
 
             $myForm->setActions(self::getCommonActions());
@@ -91,8 +97,6 @@ class tao_helpers_form_FormFactory
         }
 
         $returnValue = $myForm;
-
-
 
         return $returnValue;
     }
@@ -146,7 +150,7 @@ class tao_helpers_form_FormFactory
     /**
      * @param $name
      * @param core_kernel_classes_Resource $widget
-     * @return mixed
+     * @return tao_helpers_form_FormElement
      * @throws common_Exception
      * @throws common_exception_Error
      */
@@ -188,8 +192,6 @@ class tao_helpers_form_FormFactory
             common_Logger::w('Unknown validator ' . $name, ['TAO', 'FORM']);
         }
 
-
-
         return $returnValue;
     }
 
@@ -198,35 +200,24 @@ class tao_helpers_form_FormFactory
      *
      * @access public
      * @author Bertrand Chevrier, <bertrand.chevrier@tudor.lu>
-     * @param  string $context
-     * @param  boolean $save
+     * @param  string $context deprecated
+     * @param  bool $save
      * @return array
      * @throws common_Exception
      */
     public static function getCommonActions($context = 'bottom', $save = true)
     {
-        $returnValue = [];
-
-        switch ($context) {
-            case 'top':
-            case 'bottom':
-            default:
-                $actions = tao_helpers_form_FormFactory::getElement('save', 'Free');
-                $value = '';
-                if ($save) {
-                    $button =  tao_helpers_form_FormFactory::getElement('Save', 'Button');
-                    $button->setIcon('icon-save');
-                    $button->setValue(__('Save'));
-                    $button->setType('submit');
-                    $button->addClass('form-submitter btn-success small');
-                    $value .= $button->render();
-                }
-
-                $actions->setValue($value);
-                $returnValue[] = $actions;
-                break;
+        if (!$save) {
+            return [tao_helpers_form_FormFactory::getElement('save', 'Free')];
         }
 
-        return $returnValue;
+        $action = tao_helpers_form_FormFactory::getElement('Save', 'Button');
+        $action->setIcon('icon-save');
+        $action->setValue(__('Save'));
+        $action->setType('submit');
+        $action->setTestId('save');
+        $action->addClass('form-submitter btn-success small');
+
+        return [$action];
     }
 }

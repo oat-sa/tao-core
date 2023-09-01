@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,7 +20,6 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @license GPLv2
  * @package tao
- *
  */
 
 use oat\tao\model\accessControl\ActionResolver;
@@ -27,17 +27,19 @@ use oat\generis\test\GenerisPhpUnitTestRunner;
 
 /**
  * Test {@link oat\tao\model\accessControl\ActionResolver}
- * 
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @package tao
  */
-class ActionResolverTest extends GenerisPhpUnitTestRunner {
+class ActionResolverTest extends GenerisPhpUnitTestRunner
+{
     /**
      * Test {@link ActionResolver} construction from url
      *
      * @TODO: Test resolver with PSR-4 style controller when it's present.
      */
-    public function testActionResolver(){
+    public function testActionResolver()
+    {
         $url = ROOT_URL . 'tao/Main/index';
         $expectedClassName = 'tao_actions_Main';
         $expectedAction = 'index';
@@ -53,32 +55,37 @@ class ActionResolverTest extends GenerisPhpUnitTestRunner {
 
     /**
      * Test the constructor to throw an exception if the url is unknown
-     * @expectedException ResolverException
      */
-    public function testFailingConstructor(){
+    public function testFailingConstructor()
+    {
+        $this->expectException(ResolverException::class);
         new ActionResolver('/foo/bar/index');
     }
 
     /**
-     * Provides data for {@link self::testByControllerName} : extension, shortname and expacted controller class and action.
+     * Provides data for {@link self::testByControllerName}: extension, shortname and
+     * exacted controller class and action.
+     *
      * @todo add a row with a namespaced controller
      * @return array[] the data
-     */     
-    public function getByControllerNameProvider(){
-        return array(
-            array('tao', 'Main', 'tao_actions_Main', 'index'),
-        );
-    }   
- 
+     */
+    public function getByControllerNameProvider()
+    {
+        return [
+            ['tao', 'Main', 'tao_actions_Main', 'index'],
+        ];
+    }
+
     /**
-     * Test {@link ActionResolver::getByControllerName(} 
-     * @dataProvider getByControllerNameProvider 
+     * Test {@link ActionResolver::getByControllerName(}
+     * @dataProvider getByControllerNameProvider
      * @param string $extension
      * @param string $shortName
      * @param string $expectedClassName
      * @param string $expectedAction
      */
-    public function testGetByControllerName($extension, $shortName, $expectedClassName, $expectedAction){    
+    public function testGetByControllerName($extension, $shortName, $expectedClassName, $expectedAction)
+    {
         $resolver = ActionResolver::getByControllerName($shortName, $extension);
 
         $this->assertFalse(is_null($resolver));

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,8 +34,8 @@ use Traversable;
  */
 class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
 {
-    const FILE_NAME = 'export.csv';
-    const CSV_CONTENT_TYPE = 'text/csv; charset=UTF-8';
+    public const FILE_NAME = 'export.csv';
+    public const CSV_CONTENT_TYPE = 'text/csv; charset=UTF-8';
 
     /**
      * @var string value of `Content-Type` header
@@ -46,15 +47,21 @@ class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
      * @param boolean $download Deprecated: use getFileExportResponse() and setResponse() in controller
      * @param string $delimiter sets the field delimiter (one character only).
      * @param string $enclosure sets the field enclosure (one character only).
+     * @param bool $withoutBom sets BOM char set in case when need to be compatible with Excel
      * @return string|null
      * @throws \common_exception_InvalidArgumentType
      */
-    public function export($columnNames = false, $download = false, $delimiter = ',', $enclosure = '"')
-    {
+    public function export(
+        $columnNames = false,
+        $download = false,
+        $delimiter = ',',
+        $enclosure = '"',
+        $withoutBom = true
+    ) {
         $data = $this->data;
 
-        if( !is_array( $data ) && !$data instanceof Traversable ){
-             throw new \common_exception_InvalidArgumentType('Entity you trying to export is not Traversable');
+        if (!is_array($data) && !$data instanceof Traversable) {
+            throw new \common_exception_InvalidArgumentType('Entity you trying to export is not Traversable');
         }
 
         if ($columnNames && $data) {
@@ -71,6 +78,10 @@ class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
             $exportData .= $file->fgets();
         }
         $exportData = trim($exportData);
+
+        if ($withoutBom === false) {
+            $exportData = $this->prependBomCharSet($exportData);
+        }
 
         if ($download) {
             $this->download($exportData, self::FILE_NAME);
@@ -103,5 +114,10 @@ class CsvExporter extends AbstractFileExporter implements PsrResponseExporter
         }
         $exportedString = $this->export($columnNames, false, $delimiter, $enclosure);
         return $this->preparePsrResponse($originResponse, $exportedString, self::FILE_NAME);
+    }
+
+    private function prependBomCharSet(string $data): string
+    {
+        return "\xEF\xBB\xBF{$data}";
     }
 }

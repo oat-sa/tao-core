@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:ns0="http://www.tao.lu/Ontologies/TAO.rdf#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:UpdatedAt>1629974908.9884</ns0:UpdatedAt>
+    <rdfs:label xml:lang="en-US">MATH Grade 1</rdfs:label>
+    <rdfs:subClassOf>http://www.tao.lu/Ontologies/TAO.rdf#Tree</rdfs:subClassOf>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd6981185d38f4f21c25914d3">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9ccf1c-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.002</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">Grade 1</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd6985185a58cc34b5edcf28f">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9b1433-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.0043</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">Operations &amp; Algebraic Thinking</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd698818591fc216bcf533ec6">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9b3728-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.0061</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.OA.A Represent and solve problems involving addition and subtraction.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd698b185110a49aca465a3cd">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9bdee1-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.0084</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.OA.A.1 Use addition and subtraction within 20 to solve word problems involving situations of adding to, taking from, putting together, taking apart, and comparing, with unknowns in all positions, e.g., by using objects, drawings, and equations with a symbol for the unknown number to represent the problem.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd698e18507b9233a853a4e18">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9d25bb-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.0104</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.OA.A.2 Solve word problems that call for addition of three whole numbers whose sum is less than or equal to 20, e.g., by using objects, drawings, and equations with a symbol for the unknown number to represent the problem.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd6991185163b22ba39979ac9">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9cea7f-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.0126</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.OA.B Understand and apply properties of operations and the relationship between addition and subtraction.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd6993185b4ba20ecb6ceaf14">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9e0fbe-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.0147</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.OA.B.3 Apply properties of operations as strategies to add and subtract.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd6997185afd078110fbb9f47">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9ebb03-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1605694948.7512</ns0:UpdatedAt>
+    <ns0:UpdatedAt>1629974908.9806</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.OA.B.4 Understand subtraction as an unknown-addend problem. For example, subtract 10 - 8 by finding the number that makes 10 when added to 8.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd699a185914ac4df2bcc6ea5">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9df10d-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.0978</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.OA.C Add and subtract within 20.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd699d185a38778bd5343b211">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9f527f-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.0995</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.OA.C.5 Relate counting to addition and subtraction (e.g., by counting on 2 to add 2).</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd699f185c4c90ce44cc7adbb">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9fd4e5-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.1012</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.OA.C.6 Add and subtract within 20, demonstrating fluency for addition and subtraction within 10. Use strategies such as counting on; making ten (e.g., 8 + 6 = 8 + 2 + 4 = 10 + 4 = 14); decomposing a number leading to a ten (e.g., 13 - 4 = 13 - 3 - 1 = 10 - 1 = 9); using the relationship between addition and subtraction (e.g., knowing that 8 + 4 = 12, one knows 12 - 8 = 4); and creating equivalent but easier or known sums (e.g., adding 6 + 7 by creating the known equivalent 6 + 6 + 1 = 12 + 1 = 13).</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69a218503900c31329a440f">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9eb1a4-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.1033</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.OA.D Work with addition and subtraction equations.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69a5185f937ee32e8166ef9">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6ba03a8f-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.1052</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.OA.D.7 Understand the meaning of the equal sign, and determine if equations involving addition and subtraction are true or false. For example, which of the following equations are true and which are false? 6 = 6, 7 = 8 - 1, 5 + 2 = 2 + 5, 4 + 1 = 5 + 2.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69a81855d33ec77aa69d041">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6ba09818-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.1071</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.OA.D.8 Determine the unknown whole number in an addition or subtraction equation relating three whole numbers. For example, determine the unknown number that makes the equation true in each of the equations 8 + ? = 11, 5 = _ - 3, 6 + 6 = _.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69ab1853467cdaed1699227">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9cd178-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.1092</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">Number &amp; Operations in Base Ten</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69ae185eb989e1d777e6337">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9b3160-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.1111</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.NBT.A Extend the counting sequence.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69b1185784aea597208ff1c">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9bdbaf-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1605694948.9972</ns0:UpdatedAt>
+    <ns0:UpdatedAt>1629974909.0903</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.NBT.A.1 Count to 120, starting at any number less than 120. In this range, read and write numerals and represent a number of objects with a written numeral.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69b318517875de1df6c510e">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9ce809-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.1885</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.NBT.B Understand place value.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69b61856990d2573801e829">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9d22e5-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.1901</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.NBT.B.2 Understand that the two digits of a two-digit number represent amounts of tens and ones. Understand the following as special cases:</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69b918531b7106f5cbac468">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6ba1012f-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.1916</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.NBT.B.2.a 10 can be thought of as a bundle of ten ones — called a &quot;ten.&quot;</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69bc18516aa227ece852d38">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6ba1795a-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.1932</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.NBT.B.2.b The numbers from 11 to 19 are composed of a ten and one, two, three, four, five, six, seven, eight, or nine ones.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69be185433b65b4464636fe">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6ba1ff7c-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.1947</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.NBT.B.2.c The numbers 10, 20, 30, 40, 50, 60, 70, 80, 90 refer to one, two, three, four, five, six, seven, eight, or nine tens (and 0 ones).</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69c1185f3f3a9bb23f35b9f">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9e0d8d-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.1965</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.NBT.B.3 Compare two two-digit numbers based on meanings of the tens and ones digits, recording the results of comparisons with the symbols &gt;, =, and</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69c418592c86fe8079f141e">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9b3443-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.1982</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.NBT.C Use place value understanding and properties of operations to add and subtract.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69c7185633ae3b3b188ca46">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9eb89a-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.1999</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.NBT.C.4 Add within 100, including adding a two-digit number and a one-digit number, and adding a two-digit number and a multiple of 10, using concrete models or drawings and strategies based on place value, properties of operations, and/or the relationship between addition and subtraction; relate the strategy to a written method and explain the reasoning used. Understand that in adding two-digit numbers, one adds tens and tens, ones and ones; and sometimes it is necessary to compose a ten.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69ca185f18686dba631f210">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9f4fd0-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1605694949.2457</ns0:UpdatedAt>
+    <ns0:UpdatedAt>1629974909.1822</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.NBT.C.5 Given a two-digit number, mentally find 10 more or 10 less than the number, without having to count; explain the reasoning used.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69cc1859d48ea8b81f927f8">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9fd080-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.2669</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.NBT.C.6 Subtract multiples of 10 in the range 10-90 from multiples of 10 in the range 10-90 (positive or zero differences), using concrete models or drawings and strategies based on place value, properties of operations, and/or the relationship between addition and subtraction; relate the strategy to a written method and explain the reasoning used.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69cf1853057857fefe831b0">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9dde61-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.2685</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">Measurement &amp; Data</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69d2185d28c4ff79ca47eab">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9b2e79-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.27</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.MD.A Measure lengths indirectly and by iterating length units.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69d5185935797c395537f20">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9bd85b-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.2717</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.MD.A.1 Order three objects by length; compare the lengths of two objects indirectly by using a third object.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69d818507c466e956beaa54">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9d205c-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.2733</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.MD.A.2 Express the length of an object as a whole number of length units, by laying multiple copies of a shorter object (the length unit) end to end; understand that the length measurement of an object is the number of same-size length units that span it with no gaps or overlaps.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69db18550122958ec21ca9f">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9ce596-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.2751</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.MD.B Tell and write time.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69de1851909658cb389f7a9">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9e0b6c-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.2767</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.MD.B.3 Tell and write time in hours and half-hours using analog and digital clocks.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69e1185ba430922a8e88fa4">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9deefa-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629974909.2783</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.MD.C Represent and interpret data.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69e4185d23e8c3df1da7206">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9eb642-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1605694949.5042</ns0:UpdatedAt>
+    <ns0:UpdatedAt>1629974909.2599</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.MD.C.4 Organize, represent, and interpret data with up to three categories; ask and answer questions about the total number of data points, how many in each category, and how many more or less are in one category than in another.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69e61851177d922dadfb04f">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9e9f5d-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629982949.5382</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">Geometry</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69e9185fbec2e4ad09e3fa8">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9b2b94-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629982949.5432</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.G.A Reason with shapes and their attributes.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69ec185f653479fa4899823">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9bd535-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629982949.5464</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.G.A.1 Distinguish between defining attributes (e.g., triangles are closed and three-sided) versus non-defining attributes (e.g., color, orientation, overall size); build and draw shapes to possess defining attributes.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69ef1851d7a6398ab1b0a52">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9d1dd5-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629982949.5554</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.G.A.2 Compose two-dimensional shapes (rectangles, squares, trapezoids, triangles, half-circles, and quarter-circles) or three-dimensional shapes (cubes, right rectangular prisms, right circular cones, and right circular cylinders) to create a composite shape, and compose new shapes from the composite shape.</rdfs:label>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd69f21856d7df3af4d613723">
+    <ns0:generatedBy>oat\taoNewMeridian\scripts\install\SetupItemBank</ns0:generatedBy>
+    <ns0:nodeOriginId>6b9e0945-d7cc-11e8-824f-0242ac160002</ns0:nodeOriginId>
+    <ns0:UpdatedAt>1629982949.5583</ns0:UpdatedAt>
+    <rdf:type>http://aadvanced-search-integration.playground.kitchen.it.taocloud.org/tao.rdf#i6127717cd690f185642792cf7650115c</rdf:type>
+    <rdfs:label xml:lang="en-US">1.G.A.3 Partition circles and rectangles into two and four equal shares, describe the shares using the words halves, fourths, and quarters, and use the phrases half of, fourth of, and quarter of. Describe the whole as two of, or four of the shares. Understand for these examples that decomposing into more equal shares creates smaller shares.</rdfs:label>
+  </rdf:Description>
+
+</rdf:RDF>

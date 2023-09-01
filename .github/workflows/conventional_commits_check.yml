@@ -1,0 +1,19 @@
+# Action to check conventional commits on OAT pull requests
+
+name: Conventional commits check
+
+on:
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  pr-check:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - run: git fetch --unshallow --tags
+    - name: Check commit
+      if: always()
+      uses: oat-sa/conventional-commit-action@v0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}

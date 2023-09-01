@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,22 +32,22 @@ class FileStorageTest extends FileStorageTestCase
     {
         $id = 'polop-';
         $file = 'test.txt';
-        
+
         $this->assertFalse(\tao_helpers_File::containsFileType($this->privateDir, 'txt', true));
 
         $fileStorage = $this->getFileStorage();
 
         $directoryStorage = $fileStorage->getDirectoryById($id);
-        $stream = fopen('data://text/plain;base64,' . base64_encode('testContent'),'r');
+        $stream = fopen('data://text/plain;base64,' . base64_encode('testContent'), 'r');
         $directoryStorage->writeStream($file, $stream);
 
         $this->assertTrue($directoryStorage->has($file));
         $this->assertTrue(\tao_helpers_File::containsFileType($this->privateDir, 'txt', true));
-        
+
         $this->assertTrue($fileStorage->deleteDirectoryById($id));
         $this->assertFalse($directoryStorage->has($file));
         $this->assertFalse(\tao_helpers_File::containsFileType($this->privateDir, 'txt', true));
-        
+
         $reflectionClass = new \ReflectionClass('\tao_models_classes_service_FileStorage');
         $reflectionMethod = $reflectionClass->getMethod('id2path');
         $reflectionMethod->setAccessible(true);

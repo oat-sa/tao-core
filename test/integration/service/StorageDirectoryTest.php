@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -15,16 +16,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
  */
 
 namespace oat\tao\test\integration\service;
 
+use common_Exception;
 use League\Flysystem\Adapter\AbstractAdapter;
 use oat\oatbox\filesystem\Directory;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
 use oat\generis\test\TestCase;
+use tao_models_classes_service_StorageDirectory;
 
 class StorageDirectoryTest extends TestCase
 {
@@ -34,10 +36,10 @@ class StorageDirectoryTest extends TestCase
     protected $pathFixture;
     protected $accessProvider;
 
-    /** @var  \tao_models_classes_service_StorageDirectory */
+    /** @var  tao_models_classes_service_StorageDirectory */
     protected $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fileSystemTmpId = 'test_' . uniqid();
         $fileSystemService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
@@ -47,11 +49,16 @@ class StorageDirectoryTest extends TestCase
         $this->pathFixture = 'fixture';
         $this->accessProvider = $this->getAccessProvider($this->pathFixture);
 
-        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystemTmpId, $this->pathFixture, $this->accessProvider);
+        $this->instance = new tao_models_classes_service_StorageDirectory(
+            $this->idFixture,
+            $this->fileSystemTmpId,
+            $this->pathFixture,
+            $this->accessProvider
+        );
         $this->instance->setServiceLocator(ServiceManager::getServiceManager());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $fileSystemService = ServiceManager::getServiceManager()->get(FileSystemService::SERVICE_ID);
         $fileSystemService->unregisterFileSystem($this->fileSystemTmpId);
@@ -67,11 +74,10 @@ class StorageDirectoryTest extends TestCase
 
     protected function rrmdir($dir)
     {
-        foreach(glob($dir . '/*') as $file) {
-            if(is_dir($file)) {
+        foreach (glob($dir . '/*') as $file) {
+            if (is_dir($file)) {
                 $this->rrmdir($file);
-            }
-            else {
+            } else {
                 unlink($file);
             }
         }
@@ -102,12 +108,17 @@ class StorageDirectoryTest extends TestCase
 
     public function testIsNotPublic()
     {
-        $this->instance = new \tao_models_classes_service_StorageDirectory($this->idFixture, $this->fileSystem, $this->pathFixture, null);
+        $this->instance = new tao_models_classes_service_StorageDirectory(
+            $this->idFixture,
+            $this->fileSystem,
+            $this->pathFixture,
+            null
+        );
         $this->instance->setServiceLocator(ServiceManager::getServiceManager());
 
         $this->assertFalse($this->instance->isPublic());
 
-        $this->setExpectedException(\common_Exception::class);
+        $this->expectException(common_Exception::class);
         $this->instance->getPublicAccessUrl();
     }
 
@@ -207,7 +218,7 @@ class StorageDirectoryTest extends TestCase
         // @todo requesting example.com is not a good idea as test should ideally be isolated from external world
         $resource = fopen('http://example.com', 'r');
         $streamFixture = \GuzzleHttp\Psr7\stream_for($resource);
-        $this->setExpectedException(\common_Exception::class);
+        $this->expectException(common_Exception::class);
         $this->instance->getFile($tmpFile)->write($streamFixture);
         fclose($resource);
         $streamFixture->close();
@@ -242,7 +253,6 @@ class StorageDirectoryTest extends TestCase
         fclose($resource);
         $streamFixture->close();
     }
-
 
     public function testGetPath()
     {

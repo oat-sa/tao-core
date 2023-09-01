@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -23,6 +24,7 @@ namespace oat\tao\model\taskQueue\TaskLog\Entity;
 use common_report_Report as Report;
 use DateTime;
 use Exception;
+use oat\oatbox\reporting\Report as NewReport;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\CategorizedStatus;
 
@@ -107,21 +109,39 @@ class TaskLogEntity implements EntityInterface
      * @return TaskLogEntity
      * @throws Exception
      */
-    public static function createFromArray(array $row)
+    public static function createFromArray(array $row, string $dateFormat)
     {
         return new self(
             $row[TaskLogBrokerInterface::COLUMN_ID],
             $row[TaskLogBrokerInterface::COLUMN_PARENT_ID],
             $row[TaskLogBrokerInterface::COLUMN_TASK_NAME],
             CategorizedStatus::createFromString($row[TaskLogBrokerInterface::COLUMN_STATUS]),
-            isset($row[TaskLogBrokerInterface::COLUMN_PARAMETERS]) ? json_decode($row[TaskLogBrokerInterface::COLUMN_PARAMETERS], true) : [],
+            isset($row[TaskLogBrokerInterface::COLUMN_PARAMETERS])
+                ? json_decode($row[TaskLogBrokerInterface::COLUMN_PARAMETERS], true)
+                : [],
             isset($row[TaskLogBrokerInterface::COLUMN_LABEL]) ? $row[TaskLogBrokerInterface::COLUMN_LABEL] : '',
             isset($row[TaskLogBrokerInterface::COLUMN_OWNER]) ? $row[TaskLogBrokerInterface::COLUMN_OWNER] : '',
-            isset($row[TaskLogBrokerInterface::COLUMN_CREATED_AT]) ? DateTime::createFromFormat('Y-m-d H:i:s', $row[TaskLogBrokerInterface::COLUMN_CREATED_AT], new \DateTimeZone('UTC')) : null,
-            isset($row[TaskLogBrokerInterface::COLUMN_UPDATED_AT]) ? DateTime::createFromFormat('Y-m-d H:i:s', $row[TaskLogBrokerInterface::COLUMN_UPDATED_AT], new \DateTimeZone('UTC')) : null,
-            Report::jsonUnserialize($row[TaskLogBrokerInterface::COLUMN_REPORT]),
-            isset($row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS]) ? $row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS] : false
+            self::parseDateTime($row, TaskLogBrokerInterface::COLUMN_CREATED_AT, $dateFormat),
+            self::parseDateTime($row, TaskLogBrokerInterface::COLUMN_UPDATED_AT, $dateFormat),
+            NewReport::jsonUnserialize($row[TaskLogBrokerInterface::COLUMN_REPORT]),
+            isset($row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS])
+                ? $row[TaskLogBrokerInterface::COLUMN_MASTER_STATUS]
+                : false
         );
+    }
+
+    private static function parseDateTime(array $row, string $key, string $dateFormat): ?DateTime
+    {
+        if (!isset($row[$key])) {
+            return null;
+        }
+
+        $dateTime = DateTime::createFromFormat($dateFormat, $row[$key], new \DateTimeZone('UTC'));
+        if ($dateTime === false) {
+            return null;
+        }
+
+        return $dateTime;
     }
 
     /**
@@ -210,13 +230,14 @@ class TaskLogEntity implements EntityInterface
      */
     public function isMasterStatus()
     {
-        return (boolean) $this->masterStatus;
+        return (bool) $this->masterStatus;
     }
 
     /**
      * Returns the file name from the generated report.
      *
-     * NOTE: it is not 100% sure that the returned string is really a file name because different reports set different values as data.
+     * NOTE: it is not 100% sure that the returned string is really a file name because different reports set different
+     * values as data.
      * So this return value can be any kind of string. Please check the file whether it exist or not before usage.
      *
      * @return string
@@ -266,10 +287,7 @@ class TaskLogEntity implements EntityInterface
         return $uri;
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
@@ -284,7 +302,7 @@ class TaskLogEntity implements EntityInterface
             'id' => $this->id,
             'taskName' => $this->taskName,
             'status' => (string) $this->status,
-            'masterStatus' => (boolean) $this->masterStatus,
+            'masterStatus' => (bool) $this->masterStatus,
             'statusLabel' => $this->status->getLabel()
         ];
 
@@ -295,12 +313,19 @@ class TaskLogEntity implements EntityInterface
 
         if ($this->createdAt instanceof \DateTime) {
             $rs['createdAt'] = $this->createdAt->getTimestamp();
-            $rs['createdAtElapsed'] = (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp() - $this->createdAt->getTimestamp();
+            $rs['createdAtElapsed'] = (new \DateTime(
+                'now',
+                new \DateTimeZone('UTC')
+            )
+                )->getTimestamp() - $this->createdAt->getTimestamp();
         }
 
         if ($this->updatedAt instanceof \DateTime) {
             $rs['updatedAt'] = $this->updatedAt->getTimestamp();
-            $rs['updatedAtElapsed'] = (new \DateTime('now', new \DateTimeZone('UTC')))->getTimestamp() - $this->updatedAt->getTimestamp();
+            $rs['updatedAtElapsed'] = (new \DateTime(
+                'now',
+                new \DateTimeZone('UTC')
+            ))->getTimestamp() - $this->updatedAt->getTimestamp();
         }
 
         if ($this->report instanceof Report) {

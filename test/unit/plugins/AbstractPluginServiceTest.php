@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -59,7 +60,6 @@ class PluginRegistry extends AbstractPluginRegistry
  */
 class PluginService extends AbstractPluginService
 {
-
 }
 
 /**
@@ -172,5 +172,4 @@ class AbstractPluginServiceTest extends TestCase
 
         $this->assertTrue($plugin->isActive());
     }
-
 }

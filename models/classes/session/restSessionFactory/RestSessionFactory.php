@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,9 +21,13 @@
 
 namespace oat\tao\model\session\restSessionFactory;
 
+use common_exception_InconsistentData;
+use common_ext_ManifestNotFoundException;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\user\LoginFailedException;
+use oat\tao\model\action\RestControllerInterface;
 use oat\tao\model\routing\Resolver;
+use ResolverException;
 
 /**
  * Class RestSessionFactory
@@ -33,9 +38,9 @@ use oat\tao\model\routing\Resolver;
  */
 class RestSessionFactory extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/restSessionFactory';
+    public const SERVICE_ID = 'tao/restSessionFactory';
 
-    const OPTION_BUILDERS = 'builders';
+    public const OPTION_BUILDERS = 'builders';
 
     /**
      * Create a rest session based on builders.
@@ -59,7 +64,7 @@ class RestSessionFactory extends ConfigurableService
                 return $this->startSession($builder->getSession($request));
             }
         }
-        throw new LoginFailedException(array('Request cannot be authenticated.'));
+        throw new LoginFailedException(['Request cannot be authenticated.']);
     }
 
     /**
@@ -94,11 +99,14 @@ class RestSessionFactory extends ConfigurableService
      * Check if the requested controller is a RestController
      *
      * @param Resolver $resolver
+     *
      * @return bool
+     * @throws ResolverException
+     * @throws common_exception_InconsistentData
+     * @throws common_ext_ManifestNotFoundException
      */
-    protected function isRestController(Resolver $resolver)
+    protected function isRestController(Resolver $resolver): bool
     {
-        return is_subclass_of($resolver->getControllerClass(), \tao_actions_RestController::class);
+        return is_subclass_of($resolver->getControllerClass(), RestControllerInterface::class, true);
     }
-
 }

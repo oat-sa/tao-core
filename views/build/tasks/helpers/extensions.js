@@ -1,32 +1,51 @@
-var path = require('path');
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2022 (original work) Open Assessment Technlogies SA
+ *
+ */
+const path = require('path');
 
-module.exports = function(grunt, root){
+module.exports = function(grunt, root) {
 
     return {
-        getExtensions : function getExtensions(clientSide) {
-            var options = {
+
+        getExtensions(clientSide) {
+            const options = {
                 cwd: root,
                 filter: function(src) {
-                    return grunt.file.isDir(src) && grunt.file.exists(src + '/manifest.php') &&
-                            (!clientSide || grunt.file.exists(src + '/views/js/controller/routes.js'));
+                    return grunt.file.isDir(src) && grunt.file.exists(`${src}/manifest.php`) &&
+                            (!clientSide || grunt.file.exists(`${src}/views/js/controller/routes.js`));
                 }
             };
             return grunt.file.expand(options, '*');
         },
 
-        getExtensionPath : function getExtensionPath(extension) {
+        getExtensionPath(extension) {
             extension = extension || 'tao';
-            return root + '/' + extension;
+            return `${root}/${extension}`;
         },
 
-        getExtensionSources : function getExtensionSources(extension, filePattern, amdify) {
-            var extPath = this.getExtensionPath(extension);
+        getExtensionSources(extension, filePattern, amdify) {
+            const extPath = this.getExtensionPath(extension);
 
-            var jsSources = grunt.file.expand({cwd: extPath}, filePattern);
+            const jsSources = grunt.file.expand({cwd: extPath}, filePattern);
             jsSources.forEach(function(source, index) {
-                var path = extPath + '/' + source;
+                let path = `${extPath}/${source}`;
                 if(amdify && amdify === true){
-                    path = path.replace(extPath + '/views/js', extension === 'tao' ? '': extension).replace(/\.js$/, '').replace(/^\//, '');
+                    path = path.replace(`${extPath}/views/js`, extension === 'tao' ? '': extension).replace(/\.js$/, '').replace(/^\//, '');
                 }
                 jsSources[index] = path;
 
@@ -34,27 +53,25 @@ module.exports = function(grunt, root){
             return jsSources;
         },
 
-        getExtensionsSources : function getExtensionsSources(filePattern, amdify){
-            var self = this;
-            var sources = [];
-            this.getExtensions(true).forEach(function(extension){
-                sources = sources.concat(self.getExtensionSources(extension, filePattern, amdify));
+        getExtensionsSources(filePattern, amdify){
+            const sources = [];
+            this.getExtensions(true).forEach(extension => {
+                sources = sources.concat(this.getExtensionSources(extension, filePattern, amdify));
             });
             return sources;
         },
 
-        getExtensionsPaths : function getExtensionsPaths(extensions){
-            var self = this;
-            var paths = { };
-            extensions = extensions || self.getExtensions(true);
-            extensions.forEach(function(extension){
-                var jsPath = self.getExtensionPath(extension) + '/views/js';
-                var cssPath = self.getExtensionPath(extension) + '/views/css';
+        getExtensionsPaths(extensions){
+            const paths = { };
+            extensions = extensions || this.getExtensions(true);
+            extensions.forEach( extension => {
+                const jsPath = `${this.getExtensionPath(extension)}/views/js`;
+                const cssPath = `${this.getExtensionPath(extension)}/views/css`;
                 if(grunt.file.exists(jsPath)){
                     paths[extension] = path.relative('../js', jsPath);
                 }
                 if(grunt.file.exists(cssPath)){
-                    paths[extension + 'Css'] = path.relative('../js', cssPath);
+                    paths[`${extension}Css`] = path.relative('../js', cssPath);
                 }
             });
             return paths;
@@ -62,7 +79,7 @@ module.exports = function(grunt, root){
 
         // parse a 'paths.json' file in each extension, and if it exists,
         // append its contents to a flat object
-        getExtensionsExtraPaths : function getExtensionsExtraPaths(extensions = this.getExtensions(true)) {
+        getExtensionsExtraPaths(extensions = this.getExtensions(true)) {
             return extensions.reduce((extraPaths, extension) => {
                 try {
                     return {...extraPaths, ...require(path.join(this.getExtensionPath(extension), 'views', 'build', 'grunt', 'paths.json'))};
@@ -72,9 +89,13 @@ module.exports = function(grunt, root){
             }, {});
         },
 
-        // OUT OF DATE !!!
+        /**
+         * @deprecated
+         */
+       getExtensionsControllers(extensions){
 
-       getExtensionsControllers : function getExtensionsControllers(extensions){
+           console.log('The function `getExtensionsControllers` is deprecated');
+
            var self = this;
            var modules = [];
            extensions = extensions || self.getExtensions(true);
@@ -82,19 +103,6 @@ module.exports = function(grunt, root){
                 var extPath = self.getExtensionPath(extension);
                 modules = modules.concat(self.getExtensionSources(extension, 'views/js/controller/**/*.js').map(function(source){
                     return source.replace(extPath + '/views/js',  extension === 'tao' ? '': extension).replace(/\.js$/, '').replace(/^\//, '');
-                }));
-            });
-            return modules;
-       },
-
-       getExtensionsLibs : function getExtensionsLibs(extensions){
-           var self = this;
-           var modules = [];
-           extensions = extensions || self.getExtensions(true);
-           extensions.forEach(function(extension){
-                var extPath = self.getExtensionPath(extension);
-                modules = modules.concat(self.getExtensionSources(extension, ['views/js/*.js', '!views/js/*.min.js', '!views/js/test/**/*.js']).map(function(source){
-                    return source.replace(extPath + '/views/js', extension === 'tao' ? '': extension).replace(/\.js$/, '').replace(/^\//, '');
                 }));
             });
             return modules;

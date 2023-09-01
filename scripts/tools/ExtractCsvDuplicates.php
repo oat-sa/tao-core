@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,21 +21,21 @@
 
 namespace oat\tao\scripts\tools;
 
-use \common_report_Report as Report;
+use common_report_Report as Report;
 
 /**
  * Script to extract duplicate rows from an indexed CSV file.
- * 
+ *
  * The script enables you to extract duplicate entries in a CSV file.
  */
 class ExtractCsvDuplicates extends AbstractIndexedCsv
 {
     /**
      * Duplicate extraction logic.
-     * 
+     *
      * Extract duplicate rows from the source CSV file to the
      * destination CSV file.
-     * 
+     *
      * @see \oat\tao\scripts\tools\AbstractIndexedCsv
      */
     protected function process()
@@ -42,7 +43,7 @@ class ExtractCsvDuplicates extends AbstractIndexedCsv
         $sourceFp = $this->getSourceFp();
         $destinationFp = $this->getDestinationFp();
         $index = $this->getIndex();
-        
+
         // Extract duplicates in a separate file.
         $duplicateCount = 0;
         foreach ($index as $identifier => $positions) {
@@ -57,7 +58,7 @@ class ExtractCsvDuplicates extends AbstractIndexedCsv
                 }
             }
         }
-        
+
         return new Report(
             Report::TYPE_INFO,
             "${duplicateCount} duplicate records extracted in file '" . realpath($this->getDestination()) . "'."

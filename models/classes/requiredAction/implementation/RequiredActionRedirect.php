@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,7 +23,7 @@
 namespace oat\tao\model\requiredAction\implementation;
 
 use oat\tao\model\requiredAction\RequiredActionAbstract;
-use \Exception;
+use Exception;
 use oat\tao\model\requiredAction\RequiredActionRuleInterface;
 use oat\tao\model\routing\FlowController;
 
@@ -85,7 +86,8 @@ class RequiredActionRedirect extends RequiredActionAbstract
 
         if (!in_array($currentRoute, $excludedRoutes)) {
             $currentUrl = \common_http_Request::currentRequest()->getUrl();
-            $url = $this->url . (parse_url($this->url, PHP_URL_QUERY) ? '&' : '?') . 'return_url=' . urlencode($currentUrl);
+            $url = $this->url . (parse_url($this->url, PHP_URL_QUERY) ? '&' : '?') . 'return_url='
+                . urlencode($currentUrl);
 
             $flowController = new FlowController();
             $flowController->redirect($url);

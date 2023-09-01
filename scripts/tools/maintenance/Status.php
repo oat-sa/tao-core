@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,11 +43,15 @@ class Status implements Action, ServiceLocatorAwareInterface
             $state = $this->getMaintenanceService()->getPlatformState();
             if ($this->getMaintenanceService()->isPlatformReady($state)) {
                 return \common_report_Report::createSuccess(
+                    // phpcs:disable Generic.Files.LineLength
                     __('TAO platform is live since %s.', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
+                    // phpcs:enable Generic.Files.LineLength
                 );
             } else {
                 return \common_report_Report::createSuccess(
+                    // phpcs:disable Generic.Files.LineLength
                     __('TAO platform is under maintenance since %s', $state->getDuration()->format(MaintenanceState::DATEDIFF_FORMAT))
+                    // phpcs:enable Generic.Files.LineLength
                 );
             }
         } catch (\common_Exception $e) {
@@ -63,5 +68,4 @@ class Status implements Action, ServiceLocatorAwareInterface
     {
         return $this->getServiceLocator()->get(Maintenance::SERVICE_ID);
     }
-
 }

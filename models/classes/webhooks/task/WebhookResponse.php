@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,9 +22,9 @@ namespace oat\tao\model\webhooks\task;
 
 class WebhookResponse
 {
-    const STATUS_ACCEPTED = 'accepted';
-    const STATUS_IGNORED = 'ignored';
-    const STATUS_ERROR = 'error';
+    public const STATUS_ACCEPTED = 'accepted';
+    public const STATUS_IGNORED = 'ignored';
+    public const STATUS_ERROR = 'error';
 
     /**
      * Key is event id, value - one of the statuses
@@ -51,7 +52,8 @@ class WebhookResponse
     /**
      * @return string[]
      */
-    public function getStatuses() {
+    public function getStatuses()
+    {
         return $this->statuses;
     }
 

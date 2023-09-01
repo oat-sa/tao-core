@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,7 +37,10 @@ class TaskFactory
             $metaData = $basicData[TaskInterface::JSON_METADATA_KEY];
 
             /** @var TaskInterface $task */
-            $task = new $className($metaData[TaskInterface::JSON_METADATA_ID_KEY], $metaData[TaskInterface::JSON_METADATA_OWNER_KEY]);
+            $task = new $className(
+                $metaData[TaskInterface::JSON_METADATA_ID_KEY],
+                $metaData[TaskInterface::JSON_METADATA_OWNER_KEY]
+            );
             $task->setMetadata($metaData);
             $task->setParameter($basicData[TaskInterface::JSON_PARAMETERS_KEY]);
 
@@ -47,7 +51,6 @@ class TaskFactory
             return $task;
         }
 
-        throw new InvalidTaskException;
+        throw new InvalidTaskException();
     }
-
 }

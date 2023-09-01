@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -67,7 +68,6 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
         // Foreach line of dateSource
         foreach ($data as $uri => $dataSource) {
             try {
-
                 // Check if resource exists
                 $resource = $this->getResource($uri);
                 if (! $resource->exists()) {
@@ -85,7 +85,9 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
                     try {
                         $dataRead = $injector->read($dataSource);
                         $injector->write($resource, $dataRead, $dryrun);
-                        $injectorReport = \common_report_Report::createSuccess('Injector "' . $name . '" successfully ran.');
+                        $injectorReport = \common_report_Report::createSuccess(
+                            'Injector "' . $name . '" successfully ran.'
+                        );
                     } catch (MetadataInjectorReadException $e) {
                         $injectorReport = \common_report_Report::createFailure(
                             'Injector "' . $name . '" failed to run at read: ' . $e->getMessage()
@@ -100,9 +102,7 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
                     if (! is_null($injectorReport)) {
                         $lineReport->add($injectorReport);
                     }
-
                 }
-
             } catch (MetadataImportException $e) {
                 $lineReport = \common_report_Report::createFailure($e->getMessage());
             }
@@ -122,7 +122,7 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
     {
         if (empty($this->injectors)) {
             try {
-                foreach(array_keys($this->getOptions()) as $injectorName) {
+                foreach (array_keys($this->getOptions()) as $injectorName) {
                     /** @var Injector $injector */
                     $injector = $this->getSubService($injectorName, Injector::class);
                     $injector->createInjectorHelpers();
@@ -144,7 +144,7 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
     public function addInjector($name, Injector $injector)
     {
         if (isset($this->injectors[$name])) {
-            throw new \ConfigurationException('An injector with name "' . $name . '" already exists.');
+            throw new InconsistencyConfigException('An injector with name "' . $name . '" already exists.');
         }
 
         $this->injectors[$name] = $injector;
@@ -159,5 +159,4 @@ abstract class OntologyMetadataImporter extends ConfigurableService implements M
 
         return 'new ' . get_class($this) . '(array(' . PHP_EOL . $injectorString . '))';
     }
-
 }

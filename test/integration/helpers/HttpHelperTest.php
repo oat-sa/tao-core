@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,7 +27,9 @@ use Slim\Http\Stream;
 use Slim\Http\Environment;
 use Slim\Http\Request;
 
+// phpcs:disable PSR1.Files.SideEffects
 include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * @author Aleh Hutnikau hutnikau@qpt.com
@@ -34,10 +37,9 @@ include_once dirname(__FILE__) . '/../../../includes/raw_start.php';
  */
 class HttpHelperTest extends TaoPhpUnitTestRunner
 {
-
     protected $string = '0123456789';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         TaoPhpUnitTestRunner::initTest();
@@ -65,7 +67,7 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
      */
     private function getStream()
     {
-        $resource = fopen('php://memory','r+');
+        $resource = fopen('php://memory', 'r+');
         fwrite($resource, $this->string);
         rewind($resource);
         return new Stream($resource);
@@ -138,5 +140,4 @@ class HttpHelperTest extends TaoPhpUnitTestRunner
             ],
         ];
     }
-
 }

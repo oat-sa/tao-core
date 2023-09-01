@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2017 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2017-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -29,6 +30,8 @@ use oat\tao\model\taskQueue\Task\TaskInterface;
  */
 class InMemoryQueueBroker extends AbstractQueueBroker implements SyncQueueBrokerInterface
 {
+    public const ID = 'memory';
+
     /**
      * @var \SplQueue
      */
@@ -57,7 +60,7 @@ class InMemoryQueueBroker extends AbstractQueueBroker implements SyncQueueBroker
     /**
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return $this->getQueue()->count();
     }
@@ -93,7 +96,8 @@ class InMemoryQueueBroker extends AbstractQueueBroker implements SyncQueueBroker
      * Do nothing.
      */
     protected function doPop()
-    {}
+    {
+    }
 
     /**
      * Do nothing, because dequeue automatically deletes the message from the queue
@@ -101,7 +105,8 @@ class InMemoryQueueBroker extends AbstractQueueBroker implements SyncQueueBroker
      * @param TaskInterface $task
      */
     public function delete(TaskInterface $task)
-    {}
+    {
+    }
 
     /**
      * Do nothing.
@@ -110,5 +115,6 @@ class InMemoryQueueBroker extends AbstractQueueBroker implements SyncQueueBroker
      * @param array  $logContext
      */
     protected function doDelete($receipt, array $logContext = [])
-    {}
+    {
+    }
 }

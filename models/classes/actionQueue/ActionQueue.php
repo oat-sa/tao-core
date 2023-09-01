@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -49,29 +50,28 @@ use oat\oatbox\user\User;
  */
 interface ActionQueue
 {
-
-    const SERVICE_ID = 'tao/ActionQueue';
+    public const SERVICE_ID = 'tao/ActionQueue';
 
     /**
      * List of registered actions to be performed using action queue
      */
-    const OPTION_ACTIONS = 'actions';
+    public const OPTION_ACTIONS = 'actions';
 
     /**
      * Persistence identifier
      */
-    const OPTION_PERSISTENCE = 'persistence';
+    public const OPTION_PERSISTENCE = 'persistence';
 
     /**
      * Limit of actions in progress.
      * If number of active actions will be more that this value then action will be put into queue
      */
-    const ACTION_PARAM_LIMIT = 'limit';
+    public const ACTION_PARAM_LIMIT = 'limit';
 
     /**
      * Time to live for place in the queue (seconds). Configures per actions.
      */
-    const ACTION_PARAM_TTL = 'ttl';
+    public const ACTION_PARAM_TTL = 'ttl';
 
     /**
      * @param QueuedAction $action
@@ -95,8 +95,7 @@ interface ActionQueue
 
     /**
      * @param QueuedAction $action
-     * @return integer Number of limits
+     * @return bool
      */
-    public function getLimits(QueuedAction $action);
-
+    public function isActionEnabled(QueuedAction $action): bool;
 }

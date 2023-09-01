@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Default config header created during install
  */

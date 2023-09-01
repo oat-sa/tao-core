@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -51,4 +52,9 @@ interface QueuerInterface extends \Countable
      * @param TaskInterface $task
      */
     public function acknowledge(TaskInterface $task);
+
+    /**
+     * Check if the internal queue contains any tasks.
+     */
+    public function hasPreFetchedMessages(): bool;
 }

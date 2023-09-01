@@ -59,6 +59,16 @@ $footerHeight: 34;
     background: $darkBar;
     color: $darkBarTxt;
 
+    .portal-back {
+        width: 95px;
+        padding: 26px 44px 18px 37px;
+        span {
+            &.icon-untab {
+                font-size: 2em;
+            }
+        }
+    }
+
     a {
         color: $darkBarTxt;
         &:hover {
@@ -66,6 +76,7 @@ $footerHeight: 34;
             text-decoration: none;
         }
     }
+    .nav,
     nav {
         background:inherit;
         position: relative;
@@ -127,6 +138,11 @@ $footerHeight: 34;
                 a {
                     cursor: not-allowed !important;
                 }
+            }
+
+            &[data-control="logout"] .logout:focus {
+                outline-offset: -5px;
+                outline: 3px solid $uiGeneralContentBorder !important;
             }
 
             // sub menu
@@ -316,9 +332,16 @@ body > footer {
     display: block;
 }
 
+body[dir="rtl"] {
+    & .content-wrap>header>.lft {
+        float: right;
+    }
+}
+
 // everything required for mobile navi
 @mixin mobile-navi () {
     .dark-bar {
+        .nav,
         nav {
 
             .main-menu {

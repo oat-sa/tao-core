@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint107\n"
-"PO-Revision-Date: 2019-12-20T10:44:15\n"
+"Project-Id-Version: TAO 2022.11\n"
+"PO-Revision-Date: 2022-12-02T14:02:21\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: de-DE\n"
@@ -16,11 +16,11 @@ msgstr ""
 msgid ""
 msgstr ""
 
-msgid " and "
-msgstr " und "
-
 msgid " AND "
 msgstr ""
+
+msgid " and "
+msgstr " und "
 
 msgid " has been deleted successfully"
 msgstr " wurde erfolgreich gelöscht"
@@ -30,6 +30,9 @@ msgstr ""
 
 msgid " next"
 msgstr " nächstes"
+
+msgid " Remove criteria"
+msgstr ""
 
 msgid " requires a subgrid adapter"
 msgstr " benötigt einen Subgrid Adapter"
@@ -76,6 +79,9 @@ msgstr "%s Klasse gespeichert"
 msgid "%s classes"
 msgstr ""
 
+msgid "%s completed"
+msgstr ""
+
 msgid "%s Confirmation"
 msgstr ""
 
@@ -118,6 +124,9 @@ msgstr "(leer)"
 msgid "... reloading page."
 msgstr "... Seite wird neu geladen."
 
+msgid "7-zip archive"
+msgstr ""
+
 msgid "<del>Filters</del>"
 msgstr "<del>Filter</del>"
 
@@ -147,6 +156,12 @@ msgstr ""
 
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "Eine Nachricht mit weiteren Anweisungen wurde an ihre E-Mail Adresse gesendet: %s"
+
+msgid "AAC audio"
+msgstr ""
+
+msgid "About"
+msgstr ""
 
 msgid "abs"
 msgstr ""
@@ -184,6 +199,9 @@ msgstr "Aktionen"
 msgid "Add"
 msgstr "Hinzufügen"
 
+msgid "Add / Edit lists"
+msgstr ""
+
 msgid "Add a CSV file"
 msgstr "CSV-Datei hinzufügen"
 
@@ -194,13 +212,22 @@ msgstr "Benutzer hinzufügen"
 msgid "Add an RDF/XML file"
 msgstr "RDF/XML-Datei hinzufügen"
 
+msgid "add criteria"
+msgstr ""
+
 msgid "Add file(s)"
 msgstr "Datei(en) hinzufügen"
+
+msgid "Add index"
+msgstr ""
 
 msgid "Add property"
 msgstr "Eigenschaft hinzufügen"
 
 msgid "Adding search index for %s"
+msgstr ""
+
+msgid "Adding search index for created resource"
 msgstr ""
 
 msgid "Adding the new class has failed"
@@ -209,8 +236,11 @@ msgstr ""
 msgid "Adding the new resource has failed"
 msgstr ""
 
-msgid "Advanced Mode"
-msgstr "Erweiterter Modus"
+msgid "Adding/updating search index for updated resource"
+msgstr ""
+
+msgid "Adobe Flash file"
+msgstr ""
 
 msgid "Advanced search, add filters"
 msgstr ""
@@ -221,14 +251,23 @@ msgstr ""
 msgid "all"
 msgstr "Alle"
 
+msgid "all audios"
+msgstr ""
+
 msgid "All data will be removed in %s"
 msgstr "Alle Daten in %s werden entfernt"
 
 msgid "All fields are required"
 msgstr "Alle Felder sind erforderlich"
 
+msgid "all images"
+msgstr ""
+
 msgid "All rights reserved."
 msgstr "Alle Rechte vorbehalten."
+
+msgid "all videos"
+msgstr ""
 
 msgid "Allow for all domains"
 msgstr ""
@@ -283,6 +322,9 @@ msgstr "Versionierte Ressource wirklich löschen?\n"
 msgid "Are you sure you want to delete it?"
 msgstr "Sind Sie sicher, dass Sie dies löschen möchten?"
 
+msgid "Are you sure you wish to delete it"
+msgstr ""
+
 msgid "Argument check failed: %s"
 msgstr ""
 
@@ -304,6 +346,9 @@ msgstr "Benutzer zu einer Rolle zuweisen"
 #, tao-public
 msgid "Assign Users"
 msgstr "Benutzer zuweisen"
+
+msgid "Audio Video Interleave"
+msgstr ""
 
 msgid "Author"
 msgstr "Autor"
@@ -350,16 +395,31 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
+msgid "Bitmap image"
+msgstr ""
+
 msgid "boolean"
 msgstr ""
 
 msgid "Browse folders:"
 msgstr "Ordner durchsuchen:"
 
+msgid "Browse resources"
+msgstr ""
+
 msgid "Browse..."
 msgstr "Durchsuchen…"
 
 msgid "C"
+msgstr ""
+
+msgid "C file"
+msgstr ""
+
+msgid "C++ file (.cpp)"
+msgstr ""
+
+msgid "Calc speadsheet (Staroffice)"
 msgstr ""
 
 msgid "Calculator"
@@ -368,11 +428,11 @@ msgstr ""
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "Cancel"
-msgstr "Abbrechen"
-
 msgid "cancel"
 msgstr "abbrechen"
+
+msgid "Cancel"
+msgstr "Abbrechen"
 
 msgid "cancel the action"
 msgstr "Aktion abbrechen"
@@ -384,6 +444,9 @@ msgid "Cannot be edited"
 msgstr "Kann nicht bearbeitet werden"
 
 msgid "Cannot divide by zero"
+msgstr ""
+
+msgid "Cascading Style Sheets"
 msgstr ""
 
 msgid "Case sensitive"
@@ -402,16 +465,19 @@ msgstr "Passwort ändern"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
-msgstr "Alles markieren"
-
 msgid "Check All"
 msgstr "Alle markieren"
+
+msgid "Check all"
+msgstr "Alles markieren"
 
 msgid "Check-in"
 msgstr "Check-In"
 
 msgid "choices:"
+msgstr ""
+
+msgid "Choose a type for your property first"
 msgstr ""
 
 msgid "Choose a value..."
@@ -447,10 +513,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -462,7 +528,16 @@ msgstr ""
 msgid "Clear the stored variables"
 msgstr ""
 
+msgid "Click to reload."
+msgstr "Klicken Sie, um neu zu laden."
+
+msgid "Click to start"
+msgstr ""
+
 msgid "Close"
+msgstr ""
+
+msgid "Close dialog"
 msgstr ""
 
 msgid "Close message"
@@ -477,6 +552,9 @@ msgstr ""
 msgid "Column"
 msgstr "Spalte"
 
+msgid "command"
+msgstr ""
+
 msgid "Commands:"
 msgstr ""
 
@@ -490,6 +568,9 @@ msgid "Completed"
 msgstr ""
 
 msgid "Completed - Error"
+msgstr ""
+
+msgid "Compressed tar file"
 msgstr ""
 
 msgid "Compute the expression"
@@ -543,6 +624,9 @@ msgstr ""
 msgid "CSV"
 msgstr "CSV"
 
+msgid "CSV file"
+msgstr ""
+
 msgid "CSV Options"
 msgstr "CSV-Optionen"
 
@@ -553,6 +637,9 @@ msgid "Current language"
 msgstr "Aktuelle Sprache"
 
 msgid "Current playback position"
+msgstr ""
+
+msgid "currently has a dependency established with "
 msgstr ""
 
 msgid "Data imported"
@@ -572,6 +659,12 @@ msgstr "Datensprache"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Keine Daten importiert. Alle Einträge sind ungültig."
+
+msgid "Data source URI"
+msgstr ""
+
+msgid "Database file"
+msgstr ""
 
 msgid "Date"
 msgstr "Datum"
@@ -619,8 +712,17 @@ msgstr ""
 msgid "Deleting search index for %s"
 msgstr ""
 
+msgid "Deleting this property will also remove the dependency"
+msgstr ""
+
 msgid "Demo Sandbox"
 msgstr "Demo Sandbox"
+
+msgid "Dependency URI Path"
+msgstr ""
+
+msgid "Depends on property"
+msgstr ""
 
 msgid "Did you mean %s?"
 msgstr ""
@@ -658,10 +760,16 @@ msgstr ""
 msgid "Disabled %s"
 msgstr "%s deaktiviert"
 
+msgid "Do you want to override \"%s\"?"
+msgstr ""
+
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
 msgstr "Möchten Sie folgende Erweiterung(en) installieren: \n"
 "%s?"
+
+msgid "Document templates (Staroffice)"
+msgstr ""
 
 msgid "does not match"
 msgstr "Keine Übereinstimmung"
@@ -700,9 +808,6 @@ msgstr "Klasse %s bearbeiten"
 msgid "Edit Instance"
 msgstr "Instanz bearbeiten"
 
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr ""
-
 msgid "Element"
 msgstr "Element"
 
@@ -719,6 +824,9 @@ msgid "Enabled %s"
 msgstr ""
 
 msgid "End of document reached. Continuing from the beginning."
+msgstr ""
+
+msgid "Enhanced metafile"
 msgstr ""
 
 msgid "Enter"
@@ -740,6 +848,9 @@ msgid "Error in syntax"
 msgstr ""
 
 msgid "Error in value"
+msgstr ""
+
+msgid "Error: %s"
 msgstr ""
 
 msgid "Examples:"
@@ -793,6 +904,9 @@ msgid "Factorial"
 msgstr ""
 
 msgid "Failed"
+msgstr ""
+
+msgid "Failed to copy class."
 msgstr ""
 
 msgid "Failed to delete index for %s"
@@ -852,10 +966,19 @@ msgstr "Spaltennamen erste Zeile"
 msgid "Fit to width"
 msgstr ""
 
+msgid "Flash video"
+msgstr ""
+
 msgid "floor"
 msgstr ""
 
+msgid "Flowchart-based programming environment & TI Interactive Workbook"
+msgstr ""
+
 msgid "Forbid for all domains"
+msgstr ""
+
+msgid "Force HTTPS on this platform"
 msgstr ""
 
 msgid "Force Release"
@@ -882,14 +1005,29 @@ msgstr ""
 msgid "Generis Form"
 msgstr ""
 
+msgid "Geogebra data file"
+msgstr ""
+
 msgid "Get History"
 msgstr ""
 
 msgid "Get the history list"
 msgstr ""
 
+msgid "GIF image"
+msgstr ""
+
 msgid "Go Back"
 msgstr "Zurück"
+
+msgid "go back to home page"
+msgstr ""
+
+msgid "GZip Compressed Archive"
+msgstr ""
+
+msgid "Header file with extensionsLabels"
+msgstr ""
 
 msgid "Height"
 msgstr "Höhe"
@@ -899,6 +1037,9 @@ msgstr "Hallo, %s<br>Haben Sie ihr TAO-Passwort vergessen?"
 
 msgid "Hide detailed report"
 msgstr "Detaillierten Bericht verbergen"
+
+msgid "Hide password"
+msgstr ""
 
 msgid "Highlight all"
 msgstr ""
@@ -922,6 +1063,12 @@ msgid "Hyperbolic sine"
 msgstr ""
 
 msgid "Hyperbolic tangent"
+msgstr ""
+
+msgid "Hypertext markup language"
+msgstr ""
+
+msgid "I understand that this action is permanent."
 msgstr ""
 
 msgid "Identifier"
@@ -954,6 +1101,10 @@ msgstr "Metadaten aus CSV-Datei importieren"
 msgid "Import Metadata from RDF file"
 msgstr "Metadaten aus RDF-Datei importieren"
 
+#, tao-public
+msgid "Import statistical analysis metadata"
+msgstr ""
+
 msgid "Import succeeded."
 msgstr ""
 
@@ -966,13 +1117,16 @@ msgstr ""
 msgid "Imported resource \"%s"
 msgstr ""
 
+msgid "Imported successfully finished!"
+msgstr ""
+
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -988,6 +1142,9 @@ msgid "Injector has to contains a valid \"destination\" field."
 msgstr ""
 
 msgid "Injector has to contains a valid \"source\" field."
+msgstr ""
+
+msgid "Inline"
 msgstr ""
 
 msgid "Install"
@@ -1065,17 +1222,35 @@ msgstr "Falscher Login oder Passwort. Bitte erneut versuchen."
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
 msgstr ""
 
+msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
+msgstr ""
+
 msgid "invalid regular expression"
 msgstr "ungültiger regulärer Ausdruck"
 
+msgid "Invalid value"
+msgstr ""
+
 msgid "Invalid values:"
+msgstr ""
+
+msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
 msgstr ""
 
 msgid "items per page"
 msgstr ""
 
+msgid "Javascript code"
+msgstr ""
+
+msgid "JPEG image"
+msgstr ""
+
 msgid "Label"
 msgstr "Bezeichnung"
+
+msgid "Label Path"
+msgstr ""
 
 msgid "Language"
 msgstr "Sprache"
@@ -1101,8 +1276,14 @@ msgstr "weniger als eine Minute"
 msgid "List"
 msgstr "Liste"
 
+msgid "List \"%s\" has duplicated values."
+msgstr ""
+
 msgid "List - Multiple choice - Check box"
 msgstr "Liste - Multiple Choice - Kontrollkästchen"
+
+msgid "List - Multiple choice - Search input"
+msgstr ""
 
 msgid "List - Single choice - Drop down"
 msgstr "Liste - Auswahl - Aufklappmenü"
@@ -1110,7 +1291,13 @@ msgstr "Liste - Auswahl - Aufklappmenü"
 msgid "List - Single choice - Radio button"
 msgstr "Liste - Auswahl - Optionsfeld"
 
-msgid "ln"
+msgid "List - Single choice - Search input"
+msgstr ""
+
+msgid "List item URI duplications found"
+msgstr ""
+
+msgid "List values"
 msgstr ""
 
 msgid "Load more"
@@ -1134,9 +1321,6 @@ msgstr ""
 msgid "locked by %s"
 msgstr ""
 
-msgid "log"
-msgstr ""
-
 msgid "Log in"
 msgstr "anmelden"
 
@@ -1158,13 +1342,34 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+msgid "M4A audio"
+msgstr ""
+
+msgid "Mail"
+msgstr "E-Mail"
+
+msgid "Main Menu"
+msgstr ""
+
+msgid "Maintenance service is already installed."
+msgstr ""
+
 msgid "Maintenance service must have a persistence option."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is enabled."
 msgstr ""
 
 msgid "Maintenance storage driver is not set"
 msgstr ""
 
 msgid "Manage class schema"
+msgstr ""
+
+msgid "manage columns"
 msgstr ""
 
 msgid "Manage data list"
@@ -1187,6 +1392,9 @@ msgstr "versionierte Dateien verwalten"
 msgid "Map the properties to the CSV columns"
 msgstr "Eigenschaften auf die CSV Spalten abbilden"
 
+msgid "maximum %s"
+msgstr ""
+
 msgid "Maximum selection reached"
 msgstr ""
 
@@ -1201,6 +1409,48 @@ msgstr ""
 
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
+
+msgid "Microsoft Excel"
+msgstr ""
+
+msgid "Microsoft Excel binary format"
+msgstr ""
+
+msgid "Microsoft Office Document Imaging"
+msgstr ""
+
+msgid "Microsoft Powerpoint"
+msgstr ""
+
+msgid "Microsoft Powerpoint slideshow"
+msgstr ""
+
+msgid "Microsoft Project file"
+msgstr ""
+
+msgid "Microsoft Visio file"
+msgstr ""
+
+msgid "Microsoft Word"
+msgstr ""
+
+msgid "Microsoft Word template"
+msgstr ""
+
+msgid "Microsoft Works file"
+msgstr ""
+
+msgid "Microsoft XPS file"
+msgstr ""
+
+msgid "MIME encapsulation of aggregate HTML documents"
+msgstr ""
+
+msgid "Mind mapping software application (free mind open source)"
+msgstr ""
+
+msgid "minimum %s"
+msgstr "mindestens %s"
 
 msgid "minutes"
 msgstr "Minuten"
@@ -1242,11 +1492,38 @@ msgstr "Verschieben nach"
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr "Das Verschieben dieses Elements wird die Eigenschaften der vorherigen Klasse mit den Eigenschaften der Ziel-Klasse überschreiben :"
 
+msgid "MP4 video"
+msgstr ""
+
+msgid "MPEG audio"
+msgstr ""
+
+msgid "MPEG video"
+msgstr ""
+
+msgid "MPEG-4 audio file"
+msgstr ""
+
 msgid "Multiple values delimiter"
 msgstr "Trennsymbol mehrerer Elemente"
 
 msgid "Multiply the value by 10^x"
 msgstr ""
+
+msgid "Must include at least one letter"
+msgstr "Muss mindestens einen Buchstaben beinhalten"
+
+msgid "Must include at least one number"
+msgstr "Muss mindestens eine Ziffer beinhalten"
+
+msgid "Must include at least one special letter"
+msgstr "Muss mindestens ein Sonderzeichen beinhalten"
+
+msgid "Must include lower case letters"
+msgstr "Muss mindestens einen Kleinbuchstaben beinhalten"
+
+msgid "Must include upper case letters"
+msgstr "Muss mindestens einen Grossbuchstaben beinhalte"
 
 msgid "Mute"
 msgstr ""
@@ -1304,22 +1581,19 @@ msgstr "keine Datei ausgewählt"
 msgid "No files"
 msgstr "keine Dateien"
 
+msgid "No item found. Please try other search criteria."
+msgstr ""
+
 msgid "no label"
 msgstr "keine Beschriftung"
-
-msgid "No preview available"
-msgstr "keine Vorschau verfügbar"
-
-msgid "No Preview available"
-msgstr "keine Vorschau verfügbar"
-
-msgid "No results found"
-msgstr "keine Ergebnisse gefunden"
 
 msgid "No Task yet"
 msgstr ""
 
 msgid "Node duplication has failed"
+msgstr ""
+
+msgid "none"
 msgstr ""
 
 msgid "Not enough arguments following: %s"
@@ -1329,6 +1603,9 @@ msgid "Not enough non-option arguments: got %s, need at least %s"
 msgstr ""
 
 msgid "Not started"
+msgstr ""
+
+msgid "NotEmpty"
 msgstr ""
 
 msgid "Nothing imported"
@@ -1362,6 +1639,12 @@ msgstr "von"
 msgid "Off"
 msgstr ""
 
+msgid "Ogg Vorbis audio"
+msgstr ""
+
+msgid "Ogg Vorbis video"
+msgstr ""
+
 msgid "OK"
 msgstr "OK"
 
@@ -1377,6 +1660,24 @@ msgstr ""
 msgid "Only allow for my own domain (%s)"
 msgstr ""
 
+msgid "Only one of the field must have value %s"
+msgstr ""
+
+msgid "OpenDocument Database"
+msgstr ""
+
+msgid "OpenDocument Presentation"
+msgstr ""
+
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
+msgid "OpenDocument Text Template"
+msgstr ""
+
 msgid "Operated By "
 msgstr ""
 
@@ -1388,6 +1689,9 @@ msgstr ""
 
 msgid "Page"
 msgstr "Seite"
+
+msgid "Pascal file (.pas)"
+msgstr ""
 
 msgid "Password"
 msgstr "Passwort"
@@ -1410,7 +1714,13 @@ msgstr "Passwörter stimmen nicht überein"
 msgid "Pause"
 msgstr ""
 
+msgid "PDF file"
+msgstr ""
+
 msgid "Permission denied to write in the selected class"
+msgstr ""
+
+msgid "Plain text"
 msgstr ""
 
 msgid "Play"
@@ -1446,6 +1756,9 @@ msgstr ""
 msgid "Please contact your system administrator."
 msgstr ""
 
+msgid "Please define your search in the search panel."
+msgstr ""
+
 msgid "Please download the track and listen offline."
 msgstr ""
 
@@ -1461,6 +1774,12 @@ msgstr "bitte Grund angeben"
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
 
+msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr ""
+
+msgid "Please set 'min' and/or 'max' options!"
+msgstr ""
+
 msgid "Please try in %s."
 msgstr ""
 
@@ -1468,6 +1787,15 @@ msgid "Please wait"
 msgstr ""
 
 msgid "Please wait while ..."
+msgstr ""
+
+msgid "PNG image"
+msgstr ""
+
+msgid "Position"
+msgstr ""
+
+msgid "Positionals:"
 msgstr ""
 
 msgid "Post install processing"
@@ -1501,9 +1829,6 @@ msgstr ""
 msgid "Properties"
 msgstr "Eigenschaften"
 
-msgid "Property\'s label field is required"
-msgstr "das Beschreibungsfeld der Eigenschaft wird benötigt"
-
 msgid "Provided URL is not valid"
 msgstr "die angegebene URL ist nicht gültig"
 
@@ -1514,6 +1839,9 @@ msgid "Publish the test"
 msgstr ""
 
 msgid "Queued"
+msgstr ""
+
+msgid "Quicktime video"
 msgstr ""
 
 msgid "Rad"
@@ -1531,8 +1859,14 @@ msgstr ""
 msgid "Range field is required"
 msgstr ""
 
+msgid "RAR archive"
+msgstr ""
+
 msgid "RDF"
 msgstr "RDF"
+
+msgid "RealMedia file"
+msgstr ""
 
 msgid "Refresh"
 msgstr ""
@@ -1542,6 +1876,9 @@ msgstr "Version"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
 msgstr "Das Aufheben der Sperre kann zum Verlust der Änderungen von %s führen."
+
+msgid "Reload"
+msgstr ""
 
 msgid "Remind"
 msgstr ""
@@ -1563,6 +1900,12 @@ msgstr ""
 
 msgid "Remove"
 msgstr "Entfernen"
+
+msgid "Remove criteria"
+msgstr ""
+
+msgid "remove index"
+msgstr ""
 
 msgid "Remove Message"
 msgstr "Nachricht entfernen"
@@ -1586,7 +1929,7 @@ msgid "Repeat new password"
 msgstr "neues Passwort wiederholen"
 
 msgid "Repeat password"
-msgstr ""
+msgstr "Passwort wiederholen"
 
 msgid "Request a password reset via Email."
 msgstr "Passwort per Email zurücksetzen."
@@ -1619,7 +1962,7 @@ msgid "Resource deleted"
 msgstr ""
 
 msgid "Resource Identifier"
-msgstr ""
+msgstr "Ressourcen ID"
 
 msgid "Resource Identifier could not be copied to the clipboard"
 msgstr ""
@@ -1656,6 +1999,9 @@ msgstr ""
 
 msgid "Return to sign in page"
 msgstr "Zurück zum Login"
+
+msgid "Rich Text Format file"
+msgstr ""
 
 msgid "Right click the tree to manage your lists"
 msgstr "zur Verwaltung der Listen klicken Sie bitte mit der rechten Maustaste auf den Baum"
@@ -1780,11 +2126,14 @@ msgstr "Einstellungen aktualisiert"
 msgid "Show detailed report"
 msgstr "Zeige Detailbericht"
 
-msgid "Sign change"
+msgid "Show password"
 msgstr ""
 
-msgid "Simple Mode"
-msgstr "Einfacher Modus"
+msgid "Sibelius music notation"
+msgstr ""
+
+msgid "Sign change"
+msgstr ""
 
 msgid "sin"
 msgstr ""
@@ -1801,10 +2150,16 @@ msgstr "Größe"
 msgid "Some resources have not been moved: %s"
 msgstr ""
 
+msgid "Something unexpected happened."
+msgstr ""
+
 msgid "Sources that can embed this platform in an iFrame"
 msgstr ""
 
 msgid "Square root"
+msgstr ""
+
+msgid "Start"
 msgstr ""
 
 msgid "Start of document reached. Continuing from the end."
@@ -1820,6 +2175,9 @@ msgid "Store"
 msgstr ""
 
 msgid "Store the value a variable"
+msgstr ""
+
+msgid "Storing digital video data on a computer game"
 msgstr ""
 
 msgid "string"
@@ -1852,7 +2210,13 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "Unterstützte Exportformate"
 
+msgid "SVG image"
+msgstr ""
+
 msgid "Syntax error"
+msgstr ""
+
+msgid "Tagged image file"
 msgstr ""
 
 msgid "tan"
@@ -1872,6 +2236,24 @@ msgstr "TAO Home"
 
 msgid "TAO Login"
 msgstr "TAO Login"
+
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
+msgstr ""
 
 msgid "Task %s has been cancelled, message was not processed."
 msgstr ""
@@ -1894,6 +2276,9 @@ msgstr ""
 msgid "Term"
 msgstr ""
 
+msgid "TeX file"
+msgstr ""
+
 msgid "Text - Long - Box"
 msgstr "Text - Lang - Box"
 
@@ -1902,6 +2287,9 @@ msgstr "Text - Lang - HTML Editor"
 
 msgid "Text - Short - Field"
 msgstr "Text - Kurz - Feld"
+
+msgid "Text document file format (Staroffice)"
+msgstr ""
 
 msgid "The action will be applied to"
 msgstr "Die Aktion wird ausgeführt für"
@@ -1915,8 +2303,17 @@ msgstr ""
 msgid "The action will not be applied to the following"
 msgstr ""
 
+msgid "The class has been copied."
+msgstr ""
+
 msgid "The column "
 msgstr "Die Spalte "
+
+msgid "The field \"List\" is disabled because the property is part of a dependency"
+msgstr ""
+
+msgid "The following criteria are not applicable to the selected class and have been removed from the search"
+msgstr ""
 
 msgid "The format of this field is not valid."
 msgstr "Das Format für dieses Feld ist nicht gültig."
@@ -1933,6 +2330,9 @@ msgstr "Die Sperre wurde aufgehoben"
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
 msgstr ""
 
+msgid "The selected value(s) must be compatible with the primary property."
+msgstr ""
+
 msgid "The server has sent an empty response"
 msgstr ""
 
@@ -1942,7 +2342,7 @@ msgstr "Die übermittelte Datei ist zu groß (maximal %s bytes)"
 msgid "The value for the property \"%s\" must be unique."
 msgstr "Der Wert für die Eigenschaft \"%s\" muss eindeutig sein."
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
 msgstr "Der Wert für dieses Feld muss das gültiges Datumsformat haben: YYYY-MM-DD"
 
 msgid "The value of this field must be an integer"
@@ -1964,7 +2364,7 @@ msgid "This field is too long"
 msgstr "Dieses Feld ist zu lang"
 
 msgid "This field is too short"
-msgstr "Dieses Feld ist zu kurz"
+msgstr "Eingabe zu kurz"
 
 msgid "This is not a valid email address."
 msgstr "Das ist keine gültige E-Mail Adresse."
@@ -1976,6 +2376,9 @@ msgid "This Login is already in use"
 msgstr "Diese Benutzerkennung ist bereits in Verwendung"
 
 msgid "This media cannot be played!"
+msgstr ""
+
+msgid "This or one of %s must have a value"
 msgstr ""
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
@@ -2044,8 +2447,17 @@ msgstr "Übersetzungsparameter"
 msgid "Translation saved"
 msgstr "Übersetzung gespeichert"
 
+msgid "Transport Layer Security"
+msgstr ""
+
+msgid "Tree - Multiple node choice"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
 msgstr "Baum - Mehrfache Knotenauswahl "
+
+msgid "Tree values"
+msgstr ""
 
 msgid "True"
 msgstr "Wahr"
@@ -2074,6 +2486,9 @@ msgstr "%s kann nicht gelöscht werden"
 msgid "Unable to delete the selected resource"
 msgstr "Die ausgewählte Ressource kann nicht gelöscht werden"
 
+msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
+msgstr ""
+
 msgid "Unable to delete the selected resources"
 msgstr ""
 
@@ -2101,6 +2516,9 @@ msgstr ""
 msgid "Unable to send the password reset request"
 msgstr "Die Anfrage zur Zurücksetzung des Passworts konnte nicht verschickt werden."
 
+msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
+msgstr ""
+
 msgid "Unable to update the asset service"
 msgstr ""
 
@@ -2114,6 +2532,9 @@ msgid "Unary operator +"
 msgstr ""
 
 msgid "Unary operator -"
+msgstr ""
+
+msgid "Unauthorized files have been removed"
 msgstr ""
 
 msgid "Uncheck All"
@@ -2140,6 +2561,9 @@ msgstr "Deinstallation von %s fehlgeschlagen"
 msgid "Uninstalled %s"
 msgstr "%s deinstalliert"
 
+msgid "UNIX Compressed Archive File"
+msgstr ""
+
 msgid "unknown"
 msgstr "unbekannt"
 
@@ -2155,14 +2579,29 @@ msgstr "Aktualisierung"
 msgid "Update ID : %s"
 msgstr ""
 
+msgid "Updating search index"
+msgstr ""
+
 msgid "Upload"
 msgstr "Hochladen"
 
 msgid "Upload into:"
 msgstr "Hochladen nach:"
 
+msgid "URI Path"
+msgstr ""
+
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "Verwendung: ImportRdf RDF_FILE [MODEL_ID]"
+
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr ""
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr ""
+
+msgid "USAGE: please provide the service name as first parameter"
+msgstr ""
 
 msgid "Use a term"
 msgstr ""
@@ -2247,6 +2686,9 @@ msgstr ""
 msgid "Version"
 msgstr "Version"
 
+msgid "View"
+msgstr ""
+
 msgid "View report"
 msgstr ""
 
@@ -2262,11 +2704,44 @@ msgstr ""
 msgid "Waiting"
 msgstr ""
 
+msgid "WAV audio"
+msgstr ""
+
+msgid "WebM audio"
+msgstr ""
+
+msgid "WebM video"
+msgstr ""
+
 msgid "Whole number part"
 msgstr ""
 
 msgid "Width"
 msgstr "Breite"
+
+msgid "Windows help file"
+msgstr ""
+
+msgid "Windows Media audio"
+msgstr ""
+
+msgid "Windows Media file (metafile)"
+msgstr ""
+
+msgid "Windows Media video"
+msgstr ""
+
+msgid "with"
+msgstr ""
+
+msgid "Wrap image left"
+msgstr ""
+
+msgid "Wrap image right"
+msgstr ""
+
+msgid "Write Document"
+msgstr ""
 
 msgid "Wrong or missing parameter extension, module or action"
 msgstr ""
@@ -2274,8 +2749,14 @@ msgstr ""
 msgid "Wrong parameter shownExtension"
 msgstr ""
 
+msgid "XML file"
+msgstr ""
+
 msgid "Yes"
 msgstr "Ja"
+
+msgid "You are encountering a prolonged connectivity loss."
+msgstr "Die Verbindung ist seit längerer Zeit unterbrochen."
 
 msgid "You are not allowed to write in the class %s"
 msgstr ""
@@ -2324,4 +2805,7 @@ msgstr "Ihre Nachrichten"
 
 msgid "Your TAO Password"
 msgstr "Ihr TAO Passwort"
+
+msgid "ZIP archive"
+msgstr ""
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * This program is free software; you can redistribute it and/or
@@ -21,16 +22,14 @@
 
 namespace oat\tao\model\metrics;
 
-
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\metrics\implementations\abstractMetrics;
 
 class MetricsService extends ConfigurableService
 {
-
-    const SERVICE_ID = 'tao/metrics';
-    const OPTION_METRICS = 'metrics';
+    public const SERVICE_ID = 'tao/metrics';
+    public const OPTION_METRICS = 'metrics';
     private $metrics = [];
 
 
@@ -72,5 +71,4 @@ class MetricsService extends ConfigurableService
 
         return $result;
     }
-
 }

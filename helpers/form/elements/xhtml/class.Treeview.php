@@ -1,23 +1,27 @@
 <?php
-/**  
+
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
- * 
+ *
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
+ *
  */
+
 use oat\tao\model\GenerisTreeFactory;
 use oat\tao\helpers\form\elements\xhtml\XhtmlRenderingTrait;
 
@@ -32,7 +36,7 @@ class tao_helpers_form_elements_xhtml_Treeview extends tao_helpers_form_elements
 {
     use XhtmlRenderingTrait;
 
-    const NO_TREEVIEW_INTERACTION_IDENTIFIER = 'x-tao-no-treeview-interaction';
+    public const NO_TREEVIEW_INTERACTION_IDENTIFIER = 'x-tao-no-treeview-interaction';
 
     /**
      * Short description of method feed
@@ -44,19 +48,22 @@ class tao_helpers_form_elements_xhtml_Treeview extends tao_helpers_form_elements
     public function feed()
     {
         $expression = "/^" . preg_quote($this->name, "/") . "(.)*[0-9]+$/";
-        $foundIndexes = array();
+        $foundIndexes = [];
         foreach ($_POST as $key => $value) {
             if (preg_match($expression, $key)) {
                 $foundIndexes[] = $key;
             }
         }
-        
-        if ((count($foundIndexes) > 0 && $_POST[$foundIndexes[0]] !== self::NO_TREEVIEW_INTERACTION_IDENTIFIER) || count($foundIndexes) === 0) {
-            $this->setValues(array());
+
+        if (
+            (count($foundIndexes) > 0 && $_POST[$foundIndexes[0]] !== self::NO_TREEVIEW_INTERACTION_IDENTIFIER)
+            || count($foundIndexes) === 0
+        ) {
+            $this->setValues([]);
         } elseif ((count($foundIndexes) > 0 && $_POST[$foundIndexes[0]] === self::NO_TREEVIEW_INTERACTION_IDENTIFIER)) {
             array_shift($foundIndexes);
         }
-        
+
         foreach ($foundIndexes as $index) {
             $this->addValue(tao_helpers_Uri::decode($_POST[$index]));
         }
@@ -81,7 +88,7 @@ class tao_helpers_form_elements_xhtml_Treeview extends tao_helpers_form_elements
                 $returnValue = tao_helpers_form_GenerisFormFactory::extractTreeData(parent::getOptions());
                 break;
         }
-        
+
         return (array) $returnValue;
     }
 
@@ -109,17 +116,19 @@ class tao_helpers_form_elements_xhtml_Treeview extends tao_helpers_form_elements
     {
         $widgetTreeName = $this->name . '-TreeBox';
         $widgetValueName = $this->name . '-TreeValues';
-        
+
         $returnValue = $this->renderLabel();
-        
+
         $returnValue .= "<div class='form-elt-container' style='min-height:50px; overflow-y:auto;'>";
         $returnValue .= "<div id='{$widgetValueName}'>";
-        $returnValue .= '<input type="hidden" value="' . self::NO_TREEVIEW_INTERACTION_IDENTIFIER . '" name="' . $this->name . '_0"/>';
+        $returnValue .= '<input type="hidden" value="' . self::NO_TREEVIEW_INTERACTION_IDENTIFIER . '" name="'
+            . $this->name . '_0"/>';
         $returnValue .= "</div>";
-        
+
         $returnValue .= "<div id='{$widgetTreeName}'></div>";
-        
+
         // initialize the AsyncFileUpload Js component
+        // phpcs:disable Generic.Files.LineLength
         $returnValue .= '
 <script type="text/javascript">
 			$(function(){
@@ -153,7 +162,9 @@ class tao_helpers_form_elements_xhtml_Treeview extends tao_helpers_form_elements
 	    					var valueContainer = $("div[id=\'' . $widgetValueName . '\']");
 	    					valueContainer.empty();
 	    					$.each($.tree.plugins.checkbox.get_checked(TREE_OBJ), function(i, myNODE){
-	    						valueContainer.append("<input type=\'hidden\' name=\'' . $this->name . '_"+i+"\' value=\'"+$(myNODE).attr("id")+"\' />");
+	    						valueContainer.append(
+	    						    "<input type=\'hidden\' name=\'' . $this->name . '_"+i+"\' value=\'"+$(myNODE).attr("id")+"\' />"
+                                );
 							});
 	    				}
     				},
@@ -174,8 +185,9 @@ class tao_helpers_form_elements_xhtml_Treeview extends tao_helpers_form_elements
 			 });
 			});
 			</script>';
+        // phpcs:enable Generic.Files.LineLength
         $returnValue .= "</div><br />";
-        
+
         return (string) $returnValue;
     }
 
@@ -198,8 +210,7 @@ class tao_helpers_form_elements_xhtml_Treeview extends tao_helpers_form_elements
 
     public function rangeToTree(core_kernel_classes_Class $range, $recursive = true)
     {
-        $openNodes = array_reduce($range->getSubClasses(true), function ($carry, $item)
-        {
+        $openNodes = array_reduce($range->getSubClasses(true), function ($carry, $item) {
             if (! $carry) {
                 $carry = [];
             }

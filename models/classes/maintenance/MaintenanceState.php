@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,17 +23,17 @@ namespace oat\tao\model\maintenance;
 
 class MaintenanceState
 {
-    const ID         = 'id';
-    const STATUS     = 'status';
-    const START_TIME = 'start';
-    const END_TIME   = 'end';
+    public const ID         = 'id';
+    public const STATUS     = 'status';
+    public const START_TIME = 'start';
+    public const END_TIME   = 'end';
 
-    const LIVE_MODE = 'on';
-    const OFFLINE_MODE = 'off';
+    public const LIVE_MODE = 'on';
+    public const OFFLINE_MODE = 'off';
 
-    const DATEDIFF_FORMAT = '%y years, %m months, %d days %H:%I:%S';
+    public const DATEDIFF_FORMAT = '%y years, %m months, %d days %H:%I:%S';
 
-    protected static $availableStatus = array(self::LIVE_MODE, self::OFFLINE_MODE);
+    protected static $availableStatus = [self::LIVE_MODE, self::OFFLINE_MODE];
 
     /**
      * The id to identify a Maintenance state
@@ -92,11 +93,11 @@ class MaintenanceState
      */
     public function toArray()
     {
-        $data = array(
+        $data = [
             self::ID         => $this->id,
             self::STATUS     => $this->status,
             self::START_TIME => $this->startTime->getTimestamp(),
-        );
+        ];
 
         if (! is_null($this->endTime)) {
             $data[self::END_TIME] = $this->endTime->getTimestamp();
@@ -169,7 +170,6 @@ class MaintenanceState
 
         if ((is_string($dateTime) && (int) $dateTime > 0) || is_numeric($dateTime)) {
             return (new \DateTime())->setTimestamp($dateTime);
-
         }
 
         throw new \common_Exception(__('A date has to be a Datetime or timestamp'));

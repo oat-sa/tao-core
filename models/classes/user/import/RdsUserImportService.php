@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -60,7 +61,7 @@ class RdsUserImportService extends AbstractImportService
             ]
         );
 
-        if(count($results) > 0){
+        if (count($results) > 0) {
             $resource = $this->mergeUserProperties(current($results), $properties);
         } else {
             $resource = $class->createInstanceWithProperties($properties);
@@ -93,7 +94,8 @@ class RdsUserImportService extends AbstractImportService
     {
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceLocator()->get(EventManager::SERVICE_ID);
-        $eventManager->trigger(new UserUpdatedEvent($resource,
+        $eventManager->trigger(new UserUpdatedEvent(
+            $resource,
             array_merge(
                 $properties,
                 [

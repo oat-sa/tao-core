@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,13 +15,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
- *
+ * Copyright (c) 2015-2021 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
+
 namespace oat\tao\model\export;
 
+use core_kernel_classes_Class;
+use core_kernel_classes_ContainerCollection;
+use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use core_kernel_classes_Triple;
+use JsonSerializable;
+use oat\generis\model\data\Ontology;
 use oat\generis\model\OntologyRdf;
+use oat\tao\model\export\Metadata\JsonLd\JsonLdTripleEncoderInterface;
 
 /**
  * A custom Json LD exporter for single resources
@@ -30,110 +38,118 @@ use oat\generis\model\OntologyRdf;
  * @author Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class JsonLdExport implements \JsonSerializable
+class JsonLdExport implements JsonSerializable
 {
-
-    /**
-     * @var \core_kernel_classes_ContainerCollection
-     */
+    /** @var core_kernel_classes_ContainerCollection */
     private $triples;
 
-    /**
-     * @var \core_kernel_classes_Class[]
-     */
+    /** @var Ontology|null */
+    private $ontology;
+
+    /** @var core_kernel_classes_Class[] */
     private $types;
 
     /** @var string */
     private $uri;
 
-    /**
-     * List of uris to exclude during export:
-     * 
-     * @var array
-     */
-    private $blackList = array(OntologyRdf::RDF_TYPE);
+    /** @var array */
+    private $blackList = [
+        OntologyRdf::RDF_TYPE
+    ];
 
-    private $encoders = array();
+    /** @var array */
+    private $encoders = [];
+
+    /** @var JsonLdTripleEncoderInterface[] */
+    private $tripleEncoders = [];
 
     /**
-     * Gets a list of properties to exclude
-     * 
-     * @return array()
+     * @deprecated Do not use $resource in the constructor, use setResource instead.
+     *             This class is now instantiated in the DI container.
      */
-    protected function getBlackList()
+    public function __construct(core_kernel_classes_Resource $resource = null, Ontology $ontology = null)
     {
-    	return $this->blackList;
-    }
-    
-    /**
-     * Blacklist a property
-     * 
-     * @param string $propertyUri
-     */
-    public function blackList($propertyUri)
-    {
-        $this->blackList[] = $propertyUri;
-    }
-    
-    /**
-     * Create an Exported for the specified resurce
-     * 
-     * @param core_kernel_classes_Resource $resource
-     */
-    public function __construct(core_kernel_classes_Resource $resource = null)
-    {
-        if(!is_null($resource)){
-            $this->setTriples($resource->getRdfTriples());
-            $this->setTypes($resource->getTypes());
-            $this->setUri($resource->getUri());
+        if (!is_null($resource)) {
+            $this->setResource($resource);
         }
+
+        $this->ontology = $ontology;
     }
 
-    /**
-     * @param \core_kernel_classes_ContainerCollection $triples
-     */
-    public function setTriples(\core_kernel_classes_ContainerCollection $triples)
+    public function setResource(core_kernel_classes_Resource $resource): self
+    {
+        $this->setTriples($resource->getRdfTriples());
+        $this->setTypes($resource->getTypes());
+        $this->setUri($resource->getUri());
+
+        return $this;
+    }
+
+    public function setTriples(core_kernel_classes_ContainerCollection $triples): self
     {
         $this->triples = $triples;
+
+        return $this;
     }
 
     /**
      * @param array $types
      */
-    public function setTypes($types)
+    public function setTypes($types): self
     {
         $this->types = $types;
+
+        return $this;
     }
 
-    /**
-     * @param string $uri
-     */
-    public function setUri($uri)
+    public function setUri(string $uri): self
     {
         $this->uri = $uri;
+
+        return $this;
     }
 
-    /**
-     * (non-PHPdoc)
-     * @see JsonSerializable::jsonSerialize()
-     */
-    public function jsonSerialize()
+    public function blackList(string $propertyUri): void
+    {
+        $this->blackList[] = $propertyUri;
+    }
+
+    public function registerEncoder($propertyUri, callable $encoder): void
+    {
+        $this->encoders[$propertyUri] = $encoder;
+    }
+
+    public function getEncoders(): array
+    {
+        return $this->encoders;
+    }
+
+    public function addTripleEncoder(JsonLdTripleEncoderInterface $encoder): self
+    {
+        $this->tripleEncoders[get_class($encoder)] = $encoder;
+
+        return $this;
+    }
+
+    public function jsonSerialize(): array
     {
         $data = [
             '@context' => [],
             '@id' => $this->uri,
         ];
-        $types = $this->types;
-        if (!empty($types)) {
-            $data['@type'] = $this->transfromArray($types);
+
+        if (!empty($this->types)) {
+            $data['@type'] = $this->encodeValues($this->types);
         }
 
-        if (!$this->triples instanceof \core_kernel_classes_ContainerCollection) {
+        if (!$this->triples instanceof core_kernel_classes_ContainerCollection) {
             return $data;
         }
 
+        /** @var core_kernel_classes_Triple[] $triples */
         $triples = $this->triples->toArray();
         $map = [];
+
         foreach ($triples as $key => $triple) {
             if (in_array($triple->predicate, $this->blackList)) {
                 continue;
@@ -155,7 +171,7 @@ class JsonLdExport implements \JsonSerializable
             $key = $map[$triple->predicate];
             if (isset($data[$key])) {
                 if (!is_array($data[$key])) {
-                    $data[$key] = array($data[$key]);
+                    $data[$key] = [$data[$key]];
                 }
                 $data[$key][] = $this->encodeValue($triple->object, $triple->predicate);
             } else {
@@ -163,44 +179,27 @@ class JsonLdExport implements \JsonSerializable
             }
         }
 
+        $data = $this->encodeTriples($data, ...$triples);
+
         // Enforce serialization to object if context is empty
         $data['@context'] = (object) $data['@context'];
 
         return $data;
     }
-    
-    public function registerEncoder($propertyUri, callable $encoder)
-    {
-        $this->encoders[$propertyUri] = $encoder; 
-    }
-    
-    public function getEncoders()
-    {
-        return $this->encoders;
-    }
-    
+
     /**
-     * Encode a values array
-     * 
-     * @param array $values
-     * @return mixed
+     * Gets a list of properties to exclude
+     *
+     * @return array()
      */
-    private function transfromArray($values)
+    protected function getBlackList()
     {
-        if (count($values) > 1) {
-            $encoded = array();
-            foreach ($values as $value) {
-                $encoded[] = $this->encodeValue($value);
-            }
-            return $encoded;
-        } else {
-            return $this->encodeValue(reset($values));
-        }
+        return $this->blackList;
     }
-    
+
     /**
      * Encode the value in a json-ld compatible way
-     * 
+     *
      * @param mixed $value
      * @param string $propertyUri (optional) The URI of the property the $value is related to.
      * @return string
@@ -208,32 +207,37 @@ class JsonLdExport implements \JsonSerializable
     protected function encodeValue($value, $propertyUri = '')
     {
         $value = $this->applyEncoder($value, $propertyUri);
-        
+
         return is_string($value)
             ? $value
-            : ((is_object($value) && $value instanceof \core_kernel_classes_Resource)
+            : (
+                (is_object($value) && $value instanceof \core_kernel_classes_Resource)
                 ? $value->getUri()
                 : (string) $value
-        ); 
+            );
     }
-    
+
     /**
      * Generate a key for the property to use during export
-     * 
+     *
      * @param string $uri
      * @return string
      */
     protected function generateId($uri)
     {
-        $property = new \core_kernel_classes_Property($uri);
+        $property = $this->ontology
+            ? $this->ontology->getProperty($uri)
+            : new core_kernel_classes_Property($uri);
+
         $label = strtolower(trim($property->getLabel()));
-        $label = preg_replace(array('/\s/', '[^a-z\-]'), array('-', ''), $label);
+        $label = preg_replace(['/\s/', '[^a-z\-]'], ['-', ''], $label);
+
         return empty($label) ? 'key' : $label;
     }
-    
+
     /**
      * Attempt to apply a specific value encoder.
-     * 
+     *
      * @param mixed $value
      * @param string (optional) The URI of the property the $value belongs to.
      * @return mixed
@@ -242,13 +246,42 @@ class JsonLdExport implements \JsonSerializable
     {
         if (empty($propertyUri) === false) {
             $encoders = $this->getEncoders();
-            
+
             if (isset($encoders[$propertyUri]) === true) {
                 $encodedValue = call_user_func($encoders[$propertyUri], $value);
                 return $encodedValue;
             }
         }
-        
+
         return $value;
+    }
+
+    private function encodeTriples(array $data, core_kernel_classes_Triple ...$triples): array
+    {
+        foreach ($this->tripleEncoders as $tripleEncoder) {
+            foreach ($triples as $triple) {
+                $data = $tripleEncoder->encode($data, $triple);
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @return string|array
+     */
+    private function encodeValues(array $values)
+    {
+        if (count($values) > 1) {
+            $encoded = [];
+
+            foreach ($values as $value) {
+                $encoded[] = $this->encodeValue($value);
+            }
+
+            return $encoded;
+        }
+
+        return $this->encodeValue(reset($values));
     }
 }

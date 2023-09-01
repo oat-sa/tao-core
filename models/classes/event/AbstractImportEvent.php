@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -47,7 +48,7 @@ abstract class AbstractImportEvent implements Event, \JsonSerializable
         return $this->report;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'report' => $this->report->toArray()

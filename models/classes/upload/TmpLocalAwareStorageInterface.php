@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -45,7 +46,4 @@ interface TmpLocalAwareStorageInterface
      * @param File $file
      */
     public function removeFiles(File $file);
-
-    /** @return $this */
-    public static function getStorage();
 }

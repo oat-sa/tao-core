@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,7 +33,7 @@ class RequiredActionRedirectUrlPartTest extends TestCase
      */
     public function testMustBeExecuted($result, $rules)
     {
-        $action = new RequiredActionRedirectUrlPart('testAction', $rules, array('url'));
+        $action = new RequiredActionRedirectUrlPart('testAction', $rules, ['url']);
         $this->assertEquals($action->mustBeExecuted(), $result);
     }
 
@@ -71,7 +72,9 @@ class RequiredActionRedirectUrlPartTest extends TestCase
     private function getPositiveRule()
     {
         $ruleMock = $this->prophesize('oat\tao\model\requiredAction\implementation\TimeRule');
-        $ruleMock->setRequiredAction(Argument::type('oat\tao\model\requiredAction\RequiredActionInterface'))->willReturn(null);
+        $ruleMock
+            ->setRequiredAction(Argument::type('oat\tao\model\requiredAction\RequiredActionInterface'))
+            ->willReturn(null);
         $ruleMock->check(null)->willReturn(true);
 
         return $ruleMock->reveal();
@@ -80,10 +83,11 @@ class RequiredActionRedirectUrlPartTest extends TestCase
     private function getNegativeRule()
     {
         $ruleMock = $this->prophesize('oat\tao\model\requiredAction\implementation\TimeRule');
-        $ruleMock->setRequiredAction(Argument::type('oat\tao\model\requiredAction\RequiredActionInterface'))->willReturn(null);
+        $ruleMock
+            ->setRequiredAction(Argument::type('oat\tao\model\requiredAction\RequiredActionInterface'))
+            ->willReturn(null);
         $ruleMock->check(null)->willReturn(false);
 
         return $ruleMock->reveal();
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,6 +23,7 @@ namespace oat\tao\model\taskQueue\TaskLog;
 
 use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
 use oat\tao\model\taskQueue\TaskLog\Entity\TaskLogEntity;
+use Traversable;
 
 class TaskLogCollection implements CollectionInterface
 {
@@ -42,12 +44,12 @@ class TaskLogCollection implements CollectionInterface
      *
      * @throws \Exception
      */
-    public static function createFromArray(array $rows)
+    public static function createFromArray(array $rows, string $dateFormat)
     {
         $logs = [];
 
         foreach ($rows as $row) {
-            $logs[] = TaskLogEntity::createFromArray($row);
+            $logs[] = TaskLogEntity::createFromArray($row, $dateFormat);
         }
 
         return new static($logs);
@@ -61,9 +63,6 @@ class TaskLogCollection implements CollectionInterface
         return new static([]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function jsonSerialize()
     {
         return $this->toArray();
@@ -86,7 +85,7 @@ class TaskLogCollection implements CollectionInterface
     /**
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->taskLogs);
     }
@@ -94,7 +93,7 @@ class TaskLogCollection implements CollectionInterface
     /**
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new \ArrayIterator($this->taskLogs);
     }

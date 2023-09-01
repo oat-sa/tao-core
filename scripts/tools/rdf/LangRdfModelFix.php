@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,12 +22,9 @@
 
 namespace oat\tao\scripts\tools\rdf;
 
-use AppendIterator;
 use common_report_Report as Report;
-use oat\generis\model\data\ModelManager;
-use oat\generis\model\kernel\persistence\file\FileIterator;
 use oat\oatbox\extension\script\ScriptAction;
-use tao_install_utils_ModelCreator;
+use oat\tao\scripts\update\OntologyUpdater;
 
 class LangRdfModelFix extends ScriptAction
 {
@@ -35,30 +33,8 @@ class LangRdfModelFix extends ScriptAction
      */
     protected function run()
     {
-        try {
-            $models = (new tao_install_utils_ModelCreator(LOCAL_NAMESPACE))->getLanguageModels();
-            $rdf = ModelManager::getModel()->getRdfInterface();
-            $total = 0;
-
-            $dryRun = (boolean) $this->getOption('dryRun');
-            $forceModelId = (boolean) $this->getOption('useLocal') ? 1 : null;
-            $langModels = new AppendIterator();
-
-            foreach (array_shift($models) as $file) {
-                $langModels->append((new FileIterator($file, $forceModelId))->getIterator());
-            }
-
-            foreach ($langModels as $triple) {
-                if (!$dryRun) {
-                    $rdf->remove($triple);
-                    $rdf->add($triple);
-                }
-                $total++;
-            }
-            return Report::createInfo(sprintf('%s languages statements were updated', $total));
-        } catch (\Exception $e) {
-            return new Report(Report::TYPE_ERROR, $e->getMessage());
-        }
+        OntologyUpdater::syncModels();
+        Report::createInfo('Syncronised model including language definitions');
     }
 
     /**

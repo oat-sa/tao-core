@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,7 +29,6 @@ use oat\oatbox\task\Task;
  */
 trait TaskQueueActionTrait
 {
-
     /**
      * @var Task[]
      */
@@ -74,7 +74,7 @@ trait TaskQueueActionTrait
      * @param Task $task
      * @return null
      */
-    protected function getTaskReport(Task $task)
+    protected function getTaskReport($task)
     {
         return $task->getReport();
     }
@@ -84,7 +84,7 @@ trait TaskQueueActionTrait
      * @param Task $task
      * @return null
      */
-    protected function getTaskStatus(Task $task)
+    protected function getTaskStatus($task)
     {
         return $task->getStatus();
     }
@@ -94,7 +94,7 @@ trait TaskQueueActionTrait
      * @param Task $task
      * @return null
      */
-    protected function getTaskId(Task $task)
+    protected function getTaskId($task)
     {
         return $task->getId();
     }

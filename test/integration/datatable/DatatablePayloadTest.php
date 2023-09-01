@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
+
 namespace oat\tao\test\integration\datatable;
 
 use oat\tao\model\datatable\implementation\AbstractDatatablePayload;
@@ -34,7 +36,7 @@ use Prophecy\Argument;
  */
 class DatatablePayloadTest extends TaoPhpUnitTestRunner
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }
@@ -105,6 +107,7 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
         $resultProphecy->count()->willReturn(1)->shouldBeCalledTimes(1);
         $resultProphecy->total()->willReturn(2)->shouldBeCalledTimes(1);
         $resultProphecy->getArrayCopy()->willReturn([])->shouldBeCalledTimes(1);
+
         $result = $resultProphecy->reveal();
 
         $gatewayProphecy = $this->prophesize('\oat\search\TaoSearchGateWay');
@@ -114,7 +117,9 @@ class DatatablePayloadTest extends TaoPhpUnitTestRunner
         $service = $this->prophesize('\oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService');
         $service->query()->willReturn($queryBuilderMock)->shouldBeCalledTimes(1);
         $service->getGateway()->willReturn($gatewayMock)->shouldBeCalledTimes(1);
-        $service->searchType($queryBuilderMock, Argument::type('string'), true)->shouldBeCalledTimes(1)->willReturn($queryMock);
+        $service->searchType($queryBuilderMock, Argument::type('string'), true)
+            ->shouldBeCalledTimes(1)
+            ->willReturn($queryMock);
 
         return $service->reveal();
     }
@@ -154,7 +159,13 @@ class ConcreteDatatablePayload extends AbstractDatatablePayload
 
 class QueryMock extends \oat\search\Query
 {
-    public function sort(){}
-    public function setLimit(){}
-    public function setOffset(){}
+    public function sort()
+    {
+    }
+    public function setLimit()
+    {
+    }
+    public function setOffset()
+    {
+    }
 }

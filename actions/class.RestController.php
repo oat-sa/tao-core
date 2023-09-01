@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,17 +20,19 @@
  */
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\action\RestControllerInterface;
 use oat\tao\model\routing\AnnotationReader\security;
 
-abstract class tao_actions_RestController extends \tao_actions_CommonModule
+abstract class tao_actions_RestController extends \tao_actions_CommonModule implements RestControllerInterface
 {
     use OntologyAwareTrait;
     use \tao_actions_RestTrait;
 
-    const CLASS_URI_PARAM = 'class-uri';
-    const CLASS_LABEL_PARAM = 'class-label';
-    const CLASS_COMMENT_PARAM = 'class-comment';
-    const PARENT_CLASS_URI_PARAM = 'parent-class-uri';
+    public const CLASS_URI_PARAM = 'class-uri';
+    public const CLASS_LABEL_PARAM = 'class-label';
+    public const CLASS_COMMENT_PARAM = 'class-comment';
+    public const PARENT_CLASS_URI_PARAM = 'parent-class-uri';
 
     /**
      * Check response encoding requested
@@ -41,13 +44,18 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
     {
         if ($this->hasHeader("Accept")) {
             try {
-                $this->responseEncoding = (tao_helpers_Http::acceptHeader($this->getAcceptableMimeTypes(), $this->getHeader("Accept")));
+                $this->responseEncoding = tao_helpers_Http::acceptHeader(
+                    $this->getAcceptableMimeTypes(),
+                    $this->getHeader("Accept")
+                ) ?? $this->responseEncoding;
             } catch (common_exception_ClientException $e) {
+                header('Content-Type: ' . $this->responseEncoding);
+                $this->setServiceLocator(ServiceManager::getServiceManager());
                 $this->returnFailure($e);
             }
         }
 
-        header('Content-Type: '.$this->responseEncoding);
+        header('Content-Type: ' . $this->responseEncoding);
     }
 
     /**
@@ -77,11 +85,15 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
         $class = null;
         if ($this->hasRequestParameter(self::CLASS_URI_PARAM) && $this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
             throw new \common_exception_RestApi(
-                self::CLASS_URI_PARAM . ' and ' . self::CLASS_LABEL_PARAM . ' parameters do not supposed to be used simultaneously.'
+                self::CLASS_URI_PARAM . ' and ' . self::CLASS_LABEL_PARAM
+                    . ' parameters do not supposed to be used simultaneously.'
             );
         }
 
-        if (!$this->hasRequestParameter(self::CLASS_URI_PARAM) && !$this->hasRequestParameter(self::CLASS_LABEL_PARAM)) {
+        if (
+            !$this->hasRequestParameter(self::CLASS_URI_PARAM)
+            && !$this->hasRequestParameter(self::CLASS_LABEL_PARAM)
+        ) {
             $class = $rootClass;
         }
 
@@ -105,7 +117,7 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
         }
         if ($class === null || !$class->exists()) {
             throw new \common_exception_RestApi(
-                'Class does not exist. Please use valid '.self::CLASS_URI_PARAM . ' or '.self::CLASS_LABEL_PARAM
+                'Class does not exist. Please use valid ' . self::CLASS_URI_PARAM . ' or ' . self::CLASS_LABEL_PARAM
             );
         }
         return $class;
@@ -174,5 +186,4 @@ abstract class tao_actions_RestController extends \tao_actions_CommonModule
 
         return $class;
     }
-
 }

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.3.0-sprint107\n"
-"PO-Revision-Date: 2019-12-20T10:45:26\n"
+"Project-Id-Version: TAO 3.4.0-sprint157\n"
+"PO-Revision-Date: 2021-06-18T08:52:39\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: is-IS\n"
@@ -30,6 +30,9 @@ msgstr ""
 
 msgid " next"
 msgstr " næsta"
+
+msgid " Remove criteria"
+msgstr ""
 
 msgid " requires a subgrid adapter"
 msgstr ""
@@ -118,6 +121,9 @@ msgstr "(tómt)"
 msgid "... reloading page."
 msgstr "... endurhleð síðu."
 
+msgid "7-zip archive"
+msgstr ""
+
 msgid "<del>Filters</del>"
 msgstr "<del>Síur</del>"
 
@@ -146,6 +152,12 @@ msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
 msgstr ""
 
 msgid "A message with further instructions has been sent to your email address: %s"
+msgstr ""
+
+msgid "AAC audio"
+msgstr ""
+
+msgid "About"
 msgstr ""
 
 msgid "abs"
@@ -184,6 +196,9 @@ msgstr "Aðgerðir"
 msgid "Add"
 msgstr "Bæta við"
 
+msgid "Add / Edit lists"
+msgstr ""
+
 msgid "Add a CSV file"
 msgstr "Bæta við CSV skrá"
 
@@ -194,6 +209,9 @@ msgstr "Bæta við notanda"
 msgid "Add an RDF/XML file"
 msgstr "Bæta við RDF/XML skrá"
 
+msgid "add criteria"
+msgstr ""
+
 msgid "Add file(s)"
 msgstr "Bæta við skrá(m)"
 
@@ -203,14 +221,20 @@ msgstr "Bæta við stillingu"
 msgid "Adding search index for %s"
 msgstr ""
 
+msgid "Adding search index for created resource"
+msgstr ""
+
 msgid "Adding the new class has failed"
 msgstr ""
 
 msgid "Adding the new resource has failed"
 msgstr ""
 
-msgid "Advanced Mode"
-msgstr "Ítarlegri hamur"
+msgid "Adding/updating search index for updated resource"
+msgstr ""
+
+msgid "Adobe Flash file"
+msgstr ""
 
 msgid "Advanced search, add filters"
 msgstr ""
@@ -221,14 +245,23 @@ msgstr ""
 msgid "all"
 msgstr "allt"
 
+msgid "all audios"
+msgstr ""
+
 msgid "All data will be removed in %s"
 msgstr ""
 
 msgid "All fields are required"
 msgstr "Öll svæði þurfa að vera til staðar"
 
+msgid "all images"
+msgstr ""
+
 msgid "All rights reserved."
 msgstr "Allur réttur áskilinn."
+
+msgid "all videos"
+msgstr ""
 
 msgid "Allow for all domains"
 msgstr ""
@@ -304,6 +337,9 @@ msgstr "Úthluta notanda hlutverki"
 msgid "Assign Users"
 msgstr "Úthluta Notendum"
 
+msgid "Audio Video Interleave"
+msgstr ""
+
 msgid "Author"
 msgstr "Höfundur"
 
@@ -349,6 +385,9 @@ msgstr ""
 msgid "Binary operator modulo"
 msgstr ""
 
+msgid "Bitmap image"
+msgstr ""
+
 msgid "boolean"
 msgstr ""
 
@@ -359,6 +398,15 @@ msgid "Browse..."
 msgstr "Vafra..."
 
 msgid "C"
+msgstr ""
+
+msgid "C file"
+msgstr ""
+
+msgid "C++ file (.cpp)"
+msgstr ""
+
+msgid "Calc speadsheet (Staroffice)"
 msgstr ""
 
 msgid "Calculator"
@@ -385,6 +433,9 @@ msgstr "Ekki hægt að breyta"
 msgid "Cannot divide by zero"
 msgstr ""
 
+msgid "Cascading Style Sheets"
+msgstr ""
+
 msgid "Case sensitive"
 msgstr ""
 
@@ -401,10 +452,10 @@ msgstr "Breyta lykilorðinu"
 msgid "Change the sign of the current operand"
 msgstr ""
 
-msgid "Check all"
+msgid "Check All"
 msgstr "Merkja við allt"
 
-msgid "Check All"
+msgid "Check all"
 msgstr "Merkja við allt"
 
 msgid "Check-in"
@@ -446,10 +497,10 @@ msgstr ""
 msgid "Clear expression"
 msgstr ""
 
-msgid "Clear history"
+msgid "Clear History"
 msgstr ""
 
-msgid "Clear History"
+msgid "Clear history"
 msgstr ""
 
 msgid "Clear selection"
@@ -461,7 +512,13 @@ msgstr ""
 msgid "Clear the stored variables"
 msgstr ""
 
+msgid "Click to reload."
+msgstr ""
+
 msgid "Close"
+msgstr ""
+
+msgid "Close dialog"
 msgstr ""
 
 msgid "Close message"
@@ -476,6 +533,9 @@ msgstr ""
 msgid "Column"
 msgstr "Dálkur"
 
+msgid "command"
+msgstr ""
+
 msgid "Commands:"
 msgstr ""
 
@@ -489,6 +549,9 @@ msgid "Completed"
 msgstr ""
 
 msgid "Completed - Error"
+msgstr ""
+
+msgid "Compressed tar file"
 msgstr ""
 
 msgid "Compute the expression"
@@ -542,6 +605,9 @@ msgstr ""
 msgid "CSV"
 msgstr "CSV"
 
+msgid "CSV file"
+msgstr ""
+
 msgid "CSV Options"
 msgstr "CSV valmöguleikar"
 
@@ -570,6 +636,12 @@ msgid "Data Language"
 msgstr "Tungumál Gagna"
 
 msgid "Data not imported. All records are invalid."
+msgstr ""
+
+msgid "Data source URI"
+msgstr ""
+
+msgid "Database file"
 msgstr ""
 
 msgid "Date"
@@ -662,6 +734,9 @@ msgid "Do you wish to install the following extension(s):\n"
 msgstr "Vilt þú setja inn eftirfarandi viðbætur:\n"
 " %s?"
 
+msgid "Document templates (Staroffice)"
+msgstr ""
+
 msgid "does not match"
 msgstr "passar ekki saman"
 
@@ -699,9 +774,6 @@ msgstr ""
 msgid "Edit Instance"
 msgstr "Breyta tilviki"
 
-msgid "Edit sources that can embed this platform in an iFrame"
-msgstr ""
-
 msgid "Element"
 msgstr ""
 
@@ -718,6 +790,9 @@ msgid "Enabled %s"
 msgstr ""
 
 msgid "End of document reached. Continuing from the beginning."
+msgstr ""
+
+msgid "Enhanced metafile"
 msgstr ""
 
 msgid "Enter"
@@ -739,6 +814,9 @@ msgid "Error in syntax"
 msgstr ""
 
 msgid "Error in value"
+msgstr ""
+
+msgid "Error: %s"
 msgstr ""
 
 msgid "Examples:"
@@ -851,10 +929,19 @@ msgstr ""
 msgid "Fit to width"
 msgstr ""
 
+msgid "Flash video"
+msgstr ""
+
 msgid "floor"
 msgstr ""
 
+msgid "Flowchart-based programming environment & TI Interactive Workbook"
+msgstr ""
+
 msgid "Forbid for all domains"
+msgstr ""
+
+msgid "Force HTTPS on this platform"
 msgstr ""
 
 msgid "Force Release"
@@ -881,14 +968,29 @@ msgstr ""
 msgid "Generis Form"
 msgstr ""
 
+msgid "Geogebra data file"
+msgstr ""
+
 msgid "Get History"
 msgstr ""
 
 msgid "Get the history list"
 msgstr ""
 
+msgid "GIF image"
+msgstr ""
+
 msgid "Go Back"
 msgstr "Til baka"
+
+msgid "go back to home page"
+msgstr ""
+
+msgid "GZip Compressed Archive"
+msgstr ""
+
+msgid "Header file with extensionsLabels"
+msgstr ""
 
 msgid "Height"
 msgstr "Hæð"
@@ -898,6 +1000,9 @@ msgstr ""
 
 msgid "Hide detailed report"
 msgstr "Fela nákvæma skýrslu"
+
+msgid "Hide password"
+msgstr ""
 
 msgid "Highlight all"
 msgstr ""
@@ -921,6 +1026,12 @@ msgid "Hyperbolic sine"
 msgstr ""
 
 msgid "Hyperbolic tangent"
+msgstr ""
+
+msgid "Hypertext markup language"
+msgstr ""
+
+msgid "I understand that this action is permanent."
 msgstr ""
 
 msgid "Identifier"
@@ -968,10 +1079,10 @@ msgstr ""
 msgid "impossible to update task status"
 msgstr ""
 
-msgid "In progress"
+msgid "In Progress"
 msgstr ""
 
-msgid "In Progress"
+msgid "In progress"
 msgstr ""
 
 msgid "Inclusive (AND)"
@@ -987,6 +1098,9 @@ msgid "Injector has to contains a valid \"destination\" field."
 msgstr ""
 
 msgid "Injector has to contains a valid \"source\" field."
+msgstr ""
+
+msgid "Inline"
 msgstr ""
 
 msgid "Install"
@@ -1073,8 +1187,17 @@ msgstr ""
 msgid "items per page"
 msgstr ""
 
+msgid "Javascript code"
+msgstr ""
+
+msgid "JPEG image"
+msgstr ""
+
 msgid "Label"
 msgstr "Merki"
+
+msgid "Label Path"
+msgstr ""
 
 msgid "Language"
 msgstr "Tungumál"
@@ -1103,13 +1226,22 @@ msgstr "Listi"
 msgid "List - Multiple choice - Check box"
 msgstr "Listi - Fjölval - Gátreitur"
 
+msgid "List - Multiple choice - Search input"
+msgstr ""
+
 msgid "List - Single choice - Drop down"
 msgstr "Listi - Einfalt val - Felligluggi"
 
 msgid "List - Single choice - Radio button"
 msgstr "Listi - Einfalt val - "
 
-msgid "ln"
+msgid "List - Single choice - Search input"
+msgstr ""
+
+msgid "List item URI duplications found"
+msgstr ""
+
+msgid "List values"
 msgstr ""
 
 msgid "Load more"
@@ -1133,9 +1265,6 @@ msgstr ""
 msgid "locked by %s"
 msgstr ""
 
-msgid "log"
-msgstr ""
-
 msgid "Log in"
 msgstr "Innskráning"
 
@@ -1157,7 +1286,22 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+msgid "M4A audio"
+msgstr ""
+
+msgid "Main Menu"
+msgstr ""
+
+msgid "Maintenance service is already installed."
+msgstr ""
+
 msgid "Maintenance service must have a persistence option."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr ""
+
+msgid "Maintenance service was installed. Platform is enabled."
 msgstr ""
 
 msgid "Maintenance storage driver is not set"
@@ -1201,6 +1345,45 @@ msgstr ""
 msgid "Metadata export is not available for the selected resource."
 msgstr ""
 
+msgid "Microsoft Excel"
+msgstr ""
+
+msgid "Microsoft Excel binary format"
+msgstr ""
+
+msgid "Microsoft Office Document Imaging"
+msgstr ""
+
+msgid "Microsoft Powerpoint"
+msgstr ""
+
+msgid "Microsoft Powerpoint slideshow"
+msgstr ""
+
+msgid "Microsoft Project file"
+msgstr ""
+
+msgid "Microsoft Visio file"
+msgstr ""
+
+msgid "Microsoft Word"
+msgstr ""
+
+msgid "Microsoft Word template"
+msgstr ""
+
+msgid "Microsoft Works file"
+msgstr ""
+
+msgid "Microsoft XPS file"
+msgstr ""
+
+msgid "MIME encapsulation of aggregate HTML documents"
+msgstr ""
+
+msgid "Mind mapping software application (free mind open source)"
+msgstr ""
+
 msgid "minutes"
 msgstr "mínútur"
 
@@ -1239,6 +1422,18 @@ msgid "Move to"
 msgstr "Færa í"
 
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
+msgstr ""
+
+msgid "MP4 video"
+msgstr ""
+
+msgid "MPEG audio"
+msgstr ""
+
+msgid "MPEG video"
+msgstr ""
+
+msgid "MPEG-4 audio file"
 msgstr ""
 
 msgid "Multiple values delimiter"
@@ -1303,17 +1498,11 @@ msgstr "Engin skrá valin"
 msgid "No files"
 msgstr "Engar skrár"
 
+msgid "No item found. Please try other search criteria."
+msgstr ""
+
 msgid "no label"
 msgstr "ekkert merki"
-
-msgid "No preview available"
-msgstr ""
-
-msgid "No Preview available"
-msgstr ""
-
-msgid "No results found"
-msgstr "Engar niðurstöður fundust"
 
 msgid "No Task yet"
 msgstr ""
@@ -1361,6 +1550,12 @@ msgstr ""
 msgid "Off"
 msgstr ""
 
+msgid "Ogg Vorbis audio"
+msgstr ""
+
+msgid "Ogg Vorbis video"
+msgstr ""
+
 msgid "OK"
 msgstr ""
 
@@ -1376,6 +1571,24 @@ msgstr ""
 msgid "Only allow for my own domain (%s)"
 msgstr ""
 
+msgid "Only one of the field must have value %s"
+msgstr ""
+
+msgid "OpenDocument Database"
+msgstr ""
+
+msgid "OpenDocument Presentation"
+msgstr ""
+
+msgid "OpenDocument spreadsheet document"
+msgstr ""
+
+msgid "OpenDocument text document"
+msgstr ""
+
+msgid "OpenDocument Text Template"
+msgstr ""
+
 msgid "Operated By "
 msgstr ""
 
@@ -1387,6 +1600,9 @@ msgstr ""
 
 msgid "Page"
 msgstr "Síða"
+
+msgid "Pascal file (.pas)"
+msgstr ""
 
 msgid "Password"
 msgstr "Lykilorð"
@@ -1409,7 +1625,13 @@ msgstr "Lykilorðin stemma ekki"
 msgid "Pause"
 msgstr ""
 
+msgid "PDF file"
+msgstr ""
+
 msgid "Permission denied to write in the selected class"
+msgstr ""
+
+msgid "Plain text"
 msgstr ""
 
 msgid "Play"
@@ -1445,6 +1667,9 @@ msgstr ""
 msgid "Please contact your system administrator."
 msgstr ""
 
+msgid "Please define your search in the search panel."
+msgstr ""
+
 msgid "Please download the track and listen offline."
 msgstr ""
 
@@ -1460,13 +1685,19 @@ msgstr ""
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr ""
 
-msgid "Please try in %s."
-msgstr ""
-
 msgid "Please wait"
 msgstr ""
 
 msgid "Please wait while ..."
+msgstr ""
+
+msgid "PNG image"
+msgstr ""
+
+msgid "Position"
+msgstr ""
+
+msgid "Positionals:"
 msgstr ""
 
 msgid "Post install processing"
@@ -1500,9 +1731,6 @@ msgstr ""
 msgid "Properties"
 msgstr "Stillingar"
 
-msgid "Property\'s label field is required"
-msgstr ""
-
 msgid "Provided URL is not valid"
 msgstr ""
 
@@ -1513,6 +1741,9 @@ msgid "Publish the test"
 msgstr ""
 
 msgid "Queued"
+msgstr ""
+
+msgid "Quicktime video"
 msgstr ""
 
 msgid "Rad"
@@ -1530,8 +1761,14 @@ msgstr ""
 msgid "Range field is required"
 msgstr ""
 
+msgid "RAR archive"
+msgstr ""
+
 msgid "RDF"
 msgstr "RDF"
+
+msgid "RealMedia file"
+msgstr ""
 
 msgid "Refresh"
 msgstr ""
@@ -1540,6 +1777,9 @@ msgid "Release"
 msgstr ""
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "Reload"
 msgstr ""
 
 msgid "Remind"
@@ -1562,6 +1802,9 @@ msgstr ""
 
 msgid "Remove"
 msgstr "Fjarlægja"
+
+msgid "Remove criteria"
+msgstr ""
 
 msgid "Remove Message"
 msgstr "Fjarlægja skilaboð"
@@ -1655,6 +1898,9 @@ msgstr ""
 
 msgid "Return to sign in page"
 msgstr "Snúa aftur til innskráningarsíðu"
+
+msgid "Rich Text Format file"
+msgstr ""
 
 msgid "Right click the tree to manage your lists"
 msgstr "Hægri smelltu á tréð til að stilla lista þína"
@@ -1779,11 +2025,14 @@ msgstr "Stillingar uppfærðar"
 msgid "Show detailed report"
 msgstr "Sýna nákvæma skýrslu"
 
-msgid "Sign change"
+msgid "Show password"
 msgstr ""
 
-msgid "Simple Mode"
-msgstr "Einfaldur hamur"
+msgid "Sibelius music notation"
+msgstr ""
+
+msgid "Sign change"
+msgstr ""
 
 msgid "sin"
 msgstr ""
@@ -1798,6 +2047,9 @@ msgid "Size"
 msgstr "Stærð"
 
 msgid "Some resources have not been moved: %s"
+msgstr ""
+
+msgid "Something unexpected happened."
 msgstr ""
 
 msgid "Sources that can embed this platform in an iFrame"
@@ -1819,6 +2071,9 @@ msgid "Store"
 msgstr ""
 
 msgid "Store the value a variable"
+msgstr ""
+
+msgid "Storing digital video data on a computer game"
 msgstr ""
 
 msgid "string"
@@ -1851,7 +2106,13 @@ msgstr ""
 msgid "Supported export formats"
 msgstr "Þekkt snið útflutnings"
 
+msgid "SVG image"
+msgstr ""
+
 msgid "Syntax error"
+msgstr ""
+
+msgid "Tagged image file"
 msgstr ""
 
 msgid "tan"
@@ -1871,6 +2132,24 @@ msgstr "Tao Heimasvæði"
 
 msgid "TAO Login"
 msgstr "TAO Innskráning"
+
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
+msgstr ""
 
 msgid "Task %s has been cancelled, message was not processed."
 msgstr ""
@@ -1893,6 +2172,9 @@ msgstr ""
 msgid "Term"
 msgstr ""
 
+msgid "TeX file"
+msgstr ""
+
 msgid "Text - Long - Box"
 msgstr ""
 
@@ -1900,6 +2182,9 @@ msgid "Text - Long - HTML editor"
 msgstr ""
 
 msgid "Text - Short - Field"
+msgstr ""
+
+msgid "Text document file format (Staroffice)"
 msgstr ""
 
 msgid "The action will be applied to"
@@ -1916,6 +2201,9 @@ msgstr ""
 
 msgid "The column "
 msgstr "Dálkurinn "
+
+msgid "The following criteria are not applicable to the selected class and have been removed from the search"
+msgstr ""
 
 msgid "The format of this field is not valid."
 msgstr ""
@@ -1941,7 +2229,7 @@ msgstr ""
 msgid "The value for the property \"%s\" must be unique."
 msgstr ""
 
-msgid "The value of this field must be a valide date format, e.g. YYYY-MM-DD"
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
 msgstr "Gildi þessa sviðs verður að vera á gildu dagsetningarsniði, t.d. ÁÁÁÁ-MM-DD"
 
 msgid "The value of this field must be an integer"
@@ -1975,6 +2263,9 @@ msgid "This Login is already in use"
 msgstr "Notandanafn er nú þegar í notkun"
 
 msgid "This media cannot be played!"
+msgstr ""
+
+msgid "This or one of %s must have a value"
 msgstr ""
 
 msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
@@ -2043,7 +2334,13 @@ msgstr "Þýðingaviðföng"
 msgid "Translation saved"
 msgstr "Þýðing vistuð"
 
+msgid "Transport Layer Security"
+msgstr ""
+
 msgid "Tree - Multiple node choice "
+msgstr ""
+
+msgid "Tree values"
 msgstr ""
 
 msgid "True"
@@ -2115,10 +2412,10 @@ msgstr ""
 msgid "Unary operator -"
 msgstr ""
 
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr ""
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr ""
 
 msgid "Undefined amount of the pages for pagination"
@@ -2139,6 +2436,9 @@ msgstr ""
 msgid "Uninstalled %s"
 msgstr ""
 
+msgid "UNIX Compressed Archive File"
+msgstr ""
+
 msgid "unknown"
 msgstr "óþekkt"
 
@@ -2154,13 +2454,28 @@ msgstr ""
 msgid "Update ID : %s"
 msgstr ""
 
+msgid "Updating search index"
+msgstr ""
+
 msgid "Upload"
 msgstr "Hlaða upp"
 
 msgid "Upload into:"
 msgstr "Senda til:"
 
+msgid "URI Path"
+msgstr ""
+
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
+msgstr ""
+
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr ""
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr ""
+
+msgid "USAGE: please provide the service name as first parameter"
 msgstr ""
 
 msgid "Use a term"
@@ -2246,6 +2561,9 @@ msgstr ""
 msgid "Version"
 msgstr "Útgáfunúmer"
 
+msgid "View"
+msgstr ""
+
 msgid "View report"
 msgstr ""
 
@@ -2261,11 +2579,41 @@ msgstr ""
 msgid "Waiting"
 msgstr ""
 
+msgid "WAV audio"
+msgstr ""
+
+msgid "WebM audio"
+msgstr ""
+
+msgid "WebM video"
+msgstr ""
+
 msgid "Whole number part"
 msgstr ""
 
 msgid "Width"
 msgstr "Breidd"
+
+msgid "Windows help file"
+msgstr ""
+
+msgid "Windows Media audio"
+msgstr ""
+
+msgid "Windows Media file (metafile)"
+msgstr ""
+
+msgid "Windows Media video"
+msgstr ""
+
+msgid "Wrap image left"
+msgstr ""
+
+msgid "Wrap image right"
+msgstr ""
+
+msgid "Write Document"
+msgstr ""
 
 msgid "Wrong or missing parameter extension, module or action"
 msgstr ""
@@ -2273,8 +2621,14 @@ msgstr ""
 msgid "Wrong parameter shownExtension"
 msgstr ""
 
+msgid "XML file"
+msgstr ""
+
 msgid "Yes"
 msgstr "Já"
+
+msgid "You are encountering a prolonged connectivity loss."
+msgstr ""
 
 msgid "You are not allowed to write in the class %s"
 msgstr ""
@@ -2323,4 +2677,7 @@ msgstr "Pósturinn þinn"
 
 msgid "Your TAO Password"
 msgstr "TAO Lykilorðið þitt"
+
+msgid "ZIP archive"
+msgstr ""
 

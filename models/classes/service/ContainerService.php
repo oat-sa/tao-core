@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,18 +21,17 @@
 
 namespace oat\tao\model\service;
 
-
 use oat\oatbox\PimpleContainerTrait;
 use oat\oatbox\service\ConfigurableService;
 use Psr\Container\ContainerInterface;
 
 class ContainerService extends ConfigurableService implements ContainerInterface
 {
-    /** The Service identifier in the Service Manager. */
-    const SERVICE_ID = 'tao/containerService';
-
     /** Uses the container trait. */
     use PimpleContainerTrait;
+
+    /** The Service identifier in the Service Manager. */
+    public const SERVICE_ID = 'tao/containerService';
 
     /**
      * @inheritdoc

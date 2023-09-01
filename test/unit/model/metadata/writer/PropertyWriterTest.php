@@ -129,5 +129,4 @@ class PropertyWriterTest extends TestCase
         $this->expectException(MetadataWriterException::class);
         $writer->write($resource, $data);
     }
-
 }

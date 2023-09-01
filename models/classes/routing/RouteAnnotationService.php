@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,16 +22,19 @@
 
 namespace oat\tao\model\routing;
 
-
+use Throwable;
+use Psr\Log\LoggerInterface;
+use oat\oatbox\log\logger\AdvancedLogger;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\log\logger\extender\ContextExtenderInterface;
 
 class RouteAnnotationService extends ConfigurableService
 {
-    const SERVICE_ID = 'tao/routeAnnotation';
+    public const SERVICE_ID = 'tao/routeAnnotation';
 
-    const SECURITY_HIDE = 'hide';
-    const SECURITY_ALLOW = 'allow';
-    const SECURITY_DENY = 'deny';
+    public const SECURITY_HIDE = 'hide';
+    public const SECURITY_ALLOW = 'allow';
+    public const SECURITY_DENY = 'deny';
 
     /**
      * @param string $className
@@ -58,9 +62,12 @@ class RouteAnnotationService extends ConfigurableService
     public function hasAccess($className, $methodName = '')
     {
         $access = true;
+
         try {
             $annotations = $this->getAnnotations($className, $methodName);
-            if (array_key_exists(AnnotationReaderService::PROP_SECURITY, $annotations)
+
+            if (
+                array_key_exists(AnnotationReaderService::PROP_SECURITY, $annotations)
                 && is_array($annotations[AnnotationReaderService::PROP_SECURITY])
             ) {
                 foreach ($annotations[AnnotationReaderService::PROP_SECURITY] as $rule) {
@@ -72,12 +79,19 @@ class RouteAnnotationService extends ConfigurableService
                         case self::SECURITY_ALLOW:
                             // do not change state (it will be allowed by default but closed by hidden & deny)
                             break;
-                        // any unsupported actions return false
-                        default: $access = false;
+                            // any unsupported actions return false
+                        default:
+                            $access = false;
                     }
                 }
             }
-        }  catch (\Exception $e) {
+        } catch (Throwable $exception) {
+            $this->getAdvancedLogger()->error(
+                $exception->getMessage(),
+                [
+                    ContextExtenderInterface::CONTEXT_EXCEPTION => $exception,
+                ]
+            );
             $access = false; // if class or method not found
         }
 
@@ -94,7 +108,8 @@ class RouteAnnotationService extends ConfigurableService
                     $res[$rule['key']] = $rule['permission'];
                 }
             }
-        } catch (\Exception $e) { }
+        } catch (\Exception $e) {
+        }
         return $res;
     }
 
@@ -103,5 +118,10 @@ class RouteAnnotationService extends ConfigurableService
         return $this->getServiceLocator()
             ->get(AnnotationReaderService::SERVICE_ID)
             ->getAnnotations($className, $methodName);
+    }
+
+    private function getAdvancedLogger(): LoggerInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(AdvancedLogger::ACL_SERVICE_ID);
     }
 }

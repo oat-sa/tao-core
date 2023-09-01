@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -26,8 +27,8 @@ namespace oat\tao\model\auth;
  */
 class BasicAuthCredentials extends AbstractCredentials
 {
-    const LOGIN = 'login';
-    const PASSWORD = 'password';
+    public const LOGIN = 'login';
+    public const PASSWORD = 'password';
 
     /**
      * @return array
@@ -35,8 +36,8 @@ class BasicAuthCredentials extends AbstractCredentials
     public function getProperties()
     {
         return [
-            self::LOGIN => $this->properties[self::LOGIN],
-            self::PASSWORD => $this->properties[self::PASSWORD],
+            self::LOGIN => isset($this->properties[self::LOGIN]) ? $this->properties[self::LOGIN] : '',
+            self::PASSWORD => isset($this->properties[self::PASSWORD]) ? $this->properties[self::PASSWORD] : '',
         ];
     }
 }

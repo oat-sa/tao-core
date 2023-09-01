@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
  */
 
 namespace oat\tao\test\unit\helpers;
-
 
 use common_exception_Error;
 use oat\generis\test\TestCase;
@@ -94,7 +94,8 @@ class XmlHelperTest extends TestCase
                 [
                     'exception' => [
                         'class' => common_exception_Error::class,
-                        'message' => "error parsing attribute name [1]\nattributes construct error [1]\nCouldn't find end of Start Tag aasdf line 1 [1]\nExtra content at the end of the document [1]"
+                        'message' => "error parsing attribute name [1]\nattributes construct error [1]\nCouldn't find "
+                            . "end of Start Tag aasdf line 1 [1]\nExtra content at the end of the document [1]"
                     ]
                 ]
             ]

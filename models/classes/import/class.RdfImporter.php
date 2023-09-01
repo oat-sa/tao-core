@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,6 +20,8 @@
  *
  */
 
+use EasyRdf\Format;
+use EasyRdf\Graph;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\event\EventManagerAwareTrait;
@@ -34,7 +37,10 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
  * @author  Joel Bout, <joel@taotesting.com>
  * @package tao
  */
-class tao_models_classes_import_RdfImporter implements tao_models_classes_import_ImportHandler, ServiceLocatorAwareInterface, TaskParameterProviderInterface
+class tao_models_classes_import_RdfImporter implements
+    tao_models_classes_import_ImportHandler,
+    ServiceLocatorAwareInterface,
+    TaskParameterProviderInterface
 {
     use EventManagerAwareTrait;
     use ImportHandlerHelperTrait;
@@ -101,7 +107,7 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
     {
         $report = common_report_Report::createSuccess(__('Data imported successfully'));
 
-        $graph = new EasyRdf_Graph();
+        $graph = new Graph();
         $graph->parse($content);
 
         // keep type property
@@ -113,7 +119,7 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
             $map[$resource->getUri()] = common_Utils::getNewUri();
         }
 
-        $format = EasyRdf_Format::getFormat('php');
+        $format = Format::getFormat('php');
         $data = $graph->serialise($format);
 
         foreach ($data as $subjectUri => $propertiesValues) {
@@ -139,7 +145,10 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
         if (isset($propertiesValues[OntologyRdf::RDF_TYPE])) {
             // assuming single Type
             if (count($propertiesValues[OntologyRdf::RDF_TYPE]) > 1) {
-                return new common_report_Report(common_report_Report::TYPE_ERROR, __('Resource not imported due to multiple types'));
+                return new common_report_Report(
+                    common_report_Report::TYPE_ERROR,
+                    __('Resource not imported due to multiple types')
+                );
             } else {
                 foreach ($propertiesValues[OntologyRdf::RDF_TYPE] as $k => $v) {
                     $classType = isset($map[$v['value']])
@@ -155,8 +164,14 @@ class tao_models_classes_import_RdfImporter implements tao_models_classes_import
         if (isset($propertiesValues[OntologyRdfs::RDFS_SUBCLASSOF])) {
             $resource = new core_kernel_classes_Class($resource);
             // assuming single subclass
-            if (isset($propertiesValues[OntologyRdf::RDF_TYPE]) && count($propertiesValues[OntologyRdf::RDF_TYPE]) > 1) {
-                return new common_report_Report(common_report_Report::TYPE_ERROR, __('Resource not imported due to multiple super classes'));
+            if (
+                isset($propertiesValues[OntologyRdf::RDF_TYPE])
+                && count($propertiesValues[OntologyRdf::RDF_TYPE]) > 1
+            ) {
+                return new common_report_Report(
+                    common_report_Report::TYPE_ERROR,
+                    __('Resource not imported due to multiple super classes')
+                );
             }
             foreach ($propertiesValues[OntologyRdfs::RDFS_SUBCLASSOF] as $k => $v) {
                 $classSup = isset($map[$v['value']])

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -14,8 +15,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung (under the project TAO-TRANSFER);
- *               2009-2012 (update and modification) Public Research Centre Henri Tudor (under the project TAO-SUSTAIN & TAO-DEV);
+ * Copyright (c) 2008-2010 (original work) Deutsche Institut für Internationale Pädagogische Forschung
+ *                         (under the project TAO-TRANSFER);
+ *               2009-2012 (update and modification) Public Research Centre Henri Tudor
+ *                         (under the project TAO-SUSTAIN & TAO-DEV);
  *
  */
 
@@ -41,7 +44,6 @@ use ReflectionClass;
  */
 class UserTest extends TestCase
 {
-
     /**
      * @var tao_models_classes_UserService
      */
@@ -50,7 +52,7 @@ class UserTest extends TestCase
     /**
      * @var array user data set
      */
-    protected $testUserData = array(
+    protected $testUserData = [
         GenerisRdf::PROPERTY_USER_LOGIN => 'tjdoe',
         GenerisRdf::PROPERTY_USER_PASSWORD => 'test123',
         GenerisRdf::PROPERTY_USER_LASTNAME => 'Doe',
@@ -58,12 +60,12 @@ class UserTest extends TestCase
         GenerisRdf::PROPERTY_USER_MAIL => 'jdoe@tao.lu',
         GenerisRdf::PROPERTY_USER_UILG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
         GenerisRdf::PROPERTY_USER_ROLES => 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole'
-    );
+    ];
 
     /**
      * @var array user data set with special chars
      */
-    protected $testUserUtf8Data = array(
+    protected $testUserUtf8Data = [
         GenerisRdf::PROPERTY_USER_LOGIN => 'f.lecé',
         GenerisRdf::PROPERTY_USER_PASSWORD => '6crète!',
         GenerisRdf::PROPERTY_USER_LASTNAME => 'Lecéfranc',
@@ -71,7 +73,7 @@ class UserTest extends TestCase
         GenerisRdf::PROPERTY_USER_MAIL => 'f.lecé@tao.lu',
         GenerisRdf::PROPERTY_USER_UILG => 'http://www.tao.lu/Ontologies/TAO.rdf#Langfr-FR',
         GenerisRdf::PROPERTY_USER_ROLES => 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole'
-    );
+    ];
 
     /**
      * @var core_kernel_classes_Resource
@@ -86,11 +88,17 @@ class UserTest extends TestCase
     /**
      * tests initialization
      */
-    public function setUp()
+    public function setUp(): void
     {
+        $strategy = core_kernel_users_Service::getPasswordHash();
+
         $this->userService = tao_models_classes_UserService::singleton();
-        $this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD]);
-        $this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_PASSWORD] = core_kernel_users_Service::getPasswordHash()->encrypt($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_PASSWORD]);
+        $this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD] = $strategy->encrypt(
+            $this->testUserData[GenerisRdf::PROPERTY_USER_PASSWORD]
+        );
+        $this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_PASSWORD] = $strategy->encrypt(
+            $this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_PASSWORD]
+        );
     }
 
     /**
@@ -138,14 +146,19 @@ class UserTest extends TestCase
     public function testAddUtf8User()
     {
         $this->assertTrue($this->userService->loginAvailable($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_LOGIN]));
+
         $tmclass = new core_kernel_classes_Class(TaoOntology::CLASS_URI_TAO_USER);
+
         $this->testUserUtf8 = $tmclass->createInstance();
         $this->assertNotNull($this->testUserUtf8);
         $this->assertTrue($this->testUserUtf8->exists());
+
         $result = $this->userService->bindProperties($this->testUserUtf8, $this->testUserUtf8Data);
         $this->assertNotNull($result);
         $this->assertNotEquals($result, false);
-        $this->assertFalse($this->userService->loginAvailable($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_LOGIN]));
+        $this->assertFalse(
+            $this->userService->loginAvailable($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_LOGIN])
+        );
 
         //check inserted data
         $this->testUserUtf8 = $this->getUserByLogin($this->testUserUtf8Data[GenerisRdf::PROPERTY_USER_LOGIN]);
@@ -190,8 +203,8 @@ class UserTest extends TestCase
     {
         $class = new core_kernel_classes_Class(GenerisRdf::CLASS_GENERIS_USER);
         $users = $class->searchInstances(
-            array(GenerisRdf::PROPERTY_USER_LOGIN => $login),
-            array('like' => false, 'recursive' => true)
+            [GenerisRdf::PROPERTY_USER_LOGIN => $login],
+            ['like' => false, 'recursive' => true]
         );
 
         $this->assertEquals(1, count($users));
@@ -202,16 +215,15 @@ class UserTest extends TestCase
     {
         $foo = self::getMethod('register');
 
-        $foo->invokeArgs(PasswordConstraintsService::singleton(), array(array('length' => 20)));
+        $foo->invokeArgs(PasswordConstraintsService::singleton(), [['length' => 20]]);
         $this->assertFalse(PasswordConstraintsService::singleton()->validate('a2asdjKISj319(*^^#'));
 
-        $foo->invokeArgs(PasswordConstraintsService::singleton(), array(array('upper' => false, 'length' => 2)));
+        $foo->invokeArgs(PasswordConstraintsService::singleton(), [['upper' => false, 'length' => 2]]);
         $this->assertTrue(PasswordConstraintsService::singleton()->validate('a2asdjj319(*^^#'));
 
 
-        $foo->invokeArgs(PasswordConstraintsService::singleton(), array(array('upper' => true, 'length' => 20)));
+        $foo->invokeArgs(PasswordConstraintsService::singleton(), [['upper' => true, 'length' => 20]]);
         $this->assertFalse(PasswordConstraintsService::singleton()->validate('a2asRdjj319(*^^#'));
-
     }
 
     protected static function getMethod($name)
@@ -223,7 +235,7 @@ class UserTest extends TestCase
         return $method;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if ($this->testUser) {
             $this->userService->removeUser($this->testUser);
@@ -234,11 +246,11 @@ class UserTest extends TestCase
         }
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         $register = self::getMethod('register');
-        $config = self::getMethod('getConfig')->invokeArgs(PasswordConstraintsService::singleton(), array());
+        $config = self::getMethod('getConfig')->invokeArgs(PasswordConstraintsService::singleton(), []);
 
-        $register->invokeArgs(PasswordConstraintsService::singleton(), array($config));
+        $register->invokeArgs(PasswordConstraintsService::singleton(), [$config]);
     }
 }

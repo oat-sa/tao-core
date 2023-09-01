@@ -1,0 +1,2818 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 2023.04\n"
+"PO-Revision-Date: 2023-03-23T13:15:16\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: nb-NO\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: nb-NO\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid ""
+msgstr ""
+
+msgid " and "
+msgstr " og "
+
+msgid " AND "
+msgstr " OG "
+
+msgid " has been deleted successfully"
+msgstr " har blitt slettet"
+
+msgid " is "
+msgstr " er "
+
+msgid " next"
+msgstr " neste"
+
+msgid " Remove criteria"
+msgstr " Fjern kriterier"
+
+msgid " requires a subgrid adapter"
+msgstr " krever en subgrid -adapter"
+
+msgid "%1$s expected but %2$s detected"
+msgstr "%1$s var forventet, men %2$s ble oppdaget"
+
+msgid "%d attempts left before your account is locked."
+msgstr "Du har %d forsøk igjen før kontoen din låses."
+
+msgid "%d day"
+msgstr "%d dag"
+
+msgid "%d days"
+msgstr "%d dager"
+
+msgid "%h hour"
+msgstr "%h time"
+
+msgid "%h hours"
+msgstr "%h timer"
+
+msgid "%i minute"
+msgstr "%i minutt"
+
+msgid "%i minutes"
+msgstr "%i minutter"
+
+msgid "%m month"
+msgstr "%m måned"
+
+msgid "%m months"
+msgstr "%m måneder"
+
+msgid "%s %s selected"
+msgstr "%s %s valgt"
+
+msgid "%s (%s kb)"
+msgstr "%s (%s kb)"
+
+msgid "%s Class saved"
+msgstr "%s Mappe lagret"
+
+msgid "%s classes"
+msgstr "%s mapper"
+
+msgid "%s completed"
+msgstr ""
+
+msgid "%s Confirmation"
+msgstr "%s Bekreftelse"
+
+msgid "%s could not be released"
+msgstr "%s kunne ikke publiseres"
+
+msgid "%s created"
+msgstr "%s opprettet"
+
+msgid "%s extension(s) to install."
+msgstr "%s tillegg som skal installeres."
+
+msgid "%s has been deleted"
+msgstr "%s er slettet"
+
+msgid "%s has been released"
+msgstr "%s er publisert"
+
+msgid "%s instances"
+msgstr "%s forekomster"
+
+msgid "%s is of a type that cannot be published"
+msgstr "%s er av en type som ikke kan publiseres"
+
+msgid "%s Locked"
+msgstr "%s Låst"
+
+msgid "%s\" is not a valid index identifier. It must start with a letter and contain letters, numbers or underscores only"
+msgstr "%s\"er ikke en gyldig indeksidentifikator. Den må starte med en bokstav og kun inneholde bokstaver, tall eller understrekninger"
+
+msgid "%y year"
+msgstr "%y år"
+
+msgid "%y years"
+msgstr "%y år"
+
+msgid "(empty)"
+msgstr "(tom)"
+
+msgid "... reloading page."
+msgstr "... laster siden på nytt."
+
+msgid "7-zip archive"
+msgstr "7-zip arkiv"
+
+msgid "<del>Filters</del>"
+msgstr "<del>Filtre</del>"
+
+msgid "<del>Options</del>"
+msgstr "<del>Alternativer</del>"
+
+msgid "<strong> %s </strong> has been moved to the background."
+msgstr "<strong>%s</strong> er flyttet til bakgrunnen."
+
+msgid "> Extension %s succesfully installed."
+msgstr ">Utvidelsen %s er installert."
+
+msgid "> Installation done."
+msgstr "> Installasjonen er utført."
+
+msgid "a class"
+msgstr "en mappe"
+
+msgid "A date has to be a Datetime or timestamp"
+msgstr "En dato må være en Datotid eller tidsstempel"
+
+msgid "A fatal error occured during the installation process."
+msgstr "En alvorlig feil oppstod under installasjonsprosessen."
+
+msgid "A maintenance status must have a STATUS: \"%s\" or \"%s"
+msgstr "En vedlikeholdsstatus må ha en STATUS: \"%s\" eller \"%s"
+
+msgid "A message with further instructions has been sent to your email address: %s"
+msgstr "En melding med ytterligere instruksjoner er sendt til e -postadressen din: %s"
+
+msgid "AAC audio"
+msgstr "AAC lyd"
+
+msgid "About"
+msgstr "Om"
+
+msgid "abs"
+msgstr "abs"
+
+msgid "Absolute value"
+msgstr "Absolutt verdi"
+
+msgid "AC"
+msgstr "AC"
+
+msgid "Access Denied"
+msgstr "Ingen Tilgang"
+
+msgid "Access denied. Please renew your authentication!"
+msgstr "Ingen tilgang. Du må fornye autentiseringen din!"
+
+msgid "Account status"
+msgstr "Konto status"
+
+msgid "Action"
+msgstr "Handling"
+
+msgid "Action %s - removed %s positions"
+msgstr "Handling %s - fjernet %s posisjoner"
+
+msgid "Action `%s` is not configured in the action queue service"
+msgstr "Handlingen %s er ikke konfigurert i tjenesten for handlingskø"
+
+msgid "Action was not executed yet"
+msgstr "Handlingen er ikke utført ennå"
+
+msgid "Actions"
+msgstr "Handlinger"
+
+msgid "Add"
+msgstr "Legg til"
+
+msgid "Add / Edit lists"
+msgstr "Legg til / rediger lister"
+
+msgid "Add a CSV file"
+msgstr "Legg til en CSV-fil"
+
+#, tao-public
+msgid "Add a user"
+msgstr "Legg til en bruker"
+
+msgid "Add an RDF/XML file"
+msgstr "Legg til en RDF/XML-fil"
+
+msgid "add criteria"
+msgstr "legg til kriterier"
+
+msgid "Add file(s)"
+msgstr "Legg til fil(er)"
+
+msgid "Add index"
+msgstr ""
+
+msgid "Add property"
+msgstr "Legg til egenskap"
+
+msgid "Adding search index for %s"
+msgstr "Legger til søkeindeks for %s"
+
+msgid "Adding search index for created resource"
+msgstr "Legger til søkeindeks for opprettet ressurs"
+
+msgid "Adding the new class has failed"
+msgstr "Å legge til ny mappe mislyktes"
+
+msgid "Adding the new resource has failed"
+msgstr "Å legge til ny ressurs mislyktes"
+
+msgid "Adding/updating search index for updated resource"
+msgstr "Legger til/oppdaterer søkeindeks for oppdaterte ressurs"
+
+msgid "Adobe Flash file"
+msgstr "Adobe Flash-fil"
+
+msgid "Advanced search, add filters"
+msgstr "Avansert søk, legg til filtre"
+
+msgid "aliases:"
+msgstr ""
+
+msgid "all"
+msgstr "alle"
+
+msgid "all audios"
+msgstr "alle lydfilene"
+
+msgid "All data will be removed in %s"
+msgstr "Alle data vil bli fjernet om %s"
+
+msgid "All fields are required"
+msgstr "Alle felt må fylles ut"
+
+msgid "all images"
+msgstr "alle bilder"
+
+msgid "All rights reserved."
+msgstr "Alle rettigheter forbeholdt."
+
+msgid "all videos"
+msgstr "alle videoer"
+
+msgid "Allow for all domains"
+msgstr "Tillat for alle domener"
+
+msgid "Allow for the following domains"
+msgstr "Tillat følgende domener"
+
+msgid "Alpha version"
+msgstr "Alpha -versjon"
+
+msgid "An email has been sent"
+msgstr "En e -post er sendt"
+
+msgid "An error occurred during user deletion"
+msgstr "Det oppstod en feil under sletting av brukeren"
+
+msgid "An error occurred!"
+msgstr "Det oppstod en feil!"
+
+msgid "An exception occured while running \"%s"
+msgstr "Det oppstod et avvik under kjøring av \"%s"
+
+msgid "an instance"
+msgstr "en forekomst"
+
+msgid "Ans"
+msgstr "Svar"
+
+msgid "Apply"
+msgstr "Bruke"
+
+msgid "Apply date range"
+msgstr "Bruk datointervall"
+
+msgid "Arc cosine"
+msgstr "Cosinusbue"
+
+msgid "Arc sine"
+msgstr "Sinusbue"
+
+msgid "Arc tangent"
+msgstr "Tangensbue"
+
+msgid "Archived"
+msgstr "Arkivert"
+
+msgid "Are you sure to delete the versioned resource?\n"
+"The history will be lost as well."
+msgstr "Er du sikker på å slette den versjonerte ressursen? Historikken vil også gå tapt."
+
+msgid "Are you sure you want to delete it?"
+msgstr "Er du sikker på at du ønsker slette?"
+
+msgid "Are you sure you wish to delete it"
+msgstr ""
+
+msgid "Argument check failed: %s"
+msgstr ""
+
+msgid "Arguments %s and %s are mutually exclusive"
+msgstr ""
+
+msgid "Arguments separator"
+msgstr ""
+
+msgid "array"
+msgstr ""
+
+msgid "Assign"
+msgstr "Tildele"
+
+msgid "Assign User to role"
+msgstr "Tilordne bruker til rolle"
+
+#, tao-public
+msgid "Assign Users"
+msgstr "Tilordne brukere"
+
+msgid "Audio Video Interleave"
+msgstr "Lyd og bilde sammensetning"
+
+msgid "Author"
+msgstr "Forfatter"
+
+msgid "Author Item"
+msgstr "Forfatte oppgave"
+
+msgid "Authoring"
+msgstr "Rediger"
+
+msgid "auto unlocked in %s"
+msgstr "åpnes automatisk om %s"
+
+msgid "Available"
+msgstr "Tilgjengelig"
+
+msgid "Available Extensions"
+msgstr "Tilgjengelige utvidelser"
+
+msgid "Back"
+msgstr "Tilbake"
+
+msgid "Back to listing"
+msgstr "Tilbake til oppføring"
+
+msgid "Base-10 logarithm"
+msgstr "Base-10 logaritme"
+
+msgid "Beta version"
+msgstr "Betaversjon"
+
+msgid "Binary operator *"
+msgstr "Binær operatør *"
+
+msgid "Binary operator +"
+msgstr "Binær operatør +"
+
+msgid "Binary operator -"
+msgstr "Binær operatør -"
+
+msgid "Binary operator /"
+msgstr "Binær operatør /"
+
+msgid "Binary operator modulo"
+msgstr "Binær operatør modulo"
+
+msgid "Bitmap image"
+msgstr "Bitmap bilde"
+
+msgid "boolean"
+msgstr ""
+
+msgid "Browse folders:"
+msgstr "Søk gjennom mapper:"
+
+msgid "Browse resources"
+msgstr ""
+
+msgid "Browse..."
+msgstr "Søk..."
+
+msgid "C"
+msgstr "C"
+
+msgid "C file"
+msgstr "C-fil"
+
+msgid "C++ file (.cpp)"
+msgstr "C++ fil (.cpp)"
+
+msgid "Calc speadsheet (Staroffice)"
+msgstr "Calc regneark (Staroffice)"
+
+msgid "Calculator"
+msgstr "Kalkulator"
+
+msgid "Calendar"
+msgstr "Kalender"
+
+msgid "cancel"
+msgstr "avbryt"
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+msgid "cancel the action"
+msgstr "avbryt handlingen"
+
+msgid "Cancelled"
+msgstr "Avbrutt"
+
+msgid "Cannot be edited"
+msgstr "Kan ikke redigeres"
+
+msgid "Cannot divide by zero"
+msgstr "Kan ikke dele med null"
+
+msgid "Cascading Style Sheets"
+msgstr ""
+
+msgid "Case sensitive"
+msgstr "Skille mellom store og små bokstaver"
+
+msgid "ceil"
+msgstr "tak"
+
+#, tao-public
+msgid "Change password"
+msgstr "Endre passord"
+
+msgid "Change the password"
+msgstr "Endre passordet"
+
+msgid "Change the sign of the current operand"
+msgstr "Endre tegnet på gjeldende operand"
+
+msgid "Check all"
+msgstr "Sjekk alle"
+
+msgid "Check All"
+msgstr "Sjekk Alle"
+
+msgid "Check-in"
+msgstr "Innsjekking"
+
+msgid "choices:"
+msgstr ""
+
+msgid "Choose a type for your property first"
+msgstr ""
+
+msgid "Choose a value..."
+msgstr "Velg en verdi..."
+
+msgid "Choose export format"
+msgstr "Velg eksportformat"
+
+msgid "Choose import format"
+msgstr "Velg importformat"
+
+msgid "class selected"
+msgstr "valgt mappe"
+
+msgid "Class uri provided is not a valid class."
+msgstr "Gitt mappe uri er ikke en gyldig mappe."
+
+msgid "Cleaning up tmp space complete"
+msgstr "Rydding av tmp-plass er fullført"
+
+msgid "Cleaning up tmp space started"
+msgstr "Rydding av tmp-plass er påbegynt"
+
+msgid "Clear"
+msgstr "Nullstill"
+
+msgid "Clear All"
+msgstr "Nullstill alt"
+
+msgid "Clear all data"
+msgstr "Nullstill alle data"
+
+msgid "Clear expression"
+msgstr "Nullstill uttrykk"
+
+msgid "Clear history"
+msgstr "Nullstill historikk"
+
+msgid "Clear History"
+msgstr "Nullstill Historikk"
+
+msgid "Clear selection"
+msgstr "Nullstill utvalg"
+
+msgid "Clear the date time picker"
+msgstr "Nullstill datovelger"
+
+msgid "Clear the stored variables"
+msgstr "Nullstill lagrede variabler"
+
+msgid "Click to reload."
+msgstr "Klikk for å laste siden på nytt."
+
+msgid "Click to start"
+msgstr ""
+
+msgid "Close"
+msgstr "Lukk"
+
+msgid "Close dialog"
+msgstr "Lukk dialog"
+
+msgid "Close message"
+msgstr "Lukk melding"
+
+msgid "Code Version"
+msgstr "Kodeversjon"
+
+msgid "Collecting of abandoned actions in the action queue ..."
+msgstr "Samling av forlatte handlinger i handlingskøen..."
+
+msgid "Column"
+msgstr "Kolonne"
+
+msgid "command"
+msgstr ""
+
+msgid "Commands:"
+msgstr ""
+
+msgid "comment..."
+msgstr "kommentar..."
+
+msgid "Commit"
+msgstr "Begå"
+
+msgid "Completed"
+msgstr "Fullført"
+
+msgid "Completed - Error"
+msgstr "Fullført - Feil"
+
+msgid "Compressed tar file"
+msgstr "Komprimert tar-fil"
+
+msgid "Compute the expression"
+msgstr "Beregn uttrykket"
+
+msgid "Confirm"
+msgstr "Bekreft"
+
+msgid "Connect to the TAO platform"
+msgstr "Koble til TAO-plattformen"
+
+msgid "Continue"
+msgstr "Fortsett"
+
+msgid "Copy"
+msgstr "Kopier"
+
+msgid "Copy to"
+msgstr "Kopier til"
+
+msgid "Copy to clipboard"
+msgstr "Kopier til utklippstavlen"
+
+msgid "cos"
+msgstr "cos"
+
+msgid "cosh"
+msgstr ""
+
+msgid "Cosine"
+msgstr "Kosinus"
+
+msgid "count"
+msgstr ""
+
+msgid "Create"
+msgstr "Opprett"
+
+msgid "Create instance of "
+msgstr "Opprett en forekomst av "
+
+msgid "Created"
+msgstr "Opprettet"
+
+msgid "Creating report ..."
+msgstr "Opprett rapport..."
+
+msgid "CSP Header settings were saved successfully!"
+msgstr "Innstillinger for CSP-topptekst ble lagret!"
+
+msgid "CSV"
+msgstr "CSV"
+
+msgid "CSV file"
+msgstr "CSV-fil"
+
+msgid "CSV Options"
+msgstr "CSV-alternativer"
+
+msgid "Cube root"
+msgstr "Kubikkrot"
+
+msgid "Current language"
+msgstr "Gjeldende språk"
+
+msgid "Current playback position"
+msgstr "Gjeldende avspillingsposisjon"
+
+msgid "currently has a dependency established with "
+msgstr ""
+
+msgid "Data imported"
+msgstr "Data importert"
+
+msgid "Data imported successfully"
+msgstr "Data importert"
+
+msgid "Data imported. Some records are invalid."
+msgstr "Data importert. Noen registreriger er ugyldige."
+
+msgid "Data Language"
+msgstr "Data Språk"
+
+msgid "Data language"
+msgstr "Data språk"
+
+msgid "Data not imported. All records are invalid."
+msgstr "Data ble ikke importert. Alle registreringene er ugyldige."
+
+msgid "Data source URI"
+msgstr "Datakilde URI"
+
+msgid "Database file"
+msgstr "Database-fil"
+
+msgid "Date"
+msgstr "Dato"
+
+msgid "date range"
+msgstr "dato-intervall"
+
+msgid "date time"
+msgstr "dato tid"
+
+msgid "date time range"
+msgstr "dato tidsintervall"
+
+msgid "Default search"
+msgstr "Standard søk"
+
+msgid "default:"
+msgstr ""
+
+msgid "Define the default values"
+msgstr "Definer standardverdiene"
+
+msgid "Deg"
+msgstr "Grad"
+
+msgid "Degree"
+msgstr "Grad"
+
+#, tao-public
+msgid "Delete"
+msgstr "Slett"
+
+msgid "Delete Left"
+msgstr "Slett Venstre"
+
+msgid "Delete Right"
+msgstr "Slett Høyre"
+
+msgid "Delete the term on the left side of the cursor"
+msgstr "Slett ordet på venstre side av markøren"
+
+msgid "Delete the term on the right side of the cursor"
+msgstr "Slett ordet på høyre side av markøren"
+
+msgid "Deleting search index for %s"
+msgstr "Sletter søkeindeks for %s"
+
+msgid "Deleting this property will also remove the dependency"
+msgstr ""
+
+msgid "Demo Sandbox"
+msgstr "Demo Sandbox"
+
+msgid "Dependency URI Path"
+msgstr ""
+
+msgid "Depends on property"
+msgstr ""
+
+msgid "Did you mean %s?"
+msgstr ""
+
+msgid "Digit 0"
+msgstr "Siffer 0"
+
+msgid "Digit 1"
+msgstr "Siffer 1"
+
+msgid "Digit 2"
+msgstr "Siffer 2"
+
+msgid "Digit 3"
+msgstr "Siffer 3"
+
+msgid "Digit 4"
+msgstr "Siffer 4"
+
+msgid "Digit 5"
+msgstr "Siffer 5"
+
+msgid "Digit 6"
+msgstr "Siffer 6"
+
+msgid "Digit 7"
+msgstr "Siffer 7"
+
+msgid "Digit 8"
+msgstr "Siffer 8"
+
+msgid "Digit 9"
+msgstr "Siffer 9"
+
+msgid "Disabled %s"
+msgstr "Deaktivert %s"
+
+msgid "Do you want to override \"%s\"?"
+msgstr ""
+
+msgid "Do you wish to install the following extension(s):\n"
+"%s?"
+msgstr "Ønsker du å installere følgende utvidelse(r): %s?"
+
+msgid "Document templates (Staroffice)"
+msgstr "Dokumentmaler (Staroffice)"
+
+msgid "does not match"
+msgstr "passer ikke"
+
+msgid "Don't set"
+msgstr "Ikke sett"
+
+msgid "Dot"
+msgstr "Punktum"
+
+msgid "Download"
+msgstr "Last ned"
+
+msgid "Download this file"
+msgstr "Last ned denne filen"
+
+msgid "Drag file here"
+msgstr "Dra filen hit"
+
+msgid "Drag files here"
+msgstr "Dra filene hit"
+
+msgid "Drop the files to upload"
+msgstr "Slipp filene for å laste opp"
+
+msgid "Edit"
+msgstr "Rediger"
+
+#, tao-public
+msgid "Edit a user"
+msgstr "Rediger en bruker"
+
+msgid "Edit class %s"
+msgstr "Rediger mappe %s"
+
+msgid "Edit Instance"
+msgstr "Rediger egenskaper"
+
+msgid "Element"
+msgstr "Element"
+
+msgid "Element deleted."
+msgstr "Element ble slettet."
+
+msgid "Email"
+msgstr "E-post"
+
+msgid "enabled"
+msgstr "aktivert"
+
+msgid "Enabled %s"
+msgstr "Aktivert %s"
+
+msgid "End of document reached. Continuing from the beginning."
+msgstr "Slutten på dokumentet er nådd. Fortsetter fra begynnelsen."
+
+msgid "Enhanced metafile"
+msgstr "Forbedret metafil"
+
+msgid "Enter"
+msgstr "Enter"
+
+msgid "Error"
+msgstr "Feil"
+
+msgid "Error adding search index for %s with message %s"
+msgstr "Feil ved tilføyelse av søkeindeks for %s med melding %s"
+
+msgid "Error during file import"
+msgstr "Feil under filimport"
+
+msgid "Error in result"
+msgstr "Feil i resultat"
+
+msgid "Error in syntax"
+msgstr "Feil i syntaks"
+
+msgid "Error in value"
+msgstr "Feil i verdi"
+
+msgid "Error: %s"
+msgstr "Feil: %s"
+
+msgid "Examples:"
+msgstr ""
+
+msgid "Exclusive (OR)"
+msgstr "Eksklusiv (OR)"
+
+msgid "Execute"
+msgstr "Utfør"
+
+msgid "Executing task %s failed"
+msgstr "Utførelsen av oppgave %s mislyktes"
+
+msgid "exp"
+msgstr "eksp"
+
+msgid "Exponent"
+msgstr "Eksponent"
+
+#, tao-public
+msgid "Export"
+msgstr "Eksport"
+
+msgid "Export "
+msgstr "Eksport "
+
+msgid "Export \"%s\" in %s"
+msgstr "Eksporter \" %s\" i %s"
+
+msgid "Export CSV"
+msgstr "Eksporter CSV"
+
+msgid "Export failed."
+msgstr "Eksport mislyktes."
+
+msgid "Export Metadata as RDF/XML file"
+msgstr "Eksporter metadata som RDF/XML-fil"
+
+msgid "Export succeeded."
+msgstr "Eksporten var vellykket."
+
+msgid "Extension \"%s\" has been installed"
+msgstr "Utvidelsen \"%s\" er installert"
+
+#, tao-public
+msgid "Extensions manager"
+msgstr "Utvidelser"
+
+msgid "Factorial"
+msgstr "Faktorisk"
+
+msgid "Failed"
+msgstr "Mislyktes"
+
+msgid "Failed to copy class."
+msgstr ""
+
+msgid "Failed to delete index for %s"
+msgstr "Kunne ikke slette indeksen for %s"
+
+msgid "False"
+msgstr "Usant"
+
+msgid "Field delimiter"
+msgstr "Feltavgrensning"
+
+msgid "Field encloser"
+msgstr "Feltområde"
+
+msgid "Fields must match"
+msgstr "Feltene må samsvare"
+
+msgid "File"
+msgstr "Fil"
+
+msgid "File download failed"
+msgstr "Nedlasting av fil mislyktes"
+
+msgid "File name"
+msgstr "Filnavn"
+
+msgid "File Properties"
+msgstr "Filegenskaper"
+
+msgid "file selected"
+msgstr "valgt fil"
+
+msgid "File Uploader"
+msgstr "Filopplasting"
+
+msgid "files selected"
+msgstr "valgte filer"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Filter by value"
+msgstr "Filtrer etter verdi"
+
+msgid "Filtering mode"
+msgstr "Filtreringsmodus"
+
+msgid "First Name"
+msgstr "Fornavn"
+
+msgid "First page"
+msgstr "Første side"
+
+msgid "First row column names"
+msgstr "Kolonnenavn første rad"
+
+msgid "Fit to width"
+msgstr "Tilpass i bredden"
+
+msgid "Flash video"
+msgstr "Flash-video"
+
+msgid "floor"
+msgstr "gulv"
+
+msgid "Flowchart-based programming environment & TI Interactive Workbook"
+msgstr "Flytskjema-basert programmeringsmiljø og TI interaktiv arbeidsbok"
+
+msgid "Forbid for all domains"
+msgstr "Forbud for alle domener"
+
+msgid "Force HTTPS on this platform"
+msgstr "Tving HTTPS på denne plattformen"
+
+msgid "Force Release"
+msgstr "Tving utgivelse"
+
+msgid "Forgot your password?"
+msgstr "Glemt passord?"
+
+msgid "Form"
+msgstr "Skjema"
+
+msgid "Form data not saved."
+msgstr "Skjemadata er ikke lagret."
+
+msgid "From"
+msgstr "Fra"
+
+msgid "Fuzzy Matching"
+msgstr "Uklar Matching"
+
+msgid "generated-value"
+msgstr ""
+
+msgid "Generis Form"
+msgstr "Generis Form"
+
+msgid "Geogebra data file"
+msgstr "Geogebra data-fil"
+
+msgid "Get History"
+msgstr "Få historie"
+
+msgid "Get the history list"
+msgstr "Få historielisten"
+
+msgid "GIF image"
+msgstr "GIF-bilde"
+
+msgid "Go Back"
+msgstr "Gå tilbake"
+
+msgid "go back to home page"
+msgstr "gå tilbake til hjemmesiden"
+
+msgid "GZip Compressed Archive"
+msgstr "GZip komprimert arkiv"
+
+msgid "Header file with extensionsLabels"
+msgstr "Toppfil med utvidelsesetiketter"
+
+msgid "Height"
+msgstr "Høyde"
+
+msgid "Hi, %s<br>You indicated that you have forgotten your TAO password."
+msgstr "Hei, %s <br> Du skrev at du har glemt TAO-passordet ditt."
+
+msgid "Hide detailed report"
+msgstr "Skjul detaljert rapport"
+
+msgid "Hide password"
+msgstr "Skjul passord"
+
+msgid "Highlight all"
+msgstr "Marker alt"
+
+msgid "hours"
+msgstr "timer"
+
+msgid "Hyperbolic arc cosine"
+msgstr "Hyperbolisk cosinuskurve"
+
+msgid "Hyperbolic arc sine"
+msgstr "Hyperbolisk sinuskurve"
+
+msgid "Hyperbolic arc tangent"
+msgstr "Hyperbolisk tangenskurve"
+
+msgid "Hyperbolic cosine"
+msgstr "Hyperbolisk cosinus"
+
+msgid "Hyperbolic sine"
+msgstr "Hyperbolisk sinus"
+
+msgid "Hyperbolic tangent"
+msgstr "Hyperbolisk tangens"
+
+msgid "Hypertext markup language"
+msgstr "Markeringsspråk for hypertekst"
+
+msgid "I understand that this action is permanent."
+msgstr "Jeg forstår at denne handlingen er permanent."
+
+msgid "Identifier"
+msgstr "Identifikator"
+
+msgid "If you do not wish to reset your password, just ignore this email and your password will remain the same."
+msgstr "Hvis du ikke ønsker å tilbakestille passordet ditt, kan du bare ignorere denne e -posten, og passordet forblir uendret."
+
+msgid "Implications failed:"
+msgstr ""
+
+msgid "Import"
+msgstr "Import"
+
+msgid "Import "
+msgstr "Import "
+
+msgid "Import a %s into \"%s"
+msgstr "Importer en %s til \"%s"
+
+msgid "Import Completed"
+msgstr "Import fullført"
+
+msgid "Import failed."
+msgstr "Import mislyktes."
+
+msgid "Import Metadata from CSV file"
+msgstr "Importer metadata fra CSV-fil"
+
+msgid "Import Metadata from RDF file"
+msgstr "Importer metadata fra RDF-fil"
+
+#, tao-public
+msgid "Import statistical analysis metadata"
+msgstr ""
+
+msgid "Import succeeded."
+msgstr "Importen var vellykket."
+
+msgid "Imported %1$d/%2$d. Some records are invalid."
+msgstr "Importerte %1$d/%2$d. Noen poster er ugyldige."
+
+msgid "Imported %d resources"
+msgstr "Importerte %d ressurser"
+
+msgid "Imported resource \"%s"
+msgstr "Importerte ressurs \"%s"
+
+msgid "Imported successfully finished!"
+msgstr ""
+
+msgid "impossible to update task status"
+msgstr "umulig å oppdatere oppgavestatus"
+
+msgid "In Progress"
+msgstr "I Arbeid"
+
+msgid "In progress"
+msgstr "I arbeid"
+
+msgid "Inclusive (AND)"
+msgstr "Inkludert (AND)"
+
+msgid "Index has been deleted for %s"
+msgstr "Indeksen er slettet for %s"
+
+msgid "Infinity"
+msgstr "Uendelig"
+
+msgid "Injector has to contains a valid \"destination\" field."
+msgstr "Injektoren må inneholde et gyldig \"destinasjonsfelt\"."
+
+msgid "Injector has to contains a valid \"source\" field."
+msgstr "Injektoren må inneholde et gyldig \"kilde\"-felt."
+
+msgid "Inline"
+msgstr "Linje"
+
+msgid "Install"
+msgstr "Installer"
+
+msgid "Installation done."
+msgstr "Installasjon utført."
+
+msgid "Installation..."
+msgstr "Installasjon..."
+
+msgid "Installed Extensions"
+msgstr "Installerte utvidelser"
+
+msgid "Installed Version"
+msgstr "Installert versjon"
+
+msgid "Installing extension %s..."
+msgstr "Installerer utvidelse %s..."
+
+msgid "Instance saved"
+msgstr "Forekomsten er lagret"
+
+msgid "Interface Language"
+msgstr "Grensesnittspråk"
+
+msgid "Interface language"
+msgstr "Grensesnittspråk"
+
+msgid "Invalid CSP header."
+msgstr "Ugyldig CSP-topptekst."
+
+msgid "Invalid date range (must be after or the same as: %s)"
+msgstr "Ugyldig datointervall (må være etter eller det samme som: %s)"
+
+msgid "Invalid date range (must be after: %s)"
+msgstr "Ugyldig datointervall (må være etter: %s)"
+
+msgid "Invalid date range (must be before or the same as: %s)"
+msgstr "Ugyldig datointervall (må være før eller det samme som: %s)"
+
+msgid "Invalid date range (must be before: %s)"
+msgstr "Ugyldig datointervall (må være før: %s)"
+
+msgid "Invalid field length"
+msgstr "Ugyldig feltlengde"
+
+msgid "Invalid field range (maximum value: %s)"
+msgstr "Ugyldig feltområde (maksimumverdi: %s)"
+
+msgid "Invalid field range (minimum value: %1$s, maximum value: %2$s)"
+msgstr "Ugyldig feltområde (minimumsverdi: %1$s, maksimumverdi: %2 $ s)"
+
+msgid "Invalid field range (minimum value: %s)"
+msgstr "Ugyldig feltområde (minimumsverdi: %s)"
+
+msgid "Invalid file size (minimum %1$s bytes, maximum %2$s bytes)"
+msgstr "Ugyldig filstørrelse (minimum %1$s bytes, maksimum %2$s bytes)"
+
+msgid "Invalid file type!"
+msgstr "Ugyldig filtype!"
+
+msgid "Invalid input"
+msgstr "Ugyldig input"
+
+msgid "Invalid input for function"
+msgstr "Ugyldig input for denne handlingen"
+
+msgid "Invalid JSON config file: %s"
+msgstr ""
+
+msgid "Invalid login or password. Please try again."
+msgstr "Ugyldig brukernavn eller passord. Prøv på nytt."
+
+msgid "Invalid login or password. Your account has been locked, please contact your administrator."
+msgstr "Ugyldig brukernavn eller passord. Kontoen din er låst. Ta kontakt med administrator."
+
+msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
+msgstr ""
+
+msgid "invalid regular expression"
+msgstr "ugyldig uttrykk"
+
+msgid "Invalid value"
+msgstr ""
+
+msgid "Invalid values:"
+msgstr ""
+
+msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
+msgstr ""
+
+msgid "items per page"
+msgstr "oppgaver per side"
+
+msgid "Javascript code"
+msgstr "Javascript-kode"
+
+msgid "JPEG image"
+msgstr "JPEG-bilde"
+
+msgid "Label"
+msgstr "Navn"
+
+msgid "Label Path"
+msgstr "Etikettsti"
+
+msgid "Language"
+msgstr "Språk"
+
+msgid "Last attempt before your account is locked."
+msgstr "Du har et forsøk igjen før kontoen din blir låst."
+
+msgid "Last Name"
+msgstr "Etternavn"
+
+msgid "Last page"
+msgstr "Siste side"
+
+msgid "Last result"
+msgstr "Siste resultat"
+
+msgid "Left parenthesis"
+msgstr "Venstre parentes"
+
+msgid "less than a minute"
+msgstr "mindre enn ett minutt"
+
+msgid "List"
+msgstr "Liste"
+
+msgid "List \"%s\" has duplicated values."
+msgstr ""
+
+msgid "List - Multiple choice - Check box"
+msgstr "Liste - Flervalg - Avhukingsboks"
+
+msgid "List - Multiple choice - Search input"
+msgstr "Liste - Flervalg - Søkefelt"
+
+msgid "List - Single choice - Drop down"
+msgstr "Liste - Enkeltvalg - Nedtrekksliste"
+
+msgid "List - Single choice - Radio button"
+msgstr "Liste - Enkeltvalg - Radioknapp"
+
+msgid "List - Single choice - Search input"
+msgstr "Liste - Enkeltvalg - Søkefelt"
+
+msgid "List item URI duplications found"
+msgstr "Oppgave URI -dupliseringer funnet"
+
+msgid "List values"
+msgstr "Listeverdier"
+
+msgid "ln"
+msgstr "ln"
+
+msgid "Load more"
+msgstr "Last mer"
+
+msgid "Loaded"
+msgstr "Lastet"
+
+msgid "Loaded at Startup"
+msgstr "Lastet ved oppstart"
+
+msgid "Loading"
+msgstr "Laster"
+
+msgid "Loading status"
+msgstr "Laster status"
+
+msgid "Loading task status ..."
+msgstr "Laster inn oppgavestatus..."
+
+msgid "locked by %s"
+msgstr "låst med %s"
+
+msgid "log"
+msgstr "log"
+
+msgid "Log in"
+msgstr "Logg inn"
+
+msgid "Log Out"
+msgstr "Logg ut"
+
+msgid "Login"
+msgstr "Logg inn"
+
+msgid "Login available"
+msgstr "Pålogging tilgjengelig"
+
+msgid "Login is already in use."
+msgstr "Pålogging er allerede i bruk."
+
+msgid "Login is empty."
+msgstr "Ingen er innlogget."
+
+msgid "Logout"
+msgstr "Logg ut"
+
+msgid "M4A audio"
+msgstr "M4A-lydfil"
+
+msgid "Main Menu"
+msgstr "Hovedmeny"
+
+msgid "Maintenance service is already installed."
+msgstr "Vedlikeholdstjenesten er allerede installert."
+
+msgid "Maintenance service must have a persistence option."
+msgstr "Vedlikeholdstjenesten må ha et tidsbegrensningsalternativ."
+
+msgid "Maintenance service was installed. Platform is disabled."
+msgstr "Vedlikeholdstjenesten ble installert. Plattformen er deaktivert."
+
+msgid "Maintenance service was installed. Platform is enabled."
+msgstr "Vedlikeholdstjenesten ble installert. Plattformen er aktivert."
+
+msgid "Maintenance storage driver is not set"
+msgstr "Vedlikeholdslagringsdriver er ikke angitt"
+
+msgid "Manage class schema"
+msgstr "Administrer egenskaper for oppgavemappe"
+
+msgid "manage columns"
+msgstr "Administrer kolonner"
+
+msgid "Manage data list"
+msgstr "Administrer dataliste"
+
+#, tao-public
+msgid "Manage roles"
+msgstr "Administrer roller"
+
+msgid "Manage Roles and apply them to users."
+msgstr "Administrer roller og tildel til brukere."
+
+#, tao-public
+msgid "Manage users"
+msgstr "Administrer brukere"
+
+msgid "Manage Versioned File"
+msgstr "Administrer versjonert fil"
+
+msgid "Map the properties to the CSV columns"
+msgstr "Gi egenskaper til CSV-kolonnene"
+
+msgid "maximum %s"
+msgstr ""
+
+msgid "Maximum selection reached"
+msgstr "Maksimalt valg er nådd"
+
+msgid "Media resize along with their container, e.g. 50% means half of the container size not half of the media size."
+msgstr "Media endrer størrelsen sammen med boksen, f.eks. 50% betyr halvparten av boksstørrelsen, ikke halvparten av mediestørrelsen."
+
+msgid "Message"
+msgstr "Beskjed"
+
+msgid "Messages"
+msgstr "Beskjeder"
+
+msgid "Metadata export is not available for the selected resource."
+msgstr "Metadataeksport er ikke tilgjengelig for den valgte ressursen."
+
+msgid "Microsoft Excel"
+msgstr "Microsoft Excel"
+
+msgid "Microsoft Excel binary format"
+msgstr "Microsoft Excel binært format"
+
+msgid "Microsoft Office Document Imaging"
+msgstr "Microsoft Office Document Imaging"
+
+msgid "Microsoft Powerpoint"
+msgstr "Microsoft Powerpoint"
+
+msgid "Microsoft Powerpoint slideshow"
+msgstr "Lysbildefremvisning fra Microsoft Powerpoint"
+
+msgid "Microsoft Project file"
+msgstr "Microsoft Project-fil"
+
+msgid "Microsoft Visio file"
+msgstr "Microsoft Visio-fil"
+
+msgid "Microsoft Word"
+msgstr "Microsoft Word"
+
+msgid "Microsoft Word template"
+msgstr "Microsoft Word-mal"
+
+msgid "Microsoft Works file"
+msgstr "Microsoft Works-fil"
+
+msgid "Microsoft XPS file"
+msgstr "Microsoft XPS-fil"
+
+msgid "MIME encapsulation of aggregate HTML documents"
+msgstr "MIME-innkapsling av samlede HTML-dokumenter"
+
+msgid "Mind mapping software application (free mind open source)"
+msgstr "Mind mapping programvare (gratis åpen kildekode)"
+
+msgid "minimum %s"
+msgstr ""
+
+msgid "minutes"
+msgstr "minutter"
+
+msgid "missing config %s for the service %s"
+msgstr "mangler konfigurasjon %s for tjenesten %s"
+
+msgid "Missing Parameters"
+msgstr "Mangler parametere"
+
+msgid "modulo"
+msgstr "modulo"
+
+msgid "More"
+msgstr "Mer"
+
+msgid "Move"
+msgstr "Flytt"
+
+msgid "Move Left"
+msgstr "Flytt til venstre"
+
+msgid "Move Right"
+msgstr "Flytt til høyre"
+
+#, tao-public
+msgid "Move role"
+msgstr "Flytt rolle"
+
+msgid "Move the cursor one step on the left"
+msgstr "Flytt markøren ett trinn til venstre"
+
+msgid "Move the cursor one step on the right"
+msgstr "Flytt markøren ett trinn til høyre"
+
+msgid "Move to"
+msgstr "Flytt til"
+
+msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
+msgstr "Hvis du flytter dette elementet, vil egenskapene til den forrige mappen erstattes med egenskapene til valgt mappe:"
+
+msgid "MP4 video"
+msgstr "MP4 video"
+
+msgid "MPEG audio"
+msgstr "MPEG lyd"
+
+msgid "MPEG video"
+msgstr "MPEG video"
+
+msgid "MPEG-4 audio file"
+msgstr "MPEG-4 lydfil"
+
+msgid "Multiple values delimiter"
+msgstr "Avgrensning av flere verdier"
+
+msgid "Multiply the value by 10^x"
+msgstr "Multipliser verdien med 10^x"
+
+msgid "Must include at least one letter"
+msgstr ""
+
+msgid "Must include at least one number"
+msgstr ""
+
+msgid "Must include at least one special letter"
+msgstr ""
+
+msgid "Must include lower case letters"
+msgstr ""
+
+msgid "Must include upper case letters"
+msgstr ""
+
+msgid "Mute"
+msgstr "Dempe"
+
+msgid "My custom text translation"
+msgstr "Min tilpassede tekstoversettelse"
+
+#, tao-public
+msgid "My settings"
+msgstr "Mine innstillinger"
+
+msgid "My settings (%s)"
+msgstr "Mine innstillinger (%s)"
+
+msgid "Name"
+msgstr "Navn"
+
+msgid "Natural logarithm"
+msgstr "Naturlig logaritme"
+
+msgid "New password"
+msgstr "Nytt passord"
+
+#, tao-public
+msgid "New role"
+msgstr "Ny rolle"
+
+msgid "Next"
+msgstr "Neste"
+
+msgid "Next match"
+msgstr "Neste oppgave"
+
+msgid "Next page"
+msgstr "Neste side"
+
+msgid "No"
+msgstr "Ingen"
+
+msgid "No action specified"
+msgstr "Ingen handling angitt"
+
+msgid "No client translation bundles updated"
+msgstr "Ingen oversettelsespakker for kunden er oppdatert"
+
+msgid "No extensions available."
+msgstr "Ingen utvidelser tilgjengelig."
+
+msgid "no file not found in this location"
+msgstr "ingen fil ble funnet på dette området"
+
+msgid "No file selected"
+msgstr "Ingen fil er valgt"
+
+msgid "No files"
+msgstr "Ingen filer"
+
+msgid "No item found. Please try other search criteria."
+msgstr "Fant ingen oppgave. Prøv andre søkekriterier."
+
+msgid "no label"
+msgstr "ingen etikett"
+
+msgid "No Task yet"
+msgstr "Ingen handling ennå"
+
+msgid "Node duplication has failed"
+msgstr "Nodeduplisering mislyktes"
+
+msgid "none"
+msgstr ""
+
+msgid "Not enough arguments following: %s"
+msgstr ""
+
+msgid "Not enough non-option arguments: got %s, need at least %s"
+msgstr ""
+
+msgid "Not started"
+msgstr "Ikke startet"
+
+msgid "NotEmpty"
+msgstr ""
+
+msgid "Nothing imported"
+msgstr "Ingenting importert"
+
+msgid "Nothing to install !"
+msgstr "Ingenting å installere!"
+
+msgid "Nothing to list!"
+msgstr "Ingenting å liste!"
+
+#, tao-public
+msgid "Notifications"
+msgstr "Varsler"
+
+msgid "notifications drivers aren't persistent. use a persistent database storage driver"
+msgstr "varslingsdrivere er ikke permanente. Bruk en permanente driver for databaselagring"
+
+msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgstr ""
+
+msgid "Nth root"
+msgstr "Hth rot"
+
+msgid "number"
+msgstr ""
+
+msgid "Number of elements"
+msgstr "Antall elementer"
+
+msgid "of"
+msgstr "av"
+
+msgid "Off"
+msgstr "Av"
+
+msgid "Ogg Vorbis audio"
+msgstr "Ogg Vorbis lyd"
+
+msgid "Ogg Vorbis video"
+msgstr "Ogg Vorbis video"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Ok"
+msgstr "Ok"
+
+msgid "Old Password"
+msgstr "Gammelt passord"
+
+msgid "On"
+msgstr "På"
+
+msgid "Only allow for my own domain (%s)"
+msgstr "Tillat bare for mitt eget domene (%s)"
+
+msgid "Only one of the field must have value %s"
+msgstr "Bare ett av feltene må ha verdien %s"
+
+msgid "OpenDocument Database"
+msgstr "OpenDocument Database"
+
+msgid "OpenDocument Presentation"
+msgstr "OpenDocument presentasjon"
+
+msgid "OpenDocument spreadsheet document"
+msgstr "OpenDocument regnearkdokument"
+
+msgid "OpenDocument text document"
+msgstr "OpenDocument tekstdokument"
+
+msgid "OpenDocument Text Template"
+msgstr "OpenDocument tekstmal"
+
+msgid "Operated By "
+msgstr "Styrt av "
+
+msgid "or"
+msgstr "eller"
+
+msgid "Outlook on the next Synchronization"
+msgstr "Outlook på neste synkronisering"
+
+msgid "Page"
+msgstr "Side"
+
+msgid "Pascal file (.pas)"
+msgstr "Pascal fil (.pas)"
+
+msgid "Password"
+msgstr "Passord"
+
+msgid "Password changed"
+msgstr "Passord ble endret"
+
+msgid "Password is empty."
+msgstr "Passord er tomt."
+
+msgid "Password reset"
+msgstr "Passordet ble tilbakestilt"
+
+msgid "Password successfully changed"
+msgstr "Passordet ble endret"
+
+msgid "Passwords are not matching"
+msgstr "Passord samsvarer ikke"
+
+msgid "Pause"
+msgstr "Pause"
+
+msgid "PDF file"
+msgstr "PDF-fil"
+
+msgid "Permission denied to write in the selected class"
+msgstr "Ikke tilgang til å skrive i den valgte mappen"
+
+msgid "Plain text"
+msgstr "Ren tekst"
+
+msgid "Play"
+msgstr "Spill av"
+
+msgid "Please confirm deletion"
+msgstr "Bekreft sletting"
+
+msgid "Please confirm deletion of %s."
+msgstr "Bekreft sletting av %s."
+
+msgid "Please confirm deletion of user %s"
+msgstr "Bekreft sletting av bruker %s"
+
+msgid "Please confirm locking of account %s"
+msgstr "Bekreft låsing av kontoen %s"
+
+msgid "Please confirm property deletion!"
+msgstr "Bekreft sletting av egenskaper!"
+
+msgid "Please confirm this operation."
+msgstr "Bekreft denne handlingen."
+
+msgid "Please confirm unlocking of account %s"
+msgstr "Bekreft opplåsing av kontoen %s"
+
+msgid "Please contact %s or an administrator to release it"
+msgstr "Ta kontakt med %s eller en administrator for å gi den ut"
+
+msgid "Please contact your administrator."
+msgstr "Ta kontakt med en administrator."
+
+msgid "Please contact your system administrator."
+msgstr "Ta kontakt med systemadministrator."
+
+msgid "Please define your search in the search panel."
+msgstr "Definer søket ditt i søkefeltet."
+
+msgid "Please download the track and listen offline."
+msgstr "Last ned filen og lytt i frakoblet modus."
+
+msgid "Please download the video and view offline."
+msgstr "Last ned videoen og se den i frakoblet modus."
+
+msgid "Please give a message to your commit"
+msgstr ""
+
+msgid "Please provide a reason"
+msgstr "Oppgi en grunn"
+
+msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
+msgstr "Vennligst rapporter feil, ideer, kommentarer eller tilbakemeldinger på TAO Forum"
+
+msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
+msgstr "Velg en bildefil fra filvelgeren. Du kan legge til filer fra datamaskinen din med knappen \"Legg til fil(er)\"."
+
+msgid "Please set 'min' and/or 'max' options!"
+msgstr ""
+
+msgid "Please try in %s."
+msgstr ""
+
+msgid "Please wait"
+msgstr "Vennligst vent"
+
+msgid "Please wait while ..."
+msgstr "Vennligst vent mens..."
+
+msgid "PNG image"
+msgstr "PNG-bilde"
+
+msgid "Position"
+msgstr "Posisjon"
+
+msgid "Positionals:"
+msgstr ""
+
+msgid "Post install processing"
+msgstr "Etter installasjon"
+
+msgid "Power of"
+msgstr "Slå av"
+
+msgid "Power of 10"
+msgstr "Styrke på 10"
+
+msgid "Preparing installation..."
+msgstr "Forbereder installasjon..."
+
+msgid "Preview"
+msgstr "Forhåndsvis"
+
+msgid "Previous"
+msgstr "Forrige"
+
+msgid "Previous match"
+msgstr "Forrige match"
+
+msgid "Previous page"
+msgstr "Forrige side"
+
+msgid "Proceed"
+msgstr "Fortsett"
+
+#, tao-public
+msgid "Properties"
+msgstr "Egenskaper"
+
+msgid "Provided URL is not valid"
+msgstr "Oppgitt URL er ikke gyldig"
+
+msgid "Publish"
+msgstr "Publiser"
+
+msgid "Publish the test"
+msgstr "Publiser prøven"
+
+msgid "Queued"
+msgstr "I kø"
+
+msgid "Quicktime video"
+msgstr "Quicktime video"
+
+msgid "Rad"
+msgstr "Rad"
+
+msgid "Radian"
+msgstr "Radian"
+
+msgid "random"
+msgstr "tilfeldig"
+
+msgid "Random value"
+msgstr "Tilfeldig verdi"
+
+msgid "Range field is required"
+msgstr "Områdefelt er obligatorisk"
+
+msgid "RAR archive"
+msgstr "RAR arkiv"
+
+msgid "RDF"
+msgstr "RDF"
+
+msgid "RealMedia file"
+msgstr "RealMedia-fil"
+
+msgid "Refresh"
+msgstr "Oppdater"
+
+msgid "Release"
+msgstr "Utgivelse"
+
+msgid "Releasing the lock might cause the work in progress by %s to be lost."
+msgstr ""
+
+msgid "Reload"
+msgstr "Last på nytt"
+
+msgid "Remind"
+msgstr "Husk"
+
+msgid "Remind Last"
+msgstr "Husk siste"
+
+msgid "Remind the last value"
+msgstr "Husk siste verdi"
+
+msgid "Remind the next expression in the history"
+msgstr "Husk det neste uttrykket i historien"
+
+msgid "Remind the previous expression in the history"
+msgstr "Husk det forrige uttrykket i historien"
+
+msgid "Remind the recorded value"
+msgstr "Husk den registrerte verdien"
+
+msgid "Remove"
+msgstr "Fjern"
+
+msgid "Remove criteria"
+msgstr "Fjern kriterier"
+
+msgid "remove index"
+msgstr ""
+
+msgid "Remove Message"
+msgstr "Fjern melding"
+
+msgid "Remove this file"
+msgstr "Fjern denne filen"
+
+msgid "Removed %s directories"
+msgstr "%S kataloger ble fjernet"
+
+msgid "Removed %s files"
+msgstr "Fjernet %s filer"
+
+msgid "Removing: %s"
+msgstr "Fjerner: %s"
+
+msgid "Rename"
+msgstr "Gi nytt navn"
+
+msgid "Repeat new password"
+msgstr "Gjenta nytt passord"
+
+msgid "Repeat password"
+msgstr "Gjenta passord"
+
+msgid "Request a password reset via Email."
+msgstr "Be om tilbakestilling av passord via e -post."
+
+msgid "require notification ID"
+msgstr "krever varslings-ID"
+
+msgid "required"
+msgstr ""
+
+msgid "required length"
+msgstr "påkrevd lengde"
+
+msgid "Requires"
+msgstr "Krever"
+
+msgid "Reset"
+msgstr "Tilbakestill"
+
+msgid "Reset the range values"
+msgstr "Tilbakestill verdiene"
+
+msgid "Resource"
+msgstr "Ressurs"
+
+msgid "Resource copied"
+msgstr "Ressurs ble kopiert"
+
+msgid "Resource deleted"
+msgstr "Ressurs ble slettet"
+
+msgid "Resource Identifier"
+msgstr "Ressurs ID"
+
+msgid "Resource Identifier could not be copied to the clipboard"
+msgstr "Ressurs ID kunne ikke kopieres til utklippstavlen"
+
+msgid "Resource Identifier has been copied to the clipboard"
+msgstr "Ressurs ID ble kopiert til utklippstavlen"
+
+msgid "Resource not imported due to multiple super classes"
+msgstr "Ressursen ble ikke importert på grunn av flere supermapper"
+
+msgid "Resource not imported due to multiple types"
+msgstr "Ressursen ble ikke importert på grunn av flere typer"
+
+msgid "Resource saved"
+msgstr "Ressurs ble lagret"
+
+msgid "resources"
+msgstr "ressurser"
+
+msgid "Resources moved"
+msgstr "Ressurs ble flyttet"
+
+msgid "Resources successfully indexed"
+msgstr "Ressurser ble indeksert"
+
+msgid "Resources was not indexed"
+msgstr "Ressurser ble ikke indeksert"
+
+msgid "Responsive mode"
+msgstr "Responsiv modus"
+
+msgid "Restore sound"
+msgstr "Gjenopprett lyd"
+
+msgid "Return to sign in page"
+msgstr "Gå tilbake til påloggingssiden"
+
+msgid "Rich Text Format file"
+msgstr "Rik tekstformat fil"
+
+msgid "Right click the tree to manage your lists"
+msgstr "Høyreklikk for å administrere listene dine"
+
+msgid "Right parenthesis"
+msgstr "Høyre parentes"
+
+msgid "Role saved"
+msgstr "Rolle lagret"
+
+msgid "Roles"
+msgstr "Roller"
+
+#, tao-public
+msgid "Roles library"
+msgstr "Rollebibliotek"
+
+msgid "round"
+msgstr "rund"
+
+msgid "Round to closest whole number"
+msgstr "Rund av til nærmeste hele tall"
+
+msgid "Round to lower whole number"
+msgstr "Rund ned til heltall"
+
+msgid "Round to upper whole number"
+msgstr "Rund opp til heltall"
+
+msgid "Row %s"
+msgstr "Rad %s"
+
+msgid "Running task %s"
+msgstr "Kjører oppgave %s"
+
+msgid "Save"
+msgstr "Lagre"
+
+msgid "Saved."
+msgstr "Lagret."
+
+msgid "Scientific Calculator"
+msgstr "Vitenskapelig kalkulator"
+
+msgid "Scope"
+msgstr "Omfang"
+
+msgid "Search"
+msgstr "Søk"
+
+msgid "Search %s"
+msgstr "Søk %s"
+
+msgid "Search by properties"
+msgstr "Søk ved hjelp av egenskaper"
+
+msgid "Search sub-classes"
+msgstr "Søk i undermapper"
+
+msgid "second"
+msgstr "sekund"
+
+msgid "seconds"
+msgstr "sekunder"
+
+#, tao-public
+msgid "Security"
+msgstr "Sikkerhet"
+
+msgid "Security settings"
+msgstr "Sikkerhetsinnstillinger"
+
+msgid "select"
+msgstr "velg"
+
+msgid "Select"
+msgstr "Velg"
+
+msgid "Select a class"
+msgstr "Velg en mappe"
+
+msgid "Select a destination"
+msgstr "Velg en destinasjon"
+
+msgid "Select a language"
+msgstr "Velg et språk"
+
+msgid "Select loaded %s"
+msgstr "Velg lastet %s"
+
+msgid "Select this file"
+msgstr "Velg denne filen"
+
+msgid "select..."
+msgstr "velg..."
+
+msgid "Selected"
+msgstr "Valgt"
+
+msgid "Selected file:"
+msgstr "Valgt fil:"
+
+msgid "Selection saved successfully"
+msgstr "Valget ble lagret"
+
+msgid "self-locked"
+msgstr "selvlåst"
+
+msgid "Set the trigonometric function to work in degrees"
+msgstr "Sett den trigonometriske funksjonen til å fungere i grader"
+
+msgid "Set the trigonometric function to work in radians"
+msgstr "Sett den trigonometriske funksjonen til å fungere i radianer"
+
+#, tao-public
+msgid "Settings"
+msgstr "Innstillinger"
+
+msgid "Settings updated"
+msgstr "Innstillinger oppdatert"
+
+msgid "Show detailed report"
+msgstr "Vis detaljert rapport"
+
+msgid "Show password"
+msgstr "Vis passord"
+
+msgid "Sibelius music notation"
+msgstr "Sibelius musikknotasjon"
+
+msgid "Sign change"
+msgstr "Tegnendring"
+
+msgid "sin"
+msgstr "sin"
+
+msgid "Sine"
+msgstr "Sinus"
+
+msgid "sinh"
+msgstr "sinh"
+
+msgid "Size"
+msgstr "Størrelse"
+
+msgid "Some resources have not been moved: %s"
+msgstr "Noen ressurser ble ikke flyttet: %s"
+
+msgid "Something unexpected happened."
+msgstr "En uventet handling oppstod."
+
+msgid "Sources that can embed this platform in an iFrame"
+msgstr "Kilder som kan bygge inn denne plattformen i en iFrame"
+
+msgid "Square root"
+msgstr "Kvadratrot"
+
+msgid "Start"
+msgstr ""
+
+msgid "Start of document reached. Continuing from the end."
+msgstr "Starten på dokumentet er nådd. Fortsetter fra slutten."
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Status of"
+msgstr "Status for"
+
+msgid "Store"
+msgstr "Lagre"
+
+msgid "Store the value a variable"
+msgstr "Lagre verdien som en variabel"
+
+msgid "Storing digital video data on a computer game"
+msgstr "Lagring av digitale videodata på et dataspill"
+
+msgid "string"
+msgstr ""
+
+msgid "Submit"
+msgstr "Lever"
+
+msgid "Success"
+msgstr "Vellykket"
+
+msgid "Successfully cloned instance as %s"
+msgstr "Klonet forekomsten som %s"
+
+msgid "Successfully deleted %s"
+msgstr "Slettet %s"
+
+msgid "Successfully imported \"%s"
+msgstr "Importert \"%s"
+
+msgid "Successfully imported %s tripples"
+msgstr "%S trippler ble importert"
+
+msgid "Successfully imported class \"%s"
+msgstr "Mappen %s er importert"
+
+msgid "Successfully updated %s client translation bundles"
+msgstr "%S klientoversettelsespakker ble oppdatert"
+
+msgid "Supported export formats"
+msgstr "Eksportformater som støttes"
+
+msgid "SVG image"
+msgstr "SVG-bilde"
+
+msgid "Syntax error"
+msgstr "Syntaksfeil"
+
+msgid "Tagged image file"
+msgstr "Merket bildefil"
+
+msgid "tan"
+msgstr "tan"
+
+msgid "Tangent"
+msgstr "Tangent"
+
+msgid "tanh"
+msgstr "tanh"
+
+msgid "Tao Default Theme"
+msgstr "Tao standardtema"
+
+msgid "TAO Home"
+msgstr ""
+
+msgid "TAO Login"
+msgstr ""
+
+msgid "TAO platform is already on live mode since %s"
+msgstr ""
+
+msgid "TAO platform is already on maintenance mode since %s"
+msgstr ""
+
+msgid "TAO platform is live since %s."
+msgstr ""
+
+msgid "TAO platform is now live. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is now under maintenance. It was in maintenance since %s"
+msgstr ""
+
+msgid "TAO platform is under maintenance since %s"
+msgstr ""
+
+msgid "Task %s has been cancelled, message was not processed."
+msgstr "Oppgave %s er avbrutt, meldingen ble ikke behandlet."
+
+msgid "task created"
+msgstr "oppgave ble opprettet"
+
+msgid "Task Listing"
+msgstr "Oppgaveoppføring"
+
+msgid "Task Name"
+msgstr "Oppgavenavn"
+
+msgid "Task not found"
+msgstr "Oppgave ble ikke funnet"
+
+msgid "Task not returned any report."
+msgstr "Oppgaven returnerte ingen rapport."
+
+msgid "Term"
+msgstr "Begrep"
+
+msgid "TeX file"
+msgstr "TeX-fil"
+
+msgid "Text - Long - Box"
+msgstr "Tekst - Lang - Boks"
+
+msgid "Text - Long - HTML editor"
+msgstr "Tekst - Lang - HTML-editor"
+
+msgid "Text - Short - Field"
+msgstr "Tekst - kort - felt"
+
+msgid "Text document file format (Staroffice)"
+msgstr "Tekstdokument filformat (Staroffice)"
+
+msgid "Text to translate"
+msgstr ""
+
+msgid "The action will be applied to"
+msgstr "Handlingen vil bli brukt på"
+
+msgid "The action will be applied to the following"
+msgstr "Handlingen vil bli brukt på følgende"
+
+msgid "The action will not be applied to "
+msgstr "Handlingen vil ikke bli brukt på "
+
+msgid "The action will not be applied to the following"
+msgstr "Handlingen vil ikke bli brukt på følgende"
+
+msgid "The class has been copied."
+msgstr ""
+
+msgid "The column "
+msgstr "Kolonnen "
+
+msgid "The field \"List\" is disabled because the property is part of a dependency"
+msgstr ""
+
+msgid "The following criteria are not applicable to the selected class and have been removed from the search"
+msgstr "Følgende kriterier gjelder ikke for den valgte mappen og er fjernet fra søket"
+
+msgid "The format of this field is not valid."
+msgstr "Formatet til dette feltet er ugyldig."
+
+msgid "The imported file is not properly UTF-8 encoded."
+msgstr "Den importerte filen er ikke riktig UTF-8-kodet."
+
+msgid "The index identifier should not be empty"
+msgstr "Indeksidentifikatoren skal ikke være tom"
+
+msgid "The lock has been released"
+msgstr "Låsen er åpnet"
+
+msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
+msgstr "Egenskapene til kildemappen vil bli erstattet av egenskapene til destinasjonsmappen. Dette kan føre til tap av metadata. Vil du fortsette?"
+
+msgid "The selected value(s) must be compatible with the primary property."
+msgstr ""
+
+msgid "The server has sent an empty response"
+msgstr "Serveren har sendt et tomt svar"
+
+msgid "The uploaded file is too large (maximum %s bytes)"
+msgstr "Den opplastede filen er for stor (maks. %S byte)"
+
+msgid "The value for the property \"%s\" must be unique."
+msgstr "Verdien for egenskapen \"%s\" må være unik."
+
+msgid "The value of this field must be a valid date format, e.g. YYYY-MM-DD"
+msgstr "Verdien av dette feltet må være et gyldig datoformat, f.eks. ÅÅÅÅ-MM-DD"
+
+msgid "The value of this field must be an integer"
+msgstr "Verdien av dette feltet må være et heltall"
+
+msgid "The value of this field must be numeric"
+msgstr "Verdien av dette feltet må være numerisk"
+
+msgid "There is nothing to list!"
+msgstr "Det er ingenting å liste!"
+
+msgid "This %s is currently checked out"
+msgstr "Denne %s er sjekket ut"
+
+msgid "This field is required"
+msgstr "Dette feltet er obligatorisk"
+
+msgid "This field is too long"
+msgstr "Dette feltet er for langt"
+
+msgid "This field is too short"
+msgstr "Dette feltet er for kort"
+
+msgid "This is not a valid email address."
+msgstr "Dette er ikke en gyldig e-postadresse."
+
+msgid "this is required"
+msgstr "dette er påkrevd"
+
+msgid "This Login is already in use"
+msgstr "Denne brukeren er allerede i bruk"
+
+msgid "This media cannot be played!"
+msgstr "Denne mediefilen kan ikke avspilles!"
+
+msgid "This or one of %s must have a value"
+msgstr "Denne eller en av %s må ha en verdi"
+
+msgid "This password reset link is no longer valid. It may have already been used. If you still wish to reset your password please request a new link"
+msgstr "Denne koblingen for tilbakestilling av passord er ikke lenger gyldig. Det kan ha blitt brukt allerede. Hvis du fortsatt ønsker å tilbakestille passordet ditt, kan du be om en ny lenke"
+
+msgid "This resource is locked"
+msgstr "Denne ressursen er låst"
+
+msgid "This role is still given to one or more users. Please remove the role to these users first."
+msgstr "Denne rollen er fremdeles i bruk av en eller flere brukere. Fjern rollen til disse brukerne først."
+
+msgid "This should equal %s"
+msgstr "Dette skal være lik %s"
+
+msgid "This should not equal %s"
+msgstr "Dette skal ikke være lik %s"
+
+msgid "time"
+msgstr "tid"
+
+msgid "Time zone"
+msgstr "Tidssone"
+
+msgid "Title"
+msgstr "Tittel"
+
+msgid "to"
+msgstr "til"
+
+msgid "To reset your password, click the link below, or paste it into your browser. You will then be prompted to create a new password."
+msgstr "For å tilbakestille passordet ditt, klikk på lenken nedenfor, eller lim det inn i nettleseren din. Du blir deretter bedt om å opprette et nytt passord."
+
+msgid "to translate"
+msgstr "å oversette"
+
+msgid "Toggle multiple/single selection"
+msgstr "Veksle mellom flervalg/enkeltvalg"
+
+msgid "Toggle the date time picker"
+msgstr "Veksle datovelgeren"
+
+msgid "Tokenizer"
+msgstr "Tokenizer"
+
+msgid "Too many non-option arguments: got %s, maximum of %s"
+msgstr ""
+
+msgid "Too many suggestions match your query. Only a few are listed"
+msgstr "For mange forslag samsvarer med søket ditt. Bare noen få er oppført"
+
+msgid "Total duration"
+msgstr "Total varighet"
+
+msgid "Total:"
+msgstr "Total:"
+
+msgid "Translate"
+msgstr "Oversett"
+
+msgid "Translate to"
+msgstr "Oversett til"
+
+msgid "Translation parameters"
+msgstr "Oversettelsesparametere"
+
+msgid "Translation saved"
+msgstr "Oversettelsen ble lagret"
+
+msgid "Transport Layer Security"
+msgstr "Sikkerhet"
+
+msgid "Tree - Multiple node choice"
+msgstr ""
+
+msgid "Tree - Multiple node choice "
+msgstr "Treet - Valg av flere noder "
+
+msgid "Tree values"
+msgstr "Tre-verdier"
+
+msgid "True"
+msgstr "Sant"
+
+msgid "trunc"
+msgstr "trunk"
+
+msgid "Type"
+msgstr "Skriv"
+
+msgid "Type your search"
+msgstr "Skriv inn søket ditt"
+
+msgid "Unable to access your account?"
+msgstr "Får du ikke tilgang til kontoen din?"
+
+msgid "Unable to change passwords in demo mode"
+msgstr "Kan ikke endre passord i demomodus"
+
+msgid "Unable to copy the resource"
+msgstr "Kan ikke kopiere ressursen"
+
+msgid "Unable to delete %s"
+msgstr "Kan ikke slette %s"
+
+msgid "Unable to delete the selected resource"
+msgstr "Kan ikke slette den valgte ressursen"
+
+msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
+msgstr ""
+
+msgid "Unable to delete the selected resources"
+msgstr "Kan ikke slette de valgte ressursene"
+
+msgid "Unable to move the resources"
+msgstr "Kan ikke flytte ressursene"
+
+msgid "Unable to open file %s"
+msgstr "Kan ikke åpne filen %s"
+
+msgid "Unable to process your request"
+msgstr "Kan ikke behandle forespørselen din"
+
+msgid "Unable to release the lock"
+msgstr "Kunne ikke åpne låsen"
+
+msgid "Unable to remove the property."
+msgstr "Kunne ikke fjerne egenskap."
+
+msgid "Unable to save resource."
+msgstr "Kunne ikke lagre ressursen."
+
+msgid "unable to search into notification."
+msgstr "kunne ikke søke etter varsling."
+
+msgid "Unable to send the password reset request"
+msgstr "Kan ikke sende forespørselen om tilbakestilling av passord"
+
+msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
+msgstr ""
+
+msgid "Unable to update the asset service"
+msgstr "Kan ikke oppdatere medietjenesten"
+
+msgid "Unable to upload file"
+msgstr "Kan ikke laste opp fil"
+
+msgid "Unable to upload file %s : %s"
+msgstr "Kan ikke laste opp filen %s: %s"
+
+msgid "Unary operator +"
+msgstr "Unary operatør +"
+
+msgid "Unary operator -"
+msgstr "Unary operatør -"
+
+msgid "Unauthorized files have been removed"
+msgstr ""
+
+msgid "Uncheck All"
+msgstr "Fjern merket for alle"
+
+msgid "Uncheck all"
+msgstr "Fjern merket for alle"
+
+msgid "Undefined amount of the pages for pagination"
+msgstr "Udefinert antall sider for paginering"
+
+msgid "Undefined amount of the totalPages for pagination"
+msgstr "Udefinert antall av den totale siden for paginering"
+
+msgid "Undo"
+msgstr "Angre"
+
+msgid "Unexpected error. Please contact administrator"
+msgstr "Uventet feil. Ta kontakt med administrator"
+
+msgid "Uninstall of %s failed"
+msgstr "Avinstallering av %s mislyktes"
+
+msgid "Uninstalled %s"
+msgstr "Avinstallert %s"
+
+msgid "UNIX Compressed Archive File"
+msgstr "UNIX komprimert arkivfil"
+
+msgid "unknown"
+msgstr "ukjent"
+
+msgid "Unknown Error"
+msgstr "Ukjent feil"
+
+msgid "unkown task id %s"
+msgstr "ukjent oppgave-id %s"
+
+msgid "Update"
+msgstr "Oppdater"
+
+msgid "Update ID : %s"
+msgstr "Oppdaterings-ID: %s"
+
+msgid "Updating search index"
+msgstr "Oppdaterer søkeindeks"
+
+msgid "Upload"
+msgstr "Laste opp"
+
+msgid "Upload into:"
+msgstr "Last opp til:"
+
+msgid "URI Path"
+msgstr "URI-sti"
+
+msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
+msgstr "Bruk: ImportRdf RDF_FILE [MODEL_ID]"
+
+msgid "USAGE: please provide a valid extension id as second parameter"
+msgstr "BRUK: Oppgi en gyldig utvidelses-ID som andre parameter"
+
+msgid "USAGE: please provide a valid service name as first parameter"
+msgstr "BRUK: Oppgi et gyldig tjenestenavn som første parameter"
+
+msgid "USAGE: please provide the service name as first parameter"
+msgstr "BRUK: Oppgi tjenestenavnet som første parameter"
+
+msgid "Use a term"
+msgstr "Bruk et begrep"
+
+msgid "Use a variable"
+msgstr "Bruk en variabel"
+
+msgid "Use default value"
+msgstr "Bruk standardverdi"
+
+msgid "User"
+msgstr "Brukder"
+
+msgid "User %s can not be locked"
+msgstr "Bruker %s kan ikke låses"
+
+msgid "User %s can not be unlocked"
+msgstr "Bruker %s kan ikke låses opp"
+
+msgid "User %s successfully locked"
+msgstr "Bruker %s er låst"
+
+msgid "User %s successfully unlocked"
+msgstr "Brukeren %s ble låst opp"
+
+msgid "User added"
+msgstr "Bruker ble lagt til"
+
+msgid "User deleted successfully"
+msgstr "Bruker ble slettet"
+
+msgid "User deletion not permitted on a demo instance"
+msgstr "Sletting av bruker er ikke tillatt i et demomiljø"
+
+msgid "User not found"
+msgstr "Bruker ble ikke funnet"
+
+msgid "User saved"
+msgstr "Bruker ble lagret"
+
+#, tao-public
+msgid "User Settings"
+msgstr "Brukerinstillinger"
+
+#, tao-public
+msgid "Users"
+msgstr "Brukere"
+
+msgid "Validation for field '%s' has failed. Language does not exist in the system"
+msgstr "Valideringen for feltet '%s' mislyktes. Valgt språk finnes ikke i systemet"
+
+msgid "Validation for field '%s' has failed. List of values expected"
+msgstr "Valideringen for feltet '%s' mislyktes. Liste over verdier som forventet"
+
+msgid "Validation for field '%s' has failed. Should not be empty"
+msgstr "Valideringen for feltet '%s' mislyktes. Bør ikke være tom"
+
+msgid "Validation for field '%s' has failed. Valid role expected. Given: %s"
+msgstr "Valideringen for feltet '%s' mislyktes. Gyldig rolle forventet. Gitt: %s"
+
+msgid "Validation for field '%s' has failed. Valid URI expected"
+msgstr "Valideringen for feltet '%s' mislyktes. Gyldig URI forventet"
+
+msgid "Validation for field '%s' has failed. Valid URI expected. Given: %s"
+msgstr "Valideringen for feltet '%s' mislyktes. Gyldig URI forventet. Gitt: %s"
+
+msgid "Value ellipsis"
+msgstr "Verdiellipse"
+
+msgid "Value of E"
+msgstr "Verdien av E"
+
+msgid "Value of PI"
+msgstr "Verdien av PI"
+
+msgid "Variable"
+msgstr "Variabel"
+
+msgid "Variable %s"
+msgstr "Variabel %s"
+
+msgid "Version"
+msgstr "Versjon"
+
+msgid "View"
+msgstr "Visning"
+
+msgid "View report"
+msgstr "Se rapport"
+
+msgid "View resources as a list"
+msgstr "Se ressurser som en liste"
+
+msgid "View resources as a tree"
+msgstr "Se ressurser som et tre"
+
+msgid "Wait is over"
+msgstr "Ventetiden er over"
+
+msgid "Waiting"
+msgstr "Venter"
+
+msgid "WAV audio"
+msgstr "WAV lyd"
+
+msgid "WebM audio"
+msgstr "WebM lyd"
+
+msgid "WebM video"
+msgstr "WebM video"
+
+msgid "Whole number part"
+msgstr "Hele talldelen"
+
+msgid "Width"
+msgstr "Bredde"
+
+msgid "Windows help file"
+msgstr "Windows hjelpefil"
+
+msgid "Windows Media audio"
+msgstr "Windows Media lyd"
+
+msgid "Windows Media file (metafile)"
+msgstr "Windows Media fil (metafil)"
+
+msgid "Windows Media video"
+msgstr "Windows Media video"
+
+msgid "with"
+msgstr ""
+
+msgid "Wrap image left"
+msgstr "Pakk bildet til venstre"
+
+msgid "Wrap image right"
+msgstr "Pakk bildet til høyre"
+
+msgid "Write Document"
+msgstr "Skriv dokument"
+
+msgid "Wrong or missing parameter extension, module or action"
+msgstr "Feil eller manglende parameterutvidelse, modul eller handling"
+
+msgid "Wrong parameter shownExtension"
+msgstr "Viser feil parameter utvidelse"
+
+msgid "XML file"
+msgstr "XML fil"
+
+msgid "Yes"
+msgstr "Ja"
+
+msgid "You are encountering a prolonged connectivity loss."
+msgstr "Du opplever et langvarig tap av tilkobling."
+
+msgid "You are not allowed to write in the class %s"
+msgstr "Du har ikke skrivetilgang i mappen %s"
+
+msgid "You are not authorised to remove this lock"
+msgstr "Du er ikke atilgang til å fjerne denne låsen"
+
+msgid "You cannot delete the root node"
+msgstr "Du kan ikke slette rotnoden"
+
+msgid "You cannot move the selected resources in the class %s"
+msgstr "Du kan ikke flytte de valgte ressursene i mappe %s"
+
+msgid "You currently have no access to the platform"
+msgstr "Du har for øyeblikket ingen tilgang"
+
+msgid "You do not have the required rights to edit this resource."
+msgstr "Du har ikke nok rettigheter til å redigere denne ressursen."
+
+msgid "You have been locked due to too many failed login attempts. "
+msgstr "Kontoen din har blitt sperret på grunn av for mange mislykkede påloggingsforsøk "
+
+msgid "You have been logged out. Please login again"
+msgstr "Du har blitt logget ut. Logg inn igjen"
+
+msgid "You must activate JavaScript in your browser to run this application."
+msgstr "Du må aktivere JavaScript i nettleseren din for å kjøre denne applikasjonen."
+
+msgid "Your account has been locked, please contact your administrator."
+msgstr "Kontoen din er sperret. Kontakt din administrator."
+
+msgid "Your browser does not meet the technical requirements to run TAO."
+msgstr "Nettleseren din oppfyller ikke de tekniske kravene for å kjøre TAO."
+
+msgid "Your browser does not support copying to the clipboard"
+msgstr "Nettleseren din støtter ikke kopiering til utklippstavlen"
+
+msgid "Your browser doesn’t support the audio player."
+msgstr "Nettleseren din støtter ikke lydavspilleren."
+
+msgid "Your browser doesn’t support the video player."
+msgstr "Nettleseren din støtter ikke videoavspilleren."
+
+msgid "Your mail"
+msgstr "Din E-post"
+
+msgid "Your TAO Password"
+msgstr "Ditt TAO passord"
+
+msgid "ZIP archive"
+msgstr "ZIK arkiv"
+

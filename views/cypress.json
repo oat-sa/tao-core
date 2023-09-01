@@ -1,0 +1,17 @@
+{
+  "integrationFolder": "../..",
+  "testFiles": "**/views/cypress/tests/**/*.spec.js",
+  "screenshotsFolder": "cypress/screenshots",
+  "supportFile": "cypress/support",
+  "pluginsFile": "cypress/plugins",
+  "video": false,
+  "videosFolder": "cypress/videos",
+  "defaultCommandTimeout": 35000,
+  "pageLoadTimeout": 30000,
+  "requestTimeout": 10000,
+  "env": {
+    "configFile": "cypress/envs/env.json"
+  },
+  "viewportHeight": 720,
+  "viewportWidth": 1200
+}
