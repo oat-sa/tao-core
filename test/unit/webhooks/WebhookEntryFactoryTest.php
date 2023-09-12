@@ -20,7 +20,7 @@
 
 namespace oat\tao\test\unit\webhooks;
 
-use oat\generis\test\TestCase;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\webhooks\configEntity\WebhookEntryFactory;
 use oat\tao\model\webhooks\configEntity\WebhookInterface;
 

@@ -26,7 +26,8 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\taskQueue\Task\TaskInterface;
 use oat\tao\model\webhooks\configEntity\Webhook;
@@ -52,6 +53,8 @@ use Psr\Log\LoggerInterface;
 
 class WebhookTaskTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private $serviceLocatorMock;
 
     /**
@@ -136,7 +139,7 @@ class WebhookTaskTest extends TestCase
         $this->webhookLogServiceMock = $this->createMock(WebhookEventLogInterface::class);
         $this->webhookTaskReports = $this->createMock(WebhookTaskReports::class);
 
-        $this->serviceLocatorMock = $this->getServiceLocatorMock([
+        $this->serviceLocatorMock = $this->getServiceManagerMock([
             WebhookTaskReports::class => $this->webhookTaskReports,
             WebhookRegistryInterface::class => $this->webhookRegistryMock,
             WebhookPayloadFactoryInterface::SERVICE_ID => $this->webhookPayloadFactoryInterfaceMock,
@@ -182,7 +185,7 @@ class WebhookTaskTest extends TestCase
 
         $task = new WebhookTask();
 
-        $task->setServiceLocator($this->getServiceLocatorMock([
+        $task->setServiceLocator($this->getServiceManagerMock([
             WebhookRegistryInterface::class => $webhookRegistry,
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
@@ -354,7 +357,7 @@ class WebhookTaskTest extends TestCase
 
         $task = new WebhookTask();
 
-        $task->setServiceLocator($this->getServiceLocatorMock([
+        $task->setServiceLocator($this->getServiceManagerMock([
             WebhookRegistryInterface::class => $webhookRegistry,
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
@@ -421,7 +424,7 @@ class WebhookTaskTest extends TestCase
 
         $task = new WebhookTask();
 
-        $task->setServiceLocator($this->getServiceLocatorMock([
+        $task->setServiceLocator($this->getServiceManagerMock([
             WebhookRegistryInterface::class => $webhookRegistry,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
             WebhookEventLogInterface::SERVICE_ID => $this->webhookLogServiceMock,
@@ -485,7 +488,7 @@ class WebhookTaskTest extends TestCase
 
         $task = new WebhookTask();
 
-        $task->setServiceLocator($this->getServiceLocatorMock([
+        $task->setServiceLocator($this->getServiceManagerMock([
             WebhookRegistryInterface::class => $webhookRegistry,
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
@@ -548,7 +551,7 @@ class WebhookTaskTest extends TestCase
 
         $task = new WebhookTask();
 
-        $task->setServiceLocator($this->getServiceLocatorMock([
+        $task->setServiceLocator($this->getServiceManagerMock([
             WebhookRegistryInterface::class => $webhookRegistry,
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
@@ -617,7 +620,7 @@ class WebhookTaskTest extends TestCase
 
         $task = new WebhookTask();
 
-        $task->setServiceLocator($this->getServiceLocatorMock([
+        $task->setServiceLocator($this->getServiceManagerMock([
             WebhookRegistryInterface::class => $webhookRegistry,
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,
@@ -688,7 +691,7 @@ class WebhookTaskTest extends TestCase
 
         $task = new WebhookTask();
 
-        $task->setServiceLocator($this->getServiceLocatorMock([
+        $task->setServiceLocator($this->getServiceManagerMock([
             WebhookRegistryInterface::class => $webhookRegistry,
             WebhookPayloadFactoryInterface::SERVICE_ID => $payloadFactory,
             WebhookTaskParamsFactory::class => $taskParamsFactory,

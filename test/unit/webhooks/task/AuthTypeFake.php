@@ -20,17 +20,16 @@
 
 namespace oat\tao\test\unit\webhooks\task;
 
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\tao\model\auth\AbstractAuthType;
-use PHPUnit\Framework\MockObject\Generator;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use oat\generis\test\MockObject;
+use PHPUnit\Framework\MockObject\Generator\Generator;
 
-class AuthTypeFake extends AbstractAuthType implements ServiceLocatorAwareInterface
+class AuthTypeFake extends AbstractAuthType
 {
-    use ServiceLocatorAwareTrait;
+    use ServiceManagerMockTrait;
 
     /**
      * Call a request through current authenticator
@@ -43,12 +42,8 @@ class AuthTypeFake extends AbstractAuthType implements ServiceLocatorAwareInterf
     {
         $mockGenerator = new Generator();
 
-        if (!$this->getServiceLocator()) {
-            throw new \RuntimeException('Service Locator is not set');
-        }
-
         /** @var MockObject|ResponseInterface $response */
-        $response = $mockGenerator->getMock(ResponseInterface::class);
+        $response = $mockGenerator->generate(ResponseInterface::class, true);
         $response->callRequest = $request;
         $response->callClientOptions = $clientOptions;
         $response->credentials = $this->credentials;

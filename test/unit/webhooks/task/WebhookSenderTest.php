@@ -21,7 +21,8 @@
 namespace oat\tao\test\unit\webhooks\task;
 
 use GuzzleHttp\Exception\GuzzleException;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
 use oat\tao\model\webhooks\task\WebhookSender;
 use Psr\Http\Message\RequestInterface;
@@ -29,6 +30,8 @@ use oat\generis\test\MockObject;
 
 class WebhookSenderTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     /**
      * @throws GuzzleException
      * @throws \common_exception_InvalidArgumentType
@@ -44,7 +47,7 @@ class WebhookSenderTest extends TestCase
         $authConfig->method('getCredentials')->willReturn(['c' => 'v']);
 
         $sender = new WebhookSender();
-        $sender->setServiceLocator($this->getServiceLocatorMock());
+        $sender->setServiceLocator($this->getServiceManagerMock());
         /** @var \stdClass $response */
         $response = $sender->performRequest($request, $authConfig);
 
