@@ -1,20 +1,28 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2023.04\n"
-"PO-Revision-Date: 2023-03-23T13:15:16\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-09-14 10:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: nb-NO\n"
+"Language: nb_NO\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: nb-NO\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-GB\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: nb\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
+"X-Crowdin-File-ID: 617\n"
+"Language-Team: Norwegian Bokmal\n"
 
 msgid ""
 msgstr ""
+""
 
 msgid " and "
 msgstr " og "
@@ -71,16 +79,13 @@ msgid "%s %s selected"
 msgstr "%s %s valgt"
 
 msgid "%s (%s kb)"
-msgstr "%s (%s kb)"
+msgstr ""
 
 msgid "%s Class saved"
 msgstr "%s Mappe lagret"
 
 msgid "%s classes"
 msgstr "%s mapper"
-
-msgid "%s completed"
-msgstr ""
 
 msgid "%s Confirmation"
 msgstr "%s Bekreftelse"
@@ -164,13 +169,13 @@ msgid "About"
 msgstr "Om"
 
 msgid "abs"
-msgstr "abs"
+msgstr ""
 
 msgid "Absolute value"
 msgstr "Absolutt verdi"
 
 msgid "AC"
-msgstr "AC"
+msgstr ""
 
 msgid "Access Denied"
 msgstr "Ingen Tilgang"
@@ -217,9 +222,6 @@ msgstr "legg til kriterier"
 
 msgid "Add file(s)"
 msgstr "Legg til fil(er)"
-
-msgid "Add index"
-msgstr ""
 
 msgid "Add property"
 msgstr "Legg til egenskap"
@@ -321,9 +323,6 @@ msgstr "Er du sikker på å slette den versjonerte ressursen? Historikken vil og
 msgid "Are you sure you want to delete it?"
 msgstr "Er du sikker på at du ønsker slette?"
 
-msgid "Are you sure you wish to delete it"
-msgstr ""
-
 msgid "Argument check failed: %s"
 msgstr ""
 
@@ -403,14 +402,11 @@ msgstr ""
 msgid "Browse folders:"
 msgstr "Søk gjennom mapper:"
 
-msgid "Browse resources"
-msgstr ""
-
 msgid "Browse..."
 msgstr "Søk..."
 
 msgid "C"
-msgstr "C"
+msgstr ""
 
 msgid "C file"
 msgstr "C-fil"
@@ -427,11 +423,11 @@ msgstr "Kalkulator"
 msgid "Calendar"
 msgstr "Kalender"
 
-msgid "cancel"
-msgstr "avbryt"
-
 msgid "Cancel"
 msgstr "Avbryt"
+
+msgid "cancel"
+msgstr "avbryt"
 
 msgid "cancel the action"
 msgstr "avbryt handlingen"
@@ -464,19 +460,16 @@ msgstr "Endre passordet"
 msgid "Change the sign of the current operand"
 msgstr "Endre tegnet på gjeldende operand"
 
-msgid "Check all"
-msgstr "Sjekk alle"
-
 msgid "Check All"
 msgstr "Sjekk Alle"
+
+msgid "Check all"
+msgstr "Sjekk alle"
 
 msgid "Check-in"
 msgstr "Innsjekking"
 
 msgid "choices:"
-msgstr ""
-
-msgid "Choose a type for your property first"
 msgstr ""
 
 msgid "Choose a value..."
@@ -512,11 +505,11 @@ msgstr "Nullstill alle data"
 msgid "Clear expression"
 msgstr "Nullstill uttrykk"
 
-msgid "Clear history"
-msgstr "Nullstill historikk"
-
 msgid "Clear History"
 msgstr "Nullstill Historikk"
+
+msgid "Clear history"
+msgstr "Nullstill historikk"
 
 msgid "Clear selection"
 msgstr "Nullstill utvalg"
@@ -529,9 +522,6 @@ msgstr "Nullstill lagrede variabler"
 
 msgid "Click to reload."
 msgstr "Klikk for å laste siden på nytt."
-
-msgid "Click to start"
-msgstr ""
 
 msgid "Close"
 msgstr "Lukk"
@@ -594,7 +584,7 @@ msgid "Copy to clipboard"
 msgstr "Kopier til utklippstavlen"
 
 msgid "cos"
-msgstr "cos"
+msgstr ""
 
 msgid "cosh"
 msgstr ""
@@ -621,7 +611,7 @@ msgid "CSP Header settings were saved successfully!"
 msgstr "Innstillinger for CSP-topptekst ble lagret!"
 
 msgid "CSV"
-msgstr "CSV"
+msgstr ""
 
 msgid "CSV file"
 msgstr "CSV-fil"
@@ -638,9 +628,6 @@ msgstr "Gjeldende språk"
 msgid "Current playback position"
 msgstr "Gjeldende avspillingsposisjon"
 
-msgid "currently has a dependency established with "
-msgstr ""
-
 msgid "Data imported"
 msgstr "Data importert"
 
@@ -650,11 +637,11 @@ msgstr "Data importert"
 msgid "Data imported. Some records are invalid."
 msgstr "Data importert. Noen registreriger er ugyldige."
 
-msgid "Data Language"
-msgstr "Data Språk"
-
 msgid "Data language"
 msgstr "Data språk"
+
+msgid "Data Language"
+msgstr "Data Språk"
 
 msgid "Data not imported. All records are invalid."
 msgstr "Data ble ikke importert. Alle registreringene er ugyldige."
@@ -711,16 +698,7 @@ msgstr "Slett ordet på høyre side av markøren"
 msgid "Deleting search index for %s"
 msgstr "Sletter søkeindeks for %s"
 
-msgid "Deleting this property will also remove the dependency"
-msgstr ""
-
 msgid "Demo Sandbox"
-msgstr "Demo Sandbox"
-
-msgid "Dependency URI Path"
-msgstr ""
-
-msgid "Depends on property"
 msgstr ""
 
 msgid "Did you mean %s?"
@@ -758,9 +736,6 @@ msgstr "Siffer 9"
 
 msgid "Disabled %s"
 msgstr "Deaktivert %s"
-
-msgid "Do you want to override \"%s\"?"
-msgstr ""
 
 msgid "Do you wish to install the following extension(s):\n"
 "%s?"
@@ -807,7 +782,7 @@ msgid "Edit Instance"
 msgstr "Rediger egenskaper"
 
 msgid "Element"
-msgstr "Element"
+msgstr ""
 
 msgid "Element deleted."
 msgstr "Element ble slettet."
@@ -828,7 +803,7 @@ msgid "Enhanced metafile"
 msgstr "Forbedret metafil"
 
 msgid "Enter"
-msgstr "Enter"
+msgstr ""
 
 msgid "Error"
 msgstr "Feil"
@@ -904,9 +879,6 @@ msgstr "Faktorisk"
 msgid "Failed"
 msgstr "Mislyktes"
 
-msgid "Failed to copy class."
-msgstr ""
-
 msgid "Failed to delete index for %s"
 msgstr "Kunne ikke slette indeksen for %s"
 
@@ -944,7 +916,7 @@ msgid "files selected"
 msgstr "valgte filer"
 
 msgid "Filter"
-msgstr "Filter"
+msgstr ""
 
 msgid "Filter by value"
 msgstr "Filtrer etter verdi"
@@ -1001,7 +973,7 @@ msgid "generated-value"
 msgstr ""
 
 msgid "Generis Form"
-msgstr "Generis Form"
+msgstr ""
 
 msgid "Geogebra data file"
 msgstr "Geogebra data-fil"
@@ -1079,10 +1051,10 @@ msgid "Implications failed:"
 msgstr ""
 
 msgid "Import"
-msgstr "Import"
+msgstr ""
 
 msgid "Import "
-msgstr "Import "
+msgstr ""
 
 msgid "Import a %s into \"%s"
 msgstr "Importer en %s til \"%s"
@@ -1099,10 +1071,6 @@ msgstr "Importer metadata fra CSV-fil"
 msgid "Import Metadata from RDF file"
 msgstr "Importer metadata fra RDF-fil"
 
-#, tao-public
-msgid "Import statistical analysis metadata"
-msgstr ""
-
 msgid "Import succeeded."
 msgstr "Importen var vellykket."
 
@@ -1114,9 +1082,6 @@ msgstr "Importerte %d ressurser"
 
 msgid "Imported resource \"%s"
 msgstr "Importerte ressurs \"%s"
-
-msgid "Imported successfully finished!"
-msgstr ""
 
 msgid "impossible to update task status"
 msgstr "umulig å oppdatere oppgavestatus"
@@ -1220,19 +1185,10 @@ msgstr "Ugyldig brukernavn eller passord. Prøv på nytt."
 msgid "Invalid login or password. Your account has been locked, please contact your administrator."
 msgstr "Ugyldig brukernavn eller passord. Kontoen din er låst. Ta kontakt med administrator."
 
-msgid "Invalid path of a source \"%s\". Path must point to the existed file inside the package."
-msgstr ""
-
 msgid "invalid regular expression"
 msgstr "ugyldig uttrykk"
 
-msgid "Invalid value"
-msgstr ""
-
 msgid "Invalid values:"
-msgstr ""
-
-msgid "It appears there were some issues and we were unable to process your request. You can contact your TAO administrator if needed. Or, alternatively:"
 msgstr ""
 
 msgid "items per page"
@@ -1274,9 +1230,6 @@ msgstr "mindre enn ett minutt"
 msgid "List"
 msgstr "Liste"
 
-msgid "List \"%s\" has duplicated values."
-msgstr ""
-
 msgid "List - Multiple choice - Check box"
 msgstr "Liste - Flervalg - Avhukingsboks"
 
@@ -1298,9 +1251,6 @@ msgstr "Oppgave URI -dupliseringer funnet"
 msgid "List values"
 msgstr "Listeverdier"
 
-msgid "ln"
-msgstr "ln"
-
 msgid "Load more"
 msgstr "Last mer"
 
@@ -1321,9 +1271,6 @@ msgstr "Laster inn oppgavestatus..."
 
 msgid "locked by %s"
 msgstr "låst med %s"
-
-msgid "log"
-msgstr "log"
 
 msgid "Log in"
 msgstr "Logg inn"
@@ -1370,9 +1317,6 @@ msgstr "Vedlikeholdslagringsdriver er ikke angitt"
 msgid "Manage class schema"
 msgstr "Administrer egenskaper for oppgavemappe"
 
-msgid "manage columns"
-msgstr "Administrer kolonner"
-
 msgid "Manage data list"
 msgstr "Administrer dataliste"
 
@@ -1393,9 +1337,6 @@ msgstr "Administrer versjonert fil"
 msgid "Map the properties to the CSV columns"
 msgstr "Gi egenskaper til CSV-kolonnene"
 
-msgid "maximum %s"
-msgstr ""
-
 msgid "Maximum selection reached"
 msgstr "Maksimalt valg er nådd"
 
@@ -1412,16 +1353,16 @@ msgid "Metadata export is not available for the selected resource."
 msgstr "Metadataeksport er ikke tilgjengelig for den valgte ressursen."
 
 msgid "Microsoft Excel"
-msgstr "Microsoft Excel"
+msgstr ""
 
 msgid "Microsoft Excel binary format"
 msgstr "Microsoft Excel binært format"
 
 msgid "Microsoft Office Document Imaging"
-msgstr "Microsoft Office Document Imaging"
+msgstr ""
 
 msgid "Microsoft Powerpoint"
-msgstr "Microsoft Powerpoint"
+msgstr ""
 
 msgid "Microsoft Powerpoint slideshow"
 msgstr "Lysbildefremvisning fra Microsoft Powerpoint"
@@ -1433,7 +1374,7 @@ msgid "Microsoft Visio file"
 msgstr "Microsoft Visio-fil"
 
 msgid "Microsoft Word"
-msgstr "Microsoft Word"
+msgstr ""
 
 msgid "Microsoft Word template"
 msgstr "Microsoft Word-mal"
@@ -1450,9 +1391,6 @@ msgstr "MIME-innkapsling av samlede HTML-dokumenter"
 msgid "Mind mapping software application (free mind open source)"
 msgstr "Mind mapping programvare (gratis åpen kildekode)"
 
-msgid "minimum %s"
-msgstr ""
-
 msgid "minutes"
 msgstr "minutter"
 
@@ -1463,7 +1401,7 @@ msgid "Missing Parameters"
 msgstr "Mangler parametere"
 
 msgid "modulo"
-msgstr "modulo"
+msgstr ""
 
 msgid "More"
 msgstr "Mer"
@@ -1494,13 +1432,13 @@ msgid "Moving this element will replace the properties of the previous class by 
 msgstr "Hvis du flytter dette elementet, vil egenskapene til den forrige mappen erstattes med egenskapene til valgt mappe:"
 
 msgid "MP4 video"
-msgstr "MP4 video"
+msgstr ""
 
 msgid "MPEG audio"
 msgstr "MPEG lyd"
 
 msgid "MPEG video"
-msgstr "MPEG video"
+msgstr ""
 
 msgid "MPEG-4 audio file"
 msgstr "MPEG-4 lydfil"
@@ -1510,21 +1448,6 @@ msgstr "Avgrensning av flere verdier"
 
 msgid "Multiply the value by 10^x"
 msgstr "Multipliser verdien med 10^x"
-
-msgid "Must include at least one letter"
-msgstr ""
-
-msgid "Must include at least one number"
-msgstr ""
-
-msgid "Must include at least one special letter"
-msgstr ""
-
-msgid "Must include lower case letters"
-msgstr ""
-
-msgid "Must include upper case letters"
-msgstr ""
 
 msgid "Mute"
 msgstr "Dempe"
@@ -1594,9 +1517,6 @@ msgstr "Ingen handling ennå"
 msgid "Node duplication has failed"
 msgstr "Nodeduplisering mislyktes"
 
-msgid "none"
-msgstr ""
-
 msgid "Not enough arguments following: %s"
 msgstr ""
 
@@ -1605,9 +1525,6 @@ msgstr ""
 
 msgid "Not started"
 msgstr "Ikke startet"
-
-msgid "NotEmpty"
-msgstr ""
 
 msgid "Nothing imported"
 msgstr "Ingenting importert"
@@ -1622,10 +1539,7 @@ msgstr "Ingenting å liste!"
 msgid "Notifications"
 msgstr "Varsler"
 
-msgid "notifications drivers aren't persistent. use a persistent database storage driver"
-msgstr "varslingsdrivere er ikke permanente. Bruk en permanente driver for databaselagring"
-
-msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
 
 msgid "Nth root"
@@ -1647,13 +1561,13 @@ msgid "Ogg Vorbis audio"
 msgstr "Ogg Vorbis lyd"
 
 msgid "Ogg Vorbis video"
-msgstr "Ogg Vorbis video"
+msgstr ""
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "Ok"
-msgstr "Ok"
+msgstr ""
 
 msgid "Old Password"
 msgstr "Gammelt passord"
@@ -1668,7 +1582,7 @@ msgid "Only one of the field must have value %s"
 msgstr "Bare ett av feltene må ha verdien %s"
 
 msgid "OpenDocument Database"
-msgstr "OpenDocument Database"
+msgstr ""
 
 msgid "OpenDocument Presentation"
 msgstr "OpenDocument presentasjon"
@@ -1716,7 +1630,7 @@ msgid "Passwords are not matching"
 msgstr "Passord samsvarer ikke"
 
 msgid "Pause"
-msgstr "Pause"
+msgstr ""
 
 msgid "PDF file"
 msgstr "PDF-fil"
@@ -1778,15 +1692,6 @@ msgstr "Oppgi en grunn"
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "Vennligst rapporter feil, ideer, kommentarer eller tilbakemeldinger på TAO Forum"
 
-msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr "Velg en bildefil fra filvelgeren. Du kan legge til filer fra datamaskinen din med knappen \"Legg til fil(er)\"."
-
-msgid "Please set 'min' and/or 'max' options!"
-msgstr ""
-
-msgid "Please try in %s."
-msgstr ""
-
 msgid "Please wait"
 msgstr "Vennligst vent"
 
@@ -1846,13 +1751,13 @@ msgid "Queued"
 msgstr "I kø"
 
 msgid "Quicktime video"
-msgstr "Quicktime video"
+msgstr ""
 
 msgid "Rad"
-msgstr "Rad"
+msgstr ""
 
 msgid "Radian"
-msgstr "Radian"
+msgstr ""
 
 msgid "random"
 msgstr "tilfeldig"
@@ -1867,7 +1772,7 @@ msgid "RAR archive"
 msgstr "RAR arkiv"
 
 msgid "RDF"
-msgstr "RDF"
+msgstr ""
 
 msgid "RealMedia file"
 msgstr "RealMedia-fil"
@@ -1907,9 +1812,6 @@ msgstr "Fjern"
 
 msgid "Remove criteria"
 msgstr "Fjern kriterier"
-
-msgid "remove index"
-msgstr ""
 
 msgid "Remove Message"
 msgstr "Fjern melding"
@@ -2078,11 +1980,11 @@ msgstr "Sikkerhet"
 msgid "Security settings"
 msgstr "Sikkerhetsinnstillinger"
 
-msgid "select"
-msgstr "velg"
-
 msgid "Select"
 msgstr "Velg"
+
+msgid "select"
+msgstr "velg"
 
 msgid "Select a class"
 msgstr "Velg en mappe"
@@ -2140,13 +2042,13 @@ msgid "Sign change"
 msgstr "Tegnendring"
 
 msgid "sin"
-msgstr "sin"
+msgstr ""
 
 msgid "Sine"
 msgstr "Sinus"
 
 msgid "sinh"
-msgstr "sinh"
+msgstr ""
 
 msgid "Size"
 msgstr "Størrelse"
@@ -2163,14 +2065,11 @@ msgstr "Kilder som kan bygge inn denne plattformen i en iFrame"
 msgid "Square root"
 msgstr "Kvadratrot"
 
-msgid "Start"
-msgstr ""
-
 msgid "Start of document reached. Continuing from the end."
 msgstr "Starten på dokumentet er nådd. Fortsetter fra slutten."
 
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 msgid "Status of"
 msgstr "Status for"
@@ -2224,13 +2123,13 @@ msgid "Tagged image file"
 msgstr "Merket bildefil"
 
 msgid "tan"
-msgstr "tan"
+msgstr ""
 
 msgid "Tangent"
-msgstr "Tangent"
+msgstr ""
 
 msgid "tanh"
-msgstr "tanh"
+msgstr ""
 
 msgid "Tao Default Theme"
 msgstr "Tao standardtema"
@@ -2295,9 +2194,6 @@ msgstr "Tekst - kort - felt"
 msgid "Text document file format (Staroffice)"
 msgstr "Tekstdokument filformat (Staroffice)"
 
-msgid "Text to translate"
-msgstr ""
-
 msgid "The action will be applied to"
 msgstr "Handlingen vil bli brukt på"
 
@@ -2310,14 +2206,8 @@ msgstr "Handlingen vil ikke bli brukt på "
 msgid "The action will not be applied to the following"
 msgstr "Handlingen vil ikke bli brukt på følgende"
 
-msgid "The class has been copied."
-msgstr ""
-
 msgid "The column "
 msgstr "Kolonnen "
-
-msgid "The field \"List\" is disabled because the property is part of a dependency"
-msgstr ""
 
 msgid "The following criteria are not applicable to the selected class and have been removed from the search"
 msgstr "Følgende kriterier gjelder ikke for den valgte mappen og er fjernet fra søket"
@@ -2336,9 +2226,6 @@ msgstr "Låsen er åpnet"
 
 msgid "The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?"
 msgstr "Egenskapene til kildemappen vil bli erstattet av egenskapene til destinasjonsmappen. Dette kan føre til tap av metadata. Vil du fortsette?"
-
-msgid "The selected value(s) must be compatible with the primary property."
-msgstr ""
 
 msgid "The server has sent an empty response"
 msgstr "Serveren har sendt et tomt svar"
@@ -2428,7 +2315,7 @@ msgid "Toggle the date time picker"
 msgstr "Veksle datovelgeren"
 
 msgid "Tokenizer"
-msgstr "Tokenizer"
+msgstr ""
 
 msgid "Too many non-option arguments: got %s, maximum of %s"
 msgstr ""
@@ -2440,7 +2327,7 @@ msgid "Total duration"
 msgstr "Total varighet"
 
 msgid "Total:"
-msgstr "Total:"
+msgstr ""
 
 msgid "Translate"
 msgstr "Oversett"
@@ -2456,9 +2343,6 @@ msgstr "Oversettelsen ble lagret"
 
 msgid "Transport Layer Security"
 msgstr "Sikkerhet"
-
-msgid "Tree - Multiple node choice"
-msgstr ""
 
 msgid "Tree - Multiple node choice "
 msgstr "Treet - Valg av flere noder "
@@ -2493,9 +2377,6 @@ msgstr "Kan ikke slette %s"
 msgid "Unable to delete the selected resource"
 msgstr "Kan ikke slette den valgte ressursen"
 
-msgid "Unable to delete the selected resource because you do not have the required rights to delete part of its content."
-msgstr ""
-
 msgid "Unable to delete the selected resources"
 msgstr "Kan ikke slette de valgte ressursene"
 
@@ -2523,9 +2404,6 @@ msgstr "kunne ikke søke etter varsling."
 msgid "Unable to send the password reset request"
 msgstr "Kan ikke sende forespørselen om tilbakestilling av passord"
 
-msgid "Unable to sync statistical data. Please, contact the system administrator for more details"
-msgstr ""
-
 msgid "Unable to update the asset service"
 msgstr "Kan ikke oppdatere medietjenesten"
 
@@ -2541,13 +2419,10 @@ msgstr "Unary operatør +"
 msgid "Unary operator -"
 msgstr "Unary operatør -"
 
-msgid "Unauthorized files have been removed"
-msgstr ""
-
-msgid "Uncheck All"
+msgid "Uncheck all"
 msgstr "Fjern merket for alle"
 
-msgid "Uncheck all"
+msgid "Uncheck All"
 msgstr "Fjern merket for alle"
 
 msgid "Undefined amount of the pages for pagination"
@@ -2718,7 +2593,7 @@ msgid "WebM audio"
 msgstr "WebM lyd"
 
 msgid "WebM video"
-msgstr "WebM video"
+msgstr ""
 
 msgid "Whole number part"
 msgstr "Hele talldelen"
@@ -2736,9 +2611,6 @@ msgid "Windows Media file (metafile)"
 msgstr "Windows Media fil (metafil)"
 
 msgid "Windows Media video"
-msgstr "Windows Media video"
-
-msgid "with"
 msgstr ""
 
 msgid "Wrap image left"
