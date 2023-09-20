@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tao-open-source\n"
-"PO-Revision-Date: 2023-09-14 10:34\n"
+"PO-Revision-Date: 2023-09-20 08:39\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: nb_NO\n"
@@ -1820,7 +1820,7 @@ msgid "Remove this file"
 msgstr "Fjern denne filen"
 
 msgid "Removed %s directories"
-msgstr "%S kataloger ble fjernet"
+msgstr "%s kataloger ble fjernet"
 
 msgid "Removed %s files"
 msgstr "Fjernet %s filer"
@@ -2102,13 +2102,13 @@ msgid "Successfully imported \"%s"
 msgstr "Importert \"%s"
 
 msgid "Successfully imported %s tripples"
-msgstr "%S trippler ble importert"
+msgstr "%s trippler ble importert"
 
 msgid "Successfully imported class \"%s"
 msgstr "Mappen %s er importert"
 
 msgid "Successfully updated %s client translation bundles"
-msgstr "%S klientoversettelsespakker ble oppdatert"
+msgstr "%s klientoversettelsespakker ble oppdatert"
 
 msgid "Supported export formats"
 msgstr "Eksportformater som støttes"
@@ -2231,7 +2231,7 @@ msgid "The server has sent an empty response"
 msgstr "Serveren har sendt et tomt svar"
 
 msgid "The uploaded file is too large (maximum %s bytes)"
-msgstr "Den opplastede filen er for stor (maks. %S byte)"
+msgstr "Den opplastede filen er for stor (maks. %s byte)"
 
 msgid "The value for the property \"%s\" must be unique."
 msgstr "Verdien for egenskapen \"%s\" må være unik."
