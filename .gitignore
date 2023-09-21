@@ -76,10 +76,3 @@ node_modules
 vendor/
 
 composer.lock
-
-# E2E testing files
-views/cypress/videos
-views/cypress/screenshots
-views/cypress/examples
-views/cypress/envs/*.json
-views/cypress.env.json
