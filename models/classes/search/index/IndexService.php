@@ -80,7 +80,6 @@ class IndexService extends ConfigurableService
     {
         /** @var IndexDocumentBuilder $documentBuilder */
         $documentBuilder = $this->getDocumentBuilder();
-        $documentBuilder->setServiceLocator($this->getServiceLocator());
 
         return $documentBuilder->createDocumentFromResource($resource);
     }
