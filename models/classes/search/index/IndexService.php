@@ -58,12 +58,15 @@ class IndexService extends ConfigurableService
     }
 
     /**
-     * Returns a factory to get the IndexDocument Builder
+     * Returns IndexDocument Builder
      *
-     * return IndexDocumentBuilderInterface
+     * @return IndexDocumentBuilderInterface
+     * @deprecated use DI Container instead
      */
     public function getDocumentBuilder(): IndexDocumentBuilderInterface
     {
+        trigger_error(__CLASS__ . '::' . __METHOD__ . ' is deprecated', E_USER_DEPRECATED);
+
         return $this->getServiceLocator()->getContainer()->get(IndexDocumentBuilderInterface::class);
     }
 
@@ -78,6 +81,8 @@ class IndexService extends ConfigurableService
      */
     public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
     {
+        trigger_error(__CLASS__ . '::' . __METHOD__ . ' is deprecated', E_USER_DEPRECATED);
+
         /** @var IndexDocumentBuilder $documentBuilder */
         $documentBuilder = $this->getDocumentBuilder();
 
@@ -95,6 +100,8 @@ class IndexService extends ConfigurableService
      */
     public function createDocumentFromArray($array = []): IndexDocument
     {
+        trigger_error(__CLASS__ . '::' . __METHOD__ . ' is deprecated', E_USER_DEPRECATED);
+
         if (!isset($array['body'])) {
             throw new \common_exception_MissingParameter('body');
         }

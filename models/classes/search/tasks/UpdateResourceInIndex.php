@@ -31,7 +31,6 @@ use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
-use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\SearchProxy;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
 use oat\tao\model\taskQueue\Task\TaskAwareTrait;
@@ -129,17 +128,12 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
             return $this->getServiceLocator()->getContainer()->get(AdvancedSearchIndexDocumentBuilder::class);
         }
 
-        return $this->getIndexService()->getDocumentBuilder();
+        return $this->getServiceLocator()->getContainer()->get(IndexDocumentBuilderInterface::class);
     }
 
     private function getSearchProxy(): SearchProxy
     {
         return $this->getServiceLocator()->getContainer()->get(SearchProxy::SERVICE_ID);
-    }
-
-    private function getIndexService(): IndexService
-    {
-        return $this->getServiceLocator()->getContainer()->get(IndexService::SERVICE_ID);
     }
 
     private function getAdvancedSearchChecker(): AdvancedSearchChecker
