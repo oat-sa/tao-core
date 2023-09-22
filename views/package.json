@@ -7,10 +7,7 @@
     "type": "git",
     "url": "git+https://github.com/oat-sa/tao-core.git"
   },
-  "scripts": {
-    "cy:open": "cypress open",
-    "cy:run": "cypress run"
-  },
+  "scripts": {},
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "@oat-sa/tao-core-libs": "^0.5.3",
@@ -33,8 +30,6 @@
     "url-polyfill": "1.1.12"
   },
   "devDependencies": {
-    "@oat-sa/e2e-runner": "^1.5.2",
-    "cypress-downloadfile": "^1.2.3",
     "fs": "0.0.1-security"
   }
 }
