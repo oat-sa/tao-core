@@ -53,7 +53,8 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
     private PropertyIndexReferenceFactory $propertyIndexReferenceFactory;
     private ValueCollectionService $valueCollectionService;
     private RemoteListPropertySpecification $remoteListPropertySpecification;
-    private PermissionInterface $permissionService;
+    /** @var PermissionInterface|ReverseRightLookupInterface */
+    private $permissionService;
 
     public function __construct(
         Ontology $ontologyService,
@@ -61,7 +62,7 @@ class IndexDocumentBuilder implements IndexDocumentBuilderInterface
         PropertyIndexReferenceFactory $propertyIndexReferenceFactory,
         ValueCollectionService $valueCollectionService,
         RemoteListPropertySpecification $remoteListPropertySpecification,
-        PermissionInterface $permissionService
+        $permissionService
     ) {
         $this->ontologyService = $ontologyService;
         $this->searchTokenGenerator = $searchTokenGenerator;

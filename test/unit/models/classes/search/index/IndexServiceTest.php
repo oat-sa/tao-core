@@ -29,6 +29,7 @@ use oat\generis\test\ServiceManagerMockTrait;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
+use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
 use oat\tao\model\search\index\IndexDocument;
 use oat\tao\model\search\index\IndexService;
 use oat\tao\model\search\SearchTokenGenerator;
@@ -65,10 +66,11 @@ class IndexServiceTest extends TestCase
         $this->ontology = $this->createMock(Ontology::class);
         $this->indexDocumentBuilder = $this->createMock(IndexDocumentBuilder::class);
         $this->sut = new IndexService();
-       ///TODO $this->sut->setOption(IndexService::OPTION_DOCUMENT_BUILDER, $this->indexDocumentBuilder);
+
         $this->sut->setServiceManager(
             $this->getServiceManagerMock(
                 [
+                    IndexDocumentBuilderInterface::class => $this->indexDocumentBuilder,
                     Ontology::SERVICE_ID => $this->ontology,
                     SearchTokenGenerator::class => new SearchTokenGenerator(),
                     LoggerService::SERVICE_ID => new NullLogger(),
