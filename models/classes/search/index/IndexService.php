@@ -40,10 +40,6 @@ class IndexService extends ConfigurableService
     use OntologyAwareTrait;
 
     public const SERVICE_ID = 'tao/IndexService';
-    public const INDEX_MAP_PROPERTY_DEFAULT = 'default';
-    public const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
-
-    public const OPTION_DOCUMENT_BUILDER = 'documentBuilder';
 
     /**
      * Run a full reindexing
@@ -68,7 +64,7 @@ class IndexService extends ConfigurableService
      */
     public function getDocumentBuilder(): IndexDocumentBuilderInterface
     {
-        return $this->getOption(self::OPTION_DOCUMENT_BUILDER);
+        return $this->getServiceLocator()->getContainer()->get(IndexDocumentBuilderInterface::class);
     }
 
     /**

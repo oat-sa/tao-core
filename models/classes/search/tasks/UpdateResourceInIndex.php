@@ -129,10 +129,7 @@ class UpdateResourceInIndex implements Action, ServiceLocatorAwareInterface, Tas
             return $this->getServiceLocator()->getContainer()->get(AdvancedSearchIndexDocumentBuilder::class);
         }
 
-        $documentBuilder = $this->getIndexService()->getDocumentBuilder();
-        $documentBuilder->setServiceLocator($this->getServiceLocator());
-
-        return $documentBuilder;
+        return $this->getIndexService()->getDocumentBuilder();
     }
 
     private function getSearchProxy(): SearchProxy
