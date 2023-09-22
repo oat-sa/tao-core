@@ -65,7 +65,7 @@ class IndexServiceTest extends TestCase
         $this->ontology = $this->createMock(Ontology::class);
         $this->indexDocumentBuilder = $this->createMock(IndexDocumentBuilder::class);
         $this->sut = new IndexService();
-        $this->sut->setOption(IndexService::OPTION_DOCUMENT_BUILDER, $this->indexDocumentBuilder);
+       ///TODO $this->sut->setOption(IndexService::OPTION_DOCUMENT_BUILDER, $this->indexDocumentBuilder);
         $this->sut->setServiceManager(
             $this->getServiceManagerMock(
                 [
