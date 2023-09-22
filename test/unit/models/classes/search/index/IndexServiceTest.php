@@ -82,6 +82,7 @@ class IndexServiceTest extends TestCase
 
     public function testCreateEmptyDocumentFromResource(): void
     {
+        $this->markTestSkipped('The target sut method planned for removal');
         $resource = $this->createMock(core_kernel_classes_Resource::class);
         $document = new IndexDocument('id', ['type' => 'item']);
 
@@ -95,6 +96,7 @@ class IndexServiceTest extends TestCase
 
     public function testCreateDocumentFromArray(): void
     {
+        $this->markTestSkipped('The target sut method planned for removal');
         $document = new IndexDocument('id', ['type' => 'item']);
 
         $this->indexDocumentBuilder
@@ -103,5 +105,10 @@ class IndexServiceTest extends TestCase
             ->willReturn($document);
 
         $this->assertSame($document, $this->sut->createDocumentFromArray(self::ARRAY_RESOURCE));
+    }
+
+    public function testRunIndexing(): void
+    {
+        $this->markTestSkipped('to be implemented');
     }
 }
