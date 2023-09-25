@@ -20,7 +20,7 @@
 
 namespace oat\tao\model\search\index;
 
-use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
+use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -28,13 +28,13 @@ class IndexIterator extends \IteratorIterator implements ServiceLocatorAwareInte
 {
     use ServiceLocatorAwareTrait;
 
-    /** @var IndexDocumentBuilder  */
+    /** @var IndexDocumentBuilderInterface  */
     private $indexService = null;
 
-    protected function getIndexer(): IndexDocumentBuilder
+    protected function getIndexer(): IndexDocumentBuilderInterface
     {
         if (is_null($this->indexService)) {
-            $this->indexService = $this->getServiceLocator()->get(IndexDocumentBuilder::class);
+            $this->indexService = $this->getServiceLocator()->getContainer()->get(IndexDocumentBuilderInterface::class);
         }
 
         return $this->indexService;
