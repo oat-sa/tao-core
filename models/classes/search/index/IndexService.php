@@ -40,10 +40,6 @@ class IndexService extends ConfigurableService
     use OntologyAwareTrait;
 
     public const SERVICE_ID = 'tao/IndexService';
-    public const INDEX_MAP_PROPERTY_DEFAULT = 'default';
-    public const INDEX_MAP_PROPERTY_FUZZY = 'fuzzy';
-
-    public const OPTION_DOCUMENT_BUILDER = 'documentBuilder';
 
     /**
      * Run a full reindexing
@@ -62,13 +58,14 @@ class IndexService extends ConfigurableService
     }
 
     /**
-     * Returns a factory to get the IndexDocument Builder
+     * Returns IndexDocument Builder
      *
-     * return IndexDocumentBuilderInterface
+     * @return IndexDocumentBuilderInterface
+     * @deprecated use DI Container instead
      */
     public function getDocumentBuilder(): IndexDocumentBuilderInterface
     {
-        return $this->getOption(self::OPTION_DOCUMENT_BUILDER);
+        return $this->getServiceLocator()->getContainer()->get(IndexDocumentBuilderInterface::class);
     }
 
     /**
@@ -82,9 +79,10 @@ class IndexService extends ConfigurableService
      */
     public function createDocumentFromResource(\core_kernel_classes_Resource $resource): IndexDocument
     {
+        trigger_error('Method ' . __METHOD__ . ' is deprecated', E_USER_DEPRECATED);
+
         /** @var IndexDocumentBuilder $documentBuilder */
         $documentBuilder = $this->getDocumentBuilder();
-        $documentBuilder->setServiceLocator($this->getServiceLocator());
 
         return $documentBuilder->createDocumentFromResource($resource);
     }
@@ -100,6 +98,8 @@ class IndexService extends ConfigurableService
      */
     public function createDocumentFromArray($array = []): IndexDocument
     {
+        trigger_error('Method ' . __METHOD__ . ' is deprecated', E_USER_DEPRECATED);
+
         if (!isset($array['body'])) {
             throw new \common_exception_MissingParameter('body');
         }
