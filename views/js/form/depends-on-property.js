@@ -18,8 +18,7 @@
 
  define([
     'jquery',
-    'lodash'
-], function ($, _) {
+], function ($) {
     'use strict';
     /**
      * Returns if the depedsOn select is hidden or not
@@ -59,7 +58,7 @@
 
         if (!$wrapper) {
             $wrapper = $dependsOnSelectbox;
-            while (!_.isEqual($wrapper.parent()[0], $container[0])) {
+            while ($wrapper.parent()[0] !== $container[0]) {
                 $wrapper = $wrapper.parent();
             }
         }

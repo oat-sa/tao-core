@@ -27,7 +27,7 @@
  *
  * @requires $.noUiSlider
  */
-define(['jquery', 'lodash', 'nouislider'], function($, _) {
+define(['jquery', 'nouislider'], function($) {
 
     $.fn.labeledSlider = function(options) {
 
@@ -50,7 +50,7 @@ define(['jquery', 'lodash', 'nouislider'], function($, _) {
 
             // does it have labels?
             var hasLabels = (function() {
-                return _.isString(labels)
+                return typeof labels === "string";
             }());
 
             // continue if no markers are required
@@ -63,7 +63,7 @@ define(['jquery', 'lodash', 'nouislider'], function($, _) {
 
                 // 1. position not set but indicated by labels
                 // default to after
-                if (!stepPosition && _.isString(labels)) {
+                if (!stepPosition && typeof labels === "string") {
                     stepPosition = 'after';
                 }
 
@@ -74,7 +74,7 @@ define(['jquery', 'lodash', 'nouislider'], function($, _) {
                 }
 
                 // test validity of value, must be either before|after
-                if (_.contains(['before', 'after'], stepPosition)) {
+                if (['before', 'after'].includes(stepPosition)) {
                     return stepPosition;
                 }
                 throw ('Invalid value ' + stepPosition + ' for options.stepPosition');

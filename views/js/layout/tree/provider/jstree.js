@@ -23,7 +23,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'context',
     'core/store',
@@ -36,7 +35,7 @@ define([
     'ui/feedback',
     'uri',
     'jquery.tree'
-], function($, _, __, context, store, Promise, urlUtil, generisRouter, actionManager, sectionManager, permissionsManager, feedback, uri){
+], function($, __, context, store, Promise, urlUtil, generisRouter, actionManager, sectionManager, permissionsManager, feedback, uri){
     'use strict';
 
     var pageRange = 30;
@@ -83,17 +82,17 @@ define([
             };
 
             //these are the parameters added to the server call to load data
-            var serverParams = _.defaults(options.serverParameters || {}, {
-                extension       : context.shownExtension,
-                perspective     : context.shownStructure,
-                section         : context.section,
-                // eslint-disable-next-line no-undefined
-                classUri        : options.rootClassUri ? options.rootClassUri : undefined,
-                hideInstances   : options.hideInstances || 0,
-                filter          : '*',
-                offset          : 0,
-                limit           : pageRange
-            });
+            const serverParams = {
+                extension: context.shownExtension,
+                perspective: context.shownStructure,
+                section: context.section,
+                classUri: options.rootClassUri || undefined,
+                hideInstances: options.hideInstances || 0,
+                filter: '*',
+                offset: 0,
+                limit: pageRange,
+                ...options.serverParameters
+            };
 
             //list of events callbacks to be bound to the tree
             var events = {
@@ -122,8 +121,11 @@ define([
                         }
 
                         //update the state with data to be used later (ie. filter value, etc.)
-                        treeState = _.merge($container.data('tree-state') || {}, data);
-                        treeState = _.omit(treeState, 'selectNode');
+                        treeState = {
+                            ...$container.data('tree-state'),
+                            ...data
+                        };
+                        delete treeState.selectNode;
 
                         if (data && data.loadNode) {
                             tree.deselect_branch(tree.selected);
@@ -155,7 +157,7 @@ define([
                             $.tree.rollback(treeState.rollback);
 
                             //remove the rollback infos.
-                            setTreeState(_.omit(treeState, 'rollback'));
+                            setTreeState({ ...treeState, rollback: undefined });
                         } else {
                             //trigger a full refresh
                             $container.trigger('refresh.taotree');
@@ -176,7 +178,7 @@ define([
                     var tree =  $.tree.reference($container);
                     var parentNode = tree.get_node($('#' + uri.encode(data.parent), $container).get(0));
 
-                    var params = _.clone(serverParams);
+                    const params = { ...serverParams };
 
                     params.classUri = data.parent;
                     if (data.cssClass === 'node-class') {
@@ -191,11 +193,9 @@ define([
                         async       : tree.settings.data.async,
                         data        : params,
                         success     : function (response) {
-                            var treeData = getTreeData(response);
-                            var items = treeData.children || treeData;
-                            var node = _.filter(items, function (child) {
-                                return child.attributes && child.attributes['data-uri'] === data.uri;
-                            });
+                            const treeData = getTreeData(response);
+                            const items = treeData.children || treeData;
+                            const node = items.filter(child => child.attributes && child.attributes['data-uri'] === data.uri);
                             if (node.length) {
                                 tree.select_branch(
                                     tree.create(node[0], parentNode)
@@ -300,7 +300,7 @@ define([
                      */
                     beforedata: function beforedata($node) {
                         var treeData = $container.data('tree-state');
-                        var params = _.clone(serverParams);
+                        const params = { ...serverParams };
                         if($node && $node.length){
                             params.classUri = $node.data('uri');
                         }
@@ -312,16 +312,15 @@ define([
                         if(treeData){
 
                             //the tree has been loaded/refreshed with the filtering
-                            if(_.isString(treeData.filter) && treeData.filter.length){
+                            if (typeof treeData.filter === 'string' && treeData.filter.length) {
                                 params.filter = treeData.filter;
-                                treeData = _.omit(treeData, 'filter');
+                                delete treeData.filter;
                             }
 
-                            //the tree has been loaded/refreshed with the loadNode parameter, so it has to be selected
-                            if(_.isString(treeData.loadNode) && treeData.loadNode.length){
+                            if (typeof treeData.loadNode === 'string' && treeData.loadNode.length) {
                                 params.selected = treeData.loadNode;
                                 treeData.selectNode = uri.encode(treeData.loadNode);
-                                treeData = _.omit(treeData, 'loadNode');
+                                delete treeData.loadNode;
                             }
 
                             setTreeState(treeData);
@@ -405,7 +404,7 @@ define([
                         } else {
                             //open the first class
                             tree.open_branch($firstClass, false, function(){
-                                _.delay(nodeSelection, 10); //delay needed as jstree seems to doesn't know the callbacks right now...,
+                                setTimeout(nodeSelection, 10); //delay needed as jstree seems to doesn't know the callbacks right now...,
                             });
                         }
 
@@ -483,7 +482,7 @@ define([
                             nodeContext.context = ['class', 'resource'];
 
                             //Check if any class-level action is defined in the structures.xml file
-                            classActions = _.intersection(_.pluck(options.actions, 'context'), ['class', 'resource', '*']);
+                            classActions = options.actions.filter(action => ['class', 'resource', '*'].includes(action.context)).map(action => action.context);
                             if (classActions.length > 0) {
                                 generisRouter.pushNodeState(location.href, uri.decode(nodeContext.classUri));
                                 executePossibleAction(options.actions, nodeContext, ['delete']);
@@ -541,7 +540,7 @@ define([
                         }
 
                         //set the rollback data
-                        setTreeState(_.merge($container.data('tree-state'), {rollback : rollback}));
+                        setTreeState({ ...$container.data('tree-state'), rollback });
 
                         //execute the selectInstance action
                         actionManager.exec(options.actions.moveInstance, {
@@ -564,13 +563,13 @@ define([
                 return new Promise( function (resolve) {
 
                     //bind events from the definition below
-                    _.forEach(events, function(callback, name){
+                    for (const [name, callback] of Object.entries(events)) {
                         $container
                             .off(name + '.taotree')
                             .on(name + '.taotree', function(){
                                 callback.apply(this, Array.prototype.slice.call(arguments, 1));
                             });
-                    });
+                    }
 
                     //forward some events
                     actionManager.on('refresh', function(node){
@@ -647,8 +646,8 @@ define([
              */
             function computeSelectionAccess(node){
 
-                if(_.isArray(node)){
-                    _.forEach(node, computeSelectionAccess);
+                if (Array.isArray(node)) {
+                    node.forEach(computeSelectionAccess);
                     return;
                 }
                 if(node.type && node.type !== nodeTypes.more){
@@ -658,7 +657,7 @@ define([
                     }
                 }
                 if(node.children){
-                    _.forEach(node.children, computeSelectionAccess);
+                    node.children.forEach(computeSelectionAccess);
                 }
             }
 
@@ -672,8 +671,8 @@ define([
                 var nodeId = node.attributes['data-uri'];
 
                 var rights = permissionsManager.getRights();
-                var count    = _.reduce(rights, function(acc, right){
-                    if(permissionsManager.hasPermission(nodeId, right)){
+                var count = rights.reduce(function(acc, right) {
+                    if (permissionsManager.hasPermission(nodeId, right)) {
                         acc++;
                     }
                     return acc;
@@ -694,21 +693,21 @@ define([
              * @private
              * @param {Object} node - the tree node as recevied from the server
              */
-            function addTitle(node){
-                if(_.isArray(node)){
-                    _.forEach(node, addTitle);
+            function addTitle(node) {
+                if (Array.isArray(node)) {
+                    node.forEach(addTitle);
                     return;
                 }
-                if(node.attributes && node.data){
+                if (node.attributes && node.data) {
                     node.attributes.title = node.data;
                 }
-                if(node.children){
-                    _.forEach(node.children, addTitle);
+                if (node.children) {
+                    node.children.forEach(addTitle);
                 }
             }
 
             function needMore(node){
-                if(_.isArray(node) && lastOpened && lastOpened.length && lastOpened.data('count') > pageRange){
+                if(Array.isArray(node) && lastOpened && lastOpened.length && lastOpened.data('count') > pageRange){
                     node.push(moreNode);
                 } else {
                     if(node.count){
@@ -718,11 +717,11 @@ define([
                             node.children.push(moreNode);
                         }
                     }
-                    if(node.children){
-                        _.forEach(node.children, needMore);
+                    if (node.children) {
+                        node.children.forEach(needMore);
                     }
-                    if(_.isArray(node)){
-                        _.forEach(node, needMore);
+                    if (Array.isArray(node)) {
+                        node.forEach(needMore);
                     }
                 }
             }
@@ -731,12 +730,13 @@ define([
                 var current     = $parentNode.children('ul').children('li.node-instance').length;
                 var count       = $parentNode.data('count');
                 var left        = count - current;
-                var params      = _.defaults({
-                    'classUri'      : $parentNode.attr('id'),
-                    'subclasses'    : 0,
-                    'offset'        : current,
-                    'limit'         : left < 0 ? pageRange : (left < pageRange ? left : pageRange)
-                }, serverParams);
+                var params = {
+                    'classUri': $parentNode.attr('id'),
+                    'subclasses': 0,
+                    'offset': current,
+                    'limit': left < 0 ? pageRange : (left < pageRange ? left : pageRange),
+                    ...serverParams
+                };
 
                 $.ajax(tree.settings.data.opts.url, {
                     type        : tree.settings.data.opts.method,
@@ -745,18 +745,18 @@ define([
                     data        : params
                 }).done(function(response){
                     var treeData = getTreeData(response);
-                    if(treeData && _.isArray(treeData.children)){
+                    if (treeData && Array.isArray(treeData.children)) {
                         treeData = treeData.children;
                     }
-                    if(_.isArray(treeData)){
-                        _.forEach(treeData, function(newNode){
-                            if(newNode.type === 'instance'){   //yes the server send also the class, even though I ask him gently...
+                    if (Array.isArray(treeData)) {
+                        treeData.forEach(newNode => {
+                            if (newNode.type === 'instance') {
                                 tree.create(newNode, $parentNode);
                             }
                         });
                         tree.deselect_branch($node);
                         tree.remove($node);
-                        if(left - treeData.length > 0){
+                        if (left - treeData.length > 0) {
                             tree.create(moreNode, $parentNode);
                         }
                     }
@@ -775,13 +775,13 @@ define([
             */
             function executePossibleAction(actions, nodeContext, exclude) {
                 var possibleActions;
-                if (!_.isArray(exclude)) {
+                if (!Array.isArray(exclude)) {
                     exclude = [];
                 }
 
-                possibleActions = _.filter(actions, function (action, name) {
-                    var possible = _.contains(nodeContext.context, action.context);
-                    return possible && !_.contains(exclude, name);
+                possibleActions = Object.entries(actions).filter(([name, action]) => {
+                    const possible = nodeContext.context.includes(action.context);
+                    return possible && !exclude.includes(name);
                 });
                 //execute the first allowed action
                 if(possibleActions.length > 0){

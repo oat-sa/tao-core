@@ -18,7 +18,7 @@
 /**
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define(['lodash', 'jquery', 'layout/generisRouter'], function(_, $, generisRouter) {
+define(['jquery', 'layout/generisRouter'], function($, generisRouter) {
     'use strict';
 
     var location = window.history.location || window.location;
@@ -186,7 +186,7 @@ define(['lodash', 'jquery', 'layout/generisRouter'], function(_, $, generisRoute
 
             generisRouter.pushSectionState(data.baseUrl, data.sectionId);
 
-            assert.ok(_.isNull(window.history.state), 'state has not been updated');
+            assert.ok(window.history.state === null, 'state has not been updated');
             ready();
         });
 
@@ -209,7 +209,7 @@ define(['lodash', 'jquery', 'layout/generisRouter'], function(_, $, generisRoute
                 expectedSectionId: '',
                 expectedRestoreWith: 'activate',
                 expectedNodeUri: 'http://tao/mytao.rdf#i888888888888888',
-                setExistingState: _.noop
+                setExistingState: () => {}
             },
             {
                 title: 'Change the uri parameter. With section param, no existing state.',
@@ -219,7 +219,7 @@ define(['lodash', 'jquery', 'layout/generisRouter'], function(_, $, generisRoute
                 expectedSectionId: 'manage_items',
                 expectedRestoreWith: 'activate',
                 expectedNodeUri: 'http://tao/mytao.rdf#i888888888888888',
-                setExistingState: _.noop
+                setExistingState: () => {}
             },
             {
                 title: 'Change the uri parameter. No section param, existing state.',
@@ -285,7 +285,7 @@ define(['lodash', 'jquery', 'layout/generisRouter'], function(_, $, generisRoute
                 expectedSectionId: '',
                 expectedRestoreWith: 'activate',
                 expectedNodeUri: 'http://tao/mytao.rdf#i888888888888888',
-                setExistingState: _.noop
+                setExistingState: () => {}
             },
             {
                 title: 'Add the uri parameter. With section param, no existing state.',
@@ -295,7 +295,7 @@ define(['lodash', 'jquery', 'layout/generisRouter'], function(_, $, generisRoute
                 expectedSectionId: 'manage_items',
                 expectedRestoreWith: 'activate',
                 expectedNodeUri: 'http://tao/mytao.rdf#i888888888888888',
-                setExistingState: _.noop
+                setExistingState: () => {}
             },
             {
                 title: 'Add the uri parameter. No section param, existing state.',
@@ -377,7 +377,7 @@ define(['lodash', 'jquery', 'layout/generisRouter'], function(_, $, generisRoute
 
             generisRouter.pushNodeState(data.baseUrl, data.nodeUri);
 
-            assert.ok(_.isNull(window.history.state), 'state has not been updated');
+            assert.ok(window.history.state === null, 'state has not been updated');
             ready();
         });
 

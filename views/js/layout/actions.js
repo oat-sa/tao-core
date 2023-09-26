@@ -20,14 +20,13 @@
  */
 define([
     'jquery',
-    'lodash',
     'core/eventifier',
     'core/promise',
     'lib/uuid',
     'layout/actions/binder',
     'layout/actions/common',
     'layout/permissions'
-], function($, _, eventifier, Promise, uuid, binder, commonActions, permissionsManager){
+], function($, eventifier, Promise, uuid, binder, commonActions, permissionsManager){
     'use strict';
 
     /**
@@ -161,15 +160,15 @@ define([
 
             context = context || {};
 
-            if(_.isArray(context) ) {
-                hasClasses = _.some(context, { type : 'class' });
-                hasInstances = _.some(context, { type : 'instance' });
+            if(Array.isArray(context)) {
+                hasClasses = context.some(item => item.type === 'class');
+                hasInstances = context.some(item => item.type === 'instance');
 
-                _.forEach(actions, function(action){
+                actions.forEach(function(action){
                     //if some has not the permissions we deny
-                    var hasPermissionDenied = _.some(context, function(resource){
-                        return !permissionsManager.isContextAllowed(action.rights, resource);
-                    });
+                    var hasPermissionDenied = context.some(resource =>
+                        !permissionsManager.isContextAllowed(action.rights, resource)
+                    );
 
                     if( context.length &&
                         action.multiple &&
@@ -193,7 +192,7 @@ define([
                     current = context.uri ? 'instance' : context.classUri ? 'class' : 'none';
                 }
 
-                _.forEach(actions, function(action){
+                actions.forEach(function(action){
 
                     var allowed = permissionsManager.isContextAllowed(action.rights, context);
 
@@ -224,16 +223,20 @@ define([
          * Update the state of the actions regarding the values of their state property
          */
         updateState : function updateState(){
-            _.forEach(actions, function(action, id){
-                var $elt = $('#' + id);
-                _.forEach(['hidden', 'disabled', 'active'], function(state){
-                    if(action.state[state] === true){
+            for (let id in actions) {
+                if (!actions.hasOwnProperty(id)) {
+                    continue;
+                }
+                const action = actions[id];
+                const $elt = $('#' + id);
+                for (let state of ['hidden', 'disabled', 'active']) {
+                    if (action.state[state] === true) {
                         $elt.addClass(state);
                     } else {
                         $elt.removeClass(state);
                     }
-                });
-            });
+                }
+            }
         },
 
         /**
@@ -247,19 +250,19 @@ define([
          */
         exec : function exec(action, context){
             var self = this;
-            if(_.isString(action)){
-                if(_.isPlainObject(actions[action])){
+            if(typeof action === 'string'){
+                if(isPlainObject(actions[action])){
                     //try to find by id
                     action = actions[action];
                 } else {
                     //or by by name
-                    action = _.find(actions, {name : action});
+                    action = actions.find(item => item.name === action);
                 }
             }
-            if(_.isPlainObject(action)){
+            if(isPlainObject(action)){
 
                 //make the executed action active
-                _.forEach(actions, function(otherAction){
+                Object.values(actions).forEach(otherAction => {
                     otherAction.state.active = false;
                 });
                 action.state.active = true;
@@ -303,16 +306,23 @@ define([
          */
         getBy : function(actionName){
             var action;
-            if(_.isPlainObject(actions[actionName])){
+            if(isPlainObject(actions[actionName])){
                 //try to find by id
                 action = actions[actionName];
             } else {
                 //or by by name
-                action = _.find(actions, {name : actionName});
+                action = actions.find(item => item.name === actionName);
             }
             return action;
         }
     });
+
+    function isPlainObject(value) {
+        if (typeof value !== 'object' || value === null) return false;
+
+        const proto = Object.getPrototypeOf(value);
+        return proto === null || proto === Object.prototype;
+    }
 
     return actionManager;
 });

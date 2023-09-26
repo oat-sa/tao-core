@@ -23,7 +23,7 @@
  **
  * @author Christophe Noël <christophe@taotesting.com>
  */
-define(['jquery', 'lodash', 'core/eventifier', 'util/url'], function($, _, eventifier, urlUtil) {
+define(['jquery', 'core/eventifier', 'util/url'], function($, eventifier, urlUtil) {
     'use strict';
 
     /**
@@ -47,10 +47,13 @@ define(['jquery', 'lodash', 'core/eventifier', 'util/url'], function($, _, event
          */
         pushSectionState: function pushSectionState(baseUrl, sectionId, restoreWith) {
             const parsedUrl = urlUtil.parse(baseUrl);
-            const currentQuery = _.mapValues(parsedUrl.query, function(value, key) {
-                return key === 'uri' ? decodeURIComponent(value) : value;
-            });
-            const newQuery = _.clone(currentQuery);
+            const currentQuery = {...parsedUrl.query};
+            for (let key in currentQuery) {
+                if (key === 'uri') {
+                    currentQuery[key] = decodeURIComponent(currentQuery[key]);
+                }
+            }
+            const newQuery = {...currentQuery};
             const baseUrlHasSection = currentQuery.section;
             const baseUrlHasUri = currentQuery.uri;
 
@@ -71,7 +74,7 @@ define(['jquery', 'lodash', 'core/eventifier', 'util/url'], function($, _, event
                 delete newState.nodeUri;
             }
 
-            if (sectionId && !_.isEqual(currentQuery, newQuery)) {
+            if (sectionId && JSON.stringify(currentQuery) !== JSON.stringify(newQuery)) {
                 stateUrl = urlUtil.build(parsedUrl.path, newQuery);
 
                 if (baseUrlHasSection) {
@@ -101,10 +104,12 @@ define(['jquery', 'lodash', 'core/eventifier', 'util/url'], function($, _, event
          */
         pushNodeState: function pushNodeState(baseUrl, nodeUri) {
             const parsedUrl = urlUtil.parse(baseUrl);
-            const currentQuery = _.mapValues(parsedUrl.query, function(value, key) {
-                return key === 'uri' ? decodeURIComponent(value) : value;
-            });
-            const newQuery = _.clone(currentQuery);
+            const currentQuery = Object.fromEntries(
+                Object.entries(parsedUrl.query).map(([key, value]) =>
+                    [key, key === 'uri' ? decodeURIComponent(value) : value]
+                )
+            );
+            const newQuery = {...currentQuery};
             const baseUrlHasUri = currentQuery.uri;
 
             const currentState = window.history.state || {};
@@ -118,7 +123,7 @@ define(['jquery', 'lodash', 'core/eventifier', 'util/url'], function($, _, event
                 newQuery.uri = nodeUri;
             }
 
-            if (nodeUri && !_.isEqual(currentQuery, newQuery)) {
+            if (nodeUri && JSON.stringify(currentQuery) !== JSON.stringify(newQuery)) {
                 const stateUrl = urlUtil.build(parsedUrl.path, newQuery);
 
                 if (baseUrlHasUri) {

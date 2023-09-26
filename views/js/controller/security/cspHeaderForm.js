@@ -1,11 +1,10 @@
 define([
     'jquery',
-    'lodash',
     'i18n',
     'ui/feedback',
     'ui/tooltip'
 ],
-function($, _, __, feedback, tooltip) {
+function($, __, feedback, tooltip) {
     'use strict';
 
 

@@ -352,7 +352,7 @@ define([
             if ($currentTarget.val() === 'notEmpty' && !context.featureFlags.FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED) {
                 $currentTarget.hide();
             }
-            while (!_.isEqual($currentTarget.parent()[0], $container[0])) {
+            while ($currentTarget.parent()[0] !== $container[0]) {
                 $currentTarget = $currentTarget.parent();
             }
             $currentTarget.hide();
@@ -363,7 +363,7 @@ define([
     function _showProperties($container) {
         $('.property', $container).each(function () {
             var $currentTarget = $(this);
-            while (!_.isEqual($currentTarget.parent()[0], $container[0])) {
+            while ($currentTarget.parent()[0] !== $container[0]) {
                 $currentTarget = $currentTarget.parent();
             }
             if ($(this).hasClass('property-depends-on')) {
@@ -396,7 +396,7 @@ define([
     function _hideIndexes($container) {
         $('.index', $container).each(function () {
             var $currentTarget = $(this);
-            while (!_.isEqual($currentTarget.parent()[0], $container[0])) {
+            while ($currentTarget.parent()[0] !== $container[0]) {
                 $currentTarget = $currentTarget.parent();
             }
             $currentTarget.hide();
@@ -409,7 +409,7 @@ define([
     function _showIndexes($container) {
         $('.index', $container).each(function () {
             var $currentTarget = $(this);
-            while (!_.isEqual($currentTarget.parent()[0], $container[0])) {
+            while ($currentTarget.parent()[0] !== $container[0]) {
                 $currentTarget = $currentTarget.parent();
             }
             $currentTarget.show();

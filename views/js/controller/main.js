@@ -24,7 +24,6 @@
 define([
     'module',
     'jquery',
-    'lodash',
     'context',
     'core/router',
     'helpers',
@@ -41,7 +40,7 @@ define([
     'layout/search',
     'layout/tree/loader',
     'layout/section-height',
-], function(module, $, _, context, router, helpers, uiForm, urlUtil, loggerFactory, feedback, generisRouter, sections, actionManager,versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
+], function(module, $, context, router, helpers, uiForm, urlUtil, loggerFactory, feedback, generisRouter, sections, actionManager,versionWarning, loadingBar, nav, search, treeLoader, sectionHeight){
     'use strict';
 
     const logger = loggerFactory('controller/main');
@@ -57,7 +56,7 @@ define([
     const sectionTree = function sectionTree($container, section) {
 
         //get the tree actions
-        const treeActions  = _.reduce($container.data('actions'), (acc, id, key) => {
+        const treeActions = Object.entries($container.data('actions')).reduce((acc, [key, id]) => {
             const action = actionManager.getBy(id);
             if(action){
                 acc[key] = action;
@@ -125,7 +124,7 @@ define([
 
             actionManager.on('contextchange', actionContext => {
                 // in case of multi selection, the main panel should be empty
-                if (_.isArray(actionContext) && actionContext.length !== 1) {
+                if (Array.isArray(actionContext) && actionContext.length !== 1) {
                     sections.current().updateContentBlock('<div class="main-container flex-container-form-main"></div>');
                 }
             });
@@ -184,7 +183,7 @@ define([
             uiForm.init();
 
             //dispatch also extra registered controllers
-            if(config && _.isArray(config.extraRoutes) && config.extraRoutes.length){
+            if(config && Array.isArray(config.extraRoutes) && config.extraRoutes.length){
                 router.dispatch(config.extraRoutes);
             }
         }

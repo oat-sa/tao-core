@@ -20,13 +20,11 @@
  */
 define([
     'jquery',
-    'lodash',
     'context',
     'util/url',
     'layout/generisRouter'
 ], function(
     $,
-    _,
     context,
     url,
     generisRouter
@@ -235,19 +233,19 @@ define([
         _show : function(){
 
             var self = this;
-            var active = _(this.sections).where({'active' : true }).first();
+            var active = this.sections.find(section => section.active === true);
 
             //switch the active section if set previously
             if (this.selected && this.selected.id !== active.id) {
-                _.forEach(this.sections, function(section){
+                for (const section of this.sections) {
                     section.active = false;
-                });
+                }
                 this.sections[this.selected.id].active = true;
             } else {
                 this.current();
             }
 
-            _.where(this.sections, {'active' : false }).forEach(function(section){
+            this.sections.filter(section => !section.active).forEach(section => {
                 section.opener.removeClass('active');
                 section.panel.hide();
 
@@ -257,9 +255,9 @@ define([
                  * @param {Object} section - the section
                  */
                 self.scope.trigger('hide.section', [section]);
-
             });
-            _.where(this.sections, {'active' : true }).forEach(function(section){
+
+            this.sections.filter(section => section.active).forEach(section => {
                 section.opener.addClass('active');
                 section.panel.show();
 
@@ -341,7 +339,7 @@ define([
          * @returns {SectionApi} instance for chaining
          */
         current : function(){
-            this.selected =  _(this.sections).where({'active' : true }).first();
+            this.selected = this.sections.find(section => section.active === true);
             return this;
         },
 
@@ -364,10 +362,10 @@ define([
                 $sectionPanel,
                 section;
 
-            if (!_.isObject(data)) {
+            if (typeof data !== 'object') {
                 throw new TypeError("The create() method requires an object with section data as parameter.");
             }
-            if (!_.isString(data.id) || !_.isString(data.url) || !_.isString(data.name)) {
+            if (typeof data.id !== 'string' || typeof data.url !== 'string' || typeof data.name !== 'string') {
                 throw new TypeError("The create() method requires data with id, url and name to create a new section.");
             }
             if (typeof data.visible === 'undefined') {
@@ -433,7 +431,7 @@ define([
          */
         get : function(value){
             var section;
-            if (!_.isString(value)) {
+            if (typeof value !== 'string') {
                 throw new TypeError("The get() method requires a string parameter, the section id or url.");
             }
 
@@ -441,8 +439,8 @@ define([
             section =
                 this.sections[value] ||
                 this.sections[value.replace('panel-', '')] ||
-                _(this.sections).where({'url' : value }).first() ||
-                _(this.sections).where({'url' : context.root_url + value }).first();
+                this.sections.find(section => section.url === value) ||
+                this.sections.find(section => section.url === context.root_url + value);
             if (section) {
                 this.selected = section;
             } else {
@@ -487,7 +485,7 @@ define([
                  */
                 self.scope.trigger('load.section', [self.selected, response]);
 
-                if (_.isFunction(loaded)) {
+                if (typeof loaded === 'function') {
                     loaded();
                 }
             });

@@ -12,7 +12,7 @@
  * - i18n
  * - added support of alternative template
  */
-define(['jquery', 'lodash', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], function ($, _, templateTpl, __, gamp){
+define(['jquery', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gamp'], function ($, templateTpl, __, gamp){
 
     'use strict';
 
@@ -57,9 +57,9 @@ define(['jquery', 'lodash', 'tpl!lib/calculator/template', 'i18n', 'lib/gamp/gam
             calcObj = {},
             id = nextID;
 
-        config = _.defaults(config || {}, _defaults);
+        config = { ..._defaults, ...config };
 
-        if(_.isFunction(config.template)){
+        if (typeof config.template === "function") {
             calcTemplate = config.template.call(null);
         }else{
             throw new TypeError('invalid template in configuration');

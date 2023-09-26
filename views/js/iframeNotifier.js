@@ -17,52 +17,52 @@
  *
  *
  */
-define(['jquery', 'lodash'], function($, _){
-    
-    
+define(['jquery'], function($){
+
+
     function hasAccess(windowElt){
-        //if we are in the same domain, the parent must place the __knownParent__ variable 
+        //if we are in the same domain, the parent must place the __knownParent__ variable
         return !!(window.__knownParent__ && windowElt && windowElt !== window);
     }
-    
+
     /**
      * Use to notify an event from an iframe to it's parent.
      * If you're not in an iframe, nothing will happen.
-     * 
+     *
      * @author Bertrand Chevrier <bertrand@taotesting.com>
      * @exports iframeNotifier
      */
     var xDomMessaging = {
-        
-        
+
+
         /**
          * Notify the parent window's document
-         * @param {String} eventName - the name of the 
+         * @param {String} eventName - the name of the
          * @param {Array} [args] - event arguments
          */
         parent : function(eventName, args){
-            _.defer(function(){     //in next tick for thread safety
+            setTimeout(function() {     //in next tick for thread safety
                 if (hasAccess(window.parent) && window.parent.$) {
                     var _$ = window.parent.$;   //parent window jQuery instance
                     _$(window.parent.document).trigger(eventName, args || []);
                 }
-            });
+            }, 0);
         },
-        
+
         /**
          * Notify the top window's document
-         * @param {String} eventName - the name of the 
+         * @param {String} eventName - the name of the
          * @param {Array} [args] - event arguments
          */
         top : function(eventName, args){
-            _.defer(function(){     //in next tick for thread safety
+            setTimeout(function() {     //in next tick for thread safety
                 if (hasAccess(window.top) && window.top.$) {
-                    var _$ = window.top.$;   //parent window jQuery instance
+                    var _$ = window.top.$;   //top window jQuery instance
                     _$(window.top.document).trigger(eventName, args || []);
                 }
-            });
+            }, 0);
         }
     };
-    
+
     return xDomMessaging;
 });

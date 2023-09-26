@@ -15,7 +15,6 @@
 
 define([
     'jquery',
-    'lodash',
     'i18n',
     'context',
     'generis.tree',
@@ -23,7 +22,7 @@ define([
     'ui/feedback',
     'jquery.tree',
     'lib/jsTree/plugins/jquery.tree.checkbox'
-], function($, _, __, context, GenerisTreeClass, helpers, feedback) {
+], function($, __, context, GenerisTreeClass, helpers, feedback) {
     var GenerisTreeSelectClass = GenerisTreeClass.extend({
         /**
          * Constructor
@@ -230,7 +229,7 @@ define([
             var filteredChildren = [];
             var recursiveCheck = [];
 
-            _.each(children, function(dataObj) {
+            children.forEach((dataObj) => {
                 var key = dataObj.attributes['data-uri'];
 
                 if (dataObj.children && dataObj.children.length > 0) {
@@ -257,12 +256,13 @@ define([
             var self = this;
             var hiddenNodes = this.hiddenNodes;
 
-            if (_.isArray(nodes) && hiddenNodes && _.isArray(hiddenNodes)) {
-                _.remove(nodes, function(node) {
+            if (Array.isArray(nodes) && hiddenNodes && Array.isArray(hiddenNodes)) {
+                nodes = nodes.filter(node => {
                     if (node.type === 'instance') {
-                        return _.indexOf(hiddenNodes, node.attributes['data-uri']) >= 0;
+                        return hiddenNodes.indexOf(node.attributes['data-uri']) >= 0;
                     } else if (node.type === 'class' && node.children) {
                         self.removeHiddenNodes(node.children);
+                        return false;
                     }
                 });
             }

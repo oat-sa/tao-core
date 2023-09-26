@@ -18,10 +18,9 @@
 
 define([
     'jquery',
-    'lodash',
     'i18n',
     'ui/feedback'
-], function ($, _, __, feedback) {
+], function ($, __, feedback) {
     'use strict';
 
     /**

@@ -20,12 +20,11 @@
  */
 define([
     'jquery',
-    'lodash',
     'controller/app',
     'core/historyRouter',
     'core/logger',
     'ui/feedback'
-], function($, _, appController, historyRouterFactory, loggerFactory, feedback) {
+], function($, appController, historyRouterFactory, loggerFactory, feedback) {
     'use strict';
 
     var appControllerApi = [
@@ -117,7 +116,7 @@ define([
 
         $target.find('a').click();
 
-        _.delay(function () {
+        setTimeout(() => {
             ready();
         }, 300);
     });

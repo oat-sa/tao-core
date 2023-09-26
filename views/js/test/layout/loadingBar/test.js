@@ -19,7 +19,7 @@
 /**
  * @author Aleh Hutnikau <hutnikau@1pt.com>
  */
-define(['jquery', 'lodash', 'layout/loading-bar'], function($, _, loadingBar) {
+define(['jquery', 'layout/loading-bar'], function($, loadingBar) {
     'use strict';
 
     QUnit.module('layout/loading-bar');

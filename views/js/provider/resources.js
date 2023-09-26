@@ -21,8 +21,7 @@
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['lodash', 'i18n', 'util/url', 'core/promise', 'core/dataProvider/request', 'layout/permissions'], function (
-    _,
+define(['i18n', 'util/url', 'core/promise', 'core/dataProvider/request', 'layout/permissions'], function (
     __,
     urlUtil,
     Promise,
@@ -60,9 +59,9 @@ define(['lodash', 'i18n', 'util/url', 'core/promise', 'core/dataProvider/request
      * @returns {Object[]} the nodes augmented of the "accessMode=<partial|denied|allowed>" property
      */
     var computeNodeAccessMode = function computeNodeAccessMode(nodes) {
-        return _.map(nodes, function (node) {
+        return nodes.map(node => {
             node.accessMode = permissionsManager.getResourceAccessMode(node.uri);
-            if (_.isArray(node.children)) {
+            if (Array.isArray(node.children)) {
                 node.children = computeNodeAccessMode(node.children);
             }
             return node;
@@ -77,8 +76,8 @@ define(['lodash', 'i18n', 'util/url', 'core/promise', 'core/dataProvider/request
      * @returns {Array|Object}
      */
     function applyClassSignatures(resources, signature) {
-        if (_.isArray(resources)) {
-            _.forEach(resources, function (resource) {
+        if (Array.isArray(resources)) {
+            resources.forEach(resource => {
                 applyClassSignatures(resource, signature);
             });
         } else if (resources) {
@@ -102,7 +101,7 @@ define(['lodash', 'i18n', 'util/url', 'core/promise', 'core/dataProvider/request
      * @returns {resourceProvider} the new provider
      */
     return function resourceProviderFactory(config) {
-        config = _.defaults(config || {}, defaultConfig);
+        config = { ...defaultConfig, ...config };
 
         /**
          * @typedef {resourceProvider}
@@ -184,13 +183,13 @@ define(['lodash', 'i18n', 'util/url', 'core/promise', 'core/dataProvider/request
              * @returns {Promise<Object>} resolves with the data of the new resource
              */
             copyTo: function copyTo(uri, destinationClassUri, signature, aclMode) {
-                if (_.isEmpty(config.copyTo.url)) {
+                if (!config.copyTo.url) {
                     return Promise.reject('Please define the action URL');
                 }
-                if (_.isEmpty(uri)) {
+                if (!uri) {
                     return Promise.reject('The URI of the resource to copy must be defined');
                 }
-                if (_.isEmpty(destinationClassUri)) {
+                if (!destinationClassUri) {
                     return Promise.reject('The URI of the destination class must be defined');
                 }
                 // dataProvider request must be tokenised in this case (noToken=false)
@@ -224,7 +223,7 @@ define(['lodash', 'i18n', 'util/url', 'core/promise', 'core/dataProvider/request
 
                 if (!ids) {
                     ids = [];
-                } else if (!_.isArray(ids)) {
+                } else if (!Array.isArray(ids)) {
                     ids = [ids];
                 }
                 if (ids.length === 1) {
@@ -234,13 +233,13 @@ define(['lodash', 'i18n', 'util/url', 'core/promise', 'core/dataProvider/request
                     params.ids = ids;
                 }
 
-                if (_.isEmpty(config.moveTo.url)) {
+                if (!config.moveTo.url) {
                     return Promise.reject('Please define the action URL');
                 }
-                if (_.isEmpty(ids) || _.some(ids, _.isEmpty)) {
+                if (!ids || ids.some(id => !id)) {
                     return Promise.reject('The URI of the resource to move must be defined');
                 }
-                if (_.isEmpty(destinationClassUri)) {
+                if (!destinationClassUri) {
                     return Promise.reject('The URI of the destination class must be defined');
                 }
 

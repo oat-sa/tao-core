@@ -1,4 +1,4 @@
-define(['jquery', 'lodash', 'form/post-render-props'], function ($, _, postRenderProps) {
+define(['jquery', 'form/post-render-props'], function ($, postRenderProps) {
 
     /**
      * The data context for actions
@@ -64,7 +64,7 @@ define(['jquery', 'lodash', 'form/post-render-props'], function ($, _, postRende
                 },
                 dataType: 'html',
                 success: function () {
-                    if (_.isFunction(successCallback)) {
+                    if (typeof successCallback === "function") {
                         successCallback();
                     }
                 }

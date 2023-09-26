@@ -22,7 +22,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'module',
     'context',
@@ -31,7 +30,7 @@ define([
     'ui/login/login',
     'util/locale',
     'core/store'
-], function ($, _, __, module, context, loadingBar, versionWarning, loginComponent, locale, store) {
+], function ($, __, module, context, loadingBar, versionWarning, loginComponent, locale, store) {
     'use strict';
 
     var _defaults = {
@@ -52,7 +51,7 @@ define([
          * Controller entry point
          */
         start: function start() {
-            var conf = _.defaults({}, module.config(), _defaults);
+            const conf = { ..._defaults, ...module.config() };
             var login = loginComponent($('#login-box-inner-container'), conf);
 
             login.on('init', function() {

@@ -4,11 +4,10 @@
  * @deprecated Do not use it anymore. Only here for backward compat.
  */
 define([
-    'lodash',
     'jquery',
     'context',
     'layout/loading-bar'
-], function (_, $, context, loadingBar) {
+], function ($, context, loadingBar) {
     'use strict';
 
     var Helpers = {
@@ -120,14 +119,21 @@ define([
 
             url = context.root_url + extension + '/' + controller + '/' + action;
 
-            if(_.isString(params)) {
+            if(typeof params === 'string') {
                 url += '?' + params;
-            } else if (_.isPlainObject(params)) {
+            } else if (isPlainObject(params)) {
                 url += '?' + $.param(params);
             }
             return url;
         }
     };
+
+    function isPlainObject(value) {
+        if (typeof value !== 'object' || value === null) return false;
+
+        const proto = Object.getPrototypeOf(value);
+        return proto === null || proto === Object.prototype;
+    }
 
     return Helpers;
 });

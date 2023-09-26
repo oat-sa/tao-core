@@ -18,7 +18,7 @@
 /**
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
-define(['lodash'], function(_){
+define([], function(){
     'use strict';
 
     /**
@@ -70,7 +70,7 @@ define(['lodash'], function(_){
             if(action && action.binding){
 
                 name = action.binding;
-                if(_.isFunction(bindings[name])){
+                if (typeof bindings[name] === "function") {
                     return bindings[name].call(action, context);
                 }
             }

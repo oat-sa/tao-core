@@ -19,7 +19,6 @@
  * @author Jean-Sébastien Conan <jean-sebastien@taotesting.com>
  */
 define([
-    'lodash',
     'jquery',
     'core/historyRouter',
     'core/logger',
@@ -28,7 +27,7 @@ define([
     'util/url',
     'ui/feedback',
     'layout/logout-event'
-], function (_, $, historyRouterFactory, loggerFactory, eventifier, statifier, urlUtil, feedback, logoutEvent) {
+], function ($, historyRouterFactory, loggerFactory, eventifier, statifier, urlUtil, feedback, logoutEvent) {
     'use strict';
 
     /**
@@ -170,12 +169,13 @@ define([
             var options = {message: message};
 
             appLogger.error(err);
-            if (err.code === 403){
-                options = _.defaults(options, redirectUrl ||  {});
+            if (err.code === 403) {
+                options = { ...redirectUrl || {}, ...options };
                 logoutEvent(options);
-            }else{
+            } else {
                 feedback().error(message);
             }
+
             return this;
         }
     }));

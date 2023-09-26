@@ -23,7 +23,6 @@ define([
     'module',
     'jquery',
     'i18n',
-    'lodash',
     'core/promise',
     'core/request',
     'layout/section',
@@ -39,7 +38,6 @@ define([
     module,
     $,
     __,
-    _,
     Promise,
     request,
     section,
@@ -86,7 +84,11 @@ define([
          * @param {String} [actionContext.classUri]
          */
         binder.register('load', function load(actionContext) {
-            section.current().loadContentBlock(this.url, _.pick(actionContext, ['uri', 'classUri', 'id']));
+            section.current().loadContentBlock(this.url, {
+                uri: actionContext.uri,
+                classUri: actionContext.classUri,
+                id: actionContext.id
+            });
         });
 
         /**
@@ -341,16 +343,17 @@ define([
             var classes;
             var instances;
 
-            if (!_.isArray(actionContexts)) {
+            if (!Array.isArray(actionContexts)) {
                 actionContexts = [actionContexts];
             }
 
-            classes = _.filter(actionContexts, { type: 'class' });
-            instances = _.filter(actionContexts, { type: 'instance' });
+            classes = actionContexts.filter(context => context.type === 'class');
+            instances = actionContexts.filter(context => context.type === 'instance');
 
-            data.ids = _.map(actionContexts, function (elem) {
-                return { id: elem.id, signature: elem.signature };
-            });
+            data.ids = actionContexts.map(elem => ({
+                id: elem.id,
+                signature: elem.signature
+            }));
 
             if (actionContexts.length === 1) {
                 confirmMessage = __('Please confirm deletion');
@@ -409,7 +412,13 @@ define([
          * @param {String} [actionContext.classUri]
          */
         binder.register('moveNode', function remove(actionContext) {
-            var data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed', 'signature']);
+            const data = {
+                id: actionContext.id,
+                uri: actionContext.uri,
+                destinationClassUri: actionContext.destinationClassUri,
+                confirmed: actionContext.confirmed,
+                signature: actionContext.signature
+            };
 
             //wrap into a private function for recusion calls
             var _moveNode = function _moveNode(url) {
@@ -461,7 +470,7 @@ define([
          * @fires layout/tree#removenode.taotree
          */
         binder.register('launchEditor', function launchEditor(actionContext) {
-            var data = _.pick(actionContext, ['id']);
+            const data = { id: actionContext.id };
             var wideDifferenciator = '[data-content-target="wide"]';
 
             $.ajax({
@@ -544,7 +553,7 @@ define([
                     })
                     .on('select', function (destinationClassUri, aclTransferMode) {
                         var self = this;
-                        if (!_.isEmpty(destinationClassUri)) {
+                        if (destinationClassUri) {
                             this.disable();
 
                             resourceProvider
@@ -631,7 +640,7 @@ define([
                         if (
                             result.task &&
                             result.task.report &&
-                            _.isArray(result.task.report.children) &&
+                            Array.isArray(result.task.report.children) &&
                             result.task.report.children.length &&
                             result.task.report.children[0]
                         ) {
@@ -681,16 +690,14 @@ define([
                 }
             });
 
-            if (!_.isArray(actionContext)) {
+            if (!Array.isArray(actionContext)) {
                 actionContext = [actionContext];
             }
 
             return new Promise(function (resolve, reject) {
-                var rootClassUri = _.pluck(actionContext, 'rootClassUri').pop();
-                var selectedUri = _.pluck(actionContext, 'id');
-                var selectedData = _.map(actionContext, function (a) {
-                    return { id: a.id, signature: a.signature };
-                });
+                const rootClassUri = actionContext.map(a => a.rootClassUri).pop();
+                const selectedUri = actionContext.map(a => a.id);
+                const selectedData = actionContext.map(a => ({ id: a.id, signature: a.signature }));
 
                 //set up a destination selector
                 destinationSelectorFactory($container, {
@@ -722,7 +729,7 @@ define([
                         });
 
                         //prevent selection on nodes that are already the containers of the resources or the resources themselves
-                        if (_.intersection(selectedUri, uriList).length) {
+                        if (selectedUri.some(uri => uriList.includes(uri))) {
                             feedback().warning(
                                 __('You cannot move the selected resources in the class %s', node.label),
                                 { encodeHtml: false }
@@ -751,7 +758,7 @@ define([
                     .on('select', function (destinationClassUri, aclTransferMode) {
                         var self = this;
 
-                        if (!_.isEmpty(destinationClassUri)) {
+                        if (destinationClassUri) {
                             this.disable();
 
                             resourceProvider
@@ -760,14 +767,14 @@ define([
                                     var failed = [];
                                     var success = [];
 
-                                    _.forEach(results, function (result, resUri) {
-                                        var resource = _.find(actionContext, { uri: resUri });
+                                    for (let [resUri, result] of Object.entries(results)) {
+                                        let resource = actionContext.find(ac => ac.uri === resUri);
                                         if (result.success) {
                                             success.push(resource);
                                         } else {
                                             failed.push(result.message);
                                         }
-                                    });
+                                    }
 
                                     if (!success.length) {
                                         feedback().error(__('Unable to move the resources'));

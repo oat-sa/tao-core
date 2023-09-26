@@ -5,7 +5,6 @@ module.exports = function sourcefinder(grunt) {
     grunt.registerMultiTask('sourcefinder', 'Find sources and generate a config file', function(){
         var path        = require('path');
         var extHepler   = require('./helpers/extensions');
-        var _           = require('lodash');
         var options     = grunt.task.current.options();
         var done	= grunt.task.current.async();
         var sources     = grunt.task.current.data.sources;
@@ -20,11 +19,11 @@ module.exports = function sourcefinder(grunt) {
             var config  = {};
 
             //expand the sources by key
-            _.forEach(sources, function(values, key){
+            sources.forEach((values, key) => {
                 var expanded = [];
 
                 //it could be an array of conf, so force it
-                if(!_.isArray(values)){
+                if(!Array.isArray(values)){
                     values = [values];
                 }
 
@@ -40,7 +39,7 @@ module.exports = function sourcefinder(grunt) {
                     }
 
                     //apply the replacement on
-                    if(_.isFunction(value.replacements)){
+                    if(typeof value.replacements === 'function'){
                        currentFiles = currentFiles.map(value.replacements);
                     }
 

@@ -22,7 +22,6 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
     'i18n',
     'core/promise',
     'core/store',
@@ -32,7 +31,7 @@ define([
     'layout/permissions',
     'provider/resources',
     'ui/resource/selector'
-], function(_, __, Promise, store, loggerFactory, actionManager, generisRouter, permissionsManager, resourceProviderFactory, resourceSelectorFactory){
+], function(__, Promise, store, loggerFactory, actionManager, generisRouter, permissionsManager, resourceProviderFactory, resourceSelectorFactory){
     'use strict';
 
     var logger = loggerFactory('layout/tree/provider/resourceSelector');
@@ -101,7 +100,7 @@ define([
                                         //to prevent handling intermediate changes
                                         self.setState('loading', true);
 
-                                        _.forEach(nodes, self.removeNode, self);
+                                        nodes.forEach(self.removeNode.bind(self));
                                         self.changeSelectionMode('single');
 
                                         self.setState('loading', false);
@@ -167,12 +166,13 @@ define([
                                 })
                                 .on('change', function(selection) {
                                     var self   = this;
-                                    var length = _.size(selection);
+                                    var length = selection.length;
                                     var getContext = function getContext(resource) {
-                                        return _.defaults(resource, {
-                                            id : resource.uri,
-                                            rootClassUri : self.classUri
-                                        });
+                                        return {
+                                            id: resource.uri,
+                                            rootClassUri: self.classUri,
+                                            ...resource
+                                        };
                                     };
 
                                     //ignore changes while loading or modifying the selector
@@ -181,7 +181,7 @@ define([
                                     }
 
                                     if(length === 1){
-                                        _.forEach(selection, function(resource) {
+                                        selection.forEach(resource => {
                                             var selectedContext = getContext(resource);
                                             actionManager.updateContext(selectedContext);
 
@@ -198,10 +198,7 @@ define([
                                             treeStore.setItem(options.id, defaultNode);
                                         });
                                     } else {
-                                        actionManager.updateContext( _.transform(selection, function(acc, resource){
-                                            acc.push(getContext(resource));
-                                            return acc;
-                                        }, []));
+                                        actionManager.updateContext(selection.map(resource => getContext(resource)));
                                     }
                                 })
                                 .on('error', function(err){

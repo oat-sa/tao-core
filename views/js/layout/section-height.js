@@ -22,9 +22,8 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'jquery',
-    'lodash'
-], function ($, _) {
+    'jquery'
+], function ($) {
 
     'use strict';
 
@@ -121,9 +120,7 @@ define([
 
             $window
                 .off('resize.sectionheight')
-                .on('resize.sectionheight', _.debounce(function () {
-                    setHeights($scope);
-                }, 50));
+                .on('resize.sectionheight', () => setTimeout(() => setHeights($scope), 50));
 
             $versionWarning
                 .off('hiding.versionwarning')

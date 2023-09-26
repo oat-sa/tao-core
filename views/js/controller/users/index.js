@@ -4,7 +4,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'util/url',
     'layout/section',
@@ -12,7 +11,7 @@ define([
     'ui/feedback',
     'ui/dialog/confirm',
     'ui/datatable'
-], function ($, _, __, urlHelper, section, request, feedback, dialogConfirm) {
+], function ($, __, urlHelper, section, request, feedback, dialogConfirm) {
     'use strict';
 
     /**
@@ -106,17 +105,17 @@ define([
 
             // initialize the user manager component
             $userList.on('load.datatable', function (e, dataset) {
-                _.forEach(dataset.data, function(row) {
-                    var lockBtn = '[data-item-identifier="' + row.id + '"] button.lock';
-                    var unlockBtn = '[data-item-identifier="' + row.id + '"] button.unlock';
+                for (let row of dataset.data) {
+                    let lockBtn = `[data-item-identifier="${row.id}"] button.lock`;
+                    let unlockBtn = `[data-item-identifier="${row.id}"] button.unlock`;
                     if (row.lockable) {
                         $(row.locked ? lockBtn : unlockBtn, $userList).hide();
                     } else {
-                        _.forEach([lockBtn, unlockBtn], function (btn) {
+                        [lockBtn, unlockBtn].forEach(btn => {
                             $(btn, $userList).hide();
                         });
                     }
-                });
+                }
             }).datatable({
                 url: urlHelper.route('data', 'Users', 'tao'),
                 paginationStrategyBottom: 'pages',

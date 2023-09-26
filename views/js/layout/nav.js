@@ -23,7 +23,7 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @author Dieter Raber <dieter@taotesting.com>
  */
-define(['jquery', 'lodash'], function ($, _) {
+define(['jquery'], function ($) {
     'use strict';
 
     var $body = $('body'),
@@ -97,9 +97,7 @@ define(['jquery', 'lodash'], function ($, _) {
                 .off('resize.navheight')
                 .on(
                     'resize.navheight',
-                    _.debounce(function () {
-                        checkHeight();
-                    }, 100)
+                    setTimeout(checkHeight, 100)
                 );
         }
     };

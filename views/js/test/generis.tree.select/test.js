@@ -17,7 +17,7 @@
  *
  *
  */
-define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.tree.select'], function($, _, ajaxMock, uri, GenerisTreeSelectClass) {
+define(['jquery', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.tree.select'], function($, ajaxMock, uri, GenerisTreeSelectClass) {
     'use strict';
 
     QUnit.module('generis.tree.select',{beforeEach: function() {
@@ -69,7 +69,7 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
             actionId : 'treeOptions.actionId',
             saveUrl : 'treeOptions.saveUrl',
             saveData : {},
-            checkedNodes : _.map(selected, uri.encode), //generis tree uses "encoded uri" to check nodes
+            checkedNodes: selected.map(uri.encode), //generis tree uses "encoded uri" to check nodes
             serverParameters : {
                 openParentNodes : selected, //generis tree uses normal if to open nodes...
                 rootNode : rootNode
@@ -83,7 +83,7 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
             actionId : 'treeOptions.actionId',
             saveUrl : 'treeOptions.saveUrl',
             saveData : {},
-            checkedNodes : _.map(selected, uri.encode), //generis tree uses "encoded uri" to check nodes
+            checkedNodes : selected.map(uri.encode), //generis tree uses "encoded uri" to check nodes
             serverParameters : {
                 openParentNodes : selected, //generis tree uses normal if to open nodes...
                 rootNode : rootNode
@@ -123,7 +123,7 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
         assert.ok(tree10.__proto__.trace,  'trace method is defined');
 
 
-        _.delay(function () {
+        setTimeout(function () {
             assert.equal($(treeContainerSelector + ' '+ paginateAllSelector).length, 0, 'usual tree doesent have "pagination all" button');
             assert.equal($(treeContainerSelector + ' '+ paginateMoreSelector).length, 0, 'usual tree doesent have "pagination more" button');
             assert.equal($(treeContainerSelector + ' '+ '.leaf').length, 10, 'all received items were rendered');
@@ -133,7 +133,7 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
             assert.equal($(treeContainerSelectorPaginated + ' '+ '.leaf').length, 12, 'all received items were rendered + pagination buttons as tree leafs');
 
             done();
-        });
+        }, 0);
 
     });
 
@@ -167,7 +167,7 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
             actionId : 'treeOptions.actionId',
             saveUrl : 'treeOptions.saveUrl',
             saveData : {},
-            checkedNodes : _.map(selected, uri.encode), //generis tree uses "encoded uri" to check nodes
+            checkedNodes : selected.map(uri.encode), //generis tree uses "encoded uri" to check nodes
             serverParameters : {
                 openParentNodes : selected, //generis tree uses normal if to open nodes...
                 rootNode : rootNode
@@ -178,7 +178,7 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
 
         assert.ok(tree10,  'tree was initialized and prepared');
 
-        _.delay(function () {
+        setTimeout(function () {
             $(itemSelector).eq(0).children('a').click();
             assert.ok($(itemSelector).eq(0).children('a').hasClass('clicked'), 'item reacts to click and \'clicked\' class appended');
             assert.ok($(itemSelector).eq(0).children('a').hasClass('checked'), 'item reacts to click and \'checked\' class appended');
@@ -188,7 +188,7 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
             assert.ok($(itemSelector + ' > a.checked').length === 2, 'several items are able to be selected');
 
             done();
-        });
+        }, 0);
 
     });
 
@@ -234,7 +234,7 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
             actionId : 'treeOptions.actionId',
             saveUrl : 'treeOptions.saveUrl',
             saveData : {},
-            checkedNodes : _.map(selected, uri.encode), //generis tree uses "encoded uri" to check nodes
+            checkedNodes : selected.map(uri.encode), //generis tree uses "encoded uri" to check nodes
             serverParameters : {
                 openParentNodes : selected, //generis tree uses normal if to open nodes...
                 rootNode : rootNode
@@ -244,23 +244,23 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
         });
 
         assert.ok(tree1000,  'tree was initialized and prepared');
-        _.delay(function () {
+        setTimeout(function () {
 
             assert.equal($(itemSelector).length, 10, 'ten items rendered as expected ');
 
             $(treeContainerSelectorPaginated + ' '+ paginateMoreSelector).children('a').click();
 
-            _.delay(function(){
+            setTimeout(function () {
                 assert.equal($(itemSelector).length, 20, 'ten paginated items rendered as expected ');
 
                 $(treeContainerSelectorPaginated + ' '+ paginateAllSelector).children('a').click();
-                _.delay(function () {
+                setTimeout(function () {
                     assert.equal($(itemSelector).length, 1000, 'all items rendered as expected ');
                     done();
-                });
+                }, 0);
 
-            });
-        });
+            }, 0);
+        }, 0);
 
     });
 
@@ -304,7 +304,7 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
             actionId : 'treeOptions.actionId',
             saveUrl : 'treeOptions.saveUrl',
             saveData : {},
-            checkedNodes : _.map(selected, uri.encode), //generis tree uses "encoded uri" to check nodes
+            checkedNodes : selected.map(uri.encode) , //generis tree uses "encoded uri" to check nodes
             serverParameters : {
                 openParentNodes : selected, //generis tree uses normal if to open nodes...
                 rootNode : rootNode
@@ -314,11 +314,11 @@ define(['jquery', 'lodash', 'lib/jquery.mockjax/jquery.mockjax','uri', 'generis.
         });
 
         assert.ok(tree1000,  'tree was initialized and prepared');
-        _.delay(function () {
+        setTimeout(function () {
 
             assert.equal($(itemSelector).length, 10, 'ten items rendered as expected ');
             done();
-        });
+        }, 0);
 
     });
 

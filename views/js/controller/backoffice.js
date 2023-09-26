@@ -21,7 +21,6 @@
  */
 define([
     'jquery',
-    'lodash',
     'i18n',
     'context',
     'helpers',
@@ -30,7 +29,7 @@ define([
     'core/history',
     'ui/feedback',
     'layout/logout-event'
-], function ($, _, __, context, helpers, router, uikitLoader, history, feedback, logoutEvent) {
+], function ($, __, context, helpers, router, uikitLoader, history, feedback, logoutEvent) {
     'use strict';
 
     /**
@@ -63,7 +62,7 @@ define([
             $doc.ajaxComplete(function (event, request, settings) {
                 var urls;
                 var forward;
-                if (_.contains(settings.dataTypes, 'html')) {
+                if (settings.dataTypes.includes('html')) {
                     urls = [settings.url];
                     forward = request.getResponseHeader('X-Tao-Forward');
                     if (forward) {

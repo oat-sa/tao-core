@@ -25,7 +25,6 @@
  define([
     'module',
     'jquery',
-    'lodash',
     'i18n',
     'helpers',
     'context',
@@ -42,7 +41,6 @@
 ], function (
     module,
     $,
-    _,
     __,
     helpers,
     context,
@@ -260,7 +258,7 @@
                     if ($property.attr('type') === 'checkbox' && isArray) {
                         name = name.substr(0, name.length - 2);
                         if ($property.is(':checked')) {
-                            if (!_.isArray(property[name])) {
+                            if (!Array.isArray(property[name])) {
                                 property[name] = [];
                             }
                             property[name].push($property.val());
@@ -635,7 +633,7 @@
                         var $toRemove = $('[id*="'+response.id+'"], [data-related-index="'+response.id+'"]');
                         $toRemove.each(function(){
                             var $currentTarget = $(this);
-                            while(!_.isEqual($currentTarget.parent()[0], $editContainer[0]) && $currentTarget.parent()[0] !== undefined){
+                            while ($currentTarget.parent()[0] !== $editContainer[0] && $currentTarget.parent()[0] !== undefined) {
                                 $currentTarget = $currentTarget.parent();
                             }
                             $currentTarget.remove();

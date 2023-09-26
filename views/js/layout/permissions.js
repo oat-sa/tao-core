@@ -28,9 +28,8 @@
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
-    'lodash',
     'uri',
-], function(_, uriUtil){
+], function(uriUtil){
     'use strict';
 
     /**
@@ -57,8 +56,8 @@ define([
          * @returns {permissionsManager} chains
          */
         setSupportedRights : function setSupportedRights(rights){
-            if (_.isArray(rights)) {
-                supportedRights = _.filter(rights, _.isString);
+            if (Array.isArray(rights)) {
+                supportedRights = rights.filter(item => typeof item === 'string');
             }
         },
 
@@ -76,7 +75,7 @@ define([
          * @returns {Boolean}
          */
         isSupported : function isSupported(right){
-            return _.contains(supportedRights, right);
+            return supportedRights.includes(right);
         },
 
         /**
@@ -95,15 +94,15 @@ define([
          * @returns {permissionsManager} chains
          */
         addPermissions : function addPermissions(uri, permissions){
-            if(_.isString(uri) && _.isArray(permissions)){
-                permissionStore[uri] = _.intersection(permissions, _.values(this.getRights()));
+            if (typeof uri === 'string' && Array.isArray(permissions)) {
+                const rightsValues = Object.values(this.getRights());
+                permissionStore[uri] = permissions.filter(permission => rightsValues.includes(permission));
             }
 
-            if(_.isUndefined(permissions) && _.isPlainObject(uri)){
-                permissions = uri;
-                _.forEach(permissions, function(value, key){
+            if (permissions === undefined && uri !== null && typeof uri === 'object' && uri.constructor === Object) {
+                for (const [key, value] of Object.entries(uri)) {
                     this.addPermissions(key, value);
-                }, this);
+                }
             }
 
             return this;
@@ -130,8 +129,8 @@ define([
             if( supportedRights.length === 0 ) {
                 return true;
             }
-            if(typeof permissionStore[uri] !== 'undefined'){
-                return _.contains(permissionStore[uri], permission);
+            if (typeof permissionStore[uri] !== 'undefined') {
+                return permissionStore[uri].includes(permission);
             }
             return false;
         },
@@ -152,31 +151,36 @@ define([
          * @returns {Boolean}
          */
         isContextAllowed : function isContextAllowed(requiredRights, resourceContext){
-            var self    = this;
-            if(! requiredRights || _.size(requiredRights) === 0 || supportedRights.length === 0){
+            const self = this;
+
+            if (!requiredRights || Object.keys(requiredRights).length === 0 || supportedRights.length === 0) {
                 return true;
             }
-            if(!_.isPlainObject(resourceContext)){
+
+            if (!isPlainObject(resourceContext)) {
                 return false;
             }
-            return _.all(requiredRights, function(right, requiredParameter){
-                var parameterValue;
 
-                // translate muti-id into single-id
+            return Object.keys(requiredRights).every(requiredParameter => {
+                const right = requiredRights[requiredParameter];
+                let parameterValue;
+
+                // translate multi-id into single-id
                 if (requiredParameter === 'ids') {
                     requiredParameter = 'id';
                 }
 
-                if(typeof resourceContext[requiredParameter] === 'undefined' || !self.isSupported(right)){
+                if (typeof resourceContext[requiredParameter] === 'undefined' || !self.isSupported(right)) {
                     return false;
                 }
 
-                //some values in the context are still URI encoded
+                // some values in the context are still URI encoded
                 parameterValue = uriUtil.decode(resourceContext[requiredParameter]);
 
                 return self.hasPermission(parameterValue, right);
             });
         },
+
 
         /**
          * For a given resource compute the permission mode:
@@ -190,8 +194,8 @@ define([
             var self  = this;
             var mode  = 'allowed';
             var rights = this.getRights();
-            var count = _.reduce(rights, function(acc, right){
-                if(self.hasPermission(uri, right)){
+            var count = rights.reduce(function(acc, right) {
+                if (self.hasPermission(uri, right)) {
                     acc++;
                 }
                 return acc;
@@ -207,6 +211,13 @@ define([
             return mode;
         }
     };
+
+    function isPlainObject(value) {
+        if (typeof value !== 'object' || value === null) return false;
+
+        const proto = Object.getPrototypeOf(value);
+        return proto === null || proto === Object.prototype;
+    }
 
     return permissionsManager;
 });

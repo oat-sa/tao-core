@@ -22,9 +22,8 @@
  *
  * @author Alexander Zagovorichev <zagovorichev@1pt.com>
  */
-define(['jquery', 'lodash', 'i18n', 'util/url', 'ui/dialog/alert'], function (
+define(['jquery', 'i18n', 'util/url', 'ui/dialog/alert'], function (
     $,
-    _,
     __,
     url,
     alert
@@ -42,7 +41,7 @@ define(['jquery', 'lodash', 'i18n', 'util/url', 'ui/dialog/alert'], function (
      * @param {String} [options.redirectUrl] - Target URI
      */
     return function logoutEvent(options) {
-        options = _.defaults(options || {}, defaults);
+        options = { ...defaults, ...options };
         alert(options.message, function () {
             window.location = options.redirectUrl;
         });
