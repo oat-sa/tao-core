@@ -29,7 +29,8 @@
  */
 define([
     'uri',
-], function(uriUtil){
+    'helpers'
+], function(uriUtil,helpers){
     'use strict';
 
     /**
@@ -157,7 +158,7 @@ define([
                 return true;
             }
 
-            if (!isPlainObject(resourceContext)) {
+            if (!helpers.isPlainObject(resourceContext)) {
                 return false;
             }
 
@@ -211,13 +212,6 @@ define([
             return mode;
         }
     };
-
-    function isPlainObject(value) {
-        if (typeof value !== 'object' || value === null) return false;
-
-        const proto = Object.getPrototypeOf(value);
-        return proto === null || proto === Object.prototype;
-    }
 
     return permissionsManager;
 });

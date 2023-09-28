@@ -423,7 +423,7 @@ define([
         saveData: function() {
             var instance = this;
             var toSend = {};
-            if (typeof this.options.saveData == 'object') {
+            if (typeof this.options.saveData == 'object' && this.options.saveData !== null) {
                 for (var key in this.options.saveData) {
                     toSend[key] = this.options.saveData[key];
                 }

@@ -362,7 +362,7 @@ define([
                 $sectionPanel,
                 section;
 
-            if (typeof data !== 'object') {
+            if (typeof data !== 'object' && data !== null) {
                 throw new TypeError("The create() method requires an object with section data as parameter.");
             }
             if (typeof data.id !== 'string' || typeof data.url !== 'string' || typeof data.name !== 'string') {

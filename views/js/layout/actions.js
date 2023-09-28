@@ -25,8 +25,9 @@ define([
     'lib/uuid',
     'layout/actions/binder',
     'layout/actions/common',
-    'layout/permissions'
-], function($, eventifier, Promise, uuid, binder, commonActions, permissionsManager){
+    'layout/permissions',
+    'helpers'
+], function($, eventifier, Promise, uuid, binder, commonActions, permissionsManager, helpers){
     'use strict';
 
     /**
@@ -251,7 +252,7 @@ define([
         exec : function exec(action, context){
             var self = this;
             if(typeof action === 'string'){
-                if(isPlainObject(actions[action])){
+                if(helpers.isPlainObject(actions[action])){
                     //try to find by id
                     action = actions[action];
                 } else {
@@ -259,7 +260,7 @@ define([
                     action = actions.find(item => item.name === action);
                 }
             }
-            if(isPlainObject(action)){
+            if(helpers.isPlainObject(action)){
 
                 //make the executed action active
                 Object.values(actions).forEach(otherAction => {
@@ -306,7 +307,7 @@ define([
          */
         getBy : function(actionName){
             var action;
-            if(isPlainObject(actions[actionName])){
+            if(helpers.isPlainObject(actions[actionName])){
                 //try to find by id
                 action = actions[actionName];
             } else {
@@ -316,13 +317,6 @@ define([
             return action;
         }
     });
-
-    function isPlainObject(value) {
-        if (typeof value !== 'object' || value === null) return false;
-
-        const proto = Object.getPrototypeOf(value);
-        return proto === null || proto === Object.prototype;
-    }
 
     return actionManager;
 });

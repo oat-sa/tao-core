@@ -121,19 +121,27 @@ define([
 
             if(typeof params === 'string') {
                 url += '?' + params;
-            } else if (isPlainObject(params)) {
+            } else if (this.isPlainObject(params)) {
                 url += '?' + $.param(params);
             }
             return url;
+        },
+
+        /**
+         * Determines if the given value is a plain object.
+         * A plain object is an object that is either created via `{}` or `new Object()`,
+         * which means its prototype should either be `Object.prototype` or `null`.
+         *
+         * @param {any} value - The value to check.
+         * @returns {boolean} if the value is a plain object
+         */
+        isPlainObject: function (value) {
+            if (typeof value !== 'object' || value === null) return false;
+
+            const proto = Object.getPrototypeOf(value);
+            return proto === null || proto === Object.prototype;
         }
     };
-
-    function isPlainObject(value) {
-        if (typeof value !== 'object' || value === null) return false;
-
-        const proto = Object.getPrototypeOf(value);
-        return proto === null || proto === Object.prototype;
-    }
 
     return Helpers;
 });
