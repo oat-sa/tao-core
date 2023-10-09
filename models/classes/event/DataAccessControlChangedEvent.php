@@ -26,35 +26,18 @@ use oat\oatbox\event\Event;
 
 class DataAccessControlChangedEvent implements Event
 {
-    /** @var string */
-    private $resourceId;
-
-    /** @var ?string */
-    private $rootResourceId;
-
-    /** @var array */
-    private $addRemove;
-
-    /**
-     * @deprecated Use $applyToNestedResources cause processing recursively causes performance issues
-     * @var bool
-     */
-    private $isRecursive;
-
-    private bool $applyToNestedResources;
+    private string $resourceId;
+    private array $addRemove;
+    private bool $isRecursive;
 
     public function __construct(
         string $resourceId,
         array $addRemove,
-        bool $isRecursive = false,
-        bool $applyToNestedResources = false,
-        string $rootResourceId = null
+        bool $isRecursive = false
     ) {
         $this->resourceId = $resourceId;
         $this->addRemove = $addRemove;
         $this->isRecursive = $isRecursive;
-        $this->applyToNestedResources = $applyToNestedResources;
-        $this->rootResourceId = $rootResourceId;
     }
 
     public function getName(): string
@@ -65,11 +48,6 @@ class DataAccessControlChangedEvent implements Event
     public function getResourceId(): string
     {
         return $this->resourceId;
-    }
-
-    public function getRootResourceId(): ?string
-    {
-        return $this->rootResourceId;
     }
 
     public function getOperations(string $operation): array
@@ -83,10 +61,5 @@ class DataAccessControlChangedEvent implements Event
     public function isRecursive(): bool
     {
         return $this->isRecursive;
-    }
-
-    public function applyToNestedResources(): bool
-    {
-        return $this->applyToNestedResources;
     }
 }
