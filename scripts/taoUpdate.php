@@ -34,7 +34,7 @@ $action = new UpdateExtensions();
 $action->setServiceLocator($serviceManager);
 $report = $action->__invoke([]);
 
-$serviceManager->getContainerBuilder()->forceBuild();
+$serviceManager->rebuildContainer();
 
 /** @var FeatureFlagRepositoryInterface $featureFlagChecker */
 $featureFlagChecker = $serviceManager->getContainer()->get(FeatureFlagRepositoryInterface::class);

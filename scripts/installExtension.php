@@ -35,6 +35,4 @@ $extId = array_shift($parms);
 
 InstallHelper::installRecursively([$extId]);
 
-ServiceManager::getServiceManager()
-    ->getContainerBuilder()
-    ->forceBuild();
+ServiceManager::getServiceManager()->rebuildContainer();
