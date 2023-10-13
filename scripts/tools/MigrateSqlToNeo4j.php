@@ -342,12 +342,13 @@ CYPHER,
     private function addSystemLabel($neo4j, int $sqlChunkSize, int $neo4jChunkSize)
     {
         $sql = $this->getSqlAdapter();
+        $nonSystemModelId = \core_kernel_persistence_smoothsql_SmoothModel::DEFAULT_WRITABLE_MODEL;
 
             /** @var \Doctrine\DBAL\ForwardCompatibility\Result $idResult */
-        $result = $sql->query(<<<'SQL'
+        $result = $sql->query(<<<SQL
                 SELECT subject
                     FROM statements
-                    WHERE modelid <> 1
+                    WHERE modelid <> {$nonSystemModelId}
                     GROUP BY subject;
 SQL);
 

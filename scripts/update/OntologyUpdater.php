@@ -27,8 +27,10 @@ use common_ext_ExtensionsManager;
 use helpers_RdfDiff;
 use oat\generis\model\data\Model;
 use oat\generis\model\data\ModelManager;
+use oat\generis\model\GenerisRdf;
 use oat\generis\model\kernel\persistence\file\FileModel;
 use oat\tao\model\extension\ExtensionModel;
+use oat\tao\model\user\TaoRoles;
 
 class OntologyUpdater
 {
@@ -88,10 +90,15 @@ class OntologyUpdater
         return new \CallbackFilterIterator(
             $currentModel->getRdfInterface()->getIterator(),
             function (\core_kernel_classes_Triple $item) {
-                $isAutomaticIncludeRole = $item->subject === 'http://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole'
-                    && $item->predicate === 'http://www.tao.lu/Ontologies/generis.rdf#includesRole';
-                $isGrantAccess = $item->predicate === 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#GrantAccess';
+                /**
+                 * Those includes generated with a script and created in non-system space, so we ignore them.
+                 * @see \tao_install_ExtensionInstaller::installManagementRole
+                 */
+                $isAutomaticIncludeRole = $item->subject === TaoRoles::GLOBAL_MANAGER
+                    && $item->predicate === GenerisRdf::PROPERTY_ROLE_INCLUDESROLE;
 
+                // GrantAccess field added to entities in non-system space and also should be ignored for now.
+                $isGrantAccess = $item->predicate === 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#GrantAccess';
 
                 return !$isGrantAccess && !$isAutomaticIncludeRole;
             }
