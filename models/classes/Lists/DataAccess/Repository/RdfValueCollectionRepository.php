@@ -33,16 +33,15 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
+use oat\search\base\QueryBuilderInterface;
 use oat\search\base\QueryCriterionInterface;
 use oat\search\base\QueryInterface;
-use oat\search\QueryBuilder;
 use oat\tao\model\Lists\Business\Contract\ValueCollectionRepositoryInterface;
 use oat\tao\model\Lists\Business\Domain\CollectionType;
 use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\service\InjectionAwareService;
-use Throwable;
 
 class RdfValueCollectionRepository extends InjectionAwareService implements ValueCollectionRepositoryInterface
 {
@@ -131,7 +130,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             return true;
         } catch (ValueConflictException $exception) {
             throw $exception;
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
             return false;
         }
     }
@@ -193,12 +192,12 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         }
     }
 
-    private function enrichQueryWithOrderBy(QueryBuilder $query): void
+    private function enrichQueryWithOrderBy(QueryBuilderInterface $query): void
     {
         $query->sort([OntologyRdfs::RDFS_LABEL => 'asc']);
     }
 
-    private function enrichWithLimit(ValueCollectionSearchRequest $searchRequest, QueryBuilder $query): void
+    private function enrichWithLimit(ValueCollectionSearchRequest $searchRequest, QueryBuilderInterface $query): void
     {
         if ($searchRequest->hasOffset()) {
             $query->setOffset($searchRequest->getOffset());
@@ -221,7 +220,9 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         $searchProperty = new KernelProperty($searchRequest->getPropertyUri());
         $typeList = $searchProperty->getPropertyValues($rangeProperty);
 
-        $query->add(OntologyRdf::RDF_TYPE)->in($typeList);
+        if (!empty($typeList)) {
+            $query->add(OntologyRdf::RDF_TYPE)->in($typeList);
+        }
     }
 
     private function enrichQueryWithValueCollectionSearchCondition(
@@ -287,34 +288,9 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         return $search->getGateway()->count($queryBuilder);
     }
 
-    private function extractLabel(
-        ValueCollectionSearchRequest $searchRequest,
-        iterable $labels,
-        string $subject
-    ): ?string {
-        if (!empty($labels[$subject][$searchRequest->getDataLanguage()])) {
-            return $labels[$subject][$searchRequest->getDataLanguage()];
-        }
-
-        if (!empty($labels[$subject][$searchRequest->getDefaultLanguage()])) {
-            return $labels[$subject][$searchRequest->getDefaultLanguage()];
-        }
-
-        return '';
-    }
-
-    private function retrieveLabels(iterable $data): array
-    {
-        $labels = [];
-        foreach ($data as $element) {
-            $labels[$element['subject']][$element['datalanguage']] = $element['object'];
-        }
-        return $labels;
-    }
-
     private function getQuery(
         ComplexSearchService $search,
-        QueryBuilder $queryBuilder,
+        QueryBuilderInterface $queryBuilder,
         ValueCollectionSearchRequest $searchRequest
     ): QueryInterface {
         $search->setLanguage(

@@ -78,7 +78,7 @@ class ValueCollectionSearchRequest
 
     public function hasValueCollectionUri(): bool
     {
-        return null !== $this->valueCollectionUri;
+        return !empty($this->valueCollectionUri);
     }
 
     public function getValueCollectionUri(): string
