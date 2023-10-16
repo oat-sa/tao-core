@@ -22,13 +22,21 @@
 
 namespace oat\tao\scripts\install;
 
+use common_persistence_GraphPersistence;
 use common_persistence_Manager;
 use oat\oatbox\extension\InstallAction;
+use oat\oatbox\log\ColoredVerboseLogger;
+use oat\oatbox\log\LoggerAwareTrait;
+use Psr\Log\LogLevel;
 
 class CleanGraphDatabase extends InstallAction
 {
+    use LoggerAwareTrait;
+
     public function __invoke($params)
     {
+        $this->setLogger(new ColoredVerboseLogger(LogLevel::INFO));
+
         $persistenceId = $params[0];
         if (empty($persistenceId)) {
             throw new \common_Exception('Persistence id should be provided in script parameters');
@@ -38,7 +46,19 @@ class CleanGraphDatabase extends InstallAction
             ->get(common_persistence_Manager::SERVICE_ID)
             ->getPersistenceById($persistenceId);
 
+        $this->removeNodes($persistence);
+        $this->removeConstraints($persistence);
+
+        $this->logInfo(sprintf('Data from "%s" persistence has been cleared', $persistenceId));
+    }
+
+    private function removeNodes(common_persistence_GraphPersistence $persistence)
+    {
         $persistence->run('MATCH (n) DETACH DELETE n');
+    }
+
+    private function removeConstraints(common_persistence_GraphPersistence $persistence)
+    {
         $persistence->run('CALL apoc.schema.assert({}, {}, true) YIELD label, key RETURN *');
     }
 }

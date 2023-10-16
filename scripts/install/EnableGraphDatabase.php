@@ -22,29 +22,46 @@
 
 namespace oat\tao\scripts\install;
 
-use core_kernel_persistence_smoothsql_SmoothModel;
 use core_kernel_persistence_starsql_StarModel;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\oatbox\extension\InstallAction;
+use oat\oatbox\log\ColoredVerboseLogger;
+use oat\oatbox\log\LoggerAwareTrait;
+use Psr\Log\LogLevel;
 
 class EnableGraphDatabase extends InstallAction
 {
+    use LoggerAwareTrait;
+
     public function __invoke($params)
     {
+        $this->setLogger(new ColoredVerboseLogger(LogLevel::INFO));
+
         $persistenceId = $params[0];
         if (empty($persistenceId)) {
             throw new \common_Exception('Persistence id should be provided in script parameters');
         }
 
-        $sm = $this->getServiceManager();
+        $this->updateOntologyService($persistenceId);
+        $this->updateComplexSearchService();
+    }
 
-        $ontologyService = $sm->get(Ontology::SERVICE_ID);
+    private function updateOntologyService($persistenceId)
+    {
+        $ontologyService = $this->getServiceManager()->get(Ontology::SERVICE_ID);
         $serviceOptions = $ontologyService->getOptions();
-        $serviceOptions[core_kernel_persistence_smoothsql_SmoothModel::OPTION_PERSISTENCE] = $persistenceId;
-        $sm->register(Ontology::SERVICE_ID, new core_kernel_persistence_starsql_StarModel($serviceOptions));
+        $serviceOptions[core_kernel_persistence_starsql_StarModel::OPTION_PERSISTENCE] = $persistenceId;
+        $this
+            ->getServiceManager()
+            ->register(Ontology::SERVICE_ID, new core_kernel_persistence_starsql_StarModel($serviceOptions));
 
-        $complexSearchService = $sm->get(ComplexSearchService::SERVICE_ID);
+        $this->logInfo(sprintf('"%s" persistence has been set for ontology service', $persistenceId));
+    }
+
+    private function updateComplexSearchService()
+    {
+        $complexSearchService = $this->getServiceManager()->get(ComplexSearchService::SERVICE_ID);
         $serviceOptions = $complexSearchService->getOptions();
         $serviceOptions['shared']['search.neo4j.serialyser'] = false;
         $serviceOptions['invokables']['search.driver.neo4j'] =
@@ -53,6 +70,11 @@ class EnableGraphDatabase extends InstallAction
             '\\oat\\generis\\model\\kernel\\persistence\\starsql\\search\\QuerySerializer';
         $serviceOptions['invokables']['search.tao.gateway'] =
             '\\oat\\generis\\model\\kernel\\persistence\\starsql\\search\\GateWay';
-        $sm->register(ComplexSearchService::SERVICE_ID, new ComplexSearchService($serviceOptions));
+        $this
+            ->getServiceManager()
+            ->register(ComplexSearchService::SERVICE_ID, new ComplexSearchService($serviceOptions));
+
+        $this
+            ->logInfo('ComplexSearch service has been updated to compliant with graph database');
     }
 }
