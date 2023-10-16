@@ -40,7 +40,7 @@ class MigrateWebhooksConfigsFromFileToRdf extends AbstractAction
         OntologyUpdater::syncModels();
 
         $serviceManager = $this->getServiceManager();
-        $serviceManager->getContainerBuilder()->forceBuild();
+        $serviceManager->rebuildContainer();
 
         try {
             /** @var WebhookFileRegistry $fileRegistry */

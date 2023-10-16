@@ -24,10 +24,19 @@ declare(strict_types=1);
 
 namespace oat\tao\model\search\ServiceProvider;
 
+use oat\generis\model\data\Ontology;
+use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\Lists\Business\Service\ValueCollectionService;
+use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
+use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
+use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilderInterface;
 use oat\tao\model\search\index\DocumentBuilder\PropertyIndexReferenceFactory;
+use oat\tao\model\search\SearchTokenGenerator;
 use oat\tao\model\search\Service\DefaultSearchSettingsService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 /**
  * @codeCoverageIgnore
@@ -43,5 +52,18 @@ class SearchServiceProvider implements ContainerServiceProviderInterface
 
         $services->set(PropertyIndexReferenceFactory::class, PropertyIndexReferenceFactory::class)
             ->public();
+
+        $services->set(IndexDocumentBuilderInterface::class, IndexDocumentBuilder::class)
+            ->public()
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
+                    service(SearchTokenGenerator::class),
+                    service(PropertyIndexReferenceFactory::class),
+                    service(ValueCollectionService::class),
+                    service(RemoteListPropertySpecification::class),
+                    service(PermissionInterface::SERVICE_ID),
+                ]
+            );
     }
 }
