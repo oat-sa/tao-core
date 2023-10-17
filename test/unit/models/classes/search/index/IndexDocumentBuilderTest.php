@@ -33,6 +33,8 @@ use oat\generis\test\ServiceManagerMockTrait;
 use oat\generis\test\TestCase;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\model\Lists\Business\Service\ValueCollectionService;
+use oat\tao\model\Lists\Business\Specification\RemoteListPropertySpecification;
 use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 use oat\tao\model\search\index\DocumentBuilder\PropertyIndexReferenceFactory;
 use oat\tao\model\search\index\IndexDocument;
@@ -95,17 +97,14 @@ class IndexDocumentBuilderTest extends TestCase
             ReverseRightLookupInterface::class
         );
 
-        $this->builder = new IndexDocumentBuilder();
-        $this->builder->setServiceManager(
-            $this->getServiceManagerMock(
-                [
-                    Ontology::SERVICE_ID => $this->ontologyMock,
-                    PermissionInterface::SERVICE_ID => $this->permissionProvider,
-                    SearchTokenGenerator::class => $this->tokenGeneratorMock,
-                    LoggerService::SERVICE_ID => new NullLogger(),
-                    PropertyIndexReferenceFactory::class => $this->propertyIndexReferenceFactory,
-                ]
-            )
+
+        $this->builder = new IndexDocumentBuilder(
+            $this->ontologyMock,
+            $this->tokenGeneratorMock,
+            $this->propertyIndexReferenceFactory,
+            $this->createMock(ValueCollectionService::class),
+            $this->createMock(RemoteListPropertySpecification::class),
+            $this->permissionProvider
         );
     }
 

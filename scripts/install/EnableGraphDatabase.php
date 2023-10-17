@@ -46,11 +46,13 @@ class EnableGraphDatabase extends InstallAction
 
         $complexSearchService = $sm->get(ComplexSearchService::SERVICE_ID);
         $serviceOptions = $complexSearchService->getOptions();
-
         $serviceOptions['shared']['search.neo4j.serialyser'] = false;
-        $serviceOptions['invokables']['search.driver.neo4j'] = '\\oat\\generis\\model\\kernel\\persistence\\starsql\\search\\Neo4jEscapeDriver';
-        $serviceOptions['invokables']['search.neo4j.serialyser'] = '\\oat\\generis\\model\\kernel\\persistence\\starsql\\search\\QuerySerializer';
-        $serviceOptions['invokables']['search.tao.gateway'] = '\\oat\\generis\\model\\kernel\\persistence\\starsql\\search\\GateWay';
+        $serviceOptions['invokables']['search.driver.neo4j'] =
+            '\\oat\\generis\\model\\kernel\\persistence\\starsql\\search\\Neo4jEscapeDriver';
+        $serviceOptions['invokables']['search.neo4j.serialyser'] =
+            '\\oat\\generis\\model\\kernel\\persistence\\starsql\\search\\QuerySerializer';
+        $serviceOptions['invokables']['search.tao.gateway'] =
+            '\\oat\\generis\\model\\kernel\\persistence\\starsql\\search\\GateWay';
         $sm->register(ComplexSearchService::SERVICE_ID, new ComplexSearchService($serviceOptions));
     }
 }

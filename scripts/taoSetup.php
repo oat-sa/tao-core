@@ -45,10 +45,15 @@ try {
 
     $script = new tao_install_Setup();
     call_user_func($script, $container);
-} catch (Exception $e) {
+} catch (\Throwable $e) {
     $container->offsetGet(\oat\oatbox\log\LoggerService::SERVICE_ID)
         ->getLogger()
-        ->error($e->getMessage());
+        ->error(
+            'Message: ' . $e->getMessage() .
+            '. Line: ' . $e->getLine() .
+            '. File: ' . $e->getFile() .
+            '. Trace: ' . $e->getTraceAsString()
+        );
 
     if (PHP_SAPI == 'cli') {
         exit($e->getCode() == 0 ? 1 : $e->getCode());

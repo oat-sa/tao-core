@@ -244,8 +244,6 @@ class tao_actions_ExtensionsManager extends tao_actions_CommonModule
 
     private function forceRebuildDependencyInjectionContainer(): void
     {
-        $this->getServiceManager()
-            ->getContainerBuilder()
-            ->forceBuild();
+        $this->getServiceManager()->rebuildContainer();
     }
 }
