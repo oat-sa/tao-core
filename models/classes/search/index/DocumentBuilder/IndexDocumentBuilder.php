@@ -28,9 +28,9 @@ use common_exception_InconsistentData;
 use common_exception_MissingParameter;
 use core_kernel_classes_Container;
 use core_kernel_classes_Property;
+use oat\generis\model\data\Ontology;
 use oat\generis\model\data\permission\PermissionInterface;
 use oat\generis\model\data\permission\ReverseRightLookupInterface;
-use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
@@ -43,13 +43,34 @@ use Iterator;
 use oat\tao\model\search\index\IndexProperty;
 use oat\tao\model\search\index\OntologyIndex;
 use oat\tao\model\search\SearchTokenGenerator;
-use oat\tao\model\service\InjectionAwareService;
 use oat\tao\model\TaoOntology;
 use tao_helpers_Uri;
 
-class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumentBuilderInterface
+class IndexDocumentBuilder implements IndexDocumentBuilderInterface
 {
-    use OntologyAwareTrait;
+    private Ontology $ontologyService;
+    private SearchTokenGenerator $searchTokenGenerator;
+    private PropertyIndexReferenceFactory $propertyIndexReferenceFactory;
+    private ValueCollectionService $valueCollectionService;
+    private RemoteListPropertySpecification $remoteListPropertySpecification;
+    /** @var PermissionInterface|ReverseRightLookupInterface */
+    private $permissionService;
+
+    public function __construct(
+        Ontology $ontologyService,
+        SearchTokenGenerator $searchTokenGenerator,
+        PropertyIndexReferenceFactory $propertyIndexReferenceFactory,
+        ValueCollectionService $valueCollectionService,
+        RemoteListPropertySpecification $remoteListPropertySpecification,
+        $permissionService
+    ) {
+        $this->ontologyService = $ontologyService;
+        $this->searchTokenGenerator = $searchTokenGenerator;
+        $this->propertyIndexReferenceFactory = $propertyIndexReferenceFactory;
+        $this->valueCollectionService = $valueCollectionService;
+        $this->remoteListPropertySpecification = $remoteListPropertySpecification;
+        $this->permissionService = $permissionService;
+    }
 
     /** @var array */
     private $map = [];
@@ -94,7 +115,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
             throw new common_exception_MissingParameter('body');
         }
 
-        $resource = $this->getResource($resourceData['id']);
+        $resource = $this->ontologyService->getResource($resourceData['id']);
 
         if (isset($resourceData['indexProperties'])) {
             $indexProperties = $resourceData['indexProperties'];
@@ -150,7 +171,7 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
      */
     private function getTokenizedResourceBody(Resource $resource): array
     {
-        $tokenGenerator = $this->getSearchTokenGenerator();
+        $tokenGenerator = $this->searchTokenGenerator;
 
         $body = [];
         $indexProperties = [];
@@ -195,14 +216,14 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
     {
         $customProperties = [];
         $customPropertiesCache = [];
-        $propertyIndexReferenceFactory = $this->getPropertyIndexReferenceFactory();
+        $propertyIndexReferenceFactory = $this->propertyIndexReferenceFactory;
 
         foreach ($classes as $class) {
             $properties = \tao_helpers_form_GenerisFormFactory::getClassProperties(
-                $this->getClass($class)
+                $this->ontologyService->getClass($class)
             );
 
-            $properties[OntologyRdfs::RDFS_LABEL] = $this->getProperty(OntologyRdfs::RDFS_LABEL);
+            $properties[OntologyRdfs::RDFS_LABEL] = $this->ontologyService->getProperty(OntologyRdfs::RDFS_LABEL);
 
             foreach ($properties as $property) {
                 $fieldName = $propertyIndexReferenceFactory->create($property);
@@ -240,13 +261,11 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
 
     private function getAccessProperties(Resource $resource): ?Iterator
     {
-        $permissionProvider = $this->getServiceLocator()->get(PermissionInterface::SERVICE_ID);
-
-        if (!$permissionProvider instanceof ReverseRightLookupInterface) {
+        if (!$this->permissionService instanceof ReverseRightLookupInterface) {
             return null;
         }
 
-        $accessRights = $permissionProvider->getResourceAccessData($resource->getUri());
+        $accessRights = $this->permissionService->getResourceAccessData($resource->getUri());
         $accessRightsURIs = ['read_access' => array_keys($accessRights)];
 
         return new ArrayIterator($accessRightsURIs);
@@ -302,11 +321,11 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
             $out = [];
 
             $request = new ValueCollectionSearchRequest();
-            $request = $this->getRemoteListPropertySpecification()->isSatisfiedBy($property)
+            $request = $this->remoteListPropertySpecification->isSatisfiedBy($property)
                 ? $request->setValueCollectionUri($property->getRange()->getUri())
                 : $request->setPropertyUri($property->getUri());
 
-            $list = $this->getValueCollectionService()->findAll(new ValueCollectionSearchInput($request));
+            $list = $this->valueCollectionService->findAll(new ValueCollectionSearchInput($request));
 
             foreach ($values as $value) {
                 foreach ($value as $subValue) {
@@ -322,29 +341,5 @@ class IndexDocumentBuilder extends InjectionAwareService implements IndexDocumen
         }
 
         return null;
-    }
-
-    private function getSearchTokenGenerator(): SearchTokenGenerator
-    {
-        $tokenGenerator = $this->getServiceManager()->getContainer()->get(SearchTokenGenerator::class);
-
-        $this->propagate($tokenGenerator);
-
-        return $tokenGenerator;
-    }
-
-    private function getPropertyIndexReferenceFactory(): PropertyIndexReferenceFactory
-    {
-        return $this->getServiceManager()->getContainer()->get(PropertyIndexReferenceFactory::class);
-    }
-
-    private function getValueCollectionService(): ValueCollectionService
-    {
-        return $this->getServiceManager()->getContainer()->get(ValueCollectionService::SERVICE_ID);
-    }
-
-    private function getRemoteListPropertySpecification(): RemoteListPropertySpecification
-    {
-        return $this->getServiceManager()->getContainer()->get(RemoteListPropertySpecification::class);
     }
 }
