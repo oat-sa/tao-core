@@ -55,9 +55,6 @@ class DataAccessControlChangedEvent implements Event
         return array_keys($this->addRemove[$operation] ?? []);
     }
 
-    /**
-     * @deprecated Use applyToNestedResources because processing recursively causes performance issues
-     */
     public function isRecursive(): bool
     {
         return $this->isRecursive;
