@@ -615,8 +615,6 @@ class tao_install_Installator
 
     private function recreateDependencyInjectionContainerCache(): void
     {
-        ServiceManager::getServiceManager()
-            ->getContainerBuilder()
-            ->forceBuild();
+        ServiceManager::getServiceManager()->rebuildContainer();
     }
 }
