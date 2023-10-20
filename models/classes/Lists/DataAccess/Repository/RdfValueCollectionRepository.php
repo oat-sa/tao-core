@@ -76,7 +76,6 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
 
         $query = $this->getQuery($search, $queryBuilder, $searchRequest);
         $this->enrichWithLimit($searchRequest, $queryBuilder);
-        $this->enrichQueryWithPropertySearchConditions($searchRequest, $query);
         $this->enrichQueryWithValueCollectionSearchCondition($searchRequest, $query);
         $this->enrichQueryWithSubject($searchRequest, $query);
         $this->enrichQueryWithExcludedValueUris($searchRequest, $query);
@@ -208,32 +207,25 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
         }
     }
 
-    private function enrichQueryWithPropertySearchConditions(
-        ValueCollectionSearchRequest $searchRequest,
-        QueryInterface $query
-    ): void {
-        if (!$searchRequest->hasPropertyUri()) {
-            return;
-        }
-
-        $rangeProperty = new KernelProperty(OntologyRdfs::RDFS_RANGE);
-        $searchProperty = new KernelProperty($searchRequest->getPropertyUri());
-        $typeList = $searchProperty->getPropertyValues($rangeProperty);
-
-        if (!empty($typeList)) {
-            $query->add(OntologyRdf::RDF_TYPE)->in($typeList);
-        }
-    }
-
     private function enrichQueryWithValueCollectionSearchCondition(
         ValueCollectionSearchRequest $searchRequest,
         QueryInterface $query
     ): void {
-        if (!$searchRequest->hasValueCollectionUri()) {
-            return;
+        $typeList = [];
+
+        if ($searchRequest->hasPropertyUri()) {
+            $rangeProperty = new KernelProperty(OntologyRdfs::RDFS_RANGE);
+            $searchProperty = new KernelProperty($searchRequest->getPropertyUri());
+            $typeList = $searchProperty->getPropertyValues($rangeProperty);
         }
 
-        $query->add(OntologyRdf::RDF_TYPE)->equals($searchRequest->getValueCollectionUri());
+        if ($searchRequest->hasValueCollectionUri()) {
+            $typeList[] = $searchRequest->getValueCollectionUri();
+        }
+
+        if (!empty($typeList)) {
+            $query->add(OntologyRdf::RDF_TYPE)->in(array_unique($typeList));
+        }
     }
 
     private function enrichQueryWithSubject(ValueCollectionSearchRequest $searchRequest, QueryInterface $query): void
