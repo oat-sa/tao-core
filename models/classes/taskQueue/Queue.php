@@ -23,6 +23,7 @@ namespace oat\tao\model\taskQueue;
 
 use oat\oatbox\log\LoggerAwareTrait;
 use oat\oatbox\mutex\LockTrait;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\taskQueue\Queue\Broker\QueueBrokerInterface;
 use oat\tao\model\taskQueue\Queue\Broker\SyncQueueBrokerInterface;
 use oat\tao\model\taskQueue\Task\TaskInterface;
@@ -142,7 +143,7 @@ class Queue implements QueueInterface, TaskLogAwareInterface
 
     public function getBroker(): QueueBrokerInterface
     {
-        $this->broker->setServiceLocator($this->getServiceLocator());
+        $this->broker->setServiceLocator($this->getServiceLocator() ?? ServiceManager::getServiceManager());
 
         return $this->broker;
     }
