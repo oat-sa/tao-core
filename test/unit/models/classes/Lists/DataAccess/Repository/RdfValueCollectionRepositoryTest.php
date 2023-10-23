@@ -24,109 +24,91 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Lists\DataAccess\Repository;
 
-use common_persistence_sql_Platform as SqlPlatform;
 use common_persistence_SqlPersistence as SqlPersistence;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\ResultStatement;
-use Doctrine\DBAL\FetchMode;
-use Doctrine\DBAL\Platforms\MySqlPlatform;
-use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
-use Exception;
-use oat\generis\model\OntologyRdf;
+use oat\generis\model\data\Ontology;
+use oat\generis\model\data\RdfsInterface;
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
 use oat\generis\test\MockObject;
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\generis\test\TestCase;
+use oat\oatbox\event\EventAggregator;
+use oat\oatbox\event\EventManager;
+use oat\oatbox\service\ServiceManager;
+use oat\search\base\QueryBuilderInterface;
+use oat\search\base\SearchGateWayInterface;
 use oat\tao\model\Lists\Business\Domain\Value;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
 use oat\tao\model\Lists\DataAccess\Repository\RdfValueCollectionRepository;
 use oat\tao\model\Lists\DataAccess\Repository\ValueConflictException;
-use PHPUnit\Framework\MockObject\MockObject as PhpUnitMockObject;
+use oat\tao\model\search\ResultSet;
+use oat\tao\test\unit\models\classes\Lists\DataAccess\Repository\QueryStub;
 
 class RdfValueCollectionRepositoryTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private const PERSISTENCE_ID = 'test';
 
     private const COLLECTION_URI = 'http://example.com';
 
-    /** @var PersistenceManager|MockObject */
-    private $persistenceManagerMock;
-
-    /** @var SqlPersistence|MockObject */
-    private $persistenceMock;
-
-    /** @var Connection|MockObject */
-    private $connectionMock;
-
-    /** @var MySqlPlatform|MockObject */
-    private $platformMock;
-
     /** @var RdfValueCollectionRepository|MockObject */
     private $sut;
 
-    /** @var string[] */
-    private $conditions = [];
+    private QueryStub $criterion;
 
-    /** @var array */
-    private $queryParameters = [];
+    /**
+     * @var SearchGateWayInterface|MockObject
+     */
+    private $gateway;
 
-    /** @var int[] */
-    private $queryParameterTypes = [];
-
-    /** @var SqlPlatform|PhpUnitMockObject */
-    private $sqlPlatformMock;
+    /**
+     * @var \core_kernel_persistence_ResourceInterface|MockObject
+     */
+    private $resourceMock;
 
     public function setUp(): void
     {
-        $this->platformMock = $this->createMock(MySqlPlatform::class);
-        $this->connectionMock = $this->createPartialMock(
-            Connection::class,
-            [
-                'getDatabasePlatform',
-                'getExpressionBuilder',
-                'executeQuery',
-                'connect',
-                'beginTransaction',
-                'executeStatement'
-            ]
-        );
-
-        $this->sqlPlatformMock = $this->getMockBuilder(SqlPlatform::class)
-            ->onlyMethods(['rollBack', 'commit'])
-            ->setConstructorArgs([$this->connectionMock])
-            ->getMock();
-
-        $this->persistenceMock = $this->createMock(SqlPersistence::class);
-        $this->persistenceManagerMock = $this->createMock(PersistenceManager::class);
-
-        $this->setUpInitialMockExpectations();
+        $persistenceManagerMock = $this->mockPersistance();
+        $complexSearchService = $this->mockComplexSearch();
+        $ontology = $this->mockOntology($complexSearchService);
+        $serviceManager = $this->mockServiceLocator($ontology);
 
         $this->sut = $this->getMockBuilder(RdfValueCollectionRepository::class)
-            ->onlyMethods(['insert', 'verifyUriUniqueness'])
-            ->setConstructorArgs([$this->persistenceManagerMock, self::PERSISTENCE_ID])
+            ->onlyMethods(['verifyUriUniqueness'])
+            ->setConstructorArgs([$persistenceManagerMock, self::PERSISTENCE_ID])
             ->getMock();
+        $this->sut->setServiceLocator($serviceManager);
     }
 
     /**
-     * @param ValueCollectionSearchRequest $searchRequest
-     *
      * @dataProvider findAllDataProvider
      */
-    public function testFindAll(ValueCollectionSearchRequest $searchRequest): void
+    public function testFindAll(ValueCollectionSearchRequest $searchRequest, array $queryParams): void
     {
-        $result = new ValueCollection(
-            self::COLLECTION_URI,
+        $expectedResult = new ValueCollection(
+            $searchRequest->hasValueCollectionUri() ? $searchRequest->getValueCollectionUri() : null,
             new Value(1, '1', 'Element 1'),
             new Value(2, '2', 'Element 2')
         );
 
-        $this->expectQuery($searchRequest, $result);
+        if ($searchRequest->hasPropertyUri()) {
+            $this->resourceMock
+                ->method('getPropertyValues')
+                ->with(
+                    new \core_kernel_classes_Property($searchRequest->getPropertyUri()),
+                    new \core_kernel_classes_Property(OntologyRdfs::RDFS_RANGE),
+                    []
+                )
+                ->willReturn(['http://url']);
+        }
 
-        $this->assertEquals(
-            $result,
-            $this->sut->findAll($searchRequest)
-        );
+        $this->prepareResponse($searchRequest, $expectedResult);
+
+        $this->assertEquals($expectedResult, $this->sut->findAll($searchRequest), 'Result is incorrect');
+        $this->assertEquals($queryParams, $this->criterion->getCriteriaList(), 'Query params are incorrect');
     }
 
     public function testPersistDuplicates(): void
@@ -139,82 +121,71 @@ class RdfValueCollectionRepositoryTest extends TestCase
         $this->sut->persist($valueCollection);
     }
 
-    public function testPersistRollback(): void
-    {
-        $this->sut
-            ->method('insert')
-            ->willThrowException(new Exception());
-        $this->sqlPlatformMock->expects($this->once())->method('rollback');
-
-        $valueCollection = new ValueCollection('http://url', new Value(null, '', ''));
-
-        $result = $this->sut->persist($valueCollection);
-
-        $this->assertFalse($result);
-    }
-
     public function testPersistUpdateNoChanges(): void
     {
-        $this->connectionMock
-            ->expects(static::never())
-            ->method('executeStatement');
+        $this->resourceMock
+            ->expects(self::never())
+            ->method('createInstance');
 
-        $this->connectionMock
-            ->expects(static::never())
-            ->method('executeQuery');
+        $this->resourceMock
+            ->expects(self::never())
+            ->method('setPropertyValue');
+
+        $this->resourceMock
+            ->expects(self::never())
+            ->method('updateUri');
 
         $value = new Value(666, 'uri', 'label');
 
         $valueCollection = new ValueCollection('http://url', $value);
 
-        $result = $this->sut->persist($valueCollection);
-
-        $this->assertTrue($result);
+        $this->assertTrue($this->sut->persist($valueCollection));
     }
 
     public function testPersistUpdate(): void
     {
-        $this->connectionMock
-            ->expects(static::once())
-            ->method('executeStatement');
+        $this->resourceMock
+            ->expects(self::once())
+            ->method('removePropertyValues');
+
+        $this->resourceMock
+            ->expects(self::once())
+            ->method('setPropertyValue');
 
         $value = new Value(666, 'uri1', 'label');
         $value->setLabel('newLabel');
 
         $valueCollection = new ValueCollection('http://url', $value);
 
-        $result = $this->sut->persist($valueCollection);
-
-        $this->assertTrue($result);
+        $this->assertTrue($this->sut->persist($valueCollection));
     }
 
     public function testPersistUpdateDifferentUris(): void
     {
-        $this->connectionMock
-            ->expects(static::exactly(3))
-            ->method('executeStatement');
+        $this->resourceMock
+            ->expects(self::once())
+            ->method('updateUri');
 
         $value = new Value(666, 'uri1', 'label');
         $value->setUri('uri2');
 
         $valueCollection = new ValueCollection('http://url', $value);
 
-        $result = $this->sut->persist($valueCollection);
-
-        $this->assertTrue($result);
+        $this->assertTrue($this->sut->persist($valueCollection));
     }
 
     public function testPersistInsert(): void
     {
-        $this->sut->expects($this->once())->method('insert');
+        $this->resourceMock
+            ->expects(self::once())
+            ->method('createInstance')
+            ->willReturn(new \core_kernel_classes_Resource('uri1'));
 
         $value = new Value(null, 'uri1', 'label');
 
         $valueCollection = new ValueCollection('http://url', $value);
 
-        $result = $this->sut->persist($valueCollection);
-
-        $this->assertTrue($result);
+        $this->assertTrue($this->sut->persist($valueCollection));
     }
 
     /**
@@ -222,36 +193,19 @@ class RdfValueCollectionRepositoryTest extends TestCase
      */
     public function testCount(
         int $expected,
-        $fetchResult,
         ?string $valueCollectionUri,
         array $queryParams
     ): void {
-        $hasValueCollectionUri = !empty($valueCollectionUri);
 
-        $searchRequest = $this->createMock(ValueCollectionSearchRequest::class);
-        $searchRequest
-            ->expects($this->atLeastOnce())
-            ->method('hasValueCollectionUri')
-            ->willReturn($hasValueCollectionUri);
+        $searchRequest = new ValueCollectionSearchRequest();
+        $searchRequest->setValueCollectionUri($valueCollectionUri);
 
-        $searchRequest
-            ->expects($hasValueCollectionUri ? $this->atLeastOnce() : $this->never())
-            ->method('getValueCollectionUri')
-            ->willReturn($valueCollectionUri);
-
-        $statementMock = $this->createMock(ResultStatement::class);
-        $statementMock
-            ->expects($this->once())
-            ->method('fetch')
-            ->with(FetchMode::NUMERIC)
-            ->willReturn($fetchResult);
-
-        $this->connectionMock->expects($this->once())
-            ->method('executeQuery')
-            ->with($this->createCountQuery($hasValueCollectionUri), $queryParams)
-            ->willReturn($statementMock);
+        $this->gateway->expects(self::once())
+            ->method('count')
+            ->willReturn($expected);
 
         $this->assertEquals($expected, $this->sut->count($searchRequest));
+        $this->assertEquals($queryParams, $this->criterion->getCriteriaList());
     }
 
     public function countDataProvider(): array
@@ -259,41 +213,28 @@ class RdfValueCollectionRepositoryTest extends TestCase
         return [
             'count() with value collection uses its URI for querying' => [
                 'expected' => 1,
-                'fetchResult' => [1],
                 'valueCollectionUri' => 'http://value.collection/',
                 'queryParams' => [
-                    'label_uri' => 'http://www.w3.org/2000/01/rdf-schema#label',
-                    'type_uri' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-                    'collection_uri' => 'http://value.collection/',
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://value.collection/]',
                 ],
             ],
             'count() without value collection does not use its URI for querying' => [
                 'expected' => 1,
-                'fetchResult' => [1],
                 'valueCollectionUri' => '',
-                'queryParams' => [
-                    'label_uri' => 'http://www.w3.org/2000/01/rdf-schema#label',
-                    'type_uri' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-                ]
+                'queryParams' => []
             ],
             'An empty result set is handled gracefully' => [
                 'expected' => 0,
-                'fetchResult' => [],
                 'valueCollectionUri' => 'http://value.collection/',
                 'queryParams' => [
-                    'label_uri' => 'http://www.w3.org/2000/01/rdf-schema#label',
-                    'type_uri' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-                    'collection_uri' => 'http://value.collection/',
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://value.collection/]',
                 ],
             ],
             'A null result set is handled gracefully' => [
                 'expected' => 0,
-                'fetchResult' => null,
                 'valueCollectionUri' => 'http://value.collection/',
                 'queryParams' => [
-                    'label_uri' => 'http://www.w3.org/2000/01/rdf-schema#label',
-                    'type_uri' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-                    'collection_uri' => 'http://value.collection/',
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://value.collection/]',
                 ],
             ],
         ];
@@ -303,39 +244,57 @@ class RdfValueCollectionRepositoryTest extends TestCase
     {
         return [
             'Bare search request' => [
-                (new ValueCollectionSearchRequest())->setDataLanguage('en'),
+                'searchRequest' => (new ValueCollectionSearchRequest())->setDataLanguage('en'),
+                'queryParams' => [],
             ],
             'Search request with property URI' => [
-                (new ValueCollectionSearchRequest())
+                'searchRequest' => (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->setDataLanguage('en'),
+                'queryParams' => [
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://url]',
+                ],
             ],
             'Search request with value collection URI' => [
-                (new ValueCollectionSearchRequest())
+                'searchRequest' => (new ValueCollectionSearchRequest())
                     ->setValueCollectionUri(self::COLLECTION_URI)
                     ->setDataLanguage('en'),
+                'queryParams' => [
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://example.com]',
+                ],
             ],
             'Search request with subject' => [
-                (new ValueCollectionSearchRequest())
+                'searchRequest' => (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->setSubject('test')
                     ->setDataLanguage('en'),
+                'queryParams' => [
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://url]',
+                    'http://www.w3.org/2000/01/rdf-schema#label is contains [test]',
+                ],
             ],
             'Search request with excluded value URIs' => [
-                (new ValueCollectionSearchRequest())
+                'searchRequest' => (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->addExcluded('https://example.com#1')
                     ->addExcluded('https://example.com#2')
                     ->setDataLanguage('en'),
+                'queryParams' => [
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://url]',
+                    'uri is notIn [https://example.com#1,https://example.com#2]',
+                ],
             ],
             'Search request with limit' => [
-                (new ValueCollectionSearchRequest())
+                'searchRequest' => (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->setLimit(1)
                     ->setDataLanguage('en'),
+                'queryParams' => [
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://url]'
+                ],
             ],
             'Search request with all properties' => [
-                (new ValueCollectionSearchRequest())
+                'searchRequest' => (new ValueCollectionSearchRequest())
                     ->setPropertyUri('https://example.com')
                     ->setValueCollectionUri(self::COLLECTION_URI)
                     ->setSubject('test')
@@ -343,200 +302,119 @@ class RdfValueCollectionRepositoryTest extends TestCase
                     ->addExcluded('https://example.com#2')
                     ->setLimit(1)
                     ->setDataLanguage('en'),
+                'queryParams' => [
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://url,http://example.com]',
+                    'http://www.w3.org/2000/01/rdf-schema#label is contains [test]',
+                    'uri is notIn [https://example.com#1,https://example.com#2]',
+                ],
             ],
         ];
     }
 
-    private function setUpInitialMockExpectations(): void
+    private function mockPersistance()
     {
-        $this->persistenceManagerMock
+        $persistenceManagerMock = $this->createMock(PersistenceManager::class);
+        $persistenceMock = $this->createMock(SqlPersistence::class);
+
+        $persistenceManagerMock
             ->method('getPersistenceById')
             ->with(self::PERSISTENCE_ID)
-            ->willReturn($this->persistenceMock);
+            ->willReturn($persistenceMock);
 
-        $this->persistenceMock
-            ->method('getPlatform')
-            ->willReturn($this->sqlPlatformMock);
-
-        $this->connectionMock
-            ->method('getDatabasePlatform')
-            ->willReturn($this->platformMock);
-
-        $this->connectionMock
-            ->method('getExpressionBuilder')
-            ->willReturn(new ExpressionBuilder($this->connectionMock));
-    }
-
-    private function createQuery(ValueCollectionSearchRequest $searchRequest): string
-    {
-        $queryParts = [
-            $this->createInitialQuery(),
-            $this->createPropertyUriCondition($searchRequest),
-            $this->createValueCollectionUriCondition($searchRequest),
-            $this->createSubjectCondition($searchRequest),
-            $this->createExcludedCondition($searchRequest),
-            $this->createCondition(),
-            $this->createOrderBy(),
-            $this->createLimit($searchRequest),
-        ];
-
-        return implode(' ', array_filter($queryParts));
-    }
-
-    private function createInitialQuery(): string
-    {
-        $this->queryParameters = [
-            'label_uri' => OntologyRdfs::RDFS_LABEL,
-            'type_uri'  => OntologyRdf::RDF_TYPE,
-        ];
-
-        $this->conditions = [
-            '(element.predicate = :label_uri)',
-            'AND (collection.predicate = :type_uri)',
-        ];
-
-        return implode(
-            ' ',
-            [
-                'SELECT collection.object as collection_uri, '
-                . 'element.id, element.subject,'
-                . ' element.object, '
-                . 'element.l_language as datalanguage',
-                'FROM statements element',
-                'INNER JOIN statements collection',
-                'ON collection.subject = element.subject',
-            ]
-        );
-    }
-
-    private function createCountQuery(bool $withValueCollection): string
-    {
-        return 'SELECT count(element.id) AS c FROM statements element ' .
-            'INNER JOIN statements collection ON collection.subject = element.subject ' .
-            'WHERE (element.predicate = :label_uri) AND ' .
-            '(collection.predicate = :type_uri)' .
-            ($withValueCollection ? ' AND (collection.object = :collection_uri)' : '');
-    }
-
-    private function createPropertyUriCondition(ValueCollectionSearchRequest $searchRequest): ?string
-    {
-        if (!$searchRequest->hasPropertyUri()) {
-            return null;
-        }
-
-        $this->queryParameters['property_uri'] = $searchRequest->getPropertyUri();
-        $this->queryParameters['range_uri'] = OntologyRdfs::RDFS_RANGE;
-
-        $this->conditions[] = 'AND (property.subject = :property_uri)';
-        $this->conditions[] = 'AND (property.predicate = :range_uri)';
-
-        return implode(
-            ' ',
-            [
-                'INNER JOIN statements property',
-                'ON property.object = collection.object',
-            ]
-        );
-    }
-
-    private function createValueCollectionUriCondition(ValueCollectionSearchRequest $searchRequest): ?string
-    {
-        if (!$searchRequest->hasValueCollectionUri()) {
-            return null;
-        }
-
-        $this->queryParameters['collection_uri'] = $searchRequest->getValueCollectionUri();
-
-        $this->conditions[] = 'AND (collection.object = :collection_uri)';
-
-        return null;
-    }
-
-    private function createSubjectCondition(ValueCollectionSearchRequest $searchRequest): ?string
-    {
-        if (!$searchRequest->hasSubject()) {
-            return null;
-        }
-
-        $this->queryParameters['subject'] = '%' . $searchRequest->getSubject() . '%';
-
-        $this->conditions[] = 'AND (LOWER(element.object) LIKE :subject)';
-
-        return null;
-    }
-
-    private function createExcludedCondition(ValueCollectionSearchRequest $searchRequest): ?string
-    {
-        if (!$searchRequest->hasExcluded()) {
-            return null;
-        }
-
-        $this->queryParameters['excluded_value_uri'] = $searchRequest->getExcluded();
-        $this->queryParameterTypes['excluded_value_uri'] = Connection::PARAM_STR_ARRAY;
-
-        $this->conditions[] = 'AND (element.subject NOT IN (:excluded_value_uri))';
-
-        return null;
-    }
-
-    private function createOrderBy(): string
-    {
-        return 'ORDER BY element.id ASC';
-    }
-
-    private function createCondition(): string
-    {
-        $conditionStatement = implode(' ', $this->conditions);
-
-        return "WHERE $conditionStatement";
-    }
-
-    private function createLimit(ValueCollectionSearchRequest $searchRequest): ?string
-    {
-        if (!$searchRequest->hasLimit()) {
-            return null;
-        }
-
-        return "LIMIT {$searchRequest->getLimit()}";
-    }
-
-    private function expectQuery(ValueCollectionSearchRequest $searchRequest, ValueCollection $result): void
-    {
-        $statementMock = $this->createMock(ResultStatement::class);
-
-        $statementMock
-            ->expects(static::once())
-            ->method('fetchAll')
-            ->willReturn(
-                $this->domainToRawData($result)
+        $persistenceMock
+            ->method('transactional')
+            ->willReturnCallback(
+                function (\Closure $function) {
+                    return $function();
+                }
             );
 
-        $this->connectionMock
-            ->expects(static::once())
-            ->method('executeQuery')
-            ->with(
-                $this->createQuery($searchRequest),
-                $this->queryParameters,
-                $this->queryParameterTypes,
-                null
-            )
-            ->willReturn($statementMock);
+        return $persistenceManagerMock;
     }
 
-    private function domainToRawData(ValueCollection $valueCollection): array
+    private function prepareResponse(ValueCollectionSearchRequest $searchRequest, ValueCollection $result): void
     {
-        $result = [];
+        $tripleList = [];
+        foreach ($result as $expectedValue) {
+            $triple = new \core_kernel_classes_Triple();
 
-        foreach ($valueCollection as $value) {
-            $result[] = [
-                'collection_uri' => $valueCollection->getUri(),
-                'id'             => (string)$value->getId(),
-                'subject'        => $value->getUri(),
-                'object'         => $value->getLabel(),
-                'datalanguage'   => 'en',
-            ];
+            $triple->id = $expectedValue->getId();
+            $triple->subject = $expectedValue->getUri();
+            $triple->object = $expectedValue->getLabel();
+
+            $tripleList[] = $triple;
         }
 
-        return $result;
+        $this->gateway->expects(self::once())
+            ->method('searchTriples')
+            ->willReturn(new ResultSet($tripleList, count($tripleList)));
+    }
+
+    public function mockComplexSearch()
+    {
+        $this->criterion = new QueryStub();
+        $this->gateway = $this->createMock(SearchGateWayInterface::class);
+
+        $queryBuilder = $this->createMock(QueryBuilderInterface::class);
+        $queryBuilder->method('setCriteria')->willReturnSelf();
+        $queryBuilder->method('newQuery')->willReturn($this->criterion);
+
+        $complexSearchService = $this->createMock(ComplexSearchService::class);
+        $complexSearchService->method('query')->willReturn($queryBuilder);
+        $complexSearchService->method('getGateway')->willReturn($this->gateway);
+
+        return $complexSearchService;
+    }
+
+    /**
+     * @param $complexSearchService
+     *
+     * @return Ontology|MockObject
+     */
+    public function mockOntology($complexSearchService)
+    {
+        $this->resourceMock = $this->createMock(
+            \core_kernel_persistence_ClassInterface::class
+        );
+
+        $mockRdfs = $this->createMock(RdfsInterface::class);
+        $mockRdfs->method('getClassImplementation')->willReturn($this->resourceMock);
+        $mockRdfs->method('getResourceImplementation')->willReturn($this->resourceMock);
+        $mockRdfs->method('getPropertyImplementation')->willReturn($this->resourceMock);
+
+        $ontology = $this->createMock(Ontology::class);
+        $ontology->method('getOptions')->willReturn(['persistence' => self::PERSISTENCE_ID]);
+        $ontology->method('getRdfsInterface')->willReturn($mockRdfs);
+        $ontology->method('getSearchInterface')->willReturn($complexSearchService);
+        $ontology->method('getProperty')->willReturnCallback(function ($uri) use ($ontology) {
+            $property = new \core_kernel_classes_Property($uri);
+            $property->setModel($ontology);
+            return $property;
+        });
+        return $ontology;
+    }
+
+    /**
+     * @param $ontology
+     *
+     * @return ServiceManager|MockObject
+     */
+    public function mockServiceLocator($ontology)
+    {
+        $eventAggregator = new EventAggregator();
+        $eventManager = new EventManager();
+
+        $serviceManager = $this->getServiceManagerMock(
+            [
+                Ontology::SERVICE_ID => $ontology,
+                EventAggregator::SERVICE_ID => $eventAggregator,
+                EventManager::SERVICE_ID => $eventManager,
+            ]
+        );
+
+        ServiceManager::setServiceManager($serviceManager);
+        $eventManager->setServiceLocator($serviceManager);
+
+        return $serviceManager;
     }
 }

@@ -34,13 +34,6 @@ interface ValueCollectionRepositoryInterface
 
     public function isApplicable(string $collectionUri): bool;
 
-    /**
-     * @param ValueCollection $valueCollection
-     *
-     * @return bool
-     *
-     * @throws ValueConflictException
-     */
     public function persist(ValueCollection $valueCollection): bool;
 
     public function delete(string $valueCollectionUri): void;
