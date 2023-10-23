@@ -25,11 +25,10 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Domain;
 
 use tao_helpers_Uri;
-use JsonSerializable;
 
-class Value implements JsonSerializable
+class Value implements \JsonSerializable
 {
-    /** @var int|null */
+    /** @var string|int|null */
     private $id;
 
     /** @var string */
@@ -50,7 +49,7 @@ class Value implements JsonSerializable
     /** @var bool */
     private $hasChanges = false;
 
-    public function __construct(?int $id, string $uri, string $label, string $dependencyUri = null)
+    public function __construct($id, string $uri, string $label, string $dependencyUri = null)
     {
         $this->id = $id;
         $this->uri = $uri;
@@ -71,7 +70,7 @@ class Value implements JsonSerializable
         return $this->listUri;
     }
 
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
