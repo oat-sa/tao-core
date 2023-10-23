@@ -107,7 +107,7 @@ class RdfValueCollectionRepository extends InjectionAwareService implements Valu
             throw new ValueConflictException("Value Collection {$valueCollection->getUri()} has duplicate values.");
         }
 
-        $persistValueCollectionAction = function() use($valueCollection): void {
+        $persistValueCollectionAction = function () use ($valueCollection): void {
             foreach ($valueCollection as $value) {
                 $this->verifyUriUniqueness($value);
 

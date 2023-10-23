@@ -49,6 +49,7 @@ use oat\tao\test\unit\models\classes\Lists\DataAccess\Repository\QueryStub;
 class RdfValueCollectionRepositoryTest extends TestCase
 {
     use ServiceManagerMockTrait;
+
     private const PERSISTENCE_ID = 'test';
 
     private const COLLECTION_URI = 'http://example.com';
@@ -97,9 +98,9 @@ class RdfValueCollectionRepositoryTest extends TestCase
             $this->resourceMock
                 ->method('getPropertyValues')
                 ->with(
-                        new \core_kernel_classes_Property($searchRequest->getPropertyUri()),
-                        new \core_kernel_classes_Property(OntologyRdfs::RDFS_RANGE),
-                        []
+                    new \core_kernel_classes_Property($searchRequest->getPropertyUri()),
+                    new \core_kernel_classes_Property(OntologyRdfs::RDFS_RANGE),
+                    []
                 )
                 ->willReturn(['http://url']);
         }
@@ -322,7 +323,11 @@ class RdfValueCollectionRepositoryTest extends TestCase
 
         $persistenceMock
             ->method('transactional')
-            ->willReturnCallback(function(\Closure $function){return $function();});
+            ->willReturnCallback(
+                function (\Closure $function) {
+                    return $function();
+                }
+            );
 
         return $persistenceManagerMock;
     }
