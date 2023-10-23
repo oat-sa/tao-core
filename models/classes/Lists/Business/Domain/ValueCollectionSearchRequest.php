@@ -145,7 +145,9 @@ class ValueCollectionSearchRequest
 
     public function addExcluded(string $excluded): self
     {
-        $this->excluded[] = $excluded;
+        if (!empty($excluded)) {
+            $this->excluded[] = $excluded;
+        }
 
         return $this;
     }
