@@ -49,6 +49,7 @@ use oat\tao\test\unit\models\classes\Lists\DataAccess\Repository\QueryStub;
 class RdfValueCollectionRepositoryTest extends TestCase
 {
     use ServiceManagerMockTrait;
+
     private const PERSISTENCE_ID = 'test';
 
     private const COLLECTION_URI = 'http://example.com';
@@ -97,9 +98,9 @@ class RdfValueCollectionRepositoryTest extends TestCase
             $this->resourceMock
                 ->method('getPropertyValues')
                 ->with(
-                        new \core_kernel_classes_Property($searchRequest->getPropertyUri()),
-                        new \core_kernel_classes_Property(OntologyRdfs::RDFS_RANGE),
-                        []
+                    new \core_kernel_classes_Property($searchRequest->getPropertyUri()),
+                    new \core_kernel_classes_Property(OntologyRdfs::RDFS_RANGE),
+                    []
                 )
                 ->willReturn(['http://url']);
         }
@@ -214,7 +215,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
                 'expected' => 1,
                 'valueCollectionUri' => 'http://value.collection/',
                 'queryParams' => [
-                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is equals [http://value.collection/]',
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://value.collection/]',
                 ],
             ],
             'count() without value collection does not use its URI for querying' => [
@@ -226,14 +227,14 @@ class RdfValueCollectionRepositoryTest extends TestCase
                 'expected' => 0,
                 'valueCollectionUri' => 'http://value.collection/',
                 'queryParams' => [
-                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is equals [http://value.collection/]',
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://value.collection/]',
                 ],
             ],
             'A null result set is handled gracefully' => [
                 'expected' => 0,
                 'valueCollectionUri' => 'http://value.collection/',
                 'queryParams' => [
-                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is equals [http://value.collection/]',
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://value.collection/]',
                 ],
             ],
         ];
@@ -259,7 +260,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
                     ->setValueCollectionUri(self::COLLECTION_URI)
                     ->setDataLanguage('en'),
                 'queryParams' => [
-                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is equals [http://example.com]',
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://example.com]',
                 ],
             ],
             'Search request with subject' => [
@@ -302,8 +303,7 @@ class RdfValueCollectionRepositoryTest extends TestCase
                     ->setLimit(1)
                     ->setDataLanguage('en'),
                 'queryParams' => [
-                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://url]',
-                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is equals [http://example.com]',
+                    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type is in [http://url,http://example.com]',
                     'http://www.w3.org/2000/01/rdf-schema#label is contains [test]',
                     'uri is notIn [https://example.com#1,https://example.com#2]',
                 ],
@@ -323,7 +323,11 @@ class RdfValueCollectionRepositoryTest extends TestCase
 
         $persistenceMock
             ->method('transactional')
-            ->willReturnCallback(function(\Closure $function){return $function();});
+            ->willReturnCallback(
+                function (\Closure $function) {
+                    return $function();
+                }
+            );
 
         return $persistenceManagerMock;
     }

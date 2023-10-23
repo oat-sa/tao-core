@@ -32,11 +32,6 @@ use stdClass;
 
 class PrepareEnvironment extends ScriptAction
 {
-    public function getConfigPath(string $configEnv = ''): string
-    {
-        return sprintf('%s/tao/views/cypress/envs/env%s.json', ROOT_PATH, $configEnv);
-    }
-
     protected function provideUsage(): array
     {
         return [

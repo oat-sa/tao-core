@@ -5,8 +5,5 @@
  */
 
 use oat\tao\model\search\index\IndexService;
-use oat\tao\model\search\index\DocumentBuilder\IndexDocumentBuilder;
 
-return new IndexService([
-    'documentBuilder' => new IndexDocumentBuilder()
-]);
+return new IndexService();
