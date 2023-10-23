@@ -23,34 +23,25 @@
 namespace oat\tao\scripts\update;
 
 use AppendIterator;
-use oat\generis\model\kernel\persistence\file\FileModel;
-use oat\generis\model\data\ModelManager;
-use helpers_RdfDiff;
-use core_kernel_persistence_smoothsql_SmoothModel;
-use common_persistence_SqlPersistence;
 use common_ext_ExtensionsManager;
-use core_kernel_persistence_smoothsql_SmoothIterator;
+use helpers_RdfDiff;
+use oat\generis\model\data\Model;
+use oat\generis\model\data\ModelManager;
+use oat\generis\model\GenerisRdf;
+use oat\generis\model\kernel\persistence\file\FileModel;
 use oat\tao\model\extension\ExtensionModel;
+use oat\tao\model\user\TaoRoles;
 
 class OntologyUpdater
 {
     public static function syncModels()
     {
         $currentModel = ModelManager::getModel();
-        $modelIds = array_diff($currentModel->getReadableModels(), ['1']);
 
-        $persistence = common_persistence_SqlPersistence::getPersistence('default');
+        $existingTriples = self::getCurrentTriples($currentModel);
+        $nominalTriples = self::getNominalTriples();
 
-        $smoothIterator = new core_kernel_persistence_smoothsql_SmoothIterator($persistence, $modelIds);
-
-        $nominalModel = new AppendIterator();
-        foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
-            $nominalModel->append(new ExtensionModel($ext));
-        }
-        $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
-        $nominalModel->append($langModel);
-
-        $diff = helpers_RdfDiff::create($smoothIterator, $nominalModel);
+        $diff = helpers_RdfDiff::create($existingTriples, $nominalTriples);
         self::logDiff($diff);
 
         $diff->applyTo($currentModel);
@@ -81,5 +72,36 @@ class OntologyUpdater
 
         FileModel::toFile($path . DIRECTORY_SEPARATOR . 'add.rdf', $diff->getTriplesToAdd());
         FileModel::toFile($path . DIRECTORY_SEPARATOR . 'remove.rdf', $diff->getTriplesToRemove());
+    }
+
+    public static function getNominalTriples(): \Traversable
+    {
+        $nominalModel = new AppendIterator();
+        foreach (common_ext_ExtensionsManager::singleton()->getInstalledExtensions() as $ext) {
+            $nominalModel->append(new ExtensionModel($ext));
+        }
+        $langModel = \tao_models_classes_LanguageService::singleton()->getLanguageDefinition();
+        $nominalModel->append($langModel);
+        return $nominalModel;
+    }
+
+    public static function getCurrentTriples(Model $currentModel): \Traversable
+    {
+        return new \CallbackFilterIterator(
+            $currentModel->getRdfInterface()->getIterator(),
+            function (\core_kernel_classes_Triple $item) {
+                /**
+                 * Those includes generated with a script and created in non-system space, so we ignore them.
+                 * @see \tao_install_ExtensionInstaller::installManagementRole
+                 */
+                $isAutomaticIncludeRole = $item->subject === TaoRoles::GLOBAL_MANAGER
+                    && $item->predicate === GenerisRdf::PROPERTY_ROLE_INCLUDESROLE;
+
+                // GrantAccess field added to entities in non-system space and also should be ignored for now.
+                $isGrantAccess = $item->predicate === 'http://www.tao.lu/Ontologies/taoFuncACL.rdf#GrantAccess';
+
+                return !$isGrantAccess && !$isAutomaticIncludeRole;
+            }
+        );
     }
 }
