@@ -145,7 +145,7 @@ class tao_helpers_data_GenerisAdapterRdf extends tao_helpers_data_GenerisAdapter
                 ) {
                     continue;
                 }
-                $graph->add($triple->subject, $triple->predicate, $triple->object);
+                $graph->addResource($triple->subject, $triple->predicate, $triple->object);
             } else {
                 if ($this->isSerializedFile($triple->object)) {
                     continue;

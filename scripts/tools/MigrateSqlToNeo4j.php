@@ -32,6 +32,7 @@ use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\TaoOntology;
+use WikibaseSolutions\CypherDSL\Query;
 
 /**
  * php -dmemory_limit=1G index.php 'oat\tao\scripts\tools\MigrateSqlToNeo4j' -u -i -s 10000 -n 10000 -vvv
@@ -242,12 +243,12 @@ SQL,
      */
     public function loadNTripleToNeo4j($neo4j, string $nTriple, int $neo4jChunkSize): void
     {
-        $nTriple = $this->escapeTriple($nTriple);
-
-        $result = $neo4j->run(<<<CYPHER
-CALL n10s.rdf.import.inline('${nTriple}',"N-Triples",{commitSize:${neo4jChunkSize}}) YIELD terminationStatus, extraInfo
+        $result = $neo4j->run(
+            <<<CYPHER
+CALL n10s.rdf.import.inline(\$nTriple,"N-Triples",{commitSize:${neo4jChunkSize}}) YIELD terminationStatus, extraInfo
 RETURN terminationStatus, extraInfo
-CYPHER
+CYPHER,
+            ['nTriple' => $nTriple]
         );
 
         $responseMessage = $result->first();
@@ -261,31 +262,6 @@ CYPHER
         }
 
         $this->logInfo('Chunk of triples successfully loaded.');
-    }
-
-    public function escapeTriple(string $nTriple): string
-    {
-        $escapeCharacters = [
-            '\\\\' => '\\\\\\\\', //Escape double slash
-            '\"' => '\\\\"', // Escaped slash in escaped double quote
-            '\n' => '\\\\n', // Escaped slash in EOL
-            '\r' => '\\\\r', // Escaped slash in carriage return
-            '\t' => '\\\\t', // Escaped slash in horizontal tab
-            "'" => "\'", //Escape single quote
-        ];
-
-        $escapeList = [];
-        foreach ($escapeCharacters as $needle => $replacement) {
-            if (strpos($nTriple, $needle) !== false) {
-                $escapeList[$needle] = $replacement;
-            }
-        }
-
-        if (!empty($escapeList)) {
-            $nTriple = str_replace(array_keys($escapeList), array_values($escapeList), $nTriple);
-        }
-
-        return $nTriple;
     }
 
     protected function provideOptions(): array
@@ -354,10 +330,48 @@ CYPHER
             foreach ($nTripleList as $nTriple) {
                 $this->loadNTripleToNeo4j($neo4j, $nTriple, $neo4jChunkSize);
             }
+
+            $this->addSystemLabel($neo4j, $sqlChunkSize, $neo4jChunkSize);
         } catch (\Throwable $e) {
             return Report::createError($e->getMessage());
         }
 
         return Report::createSuccess('Data transfer finished successfully.');
+    }
+
+    private function addSystemLabel($neo4j, int $sqlChunkSize, int $neo4jChunkSize)
+    {
+        $sql = $this->getSqlAdapter();
+        $nonSystemModelId = \core_kernel_persistence_smoothsql_SmoothModel::DEFAULT_WRITABLE_MODEL;
+
+            /** @var \Doctrine\DBAL\ForwardCompatibility\Result $idResult */
+        $result = $sql->query(<<<SQL
+                SELECT subject
+                    FROM statements
+                    WHERE modelid <> {$nonSystemModelId}
+                    GROUP BY subject;
+SQL);
+
+        $subjectList = [];
+        while ($r = $result->fetchColumn()) {
+            $subjectList[] = $r;
+
+            if (count($subjectList) >= $neo4jChunkSize) {
+                $systemNode = Query::node('Resource');
+                $query = Query::new()->match($systemNode)
+                    ->where($systemNode->property('uri')->in($subjectList))
+                    ->set($systemNode->labeled('System'));
+                $neo4j->runStatement($query);
+                $subjectList = [];
+            }
+        }
+
+        if (!empty($subjectList)) {
+            $systemNode = Query::node('Resource');
+            $query = Query::new()->match($systemNode)
+                ->where($systemNode->property('uri')->in($subjectList))
+                ->set($systemNode->labeled('System'));
+            $neo4j->run($query->build());
+        }
     }
 }
