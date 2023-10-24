@@ -203,10 +203,8 @@ class Queue implements QueueInterface, TaskLogAwareInterface
 
     /**
      * Count of messages in the queue.
-     *
-     * @return int
      */
-    public function count()
+    public function count(): int
     {
         return $this->getBroker()->count();
     }
