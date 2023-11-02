@@ -48,7 +48,7 @@ class ClassPropertyCacheWarmupListener
             $properties[$triple->predicate][] = $triple->subject;
         }
 
-        helpers_PropertyCache::warmupCachedValues(new ArrayIterator(array_keys($properties)));
+        helpers_PropertyCache::warmupCachedValuesByProperties(array_keys($properties));
 
         $event->addReport(Report::createInfo('Generated property cache.'));
     }

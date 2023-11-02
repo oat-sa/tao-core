@@ -46,7 +46,7 @@ class OntologyUpdater
         self::logDiff($diff);
 
         $diff->applyTo($currentModel);
-        helpers_PropertyCache::clearCachedValues($diff->getTriplesToRemove());
+        helpers_PropertyCache::clearCachedValuesByTriples($diff->getTriplesToRemove());
     }
 
     public static function correctModelId($rdfFile)
