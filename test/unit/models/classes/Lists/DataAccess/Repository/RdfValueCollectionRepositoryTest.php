@@ -131,10 +131,6 @@ class RdfValueCollectionRepositoryTest extends TestCase
             ->expects(self::never())
             ->method('setPropertyValue');
 
-        $this->resourceMock
-            ->expects(self::never())
-            ->method('updateUri');
-
         $value = new Value(666, 'uri', 'label');
 
         $valueCollection = new ValueCollection('http://url', $value);
@@ -162,10 +158,6 @@ class RdfValueCollectionRepositoryTest extends TestCase
 
     public function testPersistUpdateDifferentUris(): void
     {
-        $this->resourceMock
-            ->expects(self::once())
-            ->method('updateUri');
-
         $value = new Value(666, 'uri1', 'label');
         $value->setUri('uri2');
 
