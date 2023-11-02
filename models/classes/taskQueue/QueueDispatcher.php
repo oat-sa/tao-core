@@ -160,6 +160,21 @@ class QueueDispatcher extends ConfigurableService implements QueueDispatcherInte
         return $this;
     }
 
+    public function removeQueue(string $queueName): self
+    {
+        $queues = $this->getQueues();
+
+        foreach ($queues as $key => $queue) {
+            if ($queue->getName() === $queueName) {
+                unset($queues[$key]);
+            }
+        }
+
+        $this->setQueues(array_values($queues));
+
+        return $this;
+    }
+
     /**
      * @inheritdoc
      */

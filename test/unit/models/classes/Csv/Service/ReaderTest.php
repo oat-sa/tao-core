@@ -22,26 +22,10 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\Csv\Service;
 
-use oat\generis\test\TestCase;
-use oat\tao\model\Csv\Resource\Reader;
-use League\Csv\Reader as LeagueCsvReader;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-// @TODO Test class in the next iteration
 class ReaderTest extends TestCase
 {
-    /** @var LeagueCsvReader|MockObject */
-    private $leaguesCsv;
-
-    /** @var Reader */
-    private $sut;
-
-    public function setUp(): void
-    {
-        $this->leaguesCsv = $this->createMock(LeagueCsvReader::class);
-        $this->sut = new Reader($this->leaguesCsv);
-    }
-
     public function testCreateFromStream(): void
     {
         $this->markTestIncomplete('Test in the next iteration');
