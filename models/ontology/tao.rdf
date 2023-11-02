@@ -82,13 +82,14 @@
       <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
       <rdfs:label xml:lang="en-US"><![CDATA[Updated]]></rdfs:label>
       <rdfs:comment xml:lang="en-US"><![CDATA[Last updated date]]></rdfs:comment>
+      <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
     </rdf:Description>
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#UpdatedBy">
       <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
       <rdfs:label xml:lang="en-US"><![CDATA[Author]]></rdfs:label>
       <rdfs:comment xml:lang="en-US"><![CDATA[User who authored the change]]></rdfs:comment>
-      <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#User"/>
+      <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
     </rdf:Description>
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#level">
