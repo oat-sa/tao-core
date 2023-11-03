@@ -23,17 +23,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\listener;
 
-use ArrayIterator;
 use helpers_PropertyCache;
 use oat\generis\model\data\event\CacheWarmupEvent;
 use oat\generis\model\data\Ontology;
 use oat\oatbox\reporting\Report;
-use oat\tao\scripts\update\OntologyUpdater;
 
 class ClassPropertyCacheWarmupListener
 {
-    private Ontology $model;
-
     public function __construct(Ontology $model)
     {
         $this->model = $model;
@@ -41,14 +37,11 @@ class ClassPropertyCacheWarmupListener
 
     public function handleEvent(CacheWarmupEvent $event): void
     {
-        $existingTriples = OntologyUpdater::getCurrentTriples($this->model);
+        $class = new \core_kernel_classes_Class('http://www.w3.org/1999/02/22-rdf-syntax-ns#Property');
+        $properties = $class->getInstances(true);
+        $properties = array_unique(array_keys($properties));
 
-        $properties = [];
-        foreach ($existingTriples as $triple) {
-            $properties[$triple->predicate][] = $triple->subject;
-        }
-
-        helpers_PropertyCache::warmupCachedValuesByProperties(array_keys($properties));
+        helpers_PropertyCache::warmupCachedValuesByProperties($properties);
 
         $event->addReport(Report::createInfo('Generated property cache.'));
     }
