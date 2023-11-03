@@ -54,6 +54,17 @@
                     return params;
                 },
                 taskReportContainer : $container
+            }).on('finished', function(result) {
+                if (result.task
+                    && result.task.report
+                    && _.isArray(result.task.report.children)
+                    && result.task.report.children.length
+                    && result.task.report.children[0]
+                    && result.task.report.children[0].type
+                    && 'error' === result.task.report.children[0].type
+                ) {
+                    this.displayReport(result.task.report.children[0], __('Error'), '', false);
+                }
             }).on('error', function(err){
                 //format and display error message to user
                 feedback().error(err);
