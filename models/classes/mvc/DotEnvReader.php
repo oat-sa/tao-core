@@ -40,7 +40,7 @@ class DotEnvReader
         }
         if (file_exists($envFile)) {
             $dotEnv = new Dotenv();
-            $dotEnv->overload($envFile);
+            $dotEnv->loadEnv($envFile);
         }
     }
 }
