@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\listener;
 
-use helpers_PropertyCache;
+use oat\generis\Helper\PropertyCache;
 use oat\generis\model\data\event\CacheWarmupEvent;
 use oat\generis\model\data\Ontology;
 use oat\oatbox\reporting\Report;
@@ -41,7 +41,7 @@ class ClassPropertyCacheWarmupListener
         $properties = $class->getInstances(true);
         $properties = array_unique(array_keys($properties));
 
-        helpers_PropertyCache::warmupCachedValuesByProperties($properties);
+        PropertyCache::warmupCachedValuesByProperties($properties);
 
         $event->addReport(Report::createInfo('Generated property cache.'));
     }

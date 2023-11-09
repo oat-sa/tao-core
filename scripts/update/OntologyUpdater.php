@@ -25,7 +25,7 @@ namespace oat\tao\scripts\update;
 use AppendIterator;
 use common_ext_ExtensionsManager;
 use helpers_RdfDiff;
-use helpers_PropertyCache;
+use oat\generis\Helper\PropertyCache;
 use oat\generis\model\data\Model;
 use oat\generis\model\data\ModelManager;
 use oat\generis\model\GenerisRdf;
@@ -46,7 +46,7 @@ class OntologyUpdater
         self::logDiff($diff);
 
         $diff->applyTo($currentModel);
-        helpers_PropertyCache::clearCachedValuesByTriples($diff->getTriplesToRemove());
+        PropertyCache::clearCachedValuesByTriples($diff->getTriplesToRemove());
     }
 
     public static function correctModelId($rdfFile)
