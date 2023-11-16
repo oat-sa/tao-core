@@ -42,15 +42,9 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services
-            ->set(ServiceLocator::class, ServiceLocator::class)
-            ->args([[]])
-            ->tag('container.service_locator');
-
-        $services
             ->set('upload_service.link', ServiceLink::class)
             ->args(
                 [
-                    service(ServiceLocator::class),
                     UploadService::SERVICE_ID
                 ]
             );
