@@ -24,14 +24,14 @@ namespace oat\tao\test\unit\import\service;
 
 use core_kernel_classes_Class;
 use Exception;
-use oat\generis\model\DependencyInjection\ServiceLink;
+use oat\generis\test\TestCase;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\import\Processor\ImportFileErrorHandlerInterface;
 use oat\tao\model\import\Processor\ImportFileProcessorInterface;
 use oat\tao\model\import\service\AgnosticImportHandler;
-use oat\generis\test\TestCase;
 use oat\tao\model\upload\UploadService;
+use oat\tao\test\unit\ServiceLinkStub;
 use PHPUnit\Framework\MockObject\MockObject;
 use tao_helpers_form_Form;
 
@@ -43,7 +43,7 @@ class AgnosticImportHandlerTest extends TestCase
     /** @var UploadService|MockObject */
     private $uploadService;
 
-    /** @var ServiceLink|MockObject */
+    /** @var ServiceLinkStub|MockObject */
     private $uploadServiceLink;
 
     /** @var ImportFileErrorHandlerInterface|MockObject */
@@ -57,7 +57,7 @@ class AgnosticImportHandlerTest extends TestCase
         $this->errorHandler = $this->createMock(ImportFileErrorHandlerInterface::class);
         $this->processor = $this->createMock(ImportFileProcessorInterface::class);
         $this->uploadService = $this->createMock(UploadService::class);
-        $this->uploadServiceLink = $this->createMock(ServiceLink::class);
+        $this->uploadServiceLink = $this->createMock(ServiceLinkStub::class);
         $this->subject = (new AgnosticImportHandler($this->uploadServiceLink))
             ->withErrorHandler($this->errorHandler)
             ->withFileProcessor($this->processor);
