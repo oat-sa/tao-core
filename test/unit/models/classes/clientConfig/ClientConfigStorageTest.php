@@ -27,6 +27,7 @@ namespace oat\tao\test\unit\models\classes\clientConfig;
 use common_ext_Extension;
 use common_ext_ExtensionsManager;
 use common_session_Session;
+use oat\generis\model\DependencyInjection\ServiceLink;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageService;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
@@ -43,7 +44,6 @@ use oat\tao\model\menu\Perspective;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\routing\ResolverFactory;
 use oat\tao\model\security\xsrf\TokenService;
-use oat\tao\test\unit\ServiceLinkStub;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -55,8 +55,8 @@ class ClientConfigStorageTest extends TestCase
     /** @var TokenService|MockObject */
     private TokenService $tokenService;
 
-    /** @var ServiceLinkStub|MockObject */
-    private ServiceLinkStub $tokenServiceLink;
+    /** @var ServiceLink|MockObject */
+    private ServiceLink $tokenServiceLink;
 
     /** @var ClientLibRegistry|MockObject */
     private ClientLibRegistry $clientLibRegistry;
@@ -64,8 +64,8 @@ class ClientConfigStorageTest extends TestCase
     /** @var FeatureFlagConfigSwitcher|MockObject */
     private FeatureFlagConfigSwitcher $featureFlagConfigSwitcher;
 
-    /** @var ServiceLinkStub|MockObject */
-    private ServiceLinkStub $assetServiceLink;
+    /** @var ServiceLink|MockObject */
+    private ServiceLink $assetServiceLink;
 
     /** @var AssetService|MockObject */
     private AssetService $assetService;
@@ -76,9 +76,8 @@ class ClientConfigStorageTest extends TestCase
     /** @var ClientConfigService|MockObject */
     private ClientConfigService $clientConfigService;
 
-
-    /** @var ServiceLinkStub|MockObject */
-    private ServiceLinkStub $clientConfigServiceLink;
+    /** @var ServiceLink|MockObject */
+    private ServiceLink $clientConfigServiceLink;
 
     /** @var UserLanguageService|MockObject */
     private UserLanguageService $userLanguageService;
@@ -108,15 +107,15 @@ class ClientConfigStorageTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->tokenServiceLink = $this->createMock(ServiceLinkStub::class);
+        $this->tokenServiceLink = $this->createMock(ServiceLink::class);
         $this->tokenService = $this->createMock(TokenService::class);
         $this->clientLibRegistry = $this->createMock(ClientLibRegistry::class);
         $this->featureFlagConfigSwitcher = $this->createMock(FeatureFlagConfigSwitcher::class);
-        $this->assetServiceLink = $this->createMock(ServiceLinkStub::class);
+        $this->assetServiceLink = $this->createMock(ServiceLink::class);
         $this->assetService = $this->createMock(AssetService::class);
         $this->extensionsManager = $this->createMock(common_ext_ExtensionsManager::class);
         $this->clientConfigService = $this->createMock(ClientConfigService::class);
-        $this->clientConfigServiceLink = $this->createMock(ServiceLinkStub::class);
+        $this->clientConfigServiceLink = $this->createMock(ServiceLink::class);
         $this->userLanguageService = $this->createMock(UserLanguageService::class);
         $this->featureFlagRepository = $this->createMock(FeatureFlagRepositoryInterface::class);
         $this->resolverFactory = $this->createMock(ResolverFactory::class);
