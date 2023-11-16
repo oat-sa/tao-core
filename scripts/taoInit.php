@@ -30,6 +30,7 @@ $report = Report::createSuccess('Initialize tao application');
 
 $serviceManager = ServiceManager::getServiceManager();
 $serviceManager->get(SetupFileCache::class)->createDirectory(GENERIS_CACHE_PATH);
+$serviceManager->get(SetupFileCache::class)->createDirectory(GENERIS_CACHE_INSTALL_DI_PATH);
 $report->add(Report::createSuccess('Init filesystem complete.'));
 
 $actionList = [

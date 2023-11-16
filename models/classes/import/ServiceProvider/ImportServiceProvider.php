@@ -23,15 +23,17 @@ declare(strict_types=1);
 namespace oat\tao\model\import\ServiceProvider;
 
 use EasyRdf\Graph;
+use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\generis\model\DependencyInjection\ServiceLink;
 use oat\tao\model\import\CustomizedRdfImporter;
-use oat\tao\model\upload\UploadService;
 use oat\tao\model\import\service\AgnosticImportHandler;
 use oat\tao\model\StatisticalMetadata\Import\Processor\ImportProcessor;
-use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\upload\UploadService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class ImportServiceProvider implements ContainerServiceProviderInterface
 {
@@ -40,11 +42,25 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services
+            ->set(ServiceLocator::class, ServiceLocator::class)
+            ->args([[]])
+            ->tag('container.service_locator');
+
+        $services
+            ->set('upload_service.link', ServiceLink::class)
+            ->args(
+                [
+                    service(ServiceLocator::class),
+                    UploadService::SERVICE_ID
+                ]
+            );
+
+        $services
             ->set(AgnosticImportHandler::class, AgnosticImportHandler::class)
             ->public()
             ->args(
                 [
-                    service(UploadService::SERVICE_ID),
+                    service('upload_service.link'),
                 ]
             );
 
@@ -53,7 +69,7 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
-                    service(UploadService::SERVICE_ID),
+                    service('upload_service.link'),
                 ]
             )
             ->call(

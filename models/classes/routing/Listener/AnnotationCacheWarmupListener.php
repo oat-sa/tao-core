@@ -24,23 +24,23 @@ declare(strict_types=1);
 namespace oat\tao\model\routing\Listener;
 
 use oat\generis\model\data\event\CacheWarmupEvent;
+use oat\generis\model\DependencyInjection\ServiceLink;
 use oat\oatbox\reporting\Report;
 use oat\tao\helpers\ControllerHelper;
-use oat\tao\model\routing\AnnotationReaderService;
 
 /**
  * @codeCoverageIgnore Ignore because it uses static method which can't be easily tested
  */
 class AnnotationCacheWarmupListener
 {
-    private AnnotationReaderService $annotationReader;
+    private ServiceLink $annotationReaderLink;
     private \common_ext_ExtensionsManager $extensionsManager;
 
     public function __construct(
-        AnnotationReaderService $annotationReader,
+        ServiceLink $annotationReaderLink,
         \common_ext_ExtensionsManager $extensionsManager
     ) {
-        $this->annotationReader = $annotationReader;
+        $this->annotationReaderLink = $annotationReaderLink;
         $this->extensionsManager = $extensionsManager;
     }
 
@@ -48,9 +48,9 @@ class AnnotationCacheWarmupListener
     {
         foreach ($this->extensionsManager->getInstalledExtensionsIds() as $extId) {
             foreach (ControllerHelper::getControllers($extId) as $controllerClassName) {
-                $this->annotationReader->getAnnotations($controllerClassName, '');
+                $this->annotationReaderLink->getService()->getAnnotations($controllerClassName, '');
                 foreach (ControllerHelper::getActions($controllerClassName) as $actionName) {
-                    $this->annotationReader->getAnnotations($controllerClassName, $actionName);
+                    $this->annotationReaderLink->getService()->getAnnotations($controllerClassName, $actionName);
                 }
             }
         }

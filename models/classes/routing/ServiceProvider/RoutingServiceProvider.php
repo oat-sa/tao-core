@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\routing\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\generis\model\DependencyInjection\ServiceLink;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\routing\AnnotationReaderService;
@@ -60,11 +61,19 @@ class RoutingServiceProvider implements ContainerServiceProviderInterface
             );
 
         $services
+            ->set('AnnotationReaderService.link', ServiceLink::class)
+            ->args(
+                [
+                    AnnotationReaderService::SERVICE_ID
+                ]
+            );
+
+        $services
             ->set(AnnotationCacheWarmupListener::class, AnnotationCacheWarmupListener::class)
             ->public()
             ->args(
                 [
-                    service(AnnotationReaderService::class),
+                    service('AnnotationReaderService.link'),
                     service(\common_ext_ExtensionsManager::SERVICE_ID)
                 ]
             );

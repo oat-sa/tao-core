@@ -22,13 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\import\service;
 
+use oat\generis\model\DependencyInjection\ServiceLink;
 use oat\oatbox\filesystem\File;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\import\Processor\ImportFileErrorHandlerInterface;
 use oat\tao\model\import\Processor\ImportFileProcessorInterface;
-use oat\tao\model\upload\UploadService;
-use tao_helpers_form_Form;
 use oat\tao\model\import\TaskParameterProviderInterface;
+use tao_helpers_form_Form;
 use tao_models_classes_import_CsvUploadForm;
 use tao_models_classes_import_ImportHandler;
 use Throwable;
@@ -37,8 +37,8 @@ class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, 
 {
     public const STATISTICAL_METADATA_SERVICE_ID = self::class . '::STATISTICAL_METADATA';
 
-    /** @var UploadService */
-    private $uploadService;
+    /** @var ServiceLink */
+    private $uploadServiceLink;
 
     /** @var string|null */
     private $label;
@@ -52,9 +52,9 @@ class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, 
     /** @var ImportFileErrorHandlerInterface|null */
     private $errorHandler;
 
-    public function __construct(UploadService $uploadService)
+    public function __construct(ServiceLink $uploadServiceLink)
     {
-        $this->uploadService = $uploadService;
+        $this->uploadServiceLink = $uploadServiceLink;
     }
 
     public function withFileProcessor(ImportFileProcessorInterface $fileProcessor): self
@@ -111,13 +111,13 @@ class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, 
     public function import($class, $form, $userId = null)
     {
         try {
-            $uploadedFile = $this->uploadService->fetchUploadedFile($form);
+            $uploadedFile = $this->uploadServiceLink->getService()->fetchUploadedFile($form);
 
             return $this->processFile($uploadedFile);
         } catch (Throwable $exception) {
             return $this->handleException($exception);
         } finally {
-            $this->uploadService->remove($uploadedFile);
+            $this->uploadServiceLink->getService()->remove($uploadedFile);
         }
     }
 
@@ -126,7 +126,7 @@ class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, 
      */
     public function getTaskParameters(tao_helpers_form_Form $importForm): array
     {
-        $file = $this->uploadService->getUploadedFlyFile($this->getUploadedFile($importForm));
+        $file = $this->uploadServiceLink->getService()->getUploadedFlyFile($this->getUploadedFile($importForm));
 
         return [
             'uploaded_file' => $file->getPrefix(),

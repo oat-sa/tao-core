@@ -111,6 +111,7 @@ return [
         'http://www.tao.lu/middleware/wfEngine.rdf',
     ],
     'install' => [
+        'containerRebuild' => true,
         'rdf' => [
             __DIR__ . '/models/ontology/tao.rdf',
             __DIR__ . '/models/ontology/taoaclrole.rdf',

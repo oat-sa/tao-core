@@ -254,6 +254,7 @@ class tao_install_Installator
             $setupFileCache = $this->getServiceManager()->get(SetupFileCache::class);
             $cachePath = $file_path . 'generis' . DIRECTORY_SEPARATOR . 'cache';
             $setupFileCache->createDirectory($cachePath);
+            $setupFileCache->createDirectory(GENERIS_CACHE_INSTALL_DI_PATH);
             $this->log('d', $cachePath . ' directory was created!');
 
             foreach ((array)$installData['extra_persistences'] as $k => $persistence) {

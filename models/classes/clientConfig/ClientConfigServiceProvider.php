@@ -26,6 +26,7 @@ namespace oat\tao\model\clientConfig;
 
 use common_ext_ExtensionsManager;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\generis\model\DependencyInjection\ServiceLink;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageServiceInterface;
@@ -49,16 +50,39 @@ class ClientConfigServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services
+            ->set('security-xsrf-token.link', ServiceLink::class)
+            ->args(
+                [
+                    TokenService::SERVICE_ID
+                ]
+            );
+
+        $services
+            ->set('asset.link', ServiceLink::class)
+            ->args(
+                [
+                    AssetService::SERVICE_ID
+                ]
+            );
+        $services
+            ->set('clientConfig.link', ServiceLink::class)
+            ->args(
+                [
+                    ClientConfigService::SERVICE_ID
+                ]
+            );
+
+        $services
             ->set(ClientConfigStorage::class, ClientConfigStorage::class)
             ->public()
             ->args(
                 [
-                    service(TokenService::SERVICE_ID),
+                    service('security-xsrf-token.link'),
                     service(ClientLibRegistry::class),
                     service(FeatureFlagConfigSwitcher::class),
-                    service(AssetService::SERVICE_ID),
+                    service('asset.link'),
                     service(common_ext_ExtensionsManager::SERVICE_ID),
-                    service(ClientConfigService::SERVICE_ID),
+                    service('clientConfig.link'),
                     service(UserLanguageServiceInterface::SERVICE_ID),
                     service(FeatureFlagRepositoryInterface::class),
                     service(ResolverFactory::class),

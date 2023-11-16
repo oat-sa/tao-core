@@ -29,6 +29,7 @@ use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
 $serviceManager = ServiceManager::getServiceManager();
 
 $serviceManager->get(SetupFileCache::class)->createDirectory(GENERIS_CACHE_PATH);
+$serviceManager->get(SetupFileCache::class)->createDirectory(GENERIS_CACHE_INSTALL_DI_PATH);
 
 $action = new UpdateExtensions();
 $action->setServiceLocator($serviceManager);

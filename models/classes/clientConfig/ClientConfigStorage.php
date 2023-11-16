@@ -28,10 +28,10 @@ use common_ext_Extension;
 use common_ext_ExtensionException;
 use common_ext_ExtensionsManager;
 use Exception;
+use oat\generis\model\DependencyInjection\ServiceLink;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
-use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
@@ -45,12 +45,12 @@ use Throwable;
 
 class ClientConfigStorage
 {
-    private TokenService $tokenService;
+    private ServiceLink $tokenServiceLink;
+    private ServiceLink $assetServiceLink;
+    private ServiceLink $clientConfigLink;
     private ClientLibRegistry $clientLibRegistry;
     private FeatureFlagConfigSwitcher $featureFlagConfigSwitcher;
-    private AssetService $assetService;
     private common_ext_ExtensionsManager $extensionsManager;
-    private ClientConfigService $clientConfigService;
     private UserLanguageServiceInterface $userLanguageService;
     private FeatureFlagRepositoryInterface $featureFlagRepository;
     private ResolverFactory $resolverFactory;
@@ -63,12 +63,12 @@ class ClientConfigStorage
     private array $config = [];
 
     public function __construct(
-        TokenService $tokenService,
+        ServiceLink $tokenServiceLink,
         ClientLibRegistry $clientLibRegistry,
         FeatureFlagConfigSwitcher $featureFlagConfigSwitcher,
-        AssetService $assetService,
+        ServiceLink $assetServiceLink,
         common_ext_ExtensionsManager $extensionsManager,
-        ClientConfigService $clientConfigService,
+        ServiceLink $clientConfigLink,
         UserLanguageServiceInterface $userLanguageService,
         FeatureFlagRepositoryInterface $featureFlagRepository,
         ResolverFactory $resolverFactory,
@@ -78,12 +78,12 @@ class ClientConfigStorage
         DateFormatterFactory $dateFormatterFactory,
         MenuService $menuService
     ) {
-        $this->tokenService = $tokenService;
+        $this->tokenServiceLink = $tokenServiceLink;
         $this->clientLibRegistry = $clientLibRegistry;
         $this->featureFlagConfigSwitcher = $featureFlagConfigSwitcher;
-        $this->assetService = $assetService;
+        $this->assetServiceLink = $assetServiceLink;
         $this->extensionsManager = $extensionsManager;
-        $this->clientConfigService = $clientConfigService;
+        $this->clientConfigLink = $clientConfigLink;
         $this->userLanguageService = $userLanguageService;
         $this->featureFlagRepository = $featureFlagRepository;
         $this->resolverFactory = $resolverFactory;
@@ -138,17 +138,19 @@ class ClientConfigStorage
             'module' => $query->getModule(),
         ]);
 
-        $taoBaseWww = $this->assetService->getJsBaseWww('tao');
+        $taoBaseWww = $this->assetServiceLink->getService()->getJsBaseWww('tao');
         $langCode = $this->sessionService->getCurrentSession()->getInterfaceLanguage();
         $timeout = $this->getClientTimeout();
         $extensionId = $resolver->getExtensionId();
 
         $this->config = array_merge_recursive(
             [
-                TokenService::JS_DATA_KEY => $this->getEncodedValue($this->tokenService->getClientConfig()),
+                TokenService::JS_DATA_KEY => $this->getEncodedValue(
+                    $this->tokenServiceLink->getService()->getClientConfig()
+                ),
                 'extensionsAliases' => $this->clientLibRegistry->getLibAliasMap(),
                 'libConfigs' => $this->getLibConfigs(),
-                'buster' => $this->assetService->getCacheBuster(),
+                'buster' => $this->assetServiceLink->getService()->getCacheBuster(),
                 'locale' => $langCode,
                 'client_timeout' => $timeout,
                 'crossorigin' => $this->isCrossorigin(),
@@ -158,7 +160,7 @@ class ClientConfigStorage
                         'root_url' => ROOT_URL,
                         'base_url' => $this->getExtension($extensionId)->getConstant('BASE_URL'),
                         'taobase_www' => $taoBaseWww,
-                        'base_www' => $this->assetService->getJsBaseWww($extensionId),
+                        'base_www' => $this->assetServiceLink->getService()->getJsBaseWww($extensionId),
                         'base_lang' => $this->getLang($langCode),
                         'locale' => $langCode,
                         'base_authoring_lang' => $this->userLanguageService->getAuthoringLanguage(),
@@ -176,7 +178,7 @@ class ClientConfigStorage
             $this->config
         );
 
-        foreach ($this->clientConfigService->getExtendedConfig() as $key => $value) {
+        foreach ($this->clientConfigLink->getService()->getExtendedConfig() as $key => $value) {
             $this->config[$key] = $this->getEncodedValue($value);
         }
 
