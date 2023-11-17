@@ -48,9 +48,9 @@ class AnnotationCacheWarmupListener
     {
         foreach ($this->extensionsManager->getInstalledExtensionsIds() as $extId) {
             foreach (ControllerHelper::getControllers($extId) as $controllerClassName) {
-                $this->annotationReaderLink->getService()->getAnnotations($controllerClassName, '');
+                $this->annotationReaderLink->getAnnotations($controllerClassName, '');
                 foreach (ControllerHelper::getActions($controllerClassName) as $actionName) {
-                    $this->annotationReaderLink->getService()->getAnnotations($controllerClassName, $actionName);
+                    $this->annotationReaderLink->getAnnotations($controllerClassName, $actionName);
                 }
             }
         }

@@ -31,7 +31,6 @@ use oat\oatbox\reporting\Report;
 use oat\tao\model\import\Processor\ImportFileErrorHandlerInterface;
 use oat\tao\model\import\Processor\ImportFileProcessorInterface;
 use oat\tao\model\import\service\AgnosticImportHandler;
-use oat\tao\model\upload\UploadService;
 use PHPUnit\Framework\MockObject\MockObject;
 use tao_helpers_form_Form;
 
@@ -39,9 +38,6 @@ class AgnosticImportHandlerTest extends TestCase
 {
     /** @var AgnosticImportHandler */
     private $subject;
-
-    /** @var UploadService|MockObject */
-    private $uploadService;
 
     /** @var ServiceLink|MockObject */
     private $uploadServiceLink;
@@ -56,7 +52,6 @@ class AgnosticImportHandlerTest extends TestCase
     {
         $this->errorHandler = $this->createMock(ImportFileErrorHandlerInterface::class);
         $this->processor = $this->createMock(ImportFileProcessorInterface::class);
-        $this->uploadService = $this->createMock(UploadService::class);
         $this->uploadServiceLink = $this->createMock(ServiceLink::class);
         $this->subject = (new AgnosticImportHandler($this->uploadServiceLink))
             ->withErrorHandler($this->errorHandler)
@@ -83,17 +78,8 @@ class AgnosticImportHandlerTest extends TestCase
         $file = $this->createMock(File::class);
 
         $this->uploadServiceLink
-            ->method('getService')
-            ->willReturn($this->uploadService);
-        $this->uploadService
-            ->expects($this->once())
-            ->method('fetchUploadedFile')
+            ->method('__call')
             ->willReturn($file);
-
-        $this->uploadService
-            ->expects($this->once())
-            ->method('remove')
-            ->with($file);
 
         $this->processor
             ->expects($this->once())
@@ -113,17 +99,8 @@ class AgnosticImportHandlerTest extends TestCase
         $exception = new Exception('Does not matter');
 
         $this->uploadServiceLink
-            ->method('getService')
-            ->willReturn($this->uploadService);
-        $this->uploadService
-            ->expects($this->once())
-            ->method('fetchUploadedFile')
+            ->method('__call')
             ->willReturn($file);
-
-        $this->uploadService
-            ->expects($this->once())
-            ->method('remove')
-            ->with($file);
 
         $this->processor
             ->expects($this->once())

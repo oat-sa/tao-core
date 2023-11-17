@@ -138,7 +138,7 @@ class ClientConfigStorage
             'module' => $query->getModule(),
         ]);
 
-        $taoBaseWww = $this->assetServiceLink->getService()->getJsBaseWww('tao');
+        $taoBaseWww = $this->assetServiceLink->getJsBaseWww('tao');
         $langCode = $this->sessionService->getCurrentSession()->getInterfaceLanguage();
         $timeout = $this->getClientTimeout();
         $extensionId = $resolver->getExtensionId();
@@ -146,11 +146,11 @@ class ClientConfigStorage
         $this->config = array_merge_recursive(
             [
                 TokenService::JS_DATA_KEY => $this->getEncodedValue(
-                    $this->tokenServiceLink->getService()->getClientConfig()
+                    $this->tokenServiceLink->getClientConfig()
                 ),
                 'extensionsAliases' => $this->clientLibRegistry->getLibAliasMap(),
                 'libConfigs' => $this->getLibConfigs(),
-                'buster' => $this->assetServiceLink->getService()->getCacheBuster(),
+                'buster' => $this->assetServiceLink->getCacheBuster(),
                 'locale' => $langCode,
                 'client_timeout' => $timeout,
                 'crossorigin' => $this->isCrossorigin(),
@@ -160,7 +160,7 @@ class ClientConfigStorage
                         'root_url' => ROOT_URL,
                         'base_url' => $this->getExtension($extensionId)->getConstant('BASE_URL'),
                         'taobase_www' => $taoBaseWww,
-                        'base_www' => $this->assetServiceLink->getService()->getJsBaseWww($extensionId),
+                        'base_www' => $this->assetServiceLink->getJsBaseWww($extensionId),
                         'base_lang' => $this->getLang($langCode),
                         'locale' => $langCode,
                         'base_authoring_lang' => $this->userLanguageService->getAuthoringLanguage(),
@@ -178,7 +178,7 @@ class ClientConfigStorage
             $this->config
         );
 
-        foreach ($this->clientConfigLink->getService()->getExtendedConfig() as $key => $value) {
+        foreach ($this->clientConfigLink->getExtendedConfig() as $key => $value) {
             $this->config[$key] = $this->getEncodedValue($value);
         }
 

@@ -52,9 +52,6 @@ use tao_helpers_Mode;
 
 class ClientConfigStorageTest extends TestCase
 {
-    /** @var TokenService|MockObject */
-    private TokenService $tokenService;
-
     /** @var ServiceLink|MockObject */
     private ServiceLink $tokenServiceLink;
 
@@ -67,14 +64,8 @@ class ClientConfigStorageTest extends TestCase
     /** @var ServiceLink|MockObject */
     private ServiceLink $assetServiceLink;
 
-    /** @var AssetService|MockObject */
-    private AssetService $assetService;
-
     /** @var common_ext_ExtensionsManager|MockObject */
     private common_ext_ExtensionsManager $extensionsManager;
-
-    /** @var ClientConfigService|MockObject */
-    private ClientConfigService $clientConfigService;
 
     /** @var ServiceLink|MockObject */
     private ServiceLink $clientConfigServiceLink;
@@ -108,13 +99,10 @@ class ClientConfigStorageTest extends TestCase
     protected function setUp(): void
     {
         $this->tokenServiceLink = $this->createMock(ServiceLink::class);
-        $this->tokenService = $this->createMock(TokenService::class);
         $this->clientLibRegistry = $this->createMock(ClientLibRegistry::class);
         $this->featureFlagConfigSwitcher = $this->createMock(FeatureFlagConfigSwitcher::class);
         $this->assetServiceLink = $this->createMock(ServiceLink::class);
-        $this->assetService = $this->createMock(AssetService::class);
         $this->extensionsManager = $this->createMock(common_ext_ExtensionsManager::class);
-        $this->clientConfigService = $this->createMock(ClientConfigService::class);
         $this->clientConfigServiceLink = $this->createMock(ServiceLink::class);
         $this->userLanguageService = $this->createMock(UserLanguageService::class);
         $this->featureFlagRepository = $this->createMock(FeatureFlagRepositoryInterface::class);
@@ -184,11 +172,7 @@ class ClientConfigStorageTest extends TestCase
             ->willReturn($resolver);
 
         $this->assetServiceLink
-            ->method('getService')
-            ->willReturn($this->assetService);
-        $this->assetService
-            ->method('getJsBaseWww')
-            ->with('tao')
+            ->method('__call')
             ->willReturn('JsBaseWww');
 
         $session = $this->createMock(common_session_Session::class);
@@ -228,11 +212,9 @@ class ClientConfigStorageTest extends TestCase
             ]);
 
         $this->tokenServiceLink
-            ->method('getService')
-            ->willReturn($this->tokenService);
-        $this->tokenService
             ->expects($this->once())
-            ->method('getClientConfig')
+            ->method('__call')
+            ->with('getClientConfig')
             ->willReturn([
                 'clientConfigKey' => 'clientConfigValue',
             ]);
@@ -263,12 +245,10 @@ class ClientConfigStorageTest extends TestCase
             ->willReturn($dateFormatter);
 
         $this->assetServiceLink
-            ->method('getService')
-            ->willReturn($this->assetService);
-        $this->assetService
-            ->method('getJsBaseWww')
-            ->with('tao')
-            ->willReturn('jsBaseWww');
+            ->method('__call')
+            ->willReturn(
+                'jsBaseWww'
+            );
 
         $this->userLanguageService
             ->method('getAuthoringLanguage')
@@ -297,11 +277,9 @@ class ClientConfigStorageTest extends TestCase
             ]);
 
         $this->clientConfigServiceLink
-            ->method('getService')
-            ->willReturn($this->clientConfigService);
-        $this->clientConfigService
             ->expects($this->once())
-            ->method('getExtendedConfig')
+            ->method('__call')
+            ->with('getExtendedConfig')
             ->willReturn([
                 'extendedConfigKey' => ['extendedConfigValue'],
             ]);

@@ -111,13 +111,13 @@ class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, 
     public function import($class, $form, $userId = null)
     {
         try {
-            $uploadedFile = $this->uploadServiceLink->getService()->fetchUploadedFile($form);
+            $uploadedFile = $this->uploadServiceLink->fetchUploadedFile($form);
 
             return $this->processFile($uploadedFile);
         } catch (Throwable $exception) {
             return $this->handleException($exception);
         } finally {
-            $this->uploadServiceLink->getService()->remove($uploadedFile);
+            $this->uploadServiceLink->remove($uploadedFile);
         }
     }
 
@@ -126,7 +126,7 @@ class AgnosticImportHandler implements tao_models_classes_import_ImportHandler, 
      */
     public function getTaskParameters(tao_helpers_form_Form $importForm): array
     {
-        $file = $this->uploadServiceLink->getService()->getUploadedFlyFile($this->getUploadedFile($importForm));
+        $file = $this->uploadServiceLink->getUploadedFlyFile($this->getUploadedFile($importForm));
 
         return [
             'uploaded_file' => $file->getPrefix(),

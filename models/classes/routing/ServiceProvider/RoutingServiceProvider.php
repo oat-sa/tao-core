@@ -61,7 +61,7 @@ class RoutingServiceProvider implements ContainerServiceProviderInterface
             );
 
         $services
-            ->set('AnnotationReaderService.link', ServiceLink::class)
+            ->set(AnnotationReaderService::SERVICE_ID, ServiceLink::class)
             ->args(
                 [
                     AnnotationReaderService::SERVICE_ID
@@ -73,7 +73,7 @@ class RoutingServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
-                    service('AnnotationReaderService.link'),
+                    service(AnnotationReaderService::SERVICE_ID),
                     service(\common_ext_ExtensionsManager::SERVICE_ID)
                 ]
             );

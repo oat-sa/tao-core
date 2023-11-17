@@ -50,7 +50,7 @@ class ClientConfigServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services
-            ->set('security-xsrf-token.link', ServiceLink::class)
+            ->set(TokenService::SERVICE_ID, ServiceLink::class)
             ->args(
                 [
                     TokenService::SERVICE_ID
@@ -58,14 +58,14 @@ class ClientConfigServiceProvider implements ContainerServiceProviderInterface
             );
 
         $services
-            ->set('asset.link', ServiceLink::class)
+            ->set(AssetService::SERVICE_ID, ServiceLink::class)
             ->args(
                 [
                     AssetService::SERVICE_ID
                 ]
             );
         $services
-            ->set('clientConfig.link', ServiceLink::class)
+            ->set(ClientConfigService::SERVICE_ID, ServiceLink::class)
             ->args(
                 [
                     ClientConfigService::SERVICE_ID
@@ -77,12 +77,12 @@ class ClientConfigServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
-                    service('security-xsrf-token.link'),
+                    service(TokenService::SERVICE_ID),
                     service(ClientLibRegistry::class),
                     service(FeatureFlagConfigSwitcher::class),
-                    service('asset.link'),
+                    service(AssetService::SERVICE_ID),
                     service(common_ext_ExtensionsManager::SERVICE_ID),
-                    service('clientConfig.link'),
+                    service(ClientConfigService::SERVICE_ID),
                     service(UserLanguageServiceInterface::SERVICE_ID),
                     service(FeatureFlagRepositoryInterface::class),
                     service(ResolverFactory::class),

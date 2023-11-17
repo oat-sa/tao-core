@@ -42,7 +42,7 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services
-            ->set('upload_service.link', ServiceLink::class)
+            ->set(UploadService::SERVICE_ID, ServiceLink::class)
             ->args(
                 [
                     UploadService::SERVICE_ID
@@ -54,7 +54,7 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
-                    service('upload_service.link'),
+                    service(UploadService::SERVICE_ID),
                 ]
             );
 
@@ -63,7 +63,7 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
             ->public()
             ->args(
                 [
-                    service('upload_service.link'),
+                    service(UploadService::SERVICE_ID),
                 ]
             )
             ->call(
