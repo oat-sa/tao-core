@@ -48,9 +48,9 @@ class OntologyFormDataProvider implements FormDataProviderInterface
     private ValueCollectionService $valueCollectionService;
 
     public function __construct(
-        LanguageClassSpecification     $languageClassSpecification,
+        LanguageClassSpecification $languageClassSpecification,
         LanguageListElementSortService $languageListElementSortService,
-        ValueCollectionService         $valueCollectionService
+        ValueCollectionService $valueCollectionService
     )
     {
         $this->languageClassSpecification = $languageClassSpecification;
@@ -77,8 +77,10 @@ class OntologyFormDataProvider implements FormDataProviderInterface
         ];
     }
 
-    public function getDescriptionFromTranslatedPropertyLabel(core_kernel_classes_Property $property, string $language): ?string
-    {
+    public function getDescriptionFromTranslatedPropertyLabel(
+        core_kernel_classes_Property $property,
+        string $language
+    ): ?string {
         $propertyLabel = current(
             $property->getPropertyValues(
                 $this->getProperty(OntologyRdfs::RDFS_LABEL),
@@ -97,8 +99,11 @@ class OntologyFormDataProvider implements FormDataProviderInterface
         return $propertyLabel;
     }
 
-    public function getPropertyListElementOptions(core_kernel_classes_Property $property, ?core_kernel_classes_Property $parentProperty, $instance): array
-    {
+    public function getPropertyListElementOptions(
+        core_kernel_classes_Property $property,
+        ?core_kernel_classes_Property $parentProperty,
+        $instance
+    ): array {
         $options = [];
         $values = $this->getListValues($instance, $property, $parentProperty);
 
@@ -209,8 +214,7 @@ class OntologyFormDataProvider implements FormDataProviderInterface
         $instance,
         core_kernel_classes_Property $property,
         core_kernel_classes_Property $parentProperty = null
-    ): ValueCollection
-    {
+    ): ValueCollection {
         $searchRequest = (new ValueCollectionSearchRequest())->setValueCollectionUri($property->getRange()->getUri());
 
         if ($instance instanceof core_kernel_classes_Resource) {

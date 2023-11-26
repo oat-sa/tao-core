@@ -145,7 +145,10 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
             $element = $elementFactory->create($property, $language);
 
             if ($element !== null) {
-                foreach ($this->getFormDataProvider()->getPropertyInstanceValues($property, $instance, $element) as $valueData) {
+                $propertyInstanceValues = $this
+                    ->getFormDataProvider()
+                    ->getPropertyInstanceValues($property, $instance, $element);
+                foreach ($propertyInstanceValues as $valueData) {
                     if ($this->getFormDataProvider()->isPropertyList($property)) {
                         $element->setValue(
                             new ElementValue(tao_helpers_Uri::encode($valueData[0]), $valueData[1])
@@ -162,9 +165,9 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
                 if ($property->getUri() === OntologyRdfs::RDFS_LABEL) {
                     // Label will not be a TAO Property. However, it should be always first.
                     array_splice($finalElements, 0, 0, [[$element, 1]]);
-                } elseif (count($guiOrderPropertyValues = $this->getFormDataProvider()->getPropertyGUIOrder($property))) {
+                } elseif (count($guiOrder = $this->getFormDataProvider()->getPropertyGUIOrder($property))) {
                     // get position of this property if it has one.
-                    $position = (int) $guiOrderPropertyValues[0];
+                    $position = (int) $guiOrder[0];
 
                     // insert the element at the right place.
                     $i = 0;

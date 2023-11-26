@@ -70,13 +70,18 @@ class BulkFormDataProvider implements FormDataProviderInterface
         ];
     }
 
-    public function getDescriptionFromTranslatedPropertyLabel(core_kernel_classes_Property $property, string $language): ?string
-    {
+    public function getDescriptionFromTranslatedPropertyLabel(
+        core_kernel_classes_Property $property,
+        string $language
+    ): ?string {
         return $this->getFormData()->getProperty($property->getUri())->getLabel();
     }
 
-    public function getPropertyListElementOptions(core_kernel_classes_Property $property, ?core_kernel_classes_Property $parentProperty, $instance): array
-    {
+    public function getPropertyListElementOptions(
+        core_kernel_classes_Property $property,
+        ?core_kernel_classes_Property $parentProperty,
+        $instance
+    ): array {
         $options = [];
         foreach ($this->getFormData()->getProperty($property->getUri())->getOptions() as $option) {
             $encodedUri = tao_helpers_Uri::encode($option->getUri());
@@ -122,7 +127,10 @@ class BulkFormDataProvider implements FormDataProviderInterface
         $output = [];
         foreach ($values as $value) {
             if ($this->isPropertyList($property)) {
-                $output[] = [$value, $this->getFormData()->getProperty($property->getUri())->getOption($value)->getLabel()];
+                $output[] = [
+                    $value,
+                    $this->getFormData()->getProperty($property->getUri())->getOption($value)->getLabel()
+                ];
             } else {
                 $output[] = [$value];
                 $element->setValue($value);

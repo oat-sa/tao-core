@@ -31,11 +31,18 @@ interface FormDataProviderInterface
 
     public function getDataToFeedProperty(core_kernel_classes_Property $property): array;
 
-    public function getDescriptionFromTranslatedPropertyLabel(core_kernel_classes_Property $property, string $language): ?string;
+    public function getDescriptionFromTranslatedPropertyLabel(
+        core_kernel_classes_Property $property,
+        string $language
+    ): ?string;
 
     public function isPropertyList(core_kernel_classes_Property $property): bool;
 
-    public function getPropertyListElementOptions(core_kernel_classes_Property $property, ?core_kernel_classes_Property $parentProperty, $instance): array;
+    public function getPropertyListElementOptions(
+        core_kernel_classes_Property $property,
+        ?core_kernel_classes_Property $parentProperty,
+        $instance
+    ): array;
 
     public function getPropertyNotListElementOptions(core_kernel_classes_Property $property): array;
 
