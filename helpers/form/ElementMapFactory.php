@@ -33,6 +33,7 @@ use oat\tao\helpers\form\elements\TreeAware;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\form\DataProvider\FormDataProviderInterface;
+use oat\tao\model\form\DataProvider\ProxyFormDataProvider;
 use Psr\Container\ContainerInterface;
 use tao_helpers_Context;
 use tao_helpers_form_elements_AsyncFile as AsyncFile;
@@ -199,6 +200,6 @@ class ElementMapFactory extends ConfigurableService
 
     public function getFormDataProvider(): FormDataProviderInterface
     {
-        return $this->getContainer()->get(FormDataProviderInterface::class);
+        return $this->getContainer()->get(ProxyFormDataProvider::class)->getProvider();
     }
 }

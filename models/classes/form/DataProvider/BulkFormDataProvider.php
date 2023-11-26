@@ -17,7 +17,6 @@
  *
  * Copyright (c) 2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
- * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
 
 namespace oat\tao\model\form\DataProvider;

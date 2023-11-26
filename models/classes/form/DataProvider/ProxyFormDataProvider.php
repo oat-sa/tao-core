@@ -17,87 +17,35 @@
  *
  * Copyright (c) 2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
- * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
 
 namespace oat\tao\model\form\DataProvider;
 
-use core_kernel_classes_Class;
-use core_kernel_classes_Property;
+use common_persistence_GraphPersistence;
+use oat\generis\model\data\Ontology;
 
-class ProxyFormDataProvider implements FormDataProviderInterface
+class ProxyFormDataProvider
 {
-    /** @var array<FormDataProviderInterface> */
-    private array $dataProviders;
+    private Ontology $persistence;
+    private BulkFormDataProvider $bulkFormDataProvider;
+    private OntologyFormDataProvider $ontologyFormDataProvider;
 
-    public function __construct(array $dataProviders)
-    {
-        $this->dataProviders = $dataProviders;
+    public function __construct(
+        Ontology $persistence,
+        BulkFormDataProvider $bulkFormDataProvider,
+        OntologyFormDataProvider $ontologyFormDataProvider
+    ) {
+        $this->persistence = $persistence;
+        $this->bulkFormDataProvider = $bulkFormDataProvider;
+        $this->ontologyFormDataProvider = $ontologyFormDataProvider;
     }
 
-    public function getClassProperties(core_kernel_classes_Class $class, core_kernel_classes_Class $topClass): array
+    public function getProvider(): FormDataProviderInterface
     {
-        return $this->callMethod(__FUNCTION__, func_get_args());
-    }
-
-    public function getDataToFeedProperty(core_kernel_classes_Property $property): array
-    {
-        return $this->callMethod(__FUNCTION__, func_get_args());
-    }
-
-    public function getDescriptionFromTranslatedPropertyLabel(core_kernel_classes_Property $property, string $language): ?string
-    {
-        return $this->callMethod(__FUNCTION__, func_get_args());
-    }
-
-    public function fetchFormData(string $classUri, string $topClassUri, string $elementUri, string $language): void
-    {
-        $this->callMethod(__FUNCTION__, func_get_args());
-    }
-
-    public function isPropertyList(core_kernel_classes_Property $property): bool
-    {
-        return $this->callMethod(__FUNCTION__, func_get_args());
-    }
-
-    public function getPropertyListElementOptions(core_kernel_classes_Property $property, ?core_kernel_classes_Property $parentProperty, $instance): array
-    {
-        return $this->callMethod(__FUNCTION__, func_get_args());
-    }
-
-    public function getPropertyNotListElementOptions(core_kernel_classes_Property $property): array
-    {
-        return $this->callMethod(__FUNCTION__, func_get_args());
-    }
-
-    public function getPropertyValidators(core_kernel_classes_Property $property): array
-    {
-        return $this->callMethod(__FUNCTION__, func_get_args());
-    }
-
-    public function getPropertyInstanceValues(core_kernel_classes_Property $property, $instance, $element): array
-    {
-        return $this->callMethod(__FUNCTION__, func_get_args());
-    }
-
-    public function getPropertyGUIOrder(core_kernel_classes_Property $property): array
-    {
-        return $this->callMethod(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * @return mixed
-     */
-    private function callMethod(string $method, array $args)
-    {
-        foreach($this->dataProviders as $dataProvider) {
-            try {
-                return $dataProvider->$method(...$args);
-            } catch (DataProviderException $e) {
-                continue;
-            }
+        if (!($this->persistence instanceof common_persistence_GraphPersistence)) {
+            return $this->bulkFormDataProvider;
         }
 
-        throw new \RuntimeException(sprintf('Unable to call %s method', $method));
+        return $this->ontologyFormDataProvider;
     }
 }

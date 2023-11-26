@@ -17,7 +17,6 @@
  *
  * Copyright (c) 2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
- * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
 
 declare(strict_types=1);
@@ -71,14 +70,13 @@ class FormDataProviderServiceProvider implements ContainerServiceProviderInterfa
                 ]
             );
 
-        $services->set(FormDataProviderInterface::class, ProxyFormDataProvider::class)
+        $services->set(ProxyFormDataProvider::class, ProxyFormDataProvider::class)
             ->public()
             ->args(
                 [
-                    [
-                        service(BulkFormDataProvider::class),
-                        service(OntologyFormDataProvider::class),
-                    ]
+                    service(Ontology::SERVICE_ID),
+                    service(BulkFormDataProvider::class),
+                    service(OntologyFormDataProvider::class),
                 ]
             );
     }
