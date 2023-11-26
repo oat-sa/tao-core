@@ -51,8 +51,7 @@ class OntologyFormDataProvider implements FormDataProviderInterface
         LanguageClassSpecification $languageClassSpecification,
         LanguageListElementSortService $languageListElementSortService,
         ValueCollectionService $valueCollectionService
-    )
-    {
+    ) {
         $this->languageClassSpecification = $languageClassSpecification;
         $this->languageListElementSortService = $languageListElementSortService;
         $this->valueCollectionService = $valueCollectionService;
