@@ -22,14 +22,12 @@
  *               2017-2021 (update and modification) Open Assessment Technologies SA;
  */
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\ElementMapFactory;
 use oat\tao\helpers\form\elements\ElementValue;
-use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
-use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
-use oat\tao\model\Lists\Business\Service\ValueCollectionService;
-use oat\tao\model\TaoOntology;
+use oat\tao\model\form\DataProvider\FormDataProviderInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -42,6 +40,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class tao_actions_form_Instance extends tao_actions_form_Generis
 {
+    use OntologyAwareTrait;
+
     public const EXCLUDED_PROPERTIES = 'excludedProperties';
 
     /**
@@ -81,9 +81,8 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
      */
     protected function initElements()
     {
-        $clazz = $this->getClazz();
+        $class = $this->getClazz();
         $instance = $this->getInstance();
-        $guiOrderProperty = new core_kernel_classes_Property(TaoOntology::PROPERTY_GUI_ORDER);
 
         // Guess language
         try {
@@ -92,10 +91,19 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
             $language = DEFAULT_LANG;
         }
 
+        $topClass = $this->getTopClazz();
+
+        $this->getFormDataProvider()->fetchFormData(
+            $class->getUri(),
+            $topClass->getUri(),
+            $instance->getUri(),
+            $language
+        );
+
         //get the list of properties to set in the form
         $propertyCandidates = tao_helpers_form_GenerisFormFactory::getDefaultProperties();
+        $classProperties = $this->getFormDataProvider()->getClassProperties($class, $topClass);
 
-        $classProperties = tao_helpers_form_GenerisFormFactory::getClassProperties($clazz, $this->getTopClazz());
         $propertyCandidates = array_merge($propertyCandidates, $classProperties);
 
         $additionalProperties = (isset($this->options['additionalProperties'])
@@ -119,7 +127,8 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
 
         $finalElements = [];
         foreach ($editedProperties as $property) {
-            $property->feed();
+            $property->feedFromData(...$this->getFormDataProvider()->getDataToFeedProperty($property));
+
             $widget = $property->getWidget();
             if ($widget === null || $widget instanceof core_kernel_classes_Literal) {
                 continue;
@@ -135,29 +144,13 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
             $element = $elementFactory->create($property, $language);
 
             if ($element !== null) {
-                // take instance values to populate the form
-                if ($instance !== null) {
-                    $isList = $this->isList($property);
-                    $values = $instance->getPropertyValuesCollection($property);
-
-                    foreach ($values as $value) {
-                        if ($value instanceof core_kernel_classes_Resource) {
-                            $elementValue    = $element instanceof tao_helpers_form_elements_Readonly
-                                ? $value->getLabel()
-                                : $value->getUri();
-                            $elementValueUri = $value->getUri();
-                        } elseif ($value instanceof core_kernel_classes_Literal) {
-                            $elementValue    = (string)$value;
-                            $elementValueUri = $elementValue;
-                        } else {
-                            continue;
-                        }
-
-                        if ($isList) {
-                            $this->fillListElement($element, $property, $elementValueUri);
-                        } else {
-                            $element->setValue($elementValue);
-                        }
+                foreach ($this->getFormDataProvider()->getPropertyInstanceValues($property, $instance, $element) as $valueData) {
+                    if ($this->getFormDataProvider()->isPropertyList($property)) {
+                        $element->setValue(
+                            new ElementValue(tao_helpers_Uri::encode($valueData[0]), $valueData[1])
+                        );
+                    } else {
+                        $element->setValue($valueData[0]);
                     }
                 }
 
@@ -166,10 +159,9 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
                 }
 
                 if ($property->getUri() === OntologyRdfs::RDFS_LABEL) {
-                    // Label will not be a TAO Property. However, it should
-                    // be always first.
+                    // Label will not be a TAO Property. However, it should be always first.
                     array_splice($finalElements, 0, 0, [[$element, 1]]);
-                } elseif (count($guiOrderPropertyValues = $property->getPropertyValues($guiOrderProperty))) {
+                } elseif (count($guiOrderPropertyValues = $this->getFormDataProvider()->getPropertyGUIOrder($property))) {
                     // get position of this property if it has one.
                     $position = (int) $guiOrderPropertyValues[0];
 
@@ -195,47 +187,19 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
             $this->form->addElement($element[0]);
         }
 
-        //add an hidden elt for the class uri
+        //add a hidden elt for the class uri
         $classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
-        $classUriElt->setValue(tao_helpers_Uri::encode($clazz->getUri()));
+        $classUriElt->setValue(tao_helpers_Uri::encode($class->getUri()));
         $this->form->addElement($classUriElt, true);
 
-        if (!is_null($instance)) {
-            //add an hidden elt for the instance Uri
-            $instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
-            $instanceUriElt->setValue(tao_helpers_Uri::encode($instance->getUri()));
-            $this->form->addElement($instanceUriElt, true);
+        //add a hidden elt for the instance Uri
+        $instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
+        $instanceUriElt->setValue(tao_helpers_Uri::encode($instance->getUri()));
+        $this->form->addElement($instanceUriElt, true);
 
-            $hiddenId = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
-            $hiddenId->setValue($instance->getUri());
-            $this->form->addElement($hiddenId, true);
-        }
-    }
-
-    private function fillListElement(
-        tao_helpers_form_FormElement $element,
-        core_kernel_classes_Property $property,
-        string $uri
-    ): void {
-        $valueService = $this->getValueCollectionService();
-        $searchRequest = new ValueCollectionSearchRequest();
-        $searchRequest->setValueCollectionUri($property->getRange()->getUri());
-        $searchRequest->setUris($uri);
-        $valueCollection = $valueService->findAll(
-            new ValueCollectionSearchInput($searchRequest)
-        );
-
-        foreach ($valueCollection as $value) {
-            $element->setValue(
-                new ElementValue(tao_helpers_Uri::encode($value->getUri()), $value->getLabel())
-            );
-        }
-    }
-
-    private function getValueCollectionService(): ValueCollectionService
-    {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->getServiceLocator()->get(ValueCollectionService::class);
+        $hiddenId = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
+        $hiddenId->setValue($instance->getUri());
+        $this->form->addElement($hiddenId, true);
     }
 
     private function getElementFactory(): ElementMapFactory
@@ -249,17 +213,9 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
         return ServiceManager::getServiceManager();
     }
 
-    private function isList(core_kernel_classes_Property $property): bool
+    private function getFormDataProvider(): FormDataProviderInterface
     {
-        $range = $property->getRange();
-
-        if (!$range instanceof core_kernel_classes_Class) {
-            return false;
-        }
-
-        return $range->isSubClassOf(
-            new core_kernel_classes_Class(TaoOntology::CLASS_URI_LIST)
-        );
+        return $this->getServiceLocator()->getContainer()->get(FormDataProviderInterface::class);
     }
 
     private function isEmptyLabel($element): bool
