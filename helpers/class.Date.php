@@ -283,4 +283,29 @@ class tao_helpers_Date
         }
         return $timeKeys;
     }
+
+    /**
+     * Converts from microseconds seconds format of microtime() function to RFC3339_EXTENDED
+     * @param string|null $microtime
+     * @return string|null
+     * @example 0.47950700 1700135696 to 1700135696.47950700
+     */
+    public static function formatMicrotime(?string $microtime): ?string
+    {
+        if ($microtime === null) {
+            return null;
+        }
+
+        // Split the string into microseconds and seconds
+        list($microseconds, $seconds) = explode(' ', $microtime);
+
+        // Show only the numbers after the dot without the integral part
+        list(, $decimalPart) = explode('.', sprintf('%0.6f', $microseconds));
+        //To preserve time zone we are not using createFromFormat()
+        $date = new DateTime();
+        $date->setTimestamp((int)$seconds);
+        $date->modify('+ ' . $decimalPart . ' microseconds');
+
+        return $date->format(DateTimeInterface::RFC3339_EXTENDED);
+    }
 }
