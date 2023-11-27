@@ -20,7 +20,6 @@
 
 declare(strict_types=1);
 
-
 namespace oat\tao\test\unit\helpers;
 
 use oat\generis\test\TestCase;
@@ -46,5 +45,4 @@ class DateTest extends TestCase
             ['microtime' => '0.71487900 1701073054', 'expected' => '2023-11-27T08:17:34.714+00:00']
         ];
     }
-
 }
