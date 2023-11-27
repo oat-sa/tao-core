@@ -30,9 +30,8 @@ class DateTest extends TestCase
     /**
      * @dataProvider microtimeProvider
      */
-    public function testMicrotimeFormat(string $microtime, string $expected)
+    public function testMicrotimeFormat(?string $microtime, ?string $expected)
     {
-
         $result = DateHelper::formatMicrotime($microtime);
         $this->assertEquals($expected, $result);
     }
@@ -42,7 +41,10 @@ class DateTest extends TestCase
         return [
             ['microtime' => '0.51487900 1701076034', 'expected' => '2023-11-27T09:07:14.514+00:00'],
             ['microtime' => '0.81487900 1701078054', 'expected' => '2023-11-27T09:40:54.814+00:00'],
-            ['microtime' => '0.71487900 1701073054', 'expected' => '2023-11-27T08:17:34.714+00:00']
+            ['microtime' => '0.71487900 1701073054', 'expected' => '2023-11-27T08:17:34.714+00:00'],
+            ['microtime' => '0.0 1701073054', 'expected' => '2023-11-27T08:17:34.000+00:00'],
+            ['microtime' => '0 1701073054', 'expected' => '2023-11-27T08:17:34.000+00:00'],
+            ['microtime' => null, 'expected' => null]
         ];
     }
 }
