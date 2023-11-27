@@ -26,7 +26,7 @@ namespace oat\tao\test\unit\helpers;
 use oat\generis\test\TestCase;
 use tao_helpers_Date as DateHelper;
 
-class DisplayTest extends TestCase
+class DateTest extends TestCase
 {
     /**
      * @dataProvider microtimeProvider
