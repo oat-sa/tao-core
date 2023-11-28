@@ -57,6 +57,7 @@ class FormDataProviderServiceProvider implements ContainerServiceProviderInterfa
             ->public()
             ->args(
                 [
+                    service(Ontology::SERVICE_ID),
                     service(FormDTOProviderInterface::class),
                 ]
             );

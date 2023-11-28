@@ -23,23 +23,23 @@ namespace oat\tao\model\form\DataProvider;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
+use oat\generis\model\data\Ontology;
 use oat\generis\model\kernel\persistence\DataProvider\form\DTO\FormDTO;
 use oat\generis\model\kernel\persistence\DataProvider\form\FormDTOProviderInterface;
-use oat\generis\model\OntologyAwareTrait;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use tao_helpers_Uri;
 
 class BulkFormDataProvider implements FormDataProviderInterface
 {
-    use OntologyAwareTrait;
-
     private ?FormDTO $formData = null;
 
     private FormDTOProviderInterface $formDTOProvider;
+    private Ontology $ontology;
 
-    public function __construct(FormDTOProviderInterface $formDTOProvider)
+    public function __construct(Ontology $ontology, FormDTOProviderInterface $formDTOProvider)
     {
         $this->formDTOProvider = $formDTOProvider;
+        $this->ontology = $ontology;
     }
 
     public function fetchFormData(string $classUri, string $topClassUri, string $elementUri, string $language): void
@@ -51,8 +51,7 @@ class BulkFormDataProvider implements FormDataProviderInterface
     {
         $classProperties = [];
         foreach ($this->getFormData()->getProperties() as $formProperty) {
-            // todo think how to remove OntologyAwareTrait
-            $property = $this->getModel()->getProperty($formProperty->getPropertyUri());
+            $property = $this->ontology->getProperty($formProperty->getPropertyUri());
             $classProperties[$formProperty->getPropertyUri()] = $property;
         }
 
