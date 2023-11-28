@@ -28,6 +28,7 @@ use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\generis\model\kernel\persistence\DataProvider\form\FormDTOProviderInterface;
 use oat\generis\model\kernel\persistence\starsql\DataProvider\form\FormDTOProvider;
 use oat\generis\model\kernel\persistence\starsql\helper\RecordProcessor;
+use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
 use oat\tao\model\Language\Service\LanguageListElementSortService;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
@@ -50,6 +51,7 @@ class FormDataProviderServiceProvider implements ContainerServiceProviderInterfa
                 [
                     service(Ontology::SERVICE_ID),
                     service(RecordProcessor::class),
+                    service(UserLanguageServiceInterface::SERVICE_ID),
                 ]
             );
 
