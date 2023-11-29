@@ -21,7 +21,7 @@
 
 namespace oat\tao\model\form\DataProvider;
 
-use common_persistence_GraphPersistence;
+use core_kernel_persistence_starsql_StarModel;
 use oat\generis\model\data\Ontology;
 
 class ProxyFormDataProvider
@@ -42,7 +42,7 @@ class ProxyFormDataProvider
 
     public function getProvider(): FormDataProviderInterface
     {
-        if (!($this->persistence instanceof common_persistence_GraphPersistence)) {
+        if ($this->persistence instanceof core_kernel_persistence_starsql_StarModel) {
             return $this->bulkFormDataProvider;
         }
 
