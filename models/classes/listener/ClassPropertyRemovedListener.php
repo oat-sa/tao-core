@@ -52,4 +52,12 @@ class ClassPropertyRemovedListener extends ConfigurableService
             $taskMessage
         );
     }
+
+    public function handleDeletedEvent(ResourceDeleted $event): void
+    {
+        if ($event->getResource()->isProperty()) {
+            $classProperty = new \core_kernel_classes_Property($event->getResource());
+            $classProperty->clearCachedValues();
+        }
+    }
 }
