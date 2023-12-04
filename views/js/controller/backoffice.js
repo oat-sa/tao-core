@@ -63,7 +63,7 @@ define([
             $doc.ajaxComplete(function (event, request, settings) {
                 var urls;
                 var forward;
-                if (_.contains(settings.dataTypes, 'html')) {
+                if (_.includes(settings.dataTypes, 'html')) {
                     urls = [settings.url];
                     forward = request.getResponseHeader('X-Tao-Forward');
                     if (forward) {

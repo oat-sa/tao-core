@@ -247,7 +247,7 @@ define([
                 this.current();
             }
 
-            _.where(this.sections, {'active' : false }).forEach(function(section){
+            _.filter(this.sections, {'active' : false }).forEach(function(section){
                 section.opener.removeClass('active');
                 section.panel.hide();
 
@@ -259,7 +259,7 @@ define([
                 self.scope.trigger('hide.section', [section]);
 
             });
-            _.where(this.sections, {'active' : true }).forEach(function(section){
+            _.filter(this.sections, {'active' : true }).forEach(function(section){
                 section.opener.addClass('active');
                 section.panel.show();
 

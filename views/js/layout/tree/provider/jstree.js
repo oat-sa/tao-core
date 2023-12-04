@@ -123,7 +123,7 @@ define([
 
                         //update the state with data to be used later (ie. filter value, etc.)
                         treeState = _.merge($container.data('tree-state') || {}, data);
-                        treeState = _.omit(treeState, 'selectNode');
+                        treeState = _.omitBy(treeState, 'selectNode');
 
                         if (data && data.loadNode) {
                             tree.deselect_branch(tree.selected);
@@ -155,7 +155,7 @@ define([
                             $.tree.rollback(treeState.rollback);
 
                             //remove the rollback infos.
-                            setTreeState(_.omit(treeState, 'rollback'));
+                            setTreeState(_.omitBy(treeState, 'rollback'));
                         } else {
                             //trigger a full refresh
                             $container.trigger('refresh.taotree');
@@ -314,14 +314,14 @@ define([
                             //the tree has been loaded/refreshed with the filtering
                             if(_.isString(treeData.filter) && treeData.filter.length){
                                 params.filter = treeData.filter;
-                                treeData = _.omit(treeData, 'filter');
+                                treeData = _.omitBy(treeData, 'filter');
                             }
 
                             //the tree has been loaded/refreshed with the loadNode parameter, so it has to be selected
                             if(_.isString(treeData.loadNode) && treeData.loadNode.length){
                                 params.selected = treeData.loadNode;
                                 treeData.selectNode = uri.encode(treeData.loadNode);
-                                treeData = _.omit(treeData, 'loadNode');
+                                treeData = _.omitBy(treeData, 'loadNode');
                             }
 
                             setTreeState(treeData);
@@ -483,7 +483,7 @@ define([
                             nodeContext.context = ['class', 'resource'];
 
                             //Check if any class-level action is defined in the structures.xml file
-                            classActions = _.intersection(_.pluck(options.actions, 'context'), ['class', 'resource', '*']);
+                            classActions = _.intersection(_.map(options.actions, 'context'), ['class', 'resource', '*']);
                             if (classActions.length > 0) {
                                 generisRouter.pushNodeState(location.href, uri.decode(nodeContext.classUri));
                                 executePossibleAction(options.actions, nodeContext, ['delete']);
@@ -780,8 +780,8 @@ define([
                 }
 
                 possibleActions = _.filter(actions, function (action, name) {
-                    var possible = _.contains(nodeContext.context, action.context);
-                    return possible && !_.contains(exclude, name);
+                    var possible = _.includes(nodeContext.context, action.context);
+                    return possible && !_.includes(exclude, name);
                 });
                 //execute the first allowed action
                 if(possibleActions.length > 0){

@@ -76,7 +76,7 @@ define([
          * @returns {Boolean}
          */
         isSupported : function isSupported(right){
-            return _.contains(supportedRights, right);
+            return _.includes(supportedRights, right);
         },
 
         /**
@@ -131,7 +131,7 @@ define([
                 return true;
             }
             if(typeof permissionStore[uri] !== 'undefined'){
-                return _.contains(permissionStore[uri], permission);
+                return _.includes(permissionStore[uri], permission);
             }
             return false;
         },
@@ -159,7 +159,7 @@ define([
             if(!_.isPlainObject(resourceContext)){
                 return false;
             }
-            return _.all(requiredRights, function(right, requiredParameter){
+            return _.every(requiredRights, function(right, requiredParameter){
                 var parameterValue;
 
                 // translate muti-id into single-id
