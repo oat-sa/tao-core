@@ -43,6 +43,7 @@ use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\model\featureVisibility\FeatureVisibilityServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\LanguageServiceProvider;
+use oat\tao\model\listener\PropertyServiceProvider;
 use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\model\menu\MenuServiceProvider;
 use oat\tao\model\metadata\ServiceProvider\MetadataServiceProvider;
@@ -413,6 +414,7 @@ return [
         ClientConfigServiceProvider::class,
         HelperServiceProvider::class,
         MenuServiceProvider::class,
+        PropertyServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
