@@ -12,7 +12,7 @@
         "lintfile": "grunt eslint:file --no-color --force"
     },
     "engines": {
-        "node": ">=14.17.0"
+        "node": ">=16"
     },
     "devDependencies": {
         "@babel/core": "^7.21.5",
@@ -44,7 +44,6 @@
         "lodash": "^4.17.21",
         "prettier": "^2.8.8",
         "sass": "^1.62.1",
-        "sass-lint": "^1.13.1",
         "time-grunt": "^2.0.0"
     },
     "prettier": "@oat-sa/prettier-config",
