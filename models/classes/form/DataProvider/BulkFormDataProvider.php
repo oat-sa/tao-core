@@ -42,7 +42,7 @@ class BulkFormDataProvider implements FormDataProviderInterface
         $this->ontology = $ontology;
     }
 
-    public function fetchFormData(string $classUri, string $topClassUri, string $elementUri, string $language): void
+    public function preloadFormData(string $classUri, string $topClassUri, string $elementUri, string $language): void
     {
         $this->formData = $this->formDTOProvider->get($classUri, $topClassUri, $elementUri, $language);
     }

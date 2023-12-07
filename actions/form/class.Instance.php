@@ -94,7 +94,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
 
         $topClass = $this->getTopClazz();
 
-        $this->getFormDataProvider()->fetchFormData(
+        $this->getFormDataProvider()->preloadFormData(
             $class->getUri(),
             $topClass->getUri(),
             $instance->getUri(),

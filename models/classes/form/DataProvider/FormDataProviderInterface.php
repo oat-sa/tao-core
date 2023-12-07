@@ -25,7 +25,7 @@ use core_kernel_classes_Property;
 
 interface FormDataProviderInterface
 {
-    public function fetchFormData(string $classUri, string $topClassUri, string $elementUri, string $language): void;
+    public function preloadFormData(string $classUri, string $topClassUri, string $elementUri, string $language): void;
 
     public function getClassProperties(\core_kernel_classes_Class $class, \core_kernel_classes_Class $topClass): array;
 

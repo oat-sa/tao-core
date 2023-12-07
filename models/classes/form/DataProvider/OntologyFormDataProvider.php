@@ -57,7 +57,7 @@ class OntologyFormDataProvider implements FormDataProviderInterface
         $this->valueCollectionService = $valueCollectionService;
     }
 
-    public function fetchFormData(string $classUri, string $topClassUri, string $elementUri, string $language): void
+    public function preloadFormData(string $classUri, string $topClassUri, string $elementUri, string $language): void
     {
         // Not implemented for Ontology Data Provider
     }

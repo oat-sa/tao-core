@@ -27,13 +27,12 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\generis\model\kernel\persistence\DataProvider\form\FormDTOProviderInterface;
 use oat\generis\model\kernel\persistence\starsql\DataProvider\form\FormDTOProvider;
-use oat\generis\model\kernel\persistence\starsql\helper\RecordProcessor;
+use oat\generis\model\kernel\persistence\starsql\LanguageProcessor;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
 use oat\tao\model\Language\Service\LanguageListElementSortService;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 /**
@@ -50,7 +49,7 @@ class FormDataProviderServiceProvider implements ContainerServiceProviderInterfa
             ->args(
                 [
                     service(Ontology::SERVICE_ID),
-                    service(RecordProcessor::class),
+                    service(LanguageProcessor::class),
                     service(UserLanguageServiceInterface::SERVICE_ID),
                 ]
             );
