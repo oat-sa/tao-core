@@ -15,62 +15,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2023(original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\scripts\install;
+namespace oat\tao\migrations;
 
+use Doctrine\DBAL\Schema\Schema;
 use oat\generis\model\data\event\CacheWarmupEvent;
 use oat\generis\model\data\event\ResourceDeleted;
 use oat\generis\model\data\event\ResourceUpdated;
-use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
-use oat\oatbox\extension\InstallAction;
-use oat\oatbox\reporting\Report;
-use oat\tao\model\featureFlag\Listener\FeatureFlagCacheWarmupListener;
-use oat\tao\model\Language\Listener\LanguageCacheWarmupListener;
 use oat\tao\model\listener\ClassPropertiesChangedListener;
 use oat\tao\model\listener\ClassPropertyCacheWarmupListener;
 use oat\tao\model\listener\ClassPropertyRemovedListener;
-use oat\tao\model\menu\Listener\MenuCacheWarmupListener;
-use oat\tao\model\migrations\MigrationsService;
-use oat\tao\model\routing\Listener\AnnotationCacheWarmupListener;
+use oat\tao\scripts\tools\migrations\AbstractMigration;
 
-/**
- * Class RegisterEvents
- * @package oat\tao\scripts\install
- */
-class RegisterEvents extends InstallAction
+final class Version202312011610042234_tao extends AbstractMigration
 {
-    use OntologyAwareTrait;
+    public function getDescription(): string
+    {
+        return 'Register property cache warmup and modify listeners.';
+    }
 
-    public function __invoke($params)
+    public function up(Schema $schema): void
     {
         /** @var EventManager $eventManager */
         $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
-        $eventManager->attach(
-            \common_ext_event_ExtensionInstalled::class,
-            [MigrationsService::SERVICE_ID, 'extensionInstalled']
-        );
-        $eventManager->attach(
-            CacheWarmupEvent::class,
-            [AnnotationCacheWarmupListener::class, 'handleEvent']
-        );
-        $eventManager->attach(
-            CacheWarmupEvent::class,
-            [FeatureFlagCacheWarmupListener::class, 'handleEvent']
-        );
-        $eventManager->attach(
-            CacheWarmupEvent::class,
-            [LanguageCacheWarmupListener::class, 'handleEvent']
-        );
-        $eventManager->attach(
-            CacheWarmupEvent::class,
-            [MenuCacheWarmupListener::class, 'handleEvent']
-        );
         $eventManager->attach(
             CacheWarmupEvent::class,
             [ClassPropertyCacheWarmupListener::class, 'handleEvent']
@@ -83,9 +55,25 @@ class RegisterEvents extends InstallAction
             ResourceUpdated::class,
             [ClassPropertiesChangedListener::SERVICE_ID, 'handleUpdatedEvent']
         );
-
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
+    }
 
-        return Report::createSuccess('Events registered');
+    public function down(Schema $schema): void
+    {
+        /** @var EventManager $eventManager */
+        $eventManager = $this->getServiceManager()->get(EventManager::SERVICE_ID);
+        $eventManager->detach(
+            CacheWarmupEvent::class,
+            [ClassPropertyCacheWarmupListener::class, 'handleEvent']
+        );
+        $eventManager->detach(
+            ResourceDeleted::class,
+            [ClassPropertyRemovedListener::SERVICE_ID, 'handleDeletedEvent']
+        );
+        $eventManager->detach(
+            ResourceUpdated::class,
+            [ClassPropertiesChangedListener::SERVICE_ID, 'handleUpdatedEvent']
+        );
+        $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
     }
 }
