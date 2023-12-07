@@ -33,6 +33,7 @@ use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
 use oat\tao\model\Language\Service\LanguageListElementSortService;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 /**
