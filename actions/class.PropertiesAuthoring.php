@@ -347,7 +347,7 @@ class tao_actions_PropertiesAuthoring extends tao_actions_CommonModule
                 $index = strstr($elementUri, '_', true);
                 $elementRangeArray[$index . '_range_list'] = $prop['range'];
 
-                if ($prop['depends-on-property']) {
+                if (isset($prop['depends-on-property'])) {
                     $elementRangeArray[$index . '_depends-on-property'] = $prop['depends-on-property'];
                     $elementRangeArray[$index . '_uri'] = $prop['uri'];
                 }
