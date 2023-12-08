@@ -41,6 +41,7 @@ use oat\tao\model\export\ServiceProvider\ExportServiceProvider;
 use oat\tao\model\export\ServiceProvider\MetadataServiceProvider as ExportMetadataServiceProvider;
 use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\model\featureVisibility\FeatureVisibilityServiceProvider;
+use oat\tao\model\form\DataProvider\FormDataProviderServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\LanguageServiceProvider;
 use oat\tao\model\listener\PropertyServiceProvider;
@@ -414,6 +415,7 @@ return [
         ClientConfigServiceProvider::class,
         HelperServiceProvider::class,
         MenuServiceProvider::class,
+        FormDataProviderServiceProvider::class,
         PropertyServiceProvider::class,
     ],
     'middlewares' => [

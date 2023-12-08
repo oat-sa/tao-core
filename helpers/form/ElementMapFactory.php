@@ -23,32 +23,25 @@ declare(strict_types=1);
 namespace oat\tao\helpers\form;
 
 use common_Logger;
-use oat\generis\model\OntologyAwareTrait;
-use tao_helpers_Uri;
-use tao_helpers_Context;
 use core_kernel_classes_Class;
-use oat\tao\model\TaoOntology;
-use core_kernel_classes_Literal;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
-use tao_helpers_form_FormElement;
-use tao_helpers_form_FormFactory;
+use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
-use Psr\Container\ContainerInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\helpers\form\elements\TreeAware;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\form\DataProvider\FormDataProviderInterface;
+use oat\tao\model\form\DataProvider\ProxyFormDataProvider;
+use Psr\Container\ContainerInterface;
+use tao_helpers_Context;
 use tao_helpers_form_elements_AsyncFile as AsyncFile;
 use tao_helpers_form_elements_Authoring as Authoring;
-use oat\tao\model\Lists\Business\Domain\ValueCollection;
-use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
-use oat\tao\model\Lists\Business\Service\ValueCollectionService;
-use oat\tao\model\Lists\Business\Input\ValueCollectionSearchInput;
-use oat\tao\model\Lists\Business\Contract\ListElementSorterInterface;
 use tao_helpers_form_elements_GenerisAsyncFile as GenerisAsyncFile;
-use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
-use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
-use oat\tao\model\Language\Service\LanguageListElementSortService;
+use tao_helpers_form_FormElement;
+use tao_helpers_form_FormFactory;
+use tao_helpers_Uri;
 
 class ElementMapFactory extends ConfigurableService
 {
@@ -127,7 +120,9 @@ class ElementMapFactory extends ConfigurableService
             return null;
         }
 
-        $element->setDescription($this->getDescriptionFromTranslatedPropertyLabel($property, $language));
+        $description = $this->getFormDataProvider()->getDescriptionFromTranslatedPropertyLabel($property, $language);
+
+        $element->setDescription($description);
 
         if (method_exists($element, 'setOptions')) {
             // Multi elements use the property range as options
@@ -141,41 +136,12 @@ class ElementMapFactory extends ConfigurableService
                             : $range
                     );
                 } else {
-                    $options = [];
-
-                    if ($this->isList($range)) {
-                        $values = $this->getListValues($property, $range, $parentProperty);
-
-                        if ($this->getLanguageClassSpecification()->isSatisfiedBy($range)) {
-                            $values = $this->getLanguageListElementSortService()->getSortedListCollectionValues(
-                                $values
-                            );
-                        }
-
-                        foreach ($values as $value) {
-                            $encodedUri = tao_helpers_Uri::encode($value->getUri());
-                            $options[$encodedUri] = [$encodedUri, $value->getLabel()];
-                        }
+                    if ($this->getFormDataProvider()->isPropertyList($property)) {
+                        $options = $this
+                            ->getFormDataProvider()
+                            ->getPropertyListElementOptions($property, $parentProperty, $this->instance);
                     } else {
-                        foreach ($range->getInstances(true) as $rangeInstance) {
-                            $level = $rangeInstance->getOnePropertyValue(
-                                new core_kernel_classes_Property(TaoOntology::PROPERTY_LIST_LEVEL)
-                            );
-                            if (null === $level) {
-                                $encodedUri = tao_helpers_Uri::encode($rangeInstance->getUri());
-                                $options[$encodedUri] = [$encodedUri, $rangeInstance->getLabel()];
-                            } else {
-                                $level = ($level instanceof core_kernel_classes_Resource)
-                                    ? $level->getUri()
-                                    : (string)$level;
-                                $options[$level] = [
-                                    tao_helpers_Uri::encode($rangeInstance->getUri()),
-                                    $rangeInstance->getLabel()
-                                ];
-                            }
-                        }
-
-                        ksort($options);
+                        $options = $this->getFormDataProvider()->getPropertyNotListElementOptions($property);
                     }
 
                     foreach ($options as [$uri, $label]) {
@@ -197,7 +163,7 @@ class ElementMapFactory extends ConfigurableService
             $element->disable();
         }
 
-        foreach (ValidationRuleRegistry::getRegistry()->getValidators($property) as $validator) {
+        foreach ($this->getFormDataProvider()->getPropertyValidators($property) as $validator) {
             $element->addValidator($validator);
         }
 
@@ -213,17 +179,6 @@ class ElementMapFactory extends ConfigurableService
         return false;
     }
 
-    private function isList($range): bool
-    {
-        if (!$range->isClass()) {
-            return false;
-        }
-
-        return $range->isSubClassOf(
-            new core_kernel_classes_Class(TaoOntology::CLASS_URI_LIST)
-        );
-    }
-
     private function getParentProperty(core_kernel_classes_Property $property): ?core_kernel_classes_Property
     {
         $collection = $property->getDependsOnPropertyCollection();
@@ -233,52 +188,9 @@ class ElementMapFactory extends ConfigurableService
             : null;
     }
 
-    private function getListValues(
-        core_kernel_classes_Property $property,
-        core_kernel_classes_Resource $range,
-        core_kernel_classes_Property $parentProperty = null
-    ): ValueCollection {
-        $searchRequest = (new ValueCollectionSearchRequest())->setValueCollectionUri($range->getUri());
-
-        if ($this->instance instanceof core_kernel_classes_Resource) {
-            $selectedValue = $this->instance->getOnePropertyValue($property);
-
-            if ($selectedValue instanceof core_kernel_classes_Literal && !empty($selectedValue->literal)) {
-                $searchRequest->setSelectedValues($selectedValue->literal);
-            }
-
-            if ($parentProperty) {
-                $parentPropertyValues = [];
-
-                foreach ($this->instance->getPropertyValuesCollection($parentProperty) as $parentPropertyValue) {
-                    $parentPropertyValues[] = (string)$parentPropertyValue;
-                }
-                $searchRequest->setPropertyUri($property->getUri());
-                $searchRequest->setParentListValues(...$parentPropertyValues);
-            }
-        }
-
-        return $this->getValueCollectionService()->findAll(new ValueCollectionSearchInput($searchRequest));
-    }
-
-    private function getValueCollectionService(): ValueCollectionService
-    {
-        return $this->getContainer()->get(ValueCollectionService::class);
-    }
-
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getContainer()->get(FeatureFlagChecker::class);
-    }
-
-    private function getLanguageClassSpecification(): LanguageClassSpecification
-    {
-        return $this->getContainer()->get(LanguageClassSpecification::class);
-    }
-
-    private function getLanguageListElementSortService(): ListElementSorterInterface
-    {
-        return $this->getContainer()->get(LanguageListElementSortService::class);
     }
 
     private function getContainer(): ContainerInterface
@@ -286,25 +198,8 @@ class ElementMapFactory extends ConfigurableService
         return $this->getServiceManager()->getContainer();
     }
 
-    private function getDescriptionFromTranslatedPropertyLabel(
-        core_kernel_classes_Property $property,
-        string $language
-    ) {
-        $propertyLabel = current(
-            $property->getPropertyValues(
-                $this->getProperty(OntologyRdfs::RDFS_LABEL),
-                ['lg' => $language, 'one' => true]
-            )
-        );
-
-        if (empty($propertyLabel)) {
-            $propertyLabel = $property->getLabel();
-        }
-
-        if (empty(trim($propertyLabel))) {
-            return str_replace(LOCAL_NAMESPACE, '', $property->getUri());
-        }
-
-        return $propertyLabel;
+    public function getFormDataProvider(): FormDataProviderInterface
+    {
+        return $this->getContainer()->get(ProxyFormDataProvider::class)->getProvider();
     }
 }
