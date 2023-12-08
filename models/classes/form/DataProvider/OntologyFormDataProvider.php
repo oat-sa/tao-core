@@ -191,6 +191,10 @@ class OntologyFormDataProvider implements FormDataProviderInterface
 
     public function isPropertyList($property): bool
     {
+        if ($property->getRange() === null) {
+            return false;
+        }
+
         if (!$property->getRange()->isClass()) {
             return false;
         }
