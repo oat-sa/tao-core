@@ -87,7 +87,8 @@ class tao_helpers_translation_POFileReader extends tao_helpers_translation_Trans
         if (
             strstr($matchedTargetLanguage, DEFAULT_LANG)
             && $targetLanguageFromFileName !== ""
-            && preg_match("/^[a-z]{2}-[A-Z]{2}$/", $targetLanguageFromFileName)) {
+            && preg_match("/^[a-z]{2}-[A-Z]{2}$/", $targetLanguageFromFileName)
+        ) {
             $matchedTargetLanguage = $targetLanguageFromFileName;
         }
 
