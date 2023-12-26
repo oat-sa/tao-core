@@ -86,7 +86,7 @@ define([
          * @param {String} [actionContext.classUri]
          */
         binder.register('load', function load(actionContext) {
-            section.current().loadContentBlock(this.url, _.pickBy(actionContext, ['uri', 'classUri', 'id']));
+            section.current().loadContentBlock(this.url, _.pick(actionContext, ['uri', 'classUri', 'id']));
         });
 
         /**
@@ -409,7 +409,7 @@ define([
          * @param {String} [actionContext.classUri]
          */
         binder.register('moveNode', function remove(actionContext) {
-            var data = _.pickBy(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed', 'signature']);
+            var data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed', 'signature']);
 
             //wrap into a private function for recusion calls
             var _moveNode = function _moveNode(url) {
@@ -461,7 +461,7 @@ define([
          * @fires layout/tree#removenode.taotree
          */
         binder.register('launchEditor', function launchEditor(actionContext) {
-            var data = _.pickBy(actionContext, ['id']);
+            var data = _.pick(actionContext, ['id']);
             var wideDifferenciator = '[data-content-target="wide"]';
 
             $.ajax({
