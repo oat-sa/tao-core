@@ -101,7 +101,7 @@ define([
 
             if(_.isUndefined(permissions) && _.isPlainObject(uri)){
                 permissions = uri;
-                _.forEach(permissions, function(value, key){
+                _.forEach(permissions, (value, key) => {
                     this.addPermissions(key, value);
                 }, this);
             }
