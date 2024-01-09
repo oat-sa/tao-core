@@ -589,7 +589,7 @@ class Layout
     public static function getAnalyticsCode()
     {
         $gaTag = getenv('GA_TAG');
-        $environment = getenv('NODE_ENV') === 'production' ? 'Production': 'Internal';
+        $environment = getenv('NODE_ENV') === 'production' ? 'Production' : 'Internal';
 
         if ($gaTag) {
             return Template::inc('blocks/analytics.tpl', 'tao', ['gaTag' => $gaTag, 'environment' => $environment]);
