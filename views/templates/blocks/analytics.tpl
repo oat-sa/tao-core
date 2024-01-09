@@ -1,4 +1,3 @@
-<script src="<?= get_data('gaTag') ?>"> </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=<?= get_data('gaTag') ?>"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
