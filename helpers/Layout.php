@@ -31,6 +31,7 @@ use oat\tao\model\theme\Theme;
 use oat\tao\model\theme\ThemeService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\layout\AmdLoader;
+use oat\tao\helpers\Template;
 
 class Layout
 {
@@ -579,6 +580,21 @@ class Layout
     public static function getThemeStylesheet($target)
     {
         return self::getCurrentTheme()->getStylesheet($target);
+    }
+
+    /**
+     * Returns the necessary analytics code
+     * @return string
+     */
+    public static function getAnalyticsCode()
+    {
+        $gaTag = getenv('GA_TAG');
+        $environment = getenv('NODE_ENV') === 'production' ? 'Production': 'Internal';
+
+        if ($gaTag) {
+            return Template::inc('blocks/analytics.tpl', 'tao', ['gaTag' => $gaTag, 'environment' => $environment]);
+        }
+        return '';
     }
 
     /**
