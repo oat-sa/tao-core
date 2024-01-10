@@ -1,20 +1,28 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 2021.09\n"
-"PO-Revision-Date: 2021-08-24T08:14:37\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-09-14 10:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: fr-FR\n"
+"Language: fr\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: fr-FR\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"targetLanguage: en-GB\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
+"X-Crowdin-File-ID: 617\n"
+"Language-Team: French\n"
 
 msgid ""
 msgstr ""
+""
 
 msgid " and "
 msgstr " et "
@@ -71,16 +79,16 @@ msgid "%s %s selected"
 msgstr "%s %s sélectionné"
 
 msgid "%s (%s kb)"
-msgstr "%s (%s kb)"
+msgstr ""
 
 msgid "%s Class saved"
 msgstr "%s Classe sauvegardée"
 
 msgid "%s classes"
-msgstr "%s classes"
+msgstr ""
 
 msgid "%s Confirmation"
-msgstr "%s Confirmation"
+msgstr ""
 
 msgid "%s could not be released"
 msgstr "%s n'a pu être libéré"
@@ -98,7 +106,7 @@ msgid "%s has been released"
 msgstr "%s a été libéré"
 
 msgid "%s instances"
-msgstr "%s instances"
+msgstr ""
 
 msgid "%s is of a type that cannot be published"
 msgstr "%s est dans un format qui n'a pas pu être publié"
@@ -128,7 +136,7 @@ msgid "<del>Filters</del>"
 msgstr "<del>Filtres</del>"
 
 msgid "<del>Options</del>"
-msgstr "<del>Options</del>"
+msgstr ""
 
 msgid "<strong> %s </strong> has been moved to the background."
 msgstr "<strong> %s </strong> a été déplacé en arrière-plan."
@@ -161,13 +169,13 @@ msgid "About"
 msgstr ""
 
 msgid "abs"
-msgstr "abs"
+msgstr ""
 
 msgid "Absolute value"
 msgstr "Valeur absolue"
 
 msgid "AC"
-msgstr "AC"
+msgstr ""
 
 msgid "Access Denied"
 msgstr "Accès refusé"
@@ -179,7 +187,7 @@ msgid "Account status"
 msgstr "État du compte"
 
 msgid "Action"
-msgstr "Action"
+msgstr ""
 
 msgid "Action %s - removed %s positions"
 msgstr "Action %s - %s positions supprimées"
@@ -191,10 +199,13 @@ msgid "Action was not executed yet"
 msgstr "L'action n'a pas encore été exécutée."
 
 msgid "Actions"
-msgstr "Actions"
+msgstr ""
 
 msgid "Add"
 msgstr "Ajouter"
+
+msgid "Add / Edit lists"
+msgstr ""
 
 msgid "Add a CSV file"
 msgstr "Ajouter un fichier CSV"
@@ -285,7 +296,7 @@ msgid "an instance"
 msgstr "une instance"
 
 msgid "Ans"
-msgstr "Ans"
+msgstr ""
 
 msgid "Apply"
 msgstr "Appliquer"
@@ -396,7 +407,7 @@ msgid "Browse..."
 msgstr "Naviguer..."
 
 msgid "C"
-msgstr "C"
+msgstr ""
 
 msgid "C file"
 msgstr ""
@@ -413,11 +424,11 @@ msgstr "Calculatrice"
 msgid "Calendar"
 msgstr "Calendrier"
 
-msgid "cancel"
-msgstr "annuler"
-
 msgid "Cancel"
 msgstr "Annuler"
+
+msgid "cancel"
+msgstr "annuler"
 
 msgid "cancel the action"
 msgstr "annuler l'action"
@@ -513,9 +524,6 @@ msgstr "Effacer les variables enregistrées"
 msgid "Click to reload."
 msgstr "Cliquez pour recharger."
 
-msgid "Click to start"
-msgstr "Cliquez pour démarrer"
-
 msgid "Close"
 msgstr "Fermer"
 
@@ -577,10 +585,10 @@ msgid "Copy to clipboard"
 msgstr "Copier vers le presse-papiers"
 
 msgid "cos"
-msgstr "cos"
+msgstr ""
 
 msgid "cosh"
-msgstr "cosh"
+msgstr ""
 
 msgid "Cosine"
 msgstr "Cosinus"
@@ -604,7 +612,7 @@ msgid "CSP Header settings were saved successfully!"
 msgstr ""
 
 msgid "CSV"
-msgstr "CSV"
+msgstr ""
 
 msgid "CSV file"
 msgstr ""
@@ -630,10 +638,10 @@ msgstr "Données importées avec succès."
 msgid "Data imported. Some records are invalid."
 msgstr "Données importées. Certains enregistrements sont invalides."
 
-msgid "Data Language"
+msgid "Data language"
 msgstr "Langue des données"
 
-msgid "Data language"
+msgid "Data Language"
 msgstr "Langue des données"
 
 msgid "Data not imported. All records are invalid."
@@ -646,7 +654,7 @@ msgid "Database file"
 msgstr ""
 
 msgid "Date"
-msgstr "Date"
+msgstr ""
 
 msgid "date range"
 msgstr ""
@@ -667,7 +675,7 @@ msgid "Define the default values"
 msgstr "Définir les valeurs par défaut"
 
 msgid "Deg"
-msgstr "Deg"
+msgstr ""
 
 msgid "Degree"
 msgstr "Degrés"
@@ -693,12 +701,6 @@ msgstr "Supprimer l'index de recherche pour %s"
 
 msgid "Demo Sandbox"
 msgstr "Démonstration"
-
-msgid "Dependency URI Path"
-msgstr ""
-
-msgid "Depends on property"
-msgstr ""
 
 msgid "Did you mean %s?"
 msgstr ""
@@ -788,7 +790,7 @@ msgid "Element deleted."
 msgstr "Élément supprimé."
 
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 msgid "enabled"
 msgstr "activé"
@@ -839,7 +841,7 @@ msgid "Executing task %s failed"
 msgstr "L'exécution de la tâche %s a échoué."
 
 msgid "exp"
-msgstr "exp"
+msgstr ""
 
 msgid "Exponent"
 msgstr "Exposant"
@@ -855,7 +857,7 @@ msgid "Export \"%s\" in %s"
 msgstr "Exportation de \"%s\" dans %s"
 
 msgid "Export CSV"
-msgstr "Export CSV"
+msgstr ""
 
 msgid "Export failed."
 msgstr "L'export a échoué."
@@ -1086,10 +1088,10 @@ msgstr "Ressource %s importée"
 msgid "impossible to update task status"
 msgstr "Impossible de mettre à jour l'état de la tâche"
 
-msgid "In progress"
+msgid "In Progress"
 msgstr "En cours"
 
-msgid "In Progress"
+msgid "In progress"
 msgstr "En cours"
 
 msgid "Inclusive (AND)"
@@ -1117,7 +1119,7 @@ msgid "Installation done."
 msgstr "Installation terminée."
 
 msgid "Installation..."
-msgstr "Installation..."
+msgstr ""
 
 msgid "Installed Extensions"
 msgstr "Extensions installées"
@@ -1131,10 +1133,10 @@ msgstr "Installation de l'extension %s..."
 msgid "Instance saved"
 msgstr "Instance enregistrée"
 
-msgid "Interface language"
+msgid "Interface Language"
 msgstr "Langue de l'interface"
 
-msgid "Interface Language"
+msgid "Interface language"
 msgstr "Langue de l'interface"
 
 msgid "Invalid CSP header."
@@ -1317,6 +1319,9 @@ msgstr "Le pilote de stockage de maintenance n'est pas configuré."
 msgid "Manage class schema"
 msgstr "Gérer le schéma de classe"
 
+msgid "Manage data list"
+msgstr ""
+
 #, tao-public
 msgid "Manage roles"
 msgstr "Gérer les rôles"
@@ -1341,10 +1346,10 @@ msgid "Media resize along with their container, e.g. 50% means half of the conta
 msgstr "Redimensionnement de la taille du média parallèlement à celle de son conteneur, par exemple 50 % signifie la moitié de taille du conteneur et non la moitié de la taille du média."
 
 msgid "Message"
-msgstr "Message"
+msgstr ""
 
 msgid "Messages"
-msgstr "Messages"
+msgstr ""
 
 msgid "Metadata export is not available for the selected resource."
 msgstr "L'exportation de la métadonnée n'est pas disponible pour la ressource sélectionée."
@@ -1389,7 +1394,7 @@ msgid "Mind mapping software application (free mind open source)"
 msgstr ""
 
 msgid "minutes"
-msgstr "minutes"
+msgstr ""
 
 msgid "missing config %s for the service %s"
 msgstr "configuration %s manquante pour le service %s"
@@ -1398,7 +1403,7 @@ msgid "Missing Parameters"
 msgstr "Paramètres manquants"
 
 msgid "modulo"
-msgstr "modulo"
+msgstr ""
 
 msgid "More"
 msgstr "Plus"
@@ -1534,9 +1539,9 @@ msgstr "Rien à lister !"
 
 #, tao-public
 msgid "Notifications"
-msgstr "Notifications"
+msgstr ""
 
-msgid "notifications drivers aren\'t persistent. use a persistent database storage driver"
+msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
 msgstr ""
 
 msgid "Nth root"
@@ -1560,11 +1565,11 @@ msgstr ""
 msgid "Ogg Vorbis video"
 msgstr ""
 
-msgid "Ok"
-msgstr "Ok"
-
 msgid "OK"
-msgstr "OK"
+msgstr ""
+
+msgid "Ok"
+msgstr ""
 
 msgid "Old Password"
 msgstr "Ancien mot de passe"
@@ -1603,7 +1608,7 @@ msgid "Outlook on the next Synchronization"
 msgstr ""
 
 msgid "Page"
-msgstr "Page"
+msgstr ""
 
 msgid "Pascal file (.pas)"
 msgstr ""
@@ -1627,7 +1632,7 @@ msgid "Passwords are not matching"
 msgstr "Les mots de passe ne correspondent pas"
 
 msgid "Pause"
-msgstr "Pause"
+msgstr ""
 
 msgid "PDF file"
 msgstr ""
@@ -1688,9 +1693,6 @@ msgstr "Veuillez fournir une raison"
 
 msgid "Please report bugs, ideas, comments or feedback on the TAO Forum"
 msgstr "Merci de rapporter tout souci rencontré, ainsi que vos idées, vos commentaires et vos impressions sur le forum TAO."
-
-msgid "Please select an image file from the resource manager. You can add files from your computer with the button \"Add file(s)\"."
-msgstr ""
 
 msgid "Please wait"
 msgstr "Veuillez patienter"
@@ -1754,10 +1756,10 @@ msgid "Quicktime video"
 msgstr ""
 
 msgid "Rad"
-msgstr "Rad"
+msgstr ""
 
 msgid "Radian"
-msgstr "Radian"
+msgstr ""
 
 msgid "random"
 msgstr "aléatoire"
@@ -1772,7 +1774,7 @@ msgid "RAR archive"
 msgstr ""
 
 msgid "RDF"
-msgstr "RDF"
+msgstr ""
 
 msgid "RealMedia file"
 msgstr ""
@@ -1827,6 +1829,9 @@ msgstr "%s fichiers supprimés"
 
 msgid "Removing: %s"
 msgstr "Suppression : %s"
+
+msgid "Rename"
+msgstr ""
 
 msgid "Repeat new password"
 msgstr "Confirmer le nouveau mot de passe"
@@ -1904,6 +1909,9 @@ msgid "Return to sign in page"
 msgstr "Revenir à la page de connexion"
 
 msgid "Rich Text Format file"
+msgstr ""
+
+msgid "Right click the tree to manage your lists"
 msgstr ""
 
 msgid "Right parenthesis"
@@ -2036,13 +2044,13 @@ msgid "Sign change"
 msgstr "Changement de signe"
 
 msgid "sin"
-msgstr "sin"
+msgstr ""
 
 msgid "Sine"
 msgstr "Sinus"
 
 msgid "sinh"
-msgstr "sinh"
+msgstr ""
 
 msgid "Size"
 msgstr "Taille"
@@ -2058,9 +2066,6 @@ msgstr ""
 
 msgid "Square root"
 msgstr "Racine carrée"
-
-msgid "Start"
-msgstr ""
 
 msgid "Start of document reached. Continuing from the end."
 msgstr "Début du document atteint. Continuation depuis la fin."
@@ -2120,13 +2125,13 @@ msgid "Tagged image file"
 msgstr ""
 
 msgid "tan"
-msgstr "tan"
+msgstr ""
 
 msgid "Tangent"
 msgstr "Tangente"
 
 msgid "tanh"
-msgstr "tanh"
+msgstr ""
 
 msgid "Tao Default Theme"
 msgstr "Thème TAO par défaut"
@@ -2354,7 +2359,7 @@ msgid "trunc"
 msgstr "tronquer"
 
 msgid "Type"
-msgstr "Type"
+msgstr ""
 
 msgid "Type your search"
 msgstr "Saisissez votre recherche"
@@ -2557,13 +2562,13 @@ msgid "Value of PI"
 msgstr "Valeur de Pi"
 
 msgid "Variable"
-msgstr "Variable"
+msgstr ""
 
 msgid "Variable %s"
-msgstr "Variable %s"
+msgstr ""
 
 msgid "Version"
-msgstr "Version"
+msgstr ""
 
 msgid "View"
 msgstr ""
