@@ -31,7 +31,6 @@ use oat\tao\model\theme\Theme;
 use oat\tao\model\theme\ThemeService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\layout\AmdLoader;
-use oat\tao\helpers\Template;
 
 class Layout
 {
@@ -586,7 +585,7 @@ class Layout
      * Returns the necessary analytics code
      * @return string
      */
-    public static function getAnalyticsCode()
+    public static function getAnalyticsCode(): string
     {
         $gaTag = getenv('GA_TAG');
         $environment = getenv('NODE_ENV') === 'production' ? 'Production' : 'Internal';
