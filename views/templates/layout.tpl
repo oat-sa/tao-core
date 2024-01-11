@@ -29,8 +29,6 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 
     <?= Layout::getAmdLoader(Template::js('loader/tao.min.js', 'tao'), 'controller/backoffice') ?>
     <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_BACKOFFICE) ?>" />
-
-    <? Layout::getAnalyticsCode(); ?>
 </head>
 
 <body<?php Layout::isSmallNavi() && print ' class="small-navi"'?>>
@@ -56,5 +54,6 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 <?=Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'footer')?>
 
 <div class="loading-bar"></div>
+<? Layout::getAnalyticsCode(); ?>
 </body>
 </html>
