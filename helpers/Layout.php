@@ -34,20 +34,11 @@ use oat\tao\model\layout\AmdLoader;
 
 class Layout
 {
-    private static Template $template;
+    private static string $templateClass = Template::class;
 
-    public function __construct(Template $template = null)
+    public static function setTemplate(string $templateClass): void
     {
-        if (null === $template) {
-            $template = Template::class;
-        }
-
-        self::$template = $template;
-    }
-
-    public static function setTemplate(Template $template): void
-    {
-        self::$template = $template;
+        self::$templateClass = $templateClass;
     }
 
     /**
@@ -606,7 +597,12 @@ class Layout
         $environment = getenv('NODE_ENV') === 'production' ? 'Production' : 'Internal';
 
         if ($gaTag) {
-            self::$template::inc('blocks/analytics.tpl', 'tao', ['gaTag' => $gaTag, 'environment' => $environment]);
+            if (method_exists(self::$templateClass, 'inc')) {
+                call_user_func(
+                    [self::$templateClass, 'inc'],
+                    'blocks/analytics.tpl', 'tao', ['gaTag' => $gaTag, 'environment' => $environment]
+                );
+            }
         }
     }
 

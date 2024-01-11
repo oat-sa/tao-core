@@ -8,20 +8,16 @@ use PHPUnit\Framework\TestCase;
 
 class LayoutTest extends TestCase
 {
-    private Template $templateMock;
-
     protected function setUp(): void
     {
         $this->setEnv('NODE_ENV', 'production');
 
-        $this->templateMock = new TemplateMock();
-
-        Layout::setTemplate($this->templateMock);
+        Layout::setTemplate(TemplateMock::class);
     }
 
     protected function tearDown(): void
     {
-        $this->templateMock->resetCalls();
+        TemplateMock::resetCalls();
     }
 
     public function testGetAnalyticsCodeWithGaTag(): void
@@ -43,7 +39,7 @@ class LayoutTest extends TestCase
                     ]
                 ]
             ],
-            $this->templateMock->getCalls()
+            TemplateMock::getCalls()
         );
     }
 
@@ -55,7 +51,7 @@ class LayoutTest extends TestCase
 
         self::assertSame(
             [],
-            $this->templateMock->getCalls()
+            TemplateMock::getCalls()
         );
     }
 

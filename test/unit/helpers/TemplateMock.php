@@ -14,12 +14,12 @@ class TemplateMock extends Template
 {
     private static array $calls = [];
 
-    public function getCalls(): array
+    public static function getCalls(): array
     {
         return self::$calls;
     }
 
-    public function resetCalls(): void
+    public static function resetCalls(): void
     {
         self::$calls = [];
     }
