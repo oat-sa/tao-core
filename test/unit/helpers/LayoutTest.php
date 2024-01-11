@@ -2,52 +2,61 @@
 
 namespace oat\tao\test\unit\helpers;
 
-use PHPUnit\Framework\TestCase;
 use oat\tao\helpers\Layout;
 use oat\tao\helpers\Template;
+use PHPUnit\Framework\TestCase;
 
 class LayoutTest extends TestCase
 {
-    public function testGetAnalyticsCodeWithGaTag()
+    private Template $templateMock;
+
+    protected function setUp(): void
     {
-        // Mocking the getenv function to return 'production' for NODE_ENV
         $this->setEnv('NODE_ENV', 'production');
 
-        // Set a mock GA_TAG for testing
-        $this->setEnv('GA_TAG', 'your-ga-tag');
+        $this->templateMock = new TemplateMock();
 
-        // // Assuming Template::inc method is a part of your implementation, mock it accordingly
-        // $templateMock = $this->getMockBuilder('Template')
-        //     ->setMethods(['inc'])
-        //     ->getMock();
-
-        // // Set the expected template method call and return value
-        // $templateMock->expects($this->once())
-        //     ->method('inc')
-        //     ->with(
-        //         $this->equalTo('blocks/analytics.tpl'),
-        //         $this->equalTo('tao'),
-        //         $this->equalTo(['gaTag' => 'your-ga-tag', 'environment' => 'Production'])
-        //     )
-        //     ->willReturn('mocked-analytics-code');
-
-
-        // // Call the actual method and assert the result
-        // $result = Layout::getAnalyticsCode();
-        // $this->assertEquals('mocked-analytics-code', $result);
+        Layout::setTemplate($this->templateMock);
     }
 
-    public function testGetAnalyticsCodeWithoutGaTag()
+    protected function tearDown(): void
     {
-        // Mocking the getenv function to return 'production' for NODE_ENV
-        $this->setEnv('NODE_ENV', 'production');
+        $this->templateMock->resetCalls();
+    }
 
-        // Set GA_TAG as empty to test the case where it is not set
+    public function testGetAnalyticsCodeWithGaTag(): void
+    {
+        $this->setEnv('GA_TAG', 'dummy-ga-tag');
+
+        Layout::getAnalyticsCode();
+
+        self::assertSame(
+            [
+                [
+                    'oat\tao\test\unit\helpers\TemplateMock::inc' => [
+                        'blocks/analytics.tpl',
+                        'tao',
+                        [
+                            'gaTag' => 'dummy-ga-tag',
+                            'environment' => 'Production'
+                        ]
+                    ]
+                ]
+            ],
+            $this->templateMock->getCalls()
+        );
+    }
+
+    public function testGetAnalyticsCodeWithoutGaTag(): void
+    {
         $this->setEnv('GA_TAG', '');
 
-        // Call the actual method and assert the result is an empty string
-        $result = Layout::getAnalyticsCode();
-        $this->assertEquals('', $result);
+        Layout::getAnalyticsCode();
+
+        self::assertSame(
+            [],
+            $this->templateMock->getCalls()
+        );
     }
 
     private function setEnv($key, $value)

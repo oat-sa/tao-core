@@ -30,7 +30,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     <?= Layout::getAmdLoader(Template::js('loader/tao.min.js', 'tao'), 'controller/backoffice') ?>
     <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_BACKOFFICE) ?>" />
 
-    <?= Layout::getAnalyticsCode() ?>
+    <? Layout::getAnalyticsCode(); ?>
 </head>
 
 <body<?php Layout::isSmallNavi() && print ' class="small-navi"'?>>

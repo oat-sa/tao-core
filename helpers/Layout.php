@@ -34,6 +34,22 @@ use oat\tao\model\layout\AmdLoader;
 
 class Layout
 {
+    private static Template $template;
+
+    public function __construct(Template $template = null)
+    {
+        if (null === $template) {
+            $template = Template::class;
+        }
+
+        self::$template = $template;
+    }
+
+    public static function setTemplate(Template $template): void
+    {
+        self::$template = $template;
+    }
+
     /**
      * Compute the parameters for the release message
      *
@@ -582,18 +598,16 @@ class Layout
     }
 
     /**
-     * Returns the necessary analytics code
-     * @return string
+     * Returns the necessary analytics code.
      */
-    public static function getAnalyticsCode(): string
+    public static function getAnalyticsCode(): void
     {
         $gaTag = getenv('GA_TAG');
         $environment = getenv('NODE_ENV') === 'production' ? 'Production' : 'Internal';
 
         if ($gaTag) {
-            return Template::inc('blocks/analytics.tpl', 'tao', ['gaTag' => $gaTag, 'environment' => $environment]);
+            self::$template::inc('blocks/analytics.tpl', 'tao', ['gaTag' => $gaTag, 'environment' => $environment]);
         }
-        return '';
     }
 
     /**
