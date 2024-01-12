@@ -294,7 +294,7 @@ class Layout
             $theme instanceof ConfigurablePlatformTheme
         ) {
             $logoFile = $theme->getLogoUrl();
-            if (! empty($logoFile)) {
+            if (!empty($logoFile)) {
                 return $logoFile;
             }
         }
@@ -362,7 +362,7 @@ class Layout
             $theme instanceof ConfigurablePlatformTheme
         ) {
             $link = $theme->getLink();
-            if (! empty($link)) {
+            if (!empty($link)) {
                 return $link;
             }
         }
@@ -401,7 +401,7 @@ class Layout
             $theme instanceof ConfigurablePlatformTheme
         ) {
             $message = $theme->getMessage();
-            if (! empty($message)) {
+            if (!empty($message)) {
                 return $message;
             }
         }
@@ -600,7 +600,9 @@ class Layout
             if (method_exists(self::$templateClass, 'inc')) {
                 call_user_func(
                     [self::$templateClass, 'inc'],
-                    'blocks/analytics.tpl', 'tao', ['gaTag' => $gaTag, 'environment' => $environment]
+                    'blocks/analytics.tpl',
+                    'tao',
+                    ['gaTag' => $gaTag, 'environment' => $environment]
                 );
             }
         }
