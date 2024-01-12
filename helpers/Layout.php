@@ -596,15 +596,13 @@ class Layout
         $gaTag = getenv('GA_TAG');
         $environment = getenv('NODE_ENV') === 'production' ? 'Production' : 'Internal';
 
-        if ($gaTag) {
-            if (method_exists(self::$templateClass, 'inc')) {
-                call_user_func(
-                    [self::$templateClass, 'inc'],
-                    'blocks/analytics.tpl',
-                    'tao',
-                    ['gaTag' => $gaTag, 'environment' => $environment]
-                );
-            }
+        if ($gaTag && method_exists(self::$templateClass, 'inc')) {
+            call_user_func(
+                [self::$templateClass, 'inc'],
+                'blocks/analytics.tpl',
+                'tao',
+                ['gaTag' => $gaTag, 'environment' => $environment]
+            );
         }
     }
 
