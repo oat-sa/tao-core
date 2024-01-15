@@ -80,7 +80,7 @@ class tao_actions_File extends tao_actions_CommonModule
 
     /**
      * Download a resource file content
-     * @param {String} uri Uri of the resource file
+     * @param String uri Uri of the resource file
      */
     public function downloadFile()
     {
