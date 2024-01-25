@@ -123,7 +123,7 @@ define([
 
                         //update the state with data to be used later (ie. filter value, etc.)
                         treeState = _.merge($container.data('tree-state') || {}, data);
-                        treeState = _.omitBy(treeState, 'selectNode');
+                        treeState = _.omit(treeState, 'selectNode');
 
                         if (data && data.loadNode) {
                             tree.deselect_branch(tree.selected);
@@ -155,7 +155,7 @@ define([
                             $.tree.rollback(treeState.rollback);
 
                             //remove the rollback infos.
-                            setTreeState(_.omitBy(treeState, 'rollback'));
+                            setTreeState(_.omit(treeState, 'rollback'));
                         } else {
                             //trigger a full refresh
                             $container.trigger('refresh.taotree');
@@ -314,14 +314,14 @@ define([
                             //the tree has been loaded/refreshed with the filtering
                             if(_.isString(treeData.filter) && treeData.filter.length){
                                 params.filter = treeData.filter;
-                                treeData = _.omitBy(treeData, 'filter');
+                                treeData = _.omit(treeData, 'filter');
                             }
 
                             //the tree has been loaded/refreshed with the loadNode parameter, so it has to be selected
                             if(_.isString(treeData.loadNode) && treeData.loadNode.length){
                                 params.selected = treeData.loadNode;
                                 treeData.selectNode = uri.encode(treeData.loadNode);
-                                treeData = _.omitBy(treeData, 'loadNode');
+                                treeData = _.omit(treeData, 'loadNode');
                             }
 
                             setTreeState(treeData);
