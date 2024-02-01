@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\listener;
 
+use oat\generis\model\data\event\ClassPropertyDeletedEvent;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\event\ClassPropertyRemovedEvent;
@@ -51,5 +52,13 @@ class ClassPropertyRemovedListener extends ConfigurableService
             ],
             $taskMessage
         );
+    }
+
+    public function handleDeletedEvent(ClassPropertyDeletedEvent $event): void
+    {
+        foreach ($event->getProperties() as $uri) {
+            $classProperty = new \core_kernel_classes_Property($uri);
+            $classProperty->clearCachedValues();
+        }
     }
 }

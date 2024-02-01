@@ -41,8 +41,10 @@ use oat\tao\model\export\ServiceProvider\ExportServiceProvider;
 use oat\tao\model\export\ServiceProvider\MetadataServiceProvider as ExportMetadataServiceProvider;
 use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\model\featureVisibility\FeatureVisibilityServiceProvider;
+use oat\tao\model\form\DataProvider\FormDataProviderServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\LanguageServiceProvider;
+use oat\tao\model\listener\PropertyServiceProvider;
 use oat\tao\model\Lists\ServiceProvider\ListsServiceProvider;
 use oat\tao\model\menu\MenuServiceProvider;
 use oat\tao\model\metadata\ServiceProvider\MetadataServiceProvider;
@@ -356,9 +358,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2023.12',
+        'TAO_VERSION' => '2024.02',
         #TAO version label
-        'TAO_VERSION_NAME' => '2023.12',
+        'TAO_VERSION_NAME' => '2024.02',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
@@ -413,6 +415,8 @@ return [
         ClientConfigServiceProvider::class,
         HelperServiceProvider::class,
         MenuServiceProvider::class,
+        FormDataProviderServiceProvider::class,
+        PropertyServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,

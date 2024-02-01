@@ -34,6 +34,13 @@ use oat\tao\model\layout\AmdLoader;
 
 class Layout
 {
+    private static string $templateClass = Template::class;
+
+    public static function setTemplate(string $templateClass): void
+    {
+        self::$templateClass = $templateClass;
+    }
+
     /**
      * Compute the parameters for the release message
      *
@@ -287,7 +294,7 @@ class Layout
             $theme instanceof ConfigurablePlatformTheme
         ) {
             $logoFile = $theme->getLogoUrl();
-            if (! empty($logoFile)) {
+            if (!empty($logoFile)) {
                 return $logoFile;
             }
         }
@@ -355,7 +362,7 @@ class Layout
             $theme instanceof ConfigurablePlatformTheme
         ) {
             $link = $theme->getLink();
-            if (! empty($link)) {
+            if (!empty($link)) {
                 return $link;
             }
         }
@@ -394,7 +401,7 @@ class Layout
             $theme instanceof ConfigurablePlatformTheme
         ) {
             $message = $theme->getMessage();
-            if (! empty($message)) {
+            if (!empty($message)) {
                 return $message;
             }
         }
@@ -579,6 +586,24 @@ class Layout
     public static function getThemeStylesheet($target)
     {
         return self::getCurrentTheme()->getStylesheet($target);
+    }
+
+    /**
+     * Returns the necessary analytics code.
+     */
+    public static function getAnalyticsCode(): void
+    {
+        $gaTag = getenv('GA_TAG');
+        $environment = getenv('NODE_ENV') === 'production' ? 'Production' : 'Internal';
+
+        if ($gaTag && method_exists(self::$templateClass, 'inc')) {
+            call_user_func(
+                [self::$templateClass, 'inc'],
+                'blocks/analytics.tpl',
+                'tao',
+                ['gaTag' => $gaTag, 'environment' => $environment]
+            );
+        }
     }
 
     /**

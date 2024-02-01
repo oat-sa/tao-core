@@ -24,12 +24,17 @@ declare(strict_types=1);
 namespace oat\tao\scripts\install;
 
 use oat\generis\model\data\event\CacheWarmupEvent;
+use oat\generis\model\data\event\ResourceDeleted;
+use oat\generis\model\data\event\ResourceUpdated;
+use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\event\EventManager;
 use oat\oatbox\extension\InstallAction;
-use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\reporting\Report;
 use oat\tao\model\featureFlag\Listener\FeatureFlagCacheWarmupListener;
 use oat\tao\model\Language\Listener\LanguageCacheWarmupListener;
+use oat\tao\model\listener\ClassPropertiesChangedListener;
+use oat\tao\model\listener\ClassPropertyCacheWarmupListener;
+use oat\tao\model\listener\ClassPropertyRemovedListener;
 use oat\tao\model\menu\Listener\MenuCacheWarmupListener;
 use oat\tao\model\migrations\MigrationsService;
 use oat\tao\model\routing\Listener\AnnotationCacheWarmupListener;
@@ -66,6 +71,19 @@ class RegisterEvents extends InstallAction
             CacheWarmupEvent::class,
             [MenuCacheWarmupListener::class, 'handleEvent']
         );
+        $eventManager->attach(
+            CacheWarmupEvent::class,
+            [ClassPropertyCacheWarmupListener::class, 'handleEvent']
+        );
+        $eventManager->attach(
+            ResourceDeleted::class,
+            [ClassPropertyRemovedListener::SERVICE_ID, 'handleDeletedEvent']
+        );
+        $eventManager->attach(
+            ResourceUpdated::class,
+            [ClassPropertiesChangedListener::SERVICE_ID, 'handleUpdatedEvent']
+        );
+
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
 
         return Report::createSuccess('Events registered');
