@@ -483,7 +483,7 @@ define([
                             nodeContext.context = ['class', 'resource'];
 
                             //Check if any class-level action is defined in the structures.xml file
-                            classActions = _.intersection(_.pluck(options.actions, 'context'), ['class', 'resource', '*']);
+                            classActions = _.intersection(_.map(options.actions, 'context'), ['class', 'resource', '*']);
                             if (classActions.length > 0) {
                                 generisRouter.pushNodeState(location.href, uri.decode(nodeContext.classUri));
                                 executePossibleAction(options.actions, nodeContext, ['delete']);
@@ -780,8 +780,8 @@ define([
                 }
 
                 possibleActions = _.filter(actions, function (action, name) {
-                    var possible = _.contains(nodeContext.context, action.context);
-                    return possible && !_.contains(exclude, name);
+                    var possible = _.includes(nodeContext.context, action.context);
+                    return possible && !_.includes(exclude, name);
                 });
                 //execute the first allowed action
                 if(possibleActions.length > 0){

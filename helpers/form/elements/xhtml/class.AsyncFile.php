@@ -128,7 +128,7 @@ class tao_helpers_form_elements_xhtml_AsyncFile extends tao_helpers_form_element
 													files = _.filter(files, function(file){
 													    // IE9 doesnt detect type, so lets rely on server validation
 														return !file.type
-														    || _.contains(filters, file.type.replace(/[\'"]+/g, \'\'));
+														    || _.includes(filters, file.type.replace(/[\'"]+/g, \'\'));
 													});
 
 													if(files.length !== givenLength){

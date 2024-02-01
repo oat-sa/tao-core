@@ -97,7 +97,7 @@ define([
             });
 
             //to be sure at least one is active, for example when the given default section does not exists
-            if (_(this.sections).where({'active' : true }).size() === 0) {
+            if (_(this.sections).filter({'active' : true }).size() === 0) {
                 for (let id in this.sections) {
                     this.sections[id].active =  true;
                     restore = false;
@@ -235,7 +235,7 @@ define([
         _show : function(){
 
             var self = this;
-            var active = _(this.sections).where({'active' : true }).first();
+            var active = _(this.sections).filter({'active' : true }).first();
 
             //switch the active section if set previously
             if (this.selected && this.selected.id !== active.id) {
@@ -247,7 +247,7 @@ define([
                 this.current();
             }
 
-            _.where(this.sections, {'active' : false }).forEach(function(section){
+            _.filter(this.sections, {'active' : false }).forEach(function(section){
                 section.opener.removeClass('active');
                 section.panel.hide();
 
@@ -259,7 +259,7 @@ define([
                 self.scope.trigger('hide.section', [section]);
 
             });
-            _.where(this.sections, {'active' : true }).forEach(function(section){
+            _.filter(this.sections, {'active' : true }).forEach(function(section){
                 section.opener.addClass('active');
                 section.panel.show();
 
@@ -341,7 +341,7 @@ define([
          * @returns {SectionApi} instance for chaining
          */
         current : function(){
-            this.selected =  _(this.sections).where({'active' : true }).first();
+            this.selected =  _(this.sections).filter({'active' : true }).first();
             return this;
         },
 
@@ -441,8 +441,8 @@ define([
             section =
                 this.sections[value] ||
                 this.sections[value.replace('panel-', '')] ||
-                _(this.sections).where({'url' : value }).first() ||
-                _(this.sections).where({'url' : context.root_url + value }).first();
+                _(this.sections).filter({'url' : value }).first() ||
+                _(this.sections).filter({'url' : context.root_url + value }).first();
             if (section) {
                 this.selected = section;
             } else {
