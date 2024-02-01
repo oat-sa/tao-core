@@ -224,7 +224,7 @@ class tao_helpers_form_elements_xhtml_GenerisAsyncFile extends tao_helpers_form_
 												if (filters.length){
 
 													files = _.filter(files, function(file){
-														return _.contains(filters, file.type);
+														return _.includes(filters, file.type);
 													});
 
 													if(files.length !== givenLength){

@@ -74,7 +74,7 @@ define(['jquery', 'lodash', 'nouislider'], function($, _) {
                 }
 
                 // test validity of value, must be either before|after
-                if (_.contains(['before', 'after'], stepPosition)) {
+                if (_.includes(['before', 'after'], stepPosition)) {
                     return stepPosition;
                 }
                 throw ('Invalid value ' + stepPosition + ' for options.stepPosition');

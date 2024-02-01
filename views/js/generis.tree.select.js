@@ -230,7 +230,7 @@ define([
             var filteredChildren = [];
             var recursiveCheck = [];
 
-            _.each(children, function(dataObj) {
+            _.forEach(children, function(dataObj) {
                 var key = dataObj.attributes['data-uri'];
 
                 if (dataObj.children && dataObj.children.length > 0) {
