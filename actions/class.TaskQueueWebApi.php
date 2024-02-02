@@ -26,6 +26,7 @@ use oat\tao\model\taskQueue\Task\FileReferenceSerializerAwareTrait;
 use oat\tao\model\taskQueue\Task\FilesystemAwareTrait;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
 use oat\tao\model\taskQueue\TaskLog\Decorator\CategoryEntityDecorator;
+use oat\tao\model\taskQueue\TaskLog\Decorator\DynamicEntityDecorator;
 use oat\tao\model\taskQueue\TaskLog\Decorator\HasFileEntityDecorator;
 use oat\tao\model\taskQueue\TaskLog\Decorator\RedirectUrlEntityDecorator;
 use oat\tao\model\taskQueue\TaskLog\Decorator\SimpleManagementCollectionDecorator;
@@ -96,15 +97,20 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
                 $this->getSessionUserUri()
             );
 
-            $this->setSuccessJsonResponse((new RedirectUrlEntityDecorator(
-                new HasFileEntityDecorator(
-                    new CategoryEntityDecorator($entity, $taskLogService),
-                    $this->getFileSystemService(),
-                    $this->getFileReferenceSerializer()
-                ),
-                $taskLogService,
-                common_session_SessionManager::getSession()->getUser()
-            ))->toArray());
+            $this->setSuccessJsonResponse(
+                (
+                new DynamicEntityDecorator(
+                    new RedirectUrlEntityDecorator(
+                        new HasFileEntityDecorator(
+                            new CategoryEntityDecorator($entity, $taskLogService),
+                            $this->getFileSystemService(),
+                            $this->getFileReferenceSerializer()
+                        ),
+                        $taskLogService,
+                        common_session_SessionManager::getSession()->getUser()
+                    )
+                ))->toArray()
+            );
         } catch (Exception $e) {
             $this->setErrorJsonResponse(
                 $e instanceof common_exception_UserReadableException ? $e->getUserMessage() : $e->getMessage(),
