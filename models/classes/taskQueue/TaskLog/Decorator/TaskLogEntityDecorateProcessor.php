@@ -20,6 +20,8 @@
 
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
+use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
+
 class TaskLogEntityDecorateProcessor
 {
     protected $decorators = [];
@@ -30,7 +32,7 @@ class TaskLogEntityDecorateProcessor
         $this->decorators[] = $decorator;
     }
 
-    public function setEntity($entity): self
+    public function setEntity(EntityInterface $entity): self
     {
         $this->entity = $entity;
 
@@ -47,7 +49,9 @@ class TaskLogEntityDecorateProcessor
         $entity = $this->entity;
 
         foreach ($this->decorators as $decorator) {
-            $entity = new $decorator($entity);
+            if (is_a($decorator, EntityInterface::class, true)) {
+                $entity = new $decorator($entity);
+            }
         }
 
         return $entity->toArray();
