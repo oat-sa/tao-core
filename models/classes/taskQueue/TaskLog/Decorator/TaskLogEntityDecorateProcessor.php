@@ -21,14 +21,21 @@
 
 namespace oat\tao\model\taskQueue\TaskLog\Decorator;
 
-use oat\tao\model\taskQueue\TaskLog\Entity\EntityInterface;
-
-class DynamicEntityDecorator extends TaskLogEntityDecorator
+class TaskLogEntityDecorateProcessor
 {
-    public function __construct(
-        EntityInterface $entity
-    ) {
-        parent::__construct($entity);
+    protected $decorators = [];
+    protected $entity;
+
+    public function addDecorator(string $decorator): void
+    {
+        $this->decorators[] = $decorator;
+    }
+
+    public function setEntity($entity): self
+    {
+        $this->entity = $entity;
+
+        return $this;
     }
 
     public function jsonSerialize(): array
@@ -36,21 +43,14 @@ class DynamicEntityDecorator extends TaskLogEntityDecorator
         return $this->toArray();
     }
 
-    /**
-     * Add 'hasFile' to the result. Required by our frontend.
-     *
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
-        $result = parent::toArray();
+        $entity = $this->entity;
 
-
-        if (isset($result['report']['children'][0]['data']['externalUriLink']['uri'])) {
-            $result['redirectUrl'] = $result['report']['children'][0]['data']['externalUriLink']['uri'];
-            $result['hasFile'] = true;
+        foreach ($this->decorators as $decorator) {
+            $entity = new $decorator($entity);
         }
 
-        return $result;
+        return $entity->toArray();
     }
 }

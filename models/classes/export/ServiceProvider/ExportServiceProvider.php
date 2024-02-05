@@ -24,6 +24,7 @@ namespace oat\tao\model\export\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\export\CustomizedGenerisAdapterRdf;
+use oat\tao\model\taskQueue\TaskLog\Decorator\TaskLogEntityDecorateProcessor;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 class ExportServiceProvider implements ContainerServiceProviderInterface
@@ -34,6 +35,10 @@ class ExportServiceProvider implements ContainerServiceProviderInterface
 
         $services
             ->set(CustomizedGenerisAdapterRdf::class, CustomizedGenerisAdapterRdf::class)
+            ->tag('export.entity_decorator');
+
+        $services
+            ->set(TaskLogEntityDecorateProcessor::class, TaskLogEntityDecorateProcessor::class)
             ->public();
     }
 }
