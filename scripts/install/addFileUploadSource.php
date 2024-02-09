@@ -39,8 +39,10 @@ if (file_exists($dataPath)) {
 
 $serviceManager = ServiceManager::getServiceManager();
 $fsService = $serviceManager->get(FileSystemService::SERVICE_ID);
-$source = $fsService->createFileSystem('fileUploadDirectory', 'tao/upload');
-$serviceManager->register(FileSystemService::SERVICE_ID, $fsService);
+if (!$fsService->hasDirectory('fileUploadDirectory')) {
+    $source = $fsService->createFileSystem('fileUploadDirectory', 'tao/upload');
+    $serviceManager->register(FileSystemService::SERVICE_ID, $fsService);
+}
 
 tao_models_classes_TaoService::singleton()->setUploadFileSourceId('fileUploadDirectory');
 
