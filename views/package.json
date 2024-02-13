@@ -13,7 +13,7 @@
         "@oat-sa/tao-core-libs": "^1.0.0",
         "@oat-sa/tao-core-sdk": "^3.0.0",
         "@oat-sa/tao-core-shared-libs": "^1.6.1",
-        "@oat-sa/tao-core-ui": "^3.1.1",
+        "@oat-sa/tao-core-ui": "git://github.com/oat-sa/tao-core-ui-fe#feat/REL-1428/implement-authoring-ui-for-paper-booklet-export-functionality",
         "codemirror": "^5.54.0",
         "dompurify": "^2.4.0",
         "gamp": "0.2.1",
