@@ -39,6 +39,7 @@ interface WebhookTaskServiceInterface
     /**
      * Create and enqueue task for performing webhook
      * @param WebhookTaskParams $webhookTaskParams
+     * @param string $label
      */
-    public function createTask(WebhookTaskParams $webhookTaskParams);
+    public function createTask(WebhookTaskParams $webhookTaskParams, string $label = 'Event Webhook');
 }

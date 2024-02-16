@@ -25,6 +25,7 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
+use Throwable;
 use GuzzleHttp\Psr7\Request;
 use oat\oatbox\extension\AbstractAction;
 use oat\tao\model\taskQueue\Task\TaskAwareInterface;
@@ -125,6 +126,12 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
             $errorReport = $this->getWebhookTaskReports()->reportRequestException(
                 $this->getTaskContext(),
                 $requestException
+            );
+        } catch (Throwable $exception) {
+            $this->retryTask();
+            $errorReport = $this->getWebhookTaskReports()->reportInternalException(
+                $this->getTaskContext(),
+                $exception
             );
         }
 
@@ -274,7 +281,10 @@ class WebhookTask extends AbstractAction implements TaskAwareInterface
     {
         if (!$this->params->isMaxRetryCountReached()) {
             $this->params->increaseRetryCount();
-            $this->getWebhookTaskService()->createTask($this->params);
+            $this->getWebhookTaskService()->createTask(
+                $this->params,
+                sprintf("[RETRY #%s] ", $this->params->getRetryCount()) . $this->getTask()->getLabel()
+            );
         }
     }
 }
