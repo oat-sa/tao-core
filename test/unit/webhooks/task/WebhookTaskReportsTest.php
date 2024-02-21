@@ -25,7 +25,8 @@ use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\webhooks\log\WebhookEventLogInterface;
 use oat\tao\model\webhooks\task\WebhookResponse;
 use oat\tao\model\webhooks\task\WebhookTaskContext;
@@ -36,6 +37,8 @@ use Psr\Log\LoggerInterface;
 
 class WebhookTaskReportsTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     /**
      * @var WebhookEventLogInterface|MockObject
      */
@@ -65,7 +68,7 @@ class WebhookTaskReportsTest extends TestCase
     {
         $this->webhookEventLogMock = $this->createMock(WebhookEventLogInterface::class);
         $this->loggerMock = $this->createMock(LoggerInterface::class);
-        $this->serviceLocatorMock = $this->getServiceLocatorMock([
+        $this->serviceLocatorMock = $this->getServiceManagerMock([
             WebhookEventLogInterface::SERVICE_ID => $this->webhookEventLogMock,
         ]);
 

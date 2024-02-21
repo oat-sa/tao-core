@@ -29,7 +29,8 @@ use core_kernel_classes_Literal as Literal;
 use core_kernel_classes_Property as Property;
 use core_kernel_classes_Resource as Resource;
 use oat\generis\model\data\Ontology;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\auth\BasicAuthType;
 use oat\tao\model\auth\BasicType;
 use oat\tao\model\webhooks\configEntity\Webhook;
@@ -41,6 +42,8 @@ use tao_models_classes_dataBinding_GenerisFormDataBinder;
 
 class WebHookClassServiceTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     private WebHookClassService $webhookService;
     private WebhookEntryFactory $webhookEntryFactory;
 
@@ -58,7 +61,7 @@ class WebHookClassServiceTest extends TestCase
             ['getDataBinder', 'getModel', 'getProperty', 'createInstance', 'getRootClass']
         );
 
-        $serviceLocator = $this->getServiceLocatorMock([
+        $serviceLocator = $this->getServiceManagerMock([
             WebhookEntryFactory::class => $this->webhookEntryFactory,
             WebhookAuthService::class => $authService,
         ]);

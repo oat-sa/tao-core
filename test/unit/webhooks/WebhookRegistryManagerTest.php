@@ -22,7 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\webhooks;
 
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use PHPUnit\Framework\TestCase;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\webhooks\configEntity\Webhook;
 use oat\tao\model\webhooks\WebhookFileRegistry;
@@ -32,6 +33,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class WebhookRegistryManagerTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     /** @var WebhookRegistryManager */
     private $subject;
 
@@ -49,7 +52,7 @@ class WebhookRegistryManagerTest extends TestCase
         $this->webhookMock = $this->createMock(Webhook::class);
         $this->webhookFileRegistryMock = $this->createMock(WebhookFileRegistry::class);
 
-        $this->serviceLocator = $this->getServiceLocatorMock([
+        $this->serviceLocator = $this->getServiceManagerMock([
             WebhookRegistryInterface::class => $this->webhookFileRegistryMock
         ]);
 

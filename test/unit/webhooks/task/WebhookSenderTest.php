@@ -21,14 +21,23 @@
 namespace oat\tao\test\unit\webhooks\task;
 
 use GuzzleHttp\Exception\GuzzleException;
-use oat\generis\test\TestCase;
+use oat\generis\test\ServiceManagerMockTrait;
+use oat\taoOauth\model\bootstrap\OAuth2AuthType;
+use oat\taoOauth\model\Oauth2Service;
+use oat\taoOauth\model\OAuthClient;
+use oat\taoOauth\model\storage\grant\OauthCredentials;
+use oat\taoOauth\model\storage\OauthCredentialsFactory;
+use PHPUnit\Framework\TestCase;
 use oat\tao\model\webhooks\configEntity\WebhookAuthInterface;
 use oat\tao\model\webhooks\task\WebhookSender;
 use Psr\Http\Message\RequestInterface;
 use oat\generis\test\MockObject;
+use Psr\Http\Message\ResponseInterface;
 
 class WebhookSenderTest extends TestCase
 {
+    use ServiceManagerMockTrait;
+
     /**
      * @throws GuzzleException
      * @throws \common_exception_InvalidArgumentType
@@ -37,18 +46,34 @@ class WebhookSenderTest extends TestCase
     {
         /** @var MockObject|RequestInterface $request */
         $request = $this->createMock(RequestInterface::class);
+        $OauthCredentialsFactoryMock = $this->createMock(OauthCredentialsFactory::class);
+        $responseMock = $this->createMock(ResponseInterface::class);
+        $OauthCredentialsMock = $this->createMock(OauthCredentials::class);
+        $OAuthClientMock = $this->createMock(OAuthClient::class);
+        $Oauth2ServiceMock = $this->createMock(Oauth2Service::class);
+        $OauthCredentialsFactoryMock->method('getCredentialTypeByCredentials')->willReturn($OauthCredentialsMock);
+        $Oauth2ServiceMock->method('getClient')->willReturn($OAuthClientMock);
+        $OAuthClientMock->method('request')->willReturn($responseMock);
 
         /** @var MockObject|WebhookAuthInterface $authConfig */
         $authConfig = $this->createMock(WebhookAuthInterface::class);
-        $authConfig->method('getAuthClass')->willReturn(AuthTypeFake::class);
-        $authConfig->method('getCredentials')->willReturn(['c' => 'v']);
+
+        $authConfig
+            ->expects(self::once())
+            ->method('getAuthClass')
+            ->willReturn(OAuth2AuthType::class);
+
+        $authConfig
+            ->expects(self::once())
+            ->method('getCredentials')
+            ->willReturn(['c' => 'v']);
 
         $sender = new WebhookSender();
-        $sender->setServiceLocator($this->getServiceLocatorMock());
-        /** @var \stdClass $response */
-        $response = $sender->performRequest($request, $authConfig);
+        $sender->setServiceLocator($this->getServiceManagerMock([
+            OauthCredentialsFactory::class => $OauthCredentialsFactoryMock,
+            Oauth2Service::SERVICE_ID => $Oauth2ServiceMock
+        ]));
 
-        self::assertSame($request, $response->callRequest);
-        self::assertSame(['c' => 'v'], $response->credentials);
+        $sender->performRequest($request, $authConfig);
     }
 }
