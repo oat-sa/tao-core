@@ -22,7 +22,11 @@
 
 namespace oat\tao\helpers;
 
+use common_exception_Error;
+use common_session_Session;
+use common_session_SessionManager;
 use Jig\Utils\StringUtils;
+use oat\generis\model\user\UserRdf;
 use oat\tao\model\menu\Icon;
 use oat\tao\model\OperatedByService;
 use oat\tao\model\theme\ConfigurablePlatformTheme;
@@ -602,6 +606,49 @@ class Layout
                 'blocks/analytics.tpl',
                 'tao',
                 ['gaTag' => $gaTag, 'environment' => $environment]
+            );
+        }
+    }
+
+    /**
+     * @throws common_exception_Error
+     */
+    public static function getUserPilotCode(): void
+    {
+        $userPilotToken = getenv('USER_PILOT_TOKEN');
+        if ($userPilotToken && method_exists(self::$templateClass, 'inc')) {
+            $session = common_session_SessionManager::getSession();
+            if ($session instanceof common_session_Session) {
+                $user = $session->getUser();
+                $userId = $user->getIdentifier();
+                $userName = $session->getUserLabel();
+                $userLogin = $user->getPropertyValues(UserRdf::PROPERTY_LOGIN)[0];
+                $userEmail = $user->getPropertyValues(UserRdf::PROPERTY_MAIL)[0];
+                $userRoles = join(' ', $session->getUserRoles());
+                $userInterfaceLanguage = $session->getInterfaceLanguage();
+            }
+
+            call_user_func(
+                [self::$templateClass, 'inc'],
+                'blocks/userpilot.tpl',
+                'tao',
+                [
+                    'userpilot_data' => [
+                        'token' => $userPilotToken,
+                        'user' => [
+                            'id' => $userId ?? 'N/A',
+                            'name' => $userName ?? 'N/A',
+                            'login' => $userLogin ?? 'N/A',
+                            'email' => $userEmail ?? 'N/A',
+                            'roles' => $userRoles ?? 'N/A',
+                            'interface_language' => $userInterfaceLanguage ?? 'en-US',
+                        ],
+                        'tenant' => [
+                            'id' => 'N/A',
+                            'name' => self::getOperatedByData()['name'] ?? 'N/A',
+                        ]
+                    ],
+                ]
             );
         }
     }
