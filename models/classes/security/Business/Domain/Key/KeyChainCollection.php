@@ -27,7 +27,7 @@ final class KeyChainCollection
     /** @var KeyChain[] */
     private $keyChains;
 
-    public function __construct(KeyChain ...$keyChains)
+    public function __construct(array $keyChains)
     {
         $this->keyChains = $keyChains;
     }
