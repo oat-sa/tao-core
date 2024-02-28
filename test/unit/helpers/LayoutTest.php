@@ -79,8 +79,14 @@ class LayoutTest extends TestCase
 
         if (null !== $sessionMockClass) {
             $userMock = $this->createMock(User::class);
-            $userMock->expects(self::once())->method('getIdentifier')->willReturn($userIdentifier);
-            $userMock->expects(self::exactly(2))->method('getPropertyValues')->willReturnOnConsecutiveCalls($login, $email);
+            $userMock
+                ->expects(self::once())
+                ->method('getIdentifier')
+                ->willReturn($userIdentifier);
+            $userMock
+                ->expects(self::exactly(2))
+                ->method('getPropertyValues')
+                ->willReturnOnConsecutiveCalls($login, $email);
 
             $this->sessionMock = $this->createMock($sessionMockClass);
             $this->sessionMock->expects(self::once())->method('getUser')->willReturn($userMock);
@@ -155,7 +161,8 @@ class LayoutTest extends TestCase
                                             . 'http://www.tao.lu/Ontologies/TAO.rdf#BaseUserRole,'
                                             . 'http://www.tao.lu/Ontologies/generis.rdf#AnonymousRole,'
                                             . 'http://www.tao.lu/Ontologies/generis.rdf#GenerisRole,'
-                                            . 'http://www.tao.lu/Ontologies/generis.rdf#taoScoringServiceConnectManager,'
+                                            . 'http://www.tao.lu/Ontologies/generis.rdf'
+                                            . '#taoScoringServiceConnectManager,'
                                             . 'http://www.tao.lu/Ontologies/generis.rdf#taoDeliverConnectManager,'
                                             . 'http://www.tao.lu/Ontologies/generis.rdf#taoTaskQueueManager,'
                                             . 'http://www.tao.lu/Ontologies/generis.rdf#taoTestPreviewUILoaderManager,'
