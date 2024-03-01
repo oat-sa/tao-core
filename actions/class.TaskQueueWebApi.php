@@ -97,15 +97,15 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
                 $this->getSessionUserUri()
             );
 
-            $entity =
-                new RedirectUrlEntityDecorator(
-                    new HasFileEntityDecorator(
-                        new CategoryEntityDecorator($entity, $taskLogService),
-                        $this->getFileSystemService(),
-                        $this->getFileReferenceSerializer()
-                    ),
-                    $taskLogService,
-                    common_session_SessionManager::getSession()->getUser());
+            $entity = new RedirectUrlEntityDecorator(
+                new HasFileEntityDecorator(
+                    new CategoryEntityDecorator($entity, $taskLogService),
+                    $this->getFileSystemService(),
+                    $this->getFileReferenceSerializer()
+                ),
+                $taskLogService,
+                common_session_SessionManager::getSession()->getUser()
+            );
 
             /** @var TaskLogEntityDecorateProcessor $taskLogEntityDecorator */
             $taskLogEntityDecorator = $this->getServiceManager()

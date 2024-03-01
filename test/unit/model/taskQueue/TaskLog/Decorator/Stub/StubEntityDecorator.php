@@ -26,7 +26,6 @@ use oat\tao\model\taskQueue\TaskLog\Decorator\TaskLogEntityDecorator;
 
 class StubEntityDecorator extends TaskLogEntityDecorator
 {
-
     public function toArray()
     {
         $result = parent::toArray();
