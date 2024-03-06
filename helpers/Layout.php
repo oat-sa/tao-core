@@ -30,6 +30,7 @@ use Jig\Utils\StringUtils;
 use oat\generis\model\user\UserRdf;
 use oat\tao\model\menu\Icon;
 use oat\tao\model\OperatedByService;
+use oat\tao\model\session\Context\TenantDataSessionContext;
 use oat\tao\model\theme\ConfigurablePlatformTheme;
 use oat\tao\model\theme\ConfigurableTheme;
 use oat\tao\model\theme\Theme;
@@ -649,6 +650,19 @@ class Layout
             || self::$session instanceof common_session_Session
         ) {
             $user = $session->getUser();
+            $tenantId = 'N/A';
+            $tenantContext = $session->getContexts(TenantDataSessionContext::class)[0] ?? null;
+            if ($tenantContext instanceof TenantDataSessionContext) {
+                $tenantId = $tenantContext->getTenantId();
+            }
+            $userIdentifier = $user->getIdentifier() ?? 'N/A';
+            $userId = $tenantId . '|' . $userIdentifier;
+            $userName = $session->getUserLabel() ?? 'N/A';
+            $userLogin = $user->getPropertyValues(UserRdf::PROPERTY_LOGIN)[0] ?? 'N/A';
+            $userEmail = $user->getPropertyValues(UserRdf::PROPERTY_MAIL)[0] ?? 'N/A';
+            $interfaceLanguage = $session->getInterfaceLanguage() ?? 'en-US';
+            $userRoles = join(',', $session->getUserRoles() ?? ['N/A']);
+
             call_user_func(
                 [self::$templateClass, 'inc'],
                 'blocks/userpilot.tpl',
@@ -657,16 +671,16 @@ class Layout
                     'userpilot_data' => [
                         'token' => $userPilotToken,
                         'user' => [
-                            'id' => $user->getIdentifier() ?? 'N/A',
-                            'name' => $session->getUserLabel() ?? 'N/A',
-                            'login' => $user->getPropertyValues(UserRdf::PROPERTY_LOGIN)[0] ?? 'N/A',
-                            'email' => $user->getPropertyValues(UserRdf::PROPERTY_MAIL)[0] ?? 'N/A',
-                            'roles' => join(',', $session->getUserRoles() ?? ['N/A']),
-                            'interface_language' => $session->getInterfaceLanguage() ?? 'en-US',
+                            'id' => $userId,
+                            'name' => $userName,
+                            'login' => $userLogin,
+                            'email' => $userEmail,
+                            'roles' => $userRoles,
+                            'interface_language' => $interfaceLanguage,
                         ],
                         'tenant' => [
-                            'id' => 'N/A',
-                            'name' => 'N/A',
+                            'id' => $tenantId,
+                            'name' => $tenantId,
                         ]
                     ],
                 ]

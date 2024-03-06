@@ -7,6 +7,7 @@ use common_session_AnonymousSession;
 use common_session_Session;
 use oat\oatbox\user\User;
 use oat\tao\helpers\Layout;
+use oat\tao\model\session\Context\TenantDataSessionContext;
 use PHPUnit\Framework\TestCase;
 
 class LayoutTest extends TestCase
@@ -87,11 +88,17 @@ class LayoutTest extends TestCase
                 ->expects(self::exactly(2))
                 ->method('getPropertyValues')
                 ->willReturnOnConsecutiveCalls($login, $email);
+            $tenantContext = $this->createMock(TenantDataSessionContext::class);
+            $tenantContext
+                ->expects(self::once())
+                ->method('getTenantId')
+                ->willReturn('portal-authoring-client-id-local-dev-acc.nextgen-stack-local');
 
             $this->sessionMock = $this->createMock($sessionMockClass);
             $this->sessionMock->expects(self::once())->method('getUser')->willReturn($userMock);
             $this->sessionMock->expects(self::once())->method('getUserLabel')->willReturn($userLabel);
             $this->sessionMock->expects(self::once())->method('getUserRoles')->willReturn($userRole);
+            $this->sessionMock->expects(self::once())->method('getContexts')->willReturn([$tenantContext]);
         }
 
         Layout::setSession($this->sessionMock);
@@ -118,7 +125,7 @@ class LayoutTest extends TestCase
                                 'userpilot_data' => [
                                     'token' => 'dummy-user-pilot-token',
                                     'user' => [
-                                        'id' => 'N/A',
+                                        'id' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local|N/A',
                                         'name' => 'guest',
                                         'login' => 'N/A',
                                         'email' => 'N/A',
@@ -126,8 +133,8 @@ class LayoutTest extends TestCase
                                         'interface_language' => 'en-US'
                                     ],
                                     'tenant' => [
-                                        'id' => 'N/A',
-                                        'name' => 'N/A'
+                                        'id' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local',
+                                        'name' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local'
                                     ]
                                 ]
                             ]
@@ -150,7 +157,9 @@ class LayoutTest extends TestCase
                                 'userpilot_data' => [
                                     'token' => 'dummy-user-pilot-token',
                                     'user' => [
-                                        'id' => 'http://backoffice.docker.localhost/ontologies/tao.rdf#superUser',
+                                        'id' =>
+                                            'portal-authoring-client-id-local-dev-acc.nextgen-stack-local|'
+                                            . 'http://backoffice.docker.localhost/ontologies/tao.rdf#superUser',
                                         'name' => 'admin',
                                         'login' => 'admin',
                                         'email' => 'admin@taotesting.com',
@@ -193,8 +202,8 @@ class LayoutTest extends TestCase
                                         'interface_language' => 'en-US'
                                     ],
                                     'tenant' => [
-                                        'id' => 'N/A',
-                                        'name' => 'N/A'
+                                        'id' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local',
+                                        'name' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local'
                                     ]
                                 ]
                             ]
