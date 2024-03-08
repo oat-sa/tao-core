@@ -70,10 +70,7 @@ class UserPilotTemplateHelper extends Layout
             return;
         }
 
-        if (
-            self::$session instanceof common_session_AnonymousSession
-            || self::$session instanceof common_session_Session
-        ) {
+        if ($session instanceof common_session_Session) {
             $user = $session->getUser();
             $tenantId = self::NOT_AVAILABLE;
             $tenantContext = $session->getContexts(TenantDataSessionContext::class)[0] ?? null;
