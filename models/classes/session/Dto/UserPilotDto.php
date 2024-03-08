@@ -55,7 +55,7 @@ class UserPilotDto
                     $this->userName = $context->getUserName() ?? self::NOT_AVAILABLE;
                     $this->userEmail = $context->getUserEmail() ?? $this->userEmail;
                     $this->interfaceLanguage = $context->getLocale() ?? $this->interfaceLanguage;
-                } else if ($context instanceof TenantDataSessionContext) {
+                } elseif ($context instanceof TenantDataSessionContext) {
                     $this->tenantId = $context->getTenantId() ?? self::NOT_AVAILABLE;
                     $this->tenantName = $context->getTenantName() ?? self::NOT_AVAILABLE;
                 }
