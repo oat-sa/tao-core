@@ -27,9 +27,9 @@ use oat\tao\model\session\Context\TenantDataSessionContext;
 
 class UserPilotTemplateHelper extends Layout
 {
-    const USER_PILOT_TEMPLATE = 'blocks/userpilot.tpl';
-    const DEFAULT_LOCALE = 'en-US';
-    const NOT_AVAILABLE = 'N/A';
+    private const USER_PILOT_TEMPLATE = 'blocks/userpilot.tpl';
+    private const DEFAULT_LOCALE = 'en-US';
+    private const NOT_AVAILABLE = 'N/A';
 
     /**
      * @throws common_exception_Error

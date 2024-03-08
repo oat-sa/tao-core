@@ -26,11 +26,10 @@ use common_session_Session;
 use oat\oatbox\user\User;
 use oat\tao\helpers\UserPilotTemplateHelper;
 use oat\tao\model\session\Context\TenantDataSessionContext;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class UserPilotTemplateHelperTest extends LayoutTest
 {
-    private null|common_session_Session|MockObject $sessionMock = null;
+    private $sessionMock = null;
 
     /**
      * @throws common_exception_Error
