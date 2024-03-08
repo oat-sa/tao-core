@@ -5,7 +5,6 @@ use oat\tao\helpers\UserPilotTemplateHelper;
 use oat\tao\model\session\Dto\UserPilotDto;
 use oat\tao\model\theme\Theme;
 
-
 $releaseMsgData = Layout::getReleaseMsgData();
 
 // yellow bar if

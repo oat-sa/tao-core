@@ -41,14 +41,14 @@ class UserPilotTemplateHelperTest extends LayoutTest
      */
     public function testUserPilotCode(
         string $userPilotToken,
-        array  $expectedCalls,
+        array $expectedCalls,
         string $sessionMockClass = null,
         string $userIdentifier = null,
         string $login = null,
         string $userName = null,
         string $email = null,
         string $locale = null,
-        array  $userRole = null
+        array $userRole = null
     ): void {
         $this->setEnv('USER_PILOT_TOKEN', $userPilotToken);
 
