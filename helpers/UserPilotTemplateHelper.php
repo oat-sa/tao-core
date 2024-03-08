@@ -21,43 +21,21 @@
 namespace oat\tao\helpers;
 
 use common_exception_Error;
-use common_session_Session;
-use oat\generis\model\user\UserRdf;
-use oat\tao\model\session\Context\TenantDataSessionContext;
+use oat\tao\model\session\Dto\UserPilotDto;
 
 class UserPilotTemplateHelper extends Layout
 {
     public const USER_PILOT_TEMPLATE = 'blocks/userpilot.tpl';
-    public const DEFAULT_LOCALE = 'en-US';
-    public const NOT_AVAILABLE = 'N/A';
 
     /**
      * @throws common_exception_Error
      */
-    public static function userPilotCode(common_session_Session $session = null): void
+    public static function userPilotCode(UserPilotDto $dto): void
     {
         $userPilotToken = getenv('USER_PILOT_TOKEN');
         if (!$userPilotToken || !method_exists(self::$templateClass, 'inc')) {
             return;
         }
-
-        if (!$session) {
-            return;
-        }
-
-        $user = $session->getUser();
-        $tenantId = self::NOT_AVAILABLE;
-        $tenantContext = $session->getContexts(TenantDataSessionContext::class)[0] ?? null;
-        if ($tenantContext instanceof TenantDataSessionContext) {
-            $tenantId = $tenantContext->getTenantId();
-        }
-        $userIdentifier = $user->getIdentifier() ?? self::NOT_AVAILABLE;
-        $userId = $tenantId . '|' . $userIdentifier;
-        $userName = $session->getUserLabel() ?? self::NOT_AVAILABLE;
-        $userLogin = $user->getPropertyValues(UserRdf::PROPERTY_LOGIN)[0] ?? self::NOT_AVAILABLE;
-        $userEmail = $user->getPropertyValues(UserRdf::PROPERTY_MAIL)[0] ?? self::NOT_AVAILABLE;
-        $interfaceLanguage = $session->getInterfaceLanguage() ?? self::DEFAULT_LOCALE;
-        $userRoles = join(',', $session->getUserRoles() ?? [self::NOT_AVAILABLE]);
 
         call_user_func(
             [self::$templateClass, 'inc'],
@@ -67,16 +45,16 @@ class UserPilotTemplateHelper extends Layout
                 'userpilot_data' => [
                     'token' => $userPilotToken,
                     'user' => [
-                        'id' => $userId,
-                        'name' => $userName,
-                        'login' => $userLogin,
-                        'email' => $userEmail,
-                        'roles' => $userRoles,
-                        'interface_language' => $interfaceLanguage,
+                        'id' => $dto->getUserId(),
+                        'name' => $dto->getUserName(),
+                        'login' => $dto->getUserLogin(),
+                        'email' => $dto->getUserEmail(),
+                        'roles' => join(',', $dto->getUserRoles()),
+                        'interface_language' => $dto->getInterfaceLanguage(),
                     ],
                     'tenant' => [
-                        'id' => $tenantId,
-                        'name' => $tenantId,
+                        'id' => $dto->getTenantId(),
+                        'name' => $dto->getTenantName(),
                     ]
                 ],
             ]

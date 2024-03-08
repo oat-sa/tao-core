@@ -26,10 +26,13 @@ use common_session_Session;
 use oat\oatbox\user\User;
 use oat\tao\helpers\UserPilotTemplateHelper;
 use oat\tao\model\session\Context\TenantDataSessionContext;
+use oat\tao\model\session\Context\UserDataSessionContext;
+use oat\tao\model\session\Dto\UserPilotDto;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class UserPilotTemplateHelperTest extends LayoutTest
 {
-    private $sessionMock = null;
+    private ?MockObject $sessionMock = null;
 
     /**
      * @throws common_exception_Error
@@ -38,39 +41,66 @@ class UserPilotTemplateHelperTest extends LayoutTest
      */
     public function testUserPilotCode(
         string $userPilotToken,
-        array $expectedCalls,
+        array  $expectedCalls,
         string $sessionMockClass = null,
         string $userIdentifier = null,
-        string $userLabel = null,
-        array $userRole = null,
-        array $login = null,
-        array $email = null
+        string $login = null,
+        string $userName = null,
+        string $email = null,
+        string $locale = null,
+        array  $userRole = null
     ): void {
         $this->setEnv('USER_PILOT_TOKEN', $userPilotToken);
 
         if (null !== $sessionMockClass) {
-            $userMock = $this->createMock(User::class);
-            $userMock
+            $sessionUser = $this->createMock(User::class);
+            $sessionUser
                 ->expects(self::once())
                 ->method('getIdentifier')
                 ->willReturn($userIdentifier);
-            $userMock
+            $sessionUser
                 ->expects(self::exactly(2))
                 ->method('getPropertyValues')
                 ->willReturnOnConsecutiveCalls($login, $email);
-            $tenantContext = $this->createMock(TenantDataSessionContext::class);
-            $tenantContext
+
+            $user = $this->createMock(UserDataSessionContext::class);
+            $user
+                ->expects(self::once())
+                ->method('getUserId')
+                ->willReturn($userIdentifier);
+            $user
+                ->expects(self::once())
+                ->method('getUserLogin')
+                ->willReturn($login);
+            $user
+                ->expects(self::once())
+                ->method('getUserName')
+                ->willReturn($userName);
+            $user
+                ->expects(self::once())
+                ->method('getUserEmail')
+                ->willReturn($email);
+            $user
+                ->expects(self::once())
+                ->method('getLocale')
+                ->willReturn($locale);
+
+            $tenant = $this->createMock(TenantDataSessionContext::class);
+            $tenant
                 ->expects(self::once())
                 ->method('getTenantId')
                 ->willReturn('portal-authoring-client-id-local-dev-acc.nextgen-stack-local');
+            $tenant
+                ->expects(self::once())
+                ->method('getTenantName')
+                ->willReturn('portal-authoring-client-id-local-dev-acc.nextgen-stack-local');
 
             $this->sessionMock = $this->createMock($sessionMockClass);
-            $this->sessionMock->expects(self::once())->method('getUser')->willReturn($userMock);
-            $this->sessionMock->expects(self::once())->method('getUserLabel')->willReturn($userLabel);
+            $this->sessionMock->expects(self::once())->method('getUser')->willReturn($sessionUser);
             $this->sessionMock->expects(self::once())->method('getUserRoles')->willReturn($userRole);
-            $this->sessionMock->expects(self::once())->method('getContexts')->willReturn([$tenantContext]);
+            $this->sessionMock->expects(self::once())->method('getContexts')->willReturn([$user, $tenant]);
         }
-        UserPilotTemplateHelper::userPilotCode($this->sessionMock);
+        UserPilotTemplateHelper::userPilotCode(new UserPilotDto($this->sessionMock));
 
         self::assertSame($expectedCalls, TemplateMock::getCalls());
     }
@@ -93,14 +123,12 @@ class UserPilotTemplateHelperTest extends LayoutTest
                                 'userpilot_data' => [
                                     'token' => 'dummy-user-pilot-token',
                                     'user' => [
-                                        'id' =>
-                                            'portal-authoring-client-id-local-dev-acc.nextgen-stack-local|'
-                                            . UserPilotTemplateHelper::NOT_AVAILABLE,
+                                        'id' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local|N/A',
                                         'name' => 'guest',
-                                        'login' => UserPilotTemplateHelper::NOT_AVAILABLE,
-                                        'email' => UserPilotTemplateHelper::NOT_AVAILABLE,
+                                        'login' => 'guest',
+                                        'email' => UserPilotDto::NOT_AVAILABLE,
                                         'roles' => 'https://www.tao.lu/Ontologies/generis.rdf#AnonymousRole',
-                                        'interface_language' => UserPilotTemplateHelper::DEFAULT_LOCALE
+                                        'interface_language' => UserPilotDto::DEFAULT_LOCALE
                                     ],
                                     'tenant' => [
                                         'id' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local',
@@ -114,6 +142,9 @@ class UserPilotTemplateHelperTest extends LayoutTest
                 common_session_AnonymousSession::class,
                 null,
                 'guest',
+                'guest',
+                null,
+                null,
                 ['https://www.tao.lu/Ontologies/generis.rdf#AnonymousRole']
             ],
             'Superuser session' => [
@@ -127,10 +158,8 @@ class UserPilotTemplateHelperTest extends LayoutTest
                                 'userpilot_data' => [
                                     'token' => 'dummy-user-pilot-token',
                                     'user' => [
-                                        'id' =>
-                                            'portal-authoring-client-id-local-dev-acc.nextgen-stack-local|'
-                                            . 'https://backoffice.ngs.test/ontologies/tao.rdf#superUser',
-                                        'name' => 'admin',
+                                        'id' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local|admin',
+                                        'name' => 'Admin',
                                         'login' => 'admin',
                                         'email' => 'admin@taotesting.com',
                                         'roles' =>
@@ -169,7 +198,7 @@ class UserPilotTemplateHelperTest extends LayoutTest
                                             . 'https://www.tao.lu/Ontologies/TAOLTI.rdf#LtiManagerRole,'
                                             . 'https://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole,'
                                             . 'https://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole',
-                                        'interface_language' => 'en-US'
+                                        'interface_language' => 'fr-FR'
                                     ],
                                     'tenant' => [
                                         'id' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local',
@@ -181,8 +210,11 @@ class UserPilotTemplateHelperTest extends LayoutTest
                     ]
                 ],
                 common_session_Session::class,
-                'https://backoffice.ngs.test/ontologies/tao.rdf#superUser',
                 'admin',
+                'admin',
+                'Admin',
+                'admin@taotesting.com',
+                'fr-FR',
                 [
                     'https://www.tao.lu/Ontologies/TAO.rdf#GlobalManagerRole',
                     'https://www.tao.lu/Ontologies/generis.rdf#remoteProctoringManager',
@@ -219,8 +251,6 @@ class UserPilotTemplateHelperTest extends LayoutTest
                     'https://www.tao.lu/Ontologies/TAO.rdf#TaoManagerRole',
                     'https://www.tao.lu/Ontologies/TAO.rdf#SysAdminRole'
                 ],
-                ['admin'],
-                ['admin@taotesting.com']
             ],
         ];
     }
