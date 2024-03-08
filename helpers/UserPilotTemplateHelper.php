@@ -58,7 +58,7 @@ class UserPilotTemplateHelper extends Layout
     /**
      * @throws common_exception_Error
      */
-    public static function getUserPilotCode(): void
+    public static function userPilotCode(): void
     {
         $userPilotToken = getenv('USER_PILOT_TOKEN');
         if (!$userPilotToken || !method_exists(self::$templateClass, 'inc')) {

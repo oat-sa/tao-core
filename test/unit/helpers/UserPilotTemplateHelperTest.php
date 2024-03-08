@@ -37,7 +37,7 @@ class UserPilotTemplateHelperTest extends LayoutTest
      *
      * @dataProvider provideUserPilotData
      */
-    public function testGetUserPilotCode(
+    public function testUserPilotCode(
         string $userPilotToken,
         array $expectedCalls,
         string $sessionMockClass = null,
@@ -73,7 +73,7 @@ class UserPilotTemplateHelperTest extends LayoutTest
         }
 
         UserPilotTemplateHelper::setSession($this->sessionMock);
-        UserPilotTemplateHelper::getUserPilotCode();
+        UserPilotTemplateHelper::userPilotCode();
 
         self::assertSame($expectedCalls, TemplateMock::getCalls());
     }
