@@ -22,15 +22,9 @@
 
 namespace oat\tao\helpers;
 
-use common_exception_Error;
-use common_session_AnonymousSession;
-use common_session_Session;
-use common_session_SessionManager;
 use Jig\Utils\StringUtils;
-use oat\generis\model\user\UserRdf;
 use oat\tao\model\menu\Icon;
 use oat\tao\model\OperatedByService;
-use oat\tao\model\session\Context\TenantDataSessionContext;
 use oat\tao\model\theme\ConfigurablePlatformTheme;
 use oat\tao\model\theme\ConfigurableTheme;
 use oat\tao\model\theme\Theme;
@@ -40,29 +34,11 @@ use oat\tao\model\layout\AmdLoader;
 
 class Layout
 {
-    private static string $templateClass = Template::class;
-    private static $session = false;
+    protected static string $templateClass = Template::class;
 
     public static function setTemplate(string $templateClass): void
     {
         self::$templateClass = $templateClass;
-    }
-
-    public static function setSession($session): void
-    {
-        self::$session = $session;
-    }
-
-    /**
-     * @throws common_exception_Error
-     */
-    private static function getSession()
-    {
-        if (false === self::$session) {
-            self::$session = common_session_SessionManager::getSession();
-        }
-
-        return self::$session;
     }
 
     /**
@@ -626,64 +602,6 @@ class Layout
                 'blocks/analytics.tpl',
                 'tao',
                 ['gaTag' => $gaTag, 'environment' => $environment]
-            );
-        }
-    }
-
-    /**
-     * @throws common_exception_Error
-     */
-    public static function getUserPilotCode(): void
-    {
-        $userPilotToken = getenv('USER_PILOT_TOKEN');
-        if (!$userPilotToken || !method_exists(self::$templateClass, 'inc')) {
-            return;
-        }
-
-        $session = self::getSession();
-        if (!self::$session) {
-            return;
-        }
-
-        if (
-            self::$session instanceof common_session_AnonymousSession
-            || self::$session instanceof common_session_Session
-        ) {
-            $user = $session->getUser();
-            $tenantId = 'N/A';
-            $tenantContext = $session->getContexts(TenantDataSessionContext::class)[0] ?? null;
-            if ($tenantContext instanceof TenantDataSessionContext) {
-                $tenantId = $tenantContext->getTenantId();
-            }
-            $userIdentifier = $user->getIdentifier() ?? 'N/A';
-            $userId = $tenantId . '|' . $userIdentifier;
-            $userName = $session->getUserLabel() ?? 'N/A';
-            $userLogin = $user->getPropertyValues(UserRdf::PROPERTY_LOGIN)[0] ?? 'N/A';
-            $userEmail = $user->getPropertyValues(UserRdf::PROPERTY_MAIL)[0] ?? 'N/A';
-            $interfaceLanguage = $session->getInterfaceLanguage() ?? 'en-US';
-            $userRoles = join(',', $session->getUserRoles() ?? ['N/A']);
-
-            call_user_func(
-                [self::$templateClass, 'inc'],
-                'blocks/userpilot.tpl',
-                'tao',
-                [
-                    'userpilot_data' => [
-                        'token' => $userPilotToken,
-                        'user' => [
-                            'id' => $userId,
-                            'name' => $userName,
-                            'login' => $userLogin,
-                            'email' => $userEmail,
-                            'roles' => $userRoles,
-                            'interface_language' => $interfaceLanguage,
-                        ],
-                        'tenant' => [
-                            'id' => $tenantId,
-                            'name' => $tenantId,
-                        ]
-                    ],
-                ]
             );
         }
     }
