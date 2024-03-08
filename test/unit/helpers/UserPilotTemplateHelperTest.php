@@ -71,9 +71,7 @@ class UserPilotTemplateHelperTest extends LayoutTest
             $this->sessionMock->expects(self::once())->method('getUserRoles')->willReturn($userRole);
             $this->sessionMock->expects(self::once())->method('getContexts')->willReturn([$tenantContext]);
         }
-
-        UserPilotTemplateHelper::setSession($this->sessionMock);
-        UserPilotTemplateHelper::userPilotCode();
+        UserPilotTemplateHelper::userPilotCode($this->sessionMock);
 
         self::assertSame($expectedCalls, TemplateMock::getCalls());
     }

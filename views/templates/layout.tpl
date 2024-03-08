@@ -56,6 +56,6 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 
 <div class="loading-bar"></div>
 <? Layout::getAnalyticsCode(); ?>
-<? UserPilotTemplateHelper::userPilotCode(); ?>
+<? UserPilotTemplateHelper::userPilotCode(common_session_SessionManager::getSession()); ?>
 </body>
 </html>
