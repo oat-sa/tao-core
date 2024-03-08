@@ -62,7 +62,6 @@ class UserPilotTemplateHelper extends Layout
         }
 
         $session = self::getSession();
-        echo print_r($session, true);
         if (!self::$session) {
             return;
         }
