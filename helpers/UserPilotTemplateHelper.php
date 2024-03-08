@@ -29,6 +29,10 @@ use oat\tao\model\session\Context\TenantDataSessionContext;
 
 class UserPilotTemplateHelper extends Layout
 {
+    const USER_PILOT_TEMPLATE = 'blocks/userpilot.tpl';
+    const DEFAULT_LOCALE = 'en-US';
+    const NOT_AVAILABLE = 'N/A';
+
     private static ?common_session_Session $session;
 
     private static bool $isSessionSet = false;
@@ -62,7 +66,7 @@ class UserPilotTemplateHelper extends Layout
         }
 
         $session = self::getSession();
-        if (!self::$session) {
+        if (!$session) {
             return;
         }
 
@@ -71,22 +75,22 @@ class UserPilotTemplateHelper extends Layout
             || self::$session instanceof common_session_Session
         ) {
             $user = $session->getUser();
-            $tenantId = 'N/A';
+            $tenantId = self::NOT_AVAILABLE;
             $tenantContext = $session->getContexts(TenantDataSessionContext::class)[0] ?? null;
             if ($tenantContext instanceof TenantDataSessionContext) {
                 $tenantId = $tenantContext->getTenantId();
             }
-            $userIdentifier = $user->getIdentifier() ?? 'N/A';
+            $userIdentifier = $user->getIdentifier() ?? self::NOT_AVAILABLE;
             $userId = $tenantId . '|' . $userIdentifier;
-            $userName = $session->getUserLabel() ?? 'N/A';
-            $userLogin = $user->getPropertyValues(UserRdf::PROPERTY_LOGIN)[0] ?? 'N/A';
-            $userEmail = $user->getPropertyValues(UserRdf::PROPERTY_MAIL)[0] ?? 'N/A';
-            $interfaceLanguage = $session->getInterfaceLanguage() ?? 'en-US';
-            $userRoles = join(',', $session->getUserRoles() ?? ['N/A']);
+            $userName = $session->getUserLabel() ?? self::NOT_AVAILABLE;
+            $userLogin = $user->getPropertyValues(UserRdf::PROPERTY_LOGIN)[0] ?? self::NOT_AVAILABLE;
+            $userEmail = $user->getPropertyValues(UserRdf::PROPERTY_MAIL)[0] ?? self::NOT_AVAILABLE;
+            $interfaceLanguage = $session->getInterfaceLanguage() ?? self::DEFAULT_LOCALE;
+            $userRoles = join(',', $session->getUserRoles() ?? [self::NOT_AVAILABLE]);
 
             call_user_func(
                 [self::$templateClass, 'inc'],
-                'blocks/userpilot.tpl',
+                self::USER_PILOT_TEMPLATE,
                 'tao',
                 [
                     'userpilot_data' => [

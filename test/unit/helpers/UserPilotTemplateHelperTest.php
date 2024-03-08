@@ -90,18 +90,20 @@ class UserPilotTemplateHelperTest extends LayoutTest
                 [
                     [
                         'oat\tao\test\unit\helpers\TemplateMock::inc' => [
-                            'blocks/userpilot.tpl',
+                            UserPilotTemplateHelper::USER_PILOT_TEMPLATE,
                             'tao',
                             [
                                 'userpilot_data' => [
                                     'token' => 'dummy-user-pilot-token',
                                     'user' => [
-                                        'id' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local|N/A',
+                                        'id' =>
+                                            'portal-authoring-client-id-local-dev-acc.nextgen-stack-local|'
+                                            . UserPilotTemplateHelper::NOT_AVAILABLE,
                                         'name' => 'guest',
-                                        'login' => 'N/A',
-                                        'email' => 'N/A',
+                                        'login' => UserPilotTemplateHelper::NOT_AVAILABLE,
+                                        'email' => UserPilotTemplateHelper::NOT_AVAILABLE,
                                         'roles' => 'https://www.tao.lu/Ontologies/generis.rdf#AnonymousRole',
-                                        'interface_language' => 'en-US'
+                                        'interface_language' => UserPilotTemplateHelper::DEFAULT_LOCALE
                                     ],
                                     'tenant' => [
                                         'id' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local',
@@ -122,7 +124,7 @@ class UserPilotTemplateHelperTest extends LayoutTest
                 [
                     [
                         'oat\tao\test\unit\helpers\TemplateMock::inc' => [
-                            'blocks/userpilot.tpl',
+                            UserPilotTemplateHelper::USER_PILOT_TEMPLATE,
                             'tao',
                             [
                                 'userpilot_data' => [
