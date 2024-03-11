@@ -25,12 +25,12 @@ namespace oat\tao\model\security\Business\Domain\Key;
 final class Key
 {
     private string $value;
-    private ?string $passphraseas;
+    private ?string $passphrase;
 
-    public function __construct(string $value, ?string $passphraseas = null)
+    public function __construct(string $value, ?string $passphrase = null)
     {
         $this->value = $value;
-        $this->passphraseas = $passphraseas;
+        $this->passphrase = $passphrase;
     }
 
     public function getValue(): string
@@ -38,8 +38,8 @@ final class Key
         return $this->value;
     }
 
-    public function getPassphraseas(): ?string
+    public function getPassphrase(): ?string
     {
-        return $this->passphraseas;
+        return $this->passphrase;
     }
 }
