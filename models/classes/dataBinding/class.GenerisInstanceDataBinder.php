@@ -196,7 +196,7 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
             return $property->isStatistical();
         }
 
-        return $property->isWritable();
+        return !$property->isWritable();
     }
 
     private function isEmptyValue(string $value): bool

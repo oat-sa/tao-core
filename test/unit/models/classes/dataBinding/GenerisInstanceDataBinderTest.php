@@ -71,6 +71,9 @@ class GenerisInstanceDataBinderTest extends TestCase
     /** @var Ontology|MockObject */
     private $ontology;
 
+    /** @var bool */
+    private $isWritable = true;
+
     public function setUp(): void
     {
         $this->eventManagerMock = $this->createMock(EventManager::class);
@@ -100,11 +103,19 @@ class GenerisInstanceDataBinderTest extends TestCase
         $this->property1
             ->method('getUri')
             ->willReturn(self::URI_PROPERTY_1);
+        $this->property1
+            ->method('isWritable')
+            ->will($this->returnCallback(function () {
+                return $this->isWritable;
+            }));
 
         $this->property2 = $this->createMock(core_kernel_classes_Property::class);
         $this->property2
             ->method('getUri')
             ->willReturn(self::URI_PROPERTY_2);
+        $this->property2
+            ->method('isWritable')
+            ->willReturn(true);
 
         $this->target
             ->method('getUri')
@@ -669,6 +680,33 @@ class GenerisInstanceDataBinderTest extends TestCase
 
         $resource = $this->sut->bind([
             self::URI_PROPERTY_2 => 'Value 2',
+        ]);
+
+        $this->assertSame($this->target, $resource);
+    }
+
+    public function testWillNotSaveNotWritableProperties(): void
+    {
+        $this->isWritable = false;
+
+        $this->eventManagerMock
+            ->expects($this->never())
+            ->method('trigger');
+
+        $this->target
+            ->expects($this->never())
+            ->method('getPropertyValuesCollection');
+
+        $this->target
+            ->expects($this->never())
+            ->method('setPropertyValue');
+
+        $this->target
+            ->expects($this->never())
+            ->method('removePropertyValues');
+
+        $resource = $this->sut->bind([
+            self::URI_PROPERTY_1 => 'Value 1',
         ]);
 
         $this->assertSame($this->target, $resource);
