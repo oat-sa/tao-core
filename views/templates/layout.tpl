@@ -54,6 +54,6 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 <?=Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'footer')?>
 
 <div class="loading-bar"></div>
-<? Layout::getAnalyticsCode(); ?>
+<?= Layout::getAnalyticsCode(); ?>
 </body>
 </html>
