@@ -593,8 +593,8 @@ class Layout
      */
     public static function getAnalyticsCode(): void
     {
-        $gaTag = getenv('GA_TAG');
-        $environment = getenv('NODE_ENV') === 'production' ? 'Production' : 'Internal';
+        $gaTag = $_ENV['GA_TAG'];
+        $environment = $_ENV['NODE_ENV'] === 'production' ? 'Production' : 'Internal';
 
         if ($gaTag && method_exists(self::$templateClass, 'inc')) {
             call_user_func(
