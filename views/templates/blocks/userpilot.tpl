@@ -8,11 +8,9 @@
             name: "<?= $userPilotData['user']['name'] ?>",
             login: "<?= $userPilotData['user']['login'] ?>",
             email: "<?= $userPilotData['user']['email'] ?>",
-            roles: "<?= $userPilotData['user']['roles'] ?>",
             interfaceLanguage: "<?= $userPilotData['user']['interface_language'] ?>",
             company: {
                 id: "<?= $userPilotData['tenant']['id'] ?>",
-                name: "<?= $userPilotData['tenant']['name'] ?>",
             }
         }
     );
