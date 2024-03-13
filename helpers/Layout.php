@@ -591,7 +591,7 @@ class Layout
     /**
      * Returns the necessary analytics code.
      */
-    public static function getAnalyticsCode(): void
+    public static function printAnalyticsCode(): void
     {
         $gaTag = $_ENV['GA_TAG'];
         $environment = $_ENV['NODE_ENV'] === 'production' ? 'Production' : 'Internal';
