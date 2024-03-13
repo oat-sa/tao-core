@@ -593,8 +593,8 @@ class Layout
      */
     public static function printAnalyticsCode(): void
     {
-        $gaTag = $_ENV['GA_TAG'];
-        $environment = $_ENV['NODE_ENV'] === 'production' ? 'Production' : 'Internal';
+        $gaTag = $_ENV['GA_TAG'] ?? '';
+        $environment = isset($_ENV['NODE_ENV']) && $_ENV['NODE_ENV'] === 'production' ? 'Production' : 'Internal';
 
         if ($gaTag && method_exists(self::$templateClass, 'inc')) {
             call_user_func(
