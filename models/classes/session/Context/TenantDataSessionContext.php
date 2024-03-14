@@ -25,21 +25,14 @@ use oat\oatbox\session\SessionContext;
 class TenantDataSessionContext implements SessionContext
 {
     private ?string $tenantId;
-    private ?string $tenantName;
 
-    public function __construct(string $tenantId = null, string $tenantName = null)
+    public function __construct(string $tenantId = null)
     {
         $this->tenantId = $tenantId;
-        $this->tenantName = $tenantName;
     }
 
     public function getTenantId(): ?string
     {
         return $this->tenantId;
-    }
-
-    public function getTenantName(): ?string
-    {
-        return $this->tenantName;
     }
 }
