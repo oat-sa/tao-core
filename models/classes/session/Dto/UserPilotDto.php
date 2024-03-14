@@ -21,7 +21,6 @@
 namespace oat\tao\model\session\Dto;
 
 use common_session_Session;
-use oat\generis\model\user\UserRdf;
 use oat\tao\model\session\Context\TenantDataSessionContext;
 use oat\tao\model\session\Context\UserDataSessionContext;
 
@@ -29,64 +28,59 @@ class UserPilotDto
 {
     public const NOT_AVAILABLE = 'N/A';
     public const DEFAULT_LOCALE = 'en-US';
-    private string $userId = self::NOT_AVAILABLE . '|' . self::NOT_AVAILABLE;
-    private string $userName = self::NOT_AVAILABLE;
-    private string $userLogin = self::NOT_AVAILABLE;
-    private string $userEmail = self::NOT_AVAILABLE;
-    private string $interfaceLanguage = self::DEFAULT_LOCALE;
-    private array $userRoles = [self::NOT_AVAILABLE];
-    private string $tenantId = self::NOT_AVAILABLE;
-    private string $tenantName = self::NOT_AVAILABLE;
+    private ?string $userId = null;
+    private ?string $userName = null;
+    private ?string $userLogin = null;
+    private ?string $userEmail = null;
+    private ?string $interfaceLanguage = null;
+    private array $userRoles = [];
+    private ?string $tenantId = null;
 
     public function __construct($session = null)
     {
         if ($session instanceof common_session_Session) {
-            $user = $session->getUser();
-            $this->userId = $user->getIdentifier() ?? self::NOT_AVAILABLE;
-            $this->userLogin = $user->getPropertyValues(UserRdf::PROPERTY_LOGIN)[0] ?? self::NOT_AVAILABLE;
-            $this->userEmail = $user->getPropertyValues(UserRdf::PROPERTY_MAIL)[0] ?? self::NOT_AVAILABLE;
-            $this->interfaceLanguage = $session->getInterfaceLanguage() ?? self::DEFAULT_LOCALE;
-
             $contexts = $session->getContexts() ?? [];
             foreach ($contexts as $context) {
                 if ($context instanceof UserDataSessionContext) {
-                    $this->userId = $context->getUserId() ?? $this->userId;
-                    $this->userLogin = $context->getUserLogin() ?? $this->userLogin;
+                    $this->userId = $context->getUserId();
+                    $this->userLogin = $context->getUserLogin() ?? self::NOT_AVAILABLE;
                     $this->userName = $context->getUserName() ?? self::NOT_AVAILABLE;
-                    $this->userEmail = $context->getUserEmail() ?? $this->userEmail;
-                    $this->interfaceLanguage = $context->getLocale() ?? $this->interfaceLanguage;
+                    $this->userEmail = $context->getUserEmail() ?? self::NOT_AVAILABLE;
+                    $this->interfaceLanguage = $context->getLocale() ?? self::DEFAULT_LOCALE;
                 } elseif ($context instanceof TenantDataSessionContext) {
-                    $this->tenantId = $context->getTenantId() ?? self::NOT_AVAILABLE;
-                    $this->tenantName = $context->getTenantName() ?? self::NOT_AVAILABLE;
+                    $this->tenantId = $context->getTenantId();
                 }
             }
 
-            $this->userId = $this->tenantId . '|' . $this->userId;
-            $this->userRoles = $session->getUserRoles() ?? [self::NOT_AVAILABLE];
+            if (null !== $this->userId && null !== $this->tenantId) {
+                $this->userId = $this->tenantId . '|' . $this->userId;
+            }
+
+            $this->userRoles = $session->getUserRoles() ?? [];
         }
     }
 
-    public function getUserId(): string
+    public function getUserId(): ?string
     {
         return $this->userId;
     }
 
-    public function getUserLogin(): string
+    public function getUserLogin(): ?string
     {
         return $this->userLogin;
     }
 
-    public function getUserName(): string
+    public function getUserName(): ?string
     {
         return $this->userName;
     }
 
-    public function getUserEmail(): string
+    public function getUserEmail(): ?string
     {
         return $this->userEmail;
     }
 
-    public function getInterfaceLanguage(): string
+    public function getInterfaceLanguage(): ?string
     {
         return $this->interfaceLanguage;
     }
@@ -96,13 +90,8 @@ class UserPilotDto
         return $this->userRoles;
     }
 
-    public function getTenantId(): string
+    public function getTenantId(): ?string
     {
         return $this->tenantId;
-    }
-
-    public function getTenantName(): string
-    {
-        return $this->tenantName;
     }
 }

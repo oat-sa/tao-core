@@ -54,15 +54,6 @@ class UserPilotTemplateHelperTest extends LayoutTest
 
         if (null !== $sessionMockClass) {
             $sessionUser = $this->createMock(User::class);
-            $sessionUser
-                ->expects(self::once())
-                ->method('getIdentifier')
-                ->willReturn($userIdentifier);
-            $sessionUser
-                ->expects(self::exactly(2))
-                ->method('getPropertyValues')
-                ->willReturnOnConsecutiveCalls($login, $email);
-
             $user = $this->createMock(UserDataSessionContext::class);
             $user
                 ->expects(self::once())
@@ -90,13 +81,8 @@ class UserPilotTemplateHelperTest extends LayoutTest
                 ->expects(self::once())
                 ->method('getTenantId')
                 ->willReturn('portal-authoring-client-id-local-dev-acc.nextgen-stack-local');
-            $tenant
-                ->expects(self::once())
-                ->method('getTenantName')
-                ->willReturn('portal-authoring-client-id-local-dev-acc.nextgen-stack-local');
 
             $this->sessionMock = $this->createMock($sessionMockClass);
-            $this->sessionMock->expects(self::once())->method('getUser')->willReturn($sessionUser);
             $this->sessionMock->expects(self::once())->method('getUserRoles')->willReturn($userRole);
             $this->sessionMock->expects(self::once())->method('getContexts')->willReturn([$user, $tenant]);
         }
@@ -114,31 +100,7 @@ class UserPilotTemplateHelperTest extends LayoutTest
             ],
             'Anonymous session' => [
                 'dummy-user-pilot-token',
-                [
-                    [
-                        'oat\tao\test\unit\helpers\TemplateMock::inc' => [
-                            UserPilotTemplateHelper::USER_PILOT_TEMPLATE,
-                            'tao',
-                            [
-                                'userpilot_data' => [
-                                    'token' => 'dummy-user-pilot-token',
-                                    'user' => [
-                                        'id' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local|N/A',
-                                        'name' => 'guest',
-                                        'login' => 'guest',
-                                        'email' => UserPilotDto::NOT_AVAILABLE,
-                                        'roles' => 'https://www.tao.lu/Ontologies/generis.rdf#AnonymousRole',
-                                        'interface_language' => UserPilotDto::DEFAULT_LOCALE
-                                    ],
-                                    'tenant' => [
-                                        'id' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local',
-                                        'name' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ],
+                [],
                 common_session_AnonymousSession::class,
                 null,
                 'guest',
@@ -202,7 +164,6 @@ class UserPilotTemplateHelperTest extends LayoutTest
                                     ],
                                     'tenant' => [
                                         'id' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local',
-                                        'name' => 'portal-authoring-client-id-local-dev-acc.nextgen-stack-local'
                                     ]
                                 ]
                             ]

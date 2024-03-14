@@ -37,6 +37,10 @@ class UserPilotTemplateHelper extends Layout
             return;
         }
 
+        if (!$dto->getUserId()) {
+            return;
+        }
+
         call_user_func(
             [self::$templateClass, 'inc'],
             self::USER_PILOT_TEMPLATE,
@@ -54,7 +58,6 @@ class UserPilotTemplateHelper extends Layout
                     ],
                     'tenant' => [
                         'id' => $dto->getTenantId(),
-                        'name' => $dto->getTenantName(),
                     ]
                 ],
             ]
