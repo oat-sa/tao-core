@@ -46,9 +46,7 @@ class KeyChainCollectionTest extends TestCase
         $this->privateKey = new Key('123456');
         $this->publicKey = new Key('654321');
         $this->subject = new KeyChainCollection(
-            ...[
-                new KeyChain(self::ID, self::NAME, $this->publicKey, $this->privateKey),
-            ]
+            new KeyChain(self::ID, self::NAME, $this->publicKey, $this->privateKey),
         );
     }
 

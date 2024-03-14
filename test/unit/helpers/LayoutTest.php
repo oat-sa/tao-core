@@ -19,11 +19,11 @@ class LayoutTest extends TestCase
         TemplateMock::resetCalls();
     }
 
-    public function testGetAnalyticsCodeWithGaTag(): void
+    public function testPrintAnalyticsCodeWithGaTag(): void
     {
         $this->setEnv('GA_TAG', 'dummy-ga-tag');
 
-        Layout::getAnalyticsCode();
+        Layout::printAnalyticsCode();
 
         self::assertSame(
             [
@@ -42,11 +42,11 @@ class LayoutTest extends TestCase
         );
     }
 
-    public function testGetAnalyticsCodeWithoutGaTag(): void
+    public function testPrintAnalyticsCodeWithoutGaTag(): void
     {
         $this->setEnv('GA_TAG', '');
 
-        Layout::getAnalyticsCode();
+        Layout::printAnalyticsCode();
 
         self::assertSame(
             [],
