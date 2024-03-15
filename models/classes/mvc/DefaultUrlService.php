@@ -23,10 +23,16 @@ namespace oat\tao\model\mvc;
 use common_Exception;
 use common_exception_Error;
 use common_Logger;
+use common_session_Session;
+use common_session_SessionManager;
 use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
 use oat\tao\model\mvc\DefaultUrlModule\RedirectResolveInterface;
+use oat\taoLti\models\classes\LtiException;
+use oat\taoLti\models\classes\LtiLaunchData;
+use oat\taoLti\models\classes\TaoLtiSession;
+use Throwable;
 
 class DefaultUrlService extends ConfigurableService
 {
@@ -37,6 +43,10 @@ class DefaultUrlService extends ConfigurableService
 
     private const REDIRECTS_WITH_ENV_VAR_SUPPORT = [
         'logout' => self::ENV_REDIRECT_AFTER_LOGOUT_URL,
+    ];
+
+    private const REDIRECTS_WITH_LTI_CLAIM_SUPPORT = [
+        'logout' => LtiLaunchData::LTI_REDIRECT_AFTER_LOGOUT_URL,
     ];
 
     /**
@@ -127,19 +137,14 @@ class DefaultUrlService extends ConfigurableService
      * @return string
      * @throws InvalidServiceManagerException
      * @throws common_exception_Error
+     * @throws LtiException
      */
     public function getRedirectUrl($name)
     {
         if ($this->hasOption($name)) {
-            $redirectViaEnvVar = $this->getRedirectByEnvVar($name);
-
-            if ($redirectViaEnvVar !== null) {
-                return $redirectViaEnvVar;
-            }
-            $options = $this->getOption($name);
-            if (array_key_exists('redirect', $options)) {
-                return $this->createRedirect($options['redirect']);
-            }
+            return $this->getRedirectByTaoLtiSession($name)
+                ?? $this->getRedirectByEnvVar($name)
+                ?? $this->getRedirectByOptionConfig($name);
         }
         return '';
     }
@@ -192,5 +197,45 @@ class DefaultUrlService extends ConfigurableService
             $redirectUrl = $_ENV[self::REDIRECTS_WITH_ENV_VAR_SUPPORT[$name]] ?? null;
         }
         return $redirectUrl;
+    }
+
+    /**
+     * @throws LtiException
+     * @throws common_exception_Error
+     */
+    private function getRedirectByTaoLtiSession(string $name): ?string
+    {
+        if (!array_key_exists($name, self::REDIRECTS_WITH_LTI_CLAIM_SUPPORT)) {
+            return null;
+        }
+
+        $session = $this->getSession();
+        if (!$session instanceof TaoLtiSession) {
+            return null;
+        }
+
+        return $session->getLaunchData()->getCustomParameter(self::REDIRECTS_WITH_LTI_CLAIM_SUPPORT[$name]);
+    }
+
+    /**
+     * @throws InvalidServiceManagerException
+     * @throws common_exception_Error
+     */
+    private function getRedirectByOptionConfig(string $name): ?string
+    {
+        $options = $this->getOption($name);
+        if (array_key_exists('redirect', $options)) {
+            return $this->createRedirect($options['redirect']);
+        }
+
+        return null;
+    }
+
+    /**
+     * @throws common_exception_Error
+     */
+    private function getSession(): common_session_Session
+    {
+        return common_session_SessionManager::getSession();
     }
 }
