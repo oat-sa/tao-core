@@ -47,6 +47,7 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\user\UserLocks;
+use oat\taoLti\models\classes\LtiException;
 use oat\taoLti\models\classes\TaoLtiSession;
 use tao_helpers_Display as DisplayHelper;
 
@@ -112,7 +113,7 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
             $this->setData('logout', $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
             $this->setData('userLabel', $this->getSession()->getUserLabel());
-            $this->setData('portalUrl', $_ENV[self::ENV_PORTAL_URL] ?? '');
+            $this->setData('portalUrl', $this->getPortalUrl());
             $this->setData('settings-menu', $naviElements);
             $this->setData('current-section', $this->getRequestParameter('section'));
             $this->setData('content-template', ['blocks/entry-points.tpl', 'tao']);
@@ -385,7 +386,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('user_lang', $this->getSession()->getDataLanguage());
         $this->setData('userLabel', DisplayHelper::htmlEscape($this->getSession()->getUserLabel()));
-        $this->setData('portalUrl', $_ENV[self::ENV_PORTAL_URL] ?? '');
+        $this->setData('portalUrl', $this->getPortalUrl());
         // re-added to highlight selected extension in menu
         $this->setData('shownExtension', $extension);
         $this->setData('shownStructure', $structure);
@@ -401,6 +402,35 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('content-template', ['blocks/sections.tpl', 'tao']);
 
         $this->setView('layout.tpl', 'tao');
+    }
+
+    private function getPortalUrl(): string
+    {
+        try {
+            $session = $this->getSession();
+            if (!$session instanceof TaoLtiSession) {
+                return '';
+            }
+
+            $ltiLaunchData = $session->getLaunchData();
+            if ($ltiLaunchData->hasReturnUrl()) {
+                $returnUrl = $ltiLaunchData->getReturnUrl();
+
+                $this->getLogger()->info(sprintf('Portal Url is %s', $returnUrl));
+
+                return $returnUrl;
+            }
+        } catch (Throwable $exception) {
+            $this->getLogger()->warning(
+                sprintf('It was not possible to recover return url claim. Exception: %s', $exception)
+            );
+        }
+
+        $fallback = $_ENV[self::ENV_PORTAL_URL] ?? '';
+
+        $this->getLogger()->info(sprintf('Fallback Portal Url to %s', $fallback));
+
+        return $fallback;
     }
 
     /**
