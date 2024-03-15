@@ -33,12 +33,11 @@ use oat\tao\helpers\TaoCe;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\action\ActionBlackList;
+use oat\tao\model\auth\AuthoringAsToolConfigProviderInterface;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\event\LogoutSucceedEvent;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
 use oat\tao\model\menu\SectionVisibilityFilter;
@@ -47,8 +46,6 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\user\UserLocks;
-use oat\taoLti\models\classes\LtiException;
-use oat\taoLti\models\classes\TaoLtiSession;
 use tao_helpers_Display as DisplayHelper;
 
 /**
@@ -60,8 +57,6 @@ use tao_helpers_Display as DisplayHelper;
 class tao_actions_Main extends tao_actions_CommonModule
 {
     use LoggerAwareTrait;
-
-    private const ENV_PORTAL_URL = 'PORTAL_URL';
 
     /** @var SectionVisibilityFilterInterface */
     private $sectionVisibilityFilter;
@@ -355,7 +350,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
             $this->setData(
                 'taoAsATool',
-                $this->getSession() instanceof TaoLtiSession
+                $this->getSession() instanceof AuthoringAsToolConfigProviderInterface
             );
 
         $perspectiveTypes = [Perspective::GROUP_DEFAULT, 'settings', 'persistent'];
@@ -408,31 +403,24 @@ class tao_actions_Main extends tao_actions_CommonModule
 
     private function getPortalUrl(): string
     {
+        $session = $this->getSession();
+        if (!$session instanceof AuthoringAsToolConfigProviderInterface) {
+            return '';
+        }
+
         try {
-            $session = $this->getSession();
-            if (!$session instanceof TaoLtiSession) {
-                return '';
-            }
+            $returnUrl = (string)$session->getPortalUrl();
 
-            $ltiLaunchData = $session->getLaunchData();
-            if ($ltiLaunchData->hasReturnUrl()) {
-                $returnUrl = $ltiLaunchData->getReturnUrl();
+            $this->getLogger()->info(sprintf('Portal Url is %s', $returnUrl));
 
-                $this->getLogger()->info(sprintf('Portal Url is %s', $returnUrl));
-
-                return $returnUrl;
-            }
+            return $returnUrl;
         } catch (Throwable $exception) {
             $this->getLogger()->warning(
                 sprintf('It was not possible to recover return url claim. Exception: %s', $exception)
             );
         }
 
-        $fallback = $_ENV[self::ENV_PORTAL_URL] ?? '';
-
-        $this->getLogger()->info(sprintf('Fallback Portal Url to %s', $fallback));
-
-        return $fallback;
+        return '';
     }
 
     /**

@@ -28,11 +28,8 @@ use common_session_SessionManager;
 use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\tao\model\auth\AuthoringAsToolConfigProviderInterface;
 use oat\tao\model\mvc\DefaultUrlModule\RedirectResolveInterface;
-use oat\taoLti\models\classes\LtiException;
-use oat\taoLti\models\classes\LtiLaunchData;
-use oat\taoLti\models\classes\TaoLtiSession;
-use Throwable;
 
 class DefaultUrlService extends ConfigurableService
 {
@@ -45,8 +42,8 @@ class DefaultUrlService extends ConfigurableService
         'logout' => self::ENV_REDIRECT_AFTER_LOGOUT_URL,
     ];
 
-    private const REDIRECTS_WITH_LTI_CLAIM_SUPPORT = [
-        'logout' => LtiLaunchData::LTI_REDIRECT_AFTER_LOGOUT_URL,
+    private const AUTHORING_AS_TOOL_SUPPORTED_REDIRECTS = [
+        'logout'
     ];
 
     /**
@@ -137,12 +134,11 @@ class DefaultUrlService extends ConfigurableService
      * @return string
      * @throws InvalidServiceManagerException
      * @throws common_exception_Error
-     * @throws LtiException
      */
     public function getRedirectUrl($name)
     {
         if ($this->hasOption($name)) {
-            return $this->getRedirectByTaoLtiSession($name)
+            return $this->getRedirectByAuthoringAsToolUrlProvider($name)
                 ?? $this->getRedirectByEnvVar($name)
                 ?? $this->getRedirectByOptionConfig($name);
         }
@@ -200,21 +196,20 @@ class DefaultUrlService extends ConfigurableService
     }
 
     /**
-     * @throws LtiException
      * @throws common_exception_Error
      */
-    private function getRedirectByTaoLtiSession(string $name): ?string
+    private function getRedirectByAuthoringAsToolUrlProvider(string $name): ?string
     {
-        if (!array_key_exists($name, self::REDIRECTS_WITH_LTI_CLAIM_SUPPORT)) {
+        if (!in_array($name, self::AUTHORING_AS_TOOL_SUPPORTED_REDIRECTS)) {
             return null;
         }
 
         $session = $this->getSession();
-        if (!$session instanceof TaoLtiSession) {
+        if (!$session instanceof AuthoringAsToolConfigProviderInterface) {
             return null;
         }
 
-        return $session->getLaunchData()->getCustomParameter(self::REDIRECTS_WITH_LTI_CLAIM_SUPPORT[$name]);
+        return $session->getConfigByName($name);
     }
 
     /**

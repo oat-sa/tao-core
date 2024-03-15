@@ -23,9 +23,7 @@ namespace oat\tao\model\theme;
 use common_exception_InconsistentData;
 use common_session_SessionManager;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
-use oat\taoLti\models\classes\TaoLtiSession;
+use oat\tao\model\auth\AuthoringAsToolConfigProviderInterface;
 
 abstract class ThemeServiceAbstract extends ConfigurableService implements ThemeServiceInterface
 {
@@ -217,6 +215,6 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
 
     protected function isTaoAsToolEnabled(): bool
     {
-        return common_session_SessionManager::getSession() instanceof TaoLtiSession;
+        return common_session_SessionManager::getSession() instanceof AuthoringAsToolConfigProviderInterface;
     }
 }
