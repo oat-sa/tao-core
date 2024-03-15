@@ -47,6 +47,7 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\user\UserLocks;
+use oat\taoLti\models\classes\TaoLtiSession;
 use tao_helpers_Display as DisplayHelper;
 
 /**
@@ -351,7 +352,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
             $this->setData(
                 'taoAsATool',
-                $this->getFeatureFlagChecker()->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_TAO_AS_A_TOOL)
+                $this->getSession() instanceof TaoLtiSession
             );
 
         $perspectiveTypes = [Perspective::GROUP_DEFAULT, 'settings', 'persistent'];
@@ -542,10 +543,5 @@ class tao_actions_Main extends tao_actions_CommonModule
         }
 
         return $this->sectionVisibilityFilter;
-    }
-
-    private function getFeatureFlagChecker(): FeatureFlagChecker
-    {
-        return $this->getPsrContainer()->get(FeatureFlagChecker::class);
     }
 }

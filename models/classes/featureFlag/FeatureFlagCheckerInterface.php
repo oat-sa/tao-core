@@ -30,7 +30,5 @@ interface FeatureFlagCheckerInterface
     public const FEATURE_FLAG_STATISTIC_METADATA_IMPORT = 'FEATURE_FLAG_STATISTIC_METADATA_IMPORT';
     public const FEATURE_FLAG_PASSWORD_CHANGE_DISABLED = 'FEATURE_FLAG_PASSWORD_CHANGE_DISABLED';
 
-    public const FEATURE_FLAG_TAO_AS_A_TOOL = 'FEATURE_FLAG_TAO_AS_A_TOOL';
-
     public function isEnabled(string $feature): bool;
 }

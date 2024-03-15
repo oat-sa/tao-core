@@ -21,9 +21,11 @@
 namespace oat\tao\model\theme;
 
 use common_exception_InconsistentData;
+use common_session_SessionManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\taoLti\models\classes\TaoLtiSession;
 
 abstract class ThemeServiceAbstract extends ConfigurableService implements ThemeServiceInterface
 {
@@ -215,9 +217,6 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
 
     protected function isTaoAsToolEnabled(): bool
     {
-        return $this->getServiceManager()
-            ->getContainer()
-            ->get(FeatureFlagChecker::class)
-            ->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_TAO_AS_A_TOOL);
+        return common_session_SessionManager::getSession() instanceof TaoLtiSession;
     }
 }
