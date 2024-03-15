@@ -1,6 +1,8 @@
 <?php
 use oat\tao\helpers\Template;
 use oat\tao\helpers\Layout;
+use oat\tao\helpers\UserPilotTemplateHelper;
+use oat\tao\model\session\Dto\UserPilotDto;
 use oat\tao\model\theme\Theme;
 
 $releaseMsgData = Layout::getReleaseMsgData();
@@ -54,6 +56,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
 <?=Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'footer')?>
 
 <div class="loading-bar"></div>
-<? Layout::getAnalyticsCode(); ?>
+<?php Layout::getAnalyticsCode(); ?>
+<?php UserPilotTemplateHelper::userPilotCode(new UserPilotDto(common_session_SessionManager::getSession())); ?>
 </body>
 </html>
