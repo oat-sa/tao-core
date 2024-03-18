@@ -454,8 +454,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
         if ($myForm->isSubmited() && $myForm->isValid()) {
             if ($hasWriteAccess) {
-                $labelProp = $class->getProperty(OntologyRdfs::RDFS_LABEL);
-                $labelProp->isWritable() && $class->setLabel(
+                $labelFormElement = $myForm->getElement(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL));
+                $labelFormElement && !$labelFormElement->isDisabled() && $class->setLabel(
                     $myForm->getValue(tao_helpers_Uri::encode(OntologyRdfs::RDFS_LABEL))
                 );
                 $this->setData('message', __('%s Class saved', $class->getLabel()));
