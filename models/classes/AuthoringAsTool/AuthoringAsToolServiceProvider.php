@@ -45,13 +45,13 @@ class AuthoringAsToolServiceProvider implements ContainerServiceProviderInterfac
                 [
                     [
                         AuthoringAsToolConfigProviderInterface::LOGOUT_URL_CONFIG_NAME => env(
-                            'default::'.AuthoringAsToolEnvironmentVariableConfigProvider::ENV_REDIRECT_AFTER_LOGOUT_URL
+                            'default::' . AuthoringAsToolEnvironmentVariableConfigProvider::ENV_REDIRECT_AFTER_LOGOUT_URL
                         ),
                         AuthoringAsToolConfigProviderInterface::PORTAL_URL_CONFIG_NAME => env(
-                            'default::'.AuthoringAsToolEnvironmentVariableConfigProvider::ENV_PORTAL_URL
+                            'default::' . AuthoringAsToolEnvironmentVariableConfigProvider::ENV_PORTAL_URL
                         ),
                         AuthoringAsToolConfigProviderInterface::LOGIN_URL_CONFIG_NAME => env(
-                            'default::'.AuthoringAsToolEnvironmentVariableConfigProvider::ENV_TAO_LOGIN_URL
+                            'default::' . AuthoringAsToolEnvironmentVariableConfigProvider::ENV_TAO_LOGIN_URL
                         ),
                     ]
                 ]
