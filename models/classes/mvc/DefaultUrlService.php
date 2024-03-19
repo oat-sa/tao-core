@@ -213,7 +213,7 @@ class DefaultUrlService extends ConfigurableService
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    private function getAuthoringAsToolConfigProvider(): mixed
+    private function getAuthoringAsToolConfigProvider(): AuthoringAsToolConfigProviderInterface
     {
         return $this->getServiceManager()->getContainer()->get(AuthoringAsToolConfigProviderInterface::class);
     }
