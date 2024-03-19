@@ -34,6 +34,7 @@ use oat\tao\helpers\ServiceProvider\HelperServiceProvider;
 use oat\tao\install\services\SetupSettingsStorage;
 use oat\tao\model\accessControl\AccessControlServiceProvider;
 use oat\tao\model\accessControl\func\AccessRule;
+use oat\tao\model\AuthoringAsTool\AuthoringAsToolServiceProvider;
 use oat\tao\model\clientConfig\ClientConfigServiceProvider;
 use oat\tao\model\configurationMarkers\ConfigurationMarkersProvider;
 use oat\tao\model\Csv\CsvServiceProvider;
@@ -417,6 +418,7 @@ return [
         MenuServiceProvider::class,
         FormDataProviderServiceProvider::class,
         PropertyServiceProvider::class,
+        AuthoringAsToolServiceProvider::class
     ],
     'middlewares' => [
         MiddlewareConfig::class,

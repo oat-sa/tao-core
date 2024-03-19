@@ -34,7 +34,6 @@ use oat\tao\model\mvc\DefaultUrlModule\RedirectResolveInterface;
 class DefaultUrlService extends ConfigurableService
 {
     public const SERVICE_ID = 'tao/urlroute';
-    private const ENV_TAO_LOGIN_URL = 'TAO_LOGIN_URL';
 
     private const ENV_REDIRECT_AFTER_LOGOUT_URL = 'REDIRECT_AFTER_LOGOUT_URL';
 
@@ -68,11 +67,9 @@ class DefaultUrlService extends ConfigurableService
      */
     public function getLoginUrl(array $params = [])
     {
-        if (isset($_ENV[self::ENV_TAO_LOGIN_URL])) {
-            return $_ENV[self::ENV_TAO_LOGIN_URL];
-        }
-
-        return $this->getUrl('login', $params);
+        return $this->getAuthoringAsToolConfigProvider()->getConfigByName(
+            AuthoringAsToolConfigProviderInterface::LOGIN_URL_CONFIG_NAME
+        ) ?? $this->getUrl('login', $params);
     }
 
     /**
@@ -135,11 +132,10 @@ class DefaultUrlService extends ConfigurableService
      * @throws InvalidServiceManagerException
      * @throws common_exception_Error
      */
-    public function getRedirectUrl($name)
+    public function getRedirectUrl($name): ?string
     {
         if ($this->hasOption($name)) {
             return $this->getRedirectByAuthoringAsToolUrlProvider($name)
-                ?? $this->getRedirectByEnvVar($name)
                 ?? $this->getRedirectByOptionConfig($name);
         }
         return '';
@@ -186,30 +182,16 @@ class DefaultUrlService extends ConfigurableService
         return $this->resolveRedirect($redirect);
     }
 
-    private function getRedirectByEnvVar(string $name): ?string
-    {
-        $redirectUrl = null;
-        if (array_key_exists($name, self::REDIRECTS_WITH_ENV_VAR_SUPPORT)) {
-            $redirectUrl = $_ENV[self::REDIRECTS_WITH_ENV_VAR_SUPPORT[$name]] ?? null;
-        }
-        return $redirectUrl;
-    }
-
     /**
-     * @throws common_exception_Error
+     * @param string $name
+     * @return string|null
+     * @throws InvalidServiceManagerException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     private function getRedirectByAuthoringAsToolUrlProvider(string $name): ?string
     {
-        if (!in_array($name, self::AUTHORING_AS_TOOL_SUPPORTED_REDIRECTS)) {
-            return null;
-        }
-
-        $session = $this->getSession();
-        if (!$session instanceof AuthoringAsToolConfigProviderInterface) {
-            return null;
-        }
-
-        return $session->getConfigByName($name);
+        return $this->getAuthoringAsToolConfigProvider()->getConfigByName($name);
     }
 
     /**
@@ -232,5 +214,17 @@ class DefaultUrlService extends ConfigurableService
     private function getSession(): common_session_Session
     {
         return common_session_SessionManager::getSession();
+    }
+
+    /**
+     * @return AuthoringAsToolConfigProviderInterface
+     *
+     * @throws InvalidServiceManagerException
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
+    private function getAuthoringAsToolConfigProvider(): mixed
+    {
+        return $this->getServiceManager()->getContainer()->get(AuthoringAsToolConfigProviderInterface::class);
     }
 }

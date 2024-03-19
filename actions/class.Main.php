@@ -46,6 +46,7 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\user\UserLocks;
+use oat\taoLti\models\classes\AuthoringAsTool\AuthoringAsToolLtiConfigProvider;
 use tao_helpers_Display as DisplayHelper;
 
 /**
@@ -108,12 +109,22 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
             $this->setData('logout', $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
             $this->setData('userLabel', $this->getSession()->getUserLabel());
-            $this->setData('portalUrl', $this->getPortalUrl());
+            $this->setData(
+                'portalUrl',
+                $this->getAuthoringAsToolConfigProvider()->getConfigByName(
+                    AuthoringAsToolConfigProviderInterface::PORTAL_URL_CONFIG_NAME
+                )
+            );
             $this->setData('settings-menu', $naviElements);
             $this->setData('current-section', $this->getRequestParameter('section'));
             $this->setData('content-template', ['blocks/entry-points.tpl', 'tao']);
             $this->setView('layout.tpl', 'tao');
         }
+    }
+
+    public function getAuthoringAsToolConfigProvider(): AuthoringAsToolConfigProviderInterface
+    {
+        return $this->getServiceLocator()->getContainer()->get(AuthoringAsToolConfigProviderInterface::class);
     }
 
     /**
@@ -293,7 +304,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
 
         try {
-            $this->redirect($urlRouteService->getRedirectUrl('logout'));
+            $this->redirect((string)$urlRouteService->getRedirectUrl('logout'));
         } finally {
             common_session_SessionManager::endSession();
         }
@@ -348,10 +359,10 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
         }
 
-            $this->setData(
-                'taoAsATool',
-                $this->getSession() instanceof AuthoringAsToolConfigProviderInterface
-            );
+        $this->setData(
+            'taoAsATool',
+            $this->getAuthoringAsToolConfigProvider()->isAuthoringAsToolEnabled()
+        );
 
         $perspectiveTypes = [Perspective::GROUP_DEFAULT, 'settings', 'persistent'];
         foreach ($perspectiveTypes as $perspectiveType) {
@@ -383,7 +394,12 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('user_lang', $this->getSession()->getDataLanguage());
         $this->setData('userLabel', DisplayHelper::htmlEscape($this->getSession()->getUserLabel()));
-        $this->setData('portalUrl', $this->getPortalUrl());
+        $this->setData(
+            'portalUrl',
+            $this->getAuthoringAsToolConfigProvider()->getConfigByName(
+                AuthoringAsToolConfigProviderInterface::PORTAL_URL_CONFIG_NAME
+            )
+        );
         // re-added to highlight selected extension in menu
         $this->setData('shownExtension', $extension);
         $this->setData('shownStructure', $structure);
@@ -399,28 +415,6 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('content-template', ['blocks/sections.tpl', 'tao']);
 
         $this->setView('layout.tpl', 'tao');
-    }
-
-    private function getPortalUrl(): string
-    {
-        $session = $this->getSession();
-        if (!$session instanceof AuthoringAsToolConfigProviderInterface) {
-            return '';
-        }
-
-        try {
-            $returnUrl = (string)$session->getPortalUrl();
-
-            $this->getLogger()->info(sprintf('Portal Url is %s', $returnUrl));
-
-            return $returnUrl;
-        } catch (Throwable $exception) {
-            $this->getLogger()->warning(
-                sprintf('It was not possible to recover return url claim. Exception: %s', $exception)
-            );
-        }
-
-        return '';
     }
 
     /**

@@ -21,7 +21,6 @@
 namespace oat\tao\model\theme;
 
 use common_exception_InconsistentData;
-use common_session_SessionManager;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\auth\AuthoringAsToolConfigProviderInterface;
 
@@ -215,6 +214,8 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
 
     protected function isTaoAsToolEnabled(): bool
     {
-        return common_session_SessionManager::getSession() instanceof AuthoringAsToolConfigProviderInterface;
+        return $this->getServiceManager()->getContainer()
+            ->get(AuthoringAsToolConfigProviderInterface::class)
+            ->isAuthoringAsToolEnabled();
     }
 }

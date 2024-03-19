@@ -22,16 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\auth;
 
-use Throwable;
-
 interface AuthoringAsToolConfigProviderInterface
 {
-    public const ENV_PORTAL_URL = 'PORTAL_URL';
-
-    /**
-     * @throws Throwable
-     */
-    public function getPortalUrl(): ?string;
+    public const LOGOUT_URL_CONFIG_NAME = 'logout';
+    public const PORTAL_URL_CONFIG_NAME = 'portal-url';
+    public const LOGIN_URL_CONFIG_NAME = 'login';
 
     public function getConfigByName(string $name): ?string;
+
+    public function isAuthoringAsToolEnabled(): bool;
 }
