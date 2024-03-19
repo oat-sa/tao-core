@@ -17,16 +17,19 @@
  *
  * Copyright (c) 2024 (original work) Open Assessment Technologies SA;
  */
+
 declare(strict_types=1);
 
 namespace oat\tao\model\auth;
 
-use Exception;
+use Throwable;
 
 interface AuthoringAsToolConfigProviderInterface
 {
+    public const ENV_PORTAL_URL = 'PORTAL_URL';
+
     /**
-     * @throws Exception
+     * @throws Throwable
      */
     public function getPortalUrl(): ?string;
 
