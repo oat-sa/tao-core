@@ -46,7 +46,6 @@ use oat\tao\model\mvc\DefaultUrlService;
 use oat\tao\model\notification\Notification;
 use oat\tao\model\notification\NotificationServiceInterface;
 use oat\tao\model\user\UserLocks;
-use oat\taoLti\models\classes\AuthoringAsTool\AuthoringAsToolLtiConfigProvider;
 use tao_helpers_Display as DisplayHelper;
 
 /**
