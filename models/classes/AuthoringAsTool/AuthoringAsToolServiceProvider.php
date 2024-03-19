@@ -30,7 +30,6 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
 class AuthoringAsToolServiceProvider implements ContainerServiceProviderInterface
 {
-
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
@@ -45,7 +44,8 @@ class AuthoringAsToolServiceProvider implements ContainerServiceProviderInterfac
                 [
                     [
                         AuthoringAsToolConfigProviderInterface::LOGOUT_URL_CONFIG_NAME => env(
-                            'default::' . AuthoringAsToolEnvironmentVariableConfigProvider::ENV_REDIRECT_AFTER_LOGOUT_URL
+                            'default::'
+                            . AuthoringAsToolEnvironmentVariableConfigProvider::ENV_REDIRECT_AFTER_LOGOUT_URL
                         ),
                         AuthoringAsToolConfigProviderInterface::PORTAL_URL_CONFIG_NAME => env(
                             'default::' . AuthoringAsToolEnvironmentVariableConfigProvider::ENV_PORTAL_URL
