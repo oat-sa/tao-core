@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\auth;
+namespace oat\tao\model\AuthoringAsTool;
 
 interface AuthoringAsToolConfigProviderInterface
 {

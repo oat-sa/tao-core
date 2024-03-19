@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\AuthoringAsTool;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\tao\model\auth\AuthoringAsToolConfigProviderInterface;
+use oat\tao\model\AuthoringAsTool\AuthoringAsToolConfigProviderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;

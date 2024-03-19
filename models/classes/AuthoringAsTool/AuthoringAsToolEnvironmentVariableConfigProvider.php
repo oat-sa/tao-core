@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\AuthoringAsTool;
 
-use oat\tao\model\auth\AuthoringAsToolConfigProviderInterface;
+use oat\tao\model\AuthoringAsTool\AuthoringAsToolConfigProviderInterface;
 
 class AuthoringAsToolEnvironmentVariableConfigProvider implements AuthoringAsToolConfigProviderInterface
 {

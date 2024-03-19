@@ -26,7 +26,7 @@ use common_Logger;
 use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
-use oat\tao\model\auth\AuthoringAsToolConfigProviderInterface;
+use oat\tao\model\AuthoringAsTool\AuthoringAsToolConfigProviderInterface;
 use oat\tao\model\mvc\DefaultUrlModule\RedirectResolveInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -207,7 +207,7 @@ class DefaultUrlService extends ConfigurableService
     }
 
     /**
-     * @return AuthoringAsToolConfigProviderInterface
+     * @return \oat\tao\model\AuthoringAsTool\AuthoringAsToolConfigProviderInterface
      *
      * @throws InvalidServiceManagerException
      * @throws ContainerExceptionInterface

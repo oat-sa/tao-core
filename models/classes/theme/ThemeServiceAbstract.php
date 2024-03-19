@@ -22,7 +22,7 @@ namespace oat\tao\model\theme;
 
 use common_exception_InconsistentData;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\auth\AuthoringAsToolConfigProviderInterface;
+use oat\tao\model\AuthoringAsTool\AuthoringAsToolConfigProviderInterface;
 
 abstract class ThemeServiceAbstract extends ConfigurableService implements ThemeServiceInterface
 {
