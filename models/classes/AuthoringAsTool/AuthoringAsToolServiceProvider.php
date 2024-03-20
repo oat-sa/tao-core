@@ -23,10 +23,11 @@ declare(strict_types=1);
 namespace oat\tao\model\AuthoringAsTool;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
-use oat\tao\model\AuthoringAsTool\AuthoringAsToolConfigProviderInterface;
+use oat\oatbox\log\LoggerService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class AuthoringAsToolServiceProvider implements ContainerServiceProviderInterface
 {
@@ -53,7 +54,8 @@ class AuthoringAsToolServiceProvider implements ContainerServiceProviderInterfac
                         AuthoringAsToolConfigProviderInterface::LOGIN_URL_CONFIG_NAME => env(
                             'default::' . AuthoringAsToolEnvironmentVariableConfigProvider::ENV_TAO_LOGIN_URL
                         ),
-                    ]
+                    ],
+                    service(LoggerService::SERVICE_ID),
                 ]
             );
     }

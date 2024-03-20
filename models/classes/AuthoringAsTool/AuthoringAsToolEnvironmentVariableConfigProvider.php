@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\AuthoringAsTool;
 
 use oat\tao\model\AuthoringAsTool\AuthoringAsToolConfigProviderInterface;
+use Psr\Log\LoggerInterface;
 
 class AuthoringAsToolEnvironmentVariableConfigProvider implements AuthoringAsToolConfigProviderInterface
 {
@@ -36,15 +37,20 @@ class AuthoringAsToolEnvironmentVariableConfigProvider implements AuthoringAsToo
         self::LOGIN_URL_CONFIG_NAME
     ];
     private array $configs;
+    private LoggerInterface $logger;
 
-    public function __construct(array $configs)
+    public function __construct(array $configs, LoggerInterface $logger)
     {
         $this->configs = $configs;
+        $this->logger = $logger;
     }
 
     public function getConfigByName(string $name): ?string
     {
         if (!in_array($name, self::AVAILABLE_CONFIGS)) {
+            $this->logger->warning(
+                sprintf('The Authoring As Tool config var with the name %s is not available', $name)
+            );
             return null;
         }
 
