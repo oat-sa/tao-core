@@ -31,9 +31,9 @@ class AuthoringAsToolEnvironmentVariableConfigProvider implements AuthoringAsToo
     public const ENV_TAO_LOGIN_URL = 'TAO_LOGIN_URL';
 
     private const AVAILABLE_CONFIGS = [
-        self::LOGOUT_URL_CONFIG_NAME => self::ENV_REDIRECT_AFTER_LOGOUT_URL,
-        self::PORTAL_URL_CONFIG_NAME => self::ENV_PORTAL_URL,
-        self::LOGIN_URL_CONFIG_NAME => self::ENV_TAO_LOGIN_URL
+        self::LOGOUT_URL_CONFIG_NAME,
+        self::PORTAL_URL_CONFIG_NAME,
+        self::LOGIN_URL_CONFIG_NAME
     ];
     private array $configs;
 
@@ -44,9 +44,10 @@ class AuthoringAsToolEnvironmentVariableConfigProvider implements AuthoringAsToo
 
     public function getConfigByName(string $name): ?string
     {
-        if (!array_key_exists($name, self::AVAILABLE_CONFIGS)) {
+        if (!in_array($name, self::AVAILABLE_CONFIGS)) {
             return null;
         }
+
         return $this->configs[$name] ?? null;
     }
 
