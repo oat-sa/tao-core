@@ -27,6 +27,11 @@ interface AuthoringAsToolConfigProviderInterface
     public const LOGOUT_URL_CONFIG_NAME = 'logout';
     public const PORTAL_URL_CONFIG_NAME = 'portal-url';
     public const LOGIN_URL_CONFIG_NAME = 'login';
+    public const AVAILABLE_CONFIGS = [
+        self::LOGOUT_URL_CONFIG_NAME,
+        self::PORTAL_URL_CONFIG_NAME,
+        self::LOGIN_URL_CONFIG_NAME
+    ];
 
     public function getConfigByName(string $name): ?string;
 

@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\AuthoringAsTool;
 
-use oat\tao\model\AuthoringAsTool\AuthoringAsToolConfigProviderInterface;
 use Psr\Log\LoggerInterface;
 
 class AuthoringAsToolEnvironmentVariableConfigProvider implements AuthoringAsToolConfigProviderInterface
@@ -31,11 +30,6 @@ class AuthoringAsToolEnvironmentVariableConfigProvider implements AuthoringAsToo
     public const ENV_PORTAL_URL = 'PORTAL_URL';
     public const ENV_TAO_LOGIN_URL = 'TAO_LOGIN_URL';
 
-    private const AVAILABLE_CONFIGS = [
-        self::LOGOUT_URL_CONFIG_NAME,
-        self::PORTAL_URL_CONFIG_NAME,
-        self::LOGIN_URL_CONFIG_NAME
-    ];
     private array $configs;
     private LoggerInterface $logger;
 
