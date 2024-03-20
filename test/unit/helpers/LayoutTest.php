@@ -3,7 +3,6 @@
 namespace oat\tao\test\unit\helpers;
 
 use oat\tao\helpers\Layout;
-use oat\tao\helpers\Template;
 use PHPUnit\Framework\TestCase;
 
 class LayoutTest extends TestCase
@@ -55,7 +54,7 @@ class LayoutTest extends TestCase
         );
     }
 
-    private function setEnv($key, $value)
+    protected function setEnv($key, $value): void
     {
         putenv("$key=$value");
         $_ENV[$key] = $value;
