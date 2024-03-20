@@ -203,8 +203,6 @@ class DefaultUrlService extends ConfigurableService
     }
 
     /**
-     * @return \oat\tao\model\AuthoringAsTool\AuthoringAsToolConfigProviderInterface
-     *
      * @throws InvalidServiceManagerException
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
