@@ -29,6 +29,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use tao_models_classes_RoleService;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 class AccessControlServiceProvider implements ContainerServiceProviderInterface
 {
@@ -50,5 +51,9 @@ class AccessControlServiceProvider implements ContainerServiceProviderInterface
                     service(tao_models_classes_RoleService::class)
                 ]
             );
+
+        $services->set(RoleBasedContextRestrictAccess::class, RoleBasedContextRestrictAccess::class)
+            ->public()
+            ->args([[]]);
     }
 }
