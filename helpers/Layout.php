@@ -34,7 +34,7 @@ use oat\tao\model\layout\AmdLoader;
 
 class Layout
 {
-    private static string $templateClass = Template::class;
+    protected static string $templateClass = Template::class;
 
     public static function setTemplate(string $templateClass): void
     {
