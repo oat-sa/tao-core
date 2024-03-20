@@ -53,10 +53,6 @@ class DefaultUrlService extends ConfigurableService
 
     /**
      *
-     * @param array $params
-     *
-     * @return string|null
-     *
      * @throws ContainerExceptionInterface
      * @throws InvalidServiceManagerException
      * @throws NotFoundExceptionInterface
