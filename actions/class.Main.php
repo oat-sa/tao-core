@@ -41,6 +41,7 @@ use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
+use oat\tao\model\menu\SectionVisibilityByRoleFilter;
 use oat\tao\model\menu\SectionVisibilityFilter;
 use oat\tao\model\menu\SectionVisibilityFilterInterface;
 use oat\tao\model\mvc\DefaultUrlService;
@@ -462,6 +463,14 @@ class tao_actions_Main extends tao_actions_CommonModule
                     continue;
                 }
 
+                if (!$this->getSectionVisibilityByRoleFilter()->isVisible(
+                        $this->getSession()->getUserRoles(),
+                        $section->getId()
+                    )
+                ) {
+                    continue;
+                }
+
                 if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
                     $children[] = $section;
                 }
@@ -547,5 +556,10 @@ class tao_actions_Main extends tao_actions_CommonModule
     private function getFeatureFlagChecker(): FeatureFlagChecker
     {
         return $this->getPsrContainer()->get(FeatureFlagChecker::class);
+    }
+
+    private function getSectionVisibilityByRoleFilter(): SectionVisibilityByRoleFilter
+    {
+        return $this->getPsrContainer()->get(SectionVisibilityByRoleFilter::class);
     }
 }

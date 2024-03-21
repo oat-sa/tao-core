@@ -29,7 +29,6 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use tao_models_classes_RoleService;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 class AccessControlServiceProvider implements ContainerServiceProviderInterface
 {
