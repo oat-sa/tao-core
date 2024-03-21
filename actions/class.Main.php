@@ -40,6 +40,7 @@ use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\event\LogoutSucceedEvent;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
+use oat\tao\model\menu\SectionVisibilityByRoleFilter;
 use oat\tao\model\menu\SectionVisibilityFilter;
 use oat\tao\model\menu\SectionVisibilityFilterInterface;
 use oat\tao\model\mvc\DefaultUrlService;
@@ -431,7 +432,7 @@ class tao_actions_Main extends tao_actions_CommonModule
          * @var  Perspective $perspective
          */
         foreach (MenuService::getPerspectivesByGroup($groupId) as $i => $perspective) {
-            if (!$this->getSectionVisibilityFilter()->isVisible($perspective->getId())) {
+            if ($this->isRestricted($perspective)) {
                 $this->logDebug(
                     sprintf(
                         "Perspective %s has been ignored base on Section Visibility Filter",
@@ -473,6 +474,14 @@ class tao_actions_Main extends tao_actions_CommonModule
                 $resolver = new ActionResolver($section->getUrl());
 
                 if (!$this->getSectionVisibilityFilter()->isVisible($section->getId())) {
+                    continue;
+                }
+
+                if (!$this->getSectionVisibilityByRoleFilter()->isVisible(
+                        $this->getSession()->getUserRoles(),
+                        $section->getId()
+                    )
+                ) {
                     continue;
                 }
 
@@ -556,5 +565,18 @@ class tao_actions_Main extends tao_actions_CommonModule
         }
 
         return $this->sectionVisibilityFilter;
+    }
+
+    private function getSectionVisibilityByRoleFilter(): SectionVisibilityByRoleFilter
+    {
+        return $this->getPsrContainer()->get(SectionVisibilityByRoleFilter::class);
+    }
+
+    private function isRestricted(Perspective $perspective)
+    {
+        return !$this->getSectionVisibilityFilter()->isVisible($perspective->getId())
+            || !$this->getSectionVisibilityByRoleFilter()->isVisible(
+                $this->getSession()->getUserRoles(),
+                $perspective->getId());
     }
 }
