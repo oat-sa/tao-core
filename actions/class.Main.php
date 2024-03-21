@@ -418,7 +418,7 @@ class tao_actions_Main extends tao_actions_CommonModule
          * @var  Perspective $perspective
          */
         foreach (MenuService::getPerspectivesByGroup($groupId) as $i => $perspective) {
-            if (!$this->getSectionVisibilityFilter()->isVisible($perspective->getId())) {
+            if ($this->isRestricted($perspective)) {
                 $this->logDebug(
                     sprintf(
                         "Perspective %s has been ignored base on Section Visibility Filter",
@@ -561,5 +561,13 @@ class tao_actions_Main extends tao_actions_CommonModule
     private function getSectionVisibilityByRoleFilter(): SectionVisibilityByRoleFilter
     {
         return $this->getPsrContainer()->get(SectionVisibilityByRoleFilter::class);
+    }
+
+    private function isRestricted(Perspective $perspective)
+    {
+        return !$this->getSectionVisibilityFilter()->isVisible($perspective->getId())
+            || !$this->getSectionVisibilityByRoleFilter()->isVisible(
+                $this->getSession()->getUserRoles(),
+                $perspective->getId());
     }
 }
