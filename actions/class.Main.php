@@ -479,7 +479,8 @@ class tao_actions_Main extends tao_actions_CommonModule
                     continue;
                 }
 
-                if (!$this->getSectionVisibilityByRoleFilter()->isVisible(
+                if (
+                    !$this->getSectionVisibilityByRoleFilter()->isVisible(
                         $this->getSession()->getUserRoles(),
                         $section->getId()
                     )
@@ -579,6 +580,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         return !$this->getSectionVisibilityFilter()->isVisible($perspective->getId())
             || !$this->getSectionVisibilityByRoleFilter()->isVisible(
                 $this->getSession()->getUserRoles(),
-                $perspective->getId());
+                $perspective->getId()
+            );
     }
 }
