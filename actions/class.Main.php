@@ -341,12 +341,10 @@ class tao_actions_Main extends tao_actions_CommonModule
             );
 
             $sections = $this->getSections($extension, $structure);
-
             if (count($sections) > 0) {
                 $this->setData('sections', $sections);
             } else {
                 $this->logWarning('no sections');
-                $this->redirect(_url('entry', 'Main', 'tao', $_GET));
             }
         } else {
             //check if the user is a noob, otherwise redirect him to his last visited extension.
