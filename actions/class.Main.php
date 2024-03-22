@@ -463,9 +463,11 @@ class tao_actions_Main extends tao_actions_CommonModule
                     continue;
                 }
 
-                if (!$this->getSectionVisibilityByRoleFilter()->isVisible(
+                if (
+                    !$this->getSectionVisibilityByRoleFilter()->isVisible(
                     $this->getSession()->getUserRoles(),
-                    $section->getId())
+                    $section->getId()
+                )
                 ) {
                     continue;
                 }
