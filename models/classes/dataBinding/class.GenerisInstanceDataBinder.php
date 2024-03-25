@@ -24,6 +24,7 @@
  *               2022 (update and modification) Open Assessment Technologies SA;
  */
 
+use oat\generis\model\data\Ontology;
 use oat\generis\model\OntologyRdf;
 use oat\tao\model\dataBinding\AbstractDataBinder;
 use oat\tao\model\dataBinding\GenerisInstanceDataBindingException;
@@ -126,12 +127,12 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
                     $types = is_array($propertyValue) ? $propertyValue : [$propertyValue];
 
                     foreach ($types as $type) {
-                        $instance->setType(new core_kernel_classes_Class($type));
+                        $instance->setType($this->getOntology()->getClass($type));
                     }
                     continue;
                 }
 
-                $prop = new core_kernel_classes_Property($propertyUri);
+                $prop = $this->getOntology()->getProperty($propertyUri);
 
                 if ($this->isBlockedForModification($prop)) {
                     continue;
@@ -181,7 +182,6 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
             return $instance;
         } catch (common_Exception $e) {
             $msg = "An error occured while binding property values to instance '': " . $e->getMessage();
-            $instanceUri = $instance->getUri();
             throw new tao_models_classes_dataBinding_GenerisInstanceDataBindingException($msg);
         }
     }
@@ -216,6 +216,11 @@ class tao_models_classes_dataBinding_GenerisInstanceDataBinder extends tao_model
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getServiceManager()->get(FeatureFlagChecker::class);
+    }
+
+    private function getOntology(): Ontology
+    {
+        return $this->getServiceManager()->get(Ontology::SERVICE_ID);
     }
 
     private function getServiceManager(): ServiceManager

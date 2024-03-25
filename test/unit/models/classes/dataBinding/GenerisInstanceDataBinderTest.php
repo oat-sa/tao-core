@@ -20,6 +20,7 @@
 
 declare(strict_types=1);
 
+use oat\generis\model\data\Ontology;
 use oat\generis\test\MockObject;
 use oat\generis\test\TestCase;
 use oat\oatbox\event\EventManager;
@@ -66,6 +67,9 @@ class GenerisInstanceDataBinderTest extends TestCase
 
     /** @var FeatureFlagCheckerInterface|MockObject */
     private $featureFlagChecker;
+
+    /** @var Ontology|MockObject */
+    private $ontology;
 
     public function setUp(): void
     {
@@ -131,11 +135,26 @@ class GenerisInstanceDataBinderTest extends TestCase
             ->method('isEnabled')
             ->willReturn(false);
 
+        $this->ontology = $this->createMock(Ontology::class);
+        $this->ontology
+            ->method('getClass')
+            ->willReturnMap([
+                [self::URI_TYPE_1, $this->classType1],
+                [self::URI_TYPE_2, $this->classType2],
+            ]);
+        $this->ontology
+            ->method('getProperty')
+            ->willReturnMap([
+                [self::URI_PROPERTY_1, $this->property1],
+                [self::URI_PROPERTY_2, $this->property2],
+            ]);
+
         $this->sut->withEventManager($this->eventManagerMock);
         $this->sut->withServiceManager(
             $this->getServiceLocatorMock(
                 [
-                    FeatureFlagChecker::class => $this->featureFlagChecker
+                    FeatureFlagChecker::class => $this->featureFlagChecker,
+                    Ontology::SERVICE_ID => $this->ontology
                 ]
             )
         );
