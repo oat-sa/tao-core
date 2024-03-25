@@ -41,5 +41,9 @@ class MenuServiceProvider implements ContainerServiceProviderInterface
         $services
             ->set(MenuCacheWarmupListener::class, MenuCacheWarmupListener::class)
             ->public();
+
+        $services->set(SectionVisibilityByRoleFilter::class, SectionVisibilityByRoleFilter::class)
+            ->public()
+            ->args([[]]);
     }
 }
