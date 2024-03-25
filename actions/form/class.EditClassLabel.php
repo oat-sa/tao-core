@@ -82,10 +82,10 @@ class tao_actions_form_EditClassLabel extends \tao_helpers_form_FormContainer
         }
         unset($this->options['name']);
 
-        $this->form = \tao_helpers_form_FormFactory::getForm($name, $this->options);
+        $this->form = tao_helpers_form_FormFactory::getForm($name, $this->options);
 
 
-        $this->form->setActions(\tao_helpers_form_FormFactory::getCommonActions(), 'bottom');
+        $this->form->setActions(tao_helpers_form_FormFactory::getCommonActions(), 'bottom');
     }
 
     /**
@@ -109,11 +109,12 @@ class tao_actions_form_EditClassLabel extends \tao_helpers_form_FormContainer
             }
             //set label validator
             $element->addValidators([
-                \tao_helpers_form_FormFactory::getValidator('NotEmpty'),
+                tao_helpers_form_FormFactory::getValidator('NotEmpty'),
             ]);
             $namespace = substr($clazz->getUri(), 0, strpos($clazz->getUri(), '#'));
             if (!$this->getNamespaceHelper()->isNamespaceSupported($namespace)) {
-                $readonly = \tao_helpers_form_FormFactory::getElement($element->getName(), 'Readonly');
+                $readonly = tao_helpers_form_FormFactory::getElement('', 'Readonly');
+                $readonly->disable();
                 $readonly->setDescription($element->getDescription());
                 $readonly->setValue($element->getRawValue());
                 $element = $readonly;
@@ -123,7 +124,7 @@ class tao_actions_form_EditClassLabel extends \tao_helpers_form_FormContainer
         }
 
         //add an hidden elt for the class uri
-        $classUriElt = \tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
+        $classUriElt = tao_helpers_form_FormFactory::getElement('classUri', 'Hidden');
         $classUriElt->setValue(\tao_helpers_Uri::encode($clazz->getUri()));
         $classUriElt->addClass('global');
         $this->form->addElement($classUriElt);
