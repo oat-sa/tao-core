@@ -342,10 +342,12 @@ class tao_actions_Main extends tao_actions_CommonModule
             );
 
             $sections = $this->getSections($extension, $structure);
+
             if (count($sections) > 0) {
                 $this->setData('sections', $sections);
             } else {
                 $this->logWarning('no sections');
+                $this->redirect($this->getDefaultPageUrl());
             }
         } else {
             //check if the user is a noob, otherwise redirect him to his last visited extension.
@@ -589,5 +591,18 @@ class tao_actions_Main extends tao_actions_CommonModule
                 $this->getSession()->getUserRoles(),
                 $perspective->getId()
             );
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function getDefaultPageUrl(): string
+    {
+        $firstItem = current(MenuService::getPerspectivesByGroup(Perspective::GROUP_DEFAULT));
+        if (!$firstItem instanceof Perspective) {
+            throw new Exception('Item should be instance of Perspective');
+        }
+
+        return $firstItem->getUrl();
     }
 }
