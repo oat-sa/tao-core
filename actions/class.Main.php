@@ -519,6 +519,15 @@ class tao_actions_Main extends tao_actions_CommonModule
                     continue;
                 }
 
+                if (
+                    !$this->getSectionVisibilityByRoleFilter()->isVisible(
+                        $this->getSession()->getUserRoles(),
+                        $section->getId()
+                    )
+                ) {
+                    continue;
+                }
+
                 if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
                     foreach ($section->getActions() as $action) {
                         $this->propagate($action);
