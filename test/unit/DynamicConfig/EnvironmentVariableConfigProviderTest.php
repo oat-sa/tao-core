@@ -20,21 +20,21 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\AuthoringAsTool;
+namespace oat\tao\test\unit\DynamicConfig;
 
-use oat\tao\model\AuthoringAsTool\AuthoringAsToolConfigProviderInterface;
-use oat\tao\model\AuthoringAsTool\AuthoringAsToolEnvironmentVariableConfigProvider;
+use oat\tao\model\DynamicConfig\DynamicConfigProviderInterface;
+use oat\tao\model\DynamicConfig\EnvironmentVariableConfigProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-class AuthoringAsToolEnvironmentVariableConfigProviderTest extends TestCase
+class EnvironmentVariableConfigProviderTest extends TestCase
 {
     public function testGetConfigByName(): void
     {
         $configs = [
-            AuthoringAsToolConfigProviderInterface::LOGOUT_URL_CONFIG_NAME => 'https://example.com/logout',
-            AuthoringAsToolConfigProviderInterface::PORTAL_URL_CONFIG_NAME => 'https://example.com/portal',
-            AuthoringAsToolConfigProviderInterface::LOGIN_URL_CONFIG_NAME => 'https://example.com/login',
+            DynamicConfigProviderInterface::LOGOUT_URL_CONFIG_NAME => 'https://example.com/logout',
+            DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME => 'https://example.com/portal',
+            DynamicConfigProviderInterface::LOGIN_URL_CONFIG_NAME => 'https://example.com/login',
         ];
 
         $logger = $this->createMock(LoggerInterface::class);
@@ -42,19 +42,19 @@ class AuthoringAsToolEnvironmentVariableConfigProviderTest extends TestCase
             'The Authoring As Tool config var with the name UNKNOWN_CONFIG is not available'
         );
 
-        $provider = new AuthoringAsToolEnvironmentVariableConfigProvider($configs, $logger);
+        $provider = new EnvironmentVariableConfigProvider($configs, $logger);
 
         $this->assertSame(
             'https://example.com/logout',
-            $provider->getConfigByName(AuthoringAsToolEnvironmentVariableConfigProvider::LOGOUT_URL_CONFIG_NAME)
+            $provider->getConfigByName(EnvironmentVariableConfigProvider::LOGOUT_URL_CONFIG_NAME)
         );
         $this->assertSame(
             'https://example.com/portal',
-            $provider->getConfigByName(AuthoringAsToolEnvironmentVariableConfigProvider::PORTAL_URL_CONFIG_NAME)
+            $provider->getConfigByName(EnvironmentVariableConfigProvider::PORTAL_URL_CONFIG_NAME)
         );
         $this->assertSame(
             'https://example.com/login',
-            $provider->getConfigByName(AuthoringAsToolEnvironmentVariableConfigProvider::LOGIN_URL_CONFIG_NAME)
+            $provider->getConfigByName(EnvironmentVariableConfigProvider::LOGIN_URL_CONFIG_NAME)
         );
         $this->assertNull($provider->getConfigByName('UNKNOWN_CONFIG'));
     }
@@ -62,31 +62,31 @@ class AuthoringAsToolEnvironmentVariableConfigProviderTest extends TestCase
     public function testGetConfigByNameAvailableButNotDefined(): void
     {
         $configs = [
-            AuthoringAsToolConfigProviderInterface::LOGOUT_URL_CONFIG_NAME => 'https://example.com/logout',
+            DynamicConfigProviderInterface::LOGOUT_URL_CONFIG_NAME => 'https://example.com/logout',
         ];
 
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects($this->never())->method('warning');
 
-        $provider = new AuthoringAsToolEnvironmentVariableConfigProvider($configs, $logger);
+        $provider = new EnvironmentVariableConfigProvider($configs, $logger);
 
-        $this->assertNull($provider->getConfigByName(AuthoringAsToolConfigProviderInterface::PORTAL_URL_CONFIG_NAME));
+        $this->assertNull($provider->getConfigByName(DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME));
     }
 
-    public function testIsAuthoringAsToolEnabled(): void
+    public function testHasConfig(): void
     {
         $configs = [
-            AuthoringAsToolConfigProviderInterface::PORTAL_URL_CONFIG_NAME => 'https://example.com/portal',
+            DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME => 'https://example.com/portal',
         ];
 
         $logger = $this->createMock(LoggerInterface::class);
 
-        $provider = new AuthoringAsToolEnvironmentVariableConfigProvider($configs, $logger);
+        $provider = new EnvironmentVariableConfigProvider($configs, $logger);
 
-        $this->assertTrue($provider->isAuthoringAsToolEnabled());
+        $this->assertTrue($provider->hasConfig(DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME));
 
-        $provider = new AuthoringAsToolEnvironmentVariableConfigProvider([], $logger);
+        $provider = new EnvironmentVariableConfigProvider([], $logger);
 
-        $this->assertFalse($provider->isAuthoringAsToolEnabled());
+        $this->assertFalse($provider->hasConfig(DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME));
     }
 }

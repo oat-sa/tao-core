@@ -20,9 +20,9 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\AuthoringAsTool;
+namespace oat\tao\model\DynamicConfig;
 
-interface AuthoringAsToolConfigProviderInterface
+interface DynamicConfigProviderInterface
 {
     public const LOGOUT_URL_CONFIG_NAME = 'logout';
     public const PORTAL_URL_CONFIG_NAME = 'portal-url';
@@ -35,5 +35,5 @@ interface AuthoringAsToolConfigProviderInterface
 
     public function getConfigByName(string $name): ?string;
 
-    public function isAuthoringAsToolEnabled(): bool;
+    public function hasConfig(string $name): bool;
 }

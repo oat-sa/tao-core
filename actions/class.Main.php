@@ -33,7 +33,7 @@ use oat\tao\helpers\TaoCe;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\action\ActionBlackList;
-use oat\tao\model\AuthoringAsTool\AuthoringAsToolConfigProviderInterface;
+use oat\tao\model\DynamicConfig\DynamicConfigProviderInterface;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
@@ -111,8 +111,8 @@ class tao_actions_Main extends tao_actions_CommonModule
             $this->setData('userLabel', $this->getSession()->getUserLabel());
             $this->setData(
                 'portalUrl',
-                $this->getAuthoringAsToolConfigProvider()->getConfigByName(
-                    AuthoringAsToolConfigProviderInterface::PORTAL_URL_CONFIG_NAME
+                $this->getDynamicConfigProvider()->getConfigByName(
+                    DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME
                 )
             );
             $this->setData('settings-menu', $naviElements);
@@ -122,9 +122,9 @@ class tao_actions_Main extends tao_actions_CommonModule
         }
     }
 
-    public function getAuthoringAsToolConfigProvider(): AuthoringAsToolConfigProviderInterface
+    public function getDynamicConfigProvider(): DynamicConfigProviderInterface
     {
-        return $this->getServiceLocator()->getContainer()->get(AuthoringAsToolConfigProviderInterface::class);
+        return $this->getServiceLocator()->getContainer()->get(DynamicConfigProviderInterface::class);
     }
 
     /**
@@ -363,7 +363,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData(
             'taoAsATool',
-            $this->getAuthoringAsToolConfigProvider()->isAuthoringAsToolEnabled()
+            $this->getDynamicConfigProvider()->hasConfig(DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME)
         );
 
         $perspectiveTypes = [Perspective::GROUP_DEFAULT, 'settings', 'persistent'];
@@ -398,8 +398,8 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData('userLabel', DisplayHelper::htmlEscape($this->getSession()->getUserLabel()));
         $this->setData(
             'portalUrl',
-            $this->getAuthoringAsToolConfigProvider()->getConfigByName(
-                AuthoringAsToolConfigProviderInterface::PORTAL_URL_CONFIG_NAME
+            $this->getDynamicConfigProvider()->getConfigByName(
+                DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME
             )
         );
         // re-added to highlight selected extension in menu
