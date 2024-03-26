@@ -33,7 +33,7 @@ class EnvironmentVariableConfigProviderTest extends TestCase
     {
         $configs = [
             DynamicConfigProviderInterface::LOGOUT_URL_CONFIG_NAME => 'https://example.com/logout',
-            DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME => 'https://example.com/portal',
+            DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME => 'https://example.com/portal',
             DynamicConfigProviderInterface::LOGIN_URL_CONFIG_NAME => 'https://example.com/login',
         ];
 
@@ -50,7 +50,7 @@ class EnvironmentVariableConfigProviderTest extends TestCase
         );
         $this->assertSame(
             'https://example.com/portal',
-            $provider->getConfigByName(EnvironmentVariableConfigProvider::PORTAL_URL_CONFIG_NAME)
+            $provider->getConfigByName(EnvironmentVariableConfigProvider::PLATFORM_URL_CONFIG_NAME)
         );
         $this->assertSame(
             'https://example.com/login',
@@ -70,23 +70,23 @@ class EnvironmentVariableConfigProviderTest extends TestCase
 
         $provider = new EnvironmentVariableConfigProvider($configs, $logger);
 
-        $this->assertNull($provider->getConfigByName(DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME));
+        $this->assertNull($provider->getConfigByName(DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME));
     }
 
     public function testHasConfig(): void
     {
         $configs = [
-            DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME => 'https://example.com/portal',
+            DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME => 'https://example.com/portal',
         ];
 
         $logger = $this->createMock(LoggerInterface::class);
 
         $provider = new EnvironmentVariableConfigProvider($configs, $logger);
 
-        $this->assertTrue($provider->hasConfig(DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME));
+        $this->assertTrue($provider->hasConfig(DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME));
 
         $provider = new EnvironmentVariableConfigProvider([], $logger);
 
-        $this->assertFalse($provider->hasConfig(DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME));
+        $this->assertFalse($provider->hasConfig(DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME));
     }
 }

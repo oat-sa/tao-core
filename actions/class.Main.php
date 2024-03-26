@@ -112,7 +112,7 @@ class tao_actions_Main extends tao_actions_CommonModule
             $this->setData(
                 'portalUrl',
                 $this->getDynamicConfigProvider()->getConfigByName(
-                    DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME
+                    DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME
                 )
             );
             $this->setData('settings-menu', $naviElements);
@@ -363,7 +363,7 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData(
             'taoAsATool',
-            $this->getDynamicConfigProvider()->hasConfig(DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME)
+            $this->getDynamicConfigProvider()->hasConfig(DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME)
         );
 
         $perspectiveTypes = [Perspective::GROUP_DEFAULT, 'settings', 'persistent'];
@@ -399,7 +399,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         $this->setData(
             'portalUrl',
             $this->getDynamicConfigProvider()->getConfigByName(
-                DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME
+                DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME
             )
         );
         // re-added to highlight selected extension in menu

@@ -216,6 +216,6 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
     {
         return $this->getServiceManager()->getContainer()
             ->get(DynamicConfigProviderInterface::class)
-            ->hasConfig(DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME);
+            ->hasConfig(DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME);
     }
 }
