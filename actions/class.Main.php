@@ -33,12 +33,11 @@ use oat\tao\helpers\TaoCe;
 use oat\tao\model\accessControl\ActionResolver;
 use oat\tao\model\accessControl\func\AclProxy as FuncProxy;
 use oat\tao\model\action\ActionBlackList;
+use oat\tao\model\DynamicConfig\DynamicConfigProviderInterface;
 use oat\tao\model\entryPoint\EntryPointService;
 use oat\tao\model\event\LoginFailedEvent;
 use oat\tao\model\event\LoginSucceedEvent;
 use oat\tao\model\event\LogoutSucceedEvent;
-use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\menu\MenuService;
 use oat\tao\model\menu\Perspective;
 use oat\tao\model\menu\SectionVisibilityFilter;
@@ -58,8 +57,6 @@ use tao_helpers_Display as DisplayHelper;
 class tao_actions_Main extends tao_actions_CommonModule
 {
     use LoggerAwareTrait;
-
-    private const ENV_PORTAL_URL = 'PORTAL_URL';
 
     /** @var SectionVisibilityFilterInterface */
     private $sectionVisibilityFilter;
@@ -111,12 +108,22 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
             $this->setData('logout', $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID)->getLogoutUrl());
             $this->setData('userLabel', $this->getSession()->getUserLabel());
-            $this->setData('portalUrl', $_ENV[self::ENV_PORTAL_URL] ?? '');
+            $this->setData(
+                'portalUrl',
+                $this->getDynamicConfigProvider()->getConfigByName(
+                    DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME
+                )
+            );
             $this->setData('settings-menu', $naviElements);
             $this->setData('current-section', $this->getRequestParameter('section'));
             $this->setData('content-template', ['blocks/entry-points.tpl', 'tao']);
             $this->setView('layout.tpl', 'tao');
         }
+    }
+
+    public function getDynamicConfigProvider(): DynamicConfigProviderInterface
+    {
+        return $this->getServiceLocator()->getContainer()->get(DynamicConfigProviderInterface::class);
     }
 
     /**
@@ -292,12 +299,14 @@ class tao_actions_Main extends tao_actions_CommonModule
         $logins = $this->getSession()->getUser()->getPropertyValues(UserRdf::PROPERTY_LOGIN);
         $eventManager->trigger(new LogoutSucceedEvent(current($logins)));
 
-
-        common_session_SessionManager::endSession();
         /* @var $urlRouteService DefaultUrlService */
         $urlRouteService = $this->getServiceLocator()->get(DefaultUrlService::SERVICE_ID);
 
-        $this->redirect($urlRouteService->getRedirectUrl('logout'));
+        try {
+            $this->redirect((string)$urlRouteService->getRedirectUrl('logout'));
+        } finally {
+            common_session_SessionManager::endSession();
+        }
     }
 
     /**
@@ -332,10 +341,12 @@ class tao_actions_Main extends tao_actions_CommonModule
             );
 
             $sections = $this->getSections($extension, $structure);
+
             if (count($sections) > 0) {
                 $this->setData('sections', $sections);
             } else {
                 $this->logWarning('no sections');
+                $this->redirect($this->getDefaultPageUrl());
             }
         } else {
             //check if the user is a noob, otherwise redirect him to his last visited extension.
@@ -349,10 +360,10 @@ class tao_actions_Main extends tao_actions_CommonModule
             }
         }
 
-            $this->setData(
-                'taoAsATool',
-                $this->getFeatureFlagChecker()->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_TAO_AS_A_TOOL)
-            );
+        $this->setData(
+            'taoAsATool',
+            $this->getDynamicConfigProvider()->hasConfig(DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME)
+        );
 
         $perspectiveTypes = [Perspective::GROUP_DEFAULT, 'settings', 'persistent'];
         foreach ($perspectiveTypes as $perspectiveType) {
@@ -384,7 +395,12 @@ class tao_actions_Main extends tao_actions_CommonModule
 
         $this->setData('user_lang', $this->getSession()->getDataLanguage());
         $this->setData('userLabel', DisplayHelper::htmlEscape($this->getSession()->getUserLabel()));
-        $this->setData('portalUrl', $_ENV[self::ENV_PORTAL_URL] ?? '');
+        $this->setData(
+            'portalUrl',
+            $this->getDynamicConfigProvider()->getConfigByName(
+                DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME
+            )
+        );
         // re-added to highlight selected extension in menu
         $this->setData('shownExtension', $extension);
         $this->setData('shownStructure', $structure);
@@ -544,8 +560,16 @@ class tao_actions_Main extends tao_actions_CommonModule
         return $this->sectionVisibilityFilter;
     }
 
-    private function getFeatureFlagChecker(): FeatureFlagChecker
+    /**
+     * @throws Exception
+     */
+    private function getDefaultPageUrl(): string
     {
-        return $this->getPsrContainer()->get(FeatureFlagChecker::class);
+        $firstItem = current(MenuService::getPerspectivesByGroup(Perspective::GROUP_DEFAULT));
+        if (!$firstItem instanceof Perspective) {
+            throw new Exception('Item should be instance of Perspective');
+        }
+
+        return $firstItem->getUrl();
     }
 }

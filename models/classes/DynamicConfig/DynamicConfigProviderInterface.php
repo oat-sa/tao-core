@@ -15,20 +15,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2024 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\featureFlag;
+namespace oat\tao\model\DynamicConfig;
 
-interface FeatureFlagCheckerInterface
+interface DynamicConfigProviderInterface
 {
-    public const FEATURE_FLAG_ADVANCED_SEARCH_DISABLED = 'FEATURE_FLAG_ADVANCED_SEARCH_DISABLED';
-    public const FEATURE_FLAG_TABULAR_IMPORT = 'FEATURE_FLAG_TABULAR_IMPORT_ENABLED';
-    public const FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED = 'FEATURE_FLAG_LISTS_DEPENDENCY_ENABLED';
-    public const FEATURE_FLAG_STATISTIC_METADATA_IMPORT = 'FEATURE_FLAG_STATISTIC_METADATA_IMPORT';
-    public const FEATURE_FLAG_PASSWORD_CHANGE_DISABLED = 'FEATURE_FLAG_PASSWORD_CHANGE_DISABLED';
+    public const LOGOUT_URL_CONFIG_NAME = 'logout';
+    public const PLATFORM_URL_CONFIG_NAME = 'platform-url';
+    public const LOGIN_URL_CONFIG_NAME = 'login';
+    public const AVAILABLE_CONFIGS = [
+        self::LOGOUT_URL_CONFIG_NAME,
+        self::PLATFORM_URL_CONFIG_NAME,
+        self::LOGIN_URL_CONFIG_NAME
+    ];
 
-    public function isEnabled(string $feature): bool;
+    public function getConfigByName(string $name): ?string;
+
+    public function hasConfig(string $name): bool;
 }
