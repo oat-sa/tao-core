@@ -22,3 +22,43 @@
 #tab-items_preview {
     display: none !important;
 }
+
+// defines the scheme variables
+
+:root {
+    --header-bar-height: 64px;
+    --footer-bar-height: 34px;
+    --action-bar-height: 35px;
+
+    --header-bar-color: #{$darkBarTxt};
+    --header-bar-icon-color: #{$darkBarIcon};
+    --header-bar-background: #{$darkBar};
+    --header-bar-menu-border: none;
+
+    --header-bar-active-background: #{whiten($info, .05)};
+
+    --action-bar-background: #{whiten($info, 0.1)};
+
+    --search-input-font-size: inherit;
+    --search-input-btn-top: 0;
+    --search-input-btn-right: 0;
+}
+
+body.solar {
+    --header-bar-height: 64px;
+    --footer-bar-height: 34px;
+    --action-bar-height: 50px;
+
+    --header-bar-color: #333;
+    --header-bar-icon-color: #333;
+    --header-bar-background: #fff;
+    --header-bar-menu-border: 1px solid #333;
+
+    --header-bar-active-background: #006dcc;
+
+    --action-bar-background: #006dcc;
+
+    --search-input-font-size: 2rem;
+    --search-input-btn-top: 4px;
+    --search-input-btn-right: 0;
+}

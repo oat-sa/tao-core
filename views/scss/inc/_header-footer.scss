@@ -1,14 +1,11 @@
 @import "inc/bootstrap";
 
-$navHeight: 64;
-$footerHeight: 34;
-
 @mixin menu-states($state: normal) {
     @if($state == 'hover') {
         @include vendor-prefix(transition, opacity .1s, top 0s);
         @include vendor-prefix(transition-delay, .2s);
         opacity: 1;
-        top: $navHeight * 1px;
+        top: var(--header-bar-height);
     }
     @else {
         top: -5000px;
@@ -55,9 +52,9 @@ $footerHeight: 34;
 //Navigation
 .dark-bar {
     // requires extra space for bottom border
-    max-height: ($navHeight + 1) * 1px;
-    background: $darkBar;
-    color: $darkBarTxt;
+    max-height: calc(var(--header-bar-height) + 1px);
+    background: var(--header-bar-background);
+    color: var(--header-bar-color);
 
     .portal-back {
         width: 95px;
@@ -70,7 +67,7 @@ $footerHeight: 34;
     }
 
     a {
-        color: $darkBarTxt;
+        color: var(--header-bar-color);
         &:hover {
             color: white;
             text-decoration: none;
@@ -88,7 +85,7 @@ $footerHeight: 34;
             & > a, & > .a {
                 text-align: center;
                 display: block;
-                height: $navHeight * 1px;
+                height: var(--header-bar-height);
                 outline: 0 !important;
                 [class^="icon-"], [class*=" icon-"] {
                     text-shadow: 0 0 0 transparent !important;
@@ -120,7 +117,7 @@ $footerHeight: 34;
             }
             &.active {
                 & > a {
-                    background-color: whiten($info, .05);
+                    background-color: var(--header-bar-active-background);
                     opacity: 1;
                     color: white(.9);
                     &.hover {
@@ -147,13 +144,13 @@ $footerHeight: 34;
 
             // sub menu
             ul {
-                background: $darkBar;
+                background: var(--header-bar-background);
                 position: absolute;
                 li {
                     display: block;
                     width: 100%;
                     a {
-                        background: $darkBar;
+                        background: var(--header-bar-background);
                         padding: 6px 20px !important;
                         text-align: left;
                         display: block;
@@ -276,6 +273,7 @@ $footerHeight: 34;
                     }
                 }
                 ul {
+                    border: var(--header-bar-menu-border);
                     left: auto;
                     right: -1px;
                 }
@@ -300,7 +298,7 @@ $footerHeight: 34;
 // Footer
 body > footer, .content-wrap:after {
     // must be the same height as footer
-    height: $footerHeight * 1px;
+    height: var(--footer-bar-height);
 }
 
 body > footer {
@@ -324,7 +322,7 @@ body > footer {
 .content-wrap {
     min-height: 100%;
     // equal to footer height
-    margin-bottom: -1px * $footerHeight;
+    margin-bottom: calc(var(--footer-bar-height) * -1);
 }
 
 .content-wrap:after {
@@ -367,7 +365,7 @@ body[dir="rtl"] {
                 .reduced-menu-trigger {
                     text-align: center;
                     display: block;
-                    height: $navHeight * 1px;
+                    height: var(--header-bar-height);
                     outline: 0 !important;
                     cursor:pointer;
                     min-width: 70px;
@@ -391,7 +389,7 @@ body[dir="rtl"] {
                     [class^="icon-"], [class*=" icon-"] {
                         text-shadow: 0 0 0 transparent !important;
                         line-height: 1;
-                        color: $darkBarIcon;
+                        color: var(--header-bar-icon-color);
                         position: relative;
                         top: 2px;
                         @include font-size(20);
@@ -407,7 +405,7 @@ body[dir="rtl"] {
                     left: -20000px;
                     right: auto;
                     white-space: nowrap;
-                    background: $darkBar;
+                    background: var(--header-bar-background);
                     padding: 5px 0;
                     .username {
                         display:none;
