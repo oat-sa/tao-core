@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\AuthoringAsTool;
+namespace oat\tao\model\DynamicConfig;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\log\LoggerService;
@@ -29,7 +29,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-class AuthoringAsToolServiceProvider implements ContainerServiceProviderInterface
+class DynamicConfigServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
     {
@@ -37,22 +37,22 @@ class AuthoringAsToolServiceProvider implements ContainerServiceProviderInterfac
 
         $services
             ->set(
-                AuthoringAsToolConfigProviderInterface::class,
-                AuthoringAsToolEnvironmentVariableConfigProvider::class
+                DynamicConfigProviderInterface::class,
+                EnvironmentVariableConfigProvider::class
             )
             ->public()
             ->args(
                 [
                     [
-                        AuthoringAsToolConfigProviderInterface::LOGOUT_URL_CONFIG_NAME => env(
+                        DynamicConfigProviderInterface::LOGOUT_URL_CONFIG_NAME => env(
                             'default::'
-                            . AuthoringAsToolEnvironmentVariableConfigProvider::ENV_REDIRECT_AFTER_LOGOUT_URL
+                            . EnvironmentVariableConfigProvider::ENV_REDIRECT_AFTER_LOGOUT_URL
                         ),
-                        AuthoringAsToolConfigProviderInterface::PORTAL_URL_CONFIG_NAME => env(
-                            'default::' . AuthoringAsToolEnvironmentVariableConfigProvider::ENV_PORTAL_URL
+                        DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME => env(
+                            'default::' . EnvironmentVariableConfigProvider::ENV_PORTAL_URL
                         ),
-                        AuthoringAsToolConfigProviderInterface::LOGIN_URL_CONFIG_NAME => env(
-                            'default::' . AuthoringAsToolEnvironmentVariableConfigProvider::ENV_TAO_LOGIN_URL
+                        DynamicConfigProviderInterface::LOGIN_URL_CONFIG_NAME => env(
+                            'default::' . EnvironmentVariableConfigProvider::ENV_TAO_LOGIN_URL
                         ),
                     ],
                     service(LoggerService::SERVICE_ID),

@@ -20,11 +20,11 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\AuthoringAsTool;
+namespace oat\tao\model\DynamicConfig;
 
 use Psr\Log\LoggerInterface;
 
-class AuthoringAsToolEnvironmentVariableConfigProvider implements AuthoringAsToolConfigProviderInterface
+class EnvironmentVariableConfigProvider implements DynamicConfigProviderInterface
 {
     public const ENV_REDIRECT_AFTER_LOGOUT_URL = 'REDIRECT_AFTER_LOGOUT_URL';
     public const ENV_PORTAL_URL = 'PORTAL_URL';
@@ -51,8 +51,8 @@ class AuthoringAsToolEnvironmentVariableConfigProvider implements AuthoringAsToo
         return $this->configs[$name] ?? null;
     }
 
-    public function isAuthoringAsToolEnabled(): bool
+    public function hasConfig(string $name): bool
     {
-        return $this->getConfigByName(self::PORTAL_URL_CONFIG_NAME) !== null;
+        return $this->getConfigByName($name) !== null;
     }
 }

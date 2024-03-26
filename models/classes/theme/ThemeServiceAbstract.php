@@ -22,7 +22,7 @@ namespace oat\tao\model\theme;
 
 use common_exception_InconsistentData;
 use oat\oatbox\service\ConfigurableService;
-use oat\tao\model\AuthoringAsTool\AuthoringAsToolConfigProviderInterface;
+use oat\tao\model\DynamicConfig\DynamicConfigProviderInterface;
 
 abstract class ThemeServiceAbstract extends ConfigurableService implements ThemeServiceInterface
 {
@@ -215,7 +215,7 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
     protected function isTaoAsToolEnabled(): bool
     {
         return $this->getServiceManager()->getContainer()
-            ->get(AuthoringAsToolConfigProviderInterface::class)
-            ->isAuthoringAsToolEnabled();
+            ->get(DynamicConfigProviderInterface::class)
+            ->hasConfig(DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME);
     }
 }

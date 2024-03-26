@@ -26,7 +26,7 @@ use common_Logger;
 use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
-use oat\tao\model\AuthoringAsTool\AuthoringAsToolConfigProviderInterface;
+use oat\tao\model\DynamicConfig\DynamicConfigProviderInterface;
 use oat\tao\model\mvc\DefaultUrlModule\RedirectResolveInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -59,8 +59,8 @@ class DefaultUrlService extends ConfigurableService
      */
     public function getLoginUrl(array $params = []): ?string
     {
-        return $this->getAuthoringAsToolConfigProvider()->getConfigByName(
-            AuthoringAsToolConfigProviderInterface::LOGIN_URL_CONFIG_NAME
+        return $this->getDynamicConfigProvider()->getConfigByName(
+            DynamicConfigProviderInterface::LOGIN_URL_CONFIG_NAME
         ) ?? $this->getUrl('login', $params);
     }
 
@@ -128,7 +128,7 @@ class DefaultUrlService extends ConfigurableService
     public function getRedirectUrl($name): ?string
     {
         if ($this->hasOption($name)) {
-            return $this->getRedirectByAuthoringAsToolUrlProvider($name)
+            return $this->getRedirectByDynamicConfigProvider($name)
                 ?? $this->getRedirectByOptionConfig($name);
         }
         return '';
@@ -180,9 +180,9 @@ class DefaultUrlService extends ConfigurableService
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    private function getRedirectByAuthoringAsToolUrlProvider(string $name): ?string
+    private function getRedirectByDynamicConfigProvider(string $name): ?string
     {
-        return $this->getAuthoringAsToolConfigProvider()->getConfigByName($name);
+        return $this->getDynamicConfigProvider()->getConfigByName($name);
     }
 
     /**
@@ -204,8 +204,8 @@ class DefaultUrlService extends ConfigurableService
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    private function getAuthoringAsToolConfigProvider(): AuthoringAsToolConfigProviderInterface
+    private function getDynamicConfigProvider(): DynamicConfigProviderInterface
     {
-        return $this->getServiceManager()->getContainer()->get(AuthoringAsToolConfigProviderInterface::class);
+        return $this->getServiceManager()->getContainer()->get(DynamicConfigProviderInterface::class);
     }
 }
