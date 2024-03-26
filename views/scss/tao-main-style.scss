@@ -42,6 +42,26 @@
     --search-input-font-size: inherit;
     --search-input-btn-top: 0;
     --search-input-btn-right: 0;
+
+    --side-panel-background: #{$canvas};
+    --side-panel-width: #{$treeSidebar * 1px};
+
+    --side-panel-action-bar-background: #{$canvas};
+    --side-panel-action-bar-margin: 0 #{widthPerc(8, $treeSidebar)} 8px #{widthPerc(8, $treeSidebar)};
+    --side-panel-action-bar-width: #{widthPerc($treeSidebar - 15, $treeSidebar)};
+
+    --side-panel-action-background: #{white(0.5)};
+    --side-panel-action-color: #{$textColor};
+    --side-panel-action-icon-color: #{$info};
+    --side-panel-action-icon-width: 20px;
+    --side-panel-action-icon-height: 20px;
+    --side-panel-action-border: 1px solid #ddd;
+    --side-panel-action-border-radius: 2px;
+    --side-panel-action-width: 65px;
+    --side-panel-action-height: 65px;
+    --side-panel-action-margin: 0 1px 1px 0;
+
+    --container-vertical-separator: 1px solid #{$uiGeneralContentBorder};
 }
 
 body.solar {
@@ -61,4 +81,24 @@ body.solar {
     --search-input-font-size: 2rem;
     --search-input-btn-top: 4px;
     --search-input-btn-right: 0;
+
+    --side-panel-background: #fff;
+    --side-panel-width: 33%;
+
+    --side-panel-action-bar-background: #fff;
+    --side-panel-action-bar-margin: 1rem;
+    --side-panel-action-bar-width: 100%;
+
+    --side-panel-action-background: #fff;
+    --side-panel-action-color: #333;
+    --side-panel-action-icon-color: #333;
+    --side-panel-action-icon-width: 20px;
+    --side-panel-action-icon-height: 20px;
+    --side-panel-action-border: 1px solid #333;
+    --side-panel-action-border-radius: 4px;
+    --side-panel-action-width: 65px;
+    --side-panel-action-height: 65px;
+    --side-panel-action-margin: 2px;
+
+    --container-vertical-separator: none;
 }

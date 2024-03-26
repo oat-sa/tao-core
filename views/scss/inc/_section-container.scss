@@ -1,5 +1,22 @@
 @import 'inc/bootstrap';
 
+.solar {
+    .section-container {
+        // main form on left hand side
+        .flex-container-main-form {
+            align-self: stretch;
+            flex: 0 0 50%;
+        }
+
+        .content-block {
+            form:not(.list-container) {
+                border: none;
+                background: #fff;
+            }
+        }
+    }
+}
+
 
 .section-container {
 
@@ -31,7 +48,7 @@
 
     // the one for the sidebar that usually holds tree
     .flex-container-navi {
-        @include simple-flex-box($treeSidebar * 1px);
+        @include simple-flex-box(var(--side-panel-width));
     }
 
     // @todo all simple-flex-box references below should be removed once all templates are upgraded
@@ -99,9 +116,9 @@
 
     .navi-container {
         display:none;
-        background:  $canvas;
-        @include simple-flex-box($treeSidebar * 1px);
-        border-right: 1px $uiGeneralContentBorder solid;
+        background: var(--side-panel-background);
+        @include simple-flex-box(var(--side-panel-width));
+        border-right: var(--container-vertical-separator);
         .block-title {
             @include font-size(14);
             padding: 2px 8px;
@@ -124,7 +141,7 @@
     }
 
     .navi-container + .content-container {
-        max-width: calc( 100% - #{$treeSidebar * 1px} );
+        max-width: calc( 100% - var(--side-panel-width) );
     }
 
     .content-block {
