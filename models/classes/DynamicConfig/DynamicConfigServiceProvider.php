@@ -48,7 +48,7 @@ class DynamicConfigServiceProvider implements ContainerServiceProviderInterface
                             'default::'
                             . EnvironmentVariableConfigProvider::ENV_REDIRECT_AFTER_LOGOUT_URL
                         ),
-                        DynamicConfigProviderInterface::PORTAL_URL_CONFIG_NAME => env(
+                        DynamicConfigProviderInterface::PLATFORM_URL_CONFIG_NAME => env(
                             'default::' . EnvironmentVariableConfigProvider::ENV_PORTAL_URL
                         ),
                         DynamicConfigProviderInterface::LOGIN_URL_CONFIG_NAME => env(
