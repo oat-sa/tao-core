@@ -26,18 +26,14 @@ use common_Logger;
 use Laminas\ServiceManager\ServiceLocatorAwareInterface;
 use oat\oatbox\service\ConfigurableService;
 use oat\oatbox\service\exception\InvalidServiceManagerException;
+use oat\tao\model\DynamicConfig\DynamicConfigProviderInterface;
 use oat\tao\model\mvc\DefaultUrlModule\RedirectResolveInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class DefaultUrlService extends ConfigurableService
 {
     public const SERVICE_ID = 'tao/urlroute';
-    private const ENV_TAO_LOGIN_URL = 'TAO_LOGIN_URL';
-
-    private const ENV_REDIRECT_AFTER_LOGOUT_URL = 'REDIRECT_AFTER_LOGOUT_URL';
-
-    private const REDIRECTS_WITH_ENV_VAR_SUPPORT = [
-        'logout' => self::ENV_REDIRECT_AFTER_LOGOUT_URL,
-    ];
 
     /**
      *
@@ -57,15 +53,15 @@ class DefaultUrlService extends ConfigurableService
 
     /**
      *
-     * @return string
+     * @throws ContainerExceptionInterface
+     * @throws InvalidServiceManagerException
+     * @throws NotFoundExceptionInterface
      */
-    public function getLoginUrl(array $params = [])
+    public function getLoginUrl(array $params = []): ?string
     {
-        if (isset($_ENV[self::ENV_TAO_LOGIN_URL])) {
-            return $_ENV[self::ENV_TAO_LOGIN_URL];
-        }
-
-        return $this->getUrl('login', $params);
+        return $this->getDynamicConfigProvider()->getConfigByName(
+            DynamicConfigProviderInterface::LOGIN_URL_CONFIG_NAME
+        ) ?? $this->getUrl('login', $params);
     }
 
     /**
@@ -124,22 +120,16 @@ class DefaultUrlService extends ConfigurableService
 
     /**
      * @param string $name
-     * @return string
+     * @throws ContainerExceptionInterface
      * @throws InvalidServiceManagerException
+     * @throws NotFoundExceptionInterface
      * @throws common_exception_Error
      */
-    public function getRedirectUrl($name)
+    public function getRedirectUrl($name): ?string
     {
         if ($this->hasOption($name)) {
-            $redirectViaEnvVar = $this->getRedirectByEnvVar($name);
-
-            if ($redirectViaEnvVar !== null) {
-                return $redirectViaEnvVar;
-            }
-            $options = $this->getOption($name);
-            if (array_key_exists('redirect', $options)) {
-                return $this->createRedirect($options['redirect']);
-            }
+            return $this->getRedirectByDynamicConfigProvider($name)
+                ?? $this->getRedirectByOptionConfig($name);
         }
         return '';
     }
@@ -185,12 +175,37 @@ class DefaultUrlService extends ConfigurableService
         return $this->resolveRedirect($redirect);
     }
 
-    private function getRedirectByEnvVar(string $name): ?string
+    /**
+     * @throws InvalidServiceManagerException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    private function getRedirectByDynamicConfigProvider(string $name): ?string
     {
-        $redirectUrl = null;
-        if (array_key_exists($name, self::REDIRECTS_WITH_ENV_VAR_SUPPORT)) {
-            $redirectUrl = $_ENV[self::REDIRECTS_WITH_ENV_VAR_SUPPORT[$name]] ?? null;
+        return $this->getDynamicConfigProvider()->getConfigByName($name);
+    }
+
+    /**
+     * @throws InvalidServiceManagerException
+     * @throws common_exception_Error
+     */
+    private function getRedirectByOptionConfig(string $name): ?string
+    {
+        $options = $this->getOption($name);
+        if (array_key_exists('redirect', $options)) {
+            return $this->createRedirect($options['redirect']);
         }
-        return $redirectUrl;
+
+        return null;
+    }
+
+    /**
+     * @throws InvalidServiceManagerException
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    private function getDynamicConfigProvider(): DynamicConfigProviderInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(DynamicConfigProviderInterface::class);
     }
 }
