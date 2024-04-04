@@ -194,7 +194,7 @@ class tao_actions_form_Clazz extends tao_helpers_form_FormContainer
 
                 //set label validator, read only
                 if ($property->getUri() == OntologyRdfs::RDFS_LABEL) {
-                    $readonly = tao_helpers_form_FormFactory::getElement($element->getName(), 'Readonly');
+                    $readonly = tao_helpers_form_FormFactory::getElement('', 'Readonly');
                     $readonly->setDescription($element->getDescription());
                     $readonly->setValue($element->getRawValue());
                     $element = $readonly;
