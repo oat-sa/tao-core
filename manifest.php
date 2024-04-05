@@ -361,7 +361,7 @@ return [
         #TAO version number
         'TAO_VERSION' => '2024.05 LTS',
         #TAO version label
-        'TAO_VERSION_NAME' => '2024.04',
+        'TAO_VERSION_NAME' => '2024.05 LTS',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
