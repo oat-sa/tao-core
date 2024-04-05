@@ -359,7 +359,7 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2024.04',
+        'TAO_VERSION' => '2024.05 LTS',
         #TAO version label
         'TAO_VERSION_NAME' => '2024.04',
         #the name to display
