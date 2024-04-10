@@ -1,23 +1,23 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: tao-3x\n"
-"PO-Revision-Date: 2023-04-21 15:46\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-09-14 10:34\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
-"Language: pt-BR\n"
+"Language: pt\n"
 "sourceLanguage: en-US\n"
-"targetLanguage: pt-BR\n"
+"targetLanguage: en-GB\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: tao-3x\n"
-"X-Crowdin-Project-ID: 582145\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
 "X-Crowdin-Language: pt-BR\n"
-"X-Crowdin-File: /tao/locales/en-US/messages.po\n"
-"X-Crowdin-File-ID: 1351\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
+"X-Crowdin-File-ID: 617\n"
 "Language-Team: Portuguese, Brazilian\n"
 
 msgid ""
@@ -79,13 +79,13 @@ msgid "%s %s selected"
 msgstr "%s de %s selecionados"
 
 msgid "%s (%s kb)"
-msgstr "%s (%s kb)"
+msgstr ""
 
 msgid "%s Class saved"
 msgstr "Classe %s salva"
 
 msgid "%s classes"
-msgstr "%s classes"
+msgstr ""
 
 msgid "%s Confirmation"
 msgstr "%s Confirmação"
@@ -169,13 +169,13 @@ msgid "About"
 msgstr "Sobre"
 
 msgid "abs"
-msgstr "abs"
+msgstr ""
 
 msgid "Absolute value"
 msgstr "Valor absoluto"
 
 msgid "AC"
-msgstr "AC"
+msgstr ""
 
 msgid "Access Denied"
 msgstr "Acesso Negado"
@@ -296,7 +296,7 @@ msgid "an instance"
 msgstr "uma instância"
 
 msgid "Ans"
-msgstr "Ans"
+msgstr ""
 
 msgid "Apply"
 msgstr "Aplicar"
@@ -334,7 +334,7 @@ msgid "Arguments separator"
 msgstr "Separador de argumentos"
 
 msgid "array"
-msgstr "array"
+msgstr ""
 
 msgid "Assign"
 msgstr "Atribuir"
@@ -407,7 +407,7 @@ msgid "Browse..."
 msgstr "Navegar..."
 
 msgid "C"
-msgstr "C"
+msgstr ""
 
 msgid "C file"
 msgstr "Arquivo C"
@@ -468,7 +468,7 @@ msgid "Check all"
 msgstr "Marcar todas"
 
 msgid "Check-in"
-msgstr "Check-in"
+msgstr ""
 
 msgid "choices:"
 msgstr "opções:"
@@ -585,10 +585,10 @@ msgid "Copy to clipboard"
 msgstr "Copiar para área de transferência"
 
 msgid "cos"
-msgstr "cos"
+msgstr ""
 
 msgid "cosh"
-msgstr "cosh"
+msgstr ""
 
 msgid "Cosine"
 msgstr "Cosseno"
@@ -612,7 +612,7 @@ msgid "CSP Header settings were saved successfully!"
 msgstr "Configurações de cabeçalho CSP foram salvas com sucesso!"
 
 msgid "CSV"
-msgstr "CSV"
+msgstr ""
 
 msgid "CSV file"
 msgstr "Arquivo CSV"
@@ -675,7 +675,7 @@ msgid "Define the default values"
 msgstr "Definir valores padrão"
 
 msgid "Deg"
-msgstr "Deg"
+msgstr ""
 
 msgid "Degree"
 msgstr "Grau"
@@ -700,7 +700,7 @@ msgid "Deleting search index for %s"
 msgstr "Excluindo índice de pesquisa para %s"
 
 msgid "Demo Sandbox"
-msgstr "Demo Sandbox"
+msgstr ""
 
 msgid "Did you mean %s?"
 msgstr "Você quis dizer %s?"
@@ -756,7 +756,7 @@ msgid "Dot"
 msgstr "Ponto"
 
 msgid "Download"
-msgstr "Download"
+msgstr ""
 
 msgid "Download this file"
 msgstr "Download do arquivo"
@@ -790,7 +790,7 @@ msgid "Element deleted."
 msgstr "Elemento excluído."
 
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 msgid "enabled"
 msgstr "habilitado"
@@ -841,7 +841,7 @@ msgid "Executing task %s failed"
 msgstr "Falha ao executar tarefa %s"
 
 msgid "exp"
-msgstr "exp"
+msgstr ""
 
 msgid "Exponent"
 msgstr "Expoente"
@@ -969,13 +969,13 @@ msgid "From"
 msgstr "De"
 
 msgid "Fuzzy Matching"
-msgstr "Fuzzy Matching"
+msgstr ""
 
 msgid "generated-value"
 msgstr "valores gerados"
 
 msgid "Generis Form"
-msgstr "Generis Form"
+msgstr ""
 
 msgid "Geogebra data file"
 msgstr "Arquivo de dados Geogebra"
@@ -1355,7 +1355,7 @@ msgid "Metadata export is not available for the selected resource."
 msgstr "Exportação de metadados não está disponível para o recurso selecionado."
 
 msgid "Microsoft Excel"
-msgstr "Microsoft Excel"
+msgstr ""
 
 msgid "Microsoft Excel binary format"
 msgstr "Formato binário do Microsoft Excel"
@@ -1376,7 +1376,7 @@ msgid "Microsoft Visio file"
 msgstr "Arquivo do Microsoft Visio"
 
 msgid "Microsoft Word"
-msgstr "Microsoft Word"
+msgstr ""
 
 msgid "Microsoft Word template"
 msgstr "Modelo do Microsoft Word"
@@ -1566,10 +1566,10 @@ msgid "Ogg Vorbis video"
 msgstr "Vídeo Ogg Vorbis"
 
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 msgid "Ok"
-msgstr "Ok"
+msgstr ""
 
 msgid "Old Password"
 msgstr "Senha Antiga"
@@ -1756,7 +1756,7 @@ msgid "Quicktime video"
 msgstr "Vídeo Quicktime"
 
 msgid "Rad"
-msgstr "Rad"
+msgstr ""
 
 msgid "Radian"
 msgstr "Radianos"
@@ -1774,7 +1774,7 @@ msgid "RAR archive"
 msgstr "Arquivo RAR"
 
 msgid "RDF"
-msgstr "RDF"
+msgstr ""
 
 msgid "RealMedia file"
 msgstr "Arquivo RealMedia"
@@ -2050,7 +2050,7 @@ msgid "Sine"
 msgstr "Seno"
 
 msgid "sinh"
-msgstr "sinh"
+msgstr ""
 
 msgid "Size"
 msgstr "Tamanho"
@@ -2071,7 +2071,7 @@ msgid "Start of document reached. Continuing from the end."
 msgstr "Início do documento alcançado. Continuando do final."
 
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 msgid "Status of"
 msgstr "Status de"
@@ -2086,7 +2086,7 @@ msgid "Storing digital video data on a computer game"
 msgstr "Armazenando dados de vídeo digitais em uma partida de computador"
 
 msgid "string"
-msgstr "string"
+msgstr ""
 
 msgid "Submit"
 msgstr "Enviar"
@@ -2125,13 +2125,13 @@ msgid "Tagged image file"
 msgstr "Arquivo de imagem marcados"
 
 msgid "tan"
-msgstr "tan"
+msgstr ""
 
 msgid "Tangent"
 msgstr "Tangente"
 
 msgid "tanh"
-msgstr "tanh"
+msgstr ""
 
 msgid "Tao Default Theme"
 msgstr "Tema Padrão do Tao"
@@ -2140,7 +2140,7 @@ msgid "TAO Home"
 msgstr "TAO Início"
 
 msgid "TAO Login"
-msgstr "TAO Login"
+msgstr ""
 
 msgid "TAO platform is already on live mode since %s"
 msgstr "Plataforma TAO já está ativa desde %s"
@@ -2317,7 +2317,7 @@ msgid "Toggle the date time picker"
 msgstr "Alternar o seletor de data e hora"
 
 msgid "Tokenizer"
-msgstr "Tokenizer"
+msgstr ""
 
 msgid "Too many non-option arguments: got %s, maximum of %s"
 msgstr "Muitos argumentos não-opção: obteve %s, máximo de %s"
@@ -2329,7 +2329,7 @@ msgid "Total duration"
 msgstr "Duração total"
 
 msgid "Total:"
-msgstr "Total:"
+msgstr ""
 
 msgid "Translate"
 msgstr "Traduzir"
@@ -2356,7 +2356,7 @@ msgid "True"
 msgstr "Verdadeiro"
 
 msgid "trunc"
-msgstr "trunc"
+msgstr ""
 
 msgid "Type"
 msgstr "Tipo"
@@ -2473,7 +2473,7 @@ msgid "Upload into:"
 msgstr "Enviar para:"
 
 msgid "URI Path"
-msgstr "URI Path"
+msgstr ""
 
 msgid "Usage: ImportRdf RDF_FILE [MODEL_ID]"
 msgstr "Uso: ImportRdf RDF_FILE [MODEL_ID]"
