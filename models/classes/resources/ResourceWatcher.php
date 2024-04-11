@@ -146,8 +146,10 @@ class ResourceWatcher extends ConfigurableService
 
             if ($this->hasResourceSupport($resource)) {
                 $queueDispatcher->createTask(
-                    $this->isTestResource($resource) ? new UpdateTestResourceInIndex() : new UpdateResourceInIndex()
-                    , [$resource->getUri()], $message);
+                    $this->isTestResource($resource) ? new UpdateTestResourceInIndex() : new UpdateResourceInIndex(),
+                    [$resource->getUri()],
+                    $message
+                );
             }
         }
     }
@@ -193,7 +195,8 @@ class ResourceWatcher extends ConfigurableService
         );
     }
 
-    private function isTestResource(core_kernel_classes_Resource $resource): bool {
+    private function isTestResource(core_kernel_classes_Resource $resource): bool
+    {
         return in_array(TaoOntology::CLASS_URI_TEST, $this->getResourceTypes($resource));
     }
 
