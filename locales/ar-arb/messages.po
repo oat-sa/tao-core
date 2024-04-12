@@ -1,26 +1,30 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.4.0-sprint160\n"
-"PO-Revision-Date: 2021-12-29 17:17+0100\n"
+"Project-Id-Version: tao-open-source\n"
+"PO-Revision-Date: 2023-12-04 16:05\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: ar-arb\n"
 "sourceLanguage: en-US\n"
 "targetLanguage: ar-arb\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Basepath: ../..\n"
+"X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
-"POT-Creation-Date: \n"
-"X-Generator: Poedit 2.4.3\n"
-"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Crowdin-Project: tao-open-source\n"
+"X-Crowdin-Project-ID: 590867\n"
+"X-Crowdin-Language: ar\n"
+"X-Crowdin-File: /[oat-sa.tao-core] develop/locales/en-GB/messages.po\n"
+"X-Crowdin-File-ID: 617\n"
+"Language-Team: Arabic\n"
 
 msgid " and "
 msgstr " مع "
 
 msgid " AND "
-msgstr " AND "
+msgstr " و "
 
 msgid " has been deleted successfully"
 msgstr "تم حذفه بنجاح"
@@ -121,6 +125,9 @@ msgstr "(فارغ)"
 msgid "... reloading page."
 msgstr "إعادة تحميل الصفحة."
 
+msgid "7-zip archive"
+msgstr "أرشيف 7-zip"
+
 msgid "<del>Filters</del>"
 msgstr "<del> المفرزات </del>"
 
@@ -151,11 +158,14 @@ msgstr "يجب أن يكون لحالة الصيانة حالة: \"%s\" أو \"%
 msgid "A message with further instructions has been sent to your email address: %s"
 msgstr "تم إرسال رسالة تحتوي على مزيد من الإرشادات إلى عنوان بريدك الإلكتروني: %s"
 
+msgid "AAC audio"
+msgstr "صوت AAC"
+
 msgid "About"
 msgstr "حول"
 
 msgid "abs"
-msgstr "abs"
+msgstr "القيمة المطلقة"
 
 msgid "Absolute value"
 msgstr "القيمة المطلقة "
@@ -196,6 +206,7 @@ msgstr "إضافة / تحرير اللاوائح"
 msgid "Add a CSV file"
 msgstr "أضف ملف CSV "
 
+#, tao-public
 msgid "Add a user"
 msgstr "اضافة مستخدم"
 
@@ -214,11 +225,20 @@ msgstr "أضف خاصيات"
 msgid "Adding search index for %s"
 msgstr "إضافة فهرس البحث لـ %s"
 
+msgid "Adding search index for created resource"
+msgstr "إضافة فهرس بحث للمورد الذي تم إنشاؤه"
+
 msgid "Adding the new class has failed"
 msgstr "إضافة قسم جديد باءت بالفشل"
 
 msgid "Adding the new resource has failed"
 msgstr "إضافة المورد الجديد باءت بالفشل"
+
+msgid "Adding/updating search index for updated resource"
+msgstr "إضافة/تحديث فهرس البحث للمورد المحدث"
+
+msgid "Adobe Flash file"
+msgstr "ملف أدوبي فلاش"
 
 msgid "Advanced search, add filters"
 msgstr "بحث متقدم ، إضافة مفرزات"
@@ -230,7 +250,7 @@ msgid "all"
 msgstr "كل"
 
 msgid "all audios"
-msgstr ""
+msgstr "كل التسجيلات الصوتية"
 
 msgid "All data will be removed in %s"
 msgstr "سيتم حذف كافة البيانات في %s"
@@ -238,8 +258,14 @@ msgstr "سيتم حذف كافة البيانات في %s"
 msgid "All fields are required"
 msgstr "جميع الحقول مطلوبة"
 
+msgid "all images"
+msgstr "كل الصور"
+
 msgid "All rights reserved."
 msgstr "جميع الحقوق محفوظة"
+
+msgid "all videos"
+msgstr "كل مقاطع الفيديو"
 
 msgid "Allow for all domains"
 msgstr "السماح لجميع المجالات"
@@ -286,11 +312,9 @@ msgstr "ظل القوس"
 msgid "Archived"
 msgstr "تم توثيقه"
 
-msgid ""
-"Are you sure to delete the versioned resource?\n"
+msgid "Are you sure to delete the versioned resource?\n"
 "The history will be lost as well."
-msgstr ""
-"هل أنت متأكد من حذف المورد الذي تم إصداره؟\n"
+msgstr "هل أنت متأكد من حذف المورد الذي تم إصداره؟\n"
 "السجلات الزمنية ستحذف أيضا"
 
 msgid "Are you sure you want to delete it?"
@@ -314,8 +338,12 @@ msgstr "تعيين"
 msgid "Assign User to role"
 msgstr "تعيين المستخدم للدور"
 
+#, tao-public
 msgid "Assign Users"
 msgstr "تعيين المستخدمين"
+
+msgid "Audio Video Interleave"
+msgstr "تداخل الصوت والفيديو"
 
 msgid "Author"
 msgstr "المؤلف"
@@ -362,6 +390,9 @@ msgstr "عامل ثنائي /"
 msgid "Binary operator modulo"
 msgstr "معامل المشغل الثنائي"
 
+msgid "Bitmap image"
+msgstr "صورة نُقَطِيٌة"
+
 msgid "boolean"
 msgstr "نوع البيانات المنطقية"
 
@@ -373,6 +404,15 @@ msgstr "تصفح  "
 
 msgid "C"
 msgstr "C"
+
+msgid "C file"
+msgstr "ملف C"
+
+msgid "C++ file (.cpp)"
+msgstr "C++ ملف (.cpp)"
+
+msgid "Calc speadsheet (Staroffice)"
+msgstr "Calc speadsheet (Staroffice)"
 
 msgid "Calculator"
 msgstr "آلة حاسبة "
@@ -398,12 +438,16 @@ msgstr "لا يمكن عرضه"
 msgid "Cannot divide by zero"
 msgstr "لا يمكن القسمة على الصفر"
 
+msgid "Cascading Style Sheets"
+msgstr "أوراق الأنماط المتتالية"
+
 msgid "Case sensitive"
 msgstr "حساسية الحالة"
 
 msgid "ceil"
-msgstr "ceil"
+msgstr "سقف"
 
+#, tao-public
 msgid "Change password"
 msgstr "تغيير كلمة المرور "
 
@@ -415,6 +459,9 @@ msgstr "قم بتغيير علامة المعامل الحالي "
 
 msgid "Check All"
 msgstr "تحقق من الكل "
+
+msgid "Check all"
+msgstr "تحقق من الكل"
 
 msgid "Check-in"
 msgstr "تسجيل"
@@ -470,6 +517,9 @@ msgstr "امسح منتقي التاريخ والوقت "
 msgid "Clear the stored variables"
 msgstr "امسح المتغيرات المخزنة "
 
+msgid "Click to reload."
+msgstr "انقر لإعادة التحميل."
+
 msgid "Close"
 msgstr "أغلق "
 
@@ -505,6 +555,9 @@ msgstr "منجز"
 
 msgid "Completed - Error"
 msgstr "مكتمل - خطأ"
+
+msgid "Compressed tar file"
+msgstr "ملف مضغوط tar"
 
 msgid "Compute the expression"
 msgstr "احسب التعبير "
@@ -557,6 +610,9 @@ msgstr "تم حفظ معايير رأس الصفحة CSP بنجاح ! "
 msgid "CSV"
 msgstr "قيمة مفصولة بفاصلة "
 
+msgid "CSV file"
+msgstr "ملف CSV"
+
 msgid "CSV Options"
 msgstr "CSVالقيمة المفصولة بفاصلة خيارات"
 
@@ -590,6 +646,9 @@ msgstr "لم يتم استيراد البيانات. جميع السجلات غ�
 msgid "Data source URI"
 msgstr "مصدر البيانات URI"
 
+msgid "Database file"
+msgstr "ملف قاعدة البيانات"
+
 msgid "Date"
 msgstr "التاريخ"
 
@@ -612,11 +671,12 @@ msgid "Define the default values"
 msgstr "حدد القيم المعتادة"
 
 msgid "Deg"
-msgstr "Deg"
+msgstr "درجة"
 
 msgid "Degree"
 msgstr "درجة "
 
+#, tao-public
 msgid "Delete"
 msgstr "حذف"
 
@@ -674,12 +734,13 @@ msgstr "عدد9"
 msgid "Disabled %s"
 msgstr "%s معطل"
 
-msgid ""
-"Do you wish to install the following extension(s):\n"
+msgid "Do you wish to install the following extension(s):\n"
 "%s?"
-msgstr ""
-"هل ترغب في تثبيت الملحقات التالية:\n"
+msgstr "هل ترغب في تثبيت الملحقات التالية:\n"
 " %s?"
+
+msgid "Document templates (Staroffice)"
+msgstr "قوالب المستندات (Staroffice)"
 
 msgid "does not match"
 msgstr "غير مطابق "
@@ -708,6 +769,7 @@ msgstr "ضع الملفات للتحميل"
 msgid "Edit"
 msgstr "تحرير"
 
+#, tao-public
 msgid "Edit a user"
 msgstr "تحرير مستخدم"
 
@@ -734,6 +796,9 @@ msgstr "ممكن %s"
 
 msgid "End of document reached. Continuing from the beginning."
 msgstr "تم الوصول إلى نهاية المستند. مستمر من البداية. "
+
+msgid "Enhanced metafile"
+msgstr "ملف تعريفي محسن"
 
 msgid "Enter"
 msgstr "أدخل "
@@ -772,11 +837,12 @@ msgid "Executing task %s failed"
 msgstr "فشل تنفيذ المهمة %s "
 
 msgid "exp"
-msgstr "exp"
+msgstr "أس"
 
 msgid "Exponent"
 msgstr "الأس  "
 
+#, tao-public
 msgid "Export"
 msgstr "تصدير"
 
@@ -801,6 +867,7 @@ msgstr "تم الإرسال"
 msgid "Extension \"%s\" has been installed"
 msgstr "تم تثبيت الملحق  \"%s\""
 
+#, tao-public
 msgid "Extensions manager"
 msgstr "مدير الملحقات"
 
@@ -867,8 +934,14 @@ msgstr "أسماء أعمدة الصف الأول"
 msgid "Fit to width"
 msgstr "تعديل مع العرض"
 
+msgid "Flash video"
+msgstr "فيديو فلاش"
+
 msgid "floor"
-msgstr "floor"
+msgstr "أرضية"
+
+msgid "Flowchart-based programming environment & TI Interactive Workbook"
+msgstr "بيئة البرمجة القائمة على المخطط الانسيابي وكتاب العمل التفاعلي TI"
 
 msgid "Forbid for all domains"
 msgstr "منع لجميع المجالات"
@@ -900,17 +973,29 @@ msgstr "قيمة مولدة "
 msgid "Generis Form"
 msgstr "جنيس"
 
+msgid "Geogebra data file"
+msgstr "ملف بيانات Geogebra"
+
 msgid "Get History"
 msgstr "احصل على التاريخ "
 
 msgid "Get the history list"
 msgstr "احصل على قائمة تاريخ  المحفوظات"
 
+msgid "GIF image"
+msgstr "صورة GIF"
+
 msgid "Go Back"
 msgstr "رجوع إلى "
 
 msgid "go back to home page"
 msgstr "العودة الى الصفحة الرئيسية "
+
+msgid "GZip Compressed Archive"
+msgstr "أرشيف مضغوط GZip"
+
+msgid "Header file with extensionsLabels"
+msgstr "ملف رأس مع ملحقات الملصقات"
 
 msgid "Height"
 msgstr "ارتفاع"
@@ -947,6 +1032,9 @@ msgstr "الجيب الزائدي "
 
 msgid "Hyperbolic tangent"
 msgstr "ظل زائدي "
+
+msgid "Hypertext markup language"
+msgstr "لغة ترميز النص التشعبي"
 
 msgid "I understand that this action is permanent."
 msgstr "أنا أفهم أن هذا الإجراء دائم. "
@@ -996,6 +1084,9 @@ msgstr "المورد المستورد \"%s"
 msgid "impossible to update task status"
 msgstr "من المستحيل تحديث حالة المهمة "
 
+msgid "In Progress"
+msgstr "في تقدم"
+
 msgid "In progress"
 msgstr "في تقدم"
 
@@ -1013,6 +1104,9 @@ msgstr "يجب أن يحتوي الحاقن على مجال مضبوط الوج�
 
 msgid "Injector has to contains a valid \"source\" field."
 msgstr "يجب أن يحتوي الحاقن على مجال مضبوط المصدر."
+
+msgid "Inline"
+msgstr "مضمن"
 
 msgid "Install"
 msgstr "تثبيت"
@@ -1034,6 +1128,9 @@ msgstr "يتم الآن تثبيت الملحق %s ... "
 
 msgid "Instance saved"
 msgstr "تم حفظ المثال "
+
+msgid "Interface Language"
+msgstr "لغة الواجهة"
 
 msgid "Interface language"
 msgstr "لغة الواجهة"
@@ -1095,6 +1192,12 @@ msgstr "قيم غير صحيحة:"
 msgid "items per page"
 msgstr "مواد لكل صفحة "
 
+msgid "Javascript code"
+msgstr "كود جافاسكريبت"
+
+msgid "JPEG image"
+msgstr "صورة JPEG"
+
 msgid "Label"
 msgstr "تسمية"
 
@@ -1144,7 +1247,7 @@ msgid "List item URI duplications found"
 msgstr "تم العثور على تكرارات قائمة البند URI"
 
 msgid "List values"
-msgstr "List values"
+msgstr "قائمة القيم"
 
 msgid "Load more"
 msgstr "تحميل المزيد "
@@ -1188,6 +1291,9 @@ msgstr "تسجيل الدخول فارغ."
 msgid "Logout"
 msgstr "تسجيل خروج"
 
+msgid "M4A audio"
+msgstr "صوت M4A"
+
 msgid "Main Menu"
 msgstr "القائمة الرئيسية"
 
@@ -1212,12 +1318,14 @@ msgstr "إدارة مخطط القسم"
 msgid "Manage data list"
 msgstr "إدارة قائمة البيانات"
 
+#, tao-public
 msgid "Manage roles"
 msgstr "إدارة المهام"
 
 msgid "Manage Roles and apply them to users."
 msgstr "إدارة المهام وتطبيقها على المستخدمين."
 
+#, tao-public
 msgid "Manage users"
 msgstr "إدارة المستخدمين"
 
@@ -1242,6 +1350,45 @@ msgstr "رسائل"
 msgid "Metadata export is not available for the selected resource."
 msgstr "لا يتوفر تصدير الميتابيانات  للمورد المحدد."
 
+msgid "Microsoft Excel"
+msgstr "مايكروسوفت إكسل"
+
+msgid "Microsoft Excel binary format"
+msgstr "تنسيق مايكروسوفت إكسل الثنائي"
+
+msgid "Microsoft Office Document Imaging"
+msgstr "تصوير مستندات مايكروسوفت أوفيس"
+
+msgid "Microsoft Powerpoint"
+msgstr "مايكروسوفت باوربوينت"
+
+msgid "Microsoft Powerpoint slideshow"
+msgstr "عرض شرائح مايكروسوفت باوربوينت"
+
+msgid "Microsoft Project file"
+msgstr "ملف مشروع مايكروسوفت"
+
+msgid "Microsoft Visio file"
+msgstr "ملف مايكروسوفت فيزيو"
+
+msgid "Microsoft Word"
+msgstr "مايكروسوفت وورد"
+
+msgid "Microsoft Word template"
+msgstr "قالب مايكروسوفت وورد"
+
+msgid "Microsoft Works file"
+msgstr "ملف مايكروسوفت ووركس"
+
+msgid "Microsoft XPS file"
+msgstr "ملف مايكروسوفت XPS"
+
+msgid "MIME encapsulation of aggregate HTML documents"
+msgstr "تغليف MIME لوثائق HTML المجمعة"
+
+msgid "Mind mapping software application (free mind open source)"
+msgstr "تطبيق برنامج رسم الخرائط الذهنية (العقل الحر مفتوح المصدر)"
+
 msgid "minutes"
 msgstr "دقائق"
 
@@ -1252,7 +1399,7 @@ msgid "Missing Parameters"
 msgstr "المعايير مفقودة"
 
 msgid "modulo"
-msgstr "modulo"
+msgstr "بقية"
 
 msgid "More"
 msgstr "أكثر"
@@ -1266,6 +1413,7 @@ msgstr "تحرك يسارا "
 msgid "Move Right"
 msgstr "تحرك يمينا"
 
+#, tao-public
 msgid "Move role"
 msgstr "نقل الدور"
 
@@ -1281,6 +1429,18 @@ msgstr "حرك الى"
 msgid "Moving this element will replace the properties of the previous class by those of the destination class :"
 msgstr "سيؤدي نقل هذا العنصر إلى استبدال خصائص القسم السابق بخصائص قسم الوجهة:"
 
+msgid "MP4 video"
+msgstr "فيديو MP4"
+
+msgid "MPEG audio"
+msgstr "صوت MPEG"
+
+msgid "MPEG video"
+msgstr "فيديو MPEG"
+
+msgid "MPEG-4 audio file"
+msgstr "ملف صوتي MPEG-4"
+
 msgid "Multiple values delimiter"
 msgstr "محدد القيم المتعددة"
 
@@ -1293,6 +1453,7 @@ msgstr "صامت"
 msgid "My custom text translation"
 msgstr "ترجمتي للنص خاصة بي"
 
+#, tao-public
 msgid "My settings"
 msgstr "الإعدادات"
 
@@ -1308,6 +1469,7 @@ msgstr "اللوغارتيم الطبيعي"
 msgid "New password"
 msgstr "كلمة مرور جديدة"
 
+#, tao-public
 msgid "New role"
 msgstr "مهمة جديدة"
 
@@ -1371,11 +1533,12 @@ msgstr "لا شيء لتثبيته !"
 msgid "Nothing to list!"
 msgstr "لا شيء للقائمة !"
 
+#, tao-public
 msgid "Notifications"
 msgstr "إشعارات"
 
-msgid "notifications drivers aren't persistent. use a persistent database storage driver"
-msgstr "إخطارات برنامج التعريف ليست مستمرة. استخدام برنامج تشغيل تخزين قاعدة بيانات ثابت"
+msgid "notifications drivers aren\\'t persistent. use a persistent database storage driver"
+msgstr "برامج تشغيل الإشعارات ليست ثابتة. استخدم برنامج تشغيل تخزين قاعدة بيانات ثابت"
 
 msgid "Nth root"
 msgstr "الجذر التاسع"
@@ -1391,6 +1554,12 @@ msgstr "من"
 
 msgid "Off"
 msgstr "إيقاف"
+
+msgid "Ogg Vorbis audio"
+msgstr "صوت Ogg Vorbis"
+
+msgid "Ogg Vorbis video"
+msgstr "فيديو Ogg Vorbis"
 
 msgid "OK"
 msgstr "نعم"
@@ -1410,6 +1579,21 @@ msgstr "السماح لمجالي فقط (%s)"
 msgid "Only one of the field must have value %s"
 msgstr "يجب أن يحتوي حقل واحد فقط على القيمة %s"
 
+msgid "OpenDocument Database"
+msgstr "قاعدة بيانات OpenDocument"
+
+msgid "OpenDocument Presentation"
+msgstr "عرض OpenDocument"
+
+msgid "OpenDocument spreadsheet document"
+msgstr "مستند جدول بيانات OpenDocument"
+
+msgid "OpenDocument text document"
+msgstr "مستند نصي OpenDocument"
+
+msgid "OpenDocument Text Template"
+msgstr "قالب نص OpenDocument"
+
 msgid "Operated By "
 msgstr "تدار من"
 
@@ -1421,6 +1605,9 @@ msgstr "توقعات بشأن التزامن التالي"
 
 msgid "Page"
 msgstr "صفحة"
+
+msgid "Pascal file (.pas)"
+msgstr "ملف باسكال (.pas)"
 
 msgid "Password"
 msgstr "كلمة السر"
@@ -1443,8 +1630,14 @@ msgstr "كلمات المرور غير متطابقة"
 msgid "Pause"
 msgstr "وقفة"
 
+msgid "PDF file"
+msgstr "ملف PDF"
+
 msgid "Permission denied to write in the selected class"
 msgstr "تم رفض الإذن بالكتابة في القسم المحدد"
+
+msgid "Plain text"
+msgstr "نص عادي"
 
 msgid "Play"
 msgstr "شغل"
@@ -1503,6 +1696,12 @@ msgstr "المرجو الانتظار"
 msgid "Please wait while ..."
 msgstr "من فضلك انتظر بينما ..."
 
+msgid "PNG image"
+msgstr "صورة PNG"
+
+msgid "Position"
+msgstr "موضع"
+
 msgid "Positionals:"
 msgstr "المواضع:"
 
@@ -1533,6 +1732,7 @@ msgstr "الصفحة السابقة"
 msgid "Proceed"
 msgstr "تقدم"
 
+#, tao-public
 msgid "Properties"
 msgstr "الخصائص"
 
@@ -1548,14 +1748,17 @@ msgstr "انشر الرائز"
 msgid "Queued"
 msgstr "في قائمة الانتظار"
 
+msgid "Quicktime video"
+msgstr "فيديو Quicktime"
+
 msgid "Rad"
-msgstr "Rad"
+msgstr "راديان"
 
 msgid "Radian"
 msgstr "راديان"
 
 msgid "random"
-msgstr "random"
+msgstr "عشوائي"
 
 msgid "Random value"
 msgstr "قيمة عشوائية"
@@ -1563,8 +1766,14 @@ msgstr "قيمة عشوائية"
 msgid "Range field is required"
 msgstr "نطاق المجال"
 
+msgid "RAR archive"
+msgstr "أرشيف RAR"
+
 msgid "RDF"
 msgstr "إطار توصيف الموارد"
+
+msgid "RealMedia file"
+msgstr "ملف RealMedia"
 
 msgid "Refresh"
 msgstr "تحديث"
@@ -1574,6 +1783,9 @@ msgstr "إنجاز"
 
 msgid "Releasing the lock might cause the work in progress by %s to be lost."
 msgstr "قد يؤدي فتح القفل إلى فقد العمل الجاري بواسطة %s."
+
+msgid "Reload"
+msgstr "أعد التحميل"
 
 msgid "Remind"
 msgstr "تذكير"
@@ -1692,6 +1904,9 @@ msgstr "استعادة الصوت"
 msgid "Return to sign in page"
 msgstr "العودة إلى صفحة تسجيل الدخول"
 
+msgid "Rich Text Format file"
+msgstr "ملف تنسيق النص الغني"
+
 msgid "Right click the tree to manage your lists"
 msgstr "استعمل زر النقر يمينا لإدارة قوائمك"
 
@@ -1704,11 +1919,12 @@ msgstr "الدور المحفوظ"
 msgid "Roles"
 msgstr "أدوار"
 
+#, tao-public
 msgid "Roles library"
 msgstr "مكتبة الأدوار"
 
 msgid "round"
-msgstr "round"
+msgstr "تقريب"
 
 msgid "Round to closest whole number"
 msgstr "تقريب لأقرب عدد صحيح"
@@ -1755,6 +1971,7 @@ msgstr "ثانية"
 msgid "seconds"
 msgstr "ثواني"
 
+#, tao-public
 msgid "Security"
 msgstr "أمن"
 
@@ -1803,6 +2020,7 @@ msgstr "اضبط الدالة المثلثية للعمل بالدرجات"
 msgid "Set the trigonometric function to work in radians"
 msgstr "اضبط الدالة المثلثية لتعمل بوحدات الراديان"
 
+#, tao-public
 msgid "Settings"
 msgstr "الإعدادات"
 
@@ -1814,6 +2032,9 @@ msgstr "عرض تقرير مفصل"
 
 msgid "Show password"
 msgstr "عرض كلمة المرور"
+
+msgid "Sibelius music notation"
+msgstr "تدوين موسيقى سيبيليوس"
 
 msgid "Sign change"
 msgstr "قم بالتغيير"
@@ -1857,6 +2078,9 @@ msgstr "خزن"
 msgid "Store the value a variable"
 msgstr "تخزين القيمة متغير"
 
+msgid "Storing digital video data on a computer game"
+msgstr "تخزين بيانات الفيديو الرقمية على لعبة كمبيوتر"
+
 msgid "string"
 msgstr "خيط"
 
@@ -1892,6 +2116,9 @@ msgstr "صورة SVG"
 
 msgid "Syntax error"
 msgstr "خطأ في بناء الجملة"
+
+msgid "Tagged image file"
+msgstr "ملف صورة مُعَلًم"
 
 msgid "tan"
 msgstr "tan"
@@ -1950,6 +2177,9 @@ msgstr "لم يتم إرجاع المهمة لأي تقرير."
 msgid "Term"
 msgstr "مصطلح"
 
+msgid "TeX file"
+msgstr "ملف TeX"
+
 msgid "Text - Long - Box"
 msgstr "نص - طويل - صندوق"
 
@@ -1958,6 +2188,9 @@ msgstr "نص - طويل - محرر HTML"
 
 msgid "Text - Short - Field"
 msgstr "نص - قصير - حقل"
+
+msgid "Text document file format (Staroffice)"
+msgstr "تنسيق ملف المستند النصي (Staroffice)"
 
 msgid "The action will be applied to"
 msgstr "سيتم تطبيق الإجراء على"
@@ -2059,7 +2292,7 @@ msgid "time"
 msgstr "زمن"
 
 msgid "Time zone"
-msgstr "Time zone"
+msgstr "منطقة زمنية"
 
 msgid "Title"
 msgstr "عنوان"
@@ -2119,7 +2352,7 @@ msgid "True"
 msgstr "حقيقي"
 
 msgid "trunc"
-msgstr "trunc"
+msgstr "قطع"
 
 msgid "Type"
 msgstr "نوع"
@@ -2208,6 +2441,9 @@ msgstr "فشل إلغاء تثبيت %s"
 msgid "Uninstalled %s"
 msgstr "تم إلغاء تثبيت %s"
 
+msgid "UNIX Compressed Archive File"
+msgstr "ملف أرشيف UNIX المضغوط"
+
 msgid "unknown"
 msgstr "غير معروف"
 
@@ -2222,6 +2458,9 @@ msgstr "تحديث"
 
 msgid "Update ID : %s"
 msgstr "معرف التحديث: %s"
+
+msgid "Updating search index"
+msgstr "تحديث فهرس البحث"
 
 msgid "Upload"
 msgstr "تحميل"
@@ -2283,9 +2522,11 @@ msgstr "لم يتم العثور على المستخدم"
 msgid "User saved"
 msgstr "تم حفظ المستخدم"
 
+#, tao-public
 msgid "User Settings"
 msgstr "إعدادات المستخدم"
 
+#, tao-public
 msgid "Users"
 msgstr "المستخدمون"
 
@@ -2343,11 +2584,41 @@ msgstr "انتهى الانتظار"
 msgid "Waiting"
 msgstr "انتظر"
 
+msgid "WAV audio"
+msgstr "صوت WAV"
+
+msgid "WebM audio"
+msgstr "صوت WebM"
+
+msgid "WebM video"
+msgstr "فيديو WebM"
+
 msgid "Whole number part"
 msgstr "جزء العدد الكامل"
 
 msgid "Width"
 msgstr "عرض"
+
+msgid "Windows help file"
+msgstr "ملف مساعدة ويندوز"
+
+msgid "Windows Media audio"
+msgstr "صوت وسائط ويندوز"
+
+msgid "Windows Media file (metafile)"
+msgstr "ملف وسائط ويندوز (الملف الوصفي)"
+
+msgid "Windows Media video"
+msgstr "فيديو ويندوز ميديا"
+
+msgid "Wrap image left"
+msgstr "التفاف الصورة إلى اليسار"
+
+msgid "Wrap image right"
+msgstr "التفاف الصورة إلى اليمين"
+
+msgid "Write Document"
+msgstr "اكتب المستند"
 
 msgid "Wrong or missing parameter extension, module or action"
 msgstr "ملحق معلمة أو وحدة نمطية أو إجراء خاطئ أو مفقود"
@@ -2355,8 +2626,14 @@ msgstr "ملحق معلمة أو وحدة نمطية أو إجراء خاطئ أ
 msgid "Wrong parameter shownExtension"
 msgstr "تم عرض معلمة خاطئة"
 
+msgid "XML file"
+msgstr "ملف XML"
+
 msgid "Yes"
 msgstr "نعم"
+
+msgid "You are encountering a prolonged connectivity loss."
+msgstr "أنت تواجه فقدان الاتصال لفترات طويلة."
 
 msgid "You are not allowed to write in the class %s"
 msgstr "غير مسموح لك بالكتابة في القسم %s"
@@ -2405,3 +2682,7 @@ msgstr "بريدك الإلكتروني"
 
 msgid "Your TAO Password"
 msgstr "كلمة مرور TAO الخاصة بك"
+
+msgid "ZIP archive"
+msgstr "أرشيف ZIP"
+
