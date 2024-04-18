@@ -33,16 +33,29 @@ class ActionBlackList extends ConfigurableService
     public const SERVICE_ID = 'tao/ActionBlackList';
     public const OPTION_DISABLED_ACTIONS = 'disabledActions';
     public const OPTION_DISABLED_ACTIONS_FLAG_MAP = 'disabledActionsMap';
+    public const OPTION_ENABLED_ACTIONS_BY_FEATURE_FLAG_MAP = 'enabledActionsByFeatureFlagMap';
 
     public function isDisabled(string $action): bool
     {
-        $disabledActionsMap = $this->getOption(self::OPTION_DISABLED_ACTIONS_FLAG_MAP, []);
+       return $this->isDisabledByDefault($action) && !$this->isEnabledByFeatureFlag($action) || $this->isDisabledByFeatureFlag($action);
+    }
 
-        return array_search($action, (array) $this->getOption(self::OPTION_DISABLED_ACTIONS, [])) !== false ||
-            (
-                isset($disabledActionsMap[$action]) &&
-                $this->getFeatureFlagChecker()->isEnabled($disabledActionsMap[$action])
-            );
+    private function isDisabledByDefault($action) {
+        return array_search($action, (array) $this->getOption(self::OPTION_DISABLED_ACTIONS, [])) !== false;
+    }
+
+    private function isDisabledByFeatureFlag($action)
+    {
+        $disabledActionsMap = $this->getOption(self::OPTION_DISABLED_ACTIONS_FLAG_MAP, []);
+        return isset($disabledActionsMap[$action])
+            && $this->getFeatureFlagChecker()->isEnabled($disabledActionsMap[$action]);
+    }
+
+    private function isEnabledByFeatureFlag($action)
+    {
+        $enabledActionsByFeatureFlagMap = $this->getOption(self::OPTION_ENABLED_ACTIONS_BY_FEATURE_FLAG_MAP, []);
+        return isset($enabledActionsByFeatureFlagMap[$action])
+            && $this->getFeatureFlagChecker()->isEnabled($enabledActionsByFeatureFlagMap[$action]);
     }
 
     private function getFeatureFlagChecker(): FeatureFlagChecker
