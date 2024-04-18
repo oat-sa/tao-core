@@ -18,12 +18,13 @@
  */
 
 use oat\generis\model\fileReference\FileReferenceSerializer;
+use oat\oatbox\filesystem\FileSystemService;
 use oat\tao\model\taskQueue\TaskLog\Broker\TaskLogBrokerInterface;
+use oat\tao\model\taskQueue\TaskLog\Decorator\SimpleManagementCollectionDecorator;
+use oat\tao\model\taskQueue\TaskLog\Decorator\TaskLogEntityDecorateProcessor;
 use oat\tao\model\taskQueue\TaskLog\TaskLogFilter;
 use oat\tao\model\taskQueue\TaskLogInterface;
 use oat\tao\model\TaskQueueActionTrait;
-use oat\tao\model\taskQueue\TaskLog\Decorator\SimpleManagementCollectionDecorator;
-use oat\oatbox\filesystem\FileSystemService;
 
 /**
  * Rest API controller for task queue
@@ -104,18 +105,13 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
             $offset = (int) $this->getRequestParameter(self::PARAMETER_OFFSET);
         }
 
-        /** @var FileSystemService $fs */
-        $fs = $this->getServiceLocator()->get(FileSystemService::SERVICE_ID);
-
-        /** @var FileReferenceSerializer $frs */
-        $frs = $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
-
         $userId = $this->getSession()->getUser()->getIdentifier();
         $collection = new SimpleManagementCollectionDecorator(
             $taskLogService->findAvailableByUser($userId, $limit, $offset),
             $taskLogService,
-            $fs,
-            $frs,
+            $this->getServiceLocator()->get(FileSystemService::SERVICE_ID),
+            $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID),
+            $this->getTaskLogEntityDecorateProcessor(),
             false
         );
 
@@ -143,5 +139,10 @@ class tao_actions_TaskQueue extends \tao_actions_RestController
         } catch (\Exception $e) {
             $this->returnFailure($e);
         }
+    }
+
+    protected function getTaskLogEntityDecorateProcessor(): TaskLogEntityDecorateProcessor
+    {
+        return $this->getServiceManager()->getContainer()->get(TaskLogEntityDecorateProcessor::class);
     }
 }
