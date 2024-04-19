@@ -35,6 +35,7 @@ use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\tasks\UpdateClassInIndex;
 use oat\tao\model\search\tasks\UpdateResourceInIndex;
+use oat\tao\model\search\tasks\UpdateTestResourceInIndex;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
 
@@ -144,28 +145,23 @@ class ResourceWatcher extends ConfigurableService
             }
 
             if ($this->hasResourceSupport($resource)) {
-                $queueDispatcher->createTask(new UpdateResourceInIndex(), [$resource->getUri()], $message);
-
-                return;
+                $queueDispatcher->createTask(
+                    $this->isTestResource($resource) ? new UpdateTestResourceInIndex() : new UpdateResourceInIndex(),
+                    [$resource->getUri()],
+                    $message
+                );
             }
         }
     }
 
     private function hasResourceSupport(core_kernel_classes_Resource $resource): bool
     {
-        $resourceTypeIds = array_map(
-            function (core_kernel_classes_Class $resourceType): string {
-                return $resourceType->getUri();
-            },
-            $resource->getTypes()
-        );
-
+        $resourceTypeIds = $this->getResourceTypes($resource);
         $checkedResourceTypes = [OntologyRdfs::RDFS_RESOURCE, TaoOntology::CLASS_URI_OBJECT];
         $resourceTypeIds = array_diff($resourceTypeIds, [OntologyRdfs::RDFS_RESOURCE, TaoOntology::CLASS_URI_OBJECT]);
 
         while (!empty($resourceTypeIds)) {
             $classUri = array_pop($resourceTypeIds);
-
             $hasClassSupport = $this->getServiceLocator()
                 ->get(IndexUpdaterInterface::SERVICE_ID)
                 ->hasClassSupport(
@@ -187,6 +183,21 @@ class ResourceWatcher extends ConfigurableService
         }
 
         return false;
+    }
+
+    private function getResourceTypes(core_kernel_classes_Resource $resource): array
+    {
+        return array_map(
+            function (core_kernel_classes_Class $resourceType): string {
+                return $resourceType->getUri();
+            },
+            $resource->getTypes()
+        );
+    }
+
+    private function isTestResource(core_kernel_classes_Resource $resource): bool
+    {
+        return in_array(TaoOntology::CLASS_URI_TEST, $this->getResourceTypes($resource));
     }
 
     private function hasClassSupport(core_kernel_classes_Resource $resource): bool
