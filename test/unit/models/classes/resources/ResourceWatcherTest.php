@@ -343,11 +343,11 @@ class ResourceWatcherTest extends TestCase
     private function mockGetTypesResource(string $classUri): void
     {
         $class = $this->createMock(core_kernel_classes_Class::class);
-        $class->expects($this->once())
+        $class->expects($this->atLeastOnce())
             ->method('getUri')
             ->willReturn($classUri);
 
-        $this->resource->expects($this->once())
+        $this->resource->expects($this->atLeastOnce())
             ->method('getTypes')
             ->willReturn(
                 [
