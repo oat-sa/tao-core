@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2021-2024 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
@@ -37,21 +37,23 @@ class ActionBlackList extends ConfigurableService
 
     public function isDisabled(string $action): bool
     {
-       return $this->isDisabledByDefault($action) && !$this->isEnabledByFeatureFlag($action) || $this->isDisabledByFeatureFlag($action);
+        return ($this->isDisabledByDefault($action) && !$this->isEnabledByFeatureFlag($action))
+            || $this->isDisabledByFeatureFlag($action);
     }
 
-    private function isDisabledByDefault($action) {
+    private function isDisabledByDefault(string $action): bool
+    {
         return array_search($action, (array) $this->getOption(self::OPTION_DISABLED_ACTIONS, [])) !== false;
     }
 
-    private function isDisabledByFeatureFlag($action)
+    private function isDisabledByFeatureFlag(string $action): bool
     {
         $disabledActionsMap = $this->getOption(self::OPTION_DISABLED_ACTIONS_FLAG_MAP, []);
         return isset($disabledActionsMap[$action])
             && $this->getFeatureFlagChecker()->isEnabled($disabledActionsMap[$action]);
     }
 
-    private function isEnabledByFeatureFlag($action)
+    private function isEnabledByFeatureFlag(string $action): bool
     {
         $enabledActionsByFeatureFlagMap = $this->getOption(self::OPTION_ENABLED_ACTIONS_BY_FEATURE_FLAG_MAP, []);
         return isset($enabledActionsByFeatureFlagMap[$action])
