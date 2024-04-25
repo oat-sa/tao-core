@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2024 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -260,6 +260,14 @@ class Layout
     {
         $settingsMenu = get_data('settings-menu');
         return empty(get_data('main-menu')) && empty($settingsMenu) || count($settingsMenu) < 3;
+    }
+
+    /**
+     * Tells if the Solar Design System should apply.
+     */
+    public static function isSolarDesignEnabled(): bool
+    {
+        return self::getThemeService()->isSolarDesignEnabled();
     }
 
 
@@ -613,6 +621,11 @@ class Layout
      */
     protected static function getCurrentTheme()
     {
-        return ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID)->getTheme();
+        return self::getThemeService()->getTheme();
+    }
+
+    private static function getThemeService(): ThemeService
+    {
+        return ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID);
     }
 }
