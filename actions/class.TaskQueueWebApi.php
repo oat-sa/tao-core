@@ -73,6 +73,7 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
             $taskLogService,
             $this->getFileSystemService(),
             $this->getFileReferenceSerializer(),
+            $this->getTaskLogEntityDecorateProcessor(),
             false
         );
 
@@ -107,10 +108,7 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
                 common_session_SessionManager::getSession()->getUser()
             );
 
-            /** @var TaskLogEntityDecorateProcessor $taskLogEntityDecorator */
-            $taskLogEntityDecorator = $this->getServiceManager()
-                ->getContainer()
-                ->get(TaskLogEntityDecorateProcessor::class);
+            $taskLogEntityDecorator = $this->getTaskLogEntityDecorateProcessor();
             $taskLogEntityDecorator->setEntity($entity);
 
             $this->setSuccessJsonResponse($taskLogEntityDecorator->toArray());
@@ -293,6 +291,11 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
     protected function getFileReferenceSerializer(): FileReferenceSerializer
     {
         return $this->getServiceLocator()->get(FileReferenceSerializer::SERVICE_ID);
+    }
+
+    protected function getTaskLogEntityDecorateProcessor(): TaskLogEntityDecorateProcessor
+    {
+        return $this->getServiceManager()->getContainer()->get(TaskLogEntityDecorateProcessor::class);
     }
 
     protected function getFileSystemService(): FileSystemService
