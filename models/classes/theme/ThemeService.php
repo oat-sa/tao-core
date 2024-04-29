@@ -34,9 +34,9 @@ class ThemeService extends ThemeServiceAbstract
      */
     public function getCurrentThemeId()
     {
-        if ($this->isTaoAsToolEnabled()) {
-            return PortalTheme::THEME_ID;
-        }
+//        if ($this->isTaoAsToolEnabled()) {
+//            return PortalTheme::THEME_ID;
+//        }
 
         return $this->getOption(static::OPTION_CURRENT);
     }
