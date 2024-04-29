@@ -27,10 +27,7 @@ trait SolarDesignCheckerTrait
     public function isSolarDesignEnabled(): bool
     {
         $themeData = $this->getThemeData();
-        if (array_key_exists(SolarDesignCheckerInterface::SOLAR_DESIGN_ENABLED, $themeData) &&
-            $themeData[SolarDesignCheckerInterface::SOLAR_DESIGN_ENABLED]) {
-            return true;
-        }
-        return false;
+
+        return !empty($themeData[SolarDesignCheckerInterface::SOLAR_DESIGN_ENABLED]);
     }
 }
