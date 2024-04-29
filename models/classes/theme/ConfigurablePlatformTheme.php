@@ -35,9 +35,10 @@ use oat\tao\helpers\Template;
  * @deprecated until operation issues as resolved
  * @package oat\tao\model\theme
  */
-class ConfigurablePlatformTheme extends Configurable implements Theme
+class ConfigurablePlatformTheme extends Configurable implements Theme, SolarDesignCheckerInterface
 {
     use PortalTemplateFinderTrait;
+    use SolarDesignCheckerTrait;
 
     /** Theme extension id key */
     public const EXTENSION_ID = 'extensionId';

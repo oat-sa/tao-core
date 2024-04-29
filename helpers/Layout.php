@@ -31,6 +31,7 @@ use oat\tao\model\theme\Theme;
 use oat\tao\model\theme\ThemeService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\layout\AmdLoader;
+use oat\tao\model\theme\SolarDesignCheckerInterface;
 
 class Layout
 {
@@ -267,9 +268,19 @@ class Layout
      */
     public static function isSolarDesignEnabled(): bool
     {
-        return self::getThemeService()->isSolarDesignEnabled();
-    }
+        // if FEATURE_FLAG_SOLAR_DESIGN_ENABLED is active, the feature is always on
+        if (self::getThemeService()->isSolarDesignEnabled()) {
+            return true;
+        }
 
+        // a theme can also require the feature based on an option
+        $theme = self::getCurrentTheme();
+        if ($theme instanceof SolarDesignCheckerInterface) {
+            return $theme->isSolarDesignEnabled();
+        }
+
+        return false;
+    }
 
     /**
      * Retrieve the template with the actual content
