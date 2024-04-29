@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2024 (original work) Open Assessment Technologies SA;
  *
  *
  */
@@ -31,6 +31,7 @@ use oat\tao\model\theme\Theme;
 use oat\tao\model\theme\ThemeService;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\layout\AmdLoader;
+use oat\tao\model\theme\SolarDesignCheckerInterface;
 
 class Layout
 {
@@ -262,6 +263,24 @@ class Layout
         return empty(get_data('main-menu')) && empty($settingsMenu) || count($settingsMenu) < 3;
     }
 
+    /**
+     * Tells if the Solar Design System should apply.
+     */
+    public static function isSolarDesignEnabled(): bool
+    {
+        // if FEATURE_FLAG_SOLAR_DESIGN_ENABLED is active, the feature is always on
+        if (self::getThemeService()->isSolarDesignEnabled()) {
+            return true;
+        }
+
+        // a theme can also require the feature based on an option
+        $theme = self::getCurrentTheme();
+        if ($theme instanceof SolarDesignCheckerInterface) {
+            return $theme->isSolarDesignEnabled();
+        }
+
+        return false;
+    }
 
     /**
      * Retrieve the template with the actual content
@@ -613,6 +632,11 @@ class Layout
      */
     protected static function getCurrentTheme()
     {
-        return ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID)->getTheme();
+        return self::getThemeService()->getTheme();
+    }
+
+    private static function getThemeService(): ThemeService
+    {
+        return ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID);
     }
 }

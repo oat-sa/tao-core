@@ -50,8 +50,10 @@ use oat\tao\helpers\Template;
  * @package oat\tao\model\theme
  * @deprecated use oat\tao\model\theme\ConfigurablePlatformTheme instead
  */
-class ConfigurableTheme extends Configurable implements Theme
+class ConfigurableTheme extends Configurable implements Theme, SolarDesignCheckerInterface
 {
+    use SolarDesignCheckerTrait;
+
     /** Theme id offset in the options. */
     public const THEME_ID    = 'id';
 

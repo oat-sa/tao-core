@@ -15,13 +15,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2022 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2015-2024 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
 namespace oat\tao\model\theme;
 
 use oat\oatbox\Configurable;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  *
@@ -116,5 +119,22 @@ class ThemeService extends ThemeServiceAbstract
         $this->setOption(static::OPTION_AVAILABLE, $availableThemes);
 
         return true;
+    }
+
+    public function isSolarDesignEnabled(): bool
+    {
+        return $this->getFeatureFlagChecker()->isEnabled(
+            FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED
+        );
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getContainer()->get(FeatureFlagChecker::class);
+    }
+
+    private function getContainer(): ContainerInterface
+    {
+        return $this->getServiceManager()->getContainer();
     }
 }

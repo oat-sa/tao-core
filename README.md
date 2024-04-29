@@ -101,6 +101,7 @@ Here you can find the environment variables including feature flags
 | FEATURE_FLAG_ADVANCED_SEARCH_DISABLED  | Disable advanced search feature, if set to 1                                                                                         | -             |
 | FEATURE_FLAG_STATISTIC_METADATA_IMPORT | Enable statistics metadata import                                                                                                    | -             |
 | FEATURE_FLAG_CKEDITOR_SOURCEDIALOG     | Enable source editing for ckeditor                                                                                                   | false         |
+| FEATURE_FLAG_SOLAR_DESIGN_ENABLED      | Activate the Solar Design mode                                                                                                       | -             |
 | GOOGLE_APPLICATION_CREDENTIALS         | Path to GCP credentials path                                                                                                         | -             |
 | DATA_STORE_STATISTIC_PUB_SUB_TOPIC     | Topic name for statistic metadata Pub/Sub                                                                                            | -             |
 | REDIRECT_AFTER_LOGOUT_URL              | Allows to configure the redirect after logout via environment variable. The fallback is the configured redirect on urlroute.conf.php | -             |
