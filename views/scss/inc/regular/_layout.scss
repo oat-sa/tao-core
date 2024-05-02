@@ -1,0 +1,18 @@
+:root {
+    --header-bar-height: 64px;
+    --footer-bar-height: 34px;
+
+    --header-bar-color: #{$darkBarTxt};
+    --header-bar-icon-color: #{$darkBarIcon};
+    --header-bar-background: #{$darkBar};
+    --header-bar-border-color: #{$uiGeneralContentBorder};
+    --header-bar-menu-border-color: #666;
+
+    --header-bar-hover-color: white;
+    --header-bar-hover-background: #{rgba($info, .5)};
+
+    --header-bar-active-color: #{white(.9)};
+    --header-bar-active-background: #{whiten($info, .05)};
+
+    --footer-bar-border-color: #{$uiGeneralContentBorder};
+}
