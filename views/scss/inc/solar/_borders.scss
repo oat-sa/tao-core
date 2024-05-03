@@ -1,0 +1,21 @@
+/*
+ * Define possible border radii
+ */
+body.solar-design {
+    --radius-small: 2px;
+    --radius-medium: 4px;
+    --radius-large: 8px;
+    --radius-xlarge: 12px;
+
+    /* creates nice circular ends without becoming an ellipse */
+    --radius-pill: 666px;
+
+    --radius-circular: 50%;
+
+    --border-thin: 1px;
+    --border-medium: 2px;
+    --border-medium-plus: 3px;
+    --border-thick: 4px;
+    --border-fat: 8px;
+}
+
