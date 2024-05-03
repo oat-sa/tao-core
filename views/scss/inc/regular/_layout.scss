@@ -1,6 +1,7 @@
 :root {
     --header-bar-height: 64px;
     --footer-bar-height: 34px;
+    --action-bar-height: 35px;
 
     --header-bar-color: #{$darkBarTxt};
     --header-bar-icon-color: #{$darkBarIcon};
@@ -15,4 +16,9 @@
     --header-bar-active-background: #{whiten($info, .05)};
 
     --footer-bar-border-color: #{$uiGeneralContentBorder};
+
+    --action-bar-color: #{whiten($info, 0.9)};
+    --action-bar-background: #{whiten($info, 0.1)};
+    --action-bar-active-color: white;
+    --action-bar-hover-color: white;
 }
