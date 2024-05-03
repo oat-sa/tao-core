@@ -1,6 +1,7 @@
 body.solar-design {
     --header-bar-height: 65px;
     --footer-bar-height: 36px;
+    --action-bar-height: 52px;
 
     --header-bar-color: var(--color-text-default);
     --header-bar-icon-color: ar(--color-text-default);
@@ -16,6 +17,55 @@ body.solar-design {
     --header-bar-active-border: var(--color-text-default);
 
     --footer-bar-border-color: var(--color-gs-light-secondary);
+
+    --action-bar-color: var(--color-text-default);
+    --action-bar-background: var(--color-bg-default);
+    --action-bar-border-color: var(--color-gs-light-secondary);
+
+    --action-bar-active-color: var(--color-text-default);
+    --action-bar-hover-color: var(--color-text-default);
+
+    --button-height: 64px;
+    --button-small-height: 40px;
+
+    --button-primary-color: var(--color-text-inverted);
+    --button-primary-background: var(--color-brand);
+
+    --button-secondary-color: var(--color-text-default);
+    --button-secondary-background: var(--color-bg-default);
+    --button-secondary-border: var(--border-thin) solid var(--color-border-default);
+
+    --button-primary-info-color: var(--color-text-inverted);
+    --button-primary-info-background: var(--color-brand);
+
+    --button-primary-error-color: var(--color-text-inverted);
+    --button-primary-error-background: var(--color-alert);
+
+    --button-primary-success-color: var(--color-text-inverted);
+    --button-primary-success-background: var(--color-success);
+
+    --button-primary-warning-color: var(--color-text-inverted);
+    --button-primary-warning-background: #{whiten($warning, .1)};
+
+    --button-secondary-info-color: var(--color-text-info);
+    --button-secondary-info-background: var(--color-bg-info);
+    --button-secondary-info-border: var(--border-thin) solid var(--color-border-info);
+
+    --button-secondary-error-color: var(--color-alert);
+    --button-secondary-error-background: var(--color-bg-default);
+    --button-secondary-error-border: var(--border-thin) solid var(--color-alert);
+
+    --button-secondary-success-color: var(--color-success);
+    --button-secondary-success-background: var(--color-bg-default);
+    --button-secondary-success-border: var(--border-thin) solid var(--color-success);
+
+    --button-secondary-warning-color: var(--color-alert);
+    --button-secondary-warning-background: var(--color-bg-default);
+    --button-secondary-warning-border: var(--border-thin) solid var(--color-alert);
+
+    --button-disabled-color: var(--color-text-disabled);
+    --button-disabled-background: var(--color-bg-disabled);
+    --button-disabled-border: var(--border-thin) solid var(--color-border-disabled);
 
     font-family: var(--font-ui);
 
@@ -74,5 +124,178 @@ body.solar-design {
     & > footer {
         @include font-size(14);
         padding: 8px 24px;
+    }
+
+    .action-bar {
+        li {
+            span.glyph {
+                text-shadow: none;
+            }
+        }
+
+        &.horizontal-action-bar {
+            border-bottom: var(--border-thin) solid var(--action-bar-border-color);
+            li {
+                &.btn-info {
+                    display: flex;
+                    color: var(--action-bar-color);
+                    &:hover,
+                    &.active {
+                        border-color: var(--action-bar-color);
+                    }
+                }
+                &.disabled {
+                    background-color: var(--button-disabled-background) !important;
+                    text-shadow: none !important;
+                    opacity: 1 !important;
+                    color: var(--button-disabled-color) !important;
+                    border: var(--button-disabled-border) !important;
+                }
+            }
+        }
+    }
+
+    .tree-block {
+        .action-bar {
+            display: none;
+        }
+    }
+
+    [class^="btn-"], [class*=" btn-"], .btn-default,
+    button, input[type="submit"], input[type="reset"] {
+        border-radius: var(--radius-pill);
+        font-family: var(--font-ui);;
+        font-size: 12px !important;
+
+        text-transform: uppercase;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 16px;
+
+        line-height: var(--button-height);
+        height: var(--button-height);
+        min-width: var(--button-height);
+        color: var(--button-primary-color);
+        background-color: var(--button-primary-background);
+
+        &.btn-secondary {
+            border: var(--button-secondary-border);
+            color: var(--button-secondary-color);
+            background-color: var(--button-secondary-background);
+            text-shadow: none;
+            line-height: var(--button-height);
+        }
+
+        &.small {
+            line-height: var(--button-small-height);
+            height: var(--button-small-height);
+            min-width: var(--button-small-height);
+
+            &.btn-secondary {
+                line-height: var(--button-small-height);
+            }
+
+            [class^="icon-"],
+            [class*=" icon-"] {
+                font-size: 16px;
+            }
+        }
+
+        [class^="icon-"],
+        [class*=" icon-"] {
+            font-size: 16px;
+            padding: 0 4px 0 0;
+            text-shadow: none;
+
+            &.r {
+                padding: 0 0 0 4px;
+            }
+        }
+
+        &:hover {
+            opacity: 1;
+        }
+
+        &.btn-info {
+            color: var(--button-primary-info-color);
+            background-color: var(--button-primary-info-background);
+            text-shadow: none;
+
+            &.btn-secondary {
+                border: --button-secondary-info-border;
+                color: var(--button-secondary-info-color);
+                background-color: var(--button-secondary-info-background);
+                text-shadow: none;
+            }
+        }
+
+        &.btn-error {
+            color: var(--button-primary-error-color);
+            background-color: var(--button-primary-error-background);
+            text-shadow: none;
+
+            &.btn-secondary {
+                border: --button-secondary-error-border;
+                color: var(--button-secondary-error-color);
+                background-color: var(--button-secondary-error-background);
+                text-shadow: none;
+            }
+        }
+
+        &.btn-success {
+            color: var(--button-primary-success-color);
+            background-color: var(--button-primary-success-background);
+            text-shadow: none;
+
+            &.btn-secondary {
+                border: --button-secondary-success-border;
+                color: var(--button-secondary-success-color);
+                background-color: var(--button-secondary-success-background);
+                text-shadow: none;
+            }
+        }
+
+        &.btn-warning {
+            color: --button-secondary-warning-border;
+            background-color: var(--button-primary-warning-background);
+            text-shadow: none;
+
+            &.btn-secondary {
+                border: var(--button-secondary-warning-border);
+                color: var(--button-secondary-warning-color);
+                background-color: var(--button-secondary-warning-background);
+                text-shadow: none;
+            }
+        }
+    }
+
+    .xhtml_form {
+        // these buttons are originally green which turned out to be avery poor choice
+        [class^="btn-"], [class*=" btn-"],
+        button, input[type="submit"], input[type="reset"] {
+            &.btn-success {
+                color: var(--button-primary-info-color);
+                background-color: var(--button-primary-info-background);
+                text-shadow: none;
+
+                &.btn-secondary {
+                    border: --button-secondary-info-border;
+                    color: var(--button-secondary-info-color);
+                    background-color: var(--button-secondary-info-background);
+                    text-shadow: none;
+                }
+            }
+        }
+    }
+
+    .disabled, button[disabled] {
+        // !important is required here to overwrite any other inherited rule no matter the specificity,
+        // as the disabled style must be consistent all across the stylesheet
+        background-color: var(--button-disabled-background) !important;
+        text-shadow: none !important;
+        opacity: 1 !important;
+        color: var(--button-disabled-color) !important;
+        border: var(--button-disabled-border) !important;
     }
 }
