@@ -168,6 +168,8 @@ body.solar-design {
         text-shadow: none !important;
         opacity: 1 !important;
         color: var(--button-disabled-color) !important;
+    }
+    button[disabled] {
         border: var(--button-disabled-border) !important;
     }
 }
