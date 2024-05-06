@@ -79,54 +79,6 @@ body.solar-design {
 
     font-family: var(--font-ui);
 
-    .action-bar {
-        li {
-            span.glyph {
-                text-shadow: none;
-            }
-        }
-
-        &.horizontal-action-bar {
-            border-bottom: var(--border-thin) solid var(--action-bar-border-color);
-            li {
-                &.btn-info {
-                    display: flex;
-                    color: var(--action-bar-color);
-                    &:hover,
-                    &.active {
-                        border-color: var(--action-bar-color);
-                    }
-                    &:hover {
-                        background-color: var(--button-secondary-hover-background);
-                    }
-
-                    &.save-trigger, &#saver {
-                        color: var(--button-primary-info-color);
-                        background-color: var(--button-primary-info-background);
-                        border: none;
-                        &:hover, .li-inner:hover {
-                            color: var(--button-primary-info-color);
-                            background-color: var(--button-primary-hover-background);
-                        }
-                    }
-                }
-                &.disabled {
-                    background-color: var(--button-disabled-background) !important;
-                    text-shadow: none !important;
-                    opacity: 1 !important;
-                    color: var(--button-disabled-color) !important;
-                    border: var(--button-disabled-border) !important;
-                }
-            }
-        }
-    }
-
-    .tree-block {
-        .action-bar {
-            display: none;
-        }
-    }
-
     [class^="btn-"], [class*=" btn-"], .btn-default,
     button, input[type="submit"], input[type="reset"] {
         border-radius: var(--radius-pill);
