@@ -79,63 +79,6 @@ body.solar-design {
 
     font-family: var(--font-ui);
 
-    .dark-bar {
-        .portal-back {
-            width: auto;
-            padding: 24px 12px 19px;
-            margin: 0 10px;
-            @include font-size(16);
-            &:hover {
-                background-color: var(--header-bar-hover-background);
-                color: var(--header-bar-hover-color);
-            }
-        }
-        .header-title {
-            @include font-size(20);
-            padding: 20px 22px 18px 0;
-        }
-        .nav, nav {
-            .main-menu {
-                li {
-                    min-width: 90px;
-                    @include font-size(16);
-                    line-height: 24px;
-                    & > a {
-                        padding: 20px 15px;
-                        span {
-                            @include font-size(14);
-                            display: inline-block;
-                            padding: 0;
-                        }
-                    }
-                    &.active {
-                        &:after {
-                            content: ' ';
-                            position: absolute;
-                            bottom: 0;
-                            left: 0;
-                            width: 100%;
-                            border-bottom: var(--border-thick) solid var(--header-bar-active-border);
-                        }
-                    }
-                }
-            }
-
-            .settings-menu, .persistent-menu {
-                li {
-                    ul {
-                        border: var(--border-thin) solid var(--header-bar-border-color);
-                    }
-                }
-            }
-        }
-    }
-
-    & > footer {
-        @include font-size(14);
-        padding: 8px 24px;
-    }
-
     .action-bar {
         li {
             span.glyph {
