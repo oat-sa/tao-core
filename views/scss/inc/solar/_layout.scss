@@ -30,37 +30,47 @@ body.solar-design {
 
     --button-primary-color: var(--color-text-inverted);
     --button-primary-background: var(--color-brand);
+    --button-primary-hover-background: var(--color-brand-hover);
 
     --button-secondary-color: var(--color-text-default);
     --button-secondary-background: var(--color-bg-default);
+    --button-secondary-hover-background: var(--color-gs-light-hover-bg);
     --button-secondary-border: var(--border-thin) solid var(--color-border-default);
 
     --button-primary-info-color: var(--color-text-inverted);
     --button-primary-info-background: var(--color-brand);
+    --button-primary-info-hover-background: var(--color-brand-hover);
 
     --button-primary-error-color: var(--color-text-inverted);
     --button-primary-error-background: var(--color-alert);
+    --button-primary-error-hover-background: var(--color-alert-hover);
 
     --button-primary-success-color: var(--color-text-inverted);
     --button-primary-success-background: var(--color-success);
+    --button-primary-success-hover-background: var(--color-success-hover);
 
     --button-primary-warning-color: var(--color-text-inverted);
-    --button-primary-warning-background: #{whiten($warning, .1)};
+    --button-primary-warning-background: var(--color-alert);
+    --button-primary-warning-hover-background: var(--color-alert-hover);
 
     --button-secondary-info-color: var(--color-text-info);
     --button-secondary-info-background: var(--color-bg-info);
+    --button-secondary-info-hover-background: var(--color-gs-light-hover-bg);
     --button-secondary-info-border: var(--border-thin) solid var(--color-border-info);
 
     --button-secondary-error-color: var(--color-alert);
     --button-secondary-error-background: var(--color-bg-default);
+    --button-secondary-error-hover-background: var(--color-gs-light-hover-bg);
     --button-secondary-error-border: var(--border-thin) solid var(--color-alert);
 
     --button-secondary-success-color: var(--color-success);
     --button-secondary-success-background: var(--color-bg-default);
+    --button-secondary-success-hover-background: var(--color-gs-light-hover-bg);
     --button-secondary-success-border: var(--border-thin) solid var(--color-success);
 
     --button-secondary-warning-color: var(--color-alert);
     --button-secondary-warning-background: var(--color-bg-default);
+    --button-secondary-warning-hover-background: var(--color-gs-light-hover-bg);
     --button-secondary-warning-border: var(--border-thin) solid var(--color-alert);
 
     --button-disabled-color: var(--color-text-disabled);
@@ -143,6 +153,19 @@ body.solar-design {
                     &.active {
                         border-color: var(--action-bar-color);
                     }
+                    &:hover {
+                        background-color: var(--button-secondary-hover-background);
+                    }
+
+                    &.save-trigger, &#saver {
+                        color: var(--button-primary-info-color);
+                        background-color: var(--button-primary-info-background);
+                        border: none;
+                        &:hover, .li-inner:hover {
+                            color: var(--button-primary-info-color);
+                            background-color: var(--button-primary-hover-background);
+                        }
+                    }
                 }
                 &.disabled {
                     background-color: var(--button-disabled-background) !important;
@@ -178,6 +201,10 @@ body.solar-design {
         min-width: var(--button-height);
         color: var(--button-primary-color);
         background-color: var(--button-primary-background);
+        &:hover {
+            opacity: 1;
+            background-color: var(--button-primary-hover-background);
+        }
 
         &.btn-secondary {
             border: var(--button-secondary-border);
@@ -185,6 +212,9 @@ body.solar-design {
             background-color: var(--button-secondary-background);
             text-shadow: none;
             line-height: var(--button-height);
+            &:hover {
+                background-color: var(--button-secondary-hover-background);
+            }
         }
 
         &.small {
@@ -213,20 +243,22 @@ body.solar-design {
             }
         }
 
-        &:hover {
-            opacity: 1;
-        }
-
         &.btn-info {
             color: var(--button-primary-info-color);
             background-color: var(--button-primary-info-background);
             text-shadow: none;
+            &:hover {
+                background-color: var(--button-primary-info-hover-background);
+            }
 
             &.btn-secondary {
                 border: --button-secondary-info-border;
                 color: var(--button-secondary-info-color);
                 background-color: var(--button-secondary-info-background);
                 text-shadow: none;
+                &:hover {
+                    background-color: var(--button-secondary-info-hover-background);
+                }
             }
         }
 
@@ -234,12 +266,18 @@ body.solar-design {
             color: var(--button-primary-error-color);
             background-color: var(--button-primary-error-background);
             text-shadow: none;
+            &:hover {
+                background-color: var(--button-primary-error-hover-background);
+            }
 
             &.btn-secondary {
                 border: --button-secondary-error-border;
                 color: var(--button-secondary-error-color);
                 background-color: var(--button-secondary-error-background);
                 text-shadow: none;
+                &:hover {
+                    background-color: var(--button-secondary-error-hover-background);
+                }
             }
         }
 
@@ -247,12 +285,18 @@ body.solar-design {
             color: var(--button-primary-success-color);
             background-color: var(--button-primary-success-background);
             text-shadow: none;
+            &:hover {
+                background-color: var(--button-primary-success-hover-background);
+            }
 
             &.btn-secondary {
                 border: --button-secondary-success-border;
                 color: var(--button-secondary-success-color);
                 background-color: var(--button-secondary-success-background);
                 text-shadow: none;
+                &:hover {
+                    background-color: var(--button-secondary-success-hover-background);
+                }
             }
         }
 
@@ -260,12 +304,18 @@ body.solar-design {
             color: --button-secondary-warning-border;
             background-color: var(--button-primary-warning-background);
             text-shadow: none;
+            &:hover {
+                background-color: var(--button-primary-warning-hover-background);
+            }
 
             &.btn-secondary {
                 border: var(--button-secondary-warning-border);
                 color: var(--button-secondary-warning-color);
                 background-color: var(--button-secondary-warning-background);
                 text-shadow: none;
+                &:hover {
+                    background-color: var(--button-secondary-warning-hover-background);
+                }
             }
         }
     }
@@ -278,12 +328,18 @@ body.solar-design {
                 color: var(--button-primary-info-color);
                 background-color: var(--button-primary-info-background);
                 text-shadow: none;
+                &:hover {
+                    background-color: var(--button-primary-hover-background);
+                }
 
                 &.btn-secondary {
                     border: --button-secondary-info-border;
                     color: var(--button-secondary-info-color);
                     background-color: var(--button-secondary-info-background);
                     text-shadow: none;
+                    &:hover {
+                        background-color: var(--button-secondary-hover-background);
+                    }
                 }
             }
         }
