@@ -11,6 +11,7 @@ body.solar-design {
         justify-content: center;
         align-items: center;
         padding: 0 16px;
+        gap: 8px;
 
         line-height: var(--button-height);
         height: var(--button-height);
@@ -51,11 +52,11 @@ body.solar-design {
         [class^="icon-"],
         [class*=" icon-"] {
             font-size: 16px;
-            padding: 0 4px 0 0;
+            padding: 0;
             text-shadow: none;
 
             &.r {
-                padding: 0 0 0 4px;
+                padding: 0;
             }
         }
 
@@ -132,15 +133,6 @@ body.solar-design {
                 &:hover {
                     background-color: var(--button-secondary-warning-hover-background);
                 }
-            }
-        }
-    }
-
-    .top-block-preview-main {
-        .btn-info {
-            [class^="icon-"],
-            [class*=" icon-"] {
-                padding: 0 4px 0 9px;
             }
         }
     }
