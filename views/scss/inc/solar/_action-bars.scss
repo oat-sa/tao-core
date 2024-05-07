@@ -39,6 +39,55 @@ body.solar-design {
                 }
             }
         }
+
+        &.tree-action-bar {
+            background: var(--color-bg-default);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+
+            li {
+                background: transparent;
+                border: none;
+                border-radius: var(--radius-pill);
+
+                line-height: var(--button-small-height);
+                height: var(--button-small-height);
+                min-width: var(--button-small-height);
+
+                padding: 0;
+                width: auto;
+                margin: 0;
+                float: none;
+
+                .glyph,
+                .svg-glyph {
+                    display: inline-block;
+                    color: var(--button-secondary-color);
+                    margin: 0 !important;
+                    width: auto;
+                    height: auto;
+                    font-size: 16px !important;
+                }
+                .li-inner {
+                    font-family: var(--font-ui);
+                    font-size: 12px !important;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0 16px;
+                    gap: 8px;
+                    height: auto;
+                    color: var(--button-secondary-color);
+                }
+                &:hover {
+                    color: var(--button-secondary-color);
+                    background-color: var(--button-secondary-hover-background);
+                }
+            }
+        }
     }
 
     .tree-block {
