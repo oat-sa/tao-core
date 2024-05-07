@@ -51,6 +51,13 @@ body.solar-design {
 
                 }
             }
+            .disabled, button[disabled] {
+                // !important is required here to overwrite any other inherited rule no matter the specificity,
+                // as the disabled style must be consistent all across the stylesheet
+                background-color: var(--button-disabled-inverted-background) !important;
+                color: var(--button-disabled-inverted-color) !important;
+                border: var(--button-disabled-inverted-border) !important;
+            }
         }
     }
 }
