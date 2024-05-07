@@ -8,6 +8,56 @@ body.solar-design {
 
         &.horizontal-action-bar {
             border-bottom: var(--border-thin) solid var(--action-bar-border-color);
+
+            .search-area {
+                margin: -2px 0 0 0;
+                height: 44px;
+                min-width: 260px;
+                border-bottom: var(--border-medium) solid var(--header-bar-active-border);
+                display: flex;
+                flex-direction: row-reverse;
+                justify-content: center;
+                align-items: center;
+
+                input {
+                    padding: 0;
+                    min-width: auto !important;
+                    width: auto;
+                    border: none;
+                    height: 24px;
+                    flex: 1 0 auto;
+                    font-family: var(--font-ui);
+                    font-size: 16px;
+
+                    &:focus {
+                        border: none;
+                    }
+                }
+                button {
+                    font-size: 16px !important;
+                }
+                .search-area-buttons-container {
+                    position: relative;
+                }
+
+                .icon-find,
+                .icon-ul {
+                    &::before {
+                        color: var(--color-text-default);
+                    }
+                }
+
+                .icon-find:focus,
+                .icon-ul:focus {
+                    border-color: var(--color-text-default);
+                }
+                .icon-ul {
+                    .results-counter {
+                        color: var(--color-text-default);
+                    }
+                }
+            }
+
             li {
                 &.btn-info {
                     display: flex;
