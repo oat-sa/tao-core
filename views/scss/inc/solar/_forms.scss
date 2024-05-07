@@ -1,0 +1,35 @@
+body.solar-design {
+    .xhtml_form {
+        // these buttons are originally green which turned out to be avery poor choice
+        [class^="btn-"], [class*=" btn-"],
+        input[type="submit"], input[type="reset"] {
+            &.btn-success {
+                color: var(--button-primary-info-color);
+                background-color: var(--button-primary-info-background);
+                text-shadow: none;
+                &:hover {
+                    background-color: var(--button-primary-hover-background);
+                }
+
+                &.btn-secondary {
+                    border: --button-secondary-info-border;
+                    color: var(--button-secondary-info-color);
+                    background-color: var(--button-secondary-info-background);
+                    text-shadow: none;
+                    &:hover {
+                        background-color: var(--button-secondary-hover-background);
+                    }
+                }
+            }
+            &.btn-info {
+                float: none;
+                border: none;
+                color: var(--button-secondary-color);
+                background-color: transparent;
+                &:hover {
+                    background-color: var(--button-secondary-hover-background);
+                }
+            }
+        }
+    }
+}

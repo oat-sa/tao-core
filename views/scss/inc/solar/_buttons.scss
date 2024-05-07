@@ -2,7 +2,7 @@ body.solar-design {
     [class^="btn-"], [class*=" btn-"], .btn-default,
     button, input[type="submit"], input[type="reset"] {
         border-radius: var(--radius-pill);
-        font-family: var(--font-ui);;
+        font-family: var(--font-ui);
         font-size: 12px !important;
         font-weight: bold;
 
@@ -131,31 +131,6 @@ body.solar-design {
                 text-shadow: none;
                 &:hover {
                     background-color: var(--button-secondary-warning-hover-background);
-                }
-            }
-        }
-    }
-
-    .xhtml_form {
-        // these buttons are originally green which turned out to be avery poor choice
-        [class^="btn-"], [class*=" btn-"],
-        button, input[type="submit"], input[type="reset"] {
-            &.btn-success {
-                color: var(--button-primary-info-color);
-                background-color: var(--button-primary-info-background);
-                text-shadow: none;
-                &:hover {
-                    background-color: var(--button-primary-hover-background);
-                }
-
-                &.btn-secondary {
-                    border: --button-secondary-info-border;
-                    color: var(--button-secondary-info-color);
-                    background-color: var(--button-secondary-info-background);
-                    text-shadow: none;
-                    &:hover {
-                        background-color: var(--button-secondary-hover-background);
-                    }
                 }
             }
         }
