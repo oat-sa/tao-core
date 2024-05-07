@@ -32,4 +32,18 @@ body.solar-design {
             }
         }
     }
+
+    #login-box {
+        #connect {
+            line-height: var(--button-small-height);
+            height: var(--button-small-height);
+            min-width: var(--button-small-height);
+            color: var(--button-primary-color);
+            background-color: var(--button-primary-background);
+            text-shadow: none;
+            &:hover {
+                background-color: var(--button-primary-hover-background);
+            }
+        }
+    }
 }
