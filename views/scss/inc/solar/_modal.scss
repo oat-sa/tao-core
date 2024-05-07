@@ -18,7 +18,7 @@ body.solar-design {
                 button {
                     border-radius: var(--radius-pill);
                     font-family: var(--font-ui);
-                    font-size: 12px !important;
+                    font-size: var(--fontsize-body-xs) !important;
                     font-weight: bold;
 
                     text-transform: uppercase;

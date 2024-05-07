@@ -3,7 +3,7 @@ body.solar-design {
     input[type="submit"], input[type="reset"] {
         border-radius: var(--radius-pill);
         font-family: var(--font-ui);
-        font-size: 12px !important;
+        font-size: var(--fontsize-body-xs) !important;
         font-weight: bold;
 
         &, .li-inner {
@@ -47,13 +47,13 @@ body.solar-design {
 
             [class^="icon-"],
             [class*=" icon-"] {
-                font-size: 16px;
+                font-size: var(--fontsize-body);
             }
         }
 
         [class^="icon-"],
         [class*=" icon-"] {
-            font-size: 16px;
+            font-size: var(--fontsize-body);
             padding: 0;
             text-shadow: none;
 

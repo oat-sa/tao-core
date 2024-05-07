@@ -27,14 +27,14 @@ body.solar-design {
                     height: 24px;
                     flex: 1 0 auto;
                     font-family: var(--font-ui);
-                    font-size: 16px;
+                    font-size: var(--fontsize-body);
 
                     &:focus {
                         border: none;
                     }
                 }
                 button {
-                    font-size: 16px !important;
+                    font-size: var(--fontsize-body) !important;
                 }
                 .search-area-buttons-container {
                     position: relative;
@@ -117,11 +117,11 @@ body.solar-design {
                     margin: 0 !important;
                     width: auto;
                     height: auto;
-                    font-size: 16px !important;
+                    font-size: var(--fontsize-body) !important;
                 }
                 .li-inner {
                     font-family: var(--font-ui);
-                    font-size: 12px !important;
+                    font-size: var(--fontsize-body-xs) !important;
                     font-weight: bold;
                     text-transform: uppercase;
                     display: inline-flex;
