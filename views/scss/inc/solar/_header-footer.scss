@@ -24,9 +24,12 @@ body.solar-design {
                     line-height: 24px;
                     & > a {
                         padding: 20px 15px;
+                        display: inline-flex;
+                        justify-content: center;
+                        align-items: baseline;
+                        gap: 4px;
                         span {
                             @include font-size(14);
-                            display: inline-block;
                             padding: 0;
                         }
                     }
