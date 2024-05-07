@@ -22,13 +22,18 @@ body.solar-design {
                 }
             }
             &.btn-info {
-                float: none;
-                border: none;
+                border: var(--button-secondary-border);
                 color: var(--button-secondary-color);
-                background-color: transparent;
+                background-color: var(--button-secondary-background);
                 &:hover {
                     background-color: var(--button-secondary-hover-background);
                 }
+            }
+
+            &.property-adder {
+                float: none;
+                border: none;
+                color: var(--button-secondary-color);
             }
         }
     }
