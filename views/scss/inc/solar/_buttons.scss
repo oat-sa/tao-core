@@ -1,6 +1,6 @@
 body.solar-design {
     [class^="btn-"], [class*=" btn-"], .btn-default,
-    button, input[type="submit"], input[type="reset"] {
+    input[type="submit"], input[type="reset"] {
         border-radius: var(--radius-pill);
         font-family: var(--font-ui);
         font-size: 12px !important;
