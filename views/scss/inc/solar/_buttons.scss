@@ -136,6 +136,15 @@ body.solar-design {
         }
     }
 
+    .top-block-preview-main {
+        .btn-info {
+            [class^="icon-"],
+            [class*=" icon-"] {
+                padding: 0 4px 0 9px;
+            }
+        }
+    }
+
     .disabled, button[disabled] {
         // !important is required here to overwrite any other inherited rule no matter the specificity,
         // as the disabled style must be consistent all across the stylesheet
