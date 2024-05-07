@@ -11,33 +11,36 @@ body.solar-design {
 
             .search-area {
                 margin: -2px 0 0 0;
-                height: 44px;
-                min-width: 260px;
                 border-bottom: var(--border-medium) solid var(--header-bar-active-border);
-                display: flex;
-                flex-direction: row-reverse;
-                justify-content: center;
-                align-items: center;
 
                 input {
-                    padding: 0;
-                    min-width: auto !important;
+                    padding: 0 0 0 34px;
+                    min-width: 260px !important;
                     width: auto;
                     border: none;
-                    height: 24px;
+                    height: var(--input-height);
                     flex: 1 0 auto;
                     font-family: var(--font-ui);
                     font-size: var(--fontsize-body);
 
-                    &:focus {
-                        border: none;
+                    &:focus, &:active {
+                        border: none !important;
+                        outline: none !important;
+                    }
+                    &::selection {
+                        background: var(--action-bar-background);
+                    }
+                    &::placeholder {
+                        color: var(--input-placeholder) !important
                     }
                 }
                 button {
                     font-size: var(--fontsize-body) !important;
                 }
                 .search-area-buttons-container {
-                    position: relative;
+                    right: auto;
+                    left: 0;
+                    top: 10px;
                 }
 
                 .icon-find,
