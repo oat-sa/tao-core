@@ -1,5 +1,8 @@
 body.solar-design {
     .tree {
-
+        li {
+            line-height: var(--tree-line-height);
+            height: var(--tree-line-height);
+        }
     }
 }
