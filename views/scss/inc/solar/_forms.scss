@@ -57,6 +57,9 @@ body.solar-design {
                 margin-inline-end: 12px;
             }
         }
+        label {
+            margin-bottom: 0;
+        }
         .form_desc {
              & ~ .form-elt-container {
                 width: 100%;
