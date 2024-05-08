@@ -46,6 +46,7 @@ body.solar-design {
         label, .form_desc {
             font-weight: var(--font-ui);
             font-size: var(--fontsize-body);
+            font-weight: bold;
             line-height: var(--input-height);
 
             [class^="icon-"],
@@ -109,6 +110,9 @@ body.solar-design {
         }
 
         .form_radlst {
+            label {
+                font-weight: normal;
+            }
             label:not(:last-child) {
                 margin-inline-end: 32px;
             }
@@ -315,6 +319,8 @@ body.solar-design {
             }
         }
         .property-heading-label {
+            font-size: var(--fontsize-body);
+            font-weight: bold;
             padding-left: 0;
             &:before {
                 font-size: var(--fontsize-body);
@@ -378,11 +384,17 @@ body.solar-design {
             }
         }
 
+        #file {
+            font-weight: bold;
+            div {
+                font-weight: normal;
+            }
+        }
         .file-upload {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 16px;
+            margin: 16px 0;
             max-width: none;
             padding-right: 7px;
             .file-name {

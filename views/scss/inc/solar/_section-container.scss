@@ -26,15 +26,19 @@ body.solar-design {
             form:not(.list-container) {
                 border: none;
                 background: var(--section-background);
-                padding: 32px 0;
+                padding: 16px 0;
             }
         }
 
         h2 {
             font-size: var(--fontsize-heading-l);
+            font-weight: bold;
+            margin: 12px 0;
         }
         h3 {
             font-size: var(--fontsize-heading);
+            font-weight: bold;
+            margin: 12px 0;
         }
         p {
             font-size: var(--fontsize-body-s);
