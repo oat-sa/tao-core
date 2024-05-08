@@ -921,6 +921,9 @@ define(['jquery'], function($) {
 				var torename = false;
 				if(!obj)	obj = {};
 				else		obj = $.extend(true, {}, obj);
+				if(!root) {
+					obj.level = parseInt(ref_node.attr('data-level'));
+				}
 				if(!obj.attributes) obj.attributes = {};
 				if(!obj.attributes[this.settings.rules.type_attr]) obj.attributes[this.settings.rules.type_attr] = this.get_type(tmp) || "default";
 				if(this.settings.languages.length) {
