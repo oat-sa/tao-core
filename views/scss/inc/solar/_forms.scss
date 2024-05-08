@@ -435,6 +435,28 @@ body.solar-design {
     }
 
     #login-box {
+        font-family: var(--font-ui);
+        min-width: 50%;
+        max-width: 75%;
+        padding: 40px;
+        color: var(--section-color);
+        background-color: var(--section-background);
+        border: var(--border-thin) solid var(--section-border-color);
+
+        &, input {
+            font-size: var(--fontsize-body);
+        }
+        label {
+            font-size: var(--fontsize-body);
+            display: block;
+            line-height: 1;
+        }
+        #loginForm > div {
+            margin: 0 0 32px;
+        }
+        #login, #password {
+            width: 100%;
+        }
         #connect {
             line-height: var(--button-small-height);
             height: var(--button-small-height);
@@ -442,8 +464,35 @@ body.solar-design {
             color: var(--button-primary-color);
             background-color: var(--button-primary-background);
             text-shadow: none;
+            width: 100%;
             &:hover {
                 background-color: var(--button-primary-hover-background);
+            }
+            &:focus {
+                outline: var(--border-medium) dotted var(--button-primary-hover-background);
+                outline-offset: 3px;
+            }
+        }
+        #login-box-inner-container {
+            margin-bottom: 32px;
+        }
+        & > div:last-child {
+            text-align: center;
+        }
+        h1 {
+            font-size: var(--fontsize-heading-xl);
+            margin: 16px auto 40px auto;
+            text-align: center;
+        }
+        a {
+            &, &:hover,&:focus, &:active {
+                color: var(--color-text-default);
+                text-decoration: underline;
+                font-weight: bold;
+            }
+            &:focus {
+                outline: var(--border-medium) dotted var(--color-text-default);
+                outline-offset: 3px;
             }
         }
     }
