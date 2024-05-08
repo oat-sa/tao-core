@@ -136,6 +136,136 @@ body.solar-design {
                 height: var(--input-glyph-size);
             }
         }
+        .form-elt-container {
+            .datetime-picker {
+                & > input {
+                    border: var(--border-thin) solid var(--input-border-color);
+                    padding-inline-end: 60px;
+                    margin-inline-end: -60px;
+                }
+                & > button {
+                    color: var(--input-color);
+                    background: transparent;
+                    border: none;
+                    border-radius: unset;
+                    &:hover {
+                        background: var(--input-hover-background);
+                        border-top: var(--border-thin) solid var(--input-border-color);
+                        border-bottom: var(--border-thin) solid var(--input-border-color);
+                    }
+                }
+                .flatpickr-calendar {
+                    .flatpickr-month {
+                        .flatpickr-current-month {
+                            padding: 0;
+                            .cur-month {
+                                margin: 0 0.5ch;
+                            }
+                            .cur-year {
+                                padding: 0 0 0 0.5ch;
+                                border: none;
+                                &:focus,
+                                &:active {
+                                    border: none!important;
+                                    box-shadow: none;
+                                    outline: none;
+                                }
+                            }
+                        }
+                    }
+                    .flatpickr-time {
+                        .numInput {
+                            border: none;
+                            padding: 0;
+                            &:focus,
+                            &:active {
+                                border: none !important;
+                                box-shadow: none;
+                                outline: none;
+                            }
+                        }
+                    }
+                    .flatpickr-day {
+                        &.inRange,
+                        &.prevMonthDay.inRange,
+                        &.nextMonthDay.inRange,
+                        &.today.inRange,
+                        &.prevMonthDay.today.inRange,
+                        &.nextMonthDay.today.inRange,
+                        &:hover,
+                        &.prevMonthDay:hover,
+                        &.nextMonthDay:hover,
+                        &:focus,
+                        &.prevMonthDay:focus,
+                        &.nextMonthDay:focus {
+                            background: var(--button-secondary-hover-background);
+                            border-color: var(--button-secondary-hover-background);
+                            color: var(--button-secondary-color);
+                        }
+                        &.today {
+                            border-color: var(--button-secondary-border-color);
+                            color: var(--button-secondary-color);
+                        }
+                        &.today:hover,
+                        &.today:focus {
+                            background: var(--button-secondary-hover-background);
+                            border-color: var(--button-secondary-border-color);
+                            color: var(--button-secondary-color);
+                        }
+                        &.selected,
+                        &.startRange,
+                        &.endRange,
+                        &.selected.inRange,
+                        &.startRange.inRange,
+                        &.endRange.inRange,
+                        &.selected.prevMonthDay,
+                        &.startRange.prevMonthDay,
+                        &.endRange.prevMonthDay,
+                        &.selected.nextMonthDay,
+                        &.startRange.nextMonthDay,
+                        &.endRange.nextMonthDay {
+                            background: var(--button-primary-background);
+                            border-color: var(--button-primary-background);
+                            color: var(--button-primary-color);
+                        }
+                        &.selected:focus,
+                        &.startRange:focus,
+                        &.endRange:focus,
+                        &.selected:hover,
+                        &.startRange:hover,
+                        &.endRange:hover {
+                            background: var(--button-primary-hover-background);
+                            border-color: var(--button-primary-hover-background);
+                            color: var(--button-primary-color);
+                        }
+                        &.selected.startRange,
+                        &.startRange.startRange,
+                        &.endRange.startRange {
+                            background: var(--button-primary-background);
+                        }
+                        &.selected.endRange,
+                        &.startRange.endRange,
+                        &.endRange.endRange {
+                            background: var(--button-primary-background);
+                        }
+                        &.selected.startRange + .endRange:not(:nth-child(7n + 1)),
+                        &.startRange.startRange + .endRange:not(:nth-child(7n + 1)),
+                        &.endRange.startRange + .endRange:not(:nth-child(7n + 1)) {
+                            box-shadow: -10px 0 0 var(--button-primary-background);
+                        }
+                        &.disabled,
+                        &.disabled:hover,
+                        &.prevMonthDay,
+                        &.nextMonthDay,
+                        &.notAllowed,
+                        &.notAllowed.prevMonthDay,
+                        &.notAllowed.nextMonthDay {
+                            color: var(--color-gs-light-secondary);
+                        }
+                    }
+                }
+            }
+        }
         .uri-container {
             input {
                 &.final,
