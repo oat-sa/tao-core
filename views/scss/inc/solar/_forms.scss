@@ -3,16 +3,26 @@ body.solar-design {
         // these buttons are originally green which turned out to be avery poor choice
         [class^="btn-"], [class*=" btn-"],
         input[type="submit"], input[type="reset"] {
-            &.btn-success {
+            &.btn-info {
+                border: var(--border-thin) solid var(--button-secondary-border-color);
+                color: var(--button-secondary-color);
+                background-color: var(--button-secondary-background);
+
+                &:hover {
+                    background-color: var(--button-secondary-hover-background);
+                }
+            }
+            &.btn-success, &.loading-button {
                 color: var(--button-primary-info-color);
                 background-color: var(--button-primary-info-background);
+                border: none;
                 text-shadow: none;
                 &:hover {
                     background-color: var(--button-primary-hover-background);
                 }
 
                 &.btn-secondary {
-                    border: --button-secondary-info-border;
+                    border: var(--border-thin) solid var(--button-secondary-info-border-color);
                     color: var(--button-secondary-info-color);
                     background-color: var(--button-secondary-info-background);
                     text-shadow: none;
@@ -21,14 +31,7 @@ body.solar-design {
                     }
                 }
             }
-            &.btn-info {
-                border: var(--button-secondary-border);
-                color: var(--button-secondary-color);
-                background-color: var(--button-secondary-background);
-                &:hover {
-                    background-color: var(--button-secondary-hover-background);
-                }
-            }
+
 
             &.property-adder {
                 float: none;

@@ -14,7 +14,7 @@ body.solar-design {
 
     --header-bar-active-color: var(--color-text-default);
     --header-bar-active-background: var(--header-bar-background);
-    --header-bar-active-border: var(--color-text-default);
+    --header-bar-active-border-color: var(--color-text-default);
 
     --footer-bar-border-color: var(--color-gs-light-secondary);
 
@@ -33,7 +33,7 @@ body.solar-design {
     --input-placeholder: var(--color-gs-dark-secondary);
     --input-color: var(--color-text-default);
     --input-background: var(--color-bg-default);
-    --input-border: var(--color-border-default);
+    --input-border-color: var(--color-border-default);
 
     --button-height: 64px;
     --button-small-height: 40px;
@@ -45,7 +45,7 @@ body.solar-design {
     --button-secondary-color: var(--color-text-default);
     --button-secondary-background: var(--color-bg-default);
     --button-secondary-hover-background: var(--color-gs-light-hover-bg);
-    --button-secondary-border: var(--border-thin) solid var(--color-border-default);
+    --button-secondary-border-color: var(--color-border-default);
 
     --button-primary-info-color: var(--color-text-inverted);
     --button-primary-info-background: var(--color-brand);
@@ -66,29 +66,29 @@ body.solar-design {
     --button-secondary-info-color: var(--color-text-info);
     --button-secondary-info-background: var(--color-bg-info);
     --button-secondary-info-hover-background: var(--color-gs-light-hover-bg);
-    --button-secondary-info-border: var(--border-thin) solid var(--color-border-info);
+    --button-secondary-info-border-color: var(--color-border-info);
 
     --button-secondary-error-color: var(--color-alert);
     --button-secondary-error-background: var(--color-bg-default);
     --button-secondary-error-hover-background: var(--color-gs-light-hover-bg);
-    --button-secondary-error-border: var(--border-thin) solid var(--color-alert);
+    --button-secondary-error-border-color: var(--color-alert);
 
     --button-secondary-success-color: var(--color-success);
     --button-secondary-success-background: var(--color-bg-default);
     --button-secondary-success-hover-background: var(--color-gs-light-hover-bg);
-    --button-secondary-success-border: var(--border-thin) solid var(--color-success);
+    --button-secondary-success-border-color: var(--color-success);
 
     --button-secondary-warning-color: var(--color-alert);
     --button-secondary-warning-background: var(--color-bg-default);
     --button-secondary-warning-hover-background: var(--color-gs-light-hover-bg);
-    --button-secondary-warning-border: var(--border-thin) solid var(--color-alert);
+    --button-secondary-warning-border-color: var(--color-alert);
 
     --button-disabled-color: var(--color-text-disabled);
     --button-disabled-background: var(--color-bg-disabled);
-    --button-disabled-border: var(--border-thin) solid var(--color-border-disabled);
+    --button-disabled-border-color: var(--color-border-disabled);
     --button-disabled-inverted-color: var(--color-text-disabled-inverted);
     --button-disabled-inverted-background: var(--color-bg-disabled-inverted);
-    --button-disabled-inverted-border: var(--border-thin) solid var(--color-border-disabled-inverted);
+    --button-disabled-inverted-border-color: var(--color-border-disabled-inverted);
 
     --modal-color: var(--color-text-inverted);
     --modal-background: var(--color-bg-inverted);
@@ -97,8 +97,8 @@ body.solar-design {
     --modal-button-background-hover: var(--color-bg-inverted-secondary-hover);
     --modal-button-primary-background: var(--button-primary-background);
     --modal-button-primary-background-hover: var(--button-primary-hover-background);
-    --modal-button-border: var(--border-medium) solid var(--color-border-inverted);
-    --modal-button-focus-border: var(--border-medium) dotted var(--color-border-inverted);
+    --modal-button-border-color: var(--color-border-inverted);
+    --modal-button-focus-border-color: var(--color-border-inverted);
 
     font-family: var(--font-ui);
 }
