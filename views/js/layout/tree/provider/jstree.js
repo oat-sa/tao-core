@@ -361,6 +361,22 @@ define([
                     },
 
                     /**
+                     * Once the data of a node parsed
+                     * Used to modify html data
+                     *
+                     * @param {string} html - the html contents of node
+                     */
+                    onparse: function(html) {
+
+                        const $node = $(html);
+                        $node.find('a').each(function() {
+                            $(this).attr('style', `--tree-level: ${$(this).parent().attr('data-level')}`)
+                        })
+                        return $node;
+
+                    },
+
+                    /**
                      * Once the data are loaded and the tree is ready
                      * Used to modify them before building the tree.
                      *
@@ -692,7 +708,7 @@ define([
             /**
              * Add a title attribute to the nodes
              * @private
-             * @param {Object} node - the tree node as recevied from the server
+             * @param {Object} node - the tree node as received from the server
              */
             function addTitle(node){
                 if(_.isArray(node)){
@@ -811,18 +827,25 @@ define([
             function getTreeData(response){
                 var treeData = response.tree || response;
                 var currentRights;
+                var parentLevel =  response.level;
 
                 //populate treeData with level info
                 function addLevelInfo(node, level) {
-                    node.attributes = node.attributes || {}
-                    node.attributes['data-level'] = level;
-                    if(node.children) {
-                        node.children.forEach(child=>{
-                            addLevelInfo(child, level + 1);
+                    if(Array.isArray(node)) {
+                        node.forEach((n)=>{
+                            addLevelInfo(n, level);
                         })
+                    }else{
+                        node.attributes = node.attributes || {}
+                        node.attributes['data-level'] = level;
+                        if(node.children) {
+                            node.children.forEach(child=>{
+                                addLevelInfo(child, level + 1);
+                            })
+                        }
                     }
                 }
-                addLevelInfo(treeData, 0);
+                addLevelInfo(treeData, typeof parentLevel !== 'undefined' ? parentLevel + 1 : 0);
 
                 if(response.permissions){
                     currentRights = permissionsManager.getRights();

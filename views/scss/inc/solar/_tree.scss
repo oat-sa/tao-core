@@ -1,8 +1,15 @@
 body.solar-design {
     .tree {
+        --level-padding: 20px;
         li {
-            line-height: var(--tree-line-height);
+            padding: 0;
             height: var(--tree-line-height);
+            
+            a {
+                line-height: var(--tree-line-height);
+                height: var(--tree-line-height);
+                padding-left: calc(var(--tree-level) * var(--level-padding)); 
+            }
         }
     }
 }

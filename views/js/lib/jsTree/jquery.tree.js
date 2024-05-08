@@ -783,6 +783,7 @@ define(['jquery'], function($) {
 
 					var _datastore = new $.tree.datastores[this.settings.data.type]();
 					_datastore.load(this.callback("beforedata",[obj,this]),this,this.settings.data.opts,function(data){
+						data.level = parseInt(obj.attr('data-level'));
 						data = _this.callback("ondata", [data, _this]);
 						if(!data || data.length == 0) {
 							obj.removeClass("closed").removeClass("open").addClass("leaf").children("ul").remove();
