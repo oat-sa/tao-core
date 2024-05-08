@@ -51,6 +51,12 @@ body.solar-design {
 
                 }
             }
+            input[type="checkbox"] {
+                &:focus ~ [class^="icon-"],
+                &:focus ~ [class*=" icon-"] {
+                    outline: var(--border-medium) dotted var(--modal-button-focus-border-color);
+                }
+            }
             .disabled, button[disabled] {
                 // !important is required here to overwrite any other inherited rule no matter the specificity,
                 // as the disabled style must be consistent all across the stylesheet
