@@ -853,7 +853,7 @@ define([
                     }
                 }
                 addLevelInfo(treeData, 0);
-debugger;
+
                 if(response.permissions){
                     currentRights = permissionsManager.getRights();
 
