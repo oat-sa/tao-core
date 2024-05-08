@@ -1,5 +1,8 @@
 body.solar-design {
     .xhtml_form {
+        color: var(--form-color);
+        background: var(--form-background);
+
         // these buttons are originally green which turned out to be avery poor choice
         [class^="btn-"], [class*=" btn-"],
         input[type="submit"], input[type="reset"] {
@@ -131,6 +134,87 @@ body.solar-design {
                 margin-inline-end: 12px;
                 width: var(--input-glyph-size);
                 height: var(--input-glyph-size);
+            }
+        }
+        .form-group {
+            font-family: var(--font-ui);
+            font-size: var(--fontsize-body);
+
+            & > div > div {
+                .unit {
+                    background: transparent;
+                    opacity: 1;
+                }
+            }
+        }
+        form, .form {
+            > div {
+                &.property-container {
+                    border-top: none;
+                }
+            }
+        }
+        .property-heading-label {
+            padding-left: 0;
+            &:before {
+                font-size: var(--fontsize-body);
+                content: '· ';
+                line-height: inherit;
+                opacity: 1;
+            }
+        }
+        .property-heading-toolbar {
+            [class^="icon-"], [class*=" icon-"] {
+                color: var(--button-secondary-color);
+                background: var(--button-secondary-background);
+                border: var(--border-thin) solid var(--button-secondary-background);
+                border-radius: var(--radius-circular);
+                line-height: var(--button-small-height);
+                height: var(--button-small-height);
+                min-width: var(--button-small-height);
+
+                margin-left: 1px;
+                padding: 0;
+
+                &:hover {
+                    color: var(--button-secondary-color);
+                    background: var(--button-secondary-hover-background);
+                    border: var(--border-thin) solid var(--input-border-color);
+                }
+            }
+        }
+        .property-edit-container-open {
+            .property-heading-toolbar {
+                .icon-edit {
+                    border: var(--border-thin) solid var(--input-border-color);
+                }
+            }
+        }
+        .property-block {
+            border-bottom: none;
+            padding: 8px 0;
+            &.property-block-first {
+                border-top: none;
+            }
+            &.readonly-property div {
+                div {
+                    color: var(--input-disabled-color);
+                }
+            }
+            &.parent-property div {
+                div {
+                    color: var(--input-color);
+                }
+            }
+            &.regular-property {
+                & > div {
+                    border: none;
+                    border-radius: unset;
+                    background-color: var(--sub-form-background);
+                    padding: 16px;
+                    margin: 8px 0;
+                    top: 16px;
+                }
             }
         }
     }
