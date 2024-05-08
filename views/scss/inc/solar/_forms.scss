@@ -458,6 +458,7 @@ body.solar-design {
             width: 100%;
         }
         #connect {
+            font-size: var(--fontsize-body)!important;
             line-height: var(--button-small-height);
             height: var(--button-small-height);
             min-width: var(--button-small-height);
@@ -484,6 +485,9 @@ body.solar-design {
             margin: 16px auto 40px auto;
             text-align: center;
         }
+    }
+
+    #login-box, .checker-container {
         a {
             &, &:hover,&:focus, &:active {
                 color: var(--color-text-default);
@@ -495,5 +499,8 @@ body.solar-design {
                 outline-offset: 3px;
             }
         }
+    }
+    .checker-container {
+        padding: 5px;
     }
 }

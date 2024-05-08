@@ -132,11 +132,10 @@ body.solar-design {
                     font-weight: bold;
                     text-transform: uppercase;
                     display: inline-flex;
-                    justify-content: center;
                     align-items: center;
                     padding: 0 16px;
                     gap: 8px;
-                    height: auto;
+                    height: var(--button-small-height);
                     color: var(--button-secondary-color);
                 }
                 &:hover {
