@@ -458,6 +458,36 @@ define([
                             signature: $node.data('signature')
                         };
 
+                        function resetSelectedStyles() {
+                            $container.css('position', null);
+                            $node.find('a').css('position', 'static');
+                            $node.find('ul').css('position', 'static');
+                            $node.find('a').css('z-index', null);
+                            $node.find('ul').css('z-index', null);
+                            $container.find('.selected-frame').remove();
+                        }
+
+                        function addSelectedFrame() {
+                            $container.css('position', 'relative');
+                            let $selectedFrame = $('<div>');
+                            $selectedFrame.addClass('selected-frame');
+                            $selectedFrame.css('position', 'absolute');
+                            $selectedFrame.css('left', 0);
+                            $selectedFrame.css('z-index', 0);
+                            let $a = $node.children('a')
+                            let $ul = $node.children('ul')
+                            $a.css('position', 'absolute');
+                            $a.css('z-index', 1);
+                            $ul.css('position', 'absolute');
+                            $ul.css('z-index', 1);
+                            $node.prepend($selectedFrame);
+                            
+                        }
+                        
+                        resetSelectedStyles();
+                        addSelectedFrame();
+
+
                         lastSelected = nodeId;
 
                         //mark all unselected
@@ -812,6 +842,18 @@ define([
                 var treeData = response.tree || response;
                 var currentRights;
 
+                //populate treeData with level info
+                function addLevelInfo(node, level) {
+                    node.attributes = node.attributes || {}
+                    node.attributes['data-level'] = level;
+                    if(node.children) {
+                        node.children.forEach(child=>{
+                            addLevelInfo(child, level + 1);
+                        })
+                    }
+                }
+                addLevelInfo(treeData, 0);
+debugger;
                 if(response.permissions){
                     currentRights = permissionsManager.getRights();
 
