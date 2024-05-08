@@ -99,6 +99,40 @@ body.solar-design {
                 opacity: 1 !important;
             }
         }
+
+        .form_radlst {
+            label:not(:last-child) {
+                margin-inline-end: 32px;
+            }
+            input[type="radio"] {
+                appearance: none;
+                display: inline-block;
+                width: var(--input-glyph-size);
+                height: var(--input-glyph-size);
+                padding: 2px;
+                background-clip: content-box;
+                border: var(--border-medium) solid var(--input-color);
+                background-color: var(--input-background);
+                border-radius: 50%;
+                margin-inline-end: 12px;
+                margin-bottom: -2px;
+                &:checked {
+                    background-color: var(--input-color);
+                }
+                &:focus,
+                &:active {
+                    border: var(--border-medium) solid var(--input-color)!important;
+                }
+            }
+
+            input[type="checkbox"] {
+                accent-color: var(--input-color);
+                margin: 14px 0;
+                margin-inline-end: 12px;
+                width: var(--input-glyph-size);
+                height: var(--input-glyph-size);
+            }
+        }
     }
 
     #login-box {
