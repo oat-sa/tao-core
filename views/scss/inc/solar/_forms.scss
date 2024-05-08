@@ -136,6 +136,28 @@ body.solar-design {
                 height: var(--input-glyph-size);
             }
         }
+        .uri-container {
+            input {
+                &.final,
+                &:focus,
+                &:active {
+                    border-color: var(--input-disabled-border-color);
+                    border-right: none!important;
+                    box-shadow: none;
+                    outline: none;
+                }
+            }
+            .clipboard-command {
+                color: var(--input-disabled-color);
+                background: var(--input-disabled-background);
+                border-color: var(--input-disabled-border-color);
+                border-left: none;
+                line-height: var(--input-height);
+                &:hover {
+                    background: var(--input-disabled-hover-background);
+                }
+            }
+        }
         .form-group {
             font-family: var(--font-ui);
             font-size: var(--fontsize-body);
