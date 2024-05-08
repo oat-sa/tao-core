@@ -56,6 +56,11 @@ body.solar-design {
                 margin-inline-end: 12px;
             }
         }
+        .form_desc {
+             & ~ .form-elt-container {
+                width: 100%;
+            }
+        }
 
         input[type="color"],
         input[type="date"],
@@ -136,6 +141,7 @@ body.solar-design {
                 height: var(--input-glyph-size);
             }
         }
+
         .form-elt-container {
             .datetime-picker {
                 & > input {
@@ -266,6 +272,7 @@ body.solar-design {
                 }
             }
         }
+
         .uri-container {
             input {
                 &.final,
@@ -288,6 +295,7 @@ body.solar-design {
                 }
             }
         }
+
         .form-group {
             font-family: var(--font-ui);
             font-size: var(--fontsize-body);
@@ -367,6 +375,49 @@ body.solar-design {
                     margin: 8px 0;
                     top: 16px;
                 }
+            }
+        }
+
+        .file-upload {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            max-width: none;
+            padding-right: 7px;
+            .file-name {
+                background: var(--input-disabled-background);
+                border: var(--border-thin) solid var(--input-disabled-border-color);
+                line-height: var(--input-height);
+                font-family: var(--font-ui);
+                font-size: var(--fontsize-body);
+                color: var(--input-color);
+                padding: 0;
+                margin: 0;
+                margin-inline-start: 10px;
+                &.placeholder {
+                    color: var(var(--color-text-disabled));
+                }
+                &.active {
+                    color: var(--input-color);
+                }
+            }
+            &:hover {
+                .btn-info {
+                    opacity: 1;
+                }
+            }
+        }
+        .file-drop {
+            border: var(--border-thin) solid var(--drop-zone-border-color);
+            background: var(--drop-zone-background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .dragholder {
+                color: var(--drop-zone-color);
+                font-size: var(--fontsize-body-xs);
+                padding: 0;
             }
         }
     }
