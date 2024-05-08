@@ -33,7 +33,17 @@ body.solar-design {
     --input-placeholder: var(--color-gs-dark-secondary);
     --input-color: var(--color-text-default);
     --input-background: var(--color-bg-default);
+    --input-hover-background: var(--color-gs-light-hover-bg);
     --input-border-color: var(--color-border-default);
+    --input-active-border-color: var(--color-border-actionable-hover);
+
+    --input-disabled-color: var(--color-text-disabled);
+    --input-disabled-background: var(--color-bg-disabled-subtle);
+    --input-disabled-hover-background: var(--color-gs-light-hover-bg);
+    --input-disabled-border-color: var(--color-border-disabled);
+    --input-disabled-inverted-color: var(--color-text-disabled-inverted);
+    --input-disabled-inverted-background: var(--color-bg-disabled-inverted);
+    --input-disabled-inverted-border-color: var(--color-border-disabled-inverted);
 
     --button-height: 64px;
     --button-small-height: 40px;

@@ -39,6 +39,66 @@ body.solar-design {
                 color: var(--button-secondary-color);
             }
         }
+
+        label, .form_desc {
+            font-weight: var(--font-ui);
+            font-size: var(--fontsize-body);
+            line-height: var(--input-height);
+
+            [class^="icon-"],
+            [class*=" icon-"] {
+                font-size: var(--fontsize-body);
+                color: var(--input-color);
+                width: 20px;
+                margin-inline-end: 12px;
+            }
+        }
+
+        input[type="color"],
+        input[type="date"],
+        input[type="datetime"],
+        input[type="datetime-local"],
+        input[type="email"],
+        input[type="month"],
+        input[type="number"],
+        input[type="range"],
+        input[type="search"],
+        input[type="tel"],
+        input[type="time"],
+        input[type="text"],
+        input[type="password"],
+        input[type="url"],
+        input[type="week"],
+        textarea,
+        select {
+            border: var(--border-thin) solid var(--input-border-color);
+            height: var(--input-height);
+            font-family: var(--font-ui);
+            font-size: var(--fontsize-body);
+            color: var(--input-color);
+            padding: 0 12px;
+
+            &:focus,
+            &:active {
+                border: var(--border-thin) solid var(--input-active-border-color);
+                box-shadow: 0 0 0 var(--border-thin) var(--input-active-border-color) inset;
+                outline: none;
+            }
+            &::selection {
+                background: var(--input-background);
+            }
+            &::placeholder {
+                color: var(--input-placeholder) !important
+            }
+            &.disabled,
+            &[disabled],
+            &[readonly] {
+                color: var(--input-disabled-color);
+                background: var(--input-disabled-background);
+                border-color: var(--input-disabled-border-color);
+                opacity: 1 !important;
+            }
+        }
     }
 
     #login-box {
