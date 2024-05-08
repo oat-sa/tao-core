@@ -11,7 +11,7 @@ body.solar-design {
 
             .search-area {
                 margin: -2px 0 0 0;
-                border-bottom: var(--border-medium) solid var(--header-bar-active-border);
+                border-bottom: var(--border-medium) solid var(--input-border);
 
                 input {
                     padding: 0 0 0 34px;
@@ -19,16 +19,16 @@ body.solar-design {
                     width: auto;
                     border: none;
                     height: var(--input-height);
-                    flex: 1 0 auto;
                     font-family: var(--font-ui);
                     font-size: var(--fontsize-body);
+                    color: var(--input-color);
 
                     &:focus, &:active {
                         border: none !important;
                         outline: none !important;
                     }
                     &::selection {
-                        background: var(--action-bar-background);
+                        background: var(--input-background);
                     }
                     &::placeholder {
                         color: var(--input-placeholder) !important
