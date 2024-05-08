@@ -78,6 +78,8 @@ body.solar-design {
     --button-disabled-border: var(--border-thin) solid var(--color-border-disabled);
 
     --tree-line-height: 40px;
+    --tree-selected-background-color: var(--color-brand-light); 
+    --tree-selected-border-color: var(--color-brand); 
 
     font-family: var(--font-ui);
 }

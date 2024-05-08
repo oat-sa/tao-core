@@ -367,10 +367,9 @@ define([
                      * @param {string} html - the html contents of node
                      */
                     onparse: function(html) {
-
                         const $node = $(html);
                         $node.find('a').each(function() {
-                            $(this).attr('style', `--tree-level: ${$(this).parent().attr('data-level')}`)
+                            $(this).attr('style', `--tree-level: ${$(this).parent().attr('data-level')}`);
                         })
                         return $node;
 
