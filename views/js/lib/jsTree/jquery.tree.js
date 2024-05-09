@@ -395,8 +395,8 @@ define(['jquery'], function($) {
 						return true;
 					});
                 this.container
-				    .on('click', 'li', function(event) { // WHEN CLICK IS ON THE ARROW
-						if(event.target.tagName != "LI") return true;
+				    .on('click', 'li, dfn', function(event) { // WHEN CLICK IS ON THE ARROW
+						if(!(event.target.tagName == "LI" || event.target.tagName == "DFN")) return true;
 						_this.off_height();
 						if(event.pageY - $(event.target).offset().top > _this.li_height) return true;
 						_this.toggle_branch.apply(_this, [event.target]);

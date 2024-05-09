@@ -370,9 +370,9 @@ define([
                         const $node = $(html);
                         $node.find('a').each(function() {
                             $(this).attr('style', `--tree-level: ${$(this).parent().attr('data-level')}`);
+                            $(this).prepend('<dfn class="open-close">&nbsp</dfn>');
                         })
                         return $node;
-
                     },
 
                     /**
