@@ -17,14 +17,19 @@ body.solar-design {
                 line-height: var(--tree-line-height);
                 height: var(--tree-line-height);
                 padding-left: calc(var(--tree-level) * var(--level-padding)); 
-                border-width: 1px 1px 1px 4px;
+                border-width: 0 0 0 4px;
                 border-color: transparent;
                 border-style: solid;
                 border-radius: 0;
+                width: 100%;
+
+                &:hover {
+                    color: unset;
+                    background-color: var(--button-secondary-hover-background);
+                }
             }
 
             a.clicked {
-                width: 100%;
                 background: var(--tree-selected-background-color);
                 border-color: var(--tree-selected-border-color);
             }
@@ -80,9 +85,9 @@ body.solar-design {
             padding: 12px;
             width: unset;
 
-            &:hover {
-                background-color: var(--tree-action-hover-background-color);
-            }
+            // &:hover {
+            //     background-color: var(--tree-action-hover-background-color);
+            // }
             
             .glyph, .svg-glyph {
                 margin: 0 !important;
