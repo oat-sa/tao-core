@@ -8,6 +8,59 @@ body.solar-design {
 
         &.horizontal-action-bar {
             border-bottom: var(--border-thin) solid var(--action-bar-border-color);
+
+            .search-area {
+                margin: -2px 0 0 0;
+                border-bottom: var(--border-medium) solid var(--header-bar-active-border);
+
+                input {
+                    padding: 0 0 0 34px;
+                    min-width: 260px !important;
+                    width: auto;
+                    border: none;
+                    height: var(--input-height);
+                    flex: 1 0 auto;
+                    font-family: var(--font-ui);
+                    font-size: var(--fontsize-body);
+
+                    &:focus, &:active {
+                        border: none !important;
+                        outline: none !important;
+                    }
+                    &::selection {
+                        background: var(--action-bar-background);
+                    }
+                    &::placeholder {
+                        color: var(--input-placeholder) !important
+                    }
+                }
+                button {
+                    font-size: var(--fontsize-body) !important;
+                }
+                .search-area-buttons-container {
+                    right: auto;
+                    left: 0;
+                    top: 10px;
+                }
+
+                .icon-find,
+                .icon-ul {
+                    &::before {
+                        color: var(--color-text-default);
+                    }
+                }
+
+                .icon-find:focus,
+                .icon-ul:focus {
+                    border-color: var(--color-text-default);
+                }
+                .icon-ul {
+                    .results-counter {
+                        color: var(--color-text-default);
+                    }
+                }
+            }
+
             li {
                 &.btn-info {
                     display: flex;
@@ -36,6 +89,55 @@ body.solar-design {
                     opacity: 1 !important;
                     color: var(--button-disabled-color) !important;
                     border: var(--button-disabled-border) !important;
+                }
+            }
+        }
+
+        &.tree-action-bar {
+            background: var(--color-bg-default);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+
+            li {
+                background: transparent;
+                border: none;
+                border-radius: var(--radius-pill);
+
+                line-height: var(--button-small-height);
+                height: var(--button-small-height);
+                min-width: var(--button-small-height);
+
+                padding: 0;
+                width: auto;
+                margin: 0;
+                float: none;
+
+                .glyph,
+                .svg-glyph {
+                    display: inline-block;
+                    color: var(--button-secondary-color);
+                    margin: 0 !important;
+                    width: auto;
+                    height: auto;
+                    font-size: var(--fontsize-body) !important;
+                }
+                .li-inner {
+                    font-family: var(--font-ui);
+                    font-size: var(--fontsize-body-xs) !important;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0 16px;
+                    gap: 8px;
+                    height: auto;
+                    color: var(--button-secondary-color);
+                }
+                &:hover {
+                    color: var(--button-secondary-color);
+                    background-color: var(--button-secondary-hover-background);
                 }
             }
         }

@@ -4,14 +4,14 @@ body.solar-design {
             width: auto;
             padding: 24px 12px 19px;
             margin: 0 10px;
-            @include font-size(16);
+            font-size: var(--fontsize-body);
             &:hover {
                 background-color: var(--header-bar-hover-background);
                 color: var(--header-bar-hover-color);
             }
         }
         .header-title {
-            @include font-size(20);
+            font-size: var(--fontsize-heading-l);
             font-weight: bold;
             padding: 20px 22px 18px 0;
         }
@@ -19,14 +19,17 @@ body.solar-design {
             .main-menu {
                 li {
                     min-width: 90px;
-                    @include font-size(16);
+                    font-size: var(--fontsize-body);
                     font-weight: bold;
                     line-height: 24px;
                     & > a {
                         padding: 20px 15px;
+                        display: inline-flex;
+                        justify-content: center;
+                        align-items: baseline;
+                        gap: 4px;
                         span {
-                            @include font-size(14);
-                            display: inline-block;
+                            font-size: var(--fontsize-body-s);
                             padding: 0;
                         }
                     }
@@ -54,7 +57,7 @@ body.solar-design {
     }
 
     & > footer {
-        @include font-size(14);
+        font-size: var(--fontsize-body-s);
         padding: 8px 24px;
     }
 }

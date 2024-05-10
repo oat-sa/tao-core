@@ -1,0 +1,63 @@
+body.solar-design {
+    .modal {
+        background-color: var(--modal-background);
+        color: var(--modal-color);
+        border: none;
+
+        &.search-modal {
+            background-color: var(--color-bg-default);
+            color: var(--color-text-default);
+        }
+
+        .modal-close {
+            display: none;
+        }
+
+        .modal-body {
+            .buttons {
+                button {
+                    border-radius: var(--radius-pill);
+                    font-family: var(--font-ui);
+                    font-size: var(--fontsize-body-xs) !important;
+                    font-weight: bold;
+
+                    text-transform: uppercase;
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0 16px;
+
+                    line-height: var(--button-small-height);
+                    height: var(--button-small-height);
+                    min-width: var(--button-small-height);
+
+                    border: var(--modal-button-border);
+                    color: var(--modal-button-color) !important;
+                    background-color: var(--modal-button-background);
+                    &:hover {
+                        background-color: var(--modal-button-background-hover);
+                        outline: none;
+                    }
+                    &:focus {
+                        outline: var(--modal-button-focus-border);
+                    }
+
+                    &.btn-info {
+                        background-color: var(--modal-button-primary-background);
+                        &:hover {
+                            background-color: var(--modal-button-primary-background-hover);
+                        }
+                    }
+
+                }
+            }
+            .disabled, button[disabled] {
+                // !important is required here to overwrite any other inherited rule no matter the specificity,
+                // as the disabled style must be consistent all across the stylesheet
+                background-color: var(--button-disabled-inverted-background) !important;
+                color: var(--button-disabled-inverted-color) !important;
+                border: var(--button-disabled-inverted-border) !important;
+            }
+        }
+    }
+}
