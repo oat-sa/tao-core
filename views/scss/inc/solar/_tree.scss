@@ -79,6 +79,10 @@ body.solar-design {
             align-items: stretch;
             padding: 12px;
             width: unset;
+
+            &:hover {
+                background-color: var(--tree-action-hover-background-color);
+            }
             
             .glyph, .svg-glyph {
                 margin: 0 !important;
