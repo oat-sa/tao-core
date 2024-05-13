@@ -1,0 +1,153 @@
+body.solar-design {
+    [class^="btn-"], [class*=" btn-"], .btn-default,
+    input[type="submit"], input[type="reset"] {
+        border-radius: var(--radius-pill);
+        font-family: var(--font-ui);
+        font-size: var(--fontsize-body-xs) !important;
+        font-weight: bold;
+
+        &, .li-inner {
+            text-transform: uppercase;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        padding: 0 16px;
+
+        line-height: var(--button-height);
+        height: var(--button-height);
+        min-width: var(--button-height);
+        color: var(--button-primary-color);
+        background-color: var(--button-primary-background);
+        &:hover {
+            opacity: 1;
+            background-color: var(--button-primary-hover-background);
+        }
+
+        &.btn-secondary {
+            border: var(--button-secondary-border);
+            color: var(--button-secondary-color);
+            background-color: var(--button-secondary-background);
+            text-shadow: none;
+            line-height: var(--button-height);
+            &:hover {
+                background-color: var(--button-secondary-hover-background);
+            }
+        }
+
+        &.small {
+            line-height: var(--button-small-height);
+            height: var(--button-small-height);
+            min-width: var(--button-small-height);
+
+            &.btn-secondary {
+                line-height: var(--button-small-height);
+            }
+
+            [class^="icon-"],
+            [class*=" icon-"] {
+                font-size: var(--fontsize-body);
+            }
+        }
+
+        [class^="icon-"],
+        [class*=" icon-"] {
+            font-size: var(--fontsize-body);
+            padding: 0;
+            text-shadow: none;
+
+            &.r {
+                padding: 0;
+            }
+        }
+
+        &.btn-info {
+            color: var(--button-primary-info-color);
+            background-color: var(--button-primary-info-background);
+            text-shadow: none;
+            &:hover {
+                background-color: var(--button-primary-info-hover-background);
+            }
+
+            &.btn-secondary {
+                border: --button-secondary-info-border;
+                color: var(--button-secondary-info-color);
+                background-color: var(--button-secondary-info-background);
+                text-shadow: none;
+                &:hover {
+                    background-color: var(--button-secondary-info-hover-background);
+                }
+            }
+        }
+
+        &.btn-error {
+            color: var(--button-primary-error-color);
+            background-color: var(--button-primary-error-background);
+            text-shadow: none;
+            &:hover {
+                background-color: var(--button-primary-error-hover-background);
+            }
+
+            &.btn-secondary {
+                border: --button-secondary-error-border;
+                color: var(--button-secondary-error-color);
+                background-color: var(--button-secondary-error-background);
+                text-shadow: none;
+                &:hover {
+                    background-color: var(--button-secondary-error-hover-background);
+                }
+            }
+        }
+
+        &.btn-success {
+            color: var(--button-primary-success-color);
+            background-color: var(--button-primary-success-background);
+            text-shadow: none;
+            &:hover {
+                background-color: var(--button-primary-success-hover-background);
+            }
+
+            &.btn-secondary {
+                border: --button-secondary-success-border;
+                color: var(--button-secondary-success-color);
+                background-color: var(--button-secondary-success-background);
+                text-shadow: none;
+                &:hover {
+                    background-color: var(--button-secondary-success-hover-background);
+                }
+            }
+        }
+
+        &.btn-warning {
+            color: --button-secondary-warning-border;
+            background-color: var(--button-primary-warning-background);
+            text-shadow: none;
+            &:hover {
+                background-color: var(--button-primary-warning-hover-background);
+            }
+
+            &.btn-secondary {
+                border: var(--button-secondary-warning-border);
+                color: var(--button-secondary-warning-color);
+                background-color: var(--button-secondary-warning-background);
+                text-shadow: none;
+                &:hover {
+                    background-color: var(--button-secondary-warning-hover-background);
+                }
+            }
+        }
+    }
+
+    .disabled, button[disabled] {
+        // !important is required here to overwrite any other inherited rule no matter the specificity,
+        // as the disabled style must be consistent all across the stylesheet
+        background-color: var(--button-disabled-background) !important;
+        text-shadow: none !important;
+        opacity: 1 !important;
+        color: var(--button-disabled-color) !important;
+    }
+    button[disabled] {
+        border: var(--button-disabled-border) !important;
+    }
+}

@@ -1,0 +1,54 @@
+body.solar-design {
+    .xhtml_form {
+        // these buttons are originally green which turned out to be avery poor choice
+        [class^="btn-"], [class*=" btn-"],
+        input[type="submit"], input[type="reset"] {
+            &.btn-success {
+                color: var(--button-primary-info-color);
+                background-color: var(--button-primary-info-background);
+                text-shadow: none;
+                &:hover {
+                    background-color: var(--button-primary-hover-background);
+                }
+
+                &.btn-secondary {
+                    border: --button-secondary-info-border;
+                    color: var(--button-secondary-info-color);
+                    background-color: var(--button-secondary-info-background);
+                    text-shadow: none;
+                    &:hover {
+                        background-color: var(--button-secondary-hover-background);
+                    }
+                }
+            }
+            &.btn-info {
+                border: var(--button-secondary-border);
+                color: var(--button-secondary-color);
+                background-color: var(--button-secondary-background);
+                &:hover {
+                    background-color: var(--button-secondary-hover-background);
+                }
+            }
+
+            &.property-adder {
+                float: none;
+                border: none;
+                color: var(--button-secondary-color);
+            }
+        }
+    }
+
+    #login-box {
+        #connect {
+            line-height: var(--button-small-height);
+            height: var(--button-small-height);
+            min-width: var(--button-small-height);
+            color: var(--button-primary-color);
+            background-color: var(--button-primary-background);
+            text-shadow: none;
+            &:hover {
+                background-color: var(--button-primary-hover-background);
+            }
+        }
+    }
+}
