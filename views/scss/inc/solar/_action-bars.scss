@@ -14,7 +14,7 @@ body.solar-design {
                 border-bottom: var(--border-medium) solid var(--input-border-color);
 
                 input {
-                    padding: 0 0 0 34px;
+                    padding: 0 50px 0 34px;
                     min-width: 260px !important;
                     width: auto;
                     border: none;
@@ -52,6 +52,8 @@ body.solar-design {
                     border-color: var(--color-text-default);
                 }
                 .icon-ul {
+                    position: absolute;
+                    right: -270px;
                     .results-counter {
                         color: var(--color-text-default);
                     }
