@@ -96,9 +96,6 @@ body.solar-design {
                 box-shadow: 0 0 0 var(--border-thin) var(--input-active-border-color) inset;
                 outline: none;
             }
-            &::selection {
-                background: var(--input-background);
-            }
             &::placeholder {
                 color: var(--input-placeholder) !important
             }
@@ -146,6 +143,12 @@ body.solar-design {
                 margin-inline-end: 12px;
                 width: var(--input-glyph-size);
                 height: var(--input-glyph-size);
+            }
+
+            [class^="icon-"],
+            [class*=" icon-"] {
+                font-size: var(--fontsize-body);
+                font-weight: bold;
             }
         }
 

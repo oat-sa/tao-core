@@ -27,9 +27,6 @@ body.solar-design {
                         border: none !important;
                         outline: none !important;
                     }
-                    &::selection {
-                        background: var(--input-background);
-                    }
                     &::placeholder {
                         color: var(--input-placeholder) !important
                     }

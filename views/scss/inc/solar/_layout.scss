@@ -124,12 +124,17 @@ body.solar-design {
     --tree-action-line-height: 40px;
     --tree-action-background-color: var(--color-gs-light);
     --tree-action-hover-background-color: var(--color-gs-light-secondary);
-    --tree-selected-background-color: var(--color-brand-light); 
-    --tree-selected-border-color: var(--color-brand); 
+    --tree-selected-background-color: var(--color-brand-light);
+    --tree-selected-border-color: var(--color-brand);
 
     .navi-container {
         background-color: var(--color-bg-default);
     }
 
     font-family: var(--font-ui);
+
+    ::selection {
+        background-color: var(--color-bg-selection);
+        text-shadow: none;
+    }
 }
