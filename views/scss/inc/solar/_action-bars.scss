@@ -11,7 +11,7 @@ body.solar-design {
 
             .search-area {
                 margin: -2px 0 0 0;
-                border-bottom: var(--border-medium) solid var(--header-bar-active-border);
+                border-bottom: var(--border-medium) solid var(--input-border-color);
 
                 input {
                     padding: 0 0 0 34px;
@@ -19,16 +19,16 @@ body.solar-design {
                     width: auto;
                     border: none;
                     height: var(--input-height);
-                    flex: 1 0 auto;
                     font-family: var(--font-ui);
                     font-size: var(--fontsize-body);
+                    color: var(--input-color);
 
                     &:focus, &:active {
                         border: none !important;
                         outline: none !important;
                     }
                     &::selection {
-                        background: var(--action-bar-background);
+                        background: var(--input-background);
                     }
                     &::placeholder {
                         color: var(--input-placeholder) !important
@@ -88,7 +88,11 @@ body.solar-design {
                     text-shadow: none !important;
                     opacity: 1 !important;
                     color: var(--button-disabled-color) !important;
-                    border: var(--button-disabled-border) !important;
+                    border: none !important;
+                    &:hover, .li-inner:hover {
+                        color: var(--button-disabled-color);
+                        background-color: var(--button-disabled-background);
+                    }
                 }
             }
         }
@@ -128,11 +132,10 @@ body.solar-design {
                     font-weight: bold;
                     text-transform: uppercase;
                     display: inline-flex;
-                    justify-content: center;
                     align-items: center;
                     padding: 0 16px;
                     gap: 8px;
-                    height: auto;
+                    height: var(--button-small-height);
                     color: var(--button-secondary-color);
                 }
                 &:hover {
