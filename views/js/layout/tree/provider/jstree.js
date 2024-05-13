@@ -361,6 +361,24 @@ define([
                     },
 
                     /**
+                     * Once the data of a node parsed
+                     * Used to modify html data
+                     *
+                     * @param {string} html - the html contents of node
+                     */
+                    onparse: function(html) {
+                        const $node = $(html);
+                        setALevelVar($node);
+
+                        //add open/close icon
+                        $node.find('a').each(function() {
+                            $(this).prepend('<dfn class="open-close">&nbsp</dfn>');
+                        })
+
+                        return $node;
+                    },
+
+                    /**
                      * Once the data are loaded and the tree is ready
                      * Used to modify them before building the tree.
                      *
@@ -521,6 +539,7 @@ define([
 
                     //when a node is move by drag n'drop
                     onmove: function onmove(node, refNode, type, tree, rollback) {
+
                         if (!options.actions.moveInstance) {
                             return false;
                         }
@@ -542,6 +561,12 @@ define([
 
                         //set the rollback data
                         setTreeState(_.merge($container.data('tree-state'), {rollback : rollback}));
+
+                        //update levels
+                        const $node = $(node)
+                        const $refNode = $(refNode);
+                        $node.attr('data-level', parseInt($refNode.attr('data-level')) + 1);
+                        setALevelVar($node);
 
                         //execute the selectInstance action
                         actionManager.exec(options.actions.moveInstance, {
@@ -612,6 +637,16 @@ define([
                     });
                 });
             };
+
+            /**
+             * Updates a level css var
+             * @param {object} $node
+             */
+            function setALevelVar($node) {
+                $node.find('a').each(function() {
+                    $(this).attr('style', `--tree-level: ${$(this).parent().attr('data-level')}`);
+                })
+            }
 
             /**
              * Set tree state
@@ -692,7 +727,7 @@ define([
             /**
              * Add a title attribute to the nodes
              * @private
-             * @param {Object} node - the tree node as recevied from the server
+             * @param {Object} node - the tree node as received from the server
              */
             function addTitle(node){
                 if(_.isArray(node)){
@@ -811,6 +846,25 @@ define([
             function getTreeData(response){
                 var treeData = response.tree || response;
                 var currentRights;
+                var parentLevel =  response.level;
+
+                //populate treeData with level info
+                function addLevelInfo(node, level) {
+                    if(Array.isArray(node)) {
+                        node.forEach((n)=>{
+                            addLevelInfo(n, level);
+                        })
+                    }else{
+                        node.attributes = node.attributes || {}
+                        node.attributes['data-level'] = level;
+                        if(node.children) {
+                            node.children.forEach(child=>{
+                                addLevelInfo(child, level + 1);
+                            })
+                        }
+                    }
+                }
+                addLevelInfo(treeData, typeof parentLevel !== 'undefined' ? parentLevel + 1 : 0);
 
                 if(response.permissions){
                     currentRights = permissionsManager.getRights();
