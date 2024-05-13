@@ -1,0 +1,48 @@
+body.solar-design {
+    .section-container {
+        .navi-container {
+            background: var(--section-background);
+            border-right: var(--border-thin) solid var(--section-border-color);
+
+            .section-trees {
+                border-bottom: var(--border-thin) solid var(--section-border-color);
+            }
+        }
+
+        .content-block {
+            .data-container-wrapper {
+                & > section, .data-container {
+                    & > header, .ui-widget-header {
+                        background: var(--section-background);
+                        border-bottom: var(--border-thin) solid var(--section-border-color) !important;
+                    }
+                    & > footer, .data-container-footer {
+                        background: var(--section-background);
+                        border-top: var(--border-thin) solid var(--section-border-color) !important;
+                    }
+                }
+            }
+
+            form:not(.list-container) {
+                border: none;
+                background: var(--section-background);
+                padding: 16px 0;
+            }
+        }
+
+        h2 {
+            font-size: var(--fontsize-heading-l);
+            font-weight: bold;
+            margin: 12px 0;
+        }
+        h3 {
+            font-size: var(--fontsize-heading);
+            font-weight: bold;
+            margin: 12px 0;
+        }
+        p {
+            font-size: var(--fontsize-body-s);
+            color: var(--color-text-feedback);
+        }
+    }
+}

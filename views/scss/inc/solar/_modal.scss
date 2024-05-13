@@ -31,7 +31,7 @@ body.solar-design {
                     height: var(--button-small-height);
                     min-width: var(--button-small-height);
 
-                    border: var(--modal-button-border);
+                    border: var(--border-medium) solid var(--modal-button-border-color);
                     color: var(--modal-button-color) !important;
                     background-color: var(--modal-button-background);
                     &:hover {
@@ -39,7 +39,7 @@ body.solar-design {
                         outline: none;
                     }
                     &:focus {
-                        outline: var(--modal-button-focus-border);
+                        outline: var(--border-medium) dotted var(--modal-button-focus-border-color);
                     }
 
                     &.btn-info {
@@ -51,12 +51,18 @@ body.solar-design {
 
                 }
             }
+            input[type="checkbox"] {
+                &:focus ~ [class^="icon-"],
+                &:focus ~ [class*=" icon-"] {
+                    outline: var(--border-medium) dotted var(--modal-button-focus-border-color);
+                }
+            }
             .disabled, button[disabled] {
                 // !important is required here to overwrite any other inherited rule no matter the specificity,
                 // as the disabled style must be consistent all across the stylesheet
                 background-color: var(--button-disabled-inverted-background) !important;
                 color: var(--button-disabled-inverted-color) !important;
-                border: var(--button-disabled-inverted-border) !important;
+                border: var(--border-thin) solid var(--button-disabled-inverted-border-color) !important;
             }
         }
     }

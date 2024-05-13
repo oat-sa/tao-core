@@ -26,7 +26,7 @@ body.solar-design {
         }
 
         &.btn-secondary {
-            border: var(--button-secondary-border);
+            border: var(--border-thin) solid var(--button-secondary-border-color);
             color: var(--button-secondary-color);
             background-color: var(--button-secondary-background);
             text-shadow: none;
@@ -71,7 +71,7 @@ body.solar-design {
             }
 
             &.btn-secondary {
-                border: --button-secondary-info-border;
+                border: var(--border-thin) solid var(--button-secondary-info-border-color);
                 color: var(--button-secondary-info-color);
                 background-color: var(--button-secondary-info-background);
                 text-shadow: none;
@@ -90,7 +90,7 @@ body.solar-design {
             }
 
             &.btn-secondary {
-                border: --button-secondary-error-border;
+                border: var(--border-thin) solid var(--button-secondary-error-border-color);
                 color: var(--button-secondary-error-color);
                 background-color: var(--button-secondary-error-background);
                 text-shadow: none;
@@ -109,7 +109,7 @@ body.solar-design {
             }
 
             &.btn-secondary {
-                border: --button-secondary-success-border;
+                border: var(--border-thin) solid var(--button-secondary-success-border-color);
                 color: var(--button-secondary-success-color);
                 background-color: var(--button-secondary-success-background);
                 text-shadow: none;
@@ -120,7 +120,7 @@ body.solar-design {
         }
 
         &.btn-warning {
-            color: --button-secondary-warning-border;
+            color: var(--button-primary-warning-color);
             background-color: var(--button-primary-warning-background);
             text-shadow: none;
             &:hover {
@@ -128,7 +128,7 @@ body.solar-design {
             }
 
             &.btn-secondary {
-                border: var(--button-secondary-warning-border);
+                border: var(--border-thin) solid var(--button-secondary-warning-border-color);
                 color: var(--button-secondary-warning-color);
                 background-color: var(--button-secondary-warning-background);
                 text-shadow: none;
@@ -148,6 +148,6 @@ body.solar-design {
         color: var(--button-disabled-color) !important;
     }
     button[disabled] {
-        border: var(--button-disabled-border) !important;
+        border: var(--border-thin) solid var(--button-disabled-border-color) !important;
     }
 }
