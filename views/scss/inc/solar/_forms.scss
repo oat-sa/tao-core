@@ -69,6 +69,11 @@ body.solar-design {
             }
         }
 
+        .form_checklst .grid-row [class*=" col-"] .tooltip-trigger,
+        .form_checklst .grid-row [class^="col-"] .tooltip-trigger {
+            top: 12px;
+        }
+
         input[type="color"],
         input[type="date"],
         input[type="datetime"],
@@ -317,6 +322,7 @@ body.solar-design {
                 .unit {
                     background: transparent;
                     opacity: 1;
+                    padding: 0 10px;
                 }
             }
         }
