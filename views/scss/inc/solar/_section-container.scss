@@ -53,43 +53,38 @@ body.solar-design {
             .tab-container {
                 padding: 0;
                 .tab-group {
-                    background-color: var(--color-bg-actionable-alternative-inverted);
-                    border: var(--border-medium) solid var(--color-bg-actionable-alternative-inverted);
-                    border-radius: var(--radius-pill);
+                    border: none;
                     display: inline-flex;
+                    border-radius: 0;
                     li {
-                        padding: 0;
-                        margin: 0;
                         float: none;
                         height: var(--button-small-height);
                         button {
-                            background-color: var(--color-bg-actionable-alternative-inverted);
-                            border-radius: var(--radius-pill);
-                            color: var(--color-text-actionable-alternative-inverted);
-                            text-transform: uppercase;
-                            user-select: none;
+                            background: var(--section-background);
+                            color: var(--section-color);
                             height: var(--button-small-height);
+                            font-family: var(--font-ui);
+                            font-size: var(--fontsize-body);
+                            font-weight: bold;
+                            border-radius: 0;
                             &:focus {
                                 outline: none;
                             }
                         }
                         &:hover {
+                            border-radius: 0;
                             button {
-                                background-color: var(--color-bg-actionable-secondary-hover-inverted);
-                                color: var(--color-text-actionable-alternative-inverted);
+                                background-color: var(--color-gs-light-hover-bg);
+                                border-bottom-color: var(--color-brand-hover);
+                                border-radius: 0;
+                                transition: none;
                             }
                         }
                         &.active {
                             border: none !important;
                             button {
-                                background-color: var(--color-bg-default);
-                                color: var(--color-bg-actionable-alternative-inverted);
-                            }
-                            &:hover {
-                                button {
-                                    background-color: var(--button-secondary-hover-background);
-                                    color: var(--color-bg-actionable-alternative-inverted);
-                                }
+                                border-bottom: var(--border-thick) solid var(--color-brand);
+                                transition: none;
                             }
                         }
                     }
