@@ -441,6 +441,39 @@ body.solar-design {
         }
     }
 
+    .switch {
+        input:checked ~ label .off {
+            background-color: var(--color-bg-actionable-alternative-inverted);
+            color: var(--color-text-actionable-alternative-inverted);
+        }
+        label {
+            background-color: var(--color-bg-actionable-alternative-inverted);
+            border: var(--border-medium) solid var(--color-bg-actionable-alternative-inverted);
+            border-radius: var(--radius-pill);
+
+            span {
+                background-color: var(--color-bg-actionable-alternative-inverted);
+                border-radius: var(--radius-pill);
+                color: var(--color-text-actionable-alternative-inverted);
+                text-transform: uppercase;
+                user-select: none;
+
+                &:hover {
+                    background-color: var(--color-bg-actionable-secondary-hover-inverted);
+                    color: var(--color-text-actionable-alternative-inverted);
+                }
+                &.active {
+                    background-color: var(--color-bg-default);
+                    color: var(--color-bg-actionable-alternative-inverted);
+                    &:hover {
+                        background-color: var(--button-secondary-hover-background);
+                        color: var(--color-bg-actionable-alternative-inverted);
+                    }
+                }
+            }
+        }
+    }
+
     #login-box {
         font-family: var(--font-ui);
         min-width: 50%;
