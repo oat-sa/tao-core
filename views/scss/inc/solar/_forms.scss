@@ -6,6 +6,9 @@ body.solar-design {
         // these buttons are originally green which turned out to be avery poor choice
         [class^="btn-"], [class*=" btn-"],
         input[type="submit"], input[type="reset"] {
+            line-height: var(--button-small-height);
+            height: var(--button-small-height);
+            min-width: var(--button-small-height);
             &.btn-info {
                 border: var(--border-thin) solid var(--button-secondary-border-color);
                 color: var(--button-secondary-color);
