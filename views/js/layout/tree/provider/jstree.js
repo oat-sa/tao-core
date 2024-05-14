@@ -28,7 +28,7 @@ define([
     'context',
     'core/store',
     'core/promise',
-    'util/url',
+    'layout/tree/helpers',
     'layout/generisRouter',
     'layout/actions',
     'layout/section',
@@ -36,7 +36,7 @@ define([
     'ui/feedback',
     'uri',
     'jquery.tree'
-], function($, _, __, context, store, Promise, urlUtil, generisRouter, actionManager, sectionManager, permissionsManager, feedback, uri){
+], function($, _, __, context, store, Promise, helpers, generisRouter, actionManager, sectionManager, permissionsManager, feedback, uri){
     'use strict';
 
     var pageRange = 30;
@@ -368,7 +368,7 @@ define([
                      */
                     onparse: function(html) {
                         const $node = $(html);
-                        setALevelVar($node);
+                        helpers.setALevelVar($node);
 
                         //add open/close icon
                         $node.find('a').each(function() {
@@ -566,7 +566,7 @@ define([
                         const $node = $(node)
                         const $refNode = $(refNode);
                         $node.attr('data-level', parseInt($refNode.attr('data-level')) + 1);
-                        setALevelVar($node);
+                        helpers.setALevelVar($node);
 
                         //execute the selectInstance action
                         actionManager.exec(options.actions.moveInstance, {
@@ -637,16 +637,6 @@ define([
                     });
                 });
             };
-
-            /**
-             * Updates a level css var
-             * @param {object} $node
-             */
-            function setALevelVar($node) {
-                $node.find('a').each(function() {
-                    $(this).attr('style', `--tree-level: ${$(this).parent().attr('data-level')}`);
-                })
-            }
 
             /**
              * Set tree state
@@ -846,25 +836,8 @@ define([
             function getTreeData(response){
                 var treeData = response.tree || response;
                 var currentRights;
-                var parentLevel =  response.level;
 
-                //populate treeData with level info
-                function addLevelInfo(node, level) {
-                    if(Array.isArray(node)) {
-                        node.forEach((n)=>{
-                            addLevelInfo(n, level);
-                        })
-                    }else{
-                        node.attributes = node.attributes || {}
-                        node.attributes['data-level'] = level;
-                        if(node.children) {
-                            node.children.forEach(child=>{
-                                addLevelInfo(child, level + 1);
-                            })
-                        }
-                    }
-                }
-                addLevelInfo(treeData, typeof parentLevel !== 'undefined' ? parentLevel + 1 : 0);
+                helpers.setTreeLevels(response);
 
                 if(response.permissions){
                     currentRights = permissionsManager.getRights();
