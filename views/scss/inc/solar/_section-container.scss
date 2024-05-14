@@ -44,5 +44,22 @@ body.solar-design {
             font-size: var(--fontsize-body-s);
             color: var(--color-text-feedback);
         }
+        .modal-body {
+            p {
+                color: var(--modal-color);
+            }
+        }
+        #installProgress {
+            .progress {
+                background-color: var(--color-bg-default);
+                border: none;
+                border-radius: 0;
+            }
+            .bar {
+                background-color: var(--color-brand);
+                border: none;
+                border-radius: 0;
+            }
+        }
     }
 }
