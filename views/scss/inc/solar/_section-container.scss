@@ -9,6 +9,53 @@ body.solar-design {
             }
         }
 
+        .destination-selector {
+            > div {
+                background: var(--section-background);
+                border: none;
+                padding: 0;
+            }
+            .section-title {
+                font-size: var(--fontsize-heading);
+                font-weight: bold;
+                margin: 32px 0 24px 0;
+            }
+            .resource-selector {
+                background: var(--color-gs-light-alternative-bg);
+                border: var(--border-thin) solid var(--section-border-color);
+                border-radius: var(--radius-medium);
+                padding: 8px
+            }
+            .permissions-settings-container {
+                label {
+                    font-family:  var(--font-ui);
+                    font-size: var(--fontsize-body);
+                    line-height: 24px;
+                    margin-inline-start: 12px;
+                }
+                input[type="radio"] {
+                    appearance: none;
+                    display: inline-block;
+                    width: var(--input-glyph-size);
+                    height: var(--input-glyph-size);
+                    padding: 2px;
+                    background-clip: content-box;
+                    border: var(--border-medium) solid var(--input-color);
+                    background-color: var(--input-background);
+                    border-radius: 50%;
+                    margin-inline-end: 12px;
+                    margin-bottom: -2px;
+                    &:checked {
+                        background-color: var(--input-color);
+                    }
+                    &:focus,
+                    &:active {
+                        border: var(--border-medium) solid var(--input-color)!important;
+                    }
+                }
+            }
+        }
+
         .content-block {
             .data-container-wrapper {
                 & > section, .data-container {
