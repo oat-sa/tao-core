@@ -483,6 +483,26 @@ body.solar-design {
         }
     }
 
+    .pcimgr {
+        .files {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+
+            & > div {
+                font-size: var(--fontsize-heading);
+                font-weight: bold;
+            }
+
+            li {
+                padding: 8px 0;
+            }
+        }
+    }
+
     #login-box {
         font-family: var(--font-ui);
         min-width: 50%;
