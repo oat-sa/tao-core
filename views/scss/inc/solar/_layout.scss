@@ -127,6 +127,26 @@ body.solar-design {
     --tree-selected-background-color: var(--color-brand-light);
     --tree-selected-border-color: var(--color-brand);
 
+    --feedback-color: var(--color-text-default);
+    --feedback-hover-color: var(--color-brand-hover);
+    --feedback-border-color: var(--color-border-default);
+    --feedback-background: var(--color-gs-light-alternative-bg);
+
+    --feedback-info-color: var(--color-text-default);
+    --feedback-info-hover-color: var(--color-brand-hover);
+    --feedback-info-border-color: var(--color-border-default);
+    --feedback-info-background: var(--color-gs-light-alternative-bg);
+
+    --feedback-success-color: var(--color-success);
+    --feedback-success-hover-color: var(--color-success-hover);
+    --feedback-success-border-color: var(--color-success);
+    --feedback-success-background: var(--color-success-alternative-bg);
+
+    --feedback-warning-color: var(--color-alert);
+    --feedback-warning-hover-color: var(--color-alert-hover);
+    --feedback-warning-border-color: var(--color-alert);
+    --feedback-warning-background: var(--color-alert-alternative-bg);
+
     font-family: var(--font-ui);
 
     ::selection {

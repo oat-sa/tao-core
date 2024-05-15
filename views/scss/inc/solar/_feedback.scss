@@ -1,0 +1,132 @@
+body.solar-design {
+    [class^="feedback-"], [class*=" feedback-"] {
+        border: none;
+        border-left: var(--border-medium) solid var(--feedback-border-color);
+        border-radius: 0;
+        max-width: 400px;
+        padding: 4px 20px;
+        margin: 12px auto;
+        text-align: center;
+        color: var(--feedback-color) !important;
+        background-color: var(--feedback-background);
+
+        &.small {
+            padding: 4px 20px;
+
+            & > [class^="icon-"], & > [class*=" icon-"] {
+                top: calc(50% - 10px);
+                left: 4px;
+            }
+        }
+        & > [class^="icon-"], & > [class*=" icon-"] {
+            font-size: var(--fontsize-body);
+            top: calc(50% - 10px);
+            left: 4px;
+
+            &.icon-close, &.icon-remove {
+                font-size: var(--fontsize-body-xs);
+                color: var(--feedback-color);
+                top: 4px;
+                left: auto;
+
+                &:hover {
+                    color: var(--feedback-hover-color);
+                }
+            }
+            &.icon-remove {
+                right: 24px;
+            }
+            &.icon-close {
+                right: 4px;
+            }
+        }
+        &.popup {
+            top : 150px;
+            left : 50%;
+            margin-left : -200px;
+            width : 400px;
+            z-index : 999999;
+        }
+    }
+    .feedback-success {
+        border-color: var(--feedback-success-border-color);
+        background-color: var(--feedback-success-background);
+        &,.icon-success {
+            color: var(--feedback-success-color) !important;
+        }
+        & > [class^="icon-"], & > [class*=" icon-"] {
+            &.icon-close, &.icon-remove {
+                color: var(--feedback-success-color);
+
+                &:hover {
+                    color: var(--feedback-success-hover-color);
+                }
+            }
+        }
+    }
+    .feedback-info {
+        border-color: var(--feedback-info-border-color);
+        background-color: var(--feedback-info-background);
+        &,.icon-info, .icon-lock {
+            color: var(--feedback-info-color) !important;
+        }
+        & > [class^="icon-"], & > [class*=" icon-"] {
+            &.icon-close, &.icon-remove {
+                color: var(--feedback-info-color);
+
+                &:hover {
+                    color: var(--feedback-info-hover-color);
+                }
+            }
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+    }
+    .feedback-warning, .feedback-danger, .feedback-error {
+        border-color: var(--feedback-warning-border-color);
+        background-color: var(--feedback-warning-background);
+        &, .icon-warning, .icon-danger, .icon-error {
+            color: var(--feedback-warning-color) !important;
+        }
+        & > [class^="icon-"], & > [class*=" icon-"] {
+            &.icon-close, &.icon-remove {
+                color: var(--feedback-warning-color);
+
+                &:hover {
+                    color: var(--feedback-warning-hover-color);
+                }
+            }
+        }
+    }
+    .brd-success {
+        border: none !important;
+        border-left: var(--border-medium) solid var(--feedback-success-border-color);
+    }
+    .brd-info {
+        border: none !important;
+        border-left: var(--border-medium) solid var(--feedback-info-border-color);
+    }
+    .brd-warning, .brd-danger, .brd-error {
+        border: none !important;
+        border-left: var(--border-medium) solid var(--feedback-warning-border-color);
+    }
+    .txt-success {
+        color: var(--feedback-success-color) !important;
+    }
+    .txt-info {
+        color: var(--feedback-info-color) !important;
+    }
+    .txt-warning, .txt-danger, .txt-error {
+        color: var(--feedback-warning-color) !important;
+    }
+    .bg-success {
+        background-color: var(--feedback-success-background);
+    }
+    .bg-info {
+        background-color: var(--feedback-info-background);
+    }
+    .bg-warning, .bg-danger, .bg-error {
+        background-color: var(--feedback-warning-background);
+    }
+}
