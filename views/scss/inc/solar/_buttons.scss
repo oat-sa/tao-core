@@ -1,4 +1,10 @@
 body.solar-design {
+    .loading-button{
+        .action-label, .terminated-label{
+            margin-left: 0;
+        }
+    }
+
     [class^="btn-"], [class*=" btn-"], .btn-default,
     input[type="submit"], input[type="reset"] {
         border-radius: var(--radius-pill);
