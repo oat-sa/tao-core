@@ -25,4 +25,11 @@ body.solar-design {
             }
         }
     }
+    .class-selector{
+        .options {
+            ul {
+                li:before { @include icon-sd-folder-closed(); }
+            }
+        }
+    }
 }

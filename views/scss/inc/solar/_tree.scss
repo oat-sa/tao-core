@@ -3,7 +3,7 @@ body.solar-design {
         --level-padding: 20px;
         border-width: 0 0 1px 0;
         border-style: solid;
-        border-color: var(--color-gs-light-secondary);
+        border-color: var(--tree-border-color);
 
         ul {
             margin: 0;
@@ -30,10 +30,10 @@ body.solar-design {
                         font-size: var(--fontsize-body);
                         font-weight: normal;
                         line-height: var(--tree-line-height);
-                        color: var(--color-text-default);
+                        color: var(--tree-color);
                     }
                     &:hover {
-                        background-color: var(--button-secondary-hover-background);
+                        background-color: var(--tree-action-hover-background-color);
                     }
                     &.clicked {
                         background: var(--tree-selected-background-color);
@@ -44,7 +44,7 @@ body.solar-design {
         }
         .node-class, .node-instance {
             & > a > ins:before {
-                color: var(--color-text-default);
+                color: var(--tree-color);
                 text-shadow: none;
             }
         }
@@ -57,28 +57,28 @@ body.solar-design {
                     font-size: var(--fontsize-body);
                     font-weight: normal;
                     background: transparent;
-                    color: var(--color-text-default);
+                    color: var(--tree-color);
                     border-width: 0 0 0 4px;
                     border-color: transparent;
                     border-style: solid;
                     border-radius: 0;
 
                     &:hover {
-                        background-color: var(--button-secondary-hover-background);
+                        background-color: var(--tree-action-hover-background-color);
 
                         a {
-                            color: var(--color-text-default);
+                            color: var(--tree-color);
                         }
                     }
                     a, a:after, a > span {
-                        color: var(--color-text-default);
+                        color: var(--tree-color);
                     }
                     a:focus {
                         outline: none;
                     }
                     &.selected, &:hover {
                         a, a:after, a > span {
-                            color: var(--color-text-default);
+                            color: var(--tree-color);
                         }
                     }
                     &.selected {
@@ -86,7 +86,7 @@ body.solar-design {
                         border-color: var(--tree-selected-border-color);
                     }
                     &:hover {
-                        background-color: var(--button-secondary-hover-background);
+                        background-color: var(--tree-action-hover-background-color);
                     }
                 }
             }
@@ -107,7 +107,7 @@ body.solar-design {
                     font-size: var(--fontsize-body);
                     font-weight: normal;
                     background: transparent;
-                    color: var(--color-text-default);
+                    color: var(--tree-color);
                     line-height: var(--tree-line-height);
                     height: var(--tree-line-height);
                     border-width: 0 0 0 4px;
@@ -118,24 +118,24 @@ body.solar-design {
 
                     &:hover {
                         color: unset;
-                        background-color: var(--button-secondary-hover-background);
+                        background-color: var(--tree-action-hover-background-color);
                     }
                     &:focus {
                         outline: none;
                     }
                     & > [class^="icon-"], & > [class*=" icon-"],
                     & > .selector:after, & > .icon-folder:before {
-                        color: var(--color-text-default);
+                        color: var(--tree-color);
                     }
                 }
                 li.selected > a {
                     background: var(--tree-selected-background-color);
                     border-color: var(--tree-selected-border-color);
-                    color: var(--color-text-default);
+                    color: var(--tree-color);
 
                     &:hover {
                         color: unset;
-                        background-color: var(--button-secondary-hover-background);
+                        background-color: var(--tree-action-hover-background-color);
                     }
                     .clickable:hover:before {
                         background-color: transparent;
@@ -143,7 +143,33 @@ body.solar-design {
                     &:before, &:after,
                     & > .selector:after, &:hover > .selector:after,
                     & > [class^="icon-"], & > [class*=" icon-"] {
-                        color: var(--color-text-default);
+                        color: var(--tree-color);
+                    }
+                }
+            }
+        }
+    }
+    .class-selector{
+        .options {
+            position: absolute;
+            width: 100%;
+            background-color: var(--tree-background);
+            border: var(--border-thin) solid var(--tree-border-color);
+            border-radius: 0;
+            box-shadow: none;
+
+            ul {
+                li {
+                    a {
+                        color: var(--tree-color);
+
+                        &:hover {
+                            color: var(--tree-color-hover);
+                        }
+                    }
+                    &:before {
+                        color: var(--tree-color);
+                        text-shadow: none;
                     }
                 }
             }

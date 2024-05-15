@@ -122,8 +122,12 @@ body.solar-design {
 
     --tree-line-height: 40px;
     --tree-action-line-height: 40px;
+    --tree-color: var(--color-text-default);
+    --tree-color-hover: var(--color-brand);
+    --tree-background: var(--color-bg-default);
+    --tree-border-color: var(--color-gs-light-secondary);
     --tree-action-background-color: var(--color-gs-light);
-    --tree-action-hover-background-color: var(--color-gs-light-secondary);
+    --tree-action-hover-background-color: var(--color-gs-light-hover-bg);
     --tree-selected-background-color: var(--color-brand-light);
     --tree-selected-border-color: var(--color-brand);
 
