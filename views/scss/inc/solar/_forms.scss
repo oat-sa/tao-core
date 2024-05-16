@@ -10,7 +10,7 @@ body.solar-design {
             height: var(--button-small-height);
             min-width: var(--button-small-height);
             &.btn-info {
-                border: var(--border-thin) solid var(--button-secondary-border-color);
+                border: var(--button-border) solid var(--button-secondary-border-color);
                 color: var(--button-secondary-color);
                 background-color: var(--button-secondary-background);
 
@@ -28,7 +28,7 @@ body.solar-design {
                 }
 
                 &.btn-secondary {
-                    border: var(--border-thin) solid var(--button-secondary-info-border-color);
+                    border: var(--button-border) solid var(--button-secondary-info-border-color);
                     color: var(--button-secondary-info-color);
                     background-color: var(--button-secondary-info-background);
                     text-shadow: none;

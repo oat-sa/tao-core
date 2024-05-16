@@ -55,8 +55,10 @@ body.solar-design {
     --drop-zone-background: var(--color-brand-light);
     --drop-zone-border-color: var(--color-brand);
 
-    --button-height: 64px;
+    --button-height: 40px;
     --button-small-height: 40px;
+    --button-border-thin: var(--border-thin);
+    --button-border: var(--border-medium);
 
     --button-primary-color: var(--color-text-inverted);
     --button-primary-background: var(--color-brand);

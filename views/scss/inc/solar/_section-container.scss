@@ -25,9 +25,12 @@ body.solar-design {
                     height: var(--button-small-height);
                     color: var(--button-secondary-color);
                     text-shadow: none;
+                    &:focus {
+                        outline: none;
+                    }
                 }
                 &.active {
-                    border: var(--border-thin) solid var(--button-secondary-border-color) !important;
+                    border: var(--button-border-thin) solid var(--button-secondary-border-color) !important;
                     a {
                         color: var(--button-secondary-color) !important;
                     }
