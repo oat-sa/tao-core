@@ -66,4 +66,47 @@ body.solar-design {
             }
         }
     }
+    .search-modal {
+        .ui-container {
+            background: var(--form-background);
+
+            .filter-container {
+                & > [class^="icon-"], & > [class*=" icon-"] {
+                    color: var(--input-color);
+                }
+                & > .icon-find {
+                    top: 13px;
+                }
+                & > .icon-folder {
+                    top: 16px;
+                }
+                & > .icon-down {
+                    top: 8px;
+                }
+                & > input, & > textarea {
+                    max-width: none;
+                    height: var(--input-height);
+                    line-height: var(--input-height);
+                    font-family: var(--font-ui);
+                    font-size: var(--fontsize-body);
+                    color: var(--input-color);
+                    border: 0;
+                    border-radius: 0;
+                    border-bottom: var(--border-medium) solid var(--input-border-color);
+                    padding: 0 0 0 40px;
+
+                    &:focus,
+                    &:active {
+                        border: none !important;
+                        outline: none;
+                        border-bottom: var(--border-medium) solid var(--input-border-color) !important;
+                    }
+
+                    &::placeholder {
+                        color: var(--input-placeholder) !important;
+                    }
+                }
+            }
+        }
+    }
 }
