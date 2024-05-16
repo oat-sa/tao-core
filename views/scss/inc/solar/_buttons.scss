@@ -57,13 +57,13 @@ body.solar-design {
             }
         }
 
-        [class^="icon-"],
-        [class*=" icon-"] {
+        [class^="icon-"], [class*=" icon-"] {
             font-size: var(--fontsize-body);
-            padding: 0;
             text-shadow: none;
+            top: -1px;
+            left: auto;
 
-            &.r {
+            &, &.r {
                 padding: 0;
             }
         }

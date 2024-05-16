@@ -123,6 +123,8 @@ body.solar-design {
                     margin: 0 !important;
                     width: auto;
                     height: auto;
+                    position: relative;
+                    top: -1px;
                     font-size: var(--fontsize-body) !important;
                 }
                 .li-inner {
