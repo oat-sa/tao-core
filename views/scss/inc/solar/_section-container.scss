@@ -163,11 +163,123 @@ body.solar-design {
                         border-top: var(--border-thin) solid var(--section-border-color) !important;
                     }
                 }
+                .list-container {
+                    .container-title {
+                        background-color: var(--section-header-background);
+
+                        h6 {
+                            font-size: var(--fontsize-heading);
+                            font-weight: bold;
+                            margin: 8px 0;
+                        }
+                    }
+                    .container-content {
+                        .list-element-delete-btn {
+                            padding-top: 8px;
+                        }
+                        .list-element__input-container__uri {
+                            background: var(--input-disabled-background);
+
+                            input {
+                                margin-left: -44px;
+                                padding-left: 46px;
+                            }
+                        }
+                        .list-element {
+                            .title {
+                                font-family: var(--font-ui);
+                                font-size: var(--fontsize-body);
+                                color: var(--input-color);
+                                border: none;
+                                border-radius: 0;
+                                padding: 8px;
+                                background: var(--input-disabled-background);
+                            }
+                        }
+                    }
+                    input[type="color"],
+                    input[type="date"],
+                    input[type="datetime"],
+                    input[type="datetime-local"],
+                    input[type="email"],
+                    input[type="month"],
+                    input[type="number"],
+                    input[type="range"],
+                    input[type="search"],
+                    input[type="tel"],
+                    input[type="time"],
+                    input[type="text"],
+                    input[type="password"],
+                    input[type="url"],
+                    input[type="week"],
+                    textarea,
+                    select {
+                        border: var(--border-thin) solid var(--input-border-color);
+                        height: var(--input-height);
+                        font-family: var(--font-ui);
+                        font-size: var(--fontsize-body);
+                        color: var(--input-color);
+                        padding: 0 12px;
+
+                        &:focus,
+                        &:active {
+                            border: var(--border-thin) solid var(--input-active-border-color);
+                            box-shadow: 0 0 0 var(--border-thin) var(--input-active-border-color) inset;
+                            outline: none;
+                        }
+                        &::placeholder {
+                            color: var(--input-placeholder) !important
+                        }
+                        &.disabled,
+                        &[disabled],
+                        &[readonly] {
+                            color: var(--input-disabled-color);
+                            background: var(--input-disabled-background);
+                            border-color: var(--input-disabled-border-color);
+                            opacity: 1 !important;
+                        }
+                    }
+                    header {
+                        border-bottom: var(--border-thin) solid var(--section-border-color);
+                    }
+                    footer {
+                        [class^="btn-"], [class*=" btn-"] {
+                            border-radius: var(--radius-circular);
+                            border: var(--button-border) solid var(--button-secondary-border-color);
+                            color: var(--button-secondary-color);
+                            background-color: var(--button-secondary-background);
+                            text-shadow: none;
+                            line-height: var(--button-height);
+                            height: var(--button-height);
+                            width: var(--button-height);
+
+                            &:hover {
+                                background-color: var(--button-secondary-hover-background);
+                            }
+                            &.icon-save, &.icon-edit {
+                                color: var(--button-primary-color);
+                                background-color: var(--button-primary-background);
+                                border-color: var(--button-primary-background);
+
+                                &:hover {
+                                    opacity: 1;
+                                    background-color: var(--button-primary-hover-background);
+                                    border-color: var(--button-primary-hover-background);
+                                }
+                            }
+                            &[class^="icon-"]:before, &[class*=" icon-"]:before {
+                                font-size: var(--fontsize-body);
+                            }
+                        }
+                    }
+                }
             }
 
             form:not(.list-container) {
-                border: none;
                 background: var(--section-background);
+            }
+            .main-container form {
+                border: none;
                 padding: 16px 0;
             }
         }
@@ -178,6 +290,11 @@ body.solar-design {
             margin: 12px 0;
         }
         h3 {
+            font-size: var(--fontsize-heading);
+            font-weight: bold;
+            margin: 12px 0;
+        }
+        h6 {
             font-size: var(--fontsize-heading);
             font-weight: bold;
             margin: 12px 0;
