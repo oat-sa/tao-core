@@ -41,7 +41,7 @@ body.solar-design {
             }
         }
         &.popup {
-            top : 150px;
+            top : var(--header-bar-height);
             left : 50%;
             margin-left : -200px;
             width : 400px;
@@ -51,7 +51,8 @@ body.solar-design {
     .feedback-success {
         border-color: var(--feedback-success-border-color);
         background-color: var(--feedback-success-background);
-        &,.icon-success {
+
+        &, .icon-success {
             color: var(--feedback-success-color) !important;
         }
         & > [class^="icon-"], & > [class*=" icon-"] {
@@ -67,7 +68,8 @@ body.solar-design {
     .feedback-info {
         border-color: var(--feedback-info-border-color);
         background-color: var(--feedback-info-background);
-        &,.icon-info, .icon-lock {
+
+        & .icon-info, .icon-lock {
             color: var(--feedback-info-color) !important;
         }
         & > [class^="icon-"], & > [class*=" icon-"] {
@@ -86,6 +88,7 @@ body.solar-design {
     .feedback-warning, .feedback-danger, .feedback-error {
         border-color: var(--feedback-warning-border-color);
         background-color: var(--feedback-warning-background);
+
         &, .icon-warning, .icon-danger, .icon-error {
             color: var(--feedback-warning-color) !important;
         }
