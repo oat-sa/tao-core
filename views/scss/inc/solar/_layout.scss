@@ -27,6 +27,7 @@ body.solar-design {
 
     --section-color: var(--color-text-default);
     --section-background: var(--color-bg-default);
+    --section-header-background: var(--color-gs-light-alternative-bg);
     --section-border-color: var(--color-gs-light-secondary);
 
     --form-color: var(--color-text-default);
@@ -152,6 +153,15 @@ body.solar-design {
     --feedback-warning-hover-color: var(--color-alert-hover);
     --feedback-warning-border-color: var(--color-alert);
     --feedback-warning-background: var(--color-alert-alternative-bg);
+
+    --datatable-header-height: 56px;
+    --datatable-row-height: 56px;
+    --datatable-line-height: 24px;
+    --datatable-color: var(--color-text-default);
+    --datatable-hover-color: var(--color-brand);
+    --datatable-background: var(--color-bg-default);
+    --datatable-header-border-color: var(--color-border-default);
+    --datatable-row-border-color: var(--color-gs-light-secondary);
 
     font-family: var(--font-ui);
 
