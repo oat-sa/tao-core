@@ -50,11 +50,116 @@ body.solar-design {
         }
     }
     .resource-selector {
+        font-family: var(--font-ui);
+        font-size: var(--fontsize-body);
+
+        &, nav, main {
+            color: var(--form-color);
+            background: var(--form-background);
+            border: none;
+        }
+        nav {
+            height: auto;
+        }
+        main {
+            .more {
+                height: var(--tree-line-height);
+                padding: 0;
+
+                [class^="btn-"], [class*=" btn-"] {
+                    line-height: var(--tree-line-height);
+                    height: var(--tree-line-height);
+                    border: none;
+                    border-radius: 0;
+                    padding: 0 0 0 32px;
+
+                    &, &:hover {
+                        color: var(--tree-color);
+                        background-color: transparent;
+                    }
+                    [class^="icon-"], [class*=" icon-"] {
+                        top: -1px;
+                        left: auto;
+                    }
+                }
+                &:hover {
+                    color: var(--tree-color);
+                    background-color: var(--tree-action-hover-background-color);
+                }
+            }
+        }
+        footer {
+            line-height: var(--tree-line-height);
+            height: var(--tree-line-height);
+            border-top: var(--border-thin) solid var(--tree-border-color);
+            background-color: var(--sub-form-background);
+            padding: 0;
+        }
+        .context {
+            padding: 8px;
+
+            & > a {
+                height: var(--input-height);
+                line-height: var(--input-height);
+                font-size: var(--fontsize-body);
+                color: var(--button-secondary-color);
+                padding: 0 12px;
+                margin: 0;
+                width: auto;
+
+                &.active {
+                    border-bottom: var(--border-thick) solid var(--color-brand);
+                    color: var(--button-secondary-color);
+                }
+                &:hover {
+                    color: var(--button-secondary-color);
+                    background-color: var(--color-gs-light-hover-bg);
+                    border-bottom-color: var(--color-brand-hover);
+                }
+                &:focus {
+                    outline: none;
+                }
+            }
+            .class-selector {
+                margin-right: 8px;
+            }
+        }
+        .selection {
+            margin-bottom: 16px;
+
+            .search {
+                padding: 0;
+
+                &:before {
+                    color: var(--color-text-default);
+                    font-size: var(--fontsize-body);
+                    opacity: 1;
+                }
+
+                input {
+                    height: var(--input-height);
+                    font-family: var(--font-ui);
+                    font-size: var(--fontsize-body);
+                    color: var(--input-color);
+                    border: 0;
+                    border-radius: 0;
+                    border-bottom: var(--border-medium) solid var(--input-border-color);
+                    padding: 0 0 0 40px;
+
+                    &:focus, &:active {
+                        border: none !important;
+                        outline: none;
+                        border-bottom: var(--border-medium) solid var(--input-border-color) !important;
+                    }
+                    &::placeholder {
+                        color: var(--input-placeholder) !important;
+                    }
+                }
+            }
+        }
         .resource-list {
             ul {
                 li {
-                    font-family: var(--font-ui);
-                    font-size: var(--fontsize-body);
                     font-weight: normal;
                     background: transparent;
                     color: var(--tree-color);
@@ -72,6 +177,9 @@ body.solar-design {
                     }
                     a, a:after, a > span {
                         color: var(--tree-color);
+                    }
+                    a:after {
+                        right: 11px;
                     }
                     a:focus {
                         outline: none;
@@ -103,8 +211,6 @@ body.solar-design {
             }
             ul {
                 li > a {
-                    font-family: var(--font-ui);
-                    font-size: var(--fontsize-body);
                     font-weight: normal;
                     background: transparent;
                     color: var(--tree-color);
@@ -125,7 +231,11 @@ body.solar-design {
                     }
                     & > [class^="icon-"], & > [class*=" icon-"],
                     & > .selector:after, & > .icon-folder:before {
+                        font-size: var(--fontsize-body);
                         color: var(--tree-color);
+                    }
+                    & > .selector {
+                        right: 6px;
                     }
                 }
                 li.selected > a {
@@ -146,10 +256,40 @@ body.solar-design {
                         color: var(--tree-color);
                     }
                 }
+                li.closed {
+                    .more {
+                        display: none;
+                    }
+                }
             }
         }
     }
     .class-selector{
+        font-family: var(--font-ui);
+        font-size: var(--fontsize-body);
+        padding: 0;
+
+        a.selected {
+            border-radius: 0;
+            border: var(--border-thin) solid var(--input-border-color);
+            height: var(--input-height);
+            line-height: var(--input-height);
+            font-family: var(--font-ui);
+            font-size: var(--fontsize-body);
+            color: var(--input-color);
+            padding: 0 12px;
+
+            &:after {
+                top: 12px;
+            }
+            &:focus,
+            &:active {
+                border: var(--border-thin) solid var(--input-active-border-color);
+                box-shadow: 0 0 0 var(--border-thin) var(--input-active-border-color) inset;
+                outline: none;
+            }
+        }
+
         .options {
             position: absolute;
             width: 100%;
@@ -157,9 +297,15 @@ body.solar-design {
             border: var(--border-thin) solid var(--tree-border-color);
             border-radius: 0;
             box-shadow: none;
+            padding-bottom: 8px;
 
+            &.folded {
+                display: none;
+            }
             ul {
                 li {
+                    padding-top: 8px;
+
                     a {
                         color: var(--tree-color);
 
