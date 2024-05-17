@@ -8,7 +8,6 @@ body.solar-design {
                 background: transparent !important;
                 border: none !important;
                 border-radius: var(--radius-pill);
-
                 line-height: var(--button-small-height);
                 height: var(--button-small-height);
                 min-width: var(--button-small-height);
@@ -129,24 +128,7 @@ body.solar-design {
                     margin-inline-start: 12px;
                 }
                 input[type="radio"] {
-                    appearance: none;
-                    display: inline-block;
-                    width: var(--input-glyph-size);
-                    height: var(--input-glyph-size);
-                    padding: 2px;
-                    background-clip: content-box;
-                    border: var(--border-medium) solid var(--input-color);
-                    background-color: var(--input-background);
-                    border-radius: 50%;
-                    margin-inline-end: 12px;
-                    margin-bottom: -2px;
-                    &:checked {
-                        background-color: var(--input-color);
-                    }
-                    &:focus,
-                    &:active {
-                        border: var(--border-medium) solid var(--input-color)!important;
-                    }
+                    @include form-sd-radio();
                 }
             }
         }
@@ -214,57 +196,24 @@ body.solar-design {
                     input[type="week"],
                     textarea,
                     select {
-                        border: var(--border-thin) solid var(--input-border-color);
-                        height: var(--input-height);
-                        font-family: var(--font-ui);
-                        font-size: var(--fontsize-body);
-                        color: var(--input-color);
-                        padding: 0 12px;
-
-                        &:focus,
-                        &:active {
-                            border: var(--border-thin) solid var(--input-active-border-color);
-                            box-shadow: 0 0 0 var(--border-thin) var(--input-active-border-color) inset;
-                            outline: none;
-                        }
-                        &::placeholder {
-                            color: var(--input-placeholder) !important
-                        }
-                        &.disabled,
-                        &[disabled],
-                        &[readonly] {
-                            color: var(--input-disabled-color);
-                            background: var(--input-disabled-background);
-                            border-color: var(--input-disabled-border-color);
-                            opacity: 1 !important;
-                        }
+                        @include form-sd-input();
                     }
                     header {
                         border-bottom: var(--border-thin) solid var(--section-border-color);
                     }
                     footer {
                         [class^="btn-"], [class*=" btn-"] {
-                            border-radius: var(--radius-circular);
-                            border: var(--button-border) solid var(--button-secondary-border-color);
-                            color: var(--button-secondary-color);
-                            background-color: var(--button-secondary-background);
-                            text-shadow: none;
-                            line-height: var(--button-height);
-                            height: var(--button-height);
                             width: var(--button-height);
+                            height: var(--button-height);
+                            line-height: var(--button-height);
+                            border-radius: var(--radius-circular);
+                            @include button-sd-secondary();
 
-                            &:hover {
-                                background-color: var(--button-secondary-hover-background);
-                            }
                             &.icon-save, &.icon-edit {
-                                color: var(--button-primary-color);
-                                background-color: var(--button-primary-background);
-                                border-color: var(--button-primary-background);
+                                @include button-sd-primary();
 
                                 &:hover {
                                     opacity: 1;
-                                    background-color: var(--button-primary-hover-background);
-                                    border-color: var(--button-primary-hover-background);
                                 }
                             }
                             &[class^="icon-"]:before, &[class*=" icon-"]:before {
@@ -274,7 +223,6 @@ body.solar-design {
                     }
                 }
             }
-
             form:not(.list-container) {
                 background: var(--section-background);
             }
@@ -283,7 +231,6 @@ body.solar-design {
                 padding: 16px 0;
             }
         }
-
         h2 {
             font-size: var(--fontsize-heading-l);
             font-weight: bold;

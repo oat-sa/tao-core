@@ -16,24 +16,15 @@ body.solar-design {
         .modal-body {
             .buttons {
                 button {
-                    border-radius: var(--radius-pill);
-                    font-family: var(--font-ui);
-                    font-size: var(--fontsize-body-xs) !important;
-                    font-weight: bold;
-
-                    text-transform: uppercase;
-                    display: inline-flex;
-                    justify-content: center;
-                    align-items: center;
-                    padding: 0 16px;
-
-                    line-height: var(--button-small-height);
-                    height: var(--button-small-height);
-                    min-width: var(--button-small-height);
+                    @include button-sd-setup();
+                    @include button-sd-font();
+                    @include button-sd-small-size();
+                    @include button-sd-position();
 
                     border: var(--border-medium) solid var(--modal-button-border-color);
                     color: var(--modal-button-color) !important;
                     background-color: var(--modal-button-background);
+
                     &:hover {
                         background-color: var(--modal-button-background-hover);
                         outline: none;
@@ -41,9 +32,9 @@ body.solar-design {
                     &:focus {
                         outline: var(--border-medium) dotted var(--modal-button-focus-border-color);
                     }
-
                     &.btn-info {
                         background-color: var(--modal-button-primary-background);
+
                         &:hover {
                             background-color: var(--modal-button-primary-background-hover);
                         }
@@ -84,27 +75,9 @@ body.solar-design {
                     top: 8px;
                 }
                 & > input, & > textarea {
-                    max-width: none;
-                    height: var(--input-height);
-                    line-height: var(--input-height);
-                    font-family: var(--font-ui);
-                    font-size: var(--fontsize-body);
-                    color: var(--input-color);
-                    border: 0;
-                    border-radius: 0;
-                    border-bottom: var(--border-medium) solid var(--input-border-color);
+                    @include form-sd-search();
+                    @include form-sd-search-decorator();
                     padding: 0 0 0 40px;
-
-                    &:focus,
-                    &:active {
-                        border: none !important;
-                        outline: none;
-                        border-bottom: var(--border-medium) solid var(--input-border-color) !important;
-                    }
-
-                    &::placeholder {
-                        color: var(--input-placeholder) !important;
-                    }
                 }
             }
         }

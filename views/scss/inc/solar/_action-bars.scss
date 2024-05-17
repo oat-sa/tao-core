@@ -11,25 +11,13 @@ body.solar-design {
 
             .search-area {
                 margin: -2px 0 0 0;
-                border-bottom: var(--border-medium) solid var(--input-border-color);
+                @include form-sd-search-decorator();
 
                 input {
                     padding: 0 50px 0 34px;
                     min-width: 260px !important;
                     width: auto;
-                    border: none;
-                    height: var(--input-height);
-                    font-family: var(--font-ui);
-                    font-size: var(--fontsize-body);
-                    color: var(--input-color);
-
-                    &:focus, &:active {
-                        border: none !important;
-                        outline: none !important;
-                    }
-                    &::placeholder {
-                        color: var(--input-placeholder) !important;
-                    }
+                    @include form-sd-search();
                 }
                 button {
                     font-size: var(--fontsize-body) !important;
@@ -83,15 +71,8 @@ body.solar-design {
                     }
                 }
                 &.disabled {
-                    background-color: var(--button-disabled-background) !important;
-                    text-shadow: none !important;
-                    opacity: 1 !important;
-                    color: var(--button-disabled-color) !important;
+                    @include button-sd-disabled();
                     border: none !important;
-                    &:hover, .li-inner:hover {
-                        color: var(--button-disabled-color);
-                        background-color: var(--button-disabled-background);
-                    }
                 }
             }
         }

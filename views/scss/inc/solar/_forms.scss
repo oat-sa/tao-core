@@ -10,35 +10,15 @@ body.solar-design {
             height: var(--button-small-height);
             min-width: var(--button-small-height);
             &.btn-info {
-                border: var(--button-border) solid var(--button-secondary-border-color);
-                color: var(--button-secondary-color);
-                background-color: var(--button-secondary-background);
-
-                &:hover {
-                    background-color: var(--button-secondary-hover-background);
-                }
+                @include button-sd-secondary();
             }
             &.btn-success, &.loading-button {
-                color: var(--button-primary-info-color);
-                background-color: var(--button-primary-info-background);
-                border: none;
-                text-shadow: none;
-                &:hover {
-                    background-color: var(--button-primary-hover-background);
-                }
+                @include button-sd-primary-info();
 
                 &.btn-secondary {
-                    border: var(--button-border) solid var(--button-secondary-info-border-color);
-                    color: var(--button-secondary-info-color);
-                    background-color: var(--button-secondary-info-background);
-                    text-shadow: none;
-                    &:hover {
-                        background-color: var(--button-secondary-hover-background);
-                    }
+                    @include button-sd-secondary-info();
                 }
             }
-
-
             &.property-adder {
                 float: none;
                 border: none;
@@ -47,18 +27,7 @@ body.solar-design {
         }
 
         label, .form_desc {
-            font-family: var(--font-ui);
-            font-size: var(--fontsize-body);
-            font-weight: bold;
-            line-height: var(--input-height);
-
-            [class^="icon-"],
-            [class*=" icon-"] {
-                font-size: var(--fontsize-body);
-                color: var(--input-color);
-                width: 20px;
-                margin-inline-end: 12px;
-            }
+            @include form-sd-label();
         }
         label {
             margin-bottom: 0;
@@ -91,30 +60,7 @@ body.solar-design {
         input[type="week"],
         textarea,
         select {
-            border: var(--border-thin) solid var(--input-border-color);
-            height: var(--input-height);
-            font-family: var(--font-ui);
-            font-size: var(--fontsize-body);
-            color: var(--input-color);
-            padding: 0 12px;
-
-            &:focus,
-            &:active {
-                border: var(--border-thin) solid var(--input-active-border-color);
-                box-shadow: 0 0 0 var(--border-thin) var(--input-active-border-color) inset;
-                outline: none;
-            }
-            &::placeholder {
-                color: var(--input-placeholder) !important
-            }
-            &.disabled,
-            &[disabled],
-            &[readonly] {
-                color: var(--input-disabled-color);
-                background: var(--input-disabled-background);
-                border-color: var(--input-disabled-border-color);
-                opacity: 1 !important;
-            }
+            @include form-sd-input();
         }
 
         .form_radlst {
@@ -125,24 +71,7 @@ body.solar-design {
                 margin-inline-end: 32px;
             }
             input[type="radio"] {
-                appearance: none;
-                display: inline-block;
-                width: var(--input-glyph-size);
-                height: var(--input-glyph-size);
-                padding: 2px;
-                background-clip: content-box;
-                border: var(--border-medium) solid var(--input-color);
-                background-color: var(--input-background);
-                border-radius: 50%;
-                margin-inline-end: 12px;
-                margin-bottom: -2px;
-                &:checked {
-                    background-color: var(--input-color);
-                }
-                &:focus,
-                &:active {
-                    border: var(--border-medium) solid var(--input-color)!important;
-                }
+                @include form-sd-radio();
             }
 
             input[type="checkbox"] {
@@ -510,13 +439,7 @@ body.solar-design {
                 list-style: disc outside;
 
                 .btn-info {
-                    border: var(--button-border) solid var(--button-secondary-border-color);
-                    color: var(--button-secondary-color);
-                    background-color: var(--button-secondary-background);
-
-                    &:hover {
-                        background-color: var(--button-secondary-hover-background);
-                    }
+                    @include button-sd-secondary();
                 }
             }
         }
@@ -551,13 +474,9 @@ body.solar-design {
             line-height: var(--button-small-height);
             height: var(--button-small-height);
             min-width: var(--button-small-height);
-            color: var(--button-primary-color);
-            background-color: var(--button-primary-background);
-            text-shadow: none;
             width: 100%;
-            &:hover {
-                background-color: var(--button-primary-hover-background);
-            }
+            @include button-sd-primary();
+
             &:focus {
                 outline: var(--border-medium) dotted var(--button-primary-hover-background);
                 outline-offset: 3px;

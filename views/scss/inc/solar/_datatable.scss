@@ -5,13 +5,7 @@ body.solar-design {
         color: var(--datatable-color);
 
         .btn-info {
-            border: var(--border-medium) solid var(--button-secondary-border-color);
-            color: var(--button-secondary-color);
-            background-color: var(--button-secondary-background);
-
-            &:hover {
-                background-color: var(--button-secondary-hover-background);
-            }
+            @include button-sd-secondary();
         }
         h2 {
             font-family: var(--font-ui);
