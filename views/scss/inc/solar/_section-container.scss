@@ -207,6 +207,7 @@ body.solar-design {
                     }
                     footer {
                         [class^="btn-"], [class*=" btn-"] {
+                            font-weight: lighter;
                             width: var(--button-height);
                             height: var(--button-height);
                             line-height: var(--button-height);
