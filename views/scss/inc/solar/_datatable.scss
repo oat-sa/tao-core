@@ -4,12 +4,32 @@ body.solar-design {
         font-size: var(--fontsize-body);
         color: var(--datatable-color);
 
-        .btn-info {
-            @include button-sd-secondary();
-        }
         h2 {
             font-family: var(--font-ui);
             font-size: var(--fontsize-heading-l);
+        }
+        &, .action-bar {
+            [class^="btn-"], [class*=" btn-"] {
+                @include button-sd-secondary();
+            }
+        }
+        .filter {
+            input {
+                @include form-sd-search();
+                @include form-sd-search-decorator();
+                padding: 0 0 0 30px;
+            }
+            button {
+                right: auto;
+                left: 0;
+                top: 0;
+                height: var(--input-height);
+                width: 24px;
+                padding: 0;
+                &:before {
+                    color: var(--input-color);
+                }
+            }
         }
         .datatable-container {
             table.matrix {
@@ -84,6 +104,9 @@ body.solar-design {
         color: var(--datatable-color);
         border: none;
 
+        [class^="btn-"], [class*=" btn-"] {
+            @include button-sd-secondary();
+        }
         td, th {
             padding: 16px;
             border: none;
@@ -97,7 +120,11 @@ body.solar-design {
             line-height: var(--datatable-line-height);
         }
         td {
-            font-size: var(--fontsize-body);
+            &, &.date, &.numeric, &.message, &.user {
+                font-family: var(--font-ui);
+                font-size: var(--fontsize-body);
+                color: var(--datatable-color);
+            }
             border-bottom: var(--border-thin) solid var(--datatable-row-border-color);
             height: var(--datatable-row-height);
             line-height: var(--datatable-line-height);
