@@ -134,8 +134,12 @@ body.solar-design {
         }
 
         .content-block {
+            .main-container {
+                margin: 0 32px 32px 0;
+            }
             .data-container-wrapper {
                 & > section, .data-container {
+                    margin: 0 32px 32px 0;
                     & > header, .ui-widget-header {
                         background: var(--section-background);
                         border-bottom: var(--border-thin) solid var(--section-border-color) !important;
