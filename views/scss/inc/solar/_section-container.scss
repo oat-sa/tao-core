@@ -231,6 +231,11 @@ body.solar-design {
                 padding: 16px 0;
             }
         }
+        h1 {
+            font-size: var(--fontsize-heading-l);
+            font-weight: bold;
+            margin: 16px 0 32px 0;
+        }
         h2 {
             font-size: var(--fontsize-heading-l);
             font-weight: bold;
@@ -265,6 +270,20 @@ body.solar-design {
                 background-color: var(--color-brand);
                 border: none;
                 border-radius: 0;
+            }
+        }
+        .result-table {
+            .filters-container {
+                border: none;
+                background: transparent;
+                max-width: none;
+            }
+            .filter-buttons {
+                display: inline-block;
+                padding: 16px 0;
+            }
+            [class^="btn-"], [class*=" btn-"] {
+                @include button-sd-secondary();
             }
         }
     }

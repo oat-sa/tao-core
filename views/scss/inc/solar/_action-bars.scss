@@ -136,4 +136,10 @@ body.solar-design {
             display: none;
         }
     }
+
+    .bottom-bar {
+        label {
+            @include form-sd-label();
+        }
+    }
 }

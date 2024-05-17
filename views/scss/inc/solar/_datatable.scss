@@ -14,6 +14,7 @@ body.solar-design {
             }
         }
         .filter {
+            width: auto;
             input {
                 @include form-sd-search();
                 @include form-sd-search-decorator();
@@ -103,6 +104,7 @@ body.solar-design {
         font-size: var(--fontsize-body);
         color: var(--datatable-color);
         border: none;
+        margin-bottom: 32px;
 
         [class^="btn-"], [class*=" btn-"] {
             @include button-sd-secondary();
