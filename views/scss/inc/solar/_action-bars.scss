@@ -50,24 +50,15 @@ body.solar-design {
 
             li {
                 &.btn-info {
-                    display: flex;
-                    color: var(--action-bar-color);
-                    &:hover,
+                    @include button-sd-secondary();
+                    border: none;
+
                     &.active {
-                        border-color: var(--action-bar-color);
-                    }
-                    &:hover {
-                        background-color: var(--button-secondary-hover-background);
+                        border: var(--border-thin) solid var(--action-bar-color);
                     }
 
                     &.save-trigger, &#saver {
-                        color: var(--button-primary-info-color);
-                        background-color: var(--button-primary-info-background);
-                        border: none;
-                        &:hover, .li-inner:hover {
-                            color: var(--button-primary-info-color);
-                            background-color: var(--button-primary-hover-background);
-                        }
+                        @include button-sd-primary-info();
                     }
                 }
                 &.disabled {
