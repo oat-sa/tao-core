@@ -1,0 +1,165 @@
+@mixin button-sd-setup {
+    border-radius: var(--radius-pill);
+    padding: 0 16px;
+}
+
+@mixin button-sd-font {
+    font-family: var(--font-ui);
+    font-size: var(--fontsize-body-xs) !important;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+@mixin button-sd-position {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+@mixin button-sd-size {
+    line-height: var(--button-height);
+    height: var(--button-height);
+    min-width: var(--button-height);
+}
+
+@mixin button-sd-small-size {
+    line-height: var(--button-small-height);
+    height: var(--button-small-height);
+    min-width: var(--button-small-height);
+    padding: 0 16px;
+}
+
+@mixin button-sd-primary {
+    border: none;
+    color: var(--button-primary-color);
+    background-color: var(--button-primary-background);
+    text-shadow: none;
+
+    &:hover, .li-inner:hover {
+        color: var(--button-primary-color);
+        background-color: var(--button-primary-hover-background);
+    }
+}
+
+@mixin button-sd-secondary {
+    border: var(--button-border) solid var(--button-secondary-border-color);
+    color: var(--button-secondary-color);
+    background-color: var(--button-secondary-background);
+    text-shadow: none;
+
+    &:hover, .li-inner:hover {
+        color: var(--button-secondary-color);
+        background-color: var(--button-secondary-hover-background);
+    }
+}
+
+@mixin button-sd-primary-info {
+    border: none;
+    color: var(--button-primary-info-color);
+    background-color: var(--button-primary-info-background);
+    text-shadow: none;
+
+    &:hover, .li-inner:hover {
+        color: var(--button-primary-info-color);
+        background-color: var(--button-primary-info-hover-background);
+    }
+}
+
+@mixin button-sd-secondary-info {
+    border: var(--button-border) solid var(--button-secondary-info-border-color);
+    color: var(--button-secondary-info-color);
+    background-color: var(--button-secondary-info-background);
+    text-shadow: none;
+
+    &:hover, .li-inner:hover {
+        color: var(--button-secondary-info-color);
+        background-color: var(--button-secondary-info-hover-background);
+    }
+}
+
+@mixin button-sd-primary-error {
+    border: none;
+    color: var(--button-primary-error-color);
+    background-color: var(--button-primary-error-background);
+    text-shadow: none;
+
+    &:hover, .li-inner:hover {
+        color: var(--button-primary-error-color);
+        background-color: var(--button-primary-error-hover-background);
+    }
+}
+
+@mixin button-sd-secondary-error {
+    border: var(--button-border) solid var(--button-secondary-error-border-color);
+    color: var(--button-secondary-error-color);
+    background-color: var(--button-secondary-error-background);
+    text-shadow: none;
+
+    &:hover, .li-inner:hover {
+        color: var(--button-secondary-error-color);
+        background-color: var(--button-secondary-error-hover-background);
+    }
+}
+
+@mixin button-sd-primary-success {
+    border: none;
+    color: var(--button-primary-success-color);
+    background-color: var(--button-primary-success-background);
+    text-shadow: none;
+
+    &:hover, .li-inner:hover {
+        color: var(--button-primary-success-color);
+        background-color: var(--button-primary-success-hover-background);
+    }
+}
+
+@mixin button-sd-secondary-success {
+    border: var(--button-border) solid var(--button-secondary-success-border-color);
+    color: var(--button-secondary-success-color);
+    background-color: var(--button-secondary-success-background);
+    text-shadow: none;
+
+    &:hover, .li-inner:hover {
+        color: var(--button-secondary-success-color);
+        background-color: var(--button-secondary-success-hover-background);
+    }
+}
+
+@mixin button-sd-primary-warning {
+    border: none;
+    color: var(--button-primary-warning-color);
+    background-color: var(--button-primary-warning-background);
+    text-shadow: none;
+
+    &:hover, .li-inner:hover {
+        color: var(--button-primary-warning-color);
+        background-color: var(--button-primary-warning-hover-background);
+    }
+}
+
+@mixin button-sd-secondary-warning {
+    border: var(--button-border) solid var(--button-secondary-warning-border-color);
+    color: var(--button-secondary-warning-color);
+    background-color: var(--button-secondary-warning-background);
+    text-shadow: none;
+
+    &:hover, .li-inner:hover {
+        color: var(--button-secondary-warning-color);
+        background-color: var(--button-secondary-warning-hover-background);
+    }
+}
+
+@mixin button-sd-disabled {
+    // !important is required here to overwrite any other inherited rule no matter the specificity,
+    // as the disabled style must be consistent all across the stylesheet
+    background-color: var(--button-disabled-background) !important;
+    text-shadow: none !important;
+    opacity: 1 !important;
+    color: var(--button-disabled-color) !important;
+
+    &:hover, .li-inner:hover {
+        color: var(--button-disabled-color);
+        background-color: var(--button-disabled-background);
+    }
+}

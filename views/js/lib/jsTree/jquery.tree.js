@@ -12,9 +12,7 @@
  *
  */
 
-define(['jquery'], function($) {
-
-
+define(['jquery', 'layout/tree/helpers',], function($, helpers) {
 	// jQuery plugin
 	$.tree = {
 		datastores	: { },
@@ -317,6 +315,7 @@ define(['jquery'], function($) {
 						_this.container.empty().append($("<ul class='ltr'>").html(str));
 						_this.container.find("li:last-child").addClass("last").end().find("li:has(ul)").not(".open").addClass("closed");
 						_this.container.find("li").not(".open").not(".closed").addClass("leaf");
+						helpers.setALevelVar(_this.container);
 						_this.reselect();
 					});
 				});
@@ -796,6 +795,7 @@ define(['jquery'], function($) {
 							obj.children("ul:eq(0)").replaceWith($("<ul>").html(str));
 							obj.find("li:last-child").addClass("last").end().find("li:has(ul)").not(".open").addClass("closed");
 							obj.find("li").not(".open").not(".closed").addClass("leaf");
+							helpers.setALevelVar(obj);
 							_this.open_branch.apply(_this, [obj]);
 							if(callback) callback.call();
 						});
@@ -2037,6 +2037,7 @@ define(['jquery'], function($) {
 							'data'		: data,
 							'dataType'	: "json",
 							'success'	: function (d, textStatus) {
+								helpers.setTreeLevels(d);
 								callback.call(null, d);
 							},
 							'error'		: function (xhttp, textStatus, errorThrown) {

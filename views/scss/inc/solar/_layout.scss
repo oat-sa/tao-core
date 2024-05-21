@@ -27,6 +27,7 @@ body.solar-design {
 
     --section-color: var(--color-text-default);
     --section-background: var(--color-bg-default);
+    --section-header-background: var(--color-gs-light-alternative-bg);
     --section-border-color: var(--color-gs-light-secondary);
 
     --form-color: var(--color-text-default);
@@ -55,8 +56,10 @@ body.solar-design {
     --drop-zone-background: var(--color-brand-light);
     --drop-zone-border-color: var(--color-brand);
 
-    --button-height: 64px;
+    --button-height: 40px;
     --button-small-height: 40px;
+    --button-border-thin: var(--border-thin);
+    --button-border: var(--border-medium);
 
     --button-primary-color: var(--color-text-inverted);
     --button-primary-background: var(--color-brand);
@@ -122,14 +125,48 @@ body.solar-design {
 
     --tree-line-height: 40px;
     --tree-action-line-height: 40px;
+    --tree-color: var(--color-text-default);
+    --tree-color-hover: var(--color-brand);
+    --tree-background: var(--color-bg-default);
+    --tree-border-color: var(--color-gs-light-secondary);
     --tree-action-background-color: var(--color-gs-light);
-    --tree-action-hover-background-color: var(--color-gs-light-secondary);
-    --tree-selected-background-color: var(--color-brand-light); 
-    --tree-selected-border-color: var(--color-brand); 
+    --tree-action-hover-background-color: var(--color-gs-light-hover-bg);
+    --tree-selected-background-color: var(--color-brand-light);
+    --tree-selected-border-color: var(--color-brand);
 
-    .navi-container {
-        background-color: var(--color-bg-default);
-    }
+    --feedback-color: var(--color-text-default);
+    --feedback-hover-color: var(--color-brand-hover);
+    --feedback-border-color: var(--color-border-default);
+    --feedback-background: var(--color-gs-light-alternative-bg);
+
+    --feedback-info-color: var(--color-text-default);
+    --feedback-info-hover-color: var(--color-brand-hover);
+    --feedback-info-border-color: var(--color-border-default);
+    --feedback-info-background: var(--color-gs-light-alternative-bg);
+
+    --feedback-success-color: var(--color-success);
+    --feedback-success-hover-color: var(--color-success-hover);
+    --feedback-success-border-color: var(--color-success);
+    --feedback-success-background: var(--color-success-alternative-bg);
+
+    --feedback-warning-color: var(--color-alert);
+    --feedback-warning-hover-color: var(--color-alert-hover);
+    --feedback-warning-border-color: var(--color-alert);
+    --feedback-warning-background: var(--color-alert-alternative-bg);
+
+    --datatable-header-height: 56px;
+    --datatable-row-height: 56px;
+    --datatable-line-height: 24px;
+    --datatable-color: var(--color-text-default);
+    --datatable-hover-color: var(--color-brand);
+    --datatable-background: var(--color-bg-default);
+    --datatable-header-border-color: var(--color-border-default);
+    --datatable-row-border-color: var(--color-gs-light-secondary);
 
     font-family: var(--font-ui);
+
+    ::selection {
+        background-color: var(--color-bg-selection);
+        text-shadow: none;
+    }
 }

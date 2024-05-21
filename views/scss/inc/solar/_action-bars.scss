@@ -11,28 +11,13 @@ body.solar-design {
 
             .search-area {
                 margin: -2px 0 0 0;
-                border-bottom: var(--border-medium) solid var(--input-border-color);
+                @include form-sd-search-decorator();
 
                 input {
-                    padding: 0 0 0 34px;
+                    padding: 0 50px 0 34px;
                     min-width: 260px !important;
                     width: auto;
-                    border: none;
-                    height: var(--input-height);
-                    font-family: var(--font-ui);
-                    font-size: var(--fontsize-body);
-                    color: var(--input-color);
-
-                    &:focus, &:active {
-                        border: none !important;
-                        outline: none !important;
-                    }
-                    &::selection {
-                        background: var(--input-background);
-                    }
-                    &::placeholder {
-                        color: var(--input-placeholder) !important
-                    }
+                    @include form-sd-search();
                 }
                 button {
                     font-size: var(--fontsize-body) !important;
@@ -55,6 +40,8 @@ body.solar-design {
                     border-color: var(--color-text-default);
                 }
                 .icon-ul {
+                    position: absolute;
+                    right: -270px;
                     .results-counter {
                         color: var(--color-text-default);
                     }
@@ -63,36 +50,20 @@ body.solar-design {
 
             li {
                 &.btn-info {
-                    display: flex;
-                    color: var(--action-bar-color);
-                    &:hover,
+                    @include button-sd-secondary();
+                    border: none;
+
                     &.active {
-                        border-color: var(--action-bar-color);
-                    }
-                    &:hover {
-                        background-color: var(--button-secondary-hover-background);
+                        border: var(--border-thin) solid var(--action-bar-color);
                     }
 
                     &.save-trigger, &#saver {
-                        color: var(--button-primary-info-color);
-                        background-color: var(--button-primary-info-background);
-                        border: none;
-                        &:hover, .li-inner:hover {
-                            color: var(--button-primary-info-color);
-                            background-color: var(--button-primary-hover-background);
-                        }
+                        @include button-sd-primary-info();
                     }
                 }
                 &.disabled {
-                    background-color: var(--button-disabled-background) !important;
-                    text-shadow: none !important;
-                    opacity: 1 !important;
-                    color: var(--button-disabled-color) !important;
+                    @include button-sd-disabled();
                     border: none !important;
-                    &:hover, .li-inner:hover {
-                        color: var(--button-disabled-color);
-                        background-color: var(--button-disabled-background);
-                    }
                 }
             }
         }
@@ -124,6 +95,8 @@ body.solar-design {
                     margin: 0 !important;
                     width: auto;
                     height: auto;
+                    position: relative;
+                    top: -1px;
                     font-size: var(--fontsize-body) !important;
                 }
                 .li-inner {
@@ -142,6 +115,9 @@ body.solar-design {
                     color: var(--button-secondary-color);
                     background-color: var(--button-secondary-hover-background);
                 }
+                &.active {
+                    border: var(--button-border-thin) solid var(--action-bar-color);
+                }
             }
         }
     }
@@ -149,6 +125,12 @@ body.solar-design {
     .tree-block {
         .action-bar {
             display: none;
+        }
+    }
+
+    .bottom-bar {
+        label {
+            @include form-sd-label();
         }
     }
 }

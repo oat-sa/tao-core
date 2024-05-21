@@ -6,36 +6,19 @@ body.solar-design {
         // these buttons are originally green which turned out to be avery poor choice
         [class^="btn-"], [class*=" btn-"],
         input[type="submit"], input[type="reset"] {
+            line-height: var(--button-small-height);
+            height: var(--button-small-height);
+            min-width: var(--button-small-height);
             &.btn-info {
-                border: var(--border-thin) solid var(--button-secondary-border-color);
-                color: var(--button-secondary-color);
-                background-color: var(--button-secondary-background);
-
-                &:hover {
-                    background-color: var(--button-secondary-hover-background);
-                }
+                @include button-sd-secondary();
             }
             &.btn-success, &.loading-button {
-                color: var(--button-primary-info-color);
-                background-color: var(--button-primary-info-background);
-                border: none;
-                text-shadow: none;
-                &:hover {
-                    background-color: var(--button-primary-hover-background);
-                }
+                @include button-sd-primary-info();
 
                 &.btn-secondary {
-                    border: var(--border-thin) solid var(--button-secondary-info-border-color);
-                    color: var(--button-secondary-info-color);
-                    background-color: var(--button-secondary-info-background);
-                    text-shadow: none;
-                    &:hover {
-                        background-color: var(--button-secondary-hover-background);
-                    }
+                    @include button-sd-secondary-info();
                 }
             }
-
-
             &.property-adder {
                 float: none;
                 border: none;
@@ -44,18 +27,7 @@ body.solar-design {
         }
 
         label, .form_desc {
-            font-weight: var(--font-ui);
-            font-size: var(--fontsize-body);
-            font-weight: bold;
-            line-height: var(--input-height);
-
-            [class^="icon-"],
-            [class*=" icon-"] {
-                font-size: var(--fontsize-body);
-                color: var(--input-color);
-                width: 20px;
-                margin-inline-end: 12px;
-            }
+            @include form-sd-label();
         }
         label {
             margin-bottom: 0;
@@ -64,6 +36,11 @@ body.solar-design {
              & ~ .form-elt-container {
                 width: 100%;
             }
+        }
+
+        .form_checklst .grid-row [class*=" col-"] .tooltip-trigger,
+        .form_checklst .grid-row [class^="col-"] .tooltip-trigger {
+            top: 12px;
         }
 
         input[type="color"],
@@ -83,33 +60,7 @@ body.solar-design {
         input[type="week"],
         textarea,
         select {
-            border: var(--border-thin) solid var(--input-border-color);
-            height: var(--input-height);
-            font-family: var(--font-ui);
-            font-size: var(--fontsize-body);
-            color: var(--input-color);
-            padding: 0 12px;
-
-            &:focus,
-            &:active {
-                border: var(--border-thin) solid var(--input-active-border-color);
-                box-shadow: 0 0 0 var(--border-thin) var(--input-active-border-color) inset;
-                outline: none;
-            }
-            &::selection {
-                background: var(--input-background);
-            }
-            &::placeholder {
-                color: var(--input-placeholder) !important
-            }
-            &.disabled,
-            &[disabled],
-            &[readonly] {
-                color: var(--input-disabled-color);
-                background: var(--input-disabled-background);
-                border-color: var(--input-disabled-border-color);
-                opacity: 1 !important;
-            }
+            @include form-sd-input();
         }
 
         .form_radlst {
@@ -120,24 +71,7 @@ body.solar-design {
                 margin-inline-end: 32px;
             }
             input[type="radio"] {
-                appearance: none;
-                display: inline-block;
-                width: var(--input-glyph-size);
-                height: var(--input-glyph-size);
-                padding: 2px;
-                background-clip: content-box;
-                border: var(--border-medium) solid var(--input-color);
-                background-color: var(--input-background);
-                border-radius: 50%;
-                margin-inline-end: 12px;
-                margin-bottom: -2px;
-                &:checked {
-                    background-color: var(--input-color);
-                }
-                &:focus,
-                &:active {
-                    border: var(--border-medium) solid var(--input-color)!important;
-                }
+                @include form-sd-radio();
             }
 
             input[type="checkbox"] {
@@ -146,6 +80,12 @@ body.solar-design {
                 margin-inline-end: 12px;
                 width: var(--input-glyph-size);
                 height: var(--input-glyph-size);
+            }
+
+            [class^="icon-"],
+            [class*=" icon-"] {
+                font-size: var(--fontsize-body);
+                font-weight: bold;
             }
         }
 
@@ -311,6 +251,7 @@ body.solar-design {
                 .unit {
                     background: transparent;
                     opacity: 1;
+                    padding: 0 10px;
                 }
             }
         }
@@ -438,11 +379,146 @@ body.solar-design {
         }
     }
 
+    .switch {
+        input:checked ~ label .off {
+            background-color: var(--color-bg-actionable-alternative-inverted);
+            color: var(--color-text-actionable-alternative-inverted);
+        }
+        label {
+            background-color: var(--color-bg-actionable-alternative-inverted);
+            border: var(--border-medium) solid var(--color-bg-actionable-alternative-inverted);
+            border-radius: var(--radius-pill);
+
+            span {
+                background-color: var(--color-bg-actionable-alternative-inverted);
+                border-radius: var(--radius-pill);
+                color: var(--color-text-actionable-alternative-inverted);
+                text-transform: uppercase;
+                user-select: none;
+
+                &:hover {
+                    background-color: var(--color-bg-actionable-secondary-hover-inverted);
+                    color: var(--color-text-actionable-alternative-inverted);
+                }
+                &.active {
+                    background-color: var(--color-bg-default);
+                    color: var(--color-bg-actionable-alternative-inverted);
+                    &:hover {
+                        background-color: var(--button-secondary-hover-background);
+                        color: var(--color-bg-actionable-alternative-inverted);
+                    }
+                }
+            }
+        }
+    }
+
+    .daterange {
+        [class^="btn-"], [class*=" btn-"] {
+            @include button-sd-secondary();
+        }
+        label {
+            @include form-sd-label();
+        }
+        input[type=text] {
+            @include form-sd-input();
+        }
+    }
+
+    .select2-choice {
+        @include form-sd-input();
+        line-height: var(--input-height);
+        .select2-arrow {
+            height: calc(100% - 2px);
+            top: 1px;
+            right: 1px;
+            width: 20px;
+
+            b, b:before {
+                line-height: unset;
+                font-size: var(--fontsize-body);
+            }
+            b:hover {
+                background-color: var(--input-hover-background);
+                color: var(--input-color);
+            }
+        }
+    }
+    .select2-drop-active {
+        border: var(--border-thin) solid var(--input-border-color);
+        border-top: none;
+        border-radius: 0;
+        font-family: var(--font-ui);
+        font-size: var(--fontsize-body);
+        color: var(--input-color);
+    }
+    .select2-results {
+        li {
+            min-height: var(--input-height);
+            line-height: var(--input-height);
+        }
+        .select2-highlighted {
+            background: var(--color-bg-actionable-hover);
+            color: var(--color-text-actionable);
+        }
+    }
+
+    .pcimgr {
+        h1 {
+            & > div {
+                margin-bottom: 32px;
+            }
+            .lft, .rgt {
+                float: none;
+                display: block;
+            }
+        }
+        .files {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            list-style-type: none;
+            padding: 0;
+
+            & > div {
+                font-size: var(--fontsize-heading);
+                font-weight: bold;
+            }
+            li {
+                padding: 8px 0;
+                margin-left: 16px;
+                list-style: disc outside;
+
+                .btn-info {
+                    @include button-sd-secondary();
+                }
+            }
+        }
+    }
+
+    form .msg-edit-area {
+        background: var(--sub-form-background);
+        border: none;
+        border-radius: 0;
+        padding: 32px;
+        margin: 0 0 32px 0;
+
+        [class^="icon-"], [class*=" icon-"] {
+            display: none;
+        }
+        label {
+            @include form-sd-label();
+        }
+        input[type=text] {
+            @include form-sd-input();
+        }
+    }
+
     #login-box {
         font-family: var(--font-ui);
         min-width: 50%;
         max-width: 75%;
         padding: 40px;
+        margin: 80px auto 0;
         color: var(--section-color);
         background-color: var(--section-background);
         border: var(--border-thin) solid var(--section-border-color);
@@ -466,13 +542,9 @@ body.solar-design {
             line-height: var(--button-small-height);
             height: var(--button-small-height);
             min-width: var(--button-small-height);
-            color: var(--button-primary-color);
-            background-color: var(--button-primary-background);
-            text-shadow: none;
             width: 100%;
-            &:hover {
-                background-color: var(--button-primary-hover-background);
-            }
+            @include button-sd-primary();
+
             &:focus {
                 outline: var(--border-medium) dotted var(--button-primary-hover-background);
                 outline-offset: 3px;
