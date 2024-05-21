@@ -70,6 +70,14 @@
     }
 }
 
+@mixin form-sd-checkbox {
+    accent-color: var(--input-color);
+    margin: 14px 0;
+    margin-inline-end: 12px;
+    width: var(--input-glyph-size);
+    height: var(--input-glyph-size);
+}
+
 @mixin form-sd-label {
     font-family: var(--font-ui);
     font-size: var(--fontsize-body);

@@ -73,17 +73,10 @@ body.solar-design {
             input[type="radio"] {
                 @include form-sd-radio();
             }
-
             input[type="checkbox"] {
-                accent-color: var(--input-color);
-                margin: 14px 0;
-                margin-inline-end: 12px;
-                width: var(--input-glyph-size);
-                height: var(--input-glyph-size);
+                @include form-sd-checkbox();
             }
-
-            [class^="icon-"],
-            [class*=" icon-"] {
+            [class^="icon-"], [class*=" icon-"] {
                 font-size: var(--fontsize-body);
                 font-weight: bold;
             }
