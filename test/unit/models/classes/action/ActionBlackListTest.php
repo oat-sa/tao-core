@@ -49,15 +49,22 @@ class ActionBlackListTest extends TestCase
 
         $this->actionBlackListMock
             ->method('isEnabled')
-            ->with('DISABLE_ACTION_BY_FEATURE_FLAG')
+            ->with($this->callback(function ($envVarName) {
+                return in_array($envVarName, ['FEATURE_FLAG_ENABLE_ONE_ACTION', 'DISABLE_ACTION_BY_FEATURE_FLAG']);
+            }))
             ->willReturn(true);
 
         $this->subject->setOption(ActionBlackList::OPTION_DISABLED_ACTIONS, [
-            'some-action-to-disable'
+            'some-action-to-disable',
+            'action-disabled-by-default-but-enabled-by-ff'
         ]);
 
         $this->subject->setOption(ActionBlackList::OPTION_DISABLED_ACTIONS_FLAG_MAP, [
             'some-action-disabled-by-feature-flag' => 'DISABLE_ACTION_BY_FEATURE_FLAG'
+        ]);
+
+        $this->subject->setOption(ActionBlackList::OPTION_ENABLED_ACTIONS_BY_FEATURE_FLAG_MAP, [
+            'action-disabled-by-default-but-enabled-by-ff' => 'FEATURE_FLAG_ENABLE_ONE_ACTION'
         ]);
     }
 
@@ -74,7 +81,8 @@ class ActionBlackListTest extends TestCase
         return [
             'configurable service value' => ['some-action-to-disable', true],
             'feature flag value' => ['some-action-disabled-by-feature-flag', true],
-            'action not disabled' => ['some-action-that-is-not-disabled', false]
+            'action not disabled' => ['some-action-that-is-not-disabled', false],
+            'disabled action toggled on by ff' => ['action-disabled-by-default-but-enabled-by-ff', false],
         ];
     }
 }
