@@ -1,43 +1,46 @@
 body.solar-design {
     [class^="feedback-"], [class*=" feedback-"] {
-        border: none;
-        border-left: var(--border-medium) solid var(--feedback-border-color);
+        font-family: var(--font-ui);
+        font-size: var(--fontsize-body);
+        border: var(--border-thin) solid var(--feedback-border-color);
         border-radius: 0;
         max-width: 400px;
-        padding: 4px 20px;
         margin: 12px auto;
         text-align: center;
         color: var(--feedback-color) !important;
         background-color: var(--feedback-background);
 
-        &.small {
-            padding: 4px 20px;
+        &, &.small {
+            padding: 20px 30px;
 
             & > [class^="icon-"], & > [class*=" icon-"] {
+                font-size: var(--fontsize-body);
                 top: calc(50% - 10px);
-                left: 4px;
+                left: 12px;
             }
         }
         & > [class^="icon-"], & > [class*=" icon-"] {
-            font-size: var(--fontsize-body);
-            top: calc(50% - 10px);
-            left: 4px;
-
             &.icon-close, &.icon-remove {
-                font-size: var(--fontsize-body-xs);
                 color: var(--feedback-color);
-                top: 4px;
+                top: 8px;
                 left: auto;
+                width: var(--button-height);
+                height: var(--button-height);
+                line-height: var(--button-height);
 
                 &:hover {
-                    color: var(--feedback-hover-color);
+                    color: var(--feedback-color);
+                    background: var(--color-bg-actionable-secondary-hover);
                 }
             }
             &.icon-remove {
-                right: 24px;
+                right: 56px;
             }
             &.icon-close {
-                right: 4px;
+                right: 8px;
+                &::before {
+                    @include icon-sd-close-small;
+                }
             }
         }
         &.popup {
@@ -103,16 +106,13 @@ body.solar-design {
         }
     }
     .brd-success {
-        border: none !important;
-        border-left: var(--border-medium) solid var(--feedback-success-border-color);
+        border: var(--border-thin) solid var(--feedback-success-border-color) !important;
     }
     .brd-info {
-        border: none !important;
-        border-left: var(--border-medium) solid var(--feedback-info-border-color);
+        border: var(--border-thin) solid var(--feedback-info-border-color) !important;
     }
     .brd-warning, .brd-danger, .brd-error {
-        border: none !important;
-        border-left: var(--border-medium) solid var(--feedback-warning-border-color);
+        border: var(--border-thin) solid var(--feedback-warning-border-color) !important;
     }
     .txt-success {
         color: var(--feedback-success-color) !important;
