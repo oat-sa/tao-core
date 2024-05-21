@@ -52,7 +52,19 @@ body.solar-design {
         }
 
         .usage-tabs-container {
+            .datatable-wrapper {
+                position: relative;
+                & > .filter {
+                    position: absolute;
+                    top: calc(var(--input-height) * -1);
+                    right: 0;
+                }
+            }
+            .tab-selector {
+                position: static;
+            }
             .tab-container {
+                display: block;
                 padding: 0;
                 .tab-group {
                     border: none;
