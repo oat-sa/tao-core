@@ -417,6 +417,49 @@ body.solar-design {
         }
     }
 
+    .duration-ctrl-wrapper, .incrementer-ctrl-wrapper {
+        border-radius: 0;
+        border: var(--border-thin) solid var(--input-border-color);
+        @include form-sd-focus();
+
+        .incrementer {
+            padding-right: 16px;
+            padding-left: 0;
+        }
+        input {
+            height: var(--input-height);
+            width: calc(var(--input-height) + 16px) !important;
+            min-width: var(--input-height) !important;
+        }
+        input, button, a {
+            &, &:focus, &:active {
+                border: 0;
+                box-shadow: none;
+                outline: none;
+            }
+        }
+        .incrementer ~ .incrementer-ctrl {
+            & > a {
+                color: var(--input-color);
+                background: transparent;
+                line-height: calc(var(--input-height) / 2);
+                padding: 0;
+                font-size: var(--fontsize-body);
+                width: calc(var(--input-height) / 2);
+
+                &.inc, &.dec {
+                    border: 0;
+                }
+                &:hover {
+                    background: var(--input-hover-background);
+                    color: var(--input-color);
+                    border: none;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+
     .select2-choice {
         @include form-sd-input();
         line-height: var(--input-height);
