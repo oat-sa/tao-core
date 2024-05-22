@@ -426,12 +426,12 @@ body.solar-design {
             padding-right: 16px;
             padding-left: 0;
         }
-        input {
+        input[type="text"] {
             height: var(--input-height);
             width: calc(var(--input-height) + 16px) !important;
             min-width: var(--input-height) !important;
         }
-        input, button, a {
+        input[type="text"], button, a {
             &, &:focus, &:active {
                 border: 0;
                 box-shadow: none;
@@ -460,6 +460,11 @@ body.solar-design {
         }
     }
 
+    .select2-container, .select2-container-multi {
+        input[type="text"] {
+            border-radius: 0;
+        }
+    }
     .select2-choice {
         @include form-sd-input();
         line-height: var(--input-height);
@@ -495,6 +500,51 @@ body.solar-design {
         .select2-highlighted {
             background: var(--color-bg-actionable-hover);
             color: var(--color-text-actionable);
+        }
+    }
+    .select2-container-multi {
+        .select2-choices {
+            border: var(--border-thin) solid var(--input-border-color);
+            color: var(--input-color);
+            background: var(--input-background);
+            min-height: var(--input-height);
+
+            .select2-search-choice {
+                font-size: var(--fontsize-body-xs);
+                border-radius: var(--radius-medium);
+                border: var(--border-thin) solid var(--color-brand);
+                padding: 0 24px 0 8px;
+                margin: 4px;
+                line-height: 32px;
+                color: var(--color-brand);
+                background-color: var(--color-brand-light);
+
+                &.partial {
+                    background-color: var(--color-brand-light);
+                }
+            }
+            .select2-search-choice-close {
+                width: 12px;
+                height: 12px;
+                left: auto;
+                right: 6px;
+                top: 10px;
+                font-size: var(--fontsize-body-xs);
+                outline: none;
+                background: transparent;
+                color: var(--color-brand);
+                @include icon-sd-close-small();
+            }
+            .select2-search-choice-focus {
+                color: var(--color-text-inverted);
+                background: var(--color-brand-hover-invert);
+            }
+        }
+        .select2-container-active {
+            .select2-choices {
+                border: var(--border-thin) solid var(--input-border-color);
+                outline: none;
+            }
         }
     }
 
