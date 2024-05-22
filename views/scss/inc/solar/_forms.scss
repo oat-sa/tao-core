@@ -430,6 +430,7 @@ body.solar-design {
             height: var(--input-height);
             width: calc(var(--input-height) + 16px) !important;
             min-width: var(--input-height) !important;
+            font-size: var(--fontsize-body);
         }
         input[type="text"], button, a {
             &, &:focus, &:active {
