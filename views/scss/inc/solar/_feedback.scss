@@ -55,9 +55,6 @@ body.solar-design {
         border-color: var(--feedback-success-border-color);
         background-color: var(--feedback-success-background);
 
-        &, .icon-success {
-            color: var(--feedback-success-color) !important;
-        }
         & > [class^="icon-"], & > [class*=" icon-"] {
             &.icon-close, &.icon-remove {
                 color: var(--feedback-success-color);
@@ -68,7 +65,9 @@ body.solar-design {
             }
         }
         &, &.small {
+            color: var(--feedback-color) !important;
             & > .icon-success {
+                color: var(--feedback-success-color) !important;
                 @include icon-sd-success-big();
             }
         }
@@ -77,9 +76,6 @@ body.solar-design {
         border-color: var(--feedback-info-border-color);
         background-color: var(--feedback-info-background);
 
-        & .icon-info, .icon-lock {
-            color: var(--feedback-info-color) !important;
-        }
         & > [class^="icon-"], & > [class*=" icon-"] {
             &.icon-close, &.icon-remove {
                 color: var(--feedback-info-color);
@@ -90,6 +86,10 @@ body.solar-design {
             }
         }
         &, &.small {
+            color: var(--feedback-color) !important;
+            & > .icon-info, & > .icon-lock {
+                color: var(--feedback-info-color) !important;
+            }
             & > .icon-info {
                 @include icon-sd-info-big();
             }
@@ -102,9 +102,6 @@ body.solar-design {
         border-color: var(--feedback-warning-border-color);
         background-color: var(--feedback-warning-background);
 
-        &, .icon-warning, .icon-danger, .icon-error {
-            color: var(--feedback-warning-color) !important;
-        }
         & > [class^="icon-"], & > [class*=" icon-"] {
             &.icon-close, &.icon-remove {
                 color: var(--feedback-warning-color);
@@ -115,6 +112,10 @@ body.solar-design {
             }
         }
         &, &.small {
+            color: var(--feedback-color) !important;
+            & > .icon-warning, & > .icon-danger, & > .icon-error {
+                color: var(--feedback-warning-color) !important;
+            }
             & > .icon-error {
                 @include icon-sd-alert-big();
             }
