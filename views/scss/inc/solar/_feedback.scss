@@ -15,7 +15,7 @@ body.solar-design {
 
             & > [class^="icon-"], & > [class*=" icon-"] {
                 font-size: var(--fontsize-body);
-                top: calc(50% - 10px);
+                top: 12px;
                 left: 12px;
             }
         }
@@ -67,6 +67,11 @@ body.solar-design {
                 }
             }
         }
+        &, &.small {
+            & > .icon-success {
+                @include icon-sd-success-big();
+            }
+        }
     }
     .feedback-info {
         border-color: var(--feedback-info-border-color);
@@ -82,6 +87,11 @@ body.solar-design {
                 &:hover {
                     color: var(--feedback-info-hover-color);
                 }
+            }
+        }
+        &, &.small {
+            & > .icon-info {
+                @include icon-sd-info-big();
             }
         }
         .button-container {
@@ -102,6 +112,14 @@ body.solar-design {
                 &:hover {
                     color: var(--feedback-warning-hover-color);
                 }
+            }
+        }
+        &, &.small {
+            & > .icon-error {
+                @include icon-sd-alert-big();
+            }
+            & > .icon-warning {
+                @include icon-sd-warning-big();
             }
         }
     }
