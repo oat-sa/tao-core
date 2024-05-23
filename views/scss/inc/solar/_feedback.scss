@@ -1,5 +1,5 @@
 body.solar-design {
-    [class^="feedback-"], [class*=" feedback-"] {
+    .undobox, [class^="feedback-"], [class*=" feedback-"] {
         font-family: var(--font-ui);
         font-size: var(--fontsize-body);
         border: var(--border-thin) solid var(--feedback-border-color);
@@ -43,7 +43,7 @@ body.solar-design {
                 }
             }
         }
-        &.popup {
+        &.popup, &.undobox {
             top : var(--header-bar-height);
             left : 50%;
             margin-left : -200px;
@@ -72,7 +72,7 @@ body.solar-design {
             }
         }
     }
-    .feedback-info {
+    .feedback-info, .undobox {
         border-color: var(--feedback-info-border-color);
         background-color: var(--feedback-info-background);
 
