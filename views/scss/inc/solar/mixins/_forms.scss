@@ -1,3 +1,18 @@
+@mixin form-sd-focus {
+    &:focus, &:active {
+        border-radius: 0;
+        border: var(--border-thin) solid var(--input-active-border-color);
+        box-shadow: 0 0 0 var(--border-thin) var(--input-active-border-color) inset;
+        outline: none;
+    }
+}
+
+@mixin form-sd-placeholder {
+    &::placeholder {
+        color: var(--input-placeholder) !important;
+    }
+}
+
 @mixin form-sd-input {
     border: var(--border-thin) solid var(--input-border-color);
     height: var(--input-height);
@@ -5,15 +20,9 @@
     font-size: var(--fontsize-body);
     color: var(--input-color);
     padding: 0 12px;
+    @include form-sd-focus();
+    @include form-sd-placeholder();
 
-    &:focus, &:active {
-        border: var(--border-thin) solid var(--input-active-border-color);
-        box-shadow: 0 0 0 var(--border-thin) var(--input-active-border-color) inset;
-        outline: none;
-    }
-    &::placeholder {
-        color: var(--input-placeholder) !important
-    }
     &.disabled, &[disabled], &[readonly] {
         color: var(--input-disabled-color);
         background: var(--input-disabled-background);
@@ -31,14 +40,11 @@
     color: var(--input-color);
     border: none;
     border-radius: 0;
+    @include form-sd-placeholder();
 
     &:focus, &:active {
         border: none !important;
         outline: none;
-    }
-
-    &::placeholder {
-        color: var(--input-placeholder) !important;
     }
 }
 
@@ -68,6 +74,14 @@
     &:focus, &:active {
         border: var(--border-medium) solid var(--input-color) !important;
     }
+}
+
+@mixin form-sd-checkbox {
+    accent-color: var(--input-color);
+    margin: 14px 0;
+    margin-inline-end: 12px;
+    width: var(--input-glyph-size);
+    height: var(--input-glyph-size);
 }
 
 @mixin form-sd-label {

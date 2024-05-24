@@ -60,7 +60,7 @@ body.solar-design {
                         border: none;
                         border-bottom: var(--border-thin) solid var(--datatable-row-border-color);
 
-                        button{
+                        button {
                             text-transform: uppercase;
                         }
                     }
@@ -130,6 +130,14 @@ body.solar-design {
             border-bottom: var(--border-thin) solid var(--datatable-row-border-color);
             height: var(--datatable-row-height);
             line-height: var(--datatable-line-height);
+
+            input[type="radio"] {
+                @include form-sd-radio();
+            }
+
+            input[type="checkbox"] {
+                @include form-sd-checkbox();
+            }
         }
         tr:nth-child(even), tr:nth-child(odd) {
             background: var(--datatable-background);

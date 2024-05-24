@@ -73,17 +73,10 @@ body.solar-design {
             input[type="radio"] {
                 @include form-sd-radio();
             }
-
             input[type="checkbox"] {
-                accent-color: var(--input-color);
-                margin: 14px 0;
-                margin-inline-end: 12px;
-                width: var(--input-glyph-size);
-                height: var(--input-glyph-size);
+                @include form-sd-checkbox();
             }
-
-            [class^="icon-"],
-            [class*=" icon-"] {
+            [class^="icon-"], [class*=" icon-"] {
                 font-size: var(--fontsize-body);
                 font-weight: bold;
             }
@@ -424,6 +417,55 @@ body.solar-design {
         }
     }
 
+    .duration-ctrl-wrapper, .incrementer-ctrl-wrapper {
+        border-radius: 0;
+        border: var(--border-thin) solid var(--input-border-color);
+        @include form-sd-focus();
+
+        .incrementer {
+            padding-right: 16px;
+            padding-left: 0;
+        }
+        input[type="text"] {
+            height: var(--input-height);
+            width: calc(var(--input-height) + 16px) !important;
+            min-width: var(--input-height) !important;
+            font-size: var(--fontsize-body);
+        }
+        input[type="text"], button, a {
+            &, &:focus, &:active {
+                border: 0;
+                box-shadow: none;
+                outline: none;
+            }
+        }
+        .incrementer ~ .incrementer-ctrl {
+            & > a {
+                color: var(--input-color);
+                background: transparent;
+                line-height: calc(var(--input-height) / 2);
+                padding: 0;
+                font-size: var(--fontsize-body);
+                width: calc(var(--input-height) / 2);
+
+                &.inc, &.dec {
+                    border: 0;
+                }
+                &:hover {
+                    background: var(--input-hover-background);
+                    color: var(--input-color);
+                    border: none;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+
+    .select2-container, .select2-container-multi {
+        input[type="text"] {
+            border-radius: 0;
+        }
+    }
     .select2-choice {
         @include form-sd-input();
         line-height: var(--input-height);
@@ -459,6 +501,51 @@ body.solar-design {
         .select2-highlighted {
             background: var(--color-bg-actionable-hover);
             color: var(--color-text-actionable);
+        }
+    }
+    .select2-container-multi {
+        .select2-choices {
+            border: var(--border-thin) solid var(--input-border-color);
+            color: var(--input-color);
+            background: var(--input-background);
+            min-height: var(--input-height);
+
+            .select2-search-choice {
+                font-size: var(--fontsize-body-xs);
+                border-radius: var(--radius-medium);
+                border: var(--border-thin) solid var(--color-brand);
+                padding: 0 24px 0 8px;
+                margin: 4px;
+                line-height: 32px;
+                color: var(--color-brand);
+                background-color: var(--color-brand-light);
+
+                &.partial {
+                    background-color: var(--color-brand-light);
+                }
+            }
+            .select2-search-choice-close {
+                width: 12px;
+                height: 12px;
+                left: auto;
+                right: 6px;
+                top: 10px;
+                font-size: var(--fontsize-body-xs);
+                outline: none;
+                background: transparent;
+                color: var(--color-brand);
+                @include icon-sd-close-small();
+            }
+            .select2-search-choice-focus {
+                color: var(--color-text-inverted);
+                background: var(--color-brand-hover-invert);
+            }
+        }
+        .select2-container-active {
+            .select2-choices {
+                border: var(--border-thin) solid var(--input-border-color);
+                outline: none;
+            }
         }
     }
 

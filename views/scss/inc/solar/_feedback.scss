@@ -1,46 +1,49 @@
 body.solar-design {
-    [class^="feedback-"], [class*=" feedback-"] {
-        border: none;
-        border-left: var(--border-medium) solid var(--feedback-border-color);
+    .undobox, [class^="feedback-"], [class*=" feedback-"] {
+        font-family: var(--font-ui);
+        font-size: var(--fontsize-body);
+        border: var(--border-thin) solid var(--feedback-border-color);
         border-radius: 0;
         max-width: 400px;
-        padding: 4px 20px;
         margin: 12px auto;
         text-align: center;
         color: var(--feedback-color) !important;
         background-color: var(--feedback-background);
 
-        &.small {
-            padding: 4px 20px;
+        &, &.small {
+            padding: 20px 30px;
 
             & > [class^="icon-"], & > [class*=" icon-"] {
-                top: calc(50% - 10px);
-                left: 4px;
+                font-size: var(--fontsize-body);
+                top: 12px;
+                left: 12px;
             }
         }
         & > [class^="icon-"], & > [class*=" icon-"] {
-            font-size: var(--fontsize-body);
-            top: calc(50% - 10px);
-            left: 4px;
-
             &.icon-close, &.icon-remove {
-                font-size: var(--fontsize-body-xs);
                 color: var(--feedback-color);
-                top: 4px;
+                top: 8px;
                 left: auto;
+                width: var(--button-height);
+                height: var(--button-height);
+                line-height: var(--button-height);
 
                 &:hover {
-                    color: var(--feedback-hover-color);
+                    color: var(--feedback-color);
+                    background: var(--color-bg-actionable-secondary-hover);
                 }
             }
             &.icon-remove {
-                right: 24px;
+                right: 56px;
             }
             &.icon-close {
-                right: 4px;
+                right: 8px;
+                &::before {
+                    @include icon-sd-close-small;
+                }
             }
         }
-        &.popup {
+        &.popup, &.undobox {
             top : var(--header-bar-height);
             left : 50%;
             margin-left : -200px;
@@ -52,9 +55,6 @@ body.solar-design {
         border-color: var(--feedback-success-border-color);
         background-color: var(--feedback-success-background);
 
-        &, .icon-success {
-            color: var(--feedback-success-color) !important;
-        }
         & > [class^="icon-"], & > [class*=" icon-"] {
             &.icon-close, &.icon-remove {
                 color: var(--feedback-success-color);
@@ -64,14 +64,18 @@ body.solar-design {
                 }
             }
         }
+        &, &.small {
+            color: var(--feedback-color) !important;
+            & > .icon-success {
+                color: var(--feedback-success-color) !important;
+                @include icon-sd-success-big();
+            }
+        }
     }
-    .feedback-info {
+    .feedback-info, .undobox {
         border-color: var(--feedback-info-border-color);
         background-color: var(--feedback-info-background);
 
-        & .icon-info, .icon-lock {
-            color: var(--feedback-info-color) !important;
-        }
         & > [class^="icon-"], & > [class*=" icon-"] {
             &.icon-close, &.icon-remove {
                 color: var(--feedback-info-color);
@@ -79,6 +83,15 @@ body.solar-design {
                 &:hover {
                     color: var(--feedback-info-hover-color);
                 }
+            }
+        }
+        &, &.small {
+            color: var(--feedback-color) !important;
+            & > .icon-info, & > .icon-lock {
+                color: var(--feedback-info-color) !important;
+            }
+            & > .icon-info {
+                @include icon-sd-info-big();
             }
         }
         .button-container {
@@ -89,9 +102,6 @@ body.solar-design {
         border-color: var(--feedback-warning-border-color);
         background-color: var(--feedback-warning-background);
 
-        &, .icon-warning, .icon-danger, .icon-error {
-            color: var(--feedback-warning-color) !important;
-        }
         & > [class^="icon-"], & > [class*=" icon-"] {
             &.icon-close, &.icon-remove {
                 color: var(--feedback-warning-color);
@@ -101,18 +111,27 @@ body.solar-design {
                 }
             }
         }
+        &, &.small {
+            color: var(--feedback-color) !important;
+            & > .icon-warning, & > .icon-danger, & > .icon-error {
+                color: var(--feedback-warning-color) !important;
+            }
+            & > .icon-error {
+                @include icon-sd-alert-big();
+            }
+            & > .icon-warning {
+                @include icon-sd-warning-big();
+            }
+        }
     }
     .brd-success {
-        border: none !important;
-        border-left: var(--border-medium) solid var(--feedback-success-border-color);
+        border: var(--border-thin) solid var(--feedback-success-border-color) !important;
     }
     .brd-info {
-        border: none !important;
-        border-left: var(--border-medium) solid var(--feedback-info-border-color);
+        border: var(--border-thin) solid var(--feedback-info-border-color) !important;
     }
     .brd-warning, .brd-danger, .brd-error {
-        border: none !important;
-        border-left: var(--border-medium) solid var(--feedback-warning-border-color);
+        border: var(--border-thin) solid var(--feedback-warning-border-color) !important;
     }
     .txt-success {
         color: var(--feedback-success-color) !important;

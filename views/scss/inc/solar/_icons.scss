@@ -3,10 +3,13 @@ body.solar-design {
         text-shadow: none;
     }
 
-    .icon-settings::before { @include icon-sd-settings; }
+    .icon-add::before { @include icon-sd-add; }
     .icon-folder:before { @include icon-sd-folder-closed(); }
     .icon-folder-open:before { @include icon-sd-folder-open(); }
 
+    .settings-menu {
+        .icon-settings::before { @include icon-sd-settings; }
+    }
     .tree {
         .node-class {
             &.closed > a > dfn.open-close:before { @include icon-sd-right(); }

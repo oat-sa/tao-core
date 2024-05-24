@@ -9,6 +9,31 @@ body.solar-design {
             color: var(--color-text-default);
         }
 
+        #modal-close-btn {
+            border: none;
+            border-radius: 0;
+
+            &, & .icon-close {
+                width: var(--button-height);
+                height: var(--button-height);
+                line-height: var(--button-height);
+            }
+            &:hover {
+                color: var(--feedback-color);
+                background: var(--color-bg-actionable-secondary-hover);
+            }
+            .icon-close {
+                display: inline-block;
+                padding: 0;
+                top: -2px;
+                left: auto;
+
+                &::before {
+                    @include icon-sd-close();
+                }
+            }
+        }
+
         .modal-close {
             display: none;
         }

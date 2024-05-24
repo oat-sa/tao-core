@@ -35,6 +35,7 @@ body.solar-design {
     --sub-form-color: var(--color-text-default);
     --sub-form-background: var(--color-gs-light-alternative-bg);
 
+    --label-height: 40px;
     --input-height: 44px;
     --input-glyph-size: 16px;
     --input-placeholder: var(--color-gs-dark-secondary);
@@ -141,8 +142,8 @@ body.solar-design {
 
     --feedback-info-color: var(--color-text-default);
     --feedback-info-hover-color: var(--color-brand-hover);
-    --feedback-info-border-color: var(--color-border-default);
-    --feedback-info-background: var(--color-gs-light-alternative-bg);
+    --feedback-info-border-color: var(--color-brand);
+    --feedback-info-background: var(--color-brand-light);
 
     --feedback-success-color: var(--color-success);
     --feedback-success-hover-color: var(--color-success-hover);
