@@ -434,9 +434,9 @@ body.solar-design {
         }
         input[type="text"], button, a {
             &, &:focus, &:active {
-                border: none;
-                box-shadow: none;
-                outline: none;
+                border: none !important;
+                box-shadow: none !important;
+                outline: none !important;
             }
         }
         .incrementer ~ .incrementer-ctrl {
@@ -462,9 +462,9 @@ body.solar-design {
     }
 
     .select2-container, .select2-container-multi {
-        input[type="text"] {
-            border-radius: 0;
+        input[type="text"].select2-input {
             &, &:focus, &:active {
+                border-radius: 0;
                 border: none !important;
                 box-shadow: none !important;
                 outline: none !important;
