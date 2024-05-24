@@ -423,11 +423,11 @@ body.solar-design {
         @include form-sd-focus();
 
         .incrementer {
-            padding-right: 16px;
+            padding-right: calc(var(--input-height) / 2) !important;
             padding-left: 0;
         }
         input[type="text"] {
-            height: var(--input-height);
+            height: var(--input-height) !important;
             width: calc(var(--input-height) + 16px) !important;
             min-width: var(--input-height) !important;
             font-size: var(--fontsize-body);
