@@ -6,8 +6,9 @@ body.solar-design {
 
             .description {
                 height: 40px;
-                line-height: 40px;
+                line-height: 24px;
                 background: var(--color-bg-info);
+                padding: 8px 16px
             }
             ul.task-list {
                 border: 0;
@@ -22,6 +23,7 @@ body.solar-design {
                         display: flex;
                         justify-content: center;
                         align-items: center;
+                        top: 0;
                     }
 
                     .container-text {
@@ -34,30 +36,71 @@ body.solar-design {
                         }
                     }
 
-                    .action-group {
-                        &.action-top {
-                            top: 4px;
-                            right: 4px;
-                        }
+                    
+                }
+                
+            }
+            
+            .view-detail .task-detail-element {
+                width: 796px;
+                padding: 4px;
+                
+                .detail-description {
+                    padding: 12px;                    
+                }
 
-                        &.action-bottom {
-                            top: 40px;
-                            right: 4px;
-                        }
-
-                        span[class^=icon-] {
-                            @include button-sd-rounded-icon;
-                            width: 40px;
-                            height: 40px;
-                            line-height: 40px;
-                            text-align: center;
-                            padding-left: 0;
-                            margin-left: 0;
-                        }
-                    }
+                .detail-body {
+                    padding: 12px;
 
                 }
-    
+
+                label.pseudo-label-box {
+                    top: 20px;
+                }
+
+                [class^=feedback-] {
+                    margin-left: 0;
+                    margin-right: 0;
+                    margin-top: 16px;
+                    max-width: unset;
+                    padding: 20px 20px 20px 36px;
+
+                    .message {
+                        text-align: left;
+                    }
+
+                    [class^=icon-] {
+                        top: 20px;
+                        left: 12px;
+                    }
+
+                    .icon-info {
+                        top: 12px;
+                        left: 12px;
+                    }
+                }
+
+            }
+            .action-group {
+                &.action-top {
+                    top: 4px;
+                    right: 4px;
+                }
+
+                &.action-bottom {
+                    top: 40px;
+                    right: 4px;
+                }
+
+                span[class^=icon-] {
+                    @include button-sd-rounded-icon;
+                    width: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                    text-align: center;
+                    padding-left: 0;
+                    margin-left: 0;
+                }
             }
         }
     }    
