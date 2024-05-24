@@ -434,7 +434,7 @@ body.solar-design {
         }
         input[type="text"], button, a {
             &, &:focus, &:active {
-                border: 0;
+                border: none;
                 box-shadow: none;
                 outline: none;
             }
@@ -449,7 +449,7 @@ body.solar-design {
                 width: calc(var(--input-height) / 2);
 
                 &.inc, &.dec {
-                    border: 0;
+                    border: none;
                 }
                 &:hover {
                     background: var(--input-hover-background);
@@ -464,6 +464,11 @@ body.solar-design {
     .select2-container, .select2-container-multi {
         input[type="text"] {
             border-radius: 0;
+            &, &:focus, &:active {
+                border: none !important;
+                box-shadow: none !important;
+                outline: none !important;
+            }
         }
     }
     .select2-choice {
