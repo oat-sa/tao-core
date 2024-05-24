@@ -163,3 +163,12 @@
         background-color: var(--button-disabled-background);
     }
 }
+
+@mixin button-sd-rounded-icon {
+    border-radius: var(--radius-circular);
+    background-color: transparent;
+
+    &:hover {
+        background-color: var(--button-secondary-info-hover-background);
+    }
+}

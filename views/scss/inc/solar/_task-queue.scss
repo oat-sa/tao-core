@@ -1,0 +1,64 @@
+body.solar-design {
+    .task-listing {
+        .box {
+            min-width: 400px;
+            border: 0;
+
+            .description {
+                height: 40px;
+                line-height: 40px;
+                background: var(--color-bg-info);
+            }
+            ul.task-list {
+                border: 0;
+                
+                .task-element {
+                    height: 88px;
+                    padding: 4px;
+
+                    .container-icon {
+                        width: 64px;
+                        height: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+                    .container-text {
+                        margin-left: 64px;
+                        width: 288px;
+                        padding: 12px;
+
+                        .label {
+                            text-overflow: ellipsis;
+                        }
+                    }
+
+                    .action-group {
+                        &.action-top {
+                            top: 4px;
+                            right: 4px;
+                        }
+
+                        &.action-bottom {
+                            top: 40px;
+                            right: 4px;
+                        }
+
+                        span[class^=icon-] {
+                            @include button-sd-rounded-icon;
+                            width: 40px;
+                            height: 40px;
+                            line-height: 40px;
+                            text-align: center;
+                            padding-left: 0;
+                            margin-left: 0;
+                        }
+                    }
+
+                }
+    
+            }
+        }
+    }    
+}
