@@ -19,6 +19,9 @@ body.solar-design {
                     @include button-sd-secondary-info();
                 }
             }
+            &.edit-instance {
+                @include button-sd-secondary();
+            }
             &.property-adder {
                 float: none;
                 border: none;
