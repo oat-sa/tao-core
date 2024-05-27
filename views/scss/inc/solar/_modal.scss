@@ -133,6 +133,12 @@ body.solar-design {
                     top: 0;
                 }
             }
+            .btn-info, .btn-reset {
+                @include button-sd-secondary();
+            }
+            .btn-success {
+                @include button-sd-primary();
+            }
             .file-wrapper {
                 height: calc(100% - var(--header-bar-height));
                 margin: 0;
@@ -161,9 +167,6 @@ body.solar-design {
                 .upload-switcher {
                     margin: -8px 0;
 
-                    .btn-info {
-                        @include button-sd-secondary();
-                    }
                     .icon-add {
                         top: 2px;
                     }
@@ -224,6 +227,9 @@ body.solar-design {
                         }
                     }
                 }
+                .uploader {
+                    padding: 16px 0;
+                }
             }
             .file-preview {
                 .file-properties, & > .actions {
@@ -233,12 +239,6 @@ body.solar-design {
                     [class^="btn-"], [class*=" btn-"] {
                         display: block;
                         width: 100%;
-                    }
-                    .btn-info {
-                        @include button-sd-secondary();
-                    }
-                    .btn-success {
-                        @include button-sd-primary();
                     }
                     .actions {
                         padding: 16px 0 0;
