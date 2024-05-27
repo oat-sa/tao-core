@@ -107,4 +107,108 @@ body.solar-design {
             }
         }
     }
+    #mediaManager {
+        .resourcemgr {
+            [class^="btn-"], [class*=" btn-"] {
+                [class^="icon-"], [class*=" icon-"] {
+                    margin-inline-end: 8px;
+                }
+            }
+            &.modal {
+                color: var(--form-color);
+                background: var(--form-background);
+                padding: 0;
+            }
+            & > h2 {
+                height: var(--header-bar-height);
+                line-height: var(--header-bar-height);
+                margin: 0 64px 0 24px;
+            }
+            .modal-close {
+                display: inline-block;
+                top: 12px;
+                right: 24px;
+
+                .icon-close {
+                    top: 0;
+                }
+            }
+            .file-wrapper {
+                height: calc(100% - var(--header-bar-height));
+                margin: 0;
+                padding: 0 32px;
+                gap: 16px;
+            }
+            .file-browser, .file-selector, .file-preview  {
+                color: var(--form-color);
+                background: var(--form-background);
+
+                h1, h2 {
+                    color: var(--form-color);
+                    background: var(--sub-form-background);
+                    font-size: var(--fontsize-heading);
+                    line-height: 24px;
+                    padding: 16px;
+                    margin: 0;
+
+                    &.toggler:after {
+                        font-size: var(--fontsize-heading-l);
+                        font-weight: bold;
+                        top: 16px;
+                        right: 16px;
+                    }
+                }
+                .upload-switcher {
+                    margin: -8px 0;
+
+                    .btn-info {
+                        @include button-sd-secondary();
+                    }
+                    .icon-add {
+                        top: 2px;
+                    }
+                }
+            }
+            .file-selector {
+                ul.files {
+                    li {
+                        &.active {
+                            background-color: var(--color-brand-light);
+                        }
+                        &:hover {
+                            background-color: var(--color-gs-light-hover-bg);
+                        }
+                    }
+                }
+            }
+            .file-preview {
+                .file-properties, & > .actions {
+                    padding: 16px;
+                    margin: 0;
+
+                    [class^="btn-"], [class*=" btn-"] {
+                        display: block;
+                        width: 100%;
+                    }
+                    .btn-info {
+                        @include button-sd-secondary();
+                    }
+                    .btn-success {
+                        @include button-sd-primary();
+                    }
+                    .actions {
+                        padding: 16px 0 0;
+                        margin: 0;
+                    }
+                    .grid-row {
+                        font-size: var(--fontsize-body);
+
+                        .col-2 {
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
