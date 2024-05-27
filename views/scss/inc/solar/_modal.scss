@@ -169,6 +169,50 @@ body.solar-design {
                     }
                 }
             }
+            .file-browser {
+                --level-padding: 20px;
+
+                ul {
+                    margin: 0;
+                    padding: 0;
+
+                    ul {
+                        padding: 0;
+                    }
+                    li {
+                        a {
+                            font-size: var(--fontsize-body);
+                            font-weight: normal;
+                            line-height: var(--tree-line-height);
+                            height: var(--tree-line-height);
+                            padding-left: calc(var(--tree-level) * var(--level-padding));
+                            background: transparent;
+                            color: var(--tree-color);
+                            border-width: 0 0 0 var(--border-thick);
+                            border-color: transparent;
+                            border-style: solid;
+                            border-radius: 0;
+                            display: block;
+
+                            &:before, &.opened:before {
+                                @include icon-sd-folder-open();
+                            }
+                            &:hover, &:active, &:focus {
+                                text-decoration: none;
+                                outline: none;
+                            }
+                            &:hover {
+                                background-color: var(--tree-action-hover-background-color);
+                                color: var(--tree-color);
+                            }
+                        }
+                        &.active > a {
+                            background: var(--tree-selected-background-color);
+                            border-color: var(--tree-selected-border-color);
+                        }
+                    }
+                }
+            }
             .file-selector {
                 ul.files {
                     li {
