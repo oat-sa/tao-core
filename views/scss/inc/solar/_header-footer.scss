@@ -1,0 +1,80 @@
+body.solar-design {
+    .dark-bar {
+        .portal-back {
+            width: auto;
+            padding: 24px 12px 19px;
+            margin: 0 10px;
+            font-size: var(--fontsize-body);
+            &:hover {
+                background-color: var(--header-bar-hover-background);
+                color: var(--header-bar-hover-color);
+            }
+        }
+        .header-title {
+            font-size: var(--fontsize-heading-l);
+            font-weight: bold;
+            padding: 20px 22px 18px 0;
+        }
+        .nav, nav {
+            .main-menu {
+                li {
+                    min-width: 90px;
+                    font-size: var(--fontsize-body);
+                    font-weight: bold;
+                    line-height: 24px;
+                    & > a {
+                        padding: 20px 15px;
+                        display: inline-flex;
+                        justify-content: center;
+                        align-items: baseline;
+                        gap: 4px;
+                        span {
+                            font-size: var(--fontsize-body-s);
+                            padding: 0;
+                        }
+                    }
+                    &.active {
+                        &:after {
+                            content: ' ';
+                            position: absolute;
+                            bottom: 0;
+                            left: 0;
+                            width: 100%;
+                            border-bottom: var(--border-thick) solid var(--header-bar-active-border-color);
+                        }
+                    }
+                }
+            }
+
+            .settings-menu, .persistent-menu {
+                li {
+                    ul {
+                        border: var(--border-thin) solid var(--header-bar-border-color);
+                    }
+                }
+
+                li.li-taskqueue {
+                    .task-manager-container {
+                        width: 48px;
+                        height: 65px;
+                        padding: 17px 9px 18px 9px;
+
+                        &:hover {
+                            background-color: var(--color-gs-light-hover-bg)
+                        }
+                    }
+
+
+                    .arrow {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+    & > footer {
+        font-size: var(--fontsize-body-s);
+        padding: 8px 24px;
+    }
+}

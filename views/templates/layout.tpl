@@ -33,7 +33,7 @@ $hasVersionWarning = empty($_COOKIE['versionWarning'])
     <link rel="stylesheet" href="<?= Layout::getThemeStylesheet(Theme::CONTEXT_BACKOFFICE) ?>" />
 </head>
 
-<body<?php Layout::isSmallNavi() && print ' class="small-navi"'?>>
+<body class="<?= Layout::isSolarDesignEnabled() ? 'solar-design' : '' ?><?= Layout::isSmallNavi() ? ' small-navi' : '' ?>">
 <?php Template::inc('blocks/requirement-check.tpl', 'tao'); ?>
 
 <div class="content-wrap">

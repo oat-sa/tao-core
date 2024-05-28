@@ -1,10 +1,10 @@
 @import 'inc/bootstrap';
 
 .action-bar {
-    background: whiten($info, 0.1);
+    background: var(--action-bar-background);
+    color: var(--action-bar-color);
     padding: 3px;
     overflow: hidden;
-    color: whiten($info, 0.9);
 
     li {
         float: left;
@@ -15,7 +15,7 @@
             display: inline-block;
             color: inherit;
             &:hover {
-                color: white;
+                color: var(--action-bar-hover-color);
             }
         }
         // clarification icon vs. glyph: same thing but due to certain CSS rules a second class is required
@@ -32,13 +32,13 @@
             padding: 2px 4px;
         }
         &.active .li-inner {
-            color: white;
+            color: var(--action-bar-active-color);
         }
     }
 
     &.horizontal-action-bar {
         padding: 5px;
-        height: 35px;
+        height: var(--action-bar-height);
         .search-area {
             margin: 2px 0 0 0;
             border: none;

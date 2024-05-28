@@ -1,0 +1,23 @@
+body.solar-design {
+    .tlb {
+        .tlb-bar {
+            .tlb-button {
+                color: var(--color-text-default) !important;
+                background-color: var(--color-bg-default) !important;
+            }
+            .tlb-button-on {
+                color: var(--color-text-inverted) !important;
+                background-color: var(--color-brand) !important;
+            }
+            .tlb-button,
+            .tlb-button-on,
+            .tlb-button-off,
+            .tlb-button-disabled {
+                &:hover {
+                    color: var(--color-text-default) !important;
+                    background-color: var(--color-gs-light-hover-bg) !important;
+                }
+            }
+        }
+    }
+}

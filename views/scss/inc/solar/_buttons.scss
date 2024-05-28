@@ -1,0 +1,81 @@
+body.solar-design {
+    .loading-button{
+        .action-label, .terminated-label{
+            margin-left: 0;
+        }
+    }
+
+    [class^="btn-"], [class*=" btn-"], .btn-default,
+    input[type="submit"], input[type="reset"] {
+        @include button-sd-setup();
+        @include button-sd-font();
+        @include button-sd-size();
+        @include button-sd-primary();
+
+        &, .li-inner {
+            @include button-sd-position();
+        }
+        &:hover {
+            opacity: 1;
+        }
+        &.btn-secondary {
+            line-height: var(--button-height);
+            @include button-sd-secondary();
+        }
+        &.small {
+            @include button-sd-small-size();
+
+            &.btn-secondary {
+                line-height: var(--button-small-height);
+            }
+            [class^="icon-"],
+            [class*=" icon-"] {
+                font-size: var(--fontsize-body);
+            }
+        }
+        [class^="icon-"], [class*=" icon-"] {
+            font-size: var(--fontsize-body);
+            text-shadow: none;
+            top: -1px;
+            left: auto;
+
+            &, &.r {
+                padding: 0;
+            }
+        }
+        &.btn-info {
+            @include button-sd-primary-info();
+
+            &.btn-secondary {
+                @include button-sd-secondary-info();
+            }
+        }
+        &.btn-error {
+            @include button-sd-primary-error();
+
+            &.btn-secondary {
+                @include button-sd-secondary-error();
+            }
+        }
+        &.btn-success {
+            @include button-sd-primary-success();
+
+            &.btn-secondary {
+                @include button-sd-secondary-success();
+            }
+        }
+        &.btn-warning {
+            @include button-sd-primary-warning();
+
+            &.btn-secondary {
+                @include button-sd-secondary-warning();
+            }
+        }
+    }
+    .disabled, button[disabled] {
+        @include button-sd-disabled();
+    }
+    button[disabled] {
+        border: var(--button-border) solid var(--button-disabled-border-color) !important;
+    }
+}
