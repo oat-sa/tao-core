@@ -15,6 +15,7 @@
 
 @mixin form-sd-input {
     border: var(--border-thin) solid var(--input-border-color);
+    border-radius: 0;
     height: var(--input-height);
     font-family: var(--font-ui);
     font-size: var(--fontsize-body);

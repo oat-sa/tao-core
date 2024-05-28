@@ -1,0 +1,26 @@
+@mixin toolbar-sd-cke {
+    .cke_toolbar {
+        a.cke_button_on {
+            color: var(--form-color);
+            background: var(--color-brand-light);
+            border-bottom: var(--border-thick) solid var(--color-brand);
+        }
+        .cke_button {
+            color: var(--form-color);
+            border-bottom: var(--border-thick) solid transparent;
+
+            &:hover {
+                color: var(--form-color) !important;
+                background: var(--color-gs-light-hover-bg) !important;
+            }
+        }
+        .cke_combo_disabled .cke_combo_button:hover,
+        .cke_button_disabled:hover {
+            color: var(--form-color) !important;
+            background: var(--color-gs-light) !important;
+        }
+        .cke_toolbar_end {
+            border-right: var(--border-thin) solid var(--color-gs-light-secondary);
+        }
+    }
+}

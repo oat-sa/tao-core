@@ -19,6 +19,9 @@ body.solar-design {
                     @include button-sd-secondary-info();
                 }
             }
+            &.edit-instance {
+                @include button-sd-secondary();
+            }
             &.property-adder {
                 float: none;
                 border: none;
@@ -423,20 +426,20 @@ body.solar-design {
         @include form-sd-focus();
 
         .incrementer {
-            padding-right: 16px;
+            padding-right: calc(var(--input-height) / 2) !important;
             padding-left: 0;
         }
         input[type="text"] {
-            height: var(--input-height);
+            height: var(--input-height) !important;
             width: calc(var(--input-height) + 16px) !important;
             min-width: var(--input-height) !important;
             font-size: var(--fontsize-body);
         }
         input[type="text"], button, a {
             &, &:focus, &:active {
-                border: 0;
-                box-shadow: none;
-                outline: none;
+                border: none !important;
+                box-shadow: none !important;
+                outline: none !important;
             }
         }
         .incrementer ~ .incrementer-ctrl {
@@ -449,7 +452,7 @@ body.solar-design {
                 width: calc(var(--input-height) / 2);
 
                 &.inc, &.dec {
-                    border: 0;
+                    border: none;
                 }
                 &:hover {
                     background: var(--input-hover-background);
@@ -462,13 +465,29 @@ body.solar-design {
     }
 
     .select2-container, .select2-container-multi {
+        input[type="text"].select2-input {
+            &, &:focus, &:active {
+                border-radius: 0;
+                border: none !important;
+                box-shadow: none !important;
+                outline: none !important;
+            }
+        }
+    }
+    .select2-search {
+        padding: 0;
+
         input[type="text"] {
-            border-radius: 0;
+            @include form-sd-input();
+            max-width: none;
+            width: 100%;
+            height: var(--input-height) !important;
         }
     }
     .select2-choice {
         @include form-sd-input();
         line-height: var(--input-height);
+
         .select2-arrow {
             height: calc(100% - 2px);
             top: 1px;

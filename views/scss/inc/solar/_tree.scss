@@ -19,7 +19,7 @@ body.solar-design {
                 a {
                     height: var(--tree-line-height);
                     padding-left: calc(var(--tree-level) * var(--level-padding));
-                    border-width: 0 0 0 4px;
+                    border-width: 0 0 0 var(--border-thick);
                     border-color: transparent;
                     border-style: solid;
                     border-radius: 0;
@@ -163,7 +163,7 @@ body.solar-design {
                     font-weight: normal;
                     background: transparent;
                     color: var(--tree-color);
-                    border-width: 0 0 0 4px;
+                    border-width: 0 0 0 var(--border-thick);
                     border-color: transparent;
                     border-style: solid;
                     border-radius: 0;
@@ -216,7 +216,7 @@ body.solar-design {
                     color: var(--tree-color);
                     line-height: var(--tree-line-height);
                     height: var(--tree-line-height);
-                    border-width: 0 0 0 4px;
+                    border-width: 0 0 0 var(--border-thick);
                     border-color: transparent;
                     border-style: solid;
                     border-radius: 0;
