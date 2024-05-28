@@ -1,0 +1,146 @@
+body.solar-design {
+    .datatable-wrapper {
+        font-family: var(--font-ui);
+        font-size: var(--fontsize-body);
+        color: var(--datatable-color);
+
+        h2 {
+            font-family: var(--font-ui);
+            font-size: var(--fontsize-heading-l);
+        }
+        &, .action-bar {
+            [class^="btn-"], [class*=" btn-"] {
+                @include button-sd-secondary();
+            }
+        }
+        .filter {
+            width: auto;
+            input {
+                @include form-sd-search();
+                @include form-sd-search-decorator();
+                padding: 0 0 0 30px;
+            }
+            button {
+                right: auto;
+                left: 0;
+                top: 0;
+                height: var(--input-height);
+                width: 24px;
+                padding: 0;
+                &:before {
+                    color: var(--input-color);
+                }
+            }
+        }
+        .datatable-container {
+            table.matrix {
+                border: none;
+                background: transparent;
+            }
+            .datatable {
+                thead {
+                    th {
+                        font-size: var(--fontsize-heading);
+                        font-weight: 700;
+                        background: var(--datatable-background);
+                        border: none;
+                        border-bottom: var(--border-thin) solid var(--datatable-header-border-color);
+                        height: var(--datatable-header-height);
+                        line-height: var(--datatable-line-height);
+                    }
+                }
+                tbody {
+                    tr {
+                        background: var(--datatable-background);
+                        height: var(--datatable-row-height);
+                        line-height: var(--datatable-line-height);
+                        font-size: var(--fontsize-body);
+                    }
+                    td {
+                        border: none;
+                        border-bottom: var(--border-thin) solid var(--datatable-row-border-color);
+
+                        button {
+                            text-transform: uppercase;
+                        }
+                    }
+                }
+            }
+        }
+        .datatable-pagination-bottom,
+        .datatable-pagination-top {
+            margin: 16px 0;
+        }
+    }
+    table.datatable {
+        th {
+            .sortable, .sorted {
+                position: relative;
+                padding-left: 36px;
+                padding-right: 0;
+                &:after{
+                    right: auto;
+                    left: 8px;
+                    color: var(--datatable-color);
+                    font-size: var(--fontsize-body);
+                    font-weight: bold;
+                }
+                &:hover, &:active, &:focus {
+                    &:after {
+                        color: var(--datatable-hover-color);
+                    }
+                }
+            }
+            .sortable:after {
+                top: 4px;
+            }
+            .comment {
+                color: var(--color-text-feedback);
+            }
+        }
+    }
+    table.matrix {
+        font-family: var(--font-ui);
+        font-size: var(--fontsize-body);
+        color: var(--datatable-color);
+        border: none;
+        margin-bottom: 32px;
+
+        [class^="btn-"], [class*=" btn-"] {
+            @include button-sd-secondary();
+        }
+        td, th {
+            padding: 16px;
+            border: none;
+        }
+        th {
+            font-size: var(--fontsize-heading);
+            font-weight: 700;
+            background: var(--datatable-background);
+            border-bottom: var(--border-thin) solid var(--datatable-header-border-color);
+            height: var(--datatable-header-height);
+            line-height: var(--datatable-line-height);
+        }
+        td {
+            &, &.date, &.numeric, &.message, &.user {
+                font-family: var(--font-ui);
+                font-size: var(--fontsize-body);
+                color: var(--datatable-color);
+            }
+            border-bottom: var(--border-thin) solid var(--datatable-row-border-color);
+            height: var(--datatable-row-height);
+            line-height: var(--datatable-line-height);
+
+            input[type="radio"] {
+                @include form-sd-radio();
+            }
+
+            input[type="checkbox"] {
+                @include form-sd-checkbox();
+            }
+        }
+        tr:nth-child(even), tr:nth-child(odd) {
+            background: var(--datatable-background);
+        }
+    }
+}

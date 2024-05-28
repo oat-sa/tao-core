@@ -1,0 +1,100 @@
+/* Font loading */
+/* !!! Font file url should be relative to the main.css file, NOT to this file. !!! */
+
+/* nunito-sans-regular - latin-ext_latin */
+@font-face {
+    font-family: 'Nunito Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Nunito Sans Regular'), local('NunitoSans-Regular'),
+        url('#{$fontPath}solar/nunito-sans-v5-latin-ext_latin-regular.woff2') format('woff2'),
+        url('#{$fontPath}solar/nunito-sans-v5-latin-ext_latin-regular.woff') format('woff');
+}
+
+/* nunito-sans-700 - latin-ext_latin */
+@font-face {
+    font-family: 'Nunito Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Nunito Sans Bold'), local('NunitoSans-Bold'),
+        url('#{$fontPath}solar/nunito-sans-v5-latin-ext_latin-700.woff2') format('woff2'),
+        url('#{$fontPath}solar/nunito-sans-v5-latin-ext_latin-700.woff') format('woff');
+}
+
+/* noto-sans-400 - rtl */
+@font-face {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Noto Sans Regular'), local('NotoSans-Regular'), url('#{$fontPath}solar/NotoSans-Regular.ttf') format('truetype');
+}
+
+/* cmu-serif-roman - a11y font */
+@font-face {
+    font-family: 'CMU Serif Roman';
+    font-style: normal;
+    font-weight: normal;
+    src: url('#{$fontPath}solar/cmu-serif-roman.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'CMU Serif Roman';
+    font-style: normal;
+    font-weight: 700;
+    src: url('#{$fontPath}solar/cmu-serif-roman-bold.ttf') format('truetype');
+}
+
+/* luciole-regular - a11y font */
+@font-face {
+    font-family: 'Luciole';
+    font-style: normal;
+    font-weight: 400;
+    descent-override: 10%;
+    src: url('#{$fontPath}solar/Luciole-Regular.woff2') format('woff2');
+}
+
+/* luciole: bold - a11y font */
+@font-face {
+    font-family: 'Luciole';
+    font-style: normal;
+    font-weight: 700;
+    descent-override: 10%;
+    src: url('#{$fontPath}solar/Luciole-Bold.woff2') format('woff2');
+}
+
+/* Font family definitions */
+body.solar-design {
+    --font-ui: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;
+    /* can be overriden by settings which change the common font on the page  */
+    --default-font-ui: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;
+    /* should not be overriden; can be used to revert to the original font */
+    --font-monospace: Consolas, 'Andale Mono', 'Lucida Console', Monaco, 'Courier New', Courier, monospace;
+    --font-rtl: 'Noto Sans', 'DejaVu sans', Tahoma, sans-serif;
+}
+
+/*
+ * Font size definitions
+ * Exported for CSS consumers
+ */
+body.solar-design {
+    --fontsize-heading-xxl: 40px;
+    --fontsize-heading-xl: 30px;
+
+    --fontsize-heading-l: 20px;
+    --fontsize-heading: 16px;
+
+    --fontsize-body: 16px;
+    --fontsize-body-s: 14px;
+    --fontsize-body-xs: 12px;
+
+    --line-height-default: 1.5;
+    --line-height-heading: 1.2;
+
+    --letter-spacing: 0em;
+    /* not 'normal' to allow it to be used with 'calc' */
+    --word-spacing: normal;
+
+    /* can be used in width calculations which are based on the count of letters:
+     for default --font-ui (Nunito Sans) & --fontsize-body (2rem), 1 letter is 1rem. 1ch is 9.6px, so 1rem is `calc(1ch * 0.84)` or `0.5em`. */
+    --letter-width: 0.5em;
+}

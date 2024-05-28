@@ -1,0 +1,136 @@
+body.solar-design {
+    .action-bar {
+        li {
+            span.glyph {
+                text-shadow: none;
+            }
+        }
+
+        &.horizontal-action-bar {
+            border-bottom: var(--border-thin) solid var(--action-bar-border-color);
+
+            .search-area {
+                margin: -2px 0 0 0;
+                @include form-sd-search-decorator();
+
+                input {
+                    padding: 0 50px 0 34px;
+                    min-width: 260px !important;
+                    width: auto;
+                    @include form-sd-search();
+                }
+                button {
+                    font-size: var(--fontsize-body) !important;
+                }
+                .search-area-buttons-container {
+                    right: auto;
+                    left: 0;
+                    top: 10px;
+                }
+
+                .icon-find,
+                .icon-ul {
+                    &::before {
+                        color: var(--color-text-default);
+                    }
+                }
+
+                .icon-find:focus,
+                .icon-ul:focus {
+                    border-color: var(--color-text-default);
+                }
+                .icon-ul {
+                    position: absolute;
+                    right: -270px;
+                    .results-counter {
+                        color: var(--color-text-default);
+                    }
+                }
+            }
+
+            li {
+                &.btn-info {
+                    @include button-sd-secondary();
+                    border: none;
+
+                    &.active {
+                        border: var(--border-thin) solid var(--action-bar-color);
+                    }
+
+                    &.save-trigger, &#saver {
+                        @include button-sd-primary-info();
+                    }
+                }
+                &.disabled {
+                    @include button-sd-disabled();
+                    border: none !important;
+                }
+            }
+        }
+
+        &.tree-action-bar {
+            background: var(--color-bg-default);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+
+            li {
+                background: transparent;
+                border: none;
+                border-radius: var(--radius-pill);
+
+                line-height: var(--button-small-height);
+                height: var(--button-small-height);
+                min-width: var(--button-small-height);
+
+                padding: 0;
+                width: auto;
+                margin: 0;
+                float: none;
+
+                .glyph,
+                .svg-glyph {
+                    display: inline-block;
+                    color: var(--button-secondary-color);
+                    margin: 0 !important;
+                    width: auto;
+                    height: auto;
+                    position: relative;
+                    top: -1px;
+                    font-size: var(--fontsize-body) !important;
+                }
+                .li-inner {
+                    font-family: var(--font-ui);
+                    font-size: var(--fontsize-body-xs) !important;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 0 16px;
+                    gap: 8px;
+                    height: var(--button-small-height);
+                    color: var(--button-secondary-color);
+                }
+                &:hover {
+                    color: var(--button-secondary-color);
+                    background-color: var(--button-secondary-hover-background);
+                }
+                &.active {
+                    border: var(--button-border-thin) solid var(--action-bar-color);
+                }
+            }
+        }
+    }
+
+    .tree-block {
+        .action-bar {
+            display: none;
+        }
+    }
+
+    .bottom-bar {
+        label {
+            @include form-sd-label();
+        }
+    }
+}

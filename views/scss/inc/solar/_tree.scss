@@ -1,0 +1,324 @@
+body.solar-design {
+    .tree {
+        --level-padding: 20px;
+        border-width: 0 0 1px 0;
+        border-style: solid;
+        border-color: var(--tree-border-color);
+
+        ul {
+            margin: 0;
+
+            li {
+                background: none;
+                padding: 0;
+                margin: 0;
+
+                ins {
+                    margin-inline-end: 8px;
+                }
+                a {
+                    height: var(--tree-line-height);
+                    padding-left: calc(var(--tree-level) * var(--level-padding));
+                    border-width: 0 0 0 var(--border-thick);
+                    border-color: transparent;
+                    border-style: solid;
+                    border-radius: 0;
+                    width: 100%;
+                    font-family: var(--font-ui);
+
+                    &, & ins {
+                        font-size: var(--fontsize-body);
+                        font-weight: normal;
+                        line-height: var(--tree-line-height);
+                        color: var(--tree-color);
+                    }
+                    &:hover {
+                        background-color: var(--tree-action-hover-background-color);
+                    }
+                    &.clicked {
+                        background: var(--tree-selected-background-color);
+                        border-color: var(--tree-selected-border-color);
+                    }
+                }
+            }
+        }
+        .node-class, .node-instance {
+            & > a > ins:before {
+                color: var(--tree-color);
+                text-shadow: none;
+            }
+        }
+    }
+    .resource-selector {
+        font-family: var(--font-ui);
+        font-size: var(--fontsize-body);
+
+        &, nav, main {
+            color: var(--form-color);
+            background: var(--form-background);
+            border: none;
+        }
+        nav {
+            height: auto;
+        }
+        main {
+            .more {
+                height: var(--tree-line-height);
+                padding: 0;
+
+                [class^="btn-"], [class*=" btn-"] {
+                    line-height: var(--tree-line-height);
+                    height: var(--tree-line-height);
+                    border: none;
+                    border-radius: 0;
+                    padding: 0 0 0 32px;
+
+                    &, &:hover {
+                        color: var(--tree-color);
+                        background-color: transparent;
+                    }
+                    [class^="icon-"], [class*=" icon-"] {
+                        top: -1px;
+                        left: auto;
+                    }
+                }
+                &:hover {
+                    color: var(--tree-color);
+                    background-color: var(--tree-action-hover-background-color);
+                }
+            }
+        }
+        footer {
+            line-height: var(--tree-line-height);
+            height: var(--tree-line-height);
+            border-top: var(--border-thin) solid var(--tree-border-color);
+            background-color: var(--sub-form-background);
+            padding: 0;
+        }
+        .context {
+            padding: 8px;
+
+            & > a {
+                height: var(--input-height);
+                line-height: var(--input-height);
+                font-size: var(--fontsize-body);
+                color: var(--button-secondary-color);
+                padding: 0 12px;
+                margin: 0;
+                width: auto;
+
+                &.active {
+                    border-bottom: var(--border-thick) solid var(--color-brand);
+                    color: var(--button-secondary-color);
+                }
+                &:hover {
+                    color: var(--button-secondary-color);
+                    background-color: var(--color-gs-light-hover-bg);
+                    border-bottom-color: var(--color-brand-hover);
+                }
+                &:focus {
+                    outline: none;
+                }
+            }
+            .class-selector {
+                margin-right: 8px;
+            }
+        }
+        .selection {
+            margin-bottom: 16px;
+
+            .search {
+                padding: 0;
+
+                &:before {
+                    color: var(--color-text-default);
+                    font-size: var(--fontsize-body);
+                    opacity: 1;
+                }
+
+                input {
+                    height: var(--input-height);
+                    font-family: var(--font-ui);
+                    font-size: var(--fontsize-body);
+                    color: var(--input-color);
+                    border: 0;
+                    border-radius: 0;
+                    border-bottom: var(--border-medium) solid var(--input-border-color);
+                    padding: 0 0 0 40px;
+
+                    &:focus, &:active {
+                        border: none !important;
+                        outline: none;
+                        border-bottom: var(--border-medium) solid var(--input-border-color) !important;
+                    }
+                    &::placeholder {
+                        color: var(--input-placeholder) !important;
+                    }
+                }
+            }
+        }
+        .resource-list {
+            ul {
+                li {
+                    font-weight: normal;
+                    background: transparent;
+                    color: var(--tree-color);
+                    border-width: 0 0 0 var(--border-thick);
+                    border-color: transparent;
+                    border-style: solid;
+                    border-radius: 0;
+
+                    &:hover {
+                        background-color: var(--tree-action-hover-background-color);
+
+                        a {
+                            color: var(--tree-color);
+                        }
+                    }
+                    a, a:after, a > span {
+                        color: var(--tree-color);
+                    }
+                    a:after {
+                        right: 11px;
+                    }
+                    a:focus {
+                        outline: none;
+                    }
+                    &.selected, &:hover {
+                        a, a:after, a > span {
+                            color: var(--tree-color);
+                        }
+                    }
+                    &.selected {
+                        background: var(--tree-selected-background-color);
+                        border-color: var(--tree-selected-border-color);
+                    }
+                    &:hover {
+                        background-color: var(--tree-action-hover-background-color);
+                    }
+                }
+            }
+        }
+        .resource-tree {
+            .clickable {
+                &:hover {
+                    &:before {
+                        border-radius: 0;
+                        background-color: transparent;
+                        opacity: 1;
+                    }
+                }
+            }
+            ul {
+                li > a {
+                    font-weight: normal;
+                    background: transparent;
+                    color: var(--tree-color);
+                    line-height: var(--tree-line-height);
+                    height: var(--tree-line-height);
+                    border-width: 0 0 0 var(--border-thick);
+                    border-color: transparent;
+                    border-style: solid;
+                    border-radius: 0;
+                    width: 100%;
+
+                    &:hover {
+                        color: unset;
+                        background-color: var(--tree-action-hover-background-color);
+                    }
+                    &:focus {
+                        outline: none;
+                    }
+                    & > [class^="icon-"], & > [class*=" icon-"],
+                    & > .selector:after, & > .icon-folder:before {
+                        font-size: var(--fontsize-body);
+                        color: var(--tree-color);
+                    }
+                    & > .selector {
+                        right: 6px;
+                    }
+                }
+                li.selected > a {
+                    background: var(--tree-selected-background-color);
+                    border-color: var(--tree-selected-border-color);
+                    color: var(--tree-color);
+
+                    &:hover {
+                        color: unset;
+                        background-color: var(--tree-action-hover-background-color);
+                    }
+                    .clickable:hover:before {
+                        background-color: transparent;
+                    }
+                    &:before, &:after,
+                    & > .selector:after, &:hover > .selector:after,
+                    & > [class^="icon-"], & > [class*=" icon-"] {
+                        color: var(--tree-color);
+                    }
+                }
+                li.closed {
+                    .more {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+    .class-selector{
+        font-family: var(--font-ui);
+        font-size: var(--fontsize-body);
+        padding: 0;
+
+        a.selected {
+            border-radius: 0;
+            border: var(--border-thin) solid var(--input-border-color);
+            height: var(--input-height);
+            line-height: var(--input-height);
+            font-family: var(--font-ui);
+            font-size: var(--fontsize-body);
+            color: var(--input-color);
+            padding: 0 12px;
+
+            &:after {
+                top: 12px;
+            }
+            &:focus,
+            &:active {
+                border: var(--border-thin) solid var(--input-active-border-color);
+                box-shadow: 0 0 0 var(--border-thin) var(--input-active-border-color) inset;
+                outline: none;
+            }
+        }
+
+        .options {
+            position: absolute;
+            width: 100%;
+            background-color: var(--tree-background);
+            border: var(--border-thin) solid var(--tree-border-color);
+            border-radius: 0;
+            box-shadow: none;
+            padding-bottom: 8px;
+
+            &.folded {
+                display: none;
+            }
+            ul {
+                li {
+                    padding-top: 8px;
+
+                    a {
+                        color: var(--tree-color);
+
+                        &:hover {
+                            color: var(--tree-color-hover);
+                        }
+                    }
+                    &:before {
+                        color: var(--tree-color);
+                        text-shadow: none;
+                    }
+                }
+            }
+        }
+    }
+}

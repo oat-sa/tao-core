@@ -1,0 +1,173 @@
+body.solar-design {
+    --header-bar-height: 65px;
+    --footer-bar-height: 36px;
+    --action-bar-height: 52px;
+
+    --header-bar-color: var(--color-text-default);
+    --header-bar-icon-color: ar(--color-text-default);
+    --header-bar-background: var(--color-bg-default);
+    --header-bar-border-color: var(--color-gs-light-secondary);
+    --header-bar-menu-border-color: var(--color-gs-light-secondary);
+
+    --header-bar-hover-color: var(--color-text-default);
+    --header-bar-hover-background: var(--color-bg-actionable-secondary-hover);
+
+    --header-bar-active-color: var(--color-text-default);
+    --header-bar-active-background: var(--header-bar-background);
+    --header-bar-active-border-color: var(--color-text-default);
+
+    --footer-bar-border-color: var(--color-gs-light-secondary);
+
+    --action-bar-color: var(--color-text-default);
+    --action-bar-background: var(--color-bg-default);
+    --action-bar-border-color: var(--color-gs-light-secondary);
+
+    --action-bar-active-color: var(--color-text-default);
+    --action-bar-hover-color: var(--color-text-default);
+
+    --section-color: var(--color-text-default);
+    --section-background: var(--color-bg-default);
+    --section-header-background: var(--color-gs-light-alternative-bg);
+    --section-border-color: var(--color-gs-light-secondary);
+
+    --form-color: var(--color-text-default);
+    --form-background: var(--color-bg-default);
+    --sub-form-color: var(--color-text-default);
+    --sub-form-background: var(--color-gs-light-alternative-bg);
+
+    --label-height: 40px;
+    --input-height: 44px;
+    --input-glyph-size: 16px;
+    --input-placeholder: var(--color-gs-dark-secondary);
+    --input-color: var(--color-text-default);
+    --input-background: var(--color-bg-default);
+    --input-hover-background: var(--color-gs-light-hover-bg);
+    --input-border-color: var(--color-border-default);
+    --input-active-border-color: var(--color-border-actionable-hover);
+
+    --input-disabled-color: var(--color-text-disabled);
+    --input-disabled-background: var(--color-bg-disabled-subtle);
+    --input-disabled-hover-background: var(--color-gs-light-hover-bg);
+    --input-disabled-border-color: var(--color-border-disabled);
+    --input-disabled-inverted-color: var(--color-text-disabled-inverted);
+    --input-disabled-inverted-background: var(--color-bg-disabled-inverted);
+    --input-disabled-inverted-border-color: var(--color-border-disabled-inverted);
+
+    --drop-zone-color: var(--color-brand);
+    --drop-zone-background: var(--color-brand-light);
+    --drop-zone-border-color: var(--color-brand);
+
+    --button-height: 40px;
+    --button-small-height: 40px;
+    --button-border-thin: var(--border-thin);
+    --button-border: var(--border-medium);
+
+    --button-primary-color: var(--color-text-inverted);
+    --button-primary-background: var(--color-brand);
+    --button-primary-hover-background: var(--color-brand-hover);
+
+    --button-secondary-color: var(--color-text-default);
+    --button-secondary-background: var(--color-bg-default);
+    --button-secondary-hover-background: var(--color-gs-light-hover-bg);
+    --button-secondary-border-color: var(--color-border-default);
+
+    --button-primary-info-color: var(--color-text-inverted);
+    --button-primary-info-background: var(--color-brand);
+    --button-primary-info-hover-background: var(--color-brand-hover);
+
+    --button-primary-error-color: var(--color-text-inverted);
+    --button-primary-error-background: var(--color-alert);
+    --button-primary-error-hover-background: var(--color-alert-hover);
+
+    --button-primary-success-color: var(--color-text-inverted);
+    --button-primary-success-background: var(--color-success);
+    --button-primary-success-hover-background: var(--color-success-hover);
+
+    --button-primary-warning-color: var(--color-text-inverted);
+    --button-primary-warning-background: var(--color-alert);
+    --button-primary-warning-hover-background: var(--color-alert-hover);
+
+    --button-secondary-info-color: var(--color-text-info);
+    --button-secondary-info-background: var(--color-bg-info);
+    --button-secondary-info-hover-background: var(--color-gs-light-hover-bg);
+    --button-secondary-info-border-color: var(--color-border-info);
+
+    --button-secondary-error-color: var(--color-alert);
+    --button-secondary-error-background: var(--color-bg-default);
+    --button-secondary-error-hover-background: var(--color-gs-light-hover-bg);
+    --button-secondary-error-border-color: var(--color-alert);
+
+    --button-secondary-success-color: var(--color-success);
+    --button-secondary-success-background: var(--color-bg-default);
+    --button-secondary-success-hover-background: var(--color-gs-light-hover-bg);
+    --button-secondary-success-border-color: var(--color-success);
+
+    --button-secondary-warning-color: var(--color-alert);
+    --button-secondary-warning-background: var(--color-bg-default);
+    --button-secondary-warning-hover-background: var(--color-gs-light-hover-bg);
+    --button-secondary-warning-border-color: var(--color-alert);
+
+    --button-disabled-color: var(--color-text-disabled);
+    --button-disabled-background: var(--color-bg-disabled);
+    --button-disabled-border-color: var(--color-border-disabled);
+    --button-disabled-inverted-color: var(--color-text-disabled-inverted);
+    --button-disabled-inverted-background: var(--color-bg-disabled-inverted);
+    --button-disabled-inverted-border-color: var(--color-border-disabled-inverted);
+
+    --modal-color: var(--color-text-inverted);
+    --modal-background: var(--color-bg-inverted);
+    --modal-button-color: var(--color-text-inverted);
+    --modal-button-background: var(--color-bg-inverted);
+    --modal-button-background-hover: var(--color-bg-inverted-secondary-hover);
+    --modal-button-primary-background: var(--button-primary-background);
+    --modal-button-primary-background-hover: var(--button-primary-hover-background);
+    --modal-button-border-color: var(--color-border-inverted);
+    --modal-button-focus-border-color: var(--color-border-inverted);
+
+    --tree-line-height: 40px;
+    --tree-action-line-height: 40px;
+    --tree-color: var(--color-text-default);
+    --tree-color-hover: var(--color-brand);
+    --tree-background: var(--color-bg-default);
+    --tree-border-color: var(--color-gs-light-secondary);
+    --tree-action-background-color: var(--color-gs-light);
+    --tree-action-hover-background-color: var(--color-gs-light-hover-bg);
+    --tree-selected-background-color: var(--color-brand-light);
+    --tree-selected-border-color: var(--color-brand);
+
+    --feedback-color: var(--color-text-default);
+    --feedback-hover-color: var(--color-brand-hover);
+    --feedback-border-color: var(--color-border-default);
+    --feedback-background: var(--color-gs-light-alternative-bg);
+
+    --feedback-info-color: var(--color-text-default);
+    --feedback-info-hover-color: var(--color-brand-hover);
+    --feedback-info-border-color: var(--color-brand);
+    --feedback-info-background: var(--color-brand-light);
+
+    --feedback-success-color: var(--color-success);
+    --feedback-success-hover-color: var(--color-success-hover);
+    --feedback-success-border-color: var(--color-success);
+    --feedback-success-background: var(--color-success-alternative-bg);
+
+    --feedback-warning-color: var(--color-alert);
+    --feedback-warning-hover-color: var(--color-alert-hover);
+    --feedback-warning-border-color: var(--color-alert);
+    --feedback-warning-background: var(--color-alert-alternative-bg);
+
+    --datatable-header-height: 56px;
+    --datatable-row-height: 56px;
+    --datatable-line-height: 24px;
+    --datatable-color: var(--color-text-default);
+    --datatable-hover-color: var(--color-brand);
+    --datatable-background: var(--color-bg-default);
+    --datatable-header-border-color: var(--color-border-default);
+    --datatable-row-border-color: var(--color-gs-light-secondary);
+
+    font-family: var(--font-ui);
+
+    ::selection {
+        background-color: var(--color-bg-selection);
+        text-shadow: none;
+    }
+}

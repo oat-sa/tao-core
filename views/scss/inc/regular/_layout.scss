@@ -1,0 +1,24 @@
+:root {
+    --header-bar-height: 64px;
+    --footer-bar-height: 34px;
+    --action-bar-height: 35px;
+
+    --header-bar-color: #{$darkBarTxt};
+    --header-bar-icon-color: #{$darkBarIcon};
+    --header-bar-background: #{$darkBar};
+    --header-bar-border-color: #{$uiGeneralContentBorder};
+    --header-bar-menu-border-color: #666;
+
+    --header-bar-hover-color: white;
+    --header-bar-hover-background: #{rgba($info, .5)};
+
+    --header-bar-active-color: #{white(.9)};
+    --header-bar-active-background: #{whiten($info, .05)};
+
+    --footer-bar-border-color: #{$uiGeneralContentBorder};
+
+    --action-bar-color: #{whiten($info, 0.9)};
+    --action-bar-background: #{whiten($info, 0.1)};
+    --action-bar-active-color: white;
+    --action-bar-hover-color: white;
+}
