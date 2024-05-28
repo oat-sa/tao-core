@@ -474,9 +474,20 @@ body.solar-design {
             }
         }
     }
+    .select2-search {
+        padding: 0;
+
+        input[type="text"] {
+            @include form-sd-input();
+            max-width: none;
+            width: 100%;
+            height: var(--input-height) !important;
+        }
+    }
     .select2-choice {
         @include form-sd-input();
         line-height: var(--input-height);
+
         .select2-arrow {
             height: calc(100% - 2px);
             top: 1px;
