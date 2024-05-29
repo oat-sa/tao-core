@@ -228,7 +228,7 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
             ->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_TAO_AS_A_TOOL);
     }
 
-    protected function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getContainer()->get(FeatureFlagChecker::class);
     }
