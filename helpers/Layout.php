@@ -29,6 +29,7 @@ use oat\tao\model\theme\ConfigurablePlatformTheme;
 use oat\tao\model\theme\ConfigurableTheme;
 use oat\tao\model\theme\Theme;
 use oat\tao\model\theme\ThemeService;
+use oat\tao\model\theme\ThemeServiceAbstract;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\layout\AmdLoader;
 use oat\tao\model\theme\SolarDesignCheckerInterface;
@@ -635,7 +636,7 @@ class Layout
         return self::getThemeService()->getTheme();
     }
 
-    private static function getThemeService(): ThemeService
+    private static function getThemeService(): ThemeServiceAbstract
     {
         return ServiceManager::getServiceManager()->get(ThemeService::SERVICE_ID);
     }
