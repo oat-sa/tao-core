@@ -233,7 +233,7 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
         return $this->getContainer()->get(FeatureFlagChecker::class);
     }
 
-    protected function getContainer(): ContainerInterface
+    private function getContainer(): ContainerInterface
     {
         return $this->getServiceManager()->getContainer();
     }
