@@ -4,9 +4,12 @@ body.solar-design {
         color: var(--modal-color);
         border: none;
 
-        &.search-modal {
+        &.search-modal, &.splash-modal {
             background-color: var(--color-bg-default);
             color: var(--color-text-default);
+        }
+        &.splash-modal {
+            border: var(--border-thin) solid var(--section-border-color);
         }
 
         #modal-close-btn {
