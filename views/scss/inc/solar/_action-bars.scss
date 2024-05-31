@@ -5,8 +5,19 @@ body.solar-design {
                 text-shadow: none;
             }
         }
-
+        &.content-action-bar {
+            li {
+                &[class^="btn-"], &[class*=" btn-"] {
+                    a, span.glyph {
+                        color: var(--action-bar-color);
+                        text-shadow: none !important;
+                    }
+                }
+            }
+        }
         &.horizontal-action-bar {
+            background: var(--action-bar-background);
+            color: var(--action-bar-color);
             border-bottom: var(--border-thin) solid var(--action-bar-border-color);
 
             .search-area {
