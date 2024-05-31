@@ -605,6 +605,12 @@ body.solar-design {
         }
     }
 
+    .deliver-tenant-container {
+        select {
+            @include form-sd-input();
+        }
+    }
+
     form .msg-edit-area {
         background: var(--sub-form-background);
         border: none;
