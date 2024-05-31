@@ -1,59 +1,120 @@
 body.solar-design {
     .section-container {
+        ul.tab-container {
+            border-bottom: var(--border-thin) solid var(--action-bar-border-color);
+        }
         .tab-container {
-            background: var(--section-background);
-            color: var(--section-color);
-            padding: 5px;
-            li {
-                background: transparent !important;
-                border: none !important;
-                border-radius: var(--radius-pill);
-                line-height: var(--button-small-height);
-                height: var(--button-small-height);
-                min-width: var(--button-small-height);
+            &, &[style^="display: block"], &[style*=" display: block"], &[style^="display:block"], &[style*=" display:block"] {
+                background: var(--section-background);
+                color: var(--section-color);
+                padding: 5px;
 
-                a {
-                    font-family: var(--font-ui);
-                    font-size: var(--fontsize-body-xs) !important;
-                    font-weight: bold;
-                    text-transform: uppercase;
-                    display: inline-flex;
-                    align-items: center;
-                    padding: 0 16px;
-                    gap: 8px;
+                & ~ .content-wrapper > .content-container > .horizontal-action-bar {
+                    background: var(--section-background) !important;
+                    color: var(--section-color) !important;
+                    text-shadow: none !important;
+                }
+                li {
+                    background: transparent !important;
+                    border: none !important;
+                    border-radius: var(--radius-pill);
+                    line-height: var(--button-small-height);
                     height: var(--button-small-height);
-                    color: var(--button-secondary-color);
-                    text-shadow: none;
-                    &:focus {
-                        outline: none;
-                    }
-                }
-                &.active {
-                    border: var(--button-border-thin) solid var(--button-secondary-border-color) !important;
+                    min-width: var(--button-small-height);
+
                     a {
-                        color: var(--button-secondary-color) !important;
+                        font-family: var(--font-ui);
+                        font-size: var(--fontsize-body-xs) !important;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        display: inline-flex;
+                        align-items: center;
+                        padding: 0 16px;
+                        gap: 8px;
+                        height: var(--button-small-height);
+                        color: var(--button-secondary-color);
+                        text-shadow: none;
+
+                        &:focus {
+                            outline: none;
+                        }
                     }
-                }
-                &:hover {
-                    background-color: var(--button-secondary-hover-background) !important;
-                    a {
-                        color: var(--button-secondary-color)!important;
-                    }
-                }
-                &.disabled {
-                    &, &:hover {
-                        background-color: var(--button-disabled-background) !important;
+                    &.active {
+                        background: var(--section-background) !important;
+                        border: var(--button-border-thin) solid var(--button-secondary-border-color) !important;
+
                         a {
-                            color: var(--button-disabled-color) !important;
+                            color: var(--button-secondary-color) !important;
+                        }
+                    }
+                    &:hover {
+                        background-color: var(--button-secondary-hover-background) !important;
+
+                        a {
+                            color: var(--button-secondary-color)!important;
+                        }
+                    }
+                    &.disabled {
+                        &, &:hover {
+                            background-color: var(--button-disabled-background) !important;
+
+                            a {
+                                color: var(--button-disabled-color) !important;
+                            }
+                        }
+                    }
+                }
+                .tab-group {
+                    border: none;
+                    display: inline-flex;
+                    border-radius: 0;
+
+                    li {
+                        float: none;
+                        height: var(--button-small-height);
+
+                        button {
+                            background: var(--section-background);
+                            color: var(--section-color);
+                            height: var(--button-small-height);
+                            font-family: var(--font-ui);
+                            font-size: var(--fontsize-body);
+                            font-weight: bold;
+                            border-radius: 0;
+
+                            &:focus {
+                                outline: none;
+                            }
+                        }
+                        &:hover {
+                            border-radius: 0;
+
+                            button {
+                                background-color: var(--color-gs-light-hover-bg);
+                                border-bottom-color: var(--color-brand-hover);
+                                border-radius: 0;
+                                transition: none;
+                            }
+                        }
+                        &.active {
+                            border: none !important;
+
+                            button {
+                                border-bottom: var(--border-thick) solid var(--color-brand);
+                                transition: none;
+                            }
                         }
                     }
                 }
             }
         }
-
+        .flex-container-main-form {
+            flex: 0 0 640px;
+        }
         .usage-tabs-container {
             .datatable-wrapper {
                 position: relative;
+
                 & > .filter {
                     position: absolute;
                     top: calc(var(--input-height) * -1);
@@ -66,43 +127,6 @@ body.solar-design {
             .tab-container {
                 display: block;
                 padding: 0;
-                .tab-group {
-                    border: none;
-                    display: inline-flex;
-                    border-radius: 0;
-                    li {
-                        float: none;
-                        height: var(--button-small-height);
-                        button {
-                            background: var(--section-background);
-                            color: var(--section-color);
-                            height: var(--button-small-height);
-                            font-family: var(--font-ui);
-                            font-size: var(--fontsize-body);
-                            font-weight: bold;
-                            border-radius: 0;
-                            &:focus {
-                                outline: none;
-                            }
-                        }
-                        &:hover {
-                            border-radius: 0;
-                            button {
-                                background-color: var(--color-gs-light-hover-bg);
-                                border-bottom-color: var(--color-brand-hover);
-                                border-radius: 0;
-                                transition: none;
-                            }
-                        }
-                        &.active {
-                            border: none !important;
-                            button {
-                                border-bottom: var(--border-thick) solid var(--color-brand);
-                                transition: none;
-                            }
-                        }
-                    }
-                }
             }
         }
 
@@ -152,6 +176,7 @@ body.solar-design {
             .data-container-wrapper {
                 & > section, .data-container {
                     margin: 0 32px 32px 0;
+
                     & > header, .ui-widget-header {
                         background: var(--section-background);
                         border-bottom: var(--border-thin) solid var(--section-border-color) !important;

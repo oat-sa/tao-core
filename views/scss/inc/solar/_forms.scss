@@ -597,7 +597,17 @@ body.solar-design {
                 .btn-info {
                     @include button-sd-secondary();
                 }
+                .actions {
+                    text-align: inherit;
+                    padding: 0;
+                }
             }
+        }
+    }
+
+    .deliver-tenant-container {
+        select {
+            @include form-sd-input();
         }
     }
 
