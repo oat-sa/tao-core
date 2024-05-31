@@ -1,5 +1,8 @@
 body.solar-design {
     .section-container {
+        ul.tab-container {
+            border-bottom: var(--border-thin) solid var(--action-bar-border-color);
+        }
         .tab-container {
             &, &[style^="display: block"], &[style*=" display: block"], &[style^="display:block"], &[style*=" display:block"] {
                 background: var(--section-background);
@@ -105,7 +108,9 @@ body.solar-design {
                 }
             }
         }
-
+        .flex-container-main-form {
+            flex: 0 0 640px;
+        }
         .usage-tabs-container {
             .datatable-wrapper {
                 position: relative;
