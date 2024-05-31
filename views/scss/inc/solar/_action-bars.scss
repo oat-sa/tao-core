@@ -1,5 +1,8 @@
 body.solar-design {
     .action-bar {
+        &:not(:has(li)) {
+            display: none;
+        }
         li {
             span.glyph {
                 text-shadow: none;
