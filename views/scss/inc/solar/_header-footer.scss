@@ -1,10 +1,16 @@
-body.solar-design {
+@mixin header-sd {
     .dark-bar {
+        background-color: var(--header-bar-background);
+        color: var(--header-bar-color);
+
         .portal-back {
             width: auto;
             padding: 24px 12px 19px;
             margin: 0 10px;
             font-size: var(--fontsize-body);
+            background-color: var(--header-bar-background);
+            color: var(--header-bar-color);
+
             &:hover {
                 background-color: var(--header-bar-hover-background);
                 color: var(--header-bar-hover-color);
@@ -16,65 +22,162 @@ body.solar-design {
             padding: 20px 22px 18px 0;
         }
         .nav, nav {
+            li {
+                text-shadow: none;
+
+                ul {
+                    background-color: var(--header-bar-background) !important;
+                    color: var(--header-bar-color) !important;
+                }
+            }
+            .main-menu, .settings-menu, .persistent-menu {
+                & > ul {
+                    background-color: var(--header-bar-background) !important;
+                    color: var(--header-bar-color) !important;
+                }
+                li {
+                    ul {
+                        padding: 0 !important;
+                    }
+                    & > a {
+                        background-color: var(--header-bar-background) !important;
+                        color: var(--header-bar-color) !important;
+
+                        &:hover {
+                            background-color: var(--header-bar-hover-background) !important;
+                            color: var(--header-bar-hover-color) !important;
+                        }
+                    }
+                    &.active {
+                        background-color: var(--header-bar-background) !important;
+                        color: var(--header-bar-color) !important;
+
+                        &:hover {
+                            background-color: var(--header-bar-hover-background) !important;
+                            color: var(--header-bar-hover-color) !important;
+                        }
+                    }
+                }
+                & > li.active,  & > ul > li.active {
+                    &:after {
+                        content: ' ';
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        border-bottom: var(--border-thick) solid var(--header-bar-active-border-color);
+                    }
+                }
+            }
             .main-menu {
                 li {
                     min-width: 90px;
                     font-size: var(--fontsize-body);
                     font-weight: bold;
                     line-height: 24px;
+
                     & > a {
                         padding: 20px 15px;
                         display: inline-flex;
                         justify-content: center;
                         align-items: baseline;
                         gap: 4px;
+
                         span {
                             font-size: var(--fontsize-body-s);
                             padding: 0;
                         }
                     }
-                    &.active {
-                        &:after {
-                            content: ' ';
-                            position: absolute;
-                            bottom: 0;
-                            left: 0;
-                            width: 100%;
-                            border-bottom: var(--border-thick) solid var(--header-bar-active-border-color);
-                        }
-                    }
                 }
             }
-
             .settings-menu, .persistent-menu {
                 li {
+                    a {
+                        background-color: var(--header-bar-background);
+                        color: var(--header-bar-color);
+
+                        &:hover {
+                            background-color: var(--header-bar-hover-background);
+                            color: var(--header-bar-hover-color);
+                        }
+                    }
                     ul {
                         border: var(--border-thin) solid var(--header-bar-border-color);
                     }
                 }
-
                 li.li-taskqueue {
                     .task-manager-container {
                         width: 48px;
-                        height: 65px;
+                        height: var(--header-bar-height);
                         padding: 17px 9px 18px 9px;
 
                         &:hover {
                             background-color: var(--color-gs-light-hover-bg)
                         }
                     }
-
-
                     .arrow {
                         display: none;
+                    }
+                }
+                .reduced-menu-trigger {
+                    background-color: var(--header-bar-background);
+                    color: var(--header-bar-color);
+                    text-shadow: none;
+                }
+            }
+        }
+    }
+}
+@mixin header-sd-reduced {
+    .dark-bar {
+        .nav, nav {
+            .main-menu, .settings-menu {
+                & > ul {
+                    border: var(--border-thin) solid var(--header-bar-border-color);
+                    padding: 0;
+
+                    & > li {
+                        a {
+                            span.icon-settings {
+                                top: 4px;
+                            }
+                        }
+                    }
+                }
+            }
+            .settings-menu {
+                & > li.active,  & > ul > li.active {
+                    &:after {
+                        width: 0;
+                        height: 100%;
+                        border-left: var(--border-thick) solid var(--header-bar-active-border-color);
+                        border-bottom: none;
                     }
                 }
             }
         }
     }
+}
 
+body.solar-design {
+    @include header-sd();
+
+    &.oversized-nav {
+        &:not(.delivery-scope):not(.small-navi) {
+            @include header-sd();
+            @include header-sd-reduced();
+        }
+    }
     & > footer {
         font-size: var(--fontsize-body-s);
         padding: 8px 24px;
+    }
+}
+@media (max-width: 1024px) {
+    body.solar-design {
+        &:not(.delivery-scope):not(.small-navi) {
+            @include header-sd();
+            @include header-sd-reduced();
+        }
     }
 }

@@ -28,8 +28,7 @@ body.solar-design {
             &.btn-secondary {
                 line-height: var(--button-small-height);
             }
-            [class^="icon-"],
-            [class*=" icon-"] {
+            [class^="icon-"], [class*=" icon-"] {
                 font-size: var(--fontsize-body);
             }
         }
