@@ -42,29 +42,29 @@ body.solar-design {
         }
 
         .modal-body {
-            .buttons {
+            .buttons, .rgt {
                 button {
                     @include button-sd-setup();
                     @include button-sd-font();
                     @include button-sd-small-size();
                     @include button-sd-position();
 
-                    border: var(--border-medium) solid var(--modal-button-border-color);
+                    border: var(--border-medium) solid var(--modal-button-border-color) !important;
                     color: var(--modal-button-color) !important;
-                    background-color: var(--modal-button-background);
+                    background-color: var(--modal-button-background) !important;
 
                     &:hover {
-                        background-color: var(--modal-button-background-hover);
+                        background-color: var(--modal-button-background-hover) !important;
                         outline: none;
                     }
                     &:focus {
                         outline: var(--border-medium) dotted var(--modal-button-focus-border-color);
                     }
                     &.btn-info {
-                        background-color: var(--modal-button-primary-background);
+                        background-color: var(--modal-button-primary-background) !important;
 
                         &:hover {
-                            background-color: var(--modal-button-primary-background-hover);
+                            background-color: var(--modal-button-primary-background-hover) !important;
                         }
                     }
 
