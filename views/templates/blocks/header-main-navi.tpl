@@ -84,9 +84,11 @@ $taoAsATool   = get_data('taoAsATool');
                                     <?php endif; ?>
                                 </ul>
                             <?php elseif ($entry->getId() === 'user_settings'): ?>
-                                <ul class="plain menu-dropdown">
-                                        <?= Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'logout-menu-settings', ['logout' => get_data('logout')]); ?>
-                                </ul>
+                                <?php if(Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'logout-menu-settings', ['logout' => get_data('logout')])) : ?>
+                                    <ul class="plain menu-dropdown">
+                                            <?= Layout::renderThemeTemplate(Theme::CONTEXT_BACKOFFICE, 'logout-menu-settings', ['logout' => get_data('logout')]); ?>
+                                    </ul>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </li>
 
