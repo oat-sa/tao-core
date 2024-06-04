@@ -2,6 +2,7 @@
 
 use oat\generis\model\OntologyRdfs;
 use oat\tao\helpers\ApplicationHelper;
+use oat\tao\helpers\Layout;
 use oat\tao\model\menu\MenuService;
 
 /**
@@ -92,6 +93,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      * @var string
      */
     public const DEF_LANG_FILENAME = 'lang.rdf';
+    public const LANG_PREFIX = '-S';
 
     private static $WHITE_LIST = [
         'actions',
@@ -297,6 +299,12 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         } else {
             // Check if the language folder exists and is readable/writable.
             $languageDir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
+            // if there is no locale file with the required prefix, we must fall back to the existing one
+            if (Layout::isSolarDesignEnabled() && !is_dir($languageDir)) {
+                $pattern = '/'.self::LANG_PREFIX.'$/';
+                $this->options['language'] = preg_replace($pattern, '', $this->options['language']);
+                $dir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
+            }
             if (!is_dir($languageDir)) {
                 $this->err("The 'language' directory ${languageDir} does not exist.", true);
             } elseif (!is_readable($languageDir)) {
@@ -473,6 +481,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionCreate()
     {
+        $this->options['language'] = $this->checkPrefix($this->options['language']);
 
         $extensionsToCreate = explode(',', $this->options['extension']);
         $extensionsToCreate = array_unique($extensionsToCreate);
@@ -490,6 +499,15 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             // We first create the directory where locale files will go.
             $dir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
             $dirExists = false;
+
+            if (Layout::isSolarDesignEnabled()) {
+                // if there is no locale file with the required prefix, we must fall back to the existing one
+                if (!file_exists($dir) || !is_dir($dir)) {
+                    $pattern = '/'.self::LANG_PREFIX.'$/';
+                    $this->options['language'] = preg_replace($pattern, '', $this->options['language']);
+                    $dir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
+                }
+            }
 
             if (file_exists($dir) && is_dir($dir) && $this->options['force'] == true) {
                 $dirExists = true;
@@ -655,8 +673,9 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionUpdate()
     {
+        $this->options['language'] = $this->checkPrefix($this->options['language']);
 
-        $this->outVerbose(
+            $this->outVerbose(
             "Updating language '" . $this->options['language'] . "' for extension '"
                 . $this->options['extension'] . "'..."
         );
@@ -1308,6 +1327,46 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         if ($this->options['language'] == null) {
             $this->err("Please provide the 'language' parameter.", true);
         }
+    }
+
+    /**
+     * Short description of method notContainPrefix
+     *
+     * @param string $language
+     * @access private
+     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
+     * @return bool
+     */
+    private function notContainPrefix($language) {
+        $pattern = '/'.self::LANG_PREFIX.'$/';
+        return Layout::isSolarDesignEnabled() && !preg_match($pattern, $language, $matches);
+    }
+
+    /**
+     * Short description of method addPrefix
+     *
+     * @param string $language
+     * @access private
+     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
+     * @return string
+     */
+    private function addPrefix($language) {
+        return $language . self::LANG_PREFIX;
+    }
+
+    /**
+     * Short description of method addPrefix
+     *
+     * @param string $language
+     * @access private
+     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
+     * @return string
+     */
+    private function checkPrefix($language) {
+        if ($this->notContainPrefix($language)) {
+            $language = $this->addPrefix($language);
+        }
+        return $language;
     }
 
     /**
