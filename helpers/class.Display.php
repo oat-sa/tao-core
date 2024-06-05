@@ -25,6 +25,7 @@
 
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\service\ApplicationService;
+use oat\tao\helpers\Layout;
 
 /**
  * Utility class focusing on display methods.
@@ -203,5 +204,26 @@ class tao_helpers_Display
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID);
+    }
+
+    public static function mapClassesNames(string $className): string
+    {
+        $mapName = $className;
+        if (Layout::isSolarDesignEnabled()) {
+            // New terms for isSolarDesignEnabled FF
+            $mapClassNames = [
+                'Item' => __('Item'),
+                'Media' => __('Asset'),
+                'Delivery' => __('Delivery'),
+                'Assets' => __('Asset')
+            ];
+            foreach ($mapClassNames as $key => $value) {
+                if (strpos($mapName, $key) !== false) {
+                    $mapName = $value;
+                    break;
+                }
+            }
+        }
+        return $mapName;
     }
 }
