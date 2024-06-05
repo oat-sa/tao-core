@@ -23,7 +23,6 @@ namespace oat\tao\model\theme;
 
 use common_session_SessionManager;
 use oat\oatbox\Configurable;
-use oat\tao\model\session\Business\Service\SessionCookieService;
 use oat\taoLti\models\classes\TaoLtiSession;
 
 /**
