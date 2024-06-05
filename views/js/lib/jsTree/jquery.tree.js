@@ -12,7 +12,7 @@
  *
  */
 
-define(['jquery', 'layout/tree/helpers',], function($, helpers) {
+define(['jquery', 'layout/tree/helpers', 'i18n'], function($, helpers, __) {
 	// jQuery plugin
 	$.tree = {
 		datastores	: { },
@@ -67,7 +67,10 @@ define(['jquery', 'layout/tree/helpers',], function($, helpers) {
 			},
 			lang : {
 				new_node	: "New folder",
-				loading		: "Loading ..."
+				loading		: "Loading ...",
+				"Item": __("Item"),
+				"Assembled Delivery ": __("Delivery"),
+				"Assets": __("Asset")
 			},
 			callback	: {
 				beforechange: function(NODE,TREE_OBJ) { return true },
@@ -2013,7 +2016,7 @@ define(['jquery', 'layout/tree/helpers',], function($, helpers) {
 							str += "<ins " + (data.data.icon.indexOf("/") == -1 ? " class='" + data.data.icon + "' " : " style='background-image:url(\"" + data.data.icon + "\");' " ) + ">&nbsp;</ins>";
 						}
 						else str += "<ins>&nbsp;</ins>";
-						str += ( (typeof data.data.title).toLowerCase() != "undefined" ? data.data.title : data.data ) + "</a>";
+						str += ( (typeof data.data.title).toLowerCase() != "undefined" ? data.data.title : tree.settings.lang[data.data] ? tree.settings.lang[data.data] : data.data ) + "</a>";
 					}
 					if(data.children && data.children.length) {
 						str += '<ul>';
