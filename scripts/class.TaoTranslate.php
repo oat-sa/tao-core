@@ -299,12 +299,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         } else {
             // Check if the language folder exists and is readable/writable.
             $languageDir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
-            // if there is no locale file with the required prefix, we must fall back to the existing one
-            if (Layout::isSolarDesignEnabled() && !is_dir($languageDir)) {
-                $pattern = '/'.self::LANG_PREFIX.'$/';
-                $this->options['language'] = preg_replace($pattern, '', $this->options['language']);
-                $dir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
-            }
+
             if (!is_dir($languageDir)) {
                 $this->err("The 'language' directory ${languageDir} does not exist.", true);
             } elseif (!is_readable($languageDir)) {
@@ -481,7 +476,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionCreate()
     {
-        $this->options['language'] = $this->checkPrefix($this->options['language']);
+        $languageDir = $this->checkPrefix($this->options['language']);
 
         $extensionsToCreate = explode(',', $this->options['extension']);
         $extensionsToCreate = array_unique($extensionsToCreate);
@@ -492,22 +487,13 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             $this->options['output'] = dirname(__FILE__) . '/../../' . $etc . '/' . self::DEF_OUTPUT_DIR;
 
             $this->outVerbose(
-                "Creating language '" . $this->options['language'] . "' for extension '"
+                "Creating language '" . $languageDir . "' for extension '"
                     . $this->options['extension'] . "' ..."
             );
 
             // We first create the directory where locale files will go.
-            $dir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
+            $dir = $this->buildLanguagePath($this->options['extension'], $languageDir);
             $dirExists = false;
-
-            if (Layout::isSolarDesignEnabled()) {
-                // if there is no locale file with the required prefix, we must fall back to the existing one
-                if (!file_exists($dir) || !is_dir($dir)) {
-                    $pattern = '/'.self::LANG_PREFIX.'$/';
-                    $this->options['language'] = preg_replace($pattern, '', $this->options['language']);
-                    $dir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
-                }
-            }
 
             if (file_exists($dir) && is_dir($dir) && $this->options['force'] == true) {
                 $dirExists = true;
@@ -673,10 +659,10 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionUpdate()
     {
-        $this->options['language'] = $this->checkPrefix($this->options['language']);
+        $languageDir = $this->checkPrefix($this->options['language']);
 
             $this->outVerbose(
-            "Updating language '" . $this->options['language'] . "' for extension '"
+            "Updating language '" . $languageDir . "' for extension '"
                 . $this->options['extension'] . "'..."
         );
         $sortingMethod = tao_helpers_translation_TranslationFile::SORT_ASC_I;
@@ -709,7 +695,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         // of the translations.
         $oldFilePath = $this->buildLanguagePath(
             $this->options['extension'],
-            $this->options['language']
+            $languageDir
         ) . '/' . self::DEF_PO_FILENAME;
         $translationFileReader = new tao_helpers_translation_POFileReader($oldFilePath);
         $translationFileReader->read();
@@ -761,7 +747,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             // The slave RDF file is the translation of the ontology that we find in /extId/Locales/langCode.
             $slavePOFilePath = $this->buildLanguagePath(
                 $this->options['extension'],
-                $this->options['language']
+                $languageDir
             ) . '/' . $this->getOntologyPOFileName($f);
             if (file_exists($slavePOFilePath)) {
                 // Read the existing RDF Translation file for this RDF model.
@@ -834,22 +820,24 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionDelete()
     {
+        $languageDir = $this->checkPrefix($this->options['language']);
+
         $this->outVerbose(
-            "Deleting language '" . $this->options['language'] . "' for extension '"
+            "Deleting language '" . $languageDir . "' for extension '"
                 . $this->options['extension'] . "' ..."
         );
 
-        $dir = $this->buildLanguagePath($this->options['extension'], $this->options['language']);
+        $dir = $this->buildLanguagePath($this->options['extension'], $languageDir);
         if (!tao_helpers_File::remove($dir, true)) {
             $this->err(
-                "Could not delete language '" . $this->options['language'] . "' for extension '"
+                "Could not delete language '" . $languageDir . "' for extension '"
                     . $this->options['extension'] . "'.",
                 true
             );
         }
 
         $this->outVerbose(
-            "Language '" . $this->options['language'] . "' for extension '" . $this->options['extension']
+            "Language '" . $languageDir . "' for extension '" . $this->options['extension']
                 . "' successfully deleted."
         );
     }
@@ -1439,10 +1427,11 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
 
         foreach ($extensionsToCreate as $extension) {
             $language = $this->options['language'];
+            $languageDir = $this->addPrefix($language);
             $compiledTranslationFile = new tao_helpers_translation_TranslationFile();
             $compiledTranslationFile->setTargetLanguage($this->options['language']);
 
-            $this->outVerbose("Compiling language '${language}' for extension '${extension}'...");
+            $this->outVerbose("Compiling language '${$languageDir}' for extension '${extension}'...");
 
             // Get the dependencies of the target extension.
             // @todo Deal with dependencies at compilation time.
