@@ -55,6 +55,7 @@ use oat\tao\model\resources\Exception\ClassDeletionException;
 use oat\generis\model\resource\Contract\ResourceDeleterInterface;
 use oat\tao\model\metadata\exception\InconsistencyConfigException;
 use oat\tao\model\resources\Exception\PartialClassDeletionException;
+use tao_helpers_Display as DisplayHelper;
 
 /**
  * The TaoModule is an abstract controller,
@@ -467,7 +468,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $this->setData('reload', true);
         }
 
-        $this->setData('formTitle', __('Edit class %s', \tao_helpers_Display::htmlize($class->getLabel())));
+        $getLabel = DisplayHelper::mapClassesNames($class->getLabel());
+        $this->setData('formTitle', __('Edit class %s', \tao_helpers_Display::htmlize($getLabel)));
         $this->setData('myForm', $myForm->render());
         $this->setView('form.tpl', 'tao');
     }
