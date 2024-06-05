@@ -81,9 +81,11 @@ $sections = get_data('sections');
                                     $node = $tree->get('rootNode');
                                 }
                                 if ($node) {
+                                    $className = tao_helpers_Display::mapClassesNames($tree->get('className'));
+
                                     Template::inc('blocks/search.tpl', 'tao', array(
                                     'rootNode' => $node,
-                                    'searchLabel' => __('Search %s', $tree->get('className'))
+                                    'searchLabel' => __('Search %s', $className)
                                     ));
                                 }
                             }
