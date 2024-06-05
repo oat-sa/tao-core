@@ -22,9 +22,15 @@
  *
  */
 
+use oat\generis\model\GenerisRdf;
 use oat\oatbox\service\ServiceManager;
+use oat\oatbox\user\UserInterfaceModeService;
+use oat\oatbox\user\UserInterfaceModeServiceInterface;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\oatbox\user\UserTimezoneServiceInterface;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\TaoOntology;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -142,6 +148,17 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
         }
 
         $this->addTimezoneEl($this->form);
+        $this->addInterfaceModeEl($this->form);
+    }
+
+    private function addInterfaceModeEl($form): void
+    {
+        if ($this->isSolarDesignEnabled()) {
+            $interfaceModeElement = tao_helpers_form_FormFactory::getElement('interface_mode', 'Radiobox');
+            $interfaceModeElement->setDescription(__('Interface Mode'));
+            $interfaceModeElement->setOptions($this->getInterfaceModeOptions());
+            $form->addElement($interfaceModeElement);
+        }
     }
 
     private function addTimezoneEl($form): void
@@ -158,6 +175,14 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
 
             $form->addElement($tzElement);
         }
+    }
+
+    private function isSolarDesignEnabled(): bool
+    {
+        return $this
+            ->getContainer()
+            ->get(FeatureFlagChecker::class)
+            ->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED);
     }
 
     private function getUserTimezoneService(): UserTimezoneServiceInterface
@@ -187,5 +212,17 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
         }
 
         return $this->container;
+    }
+
+    private function getInterfaceModeOptions(): array
+    {
+        $options = [];
+        $property = new core_kernel_classes_Property(GenerisRdf::PROPERTY_USER_INTERFACE_MODE);
+
+        foreach ($property->getRange()->getInstances(true) as $rangeInstance) {
+            $options[tao_helpers_Uri::encode($rangeInstance->getUri())] = $rangeInstance->getLabel();
+        }
+
+        return $options;
     }
 }

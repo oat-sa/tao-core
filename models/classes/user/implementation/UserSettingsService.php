@@ -49,7 +49,8 @@ class UserSettingsService implements UserSettingsServiceInterface
             [
                 $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_UILG),
                 $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_DEFLG),
-                $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_TIMEZONE)
+                $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_TIMEZONE),
+                $this->ontology->getProperty(GenerisRdf::PROPERTY_USER_INTERFACE_MODE)
             ]
         );
 
@@ -65,10 +66,19 @@ class UserSettingsService implements UserSettingsServiceInterface
             $timezone = (string) current($props[GenerisRdf::PROPERTY_USER_TIMEZONE]);
         }
 
-        return new UserSettings(
+        $userSettings = new UserSettings(
             $timezone ?? $this->defaultTimeZone,
             $uiLanguageCode ?? null,
             $dataLanguageCode ?? null
         );
+
+        if (!empty($props[GenerisRdf::PROPERTY_USER_INTERFACE_MODE])) {
+            $userSettings->setSetting(
+                'interfaceMode',
+                current($props[GenerisRdf::PROPERTY_USER_INTERFACE_MODE])
+            );
+        }
+
+        return $userSettings;
     }
 }

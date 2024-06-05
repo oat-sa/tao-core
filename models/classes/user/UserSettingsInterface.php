@@ -29,4 +29,8 @@ interface UserSettingsInterface
     public function getDataLanguageCode(): ?string;
 
     public function getTimezone(): string;
+
+    public function setSetting(string $setting, $value): void;
+
+    public function getSetting(string $setting);
 }
