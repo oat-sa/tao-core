@@ -23,15 +23,21 @@ declare(strict_types=1);
 namespace oat\tao\model\menu;
 
 use LogicException;
+use oat\generis\model\GenerisRdf;
 use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\user\UserInterfaceModeService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use tao_models_classes_UserService;
 
 class SectionVisibilityFilter extends ConfigurableService implements SectionVisibilityFilterInterface
 {
     public const SERVICE_ID = 'tao/SectionVisibilityFilter';
     public const OPTION_FEATURE_FLAG_SECTIONS = 'featureFlagSections';
     public const OPTION_FEATURE_FLAG_SECTIONS_TO_HIDE = 'featureFlagSectionsToHide';
+
+    //TODO:: Add sections hidden for simple mode
+    public const SIMPLE_MODE_HIDDEN_SECTIONS = [];
 
     /**
      * @throws LogicException
@@ -53,10 +59,33 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
             }
         }
 
+        if ($this->getUserInterfaceMode() == GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE) {
+            if (in_array($section, self::SIMPLE_MODE_HIDDEN_SECTIONS)) {
+                return false;
+            }
+        }
+
         return true;
     }
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getServiceLocator()->get(FeatureFlagChecker::class);
+    }
+
+    private function getUserInterfaceModeService(): UserInterfaceModeService
+    {
+        return $this->getServiceLocator()->getContainer()->get(UserInterfaceModeService::class);
+    }
+
+    private function getUserService(): tao_models_classes_UserService
+    {
+        return $this->getServiceLocator()->get(tao_models_classes_UserService::class);
+    }
+
+    private function getUserInterfaceMode(): string
+    {
+        return $this->getUserInterfaceModeService()->getUserInterfaceMode(
+            $this->getUserService()->getCurrentUser()
+        );
     }
 }

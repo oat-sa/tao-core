@@ -109,7 +109,8 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
             ];
 
             if ($this->isSolarDesignEnabled()) {
-                $userSettingsData[GenerisRdf::PROPERTY_USER_INTERFACE_MODE] = $settingsForm->getValue('interface_mode');
+                $interfaceMode = $this->getResource($settingsForm->getValue('interface_mode'));
+                $userSettingsData[GenerisRdf::PROPERTY_USER_INTERFACE_MODE] = $interfaceMode->getUri();
             }
 
             if ($this->getUserLanguageService()->isDataLanguageEnabled()) {
