@@ -661,7 +661,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
     {
         $languageDir = $this->checkPrefix($this->options['language']);
 
-            $this->outVerbose(
+        $this->outVerbose(
             "Updating language '" . $languageDir . "' for extension '"
                 . $this->options['extension'] . "'..."
         );
@@ -1325,8 +1325,9 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
      * @return bool
      */
-    private function notContainPrefix($language) {
-        $pattern = '/'.self::LANG_PREFIX.'$/';
+    private function notContainPrefix($language)
+    {
+        $pattern = '/' . self::LANG_PREFIX . '$/';
         return Layout::isSolarDesignEnabled() && !preg_match($pattern, $language, $matches);
     }
 
@@ -1338,7 +1339,8 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
      * @return string
      */
-    private function addPrefix($language) {
+    private function addPrefix($language)
+    {
         return $language . self::LANG_PREFIX;
     }
 
@@ -1350,7 +1352,8 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
      * @return string
      */
-    private function checkPrefix($language) {
+    private function checkPrefix($language)
+    {
         if ($this->notContainPrefix($language)) {
             $language = $this->addPrefix($language);
         }
