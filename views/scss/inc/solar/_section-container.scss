@@ -64,46 +64,46 @@ body.solar-design {
                         }
                     }
                 }
-                .tab-group {
-                    border: none;
-                    display: inline-flex;
+            }
+        }
+        .tab-group {
+            border: none;
+            display: inline-flex;
+            border-radius: 0;
+
+            li {
+                float: none;
+                height: var(--button-small-height);
+
+                button {
+                    background: var(--section-background);
+                    color: var(--section-color);
+                    height: var(--button-small-height);
+                    font-family: var(--font-ui);
+                    font-size: var(--fontsize-body);
+                    font-weight: bold;
                     border-radius: 0;
 
-                    li {
-                        float: none;
-                        height: var(--button-small-height);
+                    &:focus {
+                        outline: none;
+                    }
+                }
+                &:hover {
+                    border-radius: 0;
 
-                        button {
-                            background: var(--section-background);
-                            color: var(--section-color);
-                            height: var(--button-small-height);
-                            font-family: var(--font-ui);
-                            font-size: var(--fontsize-body);
-                            font-weight: bold;
-                            border-radius: 0;
+                    button {
+                        background-color: var(--color-gs-light-hover-bg);
+                        border-bottom-color: var(--color-brand-hover);
+                        border-radius: 0;
+                        transition: none;
+                    }
+                }
+                &.active {
+                    border: none !important;
 
-                            &:focus {
-                                outline: none;
-                            }
-                        }
-                        &:hover {
-                            border-radius: 0;
-
-                            button {
-                                background-color: var(--color-gs-light-hover-bg);
-                                border-bottom-color: var(--color-brand-hover);
-                                border-radius: 0;
-                                transition: none;
-                            }
-                        }
-                        &.active {
-                            border: none !important;
-
-                            button {
-                                border-bottom: var(--border-thick) solid var(--color-brand);
-                                transition: none;
-                            }
-                        }
+                    button {
+                        border-bottom: var(--border-thick) solid var(--color-brand);
+                        transition: none;
                     }
                 }
             }
