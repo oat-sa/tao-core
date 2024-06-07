@@ -42,6 +42,9 @@ body.solar-design {
                 padding: 0;
             }
         }
+        &.btn-button {
+            @include button-sd-secondary();
+        }
         &.btn-info {
             @include button-sd-primary-info();
 
