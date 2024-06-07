@@ -1,6 +1,6 @@
 body.solar-design {
     .action-bar {
-        &:not(:has(li)) {
+        &:not(:has(li, button)) {
             display: none;
         }
         li {
