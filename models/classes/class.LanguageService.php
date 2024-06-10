@@ -52,6 +52,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     public const INSTANCE_ORIENTATION_LTR = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight';
     public const INSTANCE_ORIENTATION_RTL = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft';
     // --- OPERATIONS ---
+    public const LANG_PREFIX = '-S';
 
     /**
      * Short description of method createLanguage
@@ -362,12 +363,15 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
         $files = [];
         $localeDirectories = scandir($localesPath);
         foreach ($localeDirectories as $localeDir) {
-            $path = $localesPath . '/' . $localeDir;
-            if ($localeDir[0] != '.' && @is_dir($path)) {
-                // Look if the lang.rdf can be read.
-                $languageModelFile = $path . '/lang.rdf';
-                if (@file_exists($languageModelFile) && @is_readable($languageModelFile)) {
-                    $files[] = $languageModelFile;
+            $pattern = '/' . self::LANG_PREFIX . '$/';
+            if (!preg_match($pattern, $localeDir, $matches)) {
+                $path = $localesPath . '/' . $localeDir;
+                if ($localeDir[0] != '.' && @is_dir($path)) {
+                    // Look if the lang.rdf can be read.
+                    $languageModelFile = $path . '/lang.rdf';
+                    if (@file_exists($languageModelFile) && @is_readable($languageModelFile)) {
+                        $files[] = $languageModelFile;
+                    }
                 }
             }
         }
