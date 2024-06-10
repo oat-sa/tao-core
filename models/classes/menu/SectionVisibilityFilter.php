@@ -58,9 +58,8 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
             }
         }
 
-        if ($this->getUserSettingsService()
-                ->getCurrentUserSettings()
-                ->getSetting(UserSettingsInterface::INTERFACE_MODE) == GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE) {
+        $userSettings = $this->getUserSettingsService()->getCurrentUserSettings();
+        if ($userSettings->getSetting(UserSettingsInterface::INTERFACE_MODE) == GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE) {
             if (in_array($section, self::SIMPLE_MODE_HIDDEN_SECTIONS)) {
                 return false;
             }
