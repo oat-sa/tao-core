@@ -44,6 +44,7 @@ use oat\tao\model\menu\Perspective;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\routing\ResolverFactory;
 use oat\tao\model\security\xsrf\TokenService;
+use oat\tao\model\theme\ThemeServiceAbstract;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -272,7 +273,7 @@ class ClientConfigStorageTest extends TestCase
             ->with(tao_helpers_Mode::PRODUCTION)
             ->willReturn(false);
 
-        $layout = $this->createMock(Layout::class);
+        $layout = $this->createMock(ThemeServiceAbstract::class);
 
         $layout->method('isSolarDesignEnabled')
             ->willReturn(false);
