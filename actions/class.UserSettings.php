@@ -30,6 +30,7 @@ declare(strict_types=1);
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\user\UserLanguageServiceInterface;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\service\ApplicationService;
 use oat\tao\model\user\UserSettingsFormFactory;
 use oat\tao\model\user\UserSettingsServiceInterface;
@@ -110,6 +111,11 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
                 $userSettingsData[GenerisRdf::PROPERTY_USER_DEFLG] = $dataLang->getUri();
             }
 
+            if ($this->getFeatureFlagChecker()->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED)) {
+                $interfaceMode = $this->getResource($settingsForm->getValue('interface_mode'));
+                $userSettingsData[GenerisRdf::PROPERTY_USER_INTERFACE_MODE] = $interfaceMode->getUri();
+            }
+
             $binder = new tao_models_classes_dataBinding_GenerisFormDataBinder($userResource);
 
             if ($binder->bind($userSettingsData)) {
@@ -162,6 +168,13 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
     private function getLanguageService(): tao_models_classes_LanguageService
     {
         return tao_models_classes_LanguageService::singleton();
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this
+            ->getPsrContainer()
+            ->get(FeatureFlagCheckerInterface::class);
     }
 
     private function isDemoMode(): bool

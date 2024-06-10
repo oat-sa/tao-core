@@ -73,6 +73,10 @@ class UserSettingsFormFactory
             $fields['data_lang'] = $userSettings->getDataLanguageCode();
         }
 
+        if ($userSettings->getSetting(UserSettingsInterface::INTERFACE_MODE)) {
+            $fields['interface_mode'] = $userSettings->getSetting(UserSettingsInterface::INTERFACE_MODE);
+        }
+
         return $fields;
     }
 

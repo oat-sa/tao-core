@@ -35,6 +35,9 @@ class UserSettings implements UserSettingsInterface
     /** @var string */
     private $timezone;
 
+    /** @var array */
+    public $settings = [];
+
     public function __construct(string $timezone, string $uiLanguageCode = null, string $dataLanguageCode = null)
     {
         $this->timezone = $timezone;
@@ -55,5 +58,15 @@ class UserSettings implements UserSettingsInterface
     public function getTimezone(): string
     {
         return $this->timezone;
+    }
+
+    public function setSetting(string $setting, $value): void
+    {
+        $this->settings[$setting] = $value;
+    }
+
+    public function getSetting(string $setting)
+    {
+        return $this->settings[$setting] ?? null;
     }
 }
