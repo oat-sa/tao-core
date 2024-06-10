@@ -31,6 +31,7 @@ use Exception;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
+use oat\tao\helpers\Layout;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
@@ -45,6 +46,7 @@ use Throwable;
 
 class ClientConfigStorage
 {
+    public const LANG_PREFIX = '-S';
     private TokenService $tokenService;
     private ClientLibRegistry $clientLibRegistry;
     private FeatureFlagConfigSwitcher $featureFlagConfigSwitcher;
@@ -140,6 +142,7 @@ class ClientConfigStorage
 
         $taoBaseWww = $this->assetService->getJsBaseWww('tao');
         $langCode = $this->sessionService->getCurrentSession()->getInterfaceLanguage();
+        $langCode = $this->checkPrefix($langCode);
         $timeout = $this->getClientTimeout();
         $extensionId = $resolver->getExtensionId();
 
@@ -259,5 +262,55 @@ class ClientConfigStorage
 
             return '';
         }
+    }
+
+    /**
+     * Short description of method notContainPrefix
+     *
+     * @param string $language
+     * @access private
+     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
+     * @return bool
+     */
+    private function notContainPrefix(string $language): bool
+    {
+        $pattern = '/' . self::LANG_PREFIX . '$/';
+
+
+        return Layout::isSolarDesignEnabled() && !preg_match($pattern, $language, $matches);
+    }
+
+    /**
+     * Short description of method addPrefix
+     *
+     * @param string $language
+     * @access private
+     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
+     * @return string
+     */
+    private function addPrefix(string $language): string
+    {
+        return $language . self::LANG_PREFIX;
+    }
+
+    /**
+     * Short description of method addPrefix
+     *
+     * @param string $language
+     * @access private
+     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
+     * @return string
+     */
+    private function checkPrefix(string $language): string
+    {
+        if ($this->notContainPrefix($language)) {
+            $localesDir = 'views/locales';
+            $dir = dirname(__FILE__) . '/../../../' . $localesDir . '/' . $this->addPrefix($language);
+            if (is_dir($dir)) {
+                $language = $this->addPrefix($language);
+            }
+        }
+
+        return $language;
     }
 }
