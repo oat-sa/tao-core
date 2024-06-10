@@ -25,9 +25,11 @@ namespace oat\tao\model\menu;
 use LogicException;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\service\ConfigurableService;
-use oat\oatbox\user\UserInterfaceModeService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\user\implementation\UserSettingsService;
+use oat\tao\model\user\UserSettingsInterface;
+use oat\tao\model\user\UserSettingsServiceInterface;
 use tao_models_classes_UserService;
 
 class SectionVisibilityFilter extends ConfigurableService implements SectionVisibilityFilterInterface
@@ -72,9 +74,9 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
         return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 
-    private function getUserInterfaceModeService(): UserInterfaceModeService
+    private function getUserSettingsService(): UserSettingsService
     {
-        return $this->getServiceLocator()->getContainer()->get(UserInterfaceModeService::class);
+        return $this->getServiceManager()->getContainer()->get(UserSettingsServiceInterface::class);
     }
 
     private function getUserService(): tao_models_classes_UserService
@@ -82,10 +84,11 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
         return $this->getServiceLocator()->get(tao_models_classes_UserService::class);
     }
 
-    private function getUserInterfaceMode(): string
+    private function getUserInterfaceMode(): ?string
     {
-        return $this->getUserInterfaceModeService()->getUserInterfaceMode(
-            $this->getUserService()->getCurrentUser()
-        );
+        $userResource = $this->getUserService()->getCurrentUser();
+        $userSettings = $this->getUserSettingsService()->get($userResource);
+
+        return $userSettings->getSetting(UserSettingsInterface::INTERFACE_MODE);
     }
 }

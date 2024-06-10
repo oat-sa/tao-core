@@ -74,7 +74,7 @@ class UserSettingsService implements UserSettingsServiceInterface
 
         if (!empty($props[GenerisRdf::PROPERTY_USER_INTERFACE_MODE])) {
             $userSettings->setSetting(
-                'interfaceMode',
+                UserSettingsInterface::INTERFACE_MODE,
                 current($props[GenerisRdf::PROPERTY_USER_INTERFACE_MODE])->getUri()
             );
         }
