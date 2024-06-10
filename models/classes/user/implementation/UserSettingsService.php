@@ -94,6 +94,11 @@ class UserSettingsService implements UserSettingsServiceInterface
 
     public function getCurrentUserSettings(): UserSettingsInterface
     {
-        return $this->get($this->userService->getCurrentUser());
+        $currentUser = $this->userService->getCurrentUser();
+        if ($currentUser) {
+            return $this->get($currentUser);
+        }
+
+        return new UserSettings($this->defaultTimeZone);
     }
 }

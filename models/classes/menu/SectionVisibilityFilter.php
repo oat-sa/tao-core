@@ -59,7 +59,10 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
         }
 
         $userSettings = $this->getUserSettingsService()->getCurrentUserSettings();
-        if ($userSettings->getSetting(UserSettingsInterface::INTERFACE_MODE) == GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE) {
+        if (
+            $this->getFeatureFlagChecker()->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED)
+            && $userSettings->getSetting(UserSettingsInterface::INTERFACE_MODE) == GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE
+        ) {
             if (in_array($section, self::SIMPLE_MODE_HIDDEN_SECTIONS)) {
                 return false;
             }
@@ -67,13 +70,13 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
 
         return true;
     }
-    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    private function getFeatureFlagChecker(): FeatureFlagChecker
     {
         return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 
     private function getUserSettingsService(): UserSettingsService
     {
-        return $this->getServiceLocator()->get(UserSettingsService::class);
+        return $this->getServiceLocator()->getContainer()->get(UserSettingsService::class);
     }
 }

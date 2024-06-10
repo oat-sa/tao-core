@@ -26,6 +26,7 @@ use oat\generis\model\GenerisRdf;
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\oatbox\user\UserTimezoneServiceInterface;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use Psr\Container\ContainerInterface;
 
@@ -194,11 +195,11 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
         return $this->languageService;
     }
 
-    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    private function getFeatureFlagChecker(): FeatureFlagChecker
     {
         return $this
             ->getContainer()
-            ->get(FeatureFlagCheckerInterface::class);
+            ->get(FeatureFlagChecker::class);
     }
 
     private function getContainer(): ContainerInterface

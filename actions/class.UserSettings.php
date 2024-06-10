@@ -30,6 +30,7 @@ declare(strict_types=1);
 use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\user\UserLanguageServiceInterface;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\service\ApplicationService;
 use oat\tao\model\user\UserSettingsFormFactory;
@@ -170,11 +171,11 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
         return tao_models_classes_LanguageService::singleton();
     }
 
-    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    private function getFeatureFlagChecker(): FeatureFlagChecker
     {
         return $this
             ->getPsrContainer()
-            ->get(FeatureFlagCheckerInterface::class);
+            ->get(FeatureFlagChecker::class);
     }
 
     private function isDemoMode(): bool
