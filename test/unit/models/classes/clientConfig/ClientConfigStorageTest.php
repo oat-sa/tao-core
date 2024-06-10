@@ -31,6 +31,7 @@ use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageService;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
 use oat\tao\helpers\dateFormatter\DateFormatterInterface;
+use oat\tao\helpers\Layout;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\ClientConfigStorage;
@@ -269,6 +270,11 @@ class ClientConfigStorageTest extends TestCase
         $this->modeHelper
             ->method('isMode')
             ->with(tao_helpers_Mode::PRODUCTION)
+            ->willReturn(false);
+
+        $layout = $this->createMock(Layout::class);
+
+        $layout->method('isSolarDesignEnabled')
             ->willReturn(false);
 
         $this->featureFlagRepository
