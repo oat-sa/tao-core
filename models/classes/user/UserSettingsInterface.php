@@ -24,7 +24,7 @@ namespace oat\tao\model\user;
 
 interface UserSettingsInterface
 {
-    const INTERFACE_MODE = 'interface_mode';
+    public const INTERFACE_MODE = 'interface_mode';
 
     public function getUILanguageCode(): ?string;
 

@@ -46,8 +46,7 @@ class UserSettingsService implements UserSettingsServiceInterface
         UserTimezoneServiceInterface $userTimezoneService,
         Ontology $ontology,
         tao_models_classes_UserService $userService
-    )
-    {
+    ) {
         $this->defaultTimeZone = $userTimezoneService->getDefaultTimezone();
         $this->ontology = $ontology;
         $this->userService = $userService;

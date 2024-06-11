@@ -146,7 +146,11 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
 
         $this->addTimezoneEl($this->form);
 
-        if ($this->getFeatureFlagChecker()->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED)) {
+        if (
+            $this->getFeatureFlagChecker()->isEnabled(
+                FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED
+            )
+        ) {
             $this->addInterfaceModeEl($this->form);
         }
     }

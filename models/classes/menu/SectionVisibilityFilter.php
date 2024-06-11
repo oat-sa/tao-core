@@ -60,8 +60,12 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
 
         $userSettings = $this->getUserSettingsService()->getCurrentUserSettings();
         if (
-            $this->getFeatureFlagChecker()->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED)
-            && $userSettings->getSetting(UserSettingsInterface::INTERFACE_MODE) == GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE
+            $this->getFeatureFlagChecker()->isEnabled(
+                FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED
+            )
+            && $userSettings->getSetting(
+                UserSettingsInterface::INTERFACE_MODE
+            ) == GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE
         ) {
             if (in_array($section, self::SIMPLE_MODE_HIDDEN_SECTIONS)) {
                 return false;

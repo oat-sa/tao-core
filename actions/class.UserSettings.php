@@ -112,7 +112,11 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
                 $userSettingsData[GenerisRdf::PROPERTY_USER_DEFLG] = $dataLang->getUri();
             }
 
-            if ($this->getFeatureFlagChecker()->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED)) {
+            if (
+                $this->getFeatureFlagChecker()->isEnabled(
+                    FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED
+                )
+            ) {
                 $interfaceMode = $this->getResource($settingsForm->getValue('interface_mode'));
                 $userSettingsData[GenerisRdf::PROPERTY_USER_INTERFACE_MODE] = $interfaceMode->getUri();
             }
