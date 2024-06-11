@@ -25,6 +25,7 @@
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
+use oat\tao\helpers\Layout;
 use oat\tao\helpers\form\ElementMapFactory;
 use oat\tao\helpers\form\elements\ElementValue;
 use oat\tao\model\form\DataProvider\FormDataProviderInterface;
