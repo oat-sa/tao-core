@@ -45,6 +45,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
 
     public const EXCLUDED_PROPERTIES = 'excludedProperties';
 
+    public const LANG_PREFIX = '-S';
     /**
      * Initialize the form
      *
@@ -91,6 +92,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
         } catch (common_exception_Error $exception) {
             $language = DEFAULT_LANG;
         }
+        $language = $this->checkPrefix($language);
 
         $topClass = $this->getTopClazz();
 
@@ -226,5 +228,55 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
     {
         return $element instanceof tao_helpers_form_elements_Label
             && empty($element->getRawValue());
+    }
+
+    /**
+     * Short description of method notContainPrefix
+     *
+     * @param string $language
+     * @access private
+     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
+     * @return bool
+     */
+    private function notContainPrefix(string $language): bool
+    {
+        $pattern = '/' . self::LANG_PREFIX . '$/';
+
+
+        return Layout::isSolarDesignEnabled() && !preg_match($pattern, $language, $matches);
+    }
+
+    /**
+     * Short description of method addPrefix
+     *
+     * @param string $language
+     * @access private
+     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
+     * @return string
+     */
+    private function addPrefix(string $language): string
+    {
+        return $language . self::LANG_PREFIX;
+    }
+
+    /**
+     * Short description of method addPrefix
+     *
+     * @param string $language
+     * @access private
+     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
+     * @return string
+     */
+    private function checkPrefix(string $language): string
+    {
+        if ($this->notContainPrefix($language)) {
+            $localesDir = 'views/locales';
+            $dir = dirname(__FILE__) . '/../../' . $localesDir . '/' . $this->addPrefix($language);
+            if (is_dir($dir)) {
+                $language = $this->addPrefix($language);
+            }
+        }
+
+        return $language;
     }
 }
