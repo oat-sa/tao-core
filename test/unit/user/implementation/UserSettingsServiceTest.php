@@ -31,7 +31,9 @@ use oat\tao\model\user\implementation\UserSettings;
 use oat\tao\model\user\implementation\UserSettingsService;
 use core_kernel_classes_Resource;
 use core_kernel_persistence_smoothsql_SmoothModel;
+use oat\tao\model\user\UserSettingsInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use tao_models_classes_UserService;
 
 class UserSettingsServiceTest extends TestCase
 {
@@ -49,14 +51,19 @@ class UserSettingsServiceTest extends TestCase
     /** @var UserSettings|MockObject */
     private $userSettings;
 
+    /** @var tao_models_classes_UserService|MockObject */
+    private $userService;
+
     public function setUp(): void
     {
         $this->userTimezoneService = $this->getUserTimezoneServiceMock();
         $this->userSettings = $this->createMock(UserSettings::class);
+        $this->userService = $this->createMock(tao_models_classes_UserService::class);
 
         $this->sut = new UserSettingsService(
             $this->userTimezoneService,
-            $this->getOntologyMock()
+            $this->getOntologyMock(),
+            $this->userService
         );
     }
 
@@ -72,6 +79,22 @@ class UserSettingsServiceTest extends TestCase
         $this->assertEquals($expected->getTimezone(), $settings->getTimezone());
         $this->assertEquals($expected->getDataLanguageCode(), $settings->getDataLanguageCode());
         $this->assertEquals($expected->getUILanguageCode(), $settings->getUILanguageCode());
+    }
+
+    /**
+     * @dataProvider getDataProvider
+     */
+    public function testGetCurrentUserSettings(
+        UserSettings $expected,
+        core_kernel_classes_Resource $user
+    ): void {
+        $this->userService->method('getCurrentUser')->willReturn($user);
+
+        $result = $this->sut->getCurrentUserSettings();
+
+        $this->assertEquals($expected->getTimezone(), $result->getTimezone());
+        $this->assertEquals($expected->getDataLanguageCode(), $result->getDataLanguageCode());
+        $this->assertEquals($expected->getUILanguageCode(), $result->getUILanguageCode());
     }
 
     public function getDataProvider(): array
@@ -134,7 +157,8 @@ class UserSettingsServiceTest extends TestCase
             ->with([
                 $this->getOntologyMock()->getProperty(GenerisRdf::PROPERTY_USER_UILG),
                 $this->getOntologyMock()->getProperty(GenerisRdf::PROPERTY_USER_DEFLG),
-                $this->getOntologyMock()->getProperty(GenerisRdf::PROPERTY_USER_TIMEZONE)
+                $this->getOntologyMock()->getProperty(GenerisRdf::PROPERTY_USER_TIMEZONE),
+                $this->getOntologyMock()->getProperty(GenerisRdf::PROPERTY_USER_INTERFACE_MODE)
             ])
             ->willReturn($props);
 
