@@ -24,6 +24,7 @@
  */
 
 use oat\generis\model\OntologyRdf;
+use oat\tao\helpers\Layout;
 
 /**
  * Internationalization helper.
@@ -39,6 +40,14 @@ class tao_helpers_I18n
      * @var string
      */
     public const AVAILABLE_LANGS_CACHEKEY = 'i18n_available_langs';
+
+    /**
+     * Short description of attribute LANG_PREFIX
+     *
+     * @access public
+     * @var string
+     */
+    public const LANG_PREFIX = '-S';
 
     /**
      * Short description of attribute availableLangs
@@ -60,6 +69,7 @@ class tao_helpers_I18n
         if (empty($langCode)) {
             throw new Exception("Language is not defined");
         }
+        $langCode = self::checkPrefix($langCode);
 
         //init the ClearFw l10n tools
         $translations = tao_models_classes_LanguageService::singleton()->getServerBundle($langCode);
@@ -78,7 +88,7 @@ class tao_helpers_I18n
      */
     public static function getLangCode()
     {
-        return common_session_SessionManager::getSession()->getInterfaceLanguage();
+        return self::checkPrefix(common_session_SessionManager::getSession()->getInterfaceLanguage());
     }
 
     /**
@@ -192,5 +202,55 @@ class tao_helpers_I18n
             }
         }
         return $returnValue;
+    }
+
+    /**
+     * Short description of method notContainPrefix
+     *
+     * @param string $language
+     * @access private
+     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
+     * @return bool
+     */
+    private static function notContainPrefix(string $language): bool
+    {
+        $pattern = '/' . self::LANG_PREFIX . '$/';
+
+
+        return Layout::isSolarDesignEnabled() && !preg_match($pattern, $language, $matches);
+    }
+
+    /**
+     * Short description of method addPrefix
+     *
+     * @param string $language
+     * @access private
+     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
+     * @return string
+     */
+    private static function addPrefix(string $language): string
+    {
+        return $language . self::LANG_PREFIX;
+    }
+
+    /**
+     * Short description of method addPrefix
+     *
+     * @param string $language
+     * @access private
+     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
+     * @return string
+     */
+    private static function checkPrefix(string $language): string
+    {
+        if (self::notContainPrefix($language)) {
+            $localesDir = 'views/locales';
+            $dir = dirname(__FILE__) . '/../' . $localesDir . '/' . self::addPrefix($language);
+            if (is_dir($dir)) {
+                $language = self::addPrefix($language);
+            }
+        }
+
+        return $language;
     }
 }
