@@ -1,6 +1,6 @@
 body.solar-design {
     .action-bar {
-        &:not(:has(li)) {
+        &:not(:has(li, button)) {
             display: none;
         }
         li {
@@ -148,6 +148,31 @@ body.solar-design {
     .bottom-bar {
         label {
             @include form-sd-label();
+        }
+    }
+
+    #panel-taoStyles_main {
+        &, #tao-styles-form {
+            height: calc(100vh - var(--header-bar-height) - var(--action-bar-height) - var(--footer-bar-height) - var(--border-thin));
+        }
+        .action-bar {
+            &.bottom-action-bar {
+                li {
+                    margin: 16px 8px;
+                    text-shadow: none;
+                }
+                [role] {
+                    button {
+                        position: static;
+                        margin: 0;
+                    }
+                }
+                [role="style-reset"] {
+                    button {
+                        @include button-sd-secondary;
+                    }
+                }
+            }
         }
     }
 }
