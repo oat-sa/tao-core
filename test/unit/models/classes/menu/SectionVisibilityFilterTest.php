@@ -38,7 +38,7 @@ class SectionVisibilityFilterTest extends TestCase
     /** @var FeatureFlagChecker|MockObject  */
     private $featureFlagChecker;
 
-    /** @var FeatureFlagChecker|MockObject  */
+    /** @var UserSettingsService|MockObject  */
     private $userSettingsService;
 
     public function setUp(): void

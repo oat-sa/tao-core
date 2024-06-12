@@ -25,6 +25,7 @@ namespace oat\tao\model\user;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\oatbox\user\UserTimezoneServiceInterface;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\user\implementation\UserSettingsService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_models_classes_LanguageService;
@@ -46,6 +47,7 @@ class UserSettingsServiceProvider implements ContainerServiceProviderInterface
                     service(UserTimezoneServiceInterface::SERVICE_ID),
                     service(Ontology::SERVICE_ID),
                     service(tao_models_classes_UserService::SERVICE_ID),
+                    service(FeatureFlagChecker::class),
                 ]
             );
 

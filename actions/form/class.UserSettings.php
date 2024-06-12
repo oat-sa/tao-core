@@ -28,6 +28,7 @@ use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\oatbox\user\UserTimezoneServiceInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\user\UserSettingsInterface;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -151,13 +152,13 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
                 FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED
             )
         ) {
-            $this->addInterfaceModeEl($this->form);
+            $this->addInterfaceModeElement($this->form);
         }
     }
 
-    private function addInterfaceModeEl($form): void
+    private function addInterfaceModeElement($form): void
     {
-        $interfaceModeElement = tao_helpers_form_FormFactory::getElement('interface_mode', 'Radiobox');
+        $interfaceModeElement = tao_helpers_form_FormFactory::getElement(UserSettingsInterface::INTERFACE_MODE, 'Radiobox');
         $interfaceModeElement->setDescription(__('Interface Mode'));
         $interfaceModeElement->setOptions($this->getInterfaceModeOptions());
         $form->addElement($interfaceModeElement);
