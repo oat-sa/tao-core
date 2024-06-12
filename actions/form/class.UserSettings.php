@@ -156,7 +156,7 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
         }
     }
 
-    private function addInterfaceModeElement($form): void
+    private function addInterfaceModeElement(tao_helpers_form_Form $form): void
     {
         $interfaceModeElement = tao_helpers_form_FormFactory::getElement(
             UserSettingsInterface::INTERFACE_MODE,
