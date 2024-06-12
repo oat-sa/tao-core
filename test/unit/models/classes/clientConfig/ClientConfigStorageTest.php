@@ -32,6 +32,7 @@ use oat\oatbox\user\UserLanguageService;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
 use oat\tao\helpers\dateFormatter\DateFormatterInterface;
 use oat\tao\helpers\Layout;
+use oat\tao\helpers\LayoutHelper;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
 use oat\tao\model\clientConfig\ClientConfigStorage;
@@ -113,6 +114,7 @@ class ClientConfigStorageTest extends TestCase
         $this->modeHelper = $this->createMock(tao_helpers_Mode::class);
         $this->dateFormatterFactory = $this->createMock(DateFormatterFactory::class);
         $this->menuService = $this->createMock(MenuService::class);
+        $layoutHelper = $this->createMock(LayoutHelper::class);
 
         $this->sut = new ClientConfigStorage(
             $this->tokenService,
@@ -128,7 +130,8 @@ class ClientConfigStorageTest extends TestCase
             $this->sessionService,
             $this->modeHelper,
             $this->dateFormatterFactory,
-            $this->menuService
+            $this->menuService,
+            $layoutHelper
         );
     }
 

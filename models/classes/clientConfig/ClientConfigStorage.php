@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2023 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2023-2024 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
@@ -31,7 +31,7 @@ use Exception;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
-use oat\tao\helpers\Layout;
+use oat\tao\helpers\LayoutHelper;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
@@ -61,6 +61,7 @@ class ClientConfigStorage
     private tao_helpers_Mode $modeHelper;
     private DateFormatterFactory $dateFormatterFactory;
     private MenuService $menuService;
+    private LayoutHelper $layoutHelper;
 
     private array $config = [];
 
@@ -78,7 +79,8 @@ class ClientConfigStorage
         SessionService $sessionService,
         tao_helpers_Mode $modeHelper,
         DateFormatterFactory $dateFormatterFactory,
-        MenuService $menuService
+        MenuService $menuService,
+        LayoutHelper $layoutHelper
     ) {
         $this->tokenService = $tokenService;
         $this->clientLibRegistry = $clientLibRegistry;
@@ -94,6 +96,7 @@ class ClientConfigStorage
         $this->modeHelper = $modeHelper;
         $this->dateFormatterFactory = $dateFormatterFactory;
         $this->menuService = $menuService;
+        $this->layoutHelper = $layoutHelper;
     }
 
     /**
@@ -277,7 +280,7 @@ class ClientConfigStorage
         $pattern = '/' . self::LANG_PREFIX . '$/';
 
 
-        return Layout::isSolarDesignEnabled() && !preg_match($pattern, $language, $matches);
+        return $this->layoutHelper->isSolarDesignEnabled() && !preg_match($pattern, $language, $matches);
     }
 
     /**
