@@ -27,6 +27,7 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\test\OntologyMockTrait;
 use oat\generis\test\TestCase;
 use oat\oatbox\user\UserTimezoneServiceInterface;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\user\implementation\UserSettings;
 use oat\tao\model\user\implementation\UserSettingsService;
 use core_kernel_classes_Resource;
@@ -54,16 +55,21 @@ class UserSettingsServiceTest extends TestCase
     /** @var tao_models_classes_UserService|MockObject */
     private $userService;
 
+    /** @var FeatureFlagCheckerInterface|MockObject */
+    private $featureFlagChecker;
+
     public function setUp(): void
     {
         $this->userTimezoneService = $this->getUserTimezoneServiceMock();
         $this->userSettings = $this->createMock(UserSettings::class);
         $this->userService = $this->createMock(tao_models_classes_UserService::class);
+        $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
 
         $this->sut = new UserSettingsService(
             $this->userTimezoneService,
             $this->getOntologyMock(),
-            $this->userService
+            $this->userService,
+            $this->featureFlagChecker
         );
     }
 
@@ -86,47 +92,121 @@ class UserSettingsServiceTest extends TestCase
      */
     public function testGetCurrentUserSettings(
         UserSettings $expected,
-        core_kernel_classes_Resource $user
+        core_kernel_classes_Resource $user,
+        bool $isSolarDesignEnabled
     ): void {
         $this->userService->method('getCurrentUser')->willReturn($user);
+
+        $this->featureFlagChecker
+            ->method('isEnabled')
+            ->with(FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED)
+            ->willReturn($isSolarDesignEnabled);
 
         $result = $this->sut->getCurrentUserSettings();
 
         $this->assertEquals($expected->getTimezone(), $result->getTimezone());
         $this->assertEquals($expected->getDataLanguageCode(), $result->getDataLanguageCode());
         $this->assertEquals($expected->getUILanguageCode(), $result->getUILanguageCode());
+
+        $this->assertEquals(
+            $expected->getSetting(UserSettingsInterface::TIMEZONE),
+            $result->getSetting(UserSettingsInterface::TIMEZONE)
+        );
+        $this->assertEquals(
+            $expected->getSetting(UserSettingsInterface::UI_LANGUAGE_CODE),
+            $result->getSetting(UserSettingsInterface::UI_LANGUAGE_CODE)
+        );
+        $this->assertEquals(
+            $expected->getSetting(UserSettingsInterface::DATA_LANGUAGE_CODE),
+            $result->getSetting(UserSettingsInterface::DATA_LANGUAGE_CODE)
+        );
+        $this->assertEquals(
+            $expected->getSetting(UserSettingsInterface::INTERFACE_MODE),
+            $result->getSetting(UserSettingsInterface::INTERFACE_MODE)
+        );
     }
 
     public function getDataProvider(): array
     {
         return [
             'Settings for a user with no timezone' => [
-                'expected' => new UserSettings('Europe/Luxembourg', null, null),
-                'user' => $this->getUserMock('', '', null),
+                'expected' => $this->createUserSetting( null, null, 'Europe/Luxembourg'),
+                'user' => $this->getUserMock(),
+                'isSolarDesignEnabled' => true,
             ],
             'Settings for a user with timezone set' => [
-                'expected' => new UserSettings('Europe/Madrid', null, null),
-                'user' => $this->getUserMock('', '', 'Europe/Madrid'),
+                'expected' => $this->createUserSetting( null, null, 'Europe/Madrid'),
+                'user' => $this->getUserMock(null, null, 'Europe/Madrid'),
+                'isSolarDesignEnabled' => true,
             ],
             'Settings for a user with UI language set' => [
-                'expected' => new UserSettings('Europe/Madrid', 'uiLang', null),
-                'user' => $this->getUserMock('uiLang', '', 'Europe/Madrid'),
+                'expected' => $this->createUserSetting( 'uiLang', null, 'Europe/Madrid'),
+                'user' => $this->getUserMock('uiLang', null, 'Europe/Madrid'),
+                'isSolarDesignEnabled' => true,
             ],
             'Settings for a user with data language set' => [
-                'expected' => new UserSettings('Europe/Madrid', null, 'defLang'),
-                'user' => $this->getUserMock('', 'defLang', 'Europe/Madrid'),
+                'expected' => $this->createUserSetting( null, 'defLang', 'Europe/Madrid'),
+                'user' => $this->getUserMock(null, 'defLang', 'Europe/Madrid'),
+                'isSolarDesignEnabled' => true,
             ],
             'Settings for a user with UI and data language set' => [
-                'expected' => new UserSettings('Europe/Madrid', 'uiLang', 'defLang'),
+                'expected' => $this->createUserSetting( 'uiLang', 'defLang', 'Europe/Madrid'),
                 'user' => $this->getUserMock('uiLang', 'defLang', 'Europe/Madrid'),
+                'isSolarDesignEnabled' => true,
+            ],
+            'Settings for a user with interface mode' => [
+                'expected' => $this->createUserSetting(
+                    null,
+                    null,
+                    'Europe/Madrid',
+                    GenerisRdf::PROPERTY_USER_INTERFACE_MODE_ADVANCED
+                ),
+                'user' => $this->getUserMock(
+                    null,
+                    null,
+                    'Europe/Madrid',
+                    GenerisRdf::PROPERTY_USER_INTERFACE_MODE_ADVANCED
+                ),
+                'isSolarDesignEnabled' => true,
+            ],
+            'Settings for a user with interface mode when solar design disabled' => [
+                'expected' => $this->createUserSetting(
+                    null,
+                    null,
+                    'Europe/Madrid'
+                ),
+                'user' => $this->getUserMock(
+                    null,
+                    null,
+                    'Europe/Madrid',
+                    GenerisRdf::PROPERTY_USER_INTERFACE_MODE_ADVANCED
+                ),
+                'isSolarDesignEnabled' => false,
             ],
         ];
     }
 
+    private function createUserSetting(
+        string $uiLanguageUri = null,
+        string $defLangUri = null,
+        string $userTimezone = null,
+        string $userInterfaceMode = null
+    ): UserSettingsInterface {
+        $userSettings = new UserSettings($userTimezone);
+
+        $userSettings->setSetting(UserSettingsInterface::INTERFACE_MODE, $userInterfaceMode);
+        $userSettings->setSetting(UserSettingsInterface::UI_LANGUAGE_CODE, $uiLanguageUri);
+        $userSettings->setSetting(UserSettingsInterface::DATA_LANGUAGE_CODE, $defLangUri);
+        $userSettings->setSetting(UserSettingsInterface::TIMEZONE, $userTimezone);
+
+        return $userSettings;
+    }
+
     private function getUserMock(
-        string $uiLanguageUri,
-        string $defLangUri,
-        ?string $userTimezone
+        string $uiLanguageUri = null,
+        string $defLangUri = null,
+        string $userTimezone = null,
+        string $userInterfaceMode = null
     ): core_kernel_classes_Resource {
         $props = [];
         if (!empty($uiLanguageUri)) {
@@ -142,6 +222,11 @@ class UserSettingsServiceTest extends TestCase
         if (!empty($userTimezone)) {
             $props[GenerisRdf::PROPERTY_USER_TIMEZONE] = [
                 new \core_kernel_classes_Literal($userTimezone),
+            ];
+        }
+        if (!empty($userInterfaceMode)) {
+            $props[GenerisRdf::PROPERTY_USER_INTERFACE_MODE] = [
+                $this->getOntologyMock()->getResource($userInterfaceMode)
             ];
         }
 

@@ -25,6 +25,7 @@ namespace oat\tao\model\user\implementation;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\user\UserTimezoneServiceInterface;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\user\UserSettingsInterface;
 use oat\tao\model\user\UserSettingsServiceInterface;
 use core_kernel_classes_Resource;
@@ -37,19 +38,23 @@ class UserSettingsService implements UserSettingsServiceInterface
 
     /** @var string */
     private $defaultTimeZone;
-    /**
-     * @var tao_models_classes_UserService
-     */
+
+    /** @var tao_models_classes_UserService */
     private $userService;
+
+    /** @var FeatureFlagCheckerInterface */
+    private $featureFlagChecker;
 
     public function __construct(
         UserTimezoneServiceInterface $userTimezoneService,
         Ontology $ontology,
-        tao_models_classes_UserService $userService
+        tao_models_classes_UserService $userService,
+        FeatureFlagCheckerInterface $featureFlagChecker
     ) {
         $this->defaultTimeZone = $userTimezoneService->getDefaultTimezone();
         $this->ontology = $ontology;
         $this->userService = $userService;
+        $this->featureFlagChecker = $featureFlagChecker;
     }
 
     public function get(core_kernel_classes_Resource $user): UserSettingsInterface
@@ -81,7 +86,10 @@ class UserSettingsService implements UserSettingsServiceInterface
             $dataLanguageCode ?? null
         );
 
-        if (!empty($props[GenerisRdf::PROPERTY_USER_INTERFACE_MODE])) {
+        if (
+            $this->featureFlagChecker->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED)
+            && !empty($props[GenerisRdf::PROPERTY_USER_INTERFACE_MODE])
+        ) {
             $userSettings->setSetting(
                 UserSettingsInterface::INTERFACE_MODE,
                 current($props[GenerisRdf::PROPERTY_USER_INTERFACE_MODE])->getUri()

@@ -34,6 +34,7 @@ use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\service\ApplicationService;
 use oat\tao\model\user\UserSettingsFormFactory;
+use oat\tao\model\user\UserSettingsInterface;
 use oat\tao\model\user\UserSettingsServiceInterface;
 use oat\tao\model\user\implementation\UserSettingsService;
 use tao_helpers_form_FormContainer as FormContainer;
@@ -117,7 +118,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
                     FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED
                 )
             ) {
-                $interfaceMode = $this->getResource($settingsForm->getValue('interface_mode'));
+                $interfaceMode = $this->getResource($settingsForm->getValue(UserSettingsInterface::INTERFACE_MODE));
                 $userSettingsData[GenerisRdf::PROPERTY_USER_INTERFACE_MODE] = $interfaceMode->getUri();
             }
 
