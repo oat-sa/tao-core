@@ -152,11 +152,11 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
                 FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED
             )
         ) {
-            $this->addInterfaceModeEl($this->form);
+            $this->addInterfaceModeElement($this->form);
         }
     }
 
-    private function addInterfaceModeEl($form): void
+    private function addInterfaceModeElement($form): void
     {
         $interfaceModeElement = tao_helpers_form_FormFactory::getElement(UserSettingsInterface::INTERFACE_MODE, 'Radiobox');
         $interfaceModeElement->setDescription(__('Interface Mode'));
