@@ -74,7 +74,9 @@ class UserSettingsFormFactory
         }
 
         if ($userSettings->getSetting(UserSettingsInterface::INTERFACE_MODE)) {
-            $fields[UserSettingsInterface::INTERFACE_MODE] = $userSettings->getSetting(UserSettingsInterface::INTERFACE_MODE);
+            $fields[UserSettingsInterface::INTERFACE_MODE] = $userSettings->getSetting(
+                UserSettingsInterface::INTERFACE_MODE
+            );
         }
 
         return $fields;

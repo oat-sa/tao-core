@@ -44,7 +44,8 @@ class ActionBlackList extends ConfigurableService
 
     public function isDisabled(string $action): bool
     {
-        return $this->isDisabledByInterfaceMode($action) || ($this->isDisabledByDefault($action) && !$this->isEnabledByFeatureFlag($action))
+        return $this->isDisabledByInterfaceMode($action)
+            || ($this->isDisabledByDefault($action) && !$this->isEnabledByFeatureFlag($action))
             || $this->isDisabledByFeatureFlag($action);
     }
 
@@ -75,7 +76,6 @@ class ActionBlackList extends ConfigurableService
     private function getUserSettingsService(): UserSettingsService
     {
         return $this->getServiceManager()->getContainer()->get(UserSettingsService::class);
-
     }
 
     private function isDisabledByInterfaceMode(string $action): bool
