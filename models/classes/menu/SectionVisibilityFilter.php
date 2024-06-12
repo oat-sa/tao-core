@@ -38,6 +38,7 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
 
     //TODO:: Add sections hidden for simple mode
     public const SIMPLE_MODE_HIDDEN_SECTIONS = [];
+    
     /**
      * @throws LogicException
      */
@@ -59,6 +60,7 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
         }
 
         $userSettings = $this->getUserSettingsService()->getCurrentUserSettings();
+        
         if (
             $this->getFeatureFlagChecker()->isEnabled(
                 FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED

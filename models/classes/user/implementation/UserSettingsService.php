@@ -94,6 +94,7 @@ class UserSettingsService implements UserSettingsServiceInterface
     public function getCurrentUserSettings(): UserSettingsInterface
     {
         $currentUser = $this->userService->getCurrentUser();
+        
         if ($currentUser) {
             return $this->get($currentUser);
         }

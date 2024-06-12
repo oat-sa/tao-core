@@ -175,7 +175,7 @@ class tao_actions_UserSettings extends tao_actions_CommonModule
         return tao_models_classes_LanguageService::singleton();
     }
 
-    private function getFeatureFlagChecker(): FeatureFlagChecker
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this
             ->getPsrContainer()
