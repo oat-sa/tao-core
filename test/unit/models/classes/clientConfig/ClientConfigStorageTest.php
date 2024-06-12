@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2023 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2023-2024 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
@@ -31,7 +31,6 @@ use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageService;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
 use oat\tao\helpers\dateFormatter\DateFormatterInterface;
-use oat\tao\helpers\Layout;
 use oat\tao\helpers\LayoutHelper;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
@@ -45,7 +44,6 @@ use oat\tao\model\menu\Perspective;
 use oat\tao\model\routing\Resolver;
 use oat\tao\model\routing\ResolverFactory;
 use oat\tao\model\security\xsrf\TokenService;
-use oat\tao\model\theme\ThemeServiceAbstract;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -274,11 +272,6 @@ class ClientConfigStorageTest extends TestCase
         $this->modeHelper
             ->method('isMode')
             ->with(tao_helpers_Mode::PRODUCTION)
-            ->willReturn(false);
-
-        $layout = $this->createMock(ThemeServiceAbstract::class);
-
-        $layout->method('isSolarDesignEnabled')
             ->willReturn(false);
 
         $this->featureFlagRepository
