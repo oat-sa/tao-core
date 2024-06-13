@@ -228,6 +228,8 @@ class tao_actions_form_UserSettings extends tao_helpers_form_FormContainer
             $options[tao_helpers_Uri::encode($rangeInstance->getUri())] = $rangeInstance->getLabel();
         }
 
+        krsort($options);
+
         return $options;
     }
 }

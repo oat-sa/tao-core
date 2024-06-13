@@ -90,11 +90,12 @@ class UserSettingsService implements UserSettingsServiceInterface
             $this->featureFlagChecker->isEnabled(
                 FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED
             )
-            && !empty($props[GenerisRdf::PROPERTY_USER_INTERFACE_MODE])
         ) {
             $userSettings->setSetting(
                 UserSettingsInterface::INTERFACE_MODE,
-                current($props[GenerisRdf::PROPERTY_USER_INTERFACE_MODE])->getUri()
+                empty($props[GenerisRdf::PROPERTY_USER_INTERFACE_MODE])
+                    ? GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE
+                    : current($props[GenerisRdf::PROPERTY_USER_INTERFACE_MODE])->getUri()
             );
         }
 
