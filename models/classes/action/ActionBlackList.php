@@ -23,8 +23,11 @@ declare(strict_types=1);
 namespace oat\tao\model\action;
 
 use Laminas\ServiceManager\ServiceLocatorAwareTrait;
+use oat\generis\model\GenerisRdf;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\user\implementation\UserSettingsService;
+use oat\tao\model\user\UserSettingsInterface;
 
 class ActionBlackList extends ConfigurableService
 {
@@ -35,9 +38,13 @@ class ActionBlackList extends ConfigurableService
     public const OPTION_DISABLED_ACTIONS_FLAG_MAP = 'disabledActionsMap';
     public const OPTION_ENABLED_ACTIONS_BY_FEATURE_FLAG_MAP = 'enabledActionsByFeatureFlagMap';
 
+    private const SIMPLE_INTERFACE_MODE_DISABLED_ACTION = [
+        'test-xml-editor'
+    ];
+
     public function isDisabled(string $action): bool
     {
-        return ($this->isDisabledByDefault($action) && !$this->isEnabledByFeatureFlag($action))
+        return $this->isDisabledByInterfaceMode($action) || ($this->isDisabledByDefault($action) && !$this->isEnabledByFeatureFlag($action))
             || $this->isDisabledByFeatureFlag($action);
     }
 
@@ -63,5 +70,30 @@ class ActionBlackList extends ConfigurableService
     private function getFeatureFlagChecker(): FeatureFlagChecker
     {
         return $this->getServiceLocator()->get(FeatureFlagChecker::class);
+    }
+
+    private function getUserSettingsService(): UserSettingsService
+    {
+        return $this->getServiceManager()->getContainer()->get(UserSettingsService::class);
+
+    }
+
+    private function isDisabledByInterfaceMode(string $action): bool
+    {
+        if (!in_array($action, self::SIMPLE_INTERFACE_MODE_DISABLED_ACTION)) {
+            return false;
+        }
+
+        $userSettings = $this->getUserSettingsService()->getCurrentUserSettings();
+
+        if (
+            $userSettings->getSetting(
+                UserSettingsInterface::INTERFACE_MODE
+            ) === GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }
