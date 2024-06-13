@@ -1,6 +1,7 @@
 <?php
 use oat\tao\helpers\Template;
 use oat\tao\helpers\Layout;
+use oat\tao\helpers\MapLabelNameService;
 
 $xsrfTokenName = get_data('xsrf-token-name');
 $sections = get_data('sections');
@@ -81,8 +82,7 @@ $sections = get_data('sections');
                                     $node = $tree->get('rootNode');
                                 }
                                 if ($node) {
-                                    $className = tao_helpers_Display::mapClassesNames($tree->get('className'));
-
+                                    $className = MapLabelNameService::mapLabelName($tree->get('className'));
                                     Template::inc('blocks/search.tpl', 'tao', array(
                                     'rootNode' => $node,
                                     'searchLabel' => __('Search %s', $className)
