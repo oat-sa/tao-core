@@ -86,7 +86,6 @@ class ActionBlackList extends ConfigurableService
 
         return $this->getUserSettingsService()
             ->getCurrentUserSettings()
-            ->getSetting(UserSettingsInterface::INTERFACE_MODE) === GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE
-        );
+            ->getSetting(UserSettingsInterface::INTERFACE_MODE) === GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE;
     }
 }
