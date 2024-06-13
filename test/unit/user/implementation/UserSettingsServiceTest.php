@@ -194,12 +194,10 @@ class UserSettingsServiceTest extends TestCase
     ): UserSettingsInterface {
         $userSettings = new UserSettings($userTimezone);
 
-        $userSettings->setSetting(UserSettingsInterface::INTERFACE_MODE, $userInterfaceMode);
-        $userSettings->setSetting(UserSettingsInterface::UI_LANGUAGE_CODE, $uiLanguageUri);
-        $userSettings->setSetting(UserSettingsInterface::DATA_LANGUAGE_CODE, $defLangUri);
-        $userSettings->setSetting(UserSettingsInterface::TIMEZONE, $userTimezone);
-
-        return $userSettings;
+        return $userSettings->setSetting(UserSettingsInterface::INTERFACE_MODE, $userInterfaceMode)
+            ->setSetting(UserSettingsInterface::UI_LANGUAGE_CODE, $uiLanguageUri)
+            ->setSetting(UserSettingsInterface::DATA_LANGUAGE_CODE, $defLangUri)
+            ->setSetting(UserSettingsInterface::TIMEZONE, $userTimezone);
     }
 
     private function getUserMock(

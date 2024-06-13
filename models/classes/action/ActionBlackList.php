@@ -84,16 +84,9 @@ class ActionBlackList extends ConfigurableService
             return false;
         }
 
-        $userSettings = $this->getUserSettingsService()->getCurrentUserSettings();
-
-        if (
-            $userSettings->getSetting(
-                UserSettingsInterface::INTERFACE_MODE
-            ) === GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE
-        ) {
-            return true;
-        }
-
-        return false;
+        return $this->getUserSettingsService()
+            ->getCurrentUserSettings()
+            ->getSetting(UserSettingsInterface::INTERFACE_MODE) === GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE
+        );
     }
 }
