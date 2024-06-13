@@ -11,7 +11,7 @@
     "dependencies": {
         "@babel/polyfill": "^7.4.4",
         "@oat-sa/tao-core-libs": "^1.0.0",
-        "@oat-sa/tao-core-sdk": "https://github.com/oat-sa/tao-core-sdk-fe#fix/TR-6116/parseFloat-thousandsSeparator-fix",
+        "@oat-sa/tao-core-sdk": "^3.1.1",
         "@oat-sa/tao-core-shared-libs": "^1.6.1",
         "@oat-sa/tao-core-ui": "^3.3.0",
         "codemirror": "^5.54.0",
