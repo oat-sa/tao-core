@@ -35,8 +35,12 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
     public const SERVICE_ID = 'tao/SectionVisibilityFilter';
     public const OPTION_FEATURE_FLAG_SECTIONS = 'featureFlagSections';
     public const OPTION_FEATURE_FLAG_SECTIONS_TO_HIDE = 'featureFlagSectionsToHide';
+    private const DEFAULT_FEATURE_FLAG_SECTIONS_TO_HIDE = [
+        'settings_my_password' => [
+            FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED
+        ]
+    ];
 
-    //TODO:: Add sections hidden for simple mode
     public const SIMPLE_INTERFACE_MODE_HIDDEN_SECTIONS = [];
 
     /**
@@ -45,7 +49,10 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
     public function isVisible(string $section): bool
     {
         $sections = $this->getOption(self::OPTION_FEATURE_FLAG_SECTIONS, []);
-        $sectionToHide = $this->getOption(self::OPTION_FEATURE_FLAG_SECTIONS_TO_HIDE, []);
+        $sectionToHide = array_merge_recursive(
+            $this->getOption(self::OPTION_FEATURE_FLAG_SECTIONS_TO_HIDE, []),
+            self::DEFAULT_FEATURE_FLAG_SECTIONS_TO_HIDE
+        );
 
         foreach ($sectionToHide[$section] ?? [] as $featureFlag) {
             if ($this->getFeatureFlagChecker()->isEnabled($featureFlag)) {
@@ -71,6 +78,18 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
         }
 
         return true;
+    }
+
+    public function hideSectionByFeatureFlag(string $section, string $featureFlag): void
+    {
+        $options = $this->getOption(SectionVisibilityFilter::OPTION_FEATURE_FLAG_SECTIONS_TO_HIDE, []);
+        $options[$section] = array_merge(
+            $options[$section] ?? [],
+            [
+                $featureFlag
+            ]
+        );
+        $this->setOption(SectionVisibilityFilter::OPTION_FEATURE_FLAG_SECTIONS_TO_HIDE, $options);
     }
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
