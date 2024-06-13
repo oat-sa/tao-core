@@ -130,27 +130,27 @@ class UserSettingsServiceTest extends TestCase
     {
         return [
             'Settings for a user with no timezone' => [
-                'expected' => $this->createUserSetting( null, null, 'Europe/Luxembourg'),
+                'expected' => $this->createUserSetting(null, null, 'Europe/Luxembourg'),
                 'user' => $this->getUserMock(),
                 'isSolarDesignEnabled' => true,
             ],
             'Settings for a user with timezone set' => [
-                'expected' => $this->createUserSetting( null, null, 'Europe/Madrid'),
+                'expected' => $this->createUserSetting(null, null, 'Europe/Madrid'),
                 'user' => $this->getUserMock(null, null, 'Europe/Madrid'),
                 'isSolarDesignEnabled' => true,
             ],
             'Settings for a user with UI language set' => [
-                'expected' => $this->createUserSetting( 'uiLang', null, 'Europe/Madrid'),
+                'expected' => $this->createUserSetting('uiLang', null, 'Europe/Madrid'),
                 'user' => $this->getUserMock('uiLang', null, 'Europe/Madrid'),
                 'isSolarDesignEnabled' => true,
             ],
             'Settings for a user with data language set' => [
-                'expected' => $this->createUserSetting( null, 'defLang', 'Europe/Madrid'),
+                'expected' => $this->createUserSetting(null, 'defLang', 'Europe/Madrid'),
                 'user' => $this->getUserMock(null, 'defLang', 'Europe/Madrid'),
                 'isSolarDesignEnabled' => true,
             ],
             'Settings for a user with UI and data language set' => [
-                'expected' => $this->createUserSetting( 'uiLang', 'defLang', 'Europe/Madrid'),
+                'expected' => $this->createUserSetting('uiLang', 'defLang', 'Europe/Madrid'),
                 'user' => $this->getUserMock('uiLang', 'defLang', 'Europe/Madrid'),
                 'isSolarDesignEnabled' => true,
             ],
@@ -194,12 +194,10 @@ class UserSettingsServiceTest extends TestCase
     ): UserSettingsInterface {
         $userSettings = new UserSettings($userTimezone);
 
-        $userSettings->setSetting(UserSettingsInterface::INTERFACE_MODE, $userInterfaceMode);
-        $userSettings->setSetting(UserSettingsInterface::UI_LANGUAGE_CODE, $uiLanguageUri);
-        $userSettings->setSetting(UserSettingsInterface::DATA_LANGUAGE_CODE, $defLangUri);
-        $userSettings->setSetting(UserSettingsInterface::TIMEZONE, $userTimezone);
-
-        return $userSettings;
+        return $userSettings->setSetting(UserSettingsInterface::INTERFACE_MODE, $userInterfaceMode)
+            ->setSetting(UserSettingsInterface::UI_LANGUAGE_CODE, $uiLanguageUri)
+            ->setSetting(UserSettingsInterface::DATA_LANGUAGE_CODE, $defLangUri)
+            ->setSetting(UserSettingsInterface::TIMEZONE, $userTimezone);
     }
 
     private function getUserMock(

@@ -87,7 +87,9 @@ class UserSettingsService implements UserSettingsServiceInterface
         );
 
         if (
-            $this->featureFlagChecker->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED)
+            $this->featureFlagChecker->isEnabled(
+                FeatureFlagCheckerInterface::FEATURE_FLAG_SOLAR_DESIGN_ENABLED
+            )
             && !empty($props[GenerisRdf::PROPERTY_USER_INTERFACE_MODE])
         ) {
             $userSettings->setSetting(
@@ -102,7 +104,7 @@ class UserSettingsService implements UserSettingsServiceInterface
     public function getCurrentUserSettings(): UserSettingsInterface
     {
         $currentUser = $this->userService->getCurrentUser();
-        
+
         if ($currentUser) {
             return $this->get($currentUser);
         }

@@ -37,8 +37,8 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
     public const OPTION_FEATURE_FLAG_SECTIONS_TO_HIDE = 'featureFlagSectionsToHide';
 
     //TODO:: Add sections hidden for simple mode
-    public const SIMPLE_MODE_HIDDEN_SECTIONS = [];
-    
+    public const SIMPLE_INTERFACE_MODE_HIDDEN_SECTIONS = [];
+
     /**
      * @throws LogicException
      */
@@ -60,12 +60,12 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
         }
 
         $userSettings = $this->getUserSettingsService()->getCurrentUserSettings();
-        
+
         if (
             $userSettings->getSetting(
                 UserSettingsInterface::INTERFACE_MODE
             ) === GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE
-            && in_array($section, self::SIMPLE_MODE_HIDDEN_SECTIONS)
+            && in_array($section, self::SIMPLE_INTERFACE_MODE_HIDDEN_SECTIONS)
         ) {
             return false;
         }
