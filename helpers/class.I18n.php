@@ -42,10 +42,8 @@ class tao_helpers_I18n
     public const AVAILABLE_LANGS_CACHEKEY = 'i18n_available_langs';
 
     /**
-     * Short description of attribute LANG_PREFIX
+     * locale prefix for New theme
      *
-     * @access public
-     * @var string
      */
     public const LANG_PREFIX = '-S';
 
@@ -205,28 +203,19 @@ class tao_helpers_I18n
     }
 
     /**
-     * Short description of method notContainPrefix
+     * Check if the Solar design is enabled and the prefix has not yet been added
      *
-     * @param string $language
-     * @access private
-     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
-     * @return bool
      */
-    private static function notContainPrefix(string $language): bool
+    private static function isContainPrefix(string $language): bool
     {
         $pattern = '/' . self::LANG_PREFIX . '$/';
 
-
-        return Layout::isSolarDesignEnabled() && !preg_match($pattern, $language, $matches);
+        return !Layout::isSolarDesignEnabled() || preg_match($pattern, $language, $matches);
     }
 
     /**
-     * Short description of method addPrefix
+     * Concatenate prefix for Solar design translations
      *
-     * @param string $language
-     * @access private
-     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
-     * @return string
      */
     private static function addPrefix(string $language): string
     {
@@ -234,16 +223,12 @@ class tao_helpers_I18n
     }
 
     /**
-     * Short description of method addPrefix
+     * Check and Add prefix for Solar design translations
      *
-     * @param string $language
-     * @access private
-     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
-     * @return string
      */
     private static function checkPrefix(string $language): string
     {
-        if (self::notContainPrefix($language)) {
+        if (!self::isContainPrefix($language)) {
             $localesDir = 'views/locales';
             $dir = dirname(__FILE__) . '/../' . $localesDir . '/' . self::addPrefix($language);
             if (is_dir($dir)) {
