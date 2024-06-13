@@ -26,6 +26,7 @@ namespace oat\tao\helpers\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
+use oat\tao\helpers\LayoutHelper;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_helpers_Mode;
 
@@ -38,5 +39,7 @@ class HelperServiceProvider implements ContainerServiceProviderInterface
         $services->set(DateFormatterFactory::class, DateFormatterFactory::class);
 
         $services->set(tao_helpers_Mode::class, tao_helpers_Mode::class);
+
+        $services->set(LayoutHelper::class, LayoutHelper::class);
     }
 }

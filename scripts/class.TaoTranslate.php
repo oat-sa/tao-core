@@ -1318,43 +1318,31 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
     }
 
     /**
-     * Short description of method notContainPrefix
+     * Check if the Solar design is enabled and the prefix has not yet been added
      *
-     * @param string $language
-     * @access private
-     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
-     * @return bool
      */
-    private function notContainPrefix($language)
+    private function isContainPrefix(string $language): bool
     {
         $pattern = '/' . self::LANG_PREFIX . '$/';
-        return Layout::isSolarDesignEnabled() && !preg_match($pattern, $language, $matches);
+        return !Layout::isSolarDesignEnabled() || preg_match($pattern, $language, $matches);
     }
 
     /**
-     * Short description of method addPrefix
+     * Concatenate prefix for Solar design translations
      *
-     * @param string $language
-     * @access private
-     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
-     * @return string
      */
-    private function addPrefix($language)
+    private function addPrefix(string $language): string
     {
         return $language . self::LANG_PREFIX;
     }
 
     /**
-     * Short description of method addPrefix
+     * Check and Add prefix for Solar design translations
      *
-     * @param string $language
-     * @access private
-     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
-     * @return string
      */
-    private function checkPrefix($language)
+    private function checkPrefix(string $language): string
     {
-        if ($this->notContainPrefix($language)) {
+        if (!$this->isContainPrefix($language)) {
             $language = $this->addPrefix($language);
         }
         return $language;

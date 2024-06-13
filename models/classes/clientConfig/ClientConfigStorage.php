@@ -268,28 +268,19 @@ class ClientConfigStorage
     }
 
     /**
-     * Short description of method notContainPrefix
+     * Check if the Solar design is enabled and the prefix has not yet been added
      *
-     * @param string $language
-     * @access private
-     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
-     * @return bool
      */
-    private function notContainPrefix(string $language): bool
+    private function isContainPrefix(string $language): bool
     {
         $pattern = '/' . self::LANG_PREFIX . '$/';
 
-
-        return $this->layoutHelper->isSolarDesignEnabled() && !preg_match($pattern, $language, $matches);
+        return !$this->layoutHelper->isSolarDesignEnabled() || preg_match($pattern, $language, $matches);
     }
 
     /**
-     * Short description of method addPrefix
+     * Concatenate prefix for Solar design translations
      *
-     * @param string $language
-     * @access private
-     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
-     * @return string
      */
     private function addPrefix(string $language): string
     {
@@ -297,16 +288,12 @@ class ClientConfigStorage
     }
 
     /**
-     * Short description of method addPrefix
+     * Check and add prefix for Solar design translations
      *
-     * @param string $language
-     * @access private
-     * @author Sultan Sagi, <sultan.sagiyev@taotesting.com>
-     * @return string
      */
     private function checkPrefix(string $language): string
     {
-        if ($this->notContainPrefix($language)) {
+        if (!$this->isContainPrefix($language)) {
             $localesDir = 'views/locales';
             $dir = dirname(__FILE__) . '/../../../' . $localesDir . '/' . $this->addPrefix($language);
             if (is_dir($dir)) {
