@@ -31,7 +31,7 @@ use Exception;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
-use oat\tao\helpers\LayoutHelper;
+use oat\tao\helpers\translation\SolarThemeHelper;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
@@ -61,7 +61,7 @@ class ClientConfigStorage
     private tao_helpers_Mode $modeHelper;
     private DateFormatterFactory $dateFormatterFactory;
     private MenuService $menuService;
-    private LayoutHelper $layoutHelper;
+    private SolarThemeHelper $solarThemeHelper;
 
     private array $config = [];
 
@@ -80,7 +80,7 @@ class ClientConfigStorage
         tao_helpers_Mode $modeHelper,
         DateFormatterFactory $dateFormatterFactory,
         MenuService $menuService,
-        LayoutHelper $layoutHelper
+        SolarThemeHelper $solarThemeHelper
     ) {
         $this->tokenService = $tokenService;
         $this->clientLibRegistry = $clientLibRegistry;
@@ -96,7 +96,7 @@ class ClientConfigStorage
         $this->modeHelper = $modeHelper;
         $this->dateFormatterFactory = $dateFormatterFactory;
         $this->menuService = $menuService;
-        $this->layoutHelper = $layoutHelper;
+        $this->solarThemeHelper = $solarThemeHelper;
     }
 
     /**
@@ -145,7 +145,7 @@ class ClientConfigStorage
 
         $taoBaseWww = $this->assetService->getJsBaseWww('tao');
         $langCode = $this->sessionService->getCurrentSession()->getInterfaceLanguage();
-        $langCode = $this->checkPrefix($langCode);
+        $langCode = $this->solarThemeHelper->checkPrefix($langCode);
         $timeout = $this->getClientTimeout();
         $extensionId = $resolver->getExtensionId();
 
@@ -265,42 +265,5 @@ class ClientConfigStorage
 
             return '';
         }
-    }
-
-    /**
-     * Check if the Solar design is enabled and the prefix has not yet been added
-     *
-     */
-    private function isContainPrefix(string $language): bool
-    {
-        $pattern = '/' . self::LANG_PREFIX . '$/';
-
-        return !$this->layoutHelper->isSolarDesignEnabled() || preg_match($pattern, $language, $matches);
-    }
-
-    /**
-     * Concatenate prefix for Solar design translations
-     *
-     */
-    private function addPrefix(string $language): string
-    {
-        return $language . self::LANG_PREFIX;
-    }
-
-    /**
-     * Check and add prefix for Solar design translations
-     *
-     */
-    private function checkPrefix(string $language): string
-    {
-        if (!$this->isContainPrefix($language)) {
-            $localesDir = 'views/locales';
-            $dir = dirname(__FILE__) . '/../../../' . $localesDir . '/' . $this->addPrefix($language);
-            if (is_dir($dir)) {
-                $language = $this->addPrefix($language);
-            }
-        }
-
-        return $language;
     }
 }
