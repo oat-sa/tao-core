@@ -26,8 +26,10 @@ use Laminas\ServiceManager\ServiceLocatorAwareTrait;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\user\implementation\UserSettingsService;
 use oat\tao\model\user\UserSettingsInterface;
+use oat\tao\model\user\UserSettingsServiceInterface;
 
 class ActionBlackList extends ConfigurableService
 {
@@ -73,7 +75,7 @@ class ActionBlackList extends ConfigurableService
         return $this->getServiceLocator()->get(FeatureFlagChecker::class);
     }
 
-    private function getUserSettingsService(): UserSettingsService
+    private function getUserSettingsService(): UserSettingsServiceInterface
     {
         return $this->getServiceManager()->getContainer()->get(UserSettingsService::class);
     }

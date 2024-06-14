@@ -29,6 +29,7 @@ use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\user\implementation\UserSettingsService;
 use oat\tao\model\user\UserSettingsInterface;
+use oat\tao\model\user\UserSettingsServiceInterface;
 
 class SectionVisibilityFilter extends ConfigurableService implements SectionVisibilityFilterInterface
 {
@@ -97,7 +98,7 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
         return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
     }
 
-    private function getUserSettingsService(): UserSettingsService
+    private function getUserSettingsService(): UserSettingsServiceInterface
     {
         return $this->getServiceManager()->getContainer()->get(UserSettingsService::class);
     }

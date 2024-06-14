@@ -27,4 +27,6 @@ use core_kernel_classes_Resource;
 interface UserSettingsServiceInterface
 {
     public function get(core_kernel_classes_Resource $user): UserSettingsInterface;
+
+    public function getCurrentUserSettings(): UserSettingsInterface;
 }
