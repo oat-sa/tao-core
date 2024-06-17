@@ -30,7 +30,6 @@ use oat\oatbox\log\LoggerService;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
-use oat\tao\helpers\LayoutHelper;
 use oat\tao\helpers\translation\SolarThemeHelper;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibRegistry;

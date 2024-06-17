@@ -352,7 +352,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
      *
      * @return array of ns => files
      */
-    private function getLanguageFiles()
+    private function getLanguageFiles($pattern = null)
     {
         $extManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
         $localesPath = $extManager->getExtensionById('tao')->getDir() . 'locales';
@@ -363,15 +363,16 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
         $files = [];
         $localeDirectories = scandir($localesPath);
         foreach ($localeDirectories as $localeDir) {
-            $pattern = '/' . self::LANG_PREFIX . '$/';
-            if (!preg_match($pattern, $localeDir, $matches)) {
-                $path = $localesPath . '/' . $localeDir;
-                if ($localeDir[0] != '.' && @is_dir($path)) {
-                    // Look if the lang.rdf can be read.
-                    $languageModelFile = $path . '/lang.rdf';
-                    if (@file_exists($languageModelFile) && @is_readable($languageModelFile)) {
-                        $files[] = $languageModelFile;
-                    }
+            $path = $localesPath . '/' . $localeDir;
+            if ($localeDir[0] != '.' && @is_dir($path)) {
+                if (null !== $pattern && preg_match($pattern, $localeDir, $matches)) {
+                    continue;
+                }
+
+                // Look if the lang.rdf can be read.
+                $languageModelFile = $path . '/lang.rdf';
+                if (@file_exists($languageModelFile) && @is_readable($languageModelFile)) {
+                    $files[] = $languageModelFile;
                 }
             }
         }
@@ -385,7 +386,8 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     public function getLanguageDefinition()
     {
         $model = new AppendIterator();
-        foreach ($this->getLanguageFiles() as $rdfPath) {
+        $pattern = '/' . self::LANG_PREFIX . '$/';
+        foreach ($this->getLanguageFiles($pattern) as $rdfPath) {
             $iterator = new FileIterator($rdfPath);
             $model->append($iterator->getIterator());
         }

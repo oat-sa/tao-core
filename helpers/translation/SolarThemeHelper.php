@@ -44,7 +44,7 @@ class SolarThemeHelper
     {
         if (!$this->isContainPrefix($language)) {
             $localesDir = 'views/locales';
-            $dir = dirname(__FILE__) . '/../' . $localesDir . '/' . $this->addPrefix($language);
+            $dir = dirname(__FILE__) . '/../../' . $localesDir . '/' . $this->addPrefix($language);
             if (is_dir($dir)) {
                 $language = $this->addPrefix($language);
             }
