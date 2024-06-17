@@ -20,7 +20,7 @@
 
 namespace oat\tao\helpers\translation;
 
-class SolarThemeHelper extends AbstractSolarThemeHelper
+class SolarThemeFileHelper extends AbstractSolarThemeHelper
 {
     /**
      * Check and add prefix for Solar design translations
@@ -29,7 +29,11 @@ class SolarThemeHelper extends AbstractSolarThemeHelper
     public function checkPrefix(string $language): string
     {
         if (!$this->isContainPrefix($language)) {
-            $language = $this->addPrefix($language);
+            $localesDir = 'views/locales';
+            $dir = dirname(__FILE__) . '/../../' . $localesDir . '/' . $this->addPrefix($language);
+            if (is_dir($dir)) {
+                $language = $this->addPrefix($language);
+            }
         }
 
         return $language;

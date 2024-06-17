@@ -3,6 +3,7 @@
 use oat\generis\model\OntologyRdfs;
 use oat\tao\helpers\ApplicationHelper;
 use oat\tao\helpers\Layout;
+use oat\tao\helpers\translation\AbstractSolarThemeHelper;
 use oat\tao\model\menu\MenuService;
 
 /**
@@ -109,6 +110,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
     protected $verbose = false;
     // --- OPERATIONS ---
 
+    private ?AbstractSolarThemeHelper $solarThemeHelper;
 
     /**
      * keys - action names from user input
@@ -130,6 +132,16 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             'changecode' => 'ChangeCode',
             'getallextensions' => 'GetExt',
         ];
+    }
+
+    public function __construct(
+        $inputFormat = [],
+        $options = [],
+        AbstractSolarThemeHelper $solarThemeHelper = null
+    ) {
+        $this->solarThemeHelper = $solarThemeHelper;
+
+        parent::__construct($inputFormat, $options);
     }
 
     /**
@@ -476,7 +488,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionCreate()
     {
-        $languageDir = $this->checkPrefix($this->options['language']);
+        $languageDir = $this->solarThemeHelper !== null ? $this->checkPrefix($this->options['language']) : $this->options['language'];
 
         $extensionsToCreate = explode(',', $this->options['extension']);
         $extensionsToCreate = array_unique($extensionsToCreate);
@@ -658,7 +670,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionUpdate()
     {
-        $languageDir = $this->checkPrefix($this->options['language']);
+        $languageDir = $this->solarThemeHelper !== null ? $this->checkPrefix($this->options['language']) : $this->options['language'];
 
         $this->outVerbose(
             sprintf("Updating language '%s' for extension '%s'...", $languageDir, $this->options['extension'])
@@ -818,7 +830,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionDelete()
     {
-        $languageDir = $this->checkPrefix($this->options['language']);
+        $languageDir = $this->solarThemeHelper !== null ? $this->checkPrefix($this->options['language']) : $this->options['language'];
 
         $this->outVerbose(
             sprintf("Deleting language '%s' for extension '%s' ...", $languageDir, $this->options['extension'])

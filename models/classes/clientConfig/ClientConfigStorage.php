@@ -31,7 +31,7 @@ use Exception;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
-use oat\tao\helpers\translation\SolarThemeHelper;
+use oat\tao\helpers\translation\AbstractSolarThemeHelper;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
@@ -60,7 +60,7 @@ class ClientConfigStorage
     private tao_helpers_Mode $modeHelper;
     private DateFormatterFactory $dateFormatterFactory;
     private MenuService $menuService;
-    private SolarThemeHelper $solarThemeHelper;
+    private AbstractSolarThemeHelper $solarThemeHelper;
 
     private array $config = [];
 
@@ -79,7 +79,7 @@ class ClientConfigStorage
         tao_helpers_Mode $modeHelper,
         DateFormatterFactory $dateFormatterFactory,
         MenuService $menuService,
-        SolarThemeHelper $solarThemeHelper
+        AbstractSolarThemeHelper $solarThemeHelper
     ) {
         $this->tokenService = $tokenService;
         $this->clientLibRegistry = $clientLibRegistry;

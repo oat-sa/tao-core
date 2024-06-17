@@ -24,89 +24,96 @@
  *
  */
 
+use oat\tao\helpers\LayoutHelper;
+use oat\tao\helpers\translation\SolarThemeHelper;
+
 require_once dirname(__FILE__) . '/../includes/raw_start.php';
 
-new tao_scripts_TaoTranslate([
-    'min' => 1,
-    'parameters' => [
-        [
-            'name' => 'verbose',
-            'type' => 'boolean',
-            'shortcut' => 'v',
-            'description' => 'Verbose mode'
-        ],
-        [
-            'name' => 'action',
-            'type' => 'string',
-            'shortcut' => 'a',
-            'description' => 'Action to undertake. Available actions are create, update, updateall, delete, deleteall, '
-                . 'enable, disable, compile, compileall'
-        ],
-        [
-            'name' => 'language',
-            'type' => 'string',
-            'shortcut' => 'l',
-            'description' => 'A language identifier like en-US, be-NL, fr, ...'
-        ],
-        [
-            'name' => 'output',
-            'type' => 'string',
-            'shortcut' => 'o',
-            'description' => 'An output directory (PO and JS files)'
-        ],
-        [
-            'name' => 'input',
-            'type' => 'string',
-            'shortcut' => 'i',
-            'description' => 'An input directory (source code)'
-        ],
-        [
-            'name' => 'build',
-            'type' => 'boolean',
-            'shortcut' => 'b',
-            'description' => 'Sets if the language has to be built when created or not'
-        ],
-        [
-            'name' => 'force',
-            'type' => 'boolean',
-            'shortcut' => 'f',
-            'description' => 'Force to erase an existing language if you use the create action'
-        ],
-        [
-            'name' => 'extension',
-            'type' => 'string',
-            'shortcut' => 'e',
-            'description' => 'The TAO extension for which the script will apply'
-        ],
-        [
-            'name' => 'languageLabel',
-            'type' => 'string',
-            'shortcut' => 'll',
-            'description' => 'Language label to use when creating a new language'
-        ],
-        [
-            'name' => 'targetLanguage',
-            'type' => 'string',
-            'shortcut' => 'tl',
-            'description' => 'Target language code when you change the code of a locale'
-        ],
-        [
-            'name' => 'user',
-            'type' => 'string',
-            'shortcut' => 'u',
-            'description' => 'TAO user (TaoManager Role)'
-        ],
-        [
-            'name' => 'password',
-            'type' => 'string',
-            'shortcut' => 'p',
-            'description' => 'TAO password'
-        ],
-        [
-            'name' => 'clearTranslations',
-            'type' => 'boolean',
-            'shortcut' => 'ct',
-            'description' => 'Clear translations entry when there is not translation proposal'
+new tao_scripts_TaoTranslate(
+    [
+        'min' => 1,
+        'parameters' => [
+            [
+                'name' => 'verbose',
+                'type' => 'boolean',
+                'shortcut' => 'v',
+                'description' => 'Verbose mode'
+            ],
+            [
+                'name' => 'action',
+                'type' => 'string',
+                'shortcut' => 'a',
+                'description' => 'Action to undertake. Available actions are create, update, updateall, delete, deleteall, '
+                    . 'enable, disable, compile, compileall'
+            ],
+            [
+                'name' => 'language',
+                'type' => 'string',
+                'shortcut' => 'l',
+                'description' => 'A language identifier like en-US, be-NL, fr, ...'
+            ],
+            [
+                'name' => 'output',
+                'type' => 'string',
+                'shortcut' => 'o',
+                'description' => 'An output directory (PO and JS files)'
+            ],
+            [
+                'name' => 'input',
+                'type' => 'string',
+                'shortcut' => 'i',
+                'description' => 'An input directory (source code)'
+            ],
+            [
+                'name' => 'build',
+                'type' => 'boolean',
+                'shortcut' => 'b',
+                'description' => 'Sets if the language has to be built when created or not'
+            ],
+            [
+                'name' => 'force',
+                'type' => 'boolean',
+                'shortcut' => 'f',
+                'description' => 'Force to erase an existing language if you use the create action'
+            ],
+            [
+                'name' => 'extension',
+                'type' => 'string',
+                'shortcut' => 'e',
+                'description' => 'The TAO extension for which the script will apply'
+            ],
+            [
+                'name' => 'languageLabel',
+                'type' => 'string',
+                'shortcut' => 'll',
+                'description' => 'Language label to use when creating a new language'
+            ],
+            [
+                'name' => 'targetLanguage',
+                'type' => 'string',
+                'shortcut' => 'tl',
+                'description' => 'Target language code when you change the code of a locale'
+            ],
+            [
+                'name' => 'user',
+                'type' => 'string',
+                'shortcut' => 'u',
+                'description' => 'TAO user (TaoManager Role)'
+            ],
+            [
+                'name' => 'password',
+                'type' => 'string',
+                'shortcut' => 'p',
+                'description' => 'TAO password'
+            ],
+            [
+                'name' => 'clearTranslations',
+                'type' => 'boolean',
+                'shortcut' => 'ct',
+                'description' => 'Clear translations entry when there is not translation proposal'
+            ]
         ]
-    ]
-]);
+    ],
+    [],
+    new SolarThemeHelper(new LayoutHelper())
+);
