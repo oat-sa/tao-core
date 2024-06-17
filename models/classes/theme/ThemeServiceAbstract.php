@@ -222,10 +222,12 @@ abstract class ThemeServiceAbstract extends ConfigurableService implements Theme
         return [];
     }
 
+    /**
+     * @deprecated
+     */
     protected function isTaoAsToolEnabled(): bool
     {
-        return $this->getFeatureFlagChecker()
-            ->isEnabled(FeatureFlagCheckerInterface::FEATURE_FLAG_TAO_AS_A_TOOL);
+        return false;
     }
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
