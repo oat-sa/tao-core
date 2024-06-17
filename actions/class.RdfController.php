@@ -972,12 +972,20 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             try {
                 $this->validateCsrf();
+                $this->validateDestinationClass($destinationClassUri, $this->getResourceParentClass($id));
             } catch (common_exception_Unauthorized $e) {
                 $this->response = $this->getPsrResponse()->withStatus(
                     403,
                     __('Unable to process your request')
                 );
 
+                return;
+            } catch (InvalidArgumentException $e) {
+                $this->returnJson(
+                    [
+                        __('Wrong destination class selected')
+                    ]
+                );
                 return;
             }
 
@@ -1020,7 +1028,8 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                 )
             );
 
-            $this->returnJsonError($e->getMessage());
+            $this->returnJsonError($exception->getMessage());
+            return;
         }
     }
 
@@ -1713,5 +1722,22 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     private function getResourceTransfer(): ResourceTransferInterface
     {
         return $this->getPsrContainer()->get(ResourceTransferProxy::class);
+    }
+
+    private function getResourceParentClass(string $id): string
+    {
+        $types = $this->getResource($id)->getTypes();
+        if (count($types) !== 1) {
+            throw new InvalidArgumentException('Resource has no class or resource types are ambiguous');
+        }
+
+        /** @var core_kernel_classes_Class $type */
+        $type = reset($types);
+
+        if (!$type->isClass()) {
+            throw new InvalidArgumentException('Type is not a class');
+        }
+
+        return $type->getUri();
     }
 }
