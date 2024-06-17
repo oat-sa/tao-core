@@ -983,8 +983,10 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             } catch (InvalidArgumentException $e) {
                 $this->returnJson(
                     [
-                        __('Wrong destination class selected')
-                    ]
+                        'success'  => false,
+                        'errorCode' => 204,
+                    ],
+                    204
                 );
                 return;
             }
