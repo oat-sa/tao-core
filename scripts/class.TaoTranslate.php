@@ -487,8 +487,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             $this->options['output'] = dirname(__FILE__) . '/../../' . $etc . '/' . self::DEF_OUTPUT_DIR;
 
             $this->outVerbose(
-                "Creating language '" . $languageDir . "' for extension '"
-                    . $this->options['extension'] . "' ..."
+                sprintf("Creating language '%s' for extension '%s' ...", $languageDir, $this->options['extension'])
             );
 
             // We first create the directory where locale files will go.
@@ -662,8 +661,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         $languageDir = $this->checkPrefix($this->options['language']);
 
         $this->outVerbose(
-            "Updating language '" . $languageDir . "' for extension '"
-                . $this->options['extension'] . "'..."
+            sprintf("Updating language '%s' for extension '%s'...", $languageDir, $this->options['extension'])
         );
         $sortingMethod = tao_helpers_translation_TranslationFile::SORT_ASC_I;
 
@@ -823,22 +821,19 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         $languageDir = $this->checkPrefix($this->options['language']);
 
         $this->outVerbose(
-            "Deleting language '" . $languageDir . "' for extension '"
-                . $this->options['extension'] . "' ..."
+            sprintf("Deleting language '%s' for extension '%s' ...", $languageDir, $this->options['extension'])
         );
 
         $dir = $this->buildLanguagePath($this->options['extension'], $languageDir);
         if (!tao_helpers_File::remove($dir, true)) {
             $this->err(
-                "Could not delete language '" . $languageDir . "' for extension '"
-                    . $this->options['extension'] . "'.",
+                sprintf("Could not delete language '%s' for extension '%s'.", $languageDir, $this->options['extension']),
                 true
             );
         }
 
         $this->outVerbose(
-            "Language '" . $languageDir . "' for extension '" . $this->options['extension']
-                . "' successfully deleted."
+            sprintf("Language '%s' for extension '%s' successfully deleted.", $languageDir, $this->options['extension'])
         );
     }
 

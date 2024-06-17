@@ -46,7 +46,6 @@ use Throwable;
 
 class ClientConfigStorage
 {
-    public const LANG_PREFIX = '-S';
     private TokenService $tokenService;
     private ClientLibRegistry $clientLibRegistry;
     private FeatureFlagConfigSwitcher $featureFlagConfigSwitcher;
