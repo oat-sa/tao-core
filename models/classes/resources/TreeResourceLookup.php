@@ -69,7 +69,8 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
         array $selectedUris = [],
         array $propertyFilters = [],
         $offset = 0,
-        $limit = 30
+        $limit = 30,
+        $excludeClasses = []
     ) {
         $openNodes = [];
         if (count($selectedUris) > 0) {
@@ -78,8 +79,9 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
         if (!in_array($rootClass->getUri(), $openNodes)) {
             $openNodes[] = $rootClass->getUri();
         }
-        $factory = new GenerisTreeFactory(false, $openNodes, $limit, $offset, $selectedUris, $propertyFilters);
+        $factory = new GenerisTreeFactory(false, $openNodes, $limit, $offset, $selectedUris, $propertyFilters, [], [], $excludeClasses);
         $treeData = $factory->buildTree($rootClass);
+
 
         return $this->formatTreeData([$treeData]);
     }

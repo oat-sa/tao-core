@@ -155,7 +155,8 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                         $selectedUris,
                         $search,
                         $offset,
-                        $limit
+                        $limit,
+                        $this->getExcludedClasses()
                     );
                 } else {
                     $resources = $this->getResourceService()->getResources(
@@ -388,5 +389,42 @@ class tao_actions_RestResource extends tao_actions_CommonModule
     private function getAdvancedLogger(): LoggerInterface
     {
         return $this->getPsrContainer()->get(AdvancedLogger::class);
+    }
+
+
+    /**
+     * If exclude parameter is set we can exclude resource parent class from the result
+     * @return string
+     */
+    private function getExcludedClasses(): array
+    {
+        //Exclude exclude parameter resource parent class
+        if ($this->hasGetParameter('exclude')) {
+            $excludeParam = $this->getRawParameter('exclude');
+            /** @var core_kernel_classes_Resource $selectedResourceToExclude */
+            $selectedResourceToExclude = $this->getResource(reset($excludeParam));
+            if (!$selectedResourceToExclude->exists()) {
+                $this->getLogger()->error('Resource to exclude does not exist');
+                return [];
+            }
+
+            $types = $selectedResourceToExclude->getTypes();
+            if (count($types) !== 1) {
+                $this->getLogger()->error('Resource to exclude has to have only one parent class');
+                return [];
+            }
+
+            $resourceParentClass = reset($types);
+
+            if (!$resourceParentClass->isClass()) {
+                $this->getLogger()->error('Resource type has to be a class');
+                return [];
+            }
+
+            return [$resourceParentClass->getUri()];
+        }
+
+        $this->getLogger()->debug('exclude parameter not set');
+        return [];
     }
 }
