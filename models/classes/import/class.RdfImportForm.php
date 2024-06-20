@@ -38,6 +38,8 @@ class tao_models_classes_import_RdfImportForm extends tao_helpers_form_FormConta
     // --- ATTRIBUTES ---
 
     // --- OPERATIONS ---
+    private const IMPORT_METADATA_FROM_RDF_FILE = 'Import Metadata from RDF file';
+
     /**
      * Short description of method initForm
      *
@@ -84,10 +86,15 @@ class tao_models_classes_import_RdfImportForm extends tao_helpers_form_FormConta
         ]);
 
         $this->form->addElement($fileElt);
-        $this->form->createGroup('file', __('Import Metadata from RDF file'), ['source']);
+        $this->form->createGroup('file', __($this->getGroupDescription()), ['source']);
 
         $rdfSentElt = tao_helpers_form_FormFactory::getElement('import_sent_rdf', 'Hidden');
         $rdfSentElt->setValue(1);
         $this->form->addElement($rdfSentElt);
+    }
+
+    protected function getGroupDescription(): string
+    {
+        return 'Import Metadata from RDF file';
     }
 }

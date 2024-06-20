@@ -115,6 +115,8 @@ class tao_models_classes_import_RdfImporter implements
             OntologyRdf::RDF_PROPERTY => OntologyRdf::RDF_PROPERTY
         ];
 
+        //This iteration is to get all resource uris and assign them with a new uri
+        //in case we are going from different instance
         foreach ($graph->resources() as $resource) {
             $map[$resource->getUri()] = common_Utils::getNewUri();
         }
@@ -142,25 +144,10 @@ class tao_models_classes_import_RdfImporter implements
      */
     protected function importProperties(core_kernel_classes_Resource $resource, $propertiesValues, $map, $class)
     {
-        if (isset($propertiesValues[OntologyRdf::RDF_TYPE])) {
-            // assuming single Type
-            if (count($propertiesValues[OntologyRdf::RDF_TYPE]) > 1) {
-                return new common_report_Report(
-                    common_report_Report::TYPE_ERROR,
-                    __('Resource not imported due to multiple types')
-                );
-            } else {
-                foreach ($propertiesValues[OntologyRdf::RDF_TYPE] as $k => $v) {
-                    $classType = isset($map[$v['value']])
-                        ? new core_kernel_classes_Class($map[$v['value']])
-                        : $class;
-                    //$resource->setType($classType);
-                    $classType->createInstance(null, null, $resource->getUri());
-                }
-            }
-            unset($propertiesValues[OntologyRdf::RDF_TYPE]);
-        }
-
+        $class->createInstance(
+            $propertiesValues[OntologyRdfs::RDFS_LABEL][0]['value'] ?? null,
+            null,
+            $resource->getUri());
         if (isset($propertiesValues[OntologyRdfs::RDFS_SUBCLASSOF])) {
             $resource = new core_kernel_classes_Class($resource);
             // assuming single subclass

@@ -24,6 +24,8 @@ namespace oat\tao\model\import\ServiceProvider;
 
 use EasyRdf\Graph;
 use oat\tao\model\import\CustomizedRdfImporter;
+use oat\tao\model\import\RdfImporter;
+use oat\tao\model\Parser\Parser;
 use oat\tao\model\upload\UploadService;
 use oat\tao\model\import\service\AgnosticImportHandler;
 use oat\tao\model\StatisticalMetadata\Import\Processor\ImportProcessor;
@@ -74,6 +76,19 @@ class ImportServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     inline_service(Graph::class),
+                ]
+            )
+            ->public();
+
+        $services
+            ->set(Parser::class, Parser::class);
+
+        $services
+            ->set(RdfImporter::class, RdfImporter::class)
+            ->args(
+                [
+                    service(Parser::class),
+                    service(UploadService::SERVICE_ID),
                 ]
             )
             ->public();
