@@ -46,7 +46,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
 
     public const EXCLUDED_PROPERTIES = 'excludedProperties';
 
-    public const LANG_PREFIX = '-S';
+    public const LANG_POSTFIX = '-S';
     /**
      * Initialize the form
      *
@@ -93,7 +93,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
         } catch (common_exception_Error $exception) {
             $language = DEFAULT_LANG;
         }
-        $language = $this->checkPrefix($language);
+        $language = $this->checkPostfix($language);
 
         $topClass = $this->getTopClazz();
 
@@ -232,37 +232,37 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
     }
 
     /**
-     * Check if the Solar design is enabled and the prefix has not yet been added
+     * Check if the Solar design is enabled and the postfix has not yet been added
      *
      */
-    private function isContainPrefix(string $language): bool
+    private function isContainPostfix(string $language): bool
     {
-        $pattern = '/' . self::LANG_PREFIX . '$/';
+        $pattern = '/' . self::LANG_POSTFIX . '$/';
 
 
         return !Layout::isSolarDesignEnabled() || preg_match($pattern, $language, $matches);
     }
 
     /**
-     * Concatenate prefix for Solar design translations
+     * Concatenate postfix for Solar design translations
      *
      */
-    private function addPrefix(string $language): string
+    private function addPostfix(string $language): string
     {
-        return $language . self::LANG_PREFIX;
+        return $language . self::LANG_POSTFIX;
     }
 
     /**
-     * Check and Add prefix for Solar design translations
+     * Check and Add postfix for Solar design translations
      *
      */
-    private function checkPrefix(string $language): string
+    private function checkPostfix(string $language): string
     {
-        if (!$this->isContainPrefix($language)) {
+        if (!$this->isContainPostfix($language)) {
             $localesDir = 'views/locales';
-            $dir = dirname(__FILE__) . '/../../' . $localesDir . '/' . $this->addPrefix($language);
+            $dir = dirname(__FILE__) . '/../../' . $localesDir . '/' . $this->addPostfix($language);
             if (is_dir($dir)) {
-                $language = $this->addPrefix($language);
+                $language = $this->addPostfix($language);
             }
         }
 

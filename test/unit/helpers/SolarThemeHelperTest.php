@@ -13,7 +13,7 @@ class SolarThemeHelperTest extends TestCase
         $layoutHelper = $this->createMock(LayoutHelper::class);
 
         $solarThemeHelper = new SolarThemeHelper($layoutHelper);
-        $this->assertTrue($solarThemeHelper->isContainPrefix('de-DE'));
+        $this->assertTrue($solarThemeHelper->isContainPostfix('de-DE'));
     }
 
     public function testCheckPrefix(): void
@@ -23,6 +23,6 @@ class SolarThemeHelperTest extends TestCase
         $locale = 'de-DE';
 
         $solarThemeHelper = new SolarThemeHelper($layoutHelper);
-        $this->assertEquals($locale, $solarThemeHelper->checkPrefix($locale));
+        $this->assertEquals($locale, $solarThemeHelper->checkPostfix($locale));
     }
 }

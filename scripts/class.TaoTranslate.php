@@ -110,7 +110,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
     protected $verbose = false;
     // --- OPERATIONS ---
 
-    private ?AbstractSolarThemeHelper $solarThemeHelper;
+    private AbstractSolarThemeHelper $solarThemeHelper;
 
     /**
      * keys - action names from user input
@@ -488,7 +488,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionCreate()
     {
-        $languageDir = $this->solarThemeHelper !== null ? $this->checkPrefix($this->options['language']) : $this->options['language'];
+        $languageDir = $this->solarThemeHelper !== null ? $this->solarThemeHelper->checkPostfix($this->options['language']) : $this->options['language'];
 
         $extensionsToCreate = explode(',', $this->options['extension']);
         $extensionsToCreate = array_unique($extensionsToCreate);
@@ -670,7 +670,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionUpdate()
     {
-        $languageDir = $this->solarThemeHelper !== null ? $this->checkPrefix($this->options['language']) : $this->options['language'];
+        $languageDir = $this->solarThemeHelper !== null ? $this->solarThemeHelper->checkPostfix($this->options['language']) : $this->options['language'];
 
         $this->outVerbose(
             sprintf("Updating language '%s' for extension '%s'...", $languageDir, $this->options['extension'])
@@ -830,7 +830,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionDelete()
     {
-        $languageDir = $this->solarThemeHelper !== null ? $this->checkPrefix($this->options['language']) : $this->options['language'];
+        $languageDir = $this->solarThemeHelper !== null ? $this->solarThemeHelper->checkPostfix($this->options['language']) : $this->options['language'];
 
         $this->outVerbose(
             sprintf("Deleting language '%s' for extension '%s' ...", $languageDir, $this->options['extension'])
@@ -1322,37 +1322,6 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         if ($this->options['language'] == null) {
             $this->err("Please provide the 'language' parameter.", true);
         }
-    }
-
-    /**
-     * Check if the Solar design is enabled and the prefix has not yet been added
-     *
-     */
-    private function isContainPrefix(string $language): bool
-    {
-        $pattern = '/' . self::LANG_PREFIX . '$/';
-        return !Layout::isSolarDesignEnabled() || preg_match($pattern, $language, $matches);
-    }
-
-    /**
-     * Concatenate prefix for Solar design translations
-     *
-     */
-    private function addPrefix(string $language): string
-    {
-        return $language . self::LANG_PREFIX;
-    }
-
-    /**
-     * Check and Add prefix for Solar design translations
-     *
-     */
-    private function checkPrefix(string $language): string
-    {
-        if (!$this->isContainPrefix($language)) {
-            $language = $this->addPrefix($language);
-        }
-        return $language;
     }
 
     /**

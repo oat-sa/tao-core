@@ -23,13 +23,13 @@ namespace oat\tao\helpers\translation;
 class SolarThemeHelper extends AbstractSolarThemeHelper
 {
     /**
-     * Check and add prefix for Solar design translations
+     * Check and add postfix for Solar design translations
      *
      */
-    public function checkPrefix(string $language): string
+    public function checkPostfix(string $language): string
     {
-        if (!$this->isContainPrefix($language)) {
-            $language = $this->addPrefix($language);
+        if (!$this->isContainPostfix($language)) {
+            $language = $this->addPostfix($language);
         }
 
         return $language;

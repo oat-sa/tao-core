@@ -24,39 +24,38 @@ use oat\tao\helpers\LayoutHelper;
 
 abstract class AbstractSolarThemeHelper
 {
-    public const LANG_PREFIX = '-S';
+    public const LANG_POSTFIX = '-S';
 
     private LayoutHelper $layoutHelper;
 
-    public function __construct(
-        LayoutHelper $layoutHelper
-    ) {
+    public function __construct(LayoutHelper $layoutHelper)
+    {
         $this->layoutHelper = $layoutHelper;
     }
 
     /**
-     * Check if the Solar design is enabled and the prefix has not yet been added
+     * Check if the Solar design is enabled and the postfix has not yet been added
      *
      */
-    public function isContainPrefix(string $language): bool
+    public function isContainPostfix(string $language): bool
     {
-        $pattern = '/' . self::LANG_PREFIX . '$/';
+        $pattern = '/' . self::LANG_POSTFIX . '$/';
 
         return !$this->layoutHelper->isSolarDesignEnabled() || preg_match($pattern, $language, $matches);
     }
 
     /**
-     * Concatenate prefix for Solar design translations
+     * Concatenate postfix for Solar design translations
      *
      */
-    protected function addPrefix(string $language): string
+    protected function addPostfix(string $language): string
     {
-        return $language . self::LANG_PREFIX;
+        return $language . self::LANG_POSTFIX;
     }
 
     /**
-     * Check and add prefix for Solar design translations
+     * Check and add postfix for Solar design translations
      *
      */
-    abstract public function checkPrefix(string $language): string;
+    abstract public function checkPostfix(string $language): string;
 }

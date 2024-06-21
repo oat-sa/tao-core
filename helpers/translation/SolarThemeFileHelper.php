@@ -23,16 +23,16 @@ namespace oat\tao\helpers\translation;
 class SolarThemeFileHelper extends AbstractSolarThemeHelper
 {
     /**
-     * Check and add prefix for Solar design translations
+     * Check and add postfix for Solar design translations
      *
      */
-    public function checkPrefix(string $language): string
+    public function checkPostfix(string $language): string
     {
-        if (!$this->isContainPrefix($language)) {
+        if (!$this->isContainPostfix($language)) {
             $localesDir = 'views/locales';
-            $dir = dirname(__FILE__) . '/../../' . $localesDir . '/' . $this->addPrefix($language);
+            $dir = dirname(__FILE__) . '/../../' . $localesDir . '/' . $this->addPostfix($language);
             if (is_dir($dir)) {
-                $language = $this->addPrefix($language);
+                $language = $this->addPostfix($language);
             }
         }
 
