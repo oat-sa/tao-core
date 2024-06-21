@@ -845,9 +845,11 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         $dir = $this->buildLanguagePath($this->options['extension'], $languageDir);
         if (!tao_helpers_File::remove($dir, true)) {
             $this->err(
-                sprintf("Could not delete language '%s' for extension '%s'.",
+                sprintf(
+                    "Could not delete language '%s' for extension '%s'.",
                     $languageDir,
-                    $this->options['extension']),
+                    $this->options['extension']
+                ),
                 true
             );
         }
