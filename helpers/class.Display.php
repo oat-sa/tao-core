@@ -204,5 +204,4 @@ class tao_helpers_Display
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return ServiceManager::getServiceManager()->get(ApplicationService::SERVICE_ID);
     }
-
 }
