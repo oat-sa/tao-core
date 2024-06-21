@@ -25,6 +25,7 @@
  */
 
 use oat\generis\model\OntologyRdf;
+use oat\tao\helpers\LocaleFilesHelper;
 use oat\tao\helpers\translation\TranslationBundle;
 use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
@@ -52,7 +53,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     public const INSTANCE_ORIENTATION_LTR = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight';
     public const INSTANCE_ORIENTATION_RTL = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft';
     // --- OPERATIONS ---
-    public const LANG_PREFIX = '-S';
+    public const LANG_POSTFIX = '-S';
 
     /**
      * Short description of method createLanguage
@@ -365,7 +366,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
         foreach ($localeDirectories as $localeDir) {
             $path = $localesPath . '/' . $localeDir;
             if ($localeDir[0] != '.' && @is_dir($path)) {
-                if (null !== $pattern && preg_match($pattern, $localeDir, $matches)) {
+                if (LocaleFilesHelper::isPostfixApplied($localeDir, $pattern)) {
                     continue;
                 }
 
@@ -386,7 +387,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     public function getLanguageDefinition()
     {
         $model = new AppendIterator();
-        $pattern = '/' . self::LANG_PREFIX . '$/';
+        $pattern = '/' . self::LANG_POSTFIX . '$/';
         foreach ($this->getLanguageFiles($pattern) as $rdfPath) {
             $iterator = new FileIterator($rdfPath);
             $model->append($iterator->getIterator());
