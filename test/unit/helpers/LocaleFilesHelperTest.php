@@ -20,14 +20,12 @@ class LocaleFilesHelperTest extends TestCase
     public function testIsPostfixNotApplied(): void
     {
         $localeDir = '/locales/en-US';
-        $isPostfixApplied = false;
-        $this->assertSame($isPostfixApplied, LocaleFilesHelper::isPostfixApplied($localeDir, $this->pattern));
+        $this->assertFalse(LocaleFilesHelper::isPostfixApplied($localeDir, $this->pattern));
     }
 
     public function testIsPostfixApplied(): void
     {
         $localeDir = '/locales/en-US-S';
-        $isPostfixApplied = true;
-        $this->assertSame($isPostfixApplied, LocaleFilesHelper::isPostfixApplied($localeDir, $this->pattern));
+        $this->assertTrue(LocaleFilesHelper::isPostfixApplied($localeDir, $this->pattern));
     }
 }
