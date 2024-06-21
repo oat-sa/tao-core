@@ -31,6 +31,7 @@ use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageService;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
 use oat\tao\helpers\dateFormatter\DateFormatterInterface;
+use oat\tao\helpers\translation\AbstractSolarThemeHelper;
 use oat\tao\helpers\translation\SolarThemeHelper;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
@@ -96,6 +97,8 @@ class ClientConfigStorageTest extends TestCase
 
     private ClientConfigStorage $sut;
 
+    private AbstractSolarThemeHelper $solarThemeHelper;
+
     protected function setUp(): void
     {
         $this->tokenService = $this->createMock(TokenService::class);
@@ -112,7 +115,7 @@ class ClientConfigStorageTest extends TestCase
         $this->modeHelper = $this->createMock(tao_helpers_Mode::class);
         $this->dateFormatterFactory = $this->createMock(DateFormatterFactory::class);
         $this->menuService = $this->createMock(MenuService::class);
-        $solarThemeHelper = $this->createMock(SolarThemeHelper::class);
+        $this->solarThemeHelper = $this->createMock(SolarThemeHelper::class);
 
         $this->sut = new ClientConfigStorage(
             $this->tokenService,
@@ -129,12 +132,14 @@ class ClientConfigStorageTest extends TestCase
             $this->modeHelper,
             $this->dateFormatterFactory,
             $this->menuService,
-            $solarThemeHelper
+            $this->solarThemeHelper
         );
     }
 
     public function testGetConfig(): void
     {
+        $locale = 'en-US';
+
         $query = $this->createMock(GetConfigQuery::class);
         $query
             ->method('getExtension')
@@ -201,6 +206,11 @@ class ClientConfigStorageTest extends TestCase
             ->method('getConstant')
             ->with('BASE_URL')
             ->willReturn('baseUrl');
+
+        $this->solarThemeHelper
+            ->method('checkPostfix')
+            ->with($locale)
+            ->willReturn($locale);
 
         $shownExtension = $this->createMock(common_ext_Extension::class);
         $shownExtension
@@ -301,7 +311,7 @@ class ClientConfigStorageTest extends TestCase
                     ],
                 ],
                 'buster' => 'cacheBuster',
-                'locale' => 'en-US',
+                'locale' => $locale,
                 'client_timeout' => 10,
                 'crossorigin' => true,
                 'tao_base_www' => 'JsBaseWww',
