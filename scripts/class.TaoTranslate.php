@@ -488,7 +488,9 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionCreate()
     {
-        $languageDir = $this->solarThemeHelper !== null ? $this->solarThemeHelper->checkPostfix($this->options['language']) : $this->options['language'];
+        $languageDir = $this->solarThemeHelper !== null ?
+            $this->solarThemeHelper->checkPostfix($this->options['language'])
+            : $this->options['language'];
 
         $extensionsToCreate = explode(',', $this->options['extension']);
         $extensionsToCreate = array_unique($extensionsToCreate);
@@ -670,7 +672,9 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionUpdate()
     {
-        $languageDir = $this->solarThemeHelper !== null ? $this->solarThemeHelper->checkPostfix($this->options['language']) : $this->options['language'];
+        $languageDir = $this->solarThemeHelper !== null ?
+            $this->solarThemeHelper->checkPostfix($this->options['language'])
+            : $this->options['language'];
 
         $this->outVerbose(
             sprintf("Updating language '%s' for extension '%s'...", $languageDir, $this->options['extension'])
@@ -830,7 +834,9 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionDelete()
     {
-        $languageDir = $this->solarThemeHelper !== null ? $this->solarThemeHelper->checkPostfix($this->options['language']) : $this->options['language'];
+        $languageDir = $this->solarThemeHelper !== null ?
+            $this->solarThemeHelper->checkPostfix($this->options['language'])
+            : $this->options['language'];
 
         $this->outVerbose(
             sprintf("Deleting language '%s' for extension '%s' ...", $languageDir, $this->options['extension'])
@@ -839,7 +845,9 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
         $dir = $this->buildLanguagePath($this->options['extension'], $languageDir);
         if (!tao_helpers_File::remove($dir, true)) {
             $this->err(
-                sprintf("Could not delete language '%s' for extension '%s'.", $languageDir, $this->options['extension']),
+                sprintf("Could not delete language '%s' for extension '%s'.",
+                    $languageDir,
+                    $this->options['extension']),
                 true
             );
         }
