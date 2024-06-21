@@ -30,7 +30,7 @@
     private const ASSETS = 'Assets';
 
     // New terms for isSolarDesignEnabled FF
-    private $mapLabelNames = [
+    private static array $mapLabelNames = [
         self::ITEM => 'Item',
         self::MEDIA => 'Asset',
         self::DELIVERY => 'Delivery',
@@ -41,12 +41,11 @@
     * @param $labelName
     * @return string
     */
-    public function mapLabelName(string $labelName): string
+    public static function mapLabelName(string $labelName, bool $isSolarDesignEnabled): string
     {
-        $mapName = $labelName;
-        if (Layout::isSolarDesignEnabled()) {
-            $mapName = __(self::$mapLabelNames[$labelName]);
+        if ($isSolarDesignEnabled && array_key_exists($labelName, self::$mapLabelNames)) {
+            return self::$mapLabelNames[$labelName];
         }
-        return $mapName;
+        return $labelName;
     }
 }

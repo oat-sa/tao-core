@@ -82,7 +82,7 @@ $sections = get_data('sections');
                                     $node = $tree->get('rootNode');
                                 }
                                 if ($node) {
-                                    $className = MapLabelNameService::mapLabelName($tree->get('className'));
+                                    $className = MapLabelNameService::mapLabelName($tree->get('className'), Layout::isSolarDesignEnabled());
                                     Template::inc('blocks/search.tpl', 'tao', array(
                                     'rootNode' => $node,
                                     'searchLabel' => __('Search %s', $className)
