@@ -1736,7 +1736,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         /** @var core_kernel_classes_Class $type */
         $type = reset($types);
 
-        if (!$type->isClass()) {
+        if (!($type instanceof core_kernel_classes_Class) && !$type->isClass()) {
             throw new InvalidArgumentException('Type is not a class');
         }
 

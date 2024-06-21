@@ -132,6 +132,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                 $search   = $this->hasRequestParameter('search') ? $this->getRawParameter('search') : '';
                 $limit    = $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : 30;
                 $offset   = $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
+                $excludedClasses = $this->getExcludedClasses();
                 $selectedUris = [];
 
                 if (! empty($search)) {
@@ -156,7 +157,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                         $search,
                         $offset,
                         $limit,
-                        $this->getExcludedClasses()
+                        $excludedClasses
                     );
                 } else {
                     $resources = $this->getResourceService()->getResources(
@@ -403,7 +404,10 @@ class tao_actions_RestResource extends tao_actions_CommonModule
             $excludeParam = $this->getRawParameter('exclude');
             /** @var core_kernel_classes_Resource $selectedResourceToExclude */
             $selectedResourceToExclude = $this->getResource(reset($excludeParam));
-            if (!$selectedResourceToExclude->exists()) {
+            if (
+                !($selectedResourceToExclude instanceof core_kernel_classes_Resource)
+                && !$selectedResourceToExclude->exists()
+            ) {
                 $this->getLogger()->error('Resource to exclude does not exist');
                 return [];
             }
@@ -416,7 +420,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
 
             $resourceParentClass = reset($types);
 
-            if (!$resourceParentClass->isClass()) {
+            if (!($resourceParentClass instanceof core_kernel_classes_Class) && !$resourceParentClass->isClass()) {
                 $this->getLogger()->error('Resource type has to be a class');
                 return [];
             }

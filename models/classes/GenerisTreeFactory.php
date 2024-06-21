@@ -204,7 +204,9 @@ class GenerisTreeFactory
         // subclasses
         foreach ($subclasses as $subclass) {
             $child = $this->classToNode($subclass, $class);
-            if (!in_array($child['attributes']['data-uri'], $this->excludedClasses)) {
+            if (isset($child['attributes']['data-uri'])
+                && !in_array($child['attributes']['data-uri'], $this->excludedClasses)
+            ) {
                 $children[] = $child;
             }
         }
