@@ -19,7 +19,6 @@
  */
 
  namespace oat\tao\helpers;
- use oat\tao\helpers\Layout;
 
  class MapLabelNameService
 {
@@ -29,7 +28,7 @@
     private const DELIVERY = 'Delivery';
     private const ASSETS = 'Assets';
 
-    // New terms for isSolarDesignEnabled FF
+    // New terms for isSolarDesignEnabled FF.
     private static array $mapLabelNames = [
         self::ITEM => 'Item',
         self::MEDIA => 'Asset',
@@ -37,15 +36,12 @@
         self::ASSETS => 'Asset'
     ];
 
-    /**
-    * @param $labelName
-    * @return string
-    */
     public static function mapLabelName(string $labelName, bool $isSolarDesignEnabled): string
     {
         if ($isSolarDesignEnabled && array_key_exists($labelName, self::$mapLabelNames)) {
             return self::$mapLabelNames[$labelName];
         }
+
         return $labelName;
     }
 }
