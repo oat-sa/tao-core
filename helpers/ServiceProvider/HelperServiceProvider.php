@@ -30,7 +30,9 @@ use oat\tao\helpers\LayoutHelper;
 use oat\tao\helpers\translation\SolarThemeFileHelper;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_helpers_Mode;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+
 class HelperServiceProvider implements ContainerServiceProviderInterface
 {
     public function __invoke(ContainerConfigurator $configurator): void
