@@ -25,6 +25,7 @@ namespace oat\tao\test\unit\models\classes\menu;
 use oat\generis\test\TestCase;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\menu\SectionVisibilityFilter;
+use oat\tao\model\user\implementation\UserSettingsService;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class SectionVisibilityFilterTest extends TestCase
@@ -37,9 +38,13 @@ class SectionVisibilityFilterTest extends TestCase
     /** @var FeatureFlagChecker|MockObject  */
     private $featureFlagChecker;
 
+    /** @var UserSettingsService|MockObject  */
+    private $userSettingsService;
+
     public function setUp(): void
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
+        $this->userSettingsService = $this->createMock(UserSettingsService::class);
 
         $this->subject = new SectionVisibilityFilter(
             [
@@ -59,6 +64,7 @@ class SectionVisibilityFilterTest extends TestCase
         $this->subject->setServiceLocator(
             $this->getServiceLocatorMock([
                 FeatureFlagChecker::class => $this->featureFlagChecker,
+                UserSettingsService::class => $this->userSettingsService,
             ])
         );
     }
@@ -75,7 +81,6 @@ class SectionVisibilityFilterTest extends TestCase
     public function testIsHiddenLtiDisabled(): void
     {
         $this->featureFlagChecker
-            ->expects(self::once())
             ->method('isEnabled')
             ->willReturn(false);
 
@@ -93,7 +98,6 @@ class SectionVisibilityFilterTest extends TestCase
     public function testWhiteList($isEnabled, $result): void
     {
         $this->featureFlagChecker
-            ->expects(self::once())
             ->method('isEnabled')
             ->willReturn($isEnabled);
 
