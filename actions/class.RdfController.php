@@ -972,7 +972,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
             try {
                 $this->validateCsrf();
-                $this->validateDestinationClass($destinationClassUri, $this->getResourceParentClass($id));
             } catch (common_exception_Unauthorized $e) {
                 $this->response = $this->getPsrResponse()->withStatus(
                     403,
@@ -980,21 +979,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                 );
 
                 return;
-            } catch (InvalidArgumentException $e) {
-                $this->returnJson(
-                    [
-                        'success'  => false,
-                        'errorCode' => 204,
-                    ],
-                    204
-                );
-                return;
             }
 
             $this->validateUri($id);
             $this->validateInstanceRoot($id);
             $this->signatureValidator->checkSignature($data['signature'], $id);
             $this->validateMoveRequest();
+            $this->validateDestinationClass($destinationClassUri, $this->getResourceParentClass($id));
 
             $result = $this->getResourceTransfer()->transfer(
                 new ResourceTransferCommand(
