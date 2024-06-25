@@ -457,6 +457,16 @@ class tao_actions_Main extends tao_actions_CommonModule
                 }
                 $entries[$i] = $entry;
             }
+
+            //We want to always keep user settings menu dropdown even if there is no children to place logout button.
+            if (empty($children) && $perspective->getId() === 'user_settings') {
+                $entry = [
+                    'perspective' => $perspective,
+                    'children'    => []
+                ];
+
+                $entries[$i] = $entry;
+            }
         }
         return $entries;
     }
