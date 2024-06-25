@@ -169,7 +169,14 @@ class ResourceService extends ConfigurableService
 
         $resourceLookup = $this->getResourceLookup($format);
         if (!is_null($resourceLookup)) {
-            $result = $resourceLookup->getClasses($rootClass, $selectedUris, $propertyFilters, $offset, $limit, $excludeClasses);
+            $result = $resourceLookup->getClasses(
+                $rootClass,
+                $selectedUris,
+                $propertyFilters,
+                $offset,
+                $limit,
+                $excludeClasses
+            );
         }
 
 

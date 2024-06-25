@@ -79,7 +79,18 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
         if (!in_array($rootClass->getUri(), $openNodes)) {
             $openNodes[] = $rootClass->getUri();
         }
-        $factory = new GenerisTreeFactory(false, $openNodes, $limit, $offset, $selectedUris, $propertyFilters, [], [], $excludeClasses);
+
+        $factory = new GenerisTreeFactory(false,
+            $openNodes,
+            $limit,
+            $offset,
+            $selectedUris,
+            $propertyFilters,
+            [],
+            [],
+            $excludeClasses
+        );
+
         $treeData = $factory->buildTree($rootClass);
 
 
