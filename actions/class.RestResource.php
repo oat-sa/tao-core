@@ -132,6 +132,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                 $search   = $this->hasRequestParameter('search') ? $this->getRawParameter('search') : '';
                 $limit    = $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : 30;
                 $offset   = $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
+
                 $excludedClasses = $this->getExcludedClasses();
                 $selectedUris = [];
 

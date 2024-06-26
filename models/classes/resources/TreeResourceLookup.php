@@ -93,7 +93,6 @@ class TreeResourceLookup extends ConfigurableService implements ResourceLookup
 
         $treeData = $factory->buildTree($rootClass);
 
-
         return $this->formatTreeData([$treeData]);
     }
 
