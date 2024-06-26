@@ -97,4 +97,8 @@
         width: 20px;
         margin-inline-end: 12px;
     }
+
+    abbr {
+        color: var(--color-alert);
+    }
 }
