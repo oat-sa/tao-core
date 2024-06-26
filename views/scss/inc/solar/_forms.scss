@@ -695,4 +695,8 @@ body.solar-design {
     .checker-container {
         padding: 5px;
     }
+
+    button span.icon-save::before {
+        @include icon-sd-save();   
+    }
 }
