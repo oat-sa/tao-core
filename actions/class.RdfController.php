@@ -1011,18 +1011,14 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                     ],
                 ]
             );
-        } catch (InvalidArgumentException $exception) {
-            $this->logError(
-                sprintf(
-                    'Error moving instance %s to %s: %s',
-                    $id ?? '',
-                    $destinationClassUri ?? '',
-                    $exception->getMessage() . ' - ' . $exception->getTraceAsString()
-                )
+        } catch (InvalidArgumentException $e) {
+            $this->returnJson(
+                [
+                    'success' => false,
+                    'errorCode' => 204,
+                ],
+                204
             );
-
-            $this->returnJsonError($exception->getMessage());
-            return;
         }
     }
 
