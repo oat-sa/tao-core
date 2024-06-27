@@ -88,8 +88,6 @@ class GenerisTreeFactory
 
     /** @var array  */
     private $extraProperties = [];
-    private array $excludedClasses;
-
     /**
      * @param boolean $showResources If `true` resources will be represented in thee. Otherwise only classes.
      * @param array $openNodes Class uris for which children array should be build as well
@@ -108,8 +106,7 @@ class GenerisTreeFactory
         array $resourceUrisToShow = [],
         array $propertyFilter = [],
         array $optionsFilter = [],
-        array $extraProperties = [],
-        array $excludedClasses = []
+        array $extraProperties = []
     ) {
         $this->limit          = (int) $limit;
         $this->offset         = (int) $offset;
@@ -118,7 +115,6 @@ class GenerisTreeFactory
         $this->propertyFilter = $propertyFilter;
         $this->optionsFilter  = $optionsFilter;
         $this->extraProperties = $extraProperties;
-        $this->excludedClasses = $excludedClasses;
 
         $types = [];
         foreach ($resourceUrisToShow as $uri) {
@@ -203,13 +199,7 @@ class GenerisTreeFactory
 
         // subclasses
         foreach ($subclasses as $subclass) {
-            $child = $this->classToNode($subclass, $class);
-            if (
-                isset($child['attributes']['data-uri'])
-                && !in_array($child['attributes']['data-uri'], $this->excludedClasses)
-            ) {
-                $children[] = $child;
-            }
+            $children[] = $this->classToNode($subclass, $class);
         }
         // resources
         if ($this->showResources) {

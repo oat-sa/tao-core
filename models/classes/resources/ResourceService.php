@@ -160,8 +160,7 @@ class ResourceService extends ConfigurableService
         $selectedUris = [],
         $search = '',
         $offset = 0,
-        $limit = 30,
-        array $excludeClasses = []
+        $limit = 30
     ): array {
         $propertyFilters = $this->getPropertyFilters($search);
 
@@ -169,17 +168,8 @@ class ResourceService extends ConfigurableService
 
         $resourceLookup = $this->getResourceLookup($format);
         if (!is_null($resourceLookup)) {
-            $result = $resourceLookup->getClasses(
-                $rootClass,
-                $selectedUris,
-                $propertyFilters,
-                $offset,
-                $limit,
-                $excludeClasses
-            );
+            $result = $resourceLookup->getClasses($rootClass, $selectedUris, $propertyFilters, $offset, $limit);
         }
-
-
         return $result;
     }
 

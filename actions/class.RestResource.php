@@ -132,8 +132,6 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                 $search   = $this->hasRequestParameter('search') ? $this->getRawParameter('search') : '';
                 $limit    = $this->hasRequestParameter('limit') ? $this->getRequestParameter('limit') : 30;
                 $offset   = $this->hasRequestParameter('offset') ? $this->getRequestParameter('offset') : 0;
-
-                $excludedClasses = $this->getExcludedClasses();
                 $selectedUris = [];
 
                 if (! empty($search)) {
@@ -157,8 +155,7 @@ class tao_actions_RestResource extends tao_actions_CommonModule
                         $selectedUris,
                         $search,
                         $offset,
-                        $limit,
-                        $excludedClasses
+                        $limit
                     );
                 } else {
                     $resources = $this->getResourceService()->getResources(
@@ -391,45 +388,5 @@ class tao_actions_RestResource extends tao_actions_CommonModule
     private function getAdvancedLogger(): LoggerInterface
     {
         return $this->getPsrContainer()->get(AdvancedLogger::class);
-    }
-
-
-    /**
-     * If exclude parameter is set we can exclude resource parent class from the result
-     * @return string
-     */
-    private function getExcludedClasses(): array
-    {
-        //Exclude exclude parameter resource parent class
-        if ($this->hasGetParameter('exclude')) {
-            $excludeParam = $this->getRawParameter('exclude');
-            /** @var core_kernel_classes_Resource $selectedResourceToExclude */
-            $selectedResourceToExclude = $this->getResource(reset($excludeParam));
-            if (
-                !($selectedResourceToExclude instanceof core_kernel_classes_Resource)
-                && !$selectedResourceToExclude->exists()
-            ) {
-                $this->getLogger()->error('Resource to exclude does not exist');
-                return [];
-            }
-
-            $types = $selectedResourceToExclude->getTypes();
-            if (count($types) !== 1) {
-                $this->getLogger()->error('Resource to exclude has to have only one parent class');
-                return [];
-            }
-
-            $resourceParentClass = reset($types);
-
-            if (!($resourceParentClass instanceof core_kernel_classes_Class) && !$resourceParentClass->isClass()) {
-                $this->getLogger()->error('Resource type has to be a class');
-                return [];
-            }
-
-            return [$resourceParentClass->getUri()];
-        }
-
-        $this->getLogger()->debug('exclude parameter not set');
-        return [];
     }
 }

@@ -738,8 +738,6 @@ define([
 
                         //asks only classes
                         params.classOnly = true;
-                        params.exclude = selectedUri;
-
                         resourceProvider
                             .getResources(params, true)
                             .then(function (resources) {
