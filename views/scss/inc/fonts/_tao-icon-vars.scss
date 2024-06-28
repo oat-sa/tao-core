@@ -13,6 +13,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@mixin icon-sd-import { content: "\e91f"; }
+@mixin icon-sd-export { content: "\e924"; }
+@mixin icon-browse { content: "\e925"; }
+@mixin icon-minus { content: "\e926"; }
+@mixin icon-plus { content: "\e927"; }
+@mixin icon-sd-save { content: "\e928"; }
 @mixin icon-back-button { content: "\e91e"; }
 @mixin icon-japan-incorrect { content: "\e91b"; }
 @mixin icon-japan-correct { content: "\e91c"; }
