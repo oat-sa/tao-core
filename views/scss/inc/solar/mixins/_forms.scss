@@ -78,11 +78,32 @@
 }
 
 @mixin form-sd-checkbox {
-    accent-color: var(--input-color);
-    margin: 14px 0;
-    margin-inline-end: 12px;
-    width: var(--input-glyph-size);
-    height: var(--input-glyph-size);
+    /* Remove default styling */
+    width: 0;
+    height: 0;
+    margin: 0;
+    position: absolute;
+
+    &:before {
+        content: "";
+        margin: 12px 0;
+        margin-inline-end: 12px;        
+        background: var(--input-background);
+        border: var(--border-medium) solid var(--color-border-default);
+        border-radius: 3px;
+        display: inline-block;
+        height: 16px;
+        position: relative;
+        top: var(--border-medium);
+        width: 16px;
+    }
+
+    &:checked{
+        &:before {
+            font-family: "tao";
+            @include icon-result-ok;
+        }
+    }
 }
 
 @mixin form-sd-label {
