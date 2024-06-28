@@ -699,4 +699,10 @@ body.solar-design {
     button span.icon-save::before {
         @include icon-sd-save;   
     }
+    
+    .property-adder span.icon-property-add::before {
+        @include icon-plus;   
+    }
+
+
 }
