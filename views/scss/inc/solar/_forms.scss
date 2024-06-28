@@ -697,6 +697,6 @@ body.solar-design {
     }
 
     button span.icon-save::before {
-        @include icon-sd-save();   
+        @include icon-sd-save;   
     }
 }
