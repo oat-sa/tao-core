@@ -350,6 +350,7 @@ body.solar-design {
                 margin-inline-start: 10px;
                 &.placeholder {
                     color: var(var(--color-text-disabled));
+                    padding: 0 12px;
                 }
                 &.active {
                     color: var(--input-color);
