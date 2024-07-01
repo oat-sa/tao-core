@@ -704,5 +704,11 @@ body.solar-design {
         @include icon-plus;   
     }
 
+    span.icon-import::before {
+        @include icon-sd-import;
+    }
 
+    span.icon-export::before {
+        @include icon-sd-export;
+    }
 }
