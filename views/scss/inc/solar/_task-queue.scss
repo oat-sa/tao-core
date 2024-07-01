@@ -14,9 +14,10 @@ body.solar-design {
                 border: 0;
                 
                 .task-element {
+                    background: var(--header-bar-background);
                     height: 88px;
                     padding: 4px;
-
+                    
                     .container-icon {
                         width: 64px;
                         height: 100%;
@@ -30,25 +31,26 @@ body.solar-design {
                         margin-left: 64px;
                         width: 288px;
                         padding: 12px;
-
+                        
                         .label {
                             text-overflow: ellipsis;
                         }
                     }
-
+                    
                     
                 }
                 
             }
             
             .view-detail .task-detail-element {
+                background: var(--header-bar-background);
                 width: 796px;
                 padding: 4px;
                 
                 .detail-description {
                     padding: 12px;                    
                 }
-
+                
                 .detail-body {
                     padding: 12px;
 
