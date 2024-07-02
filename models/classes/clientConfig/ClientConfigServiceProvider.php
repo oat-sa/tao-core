@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2023 (original work) Open Assessment Technologies SA.
+ * Copyright (c) 2023-2024 (original work) Open Assessment Technologies SA.
  *
  * @author Andrei Shapiro <andrei.shapiro@taotesting.com>
  */
@@ -30,6 +30,7 @@ use oat\oatbox\log\LoggerService;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
+use oat\tao\helpers\translation\SolarThemeFileHelper;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibRegistry;
 use oat\tao\model\featureFlag\FeatureFlagConfigSwitcher;
@@ -67,6 +68,7 @@ class ClientConfigServiceProvider implements ContainerServiceProviderInterface
                     service(tao_helpers_Mode::class),
                     service(DateFormatterFactory::class),
                     service(MenuService::class),
+                    service(SolarThemeFileHelper::class),
                 ]
             );
     }

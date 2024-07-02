@@ -25,6 +25,7 @@
  */
 
 use oat\generis\model\OntologyRdf;
+use oat\tao\helpers\LocaleFilesHelper;
 use oat\tao\helpers\translation\TranslationBundle;
 use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
@@ -52,6 +53,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     public const INSTANCE_ORIENTATION_LTR = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight';
     public const INSTANCE_ORIENTATION_RTL = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft';
     // --- OPERATIONS ---
+    public const LANG_POSTFIX = '-S';
 
     /**
      * Short description of method createLanguage
@@ -351,7 +353,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
      *
      * @return array of ns => files
      */
-    private function getLanguageFiles()
+    private function getLanguageFiles($pattern = null)
     {
         $extManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
         $localesPath = $extManager->getExtensionById('tao')->getDir() . 'locales';
@@ -364,6 +366,10 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
         foreach ($localeDirectories as $localeDir) {
             $path = $localesPath . '/' . $localeDir;
             if ($localeDir[0] != '.' && @is_dir($path)) {
+                if (LocaleFilesHelper::isPostfixApplied($localeDir, $pattern)) {
+                    continue;
+                }
+
                 // Look if the lang.rdf can be read.
                 $languageModelFile = $path . '/lang.rdf';
                 if (@file_exists($languageModelFile) && @is_readable($languageModelFile)) {
@@ -381,7 +387,8 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     public function getLanguageDefinition()
     {
         $model = new AppendIterator();
-        foreach ($this->getLanguageFiles() as $rdfPath) {
+        $pattern = '/' . self::LANG_POSTFIX . '$/';
+        foreach ($this->getLanguageFiles($pattern) as $rdfPath) {
             $iterator = new FileIterator($rdfPath);
             $model->append($iterator->getIterator());
         }
