@@ -100,7 +100,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
                 $topClass->getUri(),
                 $instance->getUri(),
                 $language
-            );   
+            );
         }
 
         //get the list of properties to set in the form
