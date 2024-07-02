@@ -24,9 +24,25 @@ namespace oat\tao\model\user;
 
 interface UserSettingsInterface
 {
+    public const INTERFACE_MODE = 'interfaceMode';
+    public const UI_LANGUAGE_CODE = 'uiLanguageCode';
+    public const DATA_LANGUAGE_CODE = 'dataLanguageCode';
+    public const TIMEZONE = 'timezone';
+
+    /**
+     * @deprecated use getSetting instead
+     */
     public function getUILanguageCode(): ?string;
 
+    /**
+     * @deprecated use getSetting instead
+     */
     public function getDataLanguageCode(): ?string;
 
+    /**
+     * @deprecated use getSetting instead
+     */
     public function getTimezone(): string;
+
+    public function getSetting(string $setting);
 }
