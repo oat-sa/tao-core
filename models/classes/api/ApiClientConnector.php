@@ -50,7 +50,7 @@ class ApiClientConnector extends Configurable implements ClientInterface
      * @return ResponseInterface
      * @throws GuzzleException
      */
-    public function send(RequestInterface $request, array $options = [])
+    public function send(RequestInterface $request, array $options = []): ResponseInterface
     {
         return $this->getClient()->send($request, $options);
     }
@@ -69,7 +69,7 @@ class ApiClientConnector extends Configurable implements ClientInterface
      * @return ResponseInterface
      * @throws GuzzleException
      */
-    public function request($method, $uri, array $options = [])
+    public function request($method, $uri, array $options = []): ResponseInterface
     {
         return $this->getClient()->request($method, $uri, $options);
     }
@@ -83,7 +83,7 @@ class ApiClientConnector extends Configurable implements ClientInterface
      *
      * @return PromiseInterface
      */
-    public function sendAsync(RequestInterface $request, array $options = [])
+    public function sendAsync(RequestInterface $request, array $options = []): PromiseInterface
     {
         return $this->getClient()->sendAsync($request, $options);
     }
@@ -102,7 +102,7 @@ class ApiClientConnector extends Configurable implements ClientInterface
      *
      * @return PromiseInterface
      */
-    public function requestAsync($method, $uri, array $options = [])
+    public function requestAsync($method, $uri, array $options = []): PromiseInterface
     {
         return $this->getClient()->requestAsync($method, $uri, $options);
     }
