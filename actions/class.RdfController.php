@@ -1014,8 +1014,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
         } catch (InvalidArgumentException $e) {
             $this->returnJson(
                 [
-                    'success' => false,
-                    'errorCode' => 204,
+                    'success' => true,
+                    'data' => [
+                        'failed' => [
+                            'success' => false,
+                            'message' => $e->getMessage(),
+                        ],
+                    ],
                 ],
                 204
             );
@@ -1684,7 +1689,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     {
         $destinationClass = $this->getClass($destinationUri);
         if (empty($destinationUri) || $destinationUri === $currentClassUri || !$destinationClass->exists()) {
-            throw new InvalidArgumentException('Wrong destination class uri');
+            throw new InvalidArgumentException('The selected class already contains the resource');
         }
     }
 
