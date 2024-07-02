@@ -770,7 +770,7 @@ define([
                                     });
 
                                     if (!success.length) {
-                                        feedback().error(__('Unable to move the resources'));
+                                        feedback().warning(__(failed.join(', ')));
                                     } else if (failed.length) {
                                         feedback().warning(
                                             __('Some resources have not been moved: %s', failed.join(', '))

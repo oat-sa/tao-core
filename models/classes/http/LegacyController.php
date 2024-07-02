@@ -112,7 +112,7 @@ abstract class LegacyController extends Controller
      *
      * @param string $paramName
      * @throws \common_exception_MissingParameter
-     * @return string
+     * @return string|array
      */
     protected function getRawParameter($paramName)
     {
