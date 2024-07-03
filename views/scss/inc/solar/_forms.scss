@@ -289,6 +289,9 @@ body.solar-design {
                     border: var(--border-thin) solid var(--input-border-color);
                 }
             }
+            a {
+                outline: none;
+            }
         }
         .property-edit-container-open {
             .property-heading-toolbar {
