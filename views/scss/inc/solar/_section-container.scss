@@ -170,6 +170,9 @@ body.solar-design {
         }
 
         .content-block {
+            .actions {
+                background: var(--section-background);
+            }
             .main-container {
                 margin: 0 32px 32px 0;
             }
