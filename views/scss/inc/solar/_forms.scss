@@ -36,7 +36,7 @@ body.solar-design {
             margin-bottom: 0;
         }
         .form_desc {
-             & ~ .form-elt-container {
+            & ~ .form-elt-container {
                 width: 100%;
             }
         }
@@ -289,6 +289,9 @@ body.solar-design {
                     border: var(--border-thin) solid var(--input-border-color);
                 }
             }
+            a {
+                outline: none;
+            }
         }
         .property-edit-container-open {
             .property-heading-toolbar {
@@ -350,6 +353,7 @@ body.solar-design {
                 margin-inline-start: 10px;
                 &.placeholder {
                     color: var(var(--color-text-disabled));
+                    padding: 0 12px;
                 }
                 &.active {
                     color: var(--input-color);
@@ -694,5 +698,21 @@ body.solar-design {
     }
     .checker-container {
         padding: 5px;
+    }
+
+    button span.icon-save::before {
+        @include icon-sd-save;   
+    }
+    
+    .property-adder span.icon-property-add::before {
+        @include icon-plus;   
+    }
+
+    span.icon-import::before {
+        @include icon-sd-import;
+    }
+
+    span.icon-export::before {
+        @include icon-sd-export;
     }
 }

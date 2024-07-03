@@ -1,4 +1,10 @@
 /* Do not edit */[class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+%icon-sd-import-before, .icon-sd-import:before { @include icon-sd-import; }
+%icon-sd-export-before, .icon-sd-export:before { @include icon-sd-export; }
+%icon-browse-before, .icon-browse:before { @include icon-browse; }
+%icon-minus-before, .icon-minus:before { @include icon-minus; }
+%icon-plus-before, .icon-plus:before { @include icon-plus; }
+%icon-sd-save-before, .icon-sd-save:before { @include icon-sd-save; }
 %icon-back-button-before, .icon-back-button:before { @include icon-back-button; }
 %icon-japan-incorrect-before, .icon-japan-incorrect:before { @include icon-japan-incorrect; }
 %icon-japan-correct-before, .icon-japan-correct:before { @include icon-japan-correct; }

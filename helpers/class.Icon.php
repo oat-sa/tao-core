@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2014-2024 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  */
 
 use oat\tao\model\iconBuilder\IconBuilderTrait;
@@ -27,13 +27,19 @@ use oat\tao\model\iconBuilder\IconBuilderTrait;
  *
  * @access      public
  * @author      Dieter Raber, <dieter@taotesting.com>
- * @date        2023-06-16 10:17:15
+ * @date        2024-06-27 15:30:38
  * @package     tao
  */
 class tao_helpers_Icon
 {
     use IconBuilderTrait;
 
+    public const CLASS_SD_IMPORT = 'icon-sd-import';
+    public const CLASS_SD_EXPORT = 'icon-sd-export';
+    public const CLASS_BROWSE = 'icon-browse';
+    public const CLASS_MINUS = 'icon-minus';
+    public const CLASS_PLUS = 'icon-plus';
+    public const CLASS_SD_SAVE = 'icon-sd-save';
     public const CLASS_BACK_BUTTON = 'icon-back-button';
     public const CLASS_JAPAN_INCORRECT = 'icon-japan-incorrect';
     public const CLASS_JAPAN_CORRECT = 'icon-japan-correct';
@@ -265,6 +271,36 @@ class tao_helpers_Icon
     public const CLASS_HIGHLIGHTER = 'icon-highlighter';
     public const CLASS_ELIMINATE_CROSSED = 'icon-eliminate-crossed';
     public const CLASS_PLAY_FROM_HERE = 'icon-play-from-here';
+
+    public static function iconSdImport(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_SD_IMPORT, $options);
+    }
+
+    public static function iconSdExport(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_SD_EXPORT, $options);
+    }
+
+    public static function iconBrowse(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_BROWSE, $options);
+    }
+
+    public static function iconMinus(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_MINUS, $options);
+    }
+
+    public static function iconPlus(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_PLUS, $options);
+    }
+
+    public static function iconSdSave(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_SD_SAVE, $options);
+    }
 
     public static function iconBackButton(array $options = [])
     {

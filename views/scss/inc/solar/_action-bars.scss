@@ -131,6 +131,9 @@ body.solar-design {
                 }
                 &.active {
                     border: var(--button-border-thin) solid var(--action-bar-color);
+                    .li-inner {
+                        padding: 0 14px;
+                    }
                 }
             }
         }
