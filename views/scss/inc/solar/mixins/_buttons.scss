@@ -8,6 +8,7 @@
     font-size: var(--fontsize-body-xs) !important;
     font-weight: bold;
     text-transform: uppercase;
+    white-space: nowrap;
 }
 
 @mixin button-sd-position {
