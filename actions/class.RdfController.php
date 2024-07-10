@@ -1720,7 +1720,13 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
 
     private function getResourceParentClass(string $id): string
     {
+        if ($this->getResource($id)->isClass()) {
+            $directParent = $this->getResource($id)->getParentClassesIds();
+            return reset($directParent);
+        }
+
         $types = $this->getResource($id)->getTypes();
+
         if (count($types) !== 1) {
             throw new InvalidArgumentException('Resource has no class or resource types are ambiguous');
         }
