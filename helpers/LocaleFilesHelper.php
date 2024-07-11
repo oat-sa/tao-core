@@ -24,6 +24,6 @@ class LocaleFilesHelper
 {
     public static function isPostfixApplied($localeDir, $pattern = null): bool
     {
-        return null !== $pattern && preg_match($pattern, $localeDir, $matches);
+        return null !== $pattern && preg_match($pattern, $localeDir) === 1;
     }
 }

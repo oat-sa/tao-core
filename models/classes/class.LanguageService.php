@@ -365,7 +365,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
         $localeDirectories = scandir($localesPath);
         foreach ($localeDirectories as $localeDir) {
             $path = $localesPath . '/' . $localeDir;
-            if ($this->isDirectory($path, $localeDir) && !LocaleFilesHelper::isPostfixApplied($localeDir, $pattern)) {
+            if ($this->isValidDirectory($path, $localeDir, $pattern)) {
                 // Look if the lang.rdf can be read.
                 $languageModelFile = $path . '/lang.rdf';
                 if (@file_exists($languageModelFile) && @is_readable($languageModelFile)) {
@@ -379,13 +379,18 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
 
     /**
      * Check the path is directory
-     * @param string $path
-     * @param array|mixed $localeDir
-     * @return bool
      */
-    private function isDirectory($path, $localeDir)
+    private function isDirectory(string $path, array $localeDir): bool
     {
         return $localeDir[0] != '.' && @is_dir($path);
+    }
+
+    /**
+     * Check the directory is valid
+     */
+    private function isValidDirectory(string $path, array $localeDir, string $pattern): bool
+    {
+        return $this->isDirectory($path, $localeDir) && !LocaleFilesHelper::isPostfixApplied($localeDir, $pattern);
     }
 
     /**
@@ -395,7 +400,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     public function getLanguageDefinition()
     {
         $model = new AppendIterator();
-        $pattern = '/' . self::LANG_POSTFIX . '$/';
+        $pattern = sprintf('/%s$/', self::LANG_POSTFIX);
         foreach ($this->getLanguageFiles($pattern) as $rdfPath) {
             $iterator = new FileIterator($rdfPath);
             $model->append($iterator->getIterator());

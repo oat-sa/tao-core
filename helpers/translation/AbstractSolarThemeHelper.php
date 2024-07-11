@@ -39,9 +39,9 @@ abstract class AbstractSolarThemeHelper
      */
     public function isContainPostfix(string $language): bool
     {
-        $pattern = '/' . self::LANG_POSTFIX . '$/';
+        $pattern = sprintf('/%s$/', self::LANG_POSTFIX);
 
-        return !$this->layoutHelper->isSolarDesignEnabled() || preg_match($pattern, $language, $matches);
+        return !$this->layoutHelper->isSolarDesignEnabled() || preg_match($pattern, $language) === 1;
     }
 
     /**

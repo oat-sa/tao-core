@@ -43,7 +43,6 @@ class tao_helpers_I18n
 
     /**
      * locale postfix for New theme
-     *
      */
     public const LANG_POSTFIX = '-S';
 
@@ -208,9 +207,9 @@ class tao_helpers_I18n
      */
     private static function isContainPostfix(string $language): bool
     {
-        $pattern = '/' . self::LANG_POSTFIX . '$/';
+        $pattern = sprintf('/%s$/', self::LANG_POSTFIX);
 
-        return !Layout::isSolarDesignEnabled() || preg_match($pattern, $language, $matches);
+        return !Layout::isSolarDesignEnabled() || preg_match($pattern, $language) === 1;
     }
 
     /**

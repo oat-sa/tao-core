@@ -233,19 +233,16 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
 
     /**
      * Check if the Solar design is enabled and the postfix has not yet been added
-     *
      */
     private function isContainPostfix(string $language): bool
     {
-        $pattern = '/' . self::LANG_POSTFIX . '$/';
+        $pattern = sprintf('/%s$/', self::LANG_POSTFIX);
 
-
-        return !Layout::isSolarDesignEnabled() || preg_match($pattern, $language, $matches);
+        return !Layout::isSolarDesignEnabled() || preg_match($pattern, $language) === 1;
     }
 
     /**
      * Concatenate postfix for Solar design translations
-     *
      */
     private function addPostfix(string $language): string
     {
@@ -254,16 +251,16 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
 
     /**
      * Check and Add postfix for Solar design translations
-     *
      */
     private function checkPostfix(string $language): string
     {
-        if (!$this->isContainPostfix($language)) {
-            $localesDir = 'views/locales';
-            $dir = dirname(__FILE__) . '/../../' . $localesDir . '/' . $this->addPostfix($language);
-            if (is_dir($dir)) {
-                $language = $this->addPostfix($language);
-            }
+        if ($this->isContainPostfix($language)) {
+            return $language;
+        }
+        $localesDir = 'views/locales';
+        $dir = sprintf('%s/../../%s/%s', dirname(__FILE__), $localesDir, $this->addPostfix($language));
+        if (is_dir($dir)) {
+            return $this->addPostfix($language);
         }
 
         return $language;

@@ -2,8 +2,7 @@
 
 use oat\generis\model\OntologyRdfs;
 use oat\tao\helpers\ApplicationHelper;
-use oat\tao\helpers\Layout;
-use oat\tao\helpers\translation\AbstractSolarThemeHelper;
+use oat\tao\helpers\translation\SolarThemeHelper;
 use oat\tao\model\menu\MenuService;
 
 /**
@@ -94,7 +93,6 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      * @var string
      */
     public const DEF_LANG_FILENAME = 'lang.rdf';
-    public const LANG_PREFIX = '-S';
 
     private static $WHITE_LIST = [
         'actions',
@@ -110,7 +108,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
     protected $verbose = false;
     // --- OPERATIONS ---
 
-    private AbstractSolarThemeHelper $solarThemeHelper;
+    private SolarThemeHelper $solarThemeHelper;
 
     /**
      * keys - action names from user input
@@ -135,12 +133,11 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
     }
 
     public function __construct(
+        SolarThemeHelper $solarThemeHelper,
         $inputFormat = [],
-        $options = [],
-        AbstractSolarThemeHelper $solarThemeHelper = null
+        $options = []
     ) {
         $this->solarThemeHelper = $solarThemeHelper;
-
         parent::__construct($inputFormat, $options);
     }
 
@@ -488,9 +485,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionCreate()
     {
-        $languageDir = $this->solarThemeHelper !== null ?
-            $this->solarThemeHelper->checkPostfix($this->options['language'])
-            : $this->options['language'];
+        $languageDir = $this->solarThemeHelper->checkPostfix($this->options['language']);
 
         $extensionsToCreate = explode(',', $this->options['extension']);
         $extensionsToCreate = array_unique($extensionsToCreate);
@@ -501,7 +496,10 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             $this->options['output'] = dirname(__FILE__) . '/../../' . $etc . '/' . self::DEF_OUTPUT_DIR;
 
             $this->outVerbose(
-                sprintf("Creating language '%s' for extension '%s' ...", $languageDir, $this->options['extension'])
+                sprintf("Creating language '%s' for extension '%s' ...",
+                    $languageDir,
+                    $this->options['extension']
+                )
             );
 
             // We first create the directory where locale files will go.
@@ -672,9 +670,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionUpdate()
     {
-        $languageDir = $this->solarThemeHelper !== null ?
-            $this->solarThemeHelper->checkPostfix($this->options['language'])
-            : $this->options['language'];
+        $languageDir = $this->solarThemeHelper->checkPostfix($this->options['language']);
 
         $this->outVerbose(
             sprintf("Updating language '%s' for extension '%s'...", $languageDir, $this->options['extension'])
@@ -834,9 +830,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionDelete()
     {
-        $languageDir = $this->solarThemeHelper !== null ?
-            $this->solarThemeHelper->checkPostfix($this->options['language'])
-            : $this->options['language'];
+        $languageDir = $this->solarThemeHelper->checkPostfix($this->options['language']);
 
         $this->outVerbose(
             sprintf("Deleting language '%s' for extension '%s' ...", $languageDir, $this->options['extension'])

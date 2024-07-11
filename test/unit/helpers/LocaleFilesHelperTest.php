@@ -14,7 +14,7 @@ class LocaleFilesHelperTest extends TestCase
     protected function setUp(): void
     {
         $this->postfix = "-S";
-        $this->pattern = '/' . $this->postfix . '$/';
+        $this->pattern = sprintf('/%s$/', $this->postfix);
     }
 
     public function testIsPostfixNotApplied(): void
