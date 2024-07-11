@@ -365,11 +365,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
         $localeDirectories = scandir($localesPath);
         foreach ($localeDirectories as $localeDir) {
             $path = $localesPath . '/' . $localeDir;
-            if ($localeDir[0] != '.' && @is_dir($path)) {
-                if (LocaleFilesHelper::isPostfixApplied($localeDir, $pattern)) {
-                    continue;
-                }
-
+            if ($this->isDirectory($path, $localeDir) && !LocaleFilesHelper::isPostfixApplied($localeDir, $pattern)) {
                 // Look if the lang.rdf can be read.
                 $languageModelFile = $path . '/lang.rdf';
                 if (@file_exists($languageModelFile) && @is_readable($languageModelFile)) {
@@ -378,6 +374,18 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
             }
         }
         return $files;
+    }
+
+
+    /**
+     * Check the path is directory
+     * @param string $path
+     * @param array|mixed $localeDir
+     * @return bool
+     */
+    private function isDirectory($path, $localeDir)
+    {
+        return $localeDir[0] != '.' && @is_dir($path);
     }
 
     /**
