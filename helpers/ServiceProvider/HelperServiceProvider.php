@@ -26,7 +26,6 @@ namespace oat\tao\helpers\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
-use oat\tao\helpers\LayoutHelper;
 use oat\tao\helpers\translation\SolarThemeFileHelper;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_helpers_Mode;

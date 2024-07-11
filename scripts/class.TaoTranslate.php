@@ -496,7 +496,8 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
             $this->options['output'] = dirname(__FILE__) . '/../../' . $etc . '/' . self::DEF_OUTPUT_DIR;
 
             $this->outVerbose(
-                sprintf("Creating language '%s' for extension '%s' ...",
+                sprintf(
+                    "Creating language '%s' for extension '%s' ...",
                     $languageDir,
                     $this->options['extension']
                 )
