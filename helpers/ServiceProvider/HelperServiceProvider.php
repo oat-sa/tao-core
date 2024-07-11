@@ -43,15 +43,6 @@ class HelperServiceProvider implements ContainerServiceProviderInterface
 
         $services->set(tao_helpers_Mode::class, tao_helpers_Mode::class);
 
-        $services->set(LayoutHelper::class, LayoutHelper::class);
-
-        $services
-            ->set(SolarThemeFileHelper::class, SolarThemeFileHelper::class)
-            ->public()
-            ->args(
-                [
-                    service(LayoutHelper::class)
-                ]
-            );
+        $services->set(SolarThemeFileHelper::class, SolarThemeFileHelper::class);
     }
 }

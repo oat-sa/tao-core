@@ -24,13 +24,12 @@
  *
  */
 
-use oat\tao\helpers\LayoutHelper;
 use oat\tao\helpers\translation\SolarThemeHelper;
 
 require_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 new tao_scripts_TaoTranslate(
-    new SolarThemeHelper(new LayoutHelper()),
+    new SolarThemeHelper(),
     [
     'min' => 1,
     'parameters' => [
@@ -114,4 +113,5 @@ new tao_scripts_TaoTranslate(
             'description' => 'Clear translations entry when there is not translation proposal'
         ]
     ]
-]);
+    ]
+);

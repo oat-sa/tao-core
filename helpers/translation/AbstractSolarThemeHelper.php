@@ -20,18 +20,11 @@
 
 namespace oat\tao\helpers\translation;
 
-use oat\tao\helpers\LayoutHelper;
+use oat\tao\helpers\Layout;
 
 abstract class AbstractSolarThemeHelper
 {
     public const LANG_POSTFIX = '-S';
-
-    private LayoutHelper $layoutHelper;
-
-    public function __construct(LayoutHelper $layoutHelper)
-    {
-        $this->layoutHelper = $layoutHelper;
-    }
 
     /**
      * Check if the Solar design is enabled and the postfix has not yet been added
@@ -41,7 +34,7 @@ abstract class AbstractSolarThemeHelper
     {
         $pattern = sprintf('/%s$/', self::LANG_POSTFIX);
 
-        return !$this->layoutHelper->isSolarDesignEnabled() || preg_match($pattern, $language) === 1;
+        return !Layout::isSolarDesignEnabled() || preg_match($pattern, $language) === 1;
     }
 
     /**
