@@ -80,7 +80,9 @@ class tao_helpers_I18n
      */
     public static function getLangCode()
     {
-        return LocaleFilesHelper::checkPostfixDirectory(common_session_SessionManager::getSession()->getInterfaceLanguage());
+        return LocaleFilesHelper::checkPostfixDirectory(
+            common_session_SessionManager::getSession()->getInterfaceLanguage()
+        );
     }
 
     /**
