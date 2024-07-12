@@ -28,7 +28,6 @@ use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\ElementMapFactory;
 use oat\tao\helpers\form\elements\ElementValue;
 use oat\tao\helpers\LocaleFilesHelper;
-use oat\tao\helpers\translation\SolarThemHelper;
 use oat\tao\model\form\DataProvider\FormDataProviderInterface;
 use oat\tao\model\form\DataProvider\ProxyFormDataProvider;
 use Zend\ServiceManager\ServiceLocatorInterface;

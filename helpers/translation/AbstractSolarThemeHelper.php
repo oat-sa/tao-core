@@ -20,8 +20,6 @@
 
 namespace oat\tao\helpers\translation;
 
-use oat\tao\helpers\LocaleFilesHelper;
-
 abstract class AbstractSolarThemeHelper
 {
     /**
