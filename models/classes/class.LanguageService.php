@@ -382,7 +382,19 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
      */
     private function isDirectory(string $path, array $localeDir): bool
     {
-        return $localeDir[0] != '.' && @is_dir($path);
+        if (!isset($localeDir[0])) {
+            return false;
+        }
+
+        if ($localeDir[0] == '.') {
+            return false;
+        }
+
+        if (!is_dir($path)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
