@@ -20,6 +20,8 @@
 
 namespace oat\tao\helpers\translation;
 
+use oat\tao\helpers\LocaleFilesHelper;
+
 class SolarThemeFileHelper extends AbstractSolarThemeHelper
 {
     /**
@@ -28,14 +30,6 @@ class SolarThemeFileHelper extends AbstractSolarThemeHelper
      */
     public function checkPostfix(string $language): string
     {
-        if (!$this->isContainPostfix($language)) {
-            $localesDir = 'views/locales';
-            $dir = dirname(__FILE__) . '/../../' . $localesDir . '/' . $this->addPostfix($language);
-            if (is_dir($dir)) {
-                $language = $this->addPostfix($language);
-            }
-        }
-
-        return $language;
+        return LocaleFilesHelper::checkPostfixDirectory($language);
     }
 }

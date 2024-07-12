@@ -24,7 +24,7 @@
  */
 
 use oat\generis\model\OntologyRdf;
-use oat\tao\helpers\Layout;
+use oat\tao\helpers\LocaleFilesHelper;
 
 /**
  * Internationalization helper.
@@ -40,11 +40,6 @@ class tao_helpers_I18n
      * @var string
      */
     public const AVAILABLE_LANGS_CACHEKEY = 'i18n_available_langs';
-
-    /**
-     * locale postfix for New theme
-     */
-    public const LANG_POSTFIX = '-S';
 
     /**
      * Short description of attribute availableLangs
@@ -66,7 +61,7 @@ class tao_helpers_I18n
         if (empty($langCode)) {
             throw new Exception("Language is not defined");
         }
-        $langCode = self::checkPostfix($langCode);
+        $langCode = LocaleFilesHelper::checkPostfixDirectory($langCode);
 
         //init the ClearFw l10n tools
         $translations = tao_models_classes_LanguageService::singleton()->getServerBundle($langCode);
@@ -85,7 +80,7 @@ class tao_helpers_I18n
      */
     public static function getLangCode()
     {
-        return self::checkPostfix(common_session_SessionManager::getSession()->getInterfaceLanguage());
+        return LocaleFilesHelper::checkPostfixDirectory(common_session_SessionManager::getSession()->getInterfaceLanguage());
     }
 
     /**
@@ -199,42 +194,5 @@ class tao_helpers_I18n
             }
         }
         return $returnValue;
-    }
-
-    /**
-     * Check if the Solar design is enabled and the postfix has not yet been added
-     *
-     */
-    private static function isContainPostfix(string $language): bool
-    {
-        $pattern = sprintf('/%s$/', self::LANG_POSTFIX);
-
-        return !Layout::isSolarDesignEnabled() || preg_match($pattern, $language) === 1;
-    }
-
-    /**
-     * Concatenate postfix for Solar design translations
-     *
-     */
-    private static function addPostfix(string $language): string
-    {
-        return $language . self::LANG_POSTFIX;
-    }
-
-    /**
-     * Check and Add postfix for Solar design translations
-     *
-     */
-    private static function checkPostfix(string $language): string
-    {
-        if (!self::isContainPostfix($language)) {
-            $localesDir = 'views/locales';
-            $dir = dirname(__FILE__) . '/../' . $localesDir . '/' . self::addPostfix($language);
-            if (is_dir($dir)) {
-                $language = self::addPostfix($language);
-            }
-        }
-
-        return $language;
     }
 }

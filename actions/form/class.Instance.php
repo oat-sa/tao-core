@@ -25,9 +25,10 @@
 use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
-use oat\tao\helpers\Layout;
 use oat\tao\helpers\form\ElementMapFactory;
 use oat\tao\helpers\form\elements\ElementValue;
+use oat\tao\helpers\LocaleFilesHelper;
+use oat\tao\helpers\translation\SolarThemHelper;
 use oat\tao\model\form\DataProvider\FormDataProviderInterface;
 use oat\tao\model\form\DataProvider\ProxyFormDataProvider;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -45,8 +46,6 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
     use OntologyAwareTrait;
 
     public const EXCLUDED_PROPERTIES = 'excludedProperties';
-
-    public const LANG_POSTFIX = '-S';
     /**
      * Initialize the form
      *
@@ -93,7 +92,7 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
         } catch (common_exception_Error $exception) {
             $language = DEFAULT_LANG;
         }
-        $language = $this->checkPostfix($language);
+        $language = LocaleFilesHelper::checkPostfixDirectory($language);
 
         $topClass = $this->getTopClazz();
 
@@ -229,40 +228,5 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
     {
         return $element instanceof tao_helpers_form_elements_Label
             && empty($element->getRawValue());
-    }
-
-    /**
-     * Check if the Solar design is enabled and the postfix has not yet been added
-     */
-    private function isContainPostfix(string $language): bool
-    {
-        $pattern = sprintf('/%s$/', self::LANG_POSTFIX);
-
-        return !Layout::isSolarDesignEnabled() || preg_match($pattern, $language) === 1;
-    }
-
-    /**
-     * Concatenate postfix for Solar design translations
-     */
-    private function addPostfix(string $language): string
-    {
-        return $language . self::LANG_POSTFIX;
-    }
-
-    /**
-     * Check and Add postfix for Solar design translations
-     */
-    private function checkPostfix(string $language): string
-    {
-        if ($this->isContainPostfix($language)) {
-            return $language;
-        }
-        $localesDir = 'views/locales';
-        $dir = sprintf('%s/../../%s/%s', dirname(__FILE__), $localesDir, $this->addPostfix($language));
-        if (is_dir($dir)) {
-            return $this->addPostfix($language);
-        }
-
-        return $language;
     }
 }

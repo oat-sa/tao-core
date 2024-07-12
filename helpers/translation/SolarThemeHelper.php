@@ -20,18 +20,15 @@
 
 namespace oat\tao\helpers\translation;
 
+use oat\tao\helpers\LocaleFilesHelper;
+
 class SolarThemeHelper extends AbstractSolarThemeHelper
 {
     /**
      * Check and add postfix for Solar design translations
-     *
      */
     public function checkPostfix(string $language): string
     {
-        if (!$this->isContainPostfix($language)) {
-            $language = $this->addPostfix($language);
-        }
-
-        return $language;
+        return LocaleFilesHelper::checkPostfix($language);
     }
 }
