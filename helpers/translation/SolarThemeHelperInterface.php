@@ -20,11 +20,11 @@
 
 namespace oat\tao\helpers\translation;
 
-abstract class AbstractSolarThemeHelper
+interface SolarThemeHelperInterface
 {
     /**
      * Check and add postfix for Solar design translations
      *
      */
-    abstract public function checkPostfix(string $language): string;
+    public function checkPostfix(string $language): string;
 }

@@ -31,7 +31,7 @@ use oat\oatbox\session\SessionService;
 use oat\oatbox\user\UserLanguageService;
 use oat\tao\helpers\dateFormatter\DateFormatterFactory;
 use oat\tao\helpers\dateFormatter\DateFormatterInterface;
-use oat\tao\helpers\translation\AbstractSolarThemeHelper;
+use oat\tao\helpers\translation\SolarThemeHelperInterface;
 use oat\tao\helpers\translation\SolarThemeHelper;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\clientConfig\ClientConfigService;
@@ -97,7 +97,7 @@ class ClientConfigStorageTest extends TestCase
 
     private ClientConfigStorage $sut;
 
-    private AbstractSolarThemeHelper $solarThemeHelper;
+    private SolarThemeHelperInterface $solarThemeHelper;
 
     protected function setUp(): void
     {

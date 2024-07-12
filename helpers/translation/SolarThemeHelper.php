@@ -22,7 +22,7 @@ namespace oat\tao\helpers\translation;
 
 use oat\tao\helpers\LocaleFilesHelper;
 
-class SolarThemeHelper extends AbstractSolarThemeHelper
+class SolarThemeHelper implements SolarThemeHelperInterface
 {
     /**
      * Check and add postfix for Solar design translations
