@@ -380,7 +380,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     /**
      * Check the path is directory
      */
-    private function isDirectory(string $path, array $localeDir): bool
+    private function isDirectory(string $path, string $localeDir): bool
     {
         if (!isset($localeDir[0])) {
             return false;
@@ -400,7 +400,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     /**
      * Check the directory is valid
      */
-    private function isValidDirectory(string $path, array $localeDir, string $pattern): bool
+    private function isValidDirectory(string $path, string $localeDir, string $pattern): bool
     {
         return $this->isDirectory($path, $localeDir) && !LocaleFilesHelper::isPostfixApplied($localeDir, $pattern);
     }
