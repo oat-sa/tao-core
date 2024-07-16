@@ -4,6 +4,9 @@ body.solar-design {
             display: none;
         }
         li {
+            span.li-inner {
+                line-height: var(--line-height-default);
+            }
             span.glyph {
                 text-shadow: none;
             }
