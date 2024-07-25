@@ -80,4 +80,8 @@ body.solar-design {
     button[disabled] {
         border: var(--button-border) solid var(--button-disabled-border-color) !important;
     }
+
+    .result-table button[data-action=remove] .icon-bin::before {
+        @include icon-minus;
+    }
 }

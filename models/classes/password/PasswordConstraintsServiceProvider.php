@@ -28,6 +28,7 @@ use oat\oatbox\user\UserTimezoneServiceInterface;
 use oat\tao\model\user\implementation\UserSettingsService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use tao_models_classes_LanguageService;
+use tao_models_classes_UserService;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
@@ -44,6 +45,7 @@ class PasswordConstraintsServiceProvider implements ContainerServiceProviderInte
                 [
                     service(UserTimezoneServiceInterface::SERVICE_ID),
                     service(Ontology::SERVICE_ID),
+                    service(tao_models_classes_UserService::SERVICE_ID),
                 ]
             );
 
