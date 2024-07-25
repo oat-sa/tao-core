@@ -25,15 +25,16 @@ use oat\tao\model\iconBuilder\IconBuilderTrait;
  *
  * PLEASE, DO NOT EDIT THIS CLASS. IT GENERATED AUTOMATICALLY
  *
- * @access      public
- * @author      Dieter Raber, <dieter@taotesting.com>
- * @date        2024-06-27 15:30:38
- * @package     tao
+ * @access		public
+ * @author		Dieter Raber, <dieter@taotesting.com>
+ * @date		2024-07-25 13:22:54
+ * @package		tao
  */
 class tao_helpers_Icon
 {
     use IconBuilderTrait;
 
+    public const CLASS_MULTIPLE_MAGICWAND = 'icon-multiple-magicwand';
     public const CLASS_SD_IMPORT = 'icon-sd-import';
     public const CLASS_SD_EXPORT = 'icon-sd-export';
     public const CLASS_BROWSE = 'icon-browse';
@@ -271,6 +272,11 @@ class tao_helpers_Icon
     public const CLASS_HIGHLIGHTER = 'icon-highlighter';
     public const CLASS_ELIMINATE_CROSSED = 'icon-eliminate-crossed';
     public const CLASS_PLAY_FROM_HERE = 'icon-play-from-here';
+
+    public static function iconMultipleMagicwand(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_MULTIPLE_MAGICWAND, $options);
+    }
 
     public static function iconSdImport(array $options = [])
     {
