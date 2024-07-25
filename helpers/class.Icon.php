@@ -27,7 +27,7 @@ use oat\tao\model\iconBuilder\IconBuilderTrait;
  *
  * @access		public
  * @author		Dieter Raber, <dieter@taotesting.com>
- * @date		2024-07-25 13:22:54
+ * @date		2024-07-25 14:25:33
  * @package		tao
  */
 class tao_helpers_Icon
