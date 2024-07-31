@@ -988,6 +988,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
             $this->validateInstanceRoot($id);
             $this->signatureValidator->checkSignature($data['signature'], $id);
             $this->validateMoveRequest();
+            $this->validateDestinationClass($destinationClassUri, $this->getResourceParentClass($id));
 
             $result = $this->getResourceTransfer()->transfer(
                 new ResourceTransferCommand(
@@ -1013,17 +1014,19 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
                     ],
                 ]
             );
-        } catch (InvalidArgumentException $exception) {
-            $this->logError(
-                sprintf(
-                    'Error moving instance %s to %s: %s',
-                    $id ?? '',
-                    $destinationClassUri ?? '',
-                    $exception->getMessage() . ' - ' . $exception->getTraceAsString()
-                )
+        } catch (InvalidArgumentException $e) {
+            $this->returnJson(
+                [
+                    'success' => true,
+                    'data' => [
+                        'failed' => [
+                            'success' => false,
+                            'message' => $e->getMessage(),
+                        ],
+                    ],
+                ],
+                204
             );
-
-            $this->returnJsonError($e->getMessage());
         }
     }
 
@@ -1689,7 +1692,7 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     {
         $destinationClass = $this->getClass($destinationUri);
         if (empty($destinationUri) || $destinationUri === $currentClassUri || !$destinationClass->exists()) {
-            throw new InvalidArgumentException('Wrong destination class uri');
+            throw new InvalidArgumentException('The selected class already contains the resource');
         }
     }
 
@@ -1716,5 +1719,28 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
     private function getResourceTransfer(): ResourceTransferInterface
     {
         return $this->getPsrContainer()->get(ResourceTransferProxy::class);
+    }
+
+    private function getResourceParentClass(string $id): string
+    {
+        if ($this->getResource($id)->isClass()) {
+            $directParent = $this->getResource($id)->getParentClassesIds();
+            return reset($directParent);
+        }
+
+        $types = $this->getResource($id)->getTypes();
+
+        if (count($types) !== 1) {
+            throw new InvalidArgumentException('Resource has no class or resource types are ambiguous');
+        }
+
+        /** @var core_kernel_classes_Class $type */
+        $type = reset($types);
+
+        if (!($type instanceof core_kernel_classes_Class) && !$type->isClass()) {
+            throw new InvalidArgumentException('Type is not a class');
+        }
+
+        return $type->getUri();
     }
 }

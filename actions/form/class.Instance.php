@@ -95,12 +95,14 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
 
         $topClass = $this->getTopClazz();
 
-        $this->getFormDataProvider()->preloadFormData(
-            $class->getUri(),
-            $topClass->getUri(),
-            $instance->getUri(),
-            $language
-        );
+        if ($instance) {
+            $this->getFormDataProvider()->preloadFormData(
+                $class->getUri(),
+                $topClass->getUri(),
+                $instance->getUri(),
+                $language
+            );
+        }
 
         //get the list of properties to set in the form
         $propertyCandidates = tao_helpers_form_GenerisFormFactory::getDefaultProperties();
@@ -146,16 +148,18 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
             $element = $elementFactory->create($property, $language);
 
             if ($element !== null) {
-                $propertyInstanceValues = $this
-                    ->getFormDataProvider()
-                    ->getPropertyInstanceValues($property, $instance, $element);
-                foreach ($propertyInstanceValues as $valueData) {
-                    if ($this->getFormDataProvider()->isPropertyList($property)) {
-                        $element->setValue(
-                            new ElementValue(tao_helpers_Uri::encode($valueData[0]), $valueData[1])
-                        );
-                    } else {
-                        $element->setValue($valueData[0]);
+                if ($instance) {
+                    $propertyInstanceValues = $this
+                        ->getFormDataProvider()
+                        ->getPropertyInstanceValues($property, $instance, $element);
+                    foreach ($propertyInstanceValues as $valueData) {
+                        if ($this->getFormDataProvider()->isPropertyList($property)) {
+                            $element->setValue(
+                                new ElementValue(tao_helpers_Uri::encode($valueData[0]), $valueData[1])
+                            );
+                        } else {
+                            $element->setValue($valueData[0]);
+                        }
                     }
                 }
 
@@ -197,14 +201,16 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
         $classUriElt->setValue(tao_helpers_Uri::encode($class->getUri()));
         $this->form->addElement($classUriElt, true);
 
-        //add a hidden elt for the instance Uri
-        $instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
-        $instanceUriElt->setValue(tao_helpers_Uri::encode($instance->getUri()));
-        $this->form->addElement($instanceUriElt, true);
+        if ($instance) {
+            //add a hidden elt for the instance Uri
+            $instanceUriElt = tao_helpers_form_FormFactory::getElement('uri', 'Hidden');
+            $instanceUriElt->setValue(tao_helpers_Uri::encode($instance->getUri()));
+            $this->form->addElement($instanceUriElt, true);
 
-        $hiddenId = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
-        $hiddenId->setValue($instance->getUri());
-        $this->form->addElement($hiddenId, true);
+            $hiddenId = tao_helpers_form_FormFactory::getElement('id', 'Hidden');
+            $hiddenId->setValue($instance->getUri());
+            $this->form->addElement($hiddenId, true);
+        }
     }
 
     private function getElementFactory(): ElementMapFactory
