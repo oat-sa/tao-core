@@ -1,4 +1,5 @@
 /* Do not edit */[class^="icon-"], [class*=" icon-"] { @include tao-icon-setup; }
+%icon-multiple-magicwand-before, .icon-multiple-magicwand:before { @include icon-multiple-magicwand; }
 %icon-sd-import-before, .icon-sd-import:before { @include icon-sd-import; }
 %icon-sd-export-before, .icon-sd-export:before { @include icon-sd-export; }
 %icon-browse-before, .icon-browse:before { @include icon-browse; }
