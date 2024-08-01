@@ -544,7 +544,9 @@ body.solar-design {
                 background-color: var(--color-brand-light);
 
                 &.partial {
-                    background-color: var(--color-brand-light);
+                    color: var(--color-gs-dark-secondary);
+                    border-color: var(--color-gs-dark-secondary);
+                    background-color: var(--color-gs-light-alternative-bg);
                 }
             }
             .select2-search-choice-close {
@@ -701,11 +703,11 @@ body.solar-design {
     }
 
     button span.icon-save::before {
-        @include icon-sd-save;   
+        @include icon-sd-save;
     }
-    
+
     .property-adder span.icon-property-add::before {
-        @include icon-plus;   
+        @include icon-plus;
     }
 
     span.icon-import::before {
