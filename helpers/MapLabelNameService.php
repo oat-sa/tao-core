@@ -22,7 +22,6 @@
 
 class MapLabelNameService
 {
-
     private const ITEM = 'Item';
     private const MEDIA = 'Media';
     private const DELIVERY = 'Delivery';
