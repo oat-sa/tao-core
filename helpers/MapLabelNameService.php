@@ -20,7 +20,7 @@
 
  namespace oat\tao\helpers;
 
- class MapLabelNameService
+class MapLabelNameService
 {
 
     private const ITEM = 'Item';
