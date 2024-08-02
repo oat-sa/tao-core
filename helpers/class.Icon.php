@@ -27,13 +27,14 @@ use oat\tao\model\iconBuilder\IconBuilderTrait;
  *
  * @access  public
  * @author  Dieter Raber, <dieter@taotesting.com>
- * @date    2024-07-25 14:25:33
+ * @date    2024-07-31 09:47:33
  * @package tao
  */
 class tao_helpers_Icon
 {
     use IconBuilderTrait;
 
+    public const CLASS_ALIGN_CENTER = 'icon-align-center';
     public const CLASS_MULTIPLE_MAGICWAND = 'icon-multiple-magicwand';
     public const CLASS_SD_IMPORT = 'icon-sd-import';
     public const CLASS_SD_EXPORT = 'icon-sd-export';
@@ -272,6 +273,11 @@ class tao_helpers_Icon
     public const CLASS_HIGHLIGHTER = 'icon-highlighter';
     public const CLASS_ELIMINATE_CROSSED = 'icon-eliminate-crossed';
     public const CLASS_PLAY_FROM_HERE = 'icon-play-from-here';
+
+    public static function iconAlignCenter(array $options = [])
+    {
+        return self::buildIcon(self::CLASS_ALIGN_CENTER, $options);
+    }
 
     public static function iconMultipleMagicwand(array $options = [])
     {
