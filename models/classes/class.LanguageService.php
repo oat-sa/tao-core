@@ -25,6 +25,7 @@
  */
 
 use oat\generis\model\OntologyRdf;
+use oat\tao\helpers\LocaleFilesHelper;
 use oat\tao\helpers\translation\TranslationBundle;
 use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
@@ -52,6 +53,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     public const INSTANCE_ORIENTATION_LTR = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationLeftToRight';
     public const INSTANCE_ORIENTATION_RTL = 'http://www.tao.lu/Ontologies/TAO.rdf#OrientationRightToLeft';
     // --- OPERATIONS ---
+    public const LANG_POSTFIX = '-S';
 
     /**
      * Short description of method createLanguage
@@ -351,7 +353,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
      *
      * @return array of ns => files
      */
-    private function getLanguageFiles()
+    private function getLanguageFiles($pattern = null)
     {
         $extManager = $this->getServiceLocator()->get(common_ext_ExtensionsManager::SERVICE_ID);
         $localesPath = $extManager->getExtensionById('tao')->getDir() . 'locales';
@@ -363,7 +365,7 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
         $localeDirectories = scandir($localesPath);
         foreach ($localeDirectories as $localeDir) {
             $path = $localesPath . '/' . $localeDir;
-            if ($localeDir[0] != '.' && @is_dir($path)) {
+            if ($this->isValidDirectory($path, $localeDir, $pattern)) {
                 // Look if the lang.rdf can be read.
                 $languageModelFile = $path . '/lang.rdf';
                 if (@file_exists($languageModelFile) && @is_readable($languageModelFile)) {
@@ -374,6 +376,35 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
         return $files;
     }
 
+
+    /**
+     * Check the path is directory
+     */
+    private function isDirectory(string $path, string $localeDir): bool
+    {
+        if (!isset($localeDir[0])) {
+            return false;
+        }
+
+        if ($localeDir[0] == '.') {
+            return false;
+        }
+
+        if (!is_dir($path)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Check the directory is valid
+     */
+    private function isValidDirectory(string $path, string $localeDir, string $pattern): bool
+    {
+        return $this->isDirectory($path, $localeDir) && !LocaleFilesHelper::isPostfixApplied($localeDir, $pattern);
+    }
+
     /**
      * Return the definition of the languages as an RDF iterator
      * @return AppendIterator
@@ -381,7 +412,8 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
     public function getLanguageDefinition()
     {
         $model = new AppendIterator();
-        foreach ($this->getLanguageFiles() as $rdfPath) {
+        $pattern = sprintf('/%s$/', self::LANG_POSTFIX);
+        foreach ($this->getLanguageFiles($pattern) as $rdfPath) {
             $iterator = new FileIterator($rdfPath);
             $model->append($iterator->getIterator());
         }
