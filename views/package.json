@@ -13,7 +13,7 @@
         "@oat-sa/tao-core-libs": "^1.0.0",
         "@oat-sa/tao-core-sdk": "^3.1.1",
         "@oat-sa/tao-core-shared-libs": "^1.6.1",
-        "@oat-sa/tao-core-ui": "github:oat-sa/tao-core-ui-fe#feature/AUT-3769/support-centered-image",
+        "@oat-sa/tao-core-ui": "^3.6.0",
         "codemirror": "^5.54.0",
         "dompurify": "^2.4.0",
         "gamp": "0.2.1",
