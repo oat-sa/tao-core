@@ -28,12 +28,7 @@ class MapLabelNameService
     private const ASSETS = 'Assets';
 
     // New terms for isSolarDesignEnabled FF.
-    private static array $mapLabelNames = [
-        self::ITEM => 'Item',
-        self::MEDIA => 'Asset',
-        self::DELIVERY => 'Delivery',
-        self::ASSETS => 'Asset'
-    ];
+    private static array $mapLabelNames = [];
 
     public static function mapLabelName(string $labelName, bool $isSolarDesignEnabled): string
     {
