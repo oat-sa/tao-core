@@ -67,10 +67,7 @@ define(['jquery', 'layout/tree/helpers', 'i18n'], function($, helpers, __) {
 			},
 			lang : {
 				new_node	: "New folder",
-				loading		: "Loading ...",
-				"Item": __("Item"),
-				"Assembled Delivery ": __("Delivery"),
-				"Assets": __("Asset")
+				loading		: "Loading ..."
 			},
 			callback	: {
 				beforechange: function(NODE,TREE_OBJ) { return true },
