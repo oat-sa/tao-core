@@ -31,7 +31,7 @@ class LocaleFilesHelper
     {
         $pattern = sprintf('/%s$/', self::LANG_POSTFIX);
 
-        return !Layout::isSolarDesignEnabled() || preg_match($pattern, $language) === 1;
+        return preg_match($pattern, $language) === 1;
     }
 
     /**
