@@ -22,8 +22,10 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Service;
 
+use InvalidArgumentException;
 use oat\tao\model\Translation\Entity\ResourceTranslationStatus;
 use oat\tao\model\Translation\Query\ResourceTranslationStatusQuery;
+use Psr\Http\Message\ServerRequestInterface;
 
 class ResourceTranslationStatusService
 {
@@ -34,5 +36,16 @@ class ResourceTranslationStatusService
     public function getStatus(ResourceTranslationStatusQuery $query): ResourceTranslationStatus
     {
         return new ResourceTranslationStatus();
+    }
+
+    public function getStatusByRequest(ServerRequestInterface $request): ResourceTranslationStatus
+    {
+        $uri = $request->getQueryParams()['resourceUri'] ?? ($request->getServerParams()['resourceUri'] ?? null);
+
+        if (empty($uri)) {
+            throw new InvalidArgumentException('Param resourceUri is required');
+        }
+
+        return $this->getStatus(new ResourceTranslationStatusQuery($uri));
     }
 }
