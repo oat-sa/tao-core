@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\Translation\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\tao\model\Translation\Service\ResourceTranslationStatusService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
