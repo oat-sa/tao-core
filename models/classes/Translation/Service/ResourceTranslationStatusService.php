@@ -23,19 +23,23 @@ declare(strict_types=1);
 namespace oat\tao\model\Translation\Service;
 
 use InvalidArgumentException;
+use oat\generis\model\data\Ontology;
 use oat\tao\model\Translation\Entity\ResourceTranslationStatus;
 use oat\tao\model\Translation\Query\ResourceTranslationStatusQuery;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ResourceTranslationStatusService
 {
-    public function __construct()
+    private Ontology $ontology;
+
+    public function __construct(Ontology $ontology)
     {
+        $this->ontology = $ontology;
     }
 
     public function getStatus(ResourceTranslationStatusQuery $query): ResourceTranslationStatus
     {
-        return new ResourceTranslationStatus();
+        return new ResourceTranslationStatus($query->getOriginResourceId());
     }
 
     public function getStatusByRequest(ServerRequestInterface $request): ResourceTranslationStatus

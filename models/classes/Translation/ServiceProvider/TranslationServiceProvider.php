@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\ServiceProvider;
 
+use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\Translation\Service\ResourceTranslationStatusService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -38,6 +39,11 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
     {
         $services = $configurator->services();
         $services->set(ResourceTranslationStatusService::class, ResourceTranslationStatusService::class)
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
+                ]
+            )
             ->public();
     }
 }

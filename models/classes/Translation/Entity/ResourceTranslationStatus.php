@@ -26,16 +26,24 @@ use JsonSerializable;
 
 class ResourceTranslationStatus implements JsonSerializable
 {
-    private array $translations = [];
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_TRANSLATING = 'translating';
+    public const STATUS_TRANSLATED = 'translated';
 
-    public function __construct()
+    private array $translations = [];
+    private string $originResourceUri;
+
+
+    public function __construct(string $originResourceUri)
     {
+        $this->originResourceUri = $originResourceUri;
     }
 
     public function addTranslation(string $locale, string $status, string $resourceUri): void
     {
-        $this->translations[$locale] = [
+        $this->translations[] = [
             'status' => $status,
+            'locale' => $locale,
             'resourceUri' => $resourceUri
         ];
     }
@@ -45,9 +53,15 @@ class ResourceTranslationStatus implements JsonSerializable
         return $this->translations;
     }
 
+    public function getOriginResourceUri(): string
+    {
+        return $this->originResourceUri;
+    }
+
     public function jsonSerialize(): array
     {
         return [
+            'originResourceUri' => $this->originResourceUri,
             'translations' => $this->translations
         ];
     }
