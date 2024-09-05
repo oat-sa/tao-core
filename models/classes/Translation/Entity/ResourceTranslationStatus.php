@@ -26,10 +26,6 @@ use JsonSerializable;
 
 class ResourceTranslationStatus implements JsonSerializable
 {
-    public const STATUS_PENDING = 'pending';
-    public const STATUS_TRANSLATING = 'translating';
-    public const STATUS_TRANSLATED = 'translated';
-
     private array $translations = [];
     private string $originResourceUri;
 

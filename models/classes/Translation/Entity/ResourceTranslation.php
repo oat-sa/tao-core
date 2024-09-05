@@ -39,4 +39,14 @@ interface ResourceTranslation
 
     public const PROPERTY_UNIQUE_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAO.rdf#UniqueIdentifier';
     public const PROPERTY_LANGUAGE = 'http://www.tao.lu/Ontologies/TAO.rdf#Language';
+
+    public const PROGRESS_PENDING = 'pending';
+    public const PROGRESS_TRANSLATING = 'translating';
+    public const PROGRESS_TRANSLATED = 'translated';
+
+    public const PROGRESS_MAPPING = [
+        self::PROPERTY_VALUE_TRANSLATION_PROGRESS_PENDING => self::PROGRESS_PENDING,
+        self::PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATING => self::PROGRESS_TRANSLATING,
+        self::PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATED => self::PROGRESS_TRANSLATED,
+    ];
 }

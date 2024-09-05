@@ -24,6 +24,7 @@ namespace oat\tao\model\Translation\ServiceProvider;
 
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
+use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\tao\model\Translation\Service\ResourceTranslationStatusService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -42,6 +43,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(Ontology::SERVICE_ID),
+                    service(ComplexSearchService::SERVICE_ID),
                 ]
             )
             ->public();
