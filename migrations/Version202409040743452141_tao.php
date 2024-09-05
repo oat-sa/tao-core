@@ -21,8 +21,10 @@ final class Version202409040743452141_tao extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        AclProxy::applyRule($this->getRule());
+        OntologyUpdater::syncModels();
+        $this->addReport(Report::createSuccess('Ontology models successfully synchronized'));
 
+        AclProxy::applyRule($this->getRule());
         $this->addReport(Report::createSuccess('Applied access for role ' . TaoRoles::BACK_OFFICE));
     }
 
