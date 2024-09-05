@@ -356,11 +356,11 @@
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation]]></rdfs:comment>
   </rdf:Description>
 
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Identifier">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#UniqueIdentifier">
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:domain rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[Identifier]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Identifier]]></rdfs:comment>
+    <rdfs:label xml:lang="en-US"><![CDATA[Unique Identifier]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Unique Identifier]]></rdfs:comment>
     <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
     <tao:TAOGUIOrder><![CDATA[2000]]></tao:TAOGUIOrder>
   </rdf:Description>
