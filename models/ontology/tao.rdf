@@ -345,12 +345,12 @@
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationOriginal">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeOriginal">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationType"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Original]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Original]]></rdfs:comment>
   </rdf:Description>
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTranslation">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeTranslation">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationType"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Translation]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation]]></rdfs:comment>
