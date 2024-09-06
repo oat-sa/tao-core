@@ -25,41 +25,17 @@ namespace oat\tao\model\Translation\Entity;
 use ArrayIterator;
 use JsonSerializable;
 
-class ResourceTranslationCollection extends ArrayIterator implements JsonSerializable
+class ResourceTranslatableCollection extends ArrayIterator implements JsonSerializable
 {
-    private string $originResourceUri;
-    private string $uniqueId;
-
-
-    public function __construct(string $originResourceUri, string $uniqueId)
+    public function __construct(ResourceTranslatable ...$resources)
     {
-        parent::__construct();
-
-        $this->originResourceUri = $originResourceUri;
-        $this->uniqueId = $uniqueId;
-    }
-
-    public function addTranslation(ResourceTranslation $resourceTranslation): void
-    {
-        $this->append($resourceTranslation);
-    }
-
-    public function getOriginResourceUri(): string
-    {
-        return $this->originResourceUri;
-    }
-
-    public function getUniqueId(): string
-    {
-        return $this->uniqueId;
+        parent::__construct($resources);
     }
 
     public function jsonSerialize(): array
     {
         return [
-            'originResourceUri' => $this->getOriginResourceUri(),
-            'uniqueId' => $this->getUniqueId(),
-            'translations' => $this->getArrayCopy()
+            'resources' => $this->getArrayCopy()
         ];
     }
 }

@@ -26,9 +26,8 @@ use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceTranslatable;
-use oat\tao\model\Translation\Entity\ResourceTranslation;
 
-class ResourceTranslationFactory
+class ResourceTranslatableFactory
 {
     private Ontology $ontology;
 
@@ -37,26 +36,28 @@ class ResourceTranslationFactory
         $this->ontology = $ontology;
     }
 
-    public function create(
-        ResourceTranslatable $originResource,
-        core_kernel_classes_Resource $translationResource,
-    ): ResourceTranslation {
+    public function create(core_kernel_classes_Resource $originResource): ResourceTranslatable
+    {
+        $progressProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_STATUS);
+
+        /** @var core_kernel_classes_Resource $progress */
+        $progress = $originResource->getUniquePropertyValue($progressProperty);
+
+        $uniqueId = $originResource->getUniquePropertyValue(
+            $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
+        );
+
         $valueProperty = $this->ontology->getProperty('http://www.w3.org/1999/02/22-rdf-syntax-ns#value');
-        $progressProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_PROGRESS);
         $languageProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_LANGUAGE);
 
         /** @var core_kernel_classes_Resource $language */
-        $language = $translationResource->getUniquePropertyValue($languageProperty);
+        $language = $originResource->getUniquePropertyValue($languageProperty);
         $languageCode = $language->getUniquePropertyValue($valueProperty);
-
-        /** @var core_kernel_classes_Resource $progress */
-        $progress = $translationResource->getUniquePropertyValue($progressProperty);
-
-        return new ResourceTranslation(
-            $originResource->getResourceUri(),
-            $translationResource->getUri(),
-            $translationResource->getLabel(),
-            ResourceTranslation::PROGRESS_MAPPING[$progress->getUri()],
+        
+        return new ResourceTranslatable(
+            $originResource->getUri(),
+            (string)$uniqueId,
+            ResourceTranslatable::STATUS_MAPPING[$progress->getUri()],
             $progress->getUri(),
             (string)$languageCode,
             $language->getUri()

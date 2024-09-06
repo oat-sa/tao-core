@@ -26,12 +26,14 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\oatbox\log\LoggerService;
+use oat\tao\model\Translation\Factory\ResourceTranslatableFactory;
 use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
+use oat\tao\model\Translation\Repository\ResourceTranslatableRepository;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
+use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 /**
@@ -47,8 +49,18 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 [
                     service(Ontology::SERVICE_ID),
                     service(ComplexSearchService::SERVICE_ID),
+                    service(ResourceTranslatableRepository::class),
                     service(ResourceTranslationFactory::class),
                     service(LoggerService::SERVICE_ID),
+                ]
+            );
+
+        $services->set(ResourceTranslatableRepository::class, ResourceTranslatableRepository::class)
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
+                    service(ComplexSearchService::SERVICE_ID),
+                    service(ResourceTranslatableFactory::class)
                 ]
             );
 
@@ -59,10 +71,25 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 ]
             );
 
+        $services->set(ResourceTranslatableFactory::class, ResourceTranslatableFactory::class)
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID)
+                ]
+            );
+
         $services->set(ResourceTranslationRetriever::class, ResourceTranslationRetriever::class)
             ->args(
                 [
                     service(ResourceTranslationRepository::class)
+                ]
+            )
+            ->public();
+
+        $services->set(ResourceTranslatableRetriever::class, ResourceTranslatableRetriever::class)
+            ->args(
+                [
+                    service(ResourceTranslatableRepository::class)
                 ]
             )
             ->public();

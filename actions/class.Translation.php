@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
+use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
 
 class tao_actions_Translation extends tao_actions_CommonModule
 {
@@ -38,8 +39,24 @@ class tao_actions_Translation extends tao_actions_CommonModule
         }
     }
 
+    public function translatable(): void
+    {
+        try {
+            $this->setSuccessJsonResponse(
+                $this->getResourceTranslatableRetriever()->getByRequest($this->getPsrRequest())
+            );
+        } catch (Throwable $exception) {
+            $this->setErrorJsonResponse($exception->getMessage());
+        }
+    }
+
     private function getResourceTranslationRetriever(): ResourceTranslationRetriever
     {
         return $this->getServiceManager()->getContainer()->get(ResourceTranslationRetriever::class);
+    }
+
+    private function getResourceTranslatableRetriever(): ResourceTranslatableRetriever
+    {
+        return $this->getServiceManager()->getContainer()->get(ResourceTranslatableRetriever::class);
     }
 }

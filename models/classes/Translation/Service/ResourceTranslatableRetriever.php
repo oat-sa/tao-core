@@ -23,40 +23,36 @@ declare(strict_types=1);
 namespace oat\tao\model\Translation\Service;
 
 use InvalidArgumentException;
-use oat\tao\model\Translation\Entity\ResourceTranslationCollection;
-use oat\tao\model\Translation\Query\ResourceTranslationQuery;
-use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
+use oat\tao\model\Translation\Entity\ResourceTranslatableCollection;
+use oat\tao\model\Translation\Query\ResourceTranslatableQuery;
+use oat\tao\model\Translation\Repository\ResourceTranslatableRepository;
 use Psr\Http\Message\ServerRequestInterface;
 
-class ResourceTranslationRetriever
+class ResourceTranslatableRetriever
 {
-    private ResourceTranslationRepository $resourceTranslationRepository;
+    private ResourceTranslatableRepository $resourceTranslatableRepository;
 
-    public function __construct(ResourceTranslationRepository $resourceTranslationRepository)
+    public function __construct(ResourceTranslatableRepository $resourceTranslationRepository)
     {
-        $this->resourceTranslationRepository = $resourceTranslationRepository;
+        $this->resourceTranslatableRepository = $resourceTranslationRepository;
     }
 
-    public function getByRequest(ServerRequestInterface $request): ResourceTranslationCollection
+    public function getByRequest(ServerRequestInterface $request): ResourceTranslatableCollection
     {
         $queryParams = $request->getQueryParams();
         $resourceType = $queryParams['resourceType'] ?? null;
-        $resourceUri = $queryParams['resourceUri'] ?? null;
-        $languageUri = $queryParams['languageUri'] ?? null;
+        $resourceUris = $queryParams['resourceUris'] ?? [];
+        $uniqueIds = $queryParams['uniqueIds'] ?? [];
 
         if (empty($resourceType)) {
             throw new InvalidArgumentException('Param resourceType is required');
         }
 
-        if (empty($resourceUri)) {
-            throw new InvalidArgumentException('Param resourceUri is required');
-        }
-
-        return $this->resourceTranslationRepository->find(
-            new ResourceTranslationQuery(
+        return $this->resourceTranslatableRepository->find(
+            new ResourceTranslatableQuery(
                 $resourceType,
-                $resourceUri,
-                $languageUri
+                $resourceUris,
+                $uniqueIds
             )
         );
     }

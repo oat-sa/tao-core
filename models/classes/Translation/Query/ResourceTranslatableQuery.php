@@ -22,17 +22,17 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Query;
 
-class ResourceTranslationQuery
+class ResourceTranslatableQuery
 {
     private string $resourceType;
-    private string $originResourceId;
-    private ?string $languageUri;
+    private array $resourceIds;
+    private array $uniqueIds;
 
-    public function __construct(string $resourceType, string $originResourceId, string $languageUri = null)
+    public function __construct(string $resourceType, array $resourceIds = [], array $uniqueIds = [])
     {
         $this->resourceType = $resourceType;
-        $this->originResourceId = $originResourceId;
-        $this->languageUri = $languageUri;
+        $this->resourceIds = $resourceIds;
+        $this->uniqueIds = $uniqueIds;
     }
 
     public function getResourceType(): string
@@ -40,13 +40,13 @@ class ResourceTranslationQuery
         return $this->resourceType;
     }
     
-    public function getOriginResourceId(): string
+    public function getResourceIds(): array
     {
-        return $this->originResourceId;
+        return $this->resourceIds;
     }
 
-    public function getLanguageUri(): ?string
+    public function getUniqueIds(): array
     {
-        return $this->languageUri;
+        return $this->uniqueIds;
     }
 }
