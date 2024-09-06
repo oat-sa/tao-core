@@ -22,7 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Entity;
 
-interface ResourceTranslation
+use JsonSerializable;
+
+class ResourceTranslation implements JsonSerializable
 {
     public const PROPERTY_TRANSLATION_TYPE = 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationType';
     public const PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL = 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeOriginal';
@@ -49,4 +51,78 @@ interface ResourceTranslation
         self::PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATING => self::PROGRESS_TRANSLATING,
         self::PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATED => self::PROGRESS_TRANSLATED,
     ];
+
+    private string $originResourceUri;
+    private string $resourceUri;
+    private string $resourceLabel;
+    private string $progress;
+    private string $progressUri;
+    private string $languageCode;
+    private string $languageUri;
+
+    public function __construct(
+        string $originResourceUri,
+        string $resourceUri,
+        string $resourceLabel,
+        string $progress,
+        string $progressUri,
+        string $languageCode,
+        string $languageUri
+    ) {
+        $this->originResourceUri = $originResourceUri;
+        $this->resourceUri = $resourceUri;
+        $this->resourceLabel = $resourceLabel;
+        $this->progress = $progress;
+        $this->progressUri = $progressUri;
+        $this->languageCode = $languageCode;
+        $this->languageUri = $languageUri;
+    }
+
+    public function getOriginResourceUri(): string
+    {
+        return $this->originResourceUri;
+    }
+
+    public function getResourceUri(): string
+    {
+        return $this->resourceUri;
+    }
+
+    public function getResourceLabel(): string
+    {
+        return $this->resourceLabel;
+    }
+
+    public function getProgress(): string
+    {
+        return $this->progress;
+    }
+
+    public function getProgressUri(): string
+    {
+        return $this->progressUri;
+    }
+
+    public function getLanguageCode(): string
+    {
+        return $this->languageCode;
+    }
+
+    public function getLanguageUri(): string
+    {
+        return $this->languageUri;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'originResourceUri' => $this->getOriginResourceUri(),
+            'resourceUri' => $this->getResourceUri(),
+            'resourceLabel' => $this->getResourceLabel(),
+            'languageCode' => $this->getLanguageCode(),
+            'languageUri' => $this->getLanguageUri(),
+            'progress' => $this->getProgress(),
+            'progressUri' => $this->getProgressUri(),
+        ];
+    }
 }

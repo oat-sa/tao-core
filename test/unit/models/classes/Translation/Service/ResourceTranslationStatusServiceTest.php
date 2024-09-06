@@ -25,14 +25,14 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Translation\Service;
 
 use oat\generis\model\data\Ontology;
-use oat\tao\model\Translation\Query\ResourceTranslationStatusQuery;
-use oat\tao\model\Translation\Service\ResourceTranslationStatusService;
+use oat\tao\model\Translation\Query\ResourceTranslationQuery;
+use oat\tao\model\Translation\Service\ResourceTranslationRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ResourceTranslationStatusServiceTest extends TestCase
 {
-    /** @var ResourceTranslationStatusService */
+    /** @var ResourceTranslationRepository */
     private $sut;
 
     /** @var Ontology|MockObject */
@@ -42,12 +42,12 @@ class ResourceTranslationStatusServiceTest extends TestCase
     {
         $this->ontology = $this->createMock(Ontology::class);
 
-        $this->sut = new ResourceTranslationStatusService($this->ontology);
+        $this->sut = new ResourceTranslationRepository($this->ontology);
     }
 
     public function testGetStatus(): void
     {
-        $status = $this->sut->getStatus(new ResourceTranslationStatusQuery('abc123'));
+        $status = $this->sut->find(new ResourceTranslationQuery('abc123'));
 
         $this->assertSame(
             [

@@ -20,21 +20,10 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Translation\Query;
+namespace oat\tao\model\Translation\Entity;
 
-use JsonSerializable;
+use oat\tao\model\exceptions\UserErrorException;
 
-class ResourceTranslationStatusQuery
+class ResourceTranslationException extends UserErrorException
 {
-    private string $originResourceId;
-
-    public function __construct(string $originResourceId)
-    {
-        $this->originResourceId = $originResourceId;
-    }
-
-    public function getOriginResourceId(): string
-    {
-        return $this->originResourceId;
-    }
 }

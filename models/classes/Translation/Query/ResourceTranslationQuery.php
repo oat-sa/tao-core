@@ -20,26 +20,26 @@
 
 declare(strict_types=1);
 
-use oat\tao\model\http\HttpJsonResponseTrait;
-use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
+namespace oat\tao\model\Translation\Query;
 
-class tao_actions_Translation extends tao_actions_CommonModule
+class ResourceTranslationQuery
 {
-    use HttpJsonResponseTrait;
+    private string $originResourceId;
+    private ?string $languageUri;
 
-    public function translations(): void
+    public function __construct(string $originResourceId, string $languageUri = null)
     {
-        try {
-            $this->setSuccessJsonResponse(
-                $this->getResourceTranslationRetriever()->getByRequest($this->getPsrRequest())
-            );
-        } catch (Throwable $exception) {
-            $this->setErrorJsonResponse($exception->getMessage());
-        }
+        $this->originResourceId = $originResourceId;
+        $this->languageUri = $languageUri;
     }
 
-    private function getResourceTranslationRetriever(): ResourceTranslationRetriever
+    public function getOriginResourceId(): string
     {
-        return $this->getServiceManager()->getContainer()->get(ResourceTranslationRetriever::class);
+        return $this->originResourceId;
+    }
+
+    public function getLanguageUri(): ?string
+    {
+        return $this->languageUri;
     }
 }

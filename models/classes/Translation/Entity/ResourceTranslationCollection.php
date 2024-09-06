@@ -24,7 +24,7 @@ namespace oat\tao\model\Translation\Entity;
 
 use JsonSerializable;
 
-class ResourceTranslationStatus implements JsonSerializable
+class ResourceTranslationCollection implements JsonSerializable
 {
     private array $translations = [];
     private string $originResourceUri;
@@ -35,13 +35,9 @@ class ResourceTranslationStatus implements JsonSerializable
         $this->originResourceUri = $originResourceUri;
     }
 
-    public function addTranslation(string $locale, string $status, string $resourceUri): void
+    public function addTranslation(ResourceTranslation $resourceTranslation): void
     {
-        $this->translations[] = [
-            'status' => $status,
-            'locale' => $locale,
-            'resourceUri' => $resourceUri
-        ];
+        $this->translations[] = $resourceTranslation;
     }
 
     public function getTranslations(): array
@@ -57,8 +53,8 @@ class ResourceTranslationStatus implements JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'originResourceUri' => $this->originResourceUri,
-            'translations' => $this->translations
+            'originResourceUri' => $this->getOriginResourceUri(),
+            'translations' => $this->getTranslations()
         ];
     }
 }

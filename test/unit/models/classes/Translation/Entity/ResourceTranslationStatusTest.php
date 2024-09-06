@@ -24,24 +24,24 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Translation\Entity;
 
-use oat\tao\model\Translation\Entity\ResourceTranslationStatus;
+use oat\tao\model\Translation\Entity\ResourceTranslation;
 use PHPUnit\Framework\TestCase;
 
 class ResourceTranslationStatusTest extends TestCase
 {
-    /** @var ResourceTranslationStatus */
+    /** @var ResourceTranslation */
     private $sut;
 
     public function setUp(): void
     {
-        $this->sut = new ResourceTranslationStatus('myResourceUri');
+        $this->sut = new ResourceTranslation('myResourceUri');
     }
 
     public function testGetStatus(): void
     {
-        $this->sut->addTranslation('en-US', ResourceTranslationStatus::STATUS_PENDING, 'uri1');
-        $this->sut->addTranslation('fr-FR', ResourceTranslationStatus::STATUS_TRANSLATING, 'uri2');
-        $this->sut->addTranslation('de-DE', ResourceTranslationStatus::STATUS_TRANSLATED, 'uri3');
+        $this->sut->addTranslation('en-US', ResourceTranslation::STATUS_PENDING, 'uri1');
+        $this->sut->addTranslation('fr-FR', ResourceTranslation::STATUS_TRANSLATING, 'uri2');
+        $this->sut->addTranslation('de-DE', ResourceTranslation::STATUS_TRANSLATED, 'uri3');
 
         $this->assertSame(
             [

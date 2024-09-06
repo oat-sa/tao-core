@@ -25,7 +25,10 @@ namespace oat\tao\model\Translation\ServiceProvider;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
-use oat\tao\model\Translation\Service\ResourceTranslationStatusService;
+use oat\oatbox\log\LoggerService;
+use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
+use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
+use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
@@ -39,11 +42,27 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
-        $services->set(ResourceTranslationStatusService::class, ResourceTranslationStatusService::class)
+        $services->set(ResourceTranslationRepository::class, ResourceTranslationRepository::class)
             ->args(
                 [
                     service(Ontology::SERVICE_ID),
                     service(ComplexSearchService::SERVICE_ID),
+                    service(ResourceTranslationFactory::class),
+                    service(LoggerService::SERVICE_ID),
+                ]
+            );
+
+        $services->set(ResourceTranslationFactory::class, ResourceTranslationFactory::class)
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID)
+                ]
+            );
+
+        $services->set(ResourceTranslationRetriever::class, ResourceTranslationRetriever::class)
+            ->args(
+                [
+                    service(ResourceTranslationRepository::class)
                 ]
             )
             ->public();
