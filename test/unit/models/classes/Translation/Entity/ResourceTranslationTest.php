@@ -27,42 +27,35 @@ namespace oat\tao\test\unit\model\Translation\Entity;
 use oat\tao\model\Translation\Entity\ResourceTranslation;
 use PHPUnit\Framework\TestCase;
 
-class ResourceTranslationStatusTest extends TestCase
+class ResourceTranslationTest extends TestCase
 {
     /** @var ResourceTranslation */
     private $sut;
 
     public function setUp(): void
     {
-        $this->sut = new ResourceTranslation('myResourceUri');
+        $this->sut = new ResourceTranslation(
+            'originResourceUri',
+            'resourceUri',
+            'resourceLabel',
+            'progress',
+            'progressUri',
+            'languageCode',
+            'languageUri',
+        );
     }
 
-    public function testGetStatus(): void
+    public function testGetters(): void
     {
-        $this->sut->addTranslation('en-US', ResourceTranslation::STATUS_PENDING, 'uri1');
-        $this->sut->addTranslation('fr-FR', ResourceTranslation::STATUS_TRANSLATING, 'uri2');
-        $this->sut->addTranslation('de-DE', ResourceTranslation::STATUS_TRANSLATED, 'uri3');
-
         $this->assertSame(
             [
-                'originResourceUri' => 'myResourceUri',
-                'translations' => [
-                    [
-                        'status' => 'pending',
-                        'locale' => 'en-US',
-                        'resourceUri' => 'uri1',
-                    ],
-                    [
-                        'status' => 'translating',
-                        'locale' => 'fr-FR',
-                        'resourceUri' => 'uri2'
-                    ],
-                    [
-                        'status' => 'translated',
-                        'locale' => 'de-DE',
-                        'resourceUri' => 'uri3'
-                    ]
-                ],
+                'originResourceUri' => 'originResourceUri',
+                'resourceUri' => 'resourceUri',
+                'resourceLabel' => 'resourceLabel',
+                'languageCode' => 'languageCode',
+                'languageUri' => 'languageUri',
+                'progress' => 'progress',
+                'progressUri' => 'progressUri',
             ],
             $this->sut->jsonSerialize()
         );

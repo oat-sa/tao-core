@@ -45,16 +45,16 @@ class ResourceTranslatable implements JsonSerializable
     public function __construct(
         string $resourceUri,
         string $uniqueId,
-        string $progress,
-        string $progressUri,
+        string $status,
+        string $statusUri,
         string $languageCode,
         string $languageUri
     )
     {
         $this->resourceUri = $resourceUri;
         $this->uniqueId = $uniqueId;
-        $this->status = $progress;
-        $this->statusUri = $progressUri;
+        $this->status = $status;
+        $this->statusUri = $statusUri;
         $this->languageCode = $languageCode;
         $this->languageUri = $languageUri;
     }
