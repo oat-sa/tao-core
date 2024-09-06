@@ -27,6 +27,7 @@ use Exception;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\search\helper\SupportedOperatorHelper;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceTranslation;
 use oat\tao\model\Translation\Entity\ResourceTranslationCollection;
 use oat\tao\model\Translation\Entity\ResourceTranslationException;
@@ -64,9 +65,9 @@ class ResourceTranslationRepository
         }
 
         /** @var core_kernel_classes_Resource $translationType */
-        $translationType = $originResource->getUniquePropertyValue($this->ontology->getProperty(ResourceTranslation::PROPERTY_TRANSLATION_TYPE));
+        $translationType = $originResource->getUniquePropertyValue($this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_TYPE));
 
-        if ($translationType->getUri() !== ResourceTranslation::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL) {
+        if ($translationType->getUri() !== TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL) {
             throw new ResourceTranslationException(
                 sprintf('Translation Origin Resource %s it not the original', $originResourceId)
             );
@@ -74,7 +75,7 @@ class ResourceTranslationRepository
 
         $output = new ResourceTranslationCollection($originResourceId);
         $uniqueId = $originResource->getUniquePropertyValue(
-            $this->ontology->getProperty(ResourceTranslation::PROPERTY_UNIQUE_IDENTIFIER)
+            $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
         );
 
         $queryBuilder = $this->complexSearch->query();
@@ -84,19 +85,19 @@ class ResourceTranslationRepository
             true
         );
         $searchQuery->addCriterion(
-            ResourceTranslation::PROPERTY_TRANSLATION_TYPE,
+            TaoOntology::PROPERTY_TRANSLATION_TYPE,
             SupportedOperatorHelper::EQUAL,
-            ResourceTranslation::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION
+            TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION
         );
         $searchQuery->addCriterion(
-            ResourceTranslation::PROPERTY_UNIQUE_IDENTIFIER,
+            TaoOntology::PROPERTY_UNIQUE_IDENTIFIER,
             SupportedOperatorHelper::EQUAL,
             $uniqueId
         );
         
         if ($query->getLanguageUri()) {
             $searchQuery->addCriterion(
-                ResourceTranslation::PROPERTY_LANGUAGE,
+                TaoOntology::PROPERTY_LANGUAGE,
                 SupportedOperatorHelper::EQUAL,
                 $query->getLanguageUri()
             );    

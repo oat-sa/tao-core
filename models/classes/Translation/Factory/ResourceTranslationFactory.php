@@ -24,6 +24,7 @@ namespace oat\tao\model\Translation\Factory;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceTranslation;
 
 class ResourceTranslationFactory
@@ -40,8 +41,8 @@ class ResourceTranslationFactory
         core_kernel_classes_Resource $translationResource,
     ): ResourceTranslation {
         $valueProperty = $this->ontology->getProperty('http://www.w3.org/1999/02/22-rdf-syntax-ns#value');
-        $progressProperty = $this->ontology->getProperty(ResourceTranslation::PROPERTY_TRANSLATION_PROGRESS);
-        $languageProperty = $this->ontology->getProperty(ResourceTranslation::PROPERTY_LANGUAGE);
+        $progressProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_PROGRESS);
+        $languageProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_LANGUAGE);
 
         /** @var core_kernel_classes_Resource $language */
         $language = $translationResource->getUniquePropertyValue($languageProperty);
