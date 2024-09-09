@@ -343,7 +343,7 @@
   <!--
   Metadata required for translation process.
   Only available via feature flag "FEATURE_TRANSLATION_ENABLED"
-  
+
   ATTENTION: Please link these metadata with resources on the specific extensions
   -->
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationType">
@@ -403,7 +403,7 @@
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Unique Identifier]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Unique Identifier]]></rdfs:comment>
-    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly"/>
     <tao:TAOGUIOrder><![CDATA[2000]]></tao:TAOGUIOrder>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Language">

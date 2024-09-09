@@ -26,8 +26,10 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\oatbox\log\LoggerService;
+use oat\tao\model\form\Modifier\FormModifierManager;
 use oat\tao\model\Translation\Factory\ResourceTranslatableFactory;
 use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
+use oat\tao\model\Translation\Form\Modifier\EditTranslationInstanceFormModifier;
 use oat\tao\model\Translation\Repository\ResourceTranslatableRepository;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
@@ -93,5 +95,21 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 ]
             )
             ->public();
+
+        $services
+            ->set(EditTranslationInstanceFormModifier::class, EditTranslationInstanceFormModifier::class)
+            ->args([
+                service(Ontology::SERVICE_ID)
+            ]);
+
+        $formModifierManager = $services->get(FormModifierManager::class);
+        $formModifierManager
+            ->call(
+                'add',
+                [
+                    service(EditTranslationInstanceFormModifier::class),
+                    EditTranslationInstanceFormModifier::ID,
+                ]
+            );
     }
 }
