@@ -521,11 +521,13 @@ class tao_actions_Main extends tao_actions_CommonModule
         $sections = [];
         $user = $this->getSession()->getUser();
         $structure = MenuService::getPerspective($shownExtension, $shownStructure);
+        $sectionVisibilityFilter = $this->getSectionVisibilityFilter();
+
         if (!is_null($structure)) {
             foreach ($structure->getChildren() as $section) {
                 $resolver = new ActionResolver($section->getUrl());
 
-                if (!$this->getSectionVisibilityFilter()->isVisible($section->getId())) {
+                if (!$sectionVisibilityFilter->isVisible($section->getId())) {
                     continue;
                 }
 
@@ -540,6 +542,19 @@ class tao_actions_Main extends tao_actions_CommonModule
 
                 if (FuncProxy::accessPossible($user, $resolver->getController(), $resolver->getAction())) {
                     foreach ($section->getActions() as $action) {
+                        $sectionPath = $sectionVisibilityFilter->createSectionPath(
+                            [
+                                $section->getId(),
+                                $action->getId()
+                            ]
+                        );
+
+                        if (!$sectionVisibilityFilter->isVisible($sectionPath)) {
+                            $section->removeAction($action);
+
+                            continue;
+                        }
+
                         $this->propagate($action);
                         $resolver = new ActionResolver($action->getUrl());
                         if (
@@ -580,7 +595,7 @@ class tao_actions_Main extends tao_actions_CommonModule
         return $this->getServiceLocator()->get(tao_models_classes_UserService::SERVICE_ID);
     }
 
-    private function getSectionVisibilityFilter(): SectionVisibilityFilterInterface
+    private function getSectionVisibilityFilter(): SectionVisibilityFilter
     {
         if (empty($this->sectionVisibilityFilter)) {
             $this->sectionVisibilityFilter = $this->getServiceLocator()->get(SectionVisibilityFilter::SERVICE_ID);
