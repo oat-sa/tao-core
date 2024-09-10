@@ -25,9 +25,9 @@ namespace oat\tao\model\Translation\Entity;
 use ArrayIterator;
 use JsonSerializable;
 
-class ResourceTranslatableCollection extends ArrayIterator implements JsonSerializable
+class ResourceCollection extends ArrayIterator implements JsonSerializable
 {
-    public function __construct(ResourceTranslatable ...$resources)
+    public function __construct(AbstractResource ...$resources)
     {
         parent::__construct($resources);
     }

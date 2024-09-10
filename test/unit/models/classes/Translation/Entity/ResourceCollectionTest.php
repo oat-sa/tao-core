@@ -24,17 +24,16 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Translation\Entity;
 
-use oat\tao\model\Translation\Entity\ResourceTranslatableCollection;
+use oat\tao\model\Translation\Entity\ResourceCollection;
 use PHPUnit\Framework\TestCase;
 
-class ResourceTranslatableCollectionTest extends TestCase
+class ResourceCollectionTest extends TestCase
 {
-    /** @var ResourceTranslatableCollection */
-    private $sut;
+    private ResourceCollection $sut;
 
     public function setUp(): void
     {
-        $this->sut = new ResourceTranslatableCollection(...[]);
+        $this->sut = new ResourceCollection(...[]);
     }
 
     public function testGetters(): void

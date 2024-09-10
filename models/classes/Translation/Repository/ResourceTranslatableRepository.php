@@ -27,7 +27,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\TaoOntology;
-use oat\tao\model\Translation\Entity\ResourceTranslatableCollection;
+use oat\tao\model\Translation\Entity\ResourceCollection;
 use oat\tao\model\Translation\Factory\ResourceTranslatableFactory;
 use oat\tao\model\Translation\Query\ResourceTranslatableQuery;
 
@@ -47,7 +47,7 @@ class ResourceTranslatableRepository
         $this->ontology = $ontology;
     }
 
-    public function find(ResourceTranslatableQuery $query): ResourceTranslatableCollection
+    public function find(ResourceTranslatableQuery $query): ResourceCollection
     {
         $queryBuilder = $this->complexSearch->query();
         $searchQuery = $this->complexSearch->searchType(
@@ -85,6 +85,6 @@ class ResourceTranslatableRepository
             $output[] = $this->factory->create($resource);
         }
 
-        return new ResourceTranslatableCollection(...$output);
+        return new ResourceCollection(...$output);
     }
 }

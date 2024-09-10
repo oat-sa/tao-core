@@ -25,10 +25,13 @@ namespace oat\tao\model\Translation\Entity;
 use JsonSerializable;
 use oat\tao\model\TaoOntology;
 
-class ResourceTranslatable implements JsonSerializable
+abstract class AbstractResource implements JsonSerializable
 {
-    use ResourceMetadataTrait;
-
+    private array $metadataUris = [
+        TaoOntology::PROPERTY_UNIQUE_IDENTIFIER,
+        TaoOntology::PROPERTY_LANGUAGE
+    ];
+    private array $metadata = [];
     private string $resourceUri;
     private string $resourceLabel;
 
@@ -47,15 +50,10 @@ class ResourceTranslatable implements JsonSerializable
     {
         return $this->resourceLabel;
     }
-
+    
     public function getUniqueId(): ?string
     {
         return $this->getMetadataValue(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
-    }
-
-    public function getStatusUri(): ?string
-    {
-        return $this->getMetadataValue(TaoOntology::PROPERTY_TRANSLATION_STATUS);
     }
 
     public function getLanguageCode(): ?string
@@ -66,6 +64,51 @@ class ResourceTranslatable implements JsonSerializable
     public function getLanguageUri(): ?string
     {
         return $this->getMetadataValue(TaoOntology::PROPERTY_LANGUAGE);
+    }
+
+    /**
+     * @param string|array|null $value
+     * @param string|null $literal
+     */
+    public function addMetadata(string $uri, $value, $literal): void
+    {
+        $this->metadata[$uri] = [
+            'value' => $value,
+            'literal' => $literal
+        ];
+    }
+
+    public function getMetadataValue(string $metadata): ?string
+    {
+        if (!empty($this->metadata[$metadata])) {
+            return $this->metadata[$metadata]['value'];
+        }
+
+        return null;
+    }
+
+    public function getMetadataLiteralValue(string $metadata): ?string
+    {
+        if (!empty($this->metadata[$metadata])) {
+            return $this->metadata[$metadata]['literal'];
+        }
+
+        return null;
+    }
+
+    public function getMetadata(): array
+    {
+        return $this->metadata;
+    }
+
+    public function addMetadataUri(string $uri): void
+    {
+        $this->metadataUris = array_unique(array_merge($this->metadataUris, [$uri]));
+    }
+
+    public function getMetadataUris(): array
+    {
+        return $this->metadataUris;
     }
 
     public function jsonSerialize(): array

@@ -24,10 +24,8 @@ namespace oat\tao\model\Translation\Service;
 
 use core_kernel_classes_Literal;
 use core_kernel_classes_Resource;
-use core_kernel_persistence_Exception;
 use oat\generis\model\data\Ontology;
-use oat\tao\model\Translation\Entity\ResourceTranslatable;
-use oat\tao\model\Translation\Entity\ResourceTranslation;
+use oat\tao\model\Translation\Entity\AbstractResource;
 
 class ResourceMetadataPopulateService
 {
@@ -45,11 +43,7 @@ class ResourceMetadataPopulateService
         $this->metadata[$resourceType] = array_unique(array_merge($this->metadata[$resourceType], [$metadataUri]));
     }
 
-    /**
-     * @param ResourceTranslatable|ResourceTranslation $resource
-     * @throws core_kernel_persistence_Exception
-     */
-    public function populate($resource, core_kernel_classes_Resource $originResource): void
+    public function populate(AbstractResource $resource, core_kernel_classes_Resource $originResource): void
     {
         $valueProperty = $this->ontology->getProperty('http://www.w3.org/1999/02/22-rdf-syntax-ns#value');
 

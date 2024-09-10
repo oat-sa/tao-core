@@ -23,7 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\Translation\Service;
 
 use InvalidArgumentException;
-use oat\tao\model\Translation\Entity\ResourceTranslatableCollection;
+use oat\tao\model\Translation\Entity\ResourceCollection;
 use oat\tao\model\Translation\Query\ResourceTranslatableQuery;
 use oat\tao\model\Translation\Repository\ResourceTranslatableRepository;
 use Psr\Http\Message\ServerRequestInterface;
@@ -37,7 +37,7 @@ class ResourceTranslatableRetriever
         $this->resourceTranslatableRepository = $resourceTranslationRepository;
     }
 
-    public function getByRequest(ServerRequestInterface $request): ResourceTranslatableCollection
+    public function getByRequest(ServerRequestInterface $request): ResourceCollection
     {
         $queryParams = $request->getQueryParams();
         $resourceType = $queryParams['resourceType'] ?? null;

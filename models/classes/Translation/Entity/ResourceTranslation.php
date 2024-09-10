@@ -22,27 +22,15 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Entity;
 
-use JsonSerializable;
 use oat\tao\model\TaoOntology;
 
-class ResourceTranslation implements JsonSerializable
+class ResourceTranslation extends AbstractResource
 {
-    use ResourceMetadataTrait;
-
     private string $originResourceUri;
-    private string $resourceUri;
-    private string $resourceLabel;
 
-    public function __construct(
-        string $originResourceUri,
-        string $resourceUri,
-        string $resourceLabel
-    ) {
+    public function setOriginResourceUri(string $originResourceUri): void
+    {
         $this->originResourceUri = $originResourceUri;
-        $this->resourceUri = $resourceUri;
-        $this->resourceLabel = $resourceLabel;
-        $this->addMetadataUri(TaoOntology::PROPERTY_TRANSLATION_PROGRESS);
-        $this->addMetadataUri(TaoOntology::PROPERTY_LANGUAGE);
     }
 
     public function getOriginResourceUri(): string
@@ -50,38 +38,18 @@ class ResourceTranslation implements JsonSerializable
         return $this->originResourceUri;
     }
 
-    public function getResourceUri(): string
-    {
-        return $this->resourceUri;
-    }
-
-    public function getResourceLabel(): string
-    {
-        return $this->resourceLabel;
-    }
-
     public function getProgressUri(): string
     {
         return $this->getMetadataValue(TaoOntology::PROPERTY_TRANSLATION_PROGRESS);
     }
 
-    public function getLanguageCode(): string
-    {
-        return $this->getMetadataLiteralValue(TaoOntology::PROPERTY_LANGUAGE);
-    }
-
-    public function getLanguageUri(): string
-    {
-        return $this->getMetadataValue(TaoOntology::PROPERTY_LANGUAGE);
-    }
-
     public function jsonSerialize(): array
     {
-        return [
-            'originResourceUri' => $this->getOriginResourceUri(),
-            'resourceUri' => $this->getResourceUri(),
-            'resourceLabel' => $this->getResourceLabel(),
-            'metadata' => $this->getMetadata(),
-        ];
+        return array_merge(
+            [
+                'originResourceUri' => $this->getOriginResourceUri()
+            ],
+            parent::jsonSerialize(),
+        );
     }
 }

@@ -25,31 +25,28 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Translation\Entity;
 
 use oat\tao\model\TaoOntology;
-use oat\tao\model\Translation\Entity\ResourceTranslation;
+use oat\tao\model\Translation\Entity\ResourceTranslatable;
 use PHPUnit\Framework\TestCase;
 
-class ResourceTranslationTest extends TestCase
+class ResourceTranslatableTest extends TestCase
 {
-    /** @var ResourceTranslation */
-    private $sut;
+    private ResourceTranslatable $sut;
 
     public function setUp(): void
     {
-        $this->sut = new ResourceTranslation('resourceUri', 'resourceLabel');
-        $this->sut->setOriginResourceUri('originResourceUri');
+        $this->sut = new ResourceTranslatable('resourceUri', 'resourceLabel');
         $this->sut->addMetadata(TaoOntology::PROPERTY_LANGUAGE, 'languageUri', 'en-US');
         $this->sut->addMetadata(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER, 'abc123', null);
-        $this->sut->addMetadata(TaoOntology::PROPERTY_TRANSLATION_PROGRESS, 'progressUri', null);
+        $this->sut->addMetadata(TaoOntology::PROPERTY_TRANSLATION_STATUS, 'statusUri', null);
     }
 
     public function testGetters(): void
     {
         $this->assertSame('en-US', $this->sut->getLanguageCode());
         $this->assertSame('languageUri', $this->sut->getLanguageUri());
-        $this->assertSame('progressUri', $this->sut->getProgressUri());
+        $this->assertSame('statusUri', $this->sut->getStatusUri());
         $this->assertSame(
             [
-                'originResourceUri' => 'originResourceUri',
                 'resourceUri' => 'resourceUri',
                 'resourceLabel' => 'resourceLabel',
                 'metadata' => [
@@ -61,8 +58,8 @@ class ResourceTranslationTest extends TestCase
                         'value' => 'abc123',
                         'literal' => null,
                     ],
-                    TaoOntology::PROPERTY_TRANSLATION_PROGRESS => [
-                        'value' => 'progressUri',
+                    TaoOntology::PROPERTY_TRANSLATION_STATUS => [
+                        'value' => 'statusUri',
                         'literal' => null,
                     ]
                 ],

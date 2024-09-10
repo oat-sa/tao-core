@@ -28,8 +28,8 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\Translation\Entity\ResourceCollection;
 use oat\tao\model\Translation\Entity\ResourceTranslatable;
-use oat\tao\model\Translation\Entity\ResourceTranslationCollection;
 use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
 use oat\tao\model\Translation\Query\ResourceTranslatableQuery;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
@@ -58,7 +58,7 @@ class ResourceTranslationRepository
         $this->logger = $logger;
     }
 
-    public function find(ResourceTranslationQuery $query): ResourceTranslationCollection
+    public function find(ResourceTranslationQuery $query): ResourceCollection
     {
         $originResourceId = $query->getOriginResourceId();
         $resources = $this->resourceTranslatableRepository->find(
@@ -78,7 +78,7 @@ class ResourceTranslationRepository
         $originResource = $resources->current();
         
         $uniqueId = $originResource->getUniqueId();
-        $output = new ResourceTranslationCollection($originResourceId, $originResource->getResourceLabel(), $uniqueId);
+        $output = [];
 
         $queryBuilder = $this->complexSearch->query();
         $searchQuery = $this->complexSearch->searchType(
@@ -117,7 +117,7 @@ class ResourceTranslationRepository
                     continue;
                 }
 
-                $output->addTranslation($this->factory->create($originResource, $translationResource));
+                $output[] = $this->factory->create($originResource, $translationResource);
             } catch (Throwable $exception) {
                 $this->logger->warning(
                     sprintf(
@@ -131,6 +131,6 @@ class ResourceTranslationRepository
             }
         }
 
-        return $output;
+        return new ResourceCollection(...$output);
     }
 }

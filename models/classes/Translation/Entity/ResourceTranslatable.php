@@ -22,62 +22,12 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Entity;
 
-use JsonSerializable;
 use oat\tao\model\TaoOntology;
 
-class ResourceTranslatable implements JsonSerializable
+class ResourceTranslatable extends AbstractResource
 {
-    use ResourceMetadataTrait;
-
-    private string $resourceUri;
-    private string $resourceLabel;
-
-    public function __construct(string $resourceUri, string $resourceLabel)
-    {
-        $this->resourceUri = $resourceUri;
-        $this->resourceLabel = $resourceLabel;
-        $this->addMetadataUri(TaoOntology::PROPERTY_TRANSLATION_TYPE);
-        $this->addMetadataUri(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
-        $this->addMetadataUri(TaoOntology::PROPERTY_TRANSLATION_STATUS);
-        $this->addMetadataUri(TaoOntology::PROPERTY_LANGUAGE);
-    }
-
-    public function getResourceUri(): string
-    {
-        return $this->resourceUri;
-    }
-
-    public function getResourceLabel(): string
-    {
-        return $this->resourceLabel;
-    }
-
-    public function getUniqueId(): ?string
-    {
-        return $this->getMetadataValue(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
-    }
-
     public function getStatusUri(): ?string
     {
         return $this->getMetadataValue(TaoOntology::PROPERTY_TRANSLATION_STATUS);
-    }
-
-    public function getLanguageCode(): ?string
-    {
-        return $this->getMetadataLiteralValue(TaoOntology::PROPERTY_LANGUAGE);
-    }
-
-    public function getLanguageUri(): ?string
-    {
-        return $this->getMetadataValue(TaoOntology::PROPERTY_LANGUAGE);
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'resourceUri' => $this->getResourceUri(),
-            'resourceLabel' => $this->getResourceLabel(),
-            'metadata' => $this->metadata,
-        ];
     }
 }
