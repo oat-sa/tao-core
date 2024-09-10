@@ -26,7 +26,7 @@ declare(strict_types=1);
 
 use oat\oatbox\service\ServiceManager;
 use oat\oatbox\validator\ValidatorInterface;
-use oat\tao\model\form\Modifier\FormModifierManager;
+use oat\tao\model\form\Modifier\AbstractFormModifier;
 use oat\tao\model\security\xsrf\TokenService;
 use Psr\Container\ContainerInterface;
 use tao_helpers_form_FormFactory as FormFactory;
@@ -121,8 +121,12 @@ abstract class tao_helpers_form_FormContainer
         // initialize the elements of the form
         $this->initElements();
 
-        if (!empty($options[self::FORM_MODIFIERS])) {
-            $this->getFormModifierManager()->modify($this->form, $options[self::FORM_MODIFIERS]);
+        foreach ($options[self::FORM_MODIFIERS] ?? [] as $modifierClass) {
+            $modifier = $this->getContainer()->get($modifierClass);
+
+            if ($modifier instanceof AbstractFormModifier) {
+                $modifier->modify($this->form, $options);
+            }
         }
 
         if ($this->form !== null) {
@@ -328,11 +332,6 @@ abstract class tao_helpers_form_FormContainer
         }
 
         return $this->sanitizerValidationFeeder;
-    }
-
-    private function getFormModifierManager(): FormModifierManager
-    {
-        return $this->getContainer()->get(FormModifierManager::class);
     }
 
     private function withServiceManager(array &$options): void
