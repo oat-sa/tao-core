@@ -22,27 +22,24 @@ declare(strict_types=1);
 
 namespace oat\tao\model\form\Modifier;
 
-use core_kernel_classes_Resource;
-use oat\generis\model\data\Ontology;
 use tao_helpers_form_Form;
 
-abstract class AbstractFormModifier implements FormModifierInterface
+abstract class AbstractFormModifier
 {
-    protected Ontology $ontology;
+    /** @var AbstractFormModifier[] */
+    private array $modifiers = [];
 
-    public function __construct(Ontology $ontology)
+    public function addModifier(AbstractFormModifier $modifier): void
     {
-        $this->ontology = $ontology;
+        if (!in_array($modifier, $this->modifiers, true)) {
+            $this->modifiers[] = $modifier;
+        }
     }
 
-    protected function getInstance(tao_helpers_form_Form $form, array $options = []): ?core_kernel_classes_Resource
+    public function modify(tao_helpers_form_Form $form, array $options = []): void
     {
-        if (($options[self::OPTION_INSTANCE] ?? null) instanceof core_kernel_classes_Resource) {
-            return $options[self::OPTION_INSTANCE];
+        foreach ($this->modifiers as $modifier) {
+            $modifier->modify($form, $options);
         }
-
-        $instanceUri = $form->getValue(self::FORM_INSTANCE_URI);
-
-        return $instanceUri ? $this->ontology->getResource($instanceUri) : null;
     }
 }

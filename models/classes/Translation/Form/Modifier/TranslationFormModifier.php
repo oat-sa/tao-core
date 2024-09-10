@@ -22,48 +22,31 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Form\Modifier;
 
-use oat\generis\model\data\Ontology;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\form\Modifier\AbstractFormModifier;
 use oat\tao\model\TaoOntology;
-use tao_helpers_form_Form as Form;
+use tao_helpers_form_Form;
 use tao_helpers_Uri;
 
-class TranslationInstanceFormModifier extends AbstractFormModifier
+class TranslationFormModifier extends AbstractFormModifier
 {
-    public const ID = 'tao.form_modifier.translation_instance';
-
     private FeatureFlagCheckerInterface $featureFlagChecker;
 
-    public function __construct(Ontology $ontology, FeatureFlagCheckerInterface $featureFlagChecker)
+    public function __construct(FeatureFlagCheckerInterface $featureFlagChecker)
     {
-        parent::__construct($ontology);
-
         $this->featureFlagChecker = $featureFlagChecker;
     }
 
-    public function supports(Form $form, array $options = []): bool
-    {
-        $instance = $this->getInstance($form, $options);
-
-        if ($instance === null) {
-            return false;
-        }
-
-        return $instance->isInstanceOf($this->ontology->getClass(TaoOntology::CLASS_URI_ITEM))
-            || $instance->isInstanceOf($this->ontology->getClass(TaoOntology::CLASS_URI_TEST));
-    }
-
-    public function modify(Form $form, array $options = []): void
+    public function modify(tao_helpers_form_Form $form, array $options = []): void
     {
         foreach ($this->getTranslationElementsToRemove($form) as $elementUri) {
             $form->removeElement(tao_helpers_Uri::encode($elementUri));
         }
     }
 
-    private function getTranslationElementsToRemove(Form $form): array
+    private function getTranslationElementsToRemove(tao_helpers_form_Form $form): array
     {
-        if (!$this->featureFlagChecker->isEnabled(FeatureFlagCheckerInterface::FEATURE_TRANSLATION_ENABLED)) {
+        if (!$this->featureFlagChecker->isEnabled('FEATURE_TRANSLATION_ENABLED')) {
             return [
                 TaoOntology::PROPERTY_UNIQUE_IDENTIFIER,
                 TaoOntology::PROPERTY_LANGUAGE,
@@ -74,6 +57,11 @@ class TranslationInstanceFormModifier extends AbstractFormModifier
         }
 
         $elementsToRemove = [];
+
+        if (!$this->featureFlagChecker->isEnabled('FEATURE_TRANSLATION_DEVELOPER_MODE')) {
+            $elementsToRemove[] = TaoOntology::PROPERTY_TRANSLATION_TYPE;
+        }
+
         $translationTypeValue = $form->getValue(tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_TYPE));
         $isTranslationTypeValueEmpty = empty($translationTypeValue);
 
