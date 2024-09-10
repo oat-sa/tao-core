@@ -47,14 +47,11 @@ class ResourceMetadataPopulateService
     {
         $valueProperty = $this->ontology->getProperty('http://www.w3.org/1999/02/22-rdf-syntax-ns#value');
 
-        foreach ($originResource->getTypes() as $type) {
-            if (empty($this->metadata[$type->getUri()])) {
-                continue;
-            }
+        $parentClasses = $originResource->getParentClassesIds();
+        $resourceType = array_pop($parentClasses);
 
-            foreach ($this->metadata[$type->getUri()] as $metadataUri) {
-                $resource->addMetadataUri($metadataUri);
-            }
+        foreach ($this->metadata[$resourceType] ?? [] as $metadataUri) {
+            $resource->addMetadataUri($metadataUri);
         }
 
         foreach ($resource->getMetadataUris() as $metadataUri) {

@@ -41,17 +41,19 @@ class ResourceTranslatableRetriever
     {
         $queryParams = $request->getQueryParams();
         $resourceType = $queryParams['resourceType'] ?? null;
-        $resourceUris = $queryParams['resourceUris'] ?? [];
         $uniqueIds = $queryParams['uniqueIds'] ?? [];
 
         if (empty($resourceType)) {
             throw new InvalidArgumentException('Param resourceType is required');
         }
 
+        if (empty($uniqueIds)) {
+            throw new InvalidArgumentException('Param uniqueIds is required');
+        }
+
         return $this->resourceTranslatableRepository->find(
             new ResourceTranslatableQuery(
                 $resourceType,
-                $resourceUris,
                 $uniqueIds
             )
         );

@@ -60,24 +60,22 @@ class ResourceTranslationRepository
 
     public function find(ResourceTranslationQuery $query): ResourceCollection
     {
-        $originResourceId = $query->getOriginResourceId();
+        $uniqueId = $query->getUniqueId();
         $resources = $this->resourceTranslatableRepository->find(
             new ResourceTranslatableQuery(
                 $query->getResourceType(),
                 [
-                    $originResourceId
+                    $uniqueId
                 ]
             )
         );
         
         if ($resources->count() === 0) {
-            throw new Exception(sprintf('Translation Origin Resource %s does not exist', $originResourceId));
+            throw new Exception(sprintf('Translation Origin Resource %s does not exist', $uniqueId));
         }
 
         /** @var ResourceTranslatable $originResource */
         $originResource = $resources->current();
-        
-        $uniqueId = $originResource->getUniqueId();
         $output = [];
 
         $queryBuilder = $this->complexSearch->query();
@@ -121,8 +119,8 @@ class ResourceTranslationRepository
             } catch (Throwable $exception) {
                 $this->logger->warning(
                     sprintf(
-                        'Cannot read translation status for [originResourceId=%s, translationResourceId=%s]: %s - %s',
-                        $originResourceId,
+                        'Cannot read translation status for [uniqueId=%s, translationResourceId=%s]: %s - %s',
+                        $uniqueId,
                         $translationResource->getUri(),
                         $exception->getMessage(),
                         $exception->getTraceAsString()
