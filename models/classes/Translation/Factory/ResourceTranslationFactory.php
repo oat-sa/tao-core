@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace oat\tao\model\Translation\Factory;
 
 use core_kernel_classes_Resource;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceTranslatable;
 use oat\tao\model\Translation\Entity\ResourceTranslation;
 use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
@@ -31,10 +30,6 @@ use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
 class ResourceTranslationFactory
 {
     private ResourceMetadataPopulateService $metadataPopulateService;
-    private array $metadataUris = [
-        TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
-        TaoOntology::PROPERTY_LANGUAGE
-    ];
 
     public function __construct(ResourceMetadataPopulateService $metadataPopulateService)
     {
@@ -51,7 +46,7 @@ class ResourceTranslationFactory
             $translationResource->getLabel()
         );
 
-        $this->metadataPopulateService->populate($resource, $translationResource, $this->metadataUris);
+        $this->metadataPopulateService->populate($resource, $translationResource);
         
         return $resource;        
     }

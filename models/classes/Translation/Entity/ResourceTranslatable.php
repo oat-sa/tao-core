@@ -28,7 +28,7 @@ use oat\tao\model\TaoOntology;
 class ResourceTranslatable implements JsonSerializable
 {
     use ResourceMetadataTrait;
-    
+
     private string $resourceUri;
     private string $resourceLabel;
 
@@ -36,6 +36,10 @@ class ResourceTranslatable implements JsonSerializable
     {
         $this->resourceUri = $resourceUri;
         $this->resourceLabel = $resourceLabel;
+        $this->addMetadataUri(TaoOntology::PROPERTY_TRANSLATION_TYPE);
+        $this->addMetadataUri(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
+        $this->addMetadataUri(TaoOntology::PROPERTY_TRANSLATION_STATUS);
+        $this->addMetadataUri(TaoOntology::PROPERTY_LANGUAGE);
     }
 
     public function getResourceUri(): string

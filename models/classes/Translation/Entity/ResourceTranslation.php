@@ -41,6 +41,8 @@ class ResourceTranslation implements JsonSerializable
         $this->originResourceUri = $originResourceUri;
         $this->resourceUri = $resourceUri;
         $this->resourceLabel = $resourceLabel;
+        $this->addMetadataUri(TaoOntology::PROPERTY_TRANSLATION_PROGRESS);
+        $this->addMetadataUri(TaoOntology::PROPERTY_LANGUAGE);
     }
 
     public function getOriginResourceUri(): string

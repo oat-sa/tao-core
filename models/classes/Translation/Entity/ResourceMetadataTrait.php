@@ -24,6 +24,7 @@ namespace oat\tao\model\Translation\Entity;
 
 trait ResourceMetadataTrait
 {
+    private array $metadataUris = [];
     private array $metadata = [];
 
     /**
@@ -59,5 +60,15 @@ trait ResourceMetadataTrait
     public function getMetadata(): array
     {
         return $this->metadata;
+    }
+
+    public function addMetadataUri(string $uri): void
+    {
+        $this->metadataUris = array_unique(array_merge($this->metadataUris, [$uri]));
+    }
+
+    public function getMetadataUris(): array
+    {
+        return $this->metadataUris;
     }
 }

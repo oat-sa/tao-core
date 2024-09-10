@@ -31,7 +31,6 @@ class ResourceTranslationCollection extends ArrayIterator implements JsonSeriali
     private string $resourceLabel;
     private string $uniqueId;
 
-
     public function __construct(string $originResourceUri, string $resourceLabel, string $uniqueId)
     {
         parent::__construct();

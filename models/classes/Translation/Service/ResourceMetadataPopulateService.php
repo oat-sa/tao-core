@@ -32,21 +32,38 @@ use oat\tao\model\Translation\Entity\ResourceTranslation;
 class ResourceMetadataPopulateService
 {
     private Ontology $ontology;
+    private array $metadata;
 
     public function __construct(Ontology $ontology)
     {
         $this->ontology = $ontology;
     }
 
+    public function addMetadata(string $resourceType, string $metadataUri): void
+    {
+        $this->metadata[$resourceType] = empty($this->metadata[$resourceType]) ? [] : $this->metadata[$resourceType];
+        $this->metadata[$resourceType] = array_unique(array_merge($this->metadata[$resourceType], [$metadataUri]));
+    }
+
     /**
      * @param ResourceTranslatable|ResourceTranslation $resource
      * @throws core_kernel_persistence_Exception
      */
-    public function populate($resource, core_kernel_classes_Resource $originResource, array $metadataUris): void
+    public function populate($resource, core_kernel_classes_Resource $originResource): void
     {
         $valueProperty = $this->ontology->getProperty('http://www.w3.org/1999/02/22-rdf-syntax-ns#value');
 
-        foreach ($metadataUris as $metadataUri) {
+        foreach ($originResource->getTypes() as $type) {
+            if (empty($this->metadata[$type->getUri()])) {
+                continue;
+            }
+
+            foreach ($this->metadata[$type->getUri()] as $metadataUri) {
+                $resource->addMetadataUri($metadataUri);
+            }
+        }
+
+        foreach ($resource->getMetadataUris() as $metadataUri) {
             $values = $originResource->getPropertyValues($this->ontology->getProperty($metadataUri));
 
             if (empty($values)) {
