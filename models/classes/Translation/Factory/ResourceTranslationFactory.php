@@ -23,43 +23,36 @@ declare(strict_types=1);
 namespace oat\tao\model\Translation\Factory;
 
 use core_kernel_classes_Resource;
-use oat\generis\model\data\Ontology;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceTranslatable;
 use oat\tao\model\Translation\Entity\ResourceTranslation;
+use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
 
 class ResourceTranslationFactory
 {
-    private Ontology $ontology;
+    private ResourceMetadataPopulateService $metadataPopulateService;
+    private array $metadataUris = [
+        TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
+        TaoOntology::PROPERTY_LANGUAGE
+    ];
 
-    public function __construct(Ontology $ontology)
+    public function __construct(ResourceMetadataPopulateService $metadataPopulateService)
     {
-        $this->ontology = $ontology;
+        $this->metadataPopulateService = $metadataPopulateService;
     }
 
     public function create(
         ResourceTranslatable $originResource,
         core_kernel_classes_Resource $translationResource,
     ): ResourceTranslation {
-        $valueProperty = $this->ontology->getProperty('http://www.w3.org/1999/02/22-rdf-syntax-ns#value');
-        $progressProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_PROGRESS);
-        $languageProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_LANGUAGE);
-
-        /** @var core_kernel_classes_Resource $language */
-        $language = $translationResource->getUniquePropertyValue($languageProperty);
-        $languageCode = $language->getUniquePropertyValue($valueProperty);
-
-        /** @var core_kernel_classes_Resource $progress */
-        $progress = $translationResource->getUniquePropertyValue($progressProperty);
-
-        return new ResourceTranslation(
+        $resource = new ResourceTranslation(
             $originResource->getResourceUri(),
             $translationResource->getUri(),
-            $translationResource->getLabel(),
-            ResourceTranslation::PROGRESS_MAPPING[$progress->getUri()],
-            $progress->getUri(),
-            (string)$languageCode,
-            $language->getUri()
+            $translationResource->getLabel()
         );
+
+        $this->metadataPopulateService->populate($resource, $translationResource, $this->metadataUris);
+        
+        return $resource;        
     }
 }

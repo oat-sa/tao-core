@@ -78,7 +78,7 @@ class ResourceTranslationRepository
         $originResource = $resources->current();
         
         $uniqueId = $originResource->getUniqueId();
-        $output = new ResourceTranslationCollection($originResourceId, $uniqueId);
+        $output = new ResourceTranslationCollection($originResourceId, $originResource->getResourceLabel(), $uniqueId);
 
         $queryBuilder = $this->complexSearch->query();
         $searchQuery = $this->complexSearch->searchType(

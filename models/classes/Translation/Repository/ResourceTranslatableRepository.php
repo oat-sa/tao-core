@@ -60,7 +60,7 @@ class ResourceTranslatableRepository
             SupportedOperatorHelper::EQUAL,
             TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL
         );
-        
+
         if (!empty($query->getUniqueIds())) {
             $searchQuery->addCriterion(
                 TaoOntology::PROPERTY_UNIQUE_IDENTIFIER,

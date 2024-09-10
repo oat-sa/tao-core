@@ -27,36 +27,15 @@ use oat\tao\model\TaoOntology;
 
 class ResourceTranslatable implements JsonSerializable
 {
-    public const STATUS_READY_FOR_TRANSLATION = 'ready-for-translation';
-    public const STATUS_NOT_READY_FOR_TRANSLATION = 'not-ready-for-translation';
-
-    public const STATUS_MAPPING = [
-        TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY => self::STATUS_READY_FOR_TRANSLATION,
-        TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_NOT_READY => self::STATUS_NOT_READY_FOR_TRANSLATION
-    ];
-
+    use ResourceMetadataTrait;
+    
     private string $resourceUri;
-    private string $status;
-    private string $statusUri;
-    private string $languageCode;
-    private string $languageUri;
-    private string $uniqueId;
+    private string $resourceLabel;
 
-    public function __construct(
-        string $resourceUri,
-        string $uniqueId,
-        string $status,
-        string $statusUri,
-        string $languageCode,
-        string $languageUri
-    )
+    public function __construct(string $resourceUri, string $resourceLabel)
     {
         $this->resourceUri = $resourceUri;
-        $this->uniqueId = $uniqueId;
-        $this->status = $status;
-        $this->statusUri = $statusUri;
-        $this->languageCode = $languageCode;
-        $this->languageUri = $languageUri;
+        $this->resourceLabel = $resourceLabel;
     }
 
     public function getResourceUri(): string
@@ -64,40 +43,37 @@ class ResourceTranslatable implements JsonSerializable
         return $this->resourceUri;
     }
 
-    public function getUniqueId(): string
+    public function getResourceLabel(): string
     {
-        return $this->uniqueId;
+        return $this->resourceLabel;
     }
 
-    public function getStatus(): string
+    public function getUniqueId(): ?string
     {
-        return $this->status;
+        return $this->getMetadataValue(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
     }
 
-    public function getStatusUri(): string
+    public function getStatusUri(): ?string
     {
-        return $this->statusUri;
+        return $this->getMetadataValue(TaoOntology::PROPERTY_TRANSLATION_STATUS);
     }
 
-    public function getLanguageCode(): string
+    public function getLanguageCode(): ?string
     {
-        return $this->languageCode;
+        return $this->getMetadataLiteralValue(TaoOntology::PROPERTY_LANGUAGE);
     }
 
-    public function getLanguageUri(): string
+    public function getLanguageUri(): ?string
     {
-        return $this->languageUri;
+        return $this->getMetadataValue(TaoOntology::PROPERTY_LANGUAGE);
     }
 
     public function jsonSerialize(): array
     {
         return [
             'resourceUri' => $this->getResourceUri(),
-            'uniqueId' => $this->getUniqueId(),
-            'status' => $this->getStatus(),
-            'statusUri' => $this->getStatusUri(),
-            'languageCode' => $this->getLanguageCode(),
-            'languageUri' => $this->getLanguageUri(),
+            'resourceLabel' => $this->getResourceLabel(),
+            'metadata' => $this->metadata,
         ];
     }
 }

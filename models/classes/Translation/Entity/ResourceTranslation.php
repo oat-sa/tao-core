@@ -27,40 +27,20 @@ use oat\tao\model\TaoOntology;
 
 class ResourceTranslation implements JsonSerializable
 {
-    public const PROGRESS_PENDING = 'pending';
-    public const PROGRESS_TRANSLATING = 'translating';
-    public const PROGRESS_TRANSLATED = 'translated';
-
-    public const PROGRESS_MAPPING = [
-        TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_PENDING => self::PROGRESS_PENDING,
-        TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATING => self::PROGRESS_TRANSLATING,
-        TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATED => self::PROGRESS_TRANSLATED,
-    ];
+    use ResourceMetadataTrait;
 
     private string $originResourceUri;
     private string $resourceUri;
     private string $resourceLabel;
-    private string $progress;
-    private string $progressUri;
-    private string $languageCode;
-    private string $languageUri;
 
     public function __construct(
         string $originResourceUri,
         string $resourceUri,
-        string $resourceLabel,
-        string $progress,
-        string $progressUri,
-        string $languageCode,
-        string $languageUri
+        string $resourceLabel
     ) {
         $this->originResourceUri = $originResourceUri;
         $this->resourceUri = $resourceUri;
         $this->resourceLabel = $resourceLabel;
-        $this->progress = $progress;
-        $this->progressUri = $progressUri;
-        $this->languageCode = $languageCode;
-        $this->languageUri = $languageUri;
     }
 
     public function getOriginResourceUri(): string
@@ -78,24 +58,19 @@ class ResourceTranslation implements JsonSerializable
         return $this->resourceLabel;
     }
 
-    public function getProgress(): string
-    {
-        return $this->progress;
-    }
-
     public function getProgressUri(): string
     {
-        return $this->progressUri;
+        return $this->getMetadataValue(TaoOntology::PROPERTY_TRANSLATION_PROGRESS);
     }
 
     public function getLanguageCode(): string
     {
-        return $this->languageCode;
+        return $this->getMetadataLiteralValue(TaoOntology::PROPERTY_LANGUAGE);
     }
 
     public function getLanguageUri(): string
     {
-        return $this->languageUri;
+        return $this->getMetadataValue(TaoOntology::PROPERTY_LANGUAGE);
     }
 
     public function jsonSerialize(): array
@@ -104,10 +79,7 @@ class ResourceTranslation implements JsonSerializable
             'originResourceUri' => $this->getOriginResourceUri(),
             'resourceUri' => $this->getResourceUri(),
             'resourceLabel' => $this->getResourceLabel(),
-            'languageCode' => $this->getLanguageCode(),
-            'languageUri' => $this->getLanguageUri(),
-            'progress' => $this->getProgress(),
-            'progressUri' => $this->getProgressUri(),
+            'metadata' => $this->getMetadata(),
         ];
     }
 }

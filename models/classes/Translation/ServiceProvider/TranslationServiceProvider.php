@@ -30,6 +30,7 @@ use oat\tao\model\Translation\Factory\ResourceTranslatableFactory;
 use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
 use oat\tao\model\Translation\Repository\ResourceTranslatableRepository;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
+use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -44,6 +45,13 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
     public function __invoke(ContainerConfigurator $configurator): void
     {
         $services = $configurator->services();
+        $services->set(ResourceMetadataPopulateService::class, ResourceMetadataPopulateService::class)
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
+                ]
+            );
+
         $services->set(ResourceTranslationRepository::class, ResourceTranslationRepository::class)
             ->args(
                 [
@@ -67,14 +75,14 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
         $services->set(ResourceTranslationFactory::class, ResourceTranslationFactory::class)
             ->args(
                 [
-                    service(Ontology::SERVICE_ID)
+                    service(ResourceMetadataPopulateService::class)
                 ]
             );
 
         $services->set(ResourceTranslatableFactory::class, ResourceTranslatableFactory::class)
             ->args(
                 [
-                    service(Ontology::SERVICE_ID)
+                    service(ResourceMetadataPopulateService::class)
                 ]
             );
 

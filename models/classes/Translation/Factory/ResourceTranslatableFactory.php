@@ -23,44 +23,31 @@ declare(strict_types=1);
 namespace oat\tao\model\Translation\Factory;
 
 use core_kernel_classes_Resource;
-use oat\generis\model\data\Ontology;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceTranslatable;
+use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
 
 class ResourceTranslatableFactory
 {
-    private Ontology $ontology;
+    private ResourceMetadataPopulateService $metadataPopulateService;
+    private array $metadataUris = [
+        TaoOntology::PROPERTY_TRANSLATION_TYPE,
+        TaoOntology::PROPERTY_UNIQUE_IDENTIFIER,
+        TaoOntology::PROPERTY_TRANSLATION_STATUS,
+        TaoOntology::PROPERTY_LANGUAGE
+    ];
 
-    public function __construct(Ontology $ontology)
+    public function __construct(ResourceMetadataPopulateService $metadataPopulateService)
     {
-        $this->ontology = $ontology;
+        $this->metadataPopulateService = $metadataPopulateService;
     }
 
     public function create(core_kernel_classes_Resource $originResource): ResourceTranslatable
     {
-        $progressProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_STATUS);
+        $resource = new ResourceTranslatable($originResource->getUri(), $originResource->getLabel());
 
-        /** @var core_kernel_classes_Resource $progress */
-        $progress = $originResource->getUniquePropertyValue($progressProperty);
+        $this->metadataPopulateService->populate($resource, $originResource, $this->metadataUris);
 
-        $uniqueId = $originResource->getUniquePropertyValue(
-            $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
-        );
-
-        $valueProperty = $this->ontology->getProperty('http://www.w3.org/1999/02/22-rdf-syntax-ns#value');
-        $languageProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_LANGUAGE);
-
-        /** @var core_kernel_classes_Resource $language */
-        $language = $originResource->getUniquePropertyValue($languageProperty);
-        $languageCode = $language->getUniquePropertyValue($valueProperty);
-        
-        return new ResourceTranslatable(
-            $originResource->getUri(),
-            (string)$uniqueId,
-            ResourceTranslatable::STATUS_MAPPING[$progress->getUri()],
-            $progress->getUri(),
-            (string)$languageCode,
-            $language->getUri()
-        );
+        return $resource;
     }
 }

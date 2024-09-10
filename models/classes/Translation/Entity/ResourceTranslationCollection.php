@@ -28,14 +28,16 @@ use JsonSerializable;
 class ResourceTranslationCollection extends ArrayIterator implements JsonSerializable
 {
     private string $originResourceUri;
+    private string $resourceLabel;
     private string $uniqueId;
 
 
-    public function __construct(string $originResourceUri, string $uniqueId)
+    public function __construct(string $originResourceUri, string $resourceLabel, string $uniqueId)
     {
         parent::__construct();
 
         $this->originResourceUri = $originResourceUri;
+        $this->resourceLabel = $resourceLabel;
         $this->uniqueId = $uniqueId;
     }
 
@@ -49,6 +51,11 @@ class ResourceTranslationCollection extends ArrayIterator implements JsonSeriali
         return $this->originResourceUri;
     }
 
+    public function getOriginResourceLabel(): string
+    {
+        return $this->resourceLabel;
+    }
+
     public function getUniqueId(): string
     {
         return $this->uniqueId;
@@ -58,6 +65,7 @@ class ResourceTranslationCollection extends ArrayIterator implements JsonSeriali
     {
         return [
             'originResourceUri' => $this->getOriginResourceUri(),
+            'originResourceLabel' => $this->getOriginResourceLabel(),
             'uniqueId' => $this->getUniqueId(),
             'translations' => $this->getArrayCopy()
         ];
