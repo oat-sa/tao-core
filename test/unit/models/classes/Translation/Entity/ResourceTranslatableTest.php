@@ -24,36 +24,48 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Translation\Entity;
 
-use oat\tao\model\Translation\Entity\ResourceTranslatable;
+use oat\tao\model\TaoOntology;
+use oat\tao\model\Translation\Entity\ResourceTranslation;
 use PHPUnit\Framework\TestCase;
 
-class ResourceTranslatableTest extends TestCase
+class ResourceTranslationTest extends TestCase
 {
-    /** @var ResourceTranslatable */
+    /** @var ResourceTranslation */
     private $sut;
 
     public function setUp(): void
     {
-        $this->sut = new ResourceTranslatable(
-            'resourceUri',
-            'uniqueId',
-            'status',
-            'statusUri',
-            'languageCode',
-            'languageUri'
-        );
+        $this->sut = new ResourceTranslation('resourceUri', 'resourceLabel');
+        $this->sut->setOriginResourceUri('originResourceUri');
+        $this->sut->addMetadata(TaoOntology::PROPERTY_LANGUAGE, 'languageUri', 'en-US');
+        $this->sut->addMetadata(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER, 'abc123', null);
+        $this->sut->addMetadata(TaoOntology::PROPERTY_TRANSLATION_PROGRESS, 'progressUri', null);
     }
 
     public function testGetters(): void
     {
+        $this->assertSame('en-US', $this->sut->getLanguageCode());
+        $this->assertSame('languageUri', $this->sut->getLanguageUri());
+        $this->assertSame('progressUri', $this->sut->getProgressUri());
         $this->assertSame(
             [
+                'originResourceUri' => 'originResourceUri',
                 'resourceUri' => 'resourceUri',
-                'uniqueId' => 'uniqueId',
-                'status' => 'status',
-                'statusUri' => 'statusUri',
-                'languageCode' => 'languageCode',
-                'languageUri' => 'languageUri'
+                'resourceLabel' => 'resourceLabel',
+                'metadata' => [
+                    TaoOntology::PROPERTY_LANGUAGE => [
+                        'value' => 'languageUri',
+                        'literal' => 'en-US',
+                    ],
+                    TaoOntology::PROPERTY_UNIQUE_IDENTIFIER => [
+                        'value' => 'abc123',
+                        'literal' => null,
+                    ],
+                    TaoOntology::PROPERTY_TRANSLATION_PROGRESS => [
+                        'value' => 'progressUri',
+                        'literal' => null,
+                    ]
+                ],
             ],
             $this->sut->jsonSerialize()
         );

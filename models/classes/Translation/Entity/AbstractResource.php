@@ -22,51 +22,58 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Entity;
 
-use ArrayIterator;
 use JsonSerializable;
+use oat\tao\model\TaoOntology;
 
-class ResourceTranslationCollection extends ArrayIterator implements JsonSerializable
+class ResourceTranslatable implements JsonSerializable
 {
-    private string $originResourceUri;
+    use ResourceMetadataTrait;
+
+    private string $resourceUri;
     private string $resourceLabel;
-    private string $uniqueId;
 
-    public function __construct(string $originResourceUri, string $resourceLabel, string $uniqueId)
+    public function __construct(string $resourceUri, string $resourceLabel)
     {
-        parent::__construct();
-
-        $this->originResourceUri = $originResourceUri;
+        $this->resourceUri = $resourceUri;
         $this->resourceLabel = $resourceLabel;
-        $this->uniqueId = $uniqueId;
     }
 
-    public function addTranslation(ResourceTranslation $resourceTranslation): void
+    public function getResourceUri(): string
     {
-        $this->append($resourceTranslation);
+        return $this->resourceUri;
     }
 
-    public function getOriginResourceUri(): string
-    {
-        return $this->originResourceUri;
-    }
-
-    public function getOriginResourceLabel(): string
+    public function getResourceLabel(): string
     {
         return $this->resourceLabel;
     }
 
-    public function getUniqueId(): string
+    public function getUniqueId(): ?string
     {
-        return $this->uniqueId;
+        return $this->getMetadataValue(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
+    }
+
+    public function getStatusUri(): ?string
+    {
+        return $this->getMetadataValue(TaoOntology::PROPERTY_TRANSLATION_STATUS);
+    }
+
+    public function getLanguageCode(): ?string
+    {
+        return $this->getMetadataLiteralValue(TaoOntology::PROPERTY_LANGUAGE);
+    }
+
+    public function getLanguageUri(): ?string
+    {
+        return $this->getMetadataValue(TaoOntology::PROPERTY_LANGUAGE);
     }
 
     public function jsonSerialize(): array
     {
         return [
-            'originResourceUri' => $this->getOriginResourceUri(),
-            'originResourceLabel' => $this->getOriginResourceLabel(),
-            'uniqueId' => $this->getUniqueId(),
-            'translations' => $this->getArrayCopy()
+            'resourceUri' => $this->getResourceUri(),
+            'resourceLabel' => $this->getResourceLabel(),
+            'metadata' => $this->metadata,
         ];
     }
 }
