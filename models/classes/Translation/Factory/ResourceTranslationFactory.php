@@ -39,7 +39,7 @@ class ResourceTranslationFactory
 
     public function create(
         ResourceTranslatable $originResource,
-        core_kernel_classes_Resource $translationResource,
+        core_kernel_classes_Resource $translationResource
     ): ResourceTranslation {
         $resource = new ResourceTranslation($translationResource->getUri(), $translationResource->getLabel());
         $resource->setOriginResourceUri($originResource->getResourceUri());
