@@ -78,11 +78,9 @@ class ResourceTranslatableRepository
 
         /** @var core_kernel_classes_Resource $resource */
         foreach ($result as $resource) {
-            if (!$resource->isInstanceOf($resourceTypeClass)) {
-                continue;
+            if ($resource->isInstanceOf($resourceTypeClass)) {
+                $output[] = $this->factory->create($resource);
             }
-
-            $output[] = $this->factory->create($resource);
         }
 
         return new ResourceCollection(...$output);
