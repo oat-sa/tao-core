@@ -16,14 +16,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2024 (original work) Open Assessment Technologies SA;
+ *
+ * @author Gabriel Felipe Soares <gabriel.felipe.soares@taotesting.com>
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Translation\Exception;
+namespace oat\tao\test\unit\model\Translation\Command;
 
-use oat\tao\model\exceptions\UserErrorException;
+use oat\tao\model\Translation\Command\CreateTranslationCommand;
+use PHPUnit\Framework\TestCase;
 
-class ResourceTranslationException extends UserErrorException
+class CreateTranslationCommandTest extends TestCase
 {
+    public function testConstructorAndGetters(): void
+    {
+        $resourceType = 'http://www.tao.lu/Ontologies/TAO.rdf#SomeType';
+        $uniqueId = 'id1';
+        $languageUri = 'http://www.tao.lu/Ontologies/TAO.rdf#Langpt-BR';
+
+        $command = new CreateTranslationCommand($resourceType, $uniqueId, $languageUri);
+
+        $this->assertSame($resourceType, $command->getResourceType());
+        $this->assertSame($uniqueId, $command->getUniqueId());
+        $this->assertSame($languageUri, $command->getLanguageUri());
+    }
 }

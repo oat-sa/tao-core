@@ -20,10 +20,33 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Translation\Exception;
+namespace oat\tao\model\Translation\Command;
 
-use oat\tao\model\exceptions\UserErrorException;
-
-class ResourceTranslationException extends UserErrorException
+class CreateTranslationCommand
 {
+    private string $resourceType;
+    private string $uniqueId;
+    private string $languageUri;
+
+    public function __construct(string $resourceType, string $uniqueId, string $languageUri)
+    {
+        $this->resourceType = $resourceType;
+        $this->uniqueId = $uniqueId;
+        $this->languageUri = $languageUri;
+    }
+
+    public function getResourceType(): string
+    {
+        return $this->resourceType;
+    }
+
+    public function getUniqueId(): string
+    {
+        return $this->uniqueId;
+    }
+
+    public function getLanguageUri(): string
+    {
+        return $this->languageUri;
+    }
 }
