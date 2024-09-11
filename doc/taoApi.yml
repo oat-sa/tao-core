@@ -5,6 +5,60 @@ info:
   version: v1
 
 paths:
+  /tao/Translation/translations:
+    get:
+      summary: Return a list of translations for a given translatable resource
+      parameters:
+        - in: query
+          name: resourceType
+          required: true
+          schema:
+            type: string
+          description: The RDF resource type
+        - in: query
+          name: uniqueId
+          required: true
+          schema:
+            type: string
+          description: The uniqueId of a translation
+        - in: query
+          name: languageUri
+          required: false
+          schema:
+            type: string
+          description: The RDF language URI
+      responses:
+        200:
+          $ref: '#/components/responses/TranslationsResponse'
+        400:
+          $ref: '#/components/responses/BadRequestResponse'
+        500:
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /tao/Translation/translatable:
+    get:
+      summary: Return translatable resources
+      parameters:
+        - in: query
+          name: resourceType
+          required: true
+          schema:
+            type: string
+          description: The RDF resource type
+        - in: query
+          name: uniqueIds
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+          description: The uniqueIds for a translatable
+      responses:
+        200:
+          $ref: '#/components/responses/TranslationsResponse'
+        400:
+          $ref: '#/components/responses/BadRequestResponse'
+        500:
+          $ref: '#/components/responses/InternalServerErrorResponse'
   /tao/Languages/index:
     get:
       summary: Get a list of available languages in the TAO platform
@@ -46,6 +100,60 @@ paths:
           $ref: '#/components/responses/InternalServerErrorResponse'
 components:
   schemas:
+    Translations:
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            resources: 
+              type: array
+              items:
+                properties:
+                  originResourceUri:
+                    type: string
+                  resourceUri:
+                    type: string
+                  resourceLabel:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      key:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                          literal:
+                            type: string
+    Translatable:
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            resources: 
+              type: array
+              items:
+                properties:
+                  resourceUri:
+                    type: string
+                  resourceLabel:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      key:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                          literal:
+                            type: string
     ResourceRelationResource:
       description: 'A resource related to another resources'
       type: object
@@ -104,6 +212,18 @@ components:
         message:
           type: string
   responses:
+    TranslationsResponse:
+      description: The list of translations
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Translations'
+    TranslatableResponse:
+      description: The list of translatable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Translatable'
     ResourceRelationsResponse:
       description: Bad request
       content:
