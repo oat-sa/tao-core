@@ -119,17 +119,24 @@ interface TaoOntology
     public const LANGUAGES_CLASS_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#Languages';
 
     public const PROPERTY_TRANSLATION_TYPE = 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationType';
-    public const PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL = 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeOriginal';
-    public const PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION = 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeTranslation';
+    public const PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL =
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeOriginal';
+    public const PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION =
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeTranslation';
 
     public const PROPERTY_TRANSLATION_PROGRESS = 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgress';
-    public const PROPERTY_VALUE_TRANSLATION_PROGRESS_PENDING = 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusPending';
-    public const PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATING = 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusTranslating';
-    public const PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATED = 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusTranslated';
+    public const PROPERTY_VALUE_TRANSLATION_PROGRESS_PENDING =
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusPending';
+    public const PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATING =
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusTranslating';
+    public const PROPERTY_VALUE_TRANSLATION_PROGRESS_TRANSLATED =
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusTranslated';
 
     public const PROPERTY_TRANSLATION_STATUS = 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatus';
-    public const PROPERTY_VALUE_TRANSLATION_STATUS_READY = 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatusReadyForTranslation';
-    public const PROPERTY_VALUE_TRANSLATION_STATUS_NOT_READY = 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatusNotReadyForTranslation';
+    public const PROPERTY_VALUE_TRANSLATION_STATUS_READY =
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatusReadyForTranslation';
+    public const PROPERTY_VALUE_TRANSLATION_STATUS_NOT_READY =
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatusNotReadyForTranslation';
 
     public const PROPERTY_UNIQUE_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAO.rdf#UniqueIdentifier';
     public const PROPERTY_LANGUAGE = 'http://www.tao.lu/Ontologies/TAO.rdf#Language';

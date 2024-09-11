@@ -88,8 +88,7 @@ class ResourceTranslatableRepositoryTest extends TestCase
     public function testFindReturnsResourceCollection(): void
     {
         $resourceType = 'http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject';
-        $uniqueIds = 
-        [
+        $uniqueIds = [
             'id1',
             'id2'
         ];

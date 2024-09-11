@@ -68,7 +68,7 @@ class ResourceTranslatableRepository
                 $query->getUniqueIds()
             );
         }
-        
+
         $queryBuilder->setCriteria($searchQuery);
 
         $result = $this->complexSearch->getGateway()->search($queryBuilder);
@@ -81,7 +81,7 @@ class ResourceTranslatableRepository
             if (!$resource->isInstanceOf($resourceTypeClass)) {
                 continue;
             }
-                    
+
             $output[] = $this->factory->create($resource);
         }
 

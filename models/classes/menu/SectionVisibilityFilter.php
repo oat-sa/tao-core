@@ -82,7 +82,7 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
     {
         return implode(self::SECTION_PATH_SEPARATOR, $segments);
     }
-    
+
     public function hideSectionByFeatureFlag(string $sectionPath, string $featureFlag): void
     {
         $options = $this->getOption(SectionVisibilityFilter::OPTION_FEATURE_FLAG_SECTIONS_TO_HIDE, []);

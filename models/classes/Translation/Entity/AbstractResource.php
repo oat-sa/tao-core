@@ -50,7 +50,7 @@ abstract class AbstractResource implements JsonSerializable
     {
         return $this->resourceLabel;
     }
-    
+
     public function getUniqueId(): ?string
     {
         return $this->getMetadataValue(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);

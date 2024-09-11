@@ -45,7 +45,7 @@ class ResourceTranslationRepository
     private ResourceTranslatableRepository $resourceTranslatableRepository;
 
     public function __construct(
-        Ontology $ontology, 
+        Ontology $ontology,
         ComplexSearchService $complexSearch,
         ResourceTranslatableRepository $resourceTranslatableRepository,
         ResourceTranslationFactory $resourceTranslationFactory,
@@ -69,7 +69,7 @@ class ResourceTranslationRepository
                 ]
             )
         );
-        
+
         if ($resources->count() === 0) {
             throw new Exception(sprintf('Translation Origin Resource %s does not exist', $uniqueId));
         }
@@ -94,15 +94,15 @@ class ResourceTranslationRepository
             SupportedOperatorHelper::EQUAL,
             $uniqueId
         );
-        
+
         if ($query->getLanguageUri()) {
             $searchQuery->addCriterion(
                 TaoOntology::PROPERTY_LANGUAGE,
                 SupportedOperatorHelper::EQUAL,
                 $query->getLanguageUri()
-            );    
+            );
         }
-        
+
         $queryBuilder->setCriteria($searchQuery);
 
         $result = $this->complexSearch->getGateway()->search($queryBuilder);

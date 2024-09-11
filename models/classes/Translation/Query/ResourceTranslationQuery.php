@@ -39,7 +39,7 @@ class ResourceTranslationQuery
     {
         return $this->resourceType;
     }
-    
+
     public function getUniqueId(): string
     {
         return $this->uniqueId;

@@ -47,6 +47,6 @@ class ResourceTranslationFactory
 
         $this->metadataPopulateService->populate($resource, $translationResource);
 
-        return $resource;        
+        return $resource;
     }
 }
