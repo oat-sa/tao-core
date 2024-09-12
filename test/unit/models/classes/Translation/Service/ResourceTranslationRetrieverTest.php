@@ -24,8 +24,13 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\model\Translation\Service;
 
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
 use InvalidArgumentException;
+use oat\generis\model\data\Ontology;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceCollection;
+use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
@@ -37,6 +42,9 @@ class ResourceTranslationStatusServiceTest extends TestCase
 {
     private ResourceTranslationRetriever $sut;
 
+    /** @var Ontology|MockObject */
+    private $ontology;
+
     /** @var ResourceTranslationRepository|MockObject */
     private $resourceTranslationRepository;
 
@@ -45,9 +53,10 @@ class ResourceTranslationStatusServiceTest extends TestCase
 
     public function setUp(): void
     {
+        $this->ontology = $this->createMock(Ontology::class);
         $this->resourceTranslationRepository = $this->createMock(ResourceTranslationRepository::class);
         $this->request = $this->createMock(ServerRequestInterface::class);
-        $this->sut = new ResourceTranslationRetriever($this->resourceTranslationRepository);
+        $this->sut = new ResourceTranslationRetriever($this->ontology, $this->resourceTranslationRepository);
     }
 
     public function testGetByRequest(): void
@@ -56,10 +65,11 @@ class ResourceTranslationStatusServiceTest extends TestCase
             ->method('getQueryParams')
             ->willReturn(
                 [
-                    'resourceType' => 'resourceType',
-                    'uniqueId' => 'uniqueId',
+                    'id' => 'id',
                 ]
             );
+
+        $this->mockResource([TaoOntology::CLASS_URI_ITEM], 'uniqueId');
 
         $result = new ResourceCollection();
 
@@ -68,7 +78,7 @@ class ResourceTranslationStatusServiceTest extends TestCase
             ->method('find')
             ->with(
                 new ResourceTranslationQuery(
-                    'resourceType',
+                    TaoOntology::CLASS_URI_ITEM,
                     'uniqueId',
                     null
                 )
@@ -78,14 +88,28 @@ class ResourceTranslationStatusServiceTest extends TestCase
         $this->assertSame($result, $this->sut->getByRequest($this->request));
     }
 
-    public function testGetByRequestRequiresResourceType(): void
+    public function testGetByRequestRequiresResourceId(): void
     {
         $this->request->expects($this->once())
             ->method('getQueryParams')
             ->willReturn([]);
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Param resourceType is required');
+        $this->expectException(ResourceTranslationException::class);
+        $this->expectExceptionMessage('Resource id is required');
+
+        $this->sut->getByRequest($this->request);
+    }
+
+    public function testGetByRequestRequiresResourceType(): void
+    {
+        $this->request->expects($this->once())
+            ->method('getQueryParams')
+            ->willReturn(['id' => 'id']);
+
+        $this->mockResource([], 'uniqueId');
+
+        $this->expectException(ResourceTranslationException::class);
+        $this->expectExceptionMessage('Resource id must have a resource type');
 
         $this->sut->getByRequest($this->request);
     }
@@ -96,13 +120,39 @@ class ResourceTranslationStatusServiceTest extends TestCase
             ->method('getQueryParams')
             ->willReturn(
                 [
-                    'resourceType' => 'resourceType',
+                    'id' => 'id',
                 ]
             );
 
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Param uniqueId is required');
+        $this->mockResource([TaoOntology::CLASS_URI_ITEM], '');
+
+        $this->expectException(ResourceTranslationException::class);
+        $this->expectExceptionMessage('Resource id must have a unique identifier');
 
         $this->sut->getByRequest($this->request);
+    }
+
+    private function mockResource(array $classIds, string $uniqueId): core_kernel_classes_Resource
+    {
+        $resource = $this->createMock(core_kernel_classes_Resource::class);
+
+        $resource
+            ->method('getParentClassesIds')
+            ->willReturn($classIds);
+
+        $resource
+            ->method('getUniquePropertyValue')
+            ->willReturn($uniqueId);
+
+        $this->ontology
+            ->expects($this->once())
+            ->method('getResource')
+            ->willReturn($resource);
+
+        $this->ontology
+            ->method('getProperty')
+            ->willReturn($this->createMock(core_kernel_classes_Property::class));
+
+        return $resource;
     }
 }

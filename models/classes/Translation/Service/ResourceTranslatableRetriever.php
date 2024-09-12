@@ -49,7 +49,7 @@ class ResourceTranslatableRetriever
         $id = $queryParams['id'] ?? null;
 
         if (empty($id)) {
-            throw new ResourceTranslationException( 'Resource id is required');
+            throw new ResourceTranslationException('Resource id is required');
         }
 
         $resource = $this->ontology->getResource($id);
@@ -58,7 +58,7 @@ class ResourceTranslatableRetriever
         $resourceType = array_pop($parentClassIds);
 
         if (empty($resourceType)) {
-            throw new ResourceTranslationException(sprintf( 'Resource %s must have a resource type', $id));
+            throw new ResourceTranslationException(sprintf('Resource %s must have a resource type', $id));
         }
 
         $uniqueId = $resource->getUniquePropertyValue(
@@ -66,7 +66,7 @@ class ResourceTranslatableRetriever
         );
 
         if (empty($uniqueId)) {
-            throw new ResourceTranslationException(sprintf( 'Resource %s must have a unique identifier', $id));
+            throw new ResourceTranslationException(sprintf('Resource %s must have a unique identifier', $id));
         }
 
         return $this->resourceTranslatableRepository->find(
