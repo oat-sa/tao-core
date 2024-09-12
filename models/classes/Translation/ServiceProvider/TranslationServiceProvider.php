@@ -28,7 +28,6 @@ use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\oatbox\log\LoggerService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Factory\ResourceTranslatableFactory;
 use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
 use oat\tao\model\Translation\Form\Modifier\TranslationFormModifier;
@@ -40,7 +39,6 @@ use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use oat\tao\model\Translation\Service\TranslationCreationService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-use taoItems_models_classes_ItemsService;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 /**
@@ -125,19 +123,6 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                     service(LoggerService::SERVICE_ID),
                 ]
             )
-            //FIXME 
-            //FIXME @TODO Move this to proper extension
-            //FIXME 
-            ->call(
-                'setOntologyClassService',
-                [
-                    TaoOntology::CLASS_URI_ITEM,
-                    service(taoItems_models_classes_ItemsService::class)
-                ]
-            )
-            //FIXME 
-            //FIXME 
-            //FIXME 
             ->public();
     }
 }
