@@ -5,6 +5,29 @@ info:
   version: v1
 
 paths:
+  /tao/Translation/update:
+    post:
+      summary: Return a list of translations for a given translatable resource
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The resource URI
+                progress:
+                  type: string
+                  description: The progress URI
+      responses:
+        200:
+          $ref: '#/components/responses/TranslateResponse'
+        400:
+          $ref: '#/components/responses/BadRequestResponse'
+        500:
+          $ref: '#/components/responses/InternalServerErrorResponse'
   /tao/Translation/translations:
     get:
       summary: Return a list of translations for a given translatable resource

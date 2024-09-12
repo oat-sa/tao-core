@@ -21,13 +21,38 @@
 declare(strict_types=1);
 
 use oat\tao\model\http\HttpJsonResponseTrait;
+use oat\tao\model\Translation\Command\UpdateTranslationCommand;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
 use oat\tao\model\Translation\Service\TranslationCreationService;
+use oat\tao\model\Translation\Service\TranslationUpdateService;
 
 class tao_actions_Translation extends tao_actions_CommonModule
 {
     use HttpJsonResponseTrait;
+
+    /**
+     * @requiresRight id WRITE
+     */
+    public function update(): void
+    {
+        try {
+            $resource = $this->getTranslationUpdateService()->update(
+                new UpdateTranslationCommand(
+                    $this->getRequestParameter('id'),
+                    $this->getRequestParameter('progress'),
+                )
+            );
+
+            $this->setSuccessJsonResponse(
+                [
+                    'resourceUri' => $resource->getUri()
+                ]
+            );
+        } catch (Throwable $exception) {
+            $this->setErrorJsonResponse($exception->getMessage());
+        }
+    }
 
     /**
      * @requiresRight id WRITE
@@ -88,5 +113,10 @@ class tao_actions_Translation extends tao_actions_CommonModule
     private function getTranslationCreationService(): TranslationCreationService
     {
         return $this->getServiceManager()->getContainer()->get(TranslationCreationService::class);
+    }
+
+    private function getTranslationUpdateService(): TranslationUpdateService
+    {
+        return $this->getServiceManager()->getContainer()->get(TranslationUpdateService::class);
     }
 }

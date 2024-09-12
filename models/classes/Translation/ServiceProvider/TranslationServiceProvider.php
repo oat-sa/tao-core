@@ -37,6 +37,7 @@ use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use oat\tao\model\Translation\Service\TranslationCreationService;
+use oat\tao\model\Translation\Service\TranslationUpdateService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -122,6 +123,16 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                     service(ResourceTranslatableRepository::class),
                     service(ResourceTranslationRepository::class),
                     service(LanguageRepositoryInterface::class),
+                    service(LoggerService::SERVICE_ID),
+                ]
+            )
+            ->public();
+
+        $services
+            ->set(TranslationUpdateService::class, TranslationUpdateService::class)
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
                     service(LoggerService::SERVICE_ID),
                 ]
             )
