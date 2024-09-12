@@ -23,10 +23,26 @@ declare(strict_types=1);
 use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
+use oat\tao\model\Translation\Service\TranslationCreationService;
 
 class tao_actions_Translation extends tao_actions_CommonModule
 {
     use HttpJsonResponseTrait;
+
+    public function translate(): void
+    {
+        try {
+            $newResource = $this->getTranslationCreationService()->createByRequest($this->getPsrRequest());
+
+            $this->setSuccessJsonResponse(
+                [
+                    'resourceUri' => $newResource->getUri()
+                ]
+            );
+        } catch (Throwable $exception) {
+            $this->setErrorJsonResponse($exception->getMessage());
+        }
+    }
 
     public function translations(): void
     {
@@ -58,5 +74,10 @@ class tao_actions_Translation extends tao_actions_CommonModule
     private function getResourceTranslatableRetriever(): ResourceTranslatableRetriever
     {
         return $this->getServiceManager()->getContainer()->get(ResourceTranslatableRetriever::class);
+    }
+
+    private function getTranslationCreationService(): TranslationCreationService
+    {
+        return $this->getServiceManager()->getContainer()->get(TranslationCreationService::class);
     }
 }
