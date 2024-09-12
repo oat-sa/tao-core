@@ -309,7 +309,6 @@ return [
         [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'File', 'act' => 'accessFile']],
         [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'Log', 'act' => 'log']],
         [AccessRule::GRANT, TaoRoles::BASE_USER, ['ext' => 'tao', 'mod' => 'TaskQueueWebApi']],
-        [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'Translation']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'Languages', 'act' => 'index']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'ResourceRelations', 'act' => 'index']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'File', 'act' => 'upload']],
