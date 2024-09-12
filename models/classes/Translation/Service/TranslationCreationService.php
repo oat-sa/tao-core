@@ -77,28 +77,37 @@ class TranslationCreationService
     public function createByRequest(ServerRequestInterface $request): core_kernel_classes_Resource
     {
         $requestParams = $request->getParsedBody();
+        $id = $requestParams['id'] ?? null;
 
-        $requiredParams = [
-            'resourceType',
-            'uniqueId',
-            'languageUri',
-        ];
+        if (empty($id)) {
+            throw new ResourceTranslationException('Resource id is required');
+        }
 
-        foreach ($requiredParams as $requiredParam) {
-            if (empty($requestParams[$requiredParam])) {
-                throw new ResourceTranslationException(
-                    sprintf(
-                        'Parameter %s is mandatory',
-                        $requiredParam
-                    )
-                );
-            }
+        $resource = $this->ontology->getResource($id);
+
+        $parentClassIds = $resource->getParentClassesIds();
+        $resourceType = array_pop($parentClassIds);
+
+        if (empty($resourceType)) {
+            throw new ResourceTranslationException(sprintf('Resource %s must have a resource type', $id));
+        }
+
+        $uniqueId = $resource->getUniquePropertyValue(
+            $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
+        );
+
+        if (empty($uniqueId)) {
+            throw new ResourceTranslationException(sprintf('Resource %s must have a unique identifier', $id));
+        }
+
+        if (empty($requestParams['languageUri'])) {
+            throw new ResourceTranslationException('Parameter languageUri is mandatory');
         }
 
         return $this->create(
             new CreateTranslationCommand(
-                $requestParams['resourceType'],
-                $requestParams['uniqueId'],
+                $resourceType,
+                (string)$uniqueId,
                 $requestParams['languageUri']
             )
         );

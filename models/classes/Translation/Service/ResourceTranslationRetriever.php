@@ -22,40 +22,58 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Service;
 
-use InvalidArgumentException;
+use oat\generis\model\data\Ontology;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceCollection;
+use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ResourceTranslationRetriever
 {
+    private Ontology $ontology;
     private ResourceTranslationRepository $resourceTranslationRepository;
 
-    public function __construct(ResourceTranslationRepository $resourceTranslationRepository)
-    {
+    public function __construct(
+        Ontology $ontology,
+        ResourceTranslationRepository $resourceTranslationRepository
+    ) {
+        $this->ontology = $ontology;
         $this->resourceTranslationRepository = $resourceTranslationRepository;
     }
 
     public function getByRequest(ServerRequestInterface $request): ResourceCollection
     {
         $queryParams = $request->getQueryParams();
-        $resourceType = $queryParams['resourceType'] ?? null;
-        $uniqueId = $queryParams['uniqueId'] ?? null;
         $languageUri = $queryParams['languageUri'] ?? null;
+        $id = $queryParams['id'] ?? null;
 
-        if (empty($resourceType)) {
-            throw new InvalidArgumentException('Param resourceType is required');
+        if (empty($id)) {
+            throw new ResourceTranslationException( 'Resource id is required');
         }
 
+        $resource = $this->ontology->getResource($id);
+
+        $parentClassIds = $resource->getParentClassesIds();
+        $resourceType = array_pop($parentClassIds);
+
+        if (empty($resourceType)) {
+            throw new ResourceTranslationException(sprintf( 'Resource %s must have a resource type', $id));
+        }
+
+        $uniqueId = $resource->getUniquePropertyValue(
+            $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
+        );
+
         if (empty($uniqueId)) {
-            throw new InvalidArgumentException('Param uniqueId is required');
+            throw new ResourceTranslationException(sprintf( 'Resource %s must have a unique identifier', $id));
         }
 
         return $this->resourceTranslationRepository->find(
             new ResourceTranslationQuery(
                 $resourceType,
-                $uniqueId,
+                (string)$uniqueId,
                 $languageUri
             )
         );

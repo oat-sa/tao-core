@@ -29,6 +29,9 @@ class tao_actions_Translation extends tao_actions_CommonModule
 {
     use HttpJsonResponseTrait;
 
+    /**
+     * @requiresRight id WRITE
+     */
     public function translate(): void
     {
         try {
@@ -44,6 +47,9 @@ class tao_actions_Translation extends tao_actions_CommonModule
         }
     }
 
+    /**
+     * @requiresRight id READ
+     */
     public function translations(): void
     {
         try {
@@ -55,6 +61,9 @@ class tao_actions_Translation extends tao_actions_CommonModule
         }
     }
 
+    /**
+     * @requiresRight id READ
+     */
     public function translatable(): void
     {
         try {

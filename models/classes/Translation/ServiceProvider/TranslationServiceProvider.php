@@ -93,6 +93,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
         $services->set(ResourceTranslationRetriever::class, ResourceTranslationRetriever::class)
             ->args(
                 [
+                    service(Ontology::SERVICE_ID),
                     service(ResourceTranslationRepository::class)
                 ]
             )
@@ -101,6 +102,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
         $services->set(ResourceTranslatableRetriever::class, ResourceTranslatableRetriever::class)
             ->args(
                 [
+                    service(Ontology::SERVICE_ID),
                     service(ResourceTranslatableRepository::class)
                 ]
             )
