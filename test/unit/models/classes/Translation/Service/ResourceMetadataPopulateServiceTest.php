@@ -28,6 +28,7 @@ use core_kernel_classes_Literal;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
+use oat\generis\model\OntologyRdf;
 use oat\tao\model\Translation\Entity\AbstractResource;
 use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -58,7 +59,7 @@ class ResourceMetadataPopulateServiceTest extends TestCase
     {
         $resourceType = 'testResourceType';
         $metadataUri = 'http://example.com/metadata';
-        $valuePropertyUri = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value';
+        $valuePropertyUri = OntologyRdf::RDF_VALUE;
         $value = 'testValue';
         $literalValue = 'testLiteral';
         $valueProperty = $this->createMock(core_kernel_classes_Property::class);

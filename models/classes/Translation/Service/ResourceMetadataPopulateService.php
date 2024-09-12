@@ -25,6 +25,7 @@ namespace oat\tao\model\Translation\Service;
 use core_kernel_classes_Literal;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
+use oat\generis\model\OntologyRdf;
 use oat\tao\model\Translation\Entity\AbstractResource;
 
 class ResourceMetadataPopulateService
@@ -39,13 +40,13 @@ class ResourceMetadataPopulateService
 
     public function addMetadata(string $resourceType, string $metadataUri): void
     {
-        $this->metadata[$resourceType] = empty($this->metadata[$resourceType]) ? [] : $this->metadata[$resourceType];
+        $this->metadata[$resourceType] ??= [];
         $this->metadata[$resourceType] = array_unique(array_merge($this->metadata[$resourceType], [$metadataUri]));
     }
 
     public function populate(AbstractResource $resource, core_kernel_classes_Resource $originResource): void
     {
-        $valueProperty = $this->ontology->getProperty('http://www.w3.org/1999/02/22-rdf-syntax-ns#value');
+        $valueProperty = $this->ontology->getProperty(OntologyRdf::RDF_VALUE);
 
         $parentClasses = $originResource->getParentClassesIds();
         $resourceType = array_pop($parentClasses);

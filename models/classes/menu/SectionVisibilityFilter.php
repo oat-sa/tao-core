@@ -70,7 +70,7 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
             $userSettings->getSetting(
                 UserSettingsInterface::INTERFACE_MODE
             ) === GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE
-            && in_array($sectionPath, self::SIMPLE_INTERFACE_MODE_HIDDEN_SECTIONS)
+            && in_array($sectionPath, self::SIMPLE_INTERFACE_MODE_HIDDEN_SECTIONS, true)
         ) {
             return false;
         }
