@@ -129,7 +129,7 @@ class TranslationCreationServiceTest extends TestCase
             ->with('MyInstance (pt-BR)');
         $clonedInstance
             ->expects($this->exactly(3))
-            ->method('setPropertyValue')
+            ->method('editPropertyValues')
             ->withConsecutive(
                 [
                     $languageProperty,

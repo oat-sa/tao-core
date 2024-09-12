@@ -190,17 +190,17 @@ class TranslationCreationService
 
         $clonedInstance->setLabel(sprintf('%s (%s)', $instance->getLabel(), $language->getCode()));
 
-        $clonedInstance->setPropertyValue(
+        $clonedInstance->editPropertyValues(
             $this->ontology->getProperty(TaoOntology::PROPERTY_LANGUAGE),
             $language->getUri()
         );
 
-        $clonedInstance->setPropertyValue(
+        $clonedInstance->editPropertyValues(
             $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_TYPE),
             TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION
         );
 
-        $clonedInstance->setPropertyValue(
+        $clonedInstance->editPropertyValues(
             $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_PROGRESS),
             TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_PENDING
         );
