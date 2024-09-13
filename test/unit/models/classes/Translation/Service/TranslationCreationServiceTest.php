@@ -104,7 +104,7 @@ class TranslationCreationServiceTest extends TestCase
 
         $language = $this->createMock(Language::class);
         $language
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(3))
             ->method('getUri')
             ->willReturn($languageUri);
         $language

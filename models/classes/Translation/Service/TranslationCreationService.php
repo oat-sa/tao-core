@@ -76,9 +76,6 @@ class TranslationCreationService
 
     public function createByRequest(ServerRequestInterface $request): core_kernel_classes_Resource
     {
-        // @TODO If the resource is not a ORIGINAL, it should not be translatable
-        // @TODO Cannot create a translation using the original language
-
         $requestParams = $request->getParsedBody();
         $id = $requestParams['id'] ?? null;
 
@@ -92,6 +89,20 @@ class TranslationCreationService
             throw new ResourceTranslationException(
                 sprintf(
                     'Resource %s does not exist',
+                    $id
+                )
+            );
+        }
+
+        /** @var core_kernel_classes_Resource $translationType */
+        $translationType = $resource->getUniquePropertyValue(
+            $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_TYPE)
+        );
+
+        if ($translationType->getUri() !== TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL) {
+            throw new ResourceTranslationException(
+                sprintf(
+                    'Resource %s is not the original',
                     $id
                 )
             );
@@ -202,6 +213,15 @@ class TranslationCreationService
 
         /** @var ResourceTranslatable $resource */
         $resource = $resources->current();
+
+        if ($resource->getLanguageUri() === $language->getUri()) {
+            throw new ResourceTranslationException(
+                sprintf(
+                    'Cannot translate to original language %s',
+                    $command->getLanguageUri()
+                )
+            );
+        }
 
         $instance = $this->ontology->getResource($resource->getResourceUri());
         $types = $instance->getTypes();
