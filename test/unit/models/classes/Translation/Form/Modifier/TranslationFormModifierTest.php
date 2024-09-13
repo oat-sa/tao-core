@@ -92,7 +92,12 @@ class TranslationFormModifierTest extends TestCase
         $this->form
             ->expects($this->exactly(count($removeElements)))
             ->method('removeElement')
-            ->withConsecutive(...array_map(static fn ($element) => [tao_helpers_Uri::encode($element)], $removeElements));
+            ->withConsecutive(
+                ...array_map(
+                    static fn ($element) => [tao_helpers_Uri::encode($element)],
+                    $removeElements
+                )
+            );
 
         $this->sut->modify($this->form);
     }
