@@ -115,6 +115,7 @@ class ResourceTranslationRepository
 
         $result = $this->complexSearch->getGateway()->search($queryBuilder);
         $resourceTypeClass = $this->ontology->getClass($query->getResourceType());
+        $uniqueIdProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
 
         /** @var core_kernel_classes_Resource $translationResource */
         foreach ($result as $translationResource) {
@@ -123,9 +124,7 @@ class ResourceTranslationRepository
                     continue;
                 }
 
-                $uniqueId = (string) $translationResource->getOnePropertyValue(
-                    $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
-                );
+                $uniqueId = (string) $translationResource->getOnePropertyValue($uniqueIdProperty);
 
                 $output[] = $this->factory->create($originResources[$uniqueId], $translationResource);
             } catch (Throwable $exception) {
