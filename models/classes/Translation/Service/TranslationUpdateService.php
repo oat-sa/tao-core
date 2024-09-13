@@ -46,6 +46,15 @@ class TranslationUpdateService
         try {
             $instance = $this->ontology->getResource($command->getResourceUri());
 
+            if (!$instance->exists()) {
+                throw new ResourceTranslationException(
+                    sprintf(
+                        'Resource %s does not exist',
+                        $command->getResourceUri()
+                    )
+                );
+            }
+
             $translationType = $instance->getOnePropertyValue(
                 $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_TYPE)
             );

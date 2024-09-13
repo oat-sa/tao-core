@@ -76,6 +76,9 @@ class TranslationCreationService
 
     public function createByRequest(ServerRequestInterface $request): core_kernel_classes_Resource
     {
+        // @TODO If the resource is not a ORIGINAL, it should not be translatable
+        // @TODO Cannot create a translation using the original language
+
         $requestParams = $request->getParsedBody();
         $id = $requestParams['id'] ?? null;
 
@@ -84,6 +87,15 @@ class TranslationCreationService
         }
 
         $resource = $this->ontology->getResource($id);
+
+        if (!$resource->exists()) {
+            throw new ResourceTranslationException(
+                sprintf(
+                    'Resource %s does not exist',
+                    $id
+                )
+            );
+        }
 
         $parentClassIds = $resource->getParentClassesIds();
         $resourceType = array_pop($parentClassIds);
@@ -138,7 +150,7 @@ class TranslationCreationService
         $translations = $this->resourceTranslationRepository->find(
             new ResourceTranslationQuery(
                 $command->getResourceType(),
-                $command->getUniqueId(),
+                [$command->getUniqueId()],
                 $command->getLanguageUri()
             )
         );

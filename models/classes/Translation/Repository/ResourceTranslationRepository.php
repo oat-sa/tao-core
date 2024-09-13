@@ -60,18 +60,21 @@ class ResourceTranslationRepository
 
     public function find(ResourceTranslationQuery $query): ResourceCollection
     {
-        $uniqueId = $query->getUniqueId();
+        $uniqueIds = $query->getUniqueIds();
         $resources = $this->resourceTranslatableRepository->find(
             new ResourceTranslatableQuery(
                 $query->getResourceType(),
-                [
-                    $uniqueId
-                ]
+                $uniqueIds
             )
         );
 
         if ($resources->count() === 0) {
-            throw new Exception(sprintf('Translation Origin Resource %s does not exist', $uniqueId));
+            throw new Exception(
+                sprintf(
+                    'Translation Origin Resource [%s] does not exist',
+                    implode(',', $uniqueIds)
+                )
+            );
         }
 
         /** @var ResourceTranslatable $originResource */
@@ -91,8 +94,8 @@ class ResourceTranslationRepository
         );
         $searchQuery->addCriterion(
             TaoOntology::PROPERTY_UNIQUE_IDENTIFIER,
-            SupportedOperatorHelper::EQUAL,
-            $uniqueId
+            SupportedOperatorHelper::IN,
+            $uniqueIds
         );
 
         if ($query->getLanguageUri()) {
@@ -119,8 +122,8 @@ class ResourceTranslationRepository
             } catch (Throwable $exception) {
                 $this->logger->warning(
                     sprintf(
-                        'Cannot read translation status for [uniqueId=%s, translationResourceId=%s]: %s - %s',
-                        $uniqueId,
+                        'Cannot read translation status for [uniqueIds=%s, translationResourceId=%s]: %s - %s',
+                        $uniqueIds,
                         $translationResource->getUri(),
                         $exception->getMessage(),
                         $exception->getTraceAsString()

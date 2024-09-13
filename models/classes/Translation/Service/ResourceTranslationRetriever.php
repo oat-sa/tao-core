@@ -73,7 +73,7 @@ class ResourceTranslationRetriever
         return $this->resourceTranslationRepository->find(
             new ResourceTranslationQuery(
                 $resourceType,
-                (string)$uniqueId,
+                [(string)$uniqueId],
                 $languageUri
             )
         );
