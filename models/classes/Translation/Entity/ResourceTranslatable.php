@@ -30,4 +30,9 @@ class ResourceTranslatable extends AbstractResource
     {
         return $this->getMetadataValue(TaoOntology::PROPERTY_TRANSLATION_STATUS);
     }
+
+    public function isReadyForTranslation(): bool
+    {
+        return $this->getStatusUri() === TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY;
+    }
 }

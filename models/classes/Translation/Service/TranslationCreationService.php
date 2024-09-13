@@ -192,6 +192,18 @@ class TranslationCreationService
             );
         }
 
+        /** @var ResourceTranslatable $resource */
+        $resource = $resources->current();
+
+        if (!$resource->isReadyForTranslation()) {
+            throw new ResourceTranslationException(
+                sprintf(
+                    'Resource [uniqueId=%s] is not ready for translation',
+                    $command->getUniqueId()
+                )
+            );
+        }
+
         $existingLanguages = $this->languageRepository->findAvailableLanguagesByUsage();
         $language = null;
 
@@ -210,9 +222,6 @@ class TranslationCreationService
                 )
             );
         }
-
-        /** @var ResourceTranslatable $resource */
-        $resource = $resources->current();
 
         if ($resource->getLanguageUri() === $language->getUri()) {
             throw new ResourceTranslationException(

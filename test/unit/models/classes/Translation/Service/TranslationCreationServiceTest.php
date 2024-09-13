@@ -95,12 +95,18 @@ class TranslationCreationServiceTest extends TestCase
         $uniqueId = 'id1';
         $languageUri = 'http://www.tao.lu/Ontologies/TAO.rdf#Langpt-BR';
 
+        $translatable = $this->createMock(ResourceTranslatable::class);
+
         $languageProperty = $this->createMock(core_kernel_classes_Property::class);
         $translationTypeProperty = $this->createMock(core_kernel_classes_Property::class);
         $translationProgressProperty = $this->createMock(core_kernel_classes_Property::class);
 
         $resourceCollection = new ResourceCollection();
-        $translatableCollection = new ResourceCollection($this->createMock(ResourceTranslatable::class));
+        $translatableCollection = new ResourceCollection($translatable);
+
+        $translatable
+            ->method('isReadyForTranslation')
+            ->willReturn(true);
 
         $language = $this->createMock(Language::class);
         $language
@@ -198,10 +204,16 @@ class TranslationCreationServiceTest extends TestCase
 
     public function testCreateWillFailIfTranslationAlreadyExists(): void
     {
+        $translatable = $this->createMock(ResourceTranslatable::class);
+
+        $translatable
+            ->method('isReadyForTranslation')
+            ->willReturn(true);
+
         $this->resourceTranslationRepository
             ->expects($this->once())
             ->method('find')
-            ->willReturn(new ResourceCollection($this->createMock(ResourceTranslation::class)));
+            ->willReturn(new ResourceCollection($translatable));
 
         $this->expectException(ResourceTranslationException::class);
         $this->expectExceptionMessage(
@@ -243,6 +255,12 @@ class TranslationCreationServiceTest extends TestCase
 
     public function testCreateWillFailIfLanguageDoesNotExist(): void
     {
+        $translatable = $this->createMock(ResourceTranslatable::class);
+
+        $translatable
+            ->method('isReadyForTranslation')
+            ->willReturn(true);
+
         $this->resourceTranslationRepository
             ->expects($this->once())
             ->method('find')
@@ -251,7 +269,7 @@ class TranslationCreationServiceTest extends TestCase
         $this->resourceTranslatableRepository
             ->expects($this->once())
             ->method('find')
-            ->willReturn(new ResourceCollection($this->createMock(ResourceTranslatable::class)));
+            ->willReturn(new ResourceCollection($translatable));
 
         $this->languageRepository
             ->expects($this->once())
@@ -260,6 +278,36 @@ class TranslationCreationServiceTest extends TestCase
 
         $this->expectException(ResourceTranslationException::class);
         $this->expectExceptionMessage('Language http://www.tao.lu/Ontologies/TAO.rdf#Langpt-BR does not exist');
+
+        $this->service->create(
+            new CreateTranslationCommand(
+                TaoOntology::CLASS_URI_ITEM,
+                'id1',
+                'http://www.tao.lu/Ontologies/TAO.rdf#Langpt-BR'
+            )
+        );
+    }
+
+    public function testCreateWillFailIfResourceIsNotReadyForTranslation(): void
+    {
+        $translatable = $this->createMock(ResourceTranslatable::class);
+
+        $translatable
+            ->method('isReadyForTranslation')
+            ->willReturn(false);
+
+        $this->resourceTranslationRepository
+            ->expects($this->once())
+            ->method('find')
+            ->willReturn(new ResourceCollection());
+
+        $this->resourceTranslatableRepository
+            ->expects($this->once())
+            ->method('find')
+            ->willReturn(new ResourceCollection($translatable));
+
+        $this->expectException(ResourceTranslationException::class);
+        $this->expectExceptionMessage('Resource [uniqueId=id1] is not ready for translation');
 
         $this->service->create(
             new CreateTranslationCommand(
