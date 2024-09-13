@@ -15,14 +15,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2024 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\menu;
+namespace oat\tao\model\Translation\Entity;
 
-interface SectionVisibilityFilterInterface
+use oat\tao\model\TaoOntology;
+
+class ResourceTranslatable extends AbstractResource
 {
-    public function isVisible(string $sectionPath): bool;
+    public function getStatusUri(): ?string
+    {
+        return $this->getMetadataValue(TaoOntology::PROPERTY_TRANSLATION_STATUS);
+    }
+
+    public function isReadyForTranslation(): bool
+    {
+        return $this->getStatusUri() === TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY;
+    }
 }

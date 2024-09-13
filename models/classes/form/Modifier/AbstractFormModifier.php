@@ -15,14 +15,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2024 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\menu;
+namespace oat\tao\model\form\Modifier;
 
-interface SectionVisibilityFilterInterface
+use tao_helpers_form_Form;
+
+abstract class AbstractFormModifier
 {
-    public function isVisible(string $sectionPath): bool;
+    /** @var AbstractFormModifier[] */
+    private array $modifiers = [];
+
+    public function addModifier(AbstractFormModifier $modifier): void
+    {
+        if (!in_array($modifier, $this->modifiers, true)) {
+            $this->modifiers[] = $modifier;
+        }
+    }
+
+    public function modify(tao_helpers_form_Form $form, array $options = []): void
+    {
+        foreach ($this->modifiers as $modifier) {
+            $modifier->modify($form, $options);
+        }
+    }
 }

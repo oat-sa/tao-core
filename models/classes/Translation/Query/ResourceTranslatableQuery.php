@@ -15,14 +15,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2024 (original work) Open Assessment Technologies SA;
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\menu;
+namespace oat\tao\model\Translation\Query;
 
-interface SectionVisibilityFilterInterface
+class ResourceTranslatableQuery
 {
-    public function isVisible(string $sectionPath): bool;
+    private string $resourceType;
+    private array $uniqueIds;
+
+    public function __construct(string $resourceType, array $uniqueIds = [])
+    {
+        $this->resourceType = $resourceType;
+        $this->uniqueIds = $uniqueIds;
+    }
+
+    public function getResourceType(): string
+    {
+        return $this->resourceType;
+    }
+
+    public function getUniqueIds(): array
+    {
+        return $this->uniqueIds;
+    }
 }
