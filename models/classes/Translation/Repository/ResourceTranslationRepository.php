@@ -77,8 +77,13 @@ class ResourceTranslationRepository
             );
         }
 
-        /** @var ResourceTranslatable $originResource */
-        $originResource = $resources->current();
+        $originResources = [];
+
+        /** @var ResourceTranslatable $resource */
+        foreach ($resources as $resource) {
+            $originResources[$resource->getUniqueId()] = $resource;
+        }
+
         $output = [];
 
         $queryBuilder = $this->complexSearch->query();
@@ -118,12 +123,16 @@ class ResourceTranslationRepository
                     continue;
                 }
 
-                $output[] = $this->factory->create($originResource, $translationResource);
+                $uniqueId = (string) $translationResource->getOnePropertyValue(
+                    $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
+                );
+
+                $output[] = $this->factory->create($originResources[$uniqueId], $translationResource);
             } catch (Throwable $exception) {
                 $this->logger->warning(
                     sprintf(
                         'Cannot read translation status for [uniqueIds=%s, translationResourceId=%s]: %s - %s',
-                        $uniqueIds,
+                        implode(',', $uniqueIds),
                         $translationResource->getUri(),
                         $exception->getMessage(),
                         $exception->getTraceAsString()
