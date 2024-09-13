@@ -79,7 +79,7 @@ class ResourceTranslationStatusServiceTest extends TestCase
             ->with(
                 new ResourceTranslationQuery(
                     TaoOntology::CLASS_URI_ITEM,
-                    'uniqueId',
+                    ['uniqueId'],
                     null
                 )
             )

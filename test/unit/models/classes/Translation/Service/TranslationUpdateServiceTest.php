@@ -68,6 +68,10 @@ class TranslationUpdateServiceTest extends TestCase
             ->willReturn($translationType);
 
         $resource
+            ->method('exists')
+            ->willReturn(true);
+
+        $resource
             ->expects($this->once())
             ->method('editPropertyValues')
             ->with(
@@ -118,6 +122,10 @@ class TranslationUpdateServiceTest extends TestCase
         $resource
             ->method('getOnePropertyValue')
             ->willReturn($translationType);
+
+        $resource
+            ->method('exists')
+            ->willReturn(true);
 
         $this->ontology
             ->method('getResource')

@@ -99,14 +99,18 @@ class ResourceTranslationRepositoryTest extends TestCase
     public function testFindReturnsResourceCollection(): void
     {
         $resourceType = 'http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject';
-        $uniqueId = 'id1';
+        $uniqueIds = ['id1'];
         $translatable1 = $this->createMock(ResourceTranslatable::class);
         $translationResource1 = $this->createMock(core_kernel_classes_Resource::class);
         $translation1 = $this->createMock(ResourceTranslation::class);
 
         $query = $this->createMock(ResourceTranslationQuery::class);
-        $query->method('getResourceType')->willReturn($resourceType);
-        $query->method('getUniqueId')->willReturn($uniqueId);
+        $query
+            ->method('getResourceType')
+            ->willReturn($resourceType);
+        $query
+            ->method('getUniqueIds')
+            ->willReturn($uniqueIds);
 
         $this->resourceTranslatableRepository
             ->method('find')
