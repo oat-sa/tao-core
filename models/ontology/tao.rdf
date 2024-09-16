@@ -350,7 +350,7 @@
 
   <!--
   Metadata required for translation process.
-  Only available via feature flag "FEATURE_TRANSLATION_ENABLED"
+  Only available via feature flag "FEATURE_FLAG_TRANSLATION_ENABLED"
 
   ATTENTION: Please link these metadata with resources on the specific extensions
   -->
