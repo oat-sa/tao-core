@@ -79,7 +79,7 @@ class TranslationFormModifierTest extends TestCase
             ->method('isEnabled')
             ->withConsecutive(
                 ['FEATURE_FLAG_TRANSLATION_ENABLED'],
-                ['FEATURE_TRANSLATION_DEVELOPER_MODE'],
+                ['FEATURE_FLAG_TRANSLATION_DEVELOPER_MODE'],
             )
             ->willReturnOnConsecutiveCalls(true, $developerMode);
 

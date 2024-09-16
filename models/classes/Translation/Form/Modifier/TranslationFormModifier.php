@@ -58,7 +58,7 @@ class TranslationFormModifier extends AbstractFormModifier
 
         $elementsToRemove = [];
 
-        if (!$this->featureFlagChecker->isEnabled('FEATURE_TRANSLATION_DEVELOPER_MODE')) {
+        if (!$this->featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_DEVELOPER_MODE')) {
             $elementsToRemove[] = TaoOntology::PROPERTY_TRANSLATION_TYPE;
         }
 
