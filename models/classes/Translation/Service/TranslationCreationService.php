@@ -70,7 +70,7 @@ class TranslationCreationService
 
     public function addPostCreation(string $resourceType, callable $callable): void
     {
-        $this->callables[$resourceType] = $this->callables[$resourceType] ?? [];
+        $this->callables[$resourceType] ??= [];
         $this->callables[$resourceType][] = $callable;
     }
 

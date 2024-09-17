@@ -25,6 +25,7 @@ use oat\tao\model\Translation\Command\UpdateTranslationCommand;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
 use oat\tao\model\Translation\Service\TranslationCreationService;
+use oat\tao\model\Translation\Service\TranslationSyncService;
 use oat\tao\model\Translation\Service\TranslationUpdateService;
 
 class tao_actions_Translation extends tao_actions_CommonModule
@@ -100,23 +101,44 @@ class tao_actions_Translation extends tao_actions_CommonModule
         }
     }
 
+    /**
+     * @requiresRight id WRITE
+     */
+    public function sync(): void
+    {
+        try {
+            $test = $this->getTranslationSyncService()->syncByRequest($this->getPsrRequest());
+
+            $this->setSuccessJsonResponse([
+                'resourceUri' => $test->getUri(),
+            ]);
+        } catch (Throwable $exception) {
+            $this->setErrorJsonResponse($exception->getMessage());
+        }
+    }
+
     private function getResourceTranslationRetriever(): ResourceTranslationRetriever
     {
-        return $this->getServiceManager()->getContainer()->get(ResourceTranslationRetriever::class);
+        return $this->getPsrContainer()->get(ResourceTranslationRetriever::class);
     }
 
     private function getResourceTranslatableRetriever(): ResourceTranslatableRetriever
     {
-        return $this->getServiceManager()->getContainer()->get(ResourceTranslatableRetriever::class);
+        return $this->getPsrContainer()->get(ResourceTranslatableRetriever::class);
     }
 
     private function getTranslationCreationService(): TranslationCreationService
     {
-        return $this->getServiceManager()->getContainer()->get(TranslationCreationService::class);
+        return $this->getPsrContainer()->get(TranslationCreationService::class);
     }
 
     private function getTranslationUpdateService(): TranslationUpdateService
     {
-        return $this->getServiceManager()->getContainer()->get(TranslationUpdateService::class);
+        return $this->getPsrContainer()->get(TranslationUpdateService::class);
+    }
+
+    private function getTranslationSyncService(): TranslationSyncService
+    {
+        return $this->getPsrContainer()->get(TranslationSyncService::class);
     }
 }
