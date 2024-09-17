@@ -25,7 +25,10 @@ namespace oat\tao\model\Translation\Service;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\Translation\Entity\ResourceTranslation;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
+use oat\tao\model\Translation\Query\ResourceTranslationQuery;
+use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -33,12 +36,17 @@ use Throwable;
 class TranslationSyncService
 {
     private Ontology $ontology;
+    private ResourceTranslationRepository $resourceTranslationRepository;
     private LoggerInterface $logger;
     private array $synchronizers;
 
-    public function __construct(Ontology $ontology, LoggerInterface $logger)
-    {
+    public function __construct(
+        Ontology $ontology,
+        ResourceTranslationRepository $resourceTranslationRepository,
+        LoggerInterface $logger
+    ) {
         $this->ontology = $ontology;
+        $this->resourceTranslationRepository = $resourceTranslationRepository;
         $this->logger = $logger;
     }
 
@@ -60,20 +68,17 @@ class TranslationSyncService
         $resource = $this->ontology->getResource($id);
 
         $this->assertResourceExists($resource);
-        $this->assertIsTranslation($resource);
+        $this->assertIsOriginal($resource);
 
         $resourceType = $this->getResourceType($resource);
+        $uniqueId = $this->getResourceUniqueId($resource);
 
-        try {
-            foreach ($this->synchronizers[$resourceType] as $callable) {
-                $resource = $callable($resource);
+        $translations = $this->getTranslations($resourceType, $uniqueId, $requestParams['languageUri'] ?? null);
+
+        foreach ($this->synchronizers[$resourceType] as $callable) {
+            foreach ($translations as $translation) {
+                $callable($translation);
             }
-        } catch (Throwable $exception) {
-            $this->logger->error(
-                'An error occurred while trying to synchronize resource translation: ' . $exception->getMessage()
-            );
-
-            throw $exception;
         }
 
         return $resource;
@@ -86,15 +91,57 @@ class TranslationSyncService
         }
     }
 
-    private function assertIsTranslation(core_kernel_classes_Resource $test): void
+    private function assertIsOriginal(core_kernel_classes_Resource $resource): void
     {
-        $translationType = $test->getOnePropertyValue(
+        $translationType = $resource->getOnePropertyValue(
             $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_TYPE)
         );
 
-        if ($translationType->getUri() !== TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION) {
-            throw new ResourceTranslationException(sprintf('Test %s is not the translation', $test->getUri()));
+        if ($translationType->getUri() !== TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL) {
+            throw new ResourceTranslationException(
+                sprintf('Resource %s is not the original', $resource->getUri())
+            );
         }
+    }
+
+    /**
+     * @return core_kernel_classes_Resource[]
+     */
+    private function getTranslations(string $resourceType, string $uniqueId, ?string $languageUri): array
+    {
+        $translations = $this->resourceTranslationRepository->find(new ResourceTranslationQuery(
+            $resourceType,
+            [$uniqueId],
+            $languageUri
+        ));
+
+        $resources = [];
+
+        /** @var ResourceTranslation $translation */
+        foreach ($translations as $translation) {
+            $resource = $this->ontology->getResource($translation->getResourceUri());
+
+            if (!$resource->exists()) {
+                $this->logger->error('Resource %s does not exist', $translation->getResourceUri());
+
+                continue;
+            }
+
+            $resources[] = $resource;
+        }
+
+        if (empty($resources)) {
+            throw new ResourceTranslationException(
+                sprintf(
+                    'Translations for resource does not exist [Type: %s, Unique ID: %s, Language URI: %s]',
+                    $resourceType,
+                    $uniqueId,
+                    $languageUri
+                )
+            );
+        }
+
+        return $resources;
     }
 
     private function getResourceType(core_kernel_classes_Resource $resource): string
@@ -109,5 +156,20 @@ class TranslationSyncService
         }
 
         return $resourceType;
+    }
+
+    private function getResourceUniqueId(core_kernel_classes_Resource $resource): string
+    {
+        $uniqueId = (string) $resource->getOnePropertyValue(
+            $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
+        );
+
+        if (empty($uniqueId)) {
+            throw new ResourceTranslationException(
+                sprintf('Resource %s must have a unique identifier', $resource->getUri())
+            );
+        }
+
+        return $uniqueId;
     }
 }

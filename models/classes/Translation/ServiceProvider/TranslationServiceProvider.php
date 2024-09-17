@@ -143,6 +143,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ->set(TranslationSyncService::class, TranslationSyncService::class)
             ->args([
                 service(Ontology::SERVICE_ID),
+                service(ResourceTranslationRepository::class),
                 service(LoggerService::SERVICE_ID),
             ])
             ->public();
