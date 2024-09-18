@@ -31,14 +31,12 @@ class CreateTranslationCommandTest extends TestCase
 {
     public function testConstructorAndGetters(): void
     {
-        $resourceType = 'http://www.tao.lu/Ontologies/TAO.rdf#SomeType';
-        $uniqueId = 'id1';
+        $resourceUri = 'id1';
         $languageUri = 'http://www.tao.lu/Ontologies/TAO.rdf#Langpt-BR';
 
-        $command = new CreateTranslationCommand($resourceType, $uniqueId, $languageUri);
+        $command = new CreateTranslationCommand($resourceUri, $languageUri);
 
-        $this->assertSame($resourceType, $command->getResourceUri());
-        $this->assertSame($uniqueId, $command->getUniqueId());
+        $this->assertSame($resourceUri, $command->getResourceUri());
         $this->assertSame($languageUri, $command->getLanguageUri());
     }
 }
