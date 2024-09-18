@@ -26,7 +26,6 @@ namespace oat\tao\test\unit\model\Translation\Factory;
 
 use core_kernel_classes_Resource;
 use oat\tao\model\Translation\Entity\ResourceTranslation;
-use oat\tao\model\Translation\Entity\ResourceTranslatable;
 use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
 use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
 use oat\tao\model\TaoOntology;
@@ -40,7 +39,7 @@ class ResourceTranslationFactoryTest extends TestCase
     /** @var ResourceMetadataPopulateService|MockObject */
     private $metadataPopulateService;
 
-    /** @var ResourceTranslatable|MockObject */
+    /** @var core_kernel_classes_Resource|MockObject */
     private $resourceTranslatable;
 
     /** @var core_kernel_classes_Resource|MockObject */
@@ -49,7 +48,7 @@ class ResourceTranslationFactoryTest extends TestCase
     protected function setUp(): void
     {
         $this->metadataPopulateService = $this->createMock(ResourceMetadataPopulateService::class);
-        $this->resourceTranslatable = $this->createMock(ResourceTranslatable::class);
+        $this->resourceTranslatable = $this->createMock(core_kernel_classes_Resource::class);
         $this->translationResource = $this->createMock(core_kernel_classes_Resource::class);
         $this->sut = new ResourceTranslationFactory($this->metadataPopulateService);
     }
@@ -60,7 +59,7 @@ class ResourceTranslationFactoryTest extends TestCase
         $translationUri = 'http://example.com/translation';
         $label = 'Test Resource';
 
-        $this->resourceTranslatable->method('getResourceUri')->willReturn($originUri);
+        $this->resourceTranslatable->method('getUri')->willReturn($originUri);
         $this->translationResource->method('getUri')->willReturn($translationUri);
         $this->translationResource->method('getLabel')->willReturn($label);
 
