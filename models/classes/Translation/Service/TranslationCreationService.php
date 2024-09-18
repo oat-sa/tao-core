@@ -95,7 +95,7 @@ class TranslationCreationService
         }
 
         /** @var core_kernel_classes_Resource $translationType */
-        $translationType = $resource->getUniquePropertyValue(
+        $translationType = $resource->getOnePropertyValue(
             $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_TYPE)
         );
 
@@ -115,7 +115,7 @@ class TranslationCreationService
             throw new ResourceTranslationException(sprintf('Resource %s must have a resource type', $id));
         }
 
-        $uniqueId = $resource->getUniquePropertyValue(
+        $uniqueId = $resource->getOnePropertyValue(
             $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
         );
 

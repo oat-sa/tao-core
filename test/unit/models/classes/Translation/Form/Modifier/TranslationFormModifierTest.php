@@ -52,7 +52,7 @@ class TranslationFormModifierTest extends TestCase
         $this->featureFlagChecker
             ->expects($this->once())
             ->method('isEnabled')
-            ->with('FEATURE_TRANSLATION_ENABLED')
+            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
             ->willReturn(false);
 
         $this->form
@@ -78,8 +78,8 @@ class TranslationFormModifierTest extends TestCase
             ->expects($this->exactly(2))
             ->method('isEnabled')
             ->withConsecutive(
-                ['FEATURE_TRANSLATION_ENABLED'],
-                ['FEATURE_TRANSLATION_DEVELOPER_MODE'],
+                ['FEATURE_FLAG_TRANSLATION_ENABLED'],
+                ['FEATURE_FLAG_TRANSLATION_DEVELOPER_MODE'],
             )
             ->willReturnOnConsecutiveCalls(true, $developerMode);
 

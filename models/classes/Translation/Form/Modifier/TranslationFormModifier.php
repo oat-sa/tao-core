@@ -46,7 +46,7 @@ class TranslationFormModifier extends AbstractFormModifier
 
     private function getTranslationElementsToRemove(tao_helpers_form_Form $form): array
     {
-        if (!$this->featureFlagChecker->isEnabled('FEATURE_TRANSLATION_ENABLED')) {
+        if (!$this->featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')) {
             return [
                 TaoOntology::PROPERTY_UNIQUE_IDENTIFIER,
                 TaoOntology::PROPERTY_LANGUAGE,
@@ -58,7 +58,7 @@ class TranslationFormModifier extends AbstractFormModifier
 
         $elementsToRemove = [];
 
-        if (!$this->featureFlagChecker->isEnabled('FEATURE_TRANSLATION_DEVELOPER_MODE')) {
+        if (!$this->featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_DEVELOPER_MODE')) {
             $elementsToRemove[] = TaoOntology::PROPERTY_TRANSLATION_TYPE;
         }
 

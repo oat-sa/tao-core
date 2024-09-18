@@ -139,7 +139,7 @@ class ResourceTranslatableRetrieverTest extends TestCase
             ->willReturn($classIds);
 
         $resource
-            ->method('getUniquePropertyValue')
+            ->method('getOnePropertyValue')
             ->willReturn($uniqueId);
 
         $this->ontology

@@ -25,6 +25,9 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Translation\Repository;
 
 use core_kernel_classes_Class;
+use core_kernel_classes_Container;
+use core_kernel_classes_Literal;
+use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use Exception;
 use oat\generis\model\data\Ontology;
@@ -32,6 +35,7 @@ use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\search\QueryBuilder;
 use oat\search\base\QueryInterface;
 use oat\search\base\SearchGateWayInterface;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceCollection;
 use oat\tao\model\Translation\Entity\ResourceTranslatable;
 use oat\tao\model\Translation\Entity\ResourceTranslation;
@@ -103,6 +107,12 @@ class ResourceTranslationRepositoryTest extends TestCase
         $translatable1 = $this->createMock(ResourceTranslatable::class);
         $translationResource1 = $this->createMock(core_kernel_classes_Resource::class);
         $translation1 = $this->createMock(ResourceTranslation::class);
+        $uniqueIdProperty = $this->createMock(core_kernel_classes_Property::class);
+        $uniqueId = new core_kernel_classes_Literal('id1');
+
+        $translatable1
+            ->method('getUniqueId')
+            ->willReturn('id1');
 
         $query = $this->createMock(ResourceTranslationQuery::class);
         $query
@@ -141,10 +151,20 @@ class ResourceTranslationRepositoryTest extends TestCase
             ->with($resourceType)
             ->willReturn($this->resourceTypeClass);
 
+        $this->ontology
+            ->method('getProperty')
+            ->with(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
+            ->willReturn($uniqueIdProperty);
+
         $translationResource1
             ->method('isInstanceOf')
             ->with($this->resourceTypeClass)
             ->willReturn(true);
+
+        $translationResource1
+            ->method('getOnePropertyValue')
+            ->with($uniqueIdProperty)
+            ->willReturn($uniqueId);
 
         $this->factory
             ->method('create')
