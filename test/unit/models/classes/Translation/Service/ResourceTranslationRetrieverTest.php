@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\Translation\Service;
+namespace oat\tao\test\unit\models\classes\Translation\Service;
 
 use oat\tao\model\Translation\Entity\ResourceCollection;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
@@ -65,7 +65,7 @@ class ResourceTranslationRetrieverTest extends TestCase
         $this->resourceTranslationRepository
             ->expects($this->once())
             ->method('find')
-            ->with(new ResourceTranslationQuery('id'))
+            ->with(new ResourceTranslationQuery(['id']))
             ->willReturn($result);
 
         $this->assertSame($result, $this->sut->getByRequest($this->request));

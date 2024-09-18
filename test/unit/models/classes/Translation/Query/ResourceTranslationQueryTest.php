@@ -35,15 +35,15 @@ class ResourceTranslationQueryTest extends TestCase
         $resourceUri = 'id1';
         $languageUri = TaoOntology::PROPERTY_LANGUAGE;
 
-        $query = new ResourceTranslationQuery($resourceUri, $languageUri);
+        $query = new ResourceTranslationQuery([$resourceUri], $languageUri);
 
-        $this->assertSame($resourceUri, $query->getResourceUri());
+        $this->assertSame([$resourceUri], $query->getResourceUris());
         $this->assertSame($languageUri, $query->getLanguageUri());
     }
 
     public function testConstructorWithoutLanguageUri(): void
     {
-        $query = new ResourceTranslationQuery('id');
+        $query = new ResourceTranslationQuery(['id']);
         $this->assertNull($query->getLanguageUri());
     }
 }

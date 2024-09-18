@@ -31,7 +31,6 @@ use oat\tao\model\Translation\Query\ResourceTranslationQuery;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
-use Throwable;
 
 class TranslationSyncService
 {
@@ -70,12 +69,9 @@ class TranslationSyncService
         $this->assertResourceExists($resource);
         $this->assertIsOriginal($resource);
 
-        $resourceType = $this->getResourceType($resource);
-        $uniqueId = $this->getResourceUniqueId($resource);
+        $translations = $this->getTranslations($resource, $requestParams['languageUri'] ?? null);
 
-        $translations = $this->getTranslations($resourceType, $uniqueId, $requestParams['languageUri'] ?? null);
-
-        foreach ($this->synchronizers[$resourceType] as $callable) {
+        foreach ($this->synchronizers[$this->getResourceType($resource)] as $callable) {
             foreach ($translations as $translation) {
                 $callable($translation);
             }
@@ -107,11 +103,10 @@ class TranslationSyncService
     /**
      * @return core_kernel_classes_Resource[]
      */
-    private function getTranslations(string $resourceType, string $uniqueId, ?string $languageUri): array
+    private function getTranslations(core_kernel_classes_Resource $resource, ?string $languageUri): array
     {
         $translations = $this->resourceTranslationRepository->find(new ResourceTranslationQuery(
-            $resourceType,
-            [$uniqueId],
+            [$resource->getUri()],
             $languageUri
         ));
 
@@ -133,9 +128,8 @@ class TranslationSyncService
         if (empty($resources)) {
             throw new ResourceTranslationException(
                 sprintf(
-                    'Translations for resource does not exist [Type: %s, Unique ID: %s, Language URI: %s]',
-                    $resourceType,
-                    $uniqueId,
+                    'Translations for resource does not exist [Resource: %s, Language URI: %s]',
+                    $resource->getUri(),
                     $languageUri
                 )
             );
@@ -156,20 +150,5 @@ class TranslationSyncService
         }
 
         return $resourceType;
-    }
-
-    private function getResourceUniqueId(core_kernel_classes_Resource $resource): string
-    {
-        $uniqueId = (string) $resource->getOnePropertyValue(
-            $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
-        );
-
-        if (empty($uniqueId)) {
-            throw new ResourceTranslationException(
-                sprintf('Resource %s must have a unique identifier', $resource->getUri())
-            );
-        }
-
-        return $uniqueId;
     }
 }

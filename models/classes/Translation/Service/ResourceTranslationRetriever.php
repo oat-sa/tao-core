@@ -47,6 +47,6 @@ class ResourceTranslationRetriever
             throw new ResourceTranslationException('Resource id is required');
         }
 
-        return $this->resourceTranslationRepository->find(new ResourceTranslationQuery($id, $languageUri));
+        return $this->resourceTranslationRepository->find(new ResourceTranslationQuery([$id], $languageUri));
     }
 }
