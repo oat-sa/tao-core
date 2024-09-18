@@ -62,7 +62,6 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 [
                     service(Ontology::SERVICE_ID),
                     service(ComplexSearchService::SERVICE_ID),
-                    service(ResourceTranslatableRepository::class),
                     service(ResourceTranslationFactory::class),
                     service(LoggerService::SERVICE_ID),
                 ]
@@ -72,7 +71,6 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(Ontology::SERVICE_ID),
-                    service(ComplexSearchService::SERVICE_ID),
                     service(ResourceTranslatableFactory::class)
                 ]
             );
@@ -94,7 +92,6 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
         $services->set(ResourceTranslationRetriever::class, ResourceTranslationRetriever::class)
             ->args(
                 [
-                    service(Ontology::SERVICE_ID),
                     service(ResourceTranslationRepository::class)
                 ]
             )
@@ -103,7 +100,6 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
         $services->set(ResourceTranslatableRetriever::class, ResourceTranslatableRetriever::class)
             ->args(
                 [
-                    service(Ontology::SERVICE_ID),
                     service(ResourceTranslatableRepository::class)
                 ]
             )

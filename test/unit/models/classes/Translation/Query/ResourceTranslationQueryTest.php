@@ -39,7 +39,7 @@ class ResourceTranslationQueryTest extends TestCase
         $query = new ResourceTranslationQuery($resourceType, [$uniqueId], $languageUri);
 
         $this->assertSame($resourceType, $query->getResourceType());
-        $this->assertSame([$uniqueId], $query->getUniqueIds());
+        $this->assertSame([$uniqueId], $query->getResourceUri());
         $this->assertSame($languageUri, $query->getLanguageUri());
     }
 

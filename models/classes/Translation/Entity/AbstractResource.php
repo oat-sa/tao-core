@@ -28,7 +28,7 @@ use oat\tao\model\TaoOntology;
 abstract class AbstractResource implements JsonSerializable
 {
     private array $metadataUris = [
-        TaoOntology::PROPERTY_UNIQUE_IDENTIFIER,
+        TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
         TaoOntology::PROPERTY_LANGUAGE
     ];
     private array $metadata = [];
@@ -51,9 +51,9 @@ abstract class AbstractResource implements JsonSerializable
         return $this->resourceLabel;
     }
 
-    public function getUniqueId(): ?string
+    public function getOriginalResourceId(): ?string
     {
-        return $this->getMetadataValue(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
+        return $this->getMetadataValue(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI);
     }
 
     public function getLanguageCode(): ?string

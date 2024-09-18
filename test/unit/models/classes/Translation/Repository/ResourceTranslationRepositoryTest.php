@@ -119,7 +119,7 @@ class ResourceTranslationRepositoryTest extends TestCase
             ->method('getResourceType')
             ->willReturn($resourceType);
         $query
-            ->method('getUniqueIds')
+            ->method('getResourceUri')
             ->willReturn($uniqueIds);
 
         $this->resourceTranslatableRepository

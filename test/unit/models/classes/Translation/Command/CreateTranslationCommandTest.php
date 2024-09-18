@@ -37,7 +37,7 @@ class CreateTranslationCommandTest extends TestCase
 
         $command = new CreateTranslationCommand($resourceType, $uniqueId, $languageUri);
 
-        $this->assertSame($resourceType, $command->getResourceType());
+        $this->assertSame($resourceType, $command->getResourceUri());
         $this->assertSame($uniqueId, $command->getUniqueId());
         $this->assertSame($languageUri, $command->getLanguageUri());
     }
