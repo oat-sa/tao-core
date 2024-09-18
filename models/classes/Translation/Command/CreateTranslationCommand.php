@@ -24,25 +24,18 @@ namespace oat\tao\model\Translation\Command;
 
 class CreateTranslationCommand
 {
-    private string $resourceType;
-    private string $uniqueId;
+    private string $resourceUri;
     private string $languageUri;
 
-    public function __construct(string $resourceType, string $uniqueId, string $languageUri)
+    public function __construct(string $resourceUri, string $languageUri)
     {
-        $this->resourceType = $resourceType;
-        $this->uniqueId = $uniqueId;
+        $this->resourceUri = $resourceUri;
         $this->languageUri = $languageUri;
     }
 
-    public function getResourceType(): string
+    public function getResourceUri(): string
     {
-        return $this->resourceType;
-    }
-
-    public function getUniqueId(): string
-    {
-        return $this->uniqueId;
+        return $this->resourceUri;
     }
 
     public function getLanguageUri(): string

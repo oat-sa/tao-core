@@ -24,22 +24,15 @@ namespace oat\tao\model\Translation\Query;
 
 class ResourceTranslatableQuery
 {
-    private string $resourceType;
-    private array $uniqueIds;
+    private string $resourceUri;
 
-    public function __construct(string $resourceType, array $uniqueIds = [])
+    public function __construct(string $resourceUri)
     {
-        $this->resourceType = $resourceType;
-        $this->uniqueIds = $uniqueIds;
+        $this->resourceUri = $resourceUri;
     }
 
-    public function getResourceType(): string
+    public function getResourceUri(): string
     {
-        return $this->resourceType;
-    }
-
-    public function getUniqueIds(): array
-    {
-        return $this->uniqueIds;
+        return $this->resourceUri;
     }
 }

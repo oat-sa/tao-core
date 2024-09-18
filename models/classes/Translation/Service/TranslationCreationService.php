@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Service;
 
+use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
@@ -78,74 +79,116 @@ class TranslationCreationService
     {
         $requestParams = $request->getParsedBody();
         $id = $requestParams['id'] ?? null;
+        $languageUri = $requestParams['languageUri'] ?? null;
 
         if (empty($id)) {
             throw new ResourceTranslationException('Resource id is required');
         }
 
-        $resource = $this->ontology->getResource($id);
-
-        if (!$resource->exists()) {
-            throw new ResourceTranslationException(
-                sprintf(
-                    'Resource %s does not exist',
-                    $id
-                )
-            );
-        }
-
-        /** @var core_kernel_classes_Resource $translationType */
-        $translationType = $resource->getOnePropertyValue(
-            $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_TYPE)
-        );
-
-        if ($translationType->getUri() !== TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL) {
-            throw new ResourceTranslationException(
-                sprintf(
-                    'Resource %s is not the original',
-                    $id
-                )
-            );
-        }
-
-        $parentClassIds = $resource->getParentClassesIds();
-        $resourceType = array_pop($parentClassIds);
-
-        if (empty($resourceType)) {
-            throw new ResourceTranslationException(sprintf('Resource %s must have a resource type', $id));
-        }
-
-        $uniqueId = $resource->getOnePropertyValue(
-            $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
-        );
-
-        if (empty($uniqueId)) {
-            throw new ResourceTranslationException(sprintf('Resource %s must have a unique identifier', $id));
-        }
-
-        if (empty($requestParams['languageUri'])) {
+        if (empty($languageUri)) {
             throw new ResourceTranslationException('Parameter languageUri is mandatory');
         }
 
-        return $this->create(
-            new CreateTranslationCommand(
-                $resourceType,
-                (string)$uniqueId,
-                $requestParams['languageUri']
-            )
-        );
+        return $this->create(new CreateTranslationCommand($id, $languageUri));
     }
 
     public function create(CreateTranslationCommand $command): core_kernel_classes_Resource
     {
         try {
-            return $this->doCreate($command);
+            $resourceUri = $command->getResourceUri();
+            $languageUri = $command->getLanguageUri();
+
+            $translations = $this->resourceTranslationRepository
+                ->find(new ResourceTranslationQuery($resourceUri, $languageUri));
+
+            if ($translations->count() > 0) {
+                throw new ResourceTranslationException(
+                    sprintf(
+                        'Translation already exists for [id=%s, locale=%s]',
+                        $resourceUri,
+                        $languageUri
+                    )
+                );
+            }
+
+            $resources = $this->resourceTranslatableRepository->find(new ResourceTranslatableQuery($resourceUri));
+
+            if ($resources->count() === 0) {
+                throw new ResourceTranslationException(sprintf('Resource [id=%s] is not translatable', $resourceUri));
+            }
+
+            /** @var ResourceTranslatable $resource */
+            $resource = $resources->current();
+
+            if (!$resource->isReadyForTranslation()) {
+                throw new ResourceTranslationException(
+                    sprintf(
+                        'Resource [id=%s] is not ready for translation',
+                        $resourceUri
+                    )
+                );
+            }
+
+            $existingLanguages = $this->languageRepository->findAvailableLanguagesByUsage();
+            $language = null;
+
+            /** @var Language $language */
+            foreach ($existingLanguages as $existingLanguage) {
+                if ($existingLanguage->getUri() === $languageUri) {
+                    $language = $existingLanguage;
+                }
+            }
+
+            if (!$language) {
+                throw new ResourceTranslationException(sprintf('Language %s does not exist', $languageUri));
+            }
+
+            if ($resource->getLanguageUri() === $language->getUri()) {
+                throw new ResourceTranslationException(sprintf('Cannot translate to original language %s', $languageUri));
+            }
+
+            $instance = $this->ontology->getResource($resource->getResourceUri());
+            $types = $instance->getTypes();
+
+            /** @var core_kernel_classes_Class $type */
+            $type = array_pop($types);
+            
+            $parentClassIds = $instance->getParentClassesIds();
+            $parentClassId = array_pop($parentClassIds);
+
+            $clonedInstance = $this->getOntologyService($parentClassId)->cloneInstance($instance, $type);
+            $clonedInstance->setLabel(sprintf('%s (%s)', $instance->getLabel(), $language->getCode()));
+
+            $clonedInstance->editPropertyValues(
+                $this->ontology->getProperty(TaoOntology::PROPERTY_LANGUAGE),
+                $language->getUri()
+            );
+
+            $clonedInstance->editPropertyValues(
+                $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_TYPE),
+                TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION
+            );
+
+            $clonedInstance->editPropertyValues(
+                $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI),
+                $resourceUri
+            );
+
+            $clonedInstance->editPropertyValues(
+                $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_PROGRESS),
+                TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_PENDING
+            );
+
+            foreach ($this->callables[$resourceUri] ?? [] as $callable) {
+                $clonedInstance = $callable($clonedInstance);
+            }
+
+            return $clonedInstance;
         } catch (Throwable $exception) {
             $this->logger->error(
                 sprintf(
-                    'Could not translate [uniqueId=%s, resourceType=%s, language=%s] (%s): %s',
-                    $command->getUniqueId(),
-                    $command->getResourceType(),
+                    'Could not translate [id=%s, language=%s] (%s): %s',
+                    $command->getResourceUri(),
                     $command->getLanguageUri(),
                     get_class($exception),
                     $exception->getMessage()
@@ -154,112 +197,6 @@ class TranslationCreationService
 
             throw $exception;
         }
-    }
-
-    private function doCreate(CreateTranslationCommand $command): core_kernel_classes_Resource
-    {
-        $translations = $this->resourceTranslationRepository->find(
-            new ResourceTranslationQuery(
-                $command->getResourceType(),
-                [$command->getUniqueId()],
-                $command->getLanguageUri()
-            )
-        );
-
-        if ($translations->count() > 0) {
-            throw new ResourceTranslationException(
-                sprintf(
-                    'Translation already exists for [uniqueId=%s, locale=%s]',
-                    $command->getUniqueId(),
-                    $command->getLanguageUri()
-                )
-            );
-        }
-
-        $resources = $this->resourceTranslatableRepository->find(
-            new ResourceTranslatableQuery(
-                $command->getResourceType(),
-                [$command->getUniqueId()]
-            )
-        );
-
-        if ($resources->count() === 0) {
-            throw new ResourceTranslationException(
-                sprintf(
-                    'There is not translatable resource for [uniqueId=%s]',
-                    $command->getUniqueId()
-                )
-            );
-        }
-
-        /** @var ResourceTranslatable $resource */
-        $resource = $resources->current();
-
-        if (!$resource->isReadyForTranslation()) {
-            throw new ResourceTranslationException(
-                sprintf(
-                    'Resource [uniqueId=%s] is not ready for translation',
-                    $command->getUniqueId()
-                )
-            );
-        }
-
-        $existingLanguages = $this->languageRepository->findAvailableLanguagesByUsage();
-        $language = null;
-
-        /** @var Language $language */
-        foreach ($existingLanguages as $existingLanguage) {
-            if ($existingLanguage->getUri() === $command->getLanguageUri()) {
-                $language = $existingLanguage;
-            }
-        }
-
-        if (!$language) {
-            throw new ResourceTranslationException(
-                sprintf(
-                    'Language %s does not exist',
-                    $command->getLanguageUri()
-                )
-            );
-        }
-
-        if ($resource->getLanguageUri() === $language->getUri()) {
-            throw new ResourceTranslationException(
-                sprintf(
-                    'Cannot translate to original language %s',
-                    $command->getLanguageUri()
-                )
-            );
-        }
-
-        $instance = $this->ontology->getResource($resource->getResourceUri());
-        $types = $instance->getTypes();
-        $type = array_pop($types);
-
-        $clonedInstance = $this->getOntologyService($command->getResourceType())->cloneInstance($instance, $type);
-
-        $clonedInstance->setLabel(sprintf('%s (%s)', $instance->getLabel(), $language->getCode()));
-
-        $clonedInstance->editPropertyValues(
-            $this->ontology->getProperty(TaoOntology::PROPERTY_LANGUAGE),
-            $language->getUri()
-        );
-
-        $clonedInstance->editPropertyValues(
-            $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_TYPE),
-            TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION
-        );
-
-        $clonedInstance->editPropertyValues(
-            $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_PROGRESS),
-            TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_PENDING
-        );
-
-        foreach ($this->callables[$command->getResourceType()] ?? [] as $callable) {
-            $clonedInstance = $callable($clonedInstance);
-        }
-
-        return $clonedInstance;
     }
 
     private function getOntologyService(string $resourceType): OntologyClassService
@@ -271,10 +208,7 @@ class TranslationCreationService
         }
 
         throw new ResourceTranslationException(
-            sprintf(
-                'There is no OntologyClassService for resource type %s',
-                $resourceType
-            )
+            sprintf('Missing OntologyClassService for resource type %s', $resourceType)
         );
     }
 }

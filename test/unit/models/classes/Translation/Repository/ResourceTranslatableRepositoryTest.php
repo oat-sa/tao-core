@@ -98,7 +98,7 @@ class ResourceTranslatableRepositoryTest extends TestCase
         $translatable2 = $this->createMock(ResourceTranslatable::class);
 
         $this->query
-            ->method('getResourceType')
+            ->method('getResourceUri')
             ->willReturn($resourceType);
         $this->query
             ->method('getUniqueIds')

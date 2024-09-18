@@ -22,8 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Service;
 
-use oat\generis\model\data\Ontology;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceCollection;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
@@ -32,50 +30,23 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class ResourceTranslationRetriever
 {
-    private Ontology $ontology;
     private ResourceTranslationRepository $resourceTranslationRepository;
 
-    public function __construct(
-        Ontology $ontology,
-        ResourceTranslationRepository $resourceTranslationRepository
-    ) {
-        $this->ontology = $ontology;
+    public function __construct(ResourceTranslationRepository $resourceTranslationRepository)
+    {
         $this->resourceTranslationRepository = $resourceTranslationRepository;
     }
 
     public function getByRequest(ServerRequestInterface $request): ResourceCollection
     {
         $queryParams = $request->getQueryParams();
-        $languageUri = $queryParams['languageUri'] ?? null;
         $id = $queryParams['id'] ?? null;
+        $languageUri = $queryParams['languageUri'] ?? null;
 
         if (empty($id)) {
             throw new ResourceTranslationException('Resource id is required');
         }
 
-        $resource = $this->ontology->getResource($id);
-
-        $parentClassIds = $resource->getParentClassesIds();
-        $resourceType = array_pop($parentClassIds);
-
-        if (empty($resourceType)) {
-            throw new ResourceTranslationException(sprintf('Resource %s must have a resource type', $id));
-        }
-
-        $uniqueId = $resource->getOnePropertyValue(
-            $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
-        );
-
-        if (empty($uniqueId)) {
-            throw new ResourceTranslationException(sprintf('Resource %s must have a unique identifier', $id));
-        }
-
-        return $this->resourceTranslationRepository->find(
-            new ResourceTranslationQuery(
-                $resourceType,
-                [(string)$uniqueId],
-                $languageUri
-            )
-        );
+        return $this->resourceTranslationRepository->find(new ResourceTranslationQuery($id, $languageUri));
     }
 }

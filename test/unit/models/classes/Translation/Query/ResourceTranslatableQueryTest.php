@@ -31,12 +31,10 @@ class ResourceTranslatableQueryTest extends TestCase
 {
     public function testConstructorAndGetters(): void
     {
-        $resourceType = 'http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject';
-        $uniqueIds = ['id1', 'id2'];
+        $resourceUri = 'id1';
 
-        $query = new ResourceTranslatableQuery($resourceType, $uniqueIds);
+        $query = new ResourceTranslatableQuery($resourceUri);
 
-        $this->assertSame($resourceType, $query->getResourceType());
-        $this->assertSame($uniqueIds, $query->getUniqueIds());
+        $this->assertSame($resourceUri, $query->getResourceUri());
     }
 }

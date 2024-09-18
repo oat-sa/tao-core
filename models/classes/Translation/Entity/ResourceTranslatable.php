@@ -26,11 +26,6 @@ use oat\tao\model\TaoOntology;
 
 class ResourceTranslatable extends AbstractResource
 {
-    public function getUniqueId(): ?string
-    {
-        return $this->getMetadataValue(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
-    }
-
     public function getStatusUri(): ?string
     {
         return $this->getMetadataValue(TaoOntology::PROPERTY_TRANSLATION_STATUS);
