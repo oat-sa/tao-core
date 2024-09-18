@@ -61,7 +61,7 @@ class ResourceTranslatableRetriever
             throw new ResourceTranslationException(sprintf('Resource %s must have a resource type', $id));
         }
 
-        $uniqueId = $resource->getUniquePropertyValue(
+        $uniqueId = $resource->getOnePropertyValue(
             $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)
         );
 
