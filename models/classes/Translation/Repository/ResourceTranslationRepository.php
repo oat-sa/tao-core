@@ -59,10 +59,6 @@ class ResourceTranslationRepository
         $resourceUris = $query->getResourceUris();
         $languageUri = $query->getLanguageUri();
 
-        if (empty($resourceUris)) {
-            throw new ResourceTranslationException('At least one original resource URI is required for translation.');
-        }
-
         $queryBuilder = $this->complexSearch->query();
         $searchQuery = $this->complexSearch->searchType(
             $queryBuilder,

@@ -145,7 +145,9 @@ class TranslationCreationService
             }
 
             if ($resource->getLanguageUri() === $language->getUri()) {
-                throw new ResourceTranslationException(sprintf('Cannot translate to original language %s', $languageUri));
+                throw new ResourceTranslationException(
+                    sprintf('Cannot translate to original language %s', $languageUri)
+                );
             }
 
             $instance = $this->ontology->getResource($resource->getResourceUri());
@@ -171,13 +173,13 @@ class TranslationCreationService
             );
 
             $clonedInstance->editPropertyValues(
-                $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI),
-                $resourceUri
+                $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_PROGRESS),
+                TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_PENDING
             );
 
             $clonedInstance->editPropertyValues(
-                $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_PROGRESS),
-                TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_PENDING
+                $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI),
+                $resourceUri
             );
 
             foreach ($this->callables[$parentClassId] ?? [] as $callable) {

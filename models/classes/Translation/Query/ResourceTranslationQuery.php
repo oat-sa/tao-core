@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Query;
 
+use oat\tao\model\Translation\Exception\ResourceTranslationException;
+
 class ResourceTranslationQuery
 {
     private array $resourceUris;
@@ -29,6 +31,10 @@ class ResourceTranslationQuery
 
     public function __construct(array $resourceUris, string $languageUri = null)
     {
+        if (empty($resourceUris)) {
+            throw new ResourceTranslationException('At least one resource URI is required for translation.');
+        }
+
         $this->resourceUris = $resourceUris;
         $this->languageUri = $languageUri;
     }
