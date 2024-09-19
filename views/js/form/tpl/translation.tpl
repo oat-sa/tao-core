@@ -5,7 +5,7 @@
         <div class="translations-create">
             <label>{{__ 'Language'}}
                 <select name="language" data-control="select">
-                    <option value="">{{__ '---select---'}}</option>
+                    <option value="">--- {{__ 'select'}} ---</option>
                     {{#each languages}}
                     <option value="{{uri}}">{{label}}</option>
                     {{/each}}

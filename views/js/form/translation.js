@@ -34,6 +34,7 @@ define([
 
     const labels = {
         confirmTranslate: __('Are you sure you want to start the translation for this language?'),
+        startTranslation: __('Start translation'),
         missingLanguage: __('Please select a language.'),
         translateAction: __('Edit')
     };
@@ -153,7 +154,14 @@ define([
                     dialogConfirm(
                         labels.confirmTranslate,
                         () => this.createTranslation(languageUri).then(resume),
-                        resume
+                        resume,
+                        {
+                            buttons: {
+                                labels: {
+                                    ok: labels.startTranslation
+                                }
+                            }
+                        }
                     );
                 });
 
