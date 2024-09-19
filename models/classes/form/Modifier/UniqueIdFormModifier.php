@@ -15,24 +15,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2024 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2024 (original work) Open Assessment Technologies SA.
  */
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Translation\Entity;
+namespace oat\tao\model\form\Modifier;
 
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\TaoOntology;
+use tao_helpers_form_Form;
+use tao_helpers_Uri;
 
-class ResourceTranslatable extends AbstractResource
+class UniqueIdFormModifier extends AbstractFormModifier
 {
-    public function getStatusUri(): ?string
+    private FeatureFlagCheckerInterface $featureFlagChecker;
+
+    public function __construct(FeatureFlagCheckerInterface $featureFlagChecker)
     {
-        return $this->getMetadataValue(TaoOntology::PROPERTY_TRANSLATION_STATUS);
+        $this->featureFlagChecker = $featureFlagChecker;
     }
 
-    public function isReadyForTranslation(): bool
+    public function modify(tao_helpers_form_Form $form, array $options = []): void
     {
-        return $this->getStatusUri() === TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY;
+        if (!$this->featureFlagChecker->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')) {
+            $form->removeElement(tao_helpers_Uri::encode(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER));
+        }
     }
 }

@@ -32,23 +32,18 @@ class ResourceTranslationQueryTest extends TestCase
 {
     public function testConstructorAndGetters(): void
     {
-        $resourceType = 'http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject';
-        $uniqueId = 'id1';
+        $resourceUri = 'id1';
         $languageUri = TaoOntology::PROPERTY_LANGUAGE;
 
-        $query = new ResourceTranslationQuery($resourceType, [$uniqueId], $languageUri);
+        $query = new ResourceTranslationQuery([$resourceUri], $languageUri);
 
-        $this->assertSame($resourceType, $query->getResourceType());
-        $this->assertSame([$uniqueId], $query->getUniqueIds());
+        $this->assertSame([$resourceUri], $query->getResourceUris());
         $this->assertSame($languageUri, $query->getLanguageUri());
     }
 
     public function testConstructorWithoutLanguageUri(): void
     {
-        $query = new ResourceTranslationQuery(
-            'http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject',
-            ['id1']
-        );
+        $query = new ResourceTranslationQuery(['id']);
         $this->assertNull($query->getLanguageUri());
     }
 }

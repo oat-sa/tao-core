@@ -23,15 +23,13 @@ declare(strict_types=1);
 namespace oat\tao\model\Translation\Repository;
 
 use core_kernel_classes_Resource;
-use Exception;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\search\helper\SupportedOperatorHelper;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceCollection;
-use oat\tao\model\Translation\Entity\ResourceTranslatable;
+use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
-use oat\tao\model\Translation\Query\ResourceTranslatableQuery;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -42,49 +40,24 @@ class ResourceTranslationRepository
     private ComplexSearchService $complexSearch;
     private LoggerInterface $logger;
     private ResourceTranslationFactory $factory;
-    private ResourceTranslatableRepository $resourceTranslatableRepository;
 
     public function __construct(
         Ontology $ontology,
         ComplexSearchService $complexSearch,
-        ResourceTranslatableRepository $resourceTranslatableRepository,
         ResourceTranslationFactory $resourceTranslationFactory,
         LoggerInterface $logger
     ) {
         $this->ontology = $ontology;
         $this->complexSearch = $complexSearch;
-        $this->resourceTranslatableRepository = $resourceTranslatableRepository;
         $this->factory = $resourceTranslationFactory;
         $this->logger = $logger;
     }
 
     public function find(ResourceTranslationQuery $query): ResourceCollection
     {
-        $uniqueIds = $query->getUniqueIds();
-        $resources = $this->resourceTranslatableRepository->find(
-            new ResourceTranslatableQuery(
-                $query->getResourceType(),
-                $uniqueIds
-            )
-        );
-
-        if ($resources->count() === 0) {
-            throw new Exception(
-                sprintf(
-                    'Translation Origin Resource [%s] does not exist',
-                    implode(',', $uniqueIds)
-                )
-            );
-        }
-
-        $originResources = [];
-
-        /** @var ResourceTranslatable $resource */
-        foreach ($resources as $resource) {
-            $originResources[$resource->getUniqueId()] = $resource;
-        }
-
         $output = [];
+        $resourceUris = $query->getResourceUris();
+        $languageUri = $query->getLanguageUri();
 
         $queryBuilder = $this->complexSearch->query();
         $searchQuery = $this->complexSearch->searchType(
@@ -98,40 +71,37 @@ class ResourceTranslationRepository
             TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION
         );
         $searchQuery->addCriterion(
-            TaoOntology::PROPERTY_UNIQUE_IDENTIFIER,
+            TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
             SupportedOperatorHelper::IN,
-            $uniqueIds
+            $resourceUris
         );
 
-        if ($query->getLanguageUri()) {
+        if ($languageUri) {
             $searchQuery->addCriterion(
                 TaoOntology::PROPERTY_LANGUAGE,
                 SupportedOperatorHelper::EQUAL,
-                $query->getLanguageUri()
+                $languageUri
             );
         }
 
         $queryBuilder->setCriteria($searchQuery);
 
         $result = $this->complexSearch->getGateway()->search($queryBuilder);
-        $resourceTypeClass = $this->ontology->getClass($query->getResourceType());
-        $uniqueIdProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
+        $originResources = [];
+        $originResourceProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI);
 
         /** @var core_kernel_classes_Resource $translationResource */
         foreach ($result as $translationResource) {
             try {
-                if (!$translationResource->isInstanceOf($resourceTypeClass)) {
-                    continue;
-                }
+                $originResourceUri = $translationResource->getOnePropertyValue($originResourceProperty)->getUri();
+                $originResources[$originResourceUri] ??= $this->ontology->getResource($originResourceUri);
 
-                $uniqueId = (string) $translationResource->getOnePropertyValue($uniqueIdProperty);
-
-                $output[] = $this->factory->create($originResources[$uniqueId], $translationResource);
+                $output[] = $this->factory->create($originResources[$originResourceUri], $translationResource);
             } catch (Throwable $exception) {
                 $this->logger->warning(
                     sprintf(
-                        'Cannot read translation status for [uniqueIds=%s, translationResourceId=%s]: %s - %s',
-                        implode(',', $uniqueIds),
+                        'Cannot read translation status for [ids=%s, translation=%s]: %s - %s',
+                        implode(',', $resourceUris),
                         $translationResource->getUri(),
                         $exception->getMessage(),
                         $exception->getTraceAsString()

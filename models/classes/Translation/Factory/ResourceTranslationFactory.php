@@ -24,7 +24,6 @@ namespace oat\tao\model\Translation\Factory;
 
 use core_kernel_classes_Resource;
 use oat\tao\model\TaoOntology;
-use oat\tao\model\Translation\Entity\ResourceTranslatable;
 use oat\tao\model\Translation\Entity\ResourceTranslation;
 use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
 
@@ -38,11 +37,11 @@ class ResourceTranslationFactory
     }
 
     public function create(
-        ResourceTranslatable $originResource,
+        core_kernel_classes_Resource $originResource,
         core_kernel_classes_Resource $translationResource
     ): ResourceTranslation {
         $resource = new ResourceTranslation($translationResource->getUri(), $translationResource->getLabel());
-        $resource->setOriginResourceUri($originResource->getResourceUri());
+        $resource->setOriginResourceUri($originResource->getUri());
         $resource->addMetadataUri(TaoOntology::PROPERTY_TRANSLATION_PROGRESS);
 
         $this->metadataPopulateService->populate($resource, $translationResource);

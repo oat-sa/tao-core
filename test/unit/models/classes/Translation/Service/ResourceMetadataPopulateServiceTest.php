@@ -22,7 +22,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\Translation\Service;
+namespace oat\tao\test\unit\models\classes\Translation\Service;
 
 use core_kernel_classes_Literal;
 use core_kernel_classes_Property;

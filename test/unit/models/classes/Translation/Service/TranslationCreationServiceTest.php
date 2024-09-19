@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\Translation\Service;
 
+use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
@@ -31,7 +32,6 @@ use oat\tao\model\Language\Language;
 use oat\tao\model\Language\LanguageCollection;
 use oat\tao\model\OntologyClassService;
 use oat\tao\model\TaoOntology;
-use oat\tao\model\Translation\Entity\ResourceTranslation;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Service\TranslationCreationService;
 use oat\tao\model\Translation\Command\CreateTranslationCommand;
@@ -91,15 +91,16 @@ class TranslationCreationServiceTest extends TestCase
 
     public function testCreate(): void
     {
-        $resourceType = TaoOntology::CLASS_URI_ITEM;
-        $uniqueId = 'id1';
+        $resourceUri = 'id1';
         $languageUri = 'http://www.tao.lu/Ontologies/TAO.rdf#Langpt-BR';
 
         $translatable = $this->createMock(ResourceTranslatable::class);
 
+        $resourceType = $this->createMock(core_kernel_classes_Class::class);
         $languageProperty = $this->createMock(core_kernel_classes_Property::class);
         $translationTypeProperty = $this->createMock(core_kernel_classes_Property::class);
         $translationProgressProperty = $this->createMock(core_kernel_classes_Property::class);
+        $originalResourceUriProperty = $this->createMock(core_kernel_classes_Property::class);
 
         $resourceCollection = new ResourceCollection();
         $translatableCollection = new ResourceCollection($translatable);
@@ -122,11 +123,15 @@ class TranslationCreationServiceTest extends TestCase
         $instance
             ->expects($this->once())
             ->method('getTypes')
-            ->willReturn([]);
+            ->willReturn([$resourceType]);
         $instance
             ->expects($this->once())
             ->method('getLabel')
             ->willReturn('MyInstance');
+        $instance
+            ->expects($this->once())
+            ->method('getParentClassesIds')
+            ->willReturn([TaoOntology::CLASS_URI_ITEM]);
 
         $clonedInstance = $this->createMock(core_kernel_classes_Resource::class);
         $clonedInstance
@@ -134,7 +139,6 @@ class TranslationCreationServiceTest extends TestCase
             ->method('setLabel')
             ->with('MyInstance (pt-BR)');
         $clonedInstance
-            ->expects($this->exactly(3))
             ->method('editPropertyValues')
             ->withConsecutive(
                 [
@@ -148,6 +152,10 @@ class TranslationCreationServiceTest extends TestCase
                 [
                     $translationProgressProperty,
                     TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_PENDING
+                ],
+                [
+                    $originalResourceUriProperty,
+                    $resourceUri
                 ]
             );
 
@@ -172,7 +180,6 @@ class TranslationCreationServiceTest extends TestCase
             ->willReturn($instance);
 
         $this->ontology
-            ->expects($this->exactly(3))
             ->method('getProperty')
             ->willReturnMap(
                 [
@@ -187,6 +194,10 @@ class TranslationCreationServiceTest extends TestCase
                     [
                         TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
                         $translationProgressProperty
+                    ],
+                    [
+                        TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
+                        $originalResourceUriProperty
                     ]
                 ]
             );
@@ -194,11 +205,12 @@ class TranslationCreationServiceTest extends TestCase
         $this->ontologyClassService
             ->expects($this->once())
             ->method('cloneInstance')
+            ->with($instance, $resourceType)
             ->willReturn($clonedInstance);
 
         $this->assertInstanceOf(
             core_kernel_classes_Resource::class,
-            $this->service->create(new CreateTranslationCommand($resourceType, $uniqueId, $languageUri))
+            $this->service->create(new CreateTranslationCommand($resourceUri, $languageUri))
         );
     }
 
@@ -217,12 +229,11 @@ class TranslationCreationServiceTest extends TestCase
 
         $this->expectException(ResourceTranslationException::class);
         $this->expectExceptionMessage(
-            'Translation already exists for [uniqueId=id1, locale=http://www.tao.lu/Ontologies/TAO.rdf#Langpt-BR]'
+            'Translation already exists for [id=id1, locale=http://www.tao.lu/Ontologies/TAO.rdf#Langpt-BR]'
         );
 
         $this->service->create(
             new CreateTranslationCommand(
-                TaoOntology::CLASS_URI_ITEM,
                 'id1',
                 'http://www.tao.lu/Ontologies/TAO.rdf#Langpt-BR'
             )
@@ -242,11 +253,10 @@ class TranslationCreationServiceTest extends TestCase
             ->willReturn(new ResourceCollection());
 
         $this->expectException(ResourceTranslationException::class);
-        $this->expectExceptionMessage('There is not translatable resource for [uniqueId=id1]');
+        $this->expectExceptionMessage('Resource [id=id1] is not translatable');
 
         $this->service->create(
             new CreateTranslationCommand(
-                TaoOntology::CLASS_URI_ITEM,
                 'id1',
                 'http://www.tao.lu/Ontologies/TAO.rdf#Langpt-BR'
             )
@@ -281,7 +291,6 @@ class TranslationCreationServiceTest extends TestCase
 
         $this->service->create(
             new CreateTranslationCommand(
-                TaoOntology::CLASS_URI_ITEM,
                 'id1',
                 'http://www.tao.lu/Ontologies/TAO.rdf#Langpt-BR'
             )
@@ -307,11 +316,10 @@ class TranslationCreationServiceTest extends TestCase
             ->willReturn(new ResourceCollection($translatable));
 
         $this->expectException(ResourceTranslationException::class);
-        $this->expectExceptionMessage('Resource [uniqueId=id1] is not ready for translation');
+        $this->expectExceptionMessage('Resource [id=id1] is not ready for translation');
 
         $this->service->create(
             new CreateTranslationCommand(
-                TaoOntology::CLASS_URI_ITEM,
                 'id1',
                 'http://www.tao.lu/Ontologies/TAO.rdf#Langpt-BR'
             )

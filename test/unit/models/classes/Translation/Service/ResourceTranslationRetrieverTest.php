@@ -22,13 +22,8 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\Translation\Service;
+namespace oat\tao\test\unit\models\classes\Translation\Service;
 
-use core_kernel_classes_Property;
-use core_kernel_classes_Resource;
-use InvalidArgumentException;
-use oat\generis\model\data\Ontology;
-use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceCollection;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
@@ -38,12 +33,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 
-class ResourceTranslationStatusServiceTest extends TestCase
+class ResourceTranslationRetrieverTest extends TestCase
 {
     private ResourceTranslationRetriever $sut;
-
-    /** @var Ontology|MockObject */
-    private $ontology;
 
     /** @var ResourceTranslationRepository|MockObject */
     private $resourceTranslationRepository;
@@ -53,10 +45,9 @@ class ResourceTranslationStatusServiceTest extends TestCase
 
     public function setUp(): void
     {
-        $this->ontology = $this->createMock(Ontology::class);
         $this->resourceTranslationRepository = $this->createMock(ResourceTranslationRepository::class);
         $this->request = $this->createMock(ServerRequestInterface::class);
-        $this->sut = new ResourceTranslationRetriever($this->ontology, $this->resourceTranslationRepository);
+        $this->sut = new ResourceTranslationRetriever($this->resourceTranslationRepository);
     }
 
     public function testGetByRequest(): void
@@ -69,20 +60,12 @@ class ResourceTranslationStatusServiceTest extends TestCase
                 ]
             );
 
-        $this->mockResource([TaoOntology::CLASS_URI_ITEM], 'uniqueId');
-
         $result = new ResourceCollection();
 
         $this->resourceTranslationRepository
             ->expects($this->once())
             ->method('find')
-            ->with(
-                new ResourceTranslationQuery(
-                    TaoOntology::CLASS_URI_ITEM,
-                    ['uniqueId'],
-                    null
-                )
-            )
+            ->with(new ResourceTranslationQuery(['id']))
             ->willReturn($result);
 
         $this->assertSame($result, $this->sut->getByRequest($this->request));
@@ -98,61 +81,5 @@ class ResourceTranslationStatusServiceTest extends TestCase
         $this->expectExceptionMessage('Resource id is required');
 
         $this->sut->getByRequest($this->request);
-    }
-
-    public function testGetByRequestRequiresResourceType(): void
-    {
-        $this->request->expects($this->once())
-            ->method('getQueryParams')
-            ->willReturn(['id' => 'id']);
-
-        $this->mockResource([], 'uniqueId');
-
-        $this->expectException(ResourceTranslationException::class);
-        $this->expectExceptionMessage('Resource id must have a resource type');
-
-        $this->sut->getByRequest($this->request);
-    }
-
-    public function testGetByRequestRequiresUniqueId(): void
-    {
-        $this->request->expects($this->once())
-            ->method('getQueryParams')
-            ->willReturn(
-                [
-                    'id' => 'id',
-                ]
-            );
-
-        $this->mockResource([TaoOntology::CLASS_URI_ITEM], '');
-
-        $this->expectException(ResourceTranslationException::class);
-        $this->expectExceptionMessage('Resource id must have a unique identifier');
-
-        $this->sut->getByRequest($this->request);
-    }
-
-    private function mockResource(array $classIds, string $uniqueId): core_kernel_classes_Resource
-    {
-        $resource = $this->createMock(core_kernel_classes_Resource::class);
-
-        $resource
-            ->method('getParentClassesIds')
-            ->willReturn($classIds);
-
-        $resource
-            ->method('getOnePropertyValue')
-            ->willReturn($uniqueId);
-
-        $this->ontology
-            ->expects($this->once())
-            ->method('getResource')
-            ->willReturn($resource);
-
-        $this->ontology
-            ->method('getProperty')
-            ->willReturn($this->createMock(core_kernel_classes_Property::class));
-
-        return $resource;
     }
 }

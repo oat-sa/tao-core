@@ -22,27 +22,26 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Query;
 
+use oat\tao\model\Translation\Exception\ResourceTranslationException;
+
 class ResourceTranslationQuery
 {
-    private string $resourceType;
-    private array $uniqueIds;
+    private array $resourceUris;
     private ?string $languageUri;
 
-    public function __construct(string $resourceType, array $uniqueIds, string $languageUri = null)
+    public function __construct(array $resourceUris, string $languageUri = null)
     {
-        $this->resourceType = $resourceType;
-        $this->uniqueIds = $uniqueIds;
+        if (empty($resourceUris)) {
+            throw new ResourceTranslationException('At least one resource URI is required for translation.');
+        }
+
+        $this->resourceUris = $resourceUris;
         $this->languageUri = $languageUri;
     }
 
-    public function getResourceType(): string
+    public function getResourceUris(): array
     {
-        return $this->resourceType;
-    }
-
-    public function getUniqueIds(): array
-    {
-        return $this->uniqueIds;
+        return $this->resourceUris;
     }
 
     public function getLanguageUri(): ?string
