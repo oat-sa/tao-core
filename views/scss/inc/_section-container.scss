@@ -223,4 +223,37 @@
             margin: 0 2px;
         }
     }
+
+    .translations-container {
+        .section-header {
+            padding: 8px 0;
+        }
+        .translations-create {
+            padding-top: 8px;
+
+            label { padding-inline-end: 0; }
+            select { margin-inline-start: 16px; }
+            button { margin-inline-start: 16px; }
+        }
+        .translations-list {
+            padding-top: 16px;
+        }
+        .translations-not-ready {
+            @include font-size(14);
+            text-align: center;
+            padding: 40px 0;
+
+            &::before {
+                content: 'B';
+                @include font-size(70);
+                @include tao-icon-setup();
+                @include icon-info();
+                color: #{whiten($info, .05)};
+                opacity: .2;
+                display: inline-block;
+                width: 80px;
+                height: 80px;
+            }
+        }
+    }
 }
