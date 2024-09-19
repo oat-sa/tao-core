@@ -130,6 +130,21 @@ define([
                  * @param {string} languageUri - The URI of the translated language
                  */
                 this.trigger('edit', translationUri, languageUri);
+            },
+
+            /**
+             * Changes the controls state: set them enabled or disabled.
+             * @param {boolean} state - The state to set the controls to (true: enable, false: disabled).
+             */
+            setControlsState(state) {
+                if (!this.is('rendered')) {
+                    return;
+                }
+                const disabled = !state;
+                this.getElement().prop('disabled', disabled);
+                this.controls.$createButton.prop('disabled', disabled);
+                this.controls.$languageSelect.prop('disabled', disabled);
+                this.controls.$tableContainer.find(':input').prop('disabled', disabled);
             }
         };
 
@@ -165,30 +180,32 @@ define([
                     );
                 });
 
-                this.controls.$tableContainer.datatable(
-                    {
-                        model: [
-                            { id: 'language', label: 'Language' },
-                            { id: 'progress', label: 'Status' }
-                        ],
-                        labels: {
-                            actions: ''
-                        },
-                        paginationStrategyTop: 'none',
-                        paginationStrategyBottom: 'none',
-                        actions: [
-                            {
-                                id: 'translate',
-                                label: labels.translateAction,
-                                cls: 'btn-secondary',
-                                action(languageUri, translation) {
-                                    component.editTranslation(translation.resourceUri, languageUri);
+                if (this.config.translations && this.config.translations.length) {
+                    this.controls.$tableContainer.datatable(
+                        {
+                            model: [
+                                { id: 'language', label: 'Language' },
+                                { id: 'progress', label: 'Status' }
+                            ],
+                            labels: {
+                                actions: ''
+                            },
+                            paginationStrategyTop: 'none',
+                            paginationStrategyBottom: 'none',
+                            actions: [
+                                {
+                                    id: 'translate',
+                                    label: labels.translateAction,
+                                    cls: 'btn-secondary',
+                                    action(languageUri, translation) {
+                                        component.editTranslation(translation.resourceUri, languageUri);
+                                    }
                                 }
-                            }
-                        ]
-                    },
-                    this.prepareGridData(this.config.translations)
-                );
+                            ]
+                        },
+                        this.prepareGridData(this.config.translations)
+                    );
+                }
 
                 /**
                  * @event ready
@@ -208,22 +225,10 @@ define([
                     .catch(error => this.trigger('error', error));
             })
             .on('disable', function onDisable() {
-                if (!this.is('rendered')) {
-                    return;
-                }
-                this.getElement().prop('disabled', true);
-                this.controls.$createButton.prop('disabled', true);
-                this.controls.$languageSelect.prop('disabled', true);
-                this.controls.$tableContainer.datatable('disable');
+                this.setControlsState(false);
             })
             .on('enable', function onEnable() {
-                if (!this.is('rendered')) {
-                    return;
-                }
-                this.getElement().prop('disabled', false);
-                this.controls.$createButton.prop('disabled', false);
-                this.controls.$languageSelect.prop('disabled', false);
-                this.controls.$tableContainer.datatable('enable');
+                this.setControlsState(true);
             });
 
         translationService
