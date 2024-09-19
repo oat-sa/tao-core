@@ -43,7 +43,7 @@ class ResourceTranslatableRepository
     {
         $output = [];
         $resource = $this->ontology->getResource($query->getResourceUri());
-        $typeProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL);
+        $typeProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_TYPE);
 
         $typeValue = $resource->getOnePropertyValue($typeProperty);
 

@@ -22,6 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\test\unit\models\classes\Translation\Form\Modifier;
 
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
+use oat\generis\model\data\Ontology;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Form\Modifier\TranslationFormModifier;
@@ -38,13 +41,19 @@ class TranslationFormModifierTest extends TestCase
     /** @var FeatureFlagCheckerInterface|MockObject */
     private FeatureFlagCheckerInterface $featureFlagChecker;
 
+    /** @var Ontology|MockObject */
+    private $ontology;
+
     private TranslationFormModifier $sut;
 
     protected function setUp(): void
     {
         $this->form = $this->createMock(tao_helpers_form_Form::class);
+
         $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
-        $this->sut = new TranslationFormModifier($this->featureFlagChecker);
+        $this->ontology = $this->createMock(Ontology::class);
+
+        $this->sut = new TranslationFormModifier($this->featureFlagChecker, $this->ontology);
     }
 
     public function testModifyTranslationDisabled(): void
@@ -56,12 +65,10 @@ class TranslationFormModifierTest extends TestCase
             ->willReturn(false);
 
         $this->form
-            ->expects($this->exactly(5))
+            ->expects($this->exactly(3))
             ->method('removeElement')
             ->withConsecutive(
-                [tao_helpers_Uri::encode(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER)],
                 [tao_helpers_Uri::encode(TaoOntology::PROPERTY_LANGUAGE)],
-                [tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_TYPE)],
                 [tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_STATUS)],
                 [tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_PROGRESS)],
             );
@@ -72,22 +79,52 @@ class TranslationFormModifierTest extends TestCase
     /**
      * @dataProvider modifyTranslationEnabledDataProvider
      */
-    public function testModifyTranslationEnabled(bool $developerMode, ?string $type, array $removeElements): void
+    public function testModifyTranslationEnabled(?string $type, array $removeElements): void
     {
         $this->featureFlagChecker
-            ->expects($this->exactly(2))
+            ->expects($this->once())
             ->method('isEnabled')
-            ->withConsecutive(
-                ['FEATURE_FLAG_TRANSLATION_ENABLED'],
-                ['FEATURE_FLAG_TRANSLATION_DEVELOPER_MODE'],
-            )
-            ->willReturnOnConsecutiveCalls(true, $developerMode);
+            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
+            ->willReturn(true);
 
         $this->form
             ->expects($this->once())
             ->method('getValue')
-            ->with(tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_TYPE))
+            ->with('uri')
+            ->willReturn('instanceUri');
+
+        $instance = $this->createMock(core_kernel_classes_Resource::class);
+
+        $this->ontology
+            ->expects($this->once())
+            ->method('getResource')
+            ->with('instanceUri')
+            ->willReturn($instance);
+
+        $property = $this->createMock(core_kernel_classes_Property::class);
+
+        $this->ontology
+            ->expects($this->once())
+            ->method('getProperty')
+            ->with(TaoOntology::PROPERTY_TRANSLATION_TYPE)
+            ->willReturn($property);
+
+        if ($type !== null) {
+            $typeValue = $type;
+
+            $type = $this->createMock(core_kernel_classes_Resource::class);
+            $type
+                ->expects($this->exactly(2))
+                ->method('getUri')
+                ->willReturn($typeValue);
+        }
+
+        $instance
+            ->expects($this->once())
+            ->method('getOnePropertyValue')
+            ->with($property)
             ->willReturn($type);
+
 
         $this->form
             ->expects($this->exactly(count($removeElements)))
@@ -105,50 +142,24 @@ class TranslationFormModifierTest extends TestCase
     private function modifyTranslationEnabledDataProvider(): array
     {
         return [
-            'Developer Mode enabled and no type provided' => [
-                'developerMode' => true,
+            'No type provided' => [
                 'type' => null,
                 'removeElements' => [
                     TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
+                    TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
                     TaoOntology::PROPERTY_TRANSLATION_STATUS,
                 ],
             ],
-            'Developer Mode enabled and type original' => [
-                'developerMode' => true,
+            'Type original' => [
                 'type' => TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL,
                 'removeElements' => [
                     TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
+                    TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
                 ],
             ],
-            'Developer Mode enabled and type translation' => [
-                'developerMode' => true,
+            'Type translation' => [
                 'type' => TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION,
                 'removeElements' => [
-                    TaoOntology::PROPERTY_TRANSLATION_STATUS,
-                ],
-            ],
-            'Developer Mode disabled and no type provided' => [
-                'developerMode' => false,
-                'type' => null,
-                'removeElements' => [
-                    TaoOntology::PROPERTY_TRANSLATION_TYPE,
-                    TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
-                    TaoOntology::PROPERTY_TRANSLATION_STATUS,
-                ],
-            ],
-            'Developer Mode disabled and type original' => [
-                'developerMode' => false,
-                'type' => TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL,
-                'removeElements' => [
-                    TaoOntology::PROPERTY_TRANSLATION_TYPE,
-                    TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
-                ],
-            ],
-            'Developer Mode disabled and type translation' => [
-                'developerMode' => false,
-                'type' => TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION,
-                'removeElements' => [
-                    TaoOntology::PROPERTY_TRANSLATION_TYPE,
                     TaoOntology::PROPERTY_TRANSLATION_STATUS,
                 ],
             ],

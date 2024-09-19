@@ -71,7 +71,7 @@ class TranslationCreationService
 
     public function addPostCreation(string $resourceType, callable $callable): void
     {
-        $this->callables[$resourceType] = $this->callables[$resourceType] ?? [];
+        $this->callables[$resourceType] ??= [];
         $this->callables[$resourceType][] = $callable;
     }
 
@@ -98,8 +98,9 @@ class TranslationCreationService
             $resourceUri = $command->getResourceUri();
             $languageUri = $command->getLanguageUri();
 
-            $translations = $this->resourceTranslationRepository
-                ->find(new ResourceTranslationQuery($resourceUri, $languageUri));
+            $translations = $this->resourceTranslationRepository->find(
+                new ResourceTranslationQuery([$resourceUri], $languageUri)
+            );
 
             if ($translations->count() > 0) {
                 throw new ResourceTranslationException(
@@ -152,7 +153,7 @@ class TranslationCreationService
 
             /** @var core_kernel_classes_Class $type */
             $type = array_pop($types);
-            
+
             $parentClassIds = $instance->getParentClassesIds();
             $parentClassId = array_pop($parentClassIds);
 
@@ -179,7 +180,7 @@ class TranslationCreationService
                 TaoOntology::PROPERTY_VALUE_TRANSLATION_PROGRESS_PENDING
             );
 
-            foreach ($this->callables[$resourceUri] ?? [] as $callable) {
+            foreach ($this->callables[$parentClassId] ?? [] as $callable) {
                 $clonedInstance = $callable($clonedInstance);
             }
 

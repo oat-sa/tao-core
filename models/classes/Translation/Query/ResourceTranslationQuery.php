@@ -24,18 +24,18 @@ namespace oat\tao\model\Translation\Query;
 
 class ResourceTranslationQuery
 {
-    private string $resourceUri;
+    private array $resourceUris;
     private ?string $languageUri;
 
-    public function __construct(string $resourceUri, string $languageUri = null)
+    public function __construct(array $resourceUris, string $languageUri = null)
     {
-        $this->resourceUri = $resourceUri;
+        $this->resourceUris = $resourceUris;
         $this->languageUri = $languageUri;
     }
 
-    public function getResourceUri(): string
+    public function getResourceUris(): array
     {
-        return $this->resourceUri;
+        return $this->resourceUris;
     }
 
     public function getLanguageUri(): ?string

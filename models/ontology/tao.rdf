@@ -354,18 +354,18 @@
 
   ATTENTION: Please link these metadata with resources on the specific extensions
   -->
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationType">
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypes">
     <rdfs:label xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeOriginal">
-    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationType"/>
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypes"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Original]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Original]]></rdfs:comment>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeTranslation">
-    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationType"/>
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypes"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Translation]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation]]></rdfs:comment>
   </rdf:Description>
@@ -437,7 +437,7 @@
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:comment>
-    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationType"/>
+    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypes"/>
     <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox"/>
     <tao:TAOGUIOrder><![CDATA[2002]]></tao:TAOGUIOrder>
   </rdf:Description>

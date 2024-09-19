@@ -22,16 +22,12 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\Translation\Repository;
+namespace oat\tao\test\unit\models\classes\Translation\Repository;
 
+use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
-use core_kernel_classes_Class;
 use oat\generis\model\data\Ontology;
-use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
-use oat\search\QueryBuilder;
-use oat\search\base\QueryInterface;
-use oat\search\base\SearchGateWayInterface;
-use oat\tao\model\Translation\Entity\ResourceCollection;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceTranslatable;
 use oat\tao\model\Translation\Factory\ResourceTranslatableFactory;
 use oat\tao\model\Translation\Query\ResourceTranslatableQuery;
@@ -44,115 +40,58 @@ class ResourceTranslatableRepositoryTest extends TestCase
     private ResourceTranslatableRepository $sut;
 
     /** @var Ontology|MockObject */
-    private $ontology;
-
-    /** @var ComplexSearchService|MockObject */
-    private $complexSearch;
+    private Ontology $ontology;
 
     /** @var ResourceTranslatableFactory|MockObject */
-    private $factory;
-
-    /** @var ResourceTranslatableQuery|MockObject */
-    private $query;
-
-    /** @var QueryBuilder|MockObject */
-    private $queryBuilder;
-
-    /** @var QueryInterface|MockObject */
-    private $searchQuery;
-
-    /** @var SearchGateWayInterface|MockObject */
-    private $gateway;
-
-    /** @var core_kernel_classes_Class|MockObject */
-    private $resourceTypeClass;
+    private ResourceTranslatableFactory $factory;
 
     protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
-        $this->complexSearch = $this->createMock(ComplexSearchService::class);
         $this->factory = $this->createMock(ResourceTranslatableFactory::class);
-        $this->query = $this->createMock(ResourceTranslatableQuery::class);
-        $this->queryBuilder = $this->createMock(QueryBuilder::class);
-        $this->searchQuery = $this->createMock(QueryInterface::class);
-        $this->gateway = $this->createMock(SearchGateWayInterface::class);
-        $this->resourceTypeClass = $this->createMock(core_kernel_classes_Class::class);
 
-        $this->sut = new ResourceTranslatableRepository(
-            $this->ontology,
-            $this->complexSearch,
-            $this->factory
-        );
+        $this->sut = new ResourceTranslatableRepository($this->ontology, $this->factory);
     }
 
     public function testFindReturnsResourceCollection(): void
     {
-        $resourceType = 'http://www.tao.lu/Ontologies/TAO.rdf#AssessmentContentObject';
-        $uniqueIds = [
-            'id1',
-            'id2'
-        ];
-        $resource1 = $this->createMock(core_kernel_classes_Resource::class);
-        $resource2 = $this->createMock(core_kernel_classes_Resource::class);
-        $translatable1 = $this->createMock(ResourceTranslatable::class);
-        $translatable2 = $this->createMock(ResourceTranslatable::class);
+        $query = $this->createMock(ResourceTranslatableQuery::class);
+        $resource = $this->createMock(core_kernel_classes_Resource::class);
+        $property = $this->createMock(core_kernel_classes_Property::class);
+        $translationType = $this->createMock(core_kernel_classes_Resource::class);
+        $translatable = $this->createMock(ResourceTranslatable::class);
 
-        $this->query
+        $query
             ->method('getResourceUri')
-            ->willReturn($resourceType);
-        $this->query
-            ->method('getUniqueIds')
-            ->willReturn($uniqueIds);
-
-        $this->complexSearch
-            ->method('query')
-            ->willReturn($this->queryBuilder);
-        $this->complexSearch
-            ->method('searchType')
-            ->willReturn($this->searchQuery);
-        $this->complexSearch
-            ->method('getGateway')
-            ->willReturn($this->gateway);
-
-        $this->gateway
-            ->expects($this->once())
-            ->method('search')
-            ->with($this->queryBuilder)
-            ->willReturn(
-                [
-                    $resource1,
-                    $resource2
-                ]
-            );
+            ->willReturn('resourceUri');
 
         $this->ontology
-            ->method('getClass')
-            ->with($resourceType)
-            ->willReturn($this->resourceTypeClass);
+            ->method('getResource')
+            ->with('resourceUri')
+            ->willReturn($resource);
 
-        $resource1
-            ->method('isInstanceOf')
-            ->with($this->resourceTypeClass)
-            ->willReturn(true);
-        $resource2
-            ->method('isInstanceOf')
-            ->with($this->resourceTypeClass)
-            ->willReturn(true);
+        $this->ontology
+            ->method('getProperty')
+            ->with(TaoOntology::PROPERTY_TRANSLATION_TYPE)
+            ->willReturn($property);
+
+        $resource
+            ->method('getOnePropertyValue')
+            ->with($property)
+            ->willReturn($translationType);
+
+        $translationType
+            ->method('getUri')
+            ->willReturn(TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL);
 
         $this->factory
             ->method('create')
-            ->willReturnMap(
-                [
-                    [$resource1, $translatable1],
-                    [$resource2, $translatable2]
-                ]
-            );
+            ->with($resource)
+            ->willReturn($translatable);
 
-        $result = $this->sut->find($this->query);
+        $result = $this->sut->find($query);
 
-        $this->assertInstanceOf(ResourceCollection::class, $result);
-        $this->assertCount(2, $result);
-        $this->assertContains($translatable1, $result);
-        $this->assertContains($translatable2, $result);
+        $this->assertCount(1, $result);
+        $this->assertContains($translatable, $result);
     }
 }
