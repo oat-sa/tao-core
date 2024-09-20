@@ -17,7 +17,7 @@
  *
  */
 define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
-    ('use strict');
+    'use strict';
 
     /**
      * @typedef {object} LanguageDefinition
