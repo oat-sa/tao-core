@@ -54,10 +54,13 @@ class TranslationFormModifier extends AbstractFormModifier
                 TaoOntology::PROPERTY_LANGUAGE,
                 TaoOntology::PROPERTY_TRANSLATION_STATUS,
                 TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
+                TaoOntology::PROPERTY_TRANSLATION_TYPE,
             ];
         }
 
-        $elementsToRemove = [];
+        $elementsToRemove = [
+            TaoOntology::PROPERTY_TRANSLATION_TYPE
+        ];
 
         $instance = $this->ontology->getResource($form->getValue('uri'));
         $translationType = $instance->getOnePropertyValue(

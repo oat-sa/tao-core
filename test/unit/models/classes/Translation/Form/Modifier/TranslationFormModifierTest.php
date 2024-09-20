@@ -65,12 +65,13 @@ class TranslationFormModifierTest extends TestCase
             ->willReturn(false);
 
         $this->form
-            ->expects($this->exactly(3))
+            ->expects($this->exactly(4))
             ->method('removeElement')
             ->withConsecutive(
                 [tao_helpers_Uri::encode(TaoOntology::PROPERTY_LANGUAGE)],
                 [tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_STATUS)],
                 [tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_PROGRESS)],
+                [tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_TYPE)],
             );
 
         $this->sut->modify($this->form);
@@ -145,6 +146,7 @@ class TranslationFormModifierTest extends TestCase
             'No type provided' => [
                 'type' => null,
                 'removeElements' => [
+                    TaoOntology::PROPERTY_TRANSLATION_TYPE,
                     TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
                     TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
                     TaoOntology::PROPERTY_TRANSLATION_STATUS,
@@ -153,6 +155,7 @@ class TranslationFormModifierTest extends TestCase
             'Type original' => [
                 'type' => TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL,
                 'removeElements' => [
+                    TaoOntology::PROPERTY_TRANSLATION_TYPE,
                     TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
                     TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
                 ],
@@ -160,6 +163,7 @@ class TranslationFormModifierTest extends TestCase
             'Type translation' => [
                 'type' => TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION,
                 'removeElements' => [
+                    TaoOntology::PROPERTY_TRANSLATION_TYPE,
                     TaoOntology::PROPERTY_TRANSLATION_STATUS,
                 ],
             ],
