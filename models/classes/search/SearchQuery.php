@@ -86,6 +86,11 @@ class SearchQuery
         return $this->term;
     }
 
+    public function setTerm(string $term): void
+    {
+        $this->term = $term;
+    }
+
     public function isEmptySearch(): bool
     {
         return empty($this->term);
