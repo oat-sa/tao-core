@@ -51,6 +51,7 @@ class TranslationFormModifier extends AbstractFormModifier
     {
         if (!$this->featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')) {
             return [
+                TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
                 TaoOntology::PROPERTY_LANGUAGE,
                 TaoOntology::PROPERTY_TRANSLATION_STATUS,
                 TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
