@@ -245,7 +245,7 @@ define([
                     return config;
                 }
 
-                return component.getData().then(data => ({ ...config, ...data }));
+                return component.getData().then(data => Object.assign(config, data));
             })
             .then(config => component.init(config))
             .catch(error => component.trigger('error', error));
