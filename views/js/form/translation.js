@@ -145,42 +145,26 @@ define([
                 this.controls.$createButton.prop('disabled', disabled);
                 this.controls.$languageSelect.prop('disabled', disabled);
                 this.controls.$tableContainer.find(':input').prop('disabled', disabled);
-            }
-        };
+            },
 
-        const component = componentFactory(api, defaults)
-            .setTemplate(translationTpl)
-            .on('render', function onRender() {
-                const $element = this.getElement();
-                this.controls = {
-                    $tableContainer: $element.find('.translations-list'),
-                    $createButton: $element.find('.translations-create [data-control="create"]'),
-                    $languageSelect: $element.find('.translations-create [data-control="select"]')
-                };
+            /**
+             * Updates the list of translations.
+             */
+            updateList() {
+                if (!this.is('rendered')) {
+                    return;
+                }
 
-                this.controls.$createButton.on('click', () => {
-                    const languageUri = this.controls.$languageSelect.val();
-                    const resume = () => this.controls.$createButton.prop('disabled', false);
-                    this.controls.$createButton.prop('disabled', true);
+                const { translations } = this.config;
 
-                    if (!languageUri) {
-                        return dialogAlert(labels.missingLanguage, resume);
-                    }
-                    dialogConfirm(
-                        labels.confirmTranslate,
-                        () => this.createTranslation(languageUri).then(resume),
-                        resume,
-                        {
-                            buttons: {
-                                labels: {
-                                    ok: labels.startTranslation
-                                }
-                            }
-                        }
-                    );
-                });
+                if (!translations || !translations.length) {
+                    this.controls.$tableContainer.empty();
+                    return;
+                }
 
-                if (this.config.translations && this.config.translations.length) {
+                const gridData = this.prepareGridData(translations);
+
+                if (this.controls.$tableContainer.html().trim() === '') {
                     this.controls.$tableContainer.datatable(
                         {
                             model: [
@@ -203,9 +187,48 @@ define([
                                 }
                             ]
                         },
-                        this.prepareGridData(this.config.translations)
+                        gridData
                     );
+                } else {
+                    this.controls.$tableContainer.datatable('refresh', gridData);
                 }
+            }
+        };
+
+        const component = componentFactory(api, defaults)
+            .setTemplate(translationTpl)
+            .on('render', function onRender() {
+                const $element = this.getElement();
+                this.controls = {
+                    $tableContainer: $element.find('.translations-list'),
+                    $createButton: $element.find('.translations-create [data-control="create"]'),
+                    $languageSelect: $element.find('.translations-create [data-control="select"]')
+                };
+
+                this.controls.$createButton.on('click', e => {
+                    e.preventDefault();
+                    const languageUri = this.controls.$languageSelect.val();
+                    const resume = () => this.controls.$createButton.prop('disabled', false);
+                    this.controls.$createButton.prop('disabled', true);
+
+                    if (!languageUri) {
+                        return dialogAlert(labels.missingLanguage, resume);
+                    }
+                    dialogConfirm(
+                        labels.confirmTranslate,
+                        () => this.createTranslation(languageUri).then(resume),
+                        resume,
+                        {
+                            buttons: {
+                                labels: {
+                                    ok: labels.startTranslation
+                                }
+                            }
+                        }
+                    );
+                });
+
+                this.updateList();
 
                 /**
                  * @event ready
@@ -219,7 +242,8 @@ define([
                 }
                 return this.getData()
                     .then(data => {
-                        this.controls.$tableContainer.datatable('refresh', this.prepareGridData(data.translations));
+                        this.config.translations = data.translations;
+                        this.updateList();
                     })
                     .then(() => this.editTranslation(translationUri, languageUri))
                     .catch(error => this.trigger('error', error));
