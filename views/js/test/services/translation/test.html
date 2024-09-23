@@ -15,12 +15,6 @@
 
             //load the config
             require(['/tao/ClientConfig/config'], function(){
-                //some mocks
-                require.config({
-                    config: {
-                    }
-                });
-
                 //load the test
                 require(['test/services/translation/test'], function(){
 
