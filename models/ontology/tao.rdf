@@ -412,7 +412,7 @@
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Original Resource]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Original Resource]]></rdfs:comment>
-    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
     <tao:TAOGUIOrder><![CDATA[2000]]></tao:TAOGUIOrder>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#UniqueIdentifier">

@@ -51,13 +51,17 @@ class TranslationFormModifier extends AbstractFormModifier
     {
         if (!$this->featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')) {
             return [
+                TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
                 TaoOntology::PROPERTY_LANGUAGE,
                 TaoOntology::PROPERTY_TRANSLATION_STATUS,
                 TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
+                TaoOntology::PROPERTY_TRANSLATION_TYPE,
             ];
         }
 
-        $elementsToRemove = [];
+        $elementsToRemove = [
+            TaoOntology::PROPERTY_TRANSLATION_TYPE
+        ];
 
         $instance = $this->ontology->getResource($form->getValue('uri'));
         $translationType = $instance->getOnePropertyValue(
