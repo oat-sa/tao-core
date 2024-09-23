@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2023 Open Assessment Technologies SA;
+ * Copyright (c) 2014-2024 Open Assessment Technologies SA;
  */
 
 /**
@@ -54,7 +54,7 @@ define([
 ) {
     'use strict';
 
-    var messages = {
+    const messages = {
         // prettier-ignore
         confirmMove: __('The properties of the source class will be replaced by those of the destination class. This might result in a loss of metadata. Continue anyway?')
     };
@@ -63,10 +63,10 @@ define([
      * Cleans up the main panel and creates a container
      * @returns {jQuery}
      */
-    var emptyPanel = function cleanupPanel() {
+    function emptyPanel() {
         section.current().updateContentBlock('<div class="main-container flex-container-form-main"></div>');
         return $(section.selected.panel).find('.main-container');
-    };
+    }
 
     /**
      * Register common actions.
@@ -75,7 +75,7 @@ define([
      *
      * @exports layout/actions/common
      */
-    var commonActions = function commonActions() {
+    function commonActions() {
         /**
          * Register the load action: load the url and into the content container
          *
@@ -116,9 +116,8 @@ define([
          * @fires layout/tree#addnode.taotree
          */
         binder.register('subClass', function subClass(actionContext) {
-            var classUri = uri.decode(actionContext.classUri);
-            var signature = actionContext.signature;
-            var self = this;
+            const classUri = uri.decode(actionContext.classUri);
+            let signature = actionContext.signature;
             if (actionContext.type !== 'class') {
                 signature = actionContext.classSignature;
             }
@@ -129,11 +128,11 @@ define([
             }
 
             return request({
-                url: self.url,
+                url: this.url,
                 method: 'POST',
                 data: { id: classUri, type: 'class', signature: signature },
                 dataType: 'json'
-            }).then(function (response) {
+            }).then(response => {
                 if (response.success && response.uri) {
                     if (actionContext.tree) {
                         $(actionContext.tree).trigger('addnode.taotree', [
@@ -171,14 +170,13 @@ define([
          * @fires layout/tree#addnode.taotree
          */
         binder.register('instanciate', function instanciate(actionContext) {
-            var self = this;
-            var classUri = uri.decode(actionContext.classUri);
-            var signature = actionContext.signature;
+            const classUri = uri.decode(actionContext.classUri);
+            let signature = actionContext.signature;
             if (actionContext.type !== 'class') {
                 signature = actionContext.classSignature;
             }
             return request({
-                url: self.url,
+                url: this.url,
                 method: 'POST',
                 data: { id: classUri, type: 'instance', signature: signature },
                 dataType: 'json'
@@ -222,9 +220,8 @@ define([
          * @fires layout/tree#addnode.taotree
          */
         binder.register('duplicateNode', function duplicateNode(actionContext) {
-            var self = this;
             return request({
-                url: self.url,
+                url: this.url,
                 method: 'POST',
                 data: {
                     uri: actionContext.id,
@@ -271,24 +268,24 @@ define([
          * @fires layout/tree#removenode.taotree
          */
         binder.register('removeNode', function remove(actionContext) {
-            var self = this;
-            var data = {};
+            const data = {};
 
             data.uri = uri.decode(actionContext.uri);
             data.classUri = uri.decode(actionContext.classUri);
             data.id = actionContext.id;
             data.signature = actionContext.signature;
 
-            return new Promise(function (resolve, reject) {
+            return new Promise((resolve, reject) => {
                 confirmDialog(
                     __('Please confirm deletion'),
-                    function accept() {
+                    // accept
+                    () => {
                         request({
-                            url: self.url,
+                            url: this.url,
                             method: 'POST',
                             data: data,
                             dataType: 'json'
-                        }).then(function (response) {
+                        }).then(response => {
                             if (response.success && response.deleted) {
                                 feedback().success(response.message || __('Resource deleted'));
 
@@ -319,9 +316,8 @@ define([
                             }
                         });
                     },
-                    function cancel() {
-                        reject({ cancel: true });
-                    }
+                    // cancel
+                    () => reject({ cancel: true })
                 );
             });
         });
@@ -335,18 +331,15 @@ define([
          * @returns {Promise<String[]>} with the list of deleted ids/uris
          */
         binder.register('removeNodes', function removeNodes(actionContexts) {
-            var self = this;
-            var confirmMessage = '';
-            var data = {};
-            var classes;
-            var instances;
+            let confirmMessage = '';
+            const data = {};
 
             if (!_.isArray(actionContexts)) {
                 actionContexts = [actionContexts];
             }
 
-            classes = _.filter(actionContexts, { type: 'class' });
-            instances = _.filter(actionContexts, { type: 'instance' });
+            const classes = _.filter(actionContexts, { type: 'class' });
+            const instances = _.filter(actionContexts, { type: 'instance' });
 
             data.ids = _.map(actionContexts, function (elem) {
                 return { id: elem.id, signature: elem.signature };
@@ -375,16 +368,17 @@ define([
                 confirmMessage = __('Please confirm deletion of %s.', confirmMessage);
             }
 
-            return new Promise(function (resolve, reject) {
+            return new Promise((resolve, reject) => {
                 confirmDialog(
                     confirmMessage,
-                    function accept() {
+                    //accept
+                    () => {
                         request({
-                            url: self.url,
+                            url: this.url,
                             method: 'POST',
                             data: data,
                             dataType: 'json'
-                        }).then(function (response) {
+                        }).then(response => {
                             if (response.success && response.deleted) {
                                 resolve(response.deleted);
                             } else {
@@ -392,9 +386,8 @@ define([
                             }
                         });
                     },
-                    function cancel() {
-                        reject({ cancel: true });
-                    }
+                    //cancel
+                    () => reject({ cancel: true })
                 );
             });
         });
@@ -409,26 +402,23 @@ define([
          * @param {String} [actionContext.classUri]
          */
         binder.register('moveNode', function remove(actionContext) {
-            var data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed', 'signature']);
+            const data = _.pick(actionContext, ['id', 'uri', 'destinationClassUri', 'confirmed', 'signature']);
 
             //wrap into a private function for recusion calls
-            var _moveNode = function _moveNode(url) {
+            function _moveNode(url) {
                 request({
                     url: url,
                     method: 'POST',
                     data: data,
                     dataType: 'json'
-                }).then(function (response) {
-                    var message;
-                    var i;
-
+                }).then(response => {
                     if (response && response.status === true) {
                         return;
                     } else if (response && response.status === 'diff') {
                         // prettier-ignore
-                        message = __('Moving this element will replace the properties of the previous class by those of the destination class :');
+                        let message = __('Moving this element will replace the properties of the previous class by those of the destination class :');
                         message += '\n';
-                        for (i = 0; i < response.data.length; i++) {
+                        for (let i = 0; i < response.data.length; i++) {
                             if (response.data[i].label) {
                                 message += `- ${response.data[i].label}\n`;
                             }
@@ -445,7 +435,7 @@ define([
                     //ask to rollback the tree
                     $(actionContext.tree).trigger('rollback.taotree');
                 });
-            };
+            }
             _moveNode(this.url, data);
         });
 
@@ -461,16 +451,16 @@ define([
          * @fires layout/tree#removenode.taotree
          */
         binder.register('launchEditor', function launchEditor(actionContext) {
-            var data = _.pick(actionContext, ['id']);
-            var wideDifferenciator = '[data-content-target="wide"]';
+            const data = _.pick(actionContext, ['id']);
+            const wideDifferenciator = '[data-content-target="wide"]';
 
             $.ajax({
                 url: this.url,
                 type: 'GET',
                 data: data,
                 dataType: 'html',
-                success: function (response) {
-                    var $response = $($.parseHTML(response, document, true));
+                success(response) {
+                    const $response = $($.parseHTML(response, document, true));
                     //check if the editor should be displayed widely or in the content area
                     if ($response.is(wideDifferenciator) || $response.find(wideDifferenciator).length) {
                         section
@@ -499,22 +489,22 @@ define([
          */
         binder.register('copyTo', function copyTo(actionContext) {
             //create the container manually...
-            var $container = emptyPanel();
+            const $container = emptyPanel();
 
             //get the resource provider configured with the action URL
-            var resourceProvider = resourceProviderFactory({
+            const resourceProvider = resourceProviderFactory({
                 copyTo: {
                     url: this.url
                 }
             });
 
-            return new Promise(function (resolve, reject) {
+            return new Promise((resolve, reject) => {
                 //set up a destination selector
                 destinationSelectorFactory($container, {
                     showACL: !!module.config().aclTransferMode,
                     aclTransferMode: module.config().aclTransferMode,
                     classUri: actionContext.rootClassUri,
-                    preventSelection: function preventSelection(nodeUri, node, $node) {
+                    preventSelection(nodeUri, node, $node) {
                         //prevent selection on nodes without WRITE permissions
                         if (($node.length && $node.data('access') === 'partial') || $node.data('access') === 'denied') {
                             if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
@@ -527,29 +517,24 @@ define([
                         return false;
                     }
                 })
-                    .on('query', function (params) {
-                        var self = this;
-
+                    .on('query', function onQuery(params) {
                         //asks only classes
                         params.classOnly = true;
                         resourceProvider
                             .getResources(params, true)
-                            .then(function (resources) {
+                            .then(resources => {
                                 //ask the server the resources from the component query
-                                self.update(resources, params);
+                                this.update(resources, params);
                             })
-                            .catch(function (err) {
-                                self.trigger('error', err);
-                            });
+                            .catch(err => this.trigger('error', err));
                     })
-                    .on('select', function (destinationClassUri, aclTransferMode) {
-                        var self = this;
+                    .on('select', function onSelect(destinationClassUri, aclTransferMode) {
                         if (!_.isEmpty(destinationClassUri)) {
                             this.disable();
 
                             resourceProvider
                                 .copyTo(actionContext.id, destinationClassUri, actionContext.signature, aclTransferMode)
-                                .then(function (result) {
+                                .then(result => {
                                     if (result && result.uri) {
                                         feedback().success(__('Resource copied'));
 
@@ -561,9 +546,7 @@ define([
                                     }
                                     return reject(new Error(__('Unable to copy the resource')));
                                 })
-                                .catch(function (err) {
-                                    self.trigger('error', err);
-                                });
+                                .catch(err => this.trigger('error', err));
                         }
                     })
                     .on('error', reject);
@@ -669,13 +652,13 @@ define([
          */
         binder.register('moveTo', function moveTo(actionContext) {
             //create the container manually...
-            var $container = emptyPanel();
+            const $container = emptyPanel();
 
             //backward compatible for jstree
-            var tree = actionContext.tree;
+            const tree = actionContext.tree;
 
             //get the resource provider configured with the action URL
-            var resourceProvider = resourceProviderFactory({
+            const resourceProvider = resourceProviderFactory({
                 moveTo: {
                     url: this.url
                 }
@@ -685,10 +668,10 @@ define([
                 actionContext = [actionContext];
             }
 
-            return new Promise(function (resolve, reject) {
-                var rootClassUri = _.map(actionContext, 'rootClassUri').pop();
-                var selectedUri = _.map(actionContext, 'id');
-                var selectedData = _.map(actionContext, function (a) {
+            return new Promise((resolve, reject) => {
+                const rootClassUri = _.map(actionContext, 'rootClassUri').pop();
+                const selectedUri = _.map(actionContext, 'id');
+                const selectedData = _.map(actionContext, a => {
                     return { id: a.id, signature: a.signature };
                 });
 
@@ -701,9 +684,7 @@ define([
                     icon: 'move-item',
                     classUri: rootClassUri,
                     confirm: messages.confirmMove,
-                    preventSelection: function preventSelection(nodeUri, node, $node) {
-                        var uriList = [];
-
+                    preventSelection(nodeUri, node, $node) {
                         //prevent selection on nodes without WRITE permissions
                         if (($node.length && $node.data('access') === 'partial') || $node.data('access') === 'denied') {
                             if (!permissionsManager.hasPermission(nodeUri, 'WRITE')) {
@@ -714,7 +695,7 @@ define([
                             }
                         }
 
-                        uriList = [nodeUri];
+                        const uriList = [nodeUri];
                         $node.parents('.class').each(function () {
                             if (this.dataset.uri !== rootClassUri) {
                                 uriList.push(this.dataset.uri);
@@ -733,35 +714,29 @@ define([
                         return false;
                     }
                 })
-                    .on('query', function (params) {
-                        var self = this;
-
+                    .on('query', function onQuery(params) {
                         //asks only classes
                         params.classOnly = true;
                         resourceProvider
                             .getResources(params, true)
-                            .then(function (resources) {
+                            .then(resources => {
                                 //ask the server the resources from the component query
-                                self.update(resources, params);
+                                this.update(resources, params);
                             })
-                            .catch(function (err) {
-                                self.trigger('error', err);
-                            });
+                            .catch(err => this.trigger('error', err));
                     })
-                    .on('select', function (destinationClassUri, aclTransferMode) {
-                        var self = this;
-
+                    .on('select', function onSelect(destinationClassUri, aclTransferMode) {
                         if (!_.isEmpty(destinationClassUri)) {
                             this.disable();
 
                             resourceProvider
                                 .moveTo(selectedData, destinationClassUri, aclTransferMode)
-                                .then(function (results) {
-                                    var failed = [];
-                                    var success = [];
+                                .then(results => {
+                                    const failed = [];
+                                    const success = [];
 
-                                    _.forEach(results, function (result, resUri) {
-                                        var resource = _.find(actionContext, { uri: resUri });
+                                    _.forEach(results, (result, resUri) => {
+                                        const resource = _.find(actionContext, { uri: resUri });
                                         if (result.success) {
                                             success.push(resource);
                                         } else {
@@ -785,15 +760,13 @@ define([
                                     }
                                     return resolve(destinationClassUri);
                                 })
-                                .catch(function (err) {
-                                    self.trigger('error', err);
-                                });
+                                .catch(err => this.trigger('error', err));
                         }
                     })
                     .on('error', reject);
             });
         });
-    };
+    }
 
     return commonActions;
 });
