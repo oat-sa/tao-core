@@ -451,7 +451,8 @@ define([
          * @fires layout/tree#removenode.taotree
          */
         binder.register('launchEditor', function launchEditor(actionContext) {
-            const data = _.pick(actionContext, ['id']);
+            const { actionParams } = actionContext;
+            const data = _.pick(actionContext, ['id', ...(actionParams || [])]);
             const wideDifferenciator = '[data-content-target="wide"]';
 
             $.ajax({
