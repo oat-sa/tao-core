@@ -42,7 +42,6 @@ use Throwable;
  * @example php index.php 'oat\tao\scripts\tools\Translation\PopulateTranslationProperties'
  *          -c http://www.tao.lu/Ontologies/TAOItem.rdf#Item
  *          [[ --chunk-size=1000 ]]
- *          [[ --debug ]]
  */
 class PopulateTranslationProperties extends ScriptAction
 {
