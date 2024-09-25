@@ -191,8 +191,10 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
                 }
 
                 acc.push({
-                    resourceUri: resource.originResourceUri || resource.resourceUri,
+                    resourceUri: resource.resourceUri,
+                    originResourceUri: resource.originResourceUri,
                     languageUri,
+                    progressUri,
                     language: languagesMap[languageUri],
                     progress: labels[progressUri] || ''
                 });

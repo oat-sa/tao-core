@@ -354,20 +354,26 @@ define(['services/translation'], function (translationService) {
 
         const expected = [
             {
-                resourceUri: 'https://tr-enterprise.kitchen.tao/tao.rdf#i66bf239f225f1202408161002075ca6e371',
+                originResourceUri: 'https://tr-enterprise.kitchen.tao/tao.rdf#i66bf239f225f1202408161002075ca6e371',
+                resourceUri: 'https://tr-enterprise.kitchen.tao/tao.rdf#i66e96b4bb3a162024091711430754588114',
                 languageUri: 'http://www.tao.lu/Ontologies/TAO.rdf#Langfr-FR',
+                progressUri: 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusPending',
                 language: 'French (France)',
                 progress: 'Pending'
             },
             {
-                resourceUri: 'https://tr-enterprise.kitchen.tao/tao.rdf#i66bf239f225f1202408161002075ca6e371',
+                originResourceUri: 'https://tr-enterprise.kitchen.tao/tao.rdf#i66bf239f225f1202408161002075ca6e371',
+                resourceUri: 'https://tr-enterprise.kitchen.tao/tao.rdf#i66e96bad3d1c8202409171144450caf7160',
                 languageUri: 'http://www.tao.lu/Ontologies/TAO.rdf#Langfr-CA',
+                progressUri: 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusPending',
                 language: 'French (Canada)',
                 progress: 'Pending'
             },
             {
-                resourceUri: 'https://tr-enterprise.kitchen.tao/tao.rdf#i66bf239f225f1202408161002075ca6e371',
+                originResourceUri: 'https://tr-enterprise.kitchen.tao/tao.rdf#i66bf239f225f1202408161002075ca6e371',
+                resourceUri: 'https://tr-enterprise.kitchen.tao/tao.rdf#i66ea8be336b5b20240918081427d3672c75',
                 languageUri: 'http://www.tao.lu/Ontologies/TAO.rdf#Langit-IT',
+                progressUri: 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusPending',
                 language: 'Italian',
                 progress: 'Pending'
             }
