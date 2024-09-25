@@ -31,10 +31,10 @@ use oat\generis\model\OntologyRdfs;
 use oat\generis\persistence\PersistenceManager;
 use oat\oatbox\extension\script\ScriptAction;
 use oat\oatbox\reporting\Report;
-use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\TaoOntology;
+use oat\tao\model\Translation\Service\ResourceLanguageRetriever;
 use Psr\Container\ContainerInterface;
 use Throwable;
 
@@ -53,7 +53,10 @@ class PopulateTranslationProperties extends ScriptAction
         TaoOntology::CLASS_URI_TEST,
     ];
 
+    private FeatureFlagCheckerInterface $featureFlagChecker;
+    private Ontology $ontology;
     private common_persistence_SqlPersistence $persistence;
+    private ResourceLanguageRetriever $resourceLanguageRetriever;
     private Report $report;
 
     protected function provideOptions(): array
@@ -82,12 +85,14 @@ class PopulateTranslationProperties extends ScriptAction
 
     protected function run(): Report
     {
+        $this->initServices();
+
         try {
-            if (!$this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')) {
+            if (!$this->featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')) {
                 return Report::createError('Translation properties cannot be populated because this feature is disabled');
             }
 
-            $class = $this->getOntology()->getClass($this->getOption(self::OPTION_CLASS));
+            $class = $this->ontology->getClass($this->getOption(self::OPTION_CLASS));
 
             $this->assertClassExists($class);
             $this->assertClassTypeSupported($class);
@@ -104,13 +109,19 @@ class PopulateTranslationProperties extends ScriptAction
 
             $this->populateProperties($resourceIds);
 
-            return $this->report(
-                Report::createSuccess('Successfully populated translation properties for type ' . $class->getUri())
-            );
+            $message = 'Successfully populated translation properties for type ' . $class->getUri();
+            $this->logInfo($message);
+
+            return $this->report(Report::createSuccess($message));
         } catch (Throwable $exception) {
-            return $this->report(Report::createError(
-                'An error occurred while populating translation properties: ' . $exception->getMessage()
-            ));
+            $message = sprintf(
+                'An error occurred while populating translation properties: %s. Trace: %s',
+                $exception->getMessage(),
+                $exception->getTraceAsString()
+            );
+            $this->logError($message);
+
+            return $this->report(Report::createError($message));
         }
     }
 
@@ -165,7 +176,7 @@ class PopulateTranslationProperties extends ScriptAction
             group by st.subject;
             SQL;
 
-        $statement = $this->getPersistence()->query(
+        $statement = $this->persistence->query(
             $query,
             [
                 $class->getUri(),
@@ -181,28 +192,28 @@ class PopulateTranslationProperties extends ScriptAction
 
     private function populateProperties(array $resourceIds): void
     {
-        $numberOfPropertiesPerResource = count($resourceIds[0]);
-        $numberOfResources = count($resourceIds);
-        $chunks = array_chunk(
-            $this->getValuesToInsert($resourceIds),
-            $this->getOption(self::OPTION_CHUNK_SIZE)
-        );
-        $inserted = 0;
-        $platform = $this->getPersistence()->getPlatForm();
+        $this->report(Report::createInfo('Total number of resources to populate properties: ' . count($resourceIds)));
 
-        foreach ($chunks as $chunkValues) {
+        $resourceIdsChunks = array_chunk($resourceIds, $this->getOption(self::OPTION_CHUNK_SIZE));
+        $inserted = 0;
+        $platform = $this->persistence->getPlatForm();
+
+        foreach ($resourceIdsChunks as $resourceIdsChunk) {
             $platform->beginTransaction();
 
-            $inserted += $this->getPersistence()->insertMultiple('statements', $chunkValues);
+            $inserted += $this->persistence->insertMultiple(
+                'statements',
+                $this->getValuesToInsert($resourceIdsChunk)
+            );
 
             $platform->commit();
 
             $this->report(
                 Report::createInfo(
                     sprintf(
-                        'Progress: %d / %d.',
-                        $inserted / $numberOfPropertiesPerResource,
-                        $numberOfResources
+                        'Progress: resources updated - %d, properties inserted - %d',
+                        $inserted / 3,
+                        $inserted
                     )
                 )
             );
@@ -211,8 +222,6 @@ class PopulateTranslationProperties extends ScriptAction
 
     private function getValuesToInsert(array $resourceIds): array
     {
-        $defaultLanguage = TaoOntology::LANGUAGE_PREFIX . $this->getUserLanguageService()->getDefaultLanguage();
-
         $values = [];
 
         foreach ($resourceIds as $resourceId) {
@@ -229,7 +238,7 @@ class PopulateTranslationProperties extends ScriptAction
             $values[] = $this->buildInsertValue(
                 $resourceId,
                 TaoOntology::PROPERTY_LANGUAGE,
-                $defaultLanguage
+                $this->getResourceLanguage($resourceId)
             );
         }
 
@@ -247,6 +256,13 @@ class PopulateTranslationProperties extends ScriptAction
         ];
     }
 
+    private function getResourceLanguage(string $resourceId): string
+    {
+        $resource = $this->ontology->getResource($resourceId);
+
+        return TaoOntology::LANGUAGE_PREFIX . $this->resourceLanguageRetriever->retrieve($resource);
+    }
+
     private function report(Report $report): Report
     {
         !isset($this->report)
@@ -256,19 +272,16 @@ class PopulateTranslationProperties extends ScriptAction
         return $this->report;
     }
 
-    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    private function initServices(): void
     {
-        return $this->getPsrContainer()->get(FeatureFlagChecker::class);
-    }
+        $this->featureFlagChecker = $this->getPsrContainer()->get(FeatureFlagChecker::class);
+        $this->ontology = $this->getPsrContainer()->get(Ontology::SERVICE_ID);
+        $this->persistence = $this->getPersistence();
+        $this->resourceLanguageRetriever = $this->getPsrContainer()->get(ResourceLanguageRetriever::class);
 
-    private function getOntology(): Ontology
-    {
-        return $this->getPsrContainer()->get(Ontology::SERVICE_ID);
-    }
-
-    private function getUserLanguageService(): UserLanguageServiceInterface
-    {
-        return $this->getPsrContainer()->get(UserLanguageServiceInterface::SERVICE_ID);
+        if (!defined('PRODUCT_NAME')) {
+            define('PRODUCT_NAME', 'TAO');
+        }
     }
 
     private function getPersistence(): common_persistence_SqlPersistence
