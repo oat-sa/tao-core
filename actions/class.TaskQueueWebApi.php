@@ -145,16 +145,48 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
             $this->checkIfTaskIdExists();
             $taskIds = $this->detectTaskIds();
 
+            // Get task log service
             $taskLogService = $this->getTaskLogService();
 
-            $filter = $taskIds === static::ALL
-                ? (new TaskLogFilter())->availableForArchived($this->getSessionUserUri())
-                : (new TaskLogFilter())
+            // Define batch size for the chunk of tasks to be processed in each iteration
+            $batchSize = 100; // Adjust this number based on server capabilities
+            $success = false;
+
+            // If taskIds is ALL, we'll fetch all tasks using pagination
+            if ($taskIds === static::ALL) {
+                do {
+                    // Set the filter with limit and offset for pagination
+                    $filter = (new TaskLogFilter())
+                        ->availableForArchived($this->getSessionUserUri())
+                        ->setLimit($batchSize)
+                        ->setSortBy(TaskLogBrokerInterface::COLUMN_CREATED_AT);
+                    // Fetch the tasks for the current batch
+                    $taskLogCollection = $taskLogService->search($filter);
+
+                    // If no tasks are returned, break the loop
+                    if (count($taskLogCollection) === 0) {
+                        break;
+                    }
+
+                    // Process the current batch
+                    $success = $taskLogService->archiveCollection($taskLogCollection) || $success;
+                } while (count($taskLogCollection) === $batchSize);
+            } else {
+                // Handle specific task IDs (no need for pagination)
+                $filter = (new TaskLogFilter())
                     ->addAvailableFilters($this->getSessionUserUri())
                     ->in(TaskLogBrokerInterface::COLUMN_ID, $taskIds);
 
+                // Fetch all tasks based on provided task IDs
+                $taskLogCollection = $taskLogService->search($filter);
+
+                // Process the tasks without pagination
+                $success = $taskLogService->archiveCollection($taskLogCollection);
+            }
+
+            // Return JSON response
             return $this->returnJson([
-                'success' => (bool) $taskLogService->archiveCollection($taskLogService->search($filter))
+                'success' => (bool) $success
             ]);
         } catch (Exception $e) {
             $this->setErrorJsonResponse(
