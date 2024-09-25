@@ -415,6 +415,18 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                     1,
                     'translation listed'
                 );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.edit`)
+                        .length,
+                    1,
+                    'translation editable'
+                );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.delete`)
+                        .length,
+                    0,
+                    'translation not deletable'
+                );
 
                 done();
             })
@@ -444,6 +456,18 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                     $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"]`).length,
                     1,
                     'translation listed'
+                );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.edit`)
+                        .length,
+                    1,
+                    'translation editable'
+                );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.delete`)
+                        .length,
+                    0,
+                    'translation not deletable'
                 );
 
                 done();
@@ -482,6 +506,18 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                     1,
                     'translation listed'
                 );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.edit`)
+                        .length,
+                    1,
+                    'translation editable'
+                );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.delete`)
+                        .length,
+                    0,
+                    'translation not deletable'
+                );
 
                 $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.edit`).click();
             })
@@ -511,7 +547,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
             translatedLanguages: translations
         });
 
-        translationFormFactory($fixture)
+        translationFormFactory($fixture, { allowDeletion: true })
             .on('ready', function () {
                 assert.ok(true, 'The translation instance can be initialized');
 
@@ -528,6 +564,18 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                     $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"]`).length,
                     1,
                     'translation listed'
+                );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.edit`)
+                        .length,
+                    1,
+                    'translation editable'
+                );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.delete`)
+                        .length,
+                    1,
+                    'translation deletable'
                 );
 
                 $fixture

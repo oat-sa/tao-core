@@ -61,6 +61,7 @@ define([
      * @param {Object} config - The configuration object.
      * @param {string} config.rootClassUri - The URI of the root class.
      * @param {string} config.resourceUri - The URI of the resource to translate.
+     * @param {bool} config.allowDeletion - Allow to delete translations (when allowed, a delete button is added for each translation).
      * @returns {Component} - The form component.
      * @emits ready - When the component is ready to be used.
      * @emits create - When a translation is created.
@@ -68,7 +69,7 @@ define([
      * @emits delete - When a translation needs to be deleted.
      * @emits error - When an error occurs.
      */
-    return function translationFormFactory($container, { rootClassUri, resourceUri } = {}) {
+    return function translationFormFactory($container, { rootClassUri, resourceUri, allowDeletion } = {}) {
         const api = {
             /**
              * Queries the available languages and translations for the resource.
@@ -184,39 +185,41 @@ define([
                 const gridData = this.prepareGridData(translations);
 
                 if (this.controls.$tableContainer.html().trim() === '') {
+                    const model = [
+                        { id: 'language', label: 'Language' },
+                        { id: 'progress', label: 'Status' }
+                    ];
+                    const actions = [
+                        {
+                            id: 'edit',
+                            label: labels.editActionLabel,
+                            title: labels.editActionTooltip,
+                            icon: 'edit',
+                            cls: 'btn-secondary',
+                            action(languageUri, translation) {
+                                component.editTranslation(translation.resourceUri, languageUri);
+                            }
+                        }
+                    ];
+                    if (allowDeletion) {
+                        actions.push({
+                            id: 'delete',
+                            label: labels.deleteActionLabel,
+                            title: labels.deleteActionTooltip,
+                            icon: 'bin',
+                            cls: 'btn-warning',
+                            action(languageUri, translation) {
+                                component.deleteTranslation(translation.resourceUri, languageUri);
+                            }
+                        });
+                    }
                     this.controls.$tableContainer.datatable(
                         {
-                            model: [
-                                { id: 'language', label: 'Language' },
-                                { id: 'progress', label: 'Status' }
-                            ],
-                            labels: {
-                                actions: ''
-                            },
+                            model,
+                            actions,
+                            labels: { actions: '' },
                             paginationStrategyTop: 'none',
-                            paginationStrategyBottom: 'none',
-                            actions: [
-                                {
-                                    id: 'edit',
-                                    label: labels.editActionLabel,
-                                    title: labels.editActionTooltip,
-                                    icon: 'edit',
-                                    cls: 'btn-secondary',
-                                    action(languageUri, translation) {
-                                        component.editTranslation(translation.resourceUri, languageUri);
-                                    }
-                                },
-                                {
-                                    id: 'delete',
-                                    label: labels.deleteActionLabel,
-                                    title: labels.deleteActionTooltip,
-                                    icon: 'bin',
-                                    cls: 'btn-warning',
-                                    action(languageUri, translation) {
-                                        component.deleteTranslation(translation.resourceUri, languageUri);
-                                    }
-                                }
-                            ]
+                            paginationStrategyBottom: 'none'
                         },
                         gridData
                     );
