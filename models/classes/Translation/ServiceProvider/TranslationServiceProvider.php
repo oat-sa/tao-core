@@ -26,6 +26,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\oatbox\log\LoggerService;
+use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\Translation\Factory\ResourceTranslatableFactory;
@@ -33,6 +34,7 @@ use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
 use oat\tao\model\Translation\Form\Modifier\TranslationFormModifier;
 use oat\tao\model\Translation\Repository\ResourceTranslatableRepository;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
+use oat\tao\model\Translation\Service\ResourceLanguageRetriever;
 use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
@@ -142,6 +144,13 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 service(Ontology::SERVICE_ID),
                 service(ResourceTranslationRepository::class),
                 service(LoggerService::SERVICE_ID),
+            ])
+            ->public();
+
+        $services
+            ->set(ResourceLanguageRetriever::class, ResourceLanguageRetriever::class)
+            ->args([
+                service(UserLanguageServiceInterface::SERVICE_ID),
             ])
             ->public();
     }
