@@ -36,7 +36,10 @@ define([
         confirmTranslate: __('Are you sure you want to start the translation for this language?'),
         startTranslation: __('Start translation'),
         missingLanguage: __('Please select a language.'),
-        translateAction: __('Edit')
+        editActionLabel: __('Edit'),
+        editActionTooltip: __('Open the item for editing'),
+        deleteActionLabel: __('Delete'),
+        deleteActionTooltip: __('Remove the translated item')
     };
 
     /**
@@ -62,6 +65,7 @@ define([
      * @emits ready - When the component is ready to be used.
      * @emits create - When a translation is created.
      * @emits edit - When a translation needs to be edited.
+     * @emits delete - When a translation needs to be deleted.
      * @emits error - When an error occurs.
      */
     return function translationFormFactory($container, { rootClassUri, resourceUri } = {}) {
@@ -133,6 +137,21 @@ define([
             },
 
             /**
+             * Initiates the deletion of a translation.
+             * @param {string} translationUri - The URI of the translated resource.
+             * @param {string} languageUri  - The URI of the translated language.
+             * @emits delete - For deleting the translation.
+             */
+            deleteTranslation(translationUri, languageUri) {
+                /**
+                 * @event delete
+                 * @param {string} translationUri - The URI of the translated resource
+                 * @param {string} languageUri - The URI of the translated language
+                 */
+                this.trigger('delete', translationUri, languageUri);
+            },
+
+            /**
              * Changes the controls state: set them enabled or disabled.
              * @param {boolean} state - The state to set the controls to (true: enable, false: disabled).
              */
@@ -178,11 +197,23 @@ define([
                             paginationStrategyBottom: 'none',
                             actions: [
                                 {
-                                    id: 'translate',
-                                    label: labels.translateAction,
+                                    id: 'edit',
+                                    label: labels.editActionLabel,
+                                    title: labels.editActionTooltip,
+                                    icon: 'edit',
                                     cls: 'btn-secondary',
                                     action(languageUri, translation) {
                                         component.editTranslation(translation.resourceUri, languageUri);
+                                    }
+                                },
+                                {
+                                    id: 'delete',
+                                    label: labels.deleteActionLabel,
+                                    title: labels.deleteActionTooltip,
+                                    icon: 'bin',
+                                    cls: 'btn-warning',
+                                    action(languageUri, translation) {
+                                        component.deleteTranslation(translation.resourceUri, languageUri);
                                     }
                                 }
                             ]
