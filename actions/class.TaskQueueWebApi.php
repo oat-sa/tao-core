@@ -149,7 +149,7 @@ class tao_actions_TaskQueueWebApi extends tao_actions_CommonModule
             $taskLogService = $this->getTaskLogService();
 
             // Define batch size for the chunk of tasks to be processed in each iteration
-            $batchSize = 1000; // Adjust this number based on server capabilities
+            $batchSize = $taskLogService->getOption(TaskLogInterface::OPTION_DEFAULT_BATCH_SIZE);
             $success = false;
 
             // If taskIds is ALL, we'll fetch all tasks using pagination

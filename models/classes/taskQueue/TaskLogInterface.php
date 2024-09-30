@@ -71,6 +71,9 @@ interface TaskLogInterface extends LoggerAwareInterface
 
     public const DEFAULT_LIMIT = 20;
 
+    public const OPTION_DEFAULT_BATCH_SIZE = 'default_batch_size';
+    public const DEFAULT_BATCH_SIZE = 1000;
+
     /**
      * It's not related to the user management, just a placeholder to distinguish the user running the script from CLI.
      */
