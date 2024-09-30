@@ -144,9 +144,11 @@ class ResourceWatcher extends ConfigurableService
                 return;
             }
 
-            if ($this->hasResourceSupport($resource)) {
+            $rootIndexClass = $this->getResourceIndexType($resource);
+            if ($rootIndexClass) {
+                $isTest = TaoOntology::CLASS_URI_TEST === $rootIndexClass;
                 $queueDispatcher->createTask(
-                    $this->isTestResource($resource) ? new UpdateTestResourceInIndex() : new UpdateResourceInIndex(),
+                    $isTest ? new UpdateTestResourceInIndex() : new UpdateResourceInIndex(),
                     [$resource->getUri()],
                     $message
                 );
@@ -154,7 +156,10 @@ class ResourceWatcher extends ConfigurableService
         }
     }
 
-    private function hasResourceSupport(core_kernel_classes_Resource $resource): bool
+    /**
+     * This method actually finds a root class that is supported by used tao/IndexUpdater
+     */
+    private function getResourceIndexType(core_kernel_classes_Resource $resource): ?string
     {
         $resourceTypeIds = $this->getResourceTypes($resource);
         $checkedResourceTypes = [OntologyRdfs::RDFS_RESOURCE, TaoOntology::CLASS_URI_OBJECT];
@@ -169,7 +174,7 @@ class ResourceWatcher extends ConfigurableService
                 );
 
             if ($hasClassSupport) {
-                return true;
+                return $classUri;
             }
 
             $class = $this->getClass($classUri);
@@ -182,7 +187,7 @@ class ResourceWatcher extends ConfigurableService
             $checkedResourceTypes[] = $class->getUri();
         }
 
-        return false;
+        return null;
     }
 
     private function getResourceTypes(core_kernel_classes_Resource $resource): array
@@ -193,11 +198,6 @@ class ResourceWatcher extends ConfigurableService
             },
             $resource->getTypes()
         );
-    }
-
-    private function isTestResource(core_kernel_classes_Resource $resource): bool
-    {
-        return in_array(TaoOntology::CLASS_URI_TEST, $this->getResourceTypes($resource));
     }
 
     private function hasClassSupport(core_kernel_classes_Resource $resource): bool
