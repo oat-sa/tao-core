@@ -108,8 +108,6 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
     protected $verbose = false;
     // --- OPERATIONS ---
 
-    private SolarThemeHelper $solarThemeHelper;
-
     /**
      * keys - action names from user input
      * value - base name for method to call
@@ -133,11 +131,9 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
     }
 
     public function __construct(
-        SolarThemeHelper $solarThemeHelper,
         $inputFormat = [],
         $options = []
     ) {
-        $this->solarThemeHelper = $solarThemeHelper;
         parent::__construct($inputFormat, $options);
     }
 
@@ -485,7 +481,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionCreate()
     {
-        $languageDir = $this->solarThemeHelper->checkPostfix($this->options['language']);
+        $languageDir = $this->options['language'];
 
         $extensionsToCreate = explode(',', $this->options['extension']);
         $extensionsToCreate = array_unique($extensionsToCreate);
@@ -671,7 +667,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionUpdate()
     {
-        $languageDir = $this->solarThemeHelper->checkPostfix($this->options['language']);
+        $languageDir = $this->options['language'];
 
         $this->outVerbose(
             sprintf("Updating language '%s' for extension '%s'...", $languageDir, $this->options['extension'])
@@ -831,7 +827,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
      */
     public function actionDelete()
     {
-        $languageDir = $this->solarThemeHelper->checkPostfix($this->options['language']);
+        $languageDir = $this->options['language'];
 
         $this->outVerbose(
             sprintf("Deleting language '%s' for extension '%s' ...", $languageDir, $this->options['extension'])
@@ -1399,7 +1395,7 @@ class tao_scripts_TaoTranslate extends tao_scripts_Runner
 
         foreach ($extensionsToCreate as $extension) {
             $language = $this->options['language'];
-            $languageDir = $this->addPrefix($language);
+            $languageDir = $language;
             $compiledTranslationFile = new tao_helpers_translation_TranslationFile();
             $compiledTranslationFile->setTargetLanguage($this->options['language']);
 

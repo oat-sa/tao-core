@@ -97,8 +97,6 @@ class ClientConfigStorageTest extends TestCase
 
     private ClientConfigStorage $sut;
 
-    private SolarThemeHelperInterface $solarThemeHelper;
-
     protected function setUp(): void
     {
         $this->tokenService = $this->createMock(TokenService::class);
@@ -115,7 +113,6 @@ class ClientConfigStorageTest extends TestCase
         $this->modeHelper = $this->createMock(tao_helpers_Mode::class);
         $this->dateFormatterFactory = $this->createMock(DateFormatterFactory::class);
         $this->menuService = $this->createMock(MenuService::class);
-        $this->solarThemeHelper = $this->createMock(SolarThemeHelper::class);
 
         $this->sut = new ClientConfigStorage(
             $this->tokenService,
@@ -131,8 +128,7 @@ class ClientConfigStorageTest extends TestCase
             $this->sessionService,
             $this->modeHelper,
             $this->dateFormatterFactory,
-            $this->menuService,
-            $this->solarThemeHelper
+            $this->menuService
         );
     }
 
@@ -206,11 +202,6 @@ class ClientConfigStorageTest extends TestCase
             ->method('getConstant')
             ->with('BASE_URL')
             ->willReturn('baseUrl');
-
-        $this->solarThemeHelper
-            ->method('checkPostfix')
-            ->with($locale)
-            ->willReturn($locale);
 
         $shownExtension = $this->createMock(common_ext_Extension::class);
         $shownExtension

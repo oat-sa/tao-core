@@ -24,12 +24,9 @@
  *
  */
 
-use oat\tao\helpers\translation\SolarThemeHelper;
-
 require_once dirname(__FILE__) . '/../includes/raw_start.php';
 
 new tao_scripts_TaoTranslate(
-    new SolarThemeHelper(),
     [
     'min' => 1,
     'parameters' => [
