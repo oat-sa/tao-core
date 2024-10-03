@@ -144,7 +144,6 @@ class ClientConfigStorage
 
         $taoBaseWww = $this->assetService->getJsBaseWww('tao');
         $langCode = $this->sessionService->getCurrentSession()->getInterfaceLanguage();
-        $langCode = $this->solarThemeHelper->checkPostfix($langCode);
         $timeout = $this->getClientTimeout();
         $extensionId = $resolver->getExtensionId();
 
