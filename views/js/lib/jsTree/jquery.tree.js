@@ -12,7 +12,7 @@
  *
  */
 
-define(['jquery', 'layout/tree/helpers', 'i18n'], function($, helpers, __) {
+define(['jquery', 'layout/tree/helpers',], function($, helpers) {
 	// jQuery plugin
 	$.tree = {
 		datastores	: { },
@@ -134,8 +134,8 @@ define(['jquery', 'layout/tree/helpers', 'i18n'], function($, helpers, __) {
 					tmp.selected_arr = [];
 					tmp.container
 						.find("a.clicked").each( function () {
-							tmp.selected_arr.push(tmp.get_node(this));
-						});
+						tmp.selected_arr.push(tmp.get_node(this));
+					});
 				}
 				// if this function set the lock - unlock
 				if(lock) tmp.lock(false);
@@ -393,8 +393,8 @@ define(['jquery', 'layout/tree/helpers', 'i18n'], function($, helpers, __) {
 						//event.stopPropagation();
 						return true;
 					});
-                this.container
-				    .on('click', 'li, dfn', function(event) { // WHEN CLICK IS ON THE ARROW
+				this.container
+					.on('click', 'li, dfn', function(event) { // WHEN CLICK IS ON THE ARROW
 						if(!(event.target.tagName == "LI" || event.target.tagName == "DFN")) return true;
 						_this.off_height();
 						if(event.pageY - $(event.target).offset().top > _this.li_height) return true;
@@ -402,7 +402,7 @@ define(['jquery', 'layout/tree/helpers', 'i18n'], function($, helpers, __) {
 						event.stopPropagation();
 						return false;
 					});
-                this.container
+				this.container
 					.on("click", 'a', function (event) { // WHEN CLICK IS ON THE TEXT OR ICON
 						if(event.which && event.which == 3) return true;
 						if(_this.locked) {
@@ -1044,18 +1044,18 @@ define(['jquery', 'layout/tree/helpers', 'i18n'], function($, helpers, __) {
 						.on("mouseup",		function (event) { event.stopPropagation(); })
 						.on("click",			function (event) { event.stopPropagation(); })
 						.on("keyup",			function (event) {
-								var key = event.keyCode || event.which;
-								if(key == 27) { this.value = last_value; this.blur(); return }
-								if(key == 13) { this.blur(); return; }
-							});
-					_this.inp.blur(function(event) {
-							if(this.value == "") this.value = last_value;
-							obj.text(this.value).prepend(icn);
-							obj.get(0).style.display = "";
-							obj.prevAll("span").remove();
-							_this.inp = false;
-							_this.callback("onrename", [_this.get_node(obj).get(0), _this, rb]);
+							var key = event.keyCode || event.which;
+							if(key == 27) { this.value = last_value; this.blur(); return }
+							if(key == 13) { this.blur(); return; }
 						});
+					_this.inp.blur(function(event) {
+						if(this.value == "") this.value = last_value;
+						obj.text(this.value).prepend(icn);
+						obj.get(0).style.display = "";
+						obj.prevAll("span").remove();
+						_this.inp = false;
+						_this.callback("onrename", [_this.get_node(obj).get(0), _this, rb]);
+					});
 
 					var spn = $("<span />").addClass(obj.attr("class")).append(icn).append(_this.inp);
 					obj.get(0).style.display = "none";
@@ -1482,7 +1482,7 @@ define(['jquery', 'layout/tree/helpers', 'i18n'], function($, helpers, __) {
 							}
 							if(!opn) {
 								this.srch_opn = [];
-								 _this.search.apply(_this,[str, func]);
+								_this.search.apply(_this,[str, func]);
 							}
 						}
 					}
@@ -2013,7 +2013,7 @@ define(['jquery', 'layout/tree/helpers', 'i18n'], function($, helpers, __) {
 							str += "<ins " + (data.data.icon.indexOf("/") == -1 ? " class='" + data.data.icon + "' " : " style='background-image:url(\"" + data.data.icon + "\");' " ) + ">&nbsp;</ins>";
 						}
 						else str += "<ins>&nbsp;</ins>";
-						str += ( (typeof data.data.title).toLowerCase() != "undefined" ? data.data.title : tree.settings.lang[data.data] ? tree.settings.lang[data.data] : data.data ) + "</a>";
+						str += ( (typeof data.data.title).toLowerCase() != "undefined" ? data.data.title : data.data ) + "</a>";
 					}
 					if(data.children && data.children.length) {
 						str += '<ul>';

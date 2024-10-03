@@ -27,7 +27,6 @@ use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\form\ElementMapFactory;
 use oat\tao\helpers\form\elements\ElementValue;
-use oat\tao\helpers\LocaleFilesHelper;
 use oat\tao\model\form\DataProvider\FormDataProviderInterface;
 use oat\tao\model\form\DataProvider\ProxyFormDataProvider;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -91,7 +90,6 @@ class tao_actions_form_Instance extends tao_actions_form_Generis
         } catch (common_exception_Error $exception) {
             $language = DEFAULT_LANG;
         }
-        $language = LocaleFilesHelper::checkPostfixDirectory($language);
 
         $topClass = $this->getTopClazz();
 

@@ -24,7 +24,6 @@
  */
 
 use oat\generis\model\OntologyRdf;
-use oat\tao\helpers\LocaleFilesHelper;
 
 /**
  * Internationalization helper.
@@ -61,7 +60,6 @@ class tao_helpers_I18n
         if (empty($langCode)) {
             throw new Exception("Language is not defined");
         }
-        $langCode = LocaleFilesHelper::checkPostfixDirectory($langCode);
 
         //init the ClearFw l10n tools
         $translations = tao_models_classes_LanguageService::singleton()->getServerBundle($langCode);
@@ -80,9 +78,7 @@ class tao_helpers_I18n
      */
     public static function getLangCode()
     {
-        return LocaleFilesHelper::checkPostfixDirectory(
-            common_session_SessionManager::getSession()->getInterfaceLanguage()
-        );
+        return common_session_SessionManager::getSession()->getInterfaceLanguage();
     }
 
     /**
