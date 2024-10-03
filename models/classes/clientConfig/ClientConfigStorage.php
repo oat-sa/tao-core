@@ -60,7 +60,6 @@ class ClientConfigStorage
     private tao_helpers_Mode $modeHelper;
     private DateFormatterFactory $dateFormatterFactory;
     private MenuService $menuService;
-    private SolarThemeHelperInterface $solarThemeHelper;
 
     private array $config = [];
 
@@ -78,8 +77,7 @@ class ClientConfigStorage
         SessionService $sessionService,
         tao_helpers_Mode $modeHelper,
         DateFormatterFactory $dateFormatterFactory,
-        MenuService $menuService,
-        SolarThemeHelperInterface $solarThemeHelper
+        MenuService $menuService
     ) {
         $this->tokenService = $tokenService;
         $this->clientLibRegistry = $clientLibRegistry;
@@ -95,7 +93,6 @@ class ClientConfigStorage
         $this->modeHelper = $modeHelper;
         $this->dateFormatterFactory = $dateFormatterFactory;
         $this->menuService = $menuService;
-        $this->solarThemeHelper = $solarThemeHelper;
     }
 
     /**
