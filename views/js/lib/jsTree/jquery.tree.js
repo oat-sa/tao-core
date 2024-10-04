@@ -12,7 +12,7 @@
  *
  */
 
-define(['jquery', 'layout/tree/helpers'], function($, helpers, __) {
+define(['jquery', 'layout/tree/helpers'], function($, helpers) {
 	// jQuery plugin
 	$.tree = {
 		datastores	: { },
