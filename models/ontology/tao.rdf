@@ -418,8 +418,8 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#UniqueIdentifier">
     <tao:PropertyAlias><![CDATA[taoUniqueIdentifier]]></tao:PropertyAlias>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[Unique Identifier]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Unique Identifier]]></rdfs:comment>
+    <rdfs:label xml:lang="en-US"><![CDATA[Equivalent Resource ID]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Equivalent Resource ID]]></rdfs:comment>
     <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly"/>
     <tao:TAOGUIOrder><![CDATA[2000]]></tao:TAOGUIOrder>
   </rdf:Description>
