@@ -657,7 +657,6 @@ abstract class tao_actions_RdfController extends tao_actions_CommonModule
      * Duplicate the current instance
      * render a JSON response
      *
-     * @throws \League\Flysystem\FileExistsException
      * @throws common_Exception
      * @throws common_exception_BadRequest
      * @throws common_exception_Error

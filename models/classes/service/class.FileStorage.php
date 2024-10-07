@@ -116,7 +116,7 @@ class tao_models_classes_service_FileStorage extends ConfigurableService impleme
             ->getServiceLocator()
             ->get(FileSystemService::SERVICE_ID)
             ->getFileSystem($this->getFsId($public))
-            ->deleteDir($path);
+            ->deleteDirectory($path);
     }
 
     /**
