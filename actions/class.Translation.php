@@ -25,6 +25,7 @@ use oat\tao\model\Translation\Command\UpdateTranslationCommand;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
 use oat\tao\model\Translation\Service\TranslationCreationService;
+use oat\tao\model\Translation\Service\TranslationDeletionService;
 use oat\tao\model\Translation\Service\TranslationSyncService;
 use oat\tao\model\Translation\Service\TranslationUpdateService;
 
@@ -44,6 +45,24 @@ class tao_actions_Translation extends tao_actions_CommonModule
                     $this->getRequestParameter('progress'),
                 )
             );
+
+            $this->setSuccessJsonResponse(
+                [
+                    'resourceUri' => $resource->getUri()
+                ]
+            );
+        } catch (Throwable $exception) {
+            $this->setErrorJsonResponse($exception->getMessage());
+        }
+    }
+
+    /**
+     * @requiresRight id WRITE
+     */
+    public function delete(): void
+    {
+        try {
+            $resource = $this->getTranslationDeletionService()->deleteByRequest($this->getPsrRequest());
 
             $this->setSuccessJsonResponse(
                 [
@@ -140,5 +159,10 @@ class tao_actions_Translation extends tao_actions_CommonModule
     private function getTranslationSyncService(): TranslationSyncService
     {
         return $this->getPsrContainer()->get(TranslationSyncService::class);
+    }
+
+    private function getTranslationDeletionService(): TranslationDeletionService
+    {
+        return $this->getPsrContainer()->get(TranslationDeletionService::class);
     }
 }

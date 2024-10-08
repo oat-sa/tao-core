@@ -25,6 +25,7 @@ namespace oat\tao\model\Translation\ServiceProvider;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
+use oat\generis\model\resource\Service\ResourceDeleter;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
@@ -39,6 +40,7 @@ use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use oat\tao\model\Translation\Service\TranslationCreationService;
+use oat\tao\model\Translation\Service\TranslationDeletionService;
 use oat\tao\model\Translation\Service\TranslationSyncService;
 use oat\tao\model\Translation\Service\TranslationUpdateService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -123,6 +125,18 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                     service(ResourceTranslatableRepository::class),
                     service(ResourceTranslationRepository::class),
                     service(LanguageRepositoryInterface::class),
+                    service(LoggerService::SERVICE_ID),
+                ]
+            )
+            ->public();
+
+        $services
+            ->set(TranslationDeletionService::class, TranslationDeletionService::class)
+            ->args(
+                [
+                    service(Ontology::SERVICE_ID),
+                    service(ResourceDeleter::class),
+                    service(ResourceTranslationRepository::class),
                     service(LoggerService::SERVICE_ID),
                 ]
             )

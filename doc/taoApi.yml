@@ -81,6 +81,32 @@ paths:
                 id:
                   type: string
                   description: The resource URI
+                languageUri:
+                  type: string
+                  description: The language resource URI
+      responses:
+        200:
+          $ref: '#/components/responses/TranslateResponse'
+        400:
+          $ref: '#/components/responses/BadRequestResponse'
+        500:
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /tao/Translation/delete:
+    post:
+      summary: delete translation
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The resource URI
+                languageUri:
+                  type: string
+                  description: The language resource URI
       responses:
         200:
           $ref: '#/components/responses/TranslateResponse'
