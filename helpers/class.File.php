@@ -453,9 +453,18 @@ class tao_helpers_File extends helpers_File
         $done = 0;
 
         if ($src instanceof \Psr\Http\Message\StreamInterface) {
-            if ($zipArchive->addFromString(ltrim($dest, "/\\"), $src->getContents())) {
+            $temporaryFilePath = tempnam(sys_get_temp_dir(), 'zip_temp_');
+            $tempFile = fopen($temporaryFilePath, 'w');
+            while (!$src->eof()) {
+                fwrite($tempFile, $src->read(8192));
+            }
+            fclose($tempFile);
+            if ($zipArchive->addFile($temporaryFilePath, ltrim($dest, "/\\"))) {
                 $done++;
             }
+//            if ($zipArchive->addFromString(ltrim($dest, "/\\"), $src->getContents())) {
+//                $done++;
+//            }
         } elseif (is_resource($src)) {
             fseek($src, 0);
             $content = stream_get_contents($src);
