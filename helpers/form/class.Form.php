@@ -666,17 +666,34 @@ abstract class tao_helpers_form_Form
         foreach ($values as $key => $value) {
             foreach ($this->elements as $element) {
                 if ($element->getName() === $key) {
-                    if (
-                        $element instanceof tao_helpers_form_elements_Checkbox ||
-                        (method_exists($element, 'setValues') && is_array($value))
-                    ) {
-                        $element->setValues($value);
-                    } else {
-                        $element->setValue($value);
-                    }
+                    $this->setElementValue($element, $value);
+
                     break;
                 }
             }
+        }
+    }
+
+    public function setElementValue(tao_helpers_form_FormElement $element, $value): void
+    {
+        if (
+            $element instanceof tao_helpers_form_elements_Checkbox
+            || (method_exists($element, 'setValues') && is_array($value))
+        ) {
+            $element->setValues($value);
+
+            return;
+        }
+
+        $element->setValue($value);
+    }
+
+    public function setValue(string $name, $value): void
+    {
+        $element = $this->getElement($name);
+
+        if ($element) {
+            $this->setElementValue($element, $value);
         }
     }
 
