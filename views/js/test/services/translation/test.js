@@ -35,6 +35,7 @@ define(['services/translation'], function (translationService) {
             { title: 'translationProgress', type: 'object' },
             { title: 'isReadyForTranslation', type: 'function' },
             { title: 'getTranslationsProgress', type: 'function' },
+            { title: 'getTranslationsLanguage', type: 'function' },
             { title: 'listResourcesLanguages', type: 'function' },
             { title: 'listAvailableLanguages', type: 'function' },
             { title: 'listTranslatedLanguages', type: 'function' },
@@ -169,6 +170,66 @@ define(['services/translation'], function (translationService) {
         ])
         .test('getTranslationsProgress', function (data, assert) {
             assert.deepEqual(translationService.getTranslationsProgress(data.resources), data.expected);
+        });
+
+    QUnit.cases
+        .init([
+            { title: 'empty', resources: [], expected: [] },
+            { title: 'empty resource', resources: [{}], expected: [null] },
+            { title: 'no language', resources: [{ metadata: {} }], expected: [null] },
+            {
+                title: 'single language',
+                resources: [
+                    {
+                        metadata: {
+                            'http://www.tao.lu/Ontologies/TAO.rdf#Language': {
+                                value: 'en',
+                                literal: null
+                            }
+                        }
+                    }
+                ],
+                expected: [
+                    {
+                        value: 'en',
+                        literal: null
+                    }
+                ]
+            },
+            {
+                title: 'multiple languages',
+                resources: [
+                    {
+                        metadata: {
+                            'http://www.tao.lu/Ontologies/TAO.rdf#Language': {
+                                value: 'en',
+                                literal: null
+                            }
+                        }
+                    },
+                    {
+                        metadata: {
+                            'http://www.tao.lu/Ontologies/TAO.rdf#Language': {
+                                value: 'fr',
+                                literal: null
+                            }
+                        }
+                    }
+                ],
+                expected: [
+                    {
+                        value: 'en',
+                        literal: null
+                    },
+                    {
+                        value: 'fr',
+                        literal: null
+                    }
+                ]
+            }
+        ])
+        .test('getTranslationsLanguage', function (data, assert) {
+            assert.deepEqual(translationService.getTranslationsLanguage(data.resources), data.expected);
         });
 
     QUnit.test('listResourcesLanguages', function (assert) {

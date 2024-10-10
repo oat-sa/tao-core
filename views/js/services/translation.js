@@ -172,6 +172,24 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
         },
 
         /**
+         * Gets the translation language of the resources.
+         * @param {Resource[]} resources
+         * @returns {Metadata[]}
+         */
+        getTranslationsLanguage(resources) {
+            if (!resources || !resources.length) {
+                return [];
+            }
+
+            return resources.map(resource => {
+                if (!resource.metadata || !resource.metadata[metadata.language]) {
+                    return null;
+                }
+                return resource.metadata[metadata.language];
+            });
+        },
+
+        /**
          * Lists the languages of the resources.
          * @param {Resource[]} resources
          * @returns {string[]}
