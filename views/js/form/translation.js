@@ -169,6 +169,17 @@ define([
             },
 
             /**
+             * Refreshes the list of translations.
+             * @returns {Promise}
+             */
+            refresh() {
+                return this.getData().then(data => {
+                    this.config.translations = data.translations;
+                    this.updateList();
+                });
+            },
+
+            /**
              * Updates the list of translations.
              */
             updateList() {
@@ -277,11 +288,7 @@ define([
                 if (this.controls.$languageSelect.find('option').length === 1) {
                     this.getElement().find('.translations-create').hide();
                 }
-                return this.getData()
-                    .then(data => {
-                        this.config.translations = data.translations;
-                        this.updateList();
-                    })
+                return this.refresh()
                     .then(() => this.editTranslation(translationUri, languageUri))
                     .catch(error => this.trigger('error', error));
             })
