@@ -135,5 +135,6 @@ interface TaoOntology
     public const PROPERTY_UNIQUE_IDENTIFIER = 'http://www.tao.lu/Ontologies/TAO.rdf#UniqueIdentifier';
     public const PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI = 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationOriginalResourceUri';
     public const PROPERTY_LANGUAGE = 'http://www.tao.lu/Ontologies/TAO.rdf#Language';
+    public const PROPERTY_TRANSLATED_INTO_LANGUAGES = 'http://www.tao.lu/Ontologies/TAO.rdf#TranslatedIntoLanguages';
     public const LANGUAGE_PREFIX = 'http://www.tao.lu/Ontologies/TAO.rdf#Lang';
 }
