@@ -25,12 +25,14 @@ namespace oat\tao\model\Translation\Service;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\Language\Language;
 use oat\tao\model\OntologyClassService;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Command\CreateTranslationCommand;
 use oat\tao\model\Translation\Entity\ResourceTranslatable;
+use oat\tao\model\Translation\Event\ResourceTranslationChangedEvent;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Query\ResourceTranslatableQuery;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
@@ -48,6 +50,7 @@ class TranslationCreationService
     private LanguageRepositoryInterface $languageRepository;
     private LoggerInterface $logger;
     private array $ontologyClassServices;
+    private EventManager $eventManager;
     private array $callables;
 
     public function __construct(
@@ -55,13 +58,15 @@ class TranslationCreationService
         ResourceTranslatableRepository $resourceTranslatableRepository,
         ResourceTranslationRepository $resourceTranslationRepository,
         LanguageRepositoryInterface $languageRepository,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        EventManager $eventManager
     ) {
         $this->ontology = $ontology;
         $this->resourceTranslatableRepository = $resourceTranslatableRepository;
         $this->resourceTranslationRepository = $resourceTranslationRepository;
         $this->languageRepository = $languageRepository;
         $this->logger = $logger;
+        $this->eventManager = $eventManager;
     }
 
     public function setOntologyClassService(string $resourceType, OntologyClassService $ontologyClassService): void
@@ -185,6 +190,8 @@ class TranslationCreationService
             foreach ($this->callables[$parentClassId] ?? [] as $callable) {
                 $clonedInstance = $callable($clonedInstance);
             }
+
+            $this->eventManager->trigger(new ResourceTranslationChangedEvent($resourceUri));
 
             return $clonedInstance;
         } catch (Throwable $exception) {

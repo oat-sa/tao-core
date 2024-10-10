@@ -26,6 +26,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\resource\Service\ResourceDeleter;
+use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
@@ -33,6 +34,7 @@ use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\Translation\Factory\ResourceTranslatableFactory;
 use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
 use oat\tao\model\Translation\Form\Modifier\TranslationFormModifier;
+use oat\tao\model\Translation\Listener\ResourceTranslationChangedEventListener;
 use oat\tao\model\Translation\Repository\ResourceTranslatableRepository;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
 use oat\tao\model\Translation\Service\ResourceLanguageRetriever;
@@ -126,6 +128,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                     service(ResourceTranslationRepository::class),
                     service(LanguageRepositoryInterface::class),
                     service(LoggerService::SERVICE_ID),
+                    service(EventManager::SERVICE_ID),
                 ]
             )
             ->public();
@@ -138,6 +141,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                     service(ResourceDeleter::class),
                     service(ResourceTranslationRepository::class),
                     service(LoggerService::SERVICE_ID),
+                    service(EventManager::SERVICE_ID),
                 ]
             )
             ->public();
@@ -158,6 +162,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 service(Ontology::SERVICE_ID),
                 service(ResourceTranslationRepository::class),
                 service(LoggerService::SERVICE_ID),
+                service(EventManager::SERVICE_ID),
             ])
             ->public();
 
@@ -165,6 +170,14 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ->set(ResourceLanguageRetriever::class, ResourceLanguageRetriever::class)
             ->args([
                 service(UserLanguageServiceInterface::SERVICE_ID),
+            ])
+            ->public();
+
+        $services
+            ->set(ResourceTranslationChangedEventListener::class, ResourceTranslationChangedEventListener::class)
+            ->args([
+                service(Ontology::SERVICE_ID),
+                service(ResourceTranslationRepository::class),
             ])
             ->public();
     }
