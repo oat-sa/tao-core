@@ -34,6 +34,7 @@ define([
 
     const labels = {
         confirmTranslate: __('Are you sure you want to start the translation for this language?'),
+        confirmDelete: __('Are you sure you want to delete the translation for this language?'),
         startTranslation: __('Start translation'),
         missingLanguage: __('Please select a language.'),
         editActionLabel: __('Edit'),
@@ -209,7 +210,9 @@ define([
                             icon: 'bin',
                             cls: 'btn-warning',
                             action(languageUri, translation) {
-                                component.deleteTranslation(translation.resourceUri, languageUri);
+                                dialogConfirm(labels.confirmDelete, () =>
+                                    component.deleteTranslation(translation.resourceUri, languageUri)
+                                );
                             }
                         });
                     }
