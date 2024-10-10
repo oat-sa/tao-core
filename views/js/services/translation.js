@@ -321,12 +321,13 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
         /**
          * Deletes a translation.
          * @param {string} id - The URI of the resource.
+         * @param {string} languageUri - The URI of the language.
          * @returns {Promise<Resource>}
          */
-        deleteTranslation(id) {
+        deleteTranslation(id, languageUri) {
             return request({
                 url: urlUtil.route('delete', 'Translation', 'tao'),
-                data: { id },
+                data: { id, languageUri },
                 method: 'POST',
                 noToken: true
             }).then(response => response.data);
