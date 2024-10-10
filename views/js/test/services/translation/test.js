@@ -27,15 +27,23 @@ define(['services/translation'], function (translationService) {
 
     QUnit.cases
         .init([
+            { title: 'keys', type: 'object' },
+            { title: 'labels', type: 'object' },
             { title: 'metadata', type: 'object' },
             { title: 'translationType', type: 'object' },
             { title: 'translationStatus', type: 'object' },
             { title: 'translationProgress', type: 'object' },
             { title: 'isReadyForTranslation', type: 'function' },
+            { title: 'getTranslationsProgress', type: 'function' },
+            { title: 'listResourcesLanguages', type: 'function' },
+            { title: 'listAvailableLanguages', type: 'function' },
+            { title: 'listTranslatedLanguages', type: 'function' },
             { title: 'getLanguages', type: 'function' },
             { title: 'getTranslatable', type: 'function' },
             { title: 'getTranslations', type: 'function' },
-            { title: 'createTranslation', type: 'function' }
+            { title: 'createTranslation', type: 'function' },
+            { title: 'updateTranslation', type: 'function' },
+            { title: 'deleteTranslation', type: 'function' }
         ])
         .test('translationService API', function (data, assert) {
             assert.equal(
@@ -95,6 +103,72 @@ define(['services/translation'], function (translationService) {
         ])
         .test('isReadyForTranslation', function (data, assert) {
             assert.equal(translationService.isReadyForTranslation(data.resources), data.expected);
+        });
+
+    QUnit.cases
+        .init([
+            { title: 'empty', resources: [], expected: [] },
+            { title: 'empty resource', resources: [{}], expected: [null] },
+            { title: 'no progress', resources: [{ metadata: {} }], expected: [null] },
+            {
+                title: 'pending',
+                resources: [
+                    {
+                        metadata: {
+                            'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgress': {
+                                value: 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusPending',
+                                literal: null
+                            }
+                        }
+                    }
+                ],
+                expected: ['pending']
+            },
+            {
+                title: 'in progress',
+                resources: [
+                    {
+                        metadata: {
+                            'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgress': {
+                                value: 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusTranslating',
+                                literal: null
+                            }
+                        }
+                    }
+                ],
+                expected: ['translating']
+            },
+            {
+                title: 'completed',
+                resources: [
+                    {
+                        metadata: {
+                            'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgress': {
+                                value: 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusTranslated',
+                                literal: null
+                            }
+                        }
+                    }
+                ],
+                expected: ['translated']
+            },
+            {
+                title: 'unknown',
+                resources: [
+                    {
+                        metadata: {
+                            'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgress': {
+                                value: 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusBlocked',
+                                literal: null
+                            }
+                        }
+                    }
+                ],
+                expected: ['http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusBlocked']
+            }
+        ])
+        .test('getTranslationsProgress', function (data, assert) {
+            assert.deepEqual(translationService.getTranslationsProgress(data.resources), data.expected);
         });
 
     QUnit.test('listResourcesLanguages', function (assert) {
