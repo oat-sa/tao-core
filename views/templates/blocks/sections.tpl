@@ -1,7 +1,6 @@
 <?php
 use oat\tao\helpers\Template;
 use oat\tao\helpers\Layout;
-use oat\tao\helpers\MapLabelNameService;
 
 $xsrfTokenName = get_data('xsrf-token-name');
 $sections = get_data('sections');
@@ -82,10 +81,9 @@ $sections = get_data('sections');
                                     $node = $tree->get('rootNode');
                                 }
                                 if ($node) {
-                                    $className = MapLabelNameService::mapLabelName($tree->get('className'), Layout::isSolarDesignEnabled());
                                     Template::inc('blocks/search.tpl', 'tao', array(
                                     'rootNode' => $node,
-                                    'searchLabel' => __('Search %s', $className)
+                                    'searchLabel' => __('Search %s', $tree->get('className'))
                                     ));
                                 }
                             }
