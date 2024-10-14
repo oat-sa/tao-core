@@ -79,6 +79,24 @@ define(['jquery', 'form/translation', 'services/translation'], function (
         }
     ];
 
+    /**
+     * Creates a timed out callback for async tests.
+     * @param {function} assert - The QUnit assert function.
+     * @param {number} timeout - The timeout in milliseconds.
+     * @returns {function} - A done callback with a timeout.
+     */
+    function asyncTest(assert, timeout = 250) {
+        const done = assert.async();
+        const th = setTimeout(() => {
+            assert.ok(false, 'Timeout');
+            done();
+        }, timeout);
+        return () => {
+            clearTimeout(th);
+            done();
+        };
+    }
+
     QUnit.module('translationForm API', {
         beforeEach() {
             $fixture.empty();
@@ -143,7 +161,9 @@ define(['jquery', 'form/translation', 'services/translation'], function (
             { title: 'prepareGridData' },
             { title: 'createTranslation' },
             { title: 'editTranslation' },
-            { title: 'setControlsState' }
+            { title: 'deleteTranslation' },
+            { title: 'setControlsState' },
+            { title: 'updateList' }
         ])
         .test('instance API ', function (data, assert) {
             var instance = translationFormFactory($fixture);
@@ -163,7 +183,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
     });
 
     QUnit.test('ready', function (assert) {
-        const done = assert.async();
+        const done = asyncTest(assert);
 
         assert.expect(1);
 
@@ -173,13 +193,13 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                 done();
             })
             .on('error', function () {
-                assert.ok(false, 'The translation instance can not be initialized');
+                assert.ok(false, 'The translation instance cannot be initialized');
                 done();
             });
     });
 
     QUnit.test('not ready for translation', function (assert) {
-        const done = assert.async();
+        const done = asyncTest(assert);
 
         translationService.setMockData({ ready: false });
 
@@ -193,13 +213,13 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                 done();
             })
             .on('error', function () {
-                assert.ok(false, 'The translation instance can not be initialized');
+                assert.ok(false, 'The translation instance cannot be initialized');
                 done();
             });
     });
 
     QUnit.test('no translation yet', function (assert) {
-        const done = assert.async();
+        const done = asyncTest(assert);
 
         translationService.setMockData({
             availableLanguages: languages,
@@ -223,13 +243,13 @@ define(['jquery', 'form/translation', 'services/translation'], function (
             })
             .on('error', function (error) {
                 console.log(error);
-                assert.ok(false, 'The translation instance can not be initialized');
+                assert.ok(false, 'The translation instance cannot be initialized');
                 done();
             });
     });
 
     QUnit.test('create translation missing language', function (assert) {
-        const done = assert.async();
+        const done = asyncTest(assert);
 
         translationService.setMockData({
             availableLanguages: languages,
@@ -260,13 +280,13 @@ define(['jquery', 'form/translation', 'services/translation'], function (
             })
             .on('error', function (error) {
                 console.log(error);
-                assert.ok(false, 'The translation instance can not be initialized');
+                assert.ok(false, 'The translation instance cannot be initialized');
                 done();
             });
     });
 
     QUnit.test('create translation cancel', function (assert) {
-        const done = assert.async();
+        const done = asyncTest(assert);
 
         translationService.setMockData({
             availableLanguages: languages,
@@ -290,7 +310,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                 $fixture.find('.translations-create select').val(languages[0].uri);
                 $fixture.find('.translations-create button').click();
                 setTimeout(function () {
-                    assert.equal($('.modal').length, 1, 'error message');
+                    assert.equal($('.modal').length, 1, 'confirmation message');
                     assert.equal($('.modal .modal-body button').length, 2, '2 buttons');
                     $('.modal button.cancel').click();
                     done();
@@ -301,13 +321,13 @@ define(['jquery', 'form/translation', 'services/translation'], function (
             })
             .on('error', function (error) {
                 console.log(error);
-                assert.ok(false, 'The translation instance can not be initialized');
+                assert.ok(false, 'The translation instance cannot be initialized');
                 done();
             });
     });
 
     QUnit.test('create translation', function (assert) {
-        const done = assert.async();
+        const done = asyncTest(assert);
 
         translationService.setMockData({
             availableLanguages: languages,
@@ -335,13 +355,15 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                 $fixture.find('.translations-create select').val(languages[0].uri);
                 $fixture.find('.translations-create button').click();
                 setTimeout(function () {
-                    assert.equal($('.modal').length, 1, 'error message');
+                    assert.equal($('.modal').length, 1, 'confirmation message');
                     assert.equal($('.modal .modal-body button').length, 2, '2 buttons');
                     $('.modal button.ok').click();
                 }, 10);
             })
             .after('create', function (uri, language) {
                 assert.ok(true, 'A translation has been created');
+                assert.equal(uri, 'i12345', 'The expected uri is passed');
+                assert.equal(language, languages[0].uri, 'The expected language is passed');
                 assert.equal(
                     $fixture.find(`.translations-create option[value="${language}"]`).length,
                     0,
@@ -352,18 +374,22 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                     1,
                     'translation added to the list'
                 );
-
+            })
+            .on('edit', function (uri, language) {
+                assert.ok(true, 'The translation will be edited');
+                assert.equal(uri, 'i12345', 'The expected uri is passed');
+                assert.equal(language, languages[0].uri, 'The expected language is passed');
                 done();
             })
             .on('error', function (error) {
                 console.log(error);
-                assert.ok(false, 'The translation instance can not be initialized');
+                assert.ok(false, 'The translation instance cannot be initialized');
                 done();
             });
     });
 
     QUnit.test('list translations', function (assert) {
-        const done = assert.async();
+        const done = asyncTest(assert);
 
         translationService.setMockData({
             availableLanguages: languages,
@@ -389,18 +415,30 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                     1,
                     'translation listed'
                 );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.edit`)
+                        .length,
+                    1,
+                    'translation editable'
+                );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.delete`)
+                        .length,
+                    0,
+                    'translation not deletable'
+                );
 
                 done();
             })
             .on('error', function (error) {
                 console.log(error);
-                assert.ok(false, 'The translation instance can not be initialized');
+                assert.ok(false, 'The translation instance cannot be initialized');
                 done();
             });
     });
 
     QUnit.test('all translated', function (assert) {
-        const done = assert.async();
+        const done = asyncTest(assert);
 
         translationService.setMockData({
             translatedLanguages: translations
@@ -419,12 +457,144 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                     1,
                     'translation listed'
                 );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.edit`)
+                        .length,
+                    1,
+                    'translation editable'
+                );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.delete`)
+                        .length,
+                    0,
+                    'translation not deletable'
+                );
 
                 done();
             })
             .on('error', function (error) {
                 console.log(error);
-                assert.ok(false, 'The translation instance can not be initialized');
+                assert.ok(false, 'The translation instance cannot be initialized');
+                done();
+            });
+    });
+
+    QUnit.test('edit translation', function (assert) {
+        const done = asyncTest(assert);
+
+        translationService.setMockData({
+            availableLanguages: languages,
+            languages: languages,
+            translatedLanguages: translations
+        });
+
+        translationFormFactory($fixture)
+            .on('ready', function () {
+                assert.ok(true, 'The translation instance can be initialized');
+
+                assert.equal($fixture.find('.translations-create').length, 1, 'translation form');
+                assert.equal(
+                    $fixture.find('.translations-create select option').length,
+                    languages.length + 1,
+                    'available languages'
+                );
+                assert.equal($fixture.find('.translations-list').length, 1, 'translations list');
+                assert.equal($fixture.find('.translations-not-ready').length, 0, 'no placeholder message');
+
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"]`).length,
+                    1,
+                    'translation listed'
+                );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.edit`)
+                        .length,
+                    1,
+                    'translation editable'
+                );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.delete`)
+                        .length,
+                    0,
+                    'translation not deletable'
+                );
+
+                $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.edit`).click();
+            })
+            .on('edit', function (uri, language) {
+                assert.ok(true, 'The translation will be edited');
+                assert.equal(
+                    uri,
+                    'http://www.tao.lu/tao.rdf#i66ed86fbf2c862024092014301929944a63',
+                    'The expected uri is passed'
+                );
+                assert.equal(language, languages[0].uri, 'The expected language is passed');
+                done();
+            })
+            .on('error', function (error) {
+                console.log(error);
+                assert.ok(false, 'The translation instance cannot be initialized');
+                done();
+            });
+    });
+
+    QUnit.test('delete translation', function (assert) {
+        const done = asyncTest(assert);
+
+        translationService.setMockData({
+            availableLanguages: languages,
+            languages: languages,
+            translatedLanguages: translations
+        });
+
+        translationFormFactory($fixture, { allowDeletion: true })
+            .on('ready', function () {
+                assert.ok(true, 'The translation instance can be initialized');
+
+                assert.equal($fixture.find('.translations-create').length, 1, 'translation form');
+                assert.equal(
+                    $fixture.find('.translations-create select option').length,
+                    languages.length + 1,
+                    'available languages'
+                );
+                assert.equal($fixture.find('.translations-list').length, 1, 'translations list');
+                assert.equal($fixture.find('.translations-not-ready').length, 0, 'no placeholder message');
+
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"]`).length,
+                    1,
+                    'translation listed'
+                );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.edit`)
+                        .length,
+                    1,
+                    'translation editable'
+                );
+                assert.equal(
+                    $fixture.find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.delete`)
+                        .length,
+                    1,
+                    'translation deletable'
+                );
+
+                $fixture
+                    .find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.delete`)
+                    .click();
+            })
+            .on('delete', function (uri, language) {
+                assert.ok(true, 'The translation will be deleted');
+                assert.equal(
+                    uri,
+                    'http://www.tao.lu/tao.rdf#i66ed86fbf2c862024092014301929944a63',
+                    'The expected uri is passed'
+                );
+                assert.equal(language, languages[0].uri, 'The expected language is passed');
+                done();
+            })
+            .on('error', function (error) {
+                console.log(error);
+                assert.ok(false, 'The translation instance cannot be initialized');
                 done();
             });
     });

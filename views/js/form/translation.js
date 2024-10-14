@@ -34,9 +34,13 @@ define([
 
     const labels = {
         confirmTranslate: __('Are you sure you want to start the translation for this language?'),
+        confirmDelete: __('Are you sure you want to delete the translation for this language?'),
         startTranslation: __('Start translation'),
         missingLanguage: __('Please select a language.'),
-        translateAction: __('Edit')
+        editActionLabel: __('Edit'),
+        editActionTooltip: __('Open the item for editing'),
+        deleteActionLabel: __('Delete'),
+        deleteActionTooltip: __('Remove the translated item')
     };
 
     /**
@@ -58,13 +62,15 @@ define([
      * @param {Object} config - The configuration object.
      * @param {string} config.rootClassUri - The URI of the root class.
      * @param {string} config.resourceUri - The URI of the resource to translate.
+     * @param {bool} config.allowDeletion - Allow to delete translations (when allowed, a delete button is added for each translation).
      * @returns {Component} - The form component.
      * @emits ready - When the component is ready to be used.
      * @emits create - When a translation is created.
      * @emits edit - When a translation needs to be edited.
+     * @emits delete - When a translation needs to be deleted.
      * @emits error - When an error occurs.
      */
-    return function translationFormFactory($container, { rootClassUri, resourceUri } = {}) {
+    return function translationFormFactory($container, { rootClassUri, resourceUri, allowDeletion } = {}) {
         const api = {
             /**
              * Queries the available languages and translations for the resource.
@@ -133,6 +139,21 @@ define([
             },
 
             /**
+             * Initiates the deletion of a translation.
+             * @param {string} translationUri - The URI of the translated resource.
+             * @param {string} languageUri  - The URI of the translated language.
+             * @emits delete - For deleting the translation.
+             */
+            deleteTranslation(translationUri, languageUri) {
+                /**
+                 * @event delete
+                 * @param {string} translationUri - The URI of the translated resource
+                 * @param {string} languageUri - The URI of the translated language
+                 */
+                this.trigger('delete', translationUri, languageUri);
+            },
+
+            /**
              * Changes the controls state: set them enabled or disabled.
              * @param {boolean} state - The state to set the controls to (true: enable, false: disabled).
              */
@@ -145,6 +166,17 @@ define([
                 this.controls.$createButton.prop('disabled', disabled);
                 this.controls.$languageSelect.prop('disabled', disabled);
                 this.controls.$tableContainer.find(':input').prop('disabled', disabled);
+            },
+
+            /**
+             * Refreshes the list of translations.
+             * @returns {Promise}
+             */
+            refresh() {
+                return this.getData().then(data => {
+                    this.config.translations = data.translations;
+                    this.updateList();
+                });
             },
 
             /**
@@ -165,27 +197,43 @@ define([
                 const gridData = this.prepareGridData(translations);
 
                 if (this.controls.$tableContainer.html().trim() === '') {
+                    const model = [
+                        { id: 'language', label: 'Language' },
+                        { id: 'progress', label: 'Status' }
+                    ];
+                    const actions = [
+                        {
+                            id: 'edit',
+                            label: labels.editActionLabel,
+                            title: labels.editActionTooltip,
+                            icon: 'edit',
+                            cls: 'btn-secondary',
+                            action(languageUri, translation) {
+                                component.editTranslation(translation.resourceUri, languageUri);
+                            }
+                        }
+                    ];
+                    if (allowDeletion) {
+                        actions.push({
+                            id: 'delete',
+                            label: labels.deleteActionLabel,
+                            title: labels.deleteActionTooltip,
+                            icon: 'bin',
+                            cls: 'btn-warning',
+                            action(languageUri, translation) {
+                                dialogConfirm(labels.confirmDelete, () =>
+                                    component.deleteTranslation(translation.resourceUri, languageUri)
+                                );
+                            }
+                        });
+                    }
                     this.controls.$tableContainer.datatable(
                         {
-                            model: [
-                                { id: 'language', label: 'Language' },
-                                { id: 'progress', label: 'Status' }
-                            ],
-                            labels: {
-                                actions: ''
-                            },
+                            model,
+                            actions,
+                            labels: { actions: '' },
                             paginationStrategyTop: 'none',
-                            paginationStrategyBottom: 'none',
-                            actions: [
-                                {
-                                    id: 'translate',
-                                    label: labels.translateAction,
-                                    cls: 'btn-secondary',
-                                    action(languageUri, translation) {
-                                        component.editTranslation(translation.resourceUri, languageUri);
-                                    }
-                                }
-                            ]
+                            paginationStrategyBottom: 'none'
                         },
                         gridData
                     );
@@ -240,11 +288,7 @@ define([
                 if (this.controls.$languageSelect.find('option').length === 1) {
                     this.getElement().find('.translations-create').hide();
                 }
-                return this.getData()
-                    .then(data => {
-                        this.config.translations = data.translations;
-                        this.updateList();
-                    })
+                return this.refresh()
                     .then(() => this.editTranslation(translationUri, languageUri))
                     .catch(error => this.trigger('error', error));
             })
