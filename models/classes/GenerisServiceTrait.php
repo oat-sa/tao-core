@@ -172,7 +172,6 @@ trait GenerisServiceTrait
      * @param  core_kernel_classes_Resource $instance
      * @param  core_kernel_classes_Class $clazz
      * @return core_kernel_classes_Resource
-     * @throws \League\Flysystem\FileExistsException
      * @throws \common_Exception
      * @throws \common_exception_Error
      */
@@ -209,7 +208,6 @@ trait GenerisServiceTrait
      * @param core_kernel_classes_Resource $source
      * @param core_kernel_classes_Resource $destination
      * @param core_kernel_classes_Property $property
-     * @throws \League\Flysystem\FileExistsException
      * @throws \common_Exception
      * @throws \common_exception_Error
      */

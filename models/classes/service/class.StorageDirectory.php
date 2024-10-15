@@ -20,9 +20,9 @@
  *
  */
 
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use oat\tao\model\websource\Websource;
 use League\Flysystem\Filesystem;
-use League\Flysystem\Adapter\Local;
 use oat\oatbox\filesystem\Directory;
 use Psr\Http\Message\StreamInterface;
 
@@ -113,7 +113,7 @@ class tao_models_classes_service_StorageDirectory extends Directory
     public function getPath()
     {
         $adapter = $this->getFileSystem()->getAdapter();
-        if (!$adapter instanceof Local) {
+        if (!$adapter instanceof LocalFilesystemAdapter) {
             throw new common_exception_InconsistentData(__CLASS__ . ' can only handle local files');
         }
         return $adapter->getPathPrefix() . $this->getPrefix();
