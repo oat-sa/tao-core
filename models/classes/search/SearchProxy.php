@@ -28,10 +28,13 @@ use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyAwareTrait;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\search\Contract\SearchSettingsServiceInterface;
 use oat\tao\model\search\Service\DefaultSearchSettingsService;
 use oat\tao\model\TaoOntology;
 use Psr\Http\Message\ServerRequestInterface;
+use tao_helpers_Uri;
 
 class SearchProxy extends ConfigurableService implements Search
 {
@@ -42,6 +45,7 @@ class SearchProxy extends ConfigurableService implements Search
     public const OPTION_DEFAULT_SEARCH_CLASS = 'default_search_class';
     public const OPTION_GENERIS_SEARCH_WHITELIST = 'generis_search_whitelist';
     public const SAFE_NODES = [GenerisRdf::CLASS_ROLE];
+    public const OPTION_FORCE_CRITERIA = 'force_criteria';
 
     public const GENERIS_SEARCH_DEFAULT_WHITELIST = [
         GenerisRdf::CLASS_ROLE,
@@ -210,6 +214,8 @@ class SearchProxy extends ConfigurableService implements Search
             }
         }
 
+        $this->applySearchConditions($query);
+
         if ($this->isForcingDefaultSearch($query) || !$this->getAdvancedSearchChecker()->isEnabled()) {
             return $this->getDefaultSearch()->query(
                 $query->getTerm(),
@@ -231,22 +237,27 @@ class SearchProxy extends ConfigurableService implements Search
 
     private function getResultSetResponseNormalizer(): ResultSetResponseNormalizer
     {
-        return $this->getServiceLocator()->get(ResultSetResponseNormalizer::class);
+        return $this->getServiceManager()->getContainer()->get(ResultSetResponseNormalizer::class);
     }
 
     private function getAdvancedSearchChecker(): AdvancedSearchChecker
     {
-        return $this->getServiceLocator()->get(AdvancedSearchChecker::class);
+        return $this->getServiceManager()->getContainer()->get(AdvancedSearchChecker::class);
     }
 
     private function getIdentifierSearcher(): IdentifierSearcher
     {
-        return $this->getServiceLocator()->get(IdentifierSearcher::class);
+        return $this->getServiceManager()->getContainer()->get(IdentifierSearcher::class);
     }
 
     private function getQueryFactory(): SearchQueryFactory
     {
-        return $this->getServiceLocator()->get(SearchQueryFactory::class);
+        return $this->getServiceManager()->getContainer()->get(SearchQueryFactory::class);
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
     }
 
     private function isForcingDefaultSearch(SearchQuery $query): bool
@@ -295,5 +306,18 @@ class SearchProxy extends ConfigurableService implements Search
             $query->getTerm(),
             $query->getParentClass()
         );
+    }
+
+    private function applySearchConditions(SearchQuery $query): void
+    {
+        if (
+            $this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED') &&
+            in_array($query->getRootClass(), [TaoOntology::CLASS_URI_ITEM, TaoOntology::CLASS_URI_TEST], true)
+        ) {
+            $typeUri = tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_TYPE);
+            $typeOriginalUri = tao_helpers_Uri::encode(TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL);
+
+            $query->setTerm(sprintf('%s AND %s:%s', $query->getTerm(), $typeUri, $typeOriginalUri));
+        }
     }
 }

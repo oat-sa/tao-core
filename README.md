@@ -106,6 +106,7 @@ Here you can find the environment variables including feature flags
 | DATA_STORE_STATISTIC_PUB_SUB_TOPIC     | Topic name for statistic metadata Pub/Sub                                                                                            | -             |
 | REDIRECT_AFTER_LOGOUT_URL              | Allows to configure the redirect after logout via environment variable. The fallback is the configured redirect on urlroute.conf.php | -             |
 | PORTAL_URL                             | The Portal url used on the back button of Portal theme                                                                               | -             |
+| FEATURE_FLAG_TRANSLATION_ENABLED       | Enable access to items/tests translations feature                                                                                    | -             |
 
 
 # Routing
