@@ -26,6 +26,7 @@ namespace oat\tao\model\resources\Service;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
+use oat\generis\model\GenerisRdf;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\model\resources\Contract\ClassMetadataCopierInterface;
 use oat\tao\model\resources\Contract\ClassMetadataMapperInterface;
@@ -71,6 +72,13 @@ class ClassMetadataCopier implements ClassMetadataCopierInterface
         $newProperty->removePropertyValues($newProperty->getProperty(OntologyRdfs::RDFS_DOMAIN));
         $newProperty->setDomain($destinationClass);
 
+        $this->skipAlias($newProperty);
+
         return $newProperty;
+    }
+
+    private function skipAlias(core_kernel_classes_Property $newProperty)
+    {
+        $newProperty->removePropertyValues($newProperty->getProperty(GenerisRdf::PROPERTY_ALIAS));
     }
 }
