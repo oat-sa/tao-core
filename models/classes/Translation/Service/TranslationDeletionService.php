@@ -25,7 +25,9 @@ namespace oat\tao\model\Translation\Service;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\resource\Contract\ResourceDeleterInterface;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\Translation\Entity\AbstractResource;
+use oat\tao\model\Translation\Event\ResourceTranslationChangedEvent;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
@@ -39,17 +41,20 @@ class TranslationDeletionService
     private ResourceDeleterInterface $resourceDeleter;
     private ResourceTranslationRepository $resourceTranslationRepository;
     private LoggerInterface $logger;
+    private EventManager $eventManager;
 
     public function __construct(
         Ontology $ontology,
         ResourceDeleterInterface $resourceDeleter,
         ResourceTranslationRepository $resourceTranslationRepository,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        EventManager $eventManager
     ) {
         $this->ontology = $ontology;
         $this->resourceDeleter = $resourceDeleter;
         $this->resourceTranslationRepository = $resourceTranslationRepository;
         $this->logger = $logger;
+        $this->eventManager = $eventManager;
     }
 
     public function deleteByRequest(ServerRequestInterface $request): core_kernel_classes_Resource
@@ -86,6 +91,8 @@ class TranslationDeletionService
 
                 $this->resourceDeleter->delete($resource);
             }
+
+            $this->eventManager->trigger(new ResourceTranslationChangedEvent($resourceUri));
 
             return $resource;
         } catch (Throwable $exception) {
