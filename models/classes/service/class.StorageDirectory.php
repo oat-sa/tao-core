@@ -20,9 +20,9 @@
  *
  */
 
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use oat\tao\model\websource\Websource;
 use League\Flysystem\Filesystem;
-use League\Flysystem\Adapter\Local;
 use oat\oatbox\filesystem\Directory;
 use Psr\Http\Message\StreamInterface;
 
@@ -103,30 +103,12 @@ class tao_models_classes_service_StorageDirectory extends Directory
     }
 
     /**
-     * Returned the absolute path to this directory
-     * Please use read and write to access files
-     *
-     * @deprecated
-     * @return mixed
-     * @throws common_exception_InconsistentData
-     */
-    public function getPath()
-    {
-        $adapter = $this->getFileSystem()->getAdapter();
-        if (!$adapter instanceof Local) {
-            throw new common_exception_InconsistentData(__CLASS__ . ' can only handle local files');
-        }
-        return $adapter->getPathPrefix() . $this->getPrefix();
-    }
-
-    /**
      * @deprecated use File->write instead
      *
      * @param $path
      * @param $string
      * @param null $mimeType
      * @return bool
-     * @throws FileNotFoundException
      * @throws common_Exception
      */
     public function write($path, $string, $mimeType = null)
@@ -141,7 +123,6 @@ class tao_models_classes_service_StorageDirectory extends Directory
      * @param $resource
      * @param null $mimeType
      * @return bool
-     * @throws FileNotFoundException
      * @throws common_Exception
      */
     public function writeStream($path, $resource, $mimeType = null)
@@ -156,7 +137,6 @@ class tao_models_classes_service_StorageDirectory extends Directory
      * @param $stream
      * @param null $mimeType
      * @return bool
-     * @throws FileNotFoundException
      * @throws common_Exception
      */
     public function writePsrStream($path, $stream, $mimeType = null)

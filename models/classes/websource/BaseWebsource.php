@@ -22,8 +22,8 @@
 namespace oat\tao\model\websource;
 
 use GuzzleHttp\Psr7\Stream;
-use League\Flysystem\FileNotFoundException;
 use oat\oatbox\Configurable;
+use oat\oatbox\filesystem\FilesystemException;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
 use Psr\Http\Message\StreamInterface;
@@ -107,10 +107,10 @@ abstract class BaseWebsource extends Configurable implements Websource
         $fs = $this->getFileSystem();
         try {
             $resource = $fs->readStream($filePath);
-        } catch (FileNotFoundException $e) {
+        } catch (FilesystemException $e) {
             throw new \tao_models_classes_FileNotFoundException($filePath);
         }
-        return new Stream($resource, ['size' => $fs->getSize($filePath)]);
+        return new Stream($resource, ['size' => $fs->fileSize($filePath)]);
     }
 
     /**
@@ -119,10 +119,11 @@ abstract class BaseWebsource extends Configurable implements Websource
      * @return string|false The file mime-type or false on failure.
      * @throws \common_exception_Error
      * @throws \common_exception_NotFound
+     * @throws FilesystemException
      */
     public function getMimetype($filePath)
     {
-        $mimeType = $this->getFileSystem()->getMimetype($filePath);
+        $mimeType = $this->getFileSystem()->mimeType($filePath);
 
         $pathParts = pathinfo($filePath);
         if (isset($pathParts['extension'])) {
