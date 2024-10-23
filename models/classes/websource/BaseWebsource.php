@@ -22,8 +22,8 @@
 namespace oat\tao\model\websource;
 
 use GuzzleHttp\Psr7\Stream;
-use League\Flysystem\FilesystemException;
 use oat\oatbox\Configurable;
+use oat\oatbox\filesystem\FilesystemException;
 use oat\oatbox\filesystem\FileSystemService;
 use oat\oatbox\service\ServiceManager;
 use Psr\Http\Message\StreamInterface;

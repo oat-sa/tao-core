@@ -126,7 +126,6 @@ class tao_models_classes_service_StorageDirectory extends Directory
      * @param $string
      * @param null $mimeType
      * @return bool
-     * @throws FileNotFoundException
      * @throws common_Exception
      */
     public function write($path, $string, $mimeType = null)
@@ -141,7 +140,6 @@ class tao_models_classes_service_StorageDirectory extends Directory
      * @param $resource
      * @param null $mimeType
      * @return bool
-     * @throws FileNotFoundException
      * @throws common_Exception
      */
     public function writeStream($path, $resource, $mimeType = null)
@@ -156,7 +154,6 @@ class tao_models_classes_service_StorageDirectory extends Directory
      * @param $stream
      * @param null $mimeType
      * @return bool
-     * @throws FileNotFoundException
      * @throws common_Exception
      */
     public function writePsrStream($path, $stream, $mimeType = null)
