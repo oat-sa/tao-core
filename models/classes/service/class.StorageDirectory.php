@@ -103,23 +103,6 @@ class tao_models_classes_service_StorageDirectory extends Directory
     }
 
     /**
-     * Returned the absolute path to this directory
-     * Please use read and write to access files
-     *
-     * @deprecated
-     * @return mixed
-     * @throws common_exception_InconsistentData
-     */
-    public function getPath()
-    {
-        $adapter = $this->getFileSystem()->getAdapter();
-        if (!$adapter instanceof LocalFilesystemAdapter) {
-            throw new common_exception_InconsistentData(__CLASS__ . ' can only handle local files');
-        }
-        return $adapter->getPathPrefix() . $this->getPrefix();
-    }
-
-    /**
      * @deprecated use File->write instead
      *
      * @param $path
