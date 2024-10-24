@@ -286,13 +286,25 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
 
         /**
          * Queries the list of translations for a resource.
-         * @param {string} id - The URI of the resource.
-         * @param {function} [filter] - A filter function for the translations.
+         * @param {string|string[]} id - The URI of the resource. It may also be a list of URIs, but in this case the languageUri must also be provided.
+         * @param {string|function} [languageUri] - The URI of the language to filter the translations. It may also be a filter function.
+         * @param {function} [filter] - A filter function for the translations. When not provided through the languageUri parameter.
          * @returns {Promise<ResourceList>}
          */
-        getTranslations(id, filter) {
+        getTranslations(id, filter, languageUri) {
+            if (Array.isArray(id)) {
+                id = id.join(',');
+            }
+            const params = { id };
+            if (languageUri) {
+                if ('function' === typeof languageUri) {
+                    filter = languageUri;
+                } else {
+                    params.languageUri = languageUri;
+                }
+            }
             return request({
-                url: urlUtil.route('translations', 'Translation', 'tao', { id }),
+                url: urlUtil.route('translations', 'Translation', 'tao', params),
                 method: 'GET',
                 noToken: true
             })
