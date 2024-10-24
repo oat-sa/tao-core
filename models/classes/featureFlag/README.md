@@ -71,20 +71,28 @@ sections that have to be disabled/enabled based on feature flag.
 
 return new oat\tao\model\menu\SectionVisibilityFilter(array(
     'featureFlagSections' => [
-        'sectionName' => [
+        'sectionName1' => [
+            'FEATURE_FLAG_01'
+        ],
+        'sectionName2/actionName' => [
             'FEATURE_FLAG_01'
         ]
     ],
     'featureFlagSectionsToHide' => [
-        'sectionNameToHide' => [
+        'sectionNameToHide1' => [
+            'FEATURE_FLAG_02'
+        ],
+        'sectionNameToHide2/actionName' => [
             'FEATURE_FLAG_02'
         ]
     ]
 ));
 ``` 
 
-This configuration will display `sectionName` when `FEATURE_FLAG_01` is enabled.
+This configuration will display `sectionName1` when `FEATURE_FLAG_01` is enabled.
+This configuration will display `actionName` from `sectionName2` when `FEATURE_FLAG_01` is enabled.
 This configuration will hide `sectionNameToHide` when `FEATURE_FLAG_02` is enabled.
+This configuration will display `actionName` from `sectionNameToHide` when `FEATURE_FLAG_02` is enabled.
 
 ### Override configs on execution time
 
