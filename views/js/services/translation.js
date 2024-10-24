@@ -291,7 +291,7 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
          * @param {function} [filter] - A filter function for the translations. When not provided through the languageUri parameter.
          * @returns {Promise<ResourceList>}
          */
-        getTranslations(id, filter, languageUri) {
+        getTranslations(id, languageUri, filter) {
             if (Array.isArray(id)) {
                 id = id.join(',');
             }
