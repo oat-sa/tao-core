@@ -159,6 +159,13 @@ class TranslationCreationService
             $parentClassIds = $instance->getParentClassesIds();
             $parentClassId = array_pop($parentClassIds);
 
+            //FIXME
+            //FIXME
+            //FIXME
+            //FIXME Introduce language content
+            //FIXME
+            //FIXME
+            //FIXME
             $clonedInstance = $this->getOntologyService($parentClassId)->cloneInstance($instance, $type);
             $clonedInstance->setLabel(sprintf('%s (%s)', $instance->getLabel(), $language->getCode()));
 
@@ -191,8 +198,8 @@ class TranslationCreationService
             $this->logger->error(
                 sprintf(
                     'Could not translate [id=%s, language=%s] (%s): %s',
-                    $command->getResourceUri(),
-                    $command->getLanguageUri(),
+                    $resourceUri,
+                    $languageUri,
                     get_class($exception),
                     $exception->getMessage()
                 )

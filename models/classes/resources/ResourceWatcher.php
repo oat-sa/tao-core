@@ -31,6 +31,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\tasks\UpdateClassInIndex;
@@ -38,6 +39,7 @@ use oat\tao\model\search\tasks\UpdateResourceInIndex;
 use oat\tao\model\search\tasks\UpdateTestResourceInIndex;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\taskQueue\QueueDispatcherInterface;
+use oat\tao\model\Translation\Service\TranslationDeletionService;
 
 /**
  * @author Aleksej Tikhanovich, <aleksej@taotesting.com>
@@ -100,9 +102,12 @@ class ResourceWatcher extends ConfigurableService
 
     public function catchDeletedResourceEvent(ResourceDeleted $event): void
     {
-        $searchService = $this->getServiceLocator()->get(Search::SERVICE_ID);
         try {
-            $searchService->remove($event->getId());
+            $this->getSearch()->remove($event->getId());
+
+            if ($this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')) {
+                $this->getTranslationDeletionService()->deleteByOriginResourceUri($event->getId());
+            }
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $this->getLogger()->error(
@@ -214,5 +219,20 @@ class ResourceWatcher extends ConfigurableService
         }
 
         return isset($url['path']) && $url['path'] === '/taoItems/Items/editItemClass';
+    }
+    
+    private function getFeatureFlagChecker(): FeatureFlagChecker
+    {
+        return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
+    }
+
+    private function getTranslationDeletionService(): TranslationDeletionService
+    {
+        return $this->getServiceManager()->getContainer()->get(TranslationDeletionService::class);
+    }
+
+    private function getSearch(): Search
+    {
+        return $this->getServiceManager()->getContainer()->get(Search::SERVICE_ID);
     }
 }
