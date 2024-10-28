@@ -277,12 +277,8 @@ class GenerisTreeFactory
         $queryBuilder = $search->query();
         $search->setLanguage($queryBuilder, \common_session_SessionManager::getSession()->getDataLanguage());
         $query = $search->searchType($queryBuilder, $class->getUri(), $options['recursive']);
-        $featureFlagChecker = $this->getFeatureFlagChecker();
 
-        if (
-            !$featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_DEVELOPER_MODE') &&
-            $featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')
-        ) {
+        if ($this->mustFilterTranslations($class)) {
             $query->addCriterion(
                 TaoOntology::PROPERTY_TRANSLATION_TYPE,
                 SupportedOperatorHelper::IN,
@@ -350,6 +346,31 @@ class GenerisTreeFactory
             $result[] = $this->getClass($subclass->getUri());
         }
         return $result;
+    }
+
+    private function mustFilterTranslations(core_kernel_classes_Class $class): bool
+    {
+        $featureFlagChecker = $this->getFeatureFlagChecker();
+
+        if ($featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_DEVELOPER_MODE')) {
+            return false;
+        }
+
+        if (!$featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')) {
+            return false;
+        }
+
+        $parentClassIds = $class->getParentClassesIds();
+        $mainClass = array_pop($parentClassIds);
+
+        return in_array(
+            $mainClass,
+            [
+                TaoOntology::CLASS_URI_ITEM,
+                TaoOntology::CLASS_URI_TEST
+            ],
+            true
+        );
     }
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
