@@ -29,6 +29,8 @@ use oat\tao\helpers\translation\TranslationBundle;
 use oat\generis\model\data\ModelManager;
 use oat\tao\helpers\translation\rdf\RdfPack;
 use oat\generis\model\kernel\persistence\file\FileIterator;
+use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\ClientLibRegistry;
 
 /**
  * Short description of class tao_models_classes_LanguageService
@@ -387,5 +389,17 @@ class tao_models_classes_LanguageService extends tao_models_classes_GenerisServi
             $model->append($iterator->getIterator());
         }
         return $model;
+    }
+
+    public function isRtlLanguage(string $languageCode): bool
+    {
+        $config = $this->getClientLibConfigRegistry()->get('util/locale') ?? [];
+
+        return in_array($languageCode, $config['rtl'] ?? [], true);
+    }
+
+    private function getClientLibConfigRegistry(): ClientLibConfigRegistry
+    {
+        return $this->getServiceLocator()->getContainer()->get(ClientLibConfigRegistry::class);
     }
 }
