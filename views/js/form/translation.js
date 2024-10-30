@@ -197,14 +197,13 @@ define([
                     return;
                 }
 
-                const { languages } = this.config;
+                const { languages = [] } = this.config;
 
-                if (!languages || !languages.length) {
-                    this.controls.$languageSelect.empty();
-                    return;
-                }
-
-                this.controls.$languageSelect.html(translationLanguagesTpl({ languages }));
+                this.controls.$languageSelect.html(
+                    translationLanguagesTpl({
+                        languages: languages.filter(language => language.uri !== this.config.languageUri)
+                    })
+                );
             },
 
             /**
@@ -331,9 +330,11 @@ define([
         translationService
             .getTranslatable(resourceUri)
             .then(response => {
+                const languageUri = translationService.listResourcesLanguages(response.resources);
                 const config = {
                     ready: translationService.isReadyForTranslation(response.resources),
                     renderTo: $container,
+                    languageUri: languageUri && languageUri[0],
                     languages: [],
                     translations: []
                 };
