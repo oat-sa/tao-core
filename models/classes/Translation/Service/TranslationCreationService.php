@@ -159,13 +159,6 @@ class TranslationCreationService
             $parentClassIds = $instance->getParentClassesIds();
             $parentClassId = array_pop($parentClassIds);
 
-            //FIXME
-            //FIXME
-            //FIXME
-            //FIXME Introduce language content
-            //FIXME
-            //FIXME
-            //FIXME
             $clonedInstance = $this->getOntologyService($parentClassId)->cloneInstance($instance, $type);
             $clonedInstance->setLabel(sprintf('%s (%s)', $instance->getLabel(), $language->getCode()));
 
