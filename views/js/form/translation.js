@@ -23,9 +23,18 @@ define([
     'ui/dialog/confirm',
     'services/translation',
     'tpl!form/tpl/translation',
+    'tpl!form/tpl/translation-languages',
     'ui/datatable'
-], function (__, componentFactory, dialogAlert, dialogConfirm, translationService, translationTpl) {
-    ('use strict');
+], function (
+    __,
+    componentFactory,
+    dialogAlert,
+    dialogConfirm,
+    translationService,
+    translationTpl,
+    translationLanguagesTpl
+) {
+    'use strict';
 
     const defaults = {
         sortBy: 'language',
@@ -174,15 +183,33 @@ define([
              */
             refresh() {
                 return this.getData().then(data => {
-                    this.config.translations = data.translations;
-                    this.updateList();
+                    Object.assign(this.config, data);
+                    this.updateLanguagesList();
+                    this.updateTranslationsList();
                 });
+            },
+
+            /**
+             * Updates the list of languages.
+             */
+            updateLanguagesList() {
+                if (!this.is('rendered')) {
+                    return;
+                }
+
+                const { languages = [] } = this.config;
+
+                this.controls.$languageSelect.html(
+                    translationLanguagesTpl({
+                        languages: languages.filter(language => language.uri !== this.config.languageUri)
+                    })
+                );
             },
 
             /**
              * Updates the list of translations.
              */
-            updateList() {
+            updateTranslationsList() {
                 if (!this.is('rendered')) {
                     return;
                 }
@@ -276,7 +303,8 @@ define([
                     );
                 });
 
-                this.updateList();
+                this.updateLanguagesList();
+                this.updateTranslationsList();
 
                 /**
                  * @event ready
@@ -302,9 +330,11 @@ define([
         translationService
             .getTranslatable(resourceUri)
             .then(response => {
+                const languageUri = translationService.listResourcesLanguages(response.resources);
                 const config = {
                     ready: translationService.isReadyForTranslation(response.resources),
                     renderTo: $container,
+                    languageUri: languageUri && languageUri[0],
                     languages: [],
                     translations: []
                 };

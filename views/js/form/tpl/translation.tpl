@@ -4,12 +4,7 @@
 {{#if languages}}
         <div class="translations-create">
             <label>{{__ 'Language'}}
-                <select name="language" data-control="select">
-                    <option value="">--- {{__ 'select'}} ---</option>
-                    {{#each languages}}
-                    <option value="{{uri}}">{{label}}</option>
-                    {{/each}}
-                </select>
+                <select name="language" data-control="select"></select>
             </label>
             <button class="btn-info small" data-control="create"><span class="icon-replace"></span> {{__ 'Create
                 translation'}}</button>
