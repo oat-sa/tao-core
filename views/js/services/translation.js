@@ -361,6 +361,20 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
                 method: 'POST',
                 noToken: true
             }).then(response => response.data);
+        },
+
+        /**
+         * Synchronizes the translations.
+         * @param {string} id - The URI of the resource.
+         * @returns {Promise<Resource>}
+         */
+        syncTranslation(id) {
+            return request({
+                url: urlUtil.route('sync', 'Translation', 'tao'),
+                data: { id },
+                method: 'POST',
+                noToken: true
+            }).then(response => response.data);
         }
     };
 });

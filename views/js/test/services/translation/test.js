@@ -44,7 +44,8 @@ define(['services/translation'], function (translationService) {
             { title: 'getTranslations', type: 'function' },
             { title: 'createTranslation', type: 'function' },
             { title: 'updateTranslation', type: 'function' },
-            { title: 'deleteTranslation', type: 'function' }
+            { title: 'deleteTranslation', type: 'function' },
+            { title: 'syncTranslation', type: 'function' }
         ])
         .test('translationService API', function (data, assert) {
             assert.equal(
