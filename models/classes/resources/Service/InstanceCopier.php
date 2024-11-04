@@ -25,8 +25,10 @@ declare(strict_types=1);
 namespace oat\tao\model\resources\Service;
 
 use oat\generis\model\data\Ontology;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\resources\Command\ResourceTransferCommand;
 use oat\tao\model\resources\Contract\ResourceTransferInterface;
+use oat\tao\model\resources\Event\InstanceCopiedEvent;
 use oat\tao\model\resources\ResourceTransferResult;
 use RuntimeException;
 use core_kernel_classes_Class;
@@ -42,6 +44,7 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
     private InstanceContentCopierInterface $instanceContentCopier;
     private PermissionCopierInterface $permissionCopier;
     private Ontology $ontology;
+    private EventManager $eventManager;
 
     public function __construct(InstanceMetadataCopierInterface $instanceMetadataCopier, Ontology $ontology)
     {
@@ -57,6 +60,11 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
     public function withPermissionCopier(PermissionCopierInterface $permissionCopier): void
     {
         $this->permissionCopier = $permissionCopier;
+    }
+
+    public function withEventManager(EventManager $eventManager): void
+    {
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -115,6 +123,8 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
                 $newInstance
             );
         }
+
+        $this->eventManager->trigger(new InstanceCopiedEvent($newInstance->getUri()));
 
         return $newInstance;
     }
