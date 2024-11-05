@@ -83,9 +83,9 @@ class TranslationCreationServiceTest extends TestCase
             $this->logger,
         );
 
-        $this->service->setOntologyClassService(
+        $this->service->setResourceTransfer(
             TaoOntology::CLASS_URI_ITEM,
-            $this->ontologyClassService
+            $this->ontologyClassService//FIXME @TODO Use proper service
         );
     }
 

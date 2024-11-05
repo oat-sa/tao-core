@@ -28,6 +28,9 @@ use oat\generis\model\data\Ontology;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\Language\Language;
 use oat\tao\model\OntologyClassService;
+use oat\tao\model\resources\Command\ResourceTransferCommand;
+use oat\tao\model\resources\Contract\ResourceTransferInterface;
+use oat\tao\model\resources\Service\InstanceCopier;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Command\CreateTranslationCommand;
 use oat\tao\model\Translation\Entity\ResourceTranslatable;
@@ -47,7 +50,7 @@ class TranslationCreationService
     private ResourceTranslationRepository $resourceTranslationRepository;
     private LanguageRepositoryInterface $languageRepository;
     private LoggerInterface $logger;
-    private array $ontologyClassServices;
+    private array $resourceTransferServices;
     private array $callables;
 
     public function __construct(
@@ -64,9 +67,9 @@ class TranslationCreationService
         $this->logger = $logger;
     }
 
-    public function setOntologyClassService(string $resourceType, OntologyClassService $ontologyClassService): void
+    public function setResourceTransfer(string $resourceType, ResourceTransferInterface $resourceTransfer): void
     {
-        $this->ontologyClassServices[$resourceType] = $ontologyClassService;
+        $this->resourceTransferServices[$resourceType] = $resourceTransfer;
     }
 
     public function addPostCreation(string $resourceType, callable $callable): void
@@ -150,16 +153,18 @@ class TranslationCreationService
                 );
             }
 
-            $instance = $this->ontology->getResource($resource->getResourceUri());
-            $types = $instance->getTypes();
+            $instance = $this->ontology->getResource($resourceUri);
+            $rootId = $instance->getRootId();
 
-            /** @var core_kernel_classes_Class $type */
-            $type = array_pop($types);
-
-            $parentClassIds = $instance->getParentClassesIds();
-            $parentClassId = array_pop($parentClassIds);
-
-            $clonedInstance = $this->getOntologyService($parentClassId)->cloneInstance($instance, $type);
+            $clonedInstanceUri = $this->getResourceTransfer($rootId)->transfer(
+                new ResourceTransferCommand(
+                    $resourceUri,
+                    $instance->getParentClassId(),
+                    null,
+                    null
+                )
+            )->getDestination();
+            $clonedInstance = $this->ontology->getResource($clonedInstanceUri);
             $clonedInstance->setLabel(sprintf('%s (%s)', $instance->getLabel(), $language->getCode()));
 
             $clonedInstance->editPropertyValues(
@@ -182,7 +187,7 @@ class TranslationCreationService
                 $resourceUri
             );
 
-            foreach ($this->callables[$parentClassId] ?? [] as $callable) {
+            foreach ($this->callables[$rootId] ?? [] as $callable) {
                 $clonedInstance = $callable($clonedInstance);
             }
 
@@ -202,16 +207,16 @@ class TranslationCreationService
         }
     }
 
-    private function getOntologyService(string $resourceType): OntologyClassService
+    private function getResourceTransfer(string $resourceType): ResourceTransferInterface
     {
-        $service = $this->ontologyClassServices[$resourceType] ?? null;
+        $service = $this->resourceTransferServices[$resourceType] ?? null;
 
         if ($service) {
             return $service;
         }
 
         throw new ResourceTranslationException(
-            sprintf('Missing OntologyClassService for resource type %s', $resourceType)
+            sprintf('Missing ResourceTransfer for resource type %s', $resourceType)
         );
     }
 }
