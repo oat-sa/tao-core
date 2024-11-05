@@ -22,8 +22,13 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources;
 
+use core_kernel_classes_Property;
+use oat\generis\model\data\Ontology;
 use oat\oatbox\user\User;
 use common_exception_Error;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\TaoOntology;
 use Psr\Log\LoggerInterface;
 use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
@@ -40,6 +45,10 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
     /** @var User */
     private $user;
 
+    /** @var ?bool */
+    private $ignoreTranslations;
+    private core_kernel_classes_Property $originalUriProperty;
+
     /**
      * @inheritDoc
      *
@@ -50,6 +59,12 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
         $subClasses = $resource->getSubClasses(false);
         $accessibleInstances = [[]];
         $permissionService = $this->getPermissionProvider();
+
+        if ($this->ignoreTranslations === null) {
+            $this->ignoreTranslations = $this->getFeatureFlagChecker()->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED');
+            $this->originalUriProperty = $this->getOntology()
+                ->getProperty(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI);
+        }
 
         if ($subClasses) {
             foreach ($subClasses as $subClass) {
@@ -69,8 +84,6 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
     }
 
     /**
-     * @param core_kernel_classes_Class $class
-     *
      * @return core_kernel_classes_Resource[]
      * @throws common_exception_Error
      */
@@ -97,6 +110,10 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
         $accessibleInstances = [];
 
         foreach ($instances as $child) {
+            if ($this->ignoreTranslations && !empty($child->getOnePropertyValue($this->originalUriProperty))) {
+                continue;
+            }
+
             $uri = $child->getUri();
 
             if ($this->hasAccess($permissions[$uri])) {
@@ -243,5 +260,15 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
     private function getAdvancedLogger(): LoggerInterface
     {
         return $this->getServiceManager()->getContainer()->get(AdvancedLogger::ACL_SERVICE_ID);
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
+    }
+
+    private function getOntology(): Ontology
+    {
+        return $this->getServiceManager()->getContainer()->get(Ontology::SERVICE_ID);
     }
 }
