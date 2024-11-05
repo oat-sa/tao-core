@@ -2,6 +2,7 @@
 
 namespace oat\tao\model\IdentifierGenerator\Generator;
 
+use core_kernel_classes_Resource;
 use InvalidArgumentException;
 use oat\generis\model\data\Ontology;
 
@@ -36,9 +37,21 @@ class IdentifierGeneratorProxy implements IdentifierGeneratorInterface
             );
         }
 
+        if (
+            isset($options[self::OPTION_RESOURCE])
+            && !$options[self::OPTION_RESOURCE] instanceof core_kernel_classes_Resource
+        ) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Option "%s" must be an instance of %s',
+                    self::OPTION_RESOURCE,
+                    core_kernel_classes_Resource::class
+                )
+            );
+        }
+
         $resource = $options[self::OPTION_RESOURCE] ?? $this->ontology->getResource($options[self::OPTION_RESOURCE_ID]);
-        $parentClasses = $resource->getParentClassesIds();
-        $resourceType = array_pop($parentClasses);
+        $resourceType = $resource->getRootId();
 
         if (!isset($this->idGenerators[$resourceType])) {
             throw new InvalidArgumentException('ID generator for resource type not defined');
