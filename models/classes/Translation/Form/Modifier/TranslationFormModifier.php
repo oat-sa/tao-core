@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\Translation\Form\Modifier;
 
 use core_kernel_classes_Literal;
+use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\form\Modifier\AbstractFormModifier;
@@ -71,7 +72,7 @@ class TranslationFormModifier extends AbstractFormModifier
         $isTranslationTypeEmpty = empty($translationType);
         $translationTypeUri = $translationType instanceof core_kernel_classes_Literal
             ? (string) $translationType
-            : $translationType->getUri();
+            : ($translationType instanceof core_kernel_classes_Resource ? $translationType->getUri() : null);
 
         if (
             $isTranslationTypeEmpty
