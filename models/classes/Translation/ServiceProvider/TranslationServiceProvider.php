@@ -35,9 +35,9 @@ use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
 use oat\tao\model\Translation\Form\Modifier\TranslationFormModifier;
 use oat\tao\model\Translation\Repository\ResourceTranslatableRepository;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
-use oat\tao\model\Translation\Service\Listener\ResourceDeletedEventListener;
 use oat\tao\model\Translation\Service\ResourceLanguageRetriever;
 use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
+use oat\tao\model\Translation\Service\ResourceMetadataRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use oat\tao\model\Translation\Service\TranslationCreationService;
@@ -169,12 +169,6 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ])
             ->public();
 
-        $services
-            ->set(ResourceDeletedEventListener::class, ResourceDeletedEventListener::class)
-            ->args([
-                service(FeatureFlagChecker::class),
-                service(TranslationDeletionService::class),
-            ])
-            ->public();
+        $services->set(ResourceMetadataRetriever::class, ResourceMetadataRetriever::class);
     }
 }
