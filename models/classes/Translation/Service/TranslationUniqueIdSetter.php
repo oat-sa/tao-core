@@ -52,7 +52,7 @@ class TranslationUniqueIdSetter
     {
         if (
             !$this->featureFlagChecker->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
-            && !$this->featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')
+            || !$this->featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')
         ) {
             return;
         }
