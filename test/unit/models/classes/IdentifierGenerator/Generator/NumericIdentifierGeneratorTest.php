@@ -20,17 +20,20 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\IdentifierGenerator\Generator;
+namespace oat\tao\test\unit\models\classes\IdentifierGenerator\Generator;
 
-class NumericIdentifierGenerator implements IdentifierGeneratorInterface
+use oat\tao\model\IdentifierGenerator\Generator\NumericIdentifierGenerator;
+use PHPUnit\Framework\TestCase;
+
+class NumericIdentifierGeneratorTest extends TestCase
 {
-    /**
-     * This will return 9 digits numeric identifier base on time and random number
-     * i.e: 123456789
-     */
-    public function generate(array $options = []): string
+    public function testGenerate(): void
     {
-        return substr((string) floor(time() / 1000), 0, 7)
-            . substr((string) floor(mt_rand(10, 100)), 0, 2);
+        $generator = new NumericIdentifierGenerator();
+        $identifier = $generator->generate();
+
+        $this->assertIsString($identifier);
+        $this->assertEquals(9, strlen($identifier));
+        $this->assertIsNumeric($identifier);
     }
 }
