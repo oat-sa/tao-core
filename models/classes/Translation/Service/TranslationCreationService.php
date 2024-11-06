@@ -188,7 +188,7 @@ class TranslationCreationService
             );
 
             foreach ($this->callables[$rootId] ?? [] as $callable) {
-                $clonedInstance = $callable($clonedInstance);
+                $callable($clonedInstance);
             }
 
             return $clonedInstance;

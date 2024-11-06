@@ -60,7 +60,6 @@ use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
 use oat\tao\model\search\ServiceProvider\SearchServiceProvider;
 use oat\tao\model\StatisticalMetadata\StatisticalMetadataServiceProvider;
 use oat\tao\model\Translation\ServiceProvider\TranslationServiceProvider;
-use oat\tao\model\UniqueId\ServiceProvider\UniqueIdServiceProvider;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\user\UserSettingsServiceProvider;
 use oat\tao\model\webhooks\WebhookServiceProvider;
@@ -426,7 +425,6 @@ return [
         TranslationServiceProvider::class,
         TaoFormServiceProvider::class,
         IdentifierGeneratorServiceProvider::class,
-        UniqueIdServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,
