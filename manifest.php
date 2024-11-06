@@ -424,7 +424,7 @@ return [
         DynamicConfigServiceProvider::class,
         TranslationServiceProvider::class,
         TaoFormServiceProvider::class,
-        IdentifierGeneratorServiceProvider::class
+        IdentifierGeneratorServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,

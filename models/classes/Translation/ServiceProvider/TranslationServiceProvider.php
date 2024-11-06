@@ -35,7 +35,6 @@ use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
 use oat\tao\model\Translation\Form\Modifier\TranslationFormModifier;
 use oat\tao\model\Translation\Repository\ResourceTranslatableRepository;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
-use oat\tao\model\Translation\Service\Listener\ResourceDeletedEventListener;
 use oat\tao\model\Translation\Service\ResourceLanguageRetriever;
 use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
@@ -43,6 +42,7 @@ use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use oat\tao\model\Translation\Service\TranslationCreationService;
 use oat\tao\model\Translation\Service\TranslationDeletionService;
 use oat\tao\model\Translation\Service\TranslationSyncService;
+use oat\tao\model\Translation\Service\TranslationUniqueIdSetter;
 use oat\tao\model\Translation\Service\TranslationUpdateService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -170,11 +170,9 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ->public();
 
         $services
-            ->set(ResourceDeletedEventListener::class, ResourceDeletedEventListener::class)
+            ->set(TranslationUniqueIdSetter::class, TranslationUniqueIdSetter::class)
             ->args([
                 service(FeatureFlagChecker::class),
-                service(TranslationDeletionService::class),
-            ])
-            ->public();
+            ]);
     }
 }
