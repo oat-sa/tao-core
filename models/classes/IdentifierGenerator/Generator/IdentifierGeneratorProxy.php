@@ -39,13 +39,26 @@ class IdentifierGeneratorProxy implements IdentifierGeneratorInterface
     public function addIdentifierGenerator(IdentifierGeneratorInterface $idGenerator, string $resourceType): void
     {
         if (isset($this->idGenerators[$resourceType])) {
-            throw new InvalidArgumentException('Id generator for type already defined');
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Id generator for type %s already defined',
+                    $resourceType
+                )
+            );
         }
 
         $this->idGenerators[$resourceType] = $idGenerator;
     }
 
     public function generate(array $options = []): string
+    {
+        $this->assertRequiredOptionsProvided($options);
+        $resourceType = $this->getResourceType($options);
+
+        return $this->getIdGenerator($resourceType)->generate($options);
+    }
+
+    private function assertRequiredOptionsProvided(array $options): void
     {
         if (!isset($options[self::OPTION_RESOURCE]) && !isset($options[self::OPTION_RESOURCE_ID])) {
             throw new InvalidArgumentException(
@@ -56,7 +69,10 @@ class IdentifierGeneratorProxy implements IdentifierGeneratorInterface
                 )
             );
         }
+    }
 
+    private function getResourceType(array $options): string
+    {
         if (
             isset($options[self::OPTION_RESOURCE])
             && !$options[self::OPTION_RESOURCE] instanceof core_kernel_classes_Resource
@@ -71,12 +87,21 @@ class IdentifierGeneratorProxy implements IdentifierGeneratorInterface
         }
 
         $resource = $options[self::OPTION_RESOURCE] ?? $this->ontology->getResource($options[self::OPTION_RESOURCE_ID]);
-        $resourceType = $resource->getRootId();
 
+        return $resource->getRootId();
+    }
+
+    private function getIdGenerator(string $resourceType): IdentifierGeneratorInterface
+    {
         if (!isset($this->idGenerators[$resourceType])) {
-            throw new InvalidArgumentException('ID generator for resource type not defined');
+            throw new InvalidArgumentException(
+                sprintf(
+                    'ID generator for resource type %s not defined',
+                    $resourceType
+                )
+            );
         }
 
-        return $this->idGenerators[$resourceType]->generate($options);
+        return $this->idGenerators[$resourceType];
     }
 }
