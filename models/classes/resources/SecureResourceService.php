@@ -47,7 +47,9 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
 
     /** @var ?bool */
     private $ignoreTranslations;
-    private core_kernel_classes_Property $originalUriProperty;
+
+    /** @var ?core_kernel_classes_Property */
+    private $originalUriProperty;
 
     /**
      * @inheritDoc
@@ -226,7 +228,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
     private function getPermissionProvider(): PermissionInterface
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->getServiceLocator()->get(PermissionInterface::SERVICE_ID);
+        return $this->getServiceManager()->get(PermissionInterface::SERVICE_ID);
     }
 
     /**
@@ -238,7 +240,7 @@ class SecureResourceService extends ConfigurableService implements SecureResourc
     {
         if ($this->user === null) {
             $this->user = $this
-                ->getServiceLocator()
+                ->getServiceManager()
                 ->get(SessionService::SERVICE_ID)
                 ->getCurrentUser();
         }
