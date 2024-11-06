@@ -31,6 +31,9 @@ use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\Language\Language;
 use oat\tao\model\Language\LanguageCollection;
 use oat\tao\model\OntologyClassService;
+use oat\tao\model\resources\Command\ResourceTransferCommand;
+use oat\tao\model\resources\Contract\ResourceTransferInterface;
+use oat\tao\model\resources\ResourceTransferResult;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Service\TranslationCreationService;
@@ -61,7 +64,7 @@ class TranslationCreationServiceTest extends TestCase
     private $languageRepository;
 
     /** @var OntologyClassService|MockObject */
-    private $ontologyClassService;
+    private $resourceTransfer;
 
     /** @var MockObject|LoggerInterface */
     private $logger;
@@ -72,7 +75,7 @@ class TranslationCreationServiceTest extends TestCase
         $this->resourceTranslatableRepository = $this->createMock(ResourceTranslatableRepository::class);
         $this->resourceTranslationRepository = $this->createMock(ResourceTranslationRepository::class);
         $this->languageRepository = $this->createMock(LanguageRepositoryInterface::class);
-        $this->ontologyClassService = $this->createMock(OntologyClassService::class);
+        $this->resourceTransfer = $this->createMock(ResourceTransferInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
 
         $this->service = new TranslationCreationService(
@@ -83,10 +86,7 @@ class TranslationCreationServiceTest extends TestCase
             $this->logger,
         );
 
-        $this->service->setResourceTransfer(
-            TaoOntology::CLASS_URI_ITEM,
-            $this->ontologyClassService//FIXME @TODO Use proper service
-        );
+        $this->service->setResourceTransfer(TaoOntology::CLASS_URI_ITEM, $this->resourceTransfer);
     }
 
     public function testCreate(): void
@@ -101,6 +101,7 @@ class TranslationCreationServiceTest extends TestCase
         $translationTypeProperty = $this->createMock(core_kernel_classes_Property::class);
         $translationProgressProperty = $this->createMock(core_kernel_classes_Property::class);
         $originalResourceUriProperty = $this->createMock(core_kernel_classes_Property::class);
+        $resourceTransferResult = new ResourceTransferResult('cloneUri');
 
         $resourceCollection = new ResourceCollection();
         $translatableCollection = new ResourceCollection($translatable);
@@ -122,16 +123,16 @@ class TranslationCreationServiceTest extends TestCase
         $instance = $this->createMock(core_kernel_classes_Resource::class);
         $instance
             ->expects($this->once())
-            ->method('getTypes')
-            ->willReturn([$resourceType]);
-        $instance
-            ->expects($this->once())
             ->method('getLabel')
             ->willReturn('MyInstance');
         $instance
             ->expects($this->once())
-            ->method('getParentClassesIds')
-            ->willReturn([TaoOntology::CLASS_URI_ITEM]);
+            ->method('getParentClassId')
+            ->willReturn(TaoOntology::CLASS_URI_ITEM);
+        $instance
+            ->expects($this->once())
+            ->method('getRootId')
+            ->willReturn(TaoOntology::CLASS_URI_ITEM);
 
         $clonedInstance = $this->createMock(core_kernel_classes_Resource::class);
         $clonedInstance
@@ -175,9 +176,12 @@ class TranslationCreationServiceTest extends TestCase
             ->willReturn(new LanguageCollection($language));
 
         $this->ontology
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getResource')
-            ->willReturn($instance);
+            ->willReturnOnConsecutiveCalls(
+                $instance,
+                $clonedInstance
+            );
 
         $this->ontology
             ->method('getProperty')
@@ -202,11 +206,18 @@ class TranslationCreationServiceTest extends TestCase
                 ]
             );
 
-        $this->ontologyClassService
+        $this->resourceTransfer
             ->expects($this->once())
-            ->method('cloneInstance')
-            ->with($instance, $resourceType)
-            ->willReturn($clonedInstance);
+            ->method('transfer')
+            ->with(
+                new ResourceTransferCommand(
+                    'id1',
+                    TaoOntology::CLASS_URI_ITEM,
+                    null,
+                    null
+                )
+            )
+            ->willReturn($resourceTransferResult);
 
         $this->assertInstanceOf(
             core_kernel_classes_Resource::class,

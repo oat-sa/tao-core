@@ -22,15 +22,12 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Service;
 
-use core_kernel_classes_Class;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\Language\Language;
-use oat\tao\model\OntologyClassService;
 use oat\tao\model\resources\Command\ResourceTransferCommand;
 use oat\tao\model\resources\Contract\ResourceTransferInterface;
-use oat\tao\model\resources\Service\InstanceCopier;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Command\CreateTranslationCommand;
 use oat\tao\model\Translation\Entity\ResourceTranslatable;
