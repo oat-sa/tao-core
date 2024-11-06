@@ -32,6 +32,7 @@ use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\search\index\IndexUpdaterInterface;
 use oat\tao\model\search\Search;
 use oat\tao\model\search\tasks\UpdateClassInIndex;
@@ -140,9 +141,9 @@ class ResourceWatcher extends ConfigurableService
      */
     private function createResourceIndexingTask(core_kernel_classes_Resource $resource, string $message): void
     {
-        if ($this->getServiceLocator()->get(AdvancedSearchChecker::class)->isEnabled()) {
+        if ($this->getServiceManager()->get(AdvancedSearchChecker::class)->isEnabled()) {
             /** @var QueueDispatcherInterface $queueDispatcher */
-            $queueDispatcher = $this->getServiceLocator()->get(QueueDispatcherInterface::SERVICE_ID);
+            $queueDispatcher = $this->getServiceManager()->get(QueueDispatcherInterface::SERVICE_ID);
 
             if ($this->hasClassSupport($resource) && !$this->ignoreEditIemClassUpdates()) {
                 $queueDispatcher->createTask(new UpdateClassInIndex(), [$resource->getUri()], $message);
@@ -172,7 +173,7 @@ class ResourceWatcher extends ConfigurableService
 
         while (!empty($resourceTypeIds)) {
             $classUri = array_pop($resourceTypeIds);
-            $hasClassSupport = $this->getServiceLocator()
+            $hasClassSupport = $this->getServiceManager()
                 ->get(IndexUpdaterInterface::SERVICE_ID)
                 ->hasClassSupport(
                     $classUri
@@ -221,7 +222,7 @@ class ResourceWatcher extends ConfigurableService
         return isset($url['path']) && $url['path'] === '/taoItems/Items/editItemClass';
     }
     
-    private function getFeatureFlagChecker(): FeatureFlagChecker
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
     }
