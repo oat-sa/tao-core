@@ -65,9 +65,10 @@ class TranslationFormModifierTest extends TestCase
             ->willReturn(false);
 
         $this->form
-            ->expects($this->exactly(4))
+            ->expects($this->exactly(5))
             ->method('removeElement')
             ->withConsecutive(
+                [tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI)],
                 [tao_helpers_Uri::encode(TaoOntology::PROPERTY_LANGUAGE)],
                 [tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_STATUS)],
                 [tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_PROGRESS)],
@@ -115,7 +116,7 @@ class TranslationFormModifierTest extends TestCase
 
             $type = $this->createMock(core_kernel_classes_Resource::class);
             $type
-                ->expects($this->exactly(2))
+                ->expects($this->once())
                 ->method('getUri')
                 ->willReturn($typeValue);
         }
