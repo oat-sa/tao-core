@@ -48,7 +48,7 @@ class TranslationUniqueIdSetter
         $this->qtiIdentifierSetters[$resourceType] = $qtiIdentifierSetter;
     }
 
-    public function __invoke(core_kernel_classes_Resource $item): void
+    public function __invoke(core_kernel_classes_Resource $resource): void
     {
         if (
             !$this->featureFlagChecker->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
@@ -57,12 +57,15 @@ class TranslationUniqueIdSetter
             return;
         }
 
-        $originalResource = $this->getOriginalResource($item);
+        $originalResource = $this->getOriginalResource($resource);
         $uniqueIdentifier = $this->getUniqueId($originalResource);
 
-        $item->editPropertyValues($item->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER), $uniqueIdentifier);
-        $this->getQtiIdentifierSetter($item)->set([
-            AbstractQtiIdentifierSetter::OPTION_RESOURCE => $item,
+        $resource->editPropertyValues(
+            $resource->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER),
+            $uniqueIdentifier
+        );
+        $this->getQtiIdentifierSetter($resource)->set([
+            AbstractQtiIdentifierSetter::OPTION_RESOURCE => $resource,
             AbstractQtiIdentifierSetter::OPTION_IDENTIFIER => $uniqueIdentifier,
         ]);
     }
