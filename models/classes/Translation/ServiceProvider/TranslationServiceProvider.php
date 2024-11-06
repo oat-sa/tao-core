@@ -173,6 +173,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ->set(TranslationUniqueIdSetter::class, TranslationUniqueIdSetter::class)
             ->args([
                 service(FeatureFlagChecker::class),
+                service(Ontology::SERVICE_ID),
             ]);
     }
 }

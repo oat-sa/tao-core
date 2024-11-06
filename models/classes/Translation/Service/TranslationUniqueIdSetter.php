@@ -22,19 +22,28 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Service;
 
+use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use InvalidArgumentException;
+use oat\generis\model\data\Ontology;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\TaoOntology;
 
 class TranslationUniqueIdSetter
 {
     private FeatureFlagCheckerInterface $featureFlagChecker;
+    private Ontology $ontology;
+
+    /** @var AbstractQtiIdentifierSetter[] */
     private array $qtiIdentifierSetters = [];
 
-    public function __construct(FeatureFlagCheckerInterface $featureFlagChecker)
+    /** @var core_kernel_classes_Property[] */
+    private array $properties = [];
+
+    public function __construct(FeatureFlagCheckerInterface $featureFlagChecker, Ontology $ontology)
     {
         $this->featureFlagChecker = $featureFlagChecker;
+        $this->ontology = $ontology;
     }
 
     public function addQtiIdentifierSetter(AbstractQtiIdentifierSetter $qtiIdentifierSetter, string $resourceType): void
@@ -61,7 +70,7 @@ class TranslationUniqueIdSetter
         $uniqueIdentifier = $this->getUniqueId($originalResource);
 
         $resource->editPropertyValues(
-            $resource->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER),
+            $this->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER),
             $uniqueIdentifier
         );
         $this->getQtiIdentifierSetter($resource)->set([
@@ -72,24 +81,24 @@ class TranslationUniqueIdSetter
 
     private function getOriginalResource(core_kernel_classes_Resource $resource): core_kernel_classes_Resource
     {
-        $property = $resource->getProperty(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI);
+        $property = $this->getProperty(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI);
         $originalResourceUri = $resource->getOnePropertyValue($property);
 
         if (empty($originalResourceUri)) {
             throw new InvalidArgumentException(
                 sprintf(
                     'Resource %s is not a translation - original resource URI is empty',
-                    $originalResourceUri
+                    $resource->getUri()
                 )
             );
         }
 
-        return $resource->getResource($originalResourceUri);
+        return $this->ontology->getResource($originalResourceUri);
     }
 
-    private function getUniqueId(core_kernel_classes_Resource $resource): ?string
+    private function getUniqueId(core_kernel_classes_Resource $resource): string
     {
-        $property = $resource->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
+        $property = $this->getProperty(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER);
         $uniqueId = $resource->getOnePropertyValue($property);
 
         if (empty($uniqueId)) {
@@ -110,5 +119,14 @@ class TranslationUniqueIdSetter
         }
 
         return $this->qtiIdentifierSetters[$resourceType];
+    }
+
+    private function getProperty(string $uri): core_kernel_classes_Property
+    {
+        if (!isset($this->properties[$uri])) {
+            $this->properties[$uri] = $this->ontology->getProperty($uri);
+        }
+
+        return $this->properties[$uri];
     }
 }
