@@ -21,7 +21,7 @@
 
 declare(strict_types=1);
 
-namespace unit\scripts\tools\migrations;
+namespace oat\tao\test\unit\scripts\tools\migrations;
 
 use oat\generis\test\TestCase;
 use Doctrine\DBAL\Schema\Schema;
