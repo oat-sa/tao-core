@@ -141,7 +141,7 @@ class TranslationFormModifierTest extends TestCase
         $this->sut->modify($this->form);
     }
 
-    private function modifyTranslationEnabledDataProvider(): array
+    public function modifyTranslationEnabledDataProvider(): array
     {
         return [
             'No type provided' => [
