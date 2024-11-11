@@ -24,5 +24,5 @@ namespace oat\tao\model\menu;
 
 interface SectionVisibilityFilterInterface
 {
-    public function isVisible(string $section): bool;
+    public function isVisible(string $sectionPath): bool;
 }

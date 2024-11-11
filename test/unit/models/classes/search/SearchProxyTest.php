@@ -25,6 +25,7 @@ namespace oat\tao\test\unit\model\search;
 use oat\generis\model\GenerisRdf;
 use oat\generis\test\TestCase;
 use oat\tao\model\AdvancedSearch\AdvancedSearchChecker;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\search\IdentifierSearcher;
 use oat\tao\model\search\ResultSet;
 use oat\tao\model\search\ResultSetResponseNormalizer;
@@ -64,6 +65,9 @@ class SearchProxyTest extends TestCase
     /** @var SearchInterface|MockObject */
     private $advancedSearch;
 
+    /** @var FeatureFlagChecker|MockObject */
+    private $featureFlagChecker;
+
     public function setUp(): void
     {
         $this->advancedSearchCheckerMock = $this->createMock(AdvancedSearchChecker::class);
@@ -72,6 +76,7 @@ class SearchProxyTest extends TestCase
         $this->advancedSearch = $this->createMock(SearchInterface::class);
         $this->searchQueryFactoryMock = $this->createMock(SearchQueryFactory::class);
         $this->resultSetResponseNormalizerMock = $this->createMock(ResultSetResponseNormalizer::class);
+        $this->featureFlagChecker = $this->createMock(FeatureFlagChecker::class);
 
         $this->resultSetMock = $this->createMock(ResultSet::class);
         $this->requestMock = $this->createMock(ServerRequestInterface::class);
@@ -99,6 +104,7 @@ class SearchProxyTest extends TestCase
                     SearchQueryFactory::class => $this->searchQueryFactoryMock,
                     ResultSetResponseNormalizer::class => $this->resultSetResponseNormalizerMock,
                     IdentifierSearcher::class => $this->identifierSearcher,
+                    FeatureFlagChecker::class => $this->featureFlagChecker,
                 ]
             )
         );
