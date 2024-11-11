@@ -340,4 +340,115 @@
     <rdfs:comment xml:lang="en-US"><![CDATA[Object to represent assessment contents]]></rdfs:comment>
   </rdf:Description>
 
+  <!--
+  Metadata required for translation process.
+  Only available via feature flag "FEATURE_FLAG_TRANSLATION_ENABLED"
+
+  ATTENTION: Please link these metadata with resources on the specific extensions
+  -->
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypes">
+    <rdfs:label xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeOriginal">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypes"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Original]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Original]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeTranslation">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypes"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Translation]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Translation]]></rdfs:comment>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatuses">
+    <rdfs:label xml:lang="en-US"><![CDATA[Translation Progress Statuses]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Translation Progress Statuses]]></rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusPending">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatuses"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Pending]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Pending]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusTranslating">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatuses"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Translating]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Translating]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusTranslated">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatuses"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Translated]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Translated]]></rdfs:comment>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatuses">
+    <rdfs:label xml:lang="en-US"><![CDATA[Translation Statuses]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Translation Statuses]]></rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatusNotReadyForTranslation">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatuses"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Not Ready for Translation]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Not Ready for Translation]]></rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatusReadyForTranslation">
+    <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatuses"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Ready for Translation]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Ready for Translation]]></rdfs:comment>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationOriginalResourceUri">
+    <generis:alias><![CDATA[taoTranslationOriginalResourceUri]]></generis:alias>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Original Resource]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Original Resource]]></rdfs:comment>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
+    <tao:TAOGUIOrder><![CDATA[2000]]></tao:TAOGUIOrder>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#UniqueIdentifier">
+    <generis:alias><![CDATA[taoUniqueIdentifier]]></generis:alias>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Equivalent Resource ID]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Equivalent Resource ID]]></rdfs:comment>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#Readonly"/>
+    <tao:TAOGUIOrder><![CDATA[2000]]></tao:TAOGUIOrder>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Language">
+    <generis:alias><![CDATA[taoLanguage]]></generis:alias>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Language]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Language]]></rdfs:comment>
+    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox"/>
+    <tao:TAOGUIOrder><![CDATA[2001]]></tao:TAOGUIOrder>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationType">
+    <generis:alias><![CDATA[taoTranslationType]]></generis:alias>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:comment>
+    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypes"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox"/>
+    <tao:TAOGUIOrder><![CDATA[2002]]></tao:TAOGUIOrder>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatus">
+    <generis:alias><![CDATA[taoTranslationStatus]]></generis:alias>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Translation Status]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Translation Status]]></rdfs:comment>
+    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatuses"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox"/>
+    <tao:TAOGUIOrder><![CDATA[2003]]></tao:TAOGUIOrder>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgress">
+    <generis:alias><![CDATA[taoTranslationProgress]]></generis:alias>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Translation Progress]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Translation Progress]]></rdfs:comment>
+    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatuses"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox"/>
+    <tao:TAOGUIOrder><![CDATA[2004]]></tao:TAOGUIOrder>
+  </rdf:Description>
 </rdf:RDF>

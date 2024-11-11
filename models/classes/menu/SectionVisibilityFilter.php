@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace oat\tao\model\menu;
 
-use LogicException;
 use oat\generis\model\GenerisRdf;
 use oat\oatbox\service\ConfigurableService;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
@@ -33,6 +32,7 @@ use oat\tao\model\user\UserSettingsServiceInterface;
 
 class SectionVisibilityFilter extends ConfigurableService implements SectionVisibilityFilterInterface
 {
+    private const SECTION_PATH_SEPARATOR = '/';
     public const SERVICE_ID = 'tao/SectionVisibilityFilter';
     public const OPTION_FEATURE_FLAG_SECTIONS = 'featureFlagSections';
     public const OPTION_FEATURE_FLAG_SECTIONS_TO_HIDE = 'featureFlagSectionsToHide';
@@ -44,10 +44,7 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
 
     public const SIMPLE_INTERFACE_MODE_HIDDEN_SECTIONS = [];
 
-    /**
-     * @throws LogicException
-     */
-    public function isVisible(string $section): bool
+    public function isVisible(string $sectionPath): bool
     {
         $sections = $this->getOption(self::OPTION_FEATURE_FLAG_SECTIONS, []);
         $sectionToHide = array_merge_recursive(
@@ -55,13 +52,13 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
             self::DEFAULT_FEATURE_FLAG_SECTIONS_TO_HIDE
         );
 
-        foreach ($sectionToHide[$section] ?? [] as $featureFlag) {
+        foreach ($sectionToHide[$sectionPath] ?? [] as $featureFlag) {
             if ($this->getFeatureFlagChecker()->isEnabled($featureFlag)) {
                 return false;
             }
         }
 
-        foreach ($sections[$section] ?? [] as $featureFlag) {
+        foreach ($sections[$sectionPath] ?? [] as $featureFlag) {
             if (!$this->getFeatureFlagChecker()->isEnabled($featureFlag)) {
                 return false;
             }
@@ -73,7 +70,7 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
             $userSettings->getSetting(
                 UserSettingsInterface::INTERFACE_MODE
             ) === GenerisRdf::PROPERTY_USER_INTERFACE_MODE_SIMPLE
-            && in_array($section, self::SIMPLE_INTERFACE_MODE_HIDDEN_SECTIONS)
+            && in_array($sectionPath, self::SIMPLE_INTERFACE_MODE_HIDDEN_SECTIONS, true)
         ) {
             return false;
         }
@@ -81,16 +78,33 @@ class SectionVisibilityFilter extends ConfigurableService implements SectionVisi
         return true;
     }
 
-    public function hideSectionByFeatureFlag(string $section, string $featureFlag): void
+    public function createSectionPath(array $segments): string
+    {
+        return implode(self::SECTION_PATH_SEPARATOR, $segments);
+    }
+
+    public function hideSectionByFeatureFlag(string $sectionPath, string $featureFlag): void
     {
         $options = $this->getOption(SectionVisibilityFilter::OPTION_FEATURE_FLAG_SECTIONS_TO_HIDE, []);
-        $options[$section] = array_merge(
-            $options[$section] ?? [],
+        $options[$sectionPath] = array_merge(
+            $options[$sectionPath] ?? [],
             [
                 $featureFlag
             ]
         );
         $this->setOption(SectionVisibilityFilter::OPTION_FEATURE_FLAG_SECTIONS_TO_HIDE, $options);
+    }
+
+    public function showSectionByFeatureFlag(string $sectionPath, string $featureFlag): void
+    {
+        $options = $this->getOption(SectionVisibilityFilter::OPTION_FEATURE_FLAG_SECTIONS, []);
+        $options[$sectionPath] = array_merge(
+            $options[$sectionPath] ?? [],
+            [
+                $featureFlag
+            ]
+        );
+        $this->setOption(SectionVisibilityFilter::OPTION_FEATURE_FLAG_SECTIONS, $options);
     }
 
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface

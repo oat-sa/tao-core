@@ -54,14 +54,18 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
     /** @var array<string, bool> */
     private $fileProperties = [];
 
+    private array $allowedNonCustomerProperties;
+
     public function __construct(
         ClassMetadataMapperInterface $classMetadataMapper,
         FileReferenceSerializer $fileReferenceSerializer,
-        FileSystemService $fileSystemService
+        FileSystemService $fileSystemService,
+        array $allowedNonCustomerProperties = []
     ) {
         $this->classMetadataMapper = $classMetadataMapper;
         $this->fileReferenceSerializer = $fileReferenceSerializer;
         $this->fileSystemService = $fileSystemService;
+        $this->allowedNonCustomerProperties = $allowedNonCustomerProperties;
     }
 
     public function addPropertyUriToBlacklist(string $propertyUri): void
@@ -113,7 +117,9 @@ class InstanceMetadataCopier implements InstanceMetadataCopierInterface
         $originalPropertyUri = $this->classMetadataMapper->get($property);
 
         if ($originalPropertyUri === null) {
-            return $property->isCustom() ? $property : null;
+            return $property->isCustom() || in_array($property->getUri(), $this->allowedNonCustomerProperties) ?
+                $property :
+                null;
         }
 
         return $property->getProperty($originalPropertyUri);
