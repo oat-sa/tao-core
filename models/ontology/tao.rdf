@@ -17,14 +17,6 @@
     <rdfs:comment xml:lang="en-US"><![CDATA[Alias to be used when publishing a remote delivery]]></rdfs:comment>
   </rdf:Description>
 
-  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#PropertyAlias">
-    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-    <rdfs:domain rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-    <rdfs:label xml:lang="en-US"><![CDATA[Property Alias]]></rdfs:label>
-    <rdfs:comment xml:lang="en-US"><![CDATA[Property Alias]]></rdfs:comment>
-    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
-  </rdf:Description>
-
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/generis.rdf#is_language_dependent">
     <rdfs:label xml:lang="en-US"><![CDATA[Is language dependent?]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[is_language_dependent]]></rdfs:comment>
@@ -408,7 +400,7 @@
   </rdf:Description>
 
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationOriginalResourceUri">
-    <tao:PropertyAlias><![CDATA[taoTranslationOriginalResourceUri]]></tao:PropertyAlias>
+    <generis:alias><![CDATA[taoTranslationOriginalResourceUri]]></generis:alias>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Original Resource]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Original Resource]]></rdfs:comment>
@@ -416,7 +408,7 @@
     <tao:TAOGUIOrder><![CDATA[2000]]></tao:TAOGUIOrder>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#UniqueIdentifier">
-    <tao:PropertyAlias><![CDATA[taoUniqueIdentifier]]></tao:PropertyAlias>
+    <generis:alias><![CDATA[taoUniqueIdentifier]]></generis:alias>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Equivalent Resource ID]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Equivalent Resource ID]]></rdfs:comment>
@@ -424,7 +416,7 @@
     <tao:TAOGUIOrder><![CDATA[2000]]></tao:TAOGUIOrder>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Language">
-    <tao:PropertyAlias><![CDATA[taoLanguage]]></tao:PropertyAlias>
+    <generis:alias><![CDATA[taoLanguage]]></generis:alias>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Language]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Language]]></rdfs:comment>
@@ -433,7 +425,7 @@
     <tao:TAOGUIOrder><![CDATA[2001]]></tao:TAOGUIOrder>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationType">
-    <tao:PropertyAlias><![CDATA[taoTranslationType]]></tao:PropertyAlias>
+    <generis:alias><![CDATA[taoTranslationType]]></generis:alias>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:comment>
@@ -442,7 +434,7 @@
     <tao:TAOGUIOrder><![CDATA[2002]]></tao:TAOGUIOrder>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatus">
-    <tao:PropertyAlias><![CDATA[taoTranslationStatus]]></tao:PropertyAlias>
+    <generis:alias><![CDATA[taoTranslationStatus]]></generis:alias>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Translation Status]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation Status]]></rdfs:comment>
@@ -451,7 +443,7 @@
     <tao:TAOGUIOrder><![CDATA[2003]]></tao:TAOGUIOrder>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgress">
-    <tao:PropertyAlias><![CDATA[taoTranslationProgress]]></tao:PropertyAlias>
+    <generis:alias><![CDATA[taoTranslationProgress]]></generis:alias>
     <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Translation Progress]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation Progress]]></rdfs:comment>
