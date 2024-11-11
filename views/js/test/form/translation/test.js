@@ -70,6 +70,8 @@ define(['jquery', 'form/translation', 'services/translation'], function (
         }
     ];
 
+    const resourcesLanguages = ['http://www.tao.lu/Ontologies/TAO.rdf#Langen-US'];
+
     const translations = [
         {
             resourceUri: 'http://www.tao.lu/tao.rdf#i66ed86fbf2c862024092014301929944a63',
@@ -163,7 +165,8 @@ define(['jquery', 'form/translation', 'services/translation'], function (
             { title: 'editTranslation' },
             { title: 'deleteTranslation' },
             { title: 'setControlsState' },
-            { title: 'updateList' }
+            { title: 'updateLanguagesList' },
+            { title: 'updateTranslationsList' }
         ])
         .test('instance API ', function (data, assert) {
             var instance = translationFormFactory($fixture);
@@ -223,6 +226,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
 
         translationService.setMockData({
             availableLanguages: languages,
+            resourcesLanguages,
             languages: languages
         });
 
@@ -233,7 +237,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                 assert.equal($fixture.find('.translations-create').length, 1, 'translation form');
                 assert.equal(
                     $fixture.find('.translations-create select option').length,
-                    languages.length + 1,
+                    languages.length,
                     'available languages'
                 );
                 assert.equal($fixture.find('.translations-list').length, 1, 'translations list');
@@ -253,6 +257,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
 
         translationService.setMockData({
             availableLanguages: languages,
+            resourcesLanguages,
             languages: languages
         });
 
@@ -263,7 +268,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                 assert.equal($fixture.find('.translations-create').length, 1, 'translation form');
                 assert.equal(
                     $fixture.find('.translations-create select option').length,
-                    languages.length + 1,
+                    languages.length,
                     'available languages'
                 );
                 assert.equal($fixture.find('.translations-list').length, 1, 'translations list');
@@ -290,6 +295,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
 
         translationService.setMockData({
             availableLanguages: languages,
+            resourcesLanguages,
             languages: languages
         });
 
@@ -300,7 +306,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                 assert.equal($fixture.find('.translations-create').length, 1, 'translation form');
                 assert.equal(
                     $fixture.find('.translations-create select option').length,
-                    languages.length + 1,
+                    languages.length,
                     'available languages'
                 );
                 assert.equal($fixture.find('.translations-list').length, 1, 'translations list');
@@ -331,6 +337,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
 
         translationService.setMockData({
             availableLanguages: languages,
+            resourcesLanguages,
             languages: languages
         });
 
@@ -341,7 +348,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                 assert.equal($fixture.find('.translations-create').length, 1, 'translation form');
                 assert.equal(
                     $fixture.find('.translations-create select option').length,
-                    languages.length + 1,
+                    languages.length,
                     'available languages'
                 );
                 assert.equal($fixture.find('.translations-list').length, 1, 'translations list');
@@ -394,7 +401,8 @@ define(['jquery', 'form/translation', 'services/translation'], function (
         translationService.setMockData({
             availableLanguages: languages,
             languages: languages,
-            translatedLanguages: translations
+            translatedLanguages: translations,
+            resourcesLanguages
         });
 
         translationFormFactory($fixture)
@@ -404,7 +412,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                 assert.equal($fixture.find('.translations-create').length, 1, 'translation form');
                 assert.equal(
                     $fixture.find('.translations-create select option').length,
-                    languages.length + 1,
+                    languages.length,
                     'available languages'
                 );
                 assert.equal($fixture.find('.translations-list').length, 1, 'translations list');
@@ -441,7 +449,8 @@ define(['jquery', 'form/translation', 'services/translation'], function (
         const done = asyncTest(assert);
 
         translationService.setMockData({
-            translatedLanguages: translations
+            translatedLanguages: translations,
+            resourcesLanguages
         });
 
         translationFormFactory($fixture)
@@ -485,7 +494,8 @@ define(['jquery', 'form/translation', 'services/translation'], function (
         translationService.setMockData({
             availableLanguages: languages,
             languages: languages,
-            translatedLanguages: translations
+            translatedLanguages: translations,
+            resourcesLanguages
         });
 
         translationFormFactory($fixture)
@@ -495,7 +505,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                 assert.equal($fixture.find('.translations-create').length, 1, 'translation form');
                 assert.equal(
                     $fixture.find('.translations-create select option').length,
-                    languages.length + 1,
+                    languages.length,
                     'available languages'
                 );
                 assert.equal($fixture.find('.translations-list').length, 1, 'translations list');
@@ -544,7 +554,8 @@ define(['jquery', 'form/translation', 'services/translation'], function (
         translationService.setMockData({
             availableLanguages: languages,
             languages: languages,
-            translatedLanguages: translations
+            translatedLanguages: translations,
+            resourcesLanguages
         });
 
         translationFormFactory($fixture, { allowDeletion: true })
@@ -554,7 +565,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                 assert.equal($fixture.find('.translations-create').length, 1, 'translation form');
                 assert.equal(
                     $fixture.find('.translations-create select option').length,
-                    languages.length + 1,
+                    languages.length,
                     'available languages'
                 );
                 assert.equal($fixture.find('.translations-list').length, 1, 'translations list');
@@ -581,6 +592,12 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                 $fixture
                     .find(`.translations-list tr[data-item-identifier="${languages[0].uri}"] button.delete`)
                     .click();
+
+                setTimeout(function () {
+                    assert.equal($('.modal').length, 1, 'confirmation message');
+                    assert.equal($('.modal .modal-body button').length, 2, '2 buttons');
+                    $('.modal button.ok').click();
+                }, 10);
             })
             .on('delete', function (uri, language) {
                 assert.ok(true, 'The translation will be deleted');

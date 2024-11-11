@@ -26,6 +26,7 @@ define(function () {
                 resourcesLanguages: [],
                 availableLanguages: [],
                 translatedLanguages: [],
+                resourcesLanguages: [],
                 languages: [],
                 translatable: [],
                 translations: [],
@@ -45,6 +46,9 @@ define(function () {
             },
             listTranslatedLanguages() {
                 return this.data.translatedLanguages;
+            },
+            listResourcesLanguages() {
+                return this.data.resourcesLanguages;
             },
             getLanguages() {
                 return Promise.resolve(this.data.languages);
