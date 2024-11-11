@@ -42,7 +42,7 @@ use oat\tao\model\resources\ResourceAccessDeniedException;
 class SecureResourceServiceTest extends GenerisTestCase
 {
     use ServiceManagerMockTrait;
-    
+
     /** @var SecureResourceService */
     private $sut;
 

@@ -114,7 +114,7 @@ class TranslationDeletionService
                 $instance = $this->ontology->getResource($translation->getResourceUri());
 
                 $this->resourceDeleter->delete($instance);
-            }   
+            }
         } catch (Throwable $exception) {
             $this->logger->error(
                 sprintf(

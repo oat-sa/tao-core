@@ -125,7 +125,7 @@ class InstanceCopier implements InstanceCopierInterface, ResourceTransferInterfa
         }
 
         if (isset($this->eventManager)) {
-            $this->eventManager->trigger(new InstanceCopiedEvent($newInstance->getUri()));   
+            $this->eventManager->trigger(new InstanceCopiedEvent($newInstance->getUri()));
         }
 
         return $newInstance;

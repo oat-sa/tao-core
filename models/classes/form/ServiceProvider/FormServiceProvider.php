@@ -26,6 +26,7 @@ use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
 use oat\tao\model\form\Modifier\UniqueIdFormModifier;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 class FormServiceProvider implements ContainerServiceProviderInterface

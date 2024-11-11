@@ -175,7 +175,7 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
 
         $this->assertionCompleted = true;
     }
-    
+
     private function isTranslationInstance(core_kernel_classes_Resource $instance): bool
     {
         $originalProperty = $instance->getProperty(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI);

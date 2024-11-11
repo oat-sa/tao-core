@@ -50,7 +50,7 @@ use Psr\Log\LoggerInterface;
 class ResourceWatcherTest extends TestCase
 {
     use ServiceManagerMockTrait;
-    
+
     /** @var ResourceWatcher|MockObject */
     private $sut;
 
@@ -75,7 +75,7 @@ class ResourceWatcherTest extends TestCase
      * @var AdvancedSearchChecker|MockObject
      */
     private $advancedSearchChecker;
-    
+
     /** @var FeatureFlagCheckerInterface|MockObject */
     private $featureFlagChecker;
 

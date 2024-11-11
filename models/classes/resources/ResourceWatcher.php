@@ -221,7 +221,7 @@ class ResourceWatcher extends ConfigurableService
 
         return isset($url['path']) && $url['path'] === '/taoItems/Items/editItemClass';
     }
-    
+
     private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
     {
         return $this->getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
