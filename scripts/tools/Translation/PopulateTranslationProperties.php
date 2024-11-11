@@ -89,7 +89,9 @@ class PopulateTranslationProperties extends ScriptAction
 
         try {
             if (!$this->featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')) {
-                return Report::createError('Translation properties cannot be populated because this feature is disabled');
+                return Report::createError(
+                    'Translation properties cannot be populated because this feature is disabled'
+                );
             }
 
             $class = $this->ontology->getClass($this->getOption(self::OPTION_CLASS));
@@ -172,7 +174,12 @@ class PopulateTranslationProperties extends ScriptAction
             select st.subject
             from statements_tree st
             where st.predicate = ?
-              and st.subject not in (select ch.subject from statements ch where ch.subject = st.subject and ch.predicate = ?)
+              and st.subject not in (
+                select ch.subject
+                from statements ch
+                where ch.subject = st.subject
+                  and ch.predicate = ?
+            )
             group by st.subject;
             SQL;
 
