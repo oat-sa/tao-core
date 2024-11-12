@@ -44,6 +44,7 @@ use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use oat\tao\model\Translation\Service\TranslationCreationService;
 use oat\tao\model\Translation\Service\TranslationDeletionService;
 use oat\tao\model\Translation\Service\TranslationSyncService;
+use oat\tao\model\Translation\Service\TranslationUniqueIdSetter;
 use oat\tao\model\Translation\Service\TranslationUpdateService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -172,6 +173,13 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 service(UserLanguageServiceInterface::SERVICE_ID),
             ])
             ->public();
+
+        $services
+            ->set(TranslationUniqueIdSetter::class, TranslationUniqueIdSetter::class)
+            ->args([
+                service(FeatureFlagChecker::class),
+                service(Ontology::SERVICE_ID),
+            ]);
 
         $services
             ->set(ResourceTranslationChangedEventListener::class, ResourceTranslationChangedEventListener::class)

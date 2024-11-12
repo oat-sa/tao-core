@@ -109,4 +109,30 @@ class TranslationDeletionService
             throw $exception;
         }
     }
+
+    public function deleteByOriginResourceUri(string $originResourceUri): void
+    {
+        try {
+            $translations = $this->resourceTranslationRepository
+                ->find(new ResourceTranslationQuery([$originResourceUri]));
+
+            /** @var AbstractResource $translation */
+            foreach ($translations as $translation) {
+                $instance = $this->ontology->getResource($translation->getResourceUri());
+
+                $this->resourceDeleter->delete($instance);
+            }
+        } catch (Throwable $exception) {
+            $this->logger->error(
+                sprintf(
+                    'Error deleting translations by originResourceUri [%s] (%s): %s',
+                    $originResourceUri,
+                    get_class($exception),
+                    $exception->getMessage()
+                )
+            );
+
+            throw $exception;
+        }
+    }
 }

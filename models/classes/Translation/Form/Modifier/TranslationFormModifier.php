@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Form\Modifier;
 
+use core_kernel_classes_Literal;
+use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\form\Modifier\AbstractFormModifier;
@@ -70,10 +72,13 @@ class TranslationFormModifier extends AbstractFormModifier
             $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_TYPE)
         );
         $isTranslationTypeEmpty = empty($translationType);
+        $translationTypeUri = $translationType instanceof core_kernel_classes_Literal
+            ? (string) $translationType
+            : ($translationType instanceof core_kernel_classes_Resource ? $translationType->getUri() : null);
 
         if (
             $isTranslationTypeEmpty
-            || $translationType->getUri() === TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL
+            || $translationTypeUri === TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL
         ) {
             $elementsToRemove[] = TaoOntology::PROPERTY_TRANSLATION_PROGRESS;
             $elementsToRemove[] = TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI;
@@ -81,7 +86,7 @@ class TranslationFormModifier extends AbstractFormModifier
 
         if (
             $isTranslationTypeEmpty
-            || $translationType->getUri() === TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION
+            || $translationTypeUri === TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION
         ) {
             $elementsToRemove[] = TaoOntology::PROPERTY_TRANSLATION_STATUS;
         }

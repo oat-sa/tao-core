@@ -73,6 +73,24 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
     });
 
     /**
+     * A mapping of URIs to keys for the translation services.
+     */
+    const keys = Object.freeze({
+        'http://www.tao.lu/Ontologies/TAO.rdf#UniqueIdentifier': 'uniqueIdentifier',
+        'http://www.tao.lu/Ontologies/TAO.rdf#Language': 'language',
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationType': 'translationType',
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatus': 'translationStatus',
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgress': 'translationProgress',
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeOriginal': 'original',
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeTranslation': 'translation',
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatusNotReadyForTranslation': 'notReady',
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatusReadyForTranslation': 'ready',
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusPending': 'pending',
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusTranslating': 'translating',
+        'http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusTranslated': 'translated'
+    });
+
+    /**
      * URIs for the properties available in the translation services.
      */
     const metadata = Object.freeze({
@@ -109,6 +127,7 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
     });
 
     return {
+        keys,
         labels,
         metadata,
         translationType,
@@ -131,6 +150,43 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
                     resource.metadata[metadata.translationStatus] &&
                     resource.metadata[metadata.translationStatus].value === translationStatus.ready
             );
+        },
+
+        /**
+         * Gets the translation progress of the resources.
+         * @param {Resource[]} resources
+         * @returns {string[]}
+         */
+        getTranslationsProgress(resources) {
+            if (!resources || !resources.length) {
+                return [];
+            }
+
+            return resources.map(resource => {
+                if (!resource.metadata || !resource.metadata[metadata.translationProgress]) {
+                    return null;
+                }
+                const uri = resource.metadata[metadata.translationProgress].value;
+                return keys[uri] || uri;
+            });
+        },
+
+        /**
+         * Gets the translation language of the resources.
+         * @param {Resource[]} resources
+         * @returns {Metadata[]}
+         */
+        getTranslationsLanguage(resources) {
+            if (!resources || !resources.length) {
+                return [];
+            }
+
+            return resources.map(resource => {
+                if (!resource.metadata || !resource.metadata[metadata.language]) {
+                    return null;
+                }
+                return resource.metadata[metadata.language];
+            });
         },
 
         /**
@@ -191,8 +247,10 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
                 }
 
                 acc.push({
-                    resourceUri: resource.originResourceUri || resource.resourceUri,
+                    resourceUri: resource.resourceUri,
+                    originResourceUri: resource.originResourceUri,
                     languageUri,
+                    progressUri,
                     language: languagesMap[languageUri],
                     progress: labels[progressUri] || ''
                 });
@@ -228,15 +286,35 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
 
         /**
          * Queries the list of translations for a resource.
-         * @param {string} id - The URI of the resource.
+         * @param {string|string[]} id - The URI of the resource. It may also be a list of URIs, but in this case the languageUri must also be provided.
+         * @param {string|function} [languageUri] - The URI of the language to filter the translations. It may also be a filter function.
+         * @param {function} [filter] - A filter function for the translations. When not provided through the languageUri parameter.
          * @returns {Promise<ResourceList>}
          */
-        getTranslations(id) {
+        getTranslations(id, languageUri, filter) {
+            if (Array.isArray(id)) {
+                id = id.join(',');
+            }
+            const params = { id };
+            if (languageUri) {
+                if ('function' === typeof languageUri) {
+                    filter = languageUri;
+                } else {
+                    params.languageUri = languageUri;
+                }
+            }
             return request({
-                url: urlUtil.route('translations', 'Translation', 'tao', { id }),
+                url: urlUtil.route('translations', 'Translation', 'tao', params),
                 method: 'GET',
                 noToken: true
-            }).then(response => response.data);
+            })
+                .then(response => response.data)
+                .then(data => {
+                    if (filter && Array.isArray(data.resources)) {
+                        data.resources = data.resources.filter(filter);
+                    }
+                    return data;
+                });
         },
 
         /**
@@ -250,6 +328,50 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
             return request({
                 url: urlUtil.route('translate', 'Translation', 'tao'),
                 data: { id, languageUri, resourceType },
+                method: 'POST',
+                noToken: true
+            }).then(response => response.data);
+        },
+
+        /**
+         * Updates the progress of a translation.
+         * @param {string} id - The URI of the resource.
+         * @param {string} progress - The URI of the progress for the translation.
+         * @returns {Promise<Resource>}
+         */
+        updateTranslation(id, progress) {
+            return request({
+                url: urlUtil.route('update', 'Translation', 'tao'),
+                data: { id, progress },
+                method: 'POST',
+                noToken: true
+            }).then(response => response.data);
+        },
+
+        /**
+         * Deletes a translation.
+         * @param {string} id - The URI of the resource.
+         * @param {string} languageUri - The URI of the language.
+         * @returns {Promise<Resource>}
+         */
+        deleteTranslation(id, languageUri) {
+            return request({
+                url: urlUtil.route('delete', 'Translation', 'tao'),
+                data: { id, languageUri },
+                method: 'POST',
+                noToken: true
+            }).then(response => response.data);
+        },
+
+        /**
+         * Synchronizes the translations.
+         * @param {string} id - The URI of the resource.
+         * @returns {Promise<Resource>}
+         */
+        syncTranslation(id) {
+            return request({
+                url: urlUtil.route('sync', 'Translation', 'tao'),
+                data: { id },
                 method: 'POST',
                 noToken: true
             }).then(response => response.data);

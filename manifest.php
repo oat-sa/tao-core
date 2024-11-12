@@ -44,6 +44,7 @@ use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\model\featureVisibility\FeatureVisibilityServiceProvider;
 use oat\tao\model\form\DataProvider\FormDataProviderServiceProvider;
 use oat\tao\model\form\ServiceProvider\FormServiceProvider as TaoFormServiceProvider;
+use oat\tao\model\IdentifierGenerator\ServiceProvider\IdentifierGeneratorServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\LanguageServiceProvider;
 use oat\tao\model\listener\PropertyServiceProvider;
@@ -361,9 +362,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2024.11 LTS',
+        'TAO_VERSION' => '2024.12',
         #TAO version label
-        'TAO_VERSION_NAME' => '2024.11 LTS',
+        'TAO_VERSION_NAME' => '2024.12',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
@@ -423,6 +424,7 @@ return [
         DynamicConfigServiceProvider::class,
         TranslationServiceProvider::class,
         TaoFormServiceProvider::class,
+        IdentifierGeneratorServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,

@@ -40,7 +40,9 @@ use helpers_Report as ReportHelper;
  *
  * @package oat\tao\scripts\tools\migrations
  */
-abstract class AbstractMigration extends DoctrineAbstractMigration implements ServiceManagerAwareInterface, TaoLoggerAwareInterface
+abstract class AbstractMigration extends DoctrineAbstractMigration implements
+    ServiceManagerAwareInterface,
+    TaoLoggerAwareInterface
 {
     use ServiceManagerAwareTrait;
     use LoggerAwareTrait;

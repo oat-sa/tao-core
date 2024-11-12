@@ -48,8 +48,7 @@ class ResourceLanguageRetriever
 
     public function retrieve(core_kernel_classes_Resource $resource): string
     {
-        $parentClassesIds = $resource->getParentClassesIds();
-        $resourceType = array_pop($parentClassesIds);
+        $resourceType = $resource->getRootId();
 
         $language = isset($this->retrievers[$resourceType])
             ? $this->retrievers[$resourceType]($resource)

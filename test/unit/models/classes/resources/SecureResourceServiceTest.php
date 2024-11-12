@@ -27,9 +27,13 @@ use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use core_kernel_users_GenerisUser;
+use oat\generis\model\data\Ontology;
 use oat\generis\test\GenerisTestCase;
+use oat\generis\test\ServiceManagerMockTrait;
 use oat\oatbox\session\SessionService;
 use oat\oatbox\log\logger\AdvancedLogger;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use oat\tao\model\resources\SecureResourceService;
 use oat\generis\model\data\permission\PermissionInterface;
@@ -37,16 +41,22 @@ use oat\tao\model\resources\ResourceAccessDeniedException;
 
 class SecureResourceServiceTest extends GenerisTestCase
 {
+    use ServiceManagerMockTrait;
+
     /** @var SecureResourceService */
     private $sut;
 
     /** @var PermissionInterface */
     private $permissionInterface;
+    private FeatureFlagCheckerInterface $featureFlagChecker;
+    private Ontology $ontology;
 
     public function setUp(): void
     {
         $this->sut = new SecureResourceService();
         $this->permissionInterface = $this->createMock(PermissionInterface::class);
+        $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
+        $this->ontology = $this->createMock(Ontology::class);
 
         $user = $this->createMock(core_kernel_users_GenerisUser::class);
         $sessionService = $this->createMock(SessionService::class);
@@ -55,11 +65,13 @@ class SecureResourceServiceTest extends GenerisTestCase
             ->method('getCurrentUser')
             ->willReturn($user);
 
-        $this->sut->setServiceLocator(
-            $this->getServiceLocatorMock([
+        $this->sut->setServiceManager(
+            $this->getServiceManagerMock([
                 AdvancedLogger::ACL_SERVICE_ID => $this->createMock(AdvancedLogger::class),
                 PermissionInterface::SERVICE_ID => $this->permissionInterface,
                 SessionService::SERVICE_ID => $sessionService,
+                Ontology::SERVICE_ID => $this->ontology,
+                FeatureFlagChecker::class => $this->featureFlagChecker,
             ])
         );
     }
