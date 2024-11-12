@@ -40,6 +40,8 @@ use oat\generis\model\kernel\persistence\smoothsql\search\filter\Filter;
 use oat\generis\model\OntologyRdfs;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\helpers\TreeHelper;
+use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
 use oat\tao\model\security\SignatureGenerator;
 use tao_helpers_Uri;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
@@ -276,6 +278,16 @@ class GenerisTreeFactory
         $search->setLanguage($queryBuilder, \common_session_SessionManager::getSession()->getDataLanguage());
         $query = $search->searchType($queryBuilder, $class->getUri(), $options['recursive']);
 
+        if ($this->mustFilterTranslations($class)) {
+            $query->addCriterion(
+                TaoOntology::PROPERTY_TRANSLATION_TYPE,
+                SupportedOperatorHelper::IN,
+                [
+                    TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL
+                ]
+            );
+        }
+
         foreach ($propertyFilter as $filterProp => $filterVal) {
             if ($filterVal instanceof Filter) {
                 $query->addCriterion($filterVal->getKey(), $filterVal->getOperator(), $filterVal->getValue());
@@ -334,5 +346,35 @@ class GenerisTreeFactory
             $result[] = $this->getClass($subclass->getUri());
         }
         return $result;
+    }
+
+    private function mustFilterTranslations(core_kernel_classes_Class $class): bool
+    {
+        $featureFlagChecker = $this->getFeatureFlagChecker();
+
+        if ($featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_DEVELOPER_MODE')) {
+            return false;
+        }
+
+        if (!$featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')) {
+            return false;
+        }
+
+        $parentClassIds = $class->getParentClassesIds();
+        $mainClass = array_pop($parentClassIds);
+
+        return in_array(
+            $mainClass,
+            [
+                TaoOntology::CLASS_URI_ITEM,
+                TaoOntology::CLASS_URI_TEST
+            ],
+            true
+        );
+    }
+
+    private function getFeatureFlagChecker(): FeatureFlagCheckerInterface
+    {
+        return ServiceManager::getServiceManager()->getContainer()->get(FeatureFlagChecker::class);
     }
 }
