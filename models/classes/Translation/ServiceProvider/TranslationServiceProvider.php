@@ -34,7 +34,7 @@ use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\Translation\Factory\ResourceTranslatableFactory;
 use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
 use oat\tao\model\Translation\Form\Modifier\TranslationFormModifier;
-use oat\tao\model\Translation\Listener\ResourceTranslationChangedEventListener;
+use oat\tao\model\Translation\Listener\TranslationTouchedEventListener;
 use oat\tao\model\Translation\Repository\ResourceTranslatableRepository;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
 use oat\tao\model\Translation\Service\ResourceLanguageRetriever;
@@ -182,7 +182,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ]);
 
         $services
-            ->set(ResourceTranslationChangedEventListener::class, ResourceTranslationChangedEventListener::class)
+            ->set(TranslationTouchedEventListener::class, TranslationTouchedEventListener::class)
             ->args([
                 service(Ontology::SERVICE_ID),
                 service(ResourceTranslationRepository::class),

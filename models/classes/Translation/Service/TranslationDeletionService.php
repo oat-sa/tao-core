@@ -27,7 +27,7 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\resource\Contract\ResourceDeleterInterface;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\Translation\Entity\AbstractResource;
-use oat\tao\model\Translation\Event\ResourceTranslationChangedEvent;
+use oat\tao\model\Translation\Event\TranslationTouchedEvent;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
@@ -92,7 +92,7 @@ class TranslationDeletionService
                 $this->resourceDeleter->delete($resource);
             }
 
-            $this->eventManager->trigger(new ResourceTranslationChangedEvent($resourceUri));
+            $this->eventManager->trigger(new TranslationTouchedEvent($resourceUri));
 
             return $resource;
         } catch (Throwable $exception) {

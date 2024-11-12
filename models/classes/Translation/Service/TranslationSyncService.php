@@ -27,7 +27,7 @@ use oat\generis\model\data\Ontology;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceTranslation;
-use oat\tao\model\Translation\Event\ResourceTranslationChangedEvent;
+use oat\tao\model\Translation\Event\TranslationTouchedEvent;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
@@ -82,7 +82,7 @@ class TranslationSyncService
             }
         }
 
-        $this->eventManager->trigger(new ResourceTranslationChangedEvent($id));
+        $this->eventManager->trigger(new TranslationTouchedEvent($id));
 
         return $resource;
     }

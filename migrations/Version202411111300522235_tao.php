@@ -6,26 +6,26 @@ namespace oat\tao\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use oat\oatbox\event\EventManager;
-use oat\tao\model\Translation\Event\ResourceTranslationChangedEvent;
-use oat\tao\model\Translation\Listener\ResourceTranslationChangedEventListener;
+use oat\tao\model\Translation\Event\TranslationTouchedEvent;
+use oat\tao\model\Translation\Listener\TranslationTouchedEventListener;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 
 /**
  * phpcs:disable Squiz.Classes.ValidClassName
  */
-final class Version202410100711422234_tao extends AbstractMigration
+final class Version202411111300522235_tao extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Register new event to detect translation changes';
+        return 'Register new event to detect when translations are touched (created, deleted, updated, synchronized)';
     }
 
     public function up(Schema $schema): void
     {
         $eventManager = $this->getEventManager();
         $eventManager->attach(
-            ResourceTranslationChangedEvent::class,
-            [ResourceTranslationChangedEventListener::class, 'onResourceTranslationChanged']
+            TranslationTouchedEvent::class,
+            [TranslationTouchedEventListener::class, 'onTranslationTouched'],
         );
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
     }
@@ -34,8 +34,8 @@ final class Version202410100711422234_tao extends AbstractMigration
     {
         $eventManager = $this->getEventManager();
         $eventManager->detach(
-            ResourceTranslationChangedEvent::class,
-            [ResourceTranslationChangedEventListener::class, 'onResourceTranslationChanged']
+            TranslationTouchedEvent::class,
+            [TranslationTouchedEventListener::class, 'onTranslationTouched']
         );
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
     }
