@@ -9,6 +9,7 @@ use oat\oatbox\event\EventManager;
 use oat\tao\model\Translation\Event\TranslationTouchedEvent;
 use oat\tao\model\Translation\Listener\TranslationTouchedEventListener;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
+use oat\tao\scripts\update\OntologyUpdater;
 
 /**
  * phpcs:disable Squiz.Classes.ValidClassName
@@ -22,6 +23,8 @@ final class Version202411111300522235_tao extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        OntologyUpdater::syncModels();
+
         $eventManager = $this->getEventManager();
         $eventManager->attach(
             TranslationTouchedEvent::class,
@@ -32,6 +35,8 @@ final class Version202411111300522235_tao extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        OntologyUpdater::syncModels();
+
         $eventManager = $this->getEventManager();
         $eventManager->detach(
             TranslationTouchedEvent::class,
