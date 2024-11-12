@@ -65,7 +65,7 @@ class TranslationFormModifierTest extends TestCase
             ->willReturn(false);
 
         $this->form
-            ->expects($this->exactly(5))
+            ->expects($this->exactly(6))
             ->method('removeElement')
             ->withConsecutive(
                 [tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI)],
@@ -73,6 +73,7 @@ class TranslationFormModifierTest extends TestCase
                 [tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_STATUS)],
                 [tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_PROGRESS)],
                 [tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATION_TYPE)],
+                [tao_helpers_Uri::encode(TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES)],
             );
 
         $this->sut->modify($this->form);
@@ -148,6 +149,7 @@ class TranslationFormModifierTest extends TestCase
                 'type' => null,
                 'removeElements' => [
                     TaoOntology::PROPERTY_TRANSLATION_TYPE,
+                    TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES,
                     TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
                     TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
                     TaoOntology::PROPERTY_TRANSLATION_STATUS,
@@ -157,6 +159,7 @@ class TranslationFormModifierTest extends TestCase
                 'type' => TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_ORIGINAL,
                 'removeElements' => [
                     TaoOntology::PROPERTY_TRANSLATION_TYPE,
+                    TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES,
                     TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
                     TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
                 ],
@@ -165,6 +168,7 @@ class TranslationFormModifierTest extends TestCase
                 'type' => TaoOntology::PROPERTY_VALUE_TRANSLATION_TYPE_TRANSLATION,
                 'removeElements' => [
                     TaoOntology::PROPERTY_TRANSLATION_TYPE,
+                    TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES,
                     TaoOntology::PROPERTY_TRANSLATION_STATUS,
                 ],
             ],

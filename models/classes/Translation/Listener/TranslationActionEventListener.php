@@ -25,11 +25,11 @@ namespace oat\tao\model\Translation\Listener;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\AbstractResource;
-use oat\tao\model\Translation\Event\TranslationTouchedEvent;
+use oat\tao\model\Translation\Event\TranslationActionEvent;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
 
-class TranslationTouchedEventListener
+class TranslationActionEventListener
 {
     private Ontology $ontology;
     private ResourceTranslationRepository $resourceTranslationRepository;
@@ -40,7 +40,7 @@ class TranslationTouchedEventListener
         $this->resourceTranslationRepository = $resourceTranslationRepository;
     }
 
-    public function onTranslationTouched(TranslationTouchedEvent $event): void
+    public function populateTranslatedIntoLanguagesProperty(TranslationActionEvent $event): void
     {
         $resource = $this->ontology->getResource($event->getResourceUri());
         $property = $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES);

@@ -24,7 +24,7 @@ namespace oat\tao\model\Translation\Event;
 
 use oat\oatbox\event\Event;
 
-class TranslationTouchedEvent implements Event
+class TranslationActionEvent implements Event
 {
     private string $resourceUri;
 

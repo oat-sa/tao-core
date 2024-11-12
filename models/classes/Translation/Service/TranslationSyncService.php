@@ -27,7 +27,7 @@ use oat\generis\model\data\Ontology;
 use oat\oatbox\event\EventManager;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceTranslation;
-use oat\tao\model\Translation\Event\TranslationTouchedEvent;
+use oat\tao\model\Translation\Event\TranslationActionEvent;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
@@ -76,13 +76,13 @@ class TranslationSyncService
 
         $translations = $this->getTranslations($resource, $requestParams['languageUri'] ?? null);
 
-        foreach ($this->synchronizers[$this->getResourceType($resource)] as $callable) {
+        foreach ($this->synchronizers[$resource->getRootId()] as $callable) {
             foreach ($translations as $translation) {
                 $callable($translation);
             }
         }
 
-        $this->eventManager->trigger(new TranslationTouchedEvent($id));
+        $this->eventManager->trigger(new TranslationActionEvent($id));
 
         return $resource;
     }
@@ -121,15 +121,15 @@ class TranslationSyncService
 
         /** @var ResourceTranslation $translation */
         foreach ($translations as $translation) {
-            $resource = $this->ontology->getResource($translation->getResourceUri());
+            $translationResource = $this->ontology->getResource($translation->getResourceUri());
 
-            if (!$resource->exists()) {
+            if (!$translationResource->exists()) {
                 $this->logger->error('Resource %s does not exist', $translation->getResourceUri());
 
                 continue;
             }
 
-            $resources[] = $resource;
+            $resources[] = $translationResource;
         }
 
         if (empty($resources)) {
@@ -143,19 +143,5 @@ class TranslationSyncService
         }
 
         return $resources;
-    }
-
-    private function getResourceType(core_kernel_classes_Resource $resource): string
-    {
-        $parentClassIds = $resource->getParentClassesIds();
-        $resourceType = array_pop($parentClassIds);
-
-        if (empty($resourceType)) {
-            throw new ResourceTranslationException(
-                sprintf('Resource %s must have a resource type', $resource->getUri())
-            );
-        }
-
-        return $resourceType;
     }
 }

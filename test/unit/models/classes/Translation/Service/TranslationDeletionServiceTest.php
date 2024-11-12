@@ -26,6 +26,7 @@ namespace oat\tao\test\unit\models\classes\Translation\Service;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\resource\Contract\ResourceDeleterInterface;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\Translation\Entity\ResourceTranslation;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
@@ -53,18 +54,23 @@ class TranslationDeletionServiceTest extends TestCase
     /** @var MockObject|LoggerInterface */
     private $logger;
 
+    /** @var EventManager|MockObject */
+    private $eventManager;
+
     protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
         $this->resourceDeleter = $this->createMock(ResourceDeleterInterface::class);
         $this->resourceTranslationRepository = $this->createMock(ResourceTranslationRepository::class);
         $this->logger = $this->createMock(LoggerInterface::class);
+        $this->eventManager = $this->createMock(EventManager::class);
 
         $this->service = new TranslationDeletionService(
             $this->ontology,
             $this->resourceDeleter,
             $this->resourceTranslationRepository,
             $this->logger,
+            $this->eventManager,
         );
     }
 
@@ -99,6 +105,10 @@ class TranslationDeletionServiceTest extends TestCase
             ->method('getResource')
             ->with($translationResourceId)
             ->willReturn($resource);
+
+        $this->eventManager
+            ->expects($this->once())
+            ->method('trigger');
 
         $this->assertSame($resource, $this->service->deleteByRequest($request));
     }

@@ -27,6 +27,7 @@ namespace oat\tao\test\unit\models\classes\Translation\Service;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\Language\Language;
 use oat\tao\model\Language\LanguageCollection;
@@ -69,6 +70,9 @@ class TranslationCreationServiceTest extends TestCase
     /** @var MockObject|LoggerInterface */
     private $logger;
 
+    /** @var EventManager|MockObject  */
+    private $eventManager;
+
     protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
@@ -77,6 +81,7 @@ class TranslationCreationServiceTest extends TestCase
         $this->languageRepository = $this->createMock(LanguageRepositoryInterface::class);
         $this->resourceTransfer = $this->createMock(ResourceTransferInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
+        $this->eventManager = $this->createMock(EventManager::class);
 
         $this->service = new TranslationCreationService(
             $this->ontology,
@@ -84,6 +89,7 @@ class TranslationCreationServiceTest extends TestCase
             $this->resourceTranslationRepository,
             $this->languageRepository,
             $this->logger,
+            $this->eventManager,
         );
 
         $this->service->setResourceTransfer(TaoOntology::CLASS_URI_ITEM, $this->resourceTransfer);
@@ -218,6 +224,10 @@ class TranslationCreationServiceTest extends TestCase
                 )
             )
             ->willReturn($resourceTransferResult);
+
+        $this->eventManager
+            ->expects($this->once())
+            ->method('trigger');
 
         $this->assertInstanceOf(
             core_kernel_classes_Resource::class,

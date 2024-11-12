@@ -6,15 +6,15 @@ namespace oat\tao\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use oat\oatbox\event\EventManager;
-use oat\tao\model\Translation\Event\TranslationTouchedEvent;
-use oat\tao\model\Translation\Listener\TranslationTouchedEventListener;
+use oat\tao\model\Translation\Event\TranslationActionEvent;
+use oat\tao\model\Translation\Listener\TranslationActionEventListener;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 use oat\tao\scripts\update\OntologyUpdater;
 
 /**
  * phpcs:disable Squiz.Classes.ValidClassName
  */
-final class Version202411111300522235_tao extends AbstractMigration
+final class Version202411111300522236_tao extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -27,8 +27,8 @@ final class Version202411111300522235_tao extends AbstractMigration
 
         $eventManager = $this->getEventManager();
         $eventManager->attach(
-            TranslationTouchedEvent::class,
-            [TranslationTouchedEventListener::class, 'onTranslationTouched'],
+            TranslationActionEvent::class,
+            [TranslationActionEventListener::class, 'populateTranslatedIntoLanguagesProperty'],
         );
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
     }
@@ -39,8 +39,8 @@ final class Version202411111300522235_tao extends AbstractMigration
 
         $eventManager = $this->getEventManager();
         $eventManager->detach(
-            TranslationTouchedEvent::class,
-            [TranslationTouchedEventListener::class, 'onTranslationTouched']
+            TranslationActionEvent::class,
+            [TranslationActionEventListener::class, 'populateTranslatedIntoLanguagesProperty']
         );
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);
     }

@@ -32,7 +32,7 @@ use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Command\CreateTranslationCommand;
 use oat\tao\model\Translation\Entity\ResourceTranslatable;
-use oat\tao\model\Translation\Event\TranslationTouchedEvent;
+use oat\tao\model\Translation\Event\TranslationActionEvent;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Query\ResourceTranslatableQuery;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
@@ -194,7 +194,7 @@ class TranslationCreationService
                 $callable($clonedInstance);
             }
 
-            $this->eventManager->trigger(new TranslationTouchedEvent($resourceUri));
+            $this->eventManager->trigger(new TranslationActionEvent($resourceUri));
 
             return $clonedInstance;
         } catch (Throwable $exception) {
