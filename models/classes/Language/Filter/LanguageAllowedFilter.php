@@ -31,7 +31,7 @@ use oat\tao\model\TaoOntology;
 
 class LanguageAllowedFilter
 {
-    public const TAO_ALLOWED_LOCALES = 'TAO_ALLOWED_LOCALES';
+    public const TAO_ALLOWED_TRANSLATION_LOCALES = 'TAO_ALLOWED_TRANSLATION_LOCALES';
 
     /** @var tao_models_classes_LanguageService */
     private $allowedLocales;

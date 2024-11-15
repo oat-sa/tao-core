@@ -107,6 +107,7 @@ Here you can find the environment variables including feature flags
 | REDIRECT_AFTER_LOGOUT_URL              | Allows to configure the redirect after logout via environment variable. The fallback is the configured redirect on urlroute.conf.php | -             |
 | PORTAL_URL                             | The Portal url used on the back button of Portal theme                                                                               | -             |
 | FEATURE_FLAG_TRANSLATION_ENABLED       | Enable access to items/tests translations feature                                                                                    | -             |
+| TAO_ALLOWED_TRANSLATION_LOCALES        | Comma separated List of locales available for translations / authoring in the UI. If none provided, all are allowed                  | -             |
 
 
 # Routing

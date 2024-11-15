@@ -81,7 +81,7 @@ class LanguageServiceProvider implements ContainerServiceProviderInterface
             ->set(LanguageAllowedFilter::class, LanguageAllowedFilter::class)
             ->args(
                 [
-                    env('default::' . LanguageAllowedFilter::TAO_ALLOWED_LOCALES),
+                    env('default::' . LanguageAllowedFilter::TAO_ALLOWED_TRANSLATION_LOCALES),
                 ]
             )
             ->public();
