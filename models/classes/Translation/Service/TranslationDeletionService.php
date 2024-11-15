@@ -25,9 +25,7 @@ namespace oat\tao\model\Translation\Service;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\resource\Contract\ResourceDeleterInterface;
-use oat\oatbox\event\EventManager;
 use oat\tao\model\Translation\Entity\AbstractResource;
-use oat\tao\model\Translation\Event\TranslationActionEvent;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
@@ -41,20 +39,20 @@ class TranslationDeletionService
     private ResourceDeleterInterface $resourceDeleter;
     private ResourceTranslationRepository $resourceTranslationRepository;
     private LoggerInterface $logger;
-    private EventManager $eventManager;
+    private TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer;
 
     public function __construct(
         Ontology $ontology,
         ResourceDeleterInterface $resourceDeleter,
         ResourceTranslationRepository $resourceTranslationRepository,
         LoggerInterface $logger,
-        EventManager $eventManager
+        TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer
     ) {
         $this->ontology = $ontology;
         $this->resourceDeleter = $resourceDeleter;
         $this->resourceTranslationRepository = $resourceTranslationRepository;
         $this->logger = $logger;
-        $this->eventManager = $eventManager;
+        $this->translatedIntoLanguagesSynchronizer = $translatedIntoLanguagesSynchronizer;
     }
 
     public function deleteByRequest(ServerRequestInterface $request): core_kernel_classes_Resource
@@ -92,7 +90,7 @@ class TranslationDeletionService
                 $this->resourceDeleter->delete($resource);
             }
 
-            $this->eventManager->trigger(new TranslationActionEvent($resourceUri));
+            $this->translatedIntoLanguagesSynchronizer->sync($this->ontology->getResource($resourceUri));
 
             return $resource;
         } catch (Throwable $exception) {

@@ -24,10 +24,8 @@ namespace oat\tao\model\Translation\Service;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
-use oat\oatbox\event\EventManager;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\ResourceTranslation;
-use oat\tao\model\Translation\Event\TranslationActionEvent;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
@@ -39,19 +37,19 @@ class TranslationSyncService
     private Ontology $ontology;
     private ResourceTranslationRepository $resourceTranslationRepository;
     private LoggerInterface $logger;
-    private EventManager $eventManager;
+    private TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer;
     private array $synchronizers;
 
     public function __construct(
         Ontology $ontology,
         ResourceTranslationRepository $resourceTranslationRepository,
         LoggerInterface $logger,
-        EventManager $eventManager
+        TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer
     ) {
         $this->ontology = $ontology;
         $this->resourceTranslationRepository = $resourceTranslationRepository;
         $this->logger = $logger;
-        $this->eventManager = $eventManager;
+        $this->translatedIntoLanguagesSynchronizer = $translatedIntoLanguagesSynchronizer;
     }
 
     public function addSynchronizer(string $resourceType, callable $synchronizer): void
@@ -82,7 +80,7 @@ class TranslationSyncService
             }
         }
 
-        $this->eventManager->trigger(new TranslationActionEvent($id));
+        $this->translatedIntoLanguagesSynchronizer->sync($resource);
 
         return $resource;
     }

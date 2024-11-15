@@ -36,8 +36,6 @@ use oat\tao\model\listener\ClassPropertyCacheWarmupListener;
 use oat\tao\model\menu\Listener\MenuCacheWarmupListener;
 use oat\tao\model\migrations\MigrationsService;
 use oat\tao\model\routing\Listener\AnnotationCacheWarmupListener;
-use oat\tao\model\Translation\Event\TranslationActionEvent;
-use oat\tao\model\Translation\Listener\TranslationActionEventListener;
 
 /**
  * Class RegisterEvents
@@ -78,10 +76,6 @@ class RegisterEvents extends InstallAction
         $eventManager->attach(
             ResourceUpdated::class,
             [ClassPropertiesChangedListener::SERVICE_ID, 'handleUpdatedEvent']
-        );
-        $eventManager->attach(
-            TranslationActionEvent::class,
-            [TranslationActionEventListener::class, 'populateTranslatedIntoLanguagesProperty']
         );
 
         $this->getServiceManager()->register(EventManager::SERVICE_ID, $eventManager);

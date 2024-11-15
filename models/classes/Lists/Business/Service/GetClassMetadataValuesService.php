@@ -37,6 +37,7 @@ use tao_helpers_form_elements_Checkbox as CheckBox;
 use tao_helpers_form_elements_Combobox as ComboBox;
 use tao_helpers_form_elements_Htmlarea as HtmlArea;
 use tao_helpers_form_elements_Radiobox as RadioBox;
+use tao_helpers_form_elements_Readonly;
 use tao_helpers_form_elements_Textarea as TextArea;
 use tao_helpers_form_elements_Textbox as TextBox;
 use tao_helpers_form_elements_xhtml_Searchtextbox as SearchTextBox;
@@ -49,6 +50,7 @@ class GetClassMetadataValuesService extends ConfigurableService
         TextBox::WIDGET_ID,
         TextArea::WIDGET_ID,
         HtmlArea::WIDGET_ID,
+        tao_helpers_form_elements_Readonly::WIDGET_ID,
     ];
     public const LIST_WIDGETS = [
         RadioBox::WIDGET_ID,

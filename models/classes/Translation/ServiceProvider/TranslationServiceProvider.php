@@ -26,7 +26,6 @@ use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\resource\Service\ResourceDeleter;
-use oat\oatbox\event\EventManager;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
@@ -34,13 +33,13 @@ use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\Translation\Factory\ResourceTranslatableFactory;
 use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
 use oat\tao\model\Translation\Form\Modifier\TranslationFormModifier;
-use oat\tao\model\Translation\Listener\TranslationActionEventListener;
 use oat\tao\model\Translation\Repository\ResourceTranslatableRepository;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
 use oat\tao\model\Translation\Service\ResourceLanguageRetriever;
 use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
+use oat\tao\model\Translation\Service\TranslatedIntoLanguagesSynchronizer;
 use oat\tao\model\Translation\Service\TranslationCreationService;
 use oat\tao\model\Translation\Service\TranslationDeletionService;
 use oat\tao\model\Translation\Service\TranslationSyncService;
@@ -121,6 +120,13 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ]);
 
         $services
+            ->set(TranslatedIntoLanguagesSynchronizer::class, TranslatedIntoLanguagesSynchronizer::class)
+            ->args([
+                service(Ontology::SERVICE_ID),
+                service(ResourceTranslationRepository::class),
+            ]);
+
+        $services
             ->set(TranslationCreationService::class, TranslationCreationService::class)
             ->args(
                 [
@@ -129,7 +135,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                     service(ResourceTranslationRepository::class),
                     service(LanguageRepositoryInterface::class),
                     service(LoggerService::SERVICE_ID),
-                    service(EventManager::SERVICE_ID),
+                    service(TranslatedIntoLanguagesSynchronizer::class),
                 ]
             )
             ->public();
@@ -142,7 +148,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                     service(ResourceDeleter::class),
                     service(ResourceTranslationRepository::class),
                     service(LoggerService::SERVICE_ID),
-                    service(EventManager::SERVICE_ID),
+                    service(TranslatedIntoLanguagesSynchronizer::class),
                 ]
             )
             ->public();
@@ -153,6 +159,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 [
                     service(Ontology::SERVICE_ID),
                     service(LoggerService::SERVICE_ID),
+                    service(TranslatedIntoLanguagesSynchronizer::class),
                 ]
             )
             ->public();
@@ -163,7 +170,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 service(Ontology::SERVICE_ID),
                 service(ResourceTranslationRepository::class),
                 service(LoggerService::SERVICE_ID),
-                service(EventManager::SERVICE_ID),
+                service(TranslatedIntoLanguagesSynchronizer::class),
             ])
             ->public();
 
@@ -180,13 +187,5 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 service(FeatureFlagChecker::class),
                 service(Ontology::SERVICE_ID),
             ]);
-
-        $services
-            ->set(TranslationActionEventListener::class, TranslationActionEventListener::class)
-            ->args([
-                service(Ontology::SERVICE_ID),
-                service(ResourceTranslationRepository::class),
-            ])
-            ->public();
     }
 }

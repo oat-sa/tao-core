@@ -20,16 +20,16 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\model\Translation\Listener;
+namespace oat\tao\model\Translation\Service;
 
+use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\AbstractResource;
-use oat\tao\model\Translation\Event\TranslationActionEvent;
 use oat\tao\model\Translation\Query\ResourceTranslationQuery;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
 
-class TranslationActionEventListener
+class TranslatedIntoLanguagesSynchronizer
 {
     private Ontology $ontology;
     private ResourceTranslationRepository $resourceTranslationRepository;
@@ -40,22 +40,32 @@ class TranslationActionEventListener
         $this->resourceTranslationRepository = $resourceTranslationRepository;
     }
 
-    public function populateTranslatedIntoLanguagesProperty(TranslationActionEvent $event): void
+    public function sync(core_kernel_classes_Resource $resource): void
     {
-        $resource = $this->ontology->getResource($event->getResourceUri());
+        $originalResource = $this->getOriginalResource($resource);
+
         $property = $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES);
+        $originalResource->removePropertyValues($property);
 
         /** @var AbstractResource[] $translations */
         $translations = $this->resourceTranslationRepository->find(
-            new ResourceTranslationQuery(
-                [$event->getResourceUri()]
-            )
+            new ResourceTranslationQuery([$originalResource->getUri()])
         );
 
-        $resource->removePropertyValues($property);
-
         foreach ($translations as $translation) {
-            $resource->setPropertyValue($property, TaoOntology::LANGUAGE_PREFIX . $translation->getLanguageCode());
+            $originalResource->setPropertyValue($property, TaoOntology::LANGUAGE_PREFIX . $translation->getLanguageCode());
         }
+    }
+
+    private function getOriginalResource(core_kernel_classes_Resource $resource): core_kernel_classes_Resource
+    {
+        $originalResourceUriProperty = $this->ontology->getProperty(
+            TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI
+        );
+        $originalResourceUri = $resource->getOnePropertyValue($originalResourceUriProperty);
+
+        return !empty($originalResourceUri)
+            ? $this->ontology->getResource($originalResourceUri)
+            : $resource;
     }
 }
