@@ -24,7 +24,7 @@ namespace oat\tao\model\form\ServiceProvider;
 
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\tao\model\featureFlag\Service\FeatureBasedPropertiesService;
+use oat\tao\model\featureFlag\Service\FeatureFlagPropertiesMapping;
 use oat\tao\model\form\Modifier\UniqueIdFormModifier;
 use oat\tao\model\TaoOntology;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -38,7 +38,7 @@ class FormServiceProvider implements ContainerServiceProviderInterface
         $services = $configurator->services();
 
         $services
-            ->get(FeatureBasedPropertiesService::class)
+            ->get(FeatureFlagPropertiesMapping::class)
             ->call(
                 'addFeatureProperty',
                 [
@@ -51,7 +51,7 @@ class FormServiceProvider implements ContainerServiceProviderInterface
             ->set(UniqueIdFormModifier::class, UniqueIdFormModifier::class)
             ->args([
                 service(FeatureFlagChecker::class),
-                service(FeatureBasedPropertiesService::class),
+                service(FeatureFlagPropertiesMapping::class),
             ]);
     }
 }

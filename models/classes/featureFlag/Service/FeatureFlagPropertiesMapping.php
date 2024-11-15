@@ -24,7 +24,7 @@ namespace oat\tao\model\featureFlag\Service;
 
 use InvalidArgumentException;
 
-class FeatureBasedPropertiesService
+class FeatureFlagPropertiesMapping
 {
     private array $featureBasedProperties;
 

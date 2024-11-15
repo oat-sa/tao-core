@@ -29,7 +29,7 @@ use oat\generis\model\resource\Service\ResourceDeleter;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
-use oat\tao\model\featureFlag\Service\FeatureBasedPropertiesService;
+use oat\tao\model\featureFlag\Service\FeatureFlagPropertiesMapping;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Factory\ResourceTranslatableFactory;
@@ -118,7 +118,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ->set(TranslationFormModifier::class, TranslationFormModifier::class)
             ->args([
                 service(FeatureFlagChecker::class),
-                service(FeatureBasedPropertiesService::class),
+                service(FeatureFlagPropertiesMapping::class),
                 service(Ontology::SERVICE_ID),
             ]);
 
@@ -192,7 +192,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ]);
 
         $services
-            ->get(FeatureBasedPropertiesService::class)
+            ->get(FeatureFlagPropertiesMapping::class)
             ->call(
                 'addFeatureProperties',
                 [

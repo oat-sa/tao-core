@@ -30,7 +30,7 @@ use oat\tao\model\ClientLibConfigRegistry;
 use oat\tao\model\featureFlag\Listener\FeatureFlagCacheWarmupListener;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepository;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
-use oat\tao\model\featureFlag\Service\FeatureBasedPropertiesService;
+use oat\tao\model\featureFlag\Service\FeatureFlagPropertiesMapping;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -84,7 +84,7 @@ class FeatureFlagServiceProvider implements ContainerServiceProviderInterface
             );
 
         $services
-            ->set(FeatureBasedPropertiesService::class, FeatureBasedPropertiesService::class)
+            ->set(FeatureFlagPropertiesMapping::class, FeatureFlagPropertiesMapping::class)
             ->public();
     }
 }
