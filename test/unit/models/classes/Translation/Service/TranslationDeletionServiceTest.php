@@ -26,12 +26,12 @@ namespace oat\tao\test\unit\models\classes\Translation\Service;
 
 use core_kernel_classes_Resource;
 use oat\generis\model\resource\Contract\ResourceDeleterInterface;
-use oat\oatbox\event\EventManager;
 use oat\tao\model\Translation\Entity\ResourceTranslation;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
 use oat\tao\model\Translation\Entity\ResourceCollection;
 use oat\generis\model\data\Ontology;
+use oat\tao\model\Translation\Service\TranslatedIntoLanguagesSynchronizer;
 use oat\tao\model\Translation\Service\TranslationDeletionService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -54,8 +54,8 @@ class TranslationDeletionServiceTest extends TestCase
     /** @var MockObject|LoggerInterface */
     private $logger;
 
-    /** @var EventManager|MockObject */
-    private $eventManager;
+    /** @var TranslatedIntoLanguagesSynchronizer|MockObject  */
+    private $translatedIntoLanguagesSynchronizer;
 
     protected function setUp(): void
     {
@@ -63,14 +63,14 @@ class TranslationDeletionServiceTest extends TestCase
         $this->resourceDeleter = $this->createMock(ResourceDeleterInterface::class);
         $this->resourceTranslationRepository = $this->createMock(ResourceTranslationRepository::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-        $this->eventManager = $this->createMock(EventManager::class);
+        $this->translatedIntoLanguagesSynchronizer = $this->createMock(TranslatedIntoLanguagesSynchronizer::class);
 
         $this->service = new TranslationDeletionService(
             $this->ontology,
             $this->resourceDeleter,
             $this->resourceTranslationRepository,
             $this->logger,
-            $this->eventManager,
+            $this->translatedIntoLanguagesSynchronizer,
         );
     }
 

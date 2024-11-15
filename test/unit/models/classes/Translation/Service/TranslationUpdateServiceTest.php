@@ -30,6 +30,7 @@ use oat\generis\model\data\Ontology;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Command\UpdateTranslationCommand;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
+use oat\tao\model\Translation\Service\TranslatedIntoLanguagesSynchronizer;
 use oat\tao\model\Translation\Service\TranslationUpdateService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -45,11 +46,20 @@ class TranslationUpdateServiceTest extends TestCase
     /** @var LoggerInterface|MockObject */
     private $logger;
 
+    /** @var TranslatedIntoLanguagesSynchronizer|MockObject  */
+    private $translatedIntoLanguagesSynchronizer;
+
     protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-        $this->service = new TranslationUpdateService($this->ontology, $this->logger);
+        $this->translatedIntoLanguagesSynchronizer = $this->createMock(TranslatedIntoLanguagesSynchronizer::class);
+
+        $this->service = new TranslationUpdateService(
+            $this->ontology,
+            $this->logger,
+            $this->translatedIntoLanguagesSynchronizer
+        );
     }
 
     public function testUpdateSuccess(): void

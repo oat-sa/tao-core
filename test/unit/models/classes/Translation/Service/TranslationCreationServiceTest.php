@@ -27,7 +27,6 @@ namespace oat\tao\test\unit\models\classes\Translation\Service;
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
-use oat\oatbox\event\EventManager;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
 use oat\tao\model\Language\Language;
 use oat\tao\model\Language\LanguageCollection;
@@ -37,6 +36,7 @@ use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\resources\ResourceTransferResult;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
+use oat\tao\model\Translation\Service\TranslatedIntoLanguagesSynchronizer;
 use oat\tao\model\Translation\Service\TranslationCreationService;
 use oat\tao\model\Translation\Command\CreateTranslationCommand;
 use oat\tao\model\Translation\Repository\ResourceTranslatableRepository;
@@ -70,8 +70,8 @@ class TranslationCreationServiceTest extends TestCase
     /** @var MockObject|LoggerInterface */
     private $logger;
 
-    /** @var EventManager|MockObject  */
-    private $eventManager;
+    /** @var TranslatedIntoLanguagesSynchronizer|MockObject  */
+    private $translatedIntoLanguagesSynchronizer;
 
     protected function setUp(): void
     {
@@ -81,7 +81,7 @@ class TranslationCreationServiceTest extends TestCase
         $this->languageRepository = $this->createMock(LanguageRepositoryInterface::class);
         $this->resourceTransfer = $this->createMock(ResourceTransferInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-        $this->eventManager = $this->createMock(EventManager::class);
+        $this->translatedIntoLanguagesSynchronizer = $this->createMock(TranslatedIntoLanguagesSynchronizer::class);
 
         $this->service = new TranslationCreationService(
             $this->ontology,
@@ -89,7 +89,7 @@ class TranslationCreationServiceTest extends TestCase
             $this->resourceTranslationRepository,
             $this->languageRepository,
             $this->logger,
-            $this->eventManager,
+            $this->translatedIntoLanguagesSynchronizer,
         );
 
         $this->service->setResourceTransfer(TaoOntology::CLASS_URI_ITEM, $this->resourceTransfer);

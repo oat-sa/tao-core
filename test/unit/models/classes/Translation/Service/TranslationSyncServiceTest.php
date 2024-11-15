@@ -25,11 +25,11 @@ namespace oat\tao\test\unit\models\classes\Translation\Service;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
-use oat\oatbox\event\EventManager;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Entity\AbstractResource;
 use oat\tao\model\Translation\Entity\ResourceCollection;
 use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
+use oat\tao\model\Translation\Service\TranslatedIntoLanguagesSynchronizer;
 use oat\tao\model\Translation\Service\TranslationSyncService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -48,8 +48,8 @@ class TranslationSyncServiceTest extends TestCase
     /** @var LoggerInterface|MockObject */
     private LoggerInterface $logger;
 
-    /** @var EventManager|MockObject */
-    private EventManager $eventManager;
+    /** @var TranslatedIntoLanguagesSynchronizer|MockObject  */
+    private TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer;
 
     private TranslationSyncService $sut;
 
@@ -58,13 +58,13 @@ class TranslationSyncServiceTest extends TestCase
         $this->ontology = $this->createMock(Ontology::class);
         $this->resourceTranslationRepository = $this->createMock(ResourceTranslationRepository::class);
         $this->logger = $this->createMock(LoggerInterface::class);
-        $this->eventManager = $this->createMock(EventManager::class);
+        $this->translatedIntoLanguagesSynchronizer = $this->createMock(TranslatedIntoLanguagesSynchronizer::class);
 
         $this->sut = new TranslationSyncService(
             $this->ontology,
             $this->resourceTranslationRepository,
             $this->logger,
-            $this->eventManager
+            $this->translatedIntoLanguagesSynchronizer
         );
     }
 
