@@ -26,6 +26,7 @@ use core_kernel_classes_Literal;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\featureFlag\Service\FeatureBasedPropertiesService;
 use oat\tao\model\form\Modifier\AbstractFormModifier;
 use oat\tao\model\TaoOntology;
 use tao_helpers_form_Form;
@@ -34,11 +35,16 @@ use tao_helpers_Uri;
 class TranslationFormModifier extends AbstractFormModifier
 {
     private FeatureFlagCheckerInterface $featureFlagChecker;
+    private FeatureBasedPropertiesService $featureBasedPropertiesService;
     private Ontology $ontology;
 
-    public function __construct(FeatureFlagCheckerInterface $featureFlagChecker, Ontology $ontology)
-    {
+    public function __construct(
+        FeatureFlagCheckerInterface $featureFlagChecker,
+        FeatureBasedPropertiesService $featureBasedPropertiesService,
+        Ontology $ontology
+    ) {
         $this->featureFlagChecker = $featureFlagChecker;
+        $this->featureBasedPropertiesService = $featureBasedPropertiesService;
         $this->ontology = $ontology;
     }
 
@@ -52,14 +58,7 @@ class TranslationFormModifier extends AbstractFormModifier
     private function getTranslationElementsToRemove(tao_helpers_form_Form $form): array
     {
         if (!$this->featureFlagChecker->isEnabled('FEATURE_FLAG_TRANSLATION_ENABLED')) {
-            return [
-                TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
-                TaoOntology::PROPERTY_LANGUAGE,
-                TaoOntology::PROPERTY_TRANSLATION_STATUS,
-                TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
-                TaoOntology::PROPERTY_TRANSLATION_TYPE,
-                TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES,
-            ];
+            return $this->featureBasedPropertiesService->getFeatureProperties('FEATURE_FLAG_TRANSLATION_ENABLED');
         }
 
         $elementsToRemove = [

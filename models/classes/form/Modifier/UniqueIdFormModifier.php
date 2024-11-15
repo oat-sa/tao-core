@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\model\form\Modifier;
 
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\featureFlag\Service\FeatureBasedPropertiesService;
 use oat\tao\model\TaoOntology;
 use tao_helpers_form_Form;
 use tao_helpers_Uri;
@@ -30,16 +31,26 @@ use tao_helpers_Uri;
 class UniqueIdFormModifier extends AbstractFormModifier
 {
     private FeatureFlagCheckerInterface $featureFlagChecker;
+    private FeatureBasedPropertiesService $featureBasedPropertiesService;
 
-    public function __construct(FeatureFlagCheckerInterface $featureFlagChecker)
-    {
+    public function __construct(
+        FeatureFlagCheckerInterface $featureFlagChecker,
+        FeatureBasedPropertiesService $featureBasedPropertiesService
+    ) {
         $this->featureFlagChecker = $featureFlagChecker;
+        $this->featureBasedPropertiesService = $featureBasedPropertiesService;
     }
 
     public function modify(tao_helpers_form_Form $form, array $options = []): void
     {
         if (!$this->featureFlagChecker->isEnabled('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')) {
-            $form->removeElement(tao_helpers_Uri::encode(TaoOntology::PROPERTY_UNIQUE_IDENTIFIER));
+            $properties = $this->featureBasedPropertiesService->getFeatureProperties(
+                'FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER'
+            );
+
+            foreach ($properties as $property) {
+                $form->removeElement(tao_helpers_Uri::encode($property));
+            }
         }
     }
 }
