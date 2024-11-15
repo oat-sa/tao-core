@@ -29,7 +29,9 @@ use oat\generis\model\resource\Service\ResourceDeleter;
 use oat\oatbox\log\LoggerService;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\featureFlag\FeatureFlagChecker;
+use oat\tao\model\featureFlag\Service\FeatureBasedPropertiesService;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
+use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Factory\ResourceTranslatableFactory;
 use oat\tao\model\Translation\Factory\ResourceTranslationFactory;
 use oat\tao\model\Translation\Form\Modifier\TranslationFormModifier;
@@ -116,6 +118,7 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
             ->set(TranslationFormModifier::class, TranslationFormModifier::class)
             ->args([
                 service(FeatureFlagChecker::class),
+                service(FeatureBasedPropertiesService::class),
                 service(Ontology::SERVICE_ID),
             ]);
 
@@ -187,5 +190,22 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 service(FeatureFlagChecker::class),
                 service(Ontology::SERVICE_ID),
             ]);
+
+        $services
+            ->get(FeatureBasedPropertiesService::class)
+            ->call(
+                'addFeatureProperties',
+                [
+                    'FEATURE_FLAG_TRANSLATION_ENABLED',
+                    [
+                        TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
+                        TaoOntology::PROPERTY_LANGUAGE,
+                        TaoOntology::PROPERTY_TRANSLATION_STATUS,
+                        TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
+                        TaoOntology::PROPERTY_TRANSLATION_TYPE,
+                        TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES,
+                    ],
+                ]
+            );
     }
 }
