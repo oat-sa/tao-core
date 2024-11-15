@@ -225,9 +225,10 @@ class TranslationCreationServiceTest extends TestCase
             )
             ->willReturn($resourceTransferResult);
 
-        $this->eventManager
+        $this->translatedIntoLanguagesSynchronizer
             ->expects($this->once())
-            ->method('trigger');
+            ->method('sync')
+            ->with($instance);
 
         $this->assertInstanceOf(
             core_kernel_classes_Resource::class,

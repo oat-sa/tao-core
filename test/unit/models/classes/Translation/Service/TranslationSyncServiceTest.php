@@ -154,9 +154,10 @@ class TranslationSyncServiceTest extends TestCase
             ->method('__invoke')
             ->with($translationResource);
 
-        $this->eventManager
+        $this->translatedIntoLanguagesSynchronizer
             ->expects($this->once())
-            ->method('trigger');
+            ->method('sync')
+            ->with($resource);
 
         $this->sut->addSynchronizer('rootId', $callable);
         $this->assertEquals($resource, $this->sut->syncByRequest($request));

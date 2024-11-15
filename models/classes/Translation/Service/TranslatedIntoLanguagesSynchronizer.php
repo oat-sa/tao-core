@@ -53,7 +53,10 @@ class TranslatedIntoLanguagesSynchronizer
         );
 
         foreach ($translations as $translation) {
-            $originalResource->setPropertyValue($property, TaoOntology::LANGUAGE_PREFIX . $translation->getLanguageCode());
+            $originalResource->setPropertyValue(
+                $property,
+                TaoOntology::LANGUAGE_PREFIX . $translation->getLanguageCode()
+            );
         }
     }
 

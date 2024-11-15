@@ -108,6 +108,11 @@ class TranslationUpdateServiceTest extends TestCase
                 ]
             );
 
+        $this->translatedIntoLanguagesSynchronizer
+            ->expects($this->once())
+            ->method('sync')
+            ->with($resource);
+
         $this->assertSame(
             $resource,
             $this->service->update(
