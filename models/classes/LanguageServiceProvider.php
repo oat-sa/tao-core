@@ -25,6 +25,7 @@ namespace oat\tao\model;
 use oat\generis\model\data\Ontology;
 use oat\generis\model\DependencyInjection\ContainerServiceProviderInterface;
 use oat\tao\model\Language\Business\Contract\LanguageRepositoryInterface;
+use oat\tao\model\Language\Filter\LanguageAllowedFilter;
 use oat\tao\model\Language\Repository\LanguageRepository;
 use oat\tao\model\Language\Listener\LanguageCacheWarmupListener;
 use Symfony\Component\DependencyInjection\Loader\Configurator\Traits\FactoryTrait;
@@ -34,7 +35,9 @@ use oat\tao\model\Language\AscendingLabelListSorterComparator;
 use oat\tao\model\Language\Service\LanguageListElementSortService;
 use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
 
+use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 /**
@@ -70,8 +73,18 @@ class LanguageServiceProvider implements ContainerServiceProviderInterface
                 [
                     service(Ontology::SERVICE_ID),
                     service(tao_models_classes_LanguageService::class),
+                    service(LanguageAllowedFilter::class)
                 ]
             );
+
+        $services
+            ->set(LanguageAllowedFilter::class, LanguageAllowedFilter::class)
+            ->args(
+                [
+                    env('default::' . LanguageAllowedFilter::TAO_ALLOWED_LOCALES),
+                ]
+            )
+            ->public();
 
         $services
             ->set(LanguageCacheWarmupListener::class, LanguageCacheWarmupListener::class)
