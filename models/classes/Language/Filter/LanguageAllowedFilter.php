@@ -33,8 +33,8 @@ class LanguageAllowedFilter
 {
     public const TAO_ALLOWED_TRANSLATION_LOCALES = 'TAO_ALLOWED_TRANSLATION_LOCALES';
 
-    /** @var tao_models_classes_LanguageService */
-    private $allowedLocales;
+    /** @var string[] */
+    private array $allowedLocales;
 
     public function __construct(?string $allowedLocales = null)
     {
@@ -60,7 +60,7 @@ class LanguageAllowedFilter
 
         /** @var Language $item */
         foreach ($collection as $key => $item) {
-            if (!in_array($item->getCode(), $this->allowedLocales)) {
+            if (!in_array($item->getCode(), $this->allowedLocales, true)) {
                 $indicesToUnset[] = $key;
             }
         }
@@ -85,7 +85,7 @@ class LanguageAllowedFilter
         }
 
         foreach ($collection->getUris() as $uri) {
-            if (!in_array($uri, $allowedUris)) {
+            if (!in_array($uri, $allowedUris, true)) {
                 $collection->removeValueByUri($uri);
             }
         }
