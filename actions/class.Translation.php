@@ -24,6 +24,7 @@ use oat\tao\model\http\HttpJsonResponseTrait;
 use oat\tao\model\Translation\Command\UpdateTranslationCommand;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
+use oat\tao\model\Translation\Service\ResourceTranslatableStatusRetriever;
 use oat\tao\model\Translation\Service\TranslationCreationService;
 use oat\tao\model\Translation\Service\TranslationDeletionService;
 use oat\tao\model\Translation\Service\TranslationSyncService;
@@ -136,6 +137,20 @@ class tao_actions_Translation extends tao_actions_CommonModule
         }
     }
 
+    /**
+     * @requiresRight id READ
+     */
+    public function status(): void
+    {
+        try {
+            $this->setSuccessJsonResponse(
+                $this->getResourceTranslatableStatusRetriever()->retrieveByRequest($this->getPsrRequest())
+            );
+        } catch (Throwable $exception) {
+            $this->setErrorJsonResponse($exception->getMessage());
+        }
+    }
+
     private function getResourceTranslationRetriever(): ResourceTranslationRetriever
     {
         return $this->getPsrContainer()->get(ResourceTranslationRetriever::class);
@@ -164,5 +179,10 @@ class tao_actions_Translation extends tao_actions_CommonModule
     private function getTranslationDeletionService(): TranslationDeletionService
     {
         return $this->getPsrContainer()->get(TranslationDeletionService::class);
+    }
+
+    private function getResourceTranslatableStatusRetriever(): ResourceTranslatableStatusRetriever
+    {
+        return $this->getPsrContainer()->get(ResourceTranslatableStatusRetriever::class);
     }
 }

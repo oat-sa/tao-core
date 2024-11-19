@@ -38,6 +38,7 @@ use oat\tao\model\Translation\Repository\ResourceTranslationRepository;
 use oat\tao\model\Translation\Service\ResourceLanguageRetriever;
 use oat\tao\model\Translation\Service\ResourceMetadataPopulateService;
 use oat\tao\model\Translation\Service\ResourceTranslatableRetriever;
+use oat\tao\model\Translation\Service\ResourceTranslatableStatusRetriever;
 use oat\tao\model\Translation\Service\ResourceTranslationRetriever;
 use oat\tao\model\Translation\Service\TranslationCreationService;
 use oat\tao\model\Translation\Service\TranslationDeletionService;
@@ -175,5 +176,13 @@ class TranslationServiceProvider implements ContainerServiceProviderInterface
                 service(FeatureFlagChecker::class),
                 service(Ontology::SERVICE_ID),
             ]);
+
+        $services
+            ->set(ResourceTranslatableStatusRetriever::class, ResourceTranslatableStatusRetriever::class)
+            ->args([
+                service(Ontology::SERVICE_ID),
+                service(LoggerService::SERVICE_ID),
+            ])
+            ->public();
     }
 }
