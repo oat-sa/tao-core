@@ -65,6 +65,8 @@ class ResourceTranslatableStatusRetrieverTest extends TestCase
     public function testRetrieveByRequestRequest(): void
     {
         $resource = $this->createMock(core_kernel_classes_Resource::class);
+        $languageProperty = $this->createMock(core_kernel_classes_Property::class);
+        $languagePropertyValue = $this->createMock(core_kernel_classes_Resource::class);
         $translationStatusProperty = $this->createMock(core_kernel_classes_Property::class);
         $translationStatusPropertyValue = $this->createMock(core_kernel_classes_Resource::class);
 
@@ -72,6 +74,11 @@ class ResourceTranslatableStatusRetrieverTest extends TestCase
             ->expects($this->any())
             ->method('getUri')
             ->willReturn(TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY);
+
+        $languagePropertyValue
+            ->expects($this->any())
+            ->method('getUri')
+            ->willReturn('languageUri');
 
         $resource
             ->expects($this->any())
@@ -92,7 +99,10 @@ class ResourceTranslatableStatusRetrieverTest extends TestCase
             ->expects($this->any())
             ->method('getOnePropertyValue')
             ->with($translationStatusProperty)
-            ->willReturn($translationStatusPropertyValue);
+            ->willReturnOnConsecutiveCalls(
+                $languagePropertyValue,
+                $translationStatusPropertyValue
+            );
 
         $this->request
             ->expects($this->once())
@@ -106,14 +116,18 @@ class ResourceTranslatableStatusRetrieverTest extends TestCase
             ->willReturn($resource);
 
         $this->ontology
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('getProperty')
-            ->willReturn($translationStatusProperty);
+            ->willReturnOnConsecutiveCalls(
+                $languageProperty,
+                $translationStatusProperty
+            );
 
         $this->assertEquals(
             new ResourceTranslatableStatus(
                 'uri',
                 TaoOntology::CLASS_URI_ITEM,
+                'languageUri',
                 true,
                 false
             ),

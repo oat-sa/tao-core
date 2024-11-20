@@ -22,21 +22,21 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Entity;
 
-use oat\tao\model\TaoOntology;
-
 class ResourceTranslatableStatus implements \JsonSerializable
 {
     private string $uri;
     private string $type;
     private bool $isReadyForTranslation;
     private bool $isEmpty;
+    private string $languageUri;
 
-    public function __construct(string $uri, string $type, bool $isReadyForTranslation, bool $isEmpty)
+    public function __construct(string $uri, string $type, string $languageUri, bool $isReadyForTranslation, bool $isEmpty)
     {
         $this->isReadyForTranslation = $isReadyForTranslation;
         $this->isEmpty = $isEmpty;
         $this->uri = $uri;
         $this->type = $type;
+        $this->languageUri = $languageUri;
     }
 
     public function getUri(): string
@@ -47,6 +47,11 @@ class ResourceTranslatableStatus implements \JsonSerializable
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function getLanguageUri(): string
+    {
+        return $this->languageUri;
     }
 
     public function isReadyForTranslation(): bool
@@ -69,6 +74,7 @@ class ResourceTranslatableStatus implements \JsonSerializable
         return [
             'uri' => $this->getUri(),
             'type' => $this->getType(),
+            'languageUri' => $this->getLanguageUri(),
             'isReadyForTranslation' => $this->isReadyForTranslation(),
             'isEmpty' => $this->isEmpty(),
         ];

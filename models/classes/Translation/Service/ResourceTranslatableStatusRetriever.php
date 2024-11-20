@@ -71,6 +71,7 @@ class ResourceTranslatableStatusRetriever
         $status = new ResourceTranslatableStatus(
             $resource->getUri(),
             $rootUri,
+            $this->getLanguageUri($resource),
             $this->isReadyForTranslation($resource),
             true
         );
@@ -97,5 +98,22 @@ class ResourceTranslatableStatusRetriever
         }
 
         return $translationStatusPropertyValue->getUri() === TaoOntology::PROPERTY_VALUE_TRANSLATION_STATUS_READY;
+    }
+
+    private function getLanguageUri(core_kernel_classes_Resource $resource): ?string
+    {
+        $languageProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_LANGUAGE);
+
+        if (!$languageProperty) {
+            return null;
+        }
+
+        $languagePropertyValue = $resource->getOnePropertyValue($languageProperty);
+
+        if (!$languagePropertyValue instanceof core_kernel_classes_Resource) {
+            return null;
+        }
+
+        return $languagePropertyValue->getUri();
     }
 }

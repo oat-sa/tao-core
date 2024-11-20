@@ -37,6 +37,7 @@ class ResourceTranslatableStatusTest extends TestCase
         $this->sut = new ResourceTranslatableStatus(
             'resourceUri',
             TaoOntology::CLASS_URI_ITEM,
+            'languageUri',
             true,
             false
         );
@@ -46,12 +47,14 @@ class ResourceTranslatableStatusTest extends TestCase
     {
         $this->assertSame('resourceUri', $this->sut->getUri());
         $this->assertSame(TaoOntology::CLASS_URI_ITEM, $this->sut->getType());
+        $this->assertSame('languageUri', $this->sut->getLanguageUri());
         $this->assertFalse($this->sut->isEmpty());
         $this->assertTrue($this->sut->isReadyForTranslation());
         $this->assertSame(
             [
                 'uri' => 'resourceUri',
                 'type' => TaoOntology::CLASS_URI_ITEM,
+                'languageUri' => 'languageUri',
                 'isReadyForTranslation' => true,
                 'isEmpty' => false
             ],
