@@ -30,8 +30,13 @@ class ResourceTranslatableStatus implements \JsonSerializable
     private bool $isEmpty;
     private string $languageUri;
 
-    public function __construct(string $uri, string $type, string $languageUri, bool $isReadyForTranslation, bool $isEmpty)
-    {
+    public function __construct(
+        string $uri,
+        string $type,
+        string $languageUri,
+        bool $isReadyForTranslation,
+        bool $isEmpty
+    ) {
         $this->isReadyForTranslation = $isReadyForTranslation;
         $this->isEmpty = $isEmpty;
         $this->uri = $uri;
