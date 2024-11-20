@@ -23,27 +23,37 @@ declare(strict_types=1);
 namespace oat\tao\model\Lists\Business\Specification;
 
 use core_kernel_classes_Class;
+use oat\generis\model\data\Ontology;
+use oat\generis\model\GenerisRdf;
 use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
 use oat\tao\model\Specification\ClassSpecificationInterface;
 
 class EditableListClassSpecification implements ClassSpecificationInterface
 {
-    /** @var ClassSpecificationInterface */
-    private $listClassSpecification;
-    /** @var ClassSpecificationInterface */
-    private $languageClassSpecification;
+    private ClassSpecificationInterface $listClassSpecification;
+    private Ontology $ontology;
 
     public function __construct(
         ClassSpecificationInterface $listClassSpecification,
-        ClassSpecificationInterface $languageClassSpecification
+        Ontology $ontology
     ) {
         $this->listClassSpecification = $listClassSpecification;
-        $this->languageClassSpecification = $languageClassSpecification;
+        $this->ontology = $ontology;
     }
 
     public function isSatisfiedBy(core_kernel_classes_Class $class): bool
     {
-        return $this->listClassSpecification->isSatisfiedBy($class)
-            && !$this->languageClassSpecification->isSatisfiedBy($class);
+        if (!$this->listClassSpecification->isSatisfiedBy($class)) {
+            return false;
+        }
+
+        $isEditableProperty = $this->ontology->getProperty(GenerisRdf::PROPERTY_IS_EDITABLE);
+        $isEditable = $class->getOnePropertyValue($isEditableProperty);
+
+        if (empty($isEditable)) {
+            return true;
+        }
+
+        return $isEditable->getUri() !== GenerisRdf::GENERIS_FALSE;
     }
 }

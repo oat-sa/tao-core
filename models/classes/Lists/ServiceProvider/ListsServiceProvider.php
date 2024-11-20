@@ -161,7 +161,7 @@ class ListsServiceProvider implements ContainerServiceProviderInterface
             ->args(
                 [
                     service(ListClassSpecification::class),
-                    service(LanguageClassSpecification::class),
+                    service(Ontology::SERVICE_ID),
                 ]
             );
     }
