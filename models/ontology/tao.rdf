@@ -102,7 +102,6 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#Languages">
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
     <rdfs:label xml:lang="en-US"><![CDATA[Languages]]></rdfs:label>
-    <generis:is_editable rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#LanguageUsages">
   	<rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
@@ -351,7 +350,6 @@
     <rdfs:label xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
-    <generis:is_editable rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeOriginal">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypes"/>
@@ -368,7 +366,6 @@
     <rdfs:label xml:lang="en-US"><![CDATA[Translation Progress Statuses]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation Progress Statuses]]></rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
-    <generis:is_editable rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusPending">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatuses"/>
@@ -390,7 +387,6 @@
     <rdfs:label xml:lang="en-US"><![CDATA[Translation Statuses]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation Statuses]]></rdfs:comment>
     <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
-    <generis:is_editable rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatusNotReadyForTranslation">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatuses"/>

@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\Lists\Business\Specification;
+namespace oat\tao\test\unit\models\classes\Lists\Business\Specification;
 
 use core_kernel_classes_Class;
 use core_kernel_classes_Property;
@@ -37,108 +37,57 @@ class EditableListClassSpecificationTest extends TestCase
     /** @var core_kernel_classes_Class|MockObject */
     private core_kernel_classes_Class $class;
 
-    /** @var core_kernel_classes_Property|MockObject */
-    private core_kernel_classes_Property $property;
-
     /** @var ClassSpecificationInterface|MockObject */
     private ClassSpecificationInterface $listClassSpecification;
-
-    /** @var Ontology|MockObject */
-    private Ontology $ontology;
 
     private EditableListClassSpecification $sut;
 
     protected function setUp(): void
     {
         $this->class = $this->createMock(core_kernel_classes_Class::class);
-        $this->property = $this->createMock(core_kernel_classes_Property::class);
 
         $this->listClassSpecification = $this->createMock(ClassSpecificationInterface::class);
-        $this->ontology = $this->createMock(Ontology::class);
 
-        $this->sut = new EditableListClassSpecification($this->listClassSpecification, $this->ontology);
+        $this->sut = new EditableListClassSpecification($this->listClassSpecification);
     }
 
-    public function testIsSatisfiedByValidWithoutIsEditablePropertyValue(): void
+    public function testIsSatisfiedByValid(): void
     {
         $this->listClassSpecification
             ->method('isSatisfiedBy')
             ->willReturn(true);
 
-        $this->ontology
-            ->expects($this->once())
-            ->method('getProperty')
-            ->willReturn($this->property);
-
         $this->class
             ->expects($this->once())
-            ->method('getOnePropertyValue')
-            ->willReturn(null);
+            ->method('isWritable')
+            ->willReturn(true);
 
         $this->assertTrue($this->sut->isSatisfiedBy($this->class));
     }
 
-    public function testIsSatisfiedByValidWithIsEditablePropertyValue(): void
-    {
-        $this->listClassSpecification
-            ->method('isSatisfiedBy')
-            ->willReturn(true);
-
-        $this->ontology
-            ->expects($this->once())
-            ->method('getProperty')
-            ->willReturn($this->property);
-
-        $isEditable = $this->createMock(core_kernel_classes_Resource::class);
-
-        $this->class
-            ->expects($this->once())
-            ->method('getOnePropertyValue')
-            ->willReturn($isEditable);
-
-        $isEditable
-            ->expects($this->once())
-            ->method('getUri')
-            ->willReturn(GenerisRdf::GENERIS_TRUE);
-
-        $this->assertTrue($this->sut->isSatisfiedBy($this->class));
-    }
-
-    public function testIsSatisfiedByNotValidWithIsEditablePropertyValue(): void
-    {
-        $this->listClassSpecification
-            ->method('isSatisfiedBy')
-            ->willReturn(true);
-
-        $this->ontology
-            ->expects($this->once())
-            ->method('getProperty')
-            ->willReturn($this->property);
-
-        $isEditable = $this->createMock(core_kernel_classes_Resource::class);
-
-        $this->class
-            ->expects($this->once())
-            ->method('getOnePropertyValue')
-            ->willReturn($isEditable);
-
-        $isEditable
-            ->expects($this->once())
-            ->method('getUri')
-            ->willReturn(GenerisRdf::GENERIS_FALSE);
-
-        $this->assertFalse($this->sut->isSatisfiedBy($this->class));
-    }
-
-    public function testIsSatisfiedByWithNotAListClass(): void
+    public function testIsSatisfiedByNotAListClass(): void
     {
         $this->listClassSpecification
             ->method('isSatisfiedBy')
             ->willReturn(false);
 
-        $this->ontology
+        $this->class
             ->expects($this->never())
-            ->method($this->anything());
+            ->method('isWritable');
+
+        $this->assertFalse($this->sut->isSatisfiedBy($this->class));
+    }
+
+    public function testIsSatisfiedByNotWritable(): void
+    {
+        $this->listClassSpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $this->class
+            ->expects($this->once())
+            ->method('isWritable')
+            ->willReturn(false);
 
         $this->assertFalse($this->sut->isSatisfiedBy($this->class));
     }

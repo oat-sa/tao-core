@@ -67,7 +67,7 @@
         "oat-sa/jig": "~0.2",
         "oat-sa/composer-npm-bridge": "~0.4.2||dev-master",
         "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
-        "oat-sa/generis": "dev-fix/adf-1828/translation-data-in-datastore as 99.99",
+        "oat-sa/generis": ">=15.39.0",
         "composer/package-versions-deprecated": "^1.11",
         "paragonie/random_compat": "^2.0",
         "phpdocumentor/reflection-docblock": "^5.2",
