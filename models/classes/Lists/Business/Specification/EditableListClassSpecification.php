@@ -50,10 +50,6 @@ class EditableListClassSpecification implements ClassSpecificationInterface
         $isEditableProperty = $this->ontology->getProperty(GenerisRdf::PROPERTY_IS_EDITABLE);
         $isEditable = $class->getOnePropertyValue($isEditableProperty);
 
-        if (empty($isEditable)) {
-            return true;
-        }
-
-        return $isEditable->getUri() !== GenerisRdf::GENERIS_FALSE;
+        return empty($isEditable) || $isEditable->getUri() !== GenerisRdf::GENERIS_FALSE;
     }
 }
