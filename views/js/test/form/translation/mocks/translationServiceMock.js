@@ -54,7 +54,7 @@ define(function () {
                 return Promise.resolve({ resources: this.data.translatable });
             },
             getTranslatableStatus() {
-                return Promise.resolve({ resources: this.data.status });
+                return Promise.resolve(this.data.status);
             },
             getTranslations() {
                 return Promise.resolve({ resources: this.data.translations });
