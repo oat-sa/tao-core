@@ -23,6 +23,10 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\Lists\Business\Specification;
 
 use core_kernel_classes_Class;
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
+use oat\generis\model\data\Ontology;
+use oat\generis\model\GenerisRdf;
 use oat\generis\test\TestCase;
 use oat\tao\model\Lists\Business\Specification\EditableListClassSpecification;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -30,42 +34,100 @@ use oat\tao\model\Specification\ClassSpecificationInterface;
 
 class EditableListClassSpecificationTest extends TestCase
 {
-    /** @var EditableListClassSpecification */
-    private $sut;
-
-    /** @var ClassSpecificationInterface|MockObject */
-    private $languageClassSpecification;
-
-    /** @var ClassSpecificationInterface|MockObject */
-    private $listClassSpecification;
-
     /** @var core_kernel_classes_Class|MockObject */
-    private $class;
+    private core_kernel_classes_Class $class;
+
+    /** @var core_kernel_classes_Property|MockObject */
+    private core_kernel_classes_Property $property;
+
+    /** @var ClassSpecificationInterface|MockObject */
+    private ClassSpecificationInterface $listClassSpecification;
+
+    /** @var Ontology|MockObject */
+    private Ontology $ontology;
+
+    private EditableListClassSpecification $sut;
 
     protected function setUp(): void
     {
-        $this->listClassSpecification = $this->createMock(ClassSpecificationInterface::class);
-        $this->languageClassSpecification = $this->createMock(ClassSpecificationInterface::class);
-
         $this->class = $this->createMock(core_kernel_classes_Class::class);
+        $this->property = $this->createMock(core_kernel_classes_Property::class);
 
-        $this->sut = new EditableListClassSpecification(
-            $this->listClassSpecification,
-            $this->languageClassSpecification
-        );
+        $this->listClassSpecification = $this->createMock(ClassSpecificationInterface::class);
+        $this->ontology = $this->createMock(Ontology::class);
+
+        $this->sut = new EditableListClassSpecification($this->listClassSpecification, $this->ontology);
     }
 
-    public function testIsSatisfiedByValid(): void
+    public function testIsSatisfiedByValidWithoutIsEditablePropertyValue(): void
     {
         $this->listClassSpecification
             ->method('isSatisfiedBy')
             ->willReturn(true);
 
-        $this->languageClassSpecification
-            ->method('isSatisfiedBy')
-            ->willReturn(false);
+        $this->ontology
+            ->expects($this->once())
+            ->method('getProperty')
+            ->willReturn($this->property);
+
+        $this->class
+            ->expects($this->once())
+            ->method('getOnePropertyValue')
+            ->willReturn(null);
 
         $this->assertTrue($this->sut->isSatisfiedBy($this->class));
+    }
+
+    public function testIsSatisfiedByValidWithIsEditablePropertyValue(): void
+    {
+        $this->listClassSpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $this->ontology
+            ->expects($this->once())
+            ->method('getProperty')
+            ->willReturn($this->property);
+
+        $isEditable = $this->createMock(core_kernel_classes_Resource::class);
+
+        $this->class
+            ->expects($this->once())
+            ->method('getOnePropertyValue')
+            ->willReturn($isEditable);
+
+        $isEditable
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn(GenerisRdf::GENERIS_TRUE);
+
+        $this->assertTrue($this->sut->isSatisfiedBy($this->class));
+    }
+
+    public function testIsSatisfiedByNotValidWithIsEditablePropertyValue(): void
+    {
+        $this->listClassSpecification
+            ->method('isSatisfiedBy')
+            ->willReturn(true);
+
+        $this->ontology
+            ->expects($this->once())
+            ->method('getProperty')
+            ->willReturn($this->property);
+
+        $isEditable = $this->createMock(core_kernel_classes_Resource::class);
+
+        $this->class
+            ->expects($this->once())
+            ->method('getOnePropertyValue')
+            ->willReturn($isEditable);
+
+        $isEditable
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn(GenerisRdf::GENERIS_FALSE);
+
+        $this->assertFalse($this->sut->isSatisfiedBy($this->class));
     }
 
     public function testIsSatisfiedByWithNotAListClass(): void
@@ -74,22 +136,9 @@ class EditableListClassSpecificationTest extends TestCase
             ->method('isSatisfiedBy')
             ->willReturn(false);
 
-        $this->languageClassSpecification
-            ->method('isSatisfiedBy')
-            ->willReturn(false);
-
-        $this->assertFalse($this->sut->isSatisfiedBy($this->class));
-    }
-
-    public function testIsSatisfiedByWithNotLanguageListClass(): void
-    {
-        $this->listClassSpecification
-            ->method('isSatisfiedBy')
-            ->willReturn(true);
-
-        $this->languageClassSpecification
-            ->method('isSatisfiedBy')
-            ->willReturn(true);
+        $this->ontology
+            ->expects($this->never())
+            ->method($this->anything());
 
         $this->assertFalse($this->sut->isSatisfiedBy($this->class));
     }
