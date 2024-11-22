@@ -39,17 +39,20 @@ class TranslationDeletionService
     private ResourceDeleterInterface $resourceDeleter;
     private ResourceTranslationRepository $resourceTranslationRepository;
     private LoggerInterface $logger;
+    private TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer;
 
     public function __construct(
         Ontology $ontology,
         ResourceDeleterInterface $resourceDeleter,
         ResourceTranslationRepository $resourceTranslationRepository,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer
     ) {
         $this->ontology = $ontology;
         $this->resourceDeleter = $resourceDeleter;
         $this->resourceTranslationRepository = $resourceTranslationRepository;
         $this->logger = $logger;
+        $this->translatedIntoLanguagesSynchronizer = $translatedIntoLanguagesSynchronizer;
     }
 
     public function deleteByRequest(ServerRequestInterface $request): core_kernel_classes_Resource
@@ -86,6 +89,8 @@ class TranslationDeletionService
 
                 $this->resourceDeleter->delete($resource);
             }
+
+            $this->translatedIntoLanguagesSynchronizer->sync($this->ontology->getResource($resourceUri));
 
             return $resource;
         } catch (Throwable $exception) {
