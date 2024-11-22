@@ -349,7 +349,7 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypes">
     <rdfs:label xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation Type]]></rdfs:comment>
-    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypeOriginal">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationTypes"/>
@@ -365,7 +365,7 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatuses">
     <rdfs:label xml:lang="en-US"><![CDATA[Translation Progress Statuses]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation Progress Statuses]]></rdfs:comment>
-    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatusPending">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationProgressStatuses"/>
@@ -386,7 +386,7 @@
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatuses">
     <rdfs:label xml:lang="en-US"><![CDATA[Translation Statuses]]></rdfs:label>
     <rdfs:comment xml:lang="en-US"><![CDATA[Translation Statuses]]></rdfs:comment>
-    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#SystemObject"/>
+    <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#List"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatusNotReadyForTranslation">
     <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatuses"/>

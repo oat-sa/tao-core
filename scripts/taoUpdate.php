@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2014-2024 (original work) Open Assessment Technologies SA;
  */
 
 require_once dirname(__FILE__) . '/../includes/raw_start.php';
@@ -25,6 +25,7 @@ use oat\oatbox\reporting\Report;
 use oat\tao\model\extension\UpdateExtensions;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\featureFlag\Repository\FeatureFlagRepositoryInterface;
+use oat\tao\scripts\update\OntologyUpdater;
 
 $serviceManager = ServiceManager::getServiceManager();
 
@@ -33,15 +34,16 @@ $serviceManager->get(SetupFileCache::class)->createDirectory(GENERIS_CACHE_PATH)
 $action = new UpdateExtensions();
 $action->setServiceLocator($serviceManager);
 $report = $action->__invoke([]);
+$report->add(Report::createSuccess('Update completed'));
 
 $serviceManager->rebuildContainer();
 
 /** @var FeatureFlagRepositoryInterface $featureFlagChecker */
 $featureFlagChecker = $serviceManager->getContainer()->get(FeatureFlagRepositoryInterface::class);
 $featureFlagChecker->clearCache();
-
-$report->add(Report::createSuccess('Update completed'));
 $report->add(Report::createSuccess('Dependency Injection Container rebuilt'));
-$report->add(Report::createSuccess('FeatureFlag cache cleared'));
+
+OntologyUpdater::syncModels();
+$report->add(Report::createSuccess('Ontology models synchronized'));
 
 echo helpers_Report::renderToCommandline($report);

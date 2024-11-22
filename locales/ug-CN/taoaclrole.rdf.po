@@ -1,0 +1,20 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 2024.12\n"
+"PO-Revision-Date: 2024-11-14T17:16:05\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: ug-CN\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: ug-CN\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Base User"
+msgstr ""
+
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Base User Role"
+msgstr ""
+
