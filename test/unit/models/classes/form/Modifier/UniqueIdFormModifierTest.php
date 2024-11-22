@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\models\classes\form\Modifier;
 
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\featureFlag\Service\FeatureFlagPropertiesMapping;
 use oat\tao\model\form\Modifier\UniqueIdFormModifier;
 use oat\tao\model\TaoOntology;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -40,7 +41,16 @@ class UniqueIdFormModifierTest extends TestCase
     protected function setUp(): void
     {
         $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
-        $this->sut = new UniqueIdFormModifier($this->featureFlagChecker);
+        $featureFlagPropertiesMapping = $this->createMock(FeatureFlagPropertiesMapping::class);
+
+        $featureFlagPropertiesMapping
+            ->method('getFeatureProperties')
+            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
+            ->willReturn([
+                TaoOntology::PROPERTY_UNIQUE_IDENTIFIER,
+            ]);
+
+        $this->sut = new UniqueIdFormModifier($this->featureFlagChecker, $featureFlagPropertiesMapping);
     }
 
     public function testFeatureEnabled(): void
@@ -48,6 +58,7 @@ class UniqueIdFormModifierTest extends TestCase
         $this->featureFlagChecker
             ->expects($this->once())
             ->method('isEnabled')
+            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
             ->willReturn(true);
 
         $form = $this->createMock(tao_helpers_form_Form::class);
@@ -64,6 +75,7 @@ class UniqueIdFormModifierTest extends TestCase
         $this->featureFlagChecker
             ->expects($this->once())
             ->method('isEnabled')
+            ->with('FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER')
             ->willReturn(false);
 
         $form = $this->createMock(tao_helpers_form_Form::class);

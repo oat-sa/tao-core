@@ -37,16 +37,19 @@ class TranslationSyncService
     private Ontology $ontology;
     private ResourceTranslationRepository $resourceTranslationRepository;
     private LoggerInterface $logger;
+    private TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer;
     private array $synchronizers;
 
     public function __construct(
         Ontology $ontology,
         ResourceTranslationRepository $resourceTranslationRepository,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer
     ) {
         $this->ontology = $ontology;
         $this->resourceTranslationRepository = $resourceTranslationRepository;
         $this->logger = $logger;
+        $this->translatedIntoLanguagesSynchronizer = $translatedIntoLanguagesSynchronizer;
     }
 
     public function addSynchronizer(string $resourceType, callable $synchronizer): void
@@ -71,11 +74,13 @@ class TranslationSyncService
 
         $translations = $this->getTranslations($resource, $requestParams['languageUri'] ?? null);
 
-        foreach ($this->synchronizers[$this->getResourceType($resource)] as $callable) {
+        foreach ($this->synchronizers[$resource->getRootId()] as $callable) {
             foreach ($translations as $translation) {
                 $callable($translation);
             }
         }
+
+        $this->translatedIntoLanguagesSynchronizer->sync($resource);
 
         return $resource;
     }
@@ -114,15 +119,15 @@ class TranslationSyncService
 
         /** @var ResourceTranslation $translation */
         foreach ($translations as $translation) {
-            $resource = $this->ontology->getResource($translation->getResourceUri());
+            $translationResource = $this->ontology->getResource($translation->getResourceUri());
 
-            if (!$resource->exists()) {
+            if (!$translationResource->exists()) {
                 $this->logger->error('Resource %s does not exist', $translation->getResourceUri());
 
                 continue;
             }
 
-            $resources[] = $resource;
+            $resources[] = $translationResource;
         }
 
         if (empty($resources)) {
@@ -136,19 +141,5 @@ class TranslationSyncService
         }
 
         return $resources;
-    }
-
-    private function getResourceType(core_kernel_classes_Resource $resource): string
-    {
-        $parentClassIds = $resource->getParentClassesIds();
-        $resourceType = array_pop($parentClassIds);
-
-        if (empty($resourceType)) {
-            throw new ResourceTranslationException(
-                sprintf('Resource %s must have a resource type', $resource->getUri())
-            );
-        }
-
-        return $resourceType;
     }
 }
