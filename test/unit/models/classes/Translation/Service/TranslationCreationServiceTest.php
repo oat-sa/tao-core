@@ -36,6 +36,7 @@ use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\resources\ResourceTransferResult;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Exception\ResourceTranslationException;
+use oat\tao\model\Translation\Service\TranslatedIntoLanguagesSynchronizer;
 use oat\tao\model\Translation\Service\TranslationCreationService;
 use oat\tao\model\Translation\Command\CreateTranslationCommand;
 use oat\tao\model\Translation\Repository\ResourceTranslatableRepository;
@@ -69,6 +70,9 @@ class TranslationCreationServiceTest extends TestCase
     /** @var MockObject|LoggerInterface */
     private $logger;
 
+    /** @var TranslatedIntoLanguagesSynchronizer|MockObject  */
+    private $translatedIntoLanguagesSynchronizer;
+
     protected function setUp(): void
     {
         $this->ontology = $this->createMock(Ontology::class);
@@ -77,6 +81,7 @@ class TranslationCreationServiceTest extends TestCase
         $this->languageRepository = $this->createMock(LanguageRepositoryInterface::class);
         $this->resourceTransfer = $this->createMock(ResourceTransferInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
+        $this->translatedIntoLanguagesSynchronizer = $this->createMock(TranslatedIntoLanguagesSynchronizer::class);
 
         $this->service = new TranslationCreationService(
             $this->ontology,
@@ -84,6 +89,7 @@ class TranslationCreationServiceTest extends TestCase
             $this->resourceTranslationRepository,
             $this->languageRepository,
             $this->logger,
+            $this->translatedIntoLanguagesSynchronizer,
         );
 
         $this->service->setResourceTransfer(TaoOntology::CLASS_URI_ITEM, $this->resourceTransfer);
@@ -218,6 +224,11 @@ class TranslationCreationServiceTest extends TestCase
                 )
             )
             ->willReturn($resourceTransferResult);
+
+        $this->translatedIntoLanguagesSynchronizer
+            ->expects($this->once())
+            ->method('sync')
+            ->with($instance);
 
         $this->assertInstanceOf(
             core_kernel_classes_Resource::class,
