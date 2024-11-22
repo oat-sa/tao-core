@@ -86,11 +86,6 @@ class ResourceTranslatableStatusRetriever
     private function isReadyForTranslation(core_kernel_classes_Resource $resource): bool
     {
         $translationStatusProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_STATUS);
-
-        if (!$translationStatusProperty) {
-            return false;
-        }
-
         $translationStatusPropertyValue = $resource->getOnePropertyValue($translationStatusProperty);
 
         if (!$translationStatusPropertyValue instanceof core_kernel_classes_Resource) {
@@ -103,11 +98,6 @@ class ResourceTranslatableStatusRetriever
     private function getLanguageUri(core_kernel_classes_Resource $resource): ?string
     {
         $languageProperty = $this->ontology->getProperty(TaoOntology::PROPERTY_LANGUAGE);
-
-        if (!$languageProperty) {
-            return null;
-        }
-
         $languagePropertyValue = $resource->getOnePropertyValue($languageProperty);
 
         if (!$languagePropertyValue instanceof core_kernel_classes_Resource) {

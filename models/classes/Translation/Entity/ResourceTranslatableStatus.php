@@ -22,7 +22,9 @@ declare(strict_types=1);
 
 namespace oat\tao\model\Translation\Entity;
 
-class ResourceTranslatableStatus implements \JsonSerializable
+use JsonSerializable;
+
+class ResourceTranslatableStatus implements JsonSerializable
 {
     private string $uri;
     private string $type;
