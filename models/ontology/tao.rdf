@@ -451,4 +451,14 @@
     <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#ComboBox"/>
     <tao:TAOGUIOrder><![CDATA[2004]]></tao:TAOGUIOrder>
   </rdf:Description>
+  <rdf:Description rdf:about="http://www.tao.lu/Ontologies/TAO.rdf#TranslatedIntoLanguages">
+    <generis:alias><![CDATA[taoTranslatedIntoLanguages]]></generis:alias>
+    <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+    <rdfs:label xml:lang="en-US"><![CDATA[Translated Into Languages]]></rdfs:label>
+    <rdfs:comment xml:lang="en-US"><![CDATA[Translated Into Languages]]></rdfs:comment>
+    <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Languages"/>
+    <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#SearchTextBox"/>
+    <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True"/>
+    <tao:TAOGUIOrder><![CDATA[2005]]></tao:TAOGUIOrder>
+  </rdf:Description>
 </rdf:RDF>

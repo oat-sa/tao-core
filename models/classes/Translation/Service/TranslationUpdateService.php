@@ -34,11 +34,16 @@ class TranslationUpdateService
 {
     private Ontology $ontology;
     private LoggerInterface $logger;
+    private TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer;
 
-    public function __construct(Ontology $ontology, LoggerInterface $logger)
-    {
+    public function __construct(
+        Ontology $ontology,
+        LoggerInterface $logger,
+        TranslatedIntoLanguagesSynchronizer $translatedIntoLanguagesSynchronizer
+    ) {
         $this->ontology = $ontology;
         $this->logger = $logger;
+        $this->translatedIntoLanguagesSynchronizer = $translatedIntoLanguagesSynchronizer;
     }
 
     public function update(UpdateTranslationCommand $command): core_kernel_classes_Resource
@@ -72,6 +77,8 @@ class TranslationUpdateService
                 $this->ontology->getProperty(TaoOntology::PROPERTY_TRANSLATION_PROGRESS),
                 $command->getProgressUri()
             );
+
+            $this->translatedIntoLanguagesSynchronizer->sync($instance);
 
             return $instance;
         } catch (Throwable $exception) {
