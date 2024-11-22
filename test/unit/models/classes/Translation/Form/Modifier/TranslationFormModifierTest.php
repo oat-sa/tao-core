@@ -26,6 +26,7 @@ use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
 use oat\generis\model\data\Ontology;
 use oat\tao\model\featureFlag\FeatureFlagCheckerInterface;
+use oat\tao\model\featureFlag\Service\FeatureFlagPropertiesMapping;
 use oat\tao\model\TaoOntology;
 use oat\tao\model\Translation\Form\Modifier\TranslationFormModifier;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -42,7 +43,7 @@ class TranslationFormModifierTest extends TestCase
     private FeatureFlagCheckerInterface $featureFlagChecker;
 
     /** @var Ontology|MockObject */
-    private $ontology;
+    private Ontology $ontology;
 
     private TranslationFormModifier $sut;
 
@@ -51,9 +52,26 @@ class TranslationFormModifierTest extends TestCase
         $this->form = $this->createMock(tao_helpers_form_Form::class);
 
         $this->featureFlagChecker = $this->createMock(FeatureFlagCheckerInterface::class);
+        $featureFlagPropertiesMapping = $this->createMock(FeatureFlagPropertiesMapping::class);
         $this->ontology = $this->createMock(Ontology::class);
 
-        $this->sut = new TranslationFormModifier($this->featureFlagChecker, $this->ontology);
+        $featureFlagPropertiesMapping
+            ->method('getFeatureProperties')
+            ->with('FEATURE_FLAG_TRANSLATION_ENABLED')
+            ->willReturn([
+                TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI,
+                TaoOntology::PROPERTY_LANGUAGE,
+                TaoOntology::PROPERTY_TRANSLATION_STATUS,
+                TaoOntology::PROPERTY_TRANSLATION_PROGRESS,
+                TaoOntology::PROPERTY_TRANSLATION_TYPE,
+                TaoOntology::PROPERTY_TRANSLATED_INTO_LANGUAGES,
+            ]);
+
+        $this->sut = new TranslationFormModifier(
+            $this->featureFlagChecker,
+            $featureFlagPropertiesMapping,
+            $this->ontology
+        );
     }
 
     public function testModifyTranslationDisabled(): void
