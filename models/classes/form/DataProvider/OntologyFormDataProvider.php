@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2023 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
+ * Copyright (c) 2023-2024 (original work) Open Assessment Technologies SA (under the project TAO-PRODUCT);
  *
  */
 
@@ -29,6 +29,7 @@ use oat\generis\model\OntologyAwareTrait;
 use oat\generis\model\OntologyRdfs;
 use oat\tao\helpers\form\ValidationRuleRegistry;
 use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
+use oat\tao\model\Language\Filter\LanguageAllowedFilter;
 use oat\tao\model\Language\Service\LanguageListElementSortService;
 use oat\tao\model\Lists\Business\Domain\ValueCollection;
 use oat\tao\model\Lists\Business\Domain\ValueCollectionSearchRequest;
@@ -46,15 +47,18 @@ class OntologyFormDataProvider implements FormDataProviderInterface
     private LanguageClassSpecification $languageClassSpecification;
     private LanguageListElementSortService $languageListElementSortService;
     private ValueCollectionService $valueCollectionService;
+    private LanguageAllowedFilter $languageAllowedFilter;
 
     public function __construct(
         LanguageClassSpecification $languageClassSpecification,
         LanguageListElementSortService $languageListElementSortService,
-        ValueCollectionService $valueCollectionService
+        ValueCollectionService $valueCollectionService,
+        LanguageAllowedFilter $languageAllowedFilter
     ) {
         $this->languageClassSpecification = $languageClassSpecification;
         $this->languageListElementSortService = $languageListElementSortService;
         $this->valueCollectionService = $valueCollectionService;
+        $this->languageAllowedFilter = $languageAllowedFilter;
     }
 
     public function preloadFormData(string $classUri, string $topClassUri, string $elementUri, string $language): void
@@ -108,7 +112,7 @@ class OntologyFormDataProvider implements FormDataProviderInterface
 
         if ($this->languageClassSpecification->isSatisfiedBy($property->getRange())) {
             $values = $this->languageListElementSortService->getSortedListCollectionValues(
-                $values
+                $this->languageAllowedFilter->filterByValueCollection($values)
             );
         }
 

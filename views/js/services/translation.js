@@ -47,6 +47,15 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
      */
 
     /**
+     * @typedef {object} ResourceTranslatableStatus
+     * @property {string} uri - The ID of the translatable resource.
+     * @property {string} type - The resource class type.
+     * @property {string} languageUri - The resource language URI.
+     * @property {bool} isReadyForTranslation - If a resource is marked as ready for translation.
+     * @property {bool} isEmpty - If the resource is empty.
+     */
+
+    /**
      * @typedef {object} Translation
      * @property {string} resourceUri - The URI of the translated resource.
      * @property {string} languageUri - The URI of the language.
@@ -133,24 +142,6 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
         translationType,
         translationStatus,
         translationProgress,
-
-        /**
-         * Tells whether the resources are ready for translation.
-         * @param {Resource[]} resources
-         * @returns {boolean}
-         */
-        isReadyForTranslation(resources) {
-            if (!resources || !resources.length) {
-                return false;
-            }
-
-            return resources.some(
-                resource =>
-                    resource.metadata &&
-                    resource.metadata[metadata.translationStatus] &&
-                    resource.metadata[metadata.translationStatus].value === translationStatus.ready
-            );
-        },
 
         /**
          * Gets the translation progress of the resources.
@@ -279,6 +270,19 @@ define(['i18n', 'core/request', 'util/url'], function (__, request, urlUtil) {
         getTranslatable(id) {
             return request({
                 url: urlUtil.route('translatable', 'Translation', 'tao', { id }),
+                method: 'GET',
+                noToken: true
+            }).then(response => response.data);
+        },
+
+        /**
+         * Queries information about a translatable resource status.
+         * @param {string} id - The URI of the resource.
+         * @returns {Promise<ResourceTranslatableStatus>}
+         */
+        getTranslatableStatus(id) {
+            return request({
+                url: urlUtil.route('status', 'Translation', 'tao', { id }),
                 method: 'GET',
                 noToken: true
             }).then(response => response.data);

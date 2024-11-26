@@ -20,9 +20,13 @@
 
 declare(strict_types=1);
 
-namespace oat\tao\test\unit\model\Lists\Business\Specification;
+namespace oat\tao\test\unit\models\classes\Lists\Business\Specification;
 
 use core_kernel_classes_Class;
+use core_kernel_classes_Property;
+use core_kernel_classes_Resource;
+use oat\generis\model\data\Ontology;
+use oat\generis\model\GenerisRdf;
 use oat\generis\test\TestCase;
 use oat\tao\model\Lists\Business\Specification\EditableListClassSpecification;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -30,29 +34,21 @@ use oat\tao\model\Specification\ClassSpecificationInterface;
 
 class EditableListClassSpecificationTest extends TestCase
 {
-    /** @var EditableListClassSpecification */
-    private $sut;
-
-    /** @var ClassSpecificationInterface|MockObject */
-    private $languageClassSpecification;
-
-    /** @var ClassSpecificationInterface|MockObject */
-    private $listClassSpecification;
-
     /** @var core_kernel_classes_Class|MockObject */
-    private $class;
+    private core_kernel_classes_Class $class;
+
+    /** @var ClassSpecificationInterface|MockObject */
+    private ClassSpecificationInterface $listClassSpecification;
+
+    private EditableListClassSpecification $sut;
 
     protected function setUp(): void
     {
-        $this->listClassSpecification = $this->createMock(ClassSpecificationInterface::class);
-        $this->languageClassSpecification = $this->createMock(ClassSpecificationInterface::class);
-
         $this->class = $this->createMock(core_kernel_classes_Class::class);
 
-        $this->sut = new EditableListClassSpecification(
-            $this->listClassSpecification,
-            $this->languageClassSpecification
-        );
+        $this->listClassSpecification = $this->createMock(ClassSpecificationInterface::class);
+
+        $this->sut = new EditableListClassSpecification($this->listClassSpecification);
     }
 
     public function testIsSatisfiedByValid(): void
@@ -61,35 +57,37 @@ class EditableListClassSpecificationTest extends TestCase
             ->method('isSatisfiedBy')
             ->willReturn(true);
 
-        $this->languageClassSpecification
-            ->method('isSatisfiedBy')
-            ->willReturn(false);
+        $this->class
+            ->expects($this->once())
+            ->method('isWritable')
+            ->willReturn(true);
 
         $this->assertTrue($this->sut->isSatisfiedBy($this->class));
     }
 
-    public function testIsSatisfiedByWithNotAListClass(): void
+    public function testIsSatisfiedByNotAListClass(): void
     {
         $this->listClassSpecification
             ->method('isSatisfiedBy')
             ->willReturn(false);
 
-        $this->languageClassSpecification
-            ->method('isSatisfiedBy')
-            ->willReturn(false);
+        $this->class
+            ->expects($this->never())
+            ->method('isWritable');
 
         $this->assertFalse($this->sut->isSatisfiedBy($this->class));
     }
 
-    public function testIsSatisfiedByWithNotLanguageListClass(): void
+    public function testIsSatisfiedByNotWritable(): void
     {
         $this->listClassSpecification
             ->method('isSatisfiedBy')
             ->willReturn(true);
 
-        $this->languageClassSpecification
-            ->method('isSatisfiedBy')
-            ->willReturn(true);
+        $this->class
+            ->expects($this->once())
+            ->method('isWritable')
+            ->willReturn(false);
 
         $this->assertFalse($this->sut->isSatisfiedBy($this->class));
     }
