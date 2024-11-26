@@ -328,13 +328,14 @@ define([
             });
 
         translationService
-            .getTranslatable(resourceUri)
-            .then(response => {
-                const languageUri = translationService.listResourcesLanguages(response.resources);
+            .getTranslatableStatus(resourceUri)
+            .then(response => {                
                 const config = {
-                    ready: translationService.isReadyForTranslation(response.resources),
+                    ready: response.isReadyForTranslation && !response.isEmpty,
+                    isReadyForTranslation: response.isReadyForTranslation,
+                    isEmpty: response.isEmpty,
                     renderTo: $container,
-                    languageUri: languageUri && languageUri[0],
+                    languageUri: response.languageUri,
                     languages: [],
                     translations: []
                 };

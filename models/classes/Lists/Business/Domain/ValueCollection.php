@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2020-2021 (original work) Open Assessment Technologies SA;
+ * Copyright (c) 2020-2024 (original work) Open Assessment Technologies SA;
  *
  * @author Sergei Mikhailov <sergei.mikhailov@taotesting.com>
  */
@@ -51,6 +51,21 @@ class ValueCollection implements IteratorAggregate, JsonSerializable, Countable
     public function getUri(): ?string
     {
         return $this->uri;
+    }
+
+    public function removeValueByUri(string $uri): self
+    {
+        /**
+         * @var int $key
+         * @var Value $value
+         */
+        foreach ($this->values as $key => $value) {
+            if ($value->getUri() === $uri) {
+                unset($this->values[$key]);
+            }
+        }
+
+        return $this;
     }
 
     public function addValue(Value $value): self

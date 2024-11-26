@@ -29,6 +29,7 @@ use InvalidArgumentException;
 use tao_helpers_form_elements_Calendar;
 use tao_helpers_form_elements_Hiddenbox;
 use tao_helpers_form_elements_Htmlarea;
+use tao_helpers_form_elements_Readonly;
 use tao_helpers_form_elements_Textarea;
 use tao_helpers_form_elements_Textbox;
 
@@ -77,7 +78,8 @@ class JsonLdBasicTripleEncoder implements JsonLdTripleEncoderInterface
                 tao_helpers_form_elements_Textarea::WIDGET_ID,
                 tao_helpers_form_elements_Htmlarea::WIDGET_ID,
                 tao_helpers_form_elements_Calendar::WIDGET_ID,
-                tao_helpers_form_elements_Hiddenbox::WIDGET_ID
+                tao_helpers_form_elements_Hiddenbox::WIDGET_ID,
+                tao_helpers_form_elements_Readonly::WIDGET_ID,
             ],
             true
         );

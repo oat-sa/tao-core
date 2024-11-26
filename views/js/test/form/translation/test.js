@@ -227,7 +227,12 @@ define(['jquery', 'form/translation', 'services/translation'], function (
         translationService.setMockData({
             availableLanguages: languages,
             resourcesLanguages,
-            languages: languages
+            languages: languages,
+            status: {
+                languageUri: 'http://www.tao.lu/Ontologies/TAO.rdf#Langar-arb',
+                isEmpty: false,
+                isReadyForTranslation: true,
+            }
         });
 
         translationFormFactory($fixture)
@@ -258,7 +263,12 @@ define(['jquery', 'form/translation', 'services/translation'], function (
         translationService.setMockData({
             availableLanguages: languages,
             resourcesLanguages,
-            languages: languages
+            languages: languages,
+            status: {
+                languageUri: 'http://www.tao.lu/Ontologies/TAO.rdf#Langar-arb',
+                isEmpty: false,
+                isReadyForTranslation: true,
+            }
         });
 
         translationFormFactory($fixture)
@@ -296,7 +306,12 @@ define(['jquery', 'form/translation', 'services/translation'], function (
         translationService.setMockData({
             availableLanguages: languages,
             resourcesLanguages,
-            languages: languages
+            languages: languages,
+            status: {
+                languageUri: 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+                isEmpty: false,
+                isReadyForTranslation: true,
+            }
         });
 
         translationFormFactory($fixture)
@@ -338,7 +353,12 @@ define(['jquery', 'form/translation', 'services/translation'], function (
         translationService.setMockData({
             availableLanguages: languages,
             resourcesLanguages,
-            languages: languages
+            languages: languages,
+            status: {
+                languageUri: 'http://www.tao.lu/Ontologies/TAO.rdf#Langen-US',
+                isEmpty: false,
+                isReadyForTranslation: true,
+            }
         });
 
         translationFormFactory($fixture)
@@ -356,7 +376,7 @@ define(['jquery', 'form/translation', 'services/translation'], function (
                 assert.equal($fixture.find('.translations-not-ready').length, 0, 'no placeholder message');
 
                 translationService.setMockData({
-                    translatedLanguages: translations
+                    translatedLanguages: translations,
                 });
 
                 $fixture.find('.translations-create select').val(languages[0].uri);
@@ -402,7 +422,12 @@ define(['jquery', 'form/translation', 'services/translation'], function (
             availableLanguages: languages,
             languages: languages,
             translatedLanguages: translations,
-            resourcesLanguages
+            resourcesLanguages,
+            status: {
+                languageUri: 'http://www.tao.lu/Ontologies/TAO.rdf#Langar-arb',
+                isEmpty: false,
+                isReadyForTranslation: true,
+            }
         });
 
         translationFormFactory($fixture)
@@ -450,7 +475,12 @@ define(['jquery', 'form/translation', 'services/translation'], function (
 
         translationService.setMockData({
             translatedLanguages: translations,
-            resourcesLanguages
+            resourcesLanguages,
+            status: {
+                languageUri: 'http://www.tao.lu/Ontologies/TAO.rdf#Langar-arb',
+                isEmpty: false,
+                isReadyForTranslation: true,
+            }
         });
 
         translationFormFactory($fixture)
@@ -495,7 +525,12 @@ define(['jquery', 'form/translation', 'services/translation'], function (
             availableLanguages: languages,
             languages: languages,
             translatedLanguages: translations,
-            resourcesLanguages
+            resourcesLanguages,
+            status: {
+                languageUri: 'http://www.tao.lu/Ontologies/TAO.rdf#Langar-arb',
+                isEmpty: false,
+                isReadyForTranslation: true,
+            }
         });
 
         translationFormFactory($fixture)
@@ -555,7 +590,12 @@ define(['jquery', 'form/translation', 'services/translation'], function (
             availableLanguages: languages,
             languages: languages,
             translatedLanguages: translations,
-            resourcesLanguages
+            resourcesLanguages,
+            status: {
+                languageUri: 'http://www.tao.lu/Ontologies/TAO.rdf#Langar-arb',
+                isEmpty: false,
+                isReadyForTranslation: true,
+            }
         });
 
         translationFormFactory($fixture, { allowDeletion: true })

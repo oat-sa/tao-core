@@ -30,6 +30,7 @@ use oat\generis\model\kernel\persistence\starsql\DataProvider\form\FormDTOProvid
 use oat\generis\model\kernel\persistence\starsql\LanguageProcessor;
 use oat\oatbox\user\UserLanguageServiceInterface;
 use oat\tao\model\Language\Business\Specification\LanguageClassSpecification;
+use oat\tao\model\Language\Filter\LanguageAllowedFilter;
 use oat\tao\model\Language\Service\LanguageListElementSortService;
 use oat\tao\model\Lists\Business\Service\ValueCollectionService;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -71,6 +72,7 @@ class FormDataProviderServiceProvider implements ContainerServiceProviderInterfa
                     service(LanguageClassSpecification::class),
                     service(LanguageListElementSortService::class),
                     service(ValueCollectionService::class),
+                    service(LanguageAllowedFilter::class),
                 ]
             );
 

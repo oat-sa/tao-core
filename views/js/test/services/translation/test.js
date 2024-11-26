@@ -33,7 +33,6 @@ define(['services/translation'], function (translationService) {
             { title: 'translationType', type: 'object' },
             { title: 'translationStatus', type: 'object' },
             { title: 'translationProgress', type: 'object' },
-            { title: 'isReadyForTranslation', type: 'function' },
             { title: 'getTranslationsProgress', type: 'function' },
             { title: 'getTranslationsLanguage', type: 'function' },
             { title: 'listResourcesLanguages', type: 'function' },
@@ -41,6 +40,7 @@ define(['services/translation'], function (translationService) {
             { title: 'listTranslatedLanguages', type: 'function' },
             { title: 'getLanguages', type: 'function' },
             { title: 'getTranslatable', type: 'function' },
+            { title: 'getTranslatableStatus', type: 'function' },
             { title: 'getTranslations', type: 'function' },
             { title: 'createTranslation', type: 'function' },
             { title: 'updateTranslation', type: 'function' },
@@ -53,58 +53,6 @@ define(['services/translation'], function (translationService) {
                 data.type,
                 `The translation API exposes the ${data.title}() ${data.type}`
             );
-        });
-
-    QUnit.cases
-        .init([
-            { title: 'empty', resources: [], expected: false },
-            { title: 'empty resource', resources: [{}], expected: false },
-            { title: 'no metadata', resources: [{ metadata: {} }], expected: false },
-            {
-                title: 'no status',
-                resources: [
-                    {
-                        metadata: {
-                            'http://www.tao.lu/Ontologies/TAO.rdf#UniqueIdentifier': {
-                                value: '172664175',
-                                literal: null
-                            }
-                        }
-                    }
-                ],
-                expected: false
-            },
-            {
-                title: 'not ready',
-                resources: [
-                    {
-                        metadata: {
-                            'http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatus': {
-                                value: 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatusNotReadyForTranslation',
-                                literal: null
-                            }
-                        }
-                    }
-                ],
-                expected: false
-            },
-            {
-                title: 'ready',
-                resources: [
-                    {
-                        metadata: {
-                            'http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatus': {
-                                value: 'http://www.tao.lu/Ontologies/TAO.rdf#TranslationStatusReadyForTranslation',
-                                literal: null
-                            }
-                        }
-                    }
-                ],
-                expected: true
-            }
-        ])
-        .test('isReadyForTranslation', function (data, assert) {
-            assert.equal(translationService.isReadyForTranslation(data.resources), data.expected);
         });
 
     QUnit.cases
