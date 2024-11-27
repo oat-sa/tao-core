@@ -43,6 +43,8 @@ use oat\tao\model\export\ServiceProvider\MetadataServiceProvider as ExportMetada
 use oat\tao\model\featureFlag\FeatureFlagServiceProvider;
 use oat\tao\model\featureVisibility\FeatureVisibilityServiceProvider;
 use oat\tao\model\form\DataProvider\FormDataProviderServiceProvider;
+use oat\tao\model\form\ServiceProvider\FormServiceProvider as TaoFormServiceProvider;
+use oat\tao\model\IdentifierGenerator\ServiceProvider\IdentifierGeneratorServiceProvider;
 use oat\tao\model\import\ServiceProvider\ImportServiceProvider;
 use oat\tao\model\LanguageServiceProvider;
 use oat\tao\model\listener\PropertyServiceProvider;
@@ -57,6 +59,7 @@ use oat\tao\model\routing\LegacyRoute;
 use oat\tao\model\routing\ServiceProvider\RoutingServiceProvider;
 use oat\tao\model\search\ServiceProvider\SearchServiceProvider;
 use oat\tao\model\StatisticalMetadata\StatisticalMetadataServiceProvider;
+use oat\tao\model\Translation\ServiceProvider\TranslationServiceProvider;
 use oat\tao\model\user\TaoRoles;
 use oat\tao\model\user\UserSettingsServiceProvider;
 use oat\tao\model\webhooks\WebhookServiceProvider;
@@ -343,6 +346,7 @@ return [
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'WebService']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'Security']],
         [AccessRule::GRANT, TaoRoles::TAO_MANAGER, ['ext' => 'tao', 'mod' => 'WebHooks']],
+        [AccessRule::GRANT, TaoRoles::GLOBAL_MANAGER, ['ext' => 'tao', 'mod' => 'Translation']],
         [AccessRule::GRANT, TaoRoles::BACK_OFFICE, ['ext' => 'tao', 'mod' => 'ClassMetadata']],
         [AccessRule::GRANT, TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'get']],
         [AccessRule::GRANT, TaoRoles::REST_PUBLISHER, ['ext' => 'tao', 'mod' => 'TaskQueue', 'act' => 'getStatus']],
@@ -359,9 +363,9 @@ return [
     ],
     'constants' => [
         #TAO version number
-        'TAO_VERSION' => '2024.11 LTS',
+        'TAO_VERSION' => '2024.12',
         #TAO version label
-        'TAO_VERSION_NAME' => '2024.11 LTS',
+        'TAO_VERSION_NAME' => '2024.12',
         #the name to display
         'PRODUCT_NAME' => 'TAO',
         #TAO release status, use to add specific footer to TAO, available alpha, beta, demo, stable
@@ -418,7 +422,10 @@ return [
         MenuServiceProvider::class,
         FormDataProviderServiceProvider::class,
         PropertyServiceProvider::class,
-        DynamicConfigServiceProvider::class
+        DynamicConfigServiceProvider::class,
+        TranslationServiceProvider::class,
+        TaoFormServiceProvider::class,
+        IdentifierGeneratorServiceProvider::class,
     ],
     'middlewares' => [
         MiddlewareConfig::class,

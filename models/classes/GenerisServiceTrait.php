@@ -165,6 +165,8 @@ trait GenerisServiceTrait
     }
 
     /**
+     * @deprecated Use `oat\tao\model\resources\Service\InstanceCopier::transfer()` instead for Items/Tests/Assets
+     *
      * duplicate a resource
      *
      * @access public

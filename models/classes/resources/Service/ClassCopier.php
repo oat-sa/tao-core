@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace oat\tao\model\resources\Service;
 
+use core_kernel_classes_Resource;
 use InvalidArgumentException;
 use core_kernel_classes_Class;
 use oat\generis\model\data\Ontology;
@@ -35,6 +36,7 @@ use oat\tao\model\resources\Contract\ClassMetadataMapperInterface;
 use oat\tao\model\resources\Contract\ResourceTransferInterface;
 use oat\tao\model\resources\Contract\RootClassesListServiceInterface;
 use oat\tao\model\resources\ResourceTransferResult;
+use oat\tao\model\TaoOntology;
 
 class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
 {
@@ -119,6 +121,10 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
         }
 
         foreach ($class->getInstances() as $instance) {
+            if ($this->isTranslationInstance($instance)) {
+                continue;
+            }
+
             $aclMode = $keepOriginalPermission ?
                 ResourceTransferCommand::ACL_KEEP_ORIGINAL :
                 ResourceTransferCommand::ACL_USE_DESTINATION;
@@ -168,5 +174,12 @@ class ClassCopier implements ClassCopierInterface, ResourceTransferInterface
         }
 
         $this->assertionCompleted = true;
+    }
+
+    private function isTranslationInstance(core_kernel_classes_Resource $instance): bool
+    {
+        $originalProperty = $instance->getProperty(TaoOntology::PROPERTY_TRANSLATION_ORIGINAL_RESOURCE_URI);
+
+        return $originalProperty && !empty($instance->getOnePropertyValue($originalProperty));
     }
 }

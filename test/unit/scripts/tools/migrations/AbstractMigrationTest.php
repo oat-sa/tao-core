@@ -21,7 +21,7 @@
 
 declare(strict_types=1);
 
-namespace unit\scripts\tools\migrations;
+namespace oat\tao\test\unit\scripts\tools\migrations;
 
 use oat\generis\test\TestCase;
 use Doctrine\DBAL\Schema\Schema;
@@ -58,12 +58,21 @@ class AbstractMigrationTest extends TestCase
             ->willReturn($this->createMock(\ArrayIterator::class));
 
 
-        $migration = new class ($connectionMock, $loggerMock, $upReportMock, $downReportMock) extends AbstractMigration {
+        $migration = new class (
+            $connectionMock,
+            $loggerMock,
+            $upReportMock,
+            $downReportMock
+        ) extends AbstractMigration {
             private $upReportMock;
             private $downReportMock;
 
-            public function __construct(Connection $connection, LoggerInterface $logger, Report $upReportMock, Report $downReportMock)
-            {
+            public function __construct(
+                Connection $connection,
+                LoggerInterface $logger,
+                Report $upReportMock,
+                Report $downReportMock
+            ) {
                 parent::__construct($connection, $logger);
                 $this->upReportMock = $upReportMock;
                 $this->downReportMock = $downReportMock;

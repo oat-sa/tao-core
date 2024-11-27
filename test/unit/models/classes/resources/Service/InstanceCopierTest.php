@@ -25,7 +25,9 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\resources\Service;
 
 use oat\generis\model\data\Ontology;
+use oat\oatbox\event\EventManager;
 use oat\tao\model\resources\Command\ResourceTransferCommand;
+use oat\tao\model\resources\Event\InstanceCopiedEvent;
 use oat\tao\model\resources\ResourceTransferResult;
 use RuntimeException;
 use core_kernel_classes_Class;
@@ -49,13 +51,18 @@ class InstanceCopierTest extends TestCase
     /** @var Ontology|MockObject */
     private $ontology;
 
+    /** @var EventManager|MockObject */
+    private $eventManager;
+
     protected function setUp(): void
     {
         $this->instanceMetadataCopier = $this->createMock(InstanceMetadataCopierInterface::class);
         $this->instanceContentCopier = $this->createMock(InstanceContentCopierInterface::class);
         $this->ontology = $this->createMock(Ontology::class);
+        $this->eventManager = $this->createMock(EventManager::class);
 
         $this->sut = new InstanceCopier($this->instanceMetadataCopier, $this->ontology);
+        $this->sut->withEventManager($this->eventManager);
     }
 
     public function testTransfer(): void
@@ -82,6 +89,11 @@ class InstanceCopierTest extends TestCase
         $this->instanceContentCopier
             ->expects($this->never())
             ->method('copy');
+
+        $this->eventManager
+            ->expects($this->once())
+            ->method('trigger')
+            ->with(new InstanceCopiedEvent('newInstanceUri'));
 
         $this->assertEquals(
             new ResourceTransferResult(

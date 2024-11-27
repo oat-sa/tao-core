@@ -5,6 +5,155 @@ info:
   version: v1
 
 paths:
+  /tao/Translation/update:
+    post:
+      summary: Return a list of translations for a given translatable resource
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The resource URI
+                progress:
+                  type: string
+                  description: The progress URI
+      responses:
+        200:
+          $ref: '#/components/responses/TranslateResponse'
+        400:
+          $ref: '#/components/responses/BadRequestResponse'
+        500:
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /tao/Translation/sync:
+    post:
+      summary: Sync resource with last translation updates
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The resource URI
+                languageUri:
+                  type: string
+                  description: The language URI
+      responses:
+        200:
+          $ref: '#/components/responses/TranslateResponse'
+        400:
+          $ref: '#/components/responses/BadRequestResponse'
+        500:
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /tao/Translation/translations:
+    get:
+      summary: Return a list of translations for a given translatable resource
+      parameters:
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The RDF resource id
+        - in: query
+          name: languageUri
+          required: false
+          schema:
+            type: string
+          description: The RDF language URI
+      responses:
+        200:
+          $ref: '#/components/responses/TranslationsResponse'
+        400:
+          $ref: '#/components/responses/BadRequestResponse'
+        500:
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /tao/Translation/translatable:
+    get:
+      summary: Return translatable resources
+      parameters:
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The RDF resource id
+      responses:
+        200:
+          $ref: '#/components/responses/TranslatableResponse'
+        400:
+          $ref: '#/components/responses/BadRequestResponse'
+        500:
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /tao/Translation/status:
+    get:
+      summary: Return translatable status
+      parameters:
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The RDF resource id
+      responses:
+        200:
+          $ref: '#/components/responses/TranslatableStatusResponse'
+        400:
+          $ref: '#/components/responses/BadRequestResponse'
+        500:
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /tao/Translation/translate:
+    post:
+      summary: translate a resources
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The resource URI
+                languageUri:
+                  type: string
+                  description: The language resource URI
+      responses:
+        200:
+          $ref: '#/components/responses/TranslateResponse'
+        400:
+          $ref: '#/components/responses/BadRequestResponse'
+        500:
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /tao/Translation/delete:
+    post:
+      summary: delete translation
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The resource URI
+                languageUri:
+                  type: string
+                  description: The language resource URI
+      responses:
+        200:
+          $ref: '#/components/responses/TranslateResponse'
+        400:
+          $ref: '#/components/responses/BadRequestResponse'
+        500:
+          $ref: '#/components/responses/InternalServerErrorResponse'
   /tao/Languages/index:
     get:
       summary: Get a list of available languages in the TAO platform
@@ -46,6 +195,90 @@ paths:
           $ref: '#/components/responses/InternalServerErrorResponse'
 components:
   schemas:
+    Translations:
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            resources:
+              type: array
+              items:
+                properties:
+                  originResourceUri:
+                    type: string
+                  resourceUri:
+                    type: string
+                  resourceLabel:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      key:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                          literal:
+                            type: string
+    Translatable:
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            resources:
+              type: array
+              items:
+                properties:
+                  resourceUri:
+                    type: string
+                  resourceLabel:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      key:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                          literal:
+                            type: string
+    TranslatableStatus:
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            resources:
+              type: array
+              items:
+                properties:
+                  uri:
+                    type: string
+                  type:
+                    type: string
+                  isReadyForTranslation:
+                    type: boolean
+                  isEmpty:
+                    type: boolean
+    Translated:
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: object
+          properties:
+            resourceUri:
+              type: string
     ResourceRelationResource:
       description: 'A resource related to another resources'
       type: object
@@ -104,6 +337,30 @@ components:
         message:
           type: string
   responses:
+    TranslationsResponse:
+      description: The list of translations
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Translations'
+    TranslatableResponse:
+      description: The list of translatable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Translatable'
+    TranslatableStatusResponse:
+      description: The list of translatable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TranslatableStatus'
+    TranslateResponse:
+      description: The resource is translated
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Translated'
     ResourceRelationsResponse:
       description: Bad request
       content:

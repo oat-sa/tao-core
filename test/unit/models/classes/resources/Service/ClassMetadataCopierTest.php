@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace oat\tao\test\unit\model\resources\Service;
 
 use core_kernel_classes_Class;
+use oat\generis\model\GenerisRdf;
 use PHPUnit\Framework\TestCase;
 use core_kernel_classes_Property;
 use core_kernel_classes_Resource;
@@ -43,11 +44,14 @@ class ClassMetadataCopierTest extends TestCase
 
     /** @var core_kernel_classes_Property|MockObject */
     private $domainProperty;
+    /** @var core_kernel_classes_Property|MockObject */
+    private $aliasProperty;
 
     protected function setUp(): void
     {
         $this->classMetadataMapper = $this->createMock(ClassMetadataMapperInterface::class);
         $this->domainProperty = $this->createMock(core_kernel_classes_Property::class);
+        $this->aliasProperty = $this->createMock(core_kernel_classes_Property::class);
 
         $this->sut = new ClassMetadataCopier($this->classMetadataMapper);
     }
@@ -115,14 +119,20 @@ class ClassMetadataCopierTest extends TestCase
             ->willReturn($newProperty);
 
         $newProperty
-            ->expects($this->once())
+            ->expects(self::exactly(2))
             ->method('getProperty')
-            ->with(OntologyRdfs::RDFS_DOMAIN)
-            ->willReturn($this->domainProperty);
+            ->withConsecutive(
+                [OntologyRdfs::RDFS_DOMAIN],
+                [GenerisRdf::PROPERTY_ALIAS]
+            )
+            ->willReturnOnConsecutiveCalls($this->domainProperty, $this->aliasProperty);
         $newProperty
-            ->expects($this->once())
+            ->expects(self::exactly(2))
             ->method('removePropertyValues')
-            ->with($this->domainProperty);
+            ->withConsecutive(
+                [$this->domainProperty],
+                [$this->aliasProperty]
+            );
         $newProperty
             ->expects($this->once())
             ->method('setDomain')
