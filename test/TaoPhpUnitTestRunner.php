@@ -25,7 +25,7 @@
 
 namespace oat\tao\test;
 
-use League\Flysystem\Memory\MemoryAdapter;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use oat\generis\persistence\PersistenceManager;
 use oat\generis\test\GenerisPhpUnitTestRunner;
 use oat\oatbox\filesystem\Directory;
@@ -154,9 +154,9 @@ abstract class TaoPhpUnitTestRunner extends GenerisPhpUnitTestRunner implements 
 
             $adapters = $fileSystemService->getOption(FileSystemService::OPTION_ADAPTERS);
             $tmpDir = \tao_helpers_File::createTempDir();
-            if (class_exists('League\Flysystem\Memory\MemoryAdapter')) {
+            if (class_exists('League\Flysystem\InMemory\InMemoryFilesystemAdapter')) {
                 $adapters[$this->tempFileSystemId] = [
-                    'class' => MemoryAdapter::class
+                    'class' => InMemoryFilesystemAdapter::class
                 ];
             } else {
                 $adapters[$this->tempFileSystemId] = [
